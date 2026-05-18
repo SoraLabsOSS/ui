@@ -1,0 +1,26 @@
+---
+title: Hello World
+description: Minimal test block using the shadcn Button.
+author:
+  name: imskyleen
+  url: https://github.com/imskyleen
+releaseDate: 2026-05-14
+---
+
+<ComponentPreview name="demo-components-community-hello-world" />
+
+## Installation
+
+<ComponentInstallation name="components-community-hello-world" />
+
+## Usage
+
+```tsx
+import { HelloWorld } from '@/components/sora/community/hello-world';
+
+export default function Page() {
+  return <HelloWorld />;
+}
+```
+
+The installed file uses your project’s shadcn `Button` import (resolved to `@/components/ui/button` when you run `registry:build` / install from the registry).

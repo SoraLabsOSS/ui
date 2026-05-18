@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "primitives-base-files",
+  "type": "registry:ui",
+  "title": "Files",
+  "description": "A component that allows you to display a list of files and folders.",
+  "dependencies": ["motion"],
+  "registryDependencies": [
+    "@sora/primitives-base-accordion",
+    "@sora/primitives-effects-highlight",
+    "@sora/lib-get-strict-context",
+    "@sora/hooks-use-controlled-state"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/base/files/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/primitives/base/files.tsx"
+    }
+  ]
+}

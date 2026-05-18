@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "primitives-base-preview-link-card",
+  "type": "registry:ui",
+  "title": "Base Preview Link Card",
+  "description": "Displays a preview image of a link when hovered.",
+  "dependencies": ["motion", "@base-ui-components/react"],
+  "registryDependencies": [
+    "@sora/primitives-base-preview-card",
+    "@sora/lib-get-strict-context"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/base/preview-link-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/primitives/base/preview-link-card.tsx"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-airplay",
+  "type": "registry:ui",
+  "title": "Airplay Icon",
+  "description": "Airplay icon component.",
+  "registryDependencies": ["@sora/icons-icon"],
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/icons/airplay/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/icons/airplay.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "stream",
+      "cast",
+      "mirroring",
+      "screen",
+      "monitor",
+      "macos",
+      "osx"
+    ]
+  }
+}

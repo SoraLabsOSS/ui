@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "primitives-buttons-button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "A simple button that animates on hover and tap.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["@sora/primitives-animate-slot"],
+  "files": [
+    {
+      "path": "registry/primitives/buttons/button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/primitives/buttons/button.tsx"
+    }
+  ]
+}

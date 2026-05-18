@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "primitives-radix-tabs",
+  "type": "registry:ui",
+  "title": "Radix Tabs",
+  "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+  "dependencies": ["motion", "radix-ui"],
+  "registryDependencies": [
+    "@sora/primitives-effects-highlight",
+    "@sora/primitives-effects-auto-height",
+    "@sora/lib-get-strict-context",
+    "@sora/hooks-use-controlled-state"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/radix/tabs/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/primitives/radix/tabs.tsx"
+    }
+  ]
+}

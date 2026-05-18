@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-components-community-hello-world",
+  "title": "Hello World Demo",
+  "description": "Demo for the Hello World test block.",
+  "registryDependencies": [
+    "@sora/components-community-hello-world"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/community/hello-world/index.tsx",
+      "content": "'use client';\n\nimport { HelloWorld } from '@/components/sora/community/hello-world';\n\nexport const HelloWorldDemo = () => {\n  return (\n    <div className=\"flex items-center justify-center p-8\">\n      <HelloWorld />\n    </div>\n  );\n};\n",
+      "type": "registry:ui",
+      "target": "components/sora/demo/community/hello-world.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "components-community-hello-world",
+  "title": "Hello World",
+  "description": "Minimal test block that renders shadcn Button with “Hello World”.",
+  "files": [
+    {
+      "path": "registry/components/community/hello-world/index.tsx",
+      "content": "import { Button } from '@/components/ui/button';\n\nexport function HelloWorld() {\n  return <Button>Hello World</Button>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora/community/hello-world.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

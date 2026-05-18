@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "primitives-radix-accordion",
+  "type": "registry:ui",
+  "title": "Radix Accordion",
+  "description": "A vertically stacked set of interactive headings that each reveal an associated section of content.",
+  "dependencies": ["motion", "radix-ui"],
+  "registryDependencies": [
+    "@sora/hooks-use-controlled-state",
+    "@sora/lib-get-strict-context"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/radix/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/primitives/radix/accordion.tsx"
+    }
+  ]
+}

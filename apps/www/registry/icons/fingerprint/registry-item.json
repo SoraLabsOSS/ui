@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-fingerprint",
+  "type": "registry:ui",
+  "title": "Fingerprint Icon",
+  "description": "Fingerprint icon component.",
+  "registryDependencies": ["@sora/icons-icon"],
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/icons/fingerprint/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/icons/fingerprint.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": ["2fa", "authentication", "biometric", "identity", "security"]
+  }
+}

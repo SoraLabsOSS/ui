@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-components-backgrounds-gradient",
+  "type": "registry:ui",
+  "title": "Gradient Background Demo",
+  "description": "Demo showing a gradient background.",
+  "registryDependencies": ["@sora/components-backgrounds-gradient"],
+  "files": [
+    {
+      "path": "registry/demo/components/backgrounds/gradient/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/demo/backgrounds/gradient.tsx"
+    }
+  ]
+}

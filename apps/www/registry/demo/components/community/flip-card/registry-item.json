@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-components-community-flip-card",
+  "type": "registry:ui",
+  "title": "Flip Card Demo",
+  "description": "Demo showing the flip card component.",
+  "registryDependencies": [
+    "@sora/components-community-flip-card"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/components/community/flip-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/demo/community/flip-card.tsx"
+    }
+  ]
+}
