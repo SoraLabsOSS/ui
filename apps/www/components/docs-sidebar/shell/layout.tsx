@@ -28,7 +28,7 @@ export function DocsShellContent({
   return (
     <ScrollArea
       type="scroll"
-      className={cn('h-full min-h-0 flex-1', className)}
+      className={cn('min-h-0 flex-1', className)}
     >
       <ScrollViewport
         {...{ [DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR]: '' }}
@@ -106,7 +106,7 @@ export function DocsShell({
       <DocsShellHoverProvider containerRef={containerRef}>
         <aside
           className={cn(
-            'relative flex h-full min-h-0 shrink-0 flex-col overflow-hidden bg-background',
+            'relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-background',
             className,
           )}
           style={isMobile ? undefined : { width }}

@@ -290,20 +290,29 @@
     @apply !hidden;
   }
 
+  /* Cap layout width so sidebar offset + page/TOC stay in one column (Fumadocs --fd-layout-offset) */
   #nd-docs-layout {
-    @apply relative 3xl:!w-full 3xl:!mx-auto 3xl:!max-w-[1670px];
+    --fd-layout-width: min(100vw, 1670px);
   }
 
   #nd-page article {
-    @apply max-2xl:max-w-[860px] !pt-23 3xl:!ml-[262px] 2xl:!max-w-[1124px];
+    @apply max-2xl:max-w-[860px] !pt-23 2xl:!max-w-[1124px];
   }
 
+  /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
   #nd-page {
-    @apply !pt-0 2xl:!max-w-none;
+    @apply !pt-0 mx-auto w-full items-start;
+    max-width: min(
+      100%,
+      calc(var(--fd-layout-width) - var(--fd-sidebar-width))
+    ) !important;
   }
 
+  /* Fumadocs default: sticky pb-2 pt-12. items-start on #nd-page so flex stretch does not break sticky. */
   #nd-toc {
-    @apply !pb-18 !pt-24;
+    @apply self-start sticky pb-2 pt-8 max-xl:hidden;
+    top: var(--fd-nav-height) !important;
+    height: calc(100dvh - var(--fd-banner-height) - var(--fd-nav-height)) !important;
   }
 
   #nd-toc div div {

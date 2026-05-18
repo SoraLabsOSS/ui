@@ -35,6 +35,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DocsLayout
       {...DOCS_LAYOUT_PROPS}
+      containerProps={{
+        className:
+          'md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:260px] lg:[--fd-sidebar-width:260px]',
+      }}
       sidebar={{
         component: <DocsSidebar {...DOCS_LAYOUT_PROPS} />,
       }}

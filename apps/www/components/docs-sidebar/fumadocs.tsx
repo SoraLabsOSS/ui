@@ -281,7 +281,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
     <Sidebar
       collapsible={false}
       className={cn(
-        'md:mt-20 3xl:!absolute',
+        'min-h-0 overflow-hidden',
         'max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]',
         scrollViewportSelector,
         sidebarProps.className,
@@ -289,7 +289,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
       {...sidebarProps}
     >
       <DocsShell
-        className="h-full min-h-0 max-md:w-full max-md:max-w-full"
+        className="min-h-0 max-md:w-full max-md:max-w-full"
         defaultWidth={260}
         minWidth={180}
         maxWidth={380}
