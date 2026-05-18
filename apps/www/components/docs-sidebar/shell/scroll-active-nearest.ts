@@ -6,37 +6,110 @@ import { useEffect, useRef } from 'react';
 export const DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR =
   'data-docs-sidebar-scroll-viewport';
 
+const VIEWPORT_PAD = 12;
+const RETRY_DELAYS_MS = [0, 50, 150, 350, 600];
+const MAX_ATTEMPTS = 12;
+
+function findScrollViewport(el: HTMLElement): HTMLElement | null {
+  const marked = el.closest(`[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]`);
+  if (marked instanceof HTMLElement) return marked;
+  const radix = el.closest('[data-radix-scroll-area-viewport]');
+  return radix instanceof HTMLElement ? radix : null;
+}
+
+function scrollDelta(el: HTMLElement, viewport: HTMLElement): number {
+  const vpRect = viewport.getBoundingClientRect();
+  const elRect = el.getBoundingClientRect();
+  if (elRect.top < vpRect.top + VIEWPORT_PAD) {
+    return elRect.top - vpRect.top - VIEWPORT_PAD;
+  }
+  if (elRect.bottom > vpRect.bottom - VIEWPORT_PAD) {
+    return elRect.bottom - vpRect.bottom + VIEWPORT_PAD;
+  }
+  return 0;
+}
+
+function applyScroll(
+  el: HTMLElement,
+  viewport: HTMLElement,
+  behavior: ScrollBehavior,
+): void {
+  const delta = scrollDelta(el, viewport);
+  if (delta === 0) return;
+  viewport.scrollTo({
+    top: viewport.scrollTop + delta,
+    behavior,
+  });
+}
+
 export function useScrollActiveItemIntoView(active: boolean) {
   const ref = useRef<HTMLDivElement>(null);
   const scrolled = useRef(false);
 
   useEffect(() => {
-    if (!active || scrolled.current || !ref.current) return;
-    scrolled.current = true;
+    if (!active || scrolled.current) return;
+
     const el = ref.current;
-    const schedule =
-      typeof requestIdleCallback !== 'undefined'
-        ? (cb: () => void) => requestIdleCallback(cb)
-        : (cb: () => void) => setTimeout(cb, 100);
-    const cancel =
-      typeof cancelIdleCallback !== 'undefined'
-        ? cancelIdleCallback
-        : clearTimeout;
-    const id = schedule(() => {
-      const viewport = el.closest(`[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]`);
-      if (!(viewport instanceof HTMLElement)) return;
-      const vpRect = viewport.getBoundingClientRect();
-      const elRect = el.getBoundingClientRect();
-      const pad = 12;
-      let delta = 0;
-      if (elRect.top < vpRect.top + pad) {
-        delta = elRect.top - vpRect.top - pad;
-      } else if (elRect.bottom > vpRect.bottom - pad) {
-        delta = elRect.bottom - vpRect.bottom + pad;
+    if (!el) return;
+
+    let cancelled = false;
+    let attempts = 0;
+    let didScroll = false;
+    const timeoutIds: ReturnType<typeof setTimeout>[] = [];
+
+    const tryScroll = () => {
+      if (cancelled || scrolled.current) return;
+      attempts += 1;
+
+      const node = ref.current;
+      if (!node) return;
+
+      const viewport = findScrollViewport(node);
+      if (!viewport) {
+        if (attempts >= MAX_ATTEMPTS) scrolled.current = true;
+        return;
       }
-      if (delta !== 0) viewport.scrollBy({ top: delta, behavior: 'smooth' });
+
+      const delta = scrollDelta(node, viewport);
+      if (delta === 0) {
+        scrolled.current = true;
+        return;
+      }
+
+      applyScroll(node, viewport, didScroll ? 'auto' : 'smooth');
+      didScroll = true;
+
+      if (attempts >= MAX_ATTEMPTS) scrolled.current = true;
+    };
+
+    const schedule = (fn: () => void, delayMs: number) => {
+      if (delayMs === 0) {
+        requestAnimationFrame(() => requestAnimationFrame(fn));
+        return;
+      }
+      timeoutIds.push(setTimeout(fn, delayMs));
+    };
+
+    for (const delay of RETRY_DELAYS_MS) {
+      schedule(tryScroll, delay);
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      const node = ref.current;
+      if (!node || cancelled || scrolled.current) return;
+      const viewport = findScrollViewport(node);
+      if (!viewport || scrollDelta(node, viewport) === 0) return;
+      tryScroll();
     });
-    return () => cancel(id as number);
+    resizeObserver.observe(el);
+    const viewport = findScrollViewport(el);
+    if (viewport) resizeObserver.observe(viewport);
+
+    return () => {
+      cancelled = true;
+      for (const id of timeoutIds) clearTimeout(id);
+      resizeObserver.disconnect();
+    };
   }, [active]);
 
   useEffect(() => {
