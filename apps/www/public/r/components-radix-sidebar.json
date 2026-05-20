@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "components-radix-sidebar",
   "title": "Sidebar",
-  "description": "A composable, themeable and customizable sidebar component. Created by Shadcn and animated by Animate UI.",
+  "description": "A composable, themeable and customizable sidebar component. Created by Shadcn and animated by Sora UI.",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

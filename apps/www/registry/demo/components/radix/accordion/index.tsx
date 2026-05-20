@@ -1,4 +1,4 @@
-import {
+﻿import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
@@ -7,9 +7,9 @@ import {
 
 const ITEMS = [
   {
-    title: 'What is Animate UI?',
+    title: 'What is Sora UI?',
     content:
-      'Animate UI is an open-source distribution of React components built with TypeScript, Tailwind CSS, and Motion.',
+      'Sora UI is an open-source distribution of React components built with TypeScript, Tailwind CSS, and Motion.',
   },
   {
     title: 'How is it different from other libraries?',
@@ -17,9 +17,9 @@ const ITEMS = [
       'Instead of installing via NPM, you copy and paste the components directly. This gives you full control to modify or customize them as needed.',
   },
   {
-    title: 'Is Animate UI free to use?',
+    title: 'Is Sora UI free to use?',
     content:
-      'Absolutely! Animate UI is fully open-source. You can use, modify, and adapt it to fit your needs.',
+      'Absolutely! Sora UI is fully open-source. You can use, modify, and adapt it to fit your needs.',
   },
 ];
 

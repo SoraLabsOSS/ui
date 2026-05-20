@@ -6,21 +6,13 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
           <p className="text-start truncate">
             Built by{' '}
             <a
-              href="https://x.com/imskyleen"
+              href="https://github.com/Axyl1410"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Skyleen
+              Axyl
             </a>
-            . The source code is available on{' '}
-            <a
-              href="https://github.com/imskyleen/animate-ui"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitHub
-            </a>
-            .
+            . The source code will be available on GitHub soon.
           </p>
         </div>
       </div>

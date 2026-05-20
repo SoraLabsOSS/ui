@@ -1,6 +1,6 @@
-# Contributing to Animate UI
+# Contributing to Sora UI
 
-Thank you for your interest in **contributing to Animate UI**! Your support is highly appreciated, and we look forward to your contributions. This guide will help you understand the project structure and provide detailed instructions for adding a new component to Animate UI.
+Thank you for your interest in **contributing to Sora UI**! Your support is highly appreciated, and we look forward to your contributions. This guide will help you understand the project structure and provide detailed instructions for adding a new component to Sora UI.
 
 ## Introduction
 
@@ -22,7 +22,7 @@ apps
     ├── lib
     └── registry
         ├── components
-        │   ├── animate (Animate UI Components)
+        │   ├── animate (Sora UI Components)
         │   ├── backgrounds
         │   ├── base (Base UI Components)
         │   ├── buttons
@@ -36,7 +36,7 @@ apps
         ├── icons
         ├── lib
         └── primitives
-            ├── animate (Animate UI Primitives)
+            ├── animate (Sora UI Primitives)
             ├── base (Base UI Primitives)
             ├── buttons
             ├── effects
@@ -163,7 +163,7 @@ This is what it should look like:
 
 ### Demo
 
-A demo is required to make your component visible in the Animate UI documentation.
+A demo is required to make your component visible in the Sora UI documentation.
 
 The demo is structured as a component, but is located in the demo folder.
 
@@ -337,4 +337,4 @@ releaseDate: 2025-XX-XX
 
 If you need any assistance or have questions, please feel free to open a [GitHub issue](https://github.com/imskyleen/animate-ui/issues/new). We are here to help!
 
-Thank you again for your contribution to Animate UI! We look forward to seeing your improvements and new components.
+Thank you again for your contribution to Sora UI! We look forward to seeing your improvements and new components.

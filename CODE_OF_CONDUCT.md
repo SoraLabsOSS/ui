@@ -1,8 +1,8 @@
-# Animate UI – Code of Conduct
+# Sora UI – Code of Conduct
 
 ## Our Promise
 
-We are committed to making participation in the Animate UI community a respectful, safe, and welcoming experience for everyone. We do not tolerate harassment, discrimination, or harmful conduct in any form.
+We are committed to making participation in the Sora UI community a respectful, safe, and welcoming experience for everyone. We do not tolerate harassment, discrimination, or harmful conduct in any form.
 
 ## Our Standards
 

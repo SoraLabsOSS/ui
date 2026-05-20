@@ -1,4 +1,4 @@
-import {
+﻿import {
   PreviewLinkCard,
   PreviewLinkCardImage,
   PreviewLinkCardPortal,
@@ -33,7 +33,7 @@ export const BasePreviewLinkCardDemo = ({
           target="_blank"
           className="underline text-foreground"
         >
-          Animate UI Docs
+          Sora UI Docs
         </PreviewLinkCardTrigger>
         <PreviewLinkCardPortal>
           <PreviewLinkCardPositioner
@@ -44,7 +44,7 @@ export const BasePreviewLinkCardDemo = ({
             className="z-50"
           >
             <PreviewLinkCardPopup className="border" target="_blank">
-              <PreviewLinkCardImage alt="Animate UI Docs" />
+              <PreviewLinkCardImage alt="Sora UI Docs" />
             </PreviewLinkCardPopup>
           </PreviewLinkCardPositioner>
         </PreviewLinkCardPortal>

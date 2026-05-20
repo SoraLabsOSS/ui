@@ -1,4 +1,4 @@
-import {
+﻿import {
   PreviewLinkCard,
   PreviewLinkCardTrigger,
   PreviewLinkCardPanel,
@@ -30,7 +30,7 @@ export const BasePreviewLinkCardDemo = ({
           target="_blank"
           className="underline text-foreground"
         >
-          Animate UI Docs
+          Sora UI Docs
         </PreviewLinkCardTrigger>
         <PreviewLinkCardPanel
           side={side}
@@ -39,7 +39,7 @@ export const BasePreviewLinkCardDemo = ({
           alignOffset={alignOffset}
           target="_blank"
         >
-          <PreviewLinkCardImage alt="Animate UI Docs" />
+          <PreviewLinkCardImage alt="Sora UI Docs" />
         </PreviewLinkCardPanel>
       </PreviewLinkCard>{' '}
       — hover to preview, click to dive in.

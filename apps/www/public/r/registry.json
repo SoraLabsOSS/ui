@@ -1233,7 +1233,7 @@
       "name": "components-radix-sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "A composable, themeable and customizable sidebar component. Created by Shadcn and animated by Animate UI.",
+      "description": "A composable, themeable and customizable sidebar component. Created by Shadcn and animated by Sora UI.",
       "dependencies": [
         "radix-ui",
         "class-variance-authority",

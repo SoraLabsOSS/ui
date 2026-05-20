@@ -1,4 +1,4 @@
-import {
+﻿import {
   PreviewLinkCard,
   PreviewLinkCardTrigger,
   PreviewLinkCardContent,
@@ -30,7 +30,7 @@ export const RadixPreviewLinkCardDemo = ({
           target="_blank"
           className="underline text-foreground"
         >
-          Animate UI Docs
+          Sora UI Docs
         </PreviewLinkCardTrigger>
 
         <PreviewLinkCardContent
@@ -40,7 +40,7 @@ export const RadixPreviewLinkCardDemo = ({
           alignOffset={alignOffset}
           target="_blank"
         >
-          <PreviewLinkCardImage alt="Animate UI Docs" />
+          <PreviewLinkCardImage alt="Sora UI Docs" />
         </PreviewLinkCardContent>
       </PreviewLinkCard>{' '}
       — hover to preview, click to dive in.
