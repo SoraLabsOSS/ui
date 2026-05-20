@@ -24,7 +24,6 @@ import {
   DocsShell,
   DocsShellContent,
   DocsShellFooter,
-  DocsShellHeader,
   DocsShellNavGroup,
   DocsShellNavItem,
   DocsShellSection,

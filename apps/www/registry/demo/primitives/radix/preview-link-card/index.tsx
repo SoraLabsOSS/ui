@@ -1,4 +1,4 @@
-import {
+﻿import {
   PreviewLinkCard,
   PreviewLinkCardContent,
   PreviewLinkCardImage,
@@ -32,7 +32,7 @@ export const RadixPreviewLinkCardDemo = ({
           target="_blank"
           className="underline text-foreground"
         >
-          Animate UI Docs
+          Sora UI Docs
         </PreviewLinkCardTrigger>
         <PreviewLinkCardPortal>
           <PreviewLinkCardContent
@@ -43,7 +43,7 @@ export const RadixPreviewLinkCardDemo = ({
             className="z-50 border"
             target="_blank"
           >
-            <PreviewLinkCardImage alt="Animate UI Docs" />
+            <PreviewLinkCardImage alt="Sora UI Docs" />
           </PreviewLinkCardContent>
         </PreviewLinkCardPortal>
       </PreviewLinkCard>{' '}

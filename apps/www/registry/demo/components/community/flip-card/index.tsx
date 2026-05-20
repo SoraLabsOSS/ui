@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { FlipCard } from '@/registry/components/community/flip-card';
 
 const data = {
-  name: 'Animate UI',
+  name: 'Sora UI',
   username: 'animate_ui',
   image:
     'https://pbs.twimg.com/profile_images/1950218390741618688/72447Y7e_400x400.jpg',

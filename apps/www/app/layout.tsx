@@ -10,13 +10,13 @@ import { cn } from '@workspace/ui/lib/utils';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - Animate UI',
-    default: 'Animate UI - Animated React Components',
+    template: '%s - Sora UI',
+    default: 'Sora UI - Animated React Components',
   },
   description:
     'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
   keywords: [
-    'Animate UI',
+    'Sora UI',
     'React',
     'TypeScript',
     'Tailwind CSS',
@@ -50,19 +50,19 @@ export const metadata: Metadata = {
       url: 'https://github.com/imskyleen',
     },
   ],
-  publisher: 'Animate UI',
+  publisher: 'Sora UI',
   openGraph: {
-    title: 'Animate UI',
+    title: 'Sora UI',
     description:
       'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
     url: 'https://animate-ui.com',
-    siteName: 'Animate UI',
+    siteName: 'Sora UI',
     images: [
       {
         url: 'https://animate-ui.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Animate UI',
+        alt: 'Sora UI',
       },
     ],
     locale: 'en_US',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@animate_ui',
-    title: 'Animate UI',
+    title: 'Sora UI',
     description:
       'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
     images: [
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
         url: 'https://animate-ui.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Animate UI',
+        alt: 'Sora UI',
       },
     ],
   },

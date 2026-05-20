@@ -42,11 +42,6 @@ export const baseOptions: BaseLayoutProps = {
       secondary: false,
     },
     {
-      text: 'Changelog',
-      url: '/docs/changelog',
-      secondary: false,
-    },
-    {
       text: 'Roadmap',
       url: '/docs/roadmap',
       secondary: false,
