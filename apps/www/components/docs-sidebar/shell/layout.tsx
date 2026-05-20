@@ -26,10 +26,7 @@ export function DocsShellContent({
   const containerRef = useDocsShellHover().containerRef;
 
   return (
-    <ScrollArea
-      type="scroll"
-      className={cn('min-h-0 flex-1', className)}
-    >
+    <ScrollArea type="scroll" className={cn('min-h-0 flex-1', className)}>
       <ScrollViewport
         {...{ [DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR]: '' }}
         className="p-4"

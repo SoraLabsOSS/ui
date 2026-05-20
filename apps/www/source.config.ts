@@ -4,7 +4,7 @@ import {
   frontmatterSchema,
   metaSchema,
 } from 'fumadocs-mdx/config';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 // You can customise Zod schemas for frontmatter and `meta.json` here
 // see https://fumadocs.vercel.app/docs/mdx/collections#define-docs
