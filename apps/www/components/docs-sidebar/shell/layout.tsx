@@ -116,7 +116,7 @@ export function DocsShell({
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
           >
-            <div className="absolute top-0 right-0 h-full w-px bg-border/50 transition-colors duration-150 group-hover/handle:bg-border" />
+            <div className="absolute top-0 right-0 h-full w-px bg-border/50 transition-colors duration-150 group-hover/handle:bg-border md:hidden" />
           </div>
         </aside>
       </DocsShellHoverProvider>
@@ -146,7 +146,7 @@ export function DocsShellFooter({
   return (
     <div
       className={cn(
-        'shrink-0 border-t border-border/50 px-3 pt-2 pb-4',
+        'shrink-0 px-3 pt-2 pb-4',
         className,
       )}
     >
