@@ -7,6 +7,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { jsonLd } from '@/lib/json-ld';
 import { cn } from '@workspace/ui/lib/utils';
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: {
@@ -107,6 +109,8 @@ export default function Layout({ children }: { children: ReactNode }) {
         <RootProvider>
           <NuqsAdapter>{children}</NuqsAdapter>
         </RootProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
