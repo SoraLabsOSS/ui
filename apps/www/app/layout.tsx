@@ -11,6 +11,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ui.soralabs.io.vn'),
   title: {
     template: '%s - Sora UI',
     default: 'Sora UI - Animated React Components',
@@ -57,11 +58,11 @@ export const metadata: Metadata = {
     title: 'Sora UI',
     description:
       'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
-    url: 'https://animate-ui.com',
+    url: 'https://ui.soralabs.io.vn',
     siteName: 'Sora UI',
     images: [
       {
-        url: 'https://animate-ui.com/og-image.png',
+        url: 'https://ui.soralabs.io.vn/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Sora UI',
@@ -78,7 +79,7 @@ export const metadata: Metadata = {
       'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
     images: [
       {
-        url: 'https://animate-ui.com/og-image.png',
+        url: 'https://ui.soralabs.io.vn/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Sora UI',
@@ -97,10 +98,11 @@ export default function Layout({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <link rel="canonical" href="https://ui.soralabs.io.vn" />
       </head>
 
       <body
-        className={cn(
+        className={cn(  
           'flex flex-col min-h-screen',
           // Allows to make more attractive video recordings
           // 'screenshot-mode',
