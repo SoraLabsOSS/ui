@@ -41,11 +41,7 @@ export const baseOptions: BaseLayoutProps = {
       url: '/docs/troubleshooting',
       secondary: false,
     },
-    {
-      text: 'Roadmap',
-      url: '/docs/roadmap',
-      secondary: false,
-    },
+
     {
       text: 'Other animated distributions',
       url: '/docs/other-animated-distributions',

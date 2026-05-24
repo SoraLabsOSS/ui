@@ -6,14 +6,10 @@ import { baseOptions } from '@/app/layout.config';
 import { source } from '@/lib/source';
 import { ThemeSwitcher } from '@/components/animate/theme-switcher';
 import XIcon from '@workspace/ui/components/icons/x-icon';
-import { SIDEBAR_TABS } from '@/lib/sidebar';
 import { Nav } from '@/components/docs/nav';
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
-  sidebar: {
-    tabs: SIDEBAR_TABS,
-  },
 
   githubUrl: 'https://github.com/imskyleen/animate-ui',
   themeSwitch: {

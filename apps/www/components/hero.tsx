@@ -1,5 +1,4 @@
 import { motion } from 'motion/react';
-import { SplittingText } from '@/registry/primitives/texts/splitting';
 import ReactIcon from '@workspace/ui/components/icons/react-icon';
 import TSIcon from '@workspace/ui/components/icons/ts-icon';
 import TailwindIcon from '@workspace/ui/components/icons/tailwind-icon';
@@ -8,9 +7,92 @@ import ShadcnIcon from '@workspace/ui/components/icons/shadcn-icon';
 import { Button } from '@workspace/ui/components/ui/button';
 import Link from 'next/link';
 import { MotionEffect } from './effects/motion-effect';
-import { PartyPopper } from '@/registry/icons/party-popper';
-import { ArrowRightIcon } from '@/registry/icons/arrow-right';
-import { AnimateIcon } from '@/registry/icons/icon';
+import { PartyPopper, ArrowRight } from 'lucide-react';
+
+const SplittingText = ({
+  text,
+  className,
+  type = 'chars',
+  delay = 0,
+  initial,
+  animate,
+  transition,
+  disableAnimation = false,
+  ...props
+}: {
+  text: string;
+  className?: string;
+  type?: 'chars' | 'words';
+  delay?: number;
+  initial?: any;
+  animate?: any;
+  transition?: any;
+  disableAnimation?: boolean;
+  [key: string]: any;
+}) => {
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        delayChildren: delay / 1000,
+        staggerChildren: type === 'chars' ? 0.05 : 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: disableAnimation ? animate : (initial ?? { x: 150, opacity: 0 }),
+    visible: {
+      ...animate,
+      transition: disableAnimation
+        ? { duration: 0 }
+        : (transition ?? { duration: 0.7, ease: 'easeOut' }),
+    },
+  };
+
+  const tokens = text.split(/(\s+)/);
+  let globalIndex = 0;
+
+  return (
+    <motion.span
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className={className}
+      {...props}
+    >
+      {tokens.map((tok, wi) => {
+        if (/^\s+$/.test(tok)) {
+          return <span key={`space-${wi}`}>{tok}</span>;
+        }
+        const chars = Array.from(tok);
+        const wordDelay = delay / 1000 + 0.03 * globalIndex;
+        globalIndex += chars.length;
+
+        return (
+          <motion.span
+            key={`word-${wi}`}
+            style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
+            variants={{}}
+            transition={{ delayChildren: wordDelay, staggerChildren: 0.03 }}
+            initial="hidden"
+            animate="visible"
+          >
+            {chars.map((ch, ci) => (
+              <motion.span
+                key={`ch-${wi}-${ci}`}
+                variants={itemVariants}
+                style={{ display: 'inline-block' }}
+              >
+                {ch}
+              </motion.span>
+            ))}
+          </motion.span>
+        );
+      })}
+    </motion.span>
+  );
+};
 
 const ICONS = [ReactIcon, TSIcon, TailwindIcon, MotionIcon, ShadcnIcon];
 const TITLE = 'Animate your UI with smooth style';
@@ -29,14 +111,14 @@ export const Hero = () => {
         >
           <div className="mb-8 rounded-full bg-accent py-1 pl-1 pr-3 text-sm flex items-center gap-2">
             <Link
-              href="/docs/primitives/effects/image-zoom"
+              href="/docs/components/radix/files"
               className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400"
             >
               <span className="h-6 px-2 bg-primary text-xs text-primary-foreground rounded-full flex gap-1 items-center justify-center">
                 New
-                <PartyPopper delay={500} className="size-3.5" animate />
+                <PartyPopper className="size-3.5" />
               </span>{' '}
-              <span>Image Zoom Effect</span>
+              <span>Animated Files Component</span>
             </Link>
           </div>
         </MotionEffect>
@@ -84,8 +166,8 @@ export const Hero = () => {
         >
           <p className="block font-normal md:text-lg sm:text-base text-sm text-center mt-3 text-muted-foreground md:max-w-[660px] sm:max-w-[450px] text-balance">
             A fully animated, open-source React component distribution. Browse a
-            list of animated primitives, components and icons you can install
-            and use in your projects.
+            list of animated components you can install and use in your
+            projects.
           </p>
         </MotionEffect>
 
@@ -98,23 +180,18 @@ export const Hero = () => {
             zoom
             delay={0.45}
           >
-            <AnimateIcon animateOnHover="out" completeOnStop asChild>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                size="lg"
+                className="w-full !pr-5"
+                variant="default"
+                asChild
               >
-                <Button
-                  size="lg"
-                  className="w-full !pr-5"
-                  variant="default"
-                  asChild
-                >
-                  <Link href="/docs/installation">
-                    Get Started <ArrowRightIcon className="!size-5" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </AnimateIcon>
+                <Link href="/docs/installation">
+                  Get Started <ArrowRight className="!size-5 ml-1.5" />
+                </Link>
+              </Button>
+            </motion.div>
           </MotionEffect>
 
           <MotionEffect

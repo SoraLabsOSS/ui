@@ -53,6 +53,11 @@ async function buildRegistryFile() {
   const registryFolderPath = path.join(process.cwd(), 'registry');
   const newItems = await getRegistryItemsFromFolder(registryFolderPath);
 
+  const filteredItems = newItems.filter(
+    (item) =>
+      !item.name.startsWith('primitives-') && !item.name.startsWith('icons-'),
+  );
+
   registryData.items = [
     {
       name: 'index',
@@ -66,7 +71,7 @@ async function buildRegistryFile() {
       cssVars: {},
       files: [],
     },
-    ...newItems,
+    ...filteredItems,
   ];
 
   await fs.writeFile(REGISTRY_JSON_PATH, JSON.stringify(registryData, null, 2));

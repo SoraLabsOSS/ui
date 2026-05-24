@@ -144,13 +144,6 @@ export function DocsShellFooter({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        'shrink-0 px-3 pt-2 pb-4',
-        className,
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn('shrink-0 px-3 pt-2 pb-4', className)}>{children}</div>
   );
 }

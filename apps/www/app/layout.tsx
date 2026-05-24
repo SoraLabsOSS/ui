@@ -7,8 +7,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { jsonLd } from '@/lib/json-ld';
 import { cn } from '@workspace/ui/lib/utils';
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ui.soralabs.io.vn'),
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: 'imskyleen',
-      url: 'https://github.com/imskyleen',
+      name: 'Axyl',
+      url: 'https://github.com/axyl1410',
     },
   ],
   publisher: 'Sora UI',
@@ -102,7 +102,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </head>
 
       <body
-        className={cn(  
+        className={cn(
           'flex flex-col min-h-screen',
           // Allows to make more attractive video recordings
           // 'screenshot-mode',

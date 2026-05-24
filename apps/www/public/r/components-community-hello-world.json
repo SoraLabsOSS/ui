@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/components/community/hello-world/index.tsx",
-      "content": "import { Button } from '@/components/ui/button';\n\nexport function HelloWorld() {\n  return <Button>Hello World</Button>;\n}\n",
+      "content": "import { Button } from '@/components/ui/button';\n\nexport function HelloWorld() {\n  return <Button>Made by Axyl</Button>;\n}\n",
       "type": "registry:ui",
       "target": "components/sora/community/hello-world.tsx"
     }

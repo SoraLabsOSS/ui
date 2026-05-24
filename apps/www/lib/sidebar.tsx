@@ -1,12 +1,7 @@
 'use client';
 
-import { Component, Cuboid } from 'lucide-react';
-import { LucideIcons } from '@/components/icons/lucide-icons';
-import { cn } from '@workspace/ui/lib/utils';
+import { Component } from 'lucide-react';
 import { index } from '@/__registry__';
-import { Dancing_Script } from 'next/font/google';
-
-const dancing = Dancing_Script({ subsets: ['latin'] });
 
 const TabsDescription = ({
   title,
@@ -44,56 +39,5 @@ export const SIDEBAR_TABS = [
       </div>
     ),
     url: '/docs/components',
-  },
-  {
-    title: 'Primitives',
-    description: (
-      <TabsDescription
-        title="Animated Primitives"
-        count={
-          Object.values(index).filter((item) =>
-            item.name.startsWith('primitives-'),
-          ).length
-        }
-      />
-    ),
-    icon: (
-      <div className="[&_svg]:size-full rounded-lg size-full text-muted-foreground max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5">
-        <Cuboid />
-      </div>
-    ),
-    url: '/docs/primitives',
-  },
-  {
-    title: (
-      <span>
-        Icons{' '}
-        <span
-          className={cn(
-            dancing.className,
-            'text-sm ml-2 text-blue-600 dark:text-blue-400',
-          )}
-        >
-          beta
-        </span>
-      </span>
-    ),
-    description: (
-      <TabsDescription
-        title="Animated Icons"
-        count={
-          Object.values(index).filter(
-            (item) =>
-              item.name.startsWith('icons-') && item.name !== 'icons-icon',
-          ).length
-        }
-      />
-    ),
-    icon: (
-      <div className="[&_svg]:size-full rounded-lg size-full text-muted-foreground max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5">
-        <LucideIcons />
-      </div>
-    ),
-    url: '/docs/icons',
   },
 ];

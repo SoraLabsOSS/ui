@@ -262,10 +262,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
   } = all.sidebar ?? {};
   const pathname = usePathname();
   const links = getLinks(all.links ?? [], all.githubUrl);
-  const isMenu =
-    !pathname.startsWith('/docs/primitives') &&
-    !pathname.startsWith('/docs/components') &&
-    !pathname.startsWith('/docs/icons');
+  const isMenu = !pathname.startsWith('/docs/components');
   const isMobile = useIsMobile();
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();

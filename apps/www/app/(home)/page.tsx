@@ -32,7 +32,12 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className={cn('relative h-dvh', !isLoaded && 'overflow-y-hidden')}>
+    <main
+      className={cn(
+        'relative h-dvh overflow-x-hidden',
+        !isLoaded && 'overflow-y-hidden',
+      )}
+    >
       <Header transition={transition} />
 
       <div className="h-dvh w-full flex flex-col justify-between">

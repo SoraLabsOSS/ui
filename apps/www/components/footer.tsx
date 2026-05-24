@@ -11,15 +11,6 @@ export const Footer = () => {
       delay={1.6}
     >
       <div className="w-full">
-        <div className="w-full flex items-center justify-center pt-8 pb-10">
-          <a href="https://vercel.com/oss">
-            <img
-              alt="Vercel OSS Program"
-              src="https://vercel.com/oss/program-badge.svg"
-            />
-          </a>
-        </div>
-
         <div className="max-w-7xl mx-auto h-16">
           <div className="size-full px-4 md:px-6 flex items-center justify-center prose prose-sm text-sm text-muted-foreground">
             <p className="text-center truncate">
