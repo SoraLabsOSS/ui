@@ -17,7 +17,7 @@ export const ExternalLink = ({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="not-prose w-fit flex flex-row items-center rounded-md bg-muted hover:bg-muted/70 transition pl-3 pr-2.5 py-1 text-sm font-medium text-muted-foreground"
+      className="not-prose bg-muted hover:bg-muted/70 text-muted-foreground flex w-fit flex-row items-center rounded-md py-1 pr-2.5 pl-3 text-sm font-medium transition"
     >
       <span>{text}</span>
       <ExternalLinkIcon className="ml-1.5 h-4 w-4" />

@@ -103,7 +103,7 @@ export function DocsShell({
       <DocsShellHoverProvider containerRef={containerRef}>
         <aside
           className={cn(
-            'relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-background',
+            'bg-background relative flex min-h-0 w-full flex-1 flex-col overflow-hidden',
             className,
           )}
           style={isMobile ? undefined : { width }}
@@ -111,12 +111,12 @@ export function DocsShell({
           {children}
 
           <div
-            className="absolute top-0 right-0 z-50 hidden h-full w-1 cursor-col-resize group/handle md:block"
+            className="group/handle absolute top-0 right-0 z-50 hidden h-full w-1 cursor-col-resize md:block"
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
           >
-            <div className="absolute top-0 right-0 h-full w-px bg-border/50 transition-colors duration-150 group-hover/handle:bg-border md:hidden" />
+            <div className="bg-border/50 group-hover/handle:bg-border absolute top-0 right-0 h-full w-px transition-colors duration-150 md:hidden" />
           </div>
         </aside>
       </DocsShellHoverProvider>

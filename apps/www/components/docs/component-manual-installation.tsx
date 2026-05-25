@@ -103,7 +103,7 @@ export const ComponentManualInstallation = ({
               >
                 <div
                   className={cn(
-                    '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_code]:pb-[60px]',
+                    '[&_code]:pb-[60px] [&_pre]:my-0 [&_pre]:max-h-[650px]',
                     !isOpened
                       ? '[&_pre]:overflow-hidden'
                       : '[&_pre]:overflow-auto]',
@@ -119,7 +119,7 @@ export const ComponentManualInstallation = ({
               </CollapsibleContent>
               <div
                 className={cn(
-                  'absolute flex items-center justify-center bg-gradient-to-b rounded-t-xl from-neutral-300/30 to-white dark:from-neutral-700/30 dark:to-neutral-950 p-2',
+                  'absolute flex items-center justify-center rounded-t-xl bg-gradient-to-b from-neutral-300/30 to-white p-2 dark:from-neutral-700/30 dark:to-neutral-950',
                   isOpened ? 'inset-x-0 bottom-0 h-12' : 'inset-0',
                 )}
               >

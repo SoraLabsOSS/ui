@@ -5,18 +5,18 @@ export function OpenInV0Button({ url }: { url: string }) {
   return (
     <Button
       aria-label="Open in v0"
-      className="h-9 max-md:w-9 gap-1 rounded-md md:px-3 text-xs bg-neutral-950 text-white dark:bg-white dark:text-black hover:opacity-80 transition-opacity"
+      className="h-9 gap-1 rounded-md bg-neutral-950 text-xs text-white transition-opacity hover:opacity-80 max-md:w-9 md:px-3 dark:bg-white dark:text-black"
       asChild
     >
       <motion.a
         href={`https://v0.dev/chat/api/open?url=${url}`}
         target="_blank"
         rel="noreferrer"
-        className="no-underline flex items-center gap-1"
+        className="flex items-center gap-1 no-underline"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span className="max-md:hidden text-sm">Open in </span>
+        <span className="text-sm max-md:hidden">Open in </span>
         <svg
           viewBox="0 0 40 20"
           fill="none"

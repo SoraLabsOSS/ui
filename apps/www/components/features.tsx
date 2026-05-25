@@ -26,8 +26,8 @@ const dancing = Dancing_Script({ subsets: ['latin'] });
 
 export const Features = () => {
   return (
-    <div className="relative pt-16 pb-10 px-5 flex flex-col items-center justify-center mt-auto">
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:gap-6 gap-4 w-full max-w-4xl mx-auto">
+    <div className="relative mt-auto flex flex-col items-center justify-center px-5 pt-16 pb-10">
+      <div className="xs:grid-cols-2 mx-auto grid w-full max-w-4xl grid-cols-1 gap-4 sm:gap-6">
         {COMPONENTS.map((component, index) => {
           const Component = component.href ? Link : 'div';
           return (
@@ -55,14 +55,14 @@ export const Features = () => {
                     damping: 20,
                   }}
                   className={cn(
-                    'relative w-full dark:bg-neutral-800 bg-neutral-100 rounded-2xl pt-1',
-                    !component?.href && 'opacity-50 cursor-not-allowed',
+                    'relative w-full rounded-2xl bg-neutral-100 pt-1 dark:bg-neutral-800',
+                    !component?.href && 'cursor-not-allowed opacity-50',
                   )}
                 >
                   <p
                     className={cn(
                       dancing.className,
-                      'text-[22px] font-black text-muted-foreground absolute xs:top-2 top-3 left-1/2 -translate-x-1/2',
+                      'text-muted-foreground xs:top-2 absolute top-3 left-1/2 -translate-x-1/2 text-[22px] font-black',
                     )}
                   >
                     {component.name}

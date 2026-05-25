@@ -103,7 +103,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <body
         className={cn(
-          'flex flex-col min-h-screen',
+          'flex min-h-screen flex-col',
           // Allows to make more attractive video recordings
           // 'screenshot-mode',
         )}

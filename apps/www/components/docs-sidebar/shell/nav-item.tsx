@@ -43,20 +43,20 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
       {isActive && (
         <motion.span
           layoutId="docs-shell-active-indicator"
-          className="pointer-events-none absolute left-[4px] top-1/2 z-[35] h-[2.5px] w-[23px] -translate-y-1/2 rounded-full"
+          className="pointer-events-none absolute top-1/2 left-[4px] z-[35] h-[2.5px] w-[23px] -translate-y-1/2 rounded-full"
           style={{ backgroundColor: 'var(--accent-pro)' }}
           transition={{ type: 'spring', stiffness: 800, damping: 40 }}
         />
       )}
 
       <motion.span
-        className="pointer-events-none absolute left-0 top-1/2 z-0 -translate-y-1/2 h-px bg-foreground/50"
+        className="bg-foreground/50 pointer-events-none absolute top-1/2 left-0 z-0 h-px -translate-y-1/2"
         animate={{ width: isActive ? 0 : isHovered ? 26 : 18 }}
         transition={{ type: 'spring', stiffness: 600, damping: 30 }}
       />
-      <motion.span className="pointer-events-none absolute left-0 top-1/4 z-0 h-px w-[13px] bg-foreground/30" />
-      <motion.span className="pointer-events-none absolute left-0 top-0 z-0 h-px w-[16px] bg-foreground/30" />
-      <motion.span className="pointer-events-none absolute left-0 top-3/4 z-0 h-px w-[13px] bg-foreground/30" />
+      <motion.span className="bg-foreground/30 pointer-events-none absolute top-1/4 left-0 z-0 h-px w-[13px]" />
+      <motion.span className="bg-foreground/30 pointer-events-none absolute top-0 left-0 z-0 h-px w-[16px]" />
+      <motion.span className="bg-foreground/30 pointer-events-none absolute top-3/4 left-0 z-0 h-px w-[13px]" />
 
       <motion.div
         ref={itemRef}
@@ -84,7 +84,7 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
           }}
           onMouseLeave={() => setHovered(null)}
           className={cn(
-            'relative flex items-center gap-2 ml-2 pl-4 py-1.5 text-sm select-none',
+            'relative ml-2 flex items-center gap-2 py-1.5 pl-4 text-sm select-none',
             className,
           )}
         >

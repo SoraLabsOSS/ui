@@ -83,9 +83,9 @@ export function ComponentPreview({
     if (!Component) {
       console.error(`Component with name "${name}" not found in registry.`);
       return (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Component{' '}
-          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+          <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
             {name}
           </code>{' '}
           not found in registry.
@@ -105,7 +105,7 @@ export function ComponentPreview({
     <div
       id="component-preview"
       className={cn(
-        'relative my-4 flex flex-col space-y-2 lg:max-w-[120ch] not-prose',
+        'not-prose relative my-4 flex flex-col space-y-2 lg:max-w-[120ch]',
         className,
       )}
       {...props}
@@ -124,7 +124,7 @@ export function ComponentPreview({
         <TabsContents>
           <TabsContent
             value="preview"
-            className="relative rounded-md h-full"
+            className="relative h-full rounded-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -139,7 +139,7 @@ export function ComponentPreview({
             >
               <Suspense
                 fallback={
-                  <div className="flex items-center text-sm text-muted-foreground">
+                  <div className="text-muted-foreground flex items-center text-sm">
                     <Loader className="mr-2 size-4 animate-spin" />
                     Loading...
                   </div>
@@ -156,7 +156,7 @@ export function ComponentPreview({
             exit={{ opacity: 0 }}
           >
             <div className="flex flex-col space-y-4">
-              <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:h-[400px] h-[450px] [&_pre]:overflow-auto">
+              <div className="h-[450px] w-full rounded-md [&_pre]:my-0 [&_pre]:h-[400px] [&_pre]:overflow-auto">
                 <DynamicCodeBlock
                   code={code}
                   lang="tsx"

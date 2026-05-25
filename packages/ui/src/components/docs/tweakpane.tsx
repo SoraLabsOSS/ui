@@ -56,8 +56,7 @@ interface UncontrolledTweakpaneProps {
 
 type TweakpaneProps = ControlledTweakpaneProps | UncontrolledTweakpaneProps;
 
-interface NumericInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface NumericInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   value: number;
   onValueChange: (value: number) => void;
   min?: number;
@@ -104,7 +103,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
     <Input
       {...props}
       className={cn(
-        '[&[type="number"]::-webkit-inner-spin-button]:appearance-none [&[type="number"]::-webkit-outer-spin-button]:appearance-none text-sm',
+        'text-sm [&[type="number"]::-webkit-inner-spin-button]:appearance-none [&[type="number"]::-webkit-outer-spin-button]:appearance-none',
         className,
       )}
       min={min}
@@ -139,9 +138,9 @@ const renderNumber = (
 ) => {
   return 'min' in bind && 'max' in bind ? (
     <div key={key} className="flex flex-row gap-2.5">
-      <div className="w-[80px] flex items-center shrink-0 min-w-0">
+      <div className="flex w-[80px] min-w-0 shrink-0 items-center">
         <Label
-          className="truncate text-current/80 block leading-[1.2]"
+          className="block truncate leading-[1.2] text-current/80"
           htmlFor={key}
         >
           {key}
@@ -163,14 +162,14 @@ const renderNumber = (
         max={bind.max}
         step={bind.step}
         onValueChange={onChange}
-        className="w-[50px] h-8 rounded-md px-2 shrink-0"
+        className="h-8 w-[50px] shrink-0 rounded-md px-2"
       />
     </div>
   ) : 'options' in bind ? (
     <div key={key} className="flex flex-row gap-2.5">
-      <div className="w-[80px] truncate flex items-center shrink-0 min-w-0">
+      <div className="flex w-[80px] min-w-0 shrink-0 items-center truncate">
         <Label
-          className="truncate text-current/80 block leading-[1.2]"
+          className="block truncate leading-[1.2] text-current/80"
           htmlFor={key}
         >
           {key}
@@ -183,7 +182,7 @@ const renderNumber = (
       >
         <SelectTrigger
           id={key}
-          className="flex-1 !h-8 rounded-md px-2 shrink-0"
+          className="!h-8 flex-1 shrink-0 rounded-md px-2"
         >
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
@@ -199,9 +198,9 @@ const renderNumber = (
     </div>
   ) : (
     <div key={key} className="flex flex-row gap-2.5">
-      <div className="w-[80px] truncate flex items-center shrink-0 min-w-0">
+      <div className="flex w-[80px] min-w-0 shrink-0 items-center truncate">
         <Label
-          className="truncate text-current/80 block leading-[1.2]"
+          className="block truncate leading-[1.2] text-current/80"
           htmlFor={key}
         >
           {key}
@@ -212,7 +211,7 @@ const renderNumber = (
         id={key}
         value={bind.value}
         onValueChange={onChange}
-        className="w-full h-8 rounded-md px-2"
+        className="h-8 w-full rounded-md px-2"
       />
     </div>
   );
@@ -225,9 +224,9 @@ const renderString = (
 ) => {
   return bind?.options ? (
     <div key={key} className="flex flex-row gap-2.5">
-      <div className="w-[80px] truncate flex items-center shrink-0 min-w-0">
+      <div className="flex w-[80px] min-w-0 shrink-0 items-center truncate">
         <Label
-          className="truncate text-current/80 block leading-[1.2]"
+          className="block truncate leading-[1.2] text-current/80"
           htmlFor={key}
         >
           {key}
@@ -245,7 +244,7 @@ const renderString = (
       >
         <SelectTrigger
           id={key}
-          className="flex-1 !h-8 rounded-md px-2 shrink-0"
+          className="!h-8 flex-1 shrink-0 rounded-md px-2"
         >
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
@@ -261,9 +260,9 @@ const renderString = (
     </div>
   ) : (
     <div key={key} className="flex flex-row gap-2.5">
-      <div className="w-[80px] truncate flex items-center shrink-0 min-w-0">
+      <div className="flex w-[80px] min-w-0 shrink-0 items-center truncate">
         <Label
-          className="truncate text-current/80 block leading-[1.2]"
+          className="block truncate leading-[1.2] text-current/80"
           htmlFor={key}
         >
           {key}
@@ -274,7 +273,7 @@ const renderString = (
         id={key}
         value={bind.value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-8 rounded-md px-2"
+        className="h-8 w-full rounded-md px-2"
       />
     </div>
   );
@@ -286,11 +285,11 @@ const renderBoolean = (
   onChange: (value: boolean) => void,
 ) => {
   return (
-    <div key={key} className="flex flex-row gap-2.5 justify-between">
-      <div className="w-[80px] flex items-center shrink-0 min-w-0">
+    <div key={key} className="flex flex-row justify-between gap-2.5">
+      <div className="flex w-[80px] min-w-0 shrink-0 items-center">
         <Label
           htmlFor={key}
-          className="truncate text-current/80 block leading-[1.2]"
+          className="block truncate leading-[1.2] text-current/80"
         >
           {key}
         </Label>
@@ -332,7 +331,7 @@ const renderFlatBinds = (
   binds: FlatBinds,
   onBindsChange: (binds: FlatBinds) => void,
 ): React.ReactNode => (
-  <div className="bg-background rounded-[7px] flex flex-col gap-2 pr-1.5 pl-2 py-[7px]">
+  <div className="bg-background flex flex-col gap-2 rounded-[7px] py-[7px] pr-1.5 pl-2">
     {Object.entries(binds).map(([key, bind]) => (
       <React.Fragment key={key}>
         {renderBind(key, bind, (value) =>
@@ -354,11 +353,11 @@ const renderNestedBinds = (
       defaultOpen
       className="flex flex-col not-first:pt-1 first:-mt-0.5"
     >
-      <CollapsibleTrigger className="cursor-pointer w-full truncate flex items-center justify-between rounded-md p-1.5">
-        <Label className="truncate text-current/80 block leading-[1.2]">
+      <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between truncate rounded-md p-1.5">
+        <Label className="block truncate leading-[1.2] text-current/80">
           {groupKey}
         </Label>
-        <ChevronsUpDown className="size-3.5 text-muted-foreground" />
+        <ChevronsUpDown className="text-muted-foreground size-3.5" />
       </CollapsibleTrigger>
 
       <CollapsibleContent {...(!initial ? { initial: false } : {})}>
@@ -404,8 +403,8 @@ const Tweakpane = ({ onBindsChange, ...props }: TweakpaneProps) => {
   }, [props]);
 
   return (
-    <div className="bg-transparent pl-0 p-1.5 size-full">
-      <div className="overflow-y-auto bg-accent rounded-[5px] p-1.5 size-full flex flex-col">
+    <div className="size-full bg-transparent p-1.5 pl-0">
+      <div className="bg-accent flex size-full flex-col overflow-y-auto rounded-[5px] p-1.5">
         {renderBinds(localBinds, handleBindsChange, initial)}
       </div>
     </div>

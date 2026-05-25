@@ -81,7 +81,7 @@ function CodeTabs({
     <Tabs
       data-slot="install-tabs"
       className={cn(
-        'w-full gap-0 bg-accent rounded-xl overflow-hidden',
+        'bg-accent w-full gap-0 overflow-hidden rounded-xl',
         className,
       )}
       {...props}
@@ -91,12 +91,12 @@ function CodeTabs({
         onValueChange?.(val);
       }}
     >
-      <TabsHighlight className="absolute z-0 inset-0 rounded-none shadow-none bg-transparent after:content-[''] after:absolute after:inset-x-0 after:h-0.5 after:bottom-0 dark:after:bg-white after:bg-black after:rounded-t-full">
+      <TabsHighlight className="absolute inset-0 z-0 rounded-none bg-transparent shadow-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-t-full after:bg-black after:content-[''] dark:after:bg-white">
         <TabsList
           data-slot="install-tabs-list"
-          className="w-full relative flex items-center justify-between rounded-none h-10 text-current py-0 pl-5 pr-4.5"
+          className="relative flex h-10 w-full items-center justify-between rounded-none py-0 pr-4.5 pl-5 text-current"
         >
-          <div className="flex gap-x-3 h-full">
+          <div className="flex h-full gap-x-3">
             {highlightedCodes &&
               Object.keys(highlightedCodes).map((code) => (
                 <TabsHighlightItem
@@ -107,7 +107,7 @@ function CodeTabs({
                   <TabsTrigger
                     key={code}
                     value={code}
-                    className="text-muted-foreground h-full text-sm font-medium data-[state=active]:text-current px-0"
+                    className="text-muted-foreground h-full px-0 text-sm font-medium data-[state=active]:text-current"
                   >
                     {code}
                   </TabsTrigger>
@@ -141,7 +141,7 @@ function CodeTabs({
                 value={code}
               >
                 <div
-                  className="w-full text-sm overflow-auto flex items-center p-4 [&>pre,_&_code]:!bg-transparent [&_code_.line]:!px-0 [&>pre,_&_code]:[background:transparent_!important] [&>pre,_&_code]:border-none [&_code]:!text-[13px]"
+                  className="flex w-full items-center overflow-auto p-4 text-sm [&_code]:!text-[13px] [&_code_.line]:!px-0 [&>pre,_&_code]:border-none [&>pre,_&_code]:!bg-transparent [&>pre,_&_code]:[background:transparent_!important]"
                   dangerouslySetInnerHTML={{ __html: val }}
                 />
               </TabsContent>

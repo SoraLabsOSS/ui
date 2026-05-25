@@ -42,17 +42,14 @@ Project maintainers are responsible for clarifying and enforcing this Code. When
 When addressing violations, maintainers may use the following graduated responses:
 
 1. **Correction**
-
    - _Impact:_ Minor, first-time issue.
    - _Consequence:_ A private or public note identifying the issue and requesting a change in behavior.
 
 2. **Warning**
-
    - _Impact:_ A single significant incident or a series of problems.
    - _Consequence:_ A clear warning about the behavior’s impact and expectations going forward. Continued violations may lead to temporary or permanent restrictions.
 
 3. **Temporary Restriction**
-
    - _Impact:_ Repeated or more serious violations.
    - _Consequence:_ Temporary limitations on participation (e.g., commenting, contributing, access to certain spaces).
 

@@ -106,10 +106,10 @@ export default async function Page(props: {
         ),
       }}
     >
-      <div className="flex flex-row gap-2 items-start w-full justify-between">
+      <div className="flex w-full flex-row items-start justify-between gap-2">
         <DocsTitle className="font-medium">{page.data.title}</DocsTitle>
         {(prevNav || nextNav) && (
-          <div className="flex flex-row gap-1.5 items-center pt-0.5">
+          <div className="flex flex-row items-center gap-1.5 pt-0.5">
             <Link
               href={prevNav?.url ?? page.url}
               aria-disabled={!prevNav}
@@ -148,9 +148,9 @@ export default async function Page(props: {
         <DocsAuthor name={page.data.author.name} url={page.data.author?.url} />
       )}
 
-      <div className="flex flex-row gap-2 items-center">
+      <div className="flex flex-row items-center gap-2">
         <EditOnGitHub
-          className="border-0 [&_svg]:text-fd-muted-foreground"
+          className="[&_svg]:text-fd-muted-foreground border-0"
           href={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${params.slug ? `${params.slug.join('/')}.mdx` : 'index.mdx'}`}
         />
         <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
@@ -160,7 +160,7 @@ export default async function Page(props: {
         />
       </div>
 
-      <DocsBody id="docs-body" className="pb-10 pt-4">
+      <DocsBody id="docs-body" className="pt-4 pb-10">
         <MDXContent
           components={getMDXComponents({
             a: createRelativeLink(source, page),

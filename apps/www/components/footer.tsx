@@ -11,9 +11,9 @@ export const Footer = () => {
       delay={1.6}
     >
       <div className="w-full">
-        <div className="max-w-7xl mx-auto h-16">
-          <div className="size-full px-4 md:px-6 flex items-center justify-center prose prose-sm text-sm text-muted-foreground">
-            <p className="text-center truncate">
+        <div className="mx-auto h-16 max-w-7xl">
+          <div className="prose prose-sm text-muted-foreground flex size-full items-center justify-center px-4 text-sm md:px-6">
+            <p className="truncate text-center whitespace-normal">
               Built by{' '}
               <a
                 href="https://github.com/Axyl1410"

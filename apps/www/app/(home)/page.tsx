@@ -40,7 +40,7 @@ export default function HomePage() {
     >
       <Header transition={transition} />
 
-      <div className="h-dvh w-full flex flex-col justify-between">
+      <div className="flex h-dvh w-full flex-col justify-between">
         {transition && (
           <>
             <div>

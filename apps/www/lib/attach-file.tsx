@@ -14,11 +14,11 @@ const Badge = ({
   children: React.ReactNode;
 }) => {
   return (
-    <span className="flex items-center gap-3 w-full justify-between">
+    <span className="flex w-full items-center justify-between gap-3">
       <span className="!font-normal">{name}</span>{' '}
       <span
         className={cn(
-          'text-[17px] text-nowrap text-foreground leading-1 font-black',
+          'text-foreground text-[17px] leading-1 font-black text-nowrap',
           className,
         )}
       >

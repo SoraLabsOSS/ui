@@ -42,7 +42,7 @@ const NavItem = ({ title, url }: { title: string; url: string }) => {
         color: 'ghost',
         size: 'sm',
         className: cn(
-          '!text-sm !font-normal text-neutral-700 dark:text-neutral-200 hover:text-black dark:hover:text-white !h-8 !px-3 transition-colors duration-200 ease-in-out',
+          '!h-8 !px-3 !text-sm !font-normal text-neutral-700 transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white',
         ),
       })}
     >
@@ -56,39 +56,39 @@ export const Nav = () => {
   const { open, setOpen } = useSidebar();
 
   return (
-    <Navbar className="md:h-17 h-14 border-b-0 bg-background md:px-5 px-3 flex items-center gap-3 max-w-[1670px] w-full left-1/2 -translate-x-1/2">
+    <Navbar className="bg-background left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-b-0 px-3 md:h-17 md:px-5">
       <Link
         href="/"
         className={buttonVariants({
           color: 'ghost',
           size: 'icon-sm',
           className:
-            '[&_svg]:!size-5 md:[&_svg]:!size-4.5 !p-0 !size-8 transition-colors duration-200 ease-in-out',
+            '!size-8 !p-0 transition-colors duration-200 ease-in-out [&_svg]:!size-5 md:[&_svg]:!size-4.5',
         })}
       >
         <IconLogo size="sm" />
       </Link>
 
-      <div className="flex items-center md:justify-between justify-end gap-2 flex-1">
-        <div className="md:flex hidden items-center gap-1">
+      <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
+        <div className="hidden items-center gap-1 md:flex">
           {NAV_ITEMS.map((item) => (
             <NavItem key={item.title} title={item.title} url={item.url} />
           ))}
         </div>
 
-        <div className="flex items-center md:gap-3 gap-2">
+        <div className="flex items-center gap-2 md:gap-3">
           <button
-            className="pl-3 pr-1.5 h-8 w-48 lg:w-56 xl:w-64 bg-accent hover:bg-accent/70 transition-colors duration-200 ease-in-out text-sm text-muted-foreground rounded-md flex items-center justify-between"
+            className="bg-accent hover:bg-accent/70 text-muted-foreground flex h-8 w-48 items-center justify-between rounded-md pr-1.5 pl-3 text-sm transition-colors duration-200 ease-in-out lg:w-56 xl:w-64"
             onClick={() => setOpenSearch(true)}
           >
             <span className="font-normal">Search...</span>
 
             <div className="flex items-center gap-1">
-              <kbd className="size-5 leading-none flex items-center justify-center border rounded-[4px] bg-background">
+              <kbd className="bg-background flex size-5 items-center justify-center rounded-[4px] border leading-none">
                 <CommandIcon className="size-2.5" />
               </kbd>
-              <kbd className="size-5 flex items-center justify-center border rounded-[4px] bg-background">
-                <span className="leading-none text-[0.625rem] pt-px">K</span>
+              <kbd className="bg-background flex size-5 items-center justify-center rounded-[4px] border">
+                <span className="pt-px text-[0.625rem] leading-none">K</span>
               </kbd>
             </div>
           </button>
@@ -98,7 +98,7 @@ export const Nav = () => {
               href="https://github.com/imskyleen/animate-ui"
               rel="noreferrer noopener"
               target="_blank"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 hover:bg-fd-accent hover:text-fd-accent-foreground size-8 [&_svg]:size-5 text-fd-muted-foreground"
+              className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex size-8 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
               data-active="false"
             >
               <GithubLogo />
@@ -108,7 +108,7 @@ export const Nav = () => {
               href="https://x.com/animate_ui"
               rel="noreferrer noopener"
               target="_blank"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 hover:bg-fd-accent hover:text-fd-accent-foreground size-8 [&_svg]:size-5 text-fd-muted-foreground"
+              className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex size-8 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
               data-active="false"
             >
               <XIcon />
@@ -123,7 +123,7 @@ export const Nav = () => {
                 color: 'ghost',
                 size: 'icon-sm',
                 className:
-                  '!size-8 [&_svg]:!size-5 text-fd-muted-foreground md:hidden',
+                  'text-fd-muted-foreground !size-8 md:hidden [&_svg]:!size-5',
               }),
             )}
             onClick={() => setOpen((prev) => !prev)}

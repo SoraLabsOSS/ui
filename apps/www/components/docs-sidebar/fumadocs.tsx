@@ -293,7 +293,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
         <DocsShellContent
           className={cn(
             'min-h-0',
-            'md:[&_[data-radix-scroll-area-viewport]]:pb-14 [&_[data-radix-scroll-area-viewport]]:pb-4 max-md:pt-2',
+            'max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14',
           )}
         >
           {links
@@ -348,7 +348,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
 
         <DocsShellFooter>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <div className="flex items-center justify-end gap-1 md:hidden ms-auto">
+            <div className="ms-auto flex items-center justify-end gap-1 md:hidden">
               {links
                 .filter((link) => link.type === 'icon')
                 .map((link) => (
@@ -371,7 +371,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
             </div>
           </div>
           <HideIfEmpty>
-            <div className="data-[empty=true]:hidden empty:hidden mt-2">
+            <div className="mt-2 empty:hidden data-[empty=true]:hidden">
               {sidebarFooter}
             </div>
           </HideIfEmpty>

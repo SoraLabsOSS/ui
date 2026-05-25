@@ -1,9 +1,9 @@
 export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
   return (
-    <div className="mb-7 -mt-2 w-full flex lg:flex-row flex-col-reverse lg:gap-2 justify-between lg:items-center">
-      <div className="size-full flex items-center justify-start prose prose-sm text-sm text-muted-foreground">
+    <div className="-mt-2 mb-7 flex w-full flex-col-reverse justify-between lg:flex-row lg:items-center lg:gap-2">
+      <div className="prose prose-sm text-muted-foreground flex size-full items-center justify-start text-sm">
         <div className="flex items-center gap-2">
-          <p className="text-start truncate">
+          <p className="truncate text-start whitespace-normal">
             Built by{' '}
             <a
               href="https://github.com/Axyl1410"
@@ -18,9 +18,9 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
       </div>
 
       {lastUpdate && (
-        <p className="text-sm text-muted-foreground flex gap-1 items-center text-nowrap">
+        <p className="text-muted-foreground flex items-center gap-1 text-sm text-nowrap">
           Last updated:{' '}
-          <span className="text-foreground font-medium px-1.5 py-[3px] bg-accent text-[13px] rounded-sm">
+          <span className="text-foreground bg-accent rounded-sm px-1.5 py-[3px] text-[13px] font-medium">
             {lastUpdate?.toLocaleDateString()}
           </span>
         </p>

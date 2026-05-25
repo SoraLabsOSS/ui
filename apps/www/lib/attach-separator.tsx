@@ -16,10 +16,10 @@ import { LucideIcons } from '@/components/icons/lucide-icons';
 
 const Icon = ({ children }: { children: React.ReactNode }) => {
   return (
-    <span className="relative size-5 [&_svg]:size-[12px] flex items-center justify-center bg-border text-muted-foreground rounded-[5px]">
+    <span className="bg-border text-muted-foreground relative flex size-5 items-center justify-center rounded-[5px] [&_svg]:size-[12px]">
       {children}
 
-      <span className="absolute left-1/2 translate-x-[calc(-50%-0.5px)] bg-border w-px h-[8px] top-full" />
+      <span className="bg-border absolute top-full left-1/2 h-[8px] w-px translate-x-[calc(-50%-0.5px)]" />
     </span>
   );
 };

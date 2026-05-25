@@ -10,13 +10,13 @@ const nameClassName =
 
 export const DocsAuthor = ({ name, url }: DocsAuthorProps) => {
   return (
-    <span className="text-sm text-fd-muted-foreground italic mb-2.5">
+    <span className="text-fd-muted-foreground mb-2.5 text-sm italic">
       Made by{' '}
       {url ? (
         <a
           className={cn(
             nameClassName,
-            'cursor-pointer hover:decoration-foreground',
+            'hover:decoration-foreground cursor-pointer',
           )}
           href={url}
           target="_blank"

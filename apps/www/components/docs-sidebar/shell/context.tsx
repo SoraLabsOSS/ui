@@ -107,7 +107,7 @@ export function DocsShellHoverHighlight() {
       {enabled && hovered && hoverRect && (
         <motion.div
           key="docs-shell-hover-bg"
-          className="pointer-events-none absolute z-0 rounded-md bg-accent/50"
+          className="bg-accent/50 pointer-events-none absolute z-0 rounded-md"
           style={{ right: 0 }}
           initial={false}
           animate={{

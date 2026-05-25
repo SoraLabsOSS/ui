@@ -5,9 +5,10 @@ import TailwindIcon from '@workspace/ui/components/icons/tailwind-icon';
 import MotionIcon from '@workspace/ui/components/icons/motion-icon';
 import ShadcnIcon from '@workspace/ui/components/icons/shadcn-icon';
 import { Button } from '@workspace/ui/components/ui/button';
+import { TextShimmer } from '@workspace/ui/components/ui/text-shimmer';
 import Link from 'next/link';
 import { MotionEffect } from './effects/motion-effect';
-import { PartyPopper, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const SplittingText = ({
   text,
@@ -99,7 +100,7 @@ const TITLE = 'Animate your UI with smooth style';
 
 export const Hero = () => {
   return (
-    <div className="relative overflow-hidden flex flex-col items-center px-5">
+    <div className="relative flex flex-col items-center overflow-hidden px-5">
       <div className="relative z-10 flex flex-col items-center justify-center pt-30">
         <MotionEffect
           slide={{
@@ -109,16 +110,21 @@ export const Hero = () => {
           zoom
           inView
         >
-          <div className="mb-8 rounded-full bg-accent py-1 pl-1 pr-3 text-sm flex items-center gap-2">
+          <div className="bg-accent mb-8 flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-sm">
             <Link
-              href="/docs/components/radix/files"
-              className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400"
+              href="/docs/installation"
+              className="hover:text-foreground flex items-center gap-2 text-neutral-600 transition-colors dark:text-neutral-400"
             >
-              <span className="h-6 px-2 bg-primary text-xs text-primary-foreground rounded-full flex gap-1 items-center justify-center">
-                New
-                <PartyPopper className="size-3.5" />
-              </span>{' '}
-              <span>Animated Files Component</span>
+              <span className="bg-primary text-primary-foreground flex h-6 items-center justify-center rounded-full px-2 text-xs font-medium">
+                CLI
+              </span>
+              <TextShimmer
+                as="code"
+                className="font-mono text-xs sm:text-sm"
+                duration={3}
+              >
+                npx shadcn@latest add @sora-ui
+              </TextShimmer>
             </Link>
           </div>
         </MotionEffect>
@@ -133,18 +139,18 @@ export const Hero = () => {
           delay={0.15}
         >
           <div className="relative z-10">
-            <h1 className="md:max-w-[800px] max-w-[320px]">
+            <h1 className="max-w-[320px] md:max-w-[800px]">
               <SplittingText
                 text={TITLE}
                 aria-hidden="true"
-                className="block md:text-5xl text-4xl font-medium text-center text-neutral-200 dark:text-neutral-800"
+                className="block text-center text-4xl font-medium text-neutral-200 md:text-5xl dark:text-neutral-800"
                 disableAnimation
               />
             </h1>
-            <div className="md:max-w-[800px] max-w-[320px] absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex max-w-[320px] items-center justify-center md:max-w-[800px]">
               <SplittingText
                 text={TITLE}
-                className="block md:text-5xl text-4xl font-medium text-center"
+                className="block text-center text-4xl font-medium md:text-5xl"
                 type="chars"
                 delay={400}
                 initial={{ y: 0, opacity: 0, x: 0, filter: 'blur(10px)' }}
@@ -164,14 +170,14 @@ export const Hero = () => {
           inView
           delay={0.3}
         >
-          <p className="block font-normal md:text-lg sm:text-base text-sm text-center mt-3 text-muted-foreground md:max-w-[660px] sm:max-w-[450px] text-balance">
+          <p className="text-muted-foreground mt-3 block text-center text-sm font-normal text-balance sm:max-w-[450px] sm:text-base md:max-w-[660px] md:text-lg">
             A fully animated, open-source React component distribution. Browse a
             list of animated components you can install and use in your
             projects.
           </p>
         </MotionEffect>
 
-        <div className="flex sm:flex-row flex-col sm:gap-4 gap-3 mt-5 mb-8 max-sm:w-full">
+        <div className="mt-5 mb-8 flex flex-col gap-3 max-sm:w-full sm:flex-row sm:gap-4">
           <MotionEffect
             slide={{
               direction: 'down',
@@ -188,7 +194,7 @@ export const Hero = () => {
                 asChild
               >
                 <Link href="/docs/installation">
-                  Get Started <ArrowRight className="!size-5 ml-1.5" />
+                  Get Started <ArrowRight className="ml-1.5 !size-5" />
                 </Link>
               </Button>
             </motion.div>
@@ -210,7 +216,7 @@ export const Hero = () => {
           </MotionEffect>
         </div>
 
-        <div className="flex items-center gap-4 justify-center sm:justify-start">
+        <div className="flex items-center justify-center gap-4 sm:justify-start">
           {ICONS.map((Icon, index) => (
             <MotionEffect
               key={index}

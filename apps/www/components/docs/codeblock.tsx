@@ -77,12 +77,12 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
         ref={ref}
         {...props}
         className={cn(
-          'not-prose group fd-codeblock relative my-6 overflow-hidden rounded-xl text-sm [&.shiki]:!bg-accent',
+          'not-prose group fd-codeblock [&.shiki]:!bg-accent relative my-6 overflow-hidden rounded-xl text-sm',
           props.className,
         )}
       >
         {title ? (
-          <div className="flex flex-row items-center gap-2 pl-4 pr-4 h-10">
+          <div className="flex h-10 flex-row items-center gap-2 pr-4 pl-4">
             {icon ? (
               <div
                 className="text-muted-foreground [&_svg]:size-3.5"
@@ -93,7 +93,7 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
                 {typeof icon !== 'string' ? icon : null}
               </div>
             ) : null}
-            <figcaption className="flex-1 truncate text-muted-foreground">
+            <figcaption className="text-muted-foreground flex-1 truncate">
               {title}
             </figcaption>
             {allowCopy ? (
@@ -108,7 +108,7 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
           </div>
         ) : (
           allowCopy && (
-            <div className="absolute right-0 top-0 z-[2] bg-accent p-1.5 rounded-bl-xl">
+            <div className="bg-accent absolute top-0 right-0 z-[2] rounded-bl-xl p-1.5">
               <CopyButton
                 size="xs"
                 variant="ghost"
@@ -125,7 +125,7 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
               {...viewportProps}
               data-slot="codeblock-viewport"
               className={cn(
-                'max-h-[600px] bg-background rounded-md [&_code]:!text-[13px] [&_code_.line]:!px-0',
+                'bg-background max-h-[600px] rounded-md [&_code]:!text-[13px] [&_code_.line]:!px-0',
                 viewportProps?.className,
               )}
             >

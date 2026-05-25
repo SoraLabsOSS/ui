@@ -22,7 +22,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Card: ({ children, className, accent, ...props }) => (
       <Card
         className={cn(
-          'flex flex-col items-center justify-center py-7 bg-accent/50 border-none [&>h3]:text-base [&>h3]:text-current [&>div]:bg-transparent [&>div]:shadow-none [&>div]:border-none [&_svg]:size-10',
+          'bg-accent/50 flex flex-col items-center justify-center border-none py-7 [&_svg]:size-10 [&>div]:border-none [&>div]:bg-transparent [&>div]:shadow-none [&>h3]:text-base [&>h3]:text-current',
           accent && '[&>h3]:text-fd-muted-foreground',
           className,
         )}

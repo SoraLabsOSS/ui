@@ -23,7 +23,7 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
       <div
         ref={ref}
         className={cn(
-          'flex gap-2 my-4 rounded-lg bg-fd-accent/50 p-3 ps-2 text-sm text-fd-card-foreground',
+          'bg-fd-accent/50 text-fd-card-foreground my-4 flex gap-2 rounded-lg p-3 ps-2 text-sm',
           className,
         )}
         {...props}
@@ -34,7 +34,7 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
           } as object
         }
       >
-        <div role="none" className="w-0.5 bg-(--callout-color)/50 rounded-sm" />
+        <div role="none" className="w-0.5 rounded-sm bg-(--callout-color)/50" />
         {icon ??
           {
             info: <Info className={iconClass} />,
@@ -42,8 +42,8 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
             error: <CircleX className={iconClass} />,
             success: <CircleCheck className={iconClass} />,
           }[type]}
-        <div className="flex flex-col gap-2 min-w-0 flex-1">
-          {title && <p className="font-medium !my-0">{title}</p>}
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          {title && <p className="!my-0 font-medium">{title}</p>}
           <div className="text-fd-muted-foreground prose-no-margin empty:hidden">
             {children}
           </div>

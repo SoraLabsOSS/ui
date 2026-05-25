@@ -134,7 +134,7 @@ function TabsList({
   return (
     <MotionHighlight
       controlledItems
-      className={cn('rounded-sm bg-background shadow-sm', activeClassName)}
+      className={cn('bg-background rounded-sm shadow-sm', activeClassName)}
       value={activeValue}
       transition={transition}
     >
@@ -185,7 +185,7 @@ function TabsTrigger({
         onClick={() => handleValueChange(value)}
         data-state={activeValue === value ? 'active' : 'inactive'}
         className={cn(
-          'inline-flex cursor-pointer items-center size-full justify-center whitespace-nowrap rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground z-[1]',
+          'ring-offset-background focus-visible:ring-ring data-[state=active]:text-foreground z-[1] inline-flex size-full cursor-pointer items-center justify-center rounded-sm px-2 py-1 text-sm font-medium whitespace-nowrap transition-transform focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
           className,
         )}
         {...props}
@@ -231,7 +231,7 @@ function TabsContents({
       {...props}
     >
       <motion.div
-        className="flex -mx-2"
+        className="-mx-2 flex"
         animate={{ x: activeIndex * -100 + '%' }}
         transition={transition}
       >

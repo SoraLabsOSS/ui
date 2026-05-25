@@ -47,11 +47,11 @@ export const Header = ({ transition }: { transition: boolean }) => {
       transition={{ type: 'spring', stiffness: 200, damping: 30 }}
       className="absolute z-40 flex items-center justify-center"
     >
-      <div className="relative max-w-7xl size-full">
+      <div className="relative size-full max-w-7xl">
         {transition ? (
           <motion.div
             layoutId="logo"
-            className="absolute z-110 left-5"
+            className="absolute left-5 z-110"
             animate={{
               top: 32,
             }}
@@ -61,7 +61,7 @@ export const Header = ({ transition }: { transition: boolean }) => {
         ) : (
           <motion.div
             layoutId="logo"
-            className="absolute z-110 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-1/2 left-1/2 z-110 -translate-x-1/2 -translate-y-1/2"
           >
             <Logo size={isMobile ? 'lg' : 'xl'} draw />
           </motion.div>
@@ -89,12 +89,12 @@ export const Header = ({ transition }: { transition: boolean }) => {
           transition={{ type: 'spring', stiffness: 200, damping: 30 }}
           className="absolute z-110 flex items-center gap-x-4"
         >
-          <div className="hidden xs:flex items-center gap-x-1">
+          <div className="xs:flex hidden items-center gap-x-1">
             <a
               href="https://github.com/imskyleen/animate-ui"
               rel="noreferrer noopener"
               target="_blank"
-              className="inline-flex sm:mt-1 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&_svg]:size-5 text-fd-muted-foreground sm:[&_svg]:size-5.5"
+              className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex items-center justify-center rounded-md p-1.5 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
               data-active="false"
             >
               <GithubLogo className="size-6" />
@@ -103,14 +103,14 @@ export const Header = ({ transition }: { transition: boolean }) => {
               href="https://x.com/animate_ui"
               rel="noreferrer noopener"
               target="_blank"
-              className="inline-flex sm:mt-1 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 hover:bg-fd-accent hover:text-fd-accent-foreground p-1.5 [&_svg]:size-5 text-fd-muted-foreground sm:[&_svg]:size-5.5"
+              className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex items-center justify-center rounded-md p-1.5 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
               data-active="false"
             >
               <XIcon />
             </a>
           </div>
 
-          <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
+          <ThemeSwitcher className="xs:mt-0 mt-1 sm:mt-1" />
         </motion.div>
       </div>
     </motion.div>

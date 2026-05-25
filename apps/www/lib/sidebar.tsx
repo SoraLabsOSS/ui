@@ -11,9 +11,9 @@ const TabsDescription = ({
   count: number;
 }) => {
   return (
-    <span className="flex items-center flex-row gap-2">
+    <span className="flex flex-row items-center gap-2">
       <span>{title}</span>
-      <span className="pt-0.5 pb-px px-1.5 font-semibold rounded-full bg-foreground/10 text-[10px] text-foreground/50">
+      <span className="bg-foreground/10 text-foreground/50 rounded-full px-1.5 pt-0.5 pb-px text-[10px] font-semibold">
         {count}
       </span>
     </span>
@@ -34,7 +34,7 @@ export const SIDEBAR_TABS = [
       />
     ),
     icon: (
-      <div className="[&_svg]:size-full rounded-lg size-full text-muted-foreground max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5">
+      <div className="text-muted-foreground size-full rounded-lg max-md:border max-md:bg-(--tab-color)/10 max-md:p-1.5 [&_svg]:size-full">
         <Component />
       </div>
     ),

@@ -34,14 +34,14 @@ export const ComponentWrapper = ({
       <motion.div
         id="component-wrapper"
         className={cn(
-          'max-w-screen relative rounded-md bg-background flex flex-col md:flex-row',
+          'bg-background relative flex max-w-screen flex-col rounded-md md:flex-row',
           bigScreen && 'overflow-hidden',
           className,
         )}
       >
         <motion.div className="relative size-full flex-1">
           {!iframe && (
-            <div className="absolute top-3 right-3 z-[9] bg-background flex items-center justify-end gap-2 p-1 rounded-[11px]">
+            <div className="bg-background absolute top-3 right-3 z-[9] flex items-center justify-end gap-2 rounded-[11px] p-1">
               <OpenInV0Button url={`https://animate-ui.com/r/${name}.json`} />
 
               <Button
