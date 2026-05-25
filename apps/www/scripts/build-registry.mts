@@ -1,7 +1,40 @@
-import { exec } from 'child_process';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { exec } from 'node:child_process';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { rimraf } from 'rimraf';
+
+const CONTENT_DOCS_PATH = path.join(process.cwd(), 'content', 'docs');
+
+/**
+ * Recursively collect all component/demo names referenced in .mdx files
+ * via <ComponentPreview name="..."> and <ComponentInstallation name="..."> tags.
+ * Returns a Set of allowed registry item names.
+ */
+async function collectDocumentedNames(): Promise<Set<string>> {
+  const allowedNames = new Set<string>();
+
+  async function walk(dir: string) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        await walk(fullPath);
+      } else if (entry.name.endsWith('.mdx')) {
+        const content = await fs.readFile(fullPath, 'utf-8');
+        // Match both <ComponentPreview name="..."> and <ComponentInstallation name="...">
+        const matches = content.matchAll(
+          /<Component(?:Preview|Installation)\s+name=["']([^"']+)["']/g,
+        );
+        for (const match of matches) {
+          allowedNames.add(match[1]!);
+        }
+      }
+    }
+  }
+
+  await walk(CONTENT_DOCS_PATH);
+  return allowedNames;
+}
 
 const REGISTRY_JSON_PATH = path.join(
   process.cwd(),
@@ -53,10 +86,20 @@ async function buildRegistryFile() {
   const registryFolderPath = path.join(process.cwd(), 'registry');
   const newItems = await getRegistryItemsFromFolder(registryFolderPath);
 
-  const filteredItems = newItems.filter(
-    (item) =>
-      !item.name.startsWith('primitives-') && !item.name.startsWith('icons-'),
-  );
+  // Collect all names referenced in docs
+  const documentedNames = await collectDocumentedNames();
+
+  const filteredItems = newItems.filter((item) => {
+    // Always exclude internal primitives and icons from the public registry
+    if (item.name.startsWith('primitives-') || item.name.startsWith('icons-'))
+      return false;
+    // Only include items that are referenced in at least one .mdx doc page
+    if (!documentedNames.has(item.name)) {
+      console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
+      return false;
+    }
+    return true;
+  });
 
   registryData.items = [
     {
@@ -122,6 +165,9 @@ async function buildRegistryIndex() {
   const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, 'utf-8');
   const registryItems = JSON.parse(registryJsonContent);
 
+  // Collect documented names to also filter the index
+  const documentedNames = await collectDocumentedNames();
+
   let index = `/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // @ts-nocheck
@@ -147,6 +193,15 @@ export const index: Record<string, any> = {`;
   for (const item of uniqueItemsMap.values()) {
     // Skip items without files
     if (!item.files) continue;
+    // Skip items not referenced in any doc page (keep primitives/icons as internal deps)
+    if (
+      !item.name.startsWith('primitives-') &&
+      !item.name.startsWith('icons-') &&
+      item.name !== 'index' &&
+      !documentedNames.has(item.name)
+    ) {
+      continue;
+    }
 
     console.log('Processing item:', item.name);
     // Define the component path from the first file if exists

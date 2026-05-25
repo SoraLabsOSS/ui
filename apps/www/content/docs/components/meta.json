@@ -3,6 +3,6 @@
   "description": "Animated Components",
   "icon": "Component",
   "pages": [
-    "community/hello-world"
+    "hello-world"
   ]
 }

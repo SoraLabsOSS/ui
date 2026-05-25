@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-hello-world",
+  "type": "registry:ui",
+  "title": "Hello World Demo",
+  "description": "Demo for the Hello World test block.",
+  "registryDependencies": ["@sora/hello-world"],
+  "files": [
+    {
+      "path": "registry/demo/components/hello-world/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora/demo/hello-world.tsx"
+    }
+  ]
+}
