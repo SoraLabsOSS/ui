@@ -6,14 +6,14 @@
   "description": "A control that allows the user to toggle between checked and not checked.",
   "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
-    "@sora/hooks-use-controlled-state",
-    "@sora/lib-get-strict-context"
+    "@sora-ui/hooks-use-controlled-state",
+    "@sora-ui/lib-get-strict-context"
   ],
   "files": [
     {
       "path": "registry/primitives/radix/checkbox/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/radix/checkbox.tsx"
+      "target": "components/sora-ui/primitives/radix/checkbox.tsx"
     }
   ]
 }

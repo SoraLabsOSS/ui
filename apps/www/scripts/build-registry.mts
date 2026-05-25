@@ -58,15 +58,15 @@ function replaceRegistryPaths(inputStr: string): string {
       if (rest.startsWith('hooks/')) {
         return `${quote}@/${rest}${quote}`;
       }
-      // Short paths: registry/components/x → @/components/sora/x (drop redundant "components/")
-      // registry/demo/components/x → @/components/sora/demo/x
+      // Short paths: registry/components/x → @/components/sora-ui/x (drop redundant "components/")
+      // registry/demo/components/x → @/components/sora-ui/demo/x
       let suffix = rest;
       if (suffix.startsWith('demo/components/')) {
         suffix = `demo/${suffix.slice('demo/components/'.length)}`;
       } else if (suffix.startsWith('components/')) {
         suffix = suffix.slice('components/'.length);
       }
-      return `${quote}@/components/sora/${suffix}${quote}`;
+      return `${quote}@/components/sora-ui/${suffix}${quote}`;
     } else if (content.startsWith('@workspace/ui/')) {
       const rest = content.slice('@workspace/ui/'.length);
       return `${quote}@/${rest}${quote}`;
@@ -265,7 +265,7 @@ export const index: Record<string, any> = {`;
     })()`
         : 'null'
     },
-    command: '@sora/${item.name}',
+    command: '@sora-ui/${item.name}',
   },`;
   }
 

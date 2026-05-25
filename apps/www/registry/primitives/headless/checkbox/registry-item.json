@@ -9,7 +9,7 @@
     {
       "path": "registry/primitives/headless/checkbox/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/headless/checkbox.tsx"
+      "target": "components/sora-ui/primitives/headless/checkbox.tsx"
     }
   ]
 }

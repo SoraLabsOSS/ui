@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Bell Ring Icon",
   "description": "Bell ring icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/bell-ring/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/bell-ring.tsx"
+      "target": "components/sora-ui/icons/bell-ring.tsx"
     }
   ],
   "meta": {

@@ -6,16 +6,16 @@
   "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
   "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
-    "@sora/primitives-effects-highlight",
-    "@sora/hooks-use-controlled-state",
-    "@sora/hooks-use-data-state",
-    "@sora/lib-get-strict-context"
+    "@sora-ui/primitives-effects-highlight",
+    "@sora-ui/hooks-use-controlled-state",
+    "@sora-ui/hooks-use-data-state",
+    "@sora-ui/lib-get-strict-context"
   ],
   "files": [
     {
       "path": "registry/primitives/radix/dropdown-menu/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/radix/dropdown-menu.tsx"
+      "target": "components/sora-ui/primitives/radix/dropdown-menu.tsx"
     }
   ]
 }

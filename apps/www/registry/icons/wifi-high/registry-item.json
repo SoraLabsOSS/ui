@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Wifi High Icon",
   "description": "Wifi high icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/wifi-high/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/wifi-high.tsx"
+      "target": "components/sora-ui/icons/wifi-high.tsx"
     }
   ],
   "meta": {

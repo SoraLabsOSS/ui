@@ -9,7 +9,7 @@
     {
       "path": "registry/primitives/headless/dialog/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/headless/dialog.tsx"
+      "target": "components/sora-ui/primitives/headless/dialog.tsx"
     }
   ]
 }

@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Chevron Left Icon",
   "description": "Chevron left icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/chevron-left/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/chevron-left.tsx"
+      "target": "components/sora-ui/icons/chevron-left.tsx"
     }
   ],
   "meta": {

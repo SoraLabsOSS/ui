@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Rotate Cw Icon",
   "description": "Rotate cw icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/rotate-cw/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/rotate-cw.tsx"
+      "target": "components/sora-ui/icons/rotate-cw.tsx"
     }
   ],
   "meta": {

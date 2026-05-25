@@ -8,7 +8,7 @@
     {
       "path": "registry/primitives/effects/theme-toggler/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/effects/theme-toggler.tsx"
+      "target": "components/sora-ui/primitives/effects/theme-toggler.tsx"
     }
   ]
 }

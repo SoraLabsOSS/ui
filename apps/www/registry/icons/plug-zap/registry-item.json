@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Plug Zap Icon",
   "description": "Plug Zap icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/plug-zap/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/plug-zap.tsx"
+      "target": "components/sora-ui/icons/plug-zap.tsx"
     }
   ],
   "meta": {

@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Square Kanban Icon",
   "description": "Square Kanban icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/square-kanban/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/square-kanban.tsx"
+      "target": "components/sora-ui/icons/square-kanban.tsx"
     }
   ],
   "meta": {

@@ -6,14 +6,14 @@
   "description": "An animated tooltip that shows contextual info on hover or focus and smoothly glides to the next element without disappearing between transitions.",
   "dependencies": ["motion", "@floating-ui/react"],
   "registryDependencies": [
-    "@sora/primitives-animate-slot",
-    "@sora/lib-get-strict-context"
+    "@sora-ui/primitives-animate-slot",
+    "@sora-ui/lib-get-strict-context"
   ],
   "files": [
     {
       "path": "registry/primitives/animate/tooltip/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/animate/tooltip.tsx"
+      "target": "components/sora-ui/primitives/animate/tooltip.tsx"
     }
   ]
 }

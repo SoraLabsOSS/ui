@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Message Square Text Icon",
   "description": "Message square text icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/message-square-text/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/message-square-text.tsx"
+      "target": "components/sora-ui/icons/message-square-text.tsx"
     }
   ],
   "meta": {

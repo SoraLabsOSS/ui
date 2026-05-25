@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Bot Off Icon",
   "description": "Bot off icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/bot-off/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/bot-off.tsx"
+      "target": "components/sora-ui/icons/bot-off.tsx"
     }
   ],
   "meta": {

@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Scissors Line Dashed Icon",
   "description": "Scissors line dashed icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/scissors-line-dashed/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/scissors-line-dashed.tsx"
+      "target": "components/sora-ui/icons/scissors-line-dashed.tsx"
     }
   ],
   "meta": {

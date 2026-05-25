@@ -8,7 +8,7 @@
     {
       "path": "registry/components/hello-world/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/hello-world.tsx"
+      "target": "components/sora-ui/hello-world.tsx"
     }
   ]
 }

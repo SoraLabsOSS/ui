@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "X Icon",
   "description": "X icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/x/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/x.tsx"
+      "target": "components/sora-ui/icons/x.tsx"
     }
   ],
   "meta": {

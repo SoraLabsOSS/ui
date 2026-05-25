@@ -9,7 +9,7 @@
     {
       "path": "registry/primitives/effects/shine/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/effects/shine.tsx"
+      "target": "components/sora-ui/primitives/effects/shine.tsx"
     }
   ]
 }

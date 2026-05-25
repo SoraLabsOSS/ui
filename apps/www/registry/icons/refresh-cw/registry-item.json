@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Refresh Cw Icon",
   "description": "Refresh cw icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/refresh-cw/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/refresh-cw.tsx"
+      "target": "components/sora-ui/icons/refresh-cw.tsx"
     }
   ],
   "meta": {

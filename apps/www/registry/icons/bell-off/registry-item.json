@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Bell Off Icon",
   "description": "Bell off icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/bell-off/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/bell-off.tsx"
+      "target": "components/sora-ui/icons/bell-off.tsx"
     }
   ],
   "meta": {

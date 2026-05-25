@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Clipboard Check Icon",
   "description": "Clipboard Check icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/clipboard-check/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/clipboard-check.tsx"
+      "target": "components/sora-ui/icons/clipboard-check.tsx"
     }
   ],
   "meta": {

@@ -479,10 +479,10 @@ export const Icons = () => {
                   <TabsContent value="cli">
                     <CodeTabs
                       codes={{
-                        npm: `npx shadcn@latest add @sora/${activeIcon}`,
-                        pnpm: `pnpm dlx shadcn@latest add @sora/${activeIcon}`,
-                        yarn: `npx shadcn@latest add @sora/${activeIcon}`,
-                        bun: `bun x --bun shadcn@latest add @sora/${activeIcon}`,
+                        npm: `npx shadcn@latest add @sora-ui/${activeIcon}`,
+                        pnpm: `pnpm dlx shadcn@latest add @sora-ui/${activeIcon}`,
+                        yarn: `npx shadcn@latest add @sora-ui/${activeIcon}`,
+                        bun: `bun x --bun shadcn@latest add @sora-ui/${activeIcon}`,
                       }}
                     />
                   </TabsContent>

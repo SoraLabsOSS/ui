@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Message Square Quote Icon",
   "description": "Message square quote icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/message-square-quote/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/message-square-quote.tsx"
+      "target": "components/sora-ui/icons/message-square-quote.tsx"
     }
   ],
   "meta": {

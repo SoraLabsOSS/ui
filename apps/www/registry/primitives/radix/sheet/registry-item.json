@@ -6,14 +6,14 @@
   "description": "Extends the Dialog component to display content that complements the main content of the screen.",
   "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
-    "@sora/lib-get-strict-context",
-    "@sora/hooks-use-controlled-state"
+    "@sora-ui/lib-get-strict-context",
+    "@sora-ui/hooks-use-controlled-state"
   ],
   "files": [
     {
       "path": "registry/primitives/radix/sheet/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/radix/sheet.tsx"
+      "target": "components/sora-ui/primitives/radix/sheet.tsx"
     }
   ]
 }

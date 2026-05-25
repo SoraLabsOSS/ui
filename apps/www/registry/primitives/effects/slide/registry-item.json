@@ -6,14 +6,14 @@
   "description": "An effect that allows you to animate elements with a slide effect on first view or load.",
   "dependencies": ["motion"],
   "registryDependencies": [
-    "@sora/primitives-animate-slot",
-    "@sora/hooks-use-is-in-view"
+    "@sora-ui/primitives-animate-slot",
+    "@sora-ui/hooks-use-is-in-view"
   ],
   "files": [
     {
       "path": "registry/primitives/effects/slide/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/effects/slide.tsx"
+      "target": "components/sora-ui/primitives/effects/slide.tsx"
     }
   ]
 }

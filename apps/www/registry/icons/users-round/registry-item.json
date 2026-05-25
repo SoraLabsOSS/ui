@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Users Round Icon",
   "description": "Users round icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/users-round/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/users-round.tsx"
+      "target": "components/sora-ui/icons/users-round.tsx"
     }
   ],
   "meta": {

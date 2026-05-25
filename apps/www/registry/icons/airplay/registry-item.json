@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Airplay Icon",
   "description": "Airplay icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/airplay/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/airplay.tsx"
+      "target": "components/sora-ui/icons/airplay.tsx"
     }
   ],
   "meta": {

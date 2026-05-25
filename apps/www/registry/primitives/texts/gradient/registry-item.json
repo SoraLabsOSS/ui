@@ -9,7 +9,7 @@
     {
       "path": "registry/primitives/texts/gradient/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/texts/gradient.tsx"
+      "target": "components/sora-ui/primitives/texts/gradient.tsx"
     }
   ]
 }

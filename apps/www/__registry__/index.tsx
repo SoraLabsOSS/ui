@@ -20,7 +20,7 @@ export const index: Record<string, any> = {
     files: [],
     keywords: [],
     component: null,
-    command: '@sora/index',
+    command: '@sora-ui/index',
   },
   'hello-world': {
     name: 'hello-world',
@@ -34,7 +34,7 @@ export const index: Record<string, any> = {
       {
         path: 'registry/components/hello-world/index.tsx',
         type: 'registry:ui',
-        target: 'components/sora/hello-world.tsx',
+        target: 'components/sora-ui/hello-world.tsx',
         content:
           "import { Button } from '@/components/ui/button';\n\nexport function HelloWorld() {\n  return <Button>Hello World</Button>;\n}",
       },
@@ -57,7 +57,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: '@sora/hello-world',
+    command: '@sora-ui/hello-world',
   },
   'demo-hello-world': {
     name: 'demo-hello-world',
@@ -65,14 +65,14 @@ export const index: Record<string, any> = {
     type: 'registry:ui',
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ['@sora/hello-world'],
+    registryDependencies: ['@sora-ui/hello-world'],
     files: [
       {
         path: 'registry/demo/components/hello-world/index.tsx',
         type: 'registry:ui',
-        target: 'components/sora/demo/hello-world.tsx',
+        target: 'components/sora-ui/demo/hello-world.tsx',
         content:
-          "'use client';\n\nimport { HelloWorld } from '@/components/sora/hello-world';\n\nexport const HelloWorldDemo = () => {\n  return (\n    <div className=\"flex items-center justify-center p-8\">\n      <HelloWorld />\n    </div>\n  );\n};",
+          "'use client';\n\nimport { HelloWorld } from '@/components/sora-ui/hello-world';\n\nexport const HelloWorldDemo = () => {\n  return (\n    <div className=\"flex items-center justify-center p-8\">\n      <HelloWorld />\n    </div>\n  );\n};",
       },
     ],
     keywords: [],
@@ -94,6 +94,6 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: '@sora/demo-hello-world',
+    command: '@sora-ui/demo-hello-world',
   },
 };

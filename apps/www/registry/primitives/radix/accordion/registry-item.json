@@ -6,14 +6,14 @@
   "description": "A vertically stacked set of interactive headings that each reveal an associated section of content.",
   "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
-    "@sora/hooks-use-controlled-state",
-    "@sora/lib-get-strict-context"
+    "@sora-ui/hooks-use-controlled-state",
+    "@sora-ui/lib-get-strict-context"
   ],
   "files": [
     {
       "path": "registry/primitives/radix/accordion/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/primitives/radix/accordion.tsx"
+      "target": "components/sora-ui/primitives/radix/accordion.tsx"
     }
   ]
 }

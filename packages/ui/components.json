@@ -18,6 +18,6 @@
     "ui": "@workspace/ui/components"
   },
   "registries": {
-    "@sora": "http://localhost:3000/r/{name}.json"
+    "@sora-ui": "http://localhost:3000/r/{name}.json"
   }
 }

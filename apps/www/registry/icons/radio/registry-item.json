@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Radio Icon",
   "description": "Radio icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/radio/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/radio.tsx"
+      "target": "components/sora-ui/icons/radio.tsx"
     }
   ],
   "meta": {

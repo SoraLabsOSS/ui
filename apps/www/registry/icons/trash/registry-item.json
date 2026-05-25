@@ -4,13 +4,13 @@
   "type": "registry:ui",
   "title": "Trash Icon",
   "description": "Trash icon component.",
-  "registryDependencies": ["@sora/icons-icon"],
+  "registryDependencies": ["@sora-ui/icons-icon"],
   "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/icons/trash/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora/icons/trash.tsx"
+      "target": "components/sora-ui/icons/trash.tsx"
     }
   ],
   "meta": {
