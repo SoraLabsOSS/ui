@@ -1,10 +1,10 @@
 @import 'tailwindcss';
-@source "../../../apps/**/*.{ts,tsx}";
-@source "../../../components/**/*.{ts,tsx}";
-@source "../../../packages/**/*.{ts,tsx}";
-@source "./**/*.{ts,tsx,mdx}";
-@source "../**/*.{ts,tsx,mdx}";
-@source "./(playground)/**/*.{ts,tsx,mdx}";
+@source '../../../apps/**/*.{ts,tsx}';
+@source '../../../components/**/*.{ts,tsx}';
+@source '../../../packages/**/*.{ts,tsx}';
+@source './**/*.{ts,tsx,mdx}';
+@source '../**/*.{ts,tsx,mdx}';
+@source './(playground)/**/*.{ts,tsx,mdx}';
 
 @import 'tw-animate-css';
 @plugin 'tailwind-scrollbar';
@@ -317,12 +317,12 @@
   }
 
   #nd-page article {
-    @apply max-2xl:max-w-[860px] !pt-23 2xl:!max-w-[1124px];
+    @apply !pt-23 max-2xl:max-w-[860px] 2xl:!max-w-[1124px];
   }
 
   /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
   #nd-page {
-    @apply !pt-0 mx-auto w-full items-start;
+    @apply mx-auto w-full items-start !pt-0;
     max-width: min(
       100%,
       calc(var(--fd-layout-width) - var(--fd-sidebar-width))
@@ -331,9 +331,11 @@
 
   /* Fumadocs default: sticky pb-2 pt-12. items-start on #nd-page so flex stretch does not break sticky. */
   #nd-toc {
-    @apply self-start sticky pb-2 pt-8 max-xl:hidden;
+    @apply sticky self-start pt-8 pb-2 max-xl:hidden;
     top: var(--fd-nav-height) !important;
-    height: calc(100dvh - var(--fd-banner-height) - var(--fd-nav-height)) !important;
+    height: calc(
+      100dvh - var(--fd-banner-height) - var(--fd-nav-height)
+    ) !important;
   }
 
   #nd-toc div div {
@@ -344,7 +346,7 @@
      Clerk TOC thumb lives inside an SVG mask and must not be forced narrow
      or shifted (-ml-px) or tracking disappears on diagonal path segments. */
   #nd-toc div[role='none'].absolute {
-    @apply !w-[3px] !rounded-full -ml-px;
+    @apply -ml-px !w-[3px] !rounded-full;
   }
 
   #nd-tocnav {

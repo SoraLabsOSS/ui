@@ -15,7 +15,7 @@ const Badge = ({
 }) => {
   return (
     <span className="flex w-full items-center justify-between gap-3">
-      <span className="!font-normal">{name}</span>{' '}
+      <span className="font-normal!">{name}</span>{' '}
       <span
         className={cn(
           'text-foreground text-[17px] leading-1 font-black text-nowrap',
@@ -47,7 +47,7 @@ export const attachFile: BuildPageTreeOptions['attachFile'] = (node, file) => {
     node.name = (
       <Badge
         name={node.name}
-        className="bg-gradient-to-br text-pink-600 dark:text-pink-400"
+        className="bg-linear-to-br text-pink-600 dark:text-pink-400"
       >
         alpha
       </Badge>

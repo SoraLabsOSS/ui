@@ -11,7 +11,7 @@ import { Nav } from '@/components/docs/nav';
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
 
-  githubUrl: 'https://github.com/imskyleen/animate-ui',
+  githubUrl: 'https://github.com/axyl1410/sora',
   themeSwitch: {
     component: <ThemeSwitcher />,
   },
@@ -20,7 +20,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
     ...(baseOptions.links || []),
     {
       icon: <XIcon />,
-      url: 'https://x.com/animate_ui',
+      url: '',
       text: 'X',
       type: 'icon',
     },
