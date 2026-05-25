@@ -14,7 +14,7 @@ import {
   TabsHighlightItem,
   type TabsProps,
 } from '@/registry/primitives/animate/tabs';
-import { CopyButton } from '@/registry/components/buttons/copy';
+import { CopyButton } from '@/components/docs/copy';
 
 type CodeTabsProps = {
   codes: Record<string, string>;

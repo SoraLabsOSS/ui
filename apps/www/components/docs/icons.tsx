@@ -18,7 +18,7 @@ import {
   TabsTrigger,
   TabsContent,
   TabsContents,
-} from '@/registry/components/animate/tabs';
+} from '@/components/docs/tabs';
 import ReactIcon from '@workspace/ui/components/icons/react-icon';
 import {
   Select,
@@ -32,7 +32,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/registry/components/animate/tooltip';
+} from '@/components/docs/tooltip';
 import { Button } from '@workspace/ui/components/ui/button';
 import { RotateCcw } from '@/registry/icons/rotate-ccw';
 import { InfinityIcon } from 'lucide-react';
