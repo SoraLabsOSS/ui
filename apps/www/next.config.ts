@@ -4,6 +4,10 @@ import { createMDX } from 'fumadocs-mdx/next';
 const withMDX = createMDX();
 
 const nextConfig: NextConfig = {
+  experimental: {
+    globalNotFound: true,
+  },
+  cacheComponents: true,
   reactCompiler: true,
   images: {
     remotePatterns: [

@@ -91,7 +91,7 @@ export const Header = ({ transition }: { transition: boolean }) => {
         >
           <div className="xs:flex hidden items-center gap-x-1">
             <a
-              href="https://github.com/imskyleen/animate-ui"
+              href="https://github.com/axyl1410/sora"
               rel="noreferrer noopener"
               target="_blank"
               className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex items-center justify-center rounded-md p-1.5 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
@@ -100,7 +100,7 @@ export const Header = ({ transition }: { transition: boolean }) => {
               <GithubLogo className="size-6" />
             </a>
             <a
-              href="https://x.com/animate_ui"
+              href="/"
               rel="noreferrer noopener"
               target="_blank"
               className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex items-center justify-center rounded-md p-1.5 text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
