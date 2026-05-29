@@ -25,8 +25,8 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
   if (!dependencies) return undefined;
   const quotedDependencies = dependencies
     .map((dep) => {
-      if (dep.startsWith('https://animate-ui.com/r/')) {
-        return dep.replace('https://animate-ui.com/r/', '@sora-ui/');
+      if (dep.startsWith('https://ui.soralabs.io.vn/r/')) {
+        return dep.replace('https://ui.soralabs.io.vn/r/', '@sora-ui/');
       }
       if (dep.startsWith('https://')) {
         return `"${dep}"`;

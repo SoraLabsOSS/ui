@@ -93,9 +93,8 @@ export const Nav = () => {
             </div>
           </button>
 
-          <div className="flex items-center gap-1 max-md:hidden">
             <a
-              href="https://github.com/imskyleen/animate-ui"
+              href="https://github.com/axyl1410/sora"
               rel="noreferrer noopener"
               target="_blank"
               className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex size-8 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
@@ -103,17 +102,6 @@ export const Nav = () => {
             >
               <GithubLogo />
             </a>
-
-            <a
-              href="https://x.com/animate_ui"
-              rel="noreferrer noopener"
-              target="_blank"
-              className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex size-8 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
-              data-active="false"
-            >
-              <XIcon />
-            </a>
-          </div>
 
           <ThemeSwitcher className="max-md:hidden" />
 

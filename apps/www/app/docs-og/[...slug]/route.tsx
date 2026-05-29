@@ -2,7 +2,6 @@ import { source } from '@/lib/source';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
 
-
 async function loadGoogleFont(font: string, text: string) {
   'use cache';
   const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
@@ -86,7 +85,7 @@ export async function GET(
               tw="text-white/80 text-2xl -mb-2"
               style={{ fontFamily: 'Outfit' }}
             >
-              animate-ui.com
+              ui.soralabs.io.vn
             </p>
           </div>
         </div>
@@ -98,7 +97,7 @@ export async function GET(
           name: 'Outfit',
           data: await loadGoogleFont(
             'Outfit',
-            `${page.data.description} ${page.data.title} animate-ui.com`,
+            `${page.data.description} ${page.data.title} ui.soralabs.io.vn`,
           ),
           style: 'normal',
         },

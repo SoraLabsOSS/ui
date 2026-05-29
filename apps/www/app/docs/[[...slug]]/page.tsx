@@ -195,13 +195,13 @@ export async function generateMetadata(props: {
           },
         ]
       : {
-          name: 'imskyleen',
-          url: 'https://github.com/imskyleen',
+          name: 'axyl1410',
+          url: 'https://github.com/axyl1410',
         },
     openGraph: {
       title: page.data.title,
       description: page.data.description,
-      url: 'https://animate-ui.com',
+      url: 'https://ui.soralabs.io.vn',
       siteName: 'Sora UI',
       images: image,
       locale: 'en_US',
@@ -209,7 +209,6 @@ export async function generateMetadata(props: {
     },
     twitter: {
       card: 'summary_large_image',
-      site: '@animate_ui',
       title: page.data.title,
       description: page.data.description,
       images: image,
