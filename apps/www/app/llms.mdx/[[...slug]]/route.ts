@@ -3,17 +3,22 @@ import { getLLMText } from '@/lib/get-llm-text';
 import { source } from '@/lib/source';
 import { notFound } from 'next/navigation';
 
-export const revalidate = false;
+async function getLLMContentForSlug(slug?: string[]) {
+  'use cache';
+  const page = source.getPage(slug);
+  if (!page) return null;
+  return await getLLMText(page);
+}
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug?: string[] }> },
 ) {
   const { slug } = await params;
-  const page = source.getPage(slug);
-  if (!page) notFound();
+  const content = await getLLMContentForSlug(slug);
+  if (!content) notFound();
 
-  return new NextResponse(await getLLMText(page));
+  return new NextResponse(content);
 }
 
 export function generateStaticParams() {

@@ -1,12 +1,15 @@
 import { source } from '@/lib/source';
 import { getLLMText } from '@/lib/get-llm-text';
 
-// cached forever
-export const revalidate = false;
 
-export async function GET() {
+async function getLLMsContent() {
+  'use cache';
   const scan = source.getPages().map(getLLMText);
   const scanned = await Promise.all(scan);
+  return scanned.join('\n\n');
+}
 
-  return new Response(scanned.join('\n\n'));
+export async function GET() {
+  const content = await getLLMsContent();
+  return new Response(content);
 }

@@ -2,9 +2,9 @@ import { source } from '@/lib/source';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
 
-export const revalidate = false;
 
 async function loadGoogleFont(font: string, text: string) {
+  'use cache';
   const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
   const css = await (await fetch(url)).text();
   const resource = css.match(

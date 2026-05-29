@@ -19,7 +19,9 @@ export default function GlobalError({
 
     // Detect dark theme from localStorage or system preferences
     const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const systemPrefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
 
     if (
       savedTheme === 'dark' ||

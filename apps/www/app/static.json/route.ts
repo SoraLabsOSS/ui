@@ -2,11 +2,10 @@ import { NextResponse } from 'next/server';
 import { source } from '@/lib/source';
 import type { OramaDocument } from 'fumadocs-core/search/orama-cloud';
 
-export const revalidate = false;
-
-export async function GET(): Promise<Response> {
+async function getStaticSearchData() {
+  'use cache';
   const pages = source.getPages();
-  const results = pages
+  return pages
     .filter((page) => page.slugs[0] !== 'openapi')
     .map((page) => {
       const { structuredData } = page.data;
@@ -20,6 +19,9 @@ export async function GET(): Promise<Response> {
         description: page.data.description,
       } satisfies OramaDocument;
     });
+}
 
+export async function GET(): Promise<Response> {
+  const results = await getStaticSearchData();
   return NextResponse.json(results);
 }
