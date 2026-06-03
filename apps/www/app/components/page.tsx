@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@workspace/ui/components/ui/button";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +15,7 @@ export default function ComponentsPage() {
         </p>
 
         <div className="mt-6 flex items-center gap-x-3">
-          <Button>
+          <Button className="cursor-not-allowed" disabled>
             <MoveLeft className="h-5 w-5" />
             <span>Go back</span>
           </Button>
