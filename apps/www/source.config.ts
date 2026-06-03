@@ -11,6 +11,7 @@ import { z } from "zod/v4";
 export const docs = defineDocs({
   docs: {
     schema: frontmatterSchema.extend({
+      /** Overrides git `lastModified` for the 30-day "new" badge only. */
       releaseDate: z.coerce.date().optional(),
       beta: z.boolean().optional(),
       alpha: z.boolean().optional(),

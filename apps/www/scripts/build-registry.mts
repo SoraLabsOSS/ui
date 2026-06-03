@@ -1,7 +1,13 @@
+/**
+ * Builds public/r/registry.json, __registry__/index.tsx, and public/r/*.json.
+ *
+ * Docs component flow (preview + auto Code tab): see registry/README.md
+ */
 import { exec } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { rimraf } from "rimraf";
+import { generateUsageExampleFromTarget } from "../lib/generate-usage-example-code.ts";
 
 const CONTENT_DOCS_PATH = path.join(process.cwd(), "content", "docs");
 
@@ -39,6 +45,46 @@ async function collectDocumentedNames(): Promise<Set<string>> {
   }
 
   return allowedNames;
+}
+
+type RegistryItemFile = {
+  path: string;
+  target?: string;
+  type?: string;
+};
+
+type RegistryItem = {
+  name: string;
+  description?: string;
+  type: string;
+  dependencies?: string[];
+  devDependencies?: string[];
+  registryDependencies?: string[];
+  files?: RegistryItemFile[];
+  meta?: {
+    demoProps?: Record<string, Record<string, unknown>>;
+    keywords?: string[];
+  };
+};
+
+function inferSyntheticDemoTarget(item: RegistryItem): string {
+  const target = item.files?.[0]?.target;
+  if (target?.startsWith("components/sora-ui/")) {
+    const rest = target.slice("components/sora-ui/".length);
+    return `components/sora-ui/demo/${rest}`;
+  }
+  return `components/sora-ui/demo/${item.name}.tsx`;
+}
+
+function inferSyntheticDemoPath(item: RegistryItem): string {
+  const sourcePath = item.files?.[0]?.path ?? "";
+  if (sourcePath.includes("/primitives/")) {
+    return sourcePath.replace("/primitives/", "/demo/primitives/");
+  }
+  if (sourcePath.includes("/components/")) {
+    return sourcePath.replace("/components/", "/demo/components/");
+  }
+  return `registry/demo/${item.name}/index.tsx`;
 }
 
 const REGISTRY_JSON_PATH = path.join(
@@ -212,9 +258,15 @@ export const index: Record<string, any> = {`;
     uniqueItemsMap.set(item.name, item);
   }
 
+  const physicalDemoNames = new Set(
+    allItemsFromFolder
+      .filter((item: RegistryItem) => item.name.startsWith("demo-"))
+      .map((item: RegistryItem) => item.name)
+  );
+
   const resolveDemoProps = (
-    item: (typeof registryItems.items)[0]
-  ): Record<string, unknown> => {
+    item: RegistryItem
+  ): Record<string, Record<string, unknown>> => {
     const own = item?.meta?.demoProps;
     if (own && Object.keys(own).length > 0) {
       return own;
@@ -227,6 +279,52 @@ export const index: Record<string, any> = {`;
       }
     }
     return {};
+  };
+
+  const appendIndexEntry = (
+    item: RegistryItem,
+    filesWithContent: {
+      path: string;
+      type: string;
+      target: string;
+      content: string;
+    }[],
+    options?: { componentPath?: string; codeOnly?: boolean }
+  ) => {
+    const componentPath = options?.componentPath ?? "";
+    const demoPropsJson = JSON.stringify(resolveDemoProps(item));
+
+    index += `
+  "${item.name}": {
+    name: ${JSON.stringify(item.name)},
+    description: ${JSON.stringify(item.description ?? "")},
+    type: "${item.type}",
+    dependencies: ${JSON.stringify(item.dependencies)},
+    devDependencies: ${JSON.stringify(item.devDependencies)},
+    registryDependencies: ${JSON.stringify(item.registryDependencies)},
+    files: ${JSON.stringify(filesWithContent, null, 2)},
+    keywords: ${JSON.stringify(item.meta?.keywords ?? [])},
+    component: ${
+      options?.codeOnly || !componentPath
+        ? "null"
+        : `(function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("${componentPath}");
+        const exportName = Object.keys(mod).find(
+          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
+        ) || "${item.name}";
+        const Comp = mod.default || mod[exportName];
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = ${demoPropsJson};
+      return LazyComp;
+    })()`
+    },
+    command: '@sora-ui/${item.name}',
+  },`;
   };
 
   // Process only unique items
@@ -279,37 +377,73 @@ export const index: Record<string, any> = {`;
       })
     );
 
-    index += `
-  "${item.name}": {
-    name: ${JSON.stringify(item.name)},
-    description: ${JSON.stringify(item.description ?? "")},
-    type: "${item.type}",
-    dependencies: ${JSON.stringify(item.dependencies)},
-    devDependencies: ${JSON.stringify(item.devDependencies)},
-    registryDependencies: ${JSON.stringify(item.registryDependencies)},
-    files: ${JSON.stringify(filesWithContent, null, 2)},
-    keywords: ${JSON.stringify(item.meta?.keywords ?? [])},
-    component: ${
-      componentPath
-        ? `(function() {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import("${componentPath}");
-        const exportName = Object.keys(mod).find(
-          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
-        ) || "${item.name}";
-        const Comp = mod.default || mod[exportName];
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = ${JSON.stringify(resolveDemoProps(item))};
-      return LazyComp;
-    })()`
-        : "null"
-    },
-    command: '@sora-ui/${item.name}',
-  },`;
+    appendIndexEntry(item as RegistryItem, filesWithContent, {
+      componentPath,
+    });
+  }
+
+  for (const item of uniqueItemsMap.values()) {
+    const registryItem = item as RegistryItem;
+    if (registryItem.name.startsWith("demo-")) {
+      continue;
+    }
+    if (
+      !(
+        registryItem.name.startsWith("primitives-") ||
+        registryItem.name.startsWith("icons-")
+      ) &&
+      registryItem.name !== "index" &&
+      !documentedNames.has(registryItem.name)
+    ) {
+      continue;
+    }
+
+    const demoName = `demo-${registryItem.name}`;
+    if (physicalDemoNames.has(demoName)) {
+      continue;
+    }
+
+    const demoProps = resolveDemoProps(registryItem);
+    if (Object.keys(demoProps).length === 0) {
+      continue;
+    }
+
+    const target = registryItem.files?.[0]?.target;
+    const generatedContent =
+      target && generateUsageExampleFromTarget(target, demoProps);
+    if (!generatedContent) {
+      continue;
+    }
+
+    console.log(`📝 Generated usage example: ${demoName}`);
+
+    appendIndexEntry(
+      {
+        name: demoName,
+        description: `Usage example for ${registryItem.name}.`,
+        type: registryItem.type,
+        dependencies: registryItem.dependencies,
+        devDependencies: registryItem.devDependencies,
+        registryDependencies: [registryItem.name],
+        meta: registryItem.meta,
+        files: [
+          {
+            path: inferSyntheticDemoPath(registryItem),
+            type: "registry:ui",
+            target: inferSyntheticDemoTarget(registryItem),
+          },
+        ],
+      },
+      [
+        {
+          path: inferSyntheticDemoPath(registryItem),
+          type: "registry:ui",
+          target: inferSyntheticDemoTarget(registryItem),
+          content: generatedContent,
+        },
+      ],
+      { codeOnly: true }
+    );
   }
 
   index += `

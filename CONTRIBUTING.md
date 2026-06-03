@@ -106,8 +106,10 @@ When adding or modifying primitive, please ensure that:
 
 1. You have modified or created the associated component.
 2. You have modified or created the associated documentation.
-3. You have created or modified the demo(s).
+3. You have set `meta.demoProps` on the primitive's `registry-item.json` (optional: a manual demo under `registry/demo/` only if the usage example is complex).
 4. You run `bun run registry:build` to update the registry.
+
+See [apps/www/registry/README.md](apps/www/registry/README.md) for the full docs preview flow.
 
 ### Components
 
@@ -117,8 +119,10 @@ When adding or modifying a component, please ensure that:
 
 1. You have modified or created the associated primitive.
 2. You have modified or created the associated documentation.
-3. You have created or modified the demo(s).
+3. You have set `meta.demoProps` on the primitive's `registry-item.json` (optional: manual demo under `registry/demo/` if needed).
 4. You run `bun run registry:build` to update the registry.
+
+See [apps/www/registry/README.md](apps/www/registry/README.md) for the full docs preview flow.
 
 ### Icons
 
@@ -160,28 +164,32 @@ This is what it should look like:
 
 [Click here](https://ui.shadcn.com/docs/registry/registry-item-json) to see the `registry-item.json` documentation.
 
-### Demo
+### Demo & docs preview
 
-A demo is required to make your component visible in the Sora UI documentation.
+Documented components use `<ComponentPreview name="my-component" />` in MDX. **Preview** and **Tweakpane** come from the primitive's `registry-item.json`. The **Code** tab usage snippet is **auto-generated** from `meta.demoProps` on build (`bun run registry:build`) — you do not need a `registry/demo/` folder unless the example is non-trivial.
 
-The demo is structured as a component, but is located in the demo folder.
+Full flow: [apps/www/registry/README.md](apps/www/registry/README.md).
+
+#### Manual demo (optional)
+
+Only when the usage example cannot be expressed via `demoProps` alone:
 
 ```
 demo
 └── [primitives/components]
     └── [category]
         └── my-component
-            ├── index.tsx (the demo component code)
-            └── registry-item.json (information for the shadcn registry)
+            ├── index.tsx (import from @/registry/... in the monorepo)
+            └── registry-item.json (registryDependencies: ["my-component"])
 ```
+
+A folder on disk overrides the auto-generated Code tab snippet.
 
 #### Add a Tweakpane
 
-You can add a Tweakpane allowing users to play with your demo props. Your demo must accept the props you want in your tweakpane.
+Put `demoProps` on the **primitive** `registry-item.json` (not only on a manual demo):
 
-You must then specify the demo props information in your demo's `registry-item.json` file:
-
-```json title="my-component-demo/registry-item.json"
+```json title="my-component/registry-item.json"
 {
   ...
   "meta": {
@@ -206,7 +214,7 @@ You must then specify the demo props information in your demo's `registry-item.j
 }
 ```
 
-**You need to run `bun run registry:build` to see the updated tweakpane in the demo.**
+**Run `bun run registry:build` after changing `demoProps` or registry files.**
 
 So, how to use `demoProps`?
 

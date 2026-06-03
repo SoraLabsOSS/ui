@@ -19,6 +19,8 @@ Visit [ui.soralabs.io.vn](https://ui.soralabs.io.vn/docs) to view the documentat
 
 Visit our [contributing guide](https://github.com/axyl1410/sora/blob/main/CONTRIBUTING.md) to learn how to contribute.
 
+Adding a documented component (registry + docs preview flow): see [apps/www/registry/README.md](./registry/README.md).
+
 ## License
 
 Licensed under the [MIT license](https://github.com/axyl1410/sora/blob/main/LICENSE.md).

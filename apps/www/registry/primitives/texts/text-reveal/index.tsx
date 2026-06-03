@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { motion, type UseInViewOptions, useInView } from "motion/react";
-import { type ElementType, useRef } from "react";
+import { type ElementType, useMemo, useRef } from "react";
 
 export interface TextRevealProps {
   /**
@@ -11,13 +11,13 @@ export interface TextRevealProps {
    */
   as?: keyof React.JSX.IntrinsicElements;
   /**
-   * Blur amount in pixels for initial state.
+   * Blur amount in pixels for the hidden state.
    * @default 4
    */
   blur?: number;
   className?: string;
   /**
-   * Delay before starting the animation in seconds.
+   * Delay before the first unit starts animating, in seconds.
    * @default 0.5
    */
   delay?: number;
@@ -37,18 +37,18 @@ export interface TextRevealProps {
    */
   splitBy?: "words" | "characters";
   /**
-   * Delay between each word/character animation in seconds.
+   * Delay between each successive unit in seconds.
    * @default 0.05
    */
   staggerDelay?: number;
   /** The text to animate. */
   text?: string;
   /**
-   * Additional className for each animated span unit.
+   * Additional className applied to each animated span.
    */
   unitClassName?: string;
   /**
-   * Viewport margin for trigger.
+   * Viewport margin that controls when the animation triggers.
    * @default "0px 0px -10% 0px"
    */
   viewportMargin?: UseInViewOptions["margin"];
@@ -59,7 +59,18 @@ export interface TextRevealProps {
   yOffset?: number;
 }
 
-const SPLIT_REGEX = /\s+/;
+const WHITESPACE_RE = /\s+/;
+
+function splitText(text: string, splitBy: "words" | "characters"): string[] {
+  if (splitBy === "characters") {
+    return text.split("").map((ch) => (ch === " " ? "\u00A0" : ch));
+  }
+
+  const words = text.split(WHITESPACE_RE);
+  return words.map((word, i) =>
+    i < words.length - 1 ? `${word}\u00A0` : word
+  );
+}
 
 export function TextReveal({
   text = "",
@@ -78,12 +89,14 @@ export function TextReveal({
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once, margin: viewportMargin });
 
-  const units =
-    splitBy === "words"
-      ? text
-          .split(SPLIT_REGEX)
-          .map((w, i, arr) => (i < arr.length - 1 ? `${w}\u00A0` : w))
-      : text.split("").map((c) => (c === " " ? "\u00A0" : c));
+  const units = useMemo(() => splitText(text, splitBy), [text, splitBy]);
+
+  const hiddenState = useMemo(
+    () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),
+    [blur, yOffset]
+  );
+
+  const visibleState = { opacity: 1, y: 0, filter: "blur(0px)" };
 
   const Component = Tag as ElementType;
 
@@ -95,24 +108,19 @@ export function TextReveal({
     >
       {units.map((unit, i) => (
         <motion.span
-          animate={
-            isInView
-              ? { opacity: 1, y: 0, filter: "blur(0px)" }
-              : { opacity: 0, y: yOffset, filter: `blur(${blur}px)` }
-          }
+          animate={isInView ? visibleState : hiddenState}
           aria-hidden="true"
           className={cn(
-            "will-change-[opacity,filter,transform]",
+            "inline-block will-change-[opacity,filter,transform]",
             unitClassName
           )}
-          initial={{ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }}
-          // biome-ignore lint/suspicious/noArrayIndexKey: Static content split into words/characters, index is stable.
+          initial={hiddenState}
+          // biome-ignore lint/suspicious/noArrayIndexKey: Static content split into units; index is stable.
           key={i}
-          style={{ display: "inline-block" }}
           transition={{
             duration,
             delay: delay + i * staggerDelay,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
           }}
         >
           {unit}

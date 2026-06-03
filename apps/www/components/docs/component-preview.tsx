@@ -15,6 +15,11 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/radix/tabs";
+import {
+  extractPropsForCodegen,
+  generateUsageExampleCode,
+  installImportPathFromTarget,
+} from "@/lib/generate-usage-example-code";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
@@ -105,35 +110,49 @@ export function ComponentPreview({
     unknown
   > | null>(null);
 
-  const usageCode = useMemo(() => {
-    const entry = resolveUsageCodeEntry(name, demo);
-    const content = entry?.files?.[0]?.content;
+  const demoPropsConfig = useMemo(() => resolveDemoProps(name), [name]);
 
-    if (!content) {
-      console.error(
-        `Usage code for "${demo ?? `demo-${name}`}" not found in registry.`
-      );
-      return null;
-    }
+  const usageCodeMeta = useMemo(() => {
+    const entry = resolveUsageCodeEntry(name, demo);
+    const file = entry?.files?.[0];
 
     return {
-      content,
-      title:
-        entry.files[0].target?.split("/").pop() ??
-        `${demo ?? `demo-${name}`}.tsx`,
+      staticContent: file?.content ?? null,
+      title: file?.target?.split("/").pop() ?? `${demo ?? `demo-${name}`}.tsx`,
+      installTarget: (index[name] as RegistryIndexEntry | undefined)?.files?.[0]
+        ?.target,
     };
   }, [name, demo]);
 
+  const displayCode = useMemo(() => {
+    const { installTarget, staticContent } = usageCodeMeta;
+
+    if (
+      Object.keys(demoPropsConfig).length > 0 &&
+      componentProps &&
+      installTarget
+    ) {
+      const extracted = extractPropsForCodegen(demoPropsConfig, componentProps);
+      if (extracted) {
+        return generateUsageExampleCode({
+          componentName: extracted.componentName,
+          importPath: installImportPathFromTarget(installTarget),
+          props: extracted.props,
+        });
+      }
+    }
+
+    return staticContent;
+  }, [demoPropsConfig, componentProps, usageCodeMeta]);
+
   const preview = useMemo(() => {
     const Component = index[name]?.component;
-    const demoProps = resolveDemoProps(name);
-
-    if (Object.keys(demoProps).length !== 0) {
+    if (Object.keys(demoPropsConfig).length !== 0) {
       if (componentProps === null) {
-        setComponentProps(unwrapValues(demoProps));
+        setComponentProps(unwrapValues(demoPropsConfig));
       }
       if (binds === null) {
-        setBinds(demoProps as Binds);
+        setBinds(demoPropsConfig as Binds);
       }
     }
 
@@ -151,7 +170,7 @@ export function ComponentPreview({
     }
 
     return <Component {...flattenFirstLevel(componentProps ?? {})} />;
-  }, [name, componentProps, binds]);
+  }, [name, componentProps, binds, demoPropsConfig]);
 
   useEffect(() => {
     if (!binds) {
@@ -217,10 +236,10 @@ export function ComponentPreview({
             <div className="flex flex-col space-y-4">
               <div className="h-[450px] w-full rounded-md [&_pre]:my-0 [&_pre]:h-[400px] [&_pre]:overflow-auto">
                 <DynamicCodeBlock
-                  code={usageCode?.content}
+                  code={displayCode ?? undefined}
                   icon={<ReactIcon />}
                   lang="tsx"
-                  title={usageCode?.title ?? `${name}.tsx`}
+                  title={usageCodeMeta.title}
                 />
               </div>
             </div>

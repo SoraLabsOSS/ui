@@ -47,5 +47,10 @@ export const baseOptions: BaseLayoutProps = {
       url: "/docs/other-animated-distributions",
       secondary: false,
     },
+    {
+      text: "License",
+      url: "/docs/license",
+      secondary: false,
+    },
   ],
 };

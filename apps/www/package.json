@@ -7,7 +7,7 @@
     "dev": "next dev",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
-    "registry:build": "tsx ./scripts/build-registry.mts",
+    "registry:build": "bun ./scripts/build-registry.mts",
     "lint": "ultracite check",
     "lint:fix": "ultracite fix",
     "format:write": "ultracite fix",

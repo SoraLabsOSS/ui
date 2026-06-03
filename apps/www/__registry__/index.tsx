@@ -18,39 +18,6 @@ export const index: Record<string, any> = {
     component: null,
     command: '@sora-ui/index',
   },
-  "demo-text-reveal": {
-    name: "demo-text-reveal",
-    description: "Demo for the Text Reveal animation component.",
-    type: "registry:ui",
-    dependencies: undefined,
-    devDependencies: undefined,
-    registryDependencies: ["text-reveal"],
-    files: [
-  {
-    "path": "registry/demo/primitives/texts/text-reveal/index.tsx",
-    "type": "registry:ui",
-    "target": "components/sora-ui/demo/texts/text-reveal.tsx",
-    "content": "\"use client\";\n\nimport { TextReveal } from \"@/components/sora-ui/texts/text-reveal\";\n\nexport default function TextRevealExample() {\n  return (\n    <TextReveal\n      as=\"h2\"\n      blur={4}\n      className=\"text-center font-bold text-3xl\"\n      delay={0.5}\n      splitBy=\"words\"\n      staggerDelay={0.05}\n      text=\"Blur Text Animation\"\n    />\n  );\n}"
-  }
-],
-    keywords: [],
-    component: (function() {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/demo/primitives/texts/text-reveal/index.tsx");
-        const exportName = Object.keys(mod).find(
-          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
-        ) || "demo-text-reveal";
-        const Comp = mod.default || mod[exportName];
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {"TextReveal":{"as":{"value":"h2","options":{"h2":"h2","p":"p","span":"span"}},"className":{"value":"text-center font-bold text-3xl"},"text":{"value":"Blur Text Animation"},"splitBy":{"value":"words","options":{"Words":"words","Characters":"characters"}},"staggerDelay":{"value":0.05,"min":0.01,"max":0.5,"step":0.01},"delay":{"value":0.5,"min":0,"max":2,"step":0.1},"duration":{"value":0.5,"min":0.1,"max":2,"step":0.1},"blur":{"value":4,"min":0,"max":20,"step":1},"yOffset":{"value":0,"min":-50,"max":50,"step":1},"viewportMargin":{"value":"0px 0px -10% 0px"}}};
-      return LazyComp;
-    })(),
-    command: '@sora-ui/demo-text-reveal',
-  },
   "text-reveal": {
     name: "text-reveal",
     description: "A text reveal animation.",
@@ -63,7 +30,7 @@ export const index: Record<string, any> = {
     "path": "registry/primitives/texts/text-reveal/index.tsx",
     "type": "registry:ui",
     "target": "components/sora-ui/texts/text-reveal.tsx",
-    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion, type UseInViewOptions, useInView } from \"motion/react\";\nimport { type ElementType, useRef } from \"react\";\n\nexport interface TextRevealProps {\n  /**\n   * HTML tag for the container element.\n   * @default \"p\"\n   */\n  as?: keyof React.JSX.IntrinsicElements;\n  /**\n   * Blur amount in pixels for initial state.\n   * @default 4\n   */\n  blur?: number;\n  className?: string;\n  /**\n   * Delay before starting the animation in seconds.\n   * @default 0.5\n   */\n  delay?: number;\n  /**\n   * Duration of each unit's animation in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Trigger the animation only once.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Split mode: word-by-word or character-by-character.\n   * @default \"words\"\n   */\n  splitBy?: \"words\" | \"characters\";\n  /**\n   * Delay between each word/character animation in seconds.\n   * @default 0.05\n   */\n  staggerDelay?: number;\n  /** The text to animate. */\n  text?: string;\n  /**\n   * Additional className for each animated span unit.\n   */\n  unitClassName?: string;\n  /**\n   * Viewport margin for trigger.\n   * @default \"0px 0px -10% 0px\"\n   */\n  viewportMargin?: UseInViewOptions[\"margin\"];\n  /**\n   * Initial vertical offset in pixels.\n   * @default 0\n   */\n  yOffset?: number;\n}\n\nconst SPLIT_REGEX = /\\s+/;\n\nexport function TextReveal({\n  text = \"\",\n  as: Tag = \"p\",\n  splitBy = \"words\",\n  staggerDelay = 0.05,\n  delay = 0.5,\n  duration = 0.5,\n  once = true,\n  blur = 4,\n  yOffset = 0,\n  viewportMargin = \"0px 0px -10% 0px\",\n  className,\n  unitClassName,\n}: TextRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const isInView = useInView(ref, { once, margin: viewportMargin });\n\n  const units =\n    splitBy === \"words\"\n      ? text\n          .split(SPLIT_REGEX)\n          .map((w, i, arr) => (i < arr.length - 1 ? `${w}\\u00A0` : w))\n      : text.split(\"\").map((c) => (c === \" \" ? \"\\u00A0\" : c));\n\n  const Component = Tag as ElementType;\n\n  return (\n    <Component\n      aria-label={text}\n      className={cn(\"leading-relaxed\", className)}\n      ref={ref}\n    >\n      {units.map((unit, i) => (\n        <motion.span\n          animate={\n            isInView\n              ? { opacity: 1, y: 0, filter: \"blur(0px)\" }\n              : { opacity: 0, y: yOffset, filter: `blur(${blur}px)` }\n          }\n          aria-hidden=\"true\"\n          className={cn(\n            \"will-change-[opacity,filter,transform]\",\n            unitClassName\n          )}\n          initial={{ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }}\n          // biome-ignore lint/suspicious/noArrayIndexKey: Static content split into words/characters, index is stable.\n          key={i}\n          style={{ display: \"inline-block\" }}\n          transition={{\n            duration,\n            delay: delay + i * staggerDelay,\n            ease: \"easeOut\",\n          }}\n        >\n          {unit}\n        </motion.span>\n      ))}\n    </Component>\n  );\n}"
+    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion, type UseInViewOptions, useInView } from \"motion/react\";\nimport { type ElementType, useMemo, useRef } from \"react\";\n\nexport interface TextRevealProps {\n  /**\n   * HTML tag for the container element.\n   * @default \"p\"\n   */\n  as?: keyof React.JSX.IntrinsicElements;\n  /**\n   * Blur amount in pixels for the hidden state.\n   * @default 4\n   */\n  blur?: number;\n  className?: string;\n  /**\n   * Delay before the first unit starts animating, in seconds.\n   * @default 0.5\n   */\n  delay?: number;\n  /**\n   * Duration of each unit's animation in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Trigger the animation only once.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Split mode: word-by-word or character-by-character.\n   * @default \"words\"\n   */\n  splitBy?: \"words\" | \"characters\";\n  /**\n   * Delay between each successive unit in seconds.\n   * @default 0.05\n   */\n  staggerDelay?: number;\n  /** The text to animate. */\n  text?: string;\n  /**\n   * Additional className applied to each animated span.\n   */\n  unitClassName?: string;\n  /**\n   * Viewport margin that controls when the animation triggers.\n   * @default \"0px 0px -10% 0px\"\n   */\n  viewportMargin?: UseInViewOptions[\"margin\"];\n  /**\n   * Initial vertical offset in pixels.\n   * @default 0\n   */\n  yOffset?: number;\n}\n\nconst WHITESPACE_RE = /\\s+/;\n\nfunction splitText(text: string, splitBy: \"words\" | \"characters\"): string[] {\n  if (splitBy === \"characters\") {\n    return text.split(\"\").map((ch) => (ch === \" \" ? \"\\u00A0\" : ch));\n  }\n\n  const words = text.split(WHITESPACE_RE);\n  return words.map((word, i) => (i < words.length - 1 ? `${word}\\u00A0` : word));\n}\n\nexport function TextReveal({\n  text = \"\",\n  as: Tag = \"p\",\n  splitBy = \"words\",\n  staggerDelay = 0.05,\n  delay = 0.5,\n  duration = 0.5,\n  once = true,\n  blur = 4,\n  yOffset = 0,\n  viewportMargin = \"0px 0px -10% 0px\",\n  className,\n  unitClassName,\n}: TextRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const isInView = useInView(ref, { once, margin: viewportMargin });\n\n  const units = useMemo(() => splitText(text, splitBy), [text, splitBy]);\n\n  const hiddenState = useMemo(\n    () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),\n    [blur, yOffset],\n  );\n\n  const visibleState = { opacity: 1, y: 0, filter: \"blur(0px)\" };\n\n  const Component = Tag as ElementType;\n\n  return (\n    <Component\n      aria-label={text}\n      className={cn(\"leading-relaxed\", className)}\n      ref={ref}\n    >\n      {units.map((unit, i) => (\n        <motion.span\n          animate={isInView ? visibleState : hiddenState}\n          aria-hidden=\"true\"\n          className={cn(\"inline-block will-change-[opacity,filter,transform]\", unitClassName)}\n          initial={hiddenState}\n          // biome-ignore lint/suspicious/noArrayIndexKey: Static content split into units; index is stable.\n          key={i}\n          transition={{\n            duration,\n            delay: delay + i * staggerDelay,\n            ease: [0.25, 0.46, 0.45, 0.94],\n          }}\n        >\n          {unit}\n        </motion.span>\n      ))}\n    </Component>\n  );\n}"
   }
 ],
     keywords: [],
@@ -11336,5 +11303,24 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: '@sora-ui/primitives-texts-typing',
+  },
+  "demo-text-reveal": {
+    name: "demo-text-reveal",
+    description: "Usage example for text-reveal.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["text-reveal"],
+    files: [
+  {
+    "path": "registry/demo/primitives/texts/text-reveal/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/texts/text-reveal.tsx",
+    "content": "\"use client\";\n\nimport { TextReveal } from \"@/components/sora-ui/texts/text-reveal\";\n\nexport default function TextRevealExample() {\n  return (\n    <TextReveal\n      as={\"h2\"}\n      className={\"text-center font-bold text-3xl\"}\n      text={\"Blur Text Animation\"}\n      splitBy={\"words\"}\n      staggerDelay={0.05}\n      delay={0.5}\n      duration={0.5}\n      blur={4}\n      yOffset={0}\n      viewportMargin={\"0px 0px -10% 0px\"}\n    />\n  );\n}\n"
+  }
+],
+    keywords: [],
+    component: null,
+    command: '@sora-ui/demo-text-reveal',
   },
   }
