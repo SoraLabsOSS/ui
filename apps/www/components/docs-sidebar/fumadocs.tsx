@@ -13,10 +13,11 @@ import { BaseLinkItem } from "fumadocs-ui/layouts/links";
 import { getLinks } from "fumadocs-ui/layouts/shared";
 import { useSidebar, useTreeContext, useTreePath } from "fumadocs-ui/provider";
 import { isActive } from "fumadocs-ui/utils/is-active";
-import { X } from "lucide-react";
+import { SquareMenu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Fragment, type ReactNode, useMemo } from "react";
 import { Separator } from "@/lib/attach-separator";
+import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 import {
@@ -86,6 +87,54 @@ function isRootFolder(
   return item.type === "folder" && Boolean((item as PageTree.Folder).root);
 }
 
+/** Renders a bottom "Menu" section on guide pages with Primitives + Components links. */
+function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
+  const { root } = useTreeContext();
+  const pathname = usePathname();
+  const componentRoots = root.children.filter(isRootFolder);
+
+  // Derive the Primitives index URL from the first root folder in the tree.
+  const primitivesUrl = useMemo(() => {
+    for (const folder of componentRoots) {
+      const url =
+        folder.index?.url ??
+        (
+          folder.children.find((c) => c.type === "page") as
+            | PageTree.Item
+            | undefined
+        )?.url;
+      if (url) {
+        return url;
+      }
+    }
+    return "/docs";
+  }, [componentRoots]);
+
+  const menuItems: { label: string; url: string }[] = [
+    { label: "Primitives", url: primitivesUrl },
+    { label: "Components", url: DOCS_COMPONENTS_SECTION_URL },
+  ];
+
+  return (
+    <DocsShellSection
+      className="mt-4"
+      label={<Separator icon={<SquareMenu strokeWidth={2} />} name="Menu" />}
+    >
+      {menuItems.map((item) => (
+        <DocsShellNavItem
+          href={item.url}
+          isActive={
+            pathname === item.url || pathname.startsWith(`${item.url}/`)
+          }
+          key={item.url}
+          label={item.label}
+          onClick={onNavigate}
+        />
+      ))}
+    </DocsShellSection>
+  );
+}
+
 export function SidebarPageTree(props: {
   components?: Partial<SidebarComponents>;
   onNavigate?: () => void;
@@ -101,7 +150,7 @@ export function SidebarPageTree(props: {
   return useMemo(() => {
     const { Separator, Item, Folder } = props.components ?? {};
     const sectionRoot = treePath.findLast(isRootFolder);
-    const componentRoots = root.children.filter(isRootFolder);
+    // const componentRoots = root.children.filter(isRootFolder);
 
     function renderSeparator(
       item: PageTree.Separator,
@@ -228,17 +277,22 @@ export function SidebarPageTree(props: {
     }
 
     if (props.rootsOnly) {
-      return (
-        <div className="mt-4 mb-3">
-          {componentRoots.flatMap((folder, i) =>
-            renderSidebarList(
-              folder.children,
+      // Inside a root section → show full tree for that section
+      if (sectionRoot) {
+        return (
+          <Fragment key={sectionRoot.$id}>
+            {renderSidebarList(
+              sectionRoot.children,
               1,
-              String(folder.$id ?? `root-${i}`)
-            )
-          )}
-        </div>
-      );
+              String(sectionRoot.$id ?? "section")
+            )}
+          </Fragment>
+        );
+      }
+
+      // On guide pages (no root section) → show nothing here;
+      // GuideBottomMenu is rendered separately below the link list.
+      return null;
     }
 
     const sidebarItems = sectionRoot?.children ?? root.children;
@@ -335,10 +389,16 @@ export const DocsSidebar = (
   } = all.sidebar ?? {};
   const pathname = usePathname();
   const links = getLinks(all.links ?? [], all.githubUrl);
+  // `treePath` is hoisted here only to derive `isGuidePage`;
+  // the full tree context is consumed inside child components.
+  const treePath = useTreePath();
   const isComponentDocs =
     pathname.startsWith("/docs/components") ||
     pathname.startsWith("/docs/texts");
   const isMenu = !isComponentDocs;
+  // True when on a guide page (not yet inside any root section)
+  const sectionRoot = treePath.findLast(isRootFolder);
+  const isGuidePage = isMenu && !sectionRoot;
   const isMobile = useIsMobile();
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();
@@ -397,35 +457,42 @@ export const DocsSidebar = (
               "max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14"
             )}
           >
-            {links
-              .filter((v) => v.type !== "icon")
-              .map((item, i, list) => {
-                let linkKey: string;
-                if (item.type === "menu") {
-                  linkKey = `menu-${item.text}`;
-                } else if (item.type === "custom") {
-                  linkKey = "custom-docs-link";
-                } else if (item.url) {
-                  linkKey = item.url;
-                } else {
-                  linkKey = `link-${item.text ?? "unknown"}-${i}`;
-                }
+            {(isGuidePage || isComponentDocs) &&
+              links
+                .filter((v) => v.type !== "icon")
+                .map((item, i, list) => {
+                  let linkKey: string;
+                  if (item.type === "menu") {
+                    linkKey = `menu-${item.text}`;
+                  } else if (item.type === "custom") {
+                    linkKey = "custom-docs-link";
+                  } else if (item.url) {
+                    linkKey = item.url;
+                  } else {
+                    linkKey = `link-${item.text ?? "unknown"}-${i}`;
+                  }
 
-                return (
-                  <SidebarLinkItem
-                    className={cn(i === list.length - 1 && "mb-3")}
-                    item={item}
-                    key={linkKey}
-                    onNavigate={closeMobile}
-                  />
-                );
-              })}
+                  return (
+                    <SidebarLinkItem
+                      className={cn(i === list.length - 1 && "mb-1")}
+                      item={item}
+                      key={linkKey}
+                      onNavigate={closeMobile}
+                    />
+                  );
+                })}
 
-            <SidebarPageTree
-              components={sidebarComponents}
-              onNavigate={closeMobile}
-              rootsOnly={isMenu}
-            />
+            {isGuidePage ? (
+              <GuideBottomMenu onNavigate={closeMobile} />
+            ) : (
+              <div className={cn(isComponentDocs && "mt-4")}>
+                <SidebarPageTree
+                  components={sidebarComponents}
+                  onNavigate={closeMobile}
+                  rootsOnly={isMenu}
+                />
+              </div>
+            )}
           </DocsShellContent>
 
           <DocsShellFooter>

@@ -36,7 +36,8 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
     <div className="relative">
       {isActive && (
         <motion.span
-          className="pointer-events-none absolute top-1/2 left-[4px] z-[35] h-[2.5px] w-[23px] -translate-y-1/2 rounded-full"
+          animate={{ width: 23 }}
+          className="pointer-events-none absolute top-1/2 left-[4px] z-[35] h-[1.8px] -translate-y-1/2 rounded-full"
           layoutId="docs-shell-active-indicator"
           style={{ backgroundColor: "var(--accent-pro)" }}
           transition={{ type: "spring", stiffness: 800, damping: 40 }}
