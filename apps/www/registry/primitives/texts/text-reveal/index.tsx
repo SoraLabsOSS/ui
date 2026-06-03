@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: These are static content and the indices are stable. */
+
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
@@ -61,17 +63,6 @@ export interface TextRevealProps {
 
 const WHITESPACE_RE = /\s+/;
 
-function splitText(text: string, splitBy: "words" | "characters"): string[] {
-  if (splitBy === "characters") {
-    return text.split("").map((ch) => (ch === " " ? "\u00A0" : ch));
-  }
-
-  const words = text.split(WHITESPACE_RE);
-  return words.map((word, i) =>
-    i < words.length - 1 ? `${word}\u00A0` : word
-  );
-}
-
 export function TextReveal({
   text = "",
   as: Tag = "p",
@@ -89,7 +80,20 @@ export function TextReveal({
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once, margin: viewportMargin });
 
-  const units = useMemo(() => splitText(text, splitBy), [text, splitBy]);
+  const words = useMemo(() => text.split(WHITESPACE_RE), [text]);
+
+  // Pre-calculate character structures and global stagger indices to prevent mid-word wrapping
+  const parsedWords = useMemo(() => {
+    let charCount = 0;
+    return words.map((word) => {
+      const chars = word.split("").map((char) => {
+        const globalIndex = charCount;
+        charCount++;
+        return { char, globalIndex };
+      });
+      return { word, chars };
+    });
+  }, [words]);
 
   const hiddenState = useMemo(
     () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),
@@ -106,26 +110,56 @@ export function TextReveal({
       className={cn("leading-relaxed", className)}
       ref={ref}
     >
-      {units.map((unit, i) => (
-        <motion.span
-          animate={isInView ? visibleState : hiddenState}
-          aria-hidden="true"
-          className={cn(
-            "inline-block will-change-[opacity,filter,transform]",
-            unitClassName
-          )}
-          initial={hiddenState}
-          // biome-ignore lint/suspicious/noArrayIndexKey: Static content split into units; index is stable.
-          key={i}
-          transition={{
-            duration,
-            delay: delay + i * staggerDelay,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-        >
-          {unit}
-        </motion.span>
-      ))}
+      {splitBy === "words"
+        ? words.map((word, i) => (
+            <span className="inline-block" key={i}>
+              <motion.span
+                animate={isInView ? visibleState : hiddenState}
+                aria-hidden="true"
+                className={cn(
+                  "inline-block will-change-[opacity,filter,transform]",
+                  unitClassName
+                )}
+                initial={hiddenState}
+                transition={{
+                  duration,
+                  delay: delay + i * staggerDelay,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+              >
+                {word}
+              </motion.span>
+              {i < words.length - 1 && (
+                <span className="inline-block">&nbsp;</span>
+              )}
+            </span>
+          ))
+        : parsedWords.map((wordData, wordIdx) => (
+            <span className="inline-block whitespace-nowrap" key={wordIdx}>
+              {wordData.chars.map((charData, charIdx) => (
+                <motion.span
+                  animate={isInView ? visibleState : hiddenState}
+                  aria-hidden="true"
+                  className={cn(
+                    "inline-block will-change-[opacity,filter,transform]",
+                    unitClassName
+                  )}
+                  initial={hiddenState}
+                  key={charIdx}
+                  transition={{
+                    duration,
+                    delay: delay + charData.globalIndex * staggerDelay,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                >
+                  {charData.char}
+                </motion.span>
+              ))}
+              {wordIdx < parsedWords.length - 1 && (
+                <span className="inline-block">&nbsp;</span>
+              )}
+            </span>
+          ))}
     </Component>
   );
 }
