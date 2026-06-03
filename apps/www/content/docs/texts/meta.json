@@ -2,7 +2,6 @@
   "title": "Components",
   "description": "Animated Components",
   "icon": "Component",
-  "pages": [
-    "hello-world"
-  ]
+  "root": true,
+  "pages": ["---Texts---", "text-reveal"]
 }

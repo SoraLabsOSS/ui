@@ -16,8 +16,7 @@ import { useTreeContext, useTreePath, useSidebar } from 'fumadocs-ui/provider';
 import { usePathname } from 'next/navigation';
 import { isActive } from 'fumadocs-ui/utils/is-active';
 import { Separator } from '@/lib/attach-separator';
-import { NAV_ITEMS } from '../docs/nav';
-import { SquareMenu } from 'lucide-react';
+import { TypeIcon } from 'lucide-react';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from './shell/scroll-active-nearest';
 import {
@@ -32,15 +31,15 @@ import { useDismissMobileSidebarOnOutside } from './use-dismiss-mobile-sidebar';
 
 const MENU_ITEMS = [
   {
-    name: 'Menu',
+    name: 'Texts',
     type: 'separator',
-    icon: <SquareMenu />,
+    icon: <TypeIcon strokeWidth={3} />,
   },
-  ...NAV_ITEMS.filter((item) => item.title !== 'Docs').map((item) => ({
-    text: item.title,
-    url: item.url,
-  })),
-];
+  {
+    text: 'Text Reveal',
+    url: '/docs/texts/text-reveal',
+  },
+] as LinkItemType[];
 
 const getIsActive = (pathname: string, href: string) => {
   return href !== undefined && isActive(href, pathname, false);
@@ -262,7 +261,10 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
   } = all.sidebar ?? {};
   const pathname = usePathname();
   const links = getLinks(all.links ?? [], all.githubUrl);
-  const isMenu = !pathname.startsWith('/docs/components');
+  const isComponentDocs =
+    pathname.startsWith('/docs/components') ||
+    pathname.startsWith('/docs/texts');
+  const isMenu = !isComponentDocs;
   const isMobile = useIsMobile();
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();
@@ -277,7 +279,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
     <Sidebar
       collapsible={false}
       className={cn(
-        'min-h-0 overflow-hidden',
+        'border-border min-h-0 overflow-hidden border-r',
         'max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]',
         scrollViewportSelector,
         sidebarProps.className,
@@ -318,7 +320,7 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
               );
             })}
 
-          {isMobile && isMenu && (
+          {isMenu ? (
             <div>
               {MENU_ITEMS.map((item, i) => (
                 <SidebarLinkItem
@@ -330,15 +332,13 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
                   item={item as LinkItemType}
                   onNavigate={closeMobile}
                   className={cn(
-                    i === 0 && 'mt-2',
+                    i === 0 && 'mt-4',
                     i === MENU_ITEMS.length - 1 && 'mb-3',
                   )}
                 />
               ))}
             </div>
-          )}
-
-          {((!isMenu && isMobile) || !isMobile) && (
+          ) : (
             <SidebarPageTree
               components={sidebarComponents}
               onNavigate={closeMobile}

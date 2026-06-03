@@ -36,10 +36,10 @@ Run the `add` command to add a component to your project.
 
 <CodeTabs
   codes={{
-    pnpm: `pnpm dlx shadcn@latest add @sora-ui/primitives-texts-sliding-number`,
-    npm: `npx shadcn@latest add @sora-ui/primitives-texts-sliding-number`,
-    yarn: `npx shadcn@latest add @sora-ui/primitives-texts-sliding-number`,
-    bun: `bunx --bun shadcn@latest add @sora-ui/primitives-texts-sliding-number`,
+    pnpm: `pnpm dlx shadcn@latest add @sora-ui/text-reveal`,
+    npm: `npx shadcn@latest add @sora-ui/text-reveal`,
+    yarn: `npx shadcn@latest add @sora-ui/text-reveal`,
+    bun: `bunx --bun shadcn@latest add @sora-ui/text-reveal`,
   }}
 />
 
@@ -51,14 +51,10 @@ Run the `add` command to add a component to your project.
 Import the component to your project.
 
 ```tsx
-import { SlidingNumber } from '@/components/sora-ui/primitives/texts/sliding-number';
+import { TextReveal } from '@/components/sora-ui/texts/text-reveal';
 
 export default function Home() {
-  return (
-    <div>
-      <SlidingNumber />
-    </div>
-  );
+  return <TextReveal>Hello World</TextReveal>;
 }
 ```
 

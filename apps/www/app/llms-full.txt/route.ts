@@ -1,7 +1,6 @@
 import { source } from '@/lib/source';
 import { getLLMText } from '@/lib/get-llm-text';
 
-
 async function getLLMsContent() {
   'use cache';
   const scan = source.getPages().map(getLLMText);

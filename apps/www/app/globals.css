@@ -290,7 +290,7 @@
   }
 
   #nd-sidebar {
-    @apply md:!border-0;
+    @apply border-border md:!border-y-0 md:!border-r md:!border-l-0;
   }
 
   /* Mobile drawer: raise overlay/panel above page content (no solid scrim — Fumadocs uses backdrop-blur only) */
@@ -307,6 +307,7 @@
   }
 
   #nd-sidebar div div div a[href^='/docs/components'] > svg[data-icon='true'],
+  #nd-sidebar div div div a[href^='/docs/texts'] > svg[data-icon='true'],
   #nd-sidebar div div div a + div[data-state='open'] {
     @apply !hidden;
   }

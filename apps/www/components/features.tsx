@@ -9,7 +9,7 @@ import { motion } from 'motion/react';
 const COMPONENTS = [
   {
     name: 'Components',
-    href: '/docs/components',
+    href: '/docs/texts/text-reveal',
     icon: <Components />,
   },
   {

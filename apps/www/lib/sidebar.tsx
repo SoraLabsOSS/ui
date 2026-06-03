@@ -38,6 +38,6 @@ export const SIDEBAR_TABS = [
         <Component />
       </div>
     ),
-    url: '/docs/components',
+    url: '/docs/texts/text-reveal',
   },
 ];

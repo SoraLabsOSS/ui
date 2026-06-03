@@ -18,31 +18,15 @@
       "files": []
     },
     {
-      "name": "hello-world",
+      "name": "text-reveal",
       "type": "registry:ui",
-      "title": "Hello World",
-      "description": "Minimal test block that renders shadcn Button with “Hello World”.",
+      "title": "Text Reveal",
+      "description": "A text reveal animation.",
       "files": [
         {
-          "path": "registry/components/hello-world/index.tsx",
+          "path": "registry/primitives/texts/text-reveal/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/hello-world.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-hello-world",
-      "type": "registry:ui",
-      "title": "Hello World Demo",
-      "description": "Demo for the Hello World test block.",
-      "registryDependencies": [
-        "@sora-ui/hello-world"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/components/hello-world/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/hello-world.tsx"
+          "target": "components/sora-ui/texts/text-reveal.tsx"
         }
       ]
     }

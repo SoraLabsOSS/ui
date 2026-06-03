@@ -30,7 +30,7 @@ export const NAV_ITEMS = [
   },
   {
     title: 'Components',
-    url: '/docs/components',
+    url: '/docs/texts/text-reveal',
   },
 ];
 
@@ -56,7 +56,7 @@ export const Nav = () => {
   const { open, setOpen } = useSidebar();
 
   return (
-    <Navbar className="bg-background left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-b-0 px-3 md:h-17 md:px-5">
+    <Navbar className="bg-background border-border left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-b px-3 md:h-17 md:px-5">
       <Link
         href="/"
         className={buttonVariants({
@@ -93,15 +93,15 @@ export const Nav = () => {
             </div>
           </button>
 
-            <a
-              href="https://github.com/axyl1410/sora"
-              rel="noreferrer noopener"
-              target="_blank"
-              className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex size-8 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
-              data-active="false"
-            >
-              <GithubLogo />
-            </a>
+          <a
+            href="https://github.com/axyl1410/sora"
+            rel="noreferrer noopener"
+            target="_blank"
+            className="hover:bg-fd-accent hover:text-fd-accent-foreground text-fd-muted-foreground inline-flex size-8 items-center justify-center rounded-md text-sm font-medium transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
+            data-active="false"
+          >
+            <GithubLogo />
+          </a>
 
           <ThemeSwitcher className="max-md:hidden" />
 

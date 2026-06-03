@@ -58,20 +58,26 @@ export default async function Page(props: {
       } as const;
     }
 
+    const isTextsRoot = page.url === '/docs/texts/text-reveal';
+    const isSectionRoot =
+      page.url === '/docs/components' ||
+      isTextsRoot ||
+      page.url === '/docs/primitives' ||
+      page.url === '/docs/icons/get-started';
+
+    if (isSectionRoot && guideItems.length > 0) {
+      const last = guideItems[guideItems.length - 1];
+      return { url: last.url, name: last.text } as const;
+    }
+
+    if (page.url.startsWith('/docs/texts/')) {
+      return { url: '/docs/texts/text-reveal', name: 'Components' } as const;
+    }
     if (page.url.startsWith('/docs/components/')) {
       return { url: '/docs/components', name: 'Components' } as const;
     }
     if (page.url.startsWith('/docs/primitives/')) {
       return { url: '/docs/primitives', name: 'Primitives' } as const;
-    }
-
-    const isSectionRoot =
-      page.url === '/docs/components' ||
-      page.url === '/docs/primitives' ||
-      page.url === '/docs/icons/get-started';
-    if (isSectionRoot && guideItems.length > 0) {
-      const last = guideItems[guideItems.length - 1];
-      return { url: last.url, name: last.text } as const;
     }
 
     return undefined;
@@ -84,7 +90,7 @@ export default async function Page(props: {
             url: guideItems[guideIndex + 1].url,
             name: guideItems[guideIndex + 1].text,
           }
-        : { url: '/docs/components', name: 'Components' }
+        : { url: '/docs/texts/text-reveal', name: 'Components' }
       : nextPage
         ? { url: nextPage.url, name: String(nextPage.name ?? 'Suivant') }
         : undefined;

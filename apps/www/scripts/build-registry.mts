@@ -93,6 +93,8 @@ async function buildRegistryFile() {
     // Always exclude internal primitives and icons from the public registry
     if (item.name.startsWith('primitives-') || item.name.startsWith('icons-'))
       return false;
+    // Demos are doc previews only — not installable via CLI
+    if (item.name.startsWith('demo-')) return false;
     // Only include items that are referenced in at least one .mdx doc page
     if (!documentedNames.has(item.name)) {
       console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
@@ -164,6 +166,9 @@ async function getRegistryItemsFromFolder(dir: string) {
 async function buildRegistryIndex() {
   const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, 'utf-8');
   const registryItems = JSON.parse(registryJsonContent);
+  const registryFolderPath = path.join(process.cwd(), 'registry');
+  const allItemsFromFolder =
+    await getRegistryItemsFromFolder(registryFolderPath);
 
   // Collect documented names to also filter the index
   const documentedNames = await collectDocumentedNames();
@@ -179,13 +184,17 @@ export const index: Record<string, any> = {`;
 
   // Remove duplicates: only keep the last item with a given name
   const uniqueItemsMap = new Map<string, (typeof registryItems.items)[0]>();
-  // Use the base items from registry.json merged file
+  // Public registry.json items (documented, non-primitive)
   for (const item of registryItems.items) {
     if (uniqueItemsMap.has(item.name)) {
       console.warn(
         `Duplicate item name detected: ${item.name}. Overwriting previous entry.`,
       );
     }
+    uniqueItemsMap.set(item.name, item);
+  }
+  // Primitives/icons and other registry-only items (for previews + install docs)
+  for (const item of allItemsFromFolder) {
     uniqueItemsMap.set(item.name, item);
   }
 

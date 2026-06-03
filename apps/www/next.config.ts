@@ -43,6 +43,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/docs/components/texts/text-reveal',
+        destination: '/docs/texts/text-reveal',
+        permanent: true,
+      },
+      {
         source: '/docs/components/avatar-group',
         destination: '/docs/components/animate/avatar-group',
         permanent: true,

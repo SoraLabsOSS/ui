@@ -1,6 +1,5 @@
 'use client';
 
-import { OpenInV0Button } from '@workspace/ui/components/docs/open-in-v0-button';
 import { Button } from '@workspace/ui/components/ui/button';
 import { cn } from '@workspace/ui/lib/utils';
 import { Fullscreen, RotateCcw, SlidersHorizontal } from 'lucide-react';
@@ -42,8 +41,6 @@ export const ComponentWrapper = ({
         <motion.div className="relative size-full flex-1">
           {!iframe && (
             <div className="bg-background absolute top-3 right-3 z-[9] flex items-center justify-end gap-2 rounded-[11px] p-1">
-              <OpenInV0Button url={`https://ui.soralabs.io.vn/r/${name}.json`} />
-
               <Button
                 onClick={() => setKey((prev) => prev + 1)}
                 className="flex items-center rounded-lg"

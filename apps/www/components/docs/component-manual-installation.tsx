@@ -3,13 +3,18 @@
 import { DynamicCodeBlock } from '@/components/docs/dynamic-codeblock';
 import { CodeTabs } from '@/components/docs/code-tabs';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { CollapsibleContent } from 'fumadocs-ui/components/ui/collapsible';
-import { Collapsible } from 'fumadocs-ui/components/ui/collapsible';
-import { CollapsibleTrigger } from 'fumadocs-ui/components/ui/collapsible';
+import {
+  Collapsible,
+  CollapsibleTrigger,
+} from 'fumadocs-ui/components/ui/collapsible';
 import { Button } from '@workspace/ui/components/ui/button';
 import { cn } from '@workspace/ui/lib/utils';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import ReactIcon from '@workspace/ui/components/icons/react-icon';
+import { motion } from 'motion/react';
+import useMeasure from 'react-use-measure';
+
+const COLLAPSED_HEIGHT = 128;
 
 const getDepsCommands = (dependencies?: string[]) => {
   if (!dependencies) return undefined;
@@ -60,7 +65,7 @@ export const ComponentManualInstallation = ({
   const registryDepsCommands = getRegistryDepsCommands(registryDependencies);
 
   const [isOpened, setIsOpened] = useState(false);
-  const collapsibleRef = useRef<HTMLDivElement>(null);
+  const [measureRef, { height: contentHeight }] = useMeasure();
 
   return (
     <div className="-mt-6">
@@ -96,18 +101,23 @@ export const ComponentManualInstallation = ({
           </h4>
 
           <Collapsible open={isOpened} onOpenChange={setIsOpened}>
-            <div ref={collapsibleRef} className="relative overflow-hidden">
-              <CollapsibleContent
-                forceMount
-                className={cn('overflow-hidden', !isOpened && 'max-h-32')}
+            <div className="relative overflow-hidden">
+              <motion.div
+                className="overflow-hidden"
+                initial={false}
+                animate={{
+                  height: isOpened
+                    ? Math.max(contentHeight, COLLAPSED_HEIGHT)
+                    : COLLAPSED_HEIGHT,
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: [0.32, 0.72, 0, 1],
+                }}
               >
                 <div
-                  className={cn(
-                    '[&_code]:pb-[60px] [&_pre]:my-0 [&_pre]:max-h-[650px]',
-                    !isOpened
-                      ? '[&_pre]:overflow-hidden'
-                      : '[&_pre]:overflow-auto]',
-                  )}
+                  ref={measureRef}
+                  className="[&_code]:pb-[60px] [&_pre]:my-0 [&_pre]:max-h-[650px] [&_pre]:overflow-auto"
                 >
                   <DynamicCodeBlock
                     code={code}
@@ -116,15 +126,18 @@ export const ComponentManualInstallation = ({
                     icon={<ReactIcon />}
                   />
                 </div>
-              </CollapsibleContent>
+              </motion.div>
               <div
                 className={cn(
-                  'absolute flex items-center justify-center rounded-t-xl bg-gradient-to-b from-neutral-300/30 to-white p-2 dark:from-neutral-700/30 dark:to-neutral-950',
-                  isOpened ? 'inset-x-0 bottom-0 h-12' : 'inset-0',
+                  'to-background/95 dark:to-background/95 absolute flex items-center justify-center rounded-t-xl bg-gradient-to-b from-transparent p-2',
+                  isOpened ? 'inset-x-0 bottom-0 h-14' : 'inset-0',
                 )}
               >
                 <CollapsibleTrigger asChild>
-                  <Button variant="secondary" className="h-8 text-xs">
+                  <Button
+                    variant="secondary"
+                    className="border-border/40 h-7 rounded-full border px-3 text-xs shadow-sm"
+                  >
                     {isOpened ? 'Collapse' : 'Expand'}
                   </Button>
                 </CollapsibleTrigger>
