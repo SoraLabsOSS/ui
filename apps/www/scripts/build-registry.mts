@@ -33,6 +33,11 @@ async function collectDocumentedNames(): Promise<Set<string>> {
   }
 
   await walk(CONTENT_DOCS_PATH);
+
+  for (const name of [...allowedNames]) {
+    allowedNames.add(`demo-${name}`);
+  }
+
   return allowedNames;
 }
 
@@ -58,11 +63,16 @@ function replaceRegistryPaths(inputStr: string): string {
       if (rest.startsWith("hooks/")) {
         return `${quote}@/${rest}${quote}`;
       }
-      // Short paths: registry/components/x → @/components/sora-ui/x (drop redundant "components/")
-      // registry/demo/components/x → @/components/sora-ui/demo/x
+      // Match install targets: drop registry folder segments (components/, primitives/, demo/…)
+      // registry/primitives/texts/x → @/components/sora-ui/texts/x
+      // registry/demo/primitives/texts/x → @/components/sora-ui/demo/texts/x
       let suffix = rest;
-      if (suffix.startsWith("demo/components/")) {
+      if (suffix.startsWith("demo/primitives/")) {
+        suffix = `demo/${suffix.slice("demo/primitives/".length)}`;
+      } else if (suffix.startsWith("demo/components/")) {
         suffix = `demo/${suffix.slice("demo/components/".length)}`;
+      } else if (suffix.startsWith("primitives/")) {
+        suffix = suffix.slice("primitives/".length);
       } else if (suffix.startsWith("components/")) {
         suffix = suffix.slice("components/".length);
       }
@@ -96,9 +106,9 @@ async function buildRegistryFile() {
       return false;
     }
     // Demos are doc previews only — not installable via CLI
-    if (item.name.startsWith("demo-")) {
-      return false;
-    }
+    // if (item.name.startsWith("demo-")) {
+    //   return false;
+    // }
     // Only include items that are referenced in at least one .mdx doc page
     if (!documentedNames.has(item.name)) {
       console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
@@ -202,6 +212,23 @@ export const index: Record<string, any> = {`;
     uniqueItemsMap.set(item.name, item);
   }
 
+  const resolveDemoProps = (
+    item: (typeof registryItems.items)[0]
+  ): Record<string, unknown> => {
+    const own = item?.meta?.demoProps;
+    if (own && Object.keys(own).length > 0) {
+      return own;
+    }
+    for (const dep of item.registryDependencies ?? []) {
+      const depItem = uniqueItemsMap.get(dep);
+      const inherited = depItem?.meta?.demoProps;
+      if (inherited && Object.keys(inherited).length > 0) {
+        return inherited;
+      }
+    }
+    return {};
+  };
+
   // Process only unique items
   for (const item of uniqueItemsMap.values()) {
     // Skip items without files
@@ -276,7 +303,7 @@ export const index: Record<string, any> = {`;
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = ${JSON.stringify(item?.meta?.demoProps ?? {})};
+      LazyComp.demoProps = ${JSON.stringify(resolveDemoProps(item))};
       return LazyComp;
     })()`
         : "null"

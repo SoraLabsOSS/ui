@@ -276,7 +276,7 @@ export const Icons = () => {
       }, 500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPanelOpen]);
+  }, [isPanelOpen, activeIcon, setActiveIconWithoutPrefix]);
 
   const icons = Object.values(index).filter(
     (icon) => icon.name.startsWith("icons-") && icon.name !== "icons-icon"
@@ -334,7 +334,7 @@ export const Icons = () => {
 
   useEffect(() => {
     setActiveAnimation("default");
-  }, [activeIcon]);
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -403,6 +403,7 @@ export const Icons = () => {
                                   icon.name.replace("icons-", "")
                                 );
                               }}
+                              type="button"
                             >
                               {icon?.component && (
                                 <icon.component className="size-full text-current" />
@@ -457,6 +458,7 @@ export const Icons = () => {
           <button
             className="absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background transition-colors duration-200 hover:bg-muted"
             onClick={() => setIsPanelOpen(false)}
+            type="button"
           >
             <X className="size-5 text-neutral-500" />
           </button>
@@ -498,7 +500,7 @@ export const Icons = () => {
                   <TabsContent className="group relative" value="manual">
                     {activeIcon && (
                       <DynamicCodeBlock
-                        className="max-h-[98px] [&_[data-slot='codeblock-viewport']]:max-h-[52px]"
+                        className="max-h-[98px] **:data-[slot='codeblock-viewport']:max-h-[52px]"
                         code={icon?.files?.[0]?.content}
                         icon={<ReactIcon />}
                         lang="jsx"

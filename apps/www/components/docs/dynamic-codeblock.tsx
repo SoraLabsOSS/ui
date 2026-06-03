@@ -35,15 +35,15 @@ const getComponents = ({
     },
   }) satisfies HighlightOptionsCommon["components"];
 
-export type DynamicCodeBlockProps = {
-  lang: string;
+export interface DynamicCodeBlockProps {
+  className?: string;
   code: string;
-  title?: string;
   icon?: React.ReactNode;
+  lang: string;
   onCopy?: () => void;
   options?: Omit<HighlightOptionsCommon, "lang"> & HighlightOptionsThemes;
-  className?: string;
-};
+  title?: string;
+}
 
 export function DynamicCodeBlock({
   lang,

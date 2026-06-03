@@ -18,8 +18,51 @@ import {
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
+  /** Registry demo item for the Code tab (defaults to `demo-{name}` when present). */
+  demo?: string;
   iframe?: boolean;
   name: string;
+}
+
+type RegistryIndexEntry = (typeof index)[string];
+
+function resolveDemoProps(name: string): Record<string, unknown> {
+  const entry = index[name] as RegistryIndexEntry | undefined;
+  const direct = entry?.component?.demoProps;
+  if (direct && Object.keys(direct).length > 0) {
+    return direct;
+  }
+
+  for (const dep of entry?.registryDependencies ?? []) {
+    const inherited = (index[dep] as RegistryIndexEntry | undefined)?.component
+      ?.demoProps;
+    if (inherited && Object.keys(inherited).length > 0) {
+      return inherited;
+    }
+  }
+
+  return {};
+}
+
+/** Usage example source for the Code tab; preview still uses `name`. */
+function resolveUsageCodeEntry(
+  previewName: string,
+  explicitDemo?: string
+): RegistryIndexEntry | undefined {
+  if (explicitDemo) {
+    const entry = index[explicitDemo] as RegistryIndexEntry | undefined;
+    if (entry?.files?.[0]?.content) {
+      return entry;
+    }
+  }
+
+  const autoDemoName = `demo-${previewName}`;
+  const autoEntry = index[autoDemoName] as RegistryIndexEntry | undefined;
+  if (autoEntry?.files?.[0]?.content) {
+    return autoEntry;
+  }
+
+  return index[previewName] as RegistryIndexEntry | undefined;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,6 +93,7 @@ function unwrapValues(obj: Record<string, any>): Record<string, any> {
 
 export function ComponentPreview({
   name,
+  demo,
   className,
   iframe = false,
   bigScreen = false,
@@ -61,26 +105,35 @@ export function ComponentPreview({
     unknown
   > | null>(null);
 
-  const code = useMemo(() => {
-    const code = index[name]?.files?.[0]?.content;
+  const usageCode = useMemo(() => {
+    const entry = resolveUsageCodeEntry(name, demo);
+    const content = entry?.files?.[0]?.content;
 
-    if (!code) {
-      console.error(`Component with name "${name}" not found in registry.`);
+    if (!content) {
+      console.error(
+        `Usage code for "${demo ?? `demo-${name}`}" not found in registry.`
+      );
       return null;
     }
 
-    return code;
-  }, [name]);
+    return {
+      content,
+      title:
+        entry.files[0].target?.split("/").pop() ??
+        `${demo ?? `demo-${name}`}.tsx`,
+    };
+  }, [name, demo]);
 
   const preview = useMemo(() => {
     const Component = index[name]?.component;
+    const demoProps = resolveDemoProps(name);
 
-    if (Object.keys(Component?.demoProps ?? {}).length !== 0) {
+    if (Object.keys(demoProps).length !== 0) {
       if (componentProps === null) {
-        setComponentProps(unwrapValues(Component?.demoProps));
+        setComponentProps(unwrapValues(demoProps));
       }
       if (binds === null) {
-        setBinds(Component?.demoProps);
+        setBinds(demoProps as Binds);
       }
     }
 
@@ -164,10 +217,10 @@ export function ComponentPreview({
             <div className="flex flex-col space-y-4">
               <div className="h-[450px] w-full rounded-md [&_pre]:my-0 [&_pre]:h-[400px] [&_pre]:overflow-auto">
                 <DynamicCodeBlock
-                  code={code}
+                  code={usageCode?.content}
                   icon={<ReactIcon />}
                   lang="tsx"
-                  title={`${name}.tsx`}
+                  title={usageCode?.title ?? `${name}.tsx`}
                 />
               </div>
             </div>

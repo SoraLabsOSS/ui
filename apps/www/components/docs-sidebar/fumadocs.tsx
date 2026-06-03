@@ -13,15 +13,22 @@ import { BaseLinkItem } from "fumadocs-ui/layouts/links";
 import { getLinks } from "fumadocs-ui/layouts/shared";
 import { useSidebar, useTreeContext, useTreePath } from "fumadocs-ui/provider";
 import { isActive } from "fumadocs-ui/utils/is-active";
-import { TypeIcon } from "lucide-react";
+import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Fragment, type ReactNode, useMemo } from "react";
 import { Separator } from "@/lib/attach-separator";
 import { ThemeSwitcher } from "../animate/theme-switcher";
+import { IconLogo } from "../icon-logo";
+import {
+  DocsReleaseDatesProvider,
+  useCheckDocsPageNew,
+  useDocsPageNew,
+} from "./release-dates-context";
 import {
   DocsShell,
   DocsShellContent,
   DocsShellFooter,
+  DocsShellHeader,
   DocsShellNavGroup,
   DocsShellNavItem,
   DocsShellSection,
@@ -29,20 +36,29 @@ import {
 import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./shell/scroll-active-nearest";
 import { useDismissMobileSidebarOnOutside } from "./use-dismiss-mobile-sidebar";
 
-const MENU_ITEMS = [
-  {
-    name: "Texts",
-    type: "separator",
-    icon: <TypeIcon strokeWidth={3} />,
-  },
-  {
-    text: "Text Reveal",
-    url: "/docs/texts/text-reveal",
-  },
-] as LinkItemType[];
-
 const getIsActive = (pathname: string, href: string) =>
   href !== undefined && isActive(href, pathname, false);
+interface NavItemFlags {
+  isNew?: boolean;
+  new?: boolean;
+}
+
+function getNavItemLabel(item: PageTree.Item): string {
+  return typeof item.name === "string" ? item.name : String(item.name ?? "");
+}
+
+function getNavItemIsNew(
+  item: PageTree.Item,
+  isPageNewByUrl: (url?: string) => boolean
+): boolean {
+  const href =
+    (item as { index?: { url: string } }).index?.url ??
+    (item as { url?: string }).url;
+  return (
+    Boolean(href && isPageNewByUrl(href)) ||
+    Boolean((item as NavItemFlags).isNew ?? (item as NavItemFlags).new)
+  );
+}
 
 function pageTreeNodeKey(
   item: PageTree.Node,
@@ -73,16 +89,126 @@ function isRootFolder(
 export function SidebarPageTree(props: {
   components?: Partial<SidebarComponents>;
   onNavigate?: () => void;
+  /** On guide pages: render component sections from Fumadocs root folders (`meta.json` `root: true`). */
+  rootsOnly?: boolean;
 }) {
   const { root } = useTreeContext();
   const pathname = usePathname();
   const treePath = useTreePath();
   const { onNavigate } = props;
+  const checkPageNew = useCheckDocsPageNew();
 
   return useMemo(() => {
     const { Separator, Item, Folder } = props.components ?? {};
     const sectionRoot = treePath.findLast(isRootFolder);
-    const sidebarItems = sectionRoot?.children ?? root.children;
+    const componentRoots = root.children.filter(isRootFolder);
+
+    function renderSeparator(
+      item: PageTree.Separator,
+      key: string,
+      i: number,
+      level: number
+    ) {
+      if (
+        level === 1 &&
+        sectionRoot &&
+        pathname.startsWith("/docs/icons") &&
+        i === 0
+      ) {
+        return [];
+      }
+      if (Separator) {
+        return <Separator item={item} key={key} />;
+      }
+      return (
+        <DocsShellSection
+          className={cn(i === 0 ? "mt-1" : "mt-4")}
+          key={key}
+          label={
+            <span className="inline-flex items-center gap-2">
+              {item.icon}
+              {item.name}
+            </span>
+          }
+        >
+          {null}
+        </DocsShellSection>
+      );
+    }
+
+    function renderFolder(
+      item: PageTree.Folder,
+      key: string,
+      level: number,
+      parentKey: string
+    ) {
+      const indexUrl = item.index?.url;
+      const folderChildren = indexUrl
+        ? item.children.filter(
+            (child) => child.type !== "page" || child.url !== indexUrl
+          )
+        : item.children;
+      const children = renderSidebarList(
+        folderChildren,
+        level + 1,
+        `${parentKey}/${key}`
+      );
+      if (Folder) {
+        return (
+          <Folder item={item} key={key} level={level}>
+            {children}
+          </Folder>
+        );
+      }
+      const defaultOpen =
+        (item.defaultOpen ?? DEFAULT_OPEN_LEVEL >= level) ||
+        treePath.includes(item);
+      const folderIndex = item.index;
+      const showIndexLink =
+        folderIndex != null &&
+        !item.children.some(
+          (child) => child.type === "page" && child.url === folderIndex.url
+        );
+      return (
+        <DocsShellNavGroup
+          defaultOpen={defaultOpen}
+          icon={item.icon}
+          key={key}
+          label={item.name}
+        >
+          {showIndexLink ? (
+            <DocsShellNavItem
+              href={folderIndex.url}
+              isActive={getIsActive(pathname, folderIndex.url)}
+              label={folderIndex.name ?? item.name}
+              onClick={onNavigate}
+            />
+          ) : null}
+          {children}
+        </DocsShellNavGroup>
+      );
+    }
+
+    function renderPage(item: PageTree.Item, key: string) {
+      if (Item) {
+        return <Item item={item} key={key} />;
+      }
+
+      const url =
+        (item as { index?: { url: string } }).index?.url ??
+        (item as { url: string }).url;
+
+      return (
+        <DocsShellNavItem
+          href={url}
+          isActive={getIsActive(pathname, url)}
+          isNew={getNavItemIsNew(item, checkPageNew)}
+          key={key}
+          label={getNavItemLabel(item)}
+          onClick={onNavigate}
+        />
+      );
+    }
 
     function renderSidebarList(
       items: PageTree.Node[],
@@ -92,102 +218,30 @@ export function SidebarPageTree(props: {
       return items.flatMap((item, i) => {
         const key = pageTreeNodeKey(item, i, parentKey);
         if (item.type === "separator") {
-          if (
-            level === 1 &&
-            sectionRoot &&
-            pathname.startsWith("/docs/icons") &&
-            i === 0
-          ) {
-            return [];
-          }
-          if (Separator) {
-            return <Separator item={item} key={key} />;
-          }
-          return (
-            <DocsShellSection
-              className={cn(i === 0 ? "mt-1" : "mt-4")}
-              key={key}
-              label={
-                <span className="inline-flex items-center gap-2">
-                  {item.icon}
-                  {item.name}
-                </span>
-              }
-            >
-              {null}
-            </DocsShellSection>
-          );
+          return renderSeparator(item, key, i, level);
         }
-
         if (item.type === "folder") {
-          const indexUrl = item.index?.url;
-          const folderChildren = indexUrl
-            ? item.children.filter(
-                (child) => child.type !== "page" || child.url !== indexUrl
-              )
-            : item.children;
-          const children = renderSidebarList(
-            folderChildren,
-            level + 1,
-            `${parentKey}/${key}`
-          );
-          if (Folder) {
-            return (
-              <Folder item={item} key={key} level={level}>
-                {children}
-              </Folder>
-            );
-          }
-          const defaultOpen =
-            (item.defaultOpen ?? DEFAULT_OPEN_LEVEL >= level) ||
-            treePath.includes(item);
-          const folderIndex = item.index;
-          const showIndexLink =
-            folderIndex != null &&
-            !item.children.some(
-              (child) => child.type === "page" && child.url === folderIndex.url
-            );
-          return (
-            <DocsShellNavGroup
-              defaultOpen={defaultOpen}
-              icon={item.icon}
-              key={key}
-              label={item.name}
-            >
-              {showIndexLink ? (
-                <DocsShellNavItem
-                  href={folderIndex.url}
-                  isActive={getIsActive(pathname, folderIndex.url)}
-                  label={folderIndex.name ?? item.name}
-                  onClick={onNavigate}
-                />
-              ) : null}
-              {children}
-            </DocsShellNavGroup>
-          );
+          return renderFolder(item, key, level, parentKey);
         }
-
-        if (Item) {
-          return <Item item={item} key={key} />;
-        }
-
-        const url =
-          (item as { index?: { url: string } }).index?.url ??
-          (item as { url: string }).url;
-        const active = getIsActive(pathname, url);
-
-        return (
-          <DocsShellNavItem
-            href={url}
-            isActive={active}
-            isNew={Boolean((item as { new?: boolean }).new)}
-            key={key}
-            label={item.name as string}
-            onClick={onNavigate}
-          />
-        );
+        return renderPage(item, key);
       });
     }
+
+    if (props.rootsOnly) {
+      return (
+        <div className="mt-4 mb-3">
+          {componentRoots.flatMap((folder, i) =>
+            renderSidebarList(
+              folder.children,
+              1,
+              String(folder.$id ?? `root-${i}`)
+            )
+          )}
+        </div>
+      );
+    }
+
+    const sidebarItems = sectionRoot?.children ?? root.children;
 
     return (
       <Fragment key={sectionRoot?.$id ?? root.$id}>
@@ -198,7 +252,15 @@ export function SidebarPageTree(props: {
         )}
       </Fragment>
     );
-  }, [props.components, root, pathname, treePath, onNavigate]);
+  }, [
+    props.components,
+    props.rootsOnly,
+    root,
+    pathname,
+    treePath,
+    onNavigate,
+    checkPageNew,
+  ]);
 }
 
 export function SidebarLinkItem({
@@ -206,11 +268,13 @@ export function SidebarLinkItem({
   onNavigate,
   ...props
 }: {
-  item: LinkItemType;
+  item: LinkItemType & { new?: boolean };
   className?: string;
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
+  const linkUrl = "url" in item ? item.url : undefined;
+  const isNewFromRelease = useDocsPageNew(linkUrl);
 
   if (item.type === "menu") {
     return (
@@ -254,13 +318,16 @@ export function SidebarLinkItem({
       className={props.className}
       href={item.url}
       isActive={active}
+      isNew={isNewFromRelease || Boolean((item as { new?: boolean }).new)}
       label={item.text as string}
       onClick={item.external ? undefined : onNavigate}
     />
   );
 }
 
-export const DocsSidebar = (all: DocsLayoutProps) => {
+export const DocsSidebar = (
+  all: DocsLayoutProps & { releaseDatesByUrl?: Record<string, string> }
+) => {
   const {
     footer: sidebarFooter,
     components: sidebarComponents,
@@ -283,109 +350,116 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
   };
 
   const scrollViewportSelector = `[&_[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]]:!p-0`;
+  const releaseDatesByUrl = all.releaseDatesByUrl ?? {};
 
   return (
-    <Sidebar
-      className={cn(
-        "min-h-0 overflow-hidden border-border border-r",
-        "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
-        scrollViewportSelector,
-        sidebarProps.className
-      )}
-      collapsible={false}
-      {...sidebarProps}
-    >
-      <DocsShell
-        className="min-h-0 max-md:w-full max-md:max-w-full"
-        defaultWidth={260}
-        maxWidth={380}
-        minWidth={180}
+    <DocsReleaseDatesProvider releaseDatesByUrl={releaseDatesByUrl}>
+      <Sidebar
+        className={cn(
+          "min-h-0 overflow-hidden",
+          "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
+          scrollViewportSelector,
+          sidebarProps.className
+        )}
+        collapsible={false}
+        {...sidebarProps}
       >
-        <DocsShellContent
-          className={cn(
-            "min-h-0",
-            "max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14"
-          )}
+        <DocsShell
+          className="min-h-0 max-md:w-full max-md:max-w-full"
+          defaultWidth={260}
+          maxWidth={380}
+          minWidth={180}
         >
-          {links
-            .filter((v) => v.type !== "icon")
-            .map((item, i, list) => {
-              const linkKey =
-                item.type === "menu"
-                  ? `menu-${item.text}`
-                  : item.type === "custom"
-                    ? "custom-docs-link"
-                    : item.url
-                      ? item.url
-                      : `link-${item.text ?? "unknown"}-${i}`;
-
-              return (
-                <SidebarLinkItem
-                  className={cn(i === list.length - 1 && "mb-3")}
-                  item={item}
-                  key={linkKey}
-                  onNavigate={closeMobile}
-                />
-              );
-            })}
-
-          {isMenu ? (
-            <div>
-              {MENU_ITEMS.map((item, i) => (
-                <SidebarLinkItem
-                  className={cn(
-                    i === 0 && "mt-4",
-                    i === MENU_ITEMS.length - 1 && "mb-3"
-                  )}
-                  item={item as LinkItemType}
-                  key={
-                    "url" in item && item.url
-                      ? item.url
-                      : `nav-${(item as { name?: string }).name ?? "sep"}`
-                  }
-                  onNavigate={closeMobile}
-                />
-              ))}
+          <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
+            <div className="flex items-center gap-2">
+              <IconLogo className="size-4" />
+              <span className="font-semibold text-sm">Sora</span>
             </div>
-          ) : (
+            <button
+              aria-label="Close menu"
+              className={cn(
+                buttonVariants({
+                  color: "ghost",
+                  size: "icon-sm",
+                  className: "!size-8 [&_svg]:!size-5 text-fd-muted-foreground",
+                })
+              )}
+              onClick={closeMobile}
+              type="button"
+            >
+              <X />
+            </button>
+          </DocsShellHeader>
+
+          <DocsShellContent
+            className={cn(
+              "min-h-0",
+              "max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14"
+            )}
+          >
+            {links
+              .filter((v) => v.type !== "icon")
+              .map((item, i, list) => {
+                let linkKey: string;
+                if (item.type === "menu") {
+                  linkKey = `menu-${item.text}`;
+                } else if (item.type === "custom") {
+                  linkKey = "custom-docs-link";
+                } else if (item.url) {
+                  linkKey = item.url;
+                } else {
+                  linkKey = `link-${item.text ?? "unknown"}-${i}`;
+                }
+
+                return (
+                  <SidebarLinkItem
+                    className={cn(i === list.length - 1 && "mb-3")}
+                    item={item}
+                    key={linkKey}
+                    onNavigate={closeMobile}
+                  />
+                );
+              })}
+
             <SidebarPageTree
               components={sidebarComponents}
               onNavigate={closeMobile}
+              rootsOnly={isMenu}
             />
-          )}
-        </DocsShellContent>
+          </DocsShellContent>
 
-        <DocsShellFooter>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <div className="ms-auto flex items-center justify-end gap-1 md:hidden">
-              {links
-                .filter((link) => link.type === "icon")
-                .map((link) => (
-                  <BaseLinkItem
-                    aria-label={link.label}
-                    className={cn(
-                      buttonVariants({ size: "icon", color: "ghost" }),
-                      "text-fd-muted-foreground md:[&_svg]:size-4.5",
-                      link.url ===
-                        links.filter((l) => l.type === "icon").at(-1)?.url &&
-                        "me-auto"
-                    )}
-                    item={link}
-                    key={link.url}
-                  >
-                    {link.icon}
-                  </BaseLinkItem>
-                ))}
-              <ThemeSwitcher />
+          <DocsShellFooter>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <div className="ms-auto flex items-center justify-end gap-1 md:hidden">
+                {links
+                  .filter((link) => link.type === "icon")
+                  .map((link) => (
+                    <BaseLinkItem
+                      aria-label={link.label}
+                      className={cn(
+                        buttonVariants({ size: "icon", color: "ghost" }),
+                        "text-fd-muted-foreground md:[&_svg]:size-4.5",
+                        link.url ===
+                          links.filter((l) => l.type === "icon").at(-1)?.url &&
+                          "me-auto"
+                      )}
+                      item={link}
+                      key={link.url}
+                    >
+                      {link.icon}
+                    </BaseLinkItem>
+                  ))}
+                <ThemeSwitcher />
+              </div>
             </div>
-          </div>
-          <HideIfEmpty>
-            <div className="mt-2 empty:hidden data-[empty=true]:hidden">
-              {sidebarFooter}
-            </div>
-          </HideIfEmpty>
-        </DocsShellFooter>
-      </DocsShell>
-    </Sidebar>
+            <HideIfEmpty>
+              <div className="mt-2 empty:hidden data-[empty=true]:hidden">
+                {sidebarFooter}
+              </div>
+            </HideIfEmpty>
+          </DocsShellFooter>
+        </DocsShell>
+      </Sidebar>
+    </DocsReleaseDatesProvider>
   );
 };

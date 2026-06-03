@@ -7,6 +7,7 @@ import { useSearchContext, useSidebar } from "fumadocs-ui/provider";
 import { CommandIcon, Menu } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
+import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 
@@ -22,16 +23,19 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const NAV_ITEMS = [
-  {
-    title: "Docs",
-    url: "/docs",
-  },
-  {
-    title: "Components",
-    url: "/docs/texts/text-reveal",
-  },
-];
+const DOCS_GUIDE_URL = "/docs";
+
+export type NavProps = {
+  /** First primitive doc from Fumadocs root folders (meta.json root flag). */
+  primitivesUrl: string;
+};
+
+const buildNavItems = (primitivesUrl: string) =>
+  [
+    { title: "Docs", url: DOCS_GUIDE_URL },
+    { title: "Primitives", url: primitivesUrl },
+    { title: "Components", url: DOCS_COMPONENTS_SECTION_URL },
+  ] as const;
 
 const NavItem = ({ title, url }: { title: string; url: string }) => (
   <Link
@@ -48,12 +52,13 @@ const NavItem = ({ title, url }: { title: string; url: string }) => (
   </Link>
 );
 
-export const Nav = () => {
+export const Nav = ({ primitivesUrl }: NavProps) => {
   const { setOpenSearch } = useSearchContext();
   const { open, setOpen } = useSidebar();
+  const navItems = buildNavItems(primitivesUrl);
 
   return (
-    <Navbar className="left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-border border-b bg-background px-3 md:h-17 md:px-5">
+    <Navbar className="left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-b-0 bg-background px-3 md:h-17 md:px-5">
       <Link
         className={buttonVariants({
           color: "ghost",
@@ -68,7 +73,7 @@ export const Nav = () => {
 
       <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
         <div className="hidden items-center gap-1 md:flex">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <NavItem key={item.title} title={item.title} url={item.url} />
           ))}
         </div>

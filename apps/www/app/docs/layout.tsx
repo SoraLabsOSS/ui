@@ -5,6 +5,8 @@ import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
 import { DocsSidebar } from "@/components/docs/sidebar";
+import { getFirstPrimitiveDocUrl } from "@/lib/get-first-primitive-doc-url";
+import { getReleaseDatesByUrl } from "@/lib/get-release-dates-by-url";
 import { source } from "@/lib/source";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
@@ -27,6 +29,9 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const releaseDatesByUrl = getReleaseDatesByUrl();
+  const primitivesUrl = getFirstPrimitiveDocUrl();
+
   return (
     <DocsLayout
       {...DOCS_LAYOUT_PROPS}
@@ -35,10 +40,15 @@ export default function Layout({ children }: { children: ReactNode }) {
           "md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:260px] lg:[--fd-sidebar-width:260px]",
       }}
       nav={{
-        component: <Nav />,
+        component: <Nav primitivesUrl={primitivesUrl} />,
       }}
       sidebar={{
-        component: <DocsSidebar {...DOCS_LAYOUT_PROPS} />,
+        component: (
+          <DocsSidebar
+            releaseDatesByUrl={releaseDatesByUrl}
+            {...DOCS_LAYOUT_PROPS}
+          />
+        ),
       }}
     >
       {children}

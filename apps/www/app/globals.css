@@ -290,9 +290,8 @@
   }
 
   #nd-sidebar {
-    @apply border-border md:!border-y-0 md:!border-r md:!border-l-0;
+    @apply md:!border-0;
   }
-
   /* Mobile drawer: raise overlay/panel above page content (no solid scrim — Fumadocs uses backdrop-blur only) */
   @media (max-width: 767px) {
     body:has(#nd-sidebar-mobile[data-state="open"])
@@ -335,8 +334,8 @@
     top: var(--fd-nav-height) !important;
     height: calc(
       100dvh -
-      var(--fd-banner-height) -
-      var(--fd-nav-height)
+      var(--fd-banner-heigh) -
+      va(--fd-nav-height)
     ) !important;
     @apply sticky self-start pt-8 pb-2 max-xl:hidden;
   }
@@ -346,7 +345,7 @@
   }
 
   /* Default TOC thumb only: fumadocs uses role="none" + absolute + w-px.
-     Clerk TOC thumb lives inside an SVG mask and must not be forced narrow
+     Clerk TOC thumb l"ves "nside an SVG mask and must not be forced narrow
      or shifted (-ml-px) or tracking disappears on diagonal path segments. */
   #nd-toc div[role="none"].absolute {
     @apply -ml-px !w-[3px] !rounded-full;
@@ -374,6 +373,11 @@
 
 .screenshot-mode #nd-sidebar,
 .screenshot-mode #nd-toc,
+.screenshot-mode #d-page article > *:not(#docs-body),
+.screenshot-mode #nd-page #docs-body > *:not(#component-preview),
+.screenshot-mode #component-preview-tab-list {
+  opacity: 0 !important;
+}
 .screenshot-mode #nd-page article > *:not(#docs-body),
 .screenshot-mode #nd-page #docs-body > *:not(#component-preview),
 .screenshot-mode #component-preview-tab-list {

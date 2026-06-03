@@ -16,6 +16,8 @@ import { notFound } from "next/navigation";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { LLMCopyButton, ViewOptions } from "@/components/docs/page-actions";
+import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
+import { getFirstPrimitiveDocUrl } from "@/lib/get-first-primitive-doc-url";
 import { source } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
 
@@ -43,6 +45,7 @@ export default async function Page(props: {
   };
   const guideItems = (baseOptions.links ?? []).filter(isGuideLink);
   const guideIndex = guideItems.findIndex((it) => it.url === page.url);
+  const primitivesUrl = getFirstPrimitiveDocUrl();
 
   const prevNav = (() => {
     if (guideIndex >= 0 && guideItems.length > 0) {
@@ -62,11 +65,10 @@ export default async function Page(props: {
       } as const;
     }
 
-    const isTextsRoot = page.url === "/docs/texts/text-reveal";
+    const isPrimitivesRoot = page.url === primitivesUrl;
     const isSectionRoot =
-      page.url === "/docs/components" ||
-      isTextsRoot ||
-      page.url === "/docs/primitives" ||
+      page.url === DOCS_COMPONENTS_SECTION_URL ||
+      isPrimitivesRoot ||
       page.url === "/docs/icons/get-started";
 
     if (isSectionRoot && guideItems.length > 0) {
@@ -75,13 +77,16 @@ export default async function Page(props: {
     }
 
     if (page.url.startsWith("/docs/texts/")) {
-      return { url: "/docs/texts/text-reveal", name: "Components" } as const;
+      return { url: primitivesUrl, name: "Primitives" } as const;
     }
     if (page.url.startsWith("/docs/components/")) {
-      return { url: "/docs/components", name: "Components" } as const;
+      return {
+        url: DOCS_COMPONENTS_SECTION_URL,
+        name: "Components",
+      } as const;
     }
     if (page.url.startsWith("/docs/primitives/")) {
-      return { url: "/docs/primitives", name: "Primitives" } as const;
+      return { url: primitivesUrl, name: "Primitives" } as const;
     }
 
     return;
@@ -94,7 +99,7 @@ export default async function Page(props: {
             url: guideItems[guideIndex + 1].url,
             name: guideItems[guideIndex + 1].text,
           }
-        : { url: "/docs/texts/text-reveal", name: "Components" }
+        : { url: primitivesUrl, name: "Primitives" }
       : nextPage
         ? { url: nextPage.url, name: String(nextPage.name ?? "Suivant") }
         : undefined;

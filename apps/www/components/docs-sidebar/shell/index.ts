@@ -9,6 +9,7 @@ export {
   DocsShell,
   DocsShellContent,
   DocsShellFooter,
+  DocsShellHeader,
   type DocsShellProps,
 } from "./layout";
 export { DocsShellNavGroup, type DocsShellNavGroupProps } from "./nav-group";

@@ -32,17 +32,6 @@ export const attachFile: BuildPageTreeOptions["attachFile"] = (node, file) => {
   }
   const data = file.data;
 
-  if ("releaseDate" in data) {
-    const now = new Date();
-    const release = new Date(data.releaseDate as string);
-    const diffMs = now.getTime() - release.getTime();
-    const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-    if (diffDays <= 30) {
-      node.name = <Badge name={node.name}>new</Badge>;
-    }
-  }
-
   if ("alpha" in data && typeof data.alpha === "boolean" && data.alpha) {
     node.name = (
       <Badge
