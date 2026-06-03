@@ -1,20 +1,19 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useTheme } from 'next-themes';
-
-import { cn } from '@workspace/ui/lib/utils';
+import { cn } from "@workspace/ui/lib/utils";
+import { useTheme } from "next-themes";
+import * as React from "react";
+import { CopyButton } from "@/components/docs/copy";
 import {
   Tabs,
   TabsContent,
-  TabsList,
-  TabsTrigger,
   TabsContents,
   TabsHighlight,
   TabsHighlightItem,
+  TabsList,
   type TabsProps,
-} from '@/registry/primitives/animate/tabs';
-import { CopyButton } from '@/components/docs/copy';
+  TabsTrigger,
+} from "@/registry/primitives/animate/tabs";
 
 type CodeTabsProps = {
   codes: Record<string, string>;
@@ -22,14 +21,14 @@ type CodeTabsProps = {
   themes?: { light: string; dark: string };
   copyButton?: boolean;
   onCopiedChange?: (copied: boolean, content?: string) => void;
-} & Omit<TabsProps, 'children'>;
+} & Omit<TabsProps, "children">;
 
 function CodeTabs({
   codes,
-  lang = 'bash',
+  lang = "bash",
   themes = {
-    light: 'github-light',
-    dark: 'github-dark',
+    light: "github-light",
+    dark: "github-dark",
   },
   className,
   defaultValue,
@@ -46,13 +45,13 @@ function CodeTabs({
     string
   > | null>(null);
   const [selectedCode, setSelectedCode] = React.useState<string>(
-    value ?? defaultValue ?? Object.keys(codes)[0] ?? '',
+    value ?? defaultValue ?? Object.keys(codes)[0] ?? ""
   );
 
   React.useEffect(() => {
     async function loadHighlightedCode() {
       try {
-        const { codeToHtml } = await import('shiki');
+        const { codeToHtml } = await import("shiki");
         const newHighlightedCodes: Record<string, string> = {};
 
         for (const [command, val] of Object.entries(codes)) {
@@ -62,7 +61,7 @@ function CodeTabs({
               light: themes.light,
               dark: themes.dark,
             },
-            defaultColor: resolvedTheme === 'dark' ? 'dark' : 'light',
+            defaultColor: resolvedTheme === "dark" ? "dark" : "light",
           });
 
           newHighlightedCodes[command] = highlighted;
@@ -70,7 +69,7 @@ function CodeTabs({
 
         setHighlightedCodes(newHighlightedCodes);
       } catch (error) {
-        console.error('Error highlighting codes', error);
+        console.error("Error highlighting codes", error);
         setHighlightedCodes(codes);
       }
     }
@@ -79,35 +78,35 @@ function CodeTabs({
 
   return (
     <Tabs
-      data-slot="install-tabs"
       className={cn(
-        'bg-accent w-full gap-0 overflow-hidden rounded-xl',
-        className,
+        "w-full gap-0 overflow-hidden rounded-xl bg-accent",
+        className
       )}
+      data-slot="install-tabs"
       {...props}
-      value={selectedCode}
       onValueChange={(val) => {
         setSelectedCode(val);
         onValueChange?.(val);
       }}
+      value={selectedCode}
     >
       <TabsHighlight className="absolute inset-0 z-0 rounded-none bg-transparent shadow-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-t-full after:bg-black after:content-[''] dark:after:bg-white">
         <TabsList
-          data-slot="install-tabs-list"
           className="relative flex h-10 w-full items-center justify-between rounded-none py-0 pr-4.5 pl-5 text-current"
+          data-slot="install-tabs-list"
         >
           <div className="flex h-full gap-x-3">
             {highlightedCodes &&
               Object.keys(highlightedCodes).map((code) => (
                 <TabsHighlightItem
+                  className="flex items-center justify-center"
                   key={code}
                   value={code}
-                  className="flex items-center justify-center"
                 >
                   <TabsTrigger
+                    className="h-full px-0 font-medium text-muted-foreground text-sm data-[state=active]:text-current"
                     key={code}
                     value={code}
-                    className="text-muted-foreground h-full px-0 text-sm font-medium data-[state=active]:text-current"
                   >
                     {code}
                   </TabsTrigger>
@@ -117,11 +116,11 @@ function CodeTabs({
 
           {copyButton && highlightedCodes && (
             <CopyButton
+              className="-me-2.5 bg-transparent hover:bg-black/5 dark:hover:bg-white/10"
               content={codes[selectedCode]}
+              onCopiedChange={onCopiedChange}
               size="xs"
               variant="ghost"
-              className="-me-2.5 bg-transparent hover:bg-black/5 dark:hover:bg-white/10"
-              onCopiedChange={onCopiedChange}
             />
           )}
         </TabsList>
@@ -129,19 +128,19 @@ function CodeTabs({
 
       <div className="px-1.5 pb-1.5">
         <TabsContents
+          className="rounded-md bg-background"
           data-slot="install-tabs-contents"
-          className="bg-background rounded-md"
         >
           {highlightedCodes &&
             Object.entries(highlightedCodes).map(([code, val]) => (
               <TabsContent
+                className="w-full"
                 data-slot="install-tabs-content"
                 key={code}
-                className="w-full"
                 value={code}
               >
                 <div
-                  className="flex w-full items-center overflow-auto p-4 text-sm [&_code]:!text-[13px] [&_code_.line]:!px-0 [&>pre,_&_code]:border-none [&>pre,_&_code]:!bg-transparent [&>pre,_&_code]:[background:transparent_!important]"
+                  className="[&_code]:!text-[13px] [&_code_.line]:!px-0 [&>pre,_&_code]:!bg-transparent flex w-full items-center overflow-auto p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
                   dangerouslySetInnerHTML={{ __html: val }}
                 />
               </TabsContent>

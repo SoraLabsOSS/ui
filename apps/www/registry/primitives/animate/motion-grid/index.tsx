@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type HTMLMotionProps } from 'motion/react';
-
-import { cn } from '@workspace/ui/lib/utils';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { Slot, type WithAsChild } from '@/registry/primitives/animate/slot';
+import { cn } from "@workspace/ui/lib/utils";
+import { type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
+import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 
 type FrameDot = [number, number];
 type Frame = FrameDot[];
@@ -21,7 +20,7 @@ type MotionGridContextType = {
 };
 
 const [MotionGridProvider, useMotionGrid] =
-  getStrictContext<MotionGridContextType>('MotionGridContext');
+  getStrictContext<MotionGridContextType>("MotionGridContext");
 
 type MotionGridProps = WithAsChild<
   {
@@ -29,7 +28,7 @@ type MotionGridProps = WithAsChild<
     frames: Frames;
     duration?: number;
     animate?: boolean;
-  } & HTMLMotionProps<'div'>
+  } & HTMLMotionProps<"div">
 >;
 
 const MotionGrid = ({
@@ -45,10 +44,12 @@ const MotionGrid = ({
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
-    if (!animate || frames.length === 0) return;
+    if (!animate || frames.length === 0) {
+      return;
+    }
     intervalRef.current = setInterval(
       () => setIndex((i) => (i + 1) % frames.length),
-      duration,
+      duration
     );
     return () => clearInterval(intervalRef.current!);
   }, [frames.length, duration, animate]);
@@ -64,9 +65,9 @@ const MotionGrid = ({
       <Component
         data-animate={animate}
         style={{
-          display: 'grid',
+          display: "grid",
           gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-          gridAutoRows: '1fr',
+          gridAutoRows: "1fr",
           ...style,
         }}
         {...props}
@@ -75,9 +76,9 @@ const MotionGrid = ({
   );
 };
 
-type MotionGridCellsProps = HTMLMotionProps<'div'> & {
-  activeProps?: HTMLMotionProps<'div'>;
-  inactiveProps?: HTMLMotionProps<'div'>;
+type MotionGridCellsProps = HTMLMotionProps<"div"> & {
+  activeProps?: HTMLMotionProps<"div">;
+  inactiveProps?: HTMLMotionProps<"div">;
 };
 
 function MotionGridCells({
@@ -88,17 +89,17 @@ function MotionGridCells({
   const { animate, index, cols, rows, frames, duration } = useMotionGrid();
 
   const active = new Set<number>(
-    frames[index]?.map(([x, y]) => y * cols + x) ?? [],
+    frames[index]?.map(([x, y]) => y * cols + x) ?? []
   );
 
   return Array.from({ length: cols * rows }).map((_, i) => {
     const isActive = active.has(i);
-    const componentProps: HTMLMotionProps<'div'> = {
+    const componentProps: HTMLMotionProps<"div"> = {
       ...(isActive ? activeProps : inactiveProps),
     };
     componentProps.className = cn(
       props?.className,
-      isActive ? activeProps?.className : inactiveProps?.className,
+      isActive ? activeProps?.className : inactiveProps?.className
     );
     componentProps.style = {
       ...props?.style,
@@ -107,10 +108,10 @@ function MotionGridCells({
 
     return (
       <motion.div
-        key={i}
         data-active={isActive}
         data-animate={animate}
-        transition={{ duration, ease: 'easeInOut' }}
+        key={i}
+        transition={{ duration, ease: "easeInOut" }}
         {...props}
         {...componentProps}
       />
@@ -119,11 +120,11 @@ function MotionGridCells({
 }
 
 export {
+  type Frame,
+  type FrameDot,
+  type Frames,
   MotionGrid,
   MotionGridCells,
-  type MotionGridProps,
   type MotionGridCellsProps,
-  type FrameDot,
-  type Frame,
-  type Frames,
+  type MotionGridProps,
 };

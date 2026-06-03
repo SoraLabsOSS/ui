@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type UsersProps = IconProps<keyof typeof animations>;
 
@@ -22,7 +21,7 @@ const animations = {
         y: [0, 2, -2, 0],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
           delay: 0.1,
         },
       },
@@ -35,7 +34,7 @@ const animations = {
         y: [0, 4, -2, 0],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -47,7 +46,7 @@ const animations = {
         y: [0, 2, -2, 0],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -59,7 +58,7 @@ const animations = {
         y: [0, 4, -2, 0],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
           delay: 0.1,
         },
       },
@@ -76,7 +75,7 @@ const animations = {
         x: 0,
         opacity: 1,
         transition: {
-          type: 'spring',
+          type: "spring",
           stiffness: 100,
           damping: 10,
         },
@@ -91,7 +90,7 @@ const animations = {
         x: 0,
         opacity: 1,
         transition: {
-          type: 'spring',
+          type: "spring",
           stiffness: 100,
           damping: 10,
         },
@@ -107,42 +106,42 @@ function IconComponent({ size, ...props }: UsersProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
+        animate={controls}
         d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+        initial="initial"
         variants={variants.path1}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M16 3.128a4 4 0 0 1 0 7.744"
-        variants={variants.path2}
         initial="initial"
-        animate={controls}
+        variants={variants.path2}
       />
       <motion.path
-        d="M22 21v-2a4 4 0 0 0-3-3.87"
-        variants={variants.path3}
-        initial="initial"
         animate={controls}
+        d="M22 21v-2a4 4 0 0 0-3-3.87"
+        initial="initial"
+        variants={variants.path3}
       />
       <motion.circle
+        animate={controls}
         cx={9}
         cy={7}
+        initial="initial"
         r={4}
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

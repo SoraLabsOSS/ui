@@ -1,19 +1,18 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Popover as PopoverPrimitive } from '@base-ui-components/react/popover';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+import { Popover as PopoverPrimitive } from "@base-ui-components/react/popover";
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import type * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type PopoverContextType = {
   isOpen: boolean;
-  setIsOpen: PopoverProps['onOpenChange'];
+  setIsOpen: PopoverProps["onOpenChange"];
 };
 
 const [PopoverProvider, usePopover] =
-  getStrictContext<PopoverContextType>('PopoverContext');
+  getStrictContext<PopoverContextType>("PopoverContext");
 
 type PopoverProps = React.ComponentProps<typeof PopoverPrimitive.Root>;
 
@@ -45,7 +44,7 @@ function PopoverTrigger(props: PopoverTriggerProps) {
 
 type PopoverPortalProps = Omit<
   React.ComponentProps<typeof PopoverPrimitive.Portal>,
-  'keepMounted'
+  "keepMounted"
 >;
 
 function PopoverPortal(props: PopoverPortalProps) {
@@ -55,8 +54,8 @@ function PopoverPortal(props: PopoverPortalProps) {
     <AnimatePresence>
       {isOpen && (
         <PopoverPrimitive.Portal
-          keepMounted
           data-slot="popover-portal"
+          keepMounted
           {...props}
         />
       )}
@@ -76,27 +75,27 @@ function PopoverPositioner(props: PopoverPositionerProps) {
 
 type PopoverPopupProps = Omit<
   React.ComponentProps<typeof PopoverPrimitive.Popup>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function PopoverPopup({
   initialFocus,
   finalFocus,
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   ...props
 }: PopoverPopupProps) {
   return (
     <PopoverPrimitive.Popup
-      initialFocus={initialFocus}
       finalFocus={finalFocus}
+      initialFocus={initialFocus}
       render={
         <motion.div
-          key="popover-popup"
-          data-slot="popover-popup"
-          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
+          data-slot="popover-popup"
           exit={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          key="popover-popup"
           transition={transition}
           {...props}
         />
@@ -143,25 +142,25 @@ function PopoverClose(props: PopoverCloseProps) {
 
 export {
   Popover,
-  PopoverTrigger,
-  PopoverPortal,
-  PopoverPositioner,
-  PopoverPopup,
-  PopoverBackdrop,
   PopoverArrow,
-  PopoverTitle,
-  PopoverDescription,
-  PopoverClose,
-  usePopover,
-  type PopoverProps,
-  type PopoverTriggerProps,
-  type PopoverPortalProps,
-  type PopoverPositionerProps,
-  type PopoverPopupProps,
-  type PopoverBackdropProps,
   type PopoverArrowProps,
-  type PopoverTitleProps,
-  type PopoverDescriptionProps,
+  PopoverBackdrop,
+  type PopoverBackdropProps,
+  PopoverClose,
   type PopoverCloseProps,
   type PopoverContextType,
+  PopoverDescription,
+  type PopoverDescriptionProps,
+  PopoverPopup,
+  type PopoverPopupProps,
+  PopoverPortal,
+  type PopoverPortalProps,
+  PopoverPositioner,
+  type PopoverPositionerProps,
+  type PopoverProps,
+  PopoverTitle,
+  type PopoverTitleProps,
+  PopoverTrigger,
+  type PopoverTriggerProps,
+  usePopover,
 };

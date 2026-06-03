@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type MessageCircleHeartProps = IconProps<keyof typeof animations>;
 
@@ -19,10 +18,10 @@ const animations = {
         rotate: 0,
       },
       animate: {
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         rotate: [0, 8, -8, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
           times: [0, 0.4, 0.6, 0.8, 1],
         },
@@ -36,7 +35,7 @@ const animations = {
       animate: {
         scale: [1, 0.7, 1.1, 1],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
         },
       },
@@ -50,29 +49,29 @@ function IconComponent({ size, ...props }: MessageCircleHeartProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
-          d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"
-          variants={variants.path1}
-          initial="initial"
           animate={controls}
+          d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"
+          initial="initial"
+          variants={variants.path1}
         />
         <motion.path
-          d="M15.8 9.2a2.5 2.5 0 0 0-3.5 0l-.3.4-.35-.3a2.42 2.42 0 1 0-3.2 3.6l3.6 3.5 3.6-3.5c1.2-1.2 1.1-2.7.2-3.7"
-          variants={variants.path2}
-          initial="initial"
           animate={controls}
+          d="M15.8 9.2a2.5 2.5 0 0 0-3.5 0l-.3.4-.35-.3a2.42 2.42 0 1 0-3.2 3.6l3.6 3.5 3.6-3.5c1.2-1.2 1.1-2.7.2-3.7"
+          initial="initial"
+          variants={variants.path2}
         />
       </motion.g>
     </motion.svg>

@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type OrbitProps = IconProps<keyof typeof animations>;
 
@@ -20,9 +19,9 @@ const animations = {
         rotate: 360,
         transition: {
           duration: 2,
-          ease: 'linear',
-          repeat: Infinity,
-          repeatType: 'loop',
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "loop",
         },
       },
     },
@@ -39,55 +38,55 @@ function IconComponent({ size, ...props }: OrbitProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      animate={controls}
       fill="none"
+      height={size}
+      initial="initial"
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
       variants={variants.group}
-      initial="initial"
-      animate={controls}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
-        d="M20.341 6.484A10 10 0 0 1 10.266 21.85"
-        variants={variants.path1}
-        initial="initial"
         animate={controls}
+        d="M20.341 6.484A10 10 0 0 1 10.266 21.85"
+        initial="initial"
+        variants={variants.path1}
       />
       <motion.path
-        d="M3.659 17.516A10 10 0 0 1 13.74 2.152"
-        variants={variants.path2}
-        initial="initial"
         animate={controls}
+        d="M3.659 17.516A10 10 0 0 1 13.74 2.152"
+        initial="initial"
+        variants={variants.path2}
       />
       <motion.circle
+        animate={controls}
         cx="12"
         cy="12"
+        initial="initial"
         r="3"
         variants={variants.circle1}
-        initial="initial"
-        animate={controls}
       />
       <motion.circle
+        animate={controls}
         cx="19"
         cy="5"
+        initial="initial"
         r="2"
         variants={variants.circle2}
-        initial="initial"
-        animate={controls}
       />
       <motion.circle
+        animate={controls}
         cx="5"
         cy="19"
+        initial="initial"
         r="2"
         variants={variants.circle3}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

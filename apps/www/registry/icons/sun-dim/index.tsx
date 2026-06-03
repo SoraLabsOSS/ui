@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type SunDimProps = IconProps<keyof typeof animations>;
 
@@ -26,7 +25,7 @@ const animations = {
           scale: [0, 1],
           transition: {
             duration: 0.6,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             delay: (i - 1) * 0.15,
           },
         },
@@ -43,74 +42,74 @@ function IconComponent({ size, ...props }: SunDimProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      animate={controls}
       fill="none"
+      height={size}
+      initial="initial"
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      initial="initial"
-      animate={controls}
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.circle
+        animate={controls}
         cx="12"
         cy="12"
+        initial="initial"
         r="4"
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M12 4h.01"
+        initial="initial"
         variants={variants.path1}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M17.657 6.343h.01"
+        initial="initial"
         variants={variants.path2}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M20 12h.01"
+        initial="initial"
         variants={variants.path3}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M17.657 17.657h.01"
+        initial="initial"
         variants={variants.path4}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M12 20h.01"
+        initial="initial"
         variants={variants.path5}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M6.343 17.657h.01"
+        initial="initial"
         variants={variants.path6}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M4 12h.01"
-        variants={variants.path7}
         initial="initial"
-        animate={controls}
+        variants={variants.path7}
       />
       <motion.path
-        d="M6.343 6.343h.01"
-        variants={variants.path8}
-        initial="initial"
         animate={controls}
+        d="M6.343 6.343h.01"
+        initial="initial"
+        variants={variants.path8}
       />
     </motion.svg>
   );

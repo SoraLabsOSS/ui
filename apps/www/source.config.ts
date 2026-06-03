@@ -3,8 +3,8 @@ import {
   defineDocs,
   frontmatterSchema,
   metaSchema,
-} from 'fumadocs-mdx/config';
-import { z } from 'zod/v4';
+} from "fumadocs-mdx/config";
+import { z } from "zod/v4";
 
 // You can customise Zod schemas for frontmatter and `meta.json` here
 // see https://fumadocs.vercel.app/docs/mdx/collections#define-docs
@@ -30,6 +30,6 @@ export const docs = defineDocs({
 });
 
 export default defineConfig({
-  lastModifiedTime: 'git',
+  lastModifiedTime: "git",
   mdxOptions: {},
 });

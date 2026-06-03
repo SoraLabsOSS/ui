@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/primitives/texts/text-reveal/index.tsx",
-      "content": "'use client';\n\nimport * as React from 'react';\n\ntype TextRevealProps = React.ComponentProps<'span'>;\n\nfunction TextReveal({ children, ...props }: TextRevealProps) {\n  return <span {...props}>hello world {children}</span>;\n}\n\nexport { TextReveal, type TextRevealProps };\n",
+      "content": "\"use client\";\n\nimport type * as React from \"react\";\n\ntype TextRevealProps = React.ComponentProps<\"span\">;\n\nfunction TextReveal({ children, ...props }: TextRevealProps) {\n  return <span {...props}>hello world {children}</span>;\n}\n\nexport { TextReveal, type TextRevealProps };\n",
       "type": "registry:ui",
       "target": "components/sora-ui/texts/text-reveal.tsx"
     }

@@ -1,8 +1,8 @@
-import type { BuildPageTreeOptions } from 'fumadocs-core/source';
-import { cn } from '@workspace/ui/lib/utils';
-import { Dancing_Script } from 'next/font/google';
+import { cn } from "@workspace/ui/lib/utils";
+import type { BuildPageTreeOptions } from "fumadocs-core/source";
+import { Dancing_Script } from "next/font/google";
 
-const dancing = Dancing_Script({ subsets: ['latin'] });
+const dancing = Dancing_Script({ subsets: ["latin"] });
 
 const Badge = ({
   name,
@@ -12,27 +12,27 @@ const Badge = ({
   name: React.ReactNode;
   className?: string;
   children: React.ReactNode;
-}) => {
-  return (
-    <span className="flex w-full items-center justify-between gap-3">
-      <span className="font-normal!">{name}</span>{' '}
-      <span
-        className={cn(
-          'text-foreground text-[17px] leading-1 font-black text-nowrap',
-          className,
-        )}
-      >
-        <span className={cn(dancing.className, 'leading-1')}>{children}</span>
-      </span>
+}) => (
+  <span className="flex w-full items-center justify-between gap-3">
+    <span className="font-normal!">{name}</span>{" "}
+    <span
+      className={cn(
+        "text-nowrap font-black text-[17px] text-foreground leading-1",
+        className
+      )}
+    >
+      <span className={cn(dancing.className, "leading-1")}>{children}</span>
     </span>
-  );
-};
+  </span>
+);
 
-export const attachFile: BuildPageTreeOptions['attachFile'] = (node, file) => {
-  if (!file) return node;
+export const attachFile: BuildPageTreeOptions["attachFile"] = (node, file) => {
+  if (!file) {
+    return node;
+  }
   const data = file.data;
 
-  if ('releaseDate' in data) {
+  if ("releaseDate" in data) {
     const now = new Date();
     const release = new Date(data.releaseDate as string);
     const diffMs = now.getTime() - release.getTime();
@@ -43,42 +43,42 @@ export const attachFile: BuildPageTreeOptions['attachFile'] = (node, file) => {
     }
   }
 
-  if ('alpha' in data && typeof data.alpha === 'boolean' && data.alpha) {
+  if ("alpha" in data && typeof data.alpha === "boolean" && data.alpha) {
     node.name = (
       <Badge
-        name={node.name}
         className="bg-linear-to-br text-pink-600 dark:text-pink-400"
+        name={node.name}
       >
         alpha
       </Badge>
     );
   }
 
-  if ('beta' in data && typeof data.beta === 'boolean' && data.beta) {
+  if ("beta" in data && typeof data.beta === "boolean" && data.beta) {
     node.name = (
-      <Badge name={node.name} className="text-blue-600 dark:text-blue-400">
+      <Badge className="text-blue-600 dark:text-blue-400" name={node.name}>
         beta
       </Badge>
     );
   }
 
   if (
-    'deprecated' in data &&
-    typeof data.deprecated === 'boolean' &&
+    "deprecated" in data &&
+    typeof data.deprecated === "boolean" &&
     data.deprecated
   ) {
     node.name = (
-      <Badge name={node.name} className="text-red-600 dark:text-red-400">
+      <Badge className="text-red-600 dark:text-red-400" name={node.name}>
         deprecated
       </Badge>
     );
   }
 
-  if ('updated' in data && typeof data.updated === 'boolean' && data.updated) {
+  if ("updated" in data && typeof data.updated === "boolean" && data.updated) {
     node.name = (
       <Badge
-        name={node.name}
         className="text-emerald-600 dark:text-emerald-400"
+        name={node.name}
       >
         updated
       </Badge>

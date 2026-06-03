@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type MessageSquareHeartProps = IconProps<keyof typeof animations>;
 
@@ -19,10 +18,10 @@ const animations = {
         rotate: 0,
       },
       animate: {
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         rotate: [0, 8, -8, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
           times: [0, 0.4, 0.6, 0.8, 1],
         },
@@ -36,7 +35,7 @@ const animations = {
       animate: {
         scale: [1, 0.7, 1.1, 1],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
         },
       },
@@ -50,29 +49,29 @@ function IconComponent({ size, ...props }: MessageSquareHeartProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
-          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-          variants={variants.path1}
-          initial="initial"
           animate={controls}
+          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+          initial="initial"
+          variants={variants.path1}
         />
         <motion.path
-          d="M14.8 7.5a1.84 1.84 0 0 0-2.6 0l-.2.3-.3-.3a1.84 1.84 0 1 0-2.4 2.8L12 13l2.7-2.7c.9-.9.8-2.1.1-2.8"
-          variants={variants.path2}
-          initial="initial"
           animate={controls}
+          d="M14.8 7.5a1.84 1.84 0 0 0-2.6 0l-.2.3-.3-.3a1.84 1.84 0 1 0-2.4 2.8L12 13l2.7-2.7c.9-.9.8-2.1.1-2.8"
+          initial="initial"
+          variants={variants.path2}
         />
       </motion.g>
     </motion.svg>

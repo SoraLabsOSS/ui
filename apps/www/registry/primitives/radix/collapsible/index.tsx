@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Collapsible as CollapsiblePrimitive } from 'radix-ui';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import { Collapsible as CollapsiblePrimitive } from "radix-ui";
+import type * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type CollapsibleContextType = {
   isOpen: boolean;
@@ -13,7 +12,7 @@ type CollapsibleContextType = {
 };
 
 const [CollapsibleProvider, useCollapsible] =
-  getStrictContext<CollapsibleContextType>('CollapsibleContext');
+  getStrictContext<CollapsibleContextType>("CollapsibleContext");
 
 type CollapsibleProps = React.ComponentProps<typeof CollapsiblePrimitive.Root>;
 
@@ -47,15 +46,15 @@ function CollapsibleTrigger(props: CollapsibleTriggerProps) {
 
 type CollapsibleContentProps = Omit<
   React.ComponentProps<typeof CollapsiblePrimitive.Content>,
-  'asChild' | 'forceMount'
+  "asChild" | "forceMount"
 > &
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     keepRendered?: boolean;
   };
 
 function CollapsibleContent({
   keepRendered = false,
-  transition = { duration: 0.35, ease: 'easeInOut' },
+  transition = { duration: 0.35, ease: "easeInOut" },
   ...props
 }: CollapsibleContentProps) {
   const { isOpen } = useCollapsible();
@@ -65,15 +64,15 @@ function CollapsibleContent({
       {keepRendered ? (
         <CollapsiblePrimitive.Content asChild forceMount>
           <motion.div
-            key="collapsible-content"
-            data-slot="collapsible-content"
-            layout
-            initial={{ opacity: 0, height: 0, overflow: 'hidden', y: 20 }}
             animate={
               isOpen
-                ? { opacity: 1, height: 'auto', overflow: 'hidden', y: 0 }
-                : { opacity: 0, height: 0, overflow: 'hidden', y: 20 }
+                ? { opacity: 1, height: "auto", overflow: "hidden", y: 0 }
+                : { opacity: 0, height: 0, overflow: "hidden", y: 20 }
             }
+            data-slot="collapsible-content"
+            initial={{ opacity: 0, height: 0, overflow: "hidden", y: 20 }}
+            key="collapsible-content"
+            layout
             transition={transition}
             {...props}
           />
@@ -82,12 +81,12 @@ function CollapsibleContent({
         isOpen && (
           <CollapsiblePrimitive.Content asChild forceMount>
             <motion.div
-              key="collapsible-content"
+              animate={{ opacity: 1, height: "auto", overflow: "hidden", y: 0 }}
               data-slot="collapsible-content"
+              exit={{ opacity: 0, height: 0, overflow: "hidden", y: 20 }}
+              initial={{ opacity: 0, height: 0, overflow: "hidden", y: 20 }}
+              key="collapsible-content"
               layout
-              initial={{ opacity: 0, height: 0, overflow: 'hidden', y: 20 }}
-              animate={{ opacity: 1, height: 'auto', overflow: 'hidden', y: 0 }}
-              exit={{ opacity: 0, height: 0, overflow: 'hidden', y: 20 }}
               transition={transition}
               {...props}
             />
@@ -100,11 +99,11 @@ function CollapsibleContent({
 
 export {
   Collapsible,
-  CollapsibleTrigger,
   CollapsibleContent,
-  useCollapsible,
-  type CollapsibleProps,
-  type CollapsibleTriggerProps,
   type CollapsibleContentProps,
   type CollapsibleContextType,
+  type CollapsibleProps,
+  CollapsibleTrigger,
+  type CollapsibleTriggerProps,
+  useCollapsible,
 };

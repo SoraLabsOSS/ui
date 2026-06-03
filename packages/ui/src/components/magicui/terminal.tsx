@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { cn } from '@workspace/ui/lib/utils';
-import { motion, MotionProps } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { cn } from "@workspace/ui/lib/utils";
+import { type MotionProps, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 
 interface AnimatedSpanProps extends MotionProps {
   children: React.ReactNode;
-  delay?: number;
   className?: string;
+  delay?: number;
 }
 
 export const AnimatedSpan = ({
@@ -17,10 +17,10 @@ export const AnimatedSpan = ({
   ...props
 }: AnimatedSpanProps) => (
   <motion.div
-    initial={{ opacity: 0, y: -5 }}
     animate={{ opacity: 1, y: 0 }}
+    className={cn("grid font-normal text-sm tracking-tight", className)}
+    initial={{ opacity: 0, y: -5 }}
     transition={{ duration: 0.3, delay: delay / 1000 }}
-    className={cn('grid text-sm font-normal tracking-tight', className)}
     {...props}
   >
     {children}
@@ -28,11 +28,11 @@ export const AnimatedSpan = ({
 );
 
 interface TypingAnimationProps extends MotionProps {
+  as?: React.ElementType;
   children: string;
   className?: string;
-  duration?: number;
   delay?: number;
-  as?: React.ElementType;
+  duration?: number;
 }
 
 export const TypingAnimation = ({
@@ -40,18 +40,18 @@ export const TypingAnimation = ({
   className,
   duration = 60,
   delay = 0,
-  as: Component = 'span',
+  as: Component = "span",
   ...props
 }: TypingAnimationProps) => {
-  if (typeof children !== 'string') {
-    throw new Error('TypingAnimation: children must be a string. Received:');
+  if (typeof children !== "string") {
+    throw new Error("TypingAnimation: children must be a string. Received:");
   }
 
   const MotionComponent = motion.create(Component, {
     forwardMotionProps: true,
   });
 
-  const [displayedText, setDisplayedText] = useState<string>('Typing...');
+  const [displayedText, setDisplayedText] = useState<string>("Typing...");
   const [started, setStarted] = useState(false);
   const elementRef = useRef<HTMLElement | null>(null);
 
@@ -63,7 +63,9 @@ export const TypingAnimation = ({
   }, [delay]);
 
   useEffect(() => {
-    if (!started) return;
+    if (!started) {
+      return;
+    }
 
     let i = 0;
     const typingEffect = setInterval(() => {
@@ -82,8 +84,8 @@ export const TypingAnimation = ({
 
   return (
     <MotionComponent
+      className={cn("font-normal text-sm tracking-tight", className)}
       ref={elementRef}
-      className={cn('text-sm font-normal tracking-tight', className)}
       {...props}
     >
       {displayedText}
@@ -97,24 +99,22 @@ interface TerminalProps {
   inView?: boolean;
 }
 
-export const Terminal = ({ children, className }: TerminalProps) => {
-  return (
-    <div
-      className={cn(
-        'bg-background border-border z-0 h-full w-full max-w-lg rounded-xl border',
-        className,
-      )}
-    >
-      <div className="bg-muted flex h-11 items-center justify-start gap-y-2 rounded-t-[13px] px-4">
-        <div className="flex flex-row gap-x-2">
-          <div className="size-2.5 rounded-full bg-red-500"></div>
-          <div className="size-2.5 rounded-full bg-yellow-500"></div>
-          <div className="size-2.5 rounded-full bg-green-500"></div>
-        </div>
+export const Terminal = ({ children, className }: TerminalProps) => (
+  <div
+    className={cn(
+      "z-0 h-full w-full max-w-lg rounded-xl border border-border bg-background",
+      className
+    )}
+  >
+    <div className="flex h-11 items-center justify-start gap-y-2 rounded-t-[13px] bg-muted px-4">
+      <div className="flex flex-row gap-x-2">
+        <div className="size-2.5 rounded-full bg-red-500" />
+        <div className="size-2.5 rounded-full bg-yellow-500" />
+        <div className="size-2.5 rounded-full bg-green-500" />
       </div>
-      <pre className="size-full overflow-auto p-4">
-        <code className="grid gap-y-1">{children}</code>
-      </pre>
     </div>
-  );
-};
+    <pre className="size-full overflow-auto p-4">
+      <code className="grid gap-y-1">{children}</code>
+    </pre>
+  </div>
+);

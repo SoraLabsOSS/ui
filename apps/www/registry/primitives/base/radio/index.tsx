@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { RadioGroup as RadioGroupPrimitive } from '@base-ui-components/react/radio-group';
-import { Radio as RadioPrimitive } from '@base-ui-components/react/radio';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+import { Radio as RadioPrimitive } from "@base-ui-components/react/radio";
+import { RadioGroup as RadioGroupPrimitive } from "@base-ui-components/react/radio-group";
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type RadioGroupContextType = {
-  value: RadioGroupProps['value'];
-  setValue: RadioGroupProps['onValueChange'];
+  value: RadioGroupProps["value"];
+  setValue: RadioGroupProps["onValueChange"];
 };
 
 type RadioContextType = {
@@ -19,10 +18,10 @@ type RadioContextType = {
 };
 
 const [RadioGroupProvider, useRadioGroup] =
-  getStrictContext<RadioGroupContextType>('RadioGroupContext');
+  getStrictContext<RadioGroupContextType>("RadioGroupContext");
 
 const [RadioProvider, useRadio] =
-  getStrictContext<RadioContextType>('RadioContext');
+  getStrictContext<RadioContextType>("RadioContext");
 
 type RadioGroupProps = React.ComponentProps<typeof RadioGroupPrimitive>;
 
@@ -46,12 +45,12 @@ function RadioGroup(props: RadioGroupProps) {
 
 type RadioIndicatorProps = Omit<
   React.ComponentProps<typeof RadioPrimitive.Indicator>,
-  'asChild' | 'forceMount'
+  "asChild" | "forceMount"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function RadioIndicator({
-  transition = { type: 'spring', stiffness: 200, damping: 16 },
+  transition = { type: "spring", stiffness: 200, damping: 16 },
   ...props
 }: RadioIndicatorProps) {
   const { isChecked } = useRadio();
@@ -64,11 +63,11 @@ function RadioIndicator({
           keepMounted
           render={
             <motion.div
-              key="radio-group-indicator-circle"
-              data-slot="radio-group-indicator-circle"
-              initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
+              data-slot="radio-group-indicator-circle"
               exit={{ opacity: 0, scale: 0 }}
+              initial={{ opacity: 0, scale: 0 }}
+              key="radio-group-indicator-circle"
               transition={transition}
               {...props}
             />
@@ -81,9 +80,9 @@ function RadioIndicator({
 
 type RadioProps = Omit<
   React.ComponentProps<typeof RadioPrimitive.Root>,
-  'asChild'
+  "asChild"
 > &
-  HTMLMotionProps<'button'>;
+  HTMLMotionProps<"button">;
 
 function Radio({
   value: valueProps,
@@ -101,9 +100,7 @@ function Radio({
   return (
     <RadioProvider value={{ isChecked, setIsChecked }}>
       <RadioPrimitive.Root
-        value={valueProps}
         disabled={disabled}
-        required={required}
         render={
           <motion.button
             data-slot="radio-group-item"
@@ -112,20 +109,22 @@ function Radio({
             {...props}
           />
         }
+        required={required}
+        value={valueProps}
       />
     </RadioProvider>
   );
 }
 
 export {
-  RadioGroup,
   Radio,
-  RadioIndicator,
-  useRadioGroup,
-  useRadio,
-  type RadioGroupProps,
-  type RadioProps,
-  type RadioIndicatorProps,
-  type RadioGroupContextType,
   type RadioContextType,
+  RadioGroup,
+  type RadioGroupContextType,
+  type RadioGroupProps,
+  RadioIndicator,
+  type RadioIndicatorProps,
+  type RadioProps,
+  useRadio,
+  useRadioGroup,
 };

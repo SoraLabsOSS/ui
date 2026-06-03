@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { HTMLMotionProps, motion, type Transition } from 'motion/react';
+import { type HTMLMotionProps, motion, type Transition } from "motion/react";
+import * as React from "react";
 
 import {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
-  TooltipContent,
   TooltipArrow,
-  type TooltipProviderProps,
-  type TooltipProps,
-  type TooltipContentProps,
   type TooltipArrowProps,
-} from '@/registry/primitives/animate/tooltip';
+  TooltipContent,
+  type TooltipContentProps,
+  type TooltipProps,
+  TooltipProvider,
+  type TooltipProviderProps,
+  TooltipTrigger,
+} from "@/registry/primitives/animate/tooltip";
 
-type AvatarProps = Omit<HTMLMotionProps<'div'>, 'translate'> & {
+type AvatarProps = Omit<HTMLMotionProps<"div">, "translate"> & {
   children: React.ReactNode;
   zIndex: number;
   translate?: string | number;
-} & Omit<TooltipProps, 'children'>;
+} & Omit<TooltipProps, "children">;
 
 function AvatarContainer({
   zIndex,
@@ -32,18 +32,18 @@ function AvatarContainer({
 }: AvatarProps) {
   return (
     <Tooltip
-      side={side}
-      sideOffset={sideOffset}
       align={align}
       alignOffset={alignOffset}
+      side={side}
+      sideOffset={sideOffset}
     >
       <TooltipTrigger asChild>
         <motion.div
           data-slot="avatar-container"
           initial="initial"
+          style={{ position: "relative", zIndex }}
           whileHover="hover"
           whileTap="hover"
-          style={{ position: 'relative', zIndex }}
         >
           <motion.div
             variants={{
@@ -58,61 +58,61 @@ function AvatarContainer({
   );
 }
 
-type AvatarGroupProps = Omit<React.ComponentProps<'div'>, 'translate'> & {
+type AvatarGroupProps = Omit<React.ComponentProps<"div">, "translate"> & {
   children: React.ReactElement[];
   invertOverlap?: boolean;
   translate?: string | number;
   transition?: Transition;
   tooltipTransition?: Transition;
-} & Omit<TooltipProviderProps, 'children'> &
-  Omit<TooltipProps, 'children'>;
+} & Omit<TooltipProviderProps, "children"> &
+  Omit<TooltipProps, "children">;
 
 function AvatarGroup({
   ref,
   children,
   id,
-  transition = { type: 'spring', stiffness: 300, damping: 17 },
+  transition = { type: "spring", stiffness: 300, damping: 17 },
   invertOverlap = false,
-  translate = '-30%',
+  translate = "-30%",
   openDelay = 0,
   closeDelay = 0,
-  side = 'top',
+  side = "top",
   sideOffset = 25,
-  align = 'center',
+  align = "center",
   alignOffset = 0,
-  tooltipTransition = { type: 'spring', stiffness: 300, damping: 35 },
+  tooltipTransition = { type: "spring", stiffness: 300, damping: 35 },
   style,
   ...props
 }: AvatarGroupProps) {
   return (
     <TooltipProvider
+      closeDelay={closeDelay}
       id={id}
       openDelay={openDelay}
-      closeDelay={closeDelay}
       transition={tooltipTransition}
     >
       <div
-        ref={ref}
         data-slot="avatar-group"
+        ref={ref}
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           ...style,
         }}
         {...props}
       >
         {children?.map((child, index) => (
           <AvatarContainer
+            align={align}
+            alignOffset={alignOffset}
             key={index}
+            side={side}
+            sideOffset={sideOffset}
+            transition={transition}
+            translate={translate}
             zIndex={
               invertOverlap ? React.Children.count(children) - index : index
             }
-            transition={transition}
-            translate={translate}
-            side={side}
-            sideOffset={sideOffset}
-            align={align}
-            alignOffset={alignOffset}
           >
             {child}
           </AvatarContainer>
@@ -136,9 +136,9 @@ function AvatarGroupTooltipArrow(props: AvatarGroupTooltipArrowProps) {
 
 export {
   AvatarGroup,
+  type AvatarGroupProps,
   AvatarGroupTooltip,
   AvatarGroupTooltipArrow,
-  type AvatarGroupProps,
-  type AvatarGroupTooltipProps,
   type AvatarGroupTooltipArrowProps,
+  type AvatarGroupTooltipProps,
 };

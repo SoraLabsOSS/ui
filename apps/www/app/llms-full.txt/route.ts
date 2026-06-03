@@ -1,11 +1,11 @@
-import { source } from '@/lib/source';
-import { getLLMText } from '@/lib/get-llm-text';
+import { getLLMText } from "@/lib/get-llm-text";
+import { source } from "@/lib/source";
 
 async function getLLMsContent() {
-  'use cache';
+  "use cache";
   const scan = source.getPages().map(getLLMText);
   const scanned = await Promise.all(scan);
-  return scanned.join('\n\n');
+  return scanned.join("\n\n");
 }
 
 export async function GET() {

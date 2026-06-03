@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type HTMLMotionProps } from 'motion/react';
+import { type HTMLMotionProps, motion } from "motion/react";
+import type * as React from "react";
 
 import {
-  useIsInView,
   type UseIsInViewOptions,
-} from '@/registry/hooks/use-is-in-view';
+  useIsInView,
+} from "@/registry/hooks/use-is-in-view";
 
-type HighlightTextProps = Omit<HTMLMotionProps<'span'>, 'children'> & {
+type HighlightTextProps = Omit<HTMLMotionProps<"span">, "children"> & {
   text: string;
   delay?: number;
 } & UseIsInViewOptions;
@@ -18,9 +18,9 @@ function HighlightText({
   text,
   style,
   inView = false,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   inViewOnce = true,
-  transition = { duration: 2, ease: 'easeInOut' },
+  transition = { duration: 2, ease: "easeInOut" },
   delay = 0,
   ...props
 }: HighlightTextProps) {
@@ -30,25 +30,25 @@ function HighlightText({
       inView,
       inViewOnce,
       inViewMargin,
-    },
+    }
   );
 
   return (
     <motion.span
-      ref={localRef}
+      animate={isInView ? { backgroundSize: "100% 100%" } : undefined}
       data-slot="highlight-text"
-      initial={{ backgroundSize: '0% 100%' }}
-      animate={isInView ? { backgroundSize: '100% 100%' } : undefined}
+      initial={{ backgroundSize: "0% 100%" }}
+      ref={localRef}
+      style={{
+        position: "relative",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left center",
+        display: "inline-block",
+        ...style,
+      }}
       transition={{
         ...transition,
         delay: (transition?.delay ?? 0) + delay / 1000,
-      }}
-      style={{
-        position: 'relative',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'left center',
-        display: 'inline-block',
-        ...style,
       }}
       {...props}
     >

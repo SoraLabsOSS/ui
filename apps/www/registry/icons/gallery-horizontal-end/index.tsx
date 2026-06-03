@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type GalleryVerticalEndProps = IconProps<keyof typeof animations>;
 
@@ -27,7 +26,7 @@ const animations = {
           y: [2 * i, 0],
           transition: {
             delay: 0.2 * (2 - i),
-            type: 'spring',
+            type: "spring",
             stiffness: 150,
             damping: 15,
           },
@@ -48,16 +47,16 @@ const animations = {
           transition: {
             opacity: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.2,
             },
             scale: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.2,
             },
           },
@@ -67,30 +66,30 @@ const animations = {
 
     for (let i = 1; i <= 2; i++) {
       animation[`path${i}`] = {
-        initial: { opacity: 1, transform: 'translateY(0) scale(1)' },
+        initial: { opacity: 1, transform: "translateY(0) scale(1)" },
         animate: {
           opacity: 0,
           transform: `translateY(${(3 - i) * 3}px) scale(0)`,
           transition: {
             transform: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.8 - 0.2 * i,
             },
             opacity: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.8 - 0.2 * i,
             },
             scale: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.8 - 0.2 * i,
             },
           },
@@ -108,7 +107,7 @@ const animations = {
         y: -4,
         transition: {
           duration: 0.3,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -118,7 +117,7 @@ const animations = {
         y: 4,
         transition: {
           duration: 0.3,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -131,38 +130,38 @@ function IconComponent({ size, ...props }: GalleryVerticalEndProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
-        d="M7 2h10"
-        variants={variants.path1}
-        initial="initial"
         animate={controls}
+        d="M7 2h10"
+        initial="initial"
+        variants={variants.path1}
       />
       <motion.path
-        d="M5 6h14"
-        variants={variants.path2}
-        initial="initial"
         animate={controls}
+        d="M5 6h14"
+        initial="initial"
+        variants={variants.path2}
       />
       <motion.rect
-        width="18"
+        animate={controls}
         height="12"
-        x="3"
-        y="10"
+        initial="initial"
         rx="2"
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width="18"
+        x="3"
+        y="10"
       />
     </motion.svg>
   );

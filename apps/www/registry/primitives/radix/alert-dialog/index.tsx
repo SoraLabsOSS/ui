@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { AlertDialog as AlertDialogPrimitive } from 'radix-ui';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
+import type * as React from "react";
 
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type AlertDialogContextType = {
   isOpen: boolean;
-  setIsOpen: AlertDialogProps['onOpenChange'];
+  setIsOpen: AlertDialogProps["onOpenChange"];
 };
 
 const [AlertDialogProvider, useAlertDialog] =
-  getStrictContext<AlertDialogContextType>('AlertDialogContext');
+  getStrictContext<AlertDialogContextType>("AlertDialogContext");
 
 type AlertDialogProps = React.ComponentProps<typeof AlertDialogPrimitive.Root>;
 
@@ -47,7 +47,7 @@ function AlertDialogTrigger(props: AlertDialogTriggerProps) {
 
 type AlertDialogPortalProps = Omit<
   React.ComponentProps<typeof AlertDialogPrimitive.Portal>,
-  'forceMount'
+  "forceMount"
 >;
 
 function AlertDialogPortal(props: AlertDialogPortalProps) {
@@ -68,25 +68,25 @@ function AlertDialogPortal(props: AlertDialogPortalProps) {
 
 type AlertDialogOverlayProps = Omit<
   React.ComponentProps<typeof AlertDialogPrimitive.Overlay>,
-  'forceMount' | 'asChild'
+  "forceMount" | "asChild"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function AlertDialogOverlay({
-  transition = { duration: 0.2, ease: 'easeInOut' },
+  transition = { duration: 0.2, ease: "easeInOut" },
   ...props
 }: AlertDialogOverlayProps) {
   return (
     <AlertDialogPrimitive.Overlay
-      data-slot="alert-dialog-overlay"
       asChild
+      data-slot="alert-dialog-overlay"
       forceMount
     >
       <motion.div
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        exit={{ opacity: 0, filter: "blur(4px)" }}
+        initial={{ opacity: 0, filter: "blur(4px)" }}
         key="alert-dialog-overlay"
-        initial={{ opacity: 0, filter: 'blur(4px)' }}
-        animate={{ opacity: 1, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, filter: 'blur(4px)' }}
         transition={transition}
         {...props}
       />
@@ -94,55 +94,55 @@ function AlertDialogOverlay({
   );
 }
 
-type AlertDialogFlipDirection = 'top' | 'bottom' | 'left' | 'right';
+type AlertDialogFlipDirection = "top" | "bottom" | "left" | "right";
 
 type AlertDialogContentProps = Omit<
   React.ComponentProps<typeof AlertDialogPrimitive.Content>,
-  'forceMount' | 'asChild'
+  "forceMount" | "asChild"
 > &
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     from?: AlertDialogFlipDirection;
   };
 
 function AlertDialogContent({
-  from = 'top',
+  from = "top",
   onOpenAutoFocus,
   onCloseAutoFocus,
   onEscapeKeyDown,
-  transition = { type: 'spring', stiffness: 150, damping: 25 },
+  transition = { type: "spring", stiffness: 150, damping: 25 },
   ...props
 }: AlertDialogContentProps) {
   const initialRotation =
-    from === 'bottom' || from === 'left' ? '20deg' : '-20deg';
-  const isVertical = from === 'top' || from === 'bottom';
-  const rotateAxis = isVertical ? 'rotateX' : 'rotateY';
+    from === "bottom" || from === "left" ? "20deg" : "-20deg";
+  const isVertical = from === "top" || from === "bottom";
+  const rotateAxis = isVertical ? "rotateX" : "rotateY";
 
   return (
     <AlertDialogPrimitive.Content
       asChild
       forceMount
-      onOpenAutoFocus={onOpenAutoFocus}
       onCloseAutoFocus={onCloseAutoFocus}
       onEscapeKeyDown={onEscapeKeyDown}
+      onOpenAutoFocus={onOpenAutoFocus}
     >
       <motion.div
-        key="alert-dialog-content"
-        data-slot="alert-dialog-content"
-        initial={{
-          opacity: 0,
-          filter: 'blur(4px)',
-          transform: `perspective(500px) ${rotateAxis}(${initialRotation}) scale(0.8)`,
-        }}
         animate={{
           opacity: 1,
-          filter: 'blur(0px)',
+          filter: "blur(0px)",
           transform: `perspective(500px) ${rotateAxis}(0deg) scale(1)`,
         }}
+        data-slot="alert-dialog-content"
         exit={{
           opacity: 0,
-          filter: 'blur(4px)',
+          filter: "blur(4px)",
           transform: `perspective(500px) ${rotateAxis}(${initialRotation}) scale(0.8)`,
         }}
+        initial={{
+          opacity: 0,
+          filter: "blur(4px)",
+          transform: `perspective(500px) ${rotateAxis}(${initialRotation}) scale(0.8)`,
+        }}
+        key="alert-dialog-content"
         transition={transition}
         {...props}
       />
@@ -170,13 +170,13 @@ function AlertDialogAction(props: AlertDialogActionProps) {
   );
 }
 
-type AlertDialogHeaderProps = React.ComponentProps<'div'>;
+type AlertDialogHeaderProps = React.ComponentProps<"div">;
 
 function AlertDialogHeader(props: AlertDialogHeaderProps) {
   return <div data-slot="alert-dialog-header" {...props} />;
 }
 
-type AlertDialogFooterProps = React.ComponentProps<'div'>;
+type AlertDialogFooterProps = React.ComponentProps<"div">;
 
 function AlertDialogFooter(props: AlertDialogFooterProps) {
   return <div data-slot="alert-dialog-footer" {...props} />;
@@ -207,28 +207,28 @@ function AlertDialogDescription(props: AlertDialogDescriptionProps) {
 
 export {
   AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogCancel,
   AlertDialogAction,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  useAlertDialog,
-  type AlertDialogProps,
-  type AlertDialogTriggerProps,
-  type AlertDialogPortalProps,
-  type AlertDialogCancelProps,
   type AlertDialogActionProps,
-  type AlertDialogOverlayProps,
+  AlertDialogCancel,
+  type AlertDialogCancelProps,
+  AlertDialogContent,
   type AlertDialogContentProps,
-  type AlertDialogHeaderProps,
-  type AlertDialogFooterProps,
-  type AlertDialogTitleProps,
-  type AlertDialogDescriptionProps,
   type AlertDialogContextType,
+  AlertDialogDescription,
+  type AlertDialogDescriptionProps,
   type AlertDialogFlipDirection,
+  AlertDialogFooter,
+  type AlertDialogFooterProps,
+  AlertDialogHeader,
+  type AlertDialogHeaderProps,
+  AlertDialogOverlay,
+  type AlertDialogOverlayProps,
+  AlertDialogPortal,
+  type AlertDialogPortalProps,
+  type AlertDialogProps,
+  AlertDialogTitle,
+  type AlertDialogTitleProps,
+  AlertDialogTrigger,
+  type AlertDialogTriggerProps,
+  useAlertDialog,
 };

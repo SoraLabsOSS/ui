@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { CodeBlock, Pre } from '@/components/docs/codeblock';
+import { cn } from "@workspace/ui/lib/utils";
 import type {
   HighlightOptionsCommon,
   HighlightOptionsThemes,
-} from 'fumadocs-core/highlight';
-import { useShiki } from 'fumadocs-core/highlight/client';
-import { cn } from '@workspace/ui/lib/utils';
+} from "fumadocs-core/highlight";
+import { useShiki } from "fumadocs-core/highlight/client";
+import { CodeBlock, Pre } from "@/components/docs/codeblock";
 
 const getComponents = ({
   title,
@@ -24,16 +24,16 @@ const getComponents = ({
       return (
         <CodeBlock
           {...props}
-          title={title}
+          className={cn("my-0", props.className, className)}
           icon={icon}
           onCopy={onCopy}
-          className={cn('my-0', props.className, className)}
+          title={title}
         >
           <Pre>{props.children}</Pre>
         </CodeBlock>
       );
     },
-  }) satisfies HighlightOptionsCommon['components'];
+  }) satisfies HighlightOptionsCommon["components"];
 
 export type DynamicCodeBlockProps = {
   lang: string;
@@ -41,7 +41,7 @@ export type DynamicCodeBlockProps = {
   title?: string;
   icon?: React.ReactNode;
   onCopy?: () => void;
-  options?: Omit<HighlightOptionsCommon, 'lang'> & HighlightOptionsThemes;
+  options?: Omit<HighlightOptionsCommon, "lang"> & HighlightOptionsThemes;
   className?: string;
 };
 

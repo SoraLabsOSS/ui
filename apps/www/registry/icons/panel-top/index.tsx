@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type PanelTopProps = IconProps<keyof typeof animations>;
 
@@ -22,7 +21,7 @@ const animations = {
         y1: 7,
         x2: 21,
         y2: 7,
-        transition: { type: 'spring', damping: 18, stiffness: 200 },
+        transition: { type: "spring", damping: 18, stiffness: 200 },
       },
     },
   } satisfies Record<string, Variants>,
@@ -34,36 +33,36 @@ function IconComponent({ size, ...props }: PanelTopProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={18}
+        animate={controls}
         height={18}
-        x={3}
-        y={3}
+        initial="initial"
         rx={2}
         ry={2}
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width={18}
+        x={3}
+        y={3}
       />
       <motion.line
-        x1={3}
-        y1={9}
-        x2={21}
-        y2={9}
-        variants={variants.line}
-        initial="initial"
         animate={controls}
+        initial="initial"
+        variants={variants.line}
+        x1={3}
+        x2={21}
+        y1={9}
+        y2={9}
       />
     </motion.svg>
   );

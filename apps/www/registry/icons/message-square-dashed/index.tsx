@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type MessageSquareDashedProps = IconProps<keyof typeof animations>;
 
@@ -19,10 +18,10 @@ const animations = {
         rotate: 0,
       },
       animate: {
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         rotate: [0, 8, -8, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
           times: [0, 0.4, 0.6, 0.8, 1],
         },
@@ -68,71 +67,71 @@ function IconComponent({ size, ...props }: MessageSquareDashedProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
+          animate={controls}
           d="M5 3a2 2 0 0 0-2 2"
+          initial="initial"
           variants={variants.path1}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M9 3h1"
+          initial="initial"
           variants={variants.path2}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M14 3h1"
+          initial="initial"
           variants={variants.path3}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M19 3a2 2 0 0 1 2 2"
+          initial="initial"
           variants={variants.path4}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M21 9v1"
+          initial="initial"
           variants={variants.path5}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M21 14v1a2 2 0 0 1-2 2"
+          initial="initial"
           variants={variants.path6}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M14 17h1"
+          initial="initial"
           variants={variants.path7}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M10 17H7l-4 4v-7"
-          variants={variants.path8}
           initial="initial"
-          animate={controls}
+          variants={variants.path8}
         />
         <motion.path
-          d="M3 9v1"
-          variants={variants.path9}
-          initial="initial"
           animate={controls}
+          d="M3 9v1"
+          initial="initial"
+          variants={variants.path9}
         />
       </motion.g>
     </motion.svg>

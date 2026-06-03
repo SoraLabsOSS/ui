@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Progress as ProgressPrimitive } from 'radix-ui';
-import { motion } from 'motion/react';
+import { motion } from "motion/react";
+import { Progress as ProgressPrimitive } from "radix-ui";
+import type * as React from "react";
 
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type ProgressContextType = {
   value: number;
 };
 
 const [ProgressProvider, useProgress] =
-  getStrictContext<ProgressContextType>('ProgressContext');
+  getStrictContext<ProgressContextType>("ProgressContext");
 
 type ProgressProps = React.ComponentProps<typeof ProgressPrimitive.Root>;
 
@@ -30,15 +30,15 @@ type ProgressIndicatorProps = React.ComponentProps<
 >;
 
 function ProgressIndicator({
-  transition = { type: 'spring', stiffness: 100, damping: 30 },
+  transition = { type: "spring", stiffness: 100, damping: 30 },
   ...props
 }: ProgressIndicatorProps) {
   const { value } = useProgress();
 
   return (
     <MotionProgressIndicator
-      data-slot="progress-indicator"
       animate={{ x: `-${100 - (value || 0)}%` }}
+      data-slot="progress-indicator"
       transition={transition}
       {...props}
     />
@@ -47,9 +47,9 @@ function ProgressIndicator({
 
 export {
   Progress,
-  ProgressIndicator,
-  useProgress,
-  type ProgressProps,
-  type ProgressIndicatorProps,
   type ProgressContextType,
+  ProgressIndicator,
+  type ProgressIndicatorProps,
+  type ProgressProps,
+  useProgress,
 };

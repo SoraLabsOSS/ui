@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import type * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
 import {
   ScrollArea,
   ScrollViewport,
-} from 'fumadocs-ui/components/ui/scroll-area';
-import { cn } from '@workspace/ui/lib/utils';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
-import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from './scroll-active-nearest';
+} from "fumadocs-ui/components/ui/scroll-area";
+import type * as React from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   DocsShellEffectsProvider,
   DocsShellHoverHighlight,
   DocsShellHoverProvider,
   useDocsShellHover,
-} from './context';
+} from "./context";
+import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./scroll-active-nearest";
 
 export function DocsShellContent({
   children,
@@ -26,16 +26,16 @@ export function DocsShellContent({
   const containerRef = useDocsShellHover().containerRef;
 
   return (
-    <ScrollArea type="scroll" className={cn('min-h-0 flex-1', className)}>
+    <ScrollArea className={cn("min-h-0 flex-1", className)} type="scroll">
       <ScrollViewport
-        {...{ [DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR]: '' }}
+        {...{ [DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR]: "" }}
         className="p-4"
         style={{
           maskImage:
-            'linear-gradient(to bottom, transparent, white 12px, white calc(100% - 12px), transparent)',
+            "linear-gradient(to bottom, transparent, white 12px, white calc(100% - 12px), transparent)",
         }}
       >
-        <div ref={containerRef} className="relative px-1">
+        <div className="relative px-1" ref={containerRef}>
           <DocsShellHoverHighlight />
           {children}
         </div>
@@ -50,10 +50,10 @@ export interface DocsShellProps {
   defaultEffectsEnabled?: boolean;
   /** Initial width in px. Default: 240 */
   defaultWidth?: number;
-  /** Min resize width in px. Default: 160 */
-  minWidth?: number;
   /** Max resize width in px. Default: 400 */
   maxWidth?: number;
+  /** Min resize width in px. Default: 160 */
+  minWidth?: number;
 }
 
 export function DocsShell({
@@ -79,19 +79,21 @@ export function DocsShell({
       startW.current = width;
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
     },
-    [width],
+    [width]
   );
 
   const onPointerMove = useCallback(
     (e: React.PointerEvent) => {
-      if (!dragging.current) return;
+      if (!dragging.current) {
+        return;
+      }
       const next = Math.min(
         maxWidth,
-        Math.max(minWidth, startW.current + e.clientX - startX.current),
+        Math.max(minWidth, startW.current + e.clientX - startX.current)
       );
       setWidth(next);
     },
-    [minWidth, maxWidth],
+    [minWidth, maxWidth]
   );
 
   const onPointerUp = useCallback(() => {
@@ -103,8 +105,8 @@ export function DocsShell({
       <DocsShellHoverProvider containerRef={containerRef}>
         <aside
           className={cn(
-            'bg-background relative flex min-h-0 w-full flex-1 flex-col overflow-hidden',
-            className,
+            "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-background",
+            className
           )}
           style={isMobile ? undefined : { width }}
         >
@@ -116,7 +118,7 @@ export function DocsShell({
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
           >
-            <div className="bg-border/50 group-hover/handle:bg-border absolute top-0 right-0 h-full w-px transition-colors duration-150 md:hidden" />
+            <div className="absolute top-0 right-0 h-full w-px bg-border/50 transition-colors duration-150 group-hover/handle:bg-border md:hidden" />
           </div>
         </aside>
       </DocsShellHoverProvider>
@@ -132,7 +134,7 @@ export function DocsShellHeader({
   className?: string;
 }) {
   return (
-    <div className={cn('shrink-0 px-3 pt-4 pb-2', className)}>{children}</div>
+    <div className={cn("shrink-0 px-3 pt-4 pb-2", className)}>{children}</div>
   );
 }
 
@@ -144,6 +146,6 @@ export function DocsShellFooter({
   className?: string;
 }) {
   return (
-    <div className={cn('shrink-0 px-3 pt-2 pb-4', className)}>{children}</div>
+    <div className={cn("shrink-0 px-3 pt-2 pb-4", className)}>{children}</div>
   );
 }

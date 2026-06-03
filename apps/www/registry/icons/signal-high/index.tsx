@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type SignalHighProps = IconProps<keyof typeof animations>;
 
@@ -22,7 +21,7 @@ const pathAnimation: Variants = {
     opacity: [0, 1],
     transition: {
       duration: 0.3,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
 };
@@ -50,18 +49,18 @@ function IconComponent({ size, ...props }: SignalHighProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      animate={controls}
       fill="none"
+      height={size}
+      initial="initial"
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
       variants={variants.group}
-      initial="initial"
-      animate={controls}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path d="M2 20h.01" variants={variants.path1} />

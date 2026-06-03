@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type BatteryLowProps = IconProps<keyof typeof animations>;
 
@@ -27,16 +26,16 @@ const animations = {
         transition: {
           opacity: {
             duration: 0.3,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0,
           },
           scale: {
             duration: 0.3,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0,
           },
         },
@@ -51,45 +50,45 @@ function IconComponent({ size, ...props }: BatteryLowProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={16}
+        animate={controls}
         height={10}
-        x={2}
-        y={7}
+        initial="initial"
         rx={2}
         ry={2}
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width={16}
+        x={2}
+        y={7}
       />
       <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line1}
         x1={22}
         x2={22}
         y1={11}
         y2={13}
-        variants={variants.line1}
-        initial="initial"
-        animate={controls}
       />
       <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line2}
         x1={6}
         x2={6}
         y1={11}
         y2={13}
-        variants={variants.line2}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

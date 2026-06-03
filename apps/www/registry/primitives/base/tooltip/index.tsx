@@ -1,31 +1,30 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Tooltip as TooltipPrimitive } from '@base-ui-components/react/tooltip';
+import { Tooltip as TooltipPrimitive } from "@base-ui-components/react/tooltip";
 import {
   AnimatePresence,
-  motion,
-  useMotionValue,
-  useSpring,
   type HTMLMotionProps,
   type MotionValue,
+  motion,
   type SpringOptions,
-} from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+  useMotionValue,
+  useSpring,
+} from "motion/react";
+import type * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type TooltipContextType = {
   isOpen: boolean;
-  setIsOpen: TooltipProps['onOpenChange'];
+  setIsOpen: TooltipProps["onOpenChange"];
   x: MotionValue<number>;
   y: MotionValue<number>;
-  followCursor?: boolean | 'x' | 'y';
+  followCursor?: boolean | "x" | "y";
   followCursorSpringOptions?: SpringOptions;
 };
 
 const [LocalTooltipProvider, useTooltip] =
-  getStrictContext<TooltipContextType>('TooltipContext');
+  getStrictContext<TooltipContextType>("TooltipContext");
 
 type TooltipProviderProps = React.ComponentProps<
   typeof TooltipPrimitive.Provider
@@ -36,7 +35,7 @@ function TooltipProvider(props: TooltipProviderProps) {
 }
 
 type TooltipProps = React.ComponentProps<typeof TooltipPrimitive.Root> & {
-  followCursor?: boolean | 'x' | 'y';
+  followCursor?: boolean | "x" | "y";
   followCursorSpringOptions?: SpringOptions;
 };
 
@@ -81,19 +80,19 @@ function TooltipTrigger({ onMouseMove, ...props }: TooltipTriggerProps) {
   const { x, y, followCursor } = useTooltip();
 
   const handleMouseMove = (
-    event: Parameters<NonNullable<TooltipTriggerProps['onMouseMove']>>[0],
+    event: Parameters<NonNullable<TooltipTriggerProps["onMouseMove"]>>[0]
   ) => {
     onMouseMove?.(event);
 
     const target = event.currentTarget.getBoundingClientRect();
 
-    if (followCursor === 'x' || followCursor === true) {
+    if (followCursor === "x" || followCursor === true) {
       const eventOffsetX = event.clientX - target.left;
       const offsetXFromCenter = (eventOffsetX - target.width / 2) / 2;
       x.set(offsetXFromCenter);
     }
 
-    if (followCursor === 'y' || followCursor === true) {
+    if (followCursor === "y" || followCursor === true) {
       const eventOffsetY = event.clientY - target.top;
       const offsetYFromCenter = (eventOffsetY - target.height / 2) / 2;
       y.set(offsetYFromCenter);
@@ -111,7 +110,7 @@ function TooltipTrigger({ onMouseMove, ...props }: TooltipTriggerProps) {
 
 type TooltipPortalProps = Omit<
   React.ComponentProps<typeof TooltipPrimitive.Portal>,
-  'keepMounted'
+  "keepMounted"
 >;
 
 function TooltipPortal(props: TooltipPortalProps) {
@@ -121,8 +120,8 @@ function TooltipPortal(props: TooltipPortalProps) {
     <AnimatePresence>
       {isOpen && (
         <TooltipPrimitive.Portal
-          keepMounted
           data-slot="tooltip-portal"
+          keepMounted
           {...props}
         />
       )}
@@ -142,12 +141,12 @@ function TooltipPositioner(props: TooltipPositionerProps) {
 
 type TooltipPopupProps = Omit<
   React.ComponentProps<typeof TooltipPrimitive.Popup>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function TooltipPopup({
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   style,
   ...props
 }: TooltipPopupProps) {
@@ -159,23 +158,23 @@ function TooltipPopup({
     <TooltipPrimitive.Popup
       render={
         <motion.div
-          key="tooltip-popup"
-          data-slot="tooltip-popup"
-          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
+          data-slot="tooltip-popup"
           exit={{ opacity: 0, scale: 0.5 }}
-          transition={transition}
+          initial={{ opacity: 0, scale: 0.5 }}
+          key="tooltip-popup"
           style={{
             x:
-              followCursor === 'x' || followCursor === true
+              followCursor === "x" || followCursor === true
                 ? translateX
                 : undefined,
             y:
-              followCursor === 'y' || followCursor === true
+              followCursor === "y" || followCursor === true
                 ? translateY
                 : undefined,
             ...style,
           }}
+          transition={transition}
           {...props}
         />
       }
@@ -190,20 +189,20 @@ function TooltipArrow(props: TooltipArrowProps) {
 }
 
 export {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
-  TooltipPortal,
-  TooltipPositioner,
-  TooltipPopup,
   TooltipArrow,
-  useTooltip,
-  type TooltipProviderProps,
-  type TooltipProps,
-  type TooltipTriggerProps,
-  type TooltipPortalProps,
-  type TooltipPositionerProps,
-  type TooltipPopupProps,
   type TooltipArrowProps,
   type TooltipContextType,
+  TooltipPopup,
+  type TooltipPopupProps,
+  TooltipPortal,
+  type TooltipPortalProps,
+  TooltipPositioner,
+  type TooltipPositionerProps,
+  type TooltipProps,
+  TooltipProvider,
+  type TooltipProviderProps,
+  TooltipTrigger,
+  type TooltipTriggerProps,
+  useTooltip,
 };

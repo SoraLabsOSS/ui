@@ -1,2 +1,2 @@
-export { DocsSidebar, SidebarPageTree, SidebarLinkItem } from './fumadocs';
-export * from './shell';
+export { DocsSidebar, SidebarLinkItem, SidebarPageTree } from "./fumadocs";
+export * from "./shell";

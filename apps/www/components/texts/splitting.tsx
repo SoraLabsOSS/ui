@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
 import {
-  motion,
-  type Variants,
-  type TargetAndTransition,
   type HTMLMotionProps,
-  useInView,
+  motion,
+  type TargetAndTransition,
   type UseInViewOptions,
-} from 'motion/react';
+  useInView,
+  type Variants,
+} from "motion/react";
+import * as React from "react";
 
 type DefaultSplittingTextProps = {
   motionVariants?: {
@@ -18,19 +18,19 @@ type DefaultSplittingTextProps = {
     stagger?: number;
   };
   inView?: boolean;
-  inViewMargin?: UseInViewOptions['margin'];
+  inViewMargin?: UseInViewOptions["margin"];
   inViewOnce?: boolean;
   delay?: number;
   disableAnimation?: boolean;
-} & HTMLMotionProps<'div'>;
+} & HTMLMotionProps<"div">;
 
 type CharsOrWordsSplittingTextProps = DefaultSplittingTextProps & {
-  type?: 'chars' | 'words';
+  type?: "chars" | "words";
   text: string;
 };
 
 type LinesSplittingTextProps = DefaultSplittingTextProps & {
-  type: 'lines';
+  type: "lines";
   text: string[];
 };
 
@@ -43,17 +43,17 @@ const defaultItemVariant: Variants = {
   visible: {
     x: 0,
     opacity: 1,
-    transition: { duration: 0.7, ease: 'easeOut' },
+    transition: { duration: 0.7, ease: "easeOut" },
   },
 };
 
 export const SplittingText = ({
   ref,
   text,
-  type = 'chars',
+  type = "chars",
   motionVariants = {},
   inView = false,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   inViewOnce = true,
   delay = 0,
   disableAnimation = false,
@@ -67,7 +67,7 @@ export const SplittingText = ({
       ]);
     }
 
-    if (type === 'words') {
+    if (type === "words") {
       const tokens = text.match(/\S+\s*/g) || [];
       return tokens.map((token, i) => (
         <React.Fragment key={i}>{token}</React.Fragment>
@@ -75,7 +75,7 @@ export const SplittingText = ({
     }
 
     return text
-      .split('')
+      .split("")
       .map((char, i) => <React.Fragment key={i}>{char}</React.Fragment>);
   }, [text, type]);
 
@@ -86,7 +86,7 @@ export const SplittingText = ({
         delayChildren: delay / 1000,
         staggerChildren:
           motionVariants.stagger ??
-          (type === 'chars' ? 0.05 : type === 'words' ? 0.2 : 0.3),
+          (type === "chars" ? 0.05 : type === "words" ? 0.2 : 0.3),
       },
     },
   };
@@ -110,7 +110,7 @@ export const SplittingText = ({
   const localRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(
     ref as React.Ref<HTMLDivElement>,
-    () => localRef.current as HTMLDivElement,
+    () => localRef.current as HTMLDivElement
   );
 
   const inViewResult = useInView(localRef, {
@@ -121,9 +121,9 @@ export const SplittingText = ({
 
   return (
     <motion.span
-      ref={localRef}
+      animate={isInView ? "visible" : "hidden"}
       initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      ref={localRef}
       variants={disableAnimation ? undefined : containerVariants}
       {...props}
     >
@@ -133,23 +133,23 @@ export const SplittingText = ({
             <React.Fragment key={index}>
               <motion.span
                 key={index}
-                variants={disableAnimation ? undefined : itemVariants}
                 style={{
-                  willChange: 'transform',
-                  display: 'inline-block',
+                  willChange: "transform",
+                  display: "inline-block",
                   whiteSpace:
-                    type === 'chars'
-                      ? 'pre'
+                    type === "chars"
+                      ? "pre"
                       : Array.isArray(text)
-                        ? 'normal'
-                        : 'normal',
+                        ? "normal"
+                        : "normal",
                 }}
+                variants={disableAnimation ? undefined : itemVariants}
               >
                 <>{item}</>
               </motion.span>
-              {type === 'words' && ' '}
+              {type === "words" && " "}
             </React.Fragment>
-          ),
+          )
       )}
     </motion.span>
   );

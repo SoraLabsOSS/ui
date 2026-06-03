@@ -1,20 +1,20 @@
 export {
   DocsShellEffectsProvider,
-  useDocsShellEffects,
-  DocsShellHoverProvider,
-  useDocsShellHover,
   DocsShellHoverHighlight,
-} from './context';
-export {
-  useScrollActiveItemIntoView,
-  DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR,
-} from './scroll-active-nearest';
-export { DocsShellNavItem, type DocsShellNavItemProps } from './nav-item';
-export { DocsShellNavGroup, type DocsShellNavGroupProps } from './nav-group';
-export { DocsShellSection, DocsShellSectionTitle } from './nav-section';
+  DocsShellHoverProvider,
+  useDocsShellEffects,
+  useDocsShellHover,
+} from "./context";
 export {
   DocsShell,
   DocsShellContent,
   DocsShellFooter,
   type DocsShellProps,
-} from './layout';
+} from "./layout";
+export { DocsShellNavGroup, type DocsShellNavGroupProps } from "./nav-group";
+export { DocsShellNavItem, type DocsShellNavItemProps } from "./nav-item";
+export { DocsShellSection, DocsShellSectionTitle } from "./nav-section";
+export {
+  DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR,
+  useScrollActiveItemIntoView,
+} from "./scroll-active-nearest";

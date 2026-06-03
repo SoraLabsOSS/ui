@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type ToggleLeftProps = IconProps<keyof typeof animations>;
 
@@ -23,12 +22,12 @@ const animations = {
         x: [0, 7, 6],
         transition: {
           duration: 0.5,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     rect: {},
     circle: {
       initial: {
@@ -38,7 +37,7 @@ const animations = {
         x: [0, 7, 6, -1, 0],
         transition: {
           duration: 1,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -51,34 +50,34 @@ function IconComponent({ size, ...props }: ToggleLeftProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={20}
+        animate={controls}
         height={14}
-        x={2}
-        y={5}
+        initial="initial"
         rx={7}
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width={20}
+        x={2}
+        y={5}
       />
       <motion.circle
+        animate={controls}
         cx={9}
         cy={12}
+        initial="initial"
         r={3}
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

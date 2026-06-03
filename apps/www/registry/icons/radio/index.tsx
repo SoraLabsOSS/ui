@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type RadioProps = IconProps<keyof typeof animations>;
 
@@ -25,17 +24,17 @@ const animations = {
           transition: {
             opacity: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.2,
               delay: 0.2 * (i - 1),
             },
             scale: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.2,
               delay: 0.2 * (i - 1),
             },
@@ -54,48 +53,48 @@ function IconComponent({ size, ...props }: RadioProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
+        animate={controls}
         d="M16.247 7.761a6 6 0 0 1 0 8.478"
-        variants={variants.path1}
         initial="initial"
-        animate={controls}
+        variants={variants.path1}
       />
       <motion.path
+        animate={controls}
         d="M19.075 4.933a10 10 0 0 1 0 14.134"
-        variants={variants.path2}
         initial="initial"
-        animate={controls}
+        variants={variants.path2}
       />
       <motion.path
+        animate={controls}
         d="M7.753 16.239a6 6 0 0 1 0-8.478"
-        variants={variants.path1}
         initial="initial"
-        animate={controls}
+        variants={variants.path1}
       />
       <motion.path
-        d="M4.925 19.067a10 10 0 0 1 0-14.134"
-        variants={variants.path2}
-        initial="initial"
         animate={controls}
+        d="M4.925 19.067a10 10 0 0 1 0-14.134"
+        initial="initial"
+        variants={variants.path2}
       />
       <motion.circle
+        animate={controls}
         cx="12"
         cy="12"
+        initial="initial"
         r="2"
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

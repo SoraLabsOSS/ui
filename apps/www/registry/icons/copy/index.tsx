@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type CopyProps = IconProps<keyof typeof animations>;
 
@@ -24,7 +23,7 @@ const animations = {
         x: -3,
         transition: {
           duration: 0.3,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -38,12 +37,12 @@ const animations = {
         x: 3,
         transition: {
           duration: 0.3,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     rect: {
       initial: {
         y: 0,
@@ -54,7 +53,7 @@ const animations = {
         x: [0, -3, 0],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -68,7 +67,7 @@ const animations = {
         x: [0, 3, 0],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -81,33 +80,33 @@ function IconComponent({ size, ...props }: CopyProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={14}
+        animate={controls}
         height={14}
-        x={8}
-        y={8}
+        initial="initial"
         rx={2}
         ry={2}
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width={14}
+        x={8}
+        y={8}
       />
       <motion.path
-        d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-        variants={variants.path}
-        initial="initial"
         animate={controls}
+        d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+        initial="initial"
+        variants={variants.path}
       />
     </motion.svg>
   );

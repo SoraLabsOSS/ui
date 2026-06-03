@@ -1,24 +1,23 @@
-'use client';
+"use client";
 
-import { cn } from '@workspace/ui/lib/utils';
-import { Sidebar } from 'fumadocs-ui/components/layout/sidebar';
-import type { SidebarComponents } from 'fumadocs-ui/components/layout/sidebar';
-import { HideIfEmpty } from 'fumadocs-core/hide-if-empty';
-import { buttonVariants } from 'fumadocs-ui/components/ui/button';
-import { BaseLinkItem } from 'fumadocs-ui/layouts/links';
-import type { LinkItemType } from 'fumadocs-ui/layouts/links';
-import type { DocsLayoutProps } from 'fumadocs-ui/layouts/docs';
-import { Fragment, useMemo, type ReactNode } from 'react';
-import { getLinks } from 'fumadocs-ui/layouts/shared';
-import { ThemeSwitcher } from '../animate/theme-switcher';
-import type { PageTree } from 'fumadocs-core/server';
-import { useTreeContext, useTreePath, useSidebar } from 'fumadocs-ui/provider';
-import { usePathname } from 'next/navigation';
-import { isActive } from 'fumadocs-ui/utils/is-active';
-import { Separator } from '@/lib/attach-separator';
-import { TypeIcon } from 'lucide-react';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
-import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from './shell/scroll-active-nearest';
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
+import { HideIfEmpty } from "fumadocs-core/hide-if-empty";
+import type { PageTree } from "fumadocs-core/server";
+import type { SidebarComponents } from "fumadocs-ui/components/layout/sidebar";
+import { Sidebar } from "fumadocs-ui/components/layout/sidebar";
+import { buttonVariants } from "fumadocs-ui/components/ui/button";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import type { LinkItemType } from "fumadocs-ui/layouts/links";
+import { BaseLinkItem } from "fumadocs-ui/layouts/links";
+import { getLinks } from "fumadocs-ui/layouts/shared";
+import { useSidebar, useTreeContext, useTreePath } from "fumadocs-ui/provider";
+import { isActive } from "fumadocs-ui/utils/is-active";
+import { TypeIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Fragment, type ReactNode, useMemo } from "react";
+import { Separator } from "@/lib/attach-separator";
+import { ThemeSwitcher } from "../animate/theme-switcher";
 import {
   DocsShell,
   DocsShellContent,
@@ -26,47 +25,49 @@ import {
   DocsShellNavGroup,
   DocsShellNavItem,
   DocsShellSection,
-} from './shell';
-import { useDismissMobileSidebarOnOutside } from './use-dismiss-mobile-sidebar';
+} from "./shell";
+import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./shell/scroll-active-nearest";
+import { useDismissMobileSidebarOnOutside } from "./use-dismiss-mobile-sidebar";
 
 const MENU_ITEMS = [
   {
-    name: 'Texts',
-    type: 'separator',
+    name: "Texts",
+    type: "separator",
     icon: <TypeIcon strokeWidth={3} />,
   },
   {
-    text: 'Text Reveal',
-    url: '/docs/texts/text-reveal',
+    text: "Text Reveal",
+    url: "/docs/texts/text-reveal",
   },
 ] as LinkItemType[];
 
-const getIsActive = (pathname: string, href: string) => {
-  return href !== undefined && isActive(href, pathname, false);
-};
+const getIsActive = (pathname: string, href: string) =>
+  href !== undefined && isActive(href, pathname, false);
 
 function pageTreeNodeKey(
   item: PageTree.Node,
   index: number,
-  parentKey: string,
+  parentKey: string
 ): string {
-  if (item.type === 'separator') {
+  if (item.type === "separator") {
     return `${parentKey}/sep/${encodeURIComponent(String(item.name))}/${index}`;
   }
-  if (item.type === 'folder') {
+  if (item.type === "folder") {
     return `${parentKey}/folder/${encodeURIComponent(String(item.name))}/${index}`;
   }
   const url = (item as { url?: string }).url;
-  if (url) return url;
+  if (url) {
+    return url;
+  }
   return `${parentKey}/item/${index}`;
 }
 
 const DEFAULT_OPEN_LEVEL = 0;
 
 function isRootFolder(
-  item: PageTree.Node,
+  item: PageTree.Node
 ): item is PageTree.Folder & { root: true } {
-  return item.type === 'folder' && Boolean((item as PageTree.Folder).root);
+  return item.type === "folder" && Boolean((item as PageTree.Folder).root);
 }
 
 export function SidebarPageTree(props: {
@@ -86,22 +87,25 @@ export function SidebarPageTree(props: {
     function renderSidebarList(
       items: PageTree.Node[],
       level: number,
-      parentKey: string,
+      parentKey: string
     ): ReactNode[] {
       return items.flatMap((item, i) => {
         const key = pageTreeNodeKey(item, i, parentKey);
-        if (item.type === 'separator') {
+        if (item.type === "separator") {
           if (
             level === 1 &&
             sectionRoot &&
-            pathname.startsWith('/docs/icons') &&
+            pathname.startsWith("/docs/icons") &&
             i === 0
           ) {
             return [];
           }
-          if (Separator) return <Separator key={key} item={item} />;
+          if (Separator) {
+            return <Separator item={item} key={key} />;
+          }
           return (
             <DocsShellSection
+              className={cn(i === 0 ? "mt-1" : "mt-4")}
               key={key}
               label={
                 <span className="inline-flex items-center gap-2">
@@ -109,31 +113,31 @@ export function SidebarPageTree(props: {
                   {item.name}
                 </span>
               }
-              className={cn(i === 0 ? 'mt-1' : 'mt-4')}
             >
               {null}
             </DocsShellSection>
           );
         }
 
-        if (item.type === 'folder') {
+        if (item.type === "folder") {
           const indexUrl = item.index?.url;
           const folderChildren = indexUrl
             ? item.children.filter(
-                (child) => child.type !== 'page' || child.url !== indexUrl,
+                (child) => child.type !== "page" || child.url !== indexUrl
               )
             : item.children;
           const children = renderSidebarList(
             folderChildren,
             level + 1,
-            `${parentKey}/${key}`,
+            `${parentKey}/${key}`
           );
-          if (Folder)
+          if (Folder) {
             return (
-              <Folder key={key} item={item} level={level}>
+              <Folder item={item} key={key} level={level}>
                 {children}
               </Folder>
             );
+          }
           const defaultOpen =
             (item.defaultOpen ?? DEFAULT_OPEN_LEVEL >= level) ||
             treePath.includes(item);
@@ -141,20 +145,20 @@ export function SidebarPageTree(props: {
           const showIndexLink =
             folderIndex != null &&
             !item.children.some(
-              (child) => child.type === 'page' && child.url === folderIndex.url,
+              (child) => child.type === "page" && child.url === folderIndex.url
             );
           return (
             <DocsShellNavGroup
+              defaultOpen={defaultOpen}
+              icon={item.icon}
               key={key}
               label={item.name}
-              icon={item.icon}
-              defaultOpen={defaultOpen}
             >
               {showIndexLink ? (
                 <DocsShellNavItem
                   href={folderIndex.url}
-                  label={folderIndex.name ?? item.name}
                   isActive={getIsActive(pathname, folderIndex.url)}
+                  label={folderIndex.name ?? item.name}
                   onClick={onNavigate}
                 />
               ) : null}
@@ -163,7 +167,9 @@ export function SidebarPageTree(props: {
           );
         }
 
-        if (Item) return <Item key={key} item={item} />;
+        if (Item) {
+          return <Item item={item} key={key} />;
+        }
 
         const url =
           (item as { index?: { url: string } }).index?.url ??
@@ -172,11 +178,11 @@ export function SidebarPageTree(props: {
 
         return (
           <DocsShellNavItem
-            key={key}
             href={url}
-            label={item.name as string}
             isActive={active}
             isNew={Boolean((item as { new?: boolean }).new)}
+            key={key}
+            label={item.name as string}
             onClick={onNavigate}
           />
         );
@@ -188,7 +194,7 @@ export function SidebarPageTree(props: {
         {renderSidebarList(
           sidebarItems,
           1,
-          String(sectionRoot?.$id ?? root.$id ?? 'tree'),
+          String(sectionRoot?.$id ?? root.$id ?? "tree")
         )}
       </Fragment>
     );
@@ -206,33 +212,34 @@ export function SidebarLinkItem({
 }) {
   const pathname = usePathname();
 
-  if (item.type === 'menu')
+  if (item.type === "menu") {
     return (
-      <DocsShellNavGroup label={item.text} icon={item.icon} defaultOpen>
+      <DocsShellNavGroup defaultOpen icon={item.icon} label={item.text}>
         {item.items.map((child) => (
           <SidebarLinkItem
+            item={child}
             key={
-              'url' in child && child.url
+              "url" in child && child.url
                 ? `${String((item as { url?: string }).url ?? item.text)}-${child.url}`
                 : `${String((item as { url?: string }).url ?? item.text)}-${String((child as { text?: string }).text)}`
             }
-            item={child}
             onNavigate={onNavigate}
           />
         ))}
       </DocsShellNavGroup>
     );
+  }
 
-  if (item.type === 'custom') {
+  if (item.type === "custom") {
     return <div {...props}>{item.children as ReactNode}</div>;
   }
 
-  if ((item as { type?: string }).type === 'separator') {
+  if ((item as { type?: string }).type === "separator") {
     const sep = item as unknown as { icon: ReactNode; name: string };
     return (
       <DocsShellSection
         {...props}
-        className={cn('!mt-2', props.className)}
+        className={cn("!mt-2", props.className)}
         label={<Separator icon={sep.icon} name={sep.name} />}
       >
         {null}
@@ -244,10 +251,10 @@ export function SidebarLinkItem({
 
   return (
     <DocsShellNavItem
-      href={item.url}
-      label={item.text as string}
-      isActive={active}
       className={props.className}
+      href={item.url}
+      isActive={active}
+      label={item.text as string}
       onClick={item.external ? undefined : onNavigate}
     />
   );
@@ -262,60 +269,62 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
   const pathname = usePathname();
   const links = getLinks(all.links ?? [], all.githubUrl);
   const isComponentDocs =
-    pathname.startsWith('/docs/components') ||
-    pathname.startsWith('/docs/texts');
+    pathname.startsWith("/docs/components") ||
+    pathname.startsWith("/docs/texts");
   const isMenu = !isComponentDocs;
   const isMobile = useIsMobile();
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();
 
   const closeMobile = () => {
-    if (isMobile) setOpen(false);
+    if (isMobile) {
+      setOpen(false);
+    }
   };
 
   const scrollViewportSelector = `[&_[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]]:!p-0`;
 
   return (
     <Sidebar
-      collapsible={false}
       className={cn(
-        'border-border min-h-0 overflow-hidden border-r',
-        'max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]',
+        "min-h-0 overflow-hidden border-border border-r",
+        "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
         scrollViewportSelector,
-        sidebarProps.className,
+        sidebarProps.className
       )}
+      collapsible={false}
       {...sidebarProps}
     >
       <DocsShell
         className="min-h-0 max-md:w-full max-md:max-w-full"
         defaultWidth={260}
-        minWidth={180}
         maxWidth={380}
+        minWidth={180}
       >
         <DocsShellContent
           className={cn(
-            'min-h-0',
-            'max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14',
+            "min-h-0",
+            "max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14"
           )}
         >
           {links
-            .filter((v) => v.type !== 'icon')
+            .filter((v) => v.type !== "icon")
             .map((item, i, list) => {
               const linkKey =
-                item.type === 'menu'
+                item.type === "menu"
                   ? `menu-${item.text}`
-                  : item.type === 'custom'
-                    ? 'custom-docs-link'
+                  : item.type === "custom"
+                    ? "custom-docs-link"
                     : item.url
                       ? item.url
-                      : `link-${item.text ?? 'unknown'}-${i}`;
+                      : `link-${item.text ?? "unknown"}-${i}`;
 
               return (
                 <SidebarLinkItem
-                  key={linkKey}
+                  className={cn(i === list.length - 1 && "mb-3")}
                   item={item}
+                  key={linkKey}
                   onNavigate={closeMobile}
-                  className={cn(i === list.length - 1 && 'mb-3')}
                 />
               );
             })}
@@ -324,17 +333,17 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
             <div>
               {MENU_ITEMS.map((item, i) => (
                 <SidebarLinkItem
-                  key={
-                    'url' in item && item.url
-                      ? item.url
-                      : `nav-${(item as { name?: string }).name ?? 'sep'}`
-                  }
-                  item={item as LinkItemType}
-                  onNavigate={closeMobile}
                   className={cn(
-                    i === 0 && 'mt-4',
-                    i === MENU_ITEMS.length - 1 && 'mb-3',
+                    i === 0 && "mt-4",
+                    i === MENU_ITEMS.length - 1 && "mb-3"
                   )}
+                  item={item as LinkItemType}
+                  key={
+                    "url" in item && item.url
+                      ? item.url
+                      : `nav-${(item as { name?: string }).name ?? "sep"}`
+                  }
+                  onNavigate={closeMobile}
                 />
               ))}
             </div>
@@ -350,19 +359,19 @@ export const DocsSidebar = (all: DocsLayoutProps) => {
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <div className="ms-auto flex items-center justify-end gap-1 md:hidden">
               {links
-                .filter((link) => link.type === 'icon')
+                .filter((link) => link.type === "icon")
                 .map((link) => (
                   <BaseLinkItem
-                    key={link.url}
-                    item={link}
-                    className={cn(
-                      buttonVariants({ size: 'icon', color: 'ghost' }),
-                      'text-fd-muted-foreground md:[&_svg]:size-4.5',
-                      link.url ===
-                        links.filter((l) => l.type === 'icon').at(-1)?.url &&
-                        'me-auto',
-                    )}
                     aria-label={link.label}
+                    className={cn(
+                      buttonVariants({ size: "icon", color: "ghost" }),
+                      "text-fd-muted-foreground md:[&_svg]:size-4.5",
+                      link.url ===
+                        links.filter((l) => l.type === "icon").at(-1)?.url &&
+                        "me-auto"
+                    )}
+                    item={link}
+                    key={link.url}
                   >
                     {link.icon}
                   </BaseLinkItem>

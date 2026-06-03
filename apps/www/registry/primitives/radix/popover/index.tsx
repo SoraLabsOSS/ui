@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Popover as PopoverPrimitive } from 'radix-ui';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import { Popover as PopoverPrimitive } from "radix-ui";
+import type * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type PopoverContextType = {
   isOpen: boolean;
@@ -13,7 +12,7 @@ type PopoverContextType = {
 };
 
 const [PopoverProvider, usePopover] =
-  getStrictContext<PopoverContextType>('PopoverContext');
+  getStrictContext<PopoverContextType>("PopoverContext");
 
 type PopoverProps = React.ComponentProps<typeof PopoverPrimitive.Root>;
 
@@ -45,7 +44,7 @@ function PopoverTrigger(props: PopoverTriggerProps) {
 
 type PopoverPortalProps = Omit<
   React.ComponentProps<typeof PopoverPrimitive.Portal>,
-  'forceMount'
+  "forceMount"
 >;
 
 function PopoverPortal(props: PopoverPortalProps) {
@@ -55,8 +54,8 @@ function PopoverPortal(props: PopoverPortalProps) {
     <AnimatePresence>
       {isOpen && (
         <PopoverPrimitive.Portal
-          forceMount
           data-slot="popover-portal"
+          forceMount
           {...props}
         />
       )}
@@ -66,9 +65,9 @@ function PopoverPortal(props: PopoverPortalProps) {
 
 type PopoverContentProps = Omit<
   React.ComponentProps<typeof PopoverPrimitive.Content>,
-  'forceMount' | 'asChild'
+  "forceMount" | "asChild"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function PopoverContent({
   onOpenAutoFocus,
@@ -87,36 +86,36 @@ function PopoverContent({
   arrowPadding,
   sticky,
   hideWhenDetached,
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   ...props
 }: PopoverContentProps) {
   return (
     <PopoverPrimitive.Content
-      asChild
-      forceMount
       align={align}
       alignOffset={alignOffset}
-      side={side}
-      sideOffset={sideOffset}
+      arrowPadding={arrowPadding}
+      asChild
       avoidCollisions={avoidCollisions}
       collisionBoundary={collisionBoundary}
       collisionPadding={collisionPadding}
-      arrowPadding={arrowPadding}
-      sticky={sticky}
+      forceMount
       hideWhenDetached={hideWhenDetached}
-      onOpenAutoFocus={onOpenAutoFocus}
       onCloseAutoFocus={onCloseAutoFocus}
       onEscapeKeyDown={onEscapeKeyDown}
-      onPointerDownOutside={onPointerDownOutside}
-      onInteractOutside={onInteractOutside}
       onFocusOutside={onFocusOutside}
+      onInteractOutside={onInteractOutside}
+      onOpenAutoFocus={onOpenAutoFocus}
+      onPointerDownOutside={onPointerDownOutside}
+      side={side}
+      sideOffset={sideOffset}
+      sticky={sticky}
     >
       <motion.div
-        key="popover-content"
-        data-slot="popover-content"
-        initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
+        data-slot="popover-content"
         exit={{ opacity: 0, scale: 0.5 }}
+        initial={{ opacity: 0, scale: 0.5 }}
+        key="popover-content"
         transition={transition}
         {...props}
       />
@@ -144,19 +143,19 @@ function PopoverClose(props: PopoverCloseProps) {
 
 export {
   Popover,
-  PopoverTrigger,
-  PopoverPortal,
-  PopoverContent,
   PopoverAnchor,
-  PopoverClose,
-  PopoverArrow,
-  usePopover,
-  type PopoverProps,
-  type PopoverTriggerProps,
-  type PopoverPortalProps,
-  type PopoverContentProps,
   type PopoverAnchorProps,
-  type PopoverCloseProps,
+  PopoverArrow,
   type PopoverArrowProps,
+  PopoverClose,
+  type PopoverCloseProps,
+  PopoverContent,
+  type PopoverContentProps,
   type PopoverContextType,
+  PopoverPortal,
+  type PopoverPortalProps,
+  type PopoverProps,
+  PopoverTrigger,
+  type PopoverTriggerProps,
+  usePopover,
 };

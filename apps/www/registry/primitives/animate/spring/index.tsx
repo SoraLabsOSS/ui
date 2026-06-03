@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import * as React from 'react';
 import {
-  motion,
-  useMotionValue,
-  useSpring as useMotionSpring,
-  type SpringOptions,
   type HTMLMotionProps,
   type MotionValue,
-} from 'motion/react';
+  motion,
+  type SpringOptions,
+  useSpring as useMotionSpring,
+  useMotionValue,
+} from "motion/react";
+import * as React from "react";
 
-import { useMotionValueState } from '@/registry/hooks/use-motion-value-state';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { Slot, type WithAsChild } from '@/registry/primitives/animate/slot';
+import { useMotionValueState } from "@/registry/hooks/use-motion-value-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
+import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 
 type SpringPathConfig = {
   coilCount?: number;
@@ -28,7 +28,7 @@ function generateSpringPath(
   y1: number,
   x2: number,
   y2: number,
-  pathConfig: SpringPathConfig = {},
+  pathConfig: SpringPathConfig = {}
 ) {
   const {
     coilCount = 8,
@@ -42,12 +42,14 @@ function generateSpringPath(
   const dx = x2 - x1;
   const dy = y2 - y1;
   const dist = Math.sqrt(dx * dx + dy * dy);
-  if (dist < 2) return `M${x1},${y1}`;
+  if (dist < 2) {
+    return `M${x1},${y1}`;
+  }
   const d = dist / coilCount;
   const h = Math.max(0.8, 1 - (dist - 40) / 200);
   const amplitude = Math.max(
     amplitudeMin,
-    Math.min(amplitudeMax, amplitudeMax * h),
+    Math.min(amplitudeMax, amplitudeMax * h)
   );
   const curveRatio =
     dist <= 40
@@ -79,12 +81,15 @@ function generateSpringPath(
     const c4x = ex - d * curveRatio * ux;
     const c4y = ey - d * curveRatio * uy;
 
-    if (i === 0) path.push(`M${sx},${sy}`);
-    else path.push(`L${sx},${sy}`);
+    if (i === 0) {
+      path.push(`M${sx},${sy}`);
+    } else {
+      path.push(`L${sx},${sy}`);
+    }
     path.push(`C${c1x},${c1y} ${c2x},${c2y} ${mx},${my}`);
     path.push(`C${c3x},${c3y} ${c4x},${c4y} ${ex},${ey}`);
   }
-  return path.join(' ');
+  return path.join(" ");
 }
 
 type SpringContextType = {
@@ -100,7 +105,7 @@ type SpringContextType = {
 };
 
 const [LocalSpringProvider, useSpring] =
-  getStrictContext<SpringContextType>('SpringContext');
+  getStrictContext<SpringContextType>("SpringContext");
 
 type SpringProviderProps = {
   children: React.ReactNode;
@@ -142,20 +147,20 @@ function SpringProvider({
 
     update();
 
-    window.addEventListener('resize', update);
-    window.addEventListener('scroll', update, true);
+    window.addEventListener("resize", update);
+    window.addEventListener("scroll", update, true);
 
     return () => {
-      window.removeEventListener('resize', update);
-      window.removeEventListener('scroll', update, true);
+      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", update, true);
     };
   }, []);
 
   React.useEffect(() => {
     if (isDragging) {
-      document.body.style.cursor = 'grabbing';
+      document.body.style.cursor = "grabbing";
     } else {
-      document.body.style.cursor = 'default';
+      document.body.style.cursor = "default";
     }
   }, [isDragging]);
 
@@ -164,7 +169,7 @@ function SpringProvider({
     center.y,
     center.x + sx,
     center.y + sy,
-    pathConfig,
+    pathConfig
   );
 
   return (
@@ -192,30 +197,30 @@ function Spring({ style, ...props }: SpringProps) {
 
   return (
     <svg
-      width="100vw"
       height="100vh"
       style={{
-        position: 'fixed',
+        position: "fixed",
         inset: 0,
-        pointerEvents: 'none',
+        pointerEvents: "none",
         ...style,
       }}
+      width="100vw"
       {...props}
     >
       <path
         d={path}
+        fill="none"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        stroke="currentColor"
         strokeWidth={2}
-        fill="none"
       />
     </svg>
   );
 }
 
 type SpringElementProps = WithAsChild<
-  Omit<HTMLMotionProps<'div'>, 'children'> & {
+  Omit<HTMLMotionProps<"div">, "children"> & {
     children: React.ReactElement;
   }
 >;
@@ -243,19 +248,9 @@ function SpringElement({
 
   return (
     <Component
-      ref={childRef}
-      style={{
-        cursor: isDragging ? 'grabbing' : 'grab',
-        x: springX,
-        y: springY,
-        ...style,
-      }}
       drag
       dragElastic={dragElastic}
       dragMomentum={false}
-      onDragStart={() => {
-        setIsDragging(true);
-      }}
       onDrag={(_, info) => {
         x.set(info.offset.x);
         y.set(info.offset.y);
@@ -265,19 +260,29 @@ function SpringElement({
         y.set(0);
         setIsDragging(false);
       }}
+      onDragStart={() => {
+        setIsDragging(true);
+      }}
+      ref={childRef}
+      style={{
+        cursor: isDragging ? "grabbing" : "grab",
+        x: springX,
+        y: springY,
+        ...style,
+      }}
       {...props}
     />
   );
 }
 
 export {
-  SpringProvider,
   Spring,
+  type SpringContextType,
   SpringElement,
-  useSpring,
-  type SpringProviderProps,
-  type SpringProps,
   type SpringElementProps,
   type SpringPathConfig,
-  type SpringContextType,
+  type SpringProps,
+  SpringProvider,
+  type SpringProviderProps,
+  useSpring,
 };

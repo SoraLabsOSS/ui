@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type LockKeyholeOpenProps = IconProps<keyof typeof animations>;
 
@@ -24,7 +23,7 @@ const animations = {
         scale: [1, 0.9, 1, 1],
         transition: {
           duration: 1.2,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -36,7 +35,7 @@ const animations = {
         pathLength: [0.8, 1, 0.8, 0.8],
         transition: {
           duration: 1.2,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -54,7 +53,7 @@ const animations = {
         scale: [1, 0.9, 1],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -66,7 +65,7 @@ const animations = {
         pathLength: 1,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -84,7 +83,7 @@ const animations = {
         scale: [1, 0.9, 1],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -96,7 +95,7 @@ const animations = {
         pathLength: 0.8,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -111,43 +110,43 @@ function IconComponent({ size, ...props }: LockKeyholeOpenProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      animate={controls}
       fill="none"
+      height={size}
+      initial="initial"
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      initial="initial"
-      animate={controls}
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.circle
+          animate={controls}
           cx="12"
           cy="16"
+          initial="initial"
           r="1"
           variants={variants.circle}
-          initial="initial"
-          animate={controls}
         />
         <motion.rect
-          x="3"
-          y="10"
-          width="18"
+          animate={controls}
           height="12"
+          initial="initial"
           rx="2"
           variants={variants.rect}
-          initial="initial"
-          animate={controls}
+          width="18"
+          x="3"
+          y="10"
         />
         <motion.path
-          d="M7 10V7a5 5 0 0 1 10 0v3"
-          variants={variants.path}
-          initial="initial"
           animate={controls}
+          d="M7 10V7a5 5 0 0 1 10 0v3"
+          initial="initial"
+          variants={variants.path}
         />
       </motion.g>
     </motion.svg>

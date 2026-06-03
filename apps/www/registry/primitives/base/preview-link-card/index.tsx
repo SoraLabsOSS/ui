@@ -1,24 +1,23 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-
+import * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 import {
-  PreviewCard as PreviewCardPrimitive,
-  PreviewCardTrigger as PreviewCardTriggerPrimitive,
-  PreviewCardPortal as PreviewCardPortalPrimitive,
   PreviewCardArrow as PreviewCardArrowPrimitive,
-  PreviewCardPositioner as PreviewCardPositionerPrimitive,
-  PreviewCardPopup as PreviewCardPopupPrimitive,
-  PreviewCardBackdrop as PreviewCardBackdropPrimitive,
-  type PreviewCardProps as PreviewCardPropsPrimitive,
-  type PreviewCardTriggerProps as PreviewCardTriggerPropsPrimitive,
-  type PreviewCardPortalProps as PreviewCardPortalPropsPrimitive,
-  type PreviewCardPositionerProps as PreviewCardPositionerPropsPrimitive,
-  type PreviewCardPopupProps as PreviewCardPopupPropsPrimitive,
   type PreviewCardArrowProps as PreviewCardArrowPropsPrimitive,
+  PreviewCardBackdrop as PreviewCardBackdropPrimitive,
   type PreviewCardBackdropProps as PreviewCardBackdropPropsPrimitive,
-} from '@/registry/primitives/base/preview-card';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+  PreviewCardPopup as PreviewCardPopupPrimitive,
+  type PreviewCardPopupProps as PreviewCardPopupPropsPrimitive,
+  PreviewCardPortal as PreviewCardPortalPrimitive,
+  type PreviewCardPortalProps as PreviewCardPortalPropsPrimitive,
+  PreviewCardPositioner as PreviewCardPositionerPrimitive,
+  type PreviewCardPositionerProps as PreviewCardPositionerPropsPrimitive,
+  PreviewCard as PreviewCardPrimitive,
+  type PreviewCardProps as PreviewCardPropsPrimitive,
+  PreviewCardTrigger as PreviewCardTriggerPrimitive,
+  type PreviewCardTriggerProps as PreviewCardTriggerPropsPrimitive,
+} from "@/registry/primitives/base/preview-card";
 
 type PreviewLinkCardContextType = {
   href: string;
@@ -28,7 +27,7 @@ type PreviewLinkCardContextType = {
 };
 
 const [PreviewLinkCardProvider, usePreviewLinkCard] =
-  getStrictContext<PreviewLinkCardContextType>('PreviewLinkCardContext');
+  getStrictContext<PreviewLinkCardContextType>("PreviewLinkCardContext");
 
 type PreviewLinkCardProps = PreviewCardPropsPrimitive & {
   href: string;
@@ -36,7 +35,7 @@ type PreviewLinkCardProps = PreviewCardPropsPrimitive & {
   width?: number;
   height?: number;
   deviceScaleFactor?: number;
-  colorScheme?: 'light' | 'dark';
+  colorScheme?: "light" | "dark";
 };
 
 function PreviewLinkCard({
@@ -45,7 +44,7 @@ function PreviewLinkCard({
   width = 240,
   height = 135,
   deviceScaleFactor = 1,
-  colorScheme = 'light',
+  colorScheme = "light",
   ...props
 }: PreviewLinkCardProps) {
   const imageSrc =
@@ -54,18 +53,18 @@ function PreviewLinkCard({
       url: href,
       screenshot: true,
       meta: false,
-      embed: 'screenshot.url',
+      embed: "screenshot.url",
       colorScheme,
-      'viewport.isMobile': true,
-      'viewport.deviceScaleFactor': deviceScaleFactor,
-      'viewport.width': width * 3,
-      'viewport.height': height * 3,
+      "viewport.isMobile": true,
+      "viewport.deviceScaleFactor": deviceScaleFactor,
+      "viewport.width": width * 3,
+      "viewport.height": height * 3,
     })}`;
 
   React.useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
     link.href = imageSrc;
     document.head.appendChild(link);
     return () => {
@@ -81,7 +80,7 @@ function PreviewLinkCard({
 }
 
 type PreviewLinkCardTriggerProps = PreviewCardTriggerPropsPrimitive &
-  React.ComponentProps<'a'>;
+  React.ComponentProps<"a">;
 
 function PreviewLinkCardTrigger({
   children,
@@ -114,38 +113,40 @@ function PreviewLinkCardPortal(props: PreviewLinkCardPortalProps) {
 type PreviewLinkCardPositionerProps = PreviewCardPositionerPropsPrimitive;
 
 function PreviewLinkCardPositioner({
-  side = 'top',
+  side = "top",
   sideOffset = 10,
-  align = 'center',
+  align = "center",
   ...props
 }: PreviewLinkCardPositionerProps) {
   return (
     <PreviewCardPositionerPrimitive
+      align={align}
       data-slot="preview-link-card-positioner"
       side={side}
       sideOffset={sideOffset}
-      align={align}
       {...props}
     />
   );
 }
 
 function buildQueryString(
-  params: Record<string, string | number | boolean | undefined | null>,
+  params: Record<string, string | number | boolean | undefined | null>
 ) {
   const sp = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
-    if (v === undefined || v === null) continue;
+    if (v === undefined || v === null) {
+      continue;
+    }
     sp.append(k, String(v));
   }
   return sp.toString();
 }
 
 type PreviewLinkCardPopupProps = PreviewCardPopupPropsPrimitive &
-  React.ComponentProps<'a'>;
+  React.ComponentProps<"a">;
 
 function PreviewLinkCardPopup({
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   href: hrefProp,
   style,
   children,
@@ -160,11 +161,11 @@ function PreviewLinkCardPopup({
     >
       <a
         data-slot="preview-link-card-popup-link"
+        href={hrefProp ?? href}
         style={{
-          display: 'block',
+          display: "block",
           ...style,
         }}
-        href={hrefProp ?? href}
         {...props}
       >
         {children}
@@ -174,17 +175,17 @@ function PreviewLinkCardPopup({
 }
 
 type PreviewLinkCardImageProps = Omit<
-  React.ComponentProps<'img'>,
-  'src' | 'width' | 'height'
+  React.ComponentProps<"img">,
+  "src" | "width" | "height"
 >;
 
 function PreviewLinkCardImage({
-  alt = 'preview image',
+  alt = "preview image",
   ...props
 }: PreviewLinkCardImageProps) {
   const { src, width, height } = usePreviewLinkCard();
 
-  return <img src={src} width={width} height={height} alt={alt} {...props} />;
+  return <img alt={alt} height={height} src={src} width={width} {...props} />;
 }
 
 type PreviewLinkCardBackdropProps = PreviewCardBackdropPropsPrimitive;
@@ -208,21 +209,21 @@ function PreviewLinkCardArrow(props: PreviewLinkCardArrowProps) {
 
 export {
   PreviewLinkCard,
-  PreviewLinkCardTrigger,
-  PreviewLinkCardPortal,
-  PreviewLinkCardPositioner,
-  PreviewLinkCardPopup,
-  PreviewLinkCardImage,
-  PreviewLinkCardBackdrop,
   PreviewLinkCardArrow,
-  usePreviewLinkCard,
-  type PreviewLinkCardProps,
-  type PreviewLinkCardTriggerProps,
-  type PreviewLinkCardPortalProps,
-  type PreviewLinkCardPositionerProps,
-  type PreviewLinkCardPopupProps,
-  type PreviewLinkCardImageProps,
-  type PreviewLinkCardBackdropProps,
   type PreviewLinkCardArrowProps,
+  PreviewLinkCardBackdrop,
+  type PreviewLinkCardBackdropProps,
   type PreviewLinkCardContextType,
+  PreviewLinkCardImage,
+  type PreviewLinkCardImageProps,
+  PreviewLinkCardPopup,
+  type PreviewLinkCardPopupProps,
+  PreviewLinkCardPortal,
+  type PreviewLinkCardPortalProps,
+  PreviewLinkCardPositioner,
+  type PreviewLinkCardPositionerProps,
+  type PreviewLinkCardProps,
+  PreviewLinkCardTrigger,
+  type PreviewLinkCardTriggerProps,
+  usePreviewLinkCard,
 };

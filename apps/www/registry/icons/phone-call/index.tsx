@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type PhoneCallProps = IconProps<keyof typeof animations>;
 
@@ -27,17 +26,17 @@ const animations = {
           transition: {
             opacity: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.2,
               delay: 0.2 * (i - 1),
             },
             scale: {
               duration: 0.2,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
               repeatDelay: 0.2,
               delay: 0.2 * (i - 1),
             },
@@ -56,36 +55,36 @@ function IconComponent({ size, ...props }: PhoneCallProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       {/* Waves (inner first, then outer with delay) */}
       <motion.path
-        d="M13 6a5 5 0 0 1 5 5"
-        variants={variants.wave1}
-        initial="initial"
         animate={controls}
+        d="M13 6a5 5 0 0 1 5 5"
+        initial="initial"
+        variants={variants.wave1}
       />
       <motion.path
-        d="M13 2a9 9 0 0 1 9 9"
-        variants={variants.wave2}
-        initial="initial"
         animate={controls}
+        d="M13 2a9 9 0 0 1 9 9"
+        initial="initial"
+        variants={variants.wave2}
       />
       {/* Phone body */}
       <motion.path
-        d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
-        variants={variants.phone}
-        initial="initial"
         animate={controls}
+        d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
+        initial="initial"
+        variants={variants.phone}
       />
     </motion.svg>
   );

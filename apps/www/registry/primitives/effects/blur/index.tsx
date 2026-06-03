@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type HTMLMotionProps } from 'motion/react';
+import { type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
 
 import {
-  useIsInView,
   type UseIsInViewOptions,
-} from '@/registry/hooks/use-is-in-view';
-import { Slot, type WithAsChild } from '@/registry/primitives/animate/slot';
+  useIsInView,
+} from "@/registry/hooks/use-is-in-view";
+import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 
 type BlurProps = WithAsChild<
   {
@@ -17,15 +17,15 @@ type BlurProps = WithAsChild<
     blur?: number;
     ref?: React.Ref<HTMLElement>;
   } & UseIsInViewOptions &
-    HTMLMotionProps<'div'>
+    HTMLMotionProps<"div">
 >;
 
 function Blur({
   ref,
-  transition = { type: 'spring', stiffness: 200, damping: 20 },
+  transition = { type: "spring", stiffness: 200, damping: 20 },
   delay = 0,
   inView = false,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   inViewOnce = true,
   initialBlur = 10,
   blur = 0,
@@ -38,31 +38,31 @@ function Blur({
       inView,
       inViewOnce,
       inViewMargin,
-    },
+    }
   );
 
   const Component = asChild ? Slot : motion.div;
 
   return (
     <Component
-      ref={localRef as React.Ref<HTMLDivElement>}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      animate={isInView ? "visible" : "hidden"}
       exit="hidden"
-      variants={{
-        hidden: { filter: `blur(${initialBlur}px)` },
-        visible: { filter: `blur(${blur}px)` },
-      }}
+      initial="hidden"
+      ref={localRef as React.Ref<HTMLDivElement>}
       transition={{
         ...transition,
         delay: (transition?.delay ?? 0) + delay / 1000,
+      }}
+      variants={{
+        hidden: { filter: `blur(${initialBlur}px)` },
+        visible: { filter: `blur(${blur}px)` },
       }}
       {...props}
     />
   );
 }
 
-type BlurListProps = Omit<BlurProps, 'children'> & {
+type BlurListProps = Omit<BlurProps, "children"> & {
   children: React.ReactElement | React.ReactElement[];
   holdDelay?: number;
 };
@@ -79,8 +79,8 @@ function Blurs({
     <>
       {array.map((child, index) => (
         <Blur
-          key={child.key ?? index}
           delay={delay + index * holdDelay}
+          key={child.key ?? index}
           {...props}
         >
           {child}
@@ -90,4 +90,4 @@ function Blurs({
   );
 }
 
-export { Blur, Blurs, type BlurProps, type BlurListProps };
+export { Blur, type BlurListProps, type BlurProps, Blurs };

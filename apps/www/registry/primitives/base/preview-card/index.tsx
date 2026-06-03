@@ -1,36 +1,35 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { PreviewCard as PreviewCardPrimitive } from '@base-ui-components/react/preview-card';
+import { PreviewCard as PreviewCardPrimitive } from "@base-ui-components/react/preview-card";
 import {
   AnimatePresence,
-  motion,
-  useMotionValue,
-  useSpring,
   type HTMLMotionProps,
   type MotionValue,
+  motion,
   type SpringOptions,
-} from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+  useMotionValue,
+  useSpring,
+} from "motion/react";
+import type * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type PreviewCardContextType = {
   isOpen: boolean;
-  setIsOpen: PreviewCardProps['onOpenChange'];
+  setIsOpen: PreviewCardProps["onOpenChange"];
   x: MotionValue<number>;
   y: MotionValue<number>;
-  followCursor?: boolean | 'x' | 'y';
+  followCursor?: boolean | "x" | "y";
   followCursorSpringOptions?: SpringOptions;
 };
 
 const [PreviewCardProvider, usePreviewCard] =
-  getStrictContext<PreviewCardContextType>('PreviewCardContext');
+  getStrictContext<PreviewCardContextType>("PreviewCardContext");
 
 type PreviewCardProps = React.ComponentProps<
   typeof PreviewCardPrimitive.Root
 > & {
-  followCursor?: boolean | 'x' | 'y';
+  followCursor?: boolean | "x" | "y";
   followCursorSpringOptions?: SpringOptions;
 };
 
@@ -78,19 +77,19 @@ function PreviewCardTrigger({
   const { x, y, followCursor } = usePreviewCard();
 
   const handleMouseMove = (
-    event: Parameters<NonNullable<PreviewCardTriggerProps['onMouseMove']>>[0],
+    event: Parameters<NonNullable<PreviewCardTriggerProps["onMouseMove"]>>[0]
   ) => {
     onMouseMove?.(event);
 
     const target = event.currentTarget.getBoundingClientRect();
 
-    if (followCursor === 'x' || followCursor === true) {
+    if (followCursor === "x" || followCursor === true) {
       const eventOffsetX = event.clientX - target.left;
       const offsetXFromCenter = (eventOffsetX - target.width / 2) / 2;
       x.set(offsetXFromCenter);
     }
 
-    if (followCursor === 'y' || followCursor === true) {
+    if (followCursor === "y" || followCursor === true) {
       const eventOffsetY = event.clientY - target.top;
       const offsetYFromCenter = (eventOffsetY - target.height / 2) / 2;
       y.set(offsetYFromCenter);
@@ -108,7 +107,7 @@ function PreviewCardTrigger({
 
 type PreviewCardPortalProps = Omit<
   React.ComponentProps<typeof PreviewCardPrimitive.Portal>,
-  'keepMounted'
+  "keepMounted"
 >;
 
 function PreviewCardPortal(props: PreviewCardPortalProps) {
@@ -118,8 +117,8 @@ function PreviewCardPortal(props: PreviewCardPortalProps) {
     <AnimatePresence>
       {isOpen && (
         <PreviewCardPrimitive.Portal
-          keepMounted
           data-slot="preview-card-portal"
+          keepMounted
           {...props}
         />
       )}
@@ -142,12 +141,12 @@ function PreviewCardPositioner(props: PreviewCardPositionerProps) {
 
 type PreviewCardPopupProps = Omit<
   React.ComponentProps<typeof PreviewCardPrimitive.Popup>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function PreviewCardPopup({
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   style,
   ...props
 }: PreviewCardPopupProps) {
@@ -159,23 +158,23 @@ function PreviewCardPopup({
     <PreviewCardPrimitive.Popup
       render={
         <motion.div
-          key="preview-card-popup"
-          data-slot="preview-card-popup"
-          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
+          data-slot="preview-card-popup"
           exit={{ opacity: 0, scale: 0.5 }}
-          transition={transition}
+          initial={{ opacity: 0, scale: 0.5 }}
+          key="preview-card-popup"
           style={{
             x:
-              followCursor === 'x' || followCursor === true
+              followCursor === "x" || followCursor === true
                 ? translateX
                 : undefined,
             y:
-              followCursor === 'y' || followCursor === true
+              followCursor === "y" || followCursor === true
                 ? translateY
                 : undefined,
             ...style,
           }}
+          transition={transition}
           {...props}
         />
       }
@@ -208,19 +207,19 @@ function PreviewCardArrow(props: PreviewCardArrowProps) {
 
 export {
   PreviewCard,
-  PreviewCardTrigger,
-  PreviewCardPortal,
-  PreviewCardPositioner,
-  PreviewCardPopup,
-  PreviewCardBackdrop,
   PreviewCardArrow,
-  usePreviewCard,
-  type PreviewCardProps,
-  type PreviewCardTriggerProps,
-  type PreviewCardPortalProps,
-  type PreviewCardPositionerProps,
-  type PreviewCardPopupProps,
-  type PreviewCardBackdropProps,
   type PreviewCardArrowProps,
+  PreviewCardBackdrop,
+  type PreviewCardBackdropProps,
   type PreviewCardContextType,
+  PreviewCardPopup,
+  type PreviewCardPopupProps,
+  PreviewCardPortal,
+  type PreviewCardPortalProps,
+  PreviewCardPositioner,
+  type PreviewCardPositionerProps,
+  type PreviewCardProps,
+  PreviewCardTrigger,
+  type PreviewCardTriggerProps,
+  usePreviewCard,
 };

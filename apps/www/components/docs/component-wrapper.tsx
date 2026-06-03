@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { Button } from '@workspace/ui/components/ui/button';
-import { cn } from '@workspace/ui/lib/utils';
-import { Fullscreen, RotateCcw, SlidersHorizontal } from 'lucide-react';
-import { useState } from 'react';
-import { motion } from 'motion/react';
-import Iframe from './iframe';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import { Button } from "@workspace/ui/components/ui/button";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
+import { Fullscreen, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { motion } from "motion/react";
+import { useState } from "react";
+import Iframe from "./iframe";
 
 interface ComponentWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
-  name: string;
-  iframe?: boolean;
   bigScreen?: boolean;
+  iframe?: boolean;
+  name: string;
   tweakpane?: React.ReactNode;
 }
 
@@ -29,24 +29,24 @@ export const ComponentWrapper = ({
   const isMobile = useIsMobile();
 
   return (
-    <div className="bg-accent rounded-xl p-1.5">
+    <div className="rounded-xl bg-accent p-1.5">
       <motion.div
-        id="component-wrapper"
         className={cn(
-          'bg-background relative flex max-w-screen flex-col rounded-md md:flex-row',
-          bigScreen && 'overflow-hidden',
-          className,
+          "relative flex max-w-screen flex-col rounded-md bg-background md:flex-row",
+          bigScreen && "overflow-hidden",
+          className
         )}
+        id="component-wrapper"
       >
         <motion.div className="relative size-full flex-1">
           {!iframe && (
-            <div className="bg-background absolute top-3 right-3 z-[9] flex items-center justify-end gap-2 rounded-[11px] p-1">
+            <div className="absolute top-3 right-3 z-[9] flex items-center justify-end gap-2 rounded-[11px] bg-background p-1">
               <Button
-                onClick={() => setKey((prev) => prev + 1)}
-                className="flex items-center rounded-lg"
-                variant="neutral"
-                size="icon-sm"
                 asChild
+                className="flex items-center rounded-lg"
+                onClick={() => setKey((prev) => prev + 1)}
+                size="icon-sm"
+                variant="neutral"
               >
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -58,11 +58,11 @@ export const ComponentWrapper = ({
 
               {iframe && (
                 <Button
-                  onClick={() => window.open(`/examples/${name}`, '_blank')}
-                  className="flex items-center rounded-lg"
-                  variant="neutral"
-                  size="icon-sm"
                   asChild
+                  className="flex items-center rounded-lg"
+                  onClick={() => window.open(`/examples/${name}`, "_blank")}
+                  size="icon-sm"
+                  variant="neutral"
                 >
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -75,11 +75,11 @@ export const ComponentWrapper = ({
 
               {tweakpane && (
                 <Button
-                  onClick={() => setTweakMode((prev) => !prev)}
-                  className="flex items-center rounded-lg"
-                  variant="neutral"
-                  size="icon-sm"
                   asChild
+                  className="flex items-center rounded-lg"
+                  onClick={() => setTweakMode((prev) => !prev)}
+                  size="icon-sm"
+                  variant="neutral"
                 >
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -93,11 +93,11 @@ export const ComponentWrapper = ({
           )}
 
           {iframe ? (
-            <Iframe key={key} name={name} bigScreen={bigScreen} />
+            <Iframe bigScreen={bigScreen} key={key} name={name} />
           ) : (
             <div
-              key={key}
               className="flex min-h-[400px] w-full items-center justify-center px-10 py-16"
+              key={key}
             >
               {children}
             </div>
@@ -105,19 +105,19 @@ export const ComponentWrapper = ({
         </motion.div>
 
         <motion.div
-          initial={false}
           animate={{
-            width: isMobile ? '100%' : tweakMode ? '250px' : '0px',
-            height: isMobile ? (tweakMode ? '250px' : '0px') : 'auto',
+            width: isMobile ? "100%" : tweakMode ? "250px" : "0px",
+            height: isMobile ? (tweakMode ? "250px" : "0px") : "auto",
             opacity: tweakMode ? 1 : 0,
           }}
+          className="relative"
+          initial={false}
           transition={{
-            type: 'spring',
+            type: "spring",
             stiffness: 300,
             damping: 30,
             restDelta: 0.01,
           }}
-          className="relative"
         >
           <div className="absolute inset-0 overflow-y-auto">{tweakpane}</div>
         </motion.div>

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import type * as React from 'react';
-import { cn } from '@workspace/ui/lib/utils';
+import { cn } from "@workspace/ui/lib/utils";
+import type * as React from "react";
 
 export function DocsShellSectionTitle({
   children,
@@ -13,8 +13,8 @@ export function DocsShellSectionTitle({
   return (
     <div
       className={cn(
-        'text-foreground/40 mt-2 px-0 py-3.5 text-sm font-medium',
-        className,
+        "mt-2 px-0 py-3.5 font-medium text-foreground/40 text-sm",
+        className
       )}
     >
       {children}
@@ -32,7 +32,7 @@ export function DocsShellSection({
   className?: string;
 }) {
   return (
-    <div className={cn('flex flex-col', className)}>
+    <div className={cn("flex flex-col", className)}>
       {label && <DocsShellSectionTitle>{label}</DocsShellSectionTitle>}
       {children}
     </div>

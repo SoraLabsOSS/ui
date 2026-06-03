@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useSidebar } from 'fumadocs-ui/provider';
-import { useEffect } from 'react';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { useSidebar } from "fumadocs-ui/provider";
+import { useEffect } from "react";
 
-const MOBILE_SIDEBAR_ID = 'nd-sidebar-mobile';
+const MOBILE_SIDEBAR_ID = "nd-sidebar-mobile";
 
 /**
  * Fumadocs renders a full-screen backdrop (z-40) plus a panel (~85% width).
@@ -17,18 +17,24 @@ export function useDismissMobileSidebarOnOutside() {
   const { open, setOpen } = useSidebar();
 
   useEffect(() => {
-    if (!isMobile || !open) return;
+    if (!(isMobile && open)) {
+      return;
+    }
 
     const onPointerDown = (event: PointerEvent) => {
       const panel = document.getElementById(MOBILE_SIDEBAR_ID);
       const target = event.target;
-      if (!(target instanceof Node)) return;
-      if (panel?.contains(target)) return;
+      if (!(target instanceof Node)) {
+        return;
+      }
+      if (panel?.contains(target)) {
+        return;
+      }
       setOpen(false);
     };
 
-    document.addEventListener('pointerdown', onPointerDown, true);
+    document.addEventListener("pointerdown", onPointerDown, true);
     return () =>
-      document.removeEventListener('pointerdown', onPointerDown, true);
+      document.removeEventListener("pointerdown", onPointerDown, true);
   }, [isMobile, open, setOpen]);
 }

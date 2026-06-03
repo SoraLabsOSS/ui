@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import type * as React from 'react';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
-import { ChevronRight } from 'lucide-react';
-import { cn } from '@workspace/ui/lib/utils';
-import { useDocsShellHover } from './context';
+import { cn } from "@workspace/ui/lib/utils";
+import { ChevronRight } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import type * as React from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useDocsShellHover } from "./context";
 
 const MotionChevron = motion.create(ChevronRight);
 
 export interface DocsShellNavGroupProps {
-  label: React.ReactNode;
   children: React.ReactNode;
+  className?: string;
   defaultOpen?: boolean;
   icon?: React.ReactNode;
-  className?: string;
+  label: React.ReactNode;
 }
 
 export function DocsShellNavGroup({
@@ -54,41 +54,41 @@ export function DocsShellNavGroup({
   }, [setHovered]);
 
   return (
-    <div className={cn('flex flex-col', className)}>
+    <div className={cn("flex flex-col", className)}>
       <button
-        ref={buttonRef}
-        type="button"
+        className="group relative z-1 flex w-full select-none items-center gap-1.5 py-1.5 pr-2 text-left"
         onClick={() => setIsOpen((v) => !v)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="group relative z-1 flex w-full items-center gap-1.5 py-1.5 pr-2 text-left select-none"
+        ref={buttonRef}
+        type="button"
       >
         {icon ? (
           <>
-            <span className="text-foreground/35 shrink-0 [&_svg]:size-3.5">
+            <span className="shrink-0 text-foreground/35 [&_svg]:size-3.5">
               {icon}
             </span>
-            <span className="text-foreground/45 group-hover:text-foreground/70 flex-1 text-sm transition-colors duration-150">
+            <span className="flex-1 text-foreground/45 text-sm transition-colors duration-150 group-hover:text-foreground/70">
               {label}
             </span>
             <MotionChevron
+              animate={{ rotate: isOpen ? 90 : 0 }}
+              className="mr-1 shrink-0 text-foreground/25"
               size={14}
               strokeWidth={2.5}
-              className="text-foreground/25 mr-1 shrink-0"
-              animate={{ rotate: isOpen ? 90 : 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
           </>
         ) : (
           <>
             <MotionChevron
+              animate={{ rotate: isOpen ? 90 : 0 }}
+              className="shrink-0 text-foreground/35"
               size={11}
               strokeWidth={2.5}
-              className="text-foreground/35 shrink-0"
-              animate={{ rotate: isOpen ? 90 : 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
-            <span className="text-foreground/45 group-hover:text-foreground/70 text-sm transition-colors duration-150">
+            <span className="text-foreground/45 text-sm transition-colors duration-150 group-hover:text-foreground/70">
               {label}
             </span>
           </>
@@ -98,11 +98,11 @@ export function DocsShellNavGroup({
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-            style={{ overflow: 'hidden' }}
+            initial={{ height: 0, opacity: 0 }}
+            style={{ overflow: "hidden" }}
+            transition={{ type: "spring", stiffness: 420, damping: 34 }}
           >
             <div className="flex flex-col pl-3">{children}</div>
           </motion.div>

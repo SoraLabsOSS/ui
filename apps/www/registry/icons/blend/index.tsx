@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type BlendProps = IconProps<keyof typeof animations>;
 
@@ -22,7 +21,7 @@ const animations = {
       animate: {
         x: 6,
         y: 6,
-        transition: { type: 'spring', stiffness: 100, damping: 12 },
+        transition: { type: "spring", stiffness: 100, damping: 12 },
       },
     },
     circle2: {
@@ -33,7 +32,7 @@ const animations = {
       animate: {
         x: -6,
         y: -6,
-        transition: { type: 'spring', stiffness: 100, damping: 12 },
+        transition: { type: "spring", stiffness: 100, damping: 12 },
       },
     },
   } satisfies Record<string, Variants>,
@@ -45,32 +44,32 @@ function IconComponent({ size, ...props }: BlendProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.circle
+        animate={controls}
         cx="9"
         cy="9"
+        initial="initial"
         r="7"
         variants={variants.circle1}
-        initial="initial"
-        animate={controls}
       />
       <motion.circle
+        animate={controls}
         cx="15"
         cy="15"
+        initial="initial"
         r="7"
         variants={variants.circle2}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, AnimatePresence, type HTMLMotionProps } from 'motion/react';
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
 
 import {
-  useIsInView,
   type UseIsInViewOptions,
-} from '@/registry/hooks/use-is-in-view';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+  useIsInView,
+} from "@/registry/hooks/use-is-in-view";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type RotatingTextContextType = {
   currentText: string;
@@ -16,9 +16,9 @@ type RotatingTextContextType = {
 };
 
 const [RotatingTextProvider, useRotatingText] =
-  getStrictContext<RotatingTextContextType>('RotatingTextContext');
+  getStrictContext<RotatingTextContextType>("RotatingTextContext");
 
-type RotatingTextContainerProps = React.ComponentProps<'div'> & {
+type RotatingTextContainerProps = React.ComponentProps<"div"> & {
   text: string | string[];
   duration?: number;
   y?: number;
@@ -33,7 +33,7 @@ function RotatingTextContainer({
   delay = 0,
   style,
   inView = false,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   inViewOnce = true,
   ...props
 }: RotatingTextContainerProps) {
@@ -45,12 +45,16 @@ function RotatingTextContainer({
       inView,
       inViewOnce,
       inViewMargin,
-    },
+    }
   );
 
   React.useEffect(() => {
-    if (!Array.isArray(text)) return;
-    if (inView && !isInView) return;
+    if (!Array.isArray(text)) {
+      return;
+    }
+    if (inView && !isInView) {
+      return;
+    }
 
     let intervalId: ReturnType<typeof setInterval> | undefined;
 
@@ -58,13 +62,15 @@ function RotatingTextContainer({
       setIndex((prev) => (prev + 1) % text.length);
       intervalId = setInterval(
         () => setIndex((prev) => (prev + 1) % text.length),
-        duration,
+        duration
       );
     }, delay);
 
     return () => {
       clearTimeout(timeoutId);
-      if (intervalId) clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
   }, [text, duration, delay, inView, isInView]);
 
@@ -75,8 +81,8 @@ function RotatingTextContainer({
       <div
         ref={localRef}
         style={{
-          overflow: 'hidden',
-          paddingBlock: '0.25rem',
+          overflow: "hidden",
+          paddingBlock: "0.25rem",
           ...style,
         }}
         {...props}
@@ -85,10 +91,10 @@ function RotatingTextContainer({
   );
 }
 
-type RotatingTextProps = Omit<HTMLMotionProps<'div'>, 'children'>;
+type RotatingTextProps = Omit<HTMLMotionProps<"div">, "children">;
 
 function RotatingText({
-  transition = { duration: 0.3, ease: 'easeOut' },
+  transition = { duration: 0.3, ease: "easeOut" },
   ...props
 }: RotatingTextProps) {
   const { currentText, y, isInView } = useRotatingText();
@@ -97,11 +103,11 @@ function RotatingText({
     <AnimatePresence mode="wait">
       {isInView && (
         <motion.div
-          key={currentText}
-          transition={transition}
-          initial={{ opacity: 0, y: -y }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y }}
+          initial={{ opacity: 0, y: -y }}
+          key={currentText}
+          transition={transition}
           {...props}
         >
           {currentText}
@@ -112,10 +118,10 @@ function RotatingText({
 }
 
 export {
-  RotatingTextContainer,
   RotatingText,
-  useRotatingText,
+  RotatingTextContainer,
   type RotatingTextContainerProps,
-  type RotatingTextProps,
   type RotatingTextContextType,
+  type RotatingTextProps,
+  useRotatingText,
 };

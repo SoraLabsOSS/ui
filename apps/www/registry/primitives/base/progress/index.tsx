@@ -1,31 +1,28 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Progress as ProgressPrimitives } from '@base-ui-components/react/progress';
-import { motion } from 'motion/react';
-
+import { Progress as ProgressPrimitives } from "@base-ui-components/react/progress";
+import { motion } from "motion/react";
+import type * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 import {
   CountingNumber,
   type CountingNumberProps,
-} from '@/registry/primitives/texts/counting-number';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+} from "@/registry/primitives/texts/counting-number";
 
 type ProgressContextType = {
   value: number;
 };
 
 const [ProgressProvider, useProgress] =
-  getStrictContext<ProgressContextType>('ProgressContext');
+  getStrictContext<ProgressContextType>("ProgressContext");
 
 type ProgressProps = React.ComponentProps<typeof ProgressPrimitives.Root>;
 
-const Progress = (props: ProgressProps) => {
-  return (
-    <ProgressProvider value={{ value: props.value ?? 0 }}>
-      <ProgressPrimitives.Root data-slot="progress" {...props} />
-    </ProgressProvider>
-  );
-};
+const Progress = (props: ProgressProps) => (
+  <ProgressProvider value={{ value: props.value ?? 0 }}>
+    <ProgressPrimitives.Root data-slot="progress" {...props} />
+  </ProgressProvider>
+);
 
 type ProgressIndicatorProps = React.ComponentProps<
   typeof MotionProgressIndicator
@@ -34,15 +31,15 @@ type ProgressIndicatorProps = React.ComponentProps<
 const MotionProgressIndicator = motion.create(ProgressPrimitives.Indicator);
 
 function ProgressIndicator({
-  transition = { type: 'spring', stiffness: 100, damping: 30 },
+  transition = { type: "spring", stiffness: 100, damping: 30 },
   ...props
 }: ProgressIndicatorProps) {
   const { value } = useProgress();
 
   return (
     <MotionProgressIndicator
-      data-slot="progress-indicator"
       animate={{ width: `${value}%` }}
+      data-slot="progress-indicator"
       transition={transition}
       {...props}
     />
@@ -63,9 +60,9 @@ function ProgressLabel(props: ProgressLabelProps) {
 
 type ProgressValueProps = Omit<
   React.ComponentProps<typeof ProgressPrimitives.Value>,
-  'render'
+  "render"
 > &
-  Omit<CountingNumberProps, 'number'>;
+  Omit<CountingNumberProps, "number">;
 
 function ProgressValue({
   transition = { stiffness: 80, damping: 20 },
@@ -89,15 +86,15 @@ function ProgressValue({
 
 export {
   Progress,
-  ProgressIndicator,
-  ProgressTrack,
-  ProgressLabel,
-  ProgressValue,
-  useProgress,
-  type ProgressProps,
-  type ProgressIndicatorProps,
-  type ProgressTrackProps,
-  type ProgressLabelProps,
-  type ProgressValueProps,
   type ProgressContextType,
+  ProgressIndicator,
+  type ProgressIndicatorProps,
+  ProgressLabel,
+  type ProgressLabelProps,
+  type ProgressProps,
+  ProgressTrack,
+  type ProgressTrackProps,
+  ProgressValue,
+  type ProgressValueProps,
+  useProgress,
 };

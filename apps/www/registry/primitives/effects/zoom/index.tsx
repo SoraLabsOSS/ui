@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type HTMLMotionProps } from 'motion/react';
+import { type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
 
 import {
-  useIsInView,
   type UseIsInViewOptions,
-} from '@/registry/hooks/use-is-in-view';
-import { Slot, type WithAsChild } from '@/registry/primitives/animate/slot';
+  useIsInView,
+} from "@/registry/hooks/use-is-in-view";
+import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 
 type ZoomProps = WithAsChild<
   {
@@ -17,15 +17,15 @@ type ZoomProps = WithAsChild<
     scale?: number;
     ref?: React.Ref<HTMLElement>;
   } & UseIsInViewOptions &
-    HTMLMotionProps<'div'>
+    HTMLMotionProps<"div">
 >;
 
 function Zoom({
   ref,
-  transition = { type: 'spring', stiffness: 200, damping: 20 },
+  transition = { type: "spring", stiffness: 200, damping: 20 },
   delay = 0,
   inView = false,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   inViewOnce = true,
   initialScale = 0.5,
   scale = 1,
@@ -38,31 +38,31 @@ function Zoom({
       inView,
       inViewOnce,
       inViewMargin,
-    },
+    }
   );
 
   const Component = asChild ? Slot : motion.div;
 
   return (
     <Component
-      ref={localRef as React.Ref<HTMLDivElement>}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      animate={isInView ? "visible" : "hidden"}
       exit="hidden"
-      variants={{
-        hidden: { scale: initialScale },
-        visible: { scale },
-      }}
+      initial="hidden"
+      ref={localRef as React.Ref<HTMLDivElement>}
       transition={{
         ...transition,
         delay: (transition?.delay ?? 0) + delay / 1000,
+      }}
+      variants={{
+        hidden: { scale: initialScale },
+        visible: { scale },
       }}
       {...props}
     />
   );
 }
 
-type ZoomListProps = Omit<ZoomProps, 'children'> & {
+type ZoomListProps = Omit<ZoomProps, "children"> & {
   children: React.ReactElement | React.ReactElement[];
   holdDelay?: number;
 };
@@ -79,8 +79,8 @@ function Zooms({
     <>
       {array.map((child, index) => (
         <Zoom
-          key={child.key ?? index}
           delay={delay + index * holdDelay}
+          key={child.key ?? index}
           {...props}
         >
           {child}
@@ -90,4 +90,4 @@ function Zooms({
   );
 }
 
-export { Zoom, Zooms, type ZoomProps, type ZoomListProps };
+export { Zoom, type ZoomListProps, type ZoomProps, Zooms };

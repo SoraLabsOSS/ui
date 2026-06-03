@@ -1,43 +1,42 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Transition } from 'motion/react';
 import {
   TabGroup as TabGroupPrimitive,
-  TabList as TabListPrimitive,
-  Tab as TabPrimitive,
-  TabPanels as TabPanelsPrimitive,
-  TabPanel as TabPanelPrimitive,
   type TabGroupProps as TabGroupPrimitiveProps,
+  TabList as TabListPrimitive,
   type TabListProps as TabListPrimitiveProps,
-  type TabProps as TabPrimitiveProps,
-  type TabPanelsProps as TabPanelsPrimitiveProps,
+  TabPanel as TabPanelPrimitive,
   type TabPanelProps as TabPanelPrimitiveProps,
-} from '@headlessui/react';
-
+  TabPanels as TabPanelsPrimitive,
+  type TabPanelsProps as TabPanelsPrimitiveProps,
+  Tab as TabPrimitive,
+  type TabProps as TabPrimitiveProps,
+} from "@headlessui/react";
+import { motion, type Transition } from "motion/react";
+import * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
+import { AutoHeight } from "@/registry/primitives/effects/auto-height";
 import {
   Highlight,
   HighlightItem,
-  HighlightItemProps,
-  HighlightProps,
-} from '@/registry/primitives/effects/highlight';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { AutoHeight } from '@/registry/primitives/effects/auto-height';
+  type HighlightItemProps,
+  type HighlightProps,
+} from "@/registry/primitives/effects/highlight";
 
 type TabsContextType = {
   selectedIndex: number;
 };
 
 const [TabsProvider, useTabs] =
-  getStrictContext<TabsContextType>('TabsContext');
+  getStrictContext<TabsContextType>("TabsContext");
 
-type TabGroupProps<TTag extends React.ElementType = 'div'> =
+type TabGroupProps<TTag extends React.ElementType = "div"> =
   TabGroupPrimitiveProps<TTag> & {
     as?: TTag;
     className?: string;
   };
 
-function TabGroup<TTag extends React.ElementType = 'div'>({
+function TabGroup<TTag extends React.ElementType = "div">({
   children,
   ...props
 }: TabGroupProps<TTag>) {
@@ -45,61 +44,61 @@ function TabGroup<TTag extends React.ElementType = 'div'>({
     <TabGroupPrimitive data-slot="tab-group" {...props}>
       {(bag) => (
         <TabsProvider value={{ selectedIndex: bag.selectedIndex }}>
-          {typeof children === 'function' ? children(bag) : children}
+          {typeof children === "function" ? children(bag) : children}
         </TabsProvider>
       )}
     </TabGroupPrimitive>
   );
 }
 
-type TabListProps<TTag extends React.ElementType = 'div'> =
+type TabListProps<TTag extends React.ElementType = "div"> =
   TabListPrimitiveProps<TTag> & {
     as?: TTag;
     className?: string;
   };
 
-function TabList<TTag extends React.ElementType = 'div'>(
-  props: TabListProps<TTag>,
+function TabList<TTag extends React.ElementType = "div">(
+  props: TabListProps<TTag>
 ) {
   return <TabListPrimitive data-slot="tab-list" {...props} />;
 }
 
-type TabHighlightProps = Omit<HighlightProps, 'controlledItems' | 'value'>;
+type TabHighlightProps = Omit<HighlightProps, "controlledItems" | "value">;
 
 function TabHighlight({
-  transition = { type: 'spring', stiffness: 200, damping: 25 },
+  transition = { type: "spring", stiffness: 200, damping: 25 },
   ...props
 }: TabHighlightProps) {
   const { selectedIndex } = useTabs();
 
   return (
     <Highlight
-      data-slot="tab-highlight"
       controlledItems
-      value={selectedIndex.toString()}
+      data-slot="tab-highlight"
       transition={transition}
+      value={selectedIndex.toString()}
       {...props}
     />
   );
 }
 
-type TabProps<TTag extends React.ElementType = 'button'> = Omit<
+type TabProps<TTag extends React.ElementType = "button"> = Omit<
   TabPrimitiveProps<TTag>,
-  'children'
+  "children"
 > &
-  Required<Pick<TabPrimitiveProps<TTag>, 'children'>> & {
+  Required<Pick<TabPrimitiveProps<TTag>, "children">> & {
     index: number;
     as?: TTag;
     className?: string;
   };
 
-function Tab<TTag extends React.ElementType = 'button'>(props: TabProps<TTag>) {
-  const { index, as = 'button', ...rest } = props;
+function Tab<TTag extends React.ElementType = "button">(props: TabProps<TTag>) {
+  const { index, as = "button", ...rest } = props;
 
   return (
     <TabPrimitive
-      data-slot="tab"
       as={as as React.ElementType}
+      data-slot="tab"
       index={index}
       {...rest}
     />
@@ -122,7 +121,7 @@ function TabHighlightItem({ index, ...props }: TabHighlightItemProps) {
 
 type TabPanelProps<TTag extends React.ElementType = typeof motion.div> = Omit<
   TabPanelPrimitiveProps<TTag>,
-  'transition'
+  "transition"
 > & {
   children: React.ReactNode;
   className?: string;
@@ -131,38 +130,38 @@ type TabPanelProps<TTag extends React.ElementType = typeof motion.div> = Omit<
 };
 
 function TabPanel<TTag extends React.ElementType = typeof motion.div>(
-  props: TabPanelProps<TTag>,
+  props: TabPanelProps<TTag>
 ) {
   const {
     as = motion.div,
-    transition = { duration: 0.5, ease: 'easeInOut' },
+    transition = { duration: 0.5, ease: "easeInOut" },
     ...rest
   } = props;
 
   return (
     <TabPanelPrimitive
-      data-slot="tab-panel"
-      layout
-      initial={{ opacity: 0, filter: 'blur(4px)' }}
-      animate={{ opacity: 1, filter: 'blur(0px)' }}
-      exit={{ opacity: 0, filter: 'blur(4px)' }}
-      transition={transition}
+      animate={{ opacity: 1, filter: "blur(0px)" }}
       as={as as React.ElementType}
+      data-slot="tab-panel"
+      exit={{ opacity: 0, filter: "blur(4px)" }}
+      initial={{ opacity: 0, filter: "blur(4px)" }}
+      layout
+      transition={transition}
       {...rest}
     />
   );
 }
 
 type TabPanelsAutoProps<TTag extends React.ElementType = typeof AutoHeight> =
-  Omit<TabPanelsPrimitiveProps<TTag>, 'transition' | 'as'> & {
-    mode?: 'auto-height';
+  Omit<TabPanelsPrimitiveProps<TTag>, "transition" | "as"> & {
+    mode?: "auto-height";
     className?: string;
     transition?: Transition;
   };
 
 type TabPanelsLayoutProps<TTag extends React.ElementType = typeof motion.div> =
-  Omit<TabPanelsPrimitiveProps<TTag>, 'transition'> & {
-    mode: 'layout';
+  Omit<TabPanelsPrimitiveProps<TTag>, "transition"> & {
+    mode: "layout";
     className?: string;
     transition?: Transition;
   };
@@ -172,31 +171,31 @@ type TabPanelsProps<TTag extends React.ElementType> =
   | TabPanelsLayoutProps<TTag>;
 
 const defaultTransition: Transition = {
-  type: 'spring',
+  type: "spring",
   stiffness: 200,
   damping: 25,
 };
 
 function TabPanels<TTag extends React.ElementType>(
-  props: TabPanelsProps<TTag>,
+  props: TabPanelsProps<TTag>
 ) {
   const { selectedIndex } = useTabs();
 
-  if (!('mode' in props) || props.mode === 'auto-height') {
+  if (!("mode" in props) || props.mode === "auto-height") {
     const { transition = defaultTransition, ...rest } = props;
 
     return (
       <TabPanelsPrimitive
+        as={AutoHeight}
         data-slot="tab-panels"
         deps={[selectedIndex]}
         transition={transition}
-        as={AutoHeight}
         {...rest}
       />
     );
   }
 
-  if ('mode' in props && props.mode === 'layout') {
+  if ("mode" in props && props.mode === "layout") {
     const {
       transition = defaultTransition,
       as = motion.div,
@@ -206,12 +205,12 @@ function TabPanels<TTag extends React.ElementType>(
 
     return (
       <TabPanelsPrimitive
+        as={as as React.ElementType}
         data-slot="tab-panels"
         layout="size"
         layoutDependency={selectedIndex.toString()}
-        style={{ overflow: 'hidden', ...style }}
+        style={{ overflow: "hidden", ...style }}
         transition={{ layout: transition }}
-        as={as as React.ElementType}
         {...rest}
       />
     );
@@ -221,18 +220,18 @@ function TabPanels<TTag extends React.ElementType>(
 }
 
 export {
+  Tab,
   TabGroup,
-  TabList,
+  type TabGroupProps,
   TabHighlight,
   TabHighlightItem,
-  Tab,
-  TabPanel,
-  TabPanels,
-  type TabGroupProps,
-  type TabListProps,
-  type TabHighlightProps,
   type TabHighlightItemProps,
-  type TabProps,
+  type TabHighlightProps,
+  TabList,
+  type TabListProps,
+  TabPanel,
   type TabPanelProps,
+  TabPanels,
   type TabPanelsProps,
+  type TabProps,
 };

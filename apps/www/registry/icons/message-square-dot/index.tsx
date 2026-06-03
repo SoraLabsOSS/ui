@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type MessageSquareDotProps = IconProps<keyof typeof animations>;
 
@@ -19,10 +18,10 @@ const animations = {
         rotate: 0,
       },
       animate: {
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         rotate: [0, 8, -8, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
           times: [0, 0.4, 0.6, 0.8, 1],
         },
@@ -38,7 +37,7 @@ const animations = {
         x: [0, -2, 0],
         y: [0, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.6,
         },
       },
@@ -52,31 +51,31 @@ function IconComponent({ size, ...props }: MessageSquareDotProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
-          d="M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7"
-          variants={variants.path}
-          initial="initial"
           animate={controls}
+          d="M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7"
+          initial="initial"
+          variants={variants.path}
         />
         <motion.circle
+          animate={controls}
           cx="18"
           cy="6"
+          initial="initial"
           r="3"
           variants={variants.circle}
-          initial="initial"
-          animate={controls}
         />
       </motion.g>
     </motion.svg>

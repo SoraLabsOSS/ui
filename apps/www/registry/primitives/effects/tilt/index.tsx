@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import * as React from 'react';
 import {
+  type HTMLMotionProps,
+  type MotionValue,
   motion,
+  type SpringOptions,
   useMotionValue,
   useSpring,
-  type MotionValue,
-  type SpringOptions,
-  type HTMLMotionProps,
-} from 'motion/react';
-
-import { Slot, type WithAsChild } from '@/registry/primitives/animate/slot';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+} from "motion/react";
+import * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
+import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 
 type TiltContextType = {
   sRX: MotionValue<number>;
@@ -20,10 +19,10 @@ type TiltContextType = {
 };
 
 const [TiltProvider, useTilt] =
-  getStrictContext<TiltContextType>('TiltContext');
+  getStrictContext<TiltContextType>("TiltContext");
 
 type TiltProps = WithAsChild<
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     maxTilt?: number;
     perspective?: number;
     transition?: SpringOptions;
@@ -61,7 +60,7 @@ function Tilt({
       rY.set(nx * maxTilt);
       rX.set(-ny * maxTilt);
     },
-    [maxTilt, rX, rY, onMouseMove],
+    [maxTilt, rX, rY, onMouseMove]
   );
 
   const handleMouseLeave = React.useCallback(
@@ -70,7 +69,7 @@ function Tilt({
       rX.set(0);
       rY.set(0);
     },
-    [rX, rY, onMouseLeave],
+    [rX, rY, onMouseLeave]
   );
 
   const Comp = asChild ? Slot : motion.div;
@@ -78,21 +77,21 @@ function Tilt({
   return (
     <TiltProvider value={{ sRX, sRY, transition }}>
       <Comp
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
         style={{
           perspective,
-          transformStyle: 'preserve-3d',
-          willChange: 'transform',
+          transformStyle: "preserve-3d",
+          willChange: "transform",
           ...style,
         }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         {...props}
       />
     </TiltProvider>
   );
 }
 
-type TiltContentProps = WithAsChild<HTMLMotionProps<'div'>>;
+type TiltContentProps = WithAsChild<HTMLMotionProps<"div">>;
 
 function TiltContent({
   children,
@@ -110,7 +109,7 @@ function TiltContent({
       style={{
         rotateX: sRX,
         rotateY: sRY,
-        willChange: 'transform',
+        willChange: "transform",
         ...style,
       }}
       transition={transition ?? tiltTransition}
@@ -121,4 +120,4 @@ function TiltContent({
   );
 }
 
-export { Tilt, TiltContent, type TiltProps, type TiltContentProps };
+export { Tilt, TiltContent, type TiltContentProps, type TiltProps };

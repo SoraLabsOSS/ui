@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
 import {
   Checkbox as CheckboxPrimitive,
   type CheckboxProps as CheckboxPrimitiveProps,
-} from '@headlessui/react';
+} from "@headlessui/react";
 import {
+  type HTMLMotionProps,
   motion,
   type SVGMotionProps,
-  type HTMLMotionProps,
-} from 'motion/react';
+} from "motion/react";
+import type * as React from "react";
 
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type CheckboxContextType = {
   isChecked: boolean;
@@ -19,13 +19,13 @@ type CheckboxContextType = {
 };
 
 const [CheckboxProvider, useCheckbox] =
-  getStrictContext<CheckboxContextType>('CheckboxContext');
+  getStrictContext<CheckboxContextType>("CheckboxContext");
 
 type CheckboxProps<TTag extends React.ElementType = typeof motion.button> =
   CheckboxPrimitiveProps<TTag> &
     Omit<
-      HTMLMotionProps<'button'>,
-      'checked' | 'onChange' | 'defaultChecked' | 'children'
+      HTMLMotionProps<"button">,
+      "checked" | "onChange" | "defaultChecked" | "children"
     > & {
       as?: TTag;
     };
@@ -39,8 +39,8 @@ function Checkbox<TTag extends React.ElementType = typeof motion.button>({
   return (
     <CheckboxPrimitive
       data-slot="checkbox"
-      whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       {...rest}
       as={as as React.ElementType}
     >
@@ -48,7 +48,7 @@ function Checkbox<TTag extends React.ElementType = typeof motion.button>({
         <CheckboxProvider
           value={{ isChecked: bag.checked, isIndeterminate: bag.indeterminate }}
         >
-          {typeof children === 'function' ? children(bag) : children}
+          {typeof children === "function" ? children(bag) : children}
         </CheckboxProvider>
       )}
     </CheckboxPrimitive>
@@ -62,35 +62,35 @@ function CheckboxIndicator(props: CheckboxIndicatorProps) {
 
   return (
     <motion.svg
+      animate={isChecked ? "checked" : "unchecked"}
       data-slot="checkbox-indicator"
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth="3.5"
-      stroke="currentColor"
       initial="unchecked"
-      animate={isChecked ? 'checked' : 'unchecked'}
+      stroke="currentColor"
+      strokeWidth="3.5"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       {isIndeterminate ? (
         <motion.line
-          x1="5"
-          y1="12"
-          x2="19"
-          y2="12"
-          strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0 }}
           animate={{
             pathLength: 1,
             opacity: 1,
             transition: { duration: 0.2 },
           }}
+          initial={{ pathLength: 0, opacity: 0 }}
+          strokeLinecap="round"
+          x1="5"
+          x2="19"
+          y1="12"
+          y2="12"
         />
       ) : (
         <motion.path
+          d="M4.5 12.75l6 6 9-13.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M4.5 12.75l6 6 9-13.5"
           variants={{
             checked: {
               pathLength: 1,
@@ -116,9 +116,9 @@ function CheckboxIndicator(props: CheckboxIndicatorProps) {
 
 export {
   Checkbox,
-  CheckboxIndicator,
-  useCheckbox,
-  type CheckboxProps,
-  type CheckboxIndicatorProps,
   type CheckboxContextType,
+  CheckboxIndicator,
+  type CheckboxIndicatorProps,
+  type CheckboxProps,
+  useCheckbox,
 };

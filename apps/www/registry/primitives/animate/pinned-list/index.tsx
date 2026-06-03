@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
 import {
-  motion,
-  LayoutGroup,
   AnimatePresence,
   type HTMLMotionProps,
-} from 'motion/react';
-
-import { Slot, type WithAsChild } from '@/registry/primitives/animate/slot';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+  LayoutGroup,
+  motion,
+} from "motion/react";
+import * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
+import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 
 type PinnedListContextType = {
   movingId: string | null;
@@ -22,12 +21,12 @@ type PinnedListItemContextType = {
 };
 
 const [PinnedListProvider, usePinnedList] =
-  getStrictContext<PinnedListContextType>('PinnedListContext');
+  getStrictContext<PinnedListContextType>("PinnedListContext");
 
 const [PinnedListItemProvider, usePinnedListItem] =
-  getStrictContext<PinnedListItemContextType>('PinnedListItemContext');
+  getStrictContext<PinnedListItemContextType>("PinnedListItemContext");
 
-type PinnedListProps = HTMLMotionProps<'div'> & {
+type PinnedListProps = HTMLMotionProps<"div"> & {
   children: React.ReactNode;
   onPinnedChange?: (id: string) => void;
 };
@@ -44,7 +43,7 @@ function PinnedList({ children, onPinnedChange, ...props }: PinnedListProps) {
   );
 }
 
-type PinnedListPinnedProps = React.ComponentProps<'div'> & {
+type PinnedListPinnedProps = React.ComponentProps<"div"> & {
   children: React.ReactNode;
 };
 
@@ -52,7 +51,7 @@ function PinnedListPinned(props: PinnedListPinnedProps) {
   return <div data-slot="pinned-list-pinned" {...props} />;
 }
 
-type PinnedListUnpinnedProps = React.ComponentProps<'div'> & {
+type PinnedListUnpinnedProps = React.ComponentProps<"div"> & {
   children: React.ReactNode;
 };
 
@@ -61,7 +60,7 @@ function PinnedListUnpinned(props: PinnedListUnpinnedProps) {
 }
 
 type PinnedListLabelProps = WithAsChild<
-  HTMLMotionProps<'p'> & {
+  HTMLMotionProps<"p"> & {
     hide?: boolean;
   }
 >;
@@ -69,7 +68,7 @@ type PinnedListLabelProps = WithAsChild<
 function PinnedListLabel({
   hide = false,
   asChild = false,
-  transition = { duration: 0.22, ease: 'easeInOut' },
+  transition = { duration: 0.22, ease: "easeInOut" },
   ...props
 }: PinnedListLabelProps) {
   const Component = asChild ? Slot : motion.p;
@@ -78,11 +77,11 @@ function PinnedListLabel({
     <AnimatePresence initial={false}>
       {!hide && (
         <Component
-          layout
-          key="pinned-list-label"
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          key="pinned-list-label"
+          layout
           transition={transition}
           {...props}
         />
@@ -91,7 +90,7 @@ function PinnedListLabel({
   );
 }
 
-type PinnedListItemsProps = React.ComponentProps<'div'> & {
+type PinnedListItemsProps = React.ComponentProps<"div"> & {
   children: React.ReactNode;
 };
 
@@ -100,7 +99,7 @@ function PinnedListItems(props: PinnedListItemsProps) {
 }
 
 type PinnedListItemProps = WithAsChild<
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     id: string;
     children: React.ReactNode;
     customTrigger?: boolean;
@@ -111,7 +110,7 @@ function PinnedListItem({
   id,
   asChild = false,
   customTrigger = false,
-  transition = { stiffness: 320, damping: 25, mass: 0.8, type: 'spring' },
+  transition = { stiffness: 320, damping: 25, mass: 0.8, type: "spring" },
   onClick,
   ...props
 }: PinnedListItemProps) {
@@ -124,13 +123,6 @@ function PinnedListItem({
       <Component
         data-slot="pinned-list-item"
         layoutId={`pinned-list-item-${id}`}
-        style={{
-          position: 'relative',
-          zIndex: movingId === id ? 10 : undefined,
-        }}
-        onLayoutAnimationComplete={() => {
-          if (id === movingId) setMovingId(null);
-        }}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           if (!customTrigger) {
             setMovingId(id);
@@ -138,16 +130,25 @@ function PinnedListItem({
           }
           onClick?.(e);
         }}
+        onLayoutAnimationComplete={() => {
+          if (id === movingId) {
+            setMovingId(null);
+          }
+        }}
+        style={{
+          position: "relative",
+          zIndex: movingId === id ? 10 : undefined,
+        }}
         transition={transition}
-        whileHover={!customTrigger ? { scale: 1.05 } : undefined}
-        whileTap={!customTrigger ? { scale: 0.95 } : undefined}
+        whileHover={customTrigger ? undefined : { scale: 1.05 }}
+        whileTap={customTrigger ? undefined : { scale: 0.95 }}
         {...props}
       />
     </PinnedListItemProvider>
   );
 }
 
-type PinnedListTriggerProps = WithAsChild<HTMLMotionProps<'button'>>;
+type PinnedListTriggerProps = WithAsChild<HTMLMotionProps<"button">>;
 
 function PinnedListTrigger({
   asChild = false,
@@ -177,21 +178,21 @@ function PinnedListTrigger({
 
 export {
   PinnedList,
-  PinnedListPinned,
-  PinnedListUnpinned,
-  PinnedListLabel,
-  PinnedListItems,
+  type PinnedListContextType,
   PinnedListItem,
+  type PinnedListItemContextType,
+  type PinnedListItemProps,
+  PinnedListItems,
+  type PinnedListItemsProps,
+  PinnedListLabel,
+  type PinnedListLabelProps,
+  PinnedListPinned,
+  type PinnedListPinnedProps,
+  type PinnedListProps,
   PinnedListTrigger,
+  type PinnedListTriggerProps,
+  PinnedListUnpinned,
+  type PinnedListUnpinnedProps,
   usePinnedList,
   usePinnedListItem,
-  type PinnedListProps,
-  type PinnedListPinnedProps,
-  type PinnedListUnpinnedProps,
-  type PinnedListLabelProps,
-  type PinnedListItemsProps,
-  type PinnedListItemProps,
-  type PinnedListTriggerProps,
-  type PinnedListContextType,
-  type PinnedListItemContextType,
 };

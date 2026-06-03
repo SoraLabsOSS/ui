@@ -1,26 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Toggle as TogglePrimitive } from '@base-ui-components/react/toggle';
-import { motion, AnimatePresence, type HTMLMotionProps } from 'motion/react';
-
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+import { Toggle as TogglePrimitive } from "@base-ui-components/react/toggle";
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import type * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type ToggleContextType = {
   isPressed: boolean;
-  setIsPressed: ToggleProps['onPressedChange'];
+  setIsPressed: ToggleProps["onPressedChange"];
   disabled?: boolean;
 };
 
 const [ToggleProvider, useToggle] =
-  getStrictContext<ToggleContextType>('ToggleContext');
+  getStrictContext<ToggleContextType>("ToggleContext");
 
 type ToggleProps = Omit<
   React.ComponentProps<typeof TogglePrimitive>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'button'>;
+  HTMLMotionProps<"button">;
 
 function Toggle({
   value,
@@ -40,12 +39,11 @@ function Toggle({
   return (
     <ToggleProvider value={{ isPressed, setIsPressed, disabled }}>
       <TogglePrimitive
-        value={value}
-        pressed={pressed}
         defaultPressed={defaultPressed}
-        onPressedChange={setIsPressed}
-        nativeButton={nativeButton}
         disabled={disabled}
+        nativeButton={nativeButton}
+        onPressedChange={setIsPressed}
+        pressed={pressed}
         render={
           <motion.button
             data-slot="toggle"
@@ -53,12 +51,13 @@ function Toggle({
             {...props}
           />
         }
+        value={value}
       />
     </ToggleProvider>
   );
 }
 
-type ToggleHighlightProps = HTMLMotionProps<'div'>;
+type ToggleHighlightProps = HTMLMotionProps<"div">;
 
 function ToggleHighlight({ style, ...props }: ToggleHighlightProps) {
   const { isPressed, disabled } = useToggle();
@@ -67,14 +66,14 @@ function ToggleHighlight({ style, ...props }: ToggleHighlightProps) {
     <AnimatePresence>
       {isPressed && (
         <motion.div
-          data-slot="toggle-highlight"
           aria-pressed={isPressed}
-          {...(isPressed && { 'data-pressed': true })}
-          {...(disabled && { 'data-disabled': true })}
-          style={{ position: 'absolute', zIndex: 0, inset: 0, ...style }}
-          initial={{ opacity: 0 }}
+          data-slot="toggle-highlight"
+          {...(isPressed && { "data-pressed": true })}
+          {...(disabled && { "data-disabled": true })}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          style={{ position: "absolute", zIndex: 0, inset: 0, ...style }}
           {...props}
         />
       )}
@@ -82,18 +81,18 @@ function ToggleHighlight({ style, ...props }: ToggleHighlightProps) {
   );
 }
 
-type ToggleItemProps = HTMLMotionProps<'div'>;
+type ToggleItemProps = HTMLMotionProps<"div">;
 
 function ToggleItem({ style, ...props }: ToggleItemProps) {
   const { isPressed, disabled } = useToggle();
 
   return (
     <motion.div
-      data-slot="toggle-item"
       aria-pressed={isPressed}
-      {...(isPressed && { 'data-pressed': true })}
-      {...(disabled && { 'data-disabled': true })}
-      style={{ position: 'relative', zIndex: 1, ...style }}
+      data-slot="toggle-item"
+      {...(isPressed && { "data-pressed": true })}
+      {...(disabled && { "data-disabled": true })}
+      style={{ position: "relative", zIndex: 1, ...style }}
       {...props}
     />
   );
@@ -101,11 +100,11 @@ function ToggleItem({ style, ...props }: ToggleItemProps) {
 
 export {
   Toggle,
-  ToggleHighlight,
-  ToggleItem,
-  useToggle,
-  type ToggleProps,
-  type ToggleHighlightProps,
-  type ToggleItemProps,
   type ToggleContextType,
+  ToggleHighlight,
+  type ToggleHighlightProps,
+  ToggleItem,
+  type ToggleItemProps,
+  type ToggleProps,
+  useToggle,
 };

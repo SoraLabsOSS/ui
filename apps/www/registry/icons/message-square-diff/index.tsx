@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type MessageSquareDiffProps = IconProps<keyof typeof animations>;
 
@@ -19,10 +18,10 @@ const animations = {
         rotate: 0,
       },
       animate: {
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         rotate: [0, 8, -8, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
           times: [0, 0.4, 0.6, 0.8, 1],
         },
@@ -36,7 +35,7 @@ const animations = {
       animate: {
         rotate: [0, 45, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.6,
         },
       },
@@ -48,7 +47,7 @@ const animations = {
       animate: {
         rotate: [0, 45, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.6,
           delay: 0.05,
         },
@@ -61,7 +60,7 @@ const animations = {
       animate: {
         y: [0, 1, -1, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.7,
         },
       },
@@ -75,41 +74,41 @@ function IconComponent({ size, ...props }: MessageSquareDiffProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
+          animate={controls}
           d="m5 19-2 2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"
+          initial="initial"
           variants={variants.path1}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M12 7v6"
+          initial="initial"
           variants={variants.path2}
-          initial="initial"
-          animate={controls}
         />
         <motion.path
+          animate={controls}
           d="M9 10h6"
-          variants={variants.path3}
           initial="initial"
-          animate={controls}
+          variants={variants.path3}
         />
         <motion.path
-          d="M9 17h6"
-          variants={variants.path4}
-          initial="initial"
           animate={controls}
+          d="M9 17h6"
+          initial="initial"
+          variants={variants.path4}
         />
       </motion.g>
     </motion.svg>

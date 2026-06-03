@@ -1,18 +1,19 @@
-'use client';
+"use client";
 
-import { index } from '@/__registry__';
-import { cn } from '@workspace/ui/lib/utils';
+import { cn } from "@workspace/ui/lib/utils";
+import { index } from "@/__registry__";
+import { CodeTabs } from "@/components/docs/code-tabs";
 import {
   Tabs,
-  TabsList,
-  TabsTrigger,
   TabsContent,
   TabsContents,
-} from '@/components/radix/tabs';
-import { CodeTabs } from '@/components/docs/code-tabs';
-import { ComponentManualInstallation } from './component-manual-installation';
+  TabsList,
+  TabsTrigger,
+} from "@/components/radix/tabs";
+import { ComponentManualInstallation } from "./component-manual-installation";
 
-interface ComponentInstallationProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ComponentInstallationProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
 }
 
@@ -33,12 +34,12 @@ export function ComponentInstallation({
   return (
     <div
       className={cn(
-        'relative my-4 flex flex-col space-y-2 lg:max-w-[120ch]',
-        className,
+        "relative my-4 flex flex-col space-y-2 lg:max-w-[120ch]",
+        className
       )}
       {...props}
     >
-      <Tabs defaultValue="cli" className="relative mr-auto w-full">
+      <Tabs className="relative mr-auto w-full" defaultValue="cli">
         <TabsList>
           <TabsTrigger value="cli">CLI</TabsTrigger>
           <TabsTrigger value="manual">Manual</TabsTrigger>
@@ -50,11 +51,11 @@ export function ComponentInstallation({
           </TabsContent>
           <TabsContent value="manual">
             <ComponentManualInstallation
-              path={component.files[0].target}
+              code={component.files[0].content}
               dependencies={component.dependencies}
               devDependencies={component.devDependencies}
+              path={component.files[0].target}
               registryDependencies={component.registryDependencies}
-              code={component.files[0].content}
             />
           </TabsContent>
         </TabsContents>

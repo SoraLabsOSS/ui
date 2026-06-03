@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type ClapperboardProps = IconProps<keyof typeof animations>;
 
@@ -24,7 +23,7 @@ const animations = {
         scale: [1, 0.9, 1.1, 1],
         transition: {
           duration: 1.2,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -34,10 +33,10 @@ const animations = {
       },
       animate: {
         rotate: [0, -4, 15, 0],
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         transition: {
           duration: 1.2,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -54,49 +53,49 @@ function IconComponent({ size, ...props }: ClapperboardProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      animate={controls}
       fill="none"
+      height={size}
+      initial="initial"
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      initial="initial"
-      animate={controls}
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group1} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group1}>
         <motion.g
-          variants={variants.group2}
-          initial="initial"
           animate={controls}
+          initial="initial"
+          variants={variants.group2}
         >
           <motion.path
+            animate={controls}
             d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"
+            initial="initial"
             variants={variants.path1}
-            initial="initial"
-            animate={controls}
           />
           <motion.path
+            animate={controls}
             d="m6.2 5.3 3.1 3.9"
-            variants={variants.path2}
             initial="initial"
-            animate={controls}
+            variants={variants.path2}
           />
           <motion.path
-            d="m12.4 3.4 3.1 4"
-            variants={variants.path3}
-            initial="initial"
             animate={controls}
+            d="m12.4 3.4 3.1 4"
+            initial="initial"
+            variants={variants.path3}
           />
         </motion.g>
         <motion.path
-          d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"
-          variants={variants.path4}
-          initial="initial"
           animate={controls}
+          d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"
+          initial="initial"
+          variants={variants.path4}
         />
       </motion.g>
     </motion.svg>

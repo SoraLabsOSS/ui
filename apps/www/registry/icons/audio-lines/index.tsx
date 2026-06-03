@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type AudioLinesProps = IconProps<keyof typeof animations>;
 
@@ -24,8 +23,8 @@ const animations = {
         y2: [13, 18, 15, 17, 13],
         transition: {
           duration: 1.5,
-          ease: 'linear',
-          repeat: Infinity,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
         },
       },
     },
@@ -39,8 +38,8 @@ const animations = {
         y2: [17, 22, 13, 17],
         transition: {
           duration: 1.5,
-          ease: 'linear',
-          repeat: Infinity,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
         },
       },
     },
@@ -54,8 +53,8 @@ const animations = {
         y2: [21, 17, 21, 15, 21],
         transition: {
           duration: 1.5,
-          ease: 'linear',
-          repeat: Infinity,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
         },
       },
     },
@@ -69,8 +68,8 @@ const animations = {
         y2: [15, 19, 16, 22, 15],
         transition: {
           duration: 1.5,
-          ease: 'linear',
-          repeat: Infinity,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
         },
       },
     },
@@ -84,8 +83,8 @@ const animations = {
         y2: [18, 13, 19, 15, 18],
         transition: {
           duration: 1.5,
-          ease: 'linear',
-          repeat: Infinity,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
         },
       },
     },
@@ -99,8 +98,8 @@ const animations = {
         y2: [13, 15, 18, 13],
         transition: {
           duration: 1.5,
-          ease: 'linear',
-          repeat: Infinity,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
         },
       },
     },
@@ -113,70 +112,70 @@ function IconComponent({ size, ...props }: AudioLinesProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.line
-        x1={2}
-        y1={10}
-        x2={2}
-        y2={13}
+        animate={controls}
+        initial="initial"
         variants={variants.line1}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1={6}
-        y1={6}
-        x2={6}
-        y2={17}
-        variants={variants.line2}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1={10}
-        y1={3}
-        x2={10}
-        y2={21}
-        variants={variants.line3}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1={14}
-        y1={8}
-        x2={14}
-        y2={15}
-        variants={variants.line4}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1={18}
-        y1={5}
-        x2={18}
-        y2={18}
-        variants={variants.line5}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1={22}
+        x1={2}
+        x2={2}
         y1={10}
-        x2={22}
         y2={13}
-        variants={variants.line6}
-        initial="initial"
+      />
+      <motion.line
         animate={controls}
+        initial="initial"
+        variants={variants.line2}
+        x1={6}
+        x2={6}
+        y1={6}
+        y2={17}
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line3}
+        x1={10}
+        x2={10}
+        y1={3}
+        y2={21}
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line4}
+        x1={14}
+        x2={14}
+        y1={8}
+        y2={15}
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line5}
+        x1={18}
+        x2={18}
+        y1={5}
+        y2={18}
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line6}
+        x1={22}
+        x2={22}
+        y1={10}
+        y2={13}
       />
     </motion.svg>
   );
@@ -187,9 +186,9 @@ function AudioLines(props: AudioLinesProps) {
 }
 
 export {
-  animations,
   AudioLines,
   AudioLines as AudioLinesIcon,
   type AudioLinesProps,
   type AudioLinesProps as AudioLinesIconProps,
+  animations,
 };

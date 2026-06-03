@@ -1,5 +1,5 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { BookOpen } from 'lucide-react';
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { BookOpen } from "lucide-react";
 
 /**
  * Shared layout configurations
@@ -11,40 +11,40 @@ import { BookOpen } from 'lucide-react';
 export const baseOptions: BaseLayoutProps = {
   links: [
     {
-      type: 'separator',
-      name: 'Guide',
+      type: "separator",
+      name: "Guide",
       icon: <BookOpen fill="currentColor" strokeWidth={2.5} />,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any,
     {
-      text: 'Introduction',
-      url: '/docs',
+      text: "Introduction",
+      url: "/docs",
       secondary: false,
     },
     {
-      text: 'Installation',
-      url: '/docs/installation',
+      text: "Installation",
+      url: "/docs/installation",
       secondary: false,
     },
     {
-      text: 'Accessibility',
-      url: '/docs/accessibility',
+      text: "Accessibility",
+      url: "/docs/accessibility",
       secondary: false,
     },
     {
-      text: 'MCP',
-      url: '/docs/mcp',
+      text: "MCP",
+      url: "/docs/mcp",
       secondary: false,
     },
     {
-      text: 'Troubleshooting',
-      url: '/docs/troubleshooting',
+      text: "Troubleshooting",
+      url: "/docs/troubleshooting",
       secondary: false,
     },
 
     {
-      text: 'Other animated distributions',
-      url: '/docs/other-animated-distributions',
+      text: "Other animated distributions",
+      url: "/docs/other-animated-distributions",
       secondary: false,
     },
   ],

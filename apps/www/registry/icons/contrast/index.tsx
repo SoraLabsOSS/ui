@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type ContrastProps = IconProps<keyof typeof animations>;
 
@@ -19,9 +18,9 @@ const animations = {
       initial: { rotate: 0 },
       animate: {
         rotate: 180,
-        transformOrigin: 'left center',
+        transformOrigin: "left center",
         transition: {
-          type: 'spring',
+          type: "spring",
           stiffness: 80,
           damping: 10,
         },
@@ -34,9 +33,9 @@ const animations = {
       initial: { rotate: 0 },
       animate: {
         rotate: 360,
-        transformOrigin: 'left center',
+        transformOrigin: "left center",
         transition: {
-          type: 'spring',
+          type: "spring",
           stiffness: 80,
           damping: 10,
         },
@@ -51,30 +50,30 @@ function IconComponent({ size, ...props }: ContrastProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.circle
+        animate={controls}
         cx={12}
         cy={12}
+        initial="initial"
         r={10}
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
-        d="M12 18a6 6 0 0 0 0-12v12z"
-        variants={variants.path}
-        initial="initial"
         animate={controls}
+        d="M12 18a6 6 0 0 0 0-12v12z"
+        initial="initial"
+        variants={variants.path}
       />
     </motion.svg>
   );

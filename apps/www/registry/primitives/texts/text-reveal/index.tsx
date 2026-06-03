@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import type * as React from "react";
 
-type TextRevealProps = React.ComponentProps<'span'>;
+type TextRevealProps = React.ComponentProps<"span">;
 
 function TextReveal({ children, ...props }: TextRevealProps) {
   return <span {...props}>hello world {children}</span>;

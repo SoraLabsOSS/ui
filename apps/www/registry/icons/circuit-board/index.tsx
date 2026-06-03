@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type CircuitBoardProps = IconProps<keyof typeof animations>;
 
@@ -23,7 +22,7 @@ const animations = {
         opacity: [0, 1],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -35,7 +34,7 @@ const animations = {
         opacity: [0, 1],
         transition: {
           duration: 0.6,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -49,54 +48,54 @@ function IconComponent({ size, ...props }: CircuitBoardProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width="18"
+        animate={controls}
         height="18"
-        x="3"
-        y="3"
+        initial="initial"
         rx="2"
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width="18"
+        x="3"
+        y="3"
       />
       <motion.path
-        d="M11 9h4a2 2 0 0 0 2-2V3"
-        variants={variants.path1}
-        initial="initial"
         animate={controls}
+        d="M11 9h4a2 2 0 0 0 2-2V3"
+        initial="initial"
+        variants={variants.path1}
       />
       <motion.circle
+        animate={controls}
         cx="9"
         cy="9"
+        initial="initial"
         r="2"
         variants={variants.circle1}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
-        d="M7 21v-4a2 2 0 0 1 2-2h4"
-        variants={variants.path2}
-        initial="initial"
         animate={controls}
+        d="M7 21v-4a2 2 0 0 1 2-2h4"
+        initial="initial"
+        variants={variants.path2}
       />
       <motion.circle
+        animate={controls}
         cx="15"
         cy="15"
+        initial="initial"
         r="2"
         variants={variants.circle2}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
-import { source } from '@/lib/source';
-import type { OramaDocument } from 'fumadocs-core/search/orama-cloud';
+import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
+import { NextResponse } from "next/server";
+import { source } from "@/lib/source";
 
 async function getStaticSearchData() {
-  'use cache';
+  "use cache";
   const pages = source.getPages();
   return pages
-    .filter((page) => page.slugs[0] !== 'openapi')
+    .filter((page) => page.slugs[0] !== "openapi")
     .map((page) => {
       const { structuredData } = page.data;
 

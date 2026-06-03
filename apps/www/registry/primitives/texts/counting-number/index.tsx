@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useMotionValue, useSpring, type SpringOptions } from 'motion/react';
+import { type SpringOptions, useMotionValue, useSpring } from "motion/react";
+import * as React from "react";
 
 import {
-  useIsInView,
   type UseIsInViewOptions,
-} from '@/registry/hooks/use-is-in-view';
+  useIsInView,
+} from "@/registry/hooks/use-is-in-view";
 
-type CountingNumberProps = Omit<React.ComponentProps<'span'>, 'children'> & {
+type CountingNumberProps = Omit<React.ComponentProps<"span">, "children"> & {
   number: number;
   fromNumber?: number;
   padStart?: boolean;
@@ -25,9 +25,9 @@ function CountingNumber({
   fromNumber = 0,
   padStart = false,
   inView = false,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   inViewOnce = true,
-  decimalSeparator = '.',
+  decimalSeparator = ".",
   transition = { stiffness: 90, damping: 50 },
   decimalPlaces = 0,
   delay = 0,
@@ -40,15 +40,15 @@ function CountingNumber({
       inView,
       inViewOnce,
       inViewMargin,
-    },
+    }
   );
 
   const numberStr = number.toString();
   const decimals =
-    typeof decimalPlaces === 'number'
+    typeof decimalPlaces === "number"
       ? decimalPlaces
-      : numberStr.includes('.')
-        ? (numberStr.split('.')[1]?.length ?? 0)
+      : numberStr.includes(".")
+        ? (numberStr.split(".")[1]?.length ?? 0)
         : 0;
 
   const motionVal = useMotionValue(initiallyStable ? number : fromNumber);
@@ -56,14 +56,16 @@ function CountingNumber({
 
   React.useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (isInView) motionVal.set(number);
+      if (isInView) {
+        motionVal.set(number);
+      }
     }, delay);
 
     return () => clearTimeout(timeoutId);
   }, [isInView, number, motionVal, delay]);
 
   React.useEffect(() => {
-    const unsubscribe = springVal.on('change', (latest) => {
+    const unsubscribe = springVal.on("change", (latest) => {
       if (localRef.current) {
         let formatted =
           decimals > 0
@@ -71,13 +73,13 @@ function CountingNumber({
             : Math.round(latest).toString();
 
         if (decimals > 0) {
-          formatted = formatted.replace('.', decimalSeparator);
+          formatted = formatted.replace(".", decimalSeparator);
         }
 
         if (padStart) {
           const finalIntLength = Math.floor(Math.abs(number)).toString().length;
           const [intPart, fracPart] = formatted.split(decimalSeparator);
-          const paddedInt = intPart?.padStart(finalIntLength, '0') ?? '';
+          const paddedInt = intPart?.padStart(finalIntLength, "0") ?? "";
           formatted = fracPart
             ? `${paddedInt}${decimalSeparator}${fracPart}`
             : paddedInt;
@@ -93,24 +95,26 @@ function CountingNumber({
 
   const formatValue = (val: number) => {
     let out = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toString();
-    if (decimals > 0) out = out.replace('.', decimalSeparator);
+    if (decimals > 0) {
+      out = out.replace(".", decimalSeparator);
+    }
     if (padStart) {
       const [intPart, fracPart] = out.split(decimalSeparator);
-      const paddedInt = (intPart ?? '').padStart(finalIntLength, '0');
+      const paddedInt = (intPart ?? "").padStart(finalIntLength, "0");
       out = fracPart ? `${paddedInt}${decimalSeparator}${fracPart}` : paddedInt;
     }
     return out;
   };
 
   const zeroText = padStart
-    ? '0'.padStart(finalIntLength, '0') +
-      (decimals > 0 ? decimalSeparator + '0'.repeat(decimals) : '')
-    : '0' + (decimals > 0 ? decimalSeparator + '0'.repeat(decimals) : '');
+    ? "0".padStart(finalIntLength, "0") +
+      (decimals > 0 ? decimalSeparator + "0".repeat(decimals) : "")
+    : "0" + (decimals > 0 ? decimalSeparator + "0".repeat(decimals) : "");
 
   const initialText = initiallyStable ? formatValue(number) : zeroText;
 
   return (
-    <span ref={localRef} data-slot="counting-number" {...props}>
+    <span data-slot="counting-number" ref={localRef} {...props}>
       {initialText}
     </span>
   );

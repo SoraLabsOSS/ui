@@ -1,20 +1,26 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 type DataStateValue = string | boolean | null;
 
 function parseDatasetValue(value: string | null): DataStateValue {
-  if (value === null) return null;
-  if (value === '' || value === 'true') return true;
-  if (value === 'false') return false;
+  if (value === null) {
+    return null;
+  }
+  if (value === "" || value === "true") {
+    return true;
+  }
+  if (value === "false") {
+    return false;
+  }
   return value;
 }
 
 function useDataState<T extends HTMLElement = HTMLElement>(
   key: string,
   forwardedRef?: React.Ref<T | null>,
-  onChange?: (value: DataStateValue) => void,
+  onChange?: (value: DataStateValue) => void
 ): [DataStateValue, React.RefObject<T | null>] {
   const localRef = React.useRef<T | null>(null);
   React.useImperativeHandle(forwardedRef, () => localRef.current as T);
@@ -26,7 +32,9 @@ function useDataState<T extends HTMLElement = HTMLElement>(
 
   const subscribe = (callback: () => void) => {
     const el = localRef.current;
-    if (!el) return () => {};
+    if (!el) {
+      return () => {};
+    }
     const observer = new MutationObserver((records) => {
       for (const record of records) {
         if (record.attributeName === `data-${key}`) {
@@ -45,10 +53,12 @@ function useDataState<T extends HTMLElement = HTMLElement>(
   const value = React.useSyncExternalStore(subscribe, getSnapshot);
 
   React.useEffect(() => {
-    if (onChange) onChange(value);
+    if (onChange) {
+      onChange(value);
+    }
   }, [value, onChange]);
 
   return [value, localRef];
 }
 
-export { useDataState, type DataStateValue };
+export { type DataStateValue, useDataState };

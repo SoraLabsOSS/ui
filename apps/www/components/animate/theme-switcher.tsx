@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Switch } from '@/components/radix/switch';
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Switch } from "@/components/radix/switch";
 
 export const ThemeSwitcher = ({ className }: { className?: string }) => {
   const { resolvedTheme: theme, setTheme } = useTheme();
@@ -17,11 +17,11 @@ export const ThemeSwitcher = ({ className }: { className?: string }) => {
   return (
     isClient && (
       <Switch
+        checked={theme === "dark"}
         className={className}
         leftIcon={<Sun />}
+        onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
         rightIcon={<Moon />}
-        checked={theme === 'dark'}
-        onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
       />
     )
   );

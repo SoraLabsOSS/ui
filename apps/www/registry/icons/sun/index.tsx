@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type SunProps = IconProps<keyof typeof animations>;
 
@@ -26,7 +25,7 @@ const animations = {
           pathLength: [0, 1],
           transition: {
             duration: 0.6,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             delay: (i - 1) * 0.15,
           },
         },
@@ -43,98 +42,98 @@ function IconComponent({ size, ...props }: SunProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
+      animate={controls}
       fill="none"
+      height={size}
+      initial="initial"
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      initial="initial"
-      animate={controls}
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.circle
+        animate={controls}
         cx="12"
         cy="12"
+        initial="initial"
         r="4"
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
       <motion.line
-        x1="12"
-        y1="4"
-        x2="12"
-        y2="2"
+        animate={controls}
+        initial="initial"
         variants={variants.line1}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1="17.7"
-        y1="6.3"
-        x2="19.1"
-        y2="4.9"
-        variants={variants.line2}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1="20"
-        y1="12"
-        x2="22"
-        y2="12"
-        variants={variants.line3}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1="17.7"
-        y1="17.7"
-        x2="19.1"
-        y2="19.1"
-        variants={variants.line4}
-        initial="initial"
-        animate={controls}
-      />
-      <motion.line
         x1="12"
-        y1="20"
         x2="12"
-        y2="22"
-        variants={variants.line5}
-        initial="initial"
-        animate={controls}
+        y1="4"
+        y2="2"
       />
       <motion.line
-        x1="6.3"
-        y1="17.7"
-        x2="4.9"
-        y2="19.1"
-        variants={variants.line6}
-        initial="initial"
         animate={controls}
-      />
-      <motion.line
-        x1="4"
-        y1="12"
-        x2="2"
-        y2="12"
-        variants={variants.line7}
         initial="initial"
-        animate={controls}
-      />
-      <motion.line
-        x1="6.3"
+        variants={variants.line2}
+        x1="17.7"
+        x2="19.1"
         y1="6.3"
-        x2="4.9"
         y2="4.9"
-        variants={variants.line8}
-        initial="initial"
+      />
+      <motion.line
         animate={controls}
+        initial="initial"
+        variants={variants.line3}
+        x1="20"
+        x2="22"
+        y1="12"
+        y2="12"
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line4}
+        x1="17.7"
+        x2="19.1"
+        y1="17.7"
+        y2="19.1"
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line5}
+        x1="12"
+        x2="12"
+        y1="20"
+        y2="22"
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line6}
+        x1="6.3"
+        x2="4.9"
+        y1="17.7"
+        y2="19.1"
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line7}
+        x1="4"
+        x2="2"
+        y1="12"
+        y2="12"
+      />
+      <motion.line
+        animate={controls}
+        initial="initial"
+        variants={variants.line8}
+        x1="6.3"
+        x2="4.9"
+        y1="6.3"
+        y2="4.9"
       />
     </motion.svg>
   );

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { cn } from '@workspace/ui/lib/utils';
-import { useEffect, useState } from 'react';
+import { cn } from "@workspace/ui/lib/utils";
+import { useEffect, useState } from "react";
 
 export default function Iframe({
   name,
@@ -17,12 +17,14 @@ export default function Iframe({
     setIframeUrl(`${origin}/examples/${name}`);
   }, [name]);
 
-  if (!iframeUrl) return null;
+  if (!iframeUrl) {
+    return null;
+  }
 
   return (
     <iframe
+      className={cn("h-[500px] rounded-md", bigScreen && "w-[1600px]")}
       src={iframeUrl}
-      className={cn('h-[500px] rounded-md', bigScreen && 'w-[1600px]')}
     />
   );
 }

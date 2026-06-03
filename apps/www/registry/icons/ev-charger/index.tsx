@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type EvChargerProps = IconProps<keyof typeof animations>;
 
@@ -28,7 +27,7 @@ const animations = {
         scale: [1, 0.9, 1, 0.9, 1],
         transition: {
           duration: 1.8,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -41,46 +40,46 @@ function IconComponent({ size, ...props }: EvChargerProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
+        animate={controls}
         d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5"
+        initial="initial"
         variants={variants.path1}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16"
+        initial="initial"
         variants={variants.path2}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M2 21h13"
+        initial="initial"
         variants={variants.path3}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M3 7h11"
-        variants={variants.path4}
         initial="initial"
-        animate={controls}
+        variants={variants.path4}
       />
       <motion.path
-        d="m9 11-2 3h3l-2 3"
-        variants={variants.path5}
-        initial="initial"
         animate={controls}
+        d="m9 11-2 3h3l-2 3"
+        initial="initial"
+        variants={variants.path5}
       />
     </motion.svg>
   );

@@ -1,201 +1,201 @@
-'use client';
+"use client";
 
-import Fuse from 'fuse.js';
-import { useQueryState, parseAsString } from 'nuqs';
-import { index } from '@/__registry__';
-import { Highlight } from '@/registry/primitives/effects/highlight';
-import { AnimateIcon, staticAnimations } from '@/registry/icons/icon';
-import { X } from '@/registry/icons/x';
-import { Input } from '@workspace/ui/components/ui/input';
-import { cn } from '@workspace/ui/lib/utils';
-import { useEffect, useMemo, useState } from 'react';
-import { type HTMLMotionProps, motion } from 'motion/react';
-import { CodeTabs } from '@/components/docs/code-tabs';
-import { DynamicCodeBlock } from './dynamic-codeblock';
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  TabsContents,
-} from '@/components/docs/tabs';
-import ReactIcon from '@workspace/ui/components/icons/react-icon';
+import ReactIcon from "@workspace/ui/components/icons/react-icon";
+import { Button } from "@workspace/ui/components/ui/button";
+import { Input } from "@workspace/ui/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@workspace/ui/components/ui/select';
+} from "@workspace/ui/components/ui/select";
+import { cn } from "@workspace/ui/lib/utils";
+import Fuse from "fuse.js";
+import { InfinityIcon } from "lucide-react";
+import { type HTMLMotionProps, motion } from "motion/react";
+import { parseAsString, useQueryState } from "nuqs";
+import { useEffect, useMemo, useState } from "react";
+import { index } from "@/__registry__";
+import { CodeTabs } from "@/components/docs/code-tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsContents,
+  TabsList,
+  TabsTrigger,
+} from "@/components/docs/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/docs/tooltip';
-import { Button } from '@workspace/ui/components/ui/button';
-import { RotateCcw } from '@/registry/icons/rotate-ccw';
-import { InfinityIcon } from 'lucide-react';
-import { Check } from '@/registry/icons/check';
+} from "@/components/docs/tooltip";
+import { Check } from "@/registry/icons/check";
+import { AnimateIcon, staticAnimations } from "@/registry/icons/icon";
+import { RotateCcw } from "@/registry/icons/rotate-ccw";
+import { X } from "@/registry/icons/x";
+import { Highlight } from "@/registry/primitives/effects/highlight";
+import { DynamicCodeBlock } from "./dynamic-codeblock";
 
 const staticAnimationsLength = Object.keys(staticAnimations).length;
 
 const FILTERS = {
-  all: 'All',
-  new: 'New',
+  all: "All",
+  new: "New",
 };
 
 const addedIcons = [
   {
-    date: '2025-09-07',
+    date: "2025-09-07",
     icons: [
-      'icons-accessibility',
-      'icons-airplay',
-      'icons-binary',
-      'icons-terminal',
-      'icons-badge-check',
-      'icons-cast',
-      'icons-cctv',
-      'icons-chart-bar',
-      'icons-chart-bar-increasing',
-      'icons-chart-bar-decreasing',
-      'icons-chart-column',
-      'icons-chart-column-increasing',
-      'icons-chart-column-decreasing',
-      'icons-chart-line',
-      'icons-chart-no-axes-column',
-      'icons-chart-no-axes-column-decreasing',
-      'icons-chart-no-axes-column-increasing',
-      'icons-chart-scatter',
-      'icons-chart-spline',
-      'icons-contrast',
-      'icons-cross',
-      'icons-ellipsis',
-      'icons-ellipsis-vertical',
-      'icons-party-popper',
+      "icons-accessibility",
+      "icons-airplay",
+      "icons-binary",
+      "icons-terminal",
+      "icons-badge-check",
+      "icons-cast",
+      "icons-cctv",
+      "icons-chart-bar",
+      "icons-chart-bar-increasing",
+      "icons-chart-bar-decreasing",
+      "icons-chart-column",
+      "icons-chart-column-increasing",
+      "icons-chart-column-decreasing",
+      "icons-chart-line",
+      "icons-chart-no-axes-column",
+      "icons-chart-no-axes-column-decreasing",
+      "icons-chart-no-axes-column-increasing",
+      "icons-chart-scatter",
+      "icons-chart-spline",
+      "icons-contrast",
+      "icons-cross",
+      "icons-ellipsis",
+      "icons-ellipsis-vertical",
+      "icons-party-popper",
     ],
   },
   {
-    date: '2025-09-09',
+    date: "2025-09-09",
     icons: [
-      'icons-cloud-drizzle',
-      'icons-cloud-hail',
-      'icons-cloud-lightning',
-      'icons-cloud-moon',
-      'icons-cloud-moon-rain',
-      'icons-cloud-rain',
-      'icons-cloud-rain-wind',
-      'icons-cloud-snow',
-      'icons-cloud-sun',
-      'icons-cloud-sun-rain',
-      'icons-moon',
-      'icons-moon-star',
-      'icons-orbit',
-      'icons-sun',
-      'icons-sun-dim',
-      'icons-sun-medium',
-      'icons-sun-moon',
+      "icons-cloud-drizzle",
+      "icons-cloud-hail",
+      "icons-cloud-lightning",
+      "icons-cloud-moon",
+      "icons-cloud-moon-rain",
+      "icons-cloud-rain",
+      "icons-cloud-rain-wind",
+      "icons-cloud-snow",
+      "icons-cloud-sun",
+      "icons-cloud-sun-rain",
+      "icons-moon",
+      "icons-moon-star",
+      "icons-orbit",
+      "icons-sun",
+      "icons-sun-dim",
+      "icons-sun-medium",
+      "icons-sun-moon",
     ],
   },
   {
-    date: '2025-09-13',
+    date: "2025-09-13",
     icons: [
-      'icons-check',
-      'icons-check-check',
-      'icons-check-line',
-      'icons-circle-check',
-      'icons-clapperboard',
-      'icons-crop',
-      'icons-lock',
-      'icons-lock-keyhole',
-      'icons-lock-open',
-      'icons-lock-keyhole-open',
+      "icons-check",
+      "icons-check-check",
+      "icons-check-line",
+      "icons-circle-check",
+      "icons-clapperboard",
+      "icons-crop",
+      "icons-lock",
+      "icons-lock-keyhole",
+      "icons-lock-open",
+      "icons-lock-keyhole-open",
     ],
   },
   {
-    date: '2025-09-24',
+    date: "2025-09-24",
     icons: [
-      'icons-blocks',
-      'icons-frame',
-      'icons-plug-zap',
-      'icons-radio',
-      'icons-radio-tower',
-      'icons-nfc',
-      'icons-paperclip',
-      'icons-unplug',
-      'icons-ev-charger',
-      'icons-link',
-      'icons-sliders-horizontal',
-      'icons-sliders-vertical',
-      'icons-equal-not',
-      'icons-circle-check-big',
-      'icons-router',
+      "icons-blocks",
+      "icons-frame",
+      "icons-plug-zap",
+      "icons-radio",
+      "icons-radio-tower",
+      "icons-nfc",
+      "icons-paperclip",
+      "icons-unplug",
+      "icons-ev-charger",
+      "icons-link",
+      "icons-sliders-horizontal",
+      "icons-sliders-vertical",
+      "icons-equal-not",
+      "icons-circle-check-big",
+      "icons-router",
     ],
   },
   {
-    date: '2025-10-02',
+    date: "2025-10-02",
     icons: [
-      'icons-fan',
-      'icons-axis-3d',
-      'icons-blend',
-      'icons-signal',
-      'icons-signal-high',
-      'icons-signal-medium',
-      'icons-signal-low',
-      'icons-signal-zero',
-      'icons-wifi-zero',
-      'icons-scissors',
-      'icons-scissors-line-dashed',
-      'icons-route',
+      "icons-fan",
+      "icons-axis-3d",
+      "icons-blend",
+      "icons-signal",
+      "icons-signal-high",
+      "icons-signal-medium",
+      "icons-signal-low",
+      "icons-signal-zero",
+      "icons-wifi-zero",
+      "icons-scissors",
+      "icons-scissors-line-dashed",
+      "icons-route",
     ],
   },
   {
-    date: '2025-10-13',
+    date: "2025-10-13",
     icons: [
-      'icons-circuit-board',
-      'icons-clipboard',
-      'icons-clipboard-check',
-      'icons-clipboard-list',
-      'icons-list',
+      "icons-circuit-board",
+      "icons-clipboard",
+      "icons-clipboard-check",
+      "icons-clipboard-list",
+      "icons-list",
     ],
   },
   {
-    date: '2025-10-18',
-    icons: ['icons-arrow-up-down'],
+    date: "2025-10-18",
+    icons: ["icons-arrow-up-down"],
   },
   {
-    date: '2025-10-21',
+    date: "2025-10-21",
     icons: [
-      'icons-between-horizontal-end',
-      'icons-between-horizontal-start',
-      'icons-between-vertical-end',
-      'icons-between-vertical-start',
+      "icons-between-horizontal-end",
+      "icons-between-horizontal-start",
+      "icons-between-vertical-end",
+      "icons-between-vertical-start",
     ],
   },
   {
-    date: '2025-10-27',
+    date: "2025-10-27",
     icons: [
-      'icons-phone-call',
-      'icons-link-2',
-      'icons-sparkle',
-      'icons-sparkles',
-      'icons-panel-bottom-close',
-      'icons-panel-bottom-open',
-      'icons-panel-left-close',
-      'icons-panel-left-open',
-      'icons-panel-right-close',
-      'icons-panel-right-open',
-      'icons-panel-top-close',
-      'icons-panel-top-open',
-      'icons-gallery-horizontal',
-      'icons-gallery-horizontal-end',
-      'icons-gallery-vertical',
-      'icons-gallery-vertical-end',
+      "icons-phone-call",
+      "icons-link-2",
+      "icons-sparkle",
+      "icons-sparkles",
+      "icons-panel-bottom-close",
+      "icons-panel-bottom-open",
+      "icons-panel-left-close",
+      "icons-panel-left-open",
+      "icons-panel-right-close",
+      "icons-panel-right-open",
+      "icons-panel-top-close",
+      "icons-panel-top-open",
+      "icons-gallery-horizontal",
+      "icons-gallery-horizontal-end",
+      "icons-gallery-vertical",
+      "icons-gallery-vertical-end",
     ],
   },
   {
-    date: '2025-12-15',
-    icons: ['icons-key', 'icons-rotate-ccw-key'],
+    date: "2025-12-15",
+    icons: ["icons-key", "icons-rotate-ccw-key"],
   },
 ];
 
@@ -209,7 +209,7 @@ const newIcons = addedIcons
   })
   .flatMap((entry) => entry.icons);
 
-type CheckBadgeProps = Omit<HTMLMotionProps<'button'>, 'children'> & {
+type CheckBadgeProps = Omit<HTMLMotionProps<"button">, "children"> & {
   isActive?: boolean;
   children: React.ReactNode;
 };
@@ -219,49 +219,47 @@ const CheckBadge = ({
   children,
   isActive,
   ...props
-}: CheckBadgeProps) => {
-  return (
-    <motion.button
-      className={cn(
-        'bg-accent text-accent-foreground hover:bg-accent/80 flex items-center gap-1 overflow-hidden rounded-full px-3 py-1 text-sm font-normal transition-colors duration-200 ease-in-out',
-        isActive && 'bg-primary text-primary-foreground hover:bg-primary pl-2',
-        className,
-      )}
-      layout
-      {...props}
-    >
-      {isActive && <Check animate className="size-3.5 stroke-3" />}
-      <motion.span layout="preserve-aspect">{children}</motion.span>
-    </motion.button>
-  );
-};
+}: CheckBadgeProps) => (
+  <motion.button
+    className={cn(
+      "flex items-center gap-1 overflow-hidden rounded-full bg-accent px-3 py-1 font-normal text-accent-foreground text-sm transition-colors duration-200 ease-in-out hover:bg-accent/80",
+      isActive && "bg-primary pl-2 text-primary-foreground hover:bg-primary",
+      className
+    )}
+    layout
+    {...props}
+  >
+    {isActive && <Check animate className="size-3.5 stroke-3" />}
+    <motion.span layout="preserve-aspect">{children}</motion.span>
+  </motion.button>
+);
 
 export const Icons = () => {
   const [animationKey, setAnimationKey] = useState(0);
-  const [activeTab, setActiveTab] = useState<string>('cli');
+  const [activeTab, setActiveTab] = useState<string>("cli");
   const [isCopied, setIsCopied] = useState(false);
-  const [activeAnimation, setActiveAnimation] = useState<string>('default');
+  const [activeAnimation, setActiveAnimation] = useState<string>("default");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
-  const [filter, setFilter] = useState<keyof typeof FILTERS>('all');
+  const [filter, setFilter] = useState<keyof typeof FILTERS>("all");
 
   const [search, setSearch] = useQueryState(
-    'search',
+    "search",
     parseAsString.withOptions({
-      history: 'replace',
+      history: "replace",
       throttleMs: 150,
-    }),
+    })
   );
   const [activeIconWithoutPrefix, setActiveIconWithoutPrefix] = useQueryState(
-    'icon',
+    "icon",
     parseAsString.withOptions({
-      history: 'replace',
+      history: "replace",
       throttleMs: 150,
-    }),
+    })
   );
   const activeIcon = useMemo(
     () => (activeIconWithoutPrefix ? `icons-${activeIconWithoutPrefix}` : null),
-    [activeIconWithoutPrefix],
+    [activeIconWithoutPrefix]
   );
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -281,85 +279,97 @@ export const Icons = () => {
   }, [isPanelOpen]);
 
   const icons = Object.values(index).filter(
-    (icon) => icon.name.startsWith('icons-') && icon.name !== 'icons-icon',
+    (icon) => icon.name.startsWith("icons-") && icon.name !== "icons-icon"
   );
 
   const filteredIcons = useMemo(() => {
-    if (filter === 'all') return icons;
+    if (filter === "all") {
+      return icons;
+    }
     return icons.filter((icon) => newIcons.includes(icon.name));
   }, [icons, filter]);
 
-  const fuse = useMemo(() => {
-    return new Fuse(icons, {
-      keys: ['name', 'keywords'],
-      threshold: 0.3,
-      ignoreLocation: true,
-    });
-  }, [icons]);
+  const fuse = useMemo(
+    () =>
+      new Fuse(icons, {
+        keys: ["name", "keywords"],
+        threshold: 0.3,
+        ignoreLocation: true,
+      }),
+    [icons]
+  );
 
   const searchedIcons = useMemo(() => {
     const q = search?.trim();
-    if (!q) return filteredIcons;
+    if (!q) {
+      return filteredIcons;
+    }
     const results = fuse.search(q).map((result) => result.item);
-    if (filter === 'all') return results;
+    if (filter === "all") {
+      return results;
+    }
     return results.filter((icon) => newIcons.includes(icon.name));
   }, [search, fuse, filteredIcons, filter]);
 
   const searchedNewIcons = useMemo(() => {
-    if (!search?.trim()) return newIcons;
+    if (!search?.trim()) {
+      return newIcons;
+    }
     return searchedIcons.filter((icon) => newIcons.includes(icon.name));
   }, [search, searchedIcons]);
 
   const icon = useMemo(
     () => icons.find((icon) => icon.name === activeIcon),
-    [activeIcon, icons],
+    [activeIcon, icons]
   );
   const iconName = useMemo(
     () =>
       icon?.name
-        .replace('icons-', '')
-        .split('-')
+        .replace("icons-", "")
+        .split("-")
         .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(''),
-    [icon],
+        .join(""),
+    [icon]
   );
 
   useEffect(() => {
-    setActiveAnimation('default');
+    setActiveAnimation("default");
   }, [activeIcon]);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) return null;
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="-mt-4.5 text-black dark:text-white">
       <p className="text-muted-foreground text-sm">
-        {searchedIcons.length} icons {search?.length ? 'found' : 'available'}{' '}
+        {searchedIcons.length} icons {search?.length ? "found" : "available"}{" "}
         {searchedNewIcons.length ? (
           <span>
-            •{' '}
+            •{" "}
             <span className="text-foreground">{`${searchedNewIcons.length} new icons`}</span>
           </span>
         ) : (
-          ''
+          ""
         )}
       </p>
 
       <Input
-        placeholder="Search icons"
-        value={search ?? ''}
         onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search icons"
+        value={search ?? ""}
       />
 
       <div className="mt-4 flex items-center gap-2">
         {Object.keys(FILTERS).map((f) => (
           <CheckBadge
+            isActive={f === filter}
             key={f}
             onClick={() => setFilter(f as keyof typeof FILTERS)}
-            isActive={f === filter}
           >
             {FILTERS[f as keyof typeof FILTERS]}
           </CheckBadge>
@@ -368,48 +378,47 @@ export const Icons = () => {
 
       <div>
         {searchedIcons.length ? (
-          <div className="xs:grid-cols-7 mt-6 grid grid-cols-5 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
+          <div className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
             <TooltipProvider>
               <Highlight
+                className="absolute inset-0 -z-1 rounded-lg bg-transparent ring-2 ring-foreground"
                 hover
-                className="ring-foreground absolute inset-0 -z-1 rounded-lg bg-transparent ring-2"
               >
                 {searchedIcons.map((icon) => {
                   const animationsLength = Object.keys(
-                    icon?.component?.animations ?? {},
+                    icon?.component?.animations ?? {}
                   ).length;
                   const totalAnimationsLength =
                     staticAnimationsLength + animationsLength;
                   return (
-                    <Tooltip side="bottom" sideOffset={14} key={icon.name}>
+                    <Tooltip key={icon.name} side="bottom" sideOffset={14}>
                       <TooltipTrigger>
                         <div>
-                          <AnimateIcon asChild animateOnHover>
+                          <AnimateIcon animateOnHover asChild>
                             <button
+                              className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5"
                               data-value={icon.name}
                               onClick={() => {
                                 setActiveIconWithoutPrefix(
-                                  icon.name.replace('icons-', ''),
+                                  icon.name.replace("icons-", "")
                                 );
                               }}
-                              className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5"
                             >
                               {icon?.component && (
                                 <icon.component className="size-full text-current" />
                               )}
                               <div
                                 className={cn(
-                                  'bg-muted absolute inset-0 -z-2 rounded-lg transition-colors duration-200',
-                                  activeIcon === icon.name &&
-                                    'bg-foreground/20',
+                                  "absolute inset-0 -z-2 rounded-lg bg-muted transition-colors duration-200",
+                                  activeIcon === icon.name && "bg-foreground/20"
                                 )}
                               />
 
                               {newIcons.includes(icon.name) && (
-                                <div className="border-background bg-foreground absolute -top-1 -right-1 size-2.5 rounded-full border" />
+                                <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-foreground" />
                               )}
 
-                              <div className="text-muted-foreground bg-background group-hover:border-foreground group-hover:ring-foreground absolute -right-2.5 -bottom-2.5 z-10 flex size-5 items-center justify-center rounded-full border font-medium transition-colors duration-200 group-hover:ring">
+                              <div className="absolute -right-2.5 -bottom-2.5 z-10 flex size-5 items-center justify-center rounded-full border bg-background font-medium text-muted-foreground transition-colors duration-200 group-hover:border-foreground group-hover:ring group-hover:ring-foreground">
                                 <span className="text-[11px] leading-none">
                                   {totalAnimationsLength}
                                 </span>
@@ -419,7 +428,7 @@ export const Icons = () => {
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>{icon.name.replace('icons-', '')}</p>
+                        <p>{icon.name.replace("icons-", "")}</p>
                       </TooltipContent>
                     </Tooltip>
                   );
@@ -435,19 +444,19 @@ export const Icons = () => {
       </div>
 
       <motion.div
-        className="bg-background fixed inset-y-12 right-0 z-50 w-[325px] rounded-l-2xl border-y border-l p-4 shadow-sm"
-        initial={{ opacity: 0, x: '100%' }}
-        animate={isPanelOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: '100%' }}
-        exit={{ opacity: 0, x: '100%' }}
-        transition={{ type: 'spring', stiffness: 150, damping: 25 }}
+        animate={isPanelOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: "100%" }}
+        className="fixed inset-y-12 right-0 z-50 w-[325px] rounded-l-2xl border-y border-l bg-background p-4 shadow-sm"
+        exit={{ opacity: 0, x: "100%" }}
+        initial={{ opacity: 0, x: "100%" }}
+        transition={{ type: "spring", stiffness: 150, damping: 25 }}
       >
-        <h2 className="mt-1.5 text-lg font-medium">
-          {activeIcon?.replace('icons-', '')}
+        <h2 className="mt-1.5 font-medium text-lg">
+          {activeIcon?.replace("icons-", "")}
         </h2>
-        <AnimateIcon asChild animateOnHover>
+        <AnimateIcon animateOnHover asChild>
           <button
+            className="absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background transition-colors duration-200 hover:bg-muted"
             onClick={() => setIsPanelOpen(false)}
-            className="bg-background hover:bg-muted absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-200"
           >
             <X className="size-5 text-neutral-500" />
           </button>
@@ -457,19 +466,19 @@ export const Icons = () => {
           <div className="flex h-full flex-col justify-between gap-y-4">
             <div>
               <Tabs
-                value={activeTab}
-                onValueChange={(value) => setActiveTab(value)}
                 className="gap-0"
+                onValueChange={(value) => setActiveTab(value)}
+                value={activeTab}
               >
                 <div className="mb-3 flex w-full items-center justify-between">
-                  <h3 className="mt-0 mb-0 pt-0 pb-0 text-base font-medium">
+                  <h3 className="mt-0 mb-0 pt-0 pb-0 font-medium text-base">
                     Installation
                   </h3>
                   <TabsList>
-                    <TabsTrigger value="cli" className="w-[70px]">
+                    <TabsTrigger className="w-[70px]" value="cli">
                       CLI
                     </TabsTrigger>
-                    <TabsTrigger value="manual" className="w-[70px]">
+                    <TabsTrigger className="w-[70px]" value="manual">
                       Manual
                     </TabsTrigger>
                   </TabsList>
@@ -486,39 +495,39 @@ export const Icons = () => {
                       }}
                     />
                   </TabsContent>
-                  <TabsContent value="manual" className="group relative">
+                  <TabsContent className="group relative" value="manual">
                     {activeIcon && (
                       <DynamicCodeBlock
-                        code={icon?.files?.[0]?.content}
-                        lang="jsx"
-                        title={`${icon?.name.replace('icons-', '')}.tsx`}
-                        icon={<ReactIcon />}
                         className="max-h-[98px] [&_[data-slot='codeblock-viewport']]:max-h-[52px]"
+                        code={icon?.files?.[0]?.content}
+                        icon={<ReactIcon />}
+                        lang="jsx"
+                        title={`${icon?.name.replace("icons-", "")}.tsx`}
                       />
                     )}
 
                     <div
-                      role="button"
+                      className="invisible absolute inset-px top-[41px] flex cursor-pointer items-center justify-center rounded-b-[13px] bg-black/20 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100"
                       onClick={() => {
                         navigator.clipboard.writeText(
-                          icon?.files?.[0]?.content ?? '',
+                          icon?.files?.[0]?.content ?? ""
                         );
                         setIsCopied(true);
                         setTimeout(() => {
                           setIsCopied(false);
                         }, 2000);
                       }}
-                      className="invisible absolute inset-px top-[41px] flex cursor-pointer items-center justify-center rounded-b-[13px] bg-black/20 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100"
+                      role="button"
                     >
-                      <p className="text-sm font-medium text-white">
-                        {isCopied ? 'Copied' : 'Copy'}
+                      <p className="font-medium text-sm text-white">
+                        {isCopied ? "Copied" : "Copy"}
                       </p>
                     </div>
                   </TabsContent>
                 </TabsContents>
               </Tabs>
 
-              <h3 className="mt-4 text-base font-medium">Usage</h3>
+              <h3 className="mt-4 font-medium text-base">Usage</h3>
               {activeIcon && (
                 <DynamicCodeBlock
                   code={`<${iconName} animateOnHover />
@@ -534,36 +543,36 @@ export const Icons = () => {
             <div className="space-y-4">
               {activeIcon && (
                 <>
-                  <div className="bg-muted/50 relative mx-auto flex aspect-square h-[150px] w-full items-center justify-center rounded-2xl border">
+                  <div className="relative mx-auto flex aspect-square h-[150px] w-full items-center justify-center rounded-2xl border bg-muted/50">
                     {icon?.component && (
                       <icon.component
-                        key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
                         animate
                         animation={activeAnimation}
-                        loop={isLoop}
                         className="size-[100px] text-current"
+                        key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
+                        loop={isLoop}
                       />
                     )}
 
                     <Button
-                      size="icon-sm"
-                      variant="ghost"
                       className={cn(
-                        'absolute top-2 left-2 z-[2] size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10',
+                        "absolute top-2 left-2 z-[2] size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
                         isLoop &&
-                          'bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20',
+                          "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
                       )}
                       onClick={() => setIsLoop(!isLoop)}
+                      size="icon-sm"
+                      variant="ghost"
                     >
                       <InfinityIcon className="size-3.5" />
                     </Button>
 
-                    <AnimateIcon asChild animateOnHover>
+                    <AnimateIcon animateOnHover asChild>
                       <Button
-                        size="icon-sm"
-                        variant="ghost"
                         className="absolute top-2 right-2 z-[2] size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
                         onClick={() => setAnimationKey((prev) => prev + 1)}
+                        size="icon-sm"
+                        variant="ghost"
                       >
                         <RotateCcw className="size-3.5" />
                       </Button>
@@ -571,8 +580,8 @@ export const Icons = () => {
                   </div>
 
                   <Select
-                    value={activeAnimation}
                     onValueChange={(value) => setActiveAnimation(value)}
+                    value={activeAnimation}
                   >
                     <SelectTrigger className="!h-11 w-full rounded-lg px-1.5">
                       <SelectValue placeholder="Select an animation" />
@@ -584,12 +593,12 @@ export const Icons = () => {
                           ...(icon?.component?.animations ?? {}),
                         }).map((animation) => (
                           <SelectItem
+                            className="!h-8 rounded-md px-0 focus:bg-muted"
                             key={animation}
                             value={animation}
-                            className="focus:bg-muted !h-8 rounded-md px-0"
                           >
                             <div className="flex items-center gap-2">
-                              <div className="bg-muted size-8 rounded-md p-1.5">
+                              <div className="size-8 rounded-md bg-muted p-1.5">
                                 {icon?.component && (
                                   <icon.component className="size-full text-current" />
                                 )}

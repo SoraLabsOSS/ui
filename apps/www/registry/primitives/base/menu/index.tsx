@@ -1,18 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Menu as MenuPrimitive } from '@base-ui-components/react/menu';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
-
+import { Menu as MenuPrimitive } from "@base-ui-components/react/menu";
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { useDataState } from "@/registry/hooks/use-data-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 import {
   Highlight,
   HighlightItem,
   type HighlightItemProps,
   type HighlightProps,
-} from '@/registry/primitives/effects/highlight';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
-import { useDataState } from '@/registry/hooks/use-data-state';
+} from "@/registry/primitives/effects/highlight";
 
 type MenuActiveValueContextType = {
   highlightedValue: string | null;
@@ -21,13 +20,13 @@ type MenuActiveValueContextType = {
 
 type MenuContextType = {
   isOpen: boolean;
-  setIsOpen: MenuProps['onOpenChange'];
+  setIsOpen: MenuProps["onOpenChange"];
 };
 
 const [MenuActiveValueProvider, useMenuActiveValue] =
-  getStrictContext<MenuActiveValueContextType>('MenuActiveValueContext');
+  getStrictContext<MenuActiveValueContextType>("MenuActiveValueContext");
 const [MenuProvider, useMenu] =
-  getStrictContext<MenuContextType>('MenuContext');
+  getStrictContext<MenuContextType>("MenuContext");
 
 type MenuProps = React.ComponentProps<typeof MenuPrimitive.Root>;
 
@@ -38,7 +37,7 @@ function Menu(props: MenuProps) {
     onChange: props?.onOpenChange,
   });
   const [highlightedValue, setHighlightedValue] = React.useState<string | null>(
-    null,
+    null
   );
 
   return (
@@ -62,7 +61,7 @@ function MenuTrigger(props: MenuTriggerProps) {
 
 type MenuPortalProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.Portal>,
-  'keepMounted'
+  "keepMounted"
 >;
 
 function MenuPortal(props: MenuPortalProps) {
@@ -71,7 +70,7 @@ function MenuPortal(props: MenuPortalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MenuPrimitive.Portal keepMounted data-slot="menu-portal" {...props} />
+        <MenuPrimitive.Portal data-slot="menu-portal" keepMounted {...props} />
       )}
     </AnimatePresence>
   );
@@ -113,9 +112,9 @@ function MenuSubmenu(props: MenuSubmenuProps) {
 
 type MenuSubmenuTriggerProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.SubmenuTrigger>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     disabled?: boolean;
   };
 
@@ -127,24 +126,26 @@ function MenuSubmenuTrigger({
 }: MenuSubmenuTriggerProps) {
   const { setHighlightedValue } = useMenuActiveValue();
   const [, highlightedRef] = useDataState<HTMLDivElement>(
-    'highlighted',
+    "highlighted",
     undefined,
     (value) => {
       if (value === true) {
         const el = highlightedRef.current;
         const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
+        if (v) {
+          setHighlightedValue(v);
+        }
       }
-    },
+    }
   );
 
   return (
     <MenuPrimitive.SubmenuTrigger
-      ref={highlightedRef}
-      label={label}
-      id={id}
-      nativeButton={nativeButton}
       data-slot="menu-submenu-trigger"
+      id={id}
+      label={label}
+      nativeButton={nativeButton}
+      ref={highlightedRef}
       {...props}
     />
   );
@@ -152,22 +153,22 @@ function MenuSubmenuTrigger({
 
 type MenuHighlightProps = Omit<
   HighlightProps,
-  'controlledItems' | 'enabled' | 'hover'
+  "controlledItems" | "enabled" | "hover"
 > & {
   animateOnHover?: boolean;
 };
 
 function MenuHighlight({
-  transition = { type: 'spring', stiffness: 350, damping: 35 },
+  transition = { type: "spring", stiffness: 350, damping: 35 },
   ...props
 }: MenuHighlightProps) {
   const { highlightedValue } = useMenuActiveValue();
 
   return (
     <Highlight
-      data-slot="menu-highlight"
       click={false}
       controlledItems
+      data-slot="menu-highlight"
       transition={transition}
       value={highlightedValue}
       {...props}
@@ -191,9 +192,9 @@ function MenuPositioner(props: MenuPositionerProps) {
 
 type MenuPopupProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.Popup>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function MenuPopup({
   finalFocus,
@@ -208,13 +209,13 @@ function MenuPopup({
       id={id}
       render={
         <motion.div
-          key="menu-popup"
-          data-slot="menu-popup"
-          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
+          data-slot="menu-popup"
           exit={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          key="menu-popup"
+          style={{ willChange: "opacity, transform", ...style }}
           transition={transition}
-          style={{ willChange: 'opacity, transform', ...style }}
           {...props}
         />
       }
@@ -224,9 +225,9 @@ function MenuPopup({
 
 type MenuItemProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.Item>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function MenuItem({
   disabled,
@@ -238,26 +239,28 @@ function MenuItem({
 }: MenuItemProps) {
   const { setHighlightedValue } = useMenuActiveValue();
   const [, highlightedRef] = useDataState<HTMLDivElement>(
-    'highlighted',
+    "highlighted",
     undefined,
     (value) => {
       if (value === true) {
         const el = highlightedRef.current;
         const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
+        if (v) {
+          setHighlightedValue(v);
+        }
       }
-    },
+    }
   );
 
   return (
     <MenuPrimitive.Item
-      ref={highlightedRef}
-      label={label}
       closeOnClick={closeOnClick}
-      nativeButton={nativeButton}
+      data-slot="menu-item"
       disabled={disabled}
       id={id}
-      data-slot="menu-item"
+      label={label}
+      nativeButton={nativeButton}
+      ref={highlightedRef}
       {...props}
     />
   );
@@ -265,7 +268,7 @@ function MenuItem({
 
 type MenuCheckboxItemProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.CheckboxItem>,
-  'render'
+  "render"
 >;
 
 function MenuCheckboxItem({
@@ -281,28 +284,30 @@ function MenuCheckboxItem({
 }: MenuCheckboxItemProps) {
   const { setHighlightedValue } = useMenuActiveValue();
   const [, highlightedRef] = useDataState<HTMLDivElement>(
-    'highlighted',
+    "highlighted",
     undefined,
     (value) => {
       if (value === true) {
         const el = highlightedRef.current;
         const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
+        if (v) {
+          setHighlightedValue(v);
+        }
       }
-    },
+    }
   );
   return (
     <MenuPrimitive.CheckboxItem
-      ref={highlightedRef}
-      label={label}
       checked={checked}
-      defaultChecked={defaultChecked}
-      onCheckedChange={onCheckedChange}
-      disabled={disabled}
       closeOnClick={closeOnClick}
-      nativeButton={nativeButton}
-      id={id}
       data-slot="menu-checkbox-item"
+      defaultChecked={defaultChecked}
+      disabled={disabled}
+      id={id}
+      label={label}
+      nativeButton={nativeButton}
+      onCheckedChange={onCheckedChange}
+      ref={highlightedRef}
       {...props}
     />
   );
@@ -310,9 +315,9 @@ function MenuCheckboxItem({
 
 type MenuCheckboxItemIndicatorProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.CheckboxItemIndicator>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function MenuCheckboxItemIndicator({
   keepMounted,
@@ -339,7 +344,7 @@ function MenuRadioGroup(props: MenuRadioGroupProps) {
 
 type MenuRadioItemProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.RadioItem>,
-  'render'
+  "render"
 >;
 
 function MenuRadioItem({
@@ -353,26 +358,28 @@ function MenuRadioItem({
 }: MenuRadioItemProps) {
   const { setHighlightedValue } = useMenuActiveValue();
   const [, highlightedRef] = useDataState<HTMLDivElement>(
-    'highlighted',
+    "highlighted",
     undefined,
     (value) => {
       if (value === true) {
         const el = highlightedRef.current;
         const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
+        if (v) {
+          setHighlightedValue(v);
+        }
       }
-    },
+    }
   );
   return (
     <MenuPrimitive.RadioItem
+      closeOnClick={closeOnClick}
+      data-slot="menu-radio-item"
+      disabled={disabled}
+      id={id}
+      label={label}
+      nativeButton={nativeButton}
       ref={highlightedRef}
       value={value}
-      disabled={disabled}
-      label={label}
-      closeOnClick={closeOnClick}
-      nativeButton={nativeButton}
-      id={id}
-      data-slot="menu-radio-item"
       {...props}
     />
   );
@@ -380,9 +387,9 @@ function MenuRadioItem({
 
 type MenuRadioItemIndicatorProps = Omit<
   React.ComponentProps<typeof MenuPrimitive.RadioItemIndicator>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function MenuRadioItemIndicator({
   keepMounted,
@@ -397,7 +404,7 @@ function MenuRadioItemIndicator({
   );
 }
 
-type MenuShortcutProps = React.ComponentProps<'span'>;
+type MenuShortcutProps = React.ComponentProps<"span">;
 
 function MenuShortcut(props: MenuShortcutProps) {
   return <span data-slot="menu-shortcut" {...props} />;
@@ -417,47 +424,47 @@ function MenuSeparator(props: MenuSeparatorProps) {
 
 export {
   Menu,
-  MenuTrigger,
-  MenuPortal,
-  MenuPositioner,
-  MenuPopup,
+  type MenuActiveValueContextType,
   MenuArrow,
-  MenuItem,
+  type MenuArrowProps,
   MenuCheckboxItem,
   MenuCheckboxItemIndicator,
-  MenuRadioGroup,
-  MenuRadioItem,
-  MenuRadioItemIndicator,
+  type MenuCheckboxItemIndicatorProps,
+  type MenuCheckboxItemProps,
+  type MenuContextType,
   MenuGroup,
   MenuGroupLabel,
-  MenuSeparator,
-  MenuShortcut,
+  type MenuGroupLabelProps,
+  type MenuGroupProps,
   MenuHighlight,
   MenuHighlightItem,
-  MenuSubmenu,
-  MenuSubmenuTrigger,
-  useMenuActiveValue,
-  useMenu,
-  type MenuProps,
-  type MenuTriggerProps,
-  type MenuPortalProps,
-  type MenuPositionerProps,
-  type MenuPopupProps,
-  type MenuArrowProps,
-  type MenuItemProps,
-  type MenuCheckboxItemProps,
-  type MenuCheckboxItemIndicatorProps,
-  type MenuRadioItemProps,
-  type MenuRadioItemIndicatorProps,
-  type MenuRadioGroupProps,
-  type MenuGroupProps,
-  type MenuGroupLabelProps,
-  type MenuSeparatorProps,
-  type MenuShortcutProps,
-  type MenuHighlightProps,
   type MenuHighlightItemProps,
+  type MenuHighlightProps,
+  MenuItem,
+  type MenuItemProps,
+  MenuPopup,
+  type MenuPopupProps,
+  MenuPortal,
+  type MenuPortalProps,
+  MenuPositioner,
+  type MenuPositionerProps,
+  type MenuProps,
+  MenuRadioGroup,
+  type MenuRadioGroupProps,
+  MenuRadioItem,
+  MenuRadioItemIndicator,
+  type MenuRadioItemIndicatorProps,
+  type MenuRadioItemProps,
+  MenuSeparator,
+  type MenuSeparatorProps,
+  MenuShortcut,
+  type MenuShortcutProps,
+  MenuSubmenu,
   type MenuSubmenuProps,
+  MenuSubmenuTrigger,
   type MenuSubmenuTriggerProps,
-  type MenuActiveValueContextType,
-  type MenuContextType,
+  MenuTrigger,
+  type MenuTriggerProps,
+  useMenu,
+  useMenuActiveValue,
 };

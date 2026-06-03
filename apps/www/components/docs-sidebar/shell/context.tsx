@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import type * as React from 'react';
+import { AnimatePresence, motion } from "motion/react";
+import type * as React from "react";
 import {
   createContext,
   useCallback,
   useContext,
   useMemo,
   useState,
-} from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+} from "react";
 
-const EFFECTS_STORAGE_KEY = 'docs-shell-motion-effects';
+const EFFECTS_STORAGE_KEY = "docs-shell-motion-effects";
 
 const EffectsContext = createContext<{ enabled: boolean; toggle: () => void }>({
   enabled: true,
@@ -25,9 +25,11 @@ export function DocsShellEffectsProvider({
   defaultEnabled?: boolean;
 }) {
   const [enabled, setEnabled] = useState(() => {
-    if (typeof window === 'undefined') return defaultEnabled;
+    if (typeof window === "undefined") {
+      return defaultEnabled;
+    }
     const stored = localStorage.getItem(EFFECTS_STORAGE_KEY);
-    return stored !== null ? stored === 'true' : defaultEnabled;
+    return stored === null ? defaultEnabled : stored === "true";
   });
 
   const toggle = useCallback(() => {
@@ -49,9 +51,9 @@ export function useDocsShellEffects() {
 }
 
 export interface DocsShellHoverRect {
-  top: number;
   height: number;
   left: number;
+  top: number;
 }
 
 const HoverContext = createContext<{
@@ -81,12 +83,12 @@ export function DocsShellHoverProvider({
       setHoveredId(id);
       setHoverRect(rect ?? null);
     },
-    [],
+    []
   );
 
   const value = useMemo(
     () => ({ hovered, hoverRect, containerRef, setHovered }),
-    [hovered, hoverRect, containerRef, setHovered],
+    [hovered, hoverRect, containerRef, setHovered]
   );
 
   return (
@@ -106,18 +108,18 @@ export function DocsShellHoverHighlight() {
     <AnimatePresence>
       {enabled && hovered && hoverRect && (
         <motion.div
-          key="docs-shell-hover-bg"
-          className="bg-accent/50 pointer-events-none absolute z-0 rounded-md"
-          style={{ right: 0 }}
-          initial={false}
           animate={{
             top: hoverRect.top + 2,
             height: hoverRect.height - 4,
             left: hoverRect.left,
             opacity: 1,
           }}
+          className="pointer-events-none absolute z-0 rounded-md bg-accent/50"
           exit={{ opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          initial={false}
+          key="docs-shell-hover-bg"
+          style={{ right: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
       )}
     </AnimatePresence>

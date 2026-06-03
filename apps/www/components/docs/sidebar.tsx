@@ -5,4 +5,4 @@ export {
   DocsSidebar,
   SidebarLinkItem,
   SidebarPageTree,
-} from '@/components/docs-sidebar';
+} from "@/components/docs-sidebar";

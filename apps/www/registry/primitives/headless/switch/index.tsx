@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import * as React from 'react';
 import {
   Switch as SwitchPrimitive,
   type SwitchProps as SwitchPrimitiveProps,
-} from '@headlessui/react';
+} from "@headlessui/react";
 import {
+  type HTMLMotionProps,
+  type LegacyAnimationControls,
   motion,
   type TargetAndTransition,
   type VariantLabels,
-  type HTMLMotionProps,
-  type LegacyAnimationControls,
-} from 'motion/react';
+} from "motion/react";
+import * as React from "react";
 
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type SwitchContextType = {
   isChecked: boolean;
@@ -21,16 +21,16 @@ type SwitchContextType = {
 };
 
 const [SwitchProvider, useSwitch] =
-  getStrictContext<SwitchContextType>('SwitchContext');
+  getStrictContext<SwitchContextType>("SwitchContext");
 
 type SwitchProps<TTag extends React.ElementType = typeof motion.button> =
   SwitchPrimitiveProps<TTag> &
-    HTMLMotionProps<'button'> & {
+    HTMLMotionProps<"button"> & {
       as?: TTag;
     };
 
 function Switch<TTag extends React.ElementType = typeof motion.button>(
-  props: SwitchProps<TTag>,
+  props: SwitchProps<TTag>
 ) {
   const { as = motion.button, children, ...rest } = props;
 
@@ -39,17 +39,17 @@ function Switch<TTag extends React.ElementType = typeof motion.button>(
   return (
     <SwitchPrimitive
       data-slot="switch"
-      whileTap="tap"
       initial={false}
-      onTapStart={() => setIsPressed(true)}
-      onTapCancel={() => setIsPressed(false)}
       onTap={() => setIsPressed(false)}
+      onTapCancel={() => setIsPressed(false)}
+      onTapStart={() => setIsPressed(true)}
+      whileTap="tap"
       {...rest}
       as={as}
     >
       {(bag) => (
         <SwitchProvider value={{ isPressed, isChecked: bag.checked }}>
-          {typeof children === 'function' ? children(bag) : children}
+          {typeof children === "function" ? children(bag) : children}
         </SwitchProvider>
       )}
     </SwitchPrimitive>
@@ -57,7 +57,7 @@ function Switch<TTag extends React.ElementType = typeof motion.button>(
 }
 
 type SwitchThumbProps<TTag extends React.ElementType = typeof motion.div> =
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     as?: TTag;
     pressedAnimation?:
       | TargetAndTransition
@@ -67,12 +67,12 @@ type SwitchThumbProps<TTag extends React.ElementType = typeof motion.div> =
   };
 
 function SwitchThumb<TTag extends React.ElementType = typeof motion.div>(
-  props: SwitchThumbProps<TTag>,
+  props: SwitchThumbProps<TTag>
 ) {
   const { isPressed, isChecked } = useSwitch();
 
   const {
-    transition = { type: 'spring', stiffness: 300, damping: 25 },
+    transition = { type: "spring", stiffness: 300, damping: 25 },
     pressedAnimation,
     as: Component = motion.div,
     ...rest
@@ -80,47 +80,53 @@ function SwitchThumb<TTag extends React.ElementType = typeof motion.div>(
 
   return (
     <Component
+      animate={isPressed ? pressedAnimation : undefined}
       data-slot="switch-thumb"
-      whileTap="tab"
       layout
       transition={transition}
-      animate={isPressed ? pressedAnimation : undefined}
-      {...(isChecked && { 'data-checked': true })}
+      whileTap="tab"
+      {...(isChecked && { "data-checked": true })}
       {...rest}
     />
   );
 }
 
-type SwitchIconPosition = 'left' | 'right' | 'thumb';
+type SwitchIconPosition = "left" | "right" | "thumb";
 
 type SwitchIconProps<TTag extends React.ElementType = typeof motion.div> =
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     position: SwitchIconPosition;
     as?: TTag;
   };
 
 function SwitchIcon<TTag extends React.ElementType = typeof motion.div>(
-  props: SwitchIconProps<TTag>,
+  props: SwitchIconProps<TTag>
 ) {
   const {
     position,
-    transition = { type: 'spring', bounce: 0 },
+    transition = { type: "spring", bounce: 0 },
     as: Component = motion.div,
     ...rest
   } = props;
   const { isChecked } = useSwitch();
 
   const isAnimated = React.useMemo(() => {
-    if (position === 'right') return !isChecked;
-    if (position === 'left') return isChecked;
-    if (position === 'thumb') return true;
+    if (position === "right") {
+      return !isChecked;
+    }
+    if (position === "left") {
+      return isChecked;
+    }
+    if (position === "thumb") {
+      return true;
+    }
     return false;
   }, [position, isChecked]);
 
   return (
     <Component
-      data-slot={`switch-${position}-icon`}
       animate={isAnimated ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+      data-slot={`switch-${position}-icon`}
       transition={transition}
       {...rest}
     />
@@ -129,9 +135,9 @@ function SwitchIcon<TTag extends React.ElementType = typeof motion.div>(
 
 export {
   Switch,
-  SwitchThumb,
   SwitchIcon,
-  type SwitchProps,
-  type SwitchThumbProps,
   type SwitchIconProps,
+  type SwitchProps,
+  SwitchThumb,
+  type SwitchThumbProps,
 };

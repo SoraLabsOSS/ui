@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { createPortal } from 'react-dom';
 import {
-  motion,
   AnimatePresence,
   type HTMLMotionProps,
+  motion,
   type SVGMotionProps,
-} from 'motion/react';
+} from "motion/react";
+import * as React from "react";
+import { createPortal } from "react-dom";
 
-type ClickVariant = 'ripple' | 'ring' | 'crosshair' | 'burst' | 'particles';
+type ClickVariant = "ripple" | "ring" | "crosshair" | "burst" | "particles";
 
 type Item = {
   id: string;
@@ -30,14 +30,14 @@ type ClickCommonProps = {
   disabled?: boolean;
 };
 
-type RippleClickProps = HTMLMotionProps<'div'> &
+type RippleClickProps = HTMLMotionProps<"div"> &
   ClickCommonProps & {
-    variant: 'ripple';
+    variant: "ripple";
   };
 
-type SvgClickProps = SVGMotionProps<'svg'> &
+type SvgClickProps = SVGMotionProps<"svg"> &
   ClickCommonProps & {
-    variant?: Exclude<ClickVariant, 'ripple'>;
+    variant?: Exclude<ClickVariant, "ripple">;
   };
 
 type ClickProps = RippleClickProps | SvgClickProps;
@@ -47,8 +47,8 @@ function Click(props: SvgClickProps): React.ReactElement | null;
 function Click(props: ClickProps): React.ReactElement | null {
   const {
     children,
-    variant = 'ring',
-    color = 'currentColor',
+    variant = "ring",
+    color = "currentColor",
     size = 100,
     duration = 400,
     scope,
@@ -58,14 +58,20 @@ function Click(props: ClickProps): React.ReactElement | null {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
-    if (disabled) return;
+    if (disabled) {
+      return;
+    }
     const target = scope?.current ?? document;
     const isDoc = target instanceof Document;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const el: any = isDoc ? document : target;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
     function onPointerUp(e: PointerEvent) {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
       if (!isDoc) {
         const rect = (el as HTMLElement).getBoundingClientRect();
         if (
@@ -94,11 +100,11 @@ function Click(props: ClickProps): React.ReactElement | null {
         setItems((prev) => prev.filter((it) => it.id !== id));
       }, duration + 300);
     }
-    el.addEventListener('pointerup', onPointerUp, { passive: true });
-    return () => el.removeEventListener('pointerup', onPointerUp);
+    el.addEventListener("pointerup", onPointerUp, { passive: true });
+    return () => el.removeEventListener("pointerup", onPointerUp);
   }, [scope, variant, color, size, duration, disabled]);
 
-  const portal = typeof window !== 'undefined' ? document.body : null;
+  const portal = typeof window === "undefined" ? null : document.body;
 
   return (
     <>
@@ -108,30 +114,40 @@ function Click(props: ClickProps): React.ReactElement | null {
           <div
             ref={containerRef}
             style={{
-              position: 'fixed',
+              position: "fixed",
               inset: 0,
-              pointerEvents: 'none',
-              zIndex: 9999999999,
+              pointerEvents: "none",
+              zIndex: 9_999_999_999,
             }}
           >
             <AnimatePresence initial={false}>
               {items.map((it) => (
-                <EffectRenderer key={it.id} item={it} />
+                <EffectRenderer item={it} key={it.id} />
               ))}
             </AnimatePresence>
           </div>,
-          portal,
+          portal
         )}
     </>
   );
 }
 
 function EffectRenderer({ item }: { item: Item }) {
-  if (item.variant === 'ripple') return <Ripple item={item} />;
-  if (item.variant === 'ring') return <Ring item={item} />;
-  if (item.variant === 'crosshair') return <Crosshair item={item} />;
-  if (item.variant === 'burst') return <Burst item={item} />;
-  if (item.variant === 'particles') return <Particles item={item} />;
+  if (item.variant === "ripple") {
+    return <Ripple item={item} />;
+  }
+  if (item.variant === "ring") {
+    return <Ring item={item} />;
+  }
+  if (item.variant === "crosshair") {
+    return <Crosshair item={item} />;
+  }
+  if (item.variant === "burst") {
+    return <Burst item={item} />;
+  }
+  if (item.variant === "particles") {
+    return <Particles item={item} />;
+  }
   return null;
 }
 
@@ -141,21 +157,21 @@ function Ripple({ item }: { item: Item }) {
 
   return (
     <motion.div
-      initial={{ opacity: 1, scale: 0.2 }}
       animate={{ opacity: 0, scale: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: d, ease: 'easeOut' }}
+      initial={{ opacity: 1, scale: 0.2 }}
       style={{
-        position: 'fixed',
+        position: "fixed",
         left: item.x - r / 2,
         top: item.y - r / 2,
         width: r,
         height: r,
-        borderRadius: '9999px',
+        borderRadius: "9999px",
         background: item.color,
         boxShadow: `0 0 0 2px ${item.color} inset`,
-        willChange: 'transform, opacity',
+        willChange: "transform, opacity",
       }}
+      transition={{ duration: d, ease: "easeOut" }}
     />
   );
 }
@@ -172,26 +188,26 @@ function Ring({ item }: { item: Item }) {
   return (
     <motion.svg
       style={{
-        position: 'fixed',
+        position: "fixed",
         left: item.x - rEnd / 2,
         top: item.y - rEnd / 2,
         width: rEnd,
         height: rEnd,
-        display: 'block',
-        overflow: 'visible',
+        display: "block",
+        overflow: "visible",
       }}
       viewBox={`0 0 ${rEnd} ${rEnd}`}
     >
       <motion.circle
+        animate={{ r: rEnd, strokeWidth: strokeEnd }}
         cx={rEnd / 2}
         cy={rEnd / 2}
         fill="none"
-        stroke={item.color}
         initial={{ r: rStart, strokeWidth: strokeStart }}
-        animate={{ r: rEnd, strokeWidth: strokeEnd }}
-        transition={{ duration: d, ease: 'easeOut' }}
+        stroke={item.color}
         strokeLinecap="round"
         strokeLinejoin="round"
+        transition={{ duration: d, ease: "easeOut" }}
       />
     </motion.svg>
   );
@@ -222,15 +238,15 @@ function Crosshair({ item }: { item: Item }) {
   return (
     <motion.svg
       style={{
-        position: 'fixed',
+        position: "fixed",
         left: item.x - half,
         top: item.y - half,
         width: box,
         height: box,
-        display: 'block',
-        overflow: 'visible',
-        pointerEvents: 'none',
-        rotate: '-25deg',
+        display: "block",
+        overflow: "visible",
+        pointerEvents: "none",
+        rotate: "-25deg",
         strokeWidth,
       }}
       viewBox={`0 0 ${box} ${box}`}
@@ -248,12 +264,6 @@ function Crosshair({ item }: { item: Item }) {
 
         return (
           <motion.line
-            key={i}
-            x1={x1_0}
-            y1={y1_0}
-            x2={x2_0}
-            y2={y2_0}
-            initial={{ pathLength: 1, scale: 1 }}
             animate={{
               x1: x1_1,
               y1: y1_1,
@@ -262,8 +272,14 @@ function Crosshair({ item }: { item: Item }) {
               pathLength: 0,
               scale: 0,
             }}
-            transition={{ duration: d, ease: [0, 0, 0.7, 1] }}
+            initial={{ pathLength: 1, scale: 1 }}
+            key={i}
             stroke={item.color}
+            transition={{ duration: d, ease: [0, 0, 0.7, 1] }}
+            x1={x1_0}
+            x2={x2_0}
+            y1={y1_0}
+            y2={y2_0}
           />
         );
       })}
@@ -295,14 +311,14 @@ function Burst({ item }: { item: Item }) {
   return (
     <motion.svg
       style={{
-        position: 'fixed',
+        position: "fixed",
         left: item.x - half,
         top: item.y - half,
         width: box,
         height: box,
-        display: 'block',
-        overflow: 'visible',
-        pointerEvents: 'none',
+        display: "block",
+        overflow: "visible",
+        pointerEvents: "none",
         strokeWidth,
       }}
       viewBox={`0 0 ${box} ${box}`}
@@ -322,12 +338,6 @@ function Burst({ item }: { item: Item }) {
 
         return (
           <motion.line
-            key={i}
-            x1={c0x - ux * (lenStart / 2)}
-            y1={c0y - uy * (lenStart / 2)}
-            x2={c0x + ux * (lenStart / 2)}
-            y2={c0y + uy * (lenStart / 2)}
-            initial={{ pathLength: 1, scale: 1 }}
             animate={{
               x1: [
                 c0x - ux * (lenStart / 2),
@@ -352,12 +362,18 @@ function Burst({ item }: { item: Item }) {
               pathLength: [1, 0.5, 0.5],
               scale: [1, 1, 0],
             }}
+            initial={{ pathLength: 1, scale: 1 }}
+            key={i}
+            stroke={item.color}
             transition={{
               duration: d,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               times: [0, 0.7, 1],
             }}
-            stroke={item.color}
+            x1={c0x - ux * (lenStart / 2)}
+            x2={c0x + ux * (lenStart / 2)}
+            y1={c0y - uy * (lenStart / 2)}
+            y2={c0y + uy * (lenStart / 2)}
           />
         );
       })}
@@ -382,14 +398,14 @@ function Particles({ item }: { item: Item }) {
   return (
     <motion.svg
       style={{
-        position: 'fixed',
+        position: "fixed",
         left: item.x - half,
         top: item.y - half,
         width: box,
         height: box,
-        display: 'block',
-        overflow: 'visible',
-        pointerEvents: 'none',
+        display: "block",
+        overflow: "visible",
+        pointerEvents: "none",
       }}
       viewBox={`0 0 ${box} ${box}`}
     >
@@ -400,22 +416,22 @@ function Particles({ item }: { item: Item }) {
 
         return (
           <motion.circle
-            key={i}
-            cx={cx}
-            cy={cy}
-            r={r0}
-            fill={item.color}
-            initial={{ scale: 0, opacity: 0 }}
             animate={{
               cx: cx + x,
               cy: cy + y,
               scale: [0, 1, 0],
               opacity: [0, 1, 0],
             }}
+            cx={cx}
+            cy={cy}
+            fill={item.color}
+            initial={{ scale: 0, opacity: 0 }}
+            key={i}
+            r={r0}
             transition={{
               duration: d,
               delay: i * (d * 0.08),
-              ease: 'easeOut',
+              ease: "easeOut",
             }}
           />
         );

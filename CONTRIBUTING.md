@@ -44,7 +44,6 @@ apps
             ├── radix (Radix UI Primitives)
             └── texts
 packages
-├── eslint-config
 ├── typescript-config
 └── ui (Internal UI components)
 ```

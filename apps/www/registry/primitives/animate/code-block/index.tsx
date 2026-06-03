@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 import {
-  useIsInView,
   type UseIsInViewOptions,
-} from '@/registry/hooks/use-is-in-view';
+  useIsInView,
+} from "@/registry/hooks/use-is-in-view";
 
-type CodeBlockProps = React.ComponentProps<'div'> & {
+type CodeBlockProps = React.ComponentProps<"div"> & {
   code: string;
   lang: string;
-  theme?: 'light' | 'dark';
+  theme?: "light" | "dark";
   themes?: { light: string; dark: string };
   writing?: boolean;
   duration?: number;
@@ -24,10 +24,10 @@ function CodeBlock({
   ref,
   code,
   lang,
-  theme = 'light',
+  theme = "light",
   themes = {
-    light: 'github-light',
-    dark: 'github-dark',
+    light: "github-light",
+    dark: "github-dark",
   },
   writing = false,
   duration = 5000,
@@ -37,7 +37,7 @@ function CodeBlock({
   scrollContainerRef,
   inView = false,
   inViewOnce = true,
-  inViewMargin = '0px',
+  inViewMargin = "0px",
   ...props
 }: CodeBlockProps) {
   const { ref: localRef, isInView } = useIsInView(
@@ -46,19 +46,21 @@ function CodeBlock({
       inView,
       inViewOnce,
       inViewMargin,
-    },
+    }
   );
 
-  const [visibleCode, setVisibleCode] = React.useState('');
-  const [highlightedCode, setHighlightedCode] = React.useState('');
+  const [visibleCode, setVisibleCode] = React.useState("");
+  const [highlightedCode, setHighlightedCode] = React.useState("");
   const [isDone, setIsDone] = React.useState(false);
 
   React.useEffect(() => {
-    if (!visibleCode.length || !isInView) return;
+    if (!(visibleCode.length && isInView)) {
+      return;
+    }
 
     const loadHighlightedCode = async () => {
       try {
-        const { codeToHtml } = await import('shiki');
+        const { codeToHtml } = await import("shiki");
 
         const highlighted = await codeToHtml(visibleCode, {
           lang,
@@ -83,7 +85,9 @@ function CodeBlock({
       return;
     }
 
-    if (!code.length || !isInView) return;
+    if (!(code.length && isInView)) {
+      return;
+    }
 
     const characters = Array.from(code);
     let index = 0;
@@ -95,7 +99,7 @@ function CodeBlock({
       intervalId = setInterval(() => {
         if (index < characters.length) {
           setVisibleCode(() => {
-            const nextChar = characters.slice(0, index + 1).join('');
+            const nextChar = characters.slice(0, index + 1).join("");
             onWrite?.({
               index: index + 1,
               length: characters.length,
@@ -106,7 +110,7 @@ function CodeBlock({
           });
           localRef.current?.scrollTo({
             top: localRef.current?.scrollHeight,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
         } else {
           clearInterval(intervalId);
@@ -128,29 +132,33 @@ function CodeBlock({
   }, [code, duration, delay, isInView, writing, onDone, onWrite, localRef]);
 
   React.useEffect(() => {
-    if (!writing || !isInView) return;
+    if (!(writing && isInView)) {
+      return;
+    }
     const el =
       scrollContainerRef?.current ??
       (localRef.current?.parentElement as HTMLElement | null) ??
       (localRef.current as unknown as HTMLElement | null);
 
-    if (!el) return;
+    if (!el) {
+      return;
+    }
 
     requestAnimationFrame(() => {
       el.scrollTo({
         top: el.scrollHeight,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     });
   }, [highlightedCode, writing, isInView, scrollContainerRef, localRef]);
 
   return (
     <div
-      ref={localRef}
+      dangerouslySetInnerHTML={{ __html: highlightedCode }}
+      data-done={isDone}
       data-slot="code-block"
       data-writing={writing}
-      data-done={isDone}
-      dangerouslySetInnerHTML={{ __html: highlightedCode }}
+      ref={localRef}
       {...props}
     />
   );

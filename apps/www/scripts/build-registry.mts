@@ -1,9 +1,9 @@
-import { exec } from 'node:child_process';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
-import { rimraf } from 'rimraf';
+import { exec } from "node:child_process";
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import { rimraf } from "rimraf";
 
-const CONTENT_DOCS_PATH = path.join(process.cwd(), 'content', 'docs');
+const CONTENT_DOCS_PATH = path.join(process.cwd(), "content", "docs");
 
 /**
  * Recursively collect all component/demo names referenced in .mdx files
@@ -19,11 +19,11 @@ async function collectDocumentedNames(): Promise<Set<string>> {
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         await walk(fullPath);
-      } else if (entry.name.endsWith('.mdx')) {
-        const content = await fs.readFile(fullPath, 'utf-8');
+      } else if (entry.name.endsWith(".mdx")) {
+        const content = await fs.readFile(fullPath, "utf-8");
         // Match both <ComponentPreview name="..."> and <ComponentInstallation name="...">
         const matches = content.matchAll(
-          /<Component(?:Preview|Installation)\s+name=["']([^"']+)["']/g,
+          /<Component(?:Preview|Installation)\s+name=["']([^"']+)["']/g
         );
         for (const match of matches) {
           allowedNames.add(match[1]!);
@@ -38,9 +38,9 @@ async function collectDocumentedNames(): Promise<Set<string>> {
 
 const REGISTRY_JSON_PATH = path.join(
   process.cwd(),
-  'public',
-  'r',
-  'registry.json',
+  "public",
+  "r",
+  "registry.json"
 );
 
 /**
@@ -50,25 +50,26 @@ const REGISTRY_JSON_PATH = path.join(
  */
 function replaceRegistryPaths(inputStr: string): string {
   return inputStr.replace(/(['"])([\s\S]*?)\1/g, (match, quote, content) => {
-    if (content.startsWith('@/registry/')) {
-      const rest = content.slice('@/registry/'.length);
-      if (rest.startsWith('lib/')) {
+    if (content.startsWith("@/registry/")) {
+      const rest = content.slice("@/registry/".length);
+      if (rest.startsWith("lib/")) {
         return `${quote}@/${rest}${quote}`;
       }
-      if (rest.startsWith('hooks/')) {
+      if (rest.startsWith("hooks/")) {
         return `${quote}@/${rest}${quote}`;
       }
       // Short paths: registry/components/x → @/components/sora-ui/x (drop redundant "components/")
       // registry/demo/components/x → @/components/sora-ui/demo/x
       let suffix = rest;
-      if (suffix.startsWith('demo/components/')) {
-        suffix = `demo/${suffix.slice('demo/components/'.length)}`;
-      } else if (suffix.startsWith('components/')) {
-        suffix = suffix.slice('components/'.length);
+      if (suffix.startsWith("demo/components/")) {
+        suffix = `demo/${suffix.slice("demo/components/".length)}`;
+      } else if (suffix.startsWith("components/")) {
+        suffix = suffix.slice("components/".length);
       }
       return `${quote}@/components/sora-ui/${suffix}${quote}`;
-    } else if (content.startsWith('@workspace/ui/')) {
-      const rest = content.slice('@workspace/ui/'.length);
+    }
+    if (content.startsWith("@workspace/ui/")) {
+      const rest = content.slice("@workspace/ui/".length);
       return `${quote}@/${rest}${quote}`;
     }
     return match;
@@ -81,9 +82,9 @@ function replaceRegistryPaths(inputStr: string): string {
  * removes the $schema property, and merges them into the base registry.json items array.
  */
 async function buildRegistryFile() {
-  const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, 'utf-8');
+  const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, "utf-8");
   const registryData = JSON.parse(registryJsonContent);
-  const registryFolderPath = path.join(process.cwd(), 'registry');
+  const registryFolderPath = path.join(process.cwd(), "registry");
   const newItems = await getRegistryItemsFromFolder(registryFolderPath);
 
   // Collect all names referenced in docs
@@ -91,10 +92,13 @@ async function buildRegistryFile() {
 
   const filteredItems = newItems.filter((item) => {
     // Always exclude internal primitives and icons from the public registry
-    if (item.name.startsWith('primitives-') || item.name.startsWith('icons-'))
+    if (item.name.startsWith("primitives-") || item.name.startsWith("icons-")) {
       return false;
+    }
     // Demos are doc previews only — not installable via CLI
-    if (item.name.startsWith('demo-')) return false;
+    if (item.name.startsWith("demo-")) {
+      return false;
+    }
     // Only include items that are referenced in at least one .mdx doc page
     if (!documentedNames.has(item.name)) {
       console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
@@ -105,14 +109,14 @@ async function buildRegistryFile() {
 
   registryData.items = [
     {
-      name: 'index',
-      type: 'registry:style',
+      name: "index",
+      type: "registry:style",
       dependencies: [
-        'tw-animate-css',
-        'class-variance-authority',
-        'lucide-react',
+        "tw-animate-css",
+        "class-variance-authority",
+        "lucide-react",
       ],
-      registryDependencies: ['utils'],
+      registryDependencies: ["utils"],
       cssVars: {},
       files: [],
     },
@@ -136,12 +140,12 @@ async function getRegistryItemsFromFolder(dir: string) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       // Define the expected path of registry-item.json in the current directory
-      const registryItemPath = path.join(fullPath, 'registry-item.json');
+      const registryItemPath = path.join(fullPath, "registry-item.json");
       try {
         // Check if registry-item.json exists in this directory
         await fs.access(registryItemPath);
         // Read and parse the registry item file
-        const content = await fs.readFile(registryItemPath, 'utf-8');
+        const content = await fs.readFile(registryItemPath, "utf-8");
         const item = JSON.parse(content);
         // Remove the $schema property if it exists
         if (item.$schema) {
@@ -164,9 +168,9 @@ async function getRegistryItemsFromFolder(dir: string) {
  * This function reads the registry.json items and builds a dynamic index file.
  */
 async function buildRegistryIndex() {
-  const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, 'utf-8');
+  const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, "utf-8");
   const registryItems = JSON.parse(registryJsonContent);
-  const registryFolderPath = path.join(process.cwd(), 'registry');
+  const registryFolderPath = path.join(process.cwd(), "registry");
   const allItemsFromFolder =
     await getRegistryItemsFromFolder(registryFolderPath);
 
@@ -188,7 +192,7 @@ export const index: Record<string, any> = {`;
   for (const item of registryItems.items) {
     if (uniqueItemsMap.has(item.name)) {
       console.warn(
-        `Duplicate item name detected: ${item.name}. Overwriting previous entry.`,
+        `Duplicate item name detected: ${item.name}. Overwriting previous entry.`
       );
     }
     uniqueItemsMap.set(item.name, item);
@@ -201,54 +205,57 @@ export const index: Record<string, any> = {`;
   // Process only unique items
   for (const item of uniqueItemsMap.values()) {
     // Skip items without files
-    if (!item.files) continue;
+    if (!item.files) {
+      continue;
+    }
     // Skip items not referenced in any doc page (keep primitives/icons as internal deps)
     if (
-      !item.name.startsWith('primitives-') &&
-      !item.name.startsWith('icons-') &&
-      item.name !== 'index' &&
+      !(
+        item.name.startsWith("primitives-") || item.name.startsWith("icons-")
+      ) &&
+      item.name !== "index" &&
       !documentedNames.has(item.name)
     ) {
       continue;
     }
 
-    console.log('Processing item:', item.name);
+    console.log("Processing item:", item.name);
     // Define the component path from the first file if exists
-    const componentPath = item.files[0]?.path ? `@/${item.files[0].path}` : '';
+    const componentPath = item.files[0]?.path ? `@/${item.files[0].path}` : "";
 
     // Read files and add content preserving newlines
     const filesWithContent = await Promise.all(
       item.files.map(async (file: any) => {
-        const filePath = typeof file === 'string' ? file : file.path;
+        const filePath = typeof file === "string" ? file : file.path;
         const resolvedFilePath = path.resolve(filePath);
 
         try {
           // Read the file content (preserving newlines)
-          const content = await fs.readFile(resolvedFilePath, 'utf-8');
+          const content = await fs.readFile(resolvedFilePath, "utf-8");
           const processedContent = replaceRegistryPaths(content).trim(); // Trim leading/trailing spaces
 
           return {
             path: filePath,
-            type: file.type || 'unknown',
-            target: file.target || '',
+            type: file.type || "unknown",
+            target: file.target || "",
             content: processedContent, // Keep original formatting (newlines will be \n in JSON)
           };
         } catch (error) {
           console.error(`Error reading file ${filePath}:`, error);
           return {
             path: filePath,
-            type: file.type || 'unknown',
-            target: file.target || '',
-            content: '',
+            type: file.type || "unknown",
+            target: file.target || "",
+            content: "",
           };
         }
-      }),
+      })
     );
 
     index += `
   "${item.name}": {
     name: ${JSON.stringify(item.name)},
-    description: ${JSON.stringify(item.description ?? '')},
+    description: ${JSON.stringify(item.description ?? "")},
     type: "${item.type}",
     dependencies: ${JSON.stringify(item.dependencies)},
     devDependencies: ${JSON.stringify(item.devDependencies)},
@@ -272,7 +279,7 @@ export const index: Record<string, any> = {`;
       LazyComp.demoProps = ${JSON.stringify(item?.meta?.demoProps ?? {})};
       return LazyComp;
     })()`
-        : 'null'
+        : "null"
     },
     command: '@sora-ui/${item.name}',
   },`;
@@ -282,8 +289,8 @@ export const index: Record<string, any> = {`;
   }`;
 
   // Remove the previous registry index file and write the new one.
-  rimraf.sync(path.join(process.cwd(), '__registry__/index.tsx'));
-  await fs.writeFile(path.join(process.cwd(), '__registry__/index.tsx'), index);
+  rimraf.sync(path.join(process.cwd(), "__registry__/index.tsx"));
+  await fs.writeFile(path.join(process.cwd(), "__registry__/index.tsx"), index);
 }
 
 /**
@@ -293,25 +300,27 @@ export const index: Record<string, any> = {`;
  */
 async function buildRegistry() {
   // 1. Ensure 'public/r' exists
-  await fs.mkdir('public/r', { recursive: true });
+  await fs.mkdir("public/r", { recursive: true });
 
   // 2. Remove everything except registry.json
-  const entries = await fs.readdir('public/r');
+  const entries = await fs.readdir("public/r");
   await Promise.all(
     entries.map(async (entry) => {
-      if (entry === 'registry.json') return;
-      const entryPath = path.join('public/r', entry);
+      if (entry === "registry.json") {
+        return;
+      }
+      const entryPath = path.join("public/r", entry);
       await fs.rm(entryPath, { recursive: true, force: true });
-    }),
+    })
   );
 
   // 2. Build the registry using the shadcn build command
   await new Promise((resolve, reject) => {
     const process = exec(
-      `bunx shadcn@latest build public/r/registry.json --output ./public/r/`,
+      "bunx shadcn@latest build public/r/registry.json --output ./public/r/"
     );
 
-    process.on('exit', (code) => {
+    process.on("exit", (code) => {
       if (code === 0) {
         resolve(undefined);
       } else {
@@ -321,13 +330,13 @@ async function buildRegistry() {
   });
 
   // 3. Replace `@/registry/...` path strings in published JSON (see replaceRegistryPaths)
-  const files = await fs.readdir(path.join(process.cwd(), 'public/r'));
+  const files = await fs.readdir(path.join(process.cwd(), "public/r"));
 
   await Promise.all(
     files.map(async (file) => {
       const content = await fs.readFile(
-        path.join(process.cwd(), 'public/r', file),
-        'utf-8',
+        path.join(process.cwd(), "public/r", file),
+        "utf-8"
       );
 
       const registryItem = JSON.parse(content);
@@ -335,8 +344,8 @@ async function buildRegistry() {
       // Replace `@/registry` in file contents
       registryItem.files = registryItem.files?.map((file: any) => {
         if (
-          file.content?.includes('@/registry') ||
-          file.content?.includes('@workspace/ui/')
+          file.content?.includes("@/registry") ||
+          file.content?.includes("@workspace/ui/")
         ) {
           file.content = replaceRegistryPaths(file.content);
         }
@@ -345,10 +354,10 @@ async function buildRegistry() {
 
       // Write the updated file back to disk
       await fs.writeFile(
-        path.join(process.cwd(), 'public/r', file),
-        JSON.stringify(registryItem, null, 2),
+        path.join(process.cwd(), "public/r", file),
+        JSON.stringify(registryItem, null, 2)
       );
-    }),
+    })
   );
 }
 
@@ -357,11 +366,11 @@ async function buildRegistry() {
 // 2. Build the registry index.
 // 3. Build the registry.
 try {
-  console.log('🔨 Building merged registry file...');
+  console.log("🔨 Building merged registry file...");
   await buildRegistryFile();
-  console.log('🗂️ Building registry/__index__.tsx...');
+  console.log("🗂️ Building registry/__index__.tsx...");
   await buildRegistryIndex();
-  console.log('🏗️ Building registry...');
+  console.log("🏗️ Building registry...");
   await buildRegistry();
 } catch (error) {
   console.error(error);

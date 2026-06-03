@@ -1,109 +1,109 @@
-import { RootProvider } from 'fumadocs-ui/provider';
-import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { Outfit } from 'next/font/google';
-import type { ReactNode } from 'react';
-import type { Metadata } from 'next';
+import { RootProvider } from "fumadocs-ui/provider";
+import type { Metadata } from "next";
+import { Outfit } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import type { ReactNode } from "react";
 
-import './globals.css';
-import { jsonLd } from '@/lib/json-ld';
-import { cn } from '@workspace/ui/lib/utils';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { cn } from "@workspace/ui/lib/utils";
+import { jsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ui.soralabs.io.vn'),
+  metadataBase: new URL("https://ui.soralabs.io.vn"),
   title: {
-    template: '%s - Sora UI',
-    default: 'Sora UI - Animated React Components',
+    template: "%s - Sora UI",
+    default: "Sora UI - Animated React Components",
   },
   description:
-    'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
+    "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
   keywords: [
-    'Sora UI',
-    'React',
-    'TypeScript',
-    'Tailwind CSS',
-    'Framer Motion',
-    'Open-source components',
-    'Animated UI components',
-    'UI library',
+    "Sora UI",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Framer Motion",
+    "Open-source components",
+    "Animated UI components",
+    "UI library",
   ],
   icons: [
     {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/favicon-32x32.png',
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      url: "/favicon-32x32.png",
     },
     {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      url: '/favicon-16x16.png',
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      url: "/favicon-16x16.png",
     },
     {
-      rel: 'apple-touch-icon',
-      sizes: '180x180',
-      url: '/apple-touch-icon.png',
+      rel: "apple-touch-icon",
+      sizes: "180x180",
+      url: "/apple-touch-icon.png",
     },
   ],
   authors: [
     {
-      name: 'Axyl',
-      url: 'https://github.com/axyl1410',
+      name: "Axyl",
+      url: "https://github.com/axyl1410",
     },
   ],
-  publisher: 'Sora UI',
+  publisher: "Sora UI",
   openGraph: {
-    title: 'Sora UI',
+    title: "Sora UI",
     description:
-      'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
-    url: 'https://ui.soralabs.io.vn',
-    siteName: 'Sora UI',
+      "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
+    url: "https://ui.soralabs.io.vn",
+    siteName: "Sora UI",
     images: [
       {
-        url: 'https://ui.soralabs.io.vn/og-image.png',
+        url: "https://ui.soralabs.io.vn/og-image.png",
         width: 1200,
         height: 630,
-        alt: 'Sora UI',
+        alt: "Sora UI",
       },
     ],
-    locale: 'en_US',
-    type: 'website',
+    locale: "en_US",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@animate_ui',
-    title: 'Sora UI',
+    card: "summary_large_image",
+    site: "@animate_ui",
+    title: "Sora UI",
     description:
-      'Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.',
+      "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
     images: [
       {
-        url: 'https://ui.soralabs.io.vn/og-image.png',
+        url: "https://ui.soralabs.io.vn/og-image.png",
         width: 1200,
         height: 630,
-        alt: 'Sora UI',
+        alt: "Sora UI",
       },
     ],
   },
 };
 
-const outfit = Outfit({ subsets: ['latin'] });
+const outfit = Outfit({ subsets: ["latin"] });
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={outfit.className} suppressHydrationWarning>
+    <html className={outfit.className} lang="en" suppressHydrationWarning>
       <head>
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          type="application/ld+json"
         />
-        <link rel="canonical" href="https://ui.soralabs.io.vn" />
+        <link href="https://ui.soralabs.io.vn" rel="canonical" />
       </head>
 
       <body
         className={cn(
-          'flex min-h-screen flex-col',
+          "flex min-h-screen flex-col"
           // Allows to make more attractive video recordings
           // 'screenshot-mode',
         )}

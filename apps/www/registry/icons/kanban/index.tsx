@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type KanbanProps = IconProps<keyof typeof animations>;
 
@@ -20,7 +19,7 @@ const animations = {
       },
       animate: {
         y2: [19, 11, 16, 19],
-        transition: { duration: 0.6, ease: 'linear' },
+        transition: { duration: 0.6, ease: "linear" },
       },
     },
     line2: {
@@ -29,7 +28,7 @@ const animations = {
       },
       animate: {
         y2: [11, 16, 19, 11],
-        transition: { duration: 0.6, ease: 'linear' },
+        transition: { duration: 0.6, ease: "linear" },
       },
     },
     line3: {
@@ -38,7 +37,7 @@ const animations = {
       },
       animate: {
         y2: [16, 19, 11, 16],
-        transition: { duration: 0.6, ease: 'linear' },
+        transition: { duration: 0.6, ease: "linear" },
       },
     },
   } satisfies Record<string, Variants>,
@@ -50,43 +49,43 @@ function IconComponent({ size, ...props }: KanbanProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.line
-        x1={18}
-        y1={5}
-        x2={18}
-        y2={19}
+        animate={controls}
+        initial="initial"
         variants={variants.line1}
-        initial="initial"
-        animate={controls}
+        x1={18}
+        x2={18}
+        y1={5}
+        y2={19}
       />
       <motion.line
-        x1={12}
-        y1={5}
-        x2={12}
-        y2={11}
+        animate={controls}
+        initial="initial"
         variants={variants.line2}
-        initial="initial"
-        animate={controls}
+        x1={12}
+        x2={12}
+        y1={5}
+        y2={11}
       />
       <motion.line
-        x1={6}
-        y1={5}
-        x2={6}
-        y2={16}
-        variants={variants.line3}
-        initial="initial"
         animate={controls}
+        initial="initial"
+        variants={variants.line3}
+        x1={6}
+        x2={6}
+        y1={5}
+        y2={16}
       />
     </motion.svg>
   );

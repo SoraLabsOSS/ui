@@ -1,20 +1,20 @@
-@import 'tailwindcss';
-@source '../../../apps/**/*.{ts,tsx}';
-@source '../../../components/**/*.{ts,tsx}';
-@source '../../../packages/**/*.{ts,tsx}';
-@source './**/*.{ts,tsx,mdx}';
-@source '../**/*.{ts,tsx,mdx}';
-@source './(playground)/**/*.{ts,tsx,mdx}';
+@import "tailwindcss";
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../../../components/**/*.{ts,tsx}";
+@source "../../../packages/**/*.{ts,tsx}";
+@source "./**/*.{ts,tsx,mdx}";
+@source "../**/*.{ts,tsx,mdx}";
+@source "./(playground)/**/*.{ts,tsx,mdx}";
 
-@import 'tw-animate-css';
-@plugin 'tailwind-scrollbar';
+@import "tw-animate-css";
+@plugin "tailwind-scrollbar";
 
 @custom-variant dark (&:is(.dark *));
 
-@import 'fumadocs-ui/css/black.css';
-@import 'fumadocs-ui/css/preset.css';
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
 
-@source '../node_modules/fumadocs-ui/dist/**/*.js';
+@source "../node_modules/fumadocs-ui/dist/**/*.js";
 
 :root {
   --background: oklch(1 0 0);
@@ -249,9 +249,9 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-    scrollbar-width: thin;
     scrollbar-color: oklch(0.5 0 0 / 35%) transparent;
+    scrollbar-width: thin;
+    @apply border-border outline-ring/50;
   }
 
   /* Custom Webkit scrollbar for premium/sleek look */
@@ -266,9 +266,9 @@
 
   ::-webkit-scrollbar-thumb {
     background-color: oklch(0.5 0 0 / 30%);
-    border-radius: 9999px;
-    border: 2px solid transparent;
     background-clip: padding-box;
+    border: 2px solid transparent;
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -285,8 +285,8 @@
   }
 
   body {
-    @apply bg-background text-foreground;
     overscroll-behavior: none;
+    @apply bg-background text-foreground;
   }
 
   #nd-sidebar {
@@ -295,20 +295,20 @@
 
   /* Mobile drawer: raise overlay/panel above page content (no solid scrim — Fumadocs uses backdrop-blur only) */
   @media (max-width: 767px) {
-    body:has(#nd-sidebar-mobile[data-state='open'])
+    body:has(#nd-sidebar-mobile[data-state="open"])
       #nd-docs-layout
-      > div:has(> .fixed.inset-0[data-state='open']) {
+      > div:has(> .fixed.inset-0[data-state="open"]) {
       z-index: 50;
     }
 
-    #nd-sidebar-mobile[data-state='open'] {
+    #nd-sidebar-mobile[data-state="open"] {
       z-index: 51;
     }
   }
 
-  #nd-sidebar div div div a[href^='/docs/components'] > svg[data-icon='true'],
-  #nd-sidebar div div div a[href^='/docs/texts'] > svg[data-icon='true'],
-  #nd-sidebar div div div a + div[data-state='open'] {
+  #nd-sidebar div div div a[href^="/docs/components"] > svg[data-icon="true"],
+  #nd-sidebar div div div a[href^="/docs/texts"] > svg[data-icon="true"],
+  #nd-sidebar div div div a + div[data-state="open"] {
     @apply !hidden;
   }
 
@@ -323,20 +323,22 @@
 
   /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
   #nd-page {
-    @apply mx-auto w-full items-start !pt-0;
     max-width: min(
       100%,
       calc(var(--fd-layout-width) - var(--fd-sidebar-width))
     ) !important;
+    @apply mx-auto w-full items-start !pt-0;
   }
 
   /* Fumadocs default: sticky pb-2 pt-12. items-start on #nd-page so flex stretch does not break sticky. */
   #nd-toc {
-    @apply sticky self-start pt-8 pb-2 max-xl:hidden;
     top: var(--fd-nav-height) !important;
     height: calc(
-      100dvh - var(--fd-banner-height) - var(--fd-nav-height)
+      100dvh -
+      var(--fd-banner-height) -
+      var(--fd-nav-height)
     ) !important;
+    @apply sticky self-start pt-8 pb-2 max-xl:hidden;
   }
 
   #nd-toc div div {
@@ -346,7 +348,7 @@
   /* Default TOC thumb only: fumadocs uses role="none" + absolute + w-px.
      Clerk TOC thumb lives inside an SVG mask and must not be forced narrow
      or shifted (-ml-px) or tracking disappears on diagonal path segments. */
-  #nd-toc div[role='none'].absolute {
+  #nd-toc div[role="none"].absolute {
     @apply -ml-px !w-[3px] !rounded-full;
   }
 

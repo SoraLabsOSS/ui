@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Accordion as AccordionPrimitive } from 'radix-ui';
-import { motion, AnimatePresence, type HTMLMotionProps } from 'motion/react';
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import { Accordion as AccordionPrimitive } from "radix-ui";
+import * as React from "react";
 
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 type AccordionContextType = {
   value: string | string[] | undefined;
@@ -19,10 +19,10 @@ type AccordionItemContextType = {
 };
 
 const [AccordionProvider, useAccordion] =
-  getStrictContext<AccordionContextType>('AccordionContext');
+  getStrictContext<AccordionContextType>("AccordionContext");
 
 const [AccordionItemProvider, useAccordionItem] =
-  getStrictContext<AccordionItemContextType>('AccordionItemContext');
+  getStrictContext<AccordionItemContextType>("AccordionItemContext");
 
 type AccordionProps = React.ComponentProps<typeof AccordionPrimitive.Root>;
 
@@ -31,7 +31,7 @@ function Accordion(props: AccordionProps) {
     value: props?.value,
     defaultValue: props?.defaultValue,
     onChange: props?.onValueChange as (
-      value: string | string[] | undefined,
+      value: string | string[] | undefined
     ) => void,
   });
 
@@ -51,7 +51,7 @@ type AccordionItemProps = React.ComponentProps<typeof AccordionPrimitive.Item>;
 function AccordionItem(props: AccordionItemProps) {
   const { value } = useAccordion();
   const [isOpen, setIsOpen] = React.useState(
-    value?.includes(props?.value) ?? false,
+    value?.includes(props?.value) ?? false
   );
 
   React.useEffect(() => {
@@ -85,15 +85,15 @@ function AccordionTrigger(props: AccordionTriggerProps) {
 
 type AccordionContentProps = Omit<
   React.ComponentProps<typeof AccordionPrimitive.Content>,
-  'asChild' | 'forceMount'
+  "asChild" | "forceMount"
 > &
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     keepRendered?: boolean;
   };
 
 function AccordionContent({
   keepRendered = false,
-  transition = { duration: 0.35, ease: 'easeInOut' },
+  transition = { duration: 0.35, ease: "easeInOut" },
   ...props
 }: AccordionContentProps) {
   const { isOpen } = useAccordionItem();
@@ -103,22 +103,22 @@ function AccordionContent({
       {keepRendered ? (
         <AccordionPrimitive.Content asChild forceMount>
           <motion.div
-            key="accordion-content"
-            data-slot="accordion-content"
-            initial={{ height: 0, opacity: 0, '--mask-stop': '0%', y: 20 }}
             animate={
               isOpen
-                ? { height: 'auto', opacity: 1, '--mask-stop': '100%', y: 0 }
-                : { height: 0, opacity: 0, '--mask-stop': '0%', y: 20 }
+                ? { height: "auto", opacity: 1, "--mask-stop": "100%", y: 0 }
+                : { height: 0, opacity: 0, "--mask-stop": "0%", y: 20 }
             }
-            transition={transition}
+            data-slot="accordion-content"
+            initial={{ height: 0, opacity: 0, "--mask-stop": "0%", y: 20 }}
+            key="accordion-content"
             style={{
               maskImage:
-                'linear-gradient(black var(--mask-stop), transparent var(--mask-stop))',
+                "linear-gradient(black var(--mask-stop), transparent var(--mask-stop))",
               WebkitMaskImage:
-                'linear-gradient(black var(--mask-stop), transparent var(--mask-stop))',
-              overflow: 'hidden',
+                "linear-gradient(black var(--mask-stop), transparent var(--mask-stop))",
+              overflow: "hidden",
             }}
+            transition={transition}
             {...props}
           />
         </AccordionPrimitive.Content>
@@ -126,24 +126,24 @@ function AccordionContent({
         isOpen && (
           <AccordionPrimitive.Content asChild forceMount>
             <motion.div
-              key="accordion-content"
-              data-slot="accordion-content"
-              initial={{ height: 0, opacity: 0, '--mask-stop': '0%', y: 20 }}
               animate={{
-                height: 'auto',
+                height: "auto",
                 opacity: 1,
-                '--mask-stop': '100%',
+                "--mask-stop": "100%",
                 y: 0,
               }}
-              exit={{ height: 0, opacity: 0, '--mask-stop': '0%', y: 20 }}
-              transition={transition}
+              data-slot="accordion-content"
+              exit={{ height: 0, opacity: 0, "--mask-stop": "0%", y: 20 }}
+              initial={{ height: 0, opacity: 0, "--mask-stop": "0%", y: 20 }}
+              key="accordion-content"
               style={{
                 maskImage:
-                  'linear-gradient(black var(--mask-stop), transparent var(--mask-stop))',
+                  "linear-gradient(black var(--mask-stop), transparent var(--mask-stop))",
                 WebkitMaskImage:
-                  'linear-gradient(black var(--mask-stop), transparent var(--mask-stop))',
-                overflow: 'hidden',
+                  "linear-gradient(black var(--mask-stop), transparent var(--mask-stop))",
+                overflow: "hidden",
               }}
+              transition={transition}
               {...props}
             />
           </AccordionPrimitive.Content>
@@ -155,17 +155,17 @@ function AccordionContent({
 
 export {
   Accordion,
-  AccordionItem,
-  AccordionHeader,
-  AccordionTrigger,
   AccordionContent,
-  useAccordion,
-  useAccordionItem,
-  type AccordionProps,
-  type AccordionItemProps,
-  type AccordionHeaderProps,
-  type AccordionTriggerProps,
   type AccordionContentProps,
   type AccordionContextType,
+  AccordionHeader,
+  type AccordionHeaderProps,
+  AccordionItem,
   type AccordionItemContextType,
+  type AccordionItemProps,
+  type AccordionProps,
+  AccordionTrigger,
+  type AccordionTriggerProps,
+  useAccordion,
+  useAccordionItem,
 };

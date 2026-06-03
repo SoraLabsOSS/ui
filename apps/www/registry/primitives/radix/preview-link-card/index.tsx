@@ -1,20 +1,19 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-
+import * as React from "react";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 import {
-  HoverCard as HoverCardPrimitive,
-  HoverCardTrigger as HoverCardTriggerPrimitive,
-  HoverCardContent as HoverCardContentPrimitive,
-  HoverCardPortal as HoverCardPortalPrimitive,
   HoverCardArrow as HoverCardArrowPrimitive,
-  type HoverCardProps as HoverCardPropsPrimitive,
-  type HoverCardTriggerProps as HoverCardTriggerPropsPrimitive,
-  type HoverCardContentProps as HoverCardContentPropsPrimitive,
-  type HoverCardPortalProps as HoverCardPortalPropsPrimitive,
   type HoverCardArrowProps as HoverCardArrowPropsPrimitive,
-} from '@/registry/primitives/radix/hover-card';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
+  HoverCardContent as HoverCardContentPrimitive,
+  type HoverCardContentProps as HoverCardContentPropsPrimitive,
+  HoverCardPortal as HoverCardPortalPrimitive,
+  type HoverCardPortalProps as HoverCardPortalPropsPrimitive,
+  HoverCard as HoverCardPrimitive,
+  type HoverCardProps as HoverCardPropsPrimitive,
+  HoverCardTrigger as HoverCardTriggerPrimitive,
+  type HoverCardTriggerProps as HoverCardTriggerPropsPrimitive,
+} from "@/registry/primitives/radix/hover-card";
 
 type PreviewLinkCardContextType = {
   href: string;
@@ -24,7 +23,7 @@ type PreviewLinkCardContextType = {
 };
 
 const [PreviewLinkCardProvider, usePreviewLinkCard] =
-  getStrictContext<PreviewLinkCardContextType>('PreviewLinkCardContext');
+  getStrictContext<PreviewLinkCardContextType>("PreviewLinkCardContext");
 
 type PreviewLinkCardProps = HoverCardPropsPrimitive & {
   href: string;
@@ -32,7 +31,7 @@ type PreviewLinkCardProps = HoverCardPropsPrimitive & {
   width?: number;
   height?: number;
   deviceScaleFactor?: number;
-  colorScheme?: 'light' | 'dark';
+  colorScheme?: "light" | "dark";
 };
 
 function PreviewLinkCard({
@@ -41,7 +40,7 @@ function PreviewLinkCard({
   width = 240,
   height = 135,
   deviceScaleFactor = 1,
-  colorScheme = 'light',
+  colorScheme = "light",
   ...props
 }: PreviewLinkCardProps) {
   const imageSrc =
@@ -50,18 +49,18 @@ function PreviewLinkCard({
       url: href,
       screenshot: true,
       meta: false,
-      embed: 'screenshot.url',
+      embed: "screenshot.url",
       colorScheme,
-      'viewport.isMobile': true,
-      'viewport.deviceScaleFactor': deviceScaleFactor,
-      'viewport.width': width * 3,
-      'viewport.height': height * 3,
+      "viewport.isMobile": true,
+      "viewport.deviceScaleFactor": deviceScaleFactor,
+      "viewport.width": width * 3,
+      "viewport.height": height * 3,
     })}`;
 
   React.useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
     link.href = imageSrc;
     document.head.appendChild(link);
     return () => {
@@ -77,7 +76,7 @@ function PreviewLinkCard({
 }
 
 type PreviewLinkCardTriggerProps = HoverCardTriggerPropsPrimitive &
-  React.ComponentProps<'a'>;
+  React.ComponentProps<"a">;
 
 function PreviewLinkCardTrigger({
   asChild,
@@ -89,8 +88,8 @@ function PreviewLinkCardTrigger({
 
   return (
     <HoverCardTriggerPrimitive
-      data-slot="preview-link-card-trigger"
       asChild
+      data-slot="preview-link-card-trigger"
       {...props}
     >
       {asChild ? children : <a href={hrefProp ?? href}>{children}</a>}
@@ -107,23 +106,25 @@ function PreviewLinkCardPortal(props: PreviewLinkCardPortalProps) {
 }
 
 function buildQueryString(
-  params: Record<string, string | number | boolean | undefined | null>,
+  params: Record<string, string | number | boolean | undefined | null>
 ) {
   const sp = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) {
-    if (v === undefined || v === null) continue;
+    if (v === undefined || v === null) {
+      continue;
+    }
     sp.append(k, String(v));
   }
   return sp.toString();
 }
 
 type PreviewLinkCardContentProps = HoverCardContentPropsPrimitive &
-  React.ComponentProps<'a'>;
+  React.ComponentProps<"a">;
 
 function PreviewLinkCardContent({
-  side = 'top',
+  side = "top",
   sideOffset = 10,
-  align = 'center',
+  align = "center",
   alignOffset,
   avoidCollisions,
   collisionBoundary,
@@ -131,7 +132,7 @@ function PreviewLinkCardContent({
   arrowPadding,
   sticky,
   hideWhenDetached,
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   asChild,
   children,
   href: hrefProp,
@@ -142,30 +143,30 @@ function PreviewLinkCardContent({
 
   return (
     <HoverCardContentPrimitive
-      data-slot="preview-link-card-content"
-      side={side}
-      sideOffset={sideOffset}
       align={align}
       alignOffset={alignOffset}
+      arrowPadding={arrowPadding}
+      asChild={asChild}
       avoidCollisions={avoidCollisions}
       collisionBoundary={collisionBoundary}
       collisionPadding={collisionPadding}
-      arrowPadding={arrowPadding}
-      sticky={sticky}
+      data-slot="preview-link-card-content"
       hideWhenDetached={hideWhenDetached}
+      side={side}
+      sideOffset={sideOffset}
+      sticky={sticky}
       transition={transition}
-      asChild={asChild}
       {...(asChild ? { style, ...props } : {})}
     >
       {asChild ? (
         children
       ) : (
         <a
+          href={hrefProp ?? href}
           style={{
-            display: 'block',
+            display: "block",
             ...style,
           }}
-          href={hrefProp ?? href}
           {...props}
         >
           {children}
@@ -176,17 +177,17 @@ function PreviewLinkCardContent({
 }
 
 type PreviewLinkCardImageProps = Omit<
-  React.ComponentProps<'img'>,
-  'src' | 'width' | 'height'
+  React.ComponentProps<"img">,
+  "src" | "width" | "height"
 >;
 
 function PreviewLinkCardImage({
-  alt = 'preview image',
+  alt = "preview image",
   ...props
 }: PreviewLinkCardImageProps) {
   const { src, width, height } = usePreviewLinkCard();
 
-  return <img src={src} width={width} height={height} alt={alt} {...props} />;
+  return <img alt={alt} height={height} src={src} width={width} {...props} />;
 }
 
 type PreviewLinkCardArrowProps = HoverCardArrowPropsPrimitive;
@@ -199,17 +200,17 @@ function PreviewLinkCardArrow(props: PreviewLinkCardArrowProps) {
 
 export {
   PreviewLinkCard,
-  PreviewLinkCardTrigger,
-  PreviewLinkCardPortal,
-  PreviewLinkCardContent,
-  PreviewLinkCardImage,
   PreviewLinkCardArrow,
-  usePreviewLinkCard,
-  type PreviewLinkCardProps,
-  type PreviewLinkCardTriggerProps,
-  type PreviewLinkCardPortalProps,
-  type PreviewLinkCardContentProps,
-  type PreviewLinkCardImageProps,
   type PreviewLinkCardArrowProps,
+  PreviewLinkCardContent,
+  type PreviewLinkCardContentProps,
   type PreviewLinkCardContextType,
+  PreviewLinkCardImage,
+  type PreviewLinkCardImageProps,
+  PreviewLinkCardPortal,
+  type PreviewLinkCardPortalProps,
+  type PreviewLinkCardProps,
+  PreviewLinkCardTrigger,
+  type PreviewLinkCardTriggerProps,
+  usePreviewLinkCard,
 };

@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type SparklesProps = IconProps<keyof typeof animations>;
 
@@ -20,7 +19,7 @@ const animations = {
       },
       animate: {
         scale: [1, 0.9, 1.1, 1],
-        transition: { duration: 0.6, ease: 'easeInOut' },
+        transition: { duration: 0.6, ease: "easeInOut" },
       },
     },
     path: {},
@@ -32,17 +31,17 @@ const animations = {
         transition: {
           opacity: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
             delay: 0.15,
           },
           scale: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
             delay: 0.15,
           },
@@ -57,16 +56,16 @@ const animations = {
         transition: {
           opacity: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
           },
           scale: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
           },
         },
@@ -80,12 +79,12 @@ const animations = {
       },
       animate: {
         scale: [1, 0.9, 1.1, 1],
-        transition: { duration: 0.6, ease: 'easeInOut' },
+        transition: { duration: 0.6, ease: "easeInOut" },
       },
     },
     path: {
       initial: {
-        fill: 'currentColor',
+        fill: "currentColor",
         fillOpacity: 0,
       },
       animate: {
@@ -101,17 +100,17 @@ const animations = {
         transition: {
           opacity: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
             delay: 0.15,
           },
           scale: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
             delay: 0.15,
           },
@@ -120,7 +119,7 @@ const animations = {
     },
     circle: {
       initial: {
-        fill: 'currentColor',
+        fill: "currentColor",
         fillOpacity: 0,
         opacity: 1,
         scale: 1,
@@ -133,16 +132,16 @@ const animations = {
           fillOpacity: { delay: 0.2 },
           opacity: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
           },
           scale: {
             duration: 0.2,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: 1,
-            repeatType: 'reverse',
+            repeatType: "reverse",
             repeatDelay: 0.2,
           },
         },
@@ -157,38 +156,38 @@ function IconComponent({ size, ...props }: SparklesProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
-          d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
-          variants={variants.path}
-          initial="initial"
           animate={controls}
+          d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+          initial="initial"
+          variants={variants.path}
         />
       </motion.g>
       <motion.path
-        d="M20 2v4 M22 4h-4"
-        variants={variants.plus}
-        initial="initial"
         animate={controls}
+        d="M20 2v4 M22 4h-4"
+        initial="initial"
+        variants={variants.plus}
       />
       <motion.circle
+        animate={controls}
         cx="4"
         cy="20"
+        initial="initial"
         r="2"
         variants={variants.circle}
-        initial="initial"
-        animate={controls}
       />
     </motion.svg>
   );

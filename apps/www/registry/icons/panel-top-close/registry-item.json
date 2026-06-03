@@ -14,8 +14,14 @@
     }
   ],
   "meta": {
-    "keywords": ["sidebar", "panel", "top", "menu", "drawer", "navigation", "close"]
+    "keywords": [
+      "sidebar",
+      "panel",
+      "top",
+      "menu",
+      "drawer",
+      "navigation",
+      "close"
+    ]
   }
 }
-
-

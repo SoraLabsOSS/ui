@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type ChartBarProps = IconProps<keyof typeof animations>;
 
@@ -25,7 +24,7 @@ const animations = {
           opacity: [0, 1],
           pathLength: [0, 1],
           transition: {
-            ease: 'easeInOut',
+            ease: "easeInOut",
             duration: 0.4,
             delay: (i - 1) * 0.3,
           },
@@ -35,7 +34,7 @@ const animations = {
 
     return animation as Record<string, Variants>;
   })() satisfies Record<string, Variants>,
-  'default-loop': (() => {
+  "default-loop": (() => {
     const n = 3;
     const delayStep = 0.3;
     const segDuration = 0.4;
@@ -44,14 +43,14 @@ const animations = {
     const endOut = (i: number) => startOut(i) + segDuration;
 
     const outTotal = Math.max(
-      ...Array.from({ length: n }, (_, k) => endOut(k + 1)),
+      ...Array.from({ length: n }, (_, k) => endOut(k + 1))
     );
 
     const startIn = (i: number) => outTotal + (i - 1) * delayStep;
     const endIn = (i: number) => startIn(i) + segDuration;
 
     const totalDuration = Math.max(
-      ...Array.from({ length: n }, (_, k) => endIn(k + 1)),
+      ...Array.from({ length: n }, (_, k) => endIn(k + 1))
     );
 
     const animation: Record<string, Variants> = {};
@@ -68,7 +67,7 @@ const animations = {
           pathLength: [1, 1, 0, 0, 1],
           opacity: [1, 1, 0, 0, 1],
           transition: {
-            ease: 'easeInOut',
+            ease: "easeInOut",
             duration: totalDuration,
             times: [0, tSO, tEO, tSI, tEI],
           },
@@ -80,47 +79,47 @@ const animations = {
   })() satisfies Record<string, Variants>,
   increasing: {
     path1: {
-      initial: { d: 'M7 6h3' },
+      initial: { d: "M7 6h3" },
       animate: {
-        d: 'M7 6h3',
-        transition: { duration: 0.5, ease: 'easeInOut' },
+        d: "M7 6h3",
+        transition: { duration: 0.5, ease: "easeInOut" },
       },
     },
     path2: {
-      initial: { d: 'M7 11h12' },
+      initial: { d: "M7 11h12" },
       animate: {
-        d: 'M7 11h8',
-        transition: { duration: 0.5, ease: 'easeInOut' },
+        d: "M7 11h8",
+        transition: { duration: 0.5, ease: "easeInOut" },
       },
     },
     path3: {
-      initial: { d: 'M7 16h8' },
+      initial: { d: "M7 16h8" },
       animate: {
-        d: 'M7 16h12',
-        transition: { duration: 0.5, ease: 'easeInOut' },
+        d: "M7 16h12",
+        transition: { duration: 0.5, ease: "easeInOut" },
       },
     },
   } satisfies Record<string, Variants>,
   decreasing: {
     path1: {
-      initial: { d: 'M7 6h3' },
+      initial: { d: "M7 6h3" },
       animate: {
-        d: 'M7 6h12',
-        transition: { duration: 0.5, ease: 'easeInOut' },
+        d: "M7 6h12",
+        transition: { duration: 0.5, ease: "easeInOut" },
       },
     },
     path2: {
-      initial: { d: 'M7 11h12' },
+      initial: { d: "M7 11h12" },
       animate: {
-        d: 'M7 11h8',
-        transition: { duration: 0.5, ease: 'easeInOut' },
+        d: "M7 11h8",
+        transition: { duration: 0.5, ease: "easeInOut" },
       },
     },
     path3: {
-      initial: { d: 'M7 16h8' },
+      initial: { d: "M7 16h8" },
       animate: {
-        d: 'M7 16h3',
-        transition: { duration: 0.5, ease: 'easeInOut' },
+        d: "M7 16h3",
+        transition: { duration: 0.5, ease: "easeInOut" },
       },
     },
   } satisfies Record<string, Variants>,
@@ -132,40 +131,40 @@ function IconComponent({ size, ...props }: ChartBarProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
+        animate={controls}
         d="M7 6h3"
+        initial="initial"
         variants={variants.path1}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M7 11h12"
+        initial="initial"
         variants={variants.path2}
-        initial="initial"
-        animate={controls}
       />
       <motion.path
+        animate={controls}
         d="M7 16h8"
-        variants={variants.path3}
         initial="initial"
-        animate={controls}
+        variants={variants.path3}
       />
       <motion.path
-        d="M3 3v16a2 2 0 0 0 2 2h16"
-        variants={variants.path4}
-        initial="initial"
         animate={controls}
+        d="M3 3v16a2 2 0 0 0 2 2h16"
+        initial="initial"
+        variants={variants.path4}
       />
     </motion.svg>
   );

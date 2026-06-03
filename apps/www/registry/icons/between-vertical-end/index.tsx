@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type BetweenVerticalEndProps = IconProps<keyof typeof animations>;
 
@@ -17,54 +16,54 @@ const animations = {
     leftRect: {
       initial: {
         x: 0,
-        transition: { ease: 'easeInOut', duration: 0.3 },
+        transition: { ease: "easeInOut", duration: 0.3 },
       },
       animate: {
         x: -2,
-        transition: { ease: 'easeInOut', duration: 0.3 },
+        transition: { ease: "easeInOut", duration: 0.3 },
       },
     },
     rightRect: {
       initial: {
         x: 0,
-        transition: { ease: 'easeInOut', duration: 0.3 },
+        transition: { ease: "easeInOut", duration: 0.3 },
       },
       animate: {
         x: 2,
-        transition: { ease: 'easeInOut', duration: 0.3 },
+        transition: { ease: "easeInOut", duration: 0.3 },
       },
     },
     arrow: {
       initial: {
         y: 0,
-        transition: { ease: 'easeInOut', duration: 0.3 },
+        transition: { ease: "easeInOut", duration: 0.3 },
       },
       animate: {
         y: -3,
-        transition: { ease: 'easeInOut', duration: 0.3 },
+        transition: { ease: "easeInOut", duration: 0.3 },
       },
     },
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     leftRect: {
       initial: { x: 0 },
       animate: {
         x: [0, -2, 0],
-        transition: { ease: 'easeInOut', duration: 0.6 },
+        transition: { ease: "easeInOut", duration: 0.6 },
       },
     },
     rightRect: {
       initial: { x: 0 },
       animate: {
         x: [0, 2, 0],
-        transition: { ease: 'easeInOut', duration: 0.6 },
+        transition: { ease: "easeInOut", duration: 0.6 },
       },
     },
     arrow: {
       initial: { y: 0 },
       animate: {
         y: [0, -3, 0],
-        transition: { ease: 'easeInOut', duration: 0.6 },
+        transition: { ease: "easeInOut", duration: 0.6 },
       },
     },
   } satisfies Record<string, Variants>,
@@ -76,42 +75,42 @@ function IconComponent({ size, ...props }: BetweenVerticalEndProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={7}
+        animate={controls}
         height={13}
-        x={3}
-        y={3}
+        initial="initial"
         rx={1}
         variants={variants.leftRect}
-        initial="initial"
-        animate={controls}
+        width={7}
+        x={3}
+        y={3}
       />
       <motion.path
-        d="m9 22 3-3 3 3"
-        variants={variants.arrow}
-        initial="initial"
         animate={controls}
+        d="m9 22 3-3 3 3"
+        initial="initial"
+        variants={variants.arrow}
       />
       <motion.rect
-        width={7}
+        animate={controls}
         height={13}
-        x={14}
-        y={3}
+        initial="initial"
         rx={1}
         variants={variants.rightRect}
-        initial="initial"
-        animate={controls}
+        width={7}
+        x={14}
+        y={3}
       />
     </motion.svg>
   );

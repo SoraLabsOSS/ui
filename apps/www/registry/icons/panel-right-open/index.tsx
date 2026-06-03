@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type PanelRightOpenProps = IconProps<keyof typeof animations>;
 
@@ -22,14 +21,14 @@ const animations = {
         y1: 3,
         x2: 13,
         y2: 21,
-        transition: { type: 'spring', damping: 18, stiffness: 200 },
+        transition: { type: "spring", damping: 18, stiffness: 200 },
       },
     },
     arrow: {
       initial: { x: 0 },
       animate: {
         x: -2,
-        transition: { type: 'spring', damping: 18, stiffness: 200 },
+        transition: { type: "spring", damping: 18, stiffness: 200 },
       },
     },
   } satisfies Record<string, Variants>,
@@ -41,42 +40,42 @@ function IconComponent({ size, ...props }: PanelRightOpenProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={18}
+        animate={controls}
         height={18}
-        x={3}
-        y={3}
+        initial="initial"
         rx={2}
         ry={2}
         variants={variants.rect}
-        initial="initial"
-        animate={controls}
+        width={18}
+        x={3}
+        y={3}
       />
       <motion.line
-        x1={15}
-        y1={3}
-        x2={15}
-        y2={21}
-        variants={variants.line}
-        initial="initial"
         animate={controls}
+        initial="initial"
+        variants={variants.line}
+        x1={15}
+        x2={15}
+        y1={3}
+        y2={21}
       />
       <motion.path
-        d="m10 15-3-3 3-3"
-        variants={variants.arrow}
-        initial="initial"
         animate={controls}
+        d="m10 15-3-3 3-3"
+        initial="initial"
+        variants={variants.arrow}
       />
     </motion.svg>
   );

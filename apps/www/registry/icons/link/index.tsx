@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type LinkProps = IconProps<keyof typeof animations>;
 
@@ -21,7 +20,7 @@ const animations = {
         pathLength: 1,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
       animate: {
@@ -30,7 +29,7 @@ const animations = {
         pathLength: 0.85,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -41,7 +40,7 @@ const animations = {
         pathLength: 1,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
       animate: {
@@ -50,12 +49,12 @@ const animations = {
         pathLength: 0.85,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     path1: {
       initial: {
         x: 0,
@@ -63,7 +62,7 @@ const animations = {
         pathLength: 1,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
       animate: {
@@ -72,7 +71,7 @@ const animations = {
         pathLength: [1, 0.85, 1],
         transition: {
           duration: 0.8,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -83,7 +82,7 @@ const animations = {
         pathLength: 1,
         transition: {
           duration: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
       animate: {
@@ -92,7 +91,7 @@ const animations = {
         pathLength: [1, 0.85, 1],
         transition: {
           duration: 0.8,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -105,28 +104,28 @@ function IconComponent({ size, ...props }: LinkProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.path
-        d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
-        variants={variants.path1}
-        initial="initial"
         animate={controls}
+        d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+        initial="initial"
+        variants={variants.path1}
       />
       <motion.path
-        d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
-        variants={variants.path2}
-        initial="initial"
         animate={controls}
+        d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+        initial="initial"
+        variants={variants.path2}
       />
     </motion.svg>
   );

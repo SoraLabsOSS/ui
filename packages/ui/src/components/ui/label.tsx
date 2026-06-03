@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Label as LabelPrimitive } from 'radix-ui';
-
-import { cn } from '@workspace/ui/lib/utils';
+import { cn } from "@workspace/ui/lib/utils";
+import { Label as LabelPrimitive } from "radix-ui";
+import type * as React from "react";
 
 function Label({
   className,
@@ -11,11 +10,11 @@ function Label({
 }: React.ComponentProps<typeof LabelPrimitive.Root>) {
   return (
     <LabelPrimitive.Root
-      data-slot="label"
       className={cn(
-        'text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-        className,
+        "font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        className
       )}
+      data-slot="label"
       {...props}
     />
   );

@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type LayoutDashboardProps = IconProps<keyof typeof animations>;
 
@@ -17,56 +16,56 @@ const animations = {
     rect1: {
       initial: {
         height: 9,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
       animate: {
         height: 5,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
     },
     rect2: {
       initial: {
         height: 5,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
       animate: {
         height: 9,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
     },
     rect3: {
       initial: {
         height: 9,
         y: 0,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
       animate: {
         height: 5,
         y: 4,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
     },
     rect4: {
       initial: {
         height: 5,
         y: 0,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
       animate: {
         height: 9,
         y: -4,
-        transition: { duration: 0.3, ease: 'easeInOut' },
+        transition: { duration: 0.3, ease: "easeInOut" },
       },
     },
   } satisfies Record<string, Variants>,
-  'default-loop': {
+  "default-loop": {
     rect1: {
       initial: {
         height: 9,
       },
       animate: {
         height: [9, 5, 9],
-        transition: { duration: 0.6, ease: 'easeInOut' },
+        transition: { duration: 0.6, ease: "easeInOut" },
       },
     },
     rect2: {
@@ -75,7 +74,7 @@ const animations = {
       },
       animate: {
         height: [5, 9, 5],
-        transition: { duration: 0.6, ease: 'easeInOut' },
+        transition: { duration: 0.6, ease: "easeInOut" },
       },
     },
     rect3: {
@@ -86,7 +85,7 @@ const animations = {
       animate: {
         height: [9, 5, 9],
         y: [0, 4, 0],
-        transition: { duration: 0.6, ease: 'easeInOut' },
+        transition: { duration: 0.6, ease: "easeInOut" },
       },
     },
     rect4: {
@@ -97,7 +96,7 @@ const animations = {
       animate: {
         height: [5, 9, 5],
         y: [0, -4, 0],
-        transition: { duration: 0.6, ease: 'easeInOut' },
+        transition: { duration: 0.6, ease: "easeInOut" },
       },
     },
   } satisfies Record<string, Variants>,
@@ -109,60 +108,60 @@ function IconComponent({ size, ...props }: LayoutDashboardProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <motion.rect
-        width={7}
+        animate={controls}
         height={9}
-        x={3}
-        y={3}
+        initial="initial"
         rx={1}
         ry={1}
         variants={variants.rect1}
-        initial="initial"
-        animate={controls}
+        width={7}
+        x={3}
+        y={3}
       />
       <motion.rect
-        width={7}
+        animate={controls}
         height={5}
-        x={14}
-        y={3}
+        initial="initial"
         rx={1}
         ry={1}
         variants={variants.rect2}
-        initial="initial"
-        animate={controls}
+        width={7}
+        x={14}
+        y={3}
       />
       <motion.rect
-        width={7}
+        animate={controls}
         height={9}
-        x={14}
-        y={12}
+        initial="initial"
         rx={1}
         ry={1}
         variants={variants.rect3}
-        initial="initial"
-        animate={controls}
+        width={7}
+        x={14}
+        y={12}
       />
       <motion.rect
-        width={7}
+        animate={controls}
         height={5}
-        x={3}
-        y={16}
+        initial="initial"
         rx={1}
         ry={1}
         variants={variants.rect4}
-        initial="initial"
-        animate={controls}
+        width={7}
+        x={3}
+        y={16}
       />
     </motion.svg>
   );

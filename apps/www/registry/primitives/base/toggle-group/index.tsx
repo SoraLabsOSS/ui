@@ -1,28 +1,27 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Toggle as TogglePrimitive } from '@base-ui-components/react/toggle';
-import { ToggleGroup as ToggleGroupPrimitive } from '@base-ui-components/react/toggle-group';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'motion/react';
-
+import { Toggle as TogglePrimitive } from "@base-ui-components/react/toggle";
+import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui-components/react/toggle-group";
+import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import * as React from "react";
+import { useControlledState } from "@/registry/hooks/use-controlled-state";
+import { getStrictContext } from "@/registry/lib/get-strict-context";
 import {
   Highlight,
   HighlightItem,
   type HighlightItemProps,
   type HighlightProps,
-} from '@/registry/primitives/effects/highlight';
-import { getStrictContext } from '@/registry/lib/get-strict-context';
-import { useControlledState } from '@/registry/hooks/use-controlled-state';
+} from "@/registry/primitives/effects/highlight";
 
 type ToggleGroupContextType = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any[];
-  setValue: ToggleGroupProps['onValueChange'];
+  setValue: ToggleGroupProps["onValueChange"];
   multiple: boolean | undefined;
 };
 
 const [ToggleGroupProvider, useToggleGroup] =
-  getStrictContext<ToggleGroupContextType>('ToggleGroupContext');
+  getStrictContext<ToggleGroupContextType>("ToggleGroupContext");
 
 type ToggleGroupProps = React.ComponentProps<typeof ToggleGroupPrimitive>;
 
@@ -48,9 +47,9 @@ function ToggleGroup(props: ToggleGroupProps) {
 
 type ToggleProps = Omit<
   React.ComponentProps<typeof TogglePrimitive>,
-  'render'
+  "render"
 > &
-  HTMLMotionProps<'button'>;
+  HTMLMotionProps<"button">;
 
 function Toggle({
   value,
@@ -63,12 +62,11 @@ function Toggle({
 }: ToggleProps) {
   return (
     <TogglePrimitive
-      value={value}
-      disabled={disabled}
-      pressed={pressed}
       defaultPressed={defaultPressed}
-      onPressedChange={onPressedChange}
+      disabled={disabled}
       nativeButton={nativeButton}
+      onPressedChange={onPressedChange}
+      pressed={pressed}
       render={
         <motion.button
           data-slot="toggle"
@@ -76,32 +74,33 @@ function Toggle({
           {...props}
         />
       }
+      value={value}
     />
   );
 }
 
-type ToggleGroupHighlightProps = Omit<HighlightProps, 'controlledItems'>;
+type ToggleGroupHighlightProps = Omit<HighlightProps, "controlledItems">;
 
 function ToggleGroupHighlight({
-  transition = { type: 'spring', stiffness: 200, damping: 25 },
+  transition = { type: "spring", stiffness: 200, damping: 25 },
   ...props
 }: ToggleGroupHighlightProps) {
   const { value } = useToggleGroup();
 
   return (
     <Highlight
-      data-slot="toggle-group-highlight"
       controlledItems
-      value={value?.[0] ?? null}
+      data-slot="toggle-group-highlight"
       exitDelay={0}
       transition={transition}
+      value={value?.[0] ?? null}
       {...props}
     />
   );
 }
 
 type ToggleHighlightProps = HighlightItemProps &
-  HTMLMotionProps<'div'> & {
+  HTMLMotionProps<"div"> & {
     children: React.ReactElement;
   };
 
@@ -123,14 +122,14 @@ function ToggleHighlight({ children, style, ...props }: ToggleHighlightProps) {
   if (multiple && React.isValidElement(children)) {
     const isActive = props.value && value && value.includes(props.value);
 
-    const element = children as React.ReactElement<React.ComponentProps<'div'>>;
+    const element = children as React.ReactElement<React.ComponentProps<"div">>;
 
     return React.cloneElement(
       children,
       {
         style: {
           ...element.props.style,
-          position: 'relative',
+          position: "relative",
         },
         ...element.props,
       },
@@ -138,11 +137,11 @@ function ToggleHighlight({ children, style, ...props }: ToggleHighlightProps) {
         <AnimatePresence>
           {isActive && (
             <motion.div
-              data-slot="toggle-highlight"
-              style={{ position: 'absolute', inset: 0, zIndex: 0, ...style }}
-              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              data-slot="toggle-highlight"
               exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              style={{ position: "absolute", inset: 0, zIndex: 0, ...style }}
               {...props}
             />
           )}
@@ -150,26 +149,26 @@ function ToggleHighlight({ children, style, ...props }: ToggleHighlightProps) {
 
         <div
           style={{
-            position: 'relative',
+            position: "relative",
             zIndex: 1,
           }}
         >
           {element.props.children}
         </div>
-      </>,
+      </>
     );
   }
 }
 
 export {
-  ToggleGroup,
-  ToggleGroupHighlight,
   Toggle,
-  ToggleHighlight,
-  useToggleGroup,
-  type ToggleGroupProps,
-  type ToggleGroupHighlightProps,
-  type ToggleProps,
-  type ToggleHighlightProps,
+  ToggleGroup,
   type ToggleGroupContextType,
+  ToggleGroupHighlight,
+  type ToggleGroupHighlightProps,
+  type ToggleGroupProps,
+  ToggleHighlight,
+  type ToggleHighlightProps,
+  type ToggleProps,
+  useToggleGroup,
 };

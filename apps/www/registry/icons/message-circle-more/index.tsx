@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from "motion/react";
 
 import {
   getVariants,
-  useAnimateIconContext,
-  IconWrapper,
   type IconProps,
-} from '@/registry/icons/icon';
+  IconWrapper,
+  useAnimateIconContext,
+} from "@/registry/icons/icon";
 
 type MessageCircleMoreProps = IconProps<keyof typeof animations>;
 
@@ -19,10 +18,10 @@ const animations = {
         rotate: 0,
       },
       animate: {
-        transformOrigin: 'bottom left',
+        transformOrigin: "bottom left",
         rotate: [0, 8, -8, 2, 0],
         transition: {
-          ease: 'easeInOut',
+          ease: "easeInOut",
           duration: 0.8,
           times: [0, 0.4, 0.6, 0.8, 1],
         },
@@ -37,7 +36,7 @@ const animations = {
       animate: {
         y1: [12, 10.5, 12],
         y2: [12, 13.5, 12],
-        transition: { ease: 'easeInOut', duration: 0.6, delay: 0.2 },
+        transition: { ease: "easeInOut", duration: 0.6, delay: 0.2 },
       },
     },
     line2: {
@@ -48,7 +47,7 @@ const animations = {
       animate: {
         y1: [12, 10.5, 12],
         y2: [12, 13.5, 12],
-        transition: { ease: 'easeInOut', duration: 0.6, delay: 0.1 },
+        transition: { ease: "easeInOut", duration: 0.6, delay: 0.1 },
       },
     },
     line3: {
@@ -59,7 +58,7 @@ const animations = {
       animate: {
         y1: [12, 10.5, 12],
         y2: [12, 13.5, 12],
-        transition: { ease: 'easeInOut', duration: 0.6 },
+        transition: { ease: "easeInOut", duration: 0.6 },
       },
     },
   } satisfies Record<string, Variants>,
@@ -75,7 +74,7 @@ const animations = {
         transition: {
           duration: 1,
           delay: 0.4,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -88,7 +87,7 @@ const animations = {
         transition: {
           duration: 1,
           delay: 0.2,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -100,7 +99,7 @@ const animations = {
         scale: [1, 1.5, 1],
         transition: {
           duration: 1,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         },
       },
     },
@@ -117,9 +116,9 @@ const animations = {
         transition: {
           duration: 0.8,
           delay: 0.4,
-          repeat: Infinity,
-          repeatType: 'mirror',
-          ease: 'easeInOut',
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "mirror",
+          ease: "easeInOut",
         },
       },
     },
@@ -132,9 +131,9 @@ const animations = {
         transition: {
           duration: 0.8,
           delay: 0.2,
-          repeat: Infinity,
-          repeatType: 'mirror',
-          ease: 'easeInOut',
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "mirror",
+          ease: "easeInOut",
         },
       },
     },
@@ -146,9 +145,9 @@ const animations = {
         y: [-0.75, 0.75],
         transition: {
           duration: 0.8,
-          repeat: Infinity,
-          repeatType: 'mirror',
-          ease: 'easeInOut',
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "mirror",
+          ease: "easeInOut",
         },
       },
     },
@@ -161,50 +160,50 @@ function IconComponent({ size, ...props }: MessageCircleMoreProps) {
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
       fill="none"
+      height={size}
       stroke="currentColor"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      width={size}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g variants={variants.group} initial="initial" animate={controls}>
+      <motion.g animate={controls} initial="initial" variants={variants.group}>
         <motion.path
+          animate={controls}
           d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"
+          initial="initial"
           variants={variants.path}
-          initial="initial"
-          animate={controls}
         />
         <motion.line
-          x1="16"
-          y1="12"
-          x2="16"
-          y2="12"
+          animate={controls}
+          initial="initial"
           variants={variants.line1}
-          initial="initial"
-          animate={controls}
+          x1="16"
+          x2="16"
+          y1="12"
+          y2="12"
         />
         <motion.line
-          x1="12"
-          y1="12"
-          x2="12"
-          y2="12"
+          animate={controls}
+          initial="initial"
           variants={variants.line2}
-          initial="initial"
-          animate={controls}
+          x1="12"
+          x2="12"
+          y1="12"
+          y2="12"
         />
         <motion.line
-          x1="8"
-          y1="12"
-          x2="8"
-          y2="12"
-          variants={variants.line3}
-          initial="initial"
           animate={controls}
+          initial="initial"
+          variants={variants.line3}
+          x1="8"
+          x2="8"
+          y1="12"
+          y2="12"
         />
       </motion.g>
     </motion.svg>

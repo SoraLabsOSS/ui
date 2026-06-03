@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 /** Attribute on the scroll viewport (Radix ScrollArea) for nearest-edge scroll-into-view. */
 export const DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR =
-  'data-docs-sidebar-scroll-viewport';
+  "data-docs-sidebar-scroll-viewport";
 
 const VIEWPORT_PAD = 12;
 const RETRY_DELAYS_MS = [0, 50, 150, 350, 600];
@@ -12,8 +12,10 @@ const MAX_ATTEMPTS = 12;
 
 function findScrollViewport(el: HTMLElement): HTMLElement | null {
   const marked = el.closest(`[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]`);
-  if (marked instanceof HTMLElement) return marked;
-  const radix = el.closest('[data-radix-scroll-area-viewport]');
+  if (marked instanceof HTMLElement) {
+    return marked;
+  }
+  const radix = el.closest("[data-radix-scroll-area-viewport]");
   return radix instanceof HTMLElement ? radix : null;
 }
 
@@ -32,10 +34,12 @@ function scrollDelta(el: HTMLElement, viewport: HTMLElement): number {
 function applyScroll(
   el: HTMLElement,
   viewport: HTMLElement,
-  behavior: ScrollBehavior,
+  behavior: ScrollBehavior
 ): void {
   const delta = scrollDelta(el, viewport);
-  if (delta === 0) return;
+  if (delta === 0) {
+    return;
+  }
   viewport.scrollTo({
     top: viewport.scrollTop + delta,
     behavior,
@@ -47,10 +51,14 @@ export function useScrollActiveItemIntoView(active: boolean) {
   const scrolled = useRef(false);
 
   useEffect(() => {
-    if (!active || scrolled.current) return;
+    if (!active || scrolled.current) {
+      return;
+    }
 
     const el = ref.current;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
 
     let cancelled = false;
     let attempts = 0;
@@ -58,15 +66,21 @@ export function useScrollActiveItemIntoView(active: boolean) {
     const timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
     const tryScroll = () => {
-      if (cancelled || scrolled.current) return;
+      if (cancelled || scrolled.current) {
+        return;
+      }
       attempts += 1;
 
       const node = ref.current;
-      if (!node) return;
+      if (!node) {
+        return;
+      }
 
       const viewport = findScrollViewport(node);
       if (!viewport) {
-        if (attempts >= MAX_ATTEMPTS) scrolled.current = true;
+        if (attempts >= MAX_ATTEMPTS) {
+          scrolled.current = true;
+        }
         return;
       }
 
@@ -76,10 +90,12 @@ export function useScrollActiveItemIntoView(active: boolean) {
         return;
       }
 
-      applyScroll(node, viewport, didScroll ? 'auto' : 'smooth');
+      applyScroll(node, viewport, didScroll ? "auto" : "smooth");
       didScroll = true;
 
-      if (attempts >= MAX_ATTEMPTS) scrolled.current = true;
+      if (attempts >= MAX_ATTEMPTS) {
+        scrolled.current = true;
+      }
     };
 
     const schedule = (fn: () => void, delayMs: number) => {
@@ -96,24 +112,34 @@ export function useScrollActiveItemIntoView(active: boolean) {
 
     const resizeObserver = new ResizeObserver(() => {
       const node = ref.current;
-      if (!node || cancelled || scrolled.current) return;
+      if (!node || cancelled || scrolled.current) {
+        return;
+      }
       const viewport = findScrollViewport(node);
-      if (!viewport || scrollDelta(node, viewport) === 0) return;
+      if (!viewport || scrollDelta(node, viewport) === 0) {
+        return;
+      }
       tryScroll();
     });
     resizeObserver.observe(el);
     const viewport = findScrollViewport(el);
-    if (viewport) resizeObserver.observe(viewport);
+    if (viewport) {
+      resizeObserver.observe(viewport);
+    }
 
     return () => {
       cancelled = true;
-      for (const id of timeoutIds) clearTimeout(id);
+      for (const id of timeoutIds) {
+        clearTimeout(id);
+      }
       resizeObserver.disconnect();
     };
   }, [active]);
 
   useEffect(() => {
-    if (!active) scrolled.current = false;
+    if (!active) {
+      scrolled.current = false;
+    }
   }, [active]);
 
   return ref;

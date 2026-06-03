@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Features } from '@/components/features';
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
-import { Hero } from '@/components/hero';
-import { cn } from '@workspace/ui/lib/utils';
-import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { cn } from "@workspace/ui/lib/utils";
+import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { Features } from "@/components/features";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { Hero } from "@/components/hero";
 
 const CONTENT_VARIANTS = {
   hidden: {
@@ -14,7 +14,7 @@ const CONTENT_VARIANTS = {
   },
   visible: {
     opacity: 1,
-    transition: { type: 'spring', stiffness: 100, damping: 30 },
+    transition: { type: "spring", stiffness: 100, damping: 30 },
   },
 } as const;
 
@@ -34,8 +34,8 @@ export default function HomePage() {
   return (
     <main
       className={cn(
-        'relative h-dvh overflow-x-hidden',
-        !isLoaded && 'overflow-y-hidden',
+        "relative h-dvh overflow-x-hidden",
+        !isLoaded && "overflow-y-hidden"
       )}
     >
       <Header transition={transition} />
@@ -45,10 +45,10 @@ export default function HomePage() {
           <>
             <div>
               <motion.div
-                variants={CONTENT_VARIANTS}
-                initial="hidden"
-                animate={transition ? 'visible' : 'hidden'}
+                animate={transition ? "visible" : "hidden"}
                 className="w-full"
+                initial="hidden"
+                variants={CONTENT_VARIANTS}
               >
                 <Hero key={String(transition)} />
               </motion.div>
