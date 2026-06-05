@@ -1,3 +1,6 @@
+const SORA_UI_COMPONENTS_PREFIX = /^components\/sora-ui\//;
+const TSX_EXTENSION_SUFFIX = /\.tsx$/;
+
 export function unwrapBindValues(value: unknown): unknown {
   if (value !== null && typeof value === "object" && !Array.isArray(value)) {
     const record = value as Record<string, unknown>;
@@ -25,8 +28,8 @@ export function formatJsxPropValue(value: unknown): string {
 
 export function installImportPathFromTarget(target: string): string {
   const normalized = target
-    .replace(/^components\/sora-ui\//, "")
-    .replace(/\.tsx$/, "");
+    .replace(SORA_UI_COMPONENTS_PREFIX, "")
+    .replace(TSX_EXTENSION_SUFFIX, "");
   return `@/components/sora-ui/${normalized}`;
 }
 
