@@ -6,6 +6,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -85,6 +86,10 @@ export function DocsShellHoverProvider({
     },
     []
   );
+
+  useEffect(() => {
+    setHovered(null);
+  }, [setHovered]);
 
   const value = useMemo(
     () => ({ hovered, hoverRect, containerRef, setHovered }),

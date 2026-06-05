@@ -17,7 +17,6 @@ import { SquareMenu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Fragment, type ReactNode, useMemo } from "react";
 import { Separator } from "@/lib/attach-separator";
-import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 import {
@@ -111,8 +110,8 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
   }, [componentRoots]);
 
   const menuItems: { label: string; url: string }[] = [
-    { label: "Primitives", url: primitivesUrl },
-    { label: "Components", url: DOCS_COMPONENTS_SECTION_URL },
+    // { label: "Primitives", url: primitivesUrl },
+    { label: "Components", url: primitivesUrl },
   ];
 
   return (

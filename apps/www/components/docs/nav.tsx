@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  MotionNavigationMenu,
+  MotionNavigationMenuItem,
+  MotionNavigationMenuLink,
+  MotionNavigationMenuList,
+} from "@workspace/ui/components/unlumen-ui/motion-navigation-menu";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
@@ -7,7 +13,6 @@ import { useSearchContext, useSidebar } from "fumadocs-ui/provider";
 import { CommandIcon, Menu } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
-import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 
@@ -25,36 +30,21 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
 
 const DOCS_GUIDE_URL = "/docs";
 
-export type NavProps = {
+export interface NavProps {
   /** First primitive doc from Fumadocs root folders (meta.json root flag). */
   primitivesUrl: string;
-};
+}
 
 const buildNavItems = (primitivesUrl: string) =>
   [
     { title: "Docs", url: DOCS_GUIDE_URL },
-    { title: "Primitives", url: primitivesUrl },
-    { title: "Components", url: DOCS_COMPONENTS_SECTION_URL },
+    { title: "Components", url: primitivesUrl },
+    // { title: "Components", url: DOCS_COMPONENTS_SECTION_URL },
   ] as const;
-
-const NavItem = ({ title, url }: { title: string; url: string }) => (
-  <Link
-    className={buttonVariants({
-      color: "ghost",
-      size: "sm",
-      className: cn(
-        "!h-8 !px-3 !text-sm !font-normal text-neutral-700 transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white"
-      ),
-    })}
-    href={url}
-  >
-    {title}
-  </Link>
-);
 
 export const Nav = ({ primitivesUrl }: NavProps) => {
   const { setOpenSearch } = useSearchContext();
-  const { open, setOpen } = useSidebar();
+  const { setOpen } = useSidebar();
   const navItems = buildNavItems(primitivesUrl);
 
   return (
@@ -73,15 +63,31 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
 
       <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
         <div className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <NavItem key={item.title} title={item.title} url={item.url} />
-          ))}
+          <MotionNavigationMenu viewport={false}>
+            <MotionNavigationMenuList className="gap-0 bg-transparent">
+              {navItems.map((item) => (
+                <MotionNavigationMenuItem key={item.title} value={item.title}>
+                  <Link href={item.url} legacyBehavior passHref>
+                    <MotionNavigationMenuLink
+                      className={cn(
+                        "!h-8 !px-3 !py-0 !text-sm !font-normal justify-center text-neutral-700 transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
+                        "data-[active=true]:text-black dark:data-[active=true]:text-white"
+                      )}
+                    >
+                      {item.title}
+                    </MotionNavigationMenuLink>
+                  </Link>
+                </MotionNavigationMenuItem>
+              ))}
+            </MotionNavigationMenuList>
+          </MotionNavigationMenu>
         </div>
 
         <div className="flex items-center gap-2 md:gap-3">
           <button
             className="flex h-8 w-48 items-center justify-between rounded-md bg-accent pr-1.5 pl-3 text-muted-foreground text-sm transition-colors duration-200 ease-in-out hover:bg-accent/70 lg:w-56 xl:w-64"
             onClick={() => setOpenSearch(true)}
+            type="button"
           >
             <span className="font-normal">Search...</span>
 
@@ -113,10 +119,11 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
                 color: "ghost",
                 size: "icon-sm",
                 className:
-                  "!size-8 [&_svg]:!size-5 text-fd-muted-foreground md:hidden",
+                  "size-8! text-fd-muted-foreground md:hidden [&_svg]:size-5!",
               })
             )}
             onClick={() => setOpen((prev) => !prev)}
+            type="button"
           >
             <Menu />
           </button>

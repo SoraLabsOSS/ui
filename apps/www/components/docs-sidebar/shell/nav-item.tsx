@@ -29,15 +29,33 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
   const isHovered = hovered === href;
   const itemRef = useScrollActiveItemIntoView(isActive);
 
-  const opacity = isActive ? 1 : hovered === null ? 0.55 : isHovered ? 1 : 0.3;
-  const x = isActive ? 8 : isHovered ? 6 : 0;
+  let opacity = 0.3;
+  if (isActive || isHovered) {
+    opacity = 1;
+  } else if (hovered === null) {
+    opacity = 0.55;
+  }
+
+  let x = 0;
+  if (isActive) {
+    x = 8;
+  } else if (isHovered) {
+    x = 6;
+  }
+
+  let indicatorWidth = 18;
+  if (isActive) {
+    indicatorWidth = 0;
+  } else if (isHovered) {
+    indicatorWidth = 26;
+  }
 
   return (
     <div className="relative">
       {isActive && (
         <motion.span
           animate={{ width: 23 }}
-          className="pointer-events-none absolute top-1/2 left-[4px] z-[35] h-[1.8px] -translate-y-1/2 rounded-full"
+          className="pointer-events-none absolute top-1/2 left-[4px] z-35 h-[1.8px] -translate-y-1/2 rounded-full"
           layoutId="docs-shell-active-indicator"
           style={{ backgroundColor: "var(--accent-pro)" }}
           transition={{ type: "spring", stiffness: 800, damping: 40 }}
@@ -45,7 +63,7 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
       )}
 
       <motion.span
-        animate={{ width: isActive ? 0 : isHovered ? 26 : 18 }}
+        animate={{ width: indicatorWidth }}
         className="pointer-events-none absolute top-1/2 left-0 z-0 h-px -translate-y-1/2 bg-foreground/50"
         transition={{ type: "spring", stiffness: 600, damping: 30 }}
       />
