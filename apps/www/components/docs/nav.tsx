@@ -54,29 +54,27 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
           color: "ghost",
           size: "icon-sm",
           className:
-            "!size-8 !p-0 [&_svg]:!size-5 md:[&_svg]:!size-4.5 transition-colors duration-200 ease-in-out",
+            "size-8! p-0! transition-colors duration-200 ease-in-out [&_svg]:size-5! md:[&_svg]:size-4.5!",
         })}
         href="/"
       >
         <IconLogo size="sm" />
       </Link>
-
       <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
         <div className="hidden items-center gap-1 md:flex">
           <MotionNavigationMenu viewport={false}>
             <MotionNavigationMenuList className="gap-0 bg-transparent">
               {navItems.map((item) => (
                 <MotionNavigationMenuItem key={item.title} value={item.title}>
-                  <Link href={item.url} legacyBehavior passHref>
-                    <MotionNavigationMenuLink
-                      className={cn(
-                        "!h-8 !px-3 !py-0 !text-sm !font-normal justify-center text-neutral-700 transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
-                        "data-[active=true]:text-black dark:data-[active=true]:text-white"
-                      )}
-                    >
-                      {item.title}
-                    </MotionNavigationMenuLink>
-                  </Link>
+                  <MotionNavigationMenuLink
+                    asChild
+                    className={cn(
+                      "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
+                      "data-[active=true]:text-black dark:data-[active=true]:text-white"
+                    )}
+                  >
+                    <Link href={item.url}>{item.title}</Link>
+                  </MotionNavigationMenuLink>
                 </MotionNavigationMenuItem>
               ))}
             </MotionNavigationMenuList>

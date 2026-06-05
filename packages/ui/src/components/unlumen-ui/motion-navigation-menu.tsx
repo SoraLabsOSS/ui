@@ -8,6 +8,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { cva } from "class-variance-authority";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "lucide-react";
+import { Slot } from "radix-ui";
 import * as React from "react";
 
 type Spring = {
@@ -719,11 +720,13 @@ function MotionNavigationMenuViewport({
 
 function MotionNavigationMenuLink({
   className,
+  asChild = false,
   ...props
-}: React.ComponentPropsWithRef<"a">) {
+}: React.ComponentPropsWithRef<"a"> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot.Root : "a";
   return (
     <HighlightItem asChild>
-      <a
+      <Comp
         className={cn(
           "flex flex-col gap-1 rounded-sm p-2 text-sm outline-none transition-colors hover:text-accent-foreground focus:text-accent-foreground focus-visible:outline-1 focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[active=true]:text-accent-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
           className
