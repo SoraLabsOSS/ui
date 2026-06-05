@@ -16,9 +16,11 @@
     "./client": "./src/client.ts"
   },
   "dependencies": {
+    "@t3-oss/env-core": "^0.13.11",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.44.1",
-    "postgres": "^3.4.7"
+    "postgres": "^3.4.7",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",

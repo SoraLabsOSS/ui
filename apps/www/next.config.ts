@@ -1,9 +1,16 @@
+import "./env";
 import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 
 const withMDX = createMDX();
 
 const nextConfig: NextConfig = {
+  transpilePackages: [
+    "@t3-oss/env-core",
+    "@t3-oss/env-nextjs",
+    "@workspace/db",
+    "@workspace/ui",
+  ],
   experimental: {
     globalNotFound: true,
   },

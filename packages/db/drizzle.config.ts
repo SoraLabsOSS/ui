@@ -1,9 +1,7 @@
 import "dotenv/config";
-import { defineConfig } from "drizzle-kit";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
-}
+import { defineConfig } from "drizzle-kit";
+import { env } from "./src/env";
 
 export default defineConfig({
   out: "./drizzle",
@@ -13,6 +11,6 @@ export default defineConfig({
     // For migrations, use direct connection (port 5432), NOT the transaction pooler.
     // Set DATABASE_URL_DIRECT in your .env for migration commands.
     // If not set, falls back to DATABASE_URL (may work if direct URL is used).
-    url: process.env.DATABASE_URL_DIRECT ?? process.env.DATABASE_URL,
+    url: env.DATABASE_URL_DIRECT ?? env.DATABASE_URL,
   },
 });

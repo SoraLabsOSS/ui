@@ -18,6 +18,7 @@
     "hooks": "@workspace/ui/hooks"
   },
   "registries": {
+    "@better-auth-ui": "https://better-auth-ui.com/r/{name}.json",
     "@sora-ui": "http://localhost:3000/r/{name}.json",
     "@animate-ui": "https://animate-ui.com/r/{name}.json",
     "@unlumen-ui": "https://ui.unlumen.com/r/{name}.json"

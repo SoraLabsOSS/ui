@@ -1,6 +1,6 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Geist, Outfit } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
@@ -8,7 +8,10 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@workspace/ui/lib/utils";
+import { Providers } from "@/components/providers";
 import { jsonLd } from "@/lib/json-ld";
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ui.soralabs.io.vn"),
@@ -92,7 +95,7 @@ const outfit = Outfit({ subsets: ["latin"] });
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html className={outfit.className} lang="en" suppressHydrationWarning>
+    <html className={cn(outfit.className)} lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -109,7 +112,9 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
       >
         <RootProvider>
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <NuqsAdapter>
+            <Providers> {children}</Providers>
+          </NuqsAdapter>
         </RootProvider>
         <Analytics />
         <SpeedInsights />

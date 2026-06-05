@@ -1,7 +1,11 @@
 {
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "declaration": false,
+    "declarationMap": false
   },
   "include": ["src", "drizzle.config.ts"],
   "exclude": ["node_modules", "dist", "drizzle"]

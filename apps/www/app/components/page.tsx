@@ -1,8 +1,31 @@
+import { ensureSession } from "@better-auth-ui/react/server";
 import { Button } from "@workspace/ui/components/ui/button";
 import { MoveLeft } from "lucide-react";
+import { headers } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { auth } from "@/lib/auth";
+import { getQueryClient } from "@/lib/query-client";
 
-export default function ComponentsPage() {
+function ComponentsPageSkeleton() {
+  return (
+    <section className="h-full w-full flex-1 flex-col items-start justify-center px-5 pt-24 md:pt-28">
+      <div className="h-8 w-48 animate-pulse rounded-lg bg-muted" />
+    </section>
+  );
+}
+
+async function ProtectedComponentsContent() {
+  const queryClient = getQueryClient();
+  const session = await ensureSession(queryClient, auth, {
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth/sign-in?redirectTo=/components");
+  }
+
   return (
     <section className="h-full w-full flex-1 flex-col items-start justify-center px-5 pt-24 md:pt-28">
       <div className="w-full lg:w-1/2">
@@ -20,11 +43,19 @@ export default function ComponentsPage() {
             <span>Go back</span>
           </Button>
 
-          <Button asChild variant={"outline"}>
+          <Button asChild variant="outline">
             <Link href="/">Back to home</Link>
           </Button>
         </div>
       </div>
     </section>
+  );
+}
+
+export default function ComponentsPage() {
+  return (
+    <Suspense fallback={<ComponentsPageSkeleton />}>
+      <ProtectedComponentsContent />
+    </Suspense>
   );
 }

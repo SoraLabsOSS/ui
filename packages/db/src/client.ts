@@ -1,11 +1,7 @@
-import "dotenv/config";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as schema from "./schema/index.js";
-
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
-}
+import { env } from "./env";
+import * as schema from "./schema/index";
 
 /**
  * Connection via Supabase Transaction Pooler (port 6543).
@@ -14,7 +10,7 @@ if (!process.env.DATABASE_URL) {
  *
  * For migrations (drizzle-kit), use a direct connection (port 5432).
  */
-const client = postgres(process.env.DATABASE_URL, {
+const client = postgres(env.DATABASE_URL, {
   // Disable prefetch for serverless/edge compatibility
   prepare: false,
 });
