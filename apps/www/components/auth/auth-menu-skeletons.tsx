@@ -14,10 +14,36 @@ export function AuthNavMenuSkeleton({ width }: { width: string }) {
   );
 }
 
+function SidebarMenuTreeConnectors() {
+  return (
+    <>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-0 z-0 h-px w-[18px] -translate-y-1/2 bg-foreground/50"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-1/4 left-0 z-0 h-px w-[13px] bg-foreground/30"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-0 left-0 z-0 h-px w-[16px] bg-foreground/30"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-3/4 left-0 z-0 h-px w-[13px] bg-foreground/30"
+      />
+    </>
+  );
+}
+
 export function AuthSidebarMenuSkeleton({ width }: { width: string }) {
   return (
-    <div aria-hidden className="relative ml-2 flex items-center py-1.5 pl-4">
-      <Skeleton className={cn("h-4", width)} />
+    <div className="relative">
+      <SidebarMenuTreeConnectors />
+      <div aria-hidden className="relative ml-2 flex items-center py-1.5 pl-4">
+        <Skeleton className={cn("h-4", width)} />
+      </div>
     </div>
   );
 }
