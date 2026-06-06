@@ -1,6 +1,6 @@
 import { Loader } from "lucide-react";
 
-export default function AuthLoading() {
+export default function SettingsLoading() {
   return (
     <div className="flex text-muted-foreground text-sm">
       <div className="flex h-screen w-full items-center justify-center">

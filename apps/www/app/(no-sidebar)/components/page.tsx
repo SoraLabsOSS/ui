@@ -1,8 +1,7 @@
 import { ensureSession } from "@better-auth-ui/react/server";
 import { UserButton } from "@workspace/ui/components/auth/user/user-button";
 import { Button } from "@workspace/ui/components/ui/button";
-import { Spinner } from "@workspace/ui/components/ui/spinner";
-import { MoveLeft } from "lucide-react";
+import { Loader, MoveLeft } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -12,8 +11,11 @@ import { getQueryClient } from "@/lib/query-client";
 
 function ComponentsPageSkeleton() {
   return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <Spinner className="size-8 text-primary" />
+    <div className="flex text-muted-foreground text-sm">
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader className="mr-2 size-4 animate-spin" />
+        Loading...
+      </div>
     </div>
   );
 }
