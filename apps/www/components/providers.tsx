@@ -22,6 +22,7 @@ export function Providers({ children }: { children: ReactNode }) {
         baseURL={env.NEXT_PUBLIC_BETTER_AUTH_URL}
         emailAndPassword={{
           enabled: false,
+          forgotPassword: false,
         }}
         Link={Link}
         navigate={({ to, replace }) =>
