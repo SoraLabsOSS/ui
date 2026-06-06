@@ -29,10 +29,14 @@
     "tw-animate-css": "^1.2.4",
     "zod": "^3.24.2"
   },
+  "peerDependencies": {
+    "next": ">=14.0.0"
+  },
   "devDependencies": {
     "@turbo/gen": "^2.4.2",
     "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6"
+    "@types/react-dom": "^19.1.6",
+    "next": "^16.2.6"
   },
   "exports": {
     "./globals.css": "./src/styles/globals.css",

@@ -1,8 +1,10 @@
 "use client";
 
-import { cn } from "@workspace/ui/lib/utils.js";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
 import { ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import type * as React from "react";
 import {
   createContext,
@@ -19,6 +21,7 @@ import {
 const MotionChevron = motion.create(ChevronRight);
 
 const EFFECTS_KEY = "sidebar-001-effects";
+const EXTERNAL_HREF_REGEX = /^(?:https?:)?\/\//;
 
 const EffectsContext = createContext<{ enabled: boolean; toggle: () => void }>({
   enabled: true,
@@ -179,6 +182,13 @@ function HoverHighlight() {
   );
 }
 
+function isExternalHref(href: string) {
+  return EXTERNAL_HREF_REGEX.test(href);
+}
+
+const sidebar001ItemLinkClassName =
+  "relative ml-2 flex select-none items-center gap-2 py-1.5 pl-4 text-sm";
+
 // ─── Sidebar001Item ───────────────────────────────────────────────────────────
 
 export interface Sidebar001ItemProps {
@@ -204,6 +214,36 @@ export const Sidebar001Item = memo(function Sidebar001Item({
 
   const opacity = isActive ? 1 : hovered === null ? 0.55 : isHovered ? 1 : 0.3;
   const x = isActive ? 8 : isHovered ? 6 : 0;
+
+  const handleMouseEnter = useCallback(() => {
+    const el = itemRef.current;
+    const container = containerRef.current;
+    if (el && container) {
+      const elRect = el.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      setHovered(href, {
+        top: elRect.top - containerRect.top,
+        height: elRect.height,
+        left: 25,
+      });
+    } else {
+      setHovered(href);
+    }
+  }, [containerRef, href, itemRef, setHovered]);
+
+  const handleMouseLeave = useCallback(() => {
+    setHovered(null);
+  }, [setHovered]);
+
+  const linkClassName = cn(sidebar001ItemLinkClassName, className);
+  const linkContent = (
+    <>
+      <span className="relative z-1 truncate">{label}</span>
+      {isNew && (
+        <span className="size-1.5 shrink-0 rounded-full bg-accent-pro" />
+      )}
+    </>
+  );
 
   return (
     <div className="relative">
@@ -231,35 +271,29 @@ export const Sidebar001Item = memo(function Sidebar001Item({
         style={{ transformOrigin: "left center" }}
         transition={{ type: "spring", stiffness: 700, damping: 30 }}
       >
-        <a
-          className={cn(
-            "relative ml-2 flex select-none items-center gap-2 py-1.5 pl-4 text-sm",
-            className
-          )}
-          href={href}
-          onClick={onClick}
-          onMouseEnter={() => {
-            const el = itemRef.current;
-            const container = containerRef.current;
-            if (el && container) {
-              const elRect = el.getBoundingClientRect();
-              const containerRect = container.getBoundingClientRect();
-              setHovered(href, {
-                top: elRect.top - containerRect.top,
-                height: elRect.height,
-                left: 25,
-              });
-            } else {
-              setHovered(href);
-            }
-          }}
-          onMouseLeave={() => setHovered(null)}
-        >
-          <span className="relative z-1 truncate">{label}</span>
-          {isNew && (
-            <span className="size-1.5 shrink-0 rounded-full bg-accent-pro" />
-          )}
-        </a>
+        {isExternalHref(href) ? (
+          <a
+            className={linkClassName}
+            href={href}
+            onClick={onClick}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {linkContent}
+          </a>
+        ) : (
+          <Link
+            className={linkClassName}
+            href={href}
+            onClick={onClick}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {linkContent}
+          </Link>
+        )}
       </motion.div>
     </div>
   );
@@ -457,6 +491,7 @@ export function Sidebar001({
   minWidth = 160,
   maxWidth = 400,
 }: Sidebar001Props) {
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(defaultWidth);
   const dragging = useRef(false);
@@ -497,16 +532,16 @@ export function Sidebar001({
       <HoverProvider containerRef={containerRef}>
         <aside
           className={cn(
-            "relative flex h-full shrink-0 flex-col bg-background",
+            "relative flex h-full min-h-0 w-full shrink-0 flex-col overflow-hidden bg-background",
             className
           )}
-          style={{ width }}
+          style={isMobile ? { width } : undefined}
         >
           {children}
 
           {/* Resize handle */}
           <div
-            className="group/handle absolute top-0 right-0 z-20 h-full w-1 cursor-col-resize"
+            className="group/handle absolute top-0 right-0 z-20 h-full w-1 cursor-col-resize max-md:block md:hidden"
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}

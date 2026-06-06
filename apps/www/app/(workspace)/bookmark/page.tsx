@@ -185,7 +185,10 @@ function BookmarkCard({
       layout
       transition={{ duration: 0.22, ease: "easeOut" }}
     >
-      <article className="relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-card p-3 transition-colors duration-200">
+      <Link
+        className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-card p-3 transition-colors duration-200"
+        href={page.url}
+      >
         {/* Thumbnail */}
         <div
           className="relative w-full overflow-hidden rounded-xl bg-muted"
@@ -197,21 +200,22 @@ function BookmarkCard({
             title={page.title}
           />
 
-          {/* Hover overlay — CSS only */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 group-hover:opacity-100">
-            <Link
-              className="flex items-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 font-medium text-sm text-white ring-1 ring-white/20 backdrop-blur-sm transition-colors hover:bg-white/20"
-              href={page.url}
-            >
+          {/* Hover overlay — visual only; whole card is the link */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 group-hover:opacity-100">
+            <span className="flex items-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 font-medium text-sm text-white ring-1 ring-white/20 backdrop-blur-sm">
               View Page
               <ArrowUpRight className="h-4 w-4" />
-            </Link>
+            </span>
           </div>
 
           {/* Remove button */}
           <button
-            className="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-lg bg-black/60 text-white/70 opacity-0 backdrop-blur-sm transition-all hover:bg-red-500/80 hover:text-white group-hover:opacity-100"
-            onClick={() => onRemove(page.url)}
+            className="absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-lg bg-black/60 text-white/70 opacity-0 backdrop-blur-sm transition-all hover:bg-red-500/80 hover:text-white group-hover:opacity-100"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onRemove(page.url);
+            }}
             title="Remove bookmark"
             type="button"
           >
@@ -225,7 +229,7 @@ function BookmarkCard({
             {page.title}
           </span>
         </div>
-      </article>
+      </Link>
     </motion.div>
   );
 }
@@ -264,6 +268,7 @@ function BookmarkCompactCard({
             className="ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-foreground/30 opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               onRemove(page.url);
             }}
             title="Remove bookmark"
@@ -294,7 +299,7 @@ function BookmarkListRow({
       layout
       transition={{ duration: 0.18 }}
     >
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+      <Link className="flex min-w-0 flex-1 flex-col gap-0.5" href={page.url}>
         <div className="flex items-center gap-2">
           <span className="truncate font-medium text-foreground text-sm">
             {page.title}
@@ -310,10 +315,10 @@ function BookmarkListRow({
             {page.description}
           </p>
         )}
-      </div>
-      <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+      </Link>
+      <div className="flex items-center gap-2">
         <Link
-          className="flex h-8 items-center gap-1.5 rounded-lg bg-muted px-3 font-medium text-foreground text-sm transition-colors hover:bg-accent"
+          className="flex h-8 items-center gap-1.5 rounded-lg bg-muted px-3 font-medium text-foreground text-sm transition-colors hover:bg-accent max-sm:sr-only"
           href={page.url}
         >
           <ExternalLink className="h-3.5 w-3.5" />

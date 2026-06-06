@@ -124,6 +124,10 @@
         "@turbo/gen": "^2.4.2",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
+        "next": "^16.2.6",
+      },
+      "peerDependencies": {
+        "next": ">=14.0.0",
       },
     },
   },

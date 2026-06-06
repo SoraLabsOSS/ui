@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "@better-auth-ui/react";
 import { UserButton } from "@workspace/ui/components/auth/user/user-button";
 import {
   MotionNavigationMenu,
@@ -13,26 +14,48 @@ import { Navbar } from "fumadocs-ui/layouts/docs-client";
 import { useSearchContext, useSidebar } from "fumadocs-ui/provider";
 import { Bookmark, CommandIcon, Menu } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 
 const DOCS_GUIDE_URL = "/docs";
+const SETTINGS_URL = "/settings/account";
+const BOOKMARK_URL = "/bookmark";
 
 export interface NavProps {
   /** First primitive doc from Fumadocs root folders (meta.json root flag). */
   primitivesUrl: string;
 }
 
-const buildNavItems = (primitivesUrl: string) =>
-  [
+interface NavItem {
+  title: string;
+  url: string;
+}
+
+const buildNavItems = (
+  primitivesUrl: string,
+  isAuthenticated: boolean
+): NavItem[] => {
+  const items: NavItem[] = [
     { title: "Docs", url: DOCS_GUIDE_URL },
     { title: "Components", url: primitivesUrl },
-  ] as const;
+  ];
+
+  if (isAuthenticated) {
+    items.push(
+      { title: "Settings", url: SETTINGS_URL },
+      { title: "Bookmark", url: BOOKMARK_URL }
+    );
+  }
+
+  return items;
+};
 
 export const Nav = ({ primitivesUrl }: NavProps) => {
   const { setOpenSearch } = useSearchContext();
   const { setOpen } = useSidebar();
-  const navItems = buildNavItems(primitivesUrl);
+  const { data: session } = useSession(authClient);
+  const navItems = buildNavItems(primitivesUrl, Boolean(session));
 
   return (
     <Navbar className="z-40! border-b-0 bg-background px-(--fd-layout-offset) md:h-17">

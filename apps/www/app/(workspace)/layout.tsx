@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
-import { DocsSidebar } from "@/components/docs/sidebar";
+import { WorkspaceSidebar } from "@/components/workspace/sidebar";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
@@ -36,15 +36,16 @@ export default function Layout({ children }: { children: ReactNode }) {
     <DocsLayout
       {...DOCS_LAYOUT_PROPS}
       containerProps={{
-        className: "[--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem]",
+        className:
+          "workspace-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:0px]",
       }}
       nav={{
         component: <Nav primitivesUrl={primitivesUrl} />,
       }}
       sidebar={{
-        enabled: false,
         component: (
-          <DocsSidebar
+          <WorkspaceSidebar
+            componentsUrl={primitivesUrl}
             releaseDatesByUrl={releaseDatesByUrl}
             {...DOCS_LAYOUT_PROPS}
           />

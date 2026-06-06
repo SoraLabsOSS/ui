@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "@better-auth-ui/react";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
 import { HideIfEmpty } from "fumadocs-core/hide-if-empty";
@@ -16,6 +17,7 @@ import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Fragment, type ReactNode, useMemo } from "react";
+import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
@@ -109,10 +111,22 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
     return "/docs";
   }, [componentRoots]);
 
-  const menuItems: { label: string; url: string }[] = [
-    // { label: "Primitives", url: primitivesUrl },
-    { label: "Components", url: primitivesUrl },
-  ];
+  const { data: session } = useSession(authClient);
+
+  const menuItems: { label: string; url: string }[] = useMemo(() => {
+    const items: { label: string; url: string }[] = [
+      { label: "Components", url: primitivesUrl },
+    ];
+
+    if (session) {
+      items.push(
+        { label: "Settings", url: "/settings/account" },
+        { label: "Bookmark", url: "/bookmark" }
+      );
+    }
+
+    return items;
+  }, [primitivesUrl, session]);
 
   return (
     <DocsShellSection

@@ -345,11 +345,23 @@
     margin-inline-end: var(--fd-layout-offset) !important;
   }
 
-  #nd-docs-layout:not(:has(#nd-sidebar[data-collapsed="true"])) {
+  #nd-docs-layout:not(.workspace-docs-layout):not(
+    :has(#nd-sidebar[data-collapsed="true"])
+  ) {
     margin-inline-start: calc(
       var(--fd-sidebar-width) +
       var(--fd-layout-offset)
     ) !important;
+  }
+
+  /* Workspace (settings, bookmark, components): sidebar is mobile-only */
+  #nd-docs-layout.workspace-docs-layout {
+    margin-inline-start: var(--fd-layout-offset) !important;
+    margin-inline-end: var(--fd-layout-offset) !important;
+  }
+
+  #nd-docs-layout.workspace-docs-layout #nd-page {
+    max-width: min(100%, var(--fd-layout-width)) !important;
   }
 
   #nd-page article {
