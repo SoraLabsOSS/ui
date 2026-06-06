@@ -300,6 +300,12 @@
     @apply bg-background text-foreground;
   }
 
+  /* Home: banner + main must fit one viewport — single scroll on #home-page only */
+  body:has(#home-page) {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
   #nd-sidebar {
     @apply md:!border-0;
   }

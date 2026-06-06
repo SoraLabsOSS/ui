@@ -61,6 +61,10 @@ export function useSidebar001Effects() {
   return useContext(EffectsContext);
 }
 
+export function useSidebar001Hover() {
+  return useContext(HoverContext);
+}
+
 // ─── Hover context ────────────────────────────────────────────────────────────
 
 interface HoverRect {
@@ -235,6 +239,14 @@ export const Sidebar001Item = memo(function Sidebar001Item({
     setHovered(null);
   }, [setHovered]);
 
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      setHovered(null);
+      onClick?.(event);
+    },
+    [onClick, setHovered]
+  );
+
   const linkClassName = cn(sidebar001ItemLinkClassName, className);
   const linkContent = (
     <>
@@ -275,7 +287,7 @@ export const Sidebar001Item = memo(function Sidebar001Item({
           <a
             className={linkClassName}
             href={href}
-            onClick={onClick}
+            onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             rel="noopener noreferrer"
@@ -287,7 +299,7 @@ export const Sidebar001Item = memo(function Sidebar001Item({
           <Link
             className={linkClassName}
             href={href}
-            onClick={onClick}
+            onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

@@ -8,20 +8,24 @@ import {
   MotionNavigationMenuLink,
   MotionNavigationMenuList,
 } from "@workspace/ui/components/unlumen-ui/motion-navigation-menu";
+import { useHighlight } from "@workspace/ui/components/unlumen-ui/primitives/effects/highlight";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
 import { useSearchContext, useSidebar } from "fumadocs-ui/provider";
 import { Bookmark, CommandIcon, Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import {
+  AUTH_MENU_LINKS,
+  AuthNavMenuSkeleton,
+} from "@/components/auth/auth-menu-skeletons";
 import { authClient } from "@/lib/auth-client";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 
 const DOCS_GUIDE_URL = "/docs";
-const SETTINGS_URL = "/settings/account";
-const BOOKMARK_URL = "/bookmark";
-
 export interface NavProps {
   /** First primitive doc from Fumadocs root folders (meta.json root flag). */
   primitivesUrl: string;
@@ -32,30 +36,74 @@ interface NavItem {
   url: string;
 }
 
-const buildNavItems = (
-  primitivesUrl: string,
-  isAuthenticated: boolean
-): NavItem[] => {
-  const items: NavItem[] = [
-    { title: "Docs", url: DOCS_GUIDE_URL },
-    { title: "Components", url: primitivesUrl },
-  ];
+const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
+  { title: "Docs", url: DOCS_GUIDE_URL },
+  { title: "Components", url: primitivesUrl },
+];
 
-  if (isAuthenticated) {
-    items.push(
-      { title: "Settings", url: SETTINGS_URL },
-      { title: "Bookmark", url: BOOKMARK_URL }
-    );
-  }
+function NavMenuItems({
+  navItems,
+  sessionPending,
+  showAuthNav,
+}: {
+  navItems: NavItem[];
+  sessionPending: boolean;
+  showAuthNav: boolean;
+}) {
+  const pathname = usePathname();
+  const { setActiveValue, clearBounds } = useHighlight<string>();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset only on route/auth change
+  useEffect(() => {
+    setActiveValue(null);
+    clearBounds();
+  }, [pathname, sessionPending]);
 
-  return items;
-};
+  return (
+    <>
+      {navItems.map((item) => (
+        <MotionNavigationMenuItem key={item.title} value={item.title}>
+          <MotionNavigationMenuLink
+            asChild
+            className={cn(
+              "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
+              "data-[active=true]:text-black dark:data-[active=true]:text-white"
+            )}
+            highlightValue={item.title}
+          >
+            <Link href={item.url}>{item.title}</Link>
+          </MotionNavigationMenuLink>
+        </MotionNavigationMenuItem>
+      ))}
+      {showAuthNav
+        ? AUTH_MENU_LINKS.map((item) => (
+            <MotionNavigationMenuItem key={item.title} value={item.title}>
+              {sessionPending ? (
+                <AuthNavMenuSkeleton width={item.skeletonWidth} />
+              ) : (
+                <MotionNavigationMenuLink
+                  asChild
+                  className={cn(
+                    "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
+                    "data-[active=true]:text-black dark:data-[active=true]:text-white"
+                  )}
+                  highlightValue={item.title}
+                >
+                  <Link href={item.url}>{item.title}</Link>
+                </MotionNavigationMenuLink>
+              )}
+            </MotionNavigationMenuItem>
+          ))
+        : null}
+    </>
+  );
+}
 
 export const Nav = ({ primitivesUrl }: NavProps) => {
   const { setOpenSearch } = useSearchContext();
   const { setOpen } = useSidebar();
-  const { data: session } = useSession(authClient);
-  const navItems = buildNavItems(primitivesUrl, Boolean(session));
+  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const navItems = BASE_NAV_ITEMS(primitivesUrl);
+  const showAuthNav = sessionPending || Boolean(session);
 
   return (
     <Navbar className="z-40! border-b-0 bg-background px-(--fd-layout-offset) md:h-17">
@@ -75,19 +123,11 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
           <div className="hidden items-center gap-1 md:flex">
             <MotionNavigationMenu viewport={false}>
               <MotionNavigationMenuList className="gap-0 bg-transparent">
-                {navItems.map((item) => (
-                  <MotionNavigationMenuItem key={item.title} value={item.title}>
-                    <MotionNavigationMenuLink
-                      asChild
-                      className={cn(
-                        "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
-                        "data-[active=true]:text-black dark:data-[active=true]:text-white"
-                      )}
-                    >
-                      <Link href={item.url}>{item.title}</Link>
-                    </MotionNavigationMenuLink>
-                  </MotionNavigationMenuItem>
-                ))}
+                <NavMenuItems
+                  navItems={navItems}
+                  sessionPending={sessionPending}
+                  showAuthNav={showAuthNav}
+                />
               </MotionNavigationMenuList>
             </MotionNavigationMenu>
           </div>

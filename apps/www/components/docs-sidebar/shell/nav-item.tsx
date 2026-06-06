@@ -83,7 +83,10 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
             className
           )}
           href={href}
-          onClick={onClick}
+          onClick={(event) => {
+            setHovered(null);
+            onClick?.(event);
+          }}
           onMouseEnter={() => {
             const el = itemRef.current;
             const container = containerRef.current;

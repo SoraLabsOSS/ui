@@ -721,11 +721,16 @@ function MotionNavigationMenuViewport({
 function MotionNavigationMenuLink({
   className,
   asChild = false,
+  highlightValue,
   ...props
-}: React.ComponentPropsWithRef<"a"> & { asChild?: boolean }) {
+}: React.ComponentPropsWithRef<"a"> & {
+  asChild?: boolean;
+  /** Stable id for the hover highlight pill (defaults to a random id). */
+  highlightValue?: string;
+}) {
   const Comp = asChild ? Slot.Root : "a";
   return (
-    <HighlightItem asChild>
+    <HighlightItem asChild value={highlightValue}>
       <Comp
         className={cn(
           "flex flex-col gap-1 rounded-sm p-2 text-sm outline-none transition-colors hover:text-accent-foreground focus:text-accent-foreground focus-visible:outline-1 focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[active=true]:text-accent-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",

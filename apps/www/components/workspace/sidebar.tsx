@@ -8,6 +8,7 @@ import {
   Sidebar001Header,
   Sidebar001Item,
   Sidebar001Section,
+  useSidebar001Hover,
 } from "@workspace/ui/components/unlumen-ui/sidebar-001";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
@@ -21,8 +22,12 @@ import { useSidebar } from "fumadocs-ui/provider";
 import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
+import {
+  AUTH_MENU_LINKS,
+  AuthSidebarMenuSkeleton,
+} from "@/components/auth/auth-menu-skeletons";
 import {
   DocsReleaseDatesProvider,
   useDocsPageNew,
@@ -82,19 +87,16 @@ const WORKSPACE_MENU_ITEMS = [
     label: "Components",
     requiresAuth: false,
   },
-  {
-    getHref: () => "/settings/account",
-    getIsActive: (pathname: string) => pathname.startsWith("/settings"),
-    label: "Settings",
-    requiresAuth: true,
-  },
-  {
-    getHref: () => "/bookmark",
+  ...AUTH_MENU_LINKS.map((link) => ({
+    getHref: (_componentsUrl: string) => link.url,
     getIsActive: (pathname: string, href: string) =>
-      pathname === href || pathname.startsWith(`${href}/`),
-    label: "Bookmark",
-    requiresAuth: true,
-  },
+      link.title === "Settings"
+        ? pathname.startsWith("/settings")
+        : pathname === href || pathname.startsWith(`${href}/`),
+    label: link.title,
+    requiresAuth: true as const,
+    skeletonWidth: link.skeletonWidth,
+  })),
 ] as const;
 
 function WorkspaceMenuSection({
@@ -105,17 +107,23 @@ function WorkspaceMenuSection({
   onNavigate: () => void;
 }) {
   const pathname = usePathname();
-  const { data: session } = useSession(authClient);
-  const menuItems = WORKSPACE_MENU_ITEMS.filter(
-    (item) => !item.requiresAuth || Boolean(session)
-  );
+  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { setHovered } = useSidebar001Hover();
+  const publicItems = WORKSPACE_MENU_ITEMS.filter((item) => !item.requiresAuth);
+  const authItems = WORKSPACE_MENU_ITEMS.filter((item) => item.requiresAuth);
+  const showAuthItems = sessionPending || Boolean(session);
+
+  useEffect(() => {
+    void sessionPending;
+    setHovered(null);
+  }, [sessionPending, setHovered]);
 
   return (
     <Sidebar001Section
       className="mt-4"
       label={<Separator icon={<SquareMenu strokeWidth={2} />} name="Menu" />}
     >
-      {menuItems.map((item) => {
+      {publicItems.map((item) => {
         const href = item.getHref(componentsUrl);
         return (
           <Sidebar001Item
@@ -127,6 +135,29 @@ function WorkspaceMenuSection({
           />
         );
       })}
+      {showAuthItems
+        ? authItems.map((item) => {
+            if (sessionPending) {
+              return (
+                <AuthSidebarMenuSkeleton
+                  key={item.label}
+                  width={item.skeletonWidth}
+                />
+              );
+            }
+
+            const href = item.getHref(componentsUrl);
+            return (
+              <Sidebar001Item
+                href={href}
+                isActive={item.getIsActive(pathname, href)}
+                key={item.label}
+                label={item.label}
+                onClick={onNavigate}
+              />
+            );
+          })
+        : null}
     </Sidebar001Section>
   );
 }

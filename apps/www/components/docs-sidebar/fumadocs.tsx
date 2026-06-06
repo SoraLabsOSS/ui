@@ -16,7 +16,11 @@ import { useSidebar, useTreeContext, useTreePath } from "fumadocs-ui/provider";
 import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { Fragment, type ReactNode, useMemo } from "react";
+import { Fragment, type ReactNode, useEffect, useMemo } from "react";
+import {
+  AUTH_MENU_LINKS,
+  AuthSidebarMenuSkeleton,
+} from "@/components/auth/auth-menu-skeletons";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 import { ThemeSwitcher } from "../animate/theme-switcher";
@@ -34,6 +38,7 @@ import {
   DocsShellNavGroup,
   DocsShellNavItem,
   DocsShellSection,
+  useDocsShellHover,
 } from "./shell";
 import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./shell/scroll-active-nearest";
 import { useDismissMobileSidebarOnOutside } from "./use-dismiss-mobile-sidebar";
@@ -111,39 +116,55 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
     return "/docs";
   }, [componentRoots]);
 
-  const { data: session } = useSession(authClient);
+  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { setHovered } = useDocsShellHover();
+  const showAuthItems = sessionPending || Boolean(session);
 
-  const menuItems: { label: string; url: string }[] = useMemo(() => {
-    const items: { label: string; url: string }[] = [
-      { label: "Components", url: primitivesUrl },
-    ];
-
-    if (session) {
-      items.push(
-        { label: "Settings", url: "/settings/account" },
-        { label: "Bookmark", url: "/bookmark" }
-      );
-    }
-
-    return items;
-  }, [primitivesUrl, session]);
+  useEffect(() => {
+    void sessionPending;
+    setHovered(null);
+  }, [sessionPending, setHovered]);
 
   return (
     <DocsShellSection
       className="mt-4"
       label={<Separator icon={<SquareMenu strokeWidth={2} />} name="Menu" />}
     >
-      {menuItems.map((item) => (
-        <DocsShellNavItem
-          href={item.url}
-          isActive={
-            pathname === item.url || pathname.startsWith(`${item.url}/`)
-          }
-          key={item.url}
-          label={item.label}
-          onClick={onNavigate}
-        />
-      ))}
+      <DocsShellNavItem
+        href={primitivesUrl}
+        isActive={
+          pathname === primitivesUrl || pathname.startsWith(`${primitivesUrl}/`)
+        }
+        label="Components"
+        onClick={onNavigate}
+      />
+      {showAuthItems
+        ? AUTH_MENU_LINKS.map((item) => {
+            if (sessionPending) {
+              return (
+                <AuthSidebarMenuSkeleton
+                  key={item.url}
+                  width={item.skeletonWidth}
+                />
+              );
+            }
+
+            return (
+              <DocsShellNavItem
+                href={item.url}
+                isActive={
+                  item.title === "Settings"
+                    ? pathname.startsWith("/settings")
+                    : pathname === item.url ||
+                      pathname.startsWith(`${item.url}/`)
+                }
+                key={item.url}
+                label={item.title}
+                onClick={onNavigate}
+              />
+            );
+          })
+        : null}
     </DocsShellSection>
   );
 }
@@ -169,7 +190,7 @@ export function SidebarPageTree(props: {
       item: PageTree.Separator,
       key: string,
       i: number,
-      level: number
+      _level: number
     ) {
       if (Separator) {
         return <Separator item={item} key={key} />;
