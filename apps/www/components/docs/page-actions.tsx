@@ -8,7 +8,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "fumadocs-ui/components/ui/popover";
-import { EditOnGitHub } from "fumadocs-ui/page";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import {
   Bookmark,
@@ -63,7 +62,7 @@ export function LLMCopyButton({
           color: "secondary",
           size: "sm",
           className:
-            "gap-2 border-0 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
+            "shrink-0 gap-2 whitespace-nowrap border-0 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
         })
       )}
       disabled={isLoading}
@@ -164,7 +163,7 @@ export function ViewOptions({
           buttonVariants({
             color: "secondary",
             size: "sm",
-            className: "gap-2 border-0",
+            className: "shrink-0 gap-2 whitespace-nowrap border-0",
           })
         )}
       >
@@ -240,7 +239,7 @@ export function BookmarkButton({
           color: "secondary",
           size: "sm",
           className:
-            "select-none gap-2 overflow-hidden border-0 [&_svg]:size-3.5",
+            "shrink-0 select-none gap-2 overflow-hidden whitespace-nowrap border-0 [&_svg]:size-3.5",
         }),
         "disabled:cursor-not-allowed disabled:opacity-50",
         isBookmarked &&
@@ -300,21 +299,33 @@ export function PageActionButtons({
   return (
     <LayoutGroup id={`page-actions-${url}`} key={url}>
       <motion.div
-        className="flex flex-row items-center gap-2"
+        className="flex w-full max-w-full flex-row flex-wrap items-center gap-2"
         layout
         transition={activeTransition}
       >
-        <motion.div layout="position" transition={activeTransition}>
-          <EditOnGitHub
-            className="border-0 [&_svg]:text-fd-muted-foreground"
+        <motion.div
+          className="shrink-0"
+          layout="position"
+          transition={activeTransition}
+        >
+          {/* <EditOnGitHub
+            className="shrink-0 whitespace-nowrap border-0 [&_svg]:text-fd-muted-foreground"
             href={githubUrl}
-          />
+          /> */}
         </motion.div>
-        <motion.div layout="position" transition={activeTransition}>
+        <motion.div
+          className="shrink-0"
+          layout="position"
+          transition={activeTransition}
+        >
           <LLMCopyButton markdownUrl={markdownUrl} />
         </motion.div>
         <BookmarkButton transition={activeTransition} url={url} />
-        <motion.div layout="position" transition={activeTransition}>
+        <motion.div
+          className="shrink-0"
+          layout="position"
+          transition={activeTransition}
+        >
           <ViewOptions githubUrl={githubUrl} markdownUrl={markdownUrl} />
         </motion.div>
       </motion.div>
