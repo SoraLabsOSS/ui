@@ -573,7 +573,7 @@ export default function BookmarkPage() {
   return (
     <div className="flex flex-col items-center px-6 lg:px-10">
       {/* ── Hero ── */}
-      <div className="relative flex flex-col items-center justify-center pt-24 sm:pt-32 md:pt-40">
+      <div className="relative flex flex-col items-center justify-center pt-24 sm:pt-30">
         <motion.h1
           animate={{ opacity: 1, y: 0 }}
           className="max-w-2xl text-center font-medium text-4xl tracking-tighter sm:text-5xl md:text-6xl"

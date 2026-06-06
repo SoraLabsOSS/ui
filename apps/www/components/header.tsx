@@ -30,7 +30,7 @@ const LOGO_WRAPPER_VARIANTS = {
 export const Header = () => (
   <motion.div
     animate="topLeft"
-    className="absolute z-30 flex items-center justify-center"
+    className="absolute z-10 flex items-center justify-center"
     initial="topLeft"
     variants={LOGO_WRAPPER_VARIANTS}
   >

@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       {...DOCS_LAYOUT_PROPS}
       containerProps={{
         className:
-          "[--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:260px] lg:[--fd-sidebar-width:260px]",
+          "[--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:260px] lg:[--fd-sidebar-width:260px] xl:[--fd-toc-width:260px]",
       }}
       nav={{
         component: <Nav primitivesUrl={primitivesUrl} />,

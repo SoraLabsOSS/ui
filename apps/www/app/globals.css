@@ -335,9 +335,21 @@
     @apply !hidden;
   }
 
-  /* Cap layout width so sidebar offset + page/TOC stay in one column (Fumadocs --fd-layout-offset) */
-  #nd-docs-layout {
+  /* Shared layout width so nav, sidebar, and content use the same centering offset */
+  :root {
     --fd-layout-width: min(100vw, 1670px);
+  }
+
+  /* Balance left (sidebar + offset) and right (offset) gutters when banner shifts layout down */
+  #nd-docs-layout {
+    margin-inline-end: var(--fd-layout-offset) !important;
+  }
+
+  #nd-docs-layout:not(:has(#nd-sidebar[data-collapsed="true"])) {
+    margin-inline-start: calc(
+      var(--fd-sidebar-width) +
+      var(--fd-layout-offset)
+    ) !important;
   }
 
   #nd-page article {
@@ -355,11 +367,11 @@
 
   /* Fumadocs default: sticky pb-2 pt-12. items-start on #nd-page so flex stretch does not break sticky. */
   #nd-toc {
-    top: var(--fd-nav-height) !important;
+    top: calc(var(--fd-banner-height) + var(--fd-nav-height)) !important;
     height: calc(
       100dvh -
-      var(--fd-banner-heigh) -
-      va(--fd-nav-height)
+      var(--fd-banner-height) -
+      var(--fd-nav-height)
     ) !important;
     @apply sticky self-start pt-8 pb-2 max-xl:hidden;
   }

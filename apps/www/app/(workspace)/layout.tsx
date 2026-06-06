@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
+import { DocsSidebar } from "@/components/docs/sidebar";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
+import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
@@ -27,6 +29,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const releaseDatesByUrl = getReleaseDatesByUrl();
   const primitivesUrl = getFirstPrimitiveDocUrl();
 
   return (
@@ -40,6 +43,12 @@ export default function Layout({ children }: { children: ReactNode }) {
       }}
       sidebar={{
         enabled: false,
+        component: (
+          <DocsSidebar
+            releaseDatesByUrl={releaseDatesByUrl}
+            {...DOCS_LAYOUT_PROPS}
+          />
+        ),
       }}
     >
       {children}
