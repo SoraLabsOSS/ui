@@ -1,8 +1,7 @@
 "use client";
 
 import XIcon from "@workspace/ui/components/icons/x-icon";
-import Link from "next/link";
-import type React from "react";
+import { motion } from "motion/react";
 import { IconLogo } from "@/components/icon-logo";
 import { ThemeSwitcher } from "./animate/theme-switcher";
 
@@ -18,26 +17,53 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const socialLinkClassName =
-  "inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 sm:[&_svg]:size-5.5";
+const LOGO_WRAPPER_VARIANTS = {
+  topLeft: {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: "auto",
+    height: "auto",
+  },
+};
 
 export const Header = () => (
-  <header className="sticky top-[var(--fd-banner-height,3rem)] z-30 w-full bg-background pt-5 md:pt-6">
-    <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-5 md:h-17">
-      <Link
-        className="flex items-center gap-2.5 rounded-md transition-opacity hover:opacity-80"
-        href="/"
+  <motion.div
+    animate="topLeft"
+    className="absolute z-30 flex items-center justify-center"
+    initial="topLeft"
+    variants={LOGO_WRAPPER_VARIANTS}
+  >
+    <div className="relative size-full max-w-7xl">
+      <motion.div
+        animate={{
+          top: 32,
+        }}
+        className="absolute left-5 flex items-center gap-2.5"
+        layoutId="logo"
       >
-        <IconLogo className="size-9 shrink-0" />
-        <span className="font-semibold text-foreground text-xl tracking-tight md:text-2xl">
+        <IconLogo className="size-9 shrink-0" size="md" />
+        <span className="font-semibold text-foreground text-xl tracking-tight">
           Sora UI
         </span>
-      </Link>
+      </motion.div>
 
-      <div className="flex items-center gap-x-1 sm:gap-x-4">
+      <motion.div
+        animate={{
+          top: 28,
+          right: 20,
+          opacity: 1,
+        }}
+        className="absolute flex items-center gap-x-4"
+        initial={{
+          top: 28,
+          right: 20,
+          opacity: 1,
+        }}
+      >
         <div className="xs:flex hidden items-center gap-x-1">
           <a
-            className={socialLinkClassName}
+            className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
             data-active="false"
             href="https://github.com/axyl1410/sora"
             rel="noreferrer noopener"
@@ -46,7 +72,7 @@ export const Header = () => (
             <GithubLogo className="size-6" />
           </a>
           <a
-            className={socialLinkClassName}
+            className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
             data-active="false"
             href="/"
             rel="noreferrer noopener"
@@ -57,7 +83,7 @@ export const Header = () => (
         </div>
 
         <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
-      </div>
+      </motion.div>
     </div>
-  </header>
+  </motion.div>
 );

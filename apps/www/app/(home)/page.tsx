@@ -7,9 +7,9 @@ import { Hero } from "@/components/hero";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-dvh overflow-x-hidden">
+    <main className="relative h-dvh overflow-x-hidden">
       <Header />
-      <div className="flex w-full flex-col justify-between">
+      <div className="flex h-dvh w-full flex-col justify-between">
         <div>
           <Hero />
           <Features />

@@ -100,7 +100,7 @@ const TITLE = "Animate your UI with smooth style";
 
 export const Hero = () => (
   <div className="relative flex flex-col items-center overflow-hidden px-5">
-    <div className="relative z-10 flex flex-col items-center justify-center pt-12 md:pt-16">
+    <div className="relative z-10 flex flex-col items-center justify-center pt-30">
       <MotionEffect
         fade
         inView
@@ -170,8 +170,8 @@ export const Hero = () => (
         zoom
       >
         <p className="mt-3 block text-balance text-center font-normal text-muted-foreground text-sm sm:max-w-[450px] sm:text-base md:max-w-[660px] md:text-lg">
-          A fully animated, open-source React component distribution. Browse a
-          list of animated components you can install and use in your projects.
+          A fully animated React component library. Browse a list of animated
+          components you can install and use in your projects.
         </p>
       </MotionEffect>
 
