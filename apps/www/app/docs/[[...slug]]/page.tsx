@@ -15,9 +15,9 @@ import { notFound } from "next/navigation";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { PageActionButtons } from "@/components/docs/page-actions";
-import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
-import { getFirstPrimitiveDocUrl } from "@/lib/get-first-primitive-doc-url";
-import { source } from "@/lib/source";
+import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
+import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
+import { source } from "@/lib/docs/source";
 import { getMDXComponents } from "@/mdx-components";
 
 export default async function Page(props: {
@@ -66,9 +66,7 @@ export default async function Page(props: {
 
     const isPrimitivesRoot = page.url === primitivesUrl;
     const isSectionRoot =
-      page.url === DOCS_COMPONENTS_SECTION_URL ||
-      isPrimitivesRoot ||
-      page.url === "/docs/icons/get-started";
+      page.url === DOCS_COMPONENTS_SECTION_URL || isPrimitivesRoot;
 
     if (isSectionRoot && guideItems.length > 0) {
       const last = guideItems[guideItems.length - 1];

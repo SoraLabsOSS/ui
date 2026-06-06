@@ -1,6 +1,6 @@
 import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
 import { NextResponse } from "next/server";
-import { source } from "@/lib/source";
+import { source } from "@/lib/docs/source";
 
 async function getStaticSearchData() {
   "use cache";

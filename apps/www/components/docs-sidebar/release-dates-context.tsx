@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { isPageNew } from "@/lib/docs-page-new";
+import { isPageNew } from "@/lib/docs/docs-page-new";
 
 const DocsReleaseDatesContext = createContext<Record<string, string>>({});
 

@@ -19,7 +19,7 @@ import {
   extractPropsForCodegen,
   generateUsageExampleCode,
   installImportPathFromTarget,
-} from "@/lib/generate-usage-example-code";
+} from "@/lib/docs/generate-usage-example-code";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;

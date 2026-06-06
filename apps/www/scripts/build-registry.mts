@@ -7,7 +7,7 @@ import { exec } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { rimraf } from "rimraf";
-import { generateUsageExampleFromTarget } from "../lib/generate-usage-example-code.ts";
+import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.ts";
 
 const CONTENT_DOCS_PATH = path.join(process.cwd(), "content", "docs");
 
@@ -147,8 +147,8 @@ async function buildRegistryFile() {
   const documentedNames = await collectDocumentedNames();
 
   const filteredItems = newItems.filter((item) => {
-    // Always exclude internal primitives and icons from the public registry
-    if (item.name.startsWith("primitives-") || item.name.startsWith("icons-")) {
+    // Always exclude internal primitives from the public registry
+    if (item.name.startsWith("primitives-")) {
       return false;
     }
     // Demos are doc previews only — not installable via CLI
@@ -333,11 +333,9 @@ export const index: Record<string, any> = {`;
     if (!item.files) {
       continue;
     }
-    // Skip items not referenced in any doc page (keep primitives/icons as internal deps)
+    // Skip items not referenced in any doc page (keep primitives as internal deps)
     if (
-      !(
-        item.name.startsWith("primitives-") || item.name.startsWith("icons-")
-      ) &&
+      !item.name.startsWith("primitives-") &&
       item.name !== "index" &&
       !documentedNames.has(item.name)
     ) {
@@ -388,10 +386,7 @@ export const index: Record<string, any> = {`;
       continue;
     }
     if (
-      !(
-        registryItem.name.startsWith("primitives-") ||
-        registryItem.name.startsWith("icons-")
-      ) &&
+      !registryItem.name.startsWith("primitives-") &&
       registryItem.name !== "index" &&
       !documentedNames.has(registryItem.name)
     ) {

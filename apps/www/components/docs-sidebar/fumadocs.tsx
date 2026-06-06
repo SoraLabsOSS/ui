@@ -16,7 +16,7 @@ import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Fragment, type ReactNode, useMemo } from "react";
-import { Separator } from "@/lib/attach-separator";
+import { Separator } from "@/lib/docs/attach-separator";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 import {
@@ -157,14 +157,6 @@ export function SidebarPageTree(props: {
       i: number,
       level: number
     ) {
-      if (
-        level === 1 &&
-        sectionRoot &&
-        pathname.startsWith("/docs/icons") &&
-        i === 0
-      ) {
-        return [];
-      }
       if (Separator) {
         return <Separator item={item} key={key} />;
       }

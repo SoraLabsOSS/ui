@@ -37,7 +37,9 @@
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./src/lib/*.ts",
+    "./lib/auth/*": "./src/lib/auth/*.ts",
+    "./lib/get-strict-context": "./src/lib/get-strict-context.tsx",
+    "./lib/utils": "./src/lib/utils.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"
   }

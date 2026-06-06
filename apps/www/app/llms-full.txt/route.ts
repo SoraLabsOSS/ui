@@ -1,5 +1,5 @@
-import { getLLMText } from "@/lib/get-llm-text";
-import { source } from "@/lib/source";
+import { getLLMText } from "@/lib/docs/get-llm-text";
+import { source } from "@/lib/docs/source";
 
 async function getLLMsContent() {
   "use cache";

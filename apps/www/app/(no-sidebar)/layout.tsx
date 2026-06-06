@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
-import { getFirstPrimitiveDocUrl } from "@/lib/get-first-primitive-doc-url";
-import { source } from "@/lib/source";
+import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
+import { source } from "@/lib/docs/source";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,

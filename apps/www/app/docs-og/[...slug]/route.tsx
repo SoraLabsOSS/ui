@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
-import { source } from "@/lib/source";
+import { source } from "@/lib/docs/source";
 
 async function loadGoogleFont(font: string, text: string) {
   "use cache";

@@ -1,7 +1,7 @@
 "use client";
 
-import { useControlledState } from "@workspace/ui/hooks/use-controlled-state.js";
-import { getStrictContext } from "@workspace/ui/lib/get-strict-context.js";
+import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
+import { getStrictContext } from "@workspace/ui/lib/get-strict-context";
 import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import type * as React from "react";
