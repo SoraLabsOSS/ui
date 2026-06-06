@@ -300,12 +300,6 @@
     @apply bg-background text-foreground;
   }
 
-  /* Home: banner + main must fit one viewport — single scroll on #home-page only */
-  body:has(#home-page) {
-    height: 100dvh;
-    overflow: hidden;
-  }
-
   #nd-sidebar {
     @apply md:!border-0;
   }
@@ -344,6 +338,8 @@
   /* Shared layout width so nav, sidebar, and content use the same centering offset */
   :root {
     --fd-layout-width: min(100vw, 1670px);
+    /* Beta banner in root layout; keeps fixed nav/sidebar below banner on first paint */
+    --fd-banner-height: 3rem;
   }
 
   /* Balance left (sidebar + offset) and right (offset) gutters when banner shifts layout down */

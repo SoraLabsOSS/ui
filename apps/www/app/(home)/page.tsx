@@ -8,7 +8,7 @@ import { Hero } from "@/components/hero";
 export default function HomePage() {
   return (
     <main
-      className="relative z-0 h-[calc(100dvh-var(--fd-banner-height,0px))] overflow-y-auto overflow-x-hidden"
+      className="relative z-0 h-[calc(100dvh-var(--fd-banner-height,3rem))] overflow-y-auto overflow-x-hidden"
       id="home-page"
     >
       <Header />
