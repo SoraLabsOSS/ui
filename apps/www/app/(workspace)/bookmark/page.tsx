@@ -468,7 +468,7 @@ function renderContent({
   return (
     <motion.div
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-4"
       exit={{ opacity: 0, y: -10 }}
       initial={{ opacity: 0, y: 10 }}
       key="list-container"
