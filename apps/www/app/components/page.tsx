@@ -1,5 +1,7 @@
 import { ensureSession } from "@better-auth-ui/react/server";
+import { UserButton } from "@workspace/ui/components/auth/user/user-button";
 import { Button } from "@workspace/ui/components/ui/button";
+import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { MoveLeft } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -10,9 +12,9 @@ import { getQueryClient } from "@/lib/query-client";
 
 function ComponentsPageSkeleton() {
   return (
-    <section className="h-full w-full flex-1 flex-col items-start justify-center px-5 pt-24 md:pt-28">
-      <div className="h-8 w-48 animate-pulse rounded-lg bg-muted" />
-    </section>
+    <div className="flex h-screen w-full items-center justify-center">
+      <Spinner className="size-8 text-primary" />
+    </div>
   );
 }
 
@@ -29,6 +31,8 @@ async function ProtectedComponentsContent() {
   return (
     <section className="h-full w-full flex-1 flex-col items-start justify-center px-5 pt-24 md:pt-28">
       <div className="w-full lg:w-1/2">
+        <h1 className="text-2xl">Hello, {session.user.email}</h1>
+        <UserButton />
         <h1 className="mt-3 font-semibold text-2xl md:text-3xl">
           Page under construction
         </h1>

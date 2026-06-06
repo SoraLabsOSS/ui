@@ -34,7 +34,7 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
           {
             "--callout-color": `var(--color-fd-${type}, var(--color-fd-muted))`,
             ...props.style,
-          } as object
+          } as React.CSSProperties
         }
       >
         <div className="w-0.5 rounded-sm bg-(--callout-color)/50" role="none" />

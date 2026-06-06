@@ -1,7 +1,9 @@
+import { Spinner } from "@workspace/ui/components/ui/spinner";
+
 export default function SettingsLoading() {
   return (
-    <div className="mx-auto w-full max-w-3xl p-4 md:p-6">
-      <div className="h-64 animate-pulse rounded-xl bg-muted" />
+    <div className="flex h-screen w-full items-center justify-center">
+      <Spinner className="size-8 text-primary" />
     </div>
   );
 }
