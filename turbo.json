@@ -8,7 +8,9 @@
         "BETTER_AUTH_SECRET",
         "DATABASE_URL",
         "DATABASE_URL_DIRECT",
-        "NEXT_PUBLIC_BETTER_AUTH_URL"
+        "GOOGLE_CLIENT_SECRET",
+        "NEXT_PUBLIC_BETTER_AUTH_URL",
+        "NEXT_PUBLIC_GOOGLE_CLIENT_ID"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
