@@ -12,6 +12,9 @@ import {
   Bookmark,
   BookmarkX,
   ExternalLink,
+  Grid2x2,
+  Grid3x2,
+  List,
   Loader,
   Search,
   Trash2,
@@ -96,50 +99,6 @@ function CardThumbnail({
   );
 }
 
-/* ── View toggle icon components matching the DOM ── */
-function IconCards() {
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-grid h-3 w-3 grid-cols-2 place-content-center gap-[2.5px]"
-    >
-      <span className="size-[4px] rounded-[1px] bg-current" />
-      <span className="size-[4px] rounded-[1px] bg-current" />
-      <span className="size-[4px] rounded-[1px] bg-current" />
-      <span className="size-[4px] rounded-[1px] bg-current" />
-    </span>
-  );
-}
-
-function IconCompact() {
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-grid h-4 w-4 grid-cols-3 place-content-center gap-[2px]"
-    >
-      <span className="size-[3px] rounded-[1px] bg-current" />
-      <span className="size-[3px] rounded-[1px] bg-current" />
-      <span className="size-[3px] rounded-[1px] bg-current" />
-      <span className="size-[3px] rounded-[1px] bg-current" />
-      <span className="size-[3px] rounded-[1px] bg-current" />
-      <span className="size-[3px] rounded-[1px] bg-current" />
-    </span>
-  );
-}
-
-function IconList() {
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-flex h-4 w-4 flex-col items-center justify-center gap-[3px]"
-    >
-      <span className="h-[2px] w-3 rounded-full bg-current opacity-90" />
-      <span className="h-[2px] w-3 rounded-full bg-current opacity-90" />
-      <span className="h-[2px] w-3 rounded-full bg-current opacity-90" />
-    </span>
-  );
-}
-
 /* ── View toggle group ── */
 function ViewToggle({
   viewMode,
@@ -148,15 +107,11 @@ function ViewToggle({
   viewMode: ViewMode;
   setViewMode: (v: ViewMode) => void;
 }) {
-  const options: {
-    value: ViewMode;
-    label: string;
-    Icon: () => React.ReactElement;
-  }[] = [
-    { value: "cards", label: "Cards", Icon: IconCards },
-    { value: "compact", label: "Compact", Icon: IconCompact },
-    { value: "list", label: "List", Icon: IconList },
-  ];
+  const options = [
+    { value: "cards", label: "Cards", Icon: Grid2x2 },
+    { value: "compact", label: "Compact", Icon: Grid3x2 },
+    { value: "list", label: "List", Icon: List },
+  ] as const;
 
   return (
     <Tabs
@@ -173,7 +128,7 @@ function ViewToggle({
                 title={label}
                 value={value}
               >
-                <Icon />
+                <Icon className="h-4 w-4" />
               </TabsTrigger>
             </TabsHighlightItem>
           ))}
@@ -596,7 +551,7 @@ export default function BookmarkPage() {
   if (!isMounted) {
     return (
       <div className="flex flex-col items-center px-6 lg:px-10">
-        <div className="flex flex-col items-center justify-center pt-40">
+        <div className="flex flex-col items-center justify-center pt-24 sm:pt-32 md:pt-40">
           <div className="mb-4 h-16 w-80 animate-pulse rounded-2xl bg-muted" />
           <div className="h-5 w-64 animate-pulse rounded bg-muted" />
         </div>
@@ -618,10 +573,10 @@ export default function BookmarkPage() {
   return (
     <div className="flex flex-col items-center px-6 lg:px-10">
       {/* ── Hero ── */}
-      <div className="relative flex flex-col items-center justify-center pt-40">
+      <div className="relative flex flex-col items-center justify-center pt-24 sm:pt-32 md:pt-40">
         <motion.h1
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-2xl text-center font-medium text-6xl tracking-tighter"
+          className="max-w-2xl text-center font-medium text-4xl tracking-tighter sm:text-5xl md:text-6xl"
           initial={{ opacity: 0, y: -12 }}
           transition={{ duration: 0.4 }}
         >
@@ -635,13 +590,13 @@ export default function BookmarkPage() {
         >
           {bookmarks.length === 0 && !loading
             ? "Nothing saved yet — explore and bookmark components."
-            : `${bookmarks.length} saved page${bookmarks.length === 1 ? "" : "s"}.`}
+            : `${bookmarks.length} item${bookmarks.length === 1 ? "" : "s"} in your collection.`}
         </motion.p>
       </div>
 
       {/* ── Main content area ── */}
-      <div className="flex w-full max-w-7xl flex-col gap-16 py-10">
-        <div className="flex flex-col gap-12">
+      <div className="flex w-full max-w-7xl flex-col gap-10 py-6 md:gap-16 md:py-10">
+        <div className="flex flex-col gap-8 md:gap-12">
           {/* Search + filters */}
           <motion.div
             animate={{ opacity: 1, y: 0 }}
@@ -662,7 +617,7 @@ export default function BookmarkPage() {
             </div>
 
             {/* Tag filter pills */}
-            {allTags.length > 1 && (
+            {/* {allTags.length > 1 && (
               <div className="flex w-full shrink-0 flex-wrap items-center justify-center gap-2 sm:w-auto sm:justify-end">
                 <FilterGroup
                   active={activeTag}
@@ -670,7 +625,7 @@ export default function BookmarkPage() {
                   options={allTags}
                 />
               </div>
-            )}
+            )} */}
           </motion.div>
 
           {/* ── Section header ── */}
@@ -682,7 +637,9 @@ export default function BookmarkPage() {
           >
             <div className="flex flex-col gap-1">
               <div className="inline-flex items-start gap-2">
-                <h2 className="text-4xl tracking-tight">Bookmarks</h2>
+                <h2 className="text-2xl tracking-tight sm:text-3xl md:text-4xl">
+                  Bookmarks
+                </h2>
                 <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1.5 font-medium text-foreground/70 text-xs tabular-nums">
                   {filteredBookmarks.length}
                 </span>

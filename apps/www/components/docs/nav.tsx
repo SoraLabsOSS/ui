@@ -55,7 +55,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
           color: "ghost",
           size: "icon-sm",
           className:
-            "size-8! p-0! transition-colors duration-200 ease-in-out [&_svg]:size-5! md:[&_svg]:size-4.5!",
+            "size-8! p-0! transition-colors duration-200 ease-in-out [&_svg]:size-7!",
         })}
         href="/"
       >

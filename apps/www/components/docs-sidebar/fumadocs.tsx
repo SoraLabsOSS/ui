@@ -423,7 +423,7 @@ export const DocsSidebar = (
         >
           <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
             <div className="flex items-center gap-2">
-              <IconLogo className="size-4" />
+              <IconLogo size="sm" />
               <span className="font-semibold text-sm">Sora UI</span>
             </div>
             <button

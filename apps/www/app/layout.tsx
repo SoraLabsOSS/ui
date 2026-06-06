@@ -1,6 +1,6 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
-import { Geist, Outfit } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
@@ -8,10 +8,9 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@workspace/ui/lib/utils";
+import { Banner } from "@/components/banner";
 import { Providers } from "@/components/providers";
 import { jsonLd } from "@/lib/json-ld";
-
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ui.soralabs.io.vn"),
@@ -113,7 +112,24 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <RootProvider>
           <NuqsAdapter>
-            <Providers> {children}</Providers>
+            <Providers>
+              <Banner
+                rainbowColors={[
+                  "rgba(255,100,0, 0.5)",
+                  "rgba(255,100,0, 0.5)",
+                  "transparent",
+                  "rgba(255,100,0, 0.5)",
+                  "transparent",
+                  "rgba(255,100,0, 0.5)",
+                  "transparent",
+                ]}
+                variant="rainbow"
+              >
+                Sora is in active beta. Data resets may occur during this
+                development phase.
+              </Banner>
+              {children}
+            </Providers>
           </NuqsAdapter>
         </RootProvider>
         <Analytics />

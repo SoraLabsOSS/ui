@@ -1,4 +1,6 @@
 {
+  "name": "sora-ui",
+  "version": "1.0.27",
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
     "@commitlint/cli": "^19.8.0",
@@ -15,7 +17,11 @@
     "typescript": "^5.9.2",
     "ultracite": "7.8.1"
   },
-  "name": "animate-ui",
+  "engines": {
+    "node": ">=20.9"
+  },
+  "packageManager": "bun@1.3.5",
+  "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -28,14 +34,8 @@
     "check": "ultracite check",
     "fix": "ultracite fix"
   },
-  "version": "1.0.27",
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "private": true,
-  "packageManager": "bun@1.3.5",
-  "engines": {
-    "node": ">=20.9"
-  }
+  ]
 }

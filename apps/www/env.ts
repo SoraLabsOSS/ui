@@ -9,6 +9,8 @@ export const env = createEnv({
     /** Direct connection (port 5432) — drizzle-kit migrations only */
     DATABASE_URL_DIRECT: z.url().optional(),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
+    UPSTASH_REDIS_REST_URL: z.string().url(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
   },
 
   client: {

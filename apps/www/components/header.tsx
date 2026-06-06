@@ -1,9 +1,9 @@
 "use client";
 
 import XIcon from "@workspace/ui/components/icons/x-icon";
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
-import { motion } from "motion/react";
-import { Logo } from "@/components/logo";
+import Link from "next/link";
+import type React from "react";
+import { IconLogo } from "@/components/icon-logo";
 import { ThemeSwitcher } from "./animate/theme-switcher";
 
 const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
@@ -18,100 +18,46 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const LOGO_WRAPPER_VARIANTS = {
-  center: {
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: "100%",
-  },
-  topLeft: {
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: "auto",
-    height: "auto",
-  },
-};
+const socialLinkClassName =
+  "inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 sm:[&_svg]:size-5.5";
 
-export const Header = ({ transition }: { transition: boolean }) => {
-  const isMobile = useIsMobile();
+export const Header = () => (
+  <header className="sticky top-[var(--fd-banner-height,3rem)] z-30 w-full bg-background pt-5 md:pt-6">
+    <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-5 md:h-17">
+      <Link
+        className="flex items-center gap-2.5 rounded-md transition-opacity hover:opacity-80"
+        href="/"
+      >
+        <IconLogo className="size-9 shrink-0" />
+        <span className="font-semibold text-foreground text-xl tracking-tight md:text-2xl">
+          Sora UI
+        </span>
+      </Link>
 
-  return (
-    <motion.div
-      animate={transition ? "topLeft" : "center"}
-      className="absolute z-40 flex items-center justify-center"
-      initial="center"
-      transition={{ type: "spring", stiffness: 200, damping: 30 }}
-      variants={LOGO_WRAPPER_VARIANTS}
-    >
-      <div className="relative size-full max-w-7xl">
-        {transition ? (
-          <motion.div
-            animate={{
-              top: 32,
-            }}
-            className="absolute left-5 z-110"
-            layoutId="logo"
+      <div className="flex items-center gap-x-1 sm:gap-x-4">
+        <div className="xs:flex hidden items-center gap-x-1">
+          <a
+            className={socialLinkClassName}
+            data-active="false"
+            href="https://github.com/axyl1410/sora"
+            rel="noreferrer noopener"
+            target="_blank"
           >
-            <Logo size="sm" />
-          </motion.div>
-        ) : (
-          <motion.div
-            className="absolute top-1/2 left-1/2 z-110 -translate-x-1/2 -translate-y-1/2"
-            layoutId="logo"
+            <GithubLogo className="size-6" />
+          </a>
+          <a
+            className={socialLinkClassName}
+            data-active="false"
+            href="/"
+            rel="noreferrer noopener"
+            target="_blank"
           >
-            <Logo draw size={isMobile ? "lg" : "xl"} />
-          </motion.div>
-        )}
+            <XIcon />
+          </a>
+        </div>
 
-        <motion.div
-          animate={
-            transition
-              ? {
-                  top: 28,
-                  right: 20,
-                  opacity: 1,
-                }
-              : {
-                  top: 28,
-                  right: -43,
-                  opacity: 0,
-                }
-          }
-          className="absolute z-110 flex items-center gap-x-4"
-          initial={{
-            top: 28,
-            right: -43,
-            opacity: 0,
-          }}
-          transition={{ type: "spring", stiffness: 200, damping: 30 }}
-        >
-          <div className="xs:flex hidden items-center gap-x-1">
-            <a
-              className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
-              data-active="false"
-              href="https://github.com/axyl1410/sora"
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              <GithubLogo className="size-6" />
-            </a>
-            <a
-              className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
-              data-active="false"
-              href="/"
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              <XIcon />
-            </a>
-          </div>
-
-          <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
-        </motion.div>
+        <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
       </div>
-    </motion.div>
-  );
-};
+    </div>
+  </header>
+);

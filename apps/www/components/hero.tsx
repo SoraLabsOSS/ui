@@ -100,7 +100,7 @@ const TITLE = "Animate your UI with smooth style";
 
 export const Hero = () => (
   <div className="relative flex flex-col items-center overflow-hidden px-5">
-    <div className="relative z-10 flex flex-col items-center justify-center pt-30">
+    <div className="relative z-10 flex flex-col items-center justify-center pt-12 md:pt-16">
       <MotionEffect
         fade
         inView
