@@ -303,16 +303,29 @@
   #nd-sidebar {
     @apply md:!border-0;
   }
-  /* Mobile drawer: raise overlay/panel above page content (no solid scrim — Fumadocs uses backdrop-blur only) */
+  /* Mobile drawer: above banner (z-20) and docs nav (z-40) */
   @media (max-width: 767px) {
     body:has(#nd-sidebar-mobile[data-state="open"])
       #nd-docs-layout
       > div:has(> .fixed.inset-0[data-state="open"]) {
-      z-index: 50;
+      z-index: 60;
     }
 
     #nd-sidebar-mobile[data-state="open"] {
-      z-index: 51;
+      z-index: 61;
+    }
+
+    #nd-sidebar[data-open="true"] {
+      z-index: 61;
+    }
+
+    /* Fumadocs search dialog overlay + panel */
+    .fixed.inset-0.z-50.bg-black\/30 {
+      z-index: 70;
+    }
+
+    .fixed.left-1\/2.top-\[10vh\].z-50 {
+      z-index: 71;
     }
   }
 

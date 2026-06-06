@@ -49,7 +49,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
   const navItems = buildNavItems(primitivesUrl);
 
   return (
-    <Navbar className="left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-b-0 bg-background px-3 md:h-17 md:px-5">
+    <Navbar className="!z-40 left-1/2 flex h-14 w-full max-w-[1670px] -translate-x-1/2 items-center gap-3 border-b-0 bg-background px-3 md:h-17 md:px-5">
       <Link
         className={buttonVariants({
           color: "ghost",
