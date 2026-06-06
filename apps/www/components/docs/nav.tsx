@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton } from "@workspace/ui/components/auth/user/user-button";
 import {
   MotionNavigationMenu,
   MotionNavigationMenuItem,
@@ -10,7 +11,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
 import { useSearchContext, useSidebar } from "fumadocs-ui/provider";
-import { CommandIcon, Menu } from "lucide-react";
+import { Bookmark, CommandIcon, Menu } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { ThemeSwitcher } from "../animate/theme-switcher";
@@ -99,7 +100,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
             </div>
           </button>
 
-          <a
+          {/* <a
             className="inline-flex size-8 items-center justify-center rounded-md font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5"
             data-active="false"
             href="https://github.com/axyl1410/sora"
@@ -107,7 +108,19 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
             target="_blank"
           >
             <GithubLogo />
-          </a>
+          </a> */}
+          <UserButton
+            align="end"
+            links={[
+              {
+                label: "Bookmark",
+                href: "/bookmark",
+                icon: <Bookmark />,
+                visibility: "authenticated",
+              },
+            ]}
+            size="icon"
+          />
 
           <ThemeSwitcher className="max-md:hidden" />
 

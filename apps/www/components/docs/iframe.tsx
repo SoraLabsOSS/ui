@@ -25,6 +25,7 @@ export default function Iframe({
     <iframe
       className={cn("h-[500px] rounded-md", bigScreen && "w-[1600px]")}
       src={iframeUrl}
+      title={name}
     />
   );
 }

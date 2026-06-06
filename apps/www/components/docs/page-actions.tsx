@@ -201,7 +201,7 @@ export function BookmarkButton({
   transition = layoutTransition,
 }: {
   url: string;
-  transition?: any;
+  transition?: React.ComponentProps<typeof motion.button>["transition"];
 }): JSX.Element {
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
@@ -240,8 +240,9 @@ export function BookmarkButton({
           color: "secondary",
           size: "sm",
           className:
-            "cursor-pointer select-none gap-2 overflow-hidden border-0 [&_svg]:size-3.5",
+            "select-none gap-2 overflow-hidden border-0 [&_svg]:size-3.5",
         }),
+        "disabled:cursor-not-allowed disabled:opacity-50",
         isBookmarked &&
           "text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
       )}

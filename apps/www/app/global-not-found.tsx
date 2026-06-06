@@ -1,19 +1,41 @@
+"use client";
+
 // Import global styles and fonts
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "404 - Page Not Found",
-  description: "The page you are looking for does not exist.",
-};
-
 export default function GlobalNotFound() {
+  useEffect(() => {
+    // Detect dark theme from localStorage or system preferences
+    const savedTheme = localStorage.getItem("theme");
+    const systemPrefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    if (
+      savedTheme === "dark" ||
+      (savedTheme === "system" && systemPrefersDark) ||
+      (!savedTheme && systemPrefersDark)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <html className={inter.className} lang="en">
+      <head>
+        <title>404 - Page Not Found</title>
+        <meta
+          content="The page you are looking for does not exist."
+          name="description"
+        />
+      </head>
       <body className="bg-white text-zinc-950 antialiased dark:bg-zinc-950 dark:text-zinc-50">
         <div className="relative flex min-h-screen flex-col items-center justify-center space-y-4 px-6 text-center">
           <h1 className="font-light font-mono text-7xl">404</h1>
