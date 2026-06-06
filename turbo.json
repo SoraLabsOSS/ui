@@ -10,7 +10,9 @@
         "DATABASE_URL_DIRECT",
         "GOOGLE_CLIENT_SECRET",
         "NEXT_PUBLIC_BETTER_AUTH_URL",
-        "NEXT_PUBLIC_GOOGLE_CLIENT_ID"
+        "NEXT_PUBLIC_GOOGLE_CLIENT_ID",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
