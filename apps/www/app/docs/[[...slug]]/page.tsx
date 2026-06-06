@@ -7,7 +7,6 @@ import {
   DocsDescription,
   DocsPage,
   DocsTitle,
-  EditOnGitHub,
 } from "fumadocs-ui/page";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
@@ -15,7 +14,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
-import { LLMCopyButton, ViewOptions } from "@/components/docs/page-actions";
+import { PageActionButtons } from "@/components/docs/page-actions";
 import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs-nav-constants";
 import { getFirstPrimitiveDocUrl } from "@/lib/get-first-primitive-doc-url";
 import { source } from "@/lib/source";
@@ -159,17 +158,12 @@ export default async function Page(props: {
         <DocsAuthor name={page.data.author.name} url={page.data.author?.url} />
       )}
 
-      <div className="flex flex-row items-center gap-2">
-        <EditOnGitHub
-          className="border-0 [&_svg]:text-fd-muted-foreground"
-          href={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${params.slug ? `${params.slug.join("/")}.mdx` : "index.mdx"}`}
-        />
-        <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
-        <ViewOptions
-          githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${page.path}`}
-          markdownUrl={`${page.url}.mdx`}
-        />
-      </div>
+      <PageActionButtons
+        githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${page.path}`}
+        key={page.url}
+        markdownUrl={`${page.url}.mdx`}
+        url={page.url}
+      />
 
       <DocsBody className="pt-4 pb-10" id="docs-body">
         <MDXContent
