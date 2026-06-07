@@ -56,9 +56,18 @@ Run the `add` command. Once Sora UI is listed in the official shadcn registry
   }
   ```
 
-  For local registry testing (Sora UI repo with `bun dev` running), use
-  `http://localhost:3000/r/{name}.json` instead. Prefer the production URL
-  when localhost is unavailable.
+  For local registry testing (Sora UI repo with `bun dev` running), use this
+  instead:
+
+  ```json
+  {
+    "registries": {
+      "@sora-ui": "http://localhost:3000/r/{name}.json"
+    }
+  }
+  ```
+
+  Prefer the production URL when localhost is unavailable.
 
   List available items:
 
