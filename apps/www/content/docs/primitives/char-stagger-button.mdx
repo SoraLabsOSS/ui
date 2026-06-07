@@ -1,0 +1,89 @@
+---
+title: Char Stagger Button
+description: A button with per-character stagger animation on hover.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="char-stagger-button" />
+
+## Installation
+
+<ComponentInstallation name="char-stagger-button" />
+
+## Usage
+
+```tsx
+import { CharStaggerButton } from '@/components/sora-ui/buttons/char-stagger-button';
+
+export default function Page() {
+  return (
+    <>
+      <CharStaggerButton href="#">Staggering Button</CharStaggerButton>
+
+      <CharStaggerButton variant="link" href="#" className="text-white">
+        or use on links
+      </CharStaggerButton>
+
+      <CharStaggerButton asChild>
+        <button type="button">Submit</button>
+      </CharStaggerButton>
+    </>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    asChild: {
+      description:
+        'Merge styles and animation into a single child element (`button`, `a`, `Link`, etc.).',
+      type: 'boolean',
+      default: 'false',
+    },
+    children: {
+      description:
+        'Plain-text label when `asChild` is false. With `asChild`, pass one React element — its string child or `label` provides the animated text.',
+      type: 'string | ReactElement',
+    },
+    label: {
+      description:
+        'Alternative text source for demos, controlled previews, or `asChild` when the child has no string content.',
+      type: 'string',
+    },
+    variant: {
+      description: 'Visual style preset. `default` includes a background; `link` is text-only.',
+      type: '"default" | "link"',
+      default: '"default"',
+    },
+    staggerDelay: {
+      description: 'Per-character transition delay increment, in seconds.',
+      type: 'number',
+      default: '0.01',
+    },
+    className: {
+      description:
+        'Additional class names merged onto the root element (`a` by default, or the `asChild` target).',
+      type: 'string',
+    },
+    bgClassName: {
+      description: 'Override the background layer. Only rendered for the `default` variant.',
+      type: 'string',
+    },
+    textClassName: {
+      description: 'Override the text wrapper around animated characters.',
+      type: 'string',
+    },
+    charsClassName: {
+      description: 'Override the animated characters container.',
+      type: 'string',
+    },
+    charClassName: {
+      description: 'Override each animated character span.',
+      type: 'string',
+    },
+  }}
+/>

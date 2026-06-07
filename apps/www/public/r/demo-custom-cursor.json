@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-custom-cursor",
+  "title": "Custom Cursor Demo",
+  "description": "Custom cursor demo with Sora icons and shape variants.",
+  "registryDependencies": ["custom-cursor"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",
+      "content": "\"use client\";\n\nimport { IconLogo } from \"@/components/icon-logo\";\nimport {\n  CustomCursor,\n  type CustomCursorProps,\n  CustomCursorTarget,\n} from \"@/components/sora-ui/effects/custom-cursor\";\n\nexport function CustomCursorExample({\n  className,\n  color = \"#ff4c24\",\n  followDamping = 22,\n  followStiffness = 150,\n}: CustomCursorProps) {\n  return (\n    <CustomCursor\n      className={className}\n      color={color}\n      followDamping={followDamping}\n      followStiffness={followStiffness}\n      layout=\"demo\"\n    >\n      <CustomCursorTarget aria-label=\"Sora logo\" size=\"lg\">\n        <IconLogo className=\"size-full\" />\n      </CustomCursorTarget>\n    </CustomCursor>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/custom-cursor.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "CustomCursorExample": {
+        "color": {
+          "value": "#ff4c24"
+        },
+        "followStiffness": {
+          "value": 150,
+          "min": 50,
+          "max": 300,
+          "step": 10
+        },
+        "followDamping": {
+          "value": 22,
+          "min": 10,
+          "max": 40,
+          "step": 1
+        },
+        "className": {
+          "value": "w-full"
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

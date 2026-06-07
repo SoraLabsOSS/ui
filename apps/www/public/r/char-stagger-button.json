@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "char-stagger-button",
+  "title": "Char Stagger Button",
+  "description": "A button with per-character stagger animation on hover.",
+  "dependencies": ["class-variance-authority"],
+  "files": [
+    {
+      "path": "registry/primitives/buttons/char-stagger-button/index.tsx",
+      "content": "/** biome-ignore-all lint/suspicious/noArrayIndexKey: Character order is stable for static button labels. */\n\nimport { cn } from \"@/lib/utils\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport {\n  type ComponentPropsWithoutRef,\n  cloneElement,\n  isValidElement,\n  type ReactElement,\n  type Ref,\n  type RefCallback,\n  type RefObject,\n} from \"react\";\n\nconst charStaggerButtonVariants = cva(\"group cursor-pointer no-underline\", {\n  variants: {\n    variant: {\n      default:\n        \"relative flex max-w-[12em] flex-grow items-center justify-center rounded-[0.25em] p-[1em] text-[#131313] text-[1em] leading-none\",\n      link: \"relative inline-block text-[1em] text-current leading-none\",\n    },\n  },\n  defaultVariants: {\n    variant: \"default\",\n  },\n});\n\nconst charStaggerButtonBgVariants = cva(\n  \"absolute inset-0 rounded-[0.25em] bg-[#efeeec] transition-[inset] duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:inset-[0.125em]\"\n);\n\nconst charStaggerButtonTextVariants = cva(\"whitespace-nowrap leading-[1.3]\");\n\nconst charStaggerButtonCharsVariants = cva(\n  \"relative inline-block overflow-hidden\"\n);\n\nconst charStaggerButtonCharVariants = cva(\n  \"relative inline-block translate-y-0 rotate-[0.001deg] transition-transform duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] [text-shadow:0px_1.3em_currentColor] group-hover:-translate-y-[1.3em] group-hover:rotate-[0.001deg]\"\n);\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: ReactElement })\n  | (Base & { asChild?: false | undefined; children?: string });\n\ntype CharStaggerButtonBaseProps = Omit<\n  ComponentPropsWithoutRef<\"a\">,\n  \"children\"\n> &\n  VariantProps<typeof charStaggerButtonVariants> & {\n    /** Override the background layer (`default` variant only). */\n    bgClassName?: string;\n    /** Override each animated character span. */\n    charClassName?: string;\n    /** Override the animated characters container. */\n    charsClassName?: string;\n    /** Alternative to string `children` — required when `asChild` child has no string content. */\n    label?: string;\n    /**\n     * Per-character transition delay increment in seconds.\n     * @default 0.01\n     */\n    staggerDelay?: number;\n    /** Override the text wrapper. */\n    textClassName?: string;\n  };\n\nexport type CharStaggerButtonProps = WithAsChild<CharStaggerButtonBaseProps>;\n\ninterface CharStaggerAnimatedLabelProps {\n  bgClassName?: string;\n  charClassName?: string;\n  charsClassName?: string;\n  staggerDelay: number;\n  text: string;\n  textClassName?: string;\n  variant: NonNullable<CharStaggerButtonProps[\"variant\"]>;\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === \"function\") {\n        ref(node);\n      } else {\n        (ref as RefObject<T | null>).current = node;\n      }\n    }\n  };\n}\n\nfunction getButtonLabel(\n  asChild: boolean,\n  children: string | ReactElement | undefined,\n  label: string | undefined\n): string {\n  if (asChild && isValidElement(children)) {\n    const childText = (children.props as { children?: unknown }).children;\n\n    if (typeof childText === \"string\") {\n      return childText;\n    }\n\n    return label ?? \"\";\n  }\n\n  if (typeof children === \"string\") {\n    return children;\n  }\n\n  return label ?? \"\";\n}\n\nfunction CharStaggerAnimatedLabel({\n  variant,\n  text,\n  staggerDelay,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n}: CharStaggerAnimatedLabelProps) {\n  const characters = [...text];\n\n  return (\n    <>\n      {variant === \"default\" ? (\n        <div\n          aria-hidden=\"true\"\n          className={cn(charStaggerButtonBgVariants(), bgClassName)}\n        />\n      ) : null}\n      <span className={cn(charStaggerButtonTextVariants(), textClassName)}>\n        <span\n          aria-hidden={text ? true : undefined}\n          className={cn(charStaggerButtonCharsVariants(), charsClassName)}\n          data-button-animate-chars=\"\"\n        >\n          {characters.map((char, index) => (\n            <span\n              className={cn(charStaggerButtonCharVariants(), charClassName)}\n              key={`${char}-${index}`}\n              style={{\n                transitionDelay: `${index * staggerDelay}s`,\n                ...(char === \" \" ? { whiteSpace: \"pre\" } : undefined),\n              }}\n            >\n              {char}\n            </span>\n          ))}\n        </span>\n      </span>\n    </>\n  );\n}\n\nfunction CharStaggerButton({\n  asChild = false,\n  variant = \"default\",\n  staggerDelay = 0.01,\n  label,\n  children,\n  className,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n  href,\n  ref,\n  \"aria-label\": ariaLabel,\n  ...props\n}: CharStaggerButtonProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = getButtonLabel(asChild, children, label);\n  const rootClassName = cn(charStaggerButtonVariants({ variant, className }));\n  const animatedLabel = (\n    <CharStaggerAnimatedLabel\n      bgClassName={bgClassName}\n      charClassName={charClassName}\n      charsClassName={charsClassName}\n      staggerDelay={staggerDelay}\n      text={text}\n      textClassName={textClassName}\n      variant={variant ?? \"default\"}\n    />\n  );\n\n  if (asChild) {\n    if (!isValidElement(children)) {\n      return null;\n    }\n\n    const {\n      ref: childRef,\n      className: childClassName,\n      \"aria-label\": childAriaLabel,\n      ...childProps\n    } = children.props as {\n      ref?: Ref<HTMLElement>;\n      className?: string;\n      \"aria-label\"?: string;\n    };\n\n    return cloneElement(\n      children,\n      {\n        ...childProps,\n        ...props,\n        \"aria-label\": ariaLabel ?? childAriaLabel ?? (text || undefined),\n        className: cn(childClassName, rootClassName),\n        ref: mergeRefs(childRef, ref),\n      } as Record<string, unknown>,\n      animatedLabel\n    );\n  }\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={rootClassName}\n      href={href}\n      ref={ref}\n      {...props}\n    >\n      {animatedLabel}\n    </a>\n  );\n}\n\nexport {\n  CharStaggerButton,\n  charStaggerButtonBgVariants,\n  charStaggerButtonCharsVariants,\n  charStaggerButtonCharVariants,\n  charStaggerButtonTextVariants,\n  charStaggerButtonVariants,\n};\n\nexport type CharStaggerButtonVariant = NonNullable<\n  CharStaggerButtonProps[\"variant\"]\n>;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/buttons/char-stagger-button.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "CharStaggerButton": {
+        "label": {
+          "value": "Staggering Button"
+        },
+        "variant": {
+          "value": "default",
+          "options": {
+            "Default": "default",
+            "Link": "link"
+          }
+        },
+        "staggerDelay": {
+          "value": 0.01,
+          "min": 0,
+          "max": 0.1,
+          "step": 0.005
+        },
+        "href": {
+          "value": "#"
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

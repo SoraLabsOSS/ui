@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pixelated-image-reveal",
+  "type": "registry:ui",
+  "title": "Pixelated Image Reveal",
+  "description": "An image card that reveals a second image through a randomized pixel grid on hover.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/pixelated-image-reveal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/pixelated-image-reveal.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "PixelatedImageReveal": {
+        "alt": {
+          "value": "Pixelated image reveal demo"
+        },
+        "pixelColor": {
+          "value": "#ff4c24"
+        },
+        "gridSize": {
+          "value": 7,
+          "min": 3,
+          "max": 12,
+          "step": 1
+        },
+        "stepDuration": {
+          "value": 0.3,
+          "min": 0.1,
+          "max": 1,
+          "step": 0.05
+        },
+        "aspect": {
+          "value": "square",
+          "options": {
+            "Square": "square",
+            "Video": "video",
+            "Auto": "auto"
+          }
+        },
+        "className": {
+          "value": "mx-auto w-72"
+        }
+      }
+    }
+  }
+}

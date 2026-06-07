@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dock-nav",
+  "type": "registry:ui",
+  "title": "Dock Nav",
+  "description": "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/dock-nav/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/dock-nav.tsx"
+    }
+  ]
+}

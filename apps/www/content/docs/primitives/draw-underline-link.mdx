@@ -1,0 +1,69 @@
+---
+title: Draw Underline Link
+description: A link with a hand-drawn SVG underline that animates on hover.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="draw-underline-link" />
+
+## Installation
+
+<ComponentInstallation name="draw-underline-link" />
+
+## Usage
+
+```tsx
+import { DrawUnderlineLink } from '@/components/sora-ui/texts/draw-underline-link';
+
+export default function Page() {
+  return (
+    <DrawUnderlineLink href="#" className="text-red-500">
+      Hover me
+    </DrawUnderlineLink>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Plain-text label for the link.',
+      type: 'string',
+    },
+    label: {
+      description: 'Alternative to `children` for demos and controlled previews.',
+      type: 'string',
+    },
+    variant: {
+      description: 'Text size preset.',
+      type: '"default" | "sm" | "lg"',
+      default: '"default"',
+    },
+    duration: {
+      description: 'Draw-in and draw-out animation duration, in seconds.',
+      type: 'number',
+      default: '0.5',
+    },
+    paths: {
+      description:
+        'Custom SVG path data for underline variants. Defaults to six built-in strokes.',
+      type: 'readonly string[]',
+    },
+    className: {
+      description: 'Additional class names merged onto the root anchor.',
+      type: 'string',
+    },
+    textClassName: {
+      description: 'Override the text wrapper.',
+      type: 'string',
+    },
+    underlineClassName: {
+      description: 'Override the animated underline container.',
+      type: 'string',
+    },
+  }}
+/>

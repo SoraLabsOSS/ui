@@ -1,0 +1,79 @@
+---
+title: Pixelated Image Reveal
+description: An image card that reveals a second image through a randomized pixel grid on hover.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="pixelated-image-reveal" />
+
+## Installation
+
+<ComponentInstallation name="pixelated-image-reveal" />
+
+## Usage
+
+```tsx
+import { PixelatedImageReveal } from '@/components/sora-ui/effects/pixelated-image-reveal';
+
+export default function Page() {
+  return (
+    <PixelatedImageReveal
+      className="mx-auto w-72"
+      defaultSrc="/images/default.jpg"
+      activeSrc="/images/active.jpg"
+      pixelColor="#ff4c24"
+      alt="Product preview"
+    />
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    defaultSrc: {
+      description: 'Default image source.',
+      type: 'string',
+    },
+    activeSrc: {
+      description: 'Image revealed on hover (or tap on touch devices).',
+      type: 'string',
+    },
+    alt: {
+      description: 'Accessible label for the default image.',
+      type: 'string',
+      default: '""',
+    },
+    gridSize: {
+      description: 'Pixel grid size (N×N cells).',
+      type: 'number',
+      default: '7',
+    },
+    stepDuration: {
+      description: 'Duration of each reveal step, in seconds.',
+      type: 'number',
+      default: '0.3',
+    },
+    pixelColor: {
+      description: 'Fill color for pixel cells during the reveal transition.',
+      type: 'string',
+      default: '"#ff4c24"',
+    },
+    aspect: {
+      description: 'Aspect ratio preset for the card container.',
+      type: '"square" | "video" | "auto"',
+      default: '"square"',
+    },
+    className: {
+      description: 'Additional class names merged onto the root container.',
+      type: 'string',
+    },
+    pixelClassName: {
+      description: 'Override each pixel cell.',
+      type: 'string',
+    },
+  }}
+/>

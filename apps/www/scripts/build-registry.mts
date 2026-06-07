@@ -310,10 +310,19 @@ export const index: Record<string, any> = {`;
         : `(function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("${componentPath}");
-        const exportName = Object.keys(mod).find(
-          key => typeof mod[key] === 'function' || typeof mod[key] === 'object'
-        ) || "${item.name}";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = ${demoPropsJson};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }

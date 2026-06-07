@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dock-nav",
+  "title": "Dock Nav Demo",
+  "description": "Apple-style dock navigation demo with app icons.",
+  "registryDependencies": ["dock-nav"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  DockNav,\n  type DockNavItem,\n} from \"@/components/sora-ui/effects/dock-nav\";\n\nconst DEFAULT_DOCK_ITEMS: DockNavItem[] = [\n  {\n    label: \"Notion\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be92ee5ddf0080fb90_notion.png\",\n    alt: \"Notion app icon\",\n  },\n  {\n    label: \"Asana\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6bef9d004f8a9cf3b29_asana.png\",\n    alt: \"Asana app icon\",\n  },\n  {\n    label: \"Slack\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be8c099d4e1ed55770_slack.png\",\n    alt: \"Slack app icon\",\n  },\n  {\n    label: \"Loom\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be5b31ba243e4da377_loom.png\",\n    alt: \"Loom app icon\",\n  },\n  {\n    label: \"Spotify\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6bea97e140677496dae_spotify.png\",\n    alt: \"Spotify app icon\",\n  },\n  {\n    label: \"Webflow\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6bea73fcc6ee568f6f0_webflow.png\",\n    alt: \"Webflow app icon\",\n  },\n  {\n    label: \"Figma\",\n    iconSrc:\n      \"https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be1de916069b5e1aaa_figma.png\",\n    alt: \"Figma app icon\",\n  },\n];\n\nexport function DockNavExample() {\n  return (\n    <div className=\"flex min-h-48 w-full items-end justify-center px-4 pb-6\">\n      <DockNav className=\"w-full max-w-4xl\" items={DEFAULT_DOCK_ITEMS} />\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/dock-nav.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

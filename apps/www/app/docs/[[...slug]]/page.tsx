@@ -73,7 +73,7 @@ export default async function Page(props: {
       return { url: last.url, name: last.text } as const;
     }
 
-    if (page.url.startsWith("/docs/texts/")) {
+    if (page.url.startsWith("/docs/primitives/")) {
       return { url: primitivesUrl, name: "Primitives" } as const;
     }
     if (page.url.startsWith("/docs/components/")) {
@@ -81,9 +81,6 @@ export default async function Page(props: {
         url: DOCS_COMPONENTS_SECTION_URL,
         name: "Components",
       } as const;
-    }
-    if (page.url.startsWith("/docs/primitives/")) {
-      return { url: primitivesUrl, name: "Primitives" } as const;
     }
 
     return;

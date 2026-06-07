@@ -1,0 +1,83 @@
+---
+title: Custom Cursor
+description: A smooth custom cursor that morphs when hovering interactive targets.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-custom-cursor" />
+
+## Installation
+
+<ComponentInstallation name="custom-cursor" />
+
+## Usage
+
+```tsx
+import {
+  CustomCursor,
+  CustomCursorTarget,
+} from '@/components/sora-ui/effects/custom-cursor';
+
+export default function Page() {
+  return (
+    <CustomCursor color="#ff4c24">
+      <CustomCursorTarget>
+        <YourLogo />
+      </CustomCursorTarget>
+    </CustomCursor>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    color: {
+      description: 'Cursor fill and border color.',
+      type: 'string',
+      default: '"#ff4c24"',
+    },
+    followStiffness: {
+      description: 'Spring stiffness for pointer follow.',
+      type: 'number',
+      default: '150',
+    },
+    followDamping: {
+      description: 'Spring damping for pointer follow.',
+      type: 'number',
+      default: '22',
+    },
+    followTransition: {
+      description: 'Override spring options for pointer follow.',
+      type: 'SpringOptions',
+    },
+    layout: {
+      description: 'Layout preset for the cursor container.',
+      type: '"default" | "demo"',
+      default: '"default"',
+    },
+    className: {
+      description: 'Additional class names merged onto the root container.',
+      type: 'string',
+    },
+  }}
+/>
+
+### CustomCursorTarget
+
+<TypeTable
+  type={{
+    size: {
+      description: 'Target icon size preset.',
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+    },
+    className: {
+      description: 'Additional class names merged onto the target.',
+      type: 'string',
+    },
+  }}
+/>

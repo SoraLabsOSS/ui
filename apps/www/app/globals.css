@@ -330,7 +330,8 @@
   }
 
   #nd-sidebar div div div a[href^="/docs/components"] > svg[data-icon="true"],
-  #nd-sidebar div div div a[href^="/docs/texts"] > svg[data-icon="true"],
+  #nd-sidebar div div div a[href^="/docs/primitives"] > svg[data-icon="true"],
+  #nd-sidebar div div div a[href^="/docs/buttons"] > svg[data-icon="true"],
   #nd-sidebar div div div a + div[data-state="open"] {
     @apply !hidden;
   }

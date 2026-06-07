@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dock-nav",
+  "type": "registry:ui",
+  "title": "Dock Nav Demo",
+  "description": "Apple-style dock navigation demo with app icons.",
+  "registryDependencies": ["dock-nav"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/dock-nav.tsx"
+    }
+  ]
+}

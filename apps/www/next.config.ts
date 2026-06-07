@@ -36,6 +36,15 @@ const nextConfig: NextConfig = {
       {
         hostname: "30tools.com",
       },
+      {
+        hostname: "cdn.prod.website-files.com",
+      },
+      {
+        hostname: "images.unsplash.com",
+      },
+      {
+        hostname: "plus.unsplash.com",
+      },
     ],
   },
   reactStrictMode: false,
@@ -51,7 +60,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/docs/components/texts/text-reveal",
-        destination: "/docs/texts/text-reveal",
+        destination: "/docs/primitives/text-reveal",
         permanent: true,
       },
       {
@@ -130,8 +139,18 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/docs/texts/:path*",
+        destination: "/docs/primitives/:path*",
+        permanent: true,
+      },
+      {
         source: "/docs/buttons/:path*",
-        destination: "/docs/primitives/buttons/:path*",
+        destination: "/docs/primitives/:path*",
+        permanent: true,
+      },
+      {
+        source: "/docs/primitives/buttons/:path*",
+        destination: "/docs/primitives/:path*",
         permanent: true,
       },
       {

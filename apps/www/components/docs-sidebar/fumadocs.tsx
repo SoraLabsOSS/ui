@@ -135,7 +135,7 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
         isActive={
           pathname === primitivesUrl || pathname.startsWith(`${primitivesUrl}/`)
         }
-        label="Components"
+        label="Primitives"
         onClick={onNavigate}
       />
       {showAuthItems
@@ -420,7 +420,9 @@ export const DocsSidebar = (
   const treePath = useTreePath();
   const isComponentDocs =
     pathname.startsWith("/docs/components") ||
-    pathname.startsWith("/docs/texts");
+    pathname.startsWith("/docs/primitives") ||
+    pathname.startsWith("/docs/texts") ||
+    pathname.startsWith("/docs/buttons");
   const isMenu = !isComponentDocs;
   // True when on a guide page (not yet inside any root section)
   const sectionRoot = treePath.findLast(isRootFolder);

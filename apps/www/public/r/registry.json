@@ -16,6 +16,214 @@
       "files": []
     },
     {
+      "name": "demo-custom-cursor",
+      "type": "registry:ui",
+      "title": "Custom Cursor Demo",
+      "description": "Custom cursor demo with Sora icons and shape variants.",
+      "registryDependencies": ["custom-cursor"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/custom-cursor.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "CustomCursorExample": {
+            "color": {
+              "value": "#ff4c24"
+            },
+            "followStiffness": {
+              "value": 150,
+              "min": 50,
+              "max": 300,
+              "step": 10
+            },
+            "followDamping": {
+              "value": 22,
+              "min": 10,
+              "max": 40,
+              "step": 1
+            },
+            "className": {
+              "value": "w-full"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-dock-nav",
+      "type": "registry:ui",
+      "title": "Dock Nav Demo",
+      "description": "Apple-style dock navigation demo with app icons.",
+      "registryDependencies": ["dock-nav"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/dock-nav.tsx"
+        }
+      ]
+    },
+    {
+      "name": "char-stagger-button",
+      "type": "registry:ui",
+      "title": "Char Stagger Button",
+      "description": "A button with per-character stagger animation on hover.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/primitives/buttons/char-stagger-button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/buttons/char-stagger-button.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "CharStaggerButton": {
+            "label": {
+              "value": "Staggering Button"
+            },
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Link": "link"
+              }
+            },
+            "staggerDelay": {
+              "value": 0.01,
+              "min": 0,
+              "max": 0.1,
+              "step": 0.005
+            },
+            "href": {
+              "value": "#"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "custom-cursor",
+      "type": "registry:ui",
+      "title": "Custom Cursor",
+      "description": "A smooth custom cursor that morphs when hovering interactive targets.",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/custom-cursor/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/custom-cursor.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dock-nav",
+      "type": "registry:ui",
+      "title": "Dock Nav",
+      "description": "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/dock-nav/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/dock-nav.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pixelated-image-reveal",
+      "type": "registry:ui",
+      "title": "Pixelated Image Reveal",
+      "description": "An image card that reveals a second image through a randomized pixel grid on hover.",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/pixelated-image-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/pixelated-image-reveal.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "PixelatedImageReveal": {
+            "alt": {
+              "value": "Pixelated image reveal demo"
+            },
+            "pixelColor": {
+              "value": "#ff4c24"
+            },
+            "gridSize": {
+              "value": 7,
+              "min": 3,
+              "max": 12,
+              "step": 1
+            },
+            "stepDuration": {
+              "value": 0.3,
+              "min": 0.1,
+              "max": 1,
+              "step": 0.05
+            },
+            "aspect": {
+              "value": "square",
+              "options": {
+                "Square": "square",
+                "Video": "video",
+                "Auto": "auto"
+              }
+            },
+            "className": {
+              "value": "mx-auto w-72"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "draw-underline-link",
+      "type": "registry:ui",
+      "title": "Draw Underline Link",
+      "description": "A link with a hand-drawn SVG underline that animates on hover.",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/draw-underline-link/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/draw-underline-link.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "DrawUnderlineLink": {
+            "label": {
+              "value": "Hover me"
+            },
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Small": "sm",
+                "Large": "lg"
+              }
+            },
+            "duration": {
+              "value": 0.5,
+              "min": 0.2,
+              "max": 2,
+              "step": 0.1
+            },
+            "href": {
+              "value": "#"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "text-reveal",
       "type": "registry:ui",
       "title": "Text Reveal",

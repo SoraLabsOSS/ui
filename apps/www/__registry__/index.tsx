@@ -22,6 +22,403 @@ export const index: Record<string, any> = {
     component: null,
     command: "@sora-ui/index",
   },
+  "demo-custom-cursor": {
+    name: "demo-custom-cursor",
+    description: "Custom cursor demo with Sora icons and shape variants.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["custom-cursor"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/custom-cursor/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/custom-cursor.tsx",
+        content:
+          '"use client";\n\nimport { IconLogo } from "@/components/icon-logo";\nimport {\n  CustomCursor,\n  type CustomCursorProps,\n  CustomCursorTarget,\n} from "@/components/sora-ui/effects/custom-cursor";\n\nexport function CustomCursorExample({\n  className,\n  color = "#ff4c24",\n  followDamping = 22,\n  followStiffness = 150,\n}: CustomCursorProps) {\n  return (\n    <CustomCursor\n      className={className}\n      color={color}\n      followDamping={followDamping}\n      followStiffness={followStiffness}\n      layout="demo"\n    >\n      <CustomCursorTarget aria-label="Sora logo" size="lg">\n        <IconLogo className="size-full" />\n      </CustomCursorTarget>\n    </CustomCursor>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/custom-cursor/index.tsx"
+        );
+        const demoProps = {
+          CustomCursorExample: {
+            color: { value: "#ff4c24" },
+            followStiffness: { value: 150, min: 50, max: 300, step: 10 },
+            followDamping: { value: 22, min: 10, max: 40, step: 1 },
+            className: { value: "w-full" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        CustomCursorExample: {
+          color: { value: "#ff4c24" },
+          followStiffness: { value: 150, min: 50, max: 300, step: 10 },
+          followDamping: { value: 22, min: 10, max: 40, step: 1 },
+          className: { value: "w-full" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@sora-ui/demo-custom-cursor",
+  },
+  "demo-dock-nav": {
+    name: "demo-dock-nav",
+    description: "Apple-style dock navigation demo with app icons.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["dock-nav"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/dock-nav/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/dock-nav.tsx",
+        content:
+          '"use client";\n\nimport {\n  DockNav,\n  type DockNavItem,\n} from "@/components/sora-ui/effects/dock-nav";\n\nconst DEFAULT_DOCK_ITEMS: DockNavItem[] = [\n  {\n    label: "Notion",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be92ee5ddf0080fb90_notion.png",\n    alt: "Notion app icon",\n  },\n  {\n    label: "Asana",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6bef9d004f8a9cf3b29_asana.png",\n    alt: "Asana app icon",\n  },\n  {\n    label: "Slack",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be8c099d4e1ed55770_slack.png",\n    alt: "Slack app icon",\n  },\n  {\n    label: "Loom",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be5b31ba243e4da377_loom.png",\n    alt: "Loom app icon",\n  },\n  {\n    label: "Spotify",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6bea97e140677496dae_spotify.png",\n    alt: "Spotify app icon",\n  },\n  {\n    label: "Webflow",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6bea73fcc6ee568f6f0_webflow.png",\n    alt: "Webflow app icon",\n  },\n  {\n    label: "Figma",\n    iconSrc:\n      "https://cdn.prod.website-files.com/6728a3e6f4f4161c235bc519/6728a6be1de916069b5e1aaa_figma.png",\n    alt: "Figma app icon",\n  },\n];\n\nexport function DockNavExample() {\n  return (\n    <div className="flex min-h-48 w-full items-end justify-center px-4 pb-6">\n      <DockNav className="w-full max-w-4xl" items={DEFAULT_DOCK_ITEMS} />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/dock-nav/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@sora-ui/demo-dock-nav",
+  },
+  "char-stagger-button": {
+    name: "char-stagger-button",
+    description: "A button with per-character stagger animation on hover.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/primitives/buttons/char-stagger-button/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/buttons/char-stagger-button.tsx",
+        content:
+          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: Character order is stable for static button labels. */\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  type ComponentPropsWithoutRef,\n  cloneElement,\n  isValidElement,\n  type ReactElement,\n  type Ref,\n  type RefCallback,\n  type RefObject,\n} from "react";\n\nconst charStaggerButtonVariants = cva("group cursor-pointer no-underline", {\n  variants: {\n    variant: {\n      default:\n        "relative flex max-w-[12em] flex-grow items-center justify-center rounded-[0.25em] p-[1em] text-[#131313] text-[1em] leading-none",\n      link: "relative inline-block text-[1em] text-current leading-none",\n    },\n  },\n  defaultVariants: {\n    variant: "default",\n  },\n});\n\nconst charStaggerButtonBgVariants = cva(\n  "absolute inset-0 rounded-[0.25em] bg-[#efeeec] transition-[inset] duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:inset-[0.125em]"\n);\n\nconst charStaggerButtonTextVariants = cva("whitespace-nowrap leading-[1.3]");\n\nconst charStaggerButtonCharsVariants = cva(\n  "relative inline-block overflow-hidden"\n);\n\nconst charStaggerButtonCharVariants = cva(\n  "relative inline-block translate-y-0 rotate-[0.001deg] transition-transform duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] [text-shadow:0px_1.3em_currentColor] group-hover:-translate-y-[1.3em] group-hover:rotate-[0.001deg]"\n);\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: ReactElement })\n  | (Base & { asChild?: false | undefined; children?: string });\n\ntype CharStaggerButtonBaseProps = Omit<\n  ComponentPropsWithoutRef<"a">,\n  "children"\n> &\n  VariantProps<typeof charStaggerButtonVariants> & {\n    /** Override the background layer (`default` variant only). */\n    bgClassName?: string;\n    /** Override each animated character span. */\n    charClassName?: string;\n    /** Override the animated characters container. */\n    charsClassName?: string;\n    /** Alternative to string `children` — required when `asChild` child has no string content. */\n    label?: string;\n    /**\n     * Per-character transition delay increment in seconds.\n     * @default 0.01\n     */\n    staggerDelay?: number;\n    /** Override the text wrapper. */\n    textClassName?: string;\n  };\n\nexport type CharStaggerButtonProps = WithAsChild<CharStaggerButtonBaseProps>;\n\ninterface CharStaggerAnimatedLabelProps {\n  bgClassName?: string;\n  charClassName?: string;\n  charsClassName?: string;\n  staggerDelay: number;\n  text: string;\n  textClassName?: string;\n  variant: NonNullable<CharStaggerButtonProps["variant"]>;\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as RefObject<T | null>).current = node;\n      }\n    }\n  };\n}\n\nfunction getButtonLabel(\n  asChild: boolean,\n  children: string | ReactElement | undefined,\n  label: string | undefined\n): string {\n  if (asChild && isValidElement(children)) {\n    const childText = (children.props as { children?: unknown }).children;\n\n    if (typeof childText === "string") {\n      return childText;\n    }\n\n    return label ?? "";\n  }\n\n  if (typeof children === "string") {\n    return children;\n  }\n\n  return label ?? "";\n}\n\nfunction CharStaggerAnimatedLabel({\n  variant,\n  text,\n  staggerDelay,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n}: CharStaggerAnimatedLabelProps) {\n  const characters = [...text];\n\n  return (\n    <>\n      {variant === "default" ? (\n        <div\n          aria-hidden="true"\n          className={cn(charStaggerButtonBgVariants(), bgClassName)}\n        />\n      ) : null}\n      <span className={cn(charStaggerButtonTextVariants(), textClassName)}>\n        <span\n          aria-hidden={text ? true : undefined}\n          className={cn(charStaggerButtonCharsVariants(), charsClassName)}\n          data-button-animate-chars=""\n        >\n          {characters.map((char, index) => (\n            <span\n              className={cn(charStaggerButtonCharVariants(), charClassName)}\n              key={`${char}-${index}`}\n              style={{\n                transitionDelay: `${index * staggerDelay}s`,\n                ...(char === " " ? { whiteSpace: "pre" } : undefined),\n              }}\n            >\n              {char}\n            </span>\n          ))}\n        </span>\n      </span>\n    </>\n  );\n}\n\nfunction CharStaggerButton({\n  asChild = false,\n  variant = "default",\n  staggerDelay = 0.01,\n  label,\n  children,\n  className,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n  href,\n  ref,\n  "aria-label": ariaLabel,\n  ...props\n}: CharStaggerButtonProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = getButtonLabel(asChild, children, label);\n  const rootClassName = cn(charStaggerButtonVariants({ variant, className }));\n  const animatedLabel = (\n    <CharStaggerAnimatedLabel\n      bgClassName={bgClassName}\n      charClassName={charClassName}\n      charsClassName={charsClassName}\n      staggerDelay={staggerDelay}\n      text={text}\n      textClassName={textClassName}\n      variant={variant ?? "default"}\n    />\n  );\n\n  if (asChild) {\n    if (!isValidElement(children)) {\n      return null;\n    }\n\n    const {\n      ref: childRef,\n      className: childClassName,\n      "aria-label": childAriaLabel,\n      ...childProps\n    } = children.props as {\n      ref?: Ref<HTMLElement>;\n      className?: string;\n      "aria-label"?: string;\n    };\n\n    return cloneElement(\n      children,\n      {\n        ...childProps,\n        ...props,\n        "aria-label": ariaLabel ?? childAriaLabel ?? (text || undefined),\n        className: cn(childClassName, rootClassName),\n        ref: mergeRefs(childRef, ref),\n      } as Record<string, unknown>,\n      animatedLabel\n    );\n  }\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={rootClassName}\n      href={href}\n      ref={ref}\n      {...props}\n    >\n      {animatedLabel}\n    </a>\n  );\n}\n\nexport {\n  CharStaggerButton,\n  charStaggerButtonBgVariants,\n  charStaggerButtonCharsVariants,\n  charStaggerButtonCharVariants,\n  charStaggerButtonTextVariants,\n  charStaggerButtonVariants,\n};\n\nexport type CharStaggerButtonVariant = NonNullable<\n  CharStaggerButtonProps["variant"]\n>;',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/buttons/char-stagger-button/index.tsx"
+        );
+        const demoProps = {
+          CharStaggerButton: {
+            label: { value: "Staggering Button" },
+            variant: {
+              value: "default",
+              options: { Default: "default", Link: "link" },
+            },
+            staggerDelay: { value: 0.01, min: 0, max: 0.1, step: 0.005 },
+            href: { value: "#" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        CharStaggerButton: {
+          label: { value: "Staggering Button" },
+          variant: {
+            value: "default",
+            options: { Default: "default", Link: "link" },
+          },
+          staggerDelay: { value: 0.01, min: 0, max: 0.1, step: 0.005 },
+          href: { value: "#" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@sora-ui/char-stagger-button",
+  },
+  "custom-cursor": {
+    name: "custom-cursor",
+    description:
+      "A smooth custom cursor that morphs when hovering interactive targets.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/primitives/effects/custom-cursor/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/custom-cursor.tsx",
+        content:
+          '/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: Cursor targets use hover-only affordances. */\n/** biome-ignore-all lint/a11y/noStaticElementInteractions: Cursor targets are decorative hover zones. */\n\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  motion,\n  type SpringOptions,\n  useMotionValue,\n  useReducedMotion,\n  useSpring,\n} from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  createContext,\n  type ReactNode,\n  useContext,\n  useEffect,\n  useMemo,\n  useState,\n} from "react";\n\nconst DEFAULT_CURSOR_COLOR = "#ff4c24";\n\nconst CURSOR_EASE = [0.625, 0.05, 0, 1] as const;\n\nconst customCursorVariants = cva("relative select-none", {\n  variants: {\n    layout: {\n      default: "",\n      demo: "flex min-h-72 items-center justify-center",\n    },\n  },\n  defaultVariants: {\n    layout: "default",\n  },\n});\n\nconst customCursorTargetVariants = cva(\n  "flex items-center justify-center text-foreground transition-opacity hover:opacity-80",\n  {\n    variants: {\n      size: {\n        sm: "size-10",\n        md: "size-14",\n        lg: "size-16",\n      },\n    },\n    defaultVariants: {\n      size: "md",\n    },\n  }\n);\n\ninterface CursorAppearance {\n  backgroundColor: string;\n  borderColor: string;\n  borderRadius: number | string;\n  borderWidth: number;\n  height: number;\n  width: number;\n}\n\ninterface CustomCursorContextValue {\n  setIsHovering: (isHovering: boolean) => void;\n}\n\nconst CustomCursorContext = createContext<CustomCursorContextValue | null>(\n  null\n);\n\nfunction useCustomCursorContext() {\n  const context = useContext(CustomCursorContext);\n\n  if (!context) {\n    throw new Error(\n      "CustomCursorTarget must be used within a CustomCursor provider."\n    );\n  }\n\n  return context;\n}\n\nfunction hexToRgba(hex: string, alpha: number) {\n  const normalized = hex.replace("#", "");\n\n  if (normalized.length !== 6) {\n    return `rgba(255, 76, 36, ${alpha})`;\n  }\n\n  const red = Number.parseInt(normalized.slice(0, 2), 16);\n  const green = Number.parseInt(normalized.slice(2, 4), 16);\n  const blue = Number.parseInt(normalized.slice(4, 6), 16);\n\n  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;\n}\n\nfunction resolveCursorAppearance(\n  isHovering: boolean,\n  color: string\n): CursorAppearance {\n  if (!isHovering) {\n    return {\n      width: 16,\n      height: 16,\n      borderRadius: 9999,\n      backgroundColor: color,\n      borderColor: color,\n      borderWidth: 1,\n    };\n  }\n\n  return {\n    width: 48,\n    height: 48,\n    borderRadius: 9999,\n    backgroundColor: hexToRgba(color, 0.3),\n    borderColor: color,\n    borderWidth: 1,\n  };\n}\n\nfunction useCoarsePointer() {\n  const [isCoarsePointer, setIsCoarsePointer] = useState(false);\n\n  useEffect(() => {\n    const mediaQuery = window.matchMedia("(pointer: coarse)");\n\n    const update = () => {\n      setIsCoarsePointer(mediaQuery.matches);\n    };\n\n    update();\n    mediaQuery.addEventListener("change", update);\n\n    return () => {\n      mediaQuery.removeEventListener("change", update);\n    };\n  }, []);\n\n  return isCoarsePointer;\n}\n\nexport interface CustomCursorProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof customCursorVariants> {\n  children?: ReactNode;\n  /** Cursor fill and border color. */\n  color?: string;\n  /** Spring damping for pointer follow. */\n  followDamping?: number;\n  /** Spring stiffness for pointer follow. */\n  followStiffness?: number;\n  /** Override spring options for pointer follow. */\n  followTransition?: SpringOptions;\n}\n\nfunction CustomCursor({\n  children,\n  className,\n  color = DEFAULT_CURSOR_COLOR,\n  followDamping = 22,\n  followStiffness = 150,\n  followTransition,\n  layout = "default",\n  ...props\n}: CustomCursorProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const isCoarsePointer = useCoarsePointer();\n  const [isHovering, setIsHovering] = useState(false);\n\n  const cursorX = useMotionValue(0);\n  const cursorY = useMotionValue(0);\n\n  const springTransition = followTransition ?? {\n    damping: followDamping,\n    stiffness: followStiffness,\n    mass: 0.8,\n  };\n\n  const springX = useSpring(cursorX, springTransition);\n  const springY = useSpring(cursorY, springTransition);\n\n  const contextValue = useMemo<CustomCursorContextValue>(\n    () => ({\n      setIsHovering,\n    }),\n    []\n  );\n\n  useEffect(() => {\n    if (isCoarsePointer) {\n      return;\n    }\n\n    const handlePointerMove = (event: PointerEvent) => {\n      cursorX.set(event.clientX);\n      cursorY.set(event.clientY);\n    };\n\n    window.addEventListener("pointermove", handlePointerMove);\n\n    return () => {\n      window.removeEventListener("pointermove", handlePointerMove);\n    };\n  }, [cursorX, cursorY, isCoarsePointer]);\n\n  const appearance = resolveCursorAppearance(isHovering, color);\n\n  if (isCoarsePointer) {\n    return (\n      <div\n        className={cn(customCursorVariants({ layout, className }))}\n        {...props}\n      >\n        {children}\n      </div>\n    );\n  }\n\n  return (\n    <CustomCursorContext.Provider value={contextValue}>\n      <div\n        className={cn(customCursorVariants({ layout, className }))}\n        {...props}\n      >\n        <motion.div\n          animate={appearance}\n          aria-hidden="true"\n          className="pointer-events-none fixed top-0 left-0 z-[100] border"\n          initial={false}\n          style={{\n            x: prefersReducedMotion ? cursorX : springX,\n            y: prefersReducedMotion ? cursorY : springY,\n            translateX: "-50%",\n            translateY: "-50%",\n          }}\n          transition={{\n            duration: 0.375,\n            ease: CURSOR_EASE,\n          }}\n        />\n        {children}\n      </div>\n    </CustomCursorContext.Provider>\n  );\n}\n\nexport interface CustomCursorTargetProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof customCursorTargetVariants> {\n  children?: ReactNode;\n}\n\nfunction CustomCursorTarget({\n  children,\n  className,\n  size,\n  ...props\n}: CustomCursorTargetProps) {\n  const { setIsHovering } = useCustomCursorContext();\n\n  return (\n    <div\n      className={cn(customCursorTargetVariants({ size, className }))}\n      data-cursor=""\n      onMouseEnter={() => {\n        setIsHovering(true);\n      }}\n      onMouseLeave={() => {\n        setIsHovering(false);\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  );\n}\n\nexport {\n  CustomCursor,\n  CustomCursorTarget,\n  customCursorTargetVariants,\n  customCursorVariants,\n};',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/effects/custom-cursor/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@sora-ui/custom-cursor",
+  },
+  "dock-nav": {
+    name: "dock-nav",
+    description:
+      "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/primitives/effects/dock-nav/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/dock-nav.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { motion } from "motion/react";\nimport Image from "next/image";\nimport { type ComponentPropsWithoutRef, type ReactNode, useState } from "react";\n\nconst DOCK_EASE = [0.16, 1, 0.3, 1] as const;\nconst DOCK_DURATION = 0.5;\n\nconst DOCK_WIDTH = {\n  base: "5rem",\n  far: "6rem",\n  close: "7rem",\n  active: "8rem",\n} as const;\n\nconst dockNavVariants = cva("w-full", {\n  variants: {\n    align: {\n      center: "",\n      start: "",\n      end: "",\n    },\n  },\n  defaultVariants: {\n    align: "center",\n  },\n});\n\nconst dockNavListVariants = cva(\n  "mb-0 flex list-none flex-row items-end justify-center p-0 text-[clamp(0.875rem,1.4vw,1.125rem)]",\n  {\n    variants: {\n      align: {\n        center: "justify-center",\n        start: "justify-start",\n        end: "justify-end",\n      },\n    },\n    defaultVariants: {\n      align: "center",\n    },\n  }\n);\n\nconst dockNavItemVariants = cva("relative flex items-center justify-center");\n\nconst dockNavLinkVariants = cva(\n  "relative z-[1] flex h-full w-full items-center justify-center px-[0.5em] py-0"\n);\n\nconst dockNavIconVariants = cva("h-full w-full object-contain");\n\nconst dockNavTooltipVariants = cva(\n  "pointer-events-none absolute top-0 z-0 whitespace-nowrap rounded-[0.25em] bg-neutral-100 px-[0.5em] py-[0.4em] font-normal text-[1em] dark:bg-neutral-800"\n);\n\nfunction getItemWidth(index: number, hoveredIndex: number | null) {\n  if (hoveredIndex === null) {\n    return DOCK_WIDTH.base;\n  }\n\n  const distance = Math.abs(index - hoveredIndex);\n\n  if (distance === 0) {\n    return DOCK_WIDTH.active;\n  }\n\n  if (distance === 1) {\n    return DOCK_WIDTH.close;\n  }\n\n  if (distance === 2) {\n    return DOCK_WIDTH.far;\n  }\n\n  return DOCK_WIDTH.base;\n}\n\nexport interface DockNavItem {\n  /** Accessible label for the icon image. */\n  alt?: string;\n  /** Link destination. */\n  href?: string;\n  /** Custom icon node. Used when `iconSrc` is not provided. */\n  icon?: ReactNode;\n  /** Remote or local image URL for the dock icon. */\n  iconSrc?: string;\n  /** Visible tooltip label. */\n  label: string;\n}\n\nexport interface DockNavProps\n  extends Omit<ComponentPropsWithoutRef<"nav">, "children">,\n    VariantProps<typeof dockNavVariants> {\n  /** Animation duration in seconds. */\n  duration?: number;\n  /** Dock entries rendered left to right. */\n  items: DockNavItem[];\n}\n\nfunction DockNavItemIcon({\n  alt,\n  icon,\n  iconSrc,\n  label,\n}: Pick<DockNavItem, "alt" | "icon" | "iconSrc" | "label">) {\n  if (icon) {\n    return <span className={dockNavIconVariants()}>{icon}</span>;\n  }\n\n  if (iconSrc) {\n    return (\n      <Image\n        alt={alt ?? label}\n        className={dockNavIconVariants()}\n        height={64}\n        src={iconSrc}\n        width={64}\n      />\n    );\n  }\n\n  return null;\n}\n\nfunction DockNav({\n  align = "center",\n  className,\n  duration = DOCK_DURATION,\n  items,\n  ...props\n}: DockNavProps) {\n  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);\n\n  const transition = {\n    duration,\n    ease: DOCK_EASE,\n  };\n\n  return (\n    <nav className={cn(dockNavVariants({ align, className }))} {...props}>\n      <ul className={dockNavListVariants({ align })}>\n        {items.map((item, index) => {\n          const isHovered = hoveredIndex === index;\n          const itemKey = `${item.label}-${item.href ?? index}`;\n\n          return (\n            <motion.li\n              animate={{ width: getItemWidth(index, hoveredIndex) }}\n              className={dockNavItemVariants()}\n              initial={false}\n              key={itemKey}\n              onMouseEnter={() => {\n                setHoveredIndex(index);\n              }}\n              onMouseLeave={() => {\n                setHoveredIndex(null);\n              }}\n              transition={transition}\n            >\n              <a\n                className={dockNavLinkVariants()}\n                href={item.href ?? "#"}\n                onClick={(event) => {\n                  if (!item.href) {\n                    event.preventDefault();\n                  }\n                }}\n              >\n                <DockNavItemIcon\n                  alt={item.alt}\n                  icon={item.icon}\n                  iconSrc={item.iconSrc}\n                  label={item.label}\n                />\n              </a>\n              <motion.div\n                animate={{\n                  opacity: isHovered ? 1 : 0,\n                  y: isHovered ? "-140%" : "-80%",\n                }}\n                className={dockNavTooltipVariants()}\n                initial={false}\n                transition={transition}\n              >\n                <div>{item.label}</div>\n              </motion.div>\n            </motion.li>\n          );\n        })}\n      </ul>\n    </nav>\n  );\n}\n\nexport {\n  DockNav,\n  dockNavIconVariants,\n  dockNavItemVariants,\n  dockNavLinkVariants,\n  dockNavListVariants,\n  dockNavTooltipVariants,\n  dockNavVariants,\n};',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/effects/dock-nav/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@sora-ui/dock-nav",
+  },
+  "pixelated-image-reveal": {
+    name: "pixelated-image-reveal",
+    description:
+      "An image card that reveals a second image through a randomized pixel grid on hover.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/primitives/effects/pixelated-image-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/pixelated-image-reveal.tsx",
+        content:
+          '/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: Hover-driven image reveal card. */\n/** biome-ignore-all lint/a11y/noStaticElementInteractions: Touch mode uses button semantics. */\n/** biome-ignore-all lint/a11y/useKeyWithClickEvents: Keyboard activation is enabled for touch. */\n/** biome-ignore-all lint/suspicious/noArrayIndexKey: Pixel grid positions are stable. */\n\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { motion, useReducedMotion } from "motion/react";\nimport Image from "next/image";\nimport {\n  type ComponentPropsWithoutRef,\n  type KeyboardEvent,\n  useCallback,\n  useEffect,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\n\nconst DEFAULT_IMAGE_SRC =\n  "https://plus.unsplash.com/premium_photo-1674583794341-50bb046c49a7?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";\n\nconst DEFAULT_ACTIVE_SRC =\n  "https://images.unsplash.com/photo-1780269579991-79bc18ee6f56?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";\n\nconst DEFAULT_PIXEL_COLOR = "#ff4c24";\n\nconst pixelatedImageRevealVariants = cva(\n  "relative w-full max-w-full overflow-hidden rounded-lg bg-neutral-800",\n  {\n    variants: {\n      aspect: {\n        square: "aspect-square",\n        video: "aspect-video",\n        auto: "",\n      },\n    },\n    defaultVariants: {\n      aspect: "square",\n    },\n  }\n);\n\nconst pixelatedImageRevealLayerVariants = cva(\n  "absolute inset-0 h-full w-full object-cover"\n);\n\nconst pixelatedImageRevealPixelVariants = cva("absolute will-change-[opacity]");\n\nfunction shuffle<T>(items: readonly T[]): T[] {\n  const result = [...items];\n\n  for (let index = result.length - 1; index > 0; index--) {\n    const swapIndex = Math.floor(Math.random() * (index + 1));\n    const current = result[index];\n    result[index] = result[swapIndex] as T;\n    result[swapIndex] = current as T;\n  }\n\n  return result;\n}\n\nfunction createRandomStaggerDelays(\n  count: number,\n  stepDuration: number\n): number[] {\n  const order = shuffle([...new Array(count).keys()]);\n  const stagger = stepDuration / count;\n  const delays = new Array<number>(count).fill(0);\n\n  for (let position = 0; position < count; position++) {\n    delays[order[position] as number] = position * stagger;\n  }\n\n  return delays;\n}\n\nfunction useCoarsePointer() {\n  const [isCoarsePointer, setIsCoarsePointer] = useState(false);\n\n  useEffect(() => {\n    const mediaQuery = window.matchMedia("(pointer: coarse)");\n\n    const update = () => {\n      setIsCoarsePointer(mediaQuery.matches);\n    };\n\n    update();\n    mediaQuery.addEventListener("change", update);\n\n    return () => {\n      mediaQuery.removeEventListener("change", update);\n    };\n  }, []);\n\n  return isCoarsePointer;\n}\n\nexport interface PixelatedImageRevealProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof pixelatedImageRevealVariants> {\n  /** Hover / active image source. */\n  activeSrc?: string;\n  /** Accessible label for both images. */\n  alt?: string;\n  /** Default image source. */\n  defaultSrc?: string;\n  /** Grid columns and rows (N×N pixels). */\n  gridSize?: number;\n  /** Override each pixel cell. */\n  pixelClassName?: string;\n  /**\n   * Fill color for each pixel cell during the reveal transition.\n   * @default "#ff4c24"\n   */\n  pixelColor?: string;\n  /**\n   * Duration of each reveal step in seconds.\n   * @default 0.3\n   */\n  stepDuration?: number;\n}\n\nfunction PixelatedImageReveal({\n  aspect = "square",\n  stepDuration = 0.3,\n  gridSize = 7,\n  defaultSrc = DEFAULT_IMAGE_SRC,\n  activeSrc = DEFAULT_ACTIVE_SRC,\n  alt = "",\n  pixelColor = DEFAULT_PIXEL_COLOR,\n  className,\n  pixelClassName,\n  ...props\n}: PixelatedImageRevealProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const isCoarsePointer = useCoarsePointer();\n  const [isRevealed, setIsRevealed] = useState(false);\n  const [pixelsVisible, setPixelsVisible] = useState(false);\n  const [pixelDelays, setPixelDelays] = useState<number[]>([]);\n  const activeIntentRef = useRef(false);\n  const generationRef = useRef(0);\n  const timeoutIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);\n\n  const pixelCount = gridSize * gridSize;\n  const pixelSizePercent = 100 / gridSize;\n\n  const pixelIndexes = useMemo(\n    () => [...new Array(pixelCount).keys()],\n    [pixelCount]\n  );\n\n  const clearScheduledTimeouts = useCallback(() => {\n    for (const timeoutId of timeoutIdsRef.current) {\n      clearTimeout(timeoutId);\n    }\n\n    timeoutIdsRef.current = [];\n  }, []);\n\n  const scheduleTimeout = useCallback(\n    (callback: () => void, delayMs: number) => {\n      const timeoutId = setTimeout(callback, delayMs);\n      timeoutIdsRef.current.push(timeoutId);\n    },\n    []\n  );\n\n  const runReveal = useCallback(\n    (activate: boolean) => {\n      activeIntentRef.current = activate;\n      clearScheduledTimeouts();\n      const generation = ++generationRef.current;\n\n      if (prefersReducedMotion) {\n        setPixelsVisible(false);\n        setIsRevealed(activate);\n        return;\n      }\n\n      setPixelsVisible(false);\n      setPixelDelays(createRandomStaggerDelays(pixelCount, stepDuration));\n\n      requestAnimationFrame(() => {\n        if (generation !== generationRef.current) {\n          return;\n        }\n\n        setPixelsVisible(true);\n      });\n\n      scheduleTimeout(() => {\n        if (generation !== generationRef.current) {\n          return;\n        }\n\n        setIsRevealed(activate);\n      }, stepDuration * 1000);\n\n      scheduleTimeout(() => {\n        if (generation !== generationRef.current) {\n          return;\n        }\n\n        setPixelDelays(createRandomStaggerDelays(pixelCount, stepDuration));\n        setPixelsVisible(false);\n      }, stepDuration * 1000);\n    },\n    [\n      clearScheduledTimeouts,\n      pixelCount,\n      prefersReducedMotion,\n      scheduleTimeout,\n      stepDuration,\n    ]\n  );\n\n  useEffect(() => clearScheduledTimeouts, [clearScheduledTimeouts]);\n\n  const handlePointerEnter = () => {\n    if (isCoarsePointer || activeIntentRef.current) {\n      return;\n    }\n\n    runReveal(true);\n  };\n\n  const handlePointerLeave = () => {\n    if (isCoarsePointer || !activeIntentRef.current) {\n      return;\n    }\n\n    runReveal(false);\n  };\n\n  const handleActivate = () => {\n    if (!isCoarsePointer) {\n      return;\n    }\n\n    runReveal(!activeIntentRef.current);\n  };\n\n  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {\n    if (!isCoarsePointer) {\n      return;\n    }\n\n    if (event.key === "Enter" || event.key === " ") {\n      event.preventDefault();\n      handleActivate();\n    }\n  };\n\n  return (\n    <div\n      className={cn(pixelatedImageRevealVariants({ aspect, className }))}\n      onClick={handleActivate}\n      onKeyDown={handleKeyDown}\n      onMouseEnter={handlePointerEnter}\n      onMouseLeave={handlePointerLeave}\n      {...(isCoarsePointer\n        ? {\n            "aria-label": alt || "Toggle image reveal",\n            role: "button" as const,\n            tabIndex: 0,\n          }\n        : { role: "group" as const })}\n      {...props}\n    >\n      <Image\n        alt={alt}\n        className={pixelatedImageRevealLayerVariants()}\n        fill\n        sizes="(max-width: 768px) 100vw, 288px"\n        src={defaultSrc}\n      />\n      <Image\n        alt=""\n        aria-hidden="true"\n        className={cn(\n          pixelatedImageRevealLayerVariants(),\n          isRevealed ? "opacity-100" : "opacity-0"\n        )}\n        fill\n        sizes="(max-width: 768px) 100vw, 288px"\n        src={activeSrc}\n      />\n      <div aria-hidden="true" className="absolute inset-0">\n        {pixelIndexes.map((index) => {\n          const row = Math.floor(index / gridSize);\n          const col = index % gridSize;\n\n          return (\n            <motion.div\n              animate={{ opacity: pixelsVisible ? 1 : 0 }}\n              className={cn(\n                pixelatedImageRevealPixelVariants(),\n                pixelClassName\n              )}\n              initial={false}\n              key={index}\n              style={{\n                backgroundColor: pixelColor,\n                height: `${pixelSizePercent}%`,\n                left: `${col * pixelSizePercent}%`,\n                top: `${row * pixelSizePercent}%`,\n                width: `${pixelSizePercent}%`,\n              }}\n              transition={{\n                delay: pixelDelays[index] ?? 0,\n                duration: 0,\n              }}\n            />\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n\nexport {\n  PixelatedImageReveal,\n  pixelatedImageRevealLayerVariants,\n  pixelatedImageRevealPixelVariants,\n  pixelatedImageRevealVariants,\n};',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/effects/pixelated-image-reveal/index.tsx"
+        );
+        const demoProps = {
+          PixelatedImageReveal: {
+            alt: { value: "Pixelated image reveal demo" },
+            pixelColor: { value: "#ff4c24" },
+            gridSize: { value: 7, min: 3, max: 12, step: 1 },
+            stepDuration: { value: 0.3, min: 0.1, max: 1, step: 0.05 },
+            aspect: {
+              value: "square",
+              options: { Square: "square", Video: "video", Auto: "auto" },
+            },
+            className: { value: "mx-auto w-72" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        PixelatedImageReveal: {
+          alt: { value: "Pixelated image reveal demo" },
+          pixelColor: { value: "#ff4c24" },
+          gridSize: { value: 7, min: 3, max: 12, step: 1 },
+          stepDuration: { value: 0.3, min: 0.1, max: 1, step: 0.05 },
+          aspect: {
+            value: "square",
+            options: { Square: "square", Video: "video", Auto: "auto" },
+          },
+          className: { value: "mx-auto w-72" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@sora-ui/pixelated-image-reveal",
+  },
+  "draw-underline-link": {
+    name: "draw-underline-link",
+    description:
+      "A link with a hand-drawn SVG underline that animates on hover.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/primitives/texts/draw-underline-link/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/draw-underline-link.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { motion } from "motion/react";\nimport type { ComponentPropsWithoutRef, Ref } from "react";\nimport { useCallback, useRef, useState } from "react";\n\nconst DEFAULT_UNDERLINE_PATHS = [\n  "M5 20.9999C26.7762 16.2245 49.5532 11.5572 71.7979 14.6666C84.9553 16.5057 97.0392 21.8432 109.987 24.3888C116.413 25.6523 123.012 25.5143 129.042 22.6388C135.981 19.3303 142.586 15.1422 150.092 13.3333C156.799 11.7168 161.702 14.6225 167.887 16.8333C181.562 21.7212 194.975 22.6234 209.252 21.3888C224.678 20.0548 239.912 17.991 255.42 18.3055C272.027 18.6422 288.409 18.867 305 17.9999",\n  "M5 24.2592C26.233 20.2879 47.7083 16.9968 69.135 13.8421C98.0469 9.5853 128.407 4.02322 158.059 5.14674C172.583 5.69708 187.686 8.66104 201.598 11.9696C207.232 13.3093 215.437 14.9471 220.137 18.3619C224.401 21.4596 220.737 25.6575 217.184 27.6168C208.309 32.5097 197.199 34.281 186.698 34.8486C183.159 35.0399 147.197 36.2657 155.105 26.5837C158.11 22.9053 162.993 20.6229 167.764 18.7924C178.386 14.7164 190.115 12.1115 201.624 10.3984C218.367 7.90626 235.528 7.06127 252.521 7.49276C258.455 7.64343 264.389 7.92791 270.295 8.41825C280.321 9.25056 296 10.8932 305 13.0242",\n  "M5 29.5014C9.61174 24.4515 12.9521 17.9873 20.9532 17.5292C23.7742 17.3676 27.0987 17.7897 29.6575 19.0014C33.2644 20.7093 35.6481 24.0004 39.4178 25.5014C48.3911 29.0744 55.7503 25.7731 63.3048 21.0292C67.9902 18.0869 73.7668 16.1366 79.3721 17.8903C85.1682 19.7036 88.2173 26.2464 94.4121 27.2514C102.584 28.5771 107.023 25.5064 113.276 20.6125C119.927 15.4067 128.83 12.3333 137.249 15.0014C141.418 16.3225 143.116 18.7528 146.581 21.0014C149.621 22.9736 152.78 23.6197 156.284 24.2514C165.142 25.8479 172.315 17.5185 179.144 13.5014C184.459 10.3746 191.785 8.74853 195.868 14.5292C199.252 19.3205 205.597 22.9057 211.621 22.5014C215.553 22.2374 220.183 17.8356 222.979 15.5569C225.4 13.5845 227.457 11.1105 230.742 10.5292C232.718 10.1794 234.784 12.9691 236.164 14.0014C238.543 15.7801 240.717 18.4775 243.356 19.8903C249.488 23.1729 255.706 21.2551 261.079 18.0014C266.571 14.6754 270.439 11.5202 277.146 13.6125C280.725 14.7289 283.221 17.209 286.393 19.0014C292.321 22.3517 298.255 22.5014 305 22.5014",\n  "M17.0039 32.6826C32.2307 32.8412 47.4552 32.8277 62.676 32.8118C67.3044 32.807 96.546 33.0555 104.728 32.0775C113.615 31.0152 104.516 28.3028 102.022 27.2826C89.9573 22.3465 77.3751 19.0254 65.0451 15.0552C57.8987 12.7542 37.2813 8.49399 44.2314 6.10216C50.9667 3.78422 64.2873 5.81914 70.4249 5.96641C105.866 6.81677 141.306 7.58809 176.75 8.59886C217.874 9.77162 258.906 11.0553 300 14.4892",\n  "M4.99805 20.9998C65.6267 17.4649 126.268 13.845 187.208 12.8887C226.483 12.2723 265.751 13.2796 304.998 13.9998",\n  "M5 29.8857C52.3147 26.9322 99.4329 21.6611 146.503 17.1765C151.753 16.6763 157.115 15.9505 162.415 15.6551C163.28 15.6069 165.074 15.4123 164.383 16.4275C161.704 20.3627 157.134 23.7551 153.95 27.4983C153.209 28.3702 148.194 33.4751 150.669 34.6605C153.638 36.0819 163.621 32.6063 165.039 32.2029C178.55 28.3608 191.49 23.5968 204.869 19.5404C231.903 11.3436 259.347 5.83254 288.793 5.12258C294.094 4.99476 299.722 4.82265 305 5.45025",\n] as const;\n\nconst DRAW_EASE = [0.45, 0, 0.55, 1] as const;\n\nconst drawUnderlineLinkVariants = cva(\n  "inline-flex w-fit cursor-pointer flex-col items-stretch no-underline",\n  {\n    variants: {\n      variant: {\n        default: "text-[2em]",\n        sm: "text-base",\n        lg: "text-4xl",\n      },\n    },\n    defaultVariants: {\n      variant: "default",\n    },\n  }\n);\n\nconst drawUnderlineLinkTextVariants = cva("font-medium leading-[1.1]");\n\nconst drawUnderlineLinkBoxVariants = cva(\n  "relative h-[0.625em] w-full text-current"\n);\n\ntype DrawPhase = "idle" | "enter" | "shown" | "leave";\n\nexport interface DrawUnderlineLinkProps\n  extends Omit<ComponentPropsWithoutRef<"a">, "children">,\n    VariantProps<typeof drawUnderlineLinkVariants> {\n  /** Plain-text label. */\n  children?: string;\n  /**\n   * Draw-out animation duration in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /** Alternative to `children` for demos and controlled previews. */\n  label?: string;\n  /** SVG path data for each underline variant. */\n  paths?: readonly string[];\n  /** Override the text wrapper. */\n  textClassName?: string;\n  /** Override the animated underline container. */\n  underlineClassName?: string;\n}\n\nfunction DrawUnderlineLink({\n  variant = "default",\n  duration = 0.5,\n  label,\n  children,\n  className,\n  textClassName,\n  underlineClassName,\n  paths = DEFAULT_UNDERLINE_PATHS,\n  href,\n  ref,\n  "aria-label": ariaLabel,\n  onMouseEnter: onMouseEnterProp,\n  onMouseLeave: onMouseLeaveProp,\n  ...props\n}: DrawUnderlineLinkProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = children ?? label ?? "";\n  const [activePathIndex, setActivePathIndex] = useState<number | null>(null);\n  const [phase, setPhase] = useState<DrawPhase>("idle");\n  const phaseRef = useRef<DrawPhase>("idle");\n  phaseRef.current = phase;\n  const cycleRef = useRef<number | null>(null);\n  const pendingLeaveRef = useRef(false);\n\n  const pickAndAdvancePathIndex = useCallback(() => {\n    if (cycleRef.current === null) {\n      cycleRef.current = Math.floor(Math.random() * paths.length);\n    }\n\n    const current = cycleRef.current;\n    cycleRef.current = (cycleRef.current + 1) % paths.length;\n    return current;\n  }, [paths.length]);\n\n  const beginEnter = useCallback(() => {\n    const index = pickAndAdvancePathIndex();\n    setActivePathIndex(index);\n    setPhase("enter");\n  }, [pickAndAdvancePathIndex]);\n\n  const beginLeave = useCallback(() => {\n    if (activePathIndex === null) {\n      return;\n    }\n\n    if (phase === "enter") {\n      pendingLeaveRef.current = true;\n      return;\n    }\n\n    if (phase === "leave") {\n      return;\n    }\n\n    setPhase("leave");\n  }, [activePathIndex, phase]);\n\n  const handleMouseEnter = () => {\n    if (phase === "enter") {\n      return;\n    }\n\n    pendingLeaveRef.current = false;\n    beginEnter();\n  };\n\n  const handleMouseLeave = () => {\n    beginLeave();\n  };\n\n  const handleEnterComplete = () => {\n    if (phase !== "enter") {\n      return;\n    }\n\n    if (pendingLeaveRef.current) {\n      pendingLeaveRef.current = false;\n      setPhase("leave");\n      return;\n    }\n\n    setPhase("shown");\n  };\n\n  const handleLeaveComplete = () => {\n    if (phase !== "leave") {\n      return;\n    }\n\n    setPhase("idle");\n    setActivePathIndex(null);\n  };\n\n  const pathAnimate =\n    phase === "leave"\n      ? { pathLength: 1, pathOffset: 1 }\n      : { pathLength: 1, pathOffset: 0 };\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={cn(drawUnderlineLinkVariants({ variant, className }))}\n      href={href}\n      onMouseEnter={(event) => {\n        onMouseEnterProp?.(event);\n        handleMouseEnter();\n      }}\n      onMouseLeave={(event) => {\n        onMouseLeaveProp?.(event);\n        handleMouseLeave();\n      }}\n      ref={ref}\n      {...props}\n    >\n      <span className={cn(drawUnderlineLinkTextVariants(), textClassName)}>\n        {text}\n      </span>\n      <span\n        aria-hidden="true"\n        className={cn(drawUnderlineLinkBoxVariants(), underlineClassName)}\n      >\n        {activePathIndex === null ? null : (\n          <svg\n            aria-hidden="true"\n            className="absolute h-full w-full overflow-visible"\n            preserveAspectRatio="none"\n            viewBox="0 0 310 40"\n          >\n            <motion.path\n              animate={pathAnimate}\n              d={paths[activePathIndex]}\n              fill="none"\n              initial={{ pathLength: 0, pathOffset: 0 }}\n              key={activePathIndex}\n              onAnimationComplete={() => {\n                if (phaseRef.current === "enter") {\n                  handleEnterComplete();\n                } else if (phaseRef.current === "leave") {\n                  handleLeaveComplete();\n                }\n              }}\n              stroke="currentColor"\n              strokeDasharray="0 1"\n              strokeLinecap="round"\n              strokeWidth={10}\n              transition={{ duration, ease: DRAW_EASE }}\n            />\n          </svg>\n        )}\n      </span>\n    </a>\n  );\n}\n\nexport {\n  DrawUnderlineLink,\n  drawUnderlineLinkBoxVariants,\n  drawUnderlineLinkTextVariants,\n  drawUnderlineLinkVariants,\n};',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/texts/draw-underline-link/index.tsx"
+        );
+        const demoProps = {
+          DrawUnderlineLink: {
+            label: { value: "Hover me" },
+            variant: {
+              value: "default",
+              options: { Default: "default", Small: "sm", Large: "lg" },
+            },
+            duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
+            href: { value: "#" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        DrawUnderlineLink: {
+          label: { value: "Hover me" },
+          variant: {
+            value: "default",
+            options: { Default: "default", Small: "sm", Large: "lg" },
+          },
+          duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
+          href: { value: "#" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@sora-ui/draw-underline-link",
+  },
   "text-reveal": {
     name: "text-reveal",
     description: "A text reveal animation.",
@@ -44,12 +441,35 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/texts/text-reveal/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "text-reveal";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {
+          TextReveal: {
+            as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
+            className: { value: "text-center font-bold text-3xl" },
+            text: { value: "Blur Text Animation" },
+            splitBy: {
+              value: "words",
+              options: { Words: "words", Characters: "characters" },
+            },
+            staggerDelay: { value: 0.05, min: 0.01, max: 0.5, step: 0.01 },
+            delay: { value: 0.5, min: 0, max: 2, step: 0.1 },
+            duration: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
+            blur: { value: 4, min: 0, max: 20, step: 1 },
+            yOffset: { value: 0, min: -50, max: 50, step: 1 },
+            viewportMargin: { value: "0px 0px -10% 0px" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -99,12 +519,19 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/animate/slot/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-animate-slot";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -142,12 +569,19 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/animate/tabs/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-animate-tabs";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -184,12 +618,19 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/animate/tooltip/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-animate-tooltip";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -222,12 +663,19 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/buttons/button/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-buttons-button";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -264,12 +712,19 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/effects/auto-height/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-effects-auto-height";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -303,12 +758,19 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/primitives/effects/highlight/index.tsx"
         );
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-effects-highlight";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -345,12 +807,19 @@ export const index: Record<string, any> = {
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/primitives/radix/tabs/index.tsx");
-        const exportName =
-          Object.keys(mod).find(
-            (key) =>
-              typeof mod[key] === "function" || typeof mod[key] === "object"
-          ) || "primitives-radix-tabs";
-        const Comp = mod.default || mod[exportName];
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
@@ -360,6 +829,66 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@sora-ui/primitives-radix-tabs",
+  },
+  "demo-char-stagger-button": {
+    name: "demo-char-stagger-button",
+    description: "Usage example for char-stagger-button.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["char-stagger-button"],
+    files: [
+      {
+        path: "registry/demo/primitives/buttons/char-stagger-button/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/buttons/char-stagger-button.tsx",
+        content:
+          '"use client";\n\nimport { CharStaggerButton } from "@/components/sora-ui/buttons/char-stagger-button";\n\nexport default function CharStaggerButtonExample() {\n  return (\n    <CharStaggerButton\n      label={"Staggering Button"}\n      variant={"default"}\n      staggerDelay={0.01}\n      href={"#"}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    component: null,
+    command: "@sora-ui/demo-char-stagger-button",
+  },
+  "demo-pixelated-image-reveal": {
+    name: "demo-pixelated-image-reveal",
+    description: "Usage example for pixelated-image-reveal.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["pixelated-image-reveal"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/pixelated-image-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/pixelated-image-reveal.tsx",
+        content:
+          '"use client";\n\nimport { PixelatedImageReveal } from "@/components/sora-ui/effects/pixelated-image-reveal";\n\nexport default function PixelatedImageRevealExample() {\n  return (\n    <PixelatedImageReveal\n      alt={"Pixelated image reveal demo"}\n      pixelColor={"#ff4c24"}\n      gridSize={7}\n      stepDuration={0.3}\n      aspect={"square"}\n      className={"mx-auto w-72"}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    component: null,
+    command: "@sora-ui/demo-pixelated-image-reveal",
+  },
+  "demo-draw-underline-link": {
+    name: "demo-draw-underline-link",
+    description: "Usage example for draw-underline-link.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["draw-underline-link"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/draw-underline-link/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/draw-underline-link.tsx",
+        content:
+          '"use client";\n\nimport { DrawUnderlineLink } from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkExample() {\n  return (\n    <DrawUnderlineLink\n      label={"Hover me"}\n      variant={"default"}\n      duration={0.5}\n      href={"#"}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    component: null,
+    command: "@sora-ui/demo-draw-underline-link",
   },
   "demo-text-reveal": {
     name: "demo-text-reveal",

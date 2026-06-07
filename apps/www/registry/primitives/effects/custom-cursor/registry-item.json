@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "custom-cursor",
+  "type": "registry:ui",
+  "title": "Custom Cursor",
+  "description": "A smooth custom cursor that morphs when hovering interactive targets.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/custom-cursor/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/custom-cursor.tsx"
+    }
+  ]
+}

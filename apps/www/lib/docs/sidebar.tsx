@@ -36,6 +36,6 @@ export const SIDEBAR_TABS = [
         <Component />
       </div>
     ),
-    url: "/docs/texts/text-reveal",
+    url: "/docs/primitives/text-reveal",
   },
 ];

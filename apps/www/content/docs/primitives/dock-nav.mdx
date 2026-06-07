@@ -1,0 +1,90 @@
+---
+title: Dock Nav
+description: An Apple-style dock navigation bar with expanding icons and tooltips on hover.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-dock-nav" />
+
+## Installation
+
+<ComponentInstallation name="dock-nav" />
+
+## Usage
+
+```tsx
+import { DockNav, type DockNavItem } from '@/components/sora-ui/effects/dock-nav';
+
+const items: DockNavItem[] = [
+  {
+    label: 'Notion',
+    href: 'https://notion.so',
+    iconSrc: '/icons/notion.png',
+    alt: 'Notion app icon',
+  },
+  {
+    label: 'Figma',
+    href: 'https://figma.com',
+    icon: <FigmaIcon className="size-full" />,
+  },
+];
+
+export default function Page() {
+  return <DockNav items={items} className="max-w-4xl" />;
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    items: {
+      description:
+        'Dock entries rendered left to right. Each item accepts label, href, iconSrc, icon, and alt.',
+      type: 'DockNavItem[]',
+    },
+    duration: {
+      description: 'Expansion and tooltip animation duration in seconds.',
+      type: 'number',
+      default: '0.5',
+    },
+    align: {
+      description: 'Horizontal alignment of the dock list.',
+      type: '"center" | "start" | "end"',
+      default: '"center"',
+    },
+    className: {
+      description: 'Additional class names merged onto the nav element.',
+      type: 'string',
+    },
+  }}
+/>
+
+### DockNavItem
+
+<TypeTable
+  type={{
+    label: {
+      description: 'Tooltip text shown above the icon on hover.',
+      type: 'string',
+    },
+    href: {
+      description: 'Optional link destination.',
+      type: 'string',
+    },
+    iconSrc: {
+      description: 'Image URL used when no custom icon node is provided.',
+      type: 'string',
+    },
+    icon: {
+      description: 'Custom icon element. Takes precedence over iconSrc.',
+      type: 'ReactNode',
+    },
+    alt: {
+      description: 'Accessible label for image icons.',
+      type: 'string',
+    },
+  }}
+/>

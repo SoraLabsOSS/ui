@@ -84,7 +84,7 @@ const WORKSPACE_MENU_ITEMS = [
     getHref: (componentsUrl: string) => componentsUrl,
     getIsActive: (pathname: string, href: string) =>
       pathname === href || pathname.startsWith(`${href}/`),
-    label: "Components",
+    label: "Primitives",
     requiresAuth: false,
   },
   ...AUTH_MENU_LINKS.map((link) => ({

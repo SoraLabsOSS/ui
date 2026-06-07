@@ -208,7 +208,7 @@ export const Hero = () => (
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button asChild className="w-full" size="lg" variant="accent">
-              <Link href="/docs/texts/text-reveal">Browse Components</Link>
+              <Link href="/docs/primitives/text-reveal">Browse Components</Link>
             </Button>
           </motion.div>
         </MotionEffect>
