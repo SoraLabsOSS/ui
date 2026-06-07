@@ -22,7 +22,11 @@ export async function GET(
     notFound();
   }
 
-  return new NextResponse(content);
+  return new NextResponse(content, {
+    headers: {
+      "Content-Type": "text/markdown; charset=utf-8",
+    },
+  });
 }
 
 export function generateStaticParams() {

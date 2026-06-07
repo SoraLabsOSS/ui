@@ -205,39 +205,30 @@ function CustomCursor({
 
   const appearance = resolveCursorAppearance(isHovering, color);
 
-  if (isCoarsePointer) {
-    return (
-      <div
-        className={cn(customCursorVariants({ layout, className }))}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  }
-
   return (
     <CustomCursorContext.Provider value={contextValue}>
       <div
         className={cn(customCursorVariants({ layout, className }))}
         {...props}
       >
-        <motion.div
-          animate={appearance}
-          aria-hidden="true"
-          className="pointer-events-none fixed top-0 left-0 z-[100] border"
-          initial={false}
-          style={{
-            x: prefersReducedMotion ? cursorX : springX,
-            y: prefersReducedMotion ? cursorY : springY,
-            translateX: "-50%",
-            translateY: "-50%",
-          }}
-          transition={{
-            duration: 0.375,
-            ease: CURSOR_EASE,
-          }}
-        />
+        {isCoarsePointer ? null : (
+          <motion.div
+            animate={appearance}
+            aria-hidden="true"
+            className="pointer-events-none fixed top-0 left-0 z-[100] border"
+            initial={false}
+            style={{
+              x: prefersReducedMotion ? cursorX : springX,
+              y: prefersReducedMotion ? cursorY : springY,
+              translateX: "-50%",
+              translateY: "-50%",
+            }}
+            transition={{
+              duration: 0.375,
+              ease: CURSOR_EASE,
+            }}
+          />
+        )}
         {children}
       </div>
     </CustomCursorContext.Provider>
