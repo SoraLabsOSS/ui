@@ -89,6 +89,8 @@
 
   --color-fd-primary: oklch(0 0 0);
 
+  --color-fd-background: var(--background);
+
   --background: oklch(1 0 0);
 
   --foreground: oklch(0.145 0 0);
@@ -166,6 +168,8 @@
   --sidebar-ring: oklch(0.556 0 0);
 
   --color-fd-primary: oklch(1 0 0);
+
+  --color-fd-background: var(--background);
 }
 
 @theme inline {

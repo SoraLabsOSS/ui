@@ -3,7 +3,7 @@
   "name": "demo-custom-cursor",
   "title": "Custom Cursor Demo",
   "description": "Custom cursor demo with Sora icons and shape variants.",
-  "registryDependencies": ["custom-cursor"],
+  "registryDependencies": ["@sora-ui/custom-cursor"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",

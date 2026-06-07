@@ -54,6 +54,19 @@ Then install with the scope, for example:
 bunx --bun shadcn@latest add @sora-ui/accordion
 ```
 
+## A Sora dependency resolves from `ui.shadcn.com`
+
+If `shadcn add @sora-ui/accordion` fails with a 404 for something like
+`hooks-use-auto-height` on `ui.shadcn.com`, the published registry item listed
+that dependency without the `@sora-ui/` scope. Sora-only deps must be scoped so
+the CLI fetches them from your `@sora-ui` registry URL, not the default shadcn
+registry.
+
+Ensure `components.json` includes the Sora registry (see above), then retry
+after the registry on `https://ui.soralabs.io.vn/r/` is updated. For local
+testing, point `@sora-ui` at `http://localhost:3000/r/{name}.json` while
+`bun dev` is running in this repo.
+
 ## The CLI installation does not respect aliases
 
 In some projects, components may not install in the desired location that you configured in the aliases in the `components.json` file. This is because we can't use a target path with aliases.

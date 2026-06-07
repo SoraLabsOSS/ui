@@ -311,7 +311,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
-    registryDependencies: ["utils", "hooks-use-auto-height"],
+    registryDependencies: ["utils", "@sora-ui/hooks-use-auto-height"],
     files: [
       {
         path: "registry/primitives/disclosure/accordion/index.tsx",

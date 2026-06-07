@@ -5,7 +5,7 @@
   "title": "Accordion",
   "description": "An animated FAQ accordion with expandable panels.",
   "dependencies": ["motion", "class-variance-authority"],
-  "registryDependencies": ["utils", "hooks-use-auto-height"],
+  "registryDependencies": ["utils", "@sora-ui/hooks-use-auto-height"],
   "files": [
     {
       "path": "registry/primitives/disclosure/accordion/index.tsx",

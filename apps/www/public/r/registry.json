@@ -20,7 +20,7 @@
       "type": "registry:ui",
       "title": "Accordion Demo",
       "description": "FAQ accordion with animated panels.",
-      "registryDependencies": ["accordion"],
+      "registryDependencies": ["@sora-ui/accordion"],
       "files": [
         {
           "path": "registry/demo/primitives/disclosure/accordion/index.tsx",
@@ -34,7 +34,7 @@
       "type": "registry:ui",
       "title": "Custom Cursor Demo",
       "description": "Custom cursor demo with Sora icons and shape variants.",
-      "registryDependencies": ["custom-cursor"],
+      "registryDependencies": ["@sora-ui/custom-cursor"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",
@@ -72,7 +72,7 @@
       "type": "registry:ui",
       "title": "Dock Nav Demo",
       "description": "Apple-style dock navigation demo with app icons.",
-      "registryDependencies": ["dock-nav"],
+      "registryDependencies": ["@sora-ui/dock-nav"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
@@ -86,7 +86,7 @@
       "type": "registry:ui",
       "title": "Text Reveal (Mask) Demo",
       "description": "Scroll-triggered masked text reveal with rich text emphasis.",
-      "registryDependencies": ["text-reveal-mask"],
+      "registryDependencies": ["@sora-ui/text-reveal-mask"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",
@@ -195,7 +195,7 @@
       "title": "Accordion",
       "description": "An animated FAQ accordion with expandable panels.",
       "dependencies": ["motion", "class-variance-authority"],
-      "registryDependencies": ["utils", "hooks-use-auto-height"],
+      "registryDependencies": ["utils", "@sora-ui/hooks-use-auto-height"],
       "files": [
         {
           "path": "registry/primitives/disclosure/accordion/index.tsx",

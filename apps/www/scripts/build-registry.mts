@@ -132,12 +132,48 @@ function replaceRegistryPaths(inputStr: string): string {
   });
 }
 
+const SHADCN_BUILTIN_REGISTRY_DEPS = new Set(["utils"]);
+
 function normalizeRegistryDependencyName(dependency: string): string {
   if (dependency.startsWith("@sora-ui/")) {
     return dependency.slice("@sora-ui/".length);
   }
 
   return dependency;
+}
+
+/** Scope Sora registry deps so the CLI resolves them from @sora-ui, not ui.shadcn.com. */
+function scopeRegistryDependency(
+  dependency: string,
+  soraRegistryNames: Set<string>
+): string {
+  if (dependency.startsWith("@sora-ui/")) {
+    return dependency;
+  }
+  if (SHADCN_BUILTIN_REGISTRY_DEPS.has(dependency)) {
+    return dependency;
+  }
+  const normalized = normalizeRegistryDependencyName(dependency);
+  if (soraRegistryNames.has(normalized)) {
+    return `@sora-ui/${normalized}`;
+  }
+  return dependency;
+}
+
+function scopeRegistryDependencies(
+  item: RegistryItem,
+  soraRegistryNames: Set<string>
+): RegistryItem {
+  if (!item.registryDependencies?.length) {
+    return item;
+  }
+
+  return {
+    ...item,
+    registryDependencies: item.registryDependencies.map((dependency) =>
+      scopeRegistryDependency(dependency, soraRegistryNames)
+    ),
+  };
 }
 
 function collectTransitiveRegistryDependencyNames(
@@ -215,6 +251,10 @@ async function buildRegistryFile() {
     return true;
   });
 
+  const soraRegistryNames = new Set(
+    newItems.map((item: RegistryItem) => item.name)
+  );
+
   registryData.items = [
     {
       name: "index",
@@ -228,7 +268,9 @@ async function buildRegistryFile() {
       cssVars: {},
       files: [],
     },
-    ...filteredItems,
+    ...filteredItems.map((item: RegistryItem) =>
+      scopeRegistryDependencies(item, soraRegistryNames)
+    ),
   ];
 
   await fs.writeFile(REGISTRY_JSON_PATH, JSON.stringify(registryData, null, 2));
