@@ -62,31 +62,31 @@ export const metadata: Metadata = {
       "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
     url: "https://ui.soralabs.io.vn",
     siteName: "Sora UI",
-    images: [
-      {
-        url: "https://ui.soralabs.io.vn/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sora UI",
-      },
-    ],
+    // images: [
+    //   {
+    //     url: "https://ui.soralabs.io.vn/og-image.png",
+    //     width: 1200,
+    //     height: 630,
+    //     alt: "Sora UI",
+    //   },
+    // ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@animate_ui",
+    site: "@soralabs_io",
     title: "Sora UI",
     description:
       "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
-    images: [
-      {
-        url: "https://ui.soralabs.io.vn/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sora UI",
-      },
-    ],
+    // images: [
+    //   {
+    //     url: "https://ui.soralabs.io.vn/og-image.png",
+    //     width: 1200,
+    //     height: 630,
+    //     alt: "Sora UI",
+    //   },
+    // ],
   },
 };
 
