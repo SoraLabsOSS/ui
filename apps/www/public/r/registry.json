@@ -68,6 +68,61 @@
       ]
     },
     {
+      "name": "demo-text-reveal-mask",
+      "type": "registry:ui",
+      "title": "Text Reveal (Mask) Demo",
+      "description": "Scroll-triggered masked text reveal with rich text emphasis.",
+      "registryDependencies": ["text-reveal-mask"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-reveal-mask.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "MaskedTextRevealExample": {
+            "splitBy": {
+              "value": "lines",
+              "options": {
+                "Lines": "lines",
+                "Words": "words",
+                "Characters": "chars"
+              }
+            },
+            "stagger": {
+              "value": 0.1,
+              "min": 0.01,
+              "max": 0.5,
+              "step": 0.01
+            },
+            "duration": {
+              "value": 0.8,
+              "min": 0.1,
+              "max": 2,
+              "step": 0.1
+            },
+            "yPercent": {
+              "value": 110,
+              "min": 50,
+              "max": 200,
+              "step": 5
+            },
+            "delay": {
+              "value": 0,
+              "min": 0,
+              "max": 2,
+              "step": 0.1
+            },
+            "viewportMargin": {
+              "value": "0px 0px -20% 0px"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "char-stagger-button",
       "type": "registry:ui",
       "title": "Char Stagger Button",
@@ -232,22 +287,22 @@
       }
     },
     {
-      "name": "text-reveal",
+      "name": "text-reveal-blur",
       "type": "registry:ui",
-      "title": "Text Reveal",
-      "description": "A text reveal animation.",
+      "title": "Text Reveal (Blur)",
+      "description": "A scroll-triggered text reveal animation with blur and opacity.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
-          "path": "registry/primitives/texts/text-reveal/index.tsx",
+          "path": "registry/primitives/texts/text-reveal-blur/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/texts/text-reveal.tsx"
+          "target": "components/sora-ui/texts/text-reveal-blur.tsx"
         }
       ],
       "meta": {
         "demoProps": {
-          "TextReveal": {
+          "BlurTextReveal": {
             "as": {
               "value": "h2",
               "options": {
@@ -301,6 +356,76 @@
             },
             "viewportMargin": {
               "value": "0px 0px -10% 0px"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "text-reveal-mask",
+      "type": "registry:ui",
+      "title": "Text Reveal (Mask)",
+      "description": "A scroll-triggered masked slide-up text reveal animation.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/text-reveal-mask/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-reveal-mask.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "MaskedTextReveal": {
+            "as": {
+              "value": "h2",
+              "options": {
+                "h2": "h2",
+                "p": "p",
+                "span": "span"
+              }
+            },
+            "className": {
+              "value": "mx-auto max-w-3xl text-center text-3xl leading-tight font-normal tracking-tight text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground"
+            },
+            "text": {
+              "value": "Every stride is a statement. Every finish line a new beginning. We build gear for athletes who refuse to settle for yesterday's pace. Push beyond limits. Outrun expectations. This is where champions are made."
+            },
+            "splitBy": {
+              "value": "lines",
+              "options": {
+                "Lines": "lines",
+                "Words": "words",
+                "Characters": "chars"
+              }
+            },
+            "stagger": {
+              "value": 0.1,
+              "min": 0.01,
+              "max": 0.5,
+              "step": 0.01
+            },
+            "duration": {
+              "value": 0.8,
+              "min": 0.1,
+              "max": 2,
+              "step": 0.1
+            },
+            "yPercent": {
+              "value": 110,
+              "min": 50,
+              "max": 200,
+              "step": 5
+            },
+            "delay": {
+              "value": 0,
+              "min": 0,
+              "max": 2,
+              "step": 0.1
+            },
+            "viewportMargin": {
+              "value": "0px 0px -25% 0px"
             }
           }
         }

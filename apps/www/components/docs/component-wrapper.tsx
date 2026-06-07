@@ -12,6 +12,8 @@ interface ComponentWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
   iframe?: boolean;
   name: string;
+  /** Bumps when demo props change so the preview remounts and replays. */
+  previewKey?: number;
   tweakpane?: React.ReactNode;
 }
 
@@ -21,10 +23,12 @@ export const ComponentWrapper = ({
   name,
   iframe = false,
   bigScreen = false,
+  previewKey = 0,
   tweakpane,
 }: ComponentWrapperProps) => {
   const [tweakMode, setTweakMode] = useState(false);
-  const [key, setKey] = useState(0);
+  const [resetKey, setResetKey] = useState(0);
+  const remountKey = `${resetKey}-${previewKey}`;
 
   const isMobile = useIsMobile();
 
@@ -44,7 +48,7 @@ export const ComponentWrapper = ({
               <Button
                 asChild
                 className="flex items-center rounded-lg"
-                onClick={() => setKey((prev) => prev + 1)}
+                onClick={() => setResetKey((prev) => prev + 1)}
                 size="icon-sm"
                 variant="neutral"
               >
@@ -93,11 +97,11 @@ export const ComponentWrapper = ({
           )}
 
           {iframe ? (
-            <Iframe bigScreen={bigScreen} key={key} name={name} />
+            <Iframe bigScreen={bigScreen} key={remountKey} name={name} />
           ) : (
             <div
               className="flex min-h-[400px] w-full items-center justify-center px-10 py-16"
-              key={key}
+              key={remountKey}
             >
               {children}
             </div>

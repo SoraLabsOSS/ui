@@ -4,7 +4,7 @@ import { type Binds, Tweakpane } from "@workspace/ui/components/docs/tweakpane";
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { index } from "@/__registry__";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
@@ -109,6 +109,8 @@ export function ComponentPreview({
     string,
     unknown
   > | null>(null);
+  const [previewKey, setPreviewKey] = useState(0);
+  const previousPropsSnapshot = useRef<string | null>(null);
 
   const demoPropsConfig = useMemo(() => resolveDemoProps(name), [name]);
 
@@ -179,6 +181,26 @@ export function ComponentPreview({
     setComponentProps(unwrapValues(binds));
   }, [binds]);
 
+  useEffect(() => {
+    if (componentProps === null) {
+      return;
+    }
+
+    const snapshot = JSON.stringify(componentProps);
+
+    if (previousPropsSnapshot.current === null) {
+      previousPropsSnapshot.current = snapshot;
+      return;
+    }
+
+    if (previousPropsSnapshot.current === snapshot) {
+      return;
+    }
+
+    previousPropsSnapshot.current = snapshot;
+    setPreviewKey((current) => current + 1);
+  }, [componentProps]);
+
   return (
     <div
       className={cn(
@@ -211,6 +233,7 @@ export function ComponentPreview({
               bigScreen={bigScreen}
               iframe={iframe}
               name={name}
+              previewKey={previewKey}
               tweakpane={
                 binds && <Tweakpane binds={binds} onBindsChange={setBinds} />
               }

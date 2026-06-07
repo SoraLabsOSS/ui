@@ -9,7 +9,7 @@ import { Components } from "./icons/components";
 const COMPONENTS = [
   {
     name: "Components",
-    href: "/docs/primitives/text-reveal",
+    href: "/docs/primitives/text-reveal-blur",
     icon: <Components />,
   },
   {

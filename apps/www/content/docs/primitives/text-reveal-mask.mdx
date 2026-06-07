@@ -1,0 +1,97 @@
+---
+title: Text Reveal (Mask)
+description: A scroll-triggered masked slide-up text reveal animation.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-text-reveal-mask" />
+
+## Installation
+
+<ComponentInstallation name="text-reveal-mask" />
+
+## Usage
+
+```tsx
+import { MaskedTextReveal } from '@/components/sora-ui/texts/text-reveal-mask';
+
+export default function Page() {
+  return (
+    <MaskedTextReveal
+      as="h2"
+      splitBy="lines"
+      stagger={0.1}
+      className="text-center text-3xl leading-tight text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground"
+    >
+      Every stride is a statement. Every finish line a new beginning. We build
+      gear for athletes who refuse to settle for <strong>yesterday&apos;s pace</strong>.
+    </MaskedTextReveal>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: 'Plain-text alternative to children.',
+      type: 'string',
+      default: '""',
+    },
+    children: {
+      description: 'Rich text content. Supports inline emphasis elements such as <strong>.',
+      type: 'ReactNode',
+    },
+    as: {
+      description: 'HTML tag used for the container element.',
+      type: 'keyof JSX.IntrinsicElements',
+      default: '"p"',
+    },
+    splitBy: {
+      description: 'Reveal line-by-line, word-by-word, or character-by-character.',
+      type: '"lines" | "words" | "chars"',
+      default: '"lines"',
+    },
+    delay: {
+      description: 'Delay before the first unit starts animating, in seconds.',
+      type: 'number',
+      default: '0',
+    },
+    duration: {
+      description: 'Duration of each unit\'s animation, in seconds.',
+      type: 'number',
+      default: '0.8 (lines), 0.6 (words), 0.4 (chars)',
+    },
+    stagger: {
+      description: 'Extra delay added between each successive unit, in seconds.',
+      type: 'number',
+      default: '0.08 (lines), 0.06 (words), 0.01 (chars)',
+    },
+    yPercent: {
+      description: 'Initial vertical offset as a percentage of the unit height (masked slide-up distance).',
+      type: 'number',
+      default: '110',
+    },
+    once: {
+      description: 'When true, the animation triggers only the first time the element enters the viewport.',
+      type: 'boolean',
+      default: 'true',
+    },
+    viewportMargin: {
+      description: 'Intersection Observer margin controlling when the animation fires.',
+      type: 'string',
+      default: '"0px 0px -25% 0px"',
+    },
+    className: {
+      description: 'Additional class names applied to the container element.',
+      type: 'string',
+    },
+    unitClassName: {
+      description: 'Additional class names applied to each animated unit (words or characters).',
+      type: 'string',
+    },
+  }}
+/>

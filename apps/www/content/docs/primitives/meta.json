@@ -5,7 +5,8 @@
   "root": true,
   "pages": [
     "---Texts---",
-    "text-reveal",
+    "text-reveal-blur",
+    "text-reveal-mask",
     "draw-underline-link",
     "---Buttons---",
     "char-stagger-button",

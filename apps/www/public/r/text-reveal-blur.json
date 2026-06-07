@@ -1,0 +1,77 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-reveal-blur",
+  "title": "Text Reveal (Blur)",
+  "description": "A scroll-triggered text reveal animation with blur and opacity.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-reveal-blur/index.tsx",
+      "content": "/** biome-ignore-all lint/suspicious/noArrayIndexKey: These are static content and the indices are stable. */\n\n\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion, type UseInViewOptions, useInView } from \"motion/react\";\nimport { type ElementType, useMemo, useRef } from \"react\";\n\nexport interface BlurTextRevealProps {\n  /**\n   * HTML tag for the container element.\n   * @default \"p\"\n   */\n  as?: keyof React.JSX.IntrinsicElements;\n  /**\n   * Blur amount in pixels for the hidden state.\n   * @default 4\n   */\n  blur?: number;\n  className?: string;\n  /**\n   * Delay before the first unit starts animating, in seconds.\n   * @default 0.5\n   */\n  delay?: number;\n  /**\n   * Duration of each unit's animation in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Trigger the animation only once.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Split mode: word-by-word or character-by-character.\n   * @default \"words\"\n   */\n  splitBy?: \"words\" | \"characters\";\n  /**\n   * Delay between each successive unit in seconds.\n   * @default 0.05\n   */\n  staggerDelay?: number;\n  /** The text to animate. */\n  text?: string;\n  /**\n   * Additional className applied to each animated span.\n   */\n  unitClassName?: string;\n  /**\n   * Viewport margin that controls when the animation triggers.\n   * @default \"0px 0px -10% 0px\"\n   */\n  viewportMargin?: UseInViewOptions[\"margin\"];\n  /**\n   * Initial vertical offset in pixels.\n   * @default 0\n   */\n  yOffset?: number;\n}\n\nconst WHITESPACE_RE = /\\s+/;\n\nexport function BlurTextReveal({\n  text = \"\",\n  as: Tag = \"p\",\n  splitBy = \"words\",\n  staggerDelay = 0.05,\n  delay = 0.5,\n  duration = 0.5,\n  once = true,\n  blur = 4,\n  yOffset = 0,\n  viewportMargin = \"0px 0px -10% 0px\",\n  className,\n  unitClassName,\n}: BlurTextRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const isInView = useInView(ref, { once, margin: viewportMargin });\n\n  const words = useMemo(() => text.split(WHITESPACE_RE), [text]);\n\n  // Pre-calculate character structures and global stagger indices to prevent mid-word wrapping\n  const parsedWords = useMemo(() => {\n    let charCount = 0;\n    return words.map((word) => {\n      const chars = word.split(\"\").map((char) => {\n        const globalIndex = charCount;\n        charCount++;\n        return { char, globalIndex };\n      });\n      return { word, chars };\n    });\n  }, [words]);\n\n  const hiddenState = useMemo(\n    () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),\n    [blur, yOffset]\n  );\n\n  const visibleState = { opacity: 1, y: 0, filter: \"blur(0px)\" };\n\n  const Component = Tag as ElementType;\n\n  return (\n    <Component\n      aria-label={text}\n      className={cn(\"leading-relaxed\", className)}\n      ref={ref}\n    >\n      {splitBy === \"words\"\n        ? words.map((word, i) => (\n            <span className=\"inline-block\" key={i}>\n              <motion.span\n                animate={isInView ? visibleState : hiddenState}\n                aria-hidden=\"true\"\n                className={cn(\n                  \"inline-block will-change-[opacity,filter,transform]\",\n                  unitClassName\n                )}\n                initial={hiddenState}\n                transition={{\n                  duration,\n                  delay: delay + i * staggerDelay,\n                  ease: [0.25, 0.46, 0.45, 0.94],\n                }}\n              >\n                {word}\n              </motion.span>\n              {i < words.length - 1 && (\n                <span className=\"inline-block\">&nbsp;</span>\n              )}\n            </span>\n          ))\n        : parsedWords.map((wordData, wordIdx) => (\n            <span className=\"inline-block whitespace-nowrap\" key={wordIdx}>\n              {wordData.chars.map((charData, charIdx) => (\n                <motion.span\n                  animate={isInView ? visibleState : hiddenState}\n                  aria-hidden=\"true\"\n                  className={cn(\n                    \"inline-block will-change-[opacity,filter,transform]\",\n                    unitClassName\n                  )}\n                  initial={hiddenState}\n                  key={charIdx}\n                  transition={{\n                    duration,\n                    delay: delay + charData.globalIndex * staggerDelay,\n                    ease: [0.25, 0.46, 0.45, 0.94],\n                  }}\n                >\n                  {charData.char}\n                </motion.span>\n              ))}\n              {wordIdx < parsedWords.length - 1 && (\n                <span className=\"inline-block\">&nbsp;</span>\n              )}\n            </span>\n          ))}\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-reveal-blur.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "BlurTextReveal": {
+        "as": {
+          "value": "h2",
+          "options": {
+            "h2": "h2",
+            "p": "p",
+            "span": "span"
+          }
+        },
+        "className": {
+          "value": "text-center font-bold text-3xl"
+        },
+        "text": {
+          "value": "Blur Text Animation"
+        },
+        "splitBy": {
+          "value": "words",
+          "options": {
+            "Words": "words",
+            "Characters": "characters"
+          }
+        },
+        "staggerDelay": {
+          "value": 0.05,
+          "min": 0.01,
+          "max": 0.5,
+          "step": 0.01
+        },
+        "delay": {
+          "value": 0.5,
+          "min": 0,
+          "max": 2,
+          "step": 0.1
+        },
+        "duration": {
+          "value": 0.5,
+          "min": 0.1,
+          "max": 2,
+          "step": 0.1
+        },
+        "blur": {
+          "value": 4,
+          "min": 0,
+          "max": 20,
+          "step": 1
+        },
+        "yOffset": {
+          "value": 0,
+          "min": -50,
+          "max": 50,
+          "step": 1
+        },
+        "viewportMargin": {
+          "value": "0px 0px -10% 0px"
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

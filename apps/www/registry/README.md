@@ -25,7 +25,7 @@ You do **not** need `registry/demo/...` unless the usage example is complex (see
 | Part | Source | Notes |
 |------|--------|-------|
 | **Preview** | `ComponentPreview name="<name>"` | Loads primitive from `@/registry/...`, props from `meta.demoProps` |
-| **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` | Top-level key = React export name (e.g. `TextReveal`) |
+| **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` | Top-level key = React export name (e.g. `BlurTextReveal`) |
 | **Code** | Auto-generated `demo-<name>` at build time; **updates live** when Tweakpane changes | Snippet uses `@/components/sora-ui/...` (post–`shadcn add` paths) |
 | **Install** | `ComponentInstallation name="<name>"` | CLI tab in docs |
 
@@ -34,7 +34,7 @@ You do **not** need `registry/demo/...` unless the usage example is complex (see
 ```json
 "meta": {
   "demoProps": {
-    "TextReveal": {
+    "BlurTextReveal": {
       "text": { "value": "Blur Text Animation" },
       "splitBy": {
         "value": "words",
@@ -60,9 +60,9 @@ Add `registry/demo/{primitives|components}/<category>/<name>/` when:
 Structure:
 
 ```text
-registry/demo/primitives/texts/text-reveal/
+registry/demo/primitives/texts/text-reveal-mask/
   index.tsx              ← import from @/registry/... (runs in the monorepo)
-  registry-item.json     ← registryDependencies: ["text-reveal"]
+  registry-item.json     ← registryDependencies: ["text-reveal-mask"]
 ```
 
 - A demo folder on disk **overrides** the auto-generated Code tab snippet.
@@ -76,14 +76,14 @@ registry/demo/primitives/texts/text-reveal/
 3. For each documented primitive with `demoProps` and **no** `demo-*` folder on disk → synthesizes a `demo-<name>` entry (`component: null`, `files[].content` only).
 4. Runs `shadcn build` → JSON artifacts under `public/r/*.json`.
 
-## Example: `text-reveal`
+## Example: `text-reveal-blur`
 
 | File | Role |
 |------|------|
-| `registry/primitives/texts/text-reveal/index.tsx` | Component source |
-| `registry/primitives/texts/text-reveal/registry-item.json` | Registry metadata + `demoProps` |
-| `content/docs/texts/text-reveal.mdx` | `<ComponentPreview name="text-reveal" />` |
-| `content/docs/texts/meta.json` | Sidebar (`root: true`, `pages`) |
+| `registry/primitives/texts/text-reveal-blur/index.tsx` | Component source |
+| `registry/primitives/texts/text-reveal-blur/registry-item.json` | Registry metadata + `demoProps` |
+| `content/docs/primitives/text-reveal-blur.mdx` | `<ComponentPreview name="text-reveal-blur" />` |
+| `content/docs/primitives/meta.json` | Sidebar (`root: true`, `pages`) |
 
 ## Commands
 

@@ -1,21 +1,21 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "text-reveal",
+  "name": "text-reveal-blur",
   "type": "registry:ui",
-  "title": "Text Reveal",
-  "description": "A text reveal animation.",
+  "title": "Text Reveal (Blur)",
+  "description": "A scroll-triggered text reveal animation with blur and opacity.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [
     {
-      "path": "registry/primitives/texts/text-reveal/index.tsx",
+      "path": "registry/primitives/texts/text-reveal-blur/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/texts/text-reveal.tsx"
+      "target": "components/sora-ui/texts/text-reveal-blur.tsx"
     }
   ],
   "meta": {
     "demoProps": {
-      "TextReveal": {
+      "BlurTextReveal": {
         "as": {
           "value": "h2",
           "options": {

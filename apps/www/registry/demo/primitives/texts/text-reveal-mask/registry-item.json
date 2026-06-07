@@ -1,0 +1,56 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-reveal-mask",
+  "type": "registry:ui",
+  "title": "Text Reveal (Mask) Demo",
+  "description": "Scroll-triggered masked text reveal with rich text emphasis.",
+  "registryDependencies": ["text-reveal-mask"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-reveal-mask.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "MaskedTextRevealExample": {
+        "splitBy": {
+          "value": "lines",
+          "options": {
+            "Lines": "lines",
+            "Words": "words",
+            "Characters": "chars"
+          }
+        },
+        "stagger": {
+          "value": 0.1,
+          "min": 0.01,
+          "max": 0.5,
+          "step": 0.01
+        },
+        "duration": {
+          "value": 0.8,
+          "min": 0.1,
+          "max": 2,
+          "step": 0.1
+        },
+        "yPercent": {
+          "value": 110,
+          "min": 50,
+          "max": 200,
+          "step": 5
+        },
+        "delay": {
+          "value": 0,
+          "min": 0,
+          "max": 2,
+          "step": 0.1
+        },
+        "viewportMargin": {
+          "value": "0px 0px -20% 0px"
+        }
+      }
+    }
+  }
+}

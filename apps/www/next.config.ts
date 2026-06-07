@@ -60,7 +60,17 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/docs/components/texts/text-reveal",
-        destination: "/docs/primitives/text-reveal",
+        destination: "/docs/primitives/text-reveal-blur",
+        permanent: true,
+      },
+      {
+        source: "/docs/primitives/text-reveal",
+        destination: "/docs/primitives/text-reveal-blur",
+        permanent: true,
+      },
+      {
+        source: "/docs/primitives/scroll-text-reveal",
+        destination: "/docs/primitives/text-reveal-mask",
         permanent: true,
       },
       {

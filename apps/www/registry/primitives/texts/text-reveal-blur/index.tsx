@@ -6,7 +6,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { motion, type UseInViewOptions, useInView } from "motion/react";
 import { type ElementType, useMemo, useRef } from "react";
 
-export interface TextRevealProps {
+export interface BlurTextRevealProps {
   /**
    * HTML tag for the container element.
    * @default "p"
@@ -63,7 +63,7 @@ export interface TextRevealProps {
 
 const WHITESPACE_RE = /\s+/;
 
-export function TextReveal({
+export function BlurTextReveal({
   text = "",
   as: Tag = "p",
   splitBy = "words",
@@ -76,7 +76,7 @@ export function TextReveal({
   viewportMargin = "0px 0px -10% 0px",
   className,
   unitClassName,
-}: TextRevealProps) {
+}: BlurTextRevealProps) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once, margin: viewportMargin });
 
