@@ -96,7 +96,9 @@ const SplittingText = ({
 };
 
 const ICONS = [ReactIcon, TSIcon, TailwindIcon, MotionIcon, ShadcnIcon];
-const TITLE = "Animate your UI with smooth style";
+const TITLE = "Motion-first UI for React";
+const SUBTITLE =
+  "Sora UI is in active beta—a registry of animated primitives for Next.js. Preview in the docs, install with the shadcn CLI, and own every file in your codebase.";
 
 export const Hero = () => (
   <div className="relative flex flex-col items-center overflow-hidden px-5">
@@ -170,8 +172,7 @@ export const Hero = () => (
         zoom
       >
         <p className="mt-3 block text-balance text-center font-normal text-muted-foreground text-sm sm:max-w-[450px] sm:text-base md:max-w-[660px] md:text-lg">
-          A fully animated React component library. Browse a list of animated
-          components you can install and use in your projects.
+          {SUBTITLE}
         </p>
       </MotionEffect>
 
