@@ -1,6 +1,15 @@
 import XIcon from "@workspace/ui/components/icons/x-icon";
 import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";

@@ -11,24 +11,24 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Banner } from "@/components/banner";
 import { Providers } from "@/components/providers";
 import { jsonLd } from "@/lib/json-ld";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ui.soralabs.io.vn"),
+  metadataBase: new URL(SITE_URL),
   title: {
     template: "%s - Sora UI",
-    default: "Sora UI - Animated React Components",
+    default: "Sora UI - Motion-first UI for React",
   },
-  description:
-    "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
+  description: SITE_DESCRIPTION,
   keywords: [
     "Sora UI",
     "React",
     "TypeScript",
     "Tailwind CSS",
-    "Framer Motion",
-    "Open-source components",
+    "Motion",
     "Animated UI components",
     "UI library",
+    "shadcn CLI",
   ],
   icons: [
     {
@@ -58,9 +58,8 @@ export const metadata: Metadata = {
   publisher: "Sora UI",
   openGraph: {
     title: "Sora UI",
-    description:
-      "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
-    url: "https://ui.soralabs.io.vn",
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
     siteName: "Sora UI",
     // images: [
     //   {
@@ -77,8 +76,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@soralabs_io",
     title: "Sora UI",
-    description:
-      "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
+    description: SITE_DESCRIPTION,
     // images: [
     //   {
     //     url: "https://ui.soralabs.io.vn/og-image.png",
@@ -100,7 +98,6 @@ export default function Layout({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           type="application/ld+json"
         />
-        <link href="https://ui.soralabs.io.vn" rel="canonical" />
       </head>
 
       <body

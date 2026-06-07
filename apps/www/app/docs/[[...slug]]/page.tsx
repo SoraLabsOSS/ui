@@ -18,6 +18,7 @@ import { PageActionButtons } from "@/components/docs/page-actions";
 import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
+import { SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
 export default async function Page(props: {
@@ -189,6 +190,9 @@ export async function generateMetadata(props: {
   return {
     title: page.data.title,
     description: page.data.description,
+    alternates: {
+      canonical: page.url,
+    },
     authors: page.data?.author
       ? [
           {
@@ -203,7 +207,7 @@ export async function generateMetadata(props: {
     openGraph: {
       title: page.data.title,
       description: page.data.description,
-      url: "https://ui.soralabs.io.vn",
+      url: `${SITE_URL}${page.url}`,
       siteName: "Sora UI",
       images: image,
       locale: "en_US",

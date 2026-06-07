@@ -1,26 +1,27 @@
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+
 export const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://ui.soralabs.io.vn/#website",
-      url: "https://ui.soralabs.io.vn",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
       name: "Sora UI",
-      description:
-        "Fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, Motion and Shadcn CLI. Browse a list of components you can install, modify, and use in your projects.",
+      description: SITE_DESCRIPTION,
       inLanguage: "en",
       publisher: {
-        "@id": "https://ui.soralabs.io.vn/#organization",
+        "@id": `${SITE_URL}/#organization`,
       },
     },
     {
       "@type": "Organization",
-      "@id": "https://ui.soralabs.io.vn/#organization",
+      "@id": `${SITE_URL}/#organization`,
       name: "Sora UI",
-      url: "https://ui.soralabs.io.vn",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: "https://ui.soralabs.io.vn/icon-logo.png",
+        url: `${SITE_URL}/icon-logo.png`,
         width: 512,
         height: 512,
       },
