@@ -1,6 +1,8 @@
+import { dash } from "@better-auth/infra";
 import { db } from "@workspace/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
+import { openAPI } from "better-auth/plugins";
 import { env } from "@/env";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
 
@@ -29,4 +31,9 @@ export const auth = betterAuth({
   verification: {
     storeInDatabase: true,
   },
+  plugins: [
+    // ... other plugins
+    openAPI(),
+    dash(),
+  ],
 });

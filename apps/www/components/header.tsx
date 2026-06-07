@@ -30,7 +30,7 @@ const LOGO_WRAPPER_VARIANTS = {
 export const Header = () => (
   <motion.div
     animate="topLeft"
-    className="absolute z-10 flex items-center justify-center"
+    className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-center"
     initial="topLeft"
     variants={LOGO_WRAPPER_VARIANTS}
   >
@@ -39,7 +39,7 @@ export const Header = () => (
         animate={{
           top: 32,
         }}
-        className="absolute left-5 flex items-center gap-2.5"
+        className="pointer-events-auto absolute left-5 flex items-center gap-2.5"
         layoutId="logo"
       >
         <IconLogo className="size-9 shrink-0" size="md" />
@@ -54,7 +54,7 @@ export const Header = () => (
           right: 20,
           opacity: 1,
         }}
-        className="absolute flex items-center gap-x-4"
+        className="pointer-events-auto absolute flex items-center gap-x-4"
         initial={{
           top: 28,
           right: 20,

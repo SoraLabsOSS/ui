@@ -12,7 +12,8 @@
         "NEXT_PUBLIC_BETTER_AUTH_URL",
         "NEXT_PUBLIC_GOOGLE_CLIENT_ID",
         "UPSTASH_REDIS_REST_URL",
-        "UPSTASH_REDIS_REST_TOKEN"
+        "UPSTASH_REDIS_REST_TOKEN",
+        "BETTER_AUTH_API_KEY"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
