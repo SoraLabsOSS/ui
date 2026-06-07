@@ -395,17 +395,6 @@
     @apply sticky self-start pt-8 pb-2 max-xl:hidden;
   }
 
-  #nd-toc div div {
-    @apply !pl-px;
-  }
-
-  /* Default TOC thumb only: fumadocs uses role="none" + absolute + w-px.
-     Clerk TOC thumb l"ves "nside an SVG mask and must not be forced narrow
-     or shifted (-ml-px) or tracking disappears on diagonal path segments. */
-  #nd-toc div[role="none"].absolute {
-    @apply -ml-px !w-[3px] !rounded-full;
-  }
-
   #nd-tocnav {
     @apply !hidden;
   }
