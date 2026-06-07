@@ -1,24 +1,12 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 import { source } from "@/lib/docs/source";
 
-async function loadGoogleFont(font: string, text: string) {
-  "use cache";
-  const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
-  const css = await (await fetch(url)).text();
-  const resource = css.match(
-    /src: url\((.+)\) format\('(opentype|truetype)'\)/
-  );
+const outfitFontPath = join(process.cwd(), "assets/fonts/Outfit-Variable.ttf");
 
-  if (resource) {
-    const response = await fetch(resource[1]);
-    if (response.status === 200) {
-      return await response.arrayBuffer();
-    }
-  }
-
-  throw new Error("failed to load font data");
-}
+const outfitFontData = readFile(outfitFontPath);
 
 export async function GET(
   _req: Request,
@@ -97,11 +85,9 @@ export async function GET(
       fonts: [
         {
           name: "Outfit",
-          data: await loadGoogleFont(
-            "Outfit",
-            `${page.data.description} ${page.data.title} ui.soralabs.io.vn`
-          ),
+          data: await outfitFontData,
           style: "normal",
+          weight: 500,
         },
       ],
     }
