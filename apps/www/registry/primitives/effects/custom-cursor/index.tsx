@@ -13,6 +13,7 @@ import {
   useSpring,
 } from "motion/react";
 import {
+  type ComponentProps,
   type ComponentPropsWithoutRef,
   createContext,
   type ReactNode,
@@ -21,6 +22,10 @@ import {
   useMemo,
   useState,
 } from "react";
+
+type MotionDivAnimate = NonNullable<
+  ComponentProps<typeof motion.div>["animate"]
+>;
 
 const DEFAULT_CURSOR_COLOR = "#ff4c24";
 
@@ -53,15 +58,6 @@ const customCursorTargetVariants = cva(
     },
   }
 );
-
-interface CursorAppearance {
-  backgroundColor: string;
-  borderColor: string;
-  borderRadius: number | string;
-  borderWidth: number;
-  height: number;
-  width: number;
-}
 
 interface CustomCursorContextValue {
   setIsHovering: (isHovering: boolean) => void;
@@ -100,7 +96,7 @@ function hexToRgba(hex: string, alpha: number) {
 function resolveCursorAppearance(
   isHovering: boolean,
   color: string
-): CursorAppearance {
+): MotionDivAnimate {
   if (!isHovering) {
     return {
       width: 16,
