@@ -446,6 +446,7 @@ export const DocsSidebar = (
         className={cn(
           "min-h-0 overflow-hidden",
           "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
+          "max-md:data-[state=open]:!z-[61]",
           scrollViewportSelector,
           sidebarProps.className
         )}

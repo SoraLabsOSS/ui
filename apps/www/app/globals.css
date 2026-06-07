@@ -307,31 +307,6 @@
   #nd-sidebar {
     @apply md:!border-0;
   }
-  /* Mobile drawer: above banner (z-50) and docs nav (z-30) */
-  @media (max-width: 767px) {
-    body:has(#nd-sidebar-mobile[data-state="open"])
-      #nd-docs-layout
-      > div:has(> .fixed.inset-0[data-state="open"]) {
-      z-index: 60;
-    }
-
-    #nd-sidebar-mobile[data-state="open"] {
-      z-index: 61;
-    }
-
-    #nd-sidebar[data-open="true"] {
-      z-index: 61;
-    }
-
-    /* Fumadocs search dialog overlay + panel */
-    .fixed.inset-0.z-50.bg-black\/30 {
-      z-index: 70;
-    }
-
-    .fixed.left-1\/2.top-\[10vh\].z-50 {
-      z-index: 71;
-    }
-  }
 
   #nd-sidebar div div div a[href^="/docs/components"] > svg[data-icon="true"],
   #nd-sidebar div div div a[href^="/docs/primitives"] > svg[data-icon="true"],
@@ -429,4 +404,25 @@
 .screenshot-mode #nd-page #docs-body > *:not(#component-preview),
 .screenshot-mode #component-preview-tab-list {
   opacity: 0 !important;
+}
+
+/* Mobile drawer: above banner (z-50). Unlayered + !important beats Fumadocs z-40 utilities. */
+@media (max-width: 767px) {
+  body:has(#nd-sidebar-mobile[data-state="open"])
+    .fixed.z-40.inset-0[data-state="open"] {
+    z-index: 60 !important;
+  }
+
+  #nd-sidebar-mobile[data-state="open"] {
+    z-index: 61 !important;
+  }
+
+  /* Fumadocs search dialog overlay + panel */
+  .fixed.inset-0.z-50.bg-black\/30 {
+    z-index: 70 !important;
+  }
+
+  .fixed.left-1\/2.top-\[10vh\].z-50 {
+    z-index: 71 !important;
+  }
 }
