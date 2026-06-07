@@ -73,6 +73,7 @@
       "title": "Char Stagger Button",
       "description": "A button with per-character stagger animation on hover.",
       "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/buttons/char-stagger-button/index.tsx",
@@ -111,7 +112,8 @@
       "type": "registry:ui",
       "title": "Custom Cursor",
       "description": "A smooth custom cursor that morphs when hovering interactive targets.",
-      "dependencies": ["motion"],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/custom-cursor/index.tsx",
@@ -125,7 +127,8 @@
       "type": "registry:ui",
       "title": "Dock Nav",
       "description": "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
-      "dependencies": ["motion"],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/dock-nav/index.tsx",
@@ -139,7 +142,8 @@
       "type": "registry:ui",
       "title": "Pixelated Image Reveal",
       "description": "An image card that reveals a second image through a randomized pixel grid on hover.",
-      "dependencies": ["motion"],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/pixelated-image-reveal/index.tsx",
@@ -188,7 +192,8 @@
       "type": "registry:ui",
       "title": "Draw Underline Link",
       "description": "A link with a hand-drawn SVG underline that animates on hover.",
-      "dependencies": ["motion"],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/draw-underline-link/index.tsx",
@@ -218,6 +223,9 @@
             },
             "href": {
               "value": "#"
+            },
+            "underlineColor": {
+              "value": "#ff4c24"
             }
           }
         }
@@ -229,6 +237,7 @@
       "title": "Text Reveal",
       "description": "A text reveal animation.",
       "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal/index.tsx",

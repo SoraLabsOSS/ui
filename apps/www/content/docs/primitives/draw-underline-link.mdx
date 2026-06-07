@@ -19,7 +19,7 @@ import { DrawUnderlineLink } from '@/components/sora-ui/texts/draw-underline-lin
 
 export default function Page() {
   return (
-    <DrawUnderlineLink href="#" className="text-red-500">
+    <DrawUnderlineLink href="#" underlineColor="#ff4c24">
       Hover me
     </DrawUnderlineLink>
   );
@@ -52,6 +52,12 @@ export default function Page() {
       description:
         'Custom SVG path data for underline variants. Defaults to six built-in strokes.',
       type: 'readonly string[]',
+    },
+    underlineColor: {
+      description:
+        'Stroke color for the animated underline (hex, rgb, css variable, etc.). Defaults to `currentColor`.',
+      type: 'string',
+      default: '"currentColor"',
     },
     className: {
       description: 'Additional class names merged onto the root anchor.',

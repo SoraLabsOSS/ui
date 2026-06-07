@@ -4,6 +4,7 @@
   "type": "registry:hook",
   "title": "useMotionValueState",
   "description": "A hook that allows you to use a motion value state.",
+  "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/hooks/use-motion-value-state/index.tsx",

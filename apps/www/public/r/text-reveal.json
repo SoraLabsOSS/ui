@@ -4,6 +4,7 @@
   "title": "Text Reveal",
   "description": "A text reveal animation.",
   "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/text-reveal/index.tsx",

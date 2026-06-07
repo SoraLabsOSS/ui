@@ -4,7 +4,8 @@
   "type": "registry:ui",
   "title": "Custom Cursor",
   "description": "A smooth custom cursor that morphs when hovering interactive targets.",
-  "dependencies": ["motion"],
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/effects/custom-cursor/index.tsx",

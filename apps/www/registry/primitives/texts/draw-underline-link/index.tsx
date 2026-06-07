@@ -59,6 +59,11 @@ export interface DrawUnderlineLinkProps
   textClassName?: string;
   /** Override the animated underline container. */
   underlineClassName?: string;
+  /**
+   * Stroke color for the animated underline.
+   * @default "currentColor" (inherits link text color)
+   */
+  underlineColor?: string;
 }
 
 function DrawUnderlineLink({
@@ -69,6 +74,7 @@ function DrawUnderlineLink({
   className,
   textClassName,
   underlineClassName,
+  underlineColor,
   paths = DEFAULT_UNDERLINE_PATHS,
   href,
   ref,
@@ -204,7 +210,7 @@ function DrawUnderlineLink({
                   handleLeaveComplete();
                 }
               }}
-              stroke="currentColor"
+              stroke={underlineColor ?? "currentColor"}
               strokeDasharray="0 1"
               strokeLinecap="round"
               strokeWidth={10}

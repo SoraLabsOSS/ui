@@ -4,7 +4,8 @@
   "type": "registry:ui",
   "title": "Draw Underline Link",
   "description": "A link with a hand-drawn SVG underline that animates on hover.",
-  "dependencies": ["motion"],
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/draw-underline-link/index.tsx",
@@ -34,6 +35,9 @@
         },
         "href": {
           "value": "#"
+        },
+        "underlineColor": {
+          "value": "#ff4c24"
         }
       }
     }

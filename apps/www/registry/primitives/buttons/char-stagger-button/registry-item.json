@@ -5,6 +5,7 @@
   "title": "Char Stagger Button",
   "description": "A button with per-character stagger animation on hover.",
   "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/buttons/char-stagger-button/index.tsx",
