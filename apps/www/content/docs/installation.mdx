@@ -30,9 +30,10 @@ Run the `init` command to create a new project with shadcn/ui or setup an existi
 </Step>
 <Step>
 
-### Add Components
+### Add components
 
-Run the `add` command to add a component to your project.
+Run the `add` command. Once Sora UI is listed in the official shadcn registry
+(upstream PR in progress), `@sora-ui/...` should work without extra setup.
 
 <CodeTabs
   codes={{
@@ -42,6 +43,26 @@ Run the `add` command to add a component to your project.
     bun: `bunx --bun shadcn@latest add @sora-ui/text-reveal-blur`,
   }}
 />
+
+<Callout type="warn">
+  **Only if the CLI errors** — for example `unknown registry`, cannot resolve
+  `@sora-ui`, or fetch timeout — add the scope manually to `components.json`:
+
+  ```json
+  {
+    "registries": {
+      "@sora-ui": "https://ui.soralabs.io.vn/r/{name}.json"
+    }
+  }
+  ```
+
+  For local registry testing (Sora UI repo with `bun dev` running), use
+  `http://localhost:3000/r/{name}.json` instead. Prefer the production URL
+  when localhost is unavailable.
+
+  List available items:
+  `bunx --bun shadcn@latest list https://ui.soralabs.io.vn/r/registry.json`
+</Callout>
 
 </Step>
 <Step>

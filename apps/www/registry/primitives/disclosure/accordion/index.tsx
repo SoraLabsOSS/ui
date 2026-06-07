@@ -409,11 +409,15 @@ function AccordionItem({
 
   const toInstantSequence = useCallback(
     (sequence: AnimationSequence): AnimationSequence =>
-      sequence.map(([element, keyframes, options]) => [
-        element,
-        keyframes,
-        { ...options, duration: 0, at: 0 },
-      ]),
+      sequence.map((segment) => {
+        const [element, keyframes, options] = segment as [
+          Element,
+          Record<string, unknown>,
+          { at?: number; duration?: number; ease?: AccordionEase },
+        ];
+
+        return [element, keyframes, { ...options, duration: 0, at: 0 }];
+      }) as AnimationSequence,
     []
   );
 

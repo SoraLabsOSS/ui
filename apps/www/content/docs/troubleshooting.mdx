@@ -24,6 +24,36 @@ Certain browser extensions can interfere with how the documentation is rendered.
 
 If problems persist after disabling extensions, clear your browser cache and refresh the page.
 
+## The CLI does not recognize `@sora-ui`
+
+The shadcn CLI only resolves scoped registries that are declared in your project's `components.json`. Add or update the `registries` field:
+
+```json
+{
+  "registries": {
+    "@sora-ui": "https://ui.soralabs.io.vn/r/{name}.json"
+  }
+}
+```
+
+If you were testing against a local docs server (`http://localhost:3000/r/{name}.json`), switch back to the production URL when:
+
+- The dev server is not running
+- `shadcn list` or `shadcn add` times out or returns 404
+- You are installing into a project outside this monorepo
+
+Verify the registry is reachable:
+
+```bash
+bunx --bun shadcn@latest list https://ui.soralabs.io.vn/r/registry.json
+```
+
+Then install with the scope, for example:
+
+```bash
+bunx --bun shadcn@latest add @sora-ui/accordion
+```
+
 ## The CLI installation does not respect aliases
 
 In some projects, components may not install in the desired location that you configured in the aliases in the `components.json` file. This is because we can't use a target path with aliases.
