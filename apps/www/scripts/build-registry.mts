@@ -132,6 +132,44 @@ function replaceRegistryPaths(inputStr: string): string {
   });
 }
 
+function normalizeRegistryDependencyName(dependency: string): string {
+  if (dependency.startsWith("@sora-ui/")) {
+    return dependency.slice("@sora-ui/".length);
+  }
+
+  return dependency;
+}
+
+function collectTransitiveRegistryDependencyNames(
+  items: RegistryItem[],
+  seedNames: Set<string>
+): Set<string> {
+  const itemByName = new Map(items.map((item) => [item.name, item]));
+  const resolvedNames = new Set(seedNames);
+  let changed = true;
+
+  while (changed) {
+    changed = false;
+
+    for (const name of resolvedNames) {
+      const item = itemByName.get(name);
+      if (!item?.registryDependencies?.length) {
+        continue;
+      }
+
+      for (const dependency of item.registryDependencies) {
+        const normalizedName = normalizeRegistryDependencyName(dependency);
+        if (!resolvedNames.has(normalizedName)) {
+          resolvedNames.add(normalizedName);
+          changed = true;
+        }
+      }
+    }
+  }
+
+  return resolvedNames;
+}
+
 /**
  * Function to build the merged registry.json file.
  * It searches for all registry-item.json files in the registry directory,
@@ -146,20 +184,34 @@ async function buildRegistryFile() {
   // Collect all names referenced in docs
   const documentedNames = await collectDocumentedNames();
 
+  const documentedItems = newItems.filter((item) => {
+    if (item.name.startsWith("primitives-")) {
+      return false;
+    }
+
+    return documentedNames.has(item.name);
+  });
+
+  const publishedNames = collectTransitiveRegistryDependencyNames(
+    newItems,
+    new Set(documentedItems.map((item) => item.name))
+  );
+
   const filteredItems = newItems.filter((item) => {
     // Always exclude internal primitives from the public registry
     if (item.name.startsWith("primitives-")) {
       return false;
     }
-    // Demos are doc previews only — not installable via CLI
-    // if (item.name.startsWith("demo-")) {
-    //   return false;
-    // }
-    // Only include items that are referenced in at least one .mdx doc page
-    if (!documentedNames.has(item.name)) {
+
+    if (!publishedNames.has(item.name)) {
       console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
       return false;
     }
+
+    if (!documentedNames.has(item.name)) {
+      console.log(`📦 Including transitive registry dependency: ${item.name}`);
+    }
+
     return true;
   });
 

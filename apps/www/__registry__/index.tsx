@@ -22,6 +22,51 @@ export const index: Record<string, any> = {
     component: null,
     command: "@sora-ui/index",
   },
+  "demo-accordion": {
+    name: "demo-accordion",
+    description: "FAQ accordion with animated panels.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["accordion"],
+    files: [
+      {
+        path: "registry/demo/primitives/disclosure/accordion/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/disclosure/accordion.tsx",
+        content:
+          '"use client";\n\nimport {\n  Accordion,\n  type AccordionItemData,\n} from "@/components/sora-ui/disclosure/accordion";\n\nconst FAQ_ITEMS: AccordionItemData[] = [\n  {\n    title: "What is Sora UI?",\n    content:\n      "Sora UI is an animated component registry for React and Next.js. It ships copy-paste primitives built on Motion, with live docs, demos, and a shadcn-compatible install flow so you can add polished UI effects directly into your project.",\n    defaultOpen: true,\n  },\n  {\n    title: "How do I install a component?",\n    content:\n      "Initialize shadcn/ui in your app, then run the add command with the Sora UI registry scope—for example, npx shadcn@latest add @sora-ui/accordion. The CLI copies the source into your project so you own and can customize every file.",\n  },\n  {\n    title: "Can I customize the styles?",\n    content:\n      "Yes. Components are added as source files in your codebase, not as an opaque npm package. Tweak Tailwind classes, variants, and tokens to match your design system. Primitives also expose CVA variant helpers you can extend.",\n  },\n  {\n    title: "What animation library does Sora UI use?",\n    content:\n      "Sora UI is built on Motion (motion/react). Timelines, springs, and layout animations are composed with Motion APIs. Wrap your app in MotionConfig with reducedMotion set to user for accessible defaults.",\n  },\n  {\n    title: "Does Sora UI support reduced motion?",\n    content:\n      \'Yes. Components respect prefers-reduced-motion via Motion and useReducedMotion where needed. For app-wide behavior, add MotionConfig reducedMotion="user" at the root so transforms and layout animations scale back automatically.\',\n  },\n  {\n    title: "How does the registry work?",\n    content:\n      "Each primitive has a registry item with source paths, dependencies, and install targets. Docs previews load demo components from the same registry, so what you see in the docs matches what the CLI installs into components/sora-ui.",\n  },\n  {\n    title: "Do I need to use every subcomponent?",\n    content:\n      "No. Many primitives support a simple data API—for example, Accordion accepts an items array with title and content. Use the compound API when you need custom markup inside panels or triggers.",\n  },\n  {\n    title: "Which frameworks are supported?",\n    content:\n      \'Sora UI targets React 19+ and Next.js App Router. Components marked "use client" run in the browser; install steps follow the same shadcn/ui workflow used across Vite, Next.js, and other React setups.\',\n  },\n];\n\nexport default function AccordionExample() {\n  return (\n    <div className="mx-auto w-full max-w-2xl px-4 py-8">\n      <Accordion items={FAQ_ITEMS} />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/disclosure/accordion/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@sora-ui/demo-accordion",
+  },
   "demo-custom-cursor": {
     name: "demo-custom-cursor",
     description: "Custom cursor demo with Sora icons and shape variants.",
@@ -259,6 +304,51 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@sora-ui/char-stagger-button",
+  },
+  accordion: {
+    name: "accordion",
+    description: "An animated FAQ accordion with expandable panels.",
+    type: "registry:ui",
+    dependencies: ["motion", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["utils", "hooks-use-auto-height"],
+    files: [
+      {
+        path: "registry/primitives/disclosure/accordion/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/disclosure/accordion.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  type AnimationSequence,\n  useAnimate,\n  useReducedMotion,\n} from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  createContext,\n  type ReactNode,\n  type RefObject,\n  useCallback,\n  useContext,\n  useEffect,\n  useId,\n  useRef,\n  useState,\n} from "react";\n\nimport { useAutoHeight } from "@/hooks/use-auto-height";\n\nconst EXPO_IN_OUT = [0.87, 0, 0.13, 1] as const;\nconst POWER2_IN_OUT = [0.45, 0, 0.55, 1] as const;\n\ntype IconMode = "rotate" | "fade" | "both";\ntype DisabledBreakpoint = "mobile" | "tablet" | "desktop";\ntype AccordionEase = readonly [number, number, number, number];\n\nconst DISABLE_MEDIA: Record<DisabledBreakpoint, string> = {\n  mobile: "(max-width: 479px)",\n  tablet: "(max-width: 991px)",\n  desktop: "(min-width: 992px)",\n};\n\ninterface AccordionContextValue {\n  allowMultiple: boolean;\n  animationsPaused: boolean;\n  defaultDuration: number;\n  defaultEase: AccordionEase;\n  defaultIconRotation: number;\n  disabledOn?: DisabledBreakpoint[];\n  iconMode: IconMode;\n  notifyItemOpen: (id: string) => void;\n  registerItem: (id: string, close: () => void) => void;\n  unregisterItem: (id: string) => void;\n}\n\ninterface AccordionItemContextValue {\n  contentId: string;\n  contentPanelRef: RefObject<HTMLElement | null>;\n  iconRef: RefObject<SVGSVGElement | null>;\n  isDisabled: boolean;\n  isOpen: boolean;\n  setPanelHeight: (height: number) => void;\n  toggle: () => void;\n  triggerId: string;\n  verticalBarRef: RefObject<SVGPathElement | null>;\n}\n\nconst AccordionContext = createContext<AccordionContextValue | null>(null);\nconst AccordionItemContext = createContext<AccordionItemContextValue | null>(\n  null\n);\n\nfunction useAccordionContext() {\n  const context = useContext(AccordionContext);\n  if (!context) {\n    throw new Error("Accordion components must be used within <Accordion>.");\n  }\n  return context;\n}\n\nfunction useAccordionItemContext() {\n  const context = useContext(AccordionItemContext);\n  if (!context) {\n    throw new Error(\n      "Accordion subcomponents must be used within <AccordionItem>."\n    );\n  }\n  return context;\n}\n\nfunction useDisabledOn(disabledOn?: DisabledBreakpoint[]) {\n  const [disabled, setDisabled] = useState(false);\n\n  useEffect(() => {\n    if (!disabledOn?.length) {\n      setDisabled(false);\n      return;\n    }\n\n    const mediaQueries = disabledOn.map((breakpoint) =>\n      window.matchMedia(DISABLE_MEDIA[breakpoint])\n    );\n\n    const update = () => {\n      setDisabled(mediaQueries.some((mediaQuery) => mediaQuery.matches));\n    };\n\n    update();\n\n    for (const mediaQuery of mediaQueries) {\n      mediaQuery.addEventListener("change", update);\n    }\n\n    return () => {\n      for (const mediaQuery of mediaQueries) {\n        mediaQuery.removeEventListener("change", update);\n      }\n    };\n  }, [disabledOn]);\n\n  return disabled;\n}\n\nconst accordionVariants = cva("flex w-full flex-col");\n\nconst accordionItemVariants = cva("border-border border-b last:border-b-0");\n\nconst accordionTriggerVariants = cva([\n  "flex w-full items-center justify-between gap-4 border-0 bg-transparent py-5 text-left",\n  "cursor-pointer text-muted-foreground transition-colors duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]",\n  "will-change-transform [transform:translateZ(0)] hover:text-foreground",\n  "focus:outline-none focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-[#fd551d] focus-visible:outline-offset-4",\n  "data-[state=open]:text-foreground",\n]);\n\nconst accordionTitleVariants = cva(\n  "m-0 font-medium text-base text-inherit leading-[1.4]"\n);\n\nconst accordionContentVariants = cva(\n  "overflow-hidden will-change-[height] [transform:translateZ(0)]"\n);\n\nconst accordionTextVariants = cva(\n  "m-0 pb-5 text-muted-foreground text-sm leading-[1.6]"\n);\n\nexport interface AccordionItemData {\n  content: ReactNode;\n  defaultOpen?: boolean;\n  id?: string;\n  title: string;\n}\n\nexport interface AccordionProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof accordionVariants> {\n  allowMultiple?: boolean;\n  children?: ReactNode;\n  /**\n   * Disable accordion animations on matching breakpoints.\n   * Mirrors `data-anm-disable` on the sandbox section.\n   */\n  disabledOn?: DisabledBreakpoint[];\n  duration?: number;\n  ease?: AccordionEase;\n  iconMode?: IconMode;\n  iconRotation?: number;\n  items?: AccordionItemData[];\n}\n\nexport interface AccordionItemProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {\n  children: ReactNode;\n  defaultOpen?: boolean;\n  delay?: number;\n  disabledOn?: DisabledBreakpoint[];\n  duration?: number;\n  ease?: AccordionEase;\n  iconRotation?: number;\n  onClose?: () => void;\n  onOpen?: () => void;\n}\n\nexport interface AccordionTriggerProps\n  extends ComponentPropsWithoutRef<"button"> {\n  children: ReactNode;\n  hideIcon?: boolean;\n}\n\nexport interface AccordionContentProps\n  extends ComponentPropsWithoutRef<"section"> {\n  children: ReactNode;\n}\n\nexport interface AccordionTextProps\n  extends Omit<ComponentPropsWithoutRef<"p">, "children"> {\n  children: string;\n}\n\nfunction renderAccordionItemContent(content: ReactNode) {\n  if (typeof content === "string") {\n    return <AccordionText>{content}</AccordionText>;\n  }\n\n  return content;\n}\n\nfunction Accordion({\n  allowMultiple = false,\n  children,\n  className,\n  disabledOn,\n  duration = 0.8,\n  ease = EXPO_IN_OUT,\n  iconMode = "both",\n  iconRotation = -180,\n  items,\n  ...props\n}: AccordionProps) {\n  const itemsRef = useRef(new Map<string, () => void>());\n  const [animationsPaused, setAnimationsPaused] = useState(false);\n\n  useEffect(() => {\n    const handleVisibilityChange = () => {\n      setAnimationsPaused(document.hidden);\n    };\n\n    document.addEventListener("visibilitychange", handleVisibilityChange);\n    return () => {\n      document.removeEventListener("visibilitychange", handleVisibilityChange);\n    };\n  }, []);\n\n  const registerItem = useCallback((id: string, close: () => void) => {\n    itemsRef.current.set(id, close);\n  }, []);\n\n  const unregisterItem = useCallback((id: string) => {\n    itemsRef.current.delete(id);\n  }, []);\n\n  const notifyItemOpen = useCallback(\n    (id: string) => {\n      if (allowMultiple) {\n        return;\n      }\n\n      for (const [itemId, close] of itemsRef.current.entries()) {\n        if (itemId !== id) {\n          close();\n        }\n      }\n    },\n    [allowMultiple]\n  );\n\n  return (\n    <AccordionContext.Provider\n      value={{\n        allowMultiple,\n        animationsPaused,\n        defaultDuration: duration,\n        defaultEase: ease,\n        defaultIconRotation: iconRotation,\n        disabledOn,\n        iconMode,\n        notifyItemOpen,\n        registerItem,\n        unregisterItem,\n      }}\n    >\n      <div\n        className={cn(accordionVariants(), className)}\n        data-anm-accordion=""\n        data-anm-allow-multiple={allowMultiple ? "true" : "false"}\n        {...props}\n      >\n        {items?.map((item, index) => (\n          <AccordionItem\n            defaultOpen={item.defaultOpen}\n            key={item.id ?? item.title ?? index}\n          >\n            <AccordionTrigger>{item.title}</AccordionTrigger>\n            <AccordionContent>\n              {renderAccordionItemContent(item.content)}\n            </AccordionContent>\n          </AccordionItem>\n        ))}\n        {children}\n      </div>\n    </AccordionContext.Provider>\n  );\n}\n\nfunction AccordionItem({\n  children,\n  className,\n  defaultOpen = false,\n  delay = 0,\n  disabledOn: itemDisabledOn,\n  duration: itemDuration,\n  ease: itemEase,\n  iconRotation: itemIconRotation,\n  onClose,\n  onOpen,\n  ...props\n}: AccordionItemProps) {\n  const {\n    animationsPaused,\n    defaultDuration,\n    defaultEase,\n    defaultIconRotation,\n    disabledOn: sectionDisabledOn,\n    iconMode,\n    notifyItemOpen,\n    registerItem,\n    unregisterItem,\n  } = useAccordionContext();\n\n  const itemId = useId();\n  const triggerId = `${itemId}-trigger`;\n  const contentId = `${itemId}-content`;\n  const itemRef = useRef<HTMLDivElement>(null);\n  const contentPanelRef = useRef<HTMLElement>(null);\n  const iconRef = useRef<SVGSVGElement>(null);\n  const verticalBarRef = useRef<SVGPathElement>(null);\n  const [, animate] = useAnimate();\n  const animationRef = useRef<{ stop: () => void } | null>(null);\n  const hasAppliedInitialOpen = useRef(false);\n  const shouldReduceMotion = useReducedMotion();\n\n  const [isOpen, setIsOpen] = useState(defaultOpen);\n  const [panelHeight, setPanelHeight] = useState(0);\n\n  const sectionDisabled = useDisabledOn(sectionDisabledOn);\n  const itemDisabled = useDisabledOn(itemDisabledOn);\n  const isDisabled = sectionDisabled || itemDisabled;\n\n  const duration = itemDuration ?? defaultDuration;\n  const ease = itemEase ?? defaultEase;\n  const iconRotation = itemIconRotation ?? defaultIconRotation;\n\n  const close = useCallback(() => {\n    setIsOpen(false);\n  }, []);\n\n  useEffect(() => {\n    registerItem(itemId, close);\n    return () => unregisterItem(itemId);\n  }, [close, itemId, registerItem, unregisterItem]);\n\n  const dispatchItemEvent = useCallback(\n    (type: "anm-accordion-open" | "anm-accordion-close") => {\n      const node = itemRef.current;\n      const content = contentPanelRef.current;\n      if (!node) {\n        return;\n      }\n\n      node.dispatchEvent(\n        new CustomEvent(type, {\n          bubbles: true,\n          detail: { item: node, content },\n        })\n      );\n    },\n    []\n  );\n\n  const toggle = useCallback(() => {\n    setIsOpen((current) => {\n      if (current) {\n        onClose?.();\n        dispatchItemEvent("anm-accordion-close");\n        return false;\n      }\n\n      notifyItemOpen(itemId);\n      onOpen?.();\n      dispatchItemEvent("anm-accordion-open");\n      return true;\n    });\n  }, [dispatchItemEvent, itemId, notifyItemOpen, onClose, onOpen]);\n\n  const clearIconInlineStyles = useCallback(() => {\n    iconRef.current?.style.removeProperty("transform");\n    verticalBarRef.current?.style.removeProperty("opacity");\n  }, []);\n\n  const applyStaticPanelState = useCallback(\n    (open: boolean, height: number) => {\n      const panel = contentPanelRef.current;\n      const icon = iconRef.current;\n      const vertical = verticalBarRef.current;\n      if (!panel) {\n        return;\n      }\n\n      panel.style.height = open ? `${height}px` : "0px";\n\n      if (icon) {\n        const rotateIcon = iconMode === "rotate" || iconMode === "both";\n        icon.style.transform =\n          rotateIcon && open ? `rotate(${iconRotation}deg)` : "rotate(0deg)";\n      }\n\n      if (vertical && (iconMode === "fade" || iconMode === "both")) {\n        vertical.style.opacity = open ? "0" : "1";\n      }\n    },\n    [iconMode, iconRotation]\n  );\n\n  const toInstantSequence = useCallback(\n    (sequence: AnimationSequence): AnimationSequence =>\n      sequence.map(([element, keyframes, options]) => [\n        element,\n        keyframes,\n        { ...options, duration: 0, at: 0 },\n      ]),\n    []\n  );\n\n  const buildPanelSequence = useCallback(\n    (open: boolean): AnimationSequence | null => {\n      const panel = contentPanelRef.current;\n      const icon = iconRef.current;\n      const vertical = verticalBarRef.current;\n      if (!panel) {\n        return null;\n      }\n\n      const rotateIcon = iconMode === "rotate" || iconMode === "both";\n      const fadeVertical =\n        (iconMode === "fade" || iconMode === "both") && vertical;\n\n      if (open) {\n        const openSequence: AnimationSequence = [\n          [\n            panel,\n            { height: `${panelHeight}px` },\n            { duration, ease, at: delay },\n          ],\n        ];\n\n        if (rotateIcon && icon) {\n          openSequence.push([\n            icon,\n            { rotate: iconRotation },\n            { duration, ease, at: delay },\n          ]);\n        }\n\n        if (fadeVertical) {\n          openSequence.push([\n            vertical,\n            { opacity: 0 },\n            {\n              duration: duration * 0.5,\n              ease: POWER2_IN_OUT,\n              at: delay + duration * 0.25,\n            },\n          ]);\n        }\n\n        return openSequence;\n      }\n\n      const closeSequence: AnimationSequence = [];\n\n      if (fadeVertical) {\n        closeSequence.push([\n          vertical,\n          { opacity: 1 },\n          { duration: duration * 0.5, ease: POWER2_IN_OUT, at: delay },\n        ]);\n      }\n\n      if (rotateIcon && icon) {\n        closeSequence.push([\n          icon,\n          { rotate: 0 },\n          { duration, ease, at: delay },\n        ]);\n      }\n\n      closeSequence.push([panel, { height: 0 }, { duration, ease, at: delay }]);\n      return closeSequence;\n    },\n    [delay, duration, ease, iconMode, iconRotation, panelHeight]\n  );\n\n  useEffect(() => {\n    animationRef.current?.stop();\n\n    if (isDisabled || shouldReduceMotion) {\n      applyStaticPanelState(isOpen, panelHeight);\n      return;\n    }\n\n    if (animationsPaused) {\n      return;\n    }\n\n    if (defaultOpen && isOpen && !hasAppliedInitialOpen.current) {\n      if (panelHeight > 0) {\n        hasAppliedInitialOpen.current = true;\n        const openSequence = buildPanelSequence(true);\n        if (openSequence) {\n          clearIconInlineStyles();\n          animationRef.current = animate(toInstantSequence(openSequence));\n        }\n      }\n      return;\n    }\n\n    if (isOpen && panelHeight === 0) {\n      return;\n    }\n\n    const sequence = buildPanelSequence(isOpen);\n    if (!sequence) {\n      return;\n    }\n\n    clearIconInlineStyles();\n    animationRef.current = animate(sequence);\n  }, [\n    animate,\n    animationsPaused,\n    applyStaticPanelState,\n    buildPanelSequence,\n    clearIconInlineStyles,\n    defaultOpen,\n    isDisabled,\n    isOpen,\n    panelHeight,\n    shouldReduceMotion,\n    toInstantSequence,\n  ]);\n\n  return (\n    <AccordionItemContext.Provider\n      value={{\n        contentId,\n        contentPanelRef,\n        iconRef,\n        isDisabled,\n        isOpen,\n        setPanelHeight,\n        toggle,\n        triggerId,\n        verticalBarRef,\n      }}\n    >\n      <div\n        className={cn(accordionItemVariants(), className)}\n        data-anm-accordion-item\n        data-state={isOpen ? "open" : "closed"}\n        ref={itemRef}\n        {...props}\n      >\n        {children}\n      </div>\n    </AccordionItemContext.Provider>\n  );\n}\n\nfunction AccordionTrigger({\n  children,\n  className,\n  hideIcon = false,\n  onClick,\n  ...props\n}: AccordionTriggerProps) {\n  const {\n    contentId,\n    iconRef,\n    isDisabled,\n    isOpen,\n    toggle,\n    triggerId,\n    verticalBarRef,\n  } = useAccordionItemContext();\n\n  return (\n    <button\n      aria-controls={contentId}\n      aria-expanded={isOpen}\n      className={cn(accordionTriggerVariants(), className)}\n      data-anm-accordion-trigger\n      data-state={isOpen ? "open" : "closed"}\n      disabled={isDisabled}\n      id={triggerId}\n      onClick={(event) => {\n        onClick?.(event);\n        if (!(event.defaultPrevented || isDisabled)) {\n          toggle();\n        }\n      }}\n      type="button"\n      {...props}\n    >\n      <span className={accordionTitleVariants()}>{children}</span>\n      {hideIcon ? null : (\n        <svg\n          aria-hidden="true"\n          className="size-4 shrink-0 text-current will-change-transform [transform:translateZ(0)]"\n          data-anm-accordion-icon\n          fill="none"\n          ref={iconRef}\n          viewBox="0 0 16 16"\n        >\n          <path\n            d="M8 1V15"\n            data-anm-accordion-icon-vertical\n            ref={verticalBarRef}\n            stroke="currentColor"\n            strokeLinecap="round"\n            strokeWidth={2}\n          />\n          <path\n            d="M1 8H15"\n            data-anm-accordion-icon-horizontal\n            stroke="currentColor"\n            strokeLinecap="round"\n            strokeWidth={2}\n          />\n        </svg>\n      )}\n    </button>\n  );\n}\n\nfunction AccordionContent({\n  children,\n  className,\n  ...props\n}: AccordionContentProps) {\n  const { contentId, contentPanelRef, isOpen, setPanelHeight, triggerId } =\n    useAccordionItemContext();\n  const { ref, height } = useAutoHeight<HTMLDivElement>([children, isOpen]);\n\n  useEffect(() => {\n    setPanelHeight(height);\n  }, [height, setPanelHeight]);\n\n  return (\n    <section\n      aria-hidden={!isOpen}\n      aria-labelledby={triggerId}\n      className={cn(accordionContentVariants(), className)}\n      data-anm-accordion-content=""\n      id={contentId}\n      ref={contentPanelRef}\n      style={{ height: 0 }}\n      {...props}\n    >\n      <div ref={ref}>{children}</div>\n    </section>\n  );\n}\n\nfunction AccordionText({ children, className, ...props }: AccordionTextProps) {\n  return (\n    <p\n      className={cn(accordionTextVariants(), "accordion_text", className)}\n      {...props}\n    >\n      {children}\n    </p>\n  );\n}\n\nexport type { AccordionEase, DisabledBreakpoint, IconMode };\nexport {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionText,\n  AccordionTrigger,\n  accordionContentVariants,\n  accordionItemVariants,\n  accordionTextVariants,\n  accordionTitleVariants,\n  accordionTriggerVariants,\n  accordionVariants,\n};',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/disclosure/accordion/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@sora-ui/accordion",
   },
   "custom-cursor": {
     name: "custom-cursor",
@@ -654,6 +744,117 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@sora-ui/text-reveal-mask",
+  },
+  "text-underline": {
+    name: "text-underline",
+    description: "A CSS-only link underline that slides through on hover.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/text-underline/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-underline.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport type {\n  ComponentPropsWithoutRef,\n  CSSProperties,\n  ReactNode,\n  Ref,\n} from "react";\n\nconst COLOR_PRESETS = {\n  currentColor: "currentColor",\n  brand: "#fd551d",\n  "brand-muted": "#fd8d68",\n  gray: "#737373",\n} as const;\n\nconst HEIGHT_PRESETS = {\n  thin: "1px",\n  medium: "2px",\n  thick: "3px",\n} as const;\n\nconst DURATION_PRESETS = {\n  fast: "0.3s",\n  normal: "0.4s",\n  slow: "0.6s",\n} as const;\n\nconst INITIAL_SCALE_PRESETS = {\n  "0": "0",\n  "25": "0.25",\n  "50": "0.5",\n  "75": "0.75",\n} as const;\n\nconst textUnderlineVariants = cva(\n  [\n    "relative inline-block cursor-pointer pb-1 font-normal text-foreground text-lg leading-[1.4] no-underline antialiased",\n    "after:absolute after:bottom-0 after:left-0 after:w-full after:will-change-transform after:content-[\'\']",\n    "after:transition-transform after:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:after:transition-none",\n    "after:h-[var(--tu-height)] after:bg-[var(--tu-color)] after:duration-[var(--tu-duration)]",\n    "after:scale-x-[var(--tu-initial-scale)]",\n    "hover:after:scale-x-100 focus-visible:after:scale-x-100",\n    "rounded-sm focus-visible:outline-2 focus-visible:outline-[#fd8d68] focus-visible:outline-offset-4",\n    "focus:not(:focus-visible):outline-none",\n  ],\n  {\n    variants: {\n      anchor: {\n        left: [\n          "after:origin-right",\n          "hover:after:origin-left focus-visible:after:origin-left",\n        ],\n        center: [\n          "after:origin-center",\n          "hover:after:origin-center focus-visible:after:origin-center",\n        ],\n      },\n    },\n    defaultVariants: {\n      anchor: "left",\n    },\n  }\n);\n\ntype ColorPreset = keyof typeof COLOR_PRESETS;\ntype HeightPreset = keyof typeof HEIGHT_PRESETS;\ntype DurationPreset = keyof typeof DURATION_PRESETS;\ntype InitialScalePreset = keyof typeof INITIAL_SCALE_PRESETS;\n\nfunction resolveUnderlineColor(color: string): string {\n  if (color in COLOR_PRESETS) {\n    return COLOR_PRESETS[color as ColorPreset];\n  }\n\n  return color;\n}\n\nfunction resolveUnderlineHeight(height: HeightPreset): string {\n  return HEIGHT_PRESETS[height];\n}\n\nfunction resolveDuration(duration: DurationPreset): string {\n  return DURATION_PRESETS[duration];\n}\n\nfunction resolveInitialScale(scale: InitialScalePreset): string {\n  return INITIAL_SCALE_PRESETS[scale];\n}\n\nexport interface TextUnderlineProps\n  extends Omit<ComponentPropsWithoutRef<"a">, "children">,\n    VariantProps<typeof textUnderlineVariants> {\n  /** Scale origin for the underline animation. */\n  anchor?: "left" | "center";\n  children?: ReactNode;\n  /**\n   * Animation speed preset.\n   * @default "normal"\n   */\n  duration?: DurationPreset;\n  /**\n   * Initial underline width before hover, as a percentage of the link width.\n   * @default "0"\n   */\n  initialScale?: InitialScalePreset;\n  /** Alternative to `children` for demos and controlled previews. */\n  label?: string;\n  /**\n   * Underline color preset or any valid CSS color.\n   * @default "currentColor"\n   */\n  underlineColor?: ColorPreset | (string & {});\n  /**\n   * Underline thickness preset.\n   * @default "thin"\n   */\n  underlineHeight?: HeightPreset;\n}\n\nfunction TextUnderline({\n  anchor = "left",\n  children,\n  className,\n  duration = "normal",\n  href = "#",\n  initialScale = "0",\n  label,\n  ref,\n  underlineColor = "currentColor",\n  underlineHeight = "thin",\n  ...props\n}: TextUnderlineProps & { ref?: Ref<HTMLAnchorElement> }) {\n  const content = children ?? label;\n\n  const style = {\n    "--tu-color": resolveUnderlineColor(underlineColor),\n    "--tu-duration": resolveDuration(duration),\n    "--tu-height": resolveUnderlineHeight(underlineHeight),\n    "--tu-initial-scale": resolveInitialScale(initialScale),\n  } as CSSProperties;\n\n  return (\n    <a\n      className={cn(textUnderlineVariants({ anchor, className }))}\n      href={href}\n      ref={ref}\n      style={style}\n      {...props}\n    >\n      {content}\n    </a>\n  );\n}\n\nexport { TextUnderline, textUnderlineVariants };',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/texts/text-underline/index.tsx"
+        );
+        const demoProps = {
+          TextUnderline: {
+            label: { value: "Performance Collection" },
+            href: { value: "#" },
+            underlineColor: {
+              value: "brand",
+              options: {
+                Current: "currentColor",
+                Brand: "brand",
+                "Brand Muted": "brand-muted",
+                Gray: "gray",
+              },
+            },
+            underlineHeight: {
+              value: "thin",
+              options: { Thin: "thin", Medium: "medium", Thick: "thick" },
+            },
+            duration: {
+              value: "normal",
+              options: { Fast: "fast", Normal: "normal", Slow: "slow" },
+            },
+            initialScale: {
+              value: "0",
+              options: { "0%": "0", "25%": "25", "50%": "50", "75%": "75" },
+            },
+            anchor: {
+              value: "left",
+              options: {
+                "Left (slide through)": "left",
+                "Center (expand)": "center",
+              },
+            },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextUnderline: {
+          label: { value: "Performance Collection" },
+          href: { value: "#" },
+          underlineColor: {
+            value: "brand",
+            options: {
+              Current: "currentColor",
+              Brand: "brand",
+              "Brand Muted": "brand-muted",
+              Gray: "gray",
+            },
+          },
+          underlineHeight: {
+            value: "thin",
+            options: { Thin: "thin", Medium: "medium", Thick: "thick" },
+          },
+          duration: {
+            value: "normal",
+            options: { Fast: "fast", Normal: "normal", Slow: "slow" },
+          },
+          initialScale: {
+            value: "0",
+            options: { "0%": "0", "25%": "25", "50%": "50", "75%": "75" },
+          },
+          anchor: {
+            value: "left",
+            options: {
+              "Left (slide through)": "left",
+              "Center (expand)": "center",
+            },
+          },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@sora-ui/text-underline",
   },
   "primitives-animate-slot": {
     name: "primitives-animate-slot",
@@ -1068,5 +1269,25 @@ export const index: Record<string, any> = {
     keywords: [],
     component: null,
     command: "@sora-ui/demo-text-reveal-blur",
+  },
+  "demo-text-underline": {
+    name: "demo-text-underline",
+    description: "Usage example for text-underline.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["text-underline"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-underline/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/text-underline.tsx",
+        content:
+          '"use client";\n\nimport { TextUnderline } from "@/components/sora-ui/texts/text-underline";\n\nexport default function TextUnderlineExample() {\n  return (\n    <TextUnderline\n      label={"Performance Collection"}\n      href={"#"}\n      underlineColor={"brand"}\n      underlineHeight={"thin"}\n      duration={"normal"}\n      initialScale={"0"}\n      anchor={"left"}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    component: null,
+    command: "@sora-ui/demo-text-underline",
   },
 };

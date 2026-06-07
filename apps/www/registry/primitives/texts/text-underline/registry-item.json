@@ -1,0 +1,69 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-underline",
+  "type": "registry:ui",
+  "title": "Text Underline",
+  "description": "A CSS-only link underline that slides through on hover.",
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-underline/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-underline.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TextUnderline": {
+        "label": {
+          "value": "Performance Collection"
+        },
+        "href": {
+          "value": "#"
+        },
+        "underlineColor": {
+          "value": "brand",
+          "options": {
+            "Current": "currentColor",
+            "Brand": "brand",
+            "Brand Muted": "brand-muted",
+            "Gray": "gray"
+          }
+        },
+        "underlineHeight": {
+          "value": "thin",
+          "options": {
+            "Thin": "thin",
+            "Medium": "medium",
+            "Thick": "thick"
+          }
+        },
+        "duration": {
+          "value": "normal",
+          "options": {
+            "Fast": "fast",
+            "Normal": "normal",
+            "Slow": "slow"
+          }
+        },
+        "initialScale": {
+          "value": "0",
+          "options": {
+            "0%": "0",
+            "25%": "25",
+            "50%": "50",
+            "75%": "75"
+          }
+        },
+        "anchor": {
+          "value": "left",
+          "options": {
+            "Left (slide through)": "left",
+            "Center (expand)": "center"
+          }
+        }
+      }
+    }
+  }
+}

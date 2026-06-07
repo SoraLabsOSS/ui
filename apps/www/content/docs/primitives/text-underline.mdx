@@ -1,0 +1,79 @@
+---
+title: Text Underline
+description: A CSS-only link underline that slides through on hover.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="text-underline" />
+
+## Installation
+
+<ComponentInstallation name="text-underline" />
+
+## Usage
+
+```tsx
+import { TextUnderline } from '@/components/sora-ui/texts/text-underline';
+
+export default function Page() {
+  return (
+    <TextUnderline href="#" underlineColor="brand">
+      Shop Performance Collection
+    </TextUnderline>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Link text content.',
+      type: 'ReactNode',
+    },
+    label: {
+      description: 'Alternative to `children` for demos and controlled previews.',
+      type: 'string',
+    },
+    href: {
+      description: 'Link destination.',
+      type: 'string',
+      default: '"#"',
+    },
+    underlineColor: {
+      description:
+        'Underline color preset (`currentColor`, `brand`, `brand-muted`, `gray`) or any valid CSS color.',
+      type: 'string',
+      default: '"currentColor"',
+    },
+    underlineHeight: {
+      description: 'Underline thickness preset.',
+      type: '"thin" | "medium" | "thick"',
+      default: '"thin"',
+    },
+    duration: {
+      description: 'Animation speed preset.',
+      type: '"fast" | "normal" | "slow"',
+      default: '"normal"',
+    },
+    initialScale: {
+      description:
+        'Initial underline width before hover, as a percentage of the link width.',
+      type: '"0" | "25" | "50" | "75"',
+      default: '"0"',
+    },
+    anchor: {
+      description:
+        '`left` slides the line through on hover; `center` expands from the middle.',
+      type: '"left" | "center"',
+      default: '"left"',
+    },
+    className: {
+      description: 'Additional class names merged onto the root anchor.',
+      type: 'string',
+    },
+  }}
+/>

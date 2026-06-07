@@ -1,0 +1,70 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-underline",
+  "title": "Text Underline",
+  "description": "A CSS-only link underline that slides through on hover.",
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-underline/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport type {\n  ComponentPropsWithoutRef,\n  CSSProperties,\n  ReactNode,\n  Ref,\n} from \"react\";\n\nconst COLOR_PRESETS = {\n  currentColor: \"currentColor\",\n  brand: \"#fd551d\",\n  \"brand-muted\": \"#fd8d68\",\n  gray: \"#737373\",\n} as const;\n\nconst HEIGHT_PRESETS = {\n  thin: \"1px\",\n  medium: \"2px\",\n  thick: \"3px\",\n} as const;\n\nconst DURATION_PRESETS = {\n  fast: \"0.3s\",\n  normal: \"0.4s\",\n  slow: \"0.6s\",\n} as const;\n\nconst INITIAL_SCALE_PRESETS = {\n  \"0\": \"0\",\n  \"25\": \"0.25\",\n  \"50\": \"0.5\",\n  \"75\": \"0.75\",\n} as const;\n\nconst textUnderlineVariants = cva(\n  [\n    \"relative inline-block cursor-pointer pb-1 font-normal text-foreground text-lg leading-[1.4] no-underline antialiased\",\n    \"after:absolute after:bottom-0 after:left-0 after:w-full after:will-change-transform after:content-['']\",\n    \"after:transition-transform after:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:after:transition-none\",\n    \"after:h-[var(--tu-height)] after:bg-[var(--tu-color)] after:duration-[var(--tu-duration)]\",\n    \"after:scale-x-[var(--tu-initial-scale)]\",\n    \"hover:after:scale-x-100 focus-visible:after:scale-x-100\",\n    \"rounded-sm focus-visible:outline-2 focus-visible:outline-[#fd8d68] focus-visible:outline-offset-4\",\n    \"focus:not(:focus-visible):outline-none\",\n  ],\n  {\n    variants: {\n      anchor: {\n        left: [\n          \"after:origin-right\",\n          \"hover:after:origin-left focus-visible:after:origin-left\",\n        ],\n        center: [\n          \"after:origin-center\",\n          \"hover:after:origin-center focus-visible:after:origin-center\",\n        ],\n      },\n    },\n    defaultVariants: {\n      anchor: \"left\",\n    },\n  }\n);\n\ntype ColorPreset = keyof typeof COLOR_PRESETS;\ntype HeightPreset = keyof typeof HEIGHT_PRESETS;\ntype DurationPreset = keyof typeof DURATION_PRESETS;\ntype InitialScalePreset = keyof typeof INITIAL_SCALE_PRESETS;\n\nfunction resolveUnderlineColor(color: string): string {\n  if (color in COLOR_PRESETS) {\n    return COLOR_PRESETS[color as ColorPreset];\n  }\n\n  return color;\n}\n\nfunction resolveUnderlineHeight(height: HeightPreset): string {\n  return HEIGHT_PRESETS[height];\n}\n\nfunction resolveDuration(duration: DurationPreset): string {\n  return DURATION_PRESETS[duration];\n}\n\nfunction resolveInitialScale(scale: InitialScalePreset): string {\n  return INITIAL_SCALE_PRESETS[scale];\n}\n\nexport interface TextUnderlineProps\n  extends Omit<ComponentPropsWithoutRef<\"a\">, \"children\">,\n    VariantProps<typeof textUnderlineVariants> {\n  /** Scale origin for the underline animation. */\n  anchor?: \"left\" | \"center\";\n  children?: ReactNode;\n  /**\n   * Animation speed preset.\n   * @default \"normal\"\n   */\n  duration?: DurationPreset;\n  /**\n   * Initial underline width before hover, as a percentage of the link width.\n   * @default \"0\"\n   */\n  initialScale?: InitialScalePreset;\n  /** Alternative to `children` for demos and controlled previews. */\n  label?: string;\n  /**\n   * Underline color preset or any valid CSS color.\n   * @default \"currentColor\"\n   */\n  underlineColor?: ColorPreset | (string & {});\n  /**\n   * Underline thickness preset.\n   * @default \"thin\"\n   */\n  underlineHeight?: HeightPreset;\n}\n\nfunction TextUnderline({\n  anchor = \"left\",\n  children,\n  className,\n  duration = \"normal\",\n  href = \"#\",\n  initialScale = \"0\",\n  label,\n  ref,\n  underlineColor = \"currentColor\",\n  underlineHeight = \"thin\",\n  ...props\n}: TextUnderlineProps & { ref?: Ref<HTMLAnchorElement> }) {\n  const content = children ?? label;\n\n  const style = {\n    \"--tu-color\": resolveUnderlineColor(underlineColor),\n    \"--tu-duration\": resolveDuration(duration),\n    \"--tu-height\": resolveUnderlineHeight(underlineHeight),\n    \"--tu-initial-scale\": resolveInitialScale(initialScale),\n  } as CSSProperties;\n\n  return (\n    <a\n      className={cn(textUnderlineVariants({ anchor, className }))}\n      href={href}\n      ref={ref}\n      style={style}\n      {...props}\n    >\n      {content}\n    </a>\n  );\n}\n\nexport { TextUnderline, textUnderlineVariants };\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-underline.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TextUnderline": {
+        "label": {
+          "value": "Performance Collection"
+        },
+        "href": {
+          "value": "#"
+        },
+        "underlineColor": {
+          "value": "brand",
+          "options": {
+            "Current": "currentColor",
+            "Brand": "brand",
+            "Brand Muted": "brand-muted",
+            "Gray": "gray"
+          }
+        },
+        "underlineHeight": {
+          "value": "thin",
+          "options": {
+            "Thin": "thin",
+            "Medium": "medium",
+            "Thick": "thick"
+          }
+        },
+        "duration": {
+          "value": "normal",
+          "options": {
+            "Fast": "fast",
+            "Normal": "normal",
+            "Slow": "slow"
+          }
+        },
+        "initialScale": {
+          "value": "0",
+          "options": {
+            "0%": "0",
+            "25%": "25",
+            "50%": "50",
+            "75%": "75"
+          }
+        },
+        "anchor": {
+          "value": "left",
+          "options": {
+            "Left (slide through)": "left",
+            "Center (expand)": "center"
+          }
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

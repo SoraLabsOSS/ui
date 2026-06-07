@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "Accordion",
+  "description": "An animated FAQ accordion with expandable panels.",
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils", "hooks-use-auto-height"],
+  "files": [
+    {
+      "path": "registry/primitives/disclosure/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/disclosure/accordion.tsx"
+    }
+  ]
+}

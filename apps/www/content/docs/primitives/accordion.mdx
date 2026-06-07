@@ -1,0 +1,149 @@
+---
+title: Accordion
+description: An animated FAQ accordion with expandable panels.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-accordion" />
+
+## Installation
+
+<ComponentInstallation name="accordion" />
+
+## Usage
+
+```tsx
+import { Accordion } from '@/components/sora-ui/disclosure/accordion';
+
+const items = [
+  {
+    title: 'What is Sora UI?',
+    content:
+      'Sora UI is an animated component registry for React and Next.js, built on Motion.',
+    defaultOpen: true,
+  },
+  {
+    title: 'How do I install a component?',
+    content: 'Run npx shadcn@latest add @sora-ui/accordion after initializing shadcn/ui.',
+  },
+];
+
+export default function Page() {
+  return <Accordion items={items} />;
+}
+```
+
+For custom content per item, pass a React node as `content` or compose with the compound API:
+
+```tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/sora-ui/disclosure/accordion';
+
+export default function Page() {
+  return (
+    <Accordion>
+      <AccordionItem defaultOpen>
+        <AccordionTrigger>Custom layout</AccordionTrigger>
+        <AccordionContent>
+          <div className="pb-5 text-sm">Your own markup here.</div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
+## Props
+
+### Accordion
+
+<TypeTable
+  type={{
+    allowMultiple: {
+      description: 'When false, opening one item closes the others.',
+      type: 'boolean',
+      default: 'false',
+    },
+    duration: {
+      description: 'Panel expand/collapse duration in seconds.',
+      type: 'number',
+      default: '0.8',
+    },
+    iconMode: {
+      description: 'Plus icon animation mode.',
+      type: '"rotate" | "fade" | "both"',
+      default: '"both"',
+    },
+    iconRotation: {
+      description: 'Icon rotation in degrees when open.',
+      type: 'number',
+      default: '-180',
+    },
+    ease: {
+      description: 'Easing curve for panel and icon animations.',
+      type: '[number, number, number, number]',
+      default: 'expo.inOut',
+    },
+    disabledOn: {
+      description:
+        'Disable accordion animations on matching breakpoints (mobile, tablet, desktop).',
+      type: '("mobile" | "tablet" | "desktop")[]',
+    },
+    items: {
+      description:
+        'Data-driven accordion items. Each entry needs title and content (string or React node).',
+      type: '{ id?: string; title: string; content: React.ReactNode; defaultOpen?: boolean }[]',
+    },
+    className: {
+      description: 'Additional class names for the root container.',
+      type: 'string',
+    },
+  }}
+/>
+
+### AccordionItem
+
+<TypeTable
+  type={{
+    defaultOpen: {
+      description: 'Whether this item starts expanded.',
+      type: 'boolean',
+      default: 'false',
+    },
+    delay: {
+      description: 'Delay before panel animation starts, in seconds.',
+      type: 'number',
+      default: '0',
+    },
+    duration: {
+      description: 'Override panel duration for this item, in seconds.',
+      type: 'number',
+    },
+    ease: {
+      description: 'Override easing curve for this item.',
+      type: '[number, number, number, number]',
+    },
+    iconRotation: {
+      description: 'Override icon rotation for this item, in degrees.',
+      type: 'number',
+    },
+    disabledOn: {
+      description: 'Disable this item on matching breakpoints.',
+      type: '("mobile" | "tablet" | "desktop")[]',
+    },
+    onOpen: {
+      description: 'Callback fired when this item opens.',
+      type: '() => void',
+    },
+    onClose: {
+      description: 'Callback fired when this item closes.',
+      type: '() => void',
+    },
+  }}
+/>

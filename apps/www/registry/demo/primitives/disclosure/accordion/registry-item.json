@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-accordion",
+  "type": "registry:ui",
+  "title": "Accordion Demo",
+  "description": "FAQ accordion with animated panels.",
+  "registryDependencies": ["accordion"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/disclosure/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/disclosure/accordion.tsx"
+    }
+  ]
+}
