@@ -7,6 +7,7 @@ import { env } from "@/env";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
 
 export const auth = betterAuth({
+  appName: "Sora UI",
   experimental: { joins: true },
   baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,
   secret: env.BETTER_AUTH_SECRET,
@@ -30,6 +31,18 @@ export const auth = betterAuth({
   },
   verification: {
     storeInDatabase: true,
+  },
+  advanced: {
+    ipAddress: {
+      // For Cloudflare
+      // ipAddressHeaders: ["cf-connecting-ip", "x-forwarded-for"],
+
+      // For Vercel
+      ipAddressHeaders: ["x-vercel-forwarded-for", "x-forwarded-for"],
+
+      // For AWS/Generic
+      // ipAddressHeaders: ["x-forwarded-for"],
+    },
   },
   plugins: [
     // ... other plugins
