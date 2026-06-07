@@ -106,7 +106,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
   const showAuthNav = sessionPending || Boolean(session);
 
   return (
-    <Navbar className="z-40! border-b-0 bg-background px-(--fd-layout-offset) md:h-17">
+    <Navbar className="z-30 border-b-0 bg-background px-(--fd-layout-offset) md:h-17">
       <div className="mx-auto flex h-14 w-full max-w-(--fd-layout-width) items-center gap-3 px-3 md:h-17 md:px-5">
         <Link
           className={buttonVariants({

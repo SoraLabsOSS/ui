@@ -307,7 +307,7 @@
   #nd-sidebar {
     @apply md:!border-0;
   }
-  /* Mobile drawer: above banner (z-20) and docs nav (z-40) */
+  /* Mobile drawer: above banner (z-50) and docs nav (z-30) */
   @media (max-width: 767px) {
     body:has(#nd-sidebar-mobile[data-state="open"])
       #nd-docs-layout
