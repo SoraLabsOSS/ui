@@ -135,19 +135,19 @@ function replaceRegistryPaths(inputStr: string): string {
 const SHADCN_BUILTIN_REGISTRY_DEPS = new Set(["utils"]);
 
 function normalizeRegistryDependencyName(dependency: string): string {
-  if (dependency.startsWith("@sora-ui/")) {
-    return dependency.slice("@sora-ui/".length);
+  if (dependency.startsWith("@soralabs/")) {
+    return dependency.slice("@soralabs/".length);
   }
 
   return dependency;
 }
 
-/** Scope Sora registry deps so the CLI resolves them from @sora-ui, not ui.shadcn.com. */
+/** Scope Sora registry deps so the CLI resolves them from @soralabs, not ui.shadcn.com. */
 function scopeRegistryDependency(
   dependency: string,
   soraRegistryNames: Set<string>
 ): string {
-  if (dependency.startsWith("@sora-ui/")) {
+  if (dependency.startsWith("@soralabs/")) {
     return dependency;
   }
   if (SHADCN_BUILTIN_REGISTRY_DEPS.has(dependency)) {
@@ -155,7 +155,7 @@ function scopeRegistryDependency(
   }
   const normalized = normalizeRegistryDependencyName(dependency);
   if (soraRegistryNames.has(normalized)) {
-    return `@sora-ui/${normalized}`;
+    return `@soralabs/${normalized}`;
   }
   return dependency;
 }
@@ -426,7 +426,7 @@ export const index: Record<string, any> = {`;
       return LazyComp;
     })()`
     },
-    command: '@sora-ui/${item.name}',
+    command: '@soralabs/${item.name}',
   },`;
   };
 

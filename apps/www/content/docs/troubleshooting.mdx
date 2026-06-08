@@ -24,14 +24,14 @@ Certain browser extensions can interfere with how the documentation is rendered.
 
 If problems persist after disabling extensions, clear your browser cache and refresh the page.
 
-## The CLI does not recognize `@sora-ui`
+## The CLI does not recognize `@soralabs`
 
 The shadcn CLI only resolves scoped registries that are declared in your project's `components.json`. Add or update the `registries` field:
 
 ```json
 {
   "registries": {
-    "@sora-ui": "https://ui.soralabs.io.vn/r/{name}.json"
+    "@soralabs": "https://ui.soralabs.io.vn/r/{name}.json"
   }
 }
 ```
@@ -51,20 +51,20 @@ bunx --bun shadcn@latest list https://ui.soralabs.io.vn/r/registry.json
 Then install with the scope, for example:
 
 ```bash
-bunx --bun shadcn@latest add @sora-ui/accordion
+bunx --bun shadcn@latest add @soralabs/accordion
 ```
 
 ## A Sora dependency resolves from `ui.shadcn.com`
 
-If `shadcn add @sora-ui/accordion` fails with a 404 for something like
+If `shadcn add @soralabs/accordion` fails with a 404 for something like
 `hooks-use-auto-height` on `ui.shadcn.com`, the published registry item listed
-that dependency without the `@sora-ui/` scope. Sora-only deps must be scoped so
-the CLI fetches them from your `@sora-ui` registry URL, not the default shadcn
+that dependency without the `@soralabs/` scope. Sora-only deps must be scoped so
+the CLI fetches them from your `@soralabs` registry URL, not the default shadcn
 registry.
 
 Ensure `components.json` includes the Sora registry (see above), then retry
 after the registry on `https://ui.soralabs.io.vn/r/` is updated. For local
-testing, point `@sora-ui` at `http://localhost:3000/r/{name}.json` while
+testing, point `@soralabs` at `http://localhost:3000/r/{name}.json` while
 `bun dev` is running in this repo.
 
 ## The CLI installation does not respect aliases

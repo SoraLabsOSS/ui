@@ -5,7 +5,7 @@ import { SectionCta } from "@/components/home/section-cta-motion";
 
 const FOR_YOU_ITEMS = [
   "You build with React or Next.js and own every file in your codebase.",
-  "You install components with the shadcn CLI (`@sora-ui/...`).",
+  "You install components with the shadcn CLI (`@soralabs/...`).",
   "You care about motion that feels considered, not decorative.",
   "You ship client work or side projects and want animated UI without opaque npm packages.",
 ] as const;

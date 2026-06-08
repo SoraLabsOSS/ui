@@ -6,8 +6,8 @@
   "description": "An effect that automatically adjusts the height of an element based on its content.",
   "dependencies": ["motion"],
   "registryDependencies": [
-    "@sora-ui/primitives-animate-slot",
-    "@sora-ui/hooks-use-auto-height"
+    "@soralabs/primitives-animate-slot",
+    "@soralabs/hooks-use-auto-height"
   ],
   "files": [
     {

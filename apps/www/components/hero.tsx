@@ -124,7 +124,7 @@ export const Hero = () => (
               className="font-mono text-xs sm:text-sm"
               duration={3}
             >
-              npx shadcn@latest add @sora-ui
+              npx shadcn@latest add @soralabs
             </TextShimmer>
           </Link>
         </div>

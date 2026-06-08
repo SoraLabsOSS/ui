@@ -19,7 +19,7 @@
   },
   "registries": {
     "@better-auth-ui": "https://better-auth-ui.com/r/{name}.json",
-    "@sora-ui": "https://ui.soralabs.io.vn/r/{name}.json",
+    "@soralabs": "https://ui.soralabs.io.vn/r/{name}.json",
     "@animate-ui": "https://animate-ui.com/r/{name}.json",
     "@unlumen-ui": "https://ui.unlumen.com/r/{name}.json"
   }

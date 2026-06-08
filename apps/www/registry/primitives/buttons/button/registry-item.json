@@ -5,7 +5,7 @@
   "title": "Button",
   "description": "A simple button that animates on hover and tap.",
   "dependencies": ["motion"],
-  "registryDependencies": ["@sora-ui/primitives-animate-slot"],
+  "registryDependencies": ["@soralabs/primitives-animate-slot"],
   "files": [
     {
       "path": "registry/primitives/buttons/button/index.tsx",

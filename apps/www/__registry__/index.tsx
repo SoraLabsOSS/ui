@@ -20,7 +20,7 @@ export const index: Record<string, any> = {
     files: [],
     keywords: [],
     component: null,
-    command: "@sora-ui/index",
+    command: "@soralabs/index",
   },
   "demo-accordion": {
     name: "demo-accordion",
@@ -35,7 +35,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/disclosure/accordion.tsx",
         content:
-          '"use client";\n\nimport {\n  Accordion,\n  type AccordionItemData,\n} from "@/components/sora-ui/disclosure/accordion";\n\nconst FAQ_ITEMS: AccordionItemData[] = [\n  {\n    title: "What is Sora UI?",\n    content:\n      "Sora UI is an animated component registry for React and Next.js. It ships copy-paste primitives built on Motion, with live docs, demos, and a shadcn-compatible install flow so you can add polished UI effects directly into your project.",\n    defaultOpen: true,\n  },\n  {\n    title: "How do I install a component?",\n    content:\n      "Initialize shadcn/ui in your app, then run the add command with the Sora UI registry scope—for example, npx shadcn@latest add @sora-ui/accordion. The CLI copies the source into your project so you own and can customize every file.",\n  },\n  {\n    title: "Can I customize the styles?",\n    content:\n      "Yes. Components are added as source files in your codebase, not as an opaque npm package. Tweak Tailwind classes, variants, and tokens to match your design system. Primitives also expose CVA variant helpers you can extend.",\n  },\n  {\n    title: "What animation library does Sora UI use?",\n    content:\n      "Sora UI is built on Motion (motion/react). Timelines, springs, and layout animations are composed with Motion APIs. Wrap your app in MotionConfig with reducedMotion set to user for accessible defaults.",\n  },\n  {\n    title: "Does Sora UI support reduced motion?",\n    content:\n      \'Yes. Components respect prefers-reduced-motion via Motion and useReducedMotion where needed. For app-wide behavior, add MotionConfig reducedMotion="user" at the root so transforms and layout animations scale back automatically.\',\n  },\n  {\n    title: "How does the registry work?",\n    content:\n      "Each primitive has a registry item with source paths, dependencies, and install targets. Docs previews load demo components from the same registry, so what you see in the docs matches what the CLI installs into components/sora-ui.",\n  },\n  {\n    title: "Do I need to use every subcomponent?",\n    content:\n      "No. Many primitives support a simple data API—for example, Accordion accepts an items array with title and content. Use the compound API when you need custom markup inside panels or triggers.",\n  },\n  {\n    title: "Which frameworks are supported?",\n    content:\n      \'Sora UI targets React 19+ and Next.js App Router. Components marked "use client" run in the browser; install steps follow the same shadcn/ui workflow used across Vite, Next.js, and other React setups.\',\n  },\n];\n\nexport default function AccordionExample() {\n  return (\n    <div className="mx-auto w-full max-w-2xl px-4 py-8">\n      <Accordion items={FAQ_ITEMS} />\n    </div>\n  );\n}',
+          '"use client";\n\nimport {\n  Accordion,\n  type AccordionItemData,\n} from "@/components/sora-ui/disclosure/accordion";\n\nconst FAQ_ITEMS: AccordionItemData[] = [\n  {\n    title: "What is Sora UI?",\n    content:\n      "Sora UI is an animated component registry for React and Next.js. It ships copy-paste primitives built on Motion, with live docs, demos, and a shadcn-compatible install flow so you can add polished UI effects directly into your project.",\n    defaultOpen: true,\n  },\n  {\n    title: "How do I install a component?",\n    content:\n      "Initialize shadcn/ui in your app, then run the add command with the Sora UI registry scope—for example, npx shadcn@latest add @soralabs/accordion. The CLI copies the source into your project so you own and can customize every file.",\n  },\n  {\n    title: "Can I customize the styles?",\n    content:\n      "Yes. Components are added as source files in your codebase, not as an opaque npm package. Tweak Tailwind classes, variants, and tokens to match your design system. Primitives also expose CVA variant helpers you can extend.",\n  },\n  {\n    title: "What animation library does Sora UI use?",\n    content:\n      "Sora UI is built on Motion (motion/react). Timelines, springs, and layout animations are composed with Motion APIs. Wrap your app in MotionConfig with reducedMotion set to user for accessible defaults.",\n  },\n  {\n    title: "Does Sora UI support reduced motion?",\n    content:\n      \'Yes. Components respect prefers-reduced-motion via Motion and useReducedMotion where needed. For app-wide behavior, add MotionConfig reducedMotion="user" at the root so transforms and layout animations scale back automatically.\',\n  },\n  {\n    title: "How does the registry work?",\n    content:\n      "Each primitive has a registry item with source paths, dependencies, and install targets. Docs previews load demo components from the same registry, so what you see in the docs matches what the CLI installs into components/sora-ui.",\n  },\n  {\n    title: "Do I need to use every subcomponent?",\n    content:\n      "No. Many primitives support a simple data API—for example, Accordion accepts an items array with title and content. Use the compound API when you need custom markup inside panels or triggers.",\n  },\n  {\n    title: "Which frameworks are supported?",\n    content:\n      \'Sora UI targets React 19+ and Next.js App Router. Components marked "use client" run in the browser; install steps follow the same shadcn/ui workflow used across Vite, Next.js, and other React setups.\',\n  },\n];\n\nexport default function AccordionExample() {\n  return (\n    <div className="mx-auto w-full max-w-2xl px-4 py-8">\n      <Accordion items={FAQ_ITEMS} />\n    </div>\n  );\n}',
       },
     ],
     keywords: [],
@@ -65,7 +65,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/demo-accordion",
+    command: "@soralabs/demo-accordion",
   },
   "demo-custom-cursor": {
     name: "demo-custom-cursor",
@@ -124,7 +124,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/demo-custom-cursor",
+    command: "@soralabs/demo-custom-cursor",
   },
   "demo-dock-nav": {
     name: "demo-dock-nav",
@@ -169,7 +169,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/demo-dock-nav",
+    command: "@soralabs/demo-dock-nav",
   },
   "demo-text-reveal-mask": {
     name: "demo-text-reveal-mask",
@@ -238,7 +238,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/demo-text-reveal-mask",
+    command: "@soralabs/demo-text-reveal-mask",
   },
   "char-stagger-button": {
     name: "char-stagger-button",
@@ -303,7 +303,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/char-stagger-button",
+    command: "@soralabs/char-stagger-button",
   },
   accordion: {
     name: "accordion",
@@ -311,7 +311,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
-    registryDependencies: ["utils", "@sora-ui/hooks-use-auto-height"],
+    registryDependencies: ["utils", "@soralabs/hooks-use-auto-height"],
     files: [
       {
         path: "registry/primitives/disclosure/accordion/index.tsx",
@@ -348,7 +348,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/accordion",
+    command: "@soralabs/accordion",
   },
   "custom-cursor": {
     name: "custom-cursor",
@@ -394,7 +394,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/custom-cursor",
+    command: "@soralabs/custom-cursor",
   },
   "dock-nav": {
     name: "dock-nav",
@@ -440,7 +440,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/dock-nav",
+    command: "@soralabs/dock-nav",
   },
   "pixelated-image-reveal": {
     name: "pixelated-image-reveal",
@@ -510,7 +510,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/pixelated-image-reveal",
+    command: "@soralabs/pixelated-image-reveal",
   },
   "draw-underline-link": {
     name: "draw-underline-link",
@@ -578,7 +578,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/draw-underline-link",
+    command: "@soralabs/draw-underline-link",
   },
   "text-reveal-blur": {
     name: "text-reveal-blur",
@@ -656,7 +656,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/text-reveal-blur",
+    command: "@soralabs/text-reveal-blur",
   },
   "text-reveal-mask": {
     name: "text-reveal-mask",
@@ -743,7 +743,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/text-reveal-mask",
+    command: "@soralabs/text-reveal-mask",
   },
   "text-underline": {
     name: "text-underline",
@@ -854,7 +854,7 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@sora-ui/text-underline",
+    command: "@soralabs/text-underline",
   },
   "primitives-animate-slot": {
     name: "primitives-animate-slot",
@@ -900,7 +900,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-animate-slot",
+    command: "@soralabs/primitives-animate-slot",
   },
   "primitives-animate-tabs": {
     name: "primitives-animate-tabs",
@@ -910,9 +910,9 @@ export const index: Record<string, any> = {
     dependencies: ["motion"],
     devDependencies: undefined,
     registryDependencies: [
-      "@sora-ui/primitives-effects-highlight",
-      "@sora-ui/primitives-animate-slot",
-      "@sora-ui/lib-get-strict-context",
+      "@soralabs/primitives-effects-highlight",
+      "@soralabs/primitives-animate-slot",
+      "@soralabs/lib-get-strict-context",
     ],
     files: [
       {
@@ -950,7 +950,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-animate-tabs",
+    command: "@soralabs/primitives-animate-tabs",
   },
   "primitives-animate-tooltip": {
     name: "primitives-animate-tooltip",
@@ -960,8 +960,8 @@ export const index: Record<string, any> = {
     dependencies: ["motion", "@floating-ui/react"],
     devDependencies: undefined,
     registryDependencies: [
-      "@sora-ui/primitives-animate-slot",
-      "@sora-ui/lib-get-strict-context",
+      "@soralabs/primitives-animate-slot",
+      "@soralabs/lib-get-strict-context",
     ],
     files: [
       {
@@ -999,7 +999,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-animate-tooltip",
+    command: "@soralabs/primitives-animate-tooltip",
   },
   "primitives-buttons-button": {
     name: "primitives-buttons-button",
@@ -1007,7 +1007,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: ["@sora-ui/primitives-animate-slot"],
+    registryDependencies: ["@soralabs/primitives-animate-slot"],
     files: [
       {
         path: "registry/primitives/buttons/button/index.tsx",
@@ -1044,7 +1044,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-buttons-button",
+    command: "@soralabs/primitives-buttons-button",
   },
   "primitives-effects-auto-height": {
     name: "primitives-effects-auto-height",
@@ -1054,8 +1054,8 @@ export const index: Record<string, any> = {
     dependencies: ["motion"],
     devDependencies: undefined,
     registryDependencies: [
-      "@sora-ui/primitives-animate-slot",
-      "@sora-ui/hooks-use-auto-height",
+      "@soralabs/primitives-animate-slot",
+      "@soralabs/hooks-use-auto-height",
     ],
     files: [
       {
@@ -1093,7 +1093,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-effects-auto-height",
+    command: "@soralabs/primitives-effects-auto-height",
   },
   "primitives-effects-highlight": {
     name: "primitives-effects-highlight",
@@ -1139,7 +1139,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-effects-highlight",
+    command: "@soralabs/primitives-effects-highlight",
   },
   "primitives-radix-tabs": {
     name: "primitives-radix-tabs",
@@ -1149,10 +1149,10 @@ export const index: Record<string, any> = {
     dependencies: ["motion", "radix-ui"],
     devDependencies: undefined,
     registryDependencies: [
-      "@sora-ui/primitives-effects-highlight",
-      "@sora-ui/primitives-effects-auto-height",
-      "@sora-ui/lib-get-strict-context",
-      "@sora-ui/hooks-use-controlled-state",
+      "@soralabs/primitives-effects-highlight",
+      "@soralabs/primitives-effects-auto-height",
+      "@soralabs/lib-get-strict-context",
+      "@soralabs/hooks-use-controlled-state",
     ],
     files: [
       {
@@ -1188,7 +1188,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@sora-ui/primitives-radix-tabs",
+    command: "@soralabs/primitives-radix-tabs",
   },
   "demo-char-stagger-button": {
     name: "demo-char-stagger-button",
@@ -1208,7 +1208,7 @@ export const index: Record<string, any> = {
     ],
     keywords: [],
     component: null,
-    command: "@sora-ui/demo-char-stagger-button",
+    command: "@soralabs/demo-char-stagger-button",
   },
   "demo-pixelated-image-reveal": {
     name: "demo-pixelated-image-reveal",
@@ -1228,7 +1228,7 @@ export const index: Record<string, any> = {
     ],
     keywords: [],
     component: null,
-    command: "@sora-ui/demo-pixelated-image-reveal",
+    command: "@soralabs/demo-pixelated-image-reveal",
   },
   "demo-draw-underline-link": {
     name: "demo-draw-underline-link",
@@ -1248,7 +1248,7 @@ export const index: Record<string, any> = {
     ],
     keywords: [],
     component: null,
-    command: "@sora-ui/demo-draw-underline-link",
+    command: "@soralabs/demo-draw-underline-link",
   },
   "demo-text-reveal-blur": {
     name: "demo-text-reveal-blur",
@@ -1268,7 +1268,7 @@ export const index: Record<string, any> = {
     ],
     keywords: [],
     component: null,
-    command: "@sora-ui/demo-text-reveal-blur",
+    command: "@soralabs/demo-text-reveal-blur",
   },
   "demo-text-underline": {
     name: "demo-text-underline",
@@ -1288,6 +1288,6 @@ export const index: Record<string, any> = {
     ],
     keywords: [],
     component: null,
-    command: "@sora-ui/demo-text-underline",
+    command: "@soralabs/demo-text-underline",
   },
 };

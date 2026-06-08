@@ -33,25 +33,25 @@ Run the `init` command to create a new project with shadcn/ui or setup an existi
 ### Add components
 
 Run the `add` command. Once Sora UI is listed in the official shadcn registry
-(upstream PR in progress), `@sora-ui/...` should work without extra setup.
+(upstream PR in progress), `@soralabs/...` should work without extra setup.
 
 <CodeTabs
   codes={{
-    pnpm: `pnpm dlx shadcn@latest add @sora-ui/text-reveal-blur`,
-    npm: `npx shadcn@latest add @sora-ui/text-reveal-blur`,
-    yarn: `npx shadcn@latest add @sora-ui/text-reveal-blur`,
-    bun: `bunx --bun shadcn@latest add @sora-ui/text-reveal-blur`,
+    pnpm: `pnpm dlx shadcn@latest add @soralabs/text-reveal-blur`,
+    npm: `npx shadcn@latest add @soralabs/text-reveal-blur`,
+    yarn: `npx shadcn@latest add @soralabs/text-reveal-blur`,
+    bun: `bunx --bun shadcn@latest add @soralabs/text-reveal-blur`,
   }}
 />
 
 <Callout type="warn">
   **Only if the CLI errors** — for example `unknown registry`, cannot resolve
-  `@sora-ui`, or fetch timeout — add the scope manually to `components.json`:
+  `@soralabs`, or fetch timeout — add the scope manually to `components.json`:
 
   ```json
   {
     "registries": {
-      "@sora-ui": "https://ui.soralabs.io.vn/r/{name}.json"
+      "@soralabs": "https://ui.soralabs.io.vn/r/{name}.json"
     }
   }
   ```
@@ -62,7 +62,7 @@ Run the `add` command. Once Sora UI is listed in the official shadcn registry
   ```json
   {
     "registries": {
-      "@sora-ui": "http://localhost:3000/r/{name}.json"
+      "@soralabs": "http://localhost:3000/r/{name}.json"
     }
   }
   ```

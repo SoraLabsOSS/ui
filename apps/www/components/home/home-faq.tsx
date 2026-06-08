@@ -20,7 +20,7 @@ const FAQ_ITEMS = [
   {
     title: "How do I install a component?",
     content:
-      "Initialize shadcn/ui in your app, then run the add command with the Sora UI registry scope—for example, npx shadcn@latest add @sora-ui/accordion. The CLI copies the source into your project so you own and can customize every file.",
+      "Initialize shadcn/ui in your app, then run the add command with the Sora UI registry scope—for example, npx shadcn@latest add @soralabs/accordion. The CLI copies the source into your project so you own and can customize every file.",
   },
   {
     title: "Can I customize the styles?",

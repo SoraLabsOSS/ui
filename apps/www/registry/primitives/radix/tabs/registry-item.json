@@ -6,10 +6,10 @@
   "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
   "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
-    "@sora-ui/primitives-effects-highlight",
-    "@sora-ui/primitives-effects-auto-height",
-    "@sora-ui/lib-get-strict-context",
-    "@sora-ui/hooks-use-controlled-state"
+    "@soralabs/primitives-effects-highlight",
+    "@soralabs/primitives-effects-auto-height",
+    "@soralabs/lib-get-strict-context",
+    "@soralabs/hooks-use-controlled-state"
   ],
   "files": [
     {
