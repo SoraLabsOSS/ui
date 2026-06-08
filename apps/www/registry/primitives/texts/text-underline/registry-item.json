@@ -19,9 +19,6 @@
         "label": {
           "value": "Performance Collection"
         },
-        "href": {
-          "value": "#"
-        },
         "underlineColor": {
           "value": "brand",
           "options": {

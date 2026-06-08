@@ -102,6 +102,12 @@ export const ComponentWrapper = ({
             <div
               className="flex min-h-[400px] w-full items-center justify-center px-10 py-16"
               key={remountKey}
+              onClickCapture={(event) => {
+                const anchor = (event.target as HTMLElement).closest("a[href]");
+                if (anchor) {
+                  event.preventDefault();
+                }
+              }}
             >
               {children}
             </div>

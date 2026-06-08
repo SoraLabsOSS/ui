@@ -215,13 +215,13 @@ function useResponsiveLabelOffset(
 function resolveMotionTransition(
   shouldReduceMotion: boolean | null,
   duration: number,
-  ease: readonly number[]
+  ease: readonly [number, number, number, number]
 ): Transition {
   if (shouldReduceMotion) {
     return { duration: 0 };
   }
 
-  return { duration, ease: [...ease] };
+  return { duration, ease };
 }
 
 type SectionCtaBaseProps = Omit<ComponentPropsWithoutRef<"a">, "children"> &
