@@ -1,0 +1,114 @@
+"use client";
+
+import { MotionEffect } from "@/components/effects/motion-effect";
+import { SectionCta } from "@/components/home/section-cta-motion";
+
+const FOR_YOU_ITEMS = [
+  "You build with React or Next.js and own every file in your codebase.",
+  "You install components with the shadcn CLI (`@sora-ui/...`).",
+  "You care about motion that feels considered, not decorative.",
+  "You ship client work or side projects and want animated UI without opaque npm packages.",
+] as const;
+
+const NOT_FOR_YOU_ITEMS = [
+  "You need a full UI kit—forms, tables, data grids. Sora focuses on motion primitives.",
+  "You don't use Tailwind CSS or Motion in your stack.",
+  "You want locked npm packages you can't edit—Sora copies source into your repo.",
+  "You build mainly in Webflow or Framer without a code-first workflow.",
+] as const;
+
+interface AudienceColumnProps {
+  delay: number;
+  items: readonly string[];
+  title: string;
+}
+
+function AudienceColumn({ title, items, delay }: AudienceColumnProps) {
+  return (
+    <MotionEffect
+      delay={delay}
+      fade
+      inView
+      slide={{ direction: "up", offset: 24 }}
+    >
+      <div>
+        <p className="mb-10 font-mono text-muted-foreground text-xs uppercase tracking-widest">
+          {title}
+        </p>
+        <ul className="divide-y divide-foreground/10">
+          {items.map((item) => (
+            <li
+              className="py-5 text-base text-foreground leading-relaxed"
+              key={item}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </MotionEffect>
+  );
+}
+
+export function WhoItsFor() {
+  return (
+    <section className="relative bg-background text-foreground">
+      <div className="mx-auto max-w-7xl px-5 py-24 lg:py-32">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-16 lg:gap-x-12 lg:gap-y-0">
+          <div className="col-span-12 flex flex-col lg:col-span-5">
+            <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
+              <h2 className="max-w-[18ch] font-medium text-3xl leading-tight tracking-tight md:text-4xl lg:text-5xl">
+                <span className="block">Built for developers who</span>
+                <span className="block">care how it moves.</span>
+              </h2>
+            </MotionEffect>
+
+            <div className="mt-12 lg:mt-auto lg:pt-24">
+              <MotionEffect
+                delay={0.1}
+                fade
+                inView
+                slide={{ direction: "up", offset: 24 }}
+              >
+                <p className="max-w-[36ch] text-base text-muted-foreground leading-relaxed">
+                  Motion-first primitives you can inspect, copy, and customize.
+                  Real React code, real refs, no bloat—built for teams who ship.
+                </p>
+              </MotionEffect>
+
+              <MotionEffect
+                delay={0.2}
+                fade
+                inView
+                slide={{ direction: "up", offset: 24 }}
+              >
+                <div className="mt-8">
+                  <SectionCta
+                    href="/docs/primitives/text-reveal-blur"
+                    label="Browse components"
+                  />
+                </div>
+              </MotionEffect>
+            </div>
+          </div>
+
+          <div className="col-span-12 lg:col-span-3 lg:col-start-7">
+            <AudienceColumn
+              delay={0.15}
+              items={FOR_YOU_ITEMS}
+              title="Sora UI is for you if:"
+            />
+          </div>
+
+          <div className="col-span-12 lg:col-span-3 lg:col-start-10">
+            <AudienceColumn
+              delay={0.25}
+              items={NOT_FOR_YOU_ITEMS}
+              title="Sora UI is probably not for you if:"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

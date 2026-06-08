@@ -45,6 +45,7 @@
         "fumadocs-mdx": "13.0.8",
         "fumadocs-ui": "15.6.3",
         "fuse.js": "^7.1.0",
+        "lenis": "^1.3.23",
         "lucide-react": "^1.17.0",
         "motion": "^12.23.24",
         "next": "^16.2.6",
@@ -119,7 +120,7 @@
         "react-day-picker": "^10.0.1",
         "react-dom": "^19.1.2",
         "sonner": "^2.0.7",
-        "tailwind-merge": "^3.0.1",
+        "tailwind-merge": "^3.6.0",
         "tw-animate-css": "^1.2.4",
         "zod": "^3.24.2",
       },
@@ -1350,6 +1351,8 @@
     "lefthook-windows-arm64": ["lefthook-windows-arm64@2.1.9", "", { "os": "win32", "cpu": "arm64" }, "sha512-KphfkBKmwBnmolyrdhIl3lrBaOyTcCgXBT2AB/9OHnEXhOLvv5uTCUkrD4YRAxXPtFKq6UvnapIeoL3GZq0bdA=="],
 
     "lefthook-windows-x64": ["lefthook-windows-x64@2.1.9", "", { "os": "win32", "cpu": "x64" }, "sha512-2qlUtkJHZ3MyUxgV5XTEmcrIoNZA07iwaquoswAcqv/1MeBFXlD+O+koFRfrzWng2O5WYEbpJnd8tvaYnV8fTA=="],
+
+    "lenis": ["lenis@1.3.23", "", { "peerDependencies": { "@nuxt/kit": ">=3.0.0", "react": ">=17.0.0", "vue": ">=3.0.0" }, "optionalPeers": ["@nuxt/kit", "react", "vue"] }, "sha512-YxYq3TJqj9sJNv0V9SkyQHejt14xwyIwgDaaMK89Uf9SxQfIszu+gTQSSphh6BWlLTNVKvvXAGkg+Zf+oFIevg=="],
 
     "libphonenumber-js": ["libphonenumber-js@1.13.6", "", {}, "sha512-NdB6O6QvlGMCoG003m0YIKG2+Xw7DjmCZhmc1RH+K6HncADUbRf8TZeLegxBBN1VFyPHcNpPTKpIhYLXzJVy1Q=="],
 

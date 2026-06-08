@@ -1,0 +1,102 @@
+"use client";
+
+import { cn } from "@workspace/ui/lib/utils";
+import type { ReactNode } from "react";
+import { MotionEffect } from "@/components/effects/motion-effect";
+import { SectionCta } from "@/components/home/section-cta-motion";
+
+const PRIMITIVE_COUNT = 9;
+
+interface ProductCardProps {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}
+
+function ProductCard({ children, className, delay = 0 }: ProductCardProps) {
+  return (
+    <MotionEffect
+      className={cn(
+        "col-span-12 flex flex-col overflow-hidden bg-muted/40 text-foreground",
+        className
+      )}
+      delay={delay}
+      fade
+      inView
+      slide={{ direction: "up", offset: 24 }}
+    >
+      {children}
+    </MotionEffect>
+  );
+}
+
+export function HomeTwoWays() {
+  return (
+    <section className="relative bg-background py-24 text-foreground lg:py-32">
+      <div className="mx-auto max-w-7xl px-5">
+        <header className="mb-16 max-w-[60ch] lg:mb-24">
+          <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
+            <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
+              What you get
+            </p>
+            <h2 className="mt-3 max-w-[18ch] font-medium text-3xl leading-tight tracking-tight md:text-4xl lg:text-5xl">
+              Two ways to ship motion.
+            </h2>
+            <p className="mt-6 max-w-[52ch] text-base text-muted-foreground leading-relaxed lg:text-lg">
+              Named primitives you reach for in every project. Full blocks you
+              compose once they land—same Motion stack, same install flow.
+            </p>
+          </MotionEffect>
+        </header>
+
+        <div className="grid grid-cols-12 gap-6 lg:gap-8">
+          <ProductCard className="lg:col-span-7">
+            <div className="flex flex-1 flex-col gap-5 p-6 lg:gap-6 lg:p-12">
+              <div className="flex flex-wrap items-baseline justify-between gap-4">
+                <h3 className="m-0 font-medium text-foreground text-xl lg:text-2xl">
+                  Primitives
+                </h3>
+                <span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
+                  {PRIMITIVE_COUNT} primitives / growing
+                </span>
+              </div>
+              <p className="m-0 max-w-[52ch] text-base text-muted-foreground leading-relaxed">
+                Every motion primitive is production-grade and documented.
+                Preview in the docs, install with the shadcn CLI, and own the
+                source in your codebase.
+              </p>
+              <div className="mt-auto inline-flex pt-2">
+                <SectionCta
+                  href="/docs/primitives/text-reveal-blur"
+                  label="Browse primitives"
+                  variant="inverted"
+                />
+              </div>
+            </div>
+          </ProductCard>
+
+          <ProductCard className="lg:col-span-5" delay={0.1}>
+            <div className="flex flex-1 flex-col gap-5 p-6 lg:gap-6 lg:p-12">
+              <div className="flex flex-wrap items-baseline justify-between gap-4">
+                <h3 className="m-0 font-medium text-foreground text-xl lg:text-2xl">
+                  Blocks
+                </h3>
+                <span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
+                  First block / coming soon
+                </span>
+              </div>
+              <p className="m-0 max-w-[52ch] text-base text-muted-foreground leading-relaxed">
+                Composed page sections—not a single primitive, not a grab bag.
+                Hero flows, feature grids, and motion systems you drop in and
+                customize. Built for React and Next.js.
+              </p>
+              <div className="mt-auto inline-flex pt-2">
+                <SectionCta href="/docs" label="See what's coming" />
+              </div>
+            </div>
+          </ProductCard>
+        </div>
+      </div>
+    </section>
+  );
+}
