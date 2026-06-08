@@ -1,8 +1,12 @@
 "use client";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@workspace/ui/components/sora-ui/disclosure/accordion";
 import { cn } from "@workspace/ui/lib/utils";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
 import { FooterArrowLink } from "./footer-arrow-link";
 
 interface FooterNavLink {
@@ -62,97 +66,42 @@ const FOOTER_NAV: FooterNavSection[] = [
   },
 ];
 
-function PlusIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      viewBox="0 0 16 16"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M8 1V15"
-        stroke="currentColor"
-        strokeLinecap="square"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M1 8H15"
-        stroke="currentColor"
-        strokeLinecap="square"
-        strokeWidth="1.5"
-      />
-    </svg>
-  );
-}
+const footerAccordionTriggerClassName = cn(
+  "gap-4 py-5 text-foreground",
+  "[&>span:first-child]:font-mono [&>span:first-child]:font-normal [&>span:first-child]:text-xs [&>span:first-child]:uppercase [&>span:first-child]:tracking-widest",
+  "[&_[data-anm-accordion-icon]]:size-3"
+);
 
 function FooterMobileAccordion({ sections }: { sections: FooterNavSection[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const shouldReduceMotion = useReducedMotion();
-
   return (
-    <div className="flex flex-col lg:hidden">
-      {sections.map((section, index) => {
-        const isOpen = openIndex === index;
-
-        return (
-          <div
-            className="border-foreground/10 border-b last:border-b-0"
-            key={section.title}
-          >
-            <button
-              aria-expanded={isOpen}
-              className="flex w-full items-center justify-between gap-4 py-5 text-left text-foreground transition-colors duration-300"
-              onClick={() => {
-                setOpenIndex(isOpen ? null : index);
-              }}
-              type="button"
-            >
-              <span className="font-mono text-xs uppercase tracking-widest">
-                {section.title}
-              </span>
-              <motion.span
-                animate={{ rotate: isOpen ? 45 : 0 }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-              >
-                <PlusIcon className="h-3 w-3 shrink-0" />
-              </motion.span>
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isOpen ? (
-                <motion.div
-                  animate={{ height: "auto", opacity: 1 }}
-                  className="overflow-hidden"
-                  exit={{ height: 0, opacity: 0 }}
-                  initial={{ height: 0, opacity: 0 }}
-                  transition={{
-                    duration: shouldReduceMotion ? 0 : 0.35,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <ul className="flex flex-col gap-3 pb-5">
-                    {section.links.map((link) => (
-                      <li key={link.label}>
-                        <FooterArrowLink
-                          className="text-base"
-                          external={link.external}
-                          href={link.href}
-                          textClassName="normal-case tracking-normal"
-                        >
-                          {link.label}
-                        </FooterArrowLink>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
-          </div>
-        );
-      })}
-    </div>
+    <Accordion allowMultiple className="col-span-12 flex flex-col lg:hidden">
+      {sections.map((section) => (
+        <AccordionItem
+          className="border-foreground/10 border-b last:border-b-0"
+          key={section.title}
+        >
+          <AccordionTrigger className={footerAccordionTriggerClassName}>
+            {section.title}
+          </AccordionTrigger>
+          <AccordionContent>
+            <ul className="flex flex-col gap-3 pb-5">
+              {section.links.map((link) => (
+                <li key={link.label}>
+                  <FooterArrowLink
+                    className="text-base"
+                    external={link.external}
+                    href={link.href}
+                    textClassName="normal-case tracking-normal"
+                  >
+                    {link.label}
+                  </FooterArrowLink>
+                </li>
+              ))}
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 }
 
