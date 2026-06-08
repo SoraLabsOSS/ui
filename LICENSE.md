@@ -1,6 +1,6 @@
 MIT + Commons Clause License Condition
 
-Copyright (c) 2025 Elliot Sutton
+Copyright (c) 2026 Alexsandr Senaviev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

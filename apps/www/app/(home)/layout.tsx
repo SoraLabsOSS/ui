@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import "./sf-pro-display.css";
+
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
@@ -8,13 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
-  return (
-    <>
-      <link
-        href="https://fonts.cdnfonts.com/css/sf-pro-display"
-        rel="stylesheet"
-      />
-      {children}
-    </>
-  );
+  return children;
 }
