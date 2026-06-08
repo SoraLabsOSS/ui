@@ -26,7 +26,7 @@ const dancing = Dancing_Script({ subsets: ["latin"] });
 
 export const Features = () => {
   return (
-    <div className="relative mt-auto flex flex-col items-center justify-center px-5 pt-16 pb-10">
+    <div className="relative mt-16 flex flex-col items-center justify-center lg:mt-24">
       <div className="mx-auto grid w-full max-w-4xl grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6">
         {COMPONENTS.map((component, index) => {
           const Component = component.href ? Link : "div";

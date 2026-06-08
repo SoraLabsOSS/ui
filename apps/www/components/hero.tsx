@@ -101,8 +101,8 @@ const SUBTITLE =
   "Sora UI is in active beta—a registry of animated primitives for Next.js. Preview in the docs, install with the shadcn CLI, and own every file in your codebase.";
 
 export const Hero = () => (
-  <div className="relative flex flex-col items-center overflow-hidden px-5">
-    <div className="relative z-10 flex flex-col items-center justify-center pt-30">
+  <div className="relative flex flex-col items-center overflow-hidden">
+    <div className="relative z-10 flex flex-col items-center justify-center">
       <MotionEffect
         fade
         inView
