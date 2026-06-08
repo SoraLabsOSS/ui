@@ -2,7 +2,7 @@
 
 import { useSession } from "@better-auth-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { authClient } from "@/lib/auth-client";
 import {
   type BookmarkRecord,
@@ -19,10 +19,22 @@ const EMPTY_BOOKMARKS: BookmarkRecord[] = [];
 export function useBookmarks() {
   const { data: session, isPending: sessionPending } = useSession(authClient);
   const queryClient = useQueryClient();
-  const isAuthenticated = Boolean(session?.user);
+  const userId = session?.user?.id;
+  const isAuthenticated = Boolean(userId);
+  const listQueryKey = userId ? bookmarkKeys.list(userId) : bookmarkKeys.all;
+  const previousUserIdRef = useRef<string | undefined>(userId);
+
+  useEffect(() => {
+    const previousUserId = previousUserIdRef.current;
+    previousUserIdRef.current = userId;
+
+    if (previousUserId && !userId) {
+      queryClient.removeQueries({ queryKey: bookmarkKeys.all });
+    }
+  }, [queryClient, userId]);
 
   const query = useQuery({
-    queryKey: bookmarkKeys.all,
+    queryKey: listQueryKey,
     queryFn: fetchBookmarks,
     enabled: isAuthenticated,
     placeholderData: EMPTY_BOOKMARKS,
@@ -48,14 +60,12 @@ export function useBookmarks() {
       }
     },
     onMutate: ({ url, isBookmarked }) => {
-      queryClient.cancelQueries({ queryKey: bookmarkKeys.all });
+      queryClient.cancelQueries({ queryKey: listQueryKey });
 
-      const previous = queryClient.getQueryData<BookmarkRecord[]>(
-        bookmarkKeys.all
-      );
+      const previous = queryClient.getQueryData<BookmarkRecord[]>(listQueryKey);
 
       if (!isBookmarked) {
-        queryClient.setQueryData<BookmarkRecord[]>(bookmarkKeys.all, (old) => {
+        queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) => {
           const bookmarks = old ?? EMPTY_BOOKMARKS;
 
           if (bookmarks.some((bookmark) => bookmark.url === url)) {
@@ -77,18 +87,18 @@ export function useBookmarks() {
     },
     onSuccess: (_data, { url, isBookmarked }) => {
       if (isBookmarked) {
-        queryClient.setQueryData<BookmarkRecord[]>(bookmarkKeys.all, (old) =>
+        queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) =>
           (old ?? EMPTY_BOOKMARKS).filter((bookmark) => bookmark.url !== url)
         );
       }
     },
     onError: (_error, _variables, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(bookmarkKeys.all, context.previous);
+        queryClient.setQueryData(listQueryKey, context.previous);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: bookmarkKeys.all });
+      queryClient.invalidateQueries({ queryKey: listQueryKey });
     },
   });
 
@@ -124,7 +134,9 @@ export function useBookmarks() {
   );
 
   return {
-    bookmarks: query.data ?? EMPTY_BOOKMARKS,
+    bookmarks: isAuthenticated
+      ? (query.data ?? EMPTY_BOOKMARKS)
+      : EMPTY_BOOKMARKS,
     isAuthenticated,
     isLoading: isAuthenticated && query.isFetching && query.isPlaceholderData,
     isToggling: toggleMutation.isPending,
