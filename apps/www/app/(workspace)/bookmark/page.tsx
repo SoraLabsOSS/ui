@@ -9,8 +9,6 @@ import {
 } from "@workspace/ui/components/animate-ui/primitives/animate/tabs";
 import {
   ArrowUpRight,
-  Bookmark,
-  BookmarkX,
   ExternalLink,
   Grid2x2,
   Grid3x2,
@@ -22,32 +20,12 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-
-interface PageData {
-  description?: string;
-  id: string;
-  tag?: string;
-  title: string;
-  url: string;
-}
-
-function getBookmarkedUrls(): string[] {
-  const urls: string[] = [];
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (
-        key?.startsWith("bookmark:") &&
-        localStorage.getItem(key) === "true"
-      ) {
-        urls.push(key.slice(9));
-      }
-    }
-  } catch {
-    // ignore localStorage errors
-  }
-  return urls;
-}
+import {
+  BookmarkEmptyState,
+  BookmarkSearchEmptyState,
+} from "@/components/bookmark/bookmark-empty-state";
+import type { BookmarkPageData } from "@/lib/bookmarks/resolve-pages";
+import { useBookmarkPages } from "@/lib/bookmarks/use-bookmark-pages";
 
 type ViewMode = "cards" | "compact" | "list";
 
@@ -108,57 +86,33 @@ function ViewToggle({
   setViewMode: (v: ViewMode) => void;
 }) {
   const options = [
-    { value: "cards", label: "Cards", Icon: Grid2x2 },
-    { value: "compact", label: "Compact", Icon: Grid3x2 },
-    { value: "list", label: "List", Icon: List },
+    { value: "cards", label: "Cards", Icon: Grid2x2, disabled: true },
+    { value: "compact", label: "Compact", Icon: Grid3x2, disabled: true },
+    { value: "list", label: "List", Icon: List, disabled: false },
   ] as const;
 
   return (
     <Tabs
-      onValueChange={(v) => v && setViewMode(v as ViewMode)}
+      onValueChange={(v) => {
+        if (v === "list") {
+          setViewMode("list");
+        }
+      }}
       value={viewMode}
     >
       <TabsHighlight className="absolute inset-0 rounded-lg bg-background shadow-sm dark:bg-foreground/10">
         <TabsList className="relative flex h-10 shrink-0 items-center rounded-xl bg-muted p-1">
-          {options.map(({ value, label, Icon }) => (
+          {options.map(({ value, label, Icon, disabled }) => (
             <TabsHighlightItem className="h-full" key={value} value={value}>
               <TabsTrigger
+                aria-disabled={disabled}
                 aria-label={`Display in ${label} mode`}
-                className="relative z-10 flex h-full w-10 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-all duration-300 focus-visible:outline-none data-[state=active]:text-foreground"
-                title={label}
+                className="relative z-10 flex h-full w-10 items-center justify-center rounded-lg text-muted-foreground transition-all duration-300 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:text-foreground"
+                disabled={disabled}
+                title={disabled ? `${label} (coming soon)` : label}
                 value={value}
               >
                 <Icon className="h-4 w-4" />
-              </TabsTrigger>
-            </TabsHighlightItem>
-          ))}
-        </TabsList>
-      </TabsHighlight>
-    </Tabs>
-  );
-}
-
-/* ── Filter pill group ── */
-function FilterGroup({
-  options,
-  active,
-  onChange,
-}: {
-  options: string[];
-  active: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <Tabs onValueChange={(v) => v && onChange(v)} value={active}>
-      <TabsHighlight className="absolute inset-0 rounded-lg bg-background shadow-sm dark:bg-foreground/10">
-        <TabsList className="relative flex h-10 shrink-0 items-center rounded-xl bg-muted p-1">
-          {options.map((opt) => (
-            <TabsHighlightItem className="h-full" key={opt} value={opt}>
-              <TabsTrigger
-                className="relative z-10 flex h-full cursor-pointer items-center justify-center rounded-lg px-3.5 text-muted-foreground text-sm transition-all duration-300 focus-visible:outline-none data-[state=active]:font-medium data-[state=active]:text-foreground"
-                value={opt}
-              >
-                {opt}
               </TabsTrigger>
             </TabsHighlightItem>
           ))}
@@ -173,7 +127,7 @@ function BookmarkCard({
   page,
   onRemove,
 }: {
-  page: PageData;
+  page: BookmarkPageData;
   onRemove: (url: string) => void;
 }) {
   return (
@@ -239,7 +193,7 @@ function BookmarkCompactCard({
   page,
   onRemove,
 }: {
-  page: PageData;
+  page: BookmarkPageData;
   onRemove: (url: string) => void;
 }) {
   return (
@@ -284,15 +238,18 @@ function BookmarkCompactCard({
 
 /* ── List row ── */
 function BookmarkListRow({
+  isRemoving,
   page,
   onRemove,
 }: {
-  page: PageData;
+  isRemoving: boolean;
+  page: BookmarkPageData;
   onRemove: (url: string) => void;
 }) {
   return (
     <motion.div
-      animate={{ opacity: 1, x: 0 }}
+      animate={{ opacity: isRemoving ? 0.55 : 1, x: 0 }}
+      aria-busy={isRemoving}
       className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
       exit={{ opacity: 0, x: -8 }}
       initial={{ opacity: 0, x: -8 }}
@@ -325,12 +282,18 @@ function BookmarkListRow({
           Open
         </Link>
         <button
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground/40 transition-colors hover:bg-destructive/10 hover:text-destructive"
+          aria-busy={isRemoving}
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground/40 transition-colors hover:bg-destructive/10 hover:text-destructive disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={isRemoving}
           onClick={() => onRemove(page.url)}
-          title="Remove bookmark"
+          title={isRemoving ? "Removing bookmark…" : "Remove bookmark"}
           type="button"
         >
-          <Trash2 className="h-3.5 w-3.5" />
+          {isRemoving ? (
+            <Loader className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Trash2 className="h-3.5 w-3.5" />
+          )}
         </button>
       </div>
     </motion.div>
@@ -339,10 +302,11 @@ function BookmarkListRow({
 
 /* ── Content renderer ── */
 interface RenderContentProps {
-  bookmarks: PageData[];
-  filteredBookmarks: PageData[];
+  bookmarks: BookmarkPageData[];
+  filteredBookmarks: BookmarkPageData[];
   handleRemove: (url: string) => void;
   loading: boolean;
+  removingUrl: string | null;
   viewMode: ViewMode;
 }
 
@@ -352,6 +316,7 @@ function renderContent({
   filteredBookmarks,
   viewMode,
   handleRemove,
+  removingUrl,
 }: RenderContentProps): React.ReactNode {
   if (loading) {
     return (
@@ -370,50 +335,26 @@ function renderContent({
 
   if (bookmarks.length === 0) {
     return (
-      <motion.div
-        animate={{ opacity: 1, scale: 1 }}
-        className="flex min-h-[360px] flex-col items-center justify-center rounded-2xl border border-foreground/10 border-dashed p-10 text-center"
-        exit={{ opacity: 0, scale: 0.97 }}
-        initial={{ opacity: 0, scale: 0.97 }}
-        key="empty-bookmarks"
-        transition={{ duration: 0.3 }}
-      >
-        <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-muted text-foreground/30">
-          <Bookmark className="h-9 w-9" />
-          <span className="absolute -top-1 -right-1 flex h-5 w-5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-            <span className="relative inline-flex h-5 w-5 rounded-full bg-blue-500" />
-          </span>
-        </div>
-        <h3 className="mt-5 font-semibold text-xl">No bookmarks yet</h3>
-        <p className="mt-2 max-w-xs text-foreground/50 text-sm">
-          Save components or documentation pages by clicking the bookmark icon.
-        </p>
-        <Link
-          className="mt-7 inline-flex items-center gap-2 rounded-xl bg-muted px-4 py-2 font-medium text-foreground text-sm transition-colors hover:bg-accent"
-          href="/docs"
-        >
-          Explore Components
-          <ArrowUpRight className="h-4 w-4" />
-        </Link>
-      </motion.div>
+      <div key="empty-bookmarks">
+        <BookmarkEmptyState
+          cta={{
+            href: "/docs",
+            label: "Explore components",
+            variant: "accent",
+          }}
+          description="Save components or documentation pages by clicking the bookmark icon on any docs page."
+          eyebrow="Your collection"
+          title="No bookmarks yet"
+        />
+      </div>
     );
   }
 
   if (filteredBookmarks.length === 0) {
     return (
-      <motion.div
-        animate={{ opacity: 1 }}
-        className="flex min-h-[200px] flex-col items-center justify-center gap-3"
-        exit={{ opacity: 0 }}
-        initial={{ opacity: 0 }}
-        key="empty-search"
-      >
-        <BookmarkX className="h-9 w-9 text-foreground/25" />
-        <p className="text-foreground/50 text-sm">
-          No bookmarks match your search.
-        </p>
-      </motion.div>
+      <div key="empty-search">
+        <BookmarkSearchEmptyState />
+      </div>
     );
   }
 
@@ -478,6 +419,7 @@ function renderContent({
       <AnimatePresence mode="popLayout">
         {filteredBookmarks.map((page) => (
           <BookmarkListRow
+            isRemoving={removingUrl === page.url}
             key={`list-${page.url}`}
             onRemove={handleRemove}
             page={page}
@@ -488,55 +430,50 @@ function renderContent({
   );
 }
 
+function GuestState(): React.ReactNode {
+  const signInUrl = `/auth/sign-in?redirectTo=${encodeURIComponent("/bookmark")}`;
+
+  return (
+    <BookmarkEmptyState
+      cta={{ href: signInUrl, label: "Sign in", variant: "inverted" }}
+      description="Your saved components and docs are synced to your account. Sign in to see your collection."
+      eyebrow="Account"
+      title="Sign in to view bookmarks"
+    />
+  );
+}
+
 /* ── Page ── */
 export default function BookmarkPage() {
-  const [isMounted, setIsMounted] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [bookmarks, setBookmarks] = useState<PageData[]>([]);
+  const {
+    isAuthenticated,
+    isRemoving,
+    loading,
+    pages: bookmarks,
+    removeBookmark,
+    removingUrl,
+    sessionPending,
+  } = useBookmarkPages();
   const [search, setSearch] = useState("");
-  const [activeTag, setActiveTag] = useState<string>("All");
-  const [viewMode, setViewMode] = useState<ViewMode>("cards");
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
+  const [pendingRemoveUrl, setPendingRemoveUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsMounted(true);
-
-    const loadBookmarks = async () => {
-      const bookmarkedUrls = getBookmarkedUrls();
-      if (bookmarkedUrls.length === 0) {
-        setBookmarks([]);
-        setLoading(false);
-        return;
-      }
-      try {
-        const res = await fetch("/static.json");
-        if (!res.ok) {
-          throw new Error("Failed to fetch search index");
-        }
-        const data: PageData[] = await res.json();
-        setBookmarks(data.filter((page) => bookmarkedUrls.includes(page.url)));
-      } catch {
-        // ignore fetch errors
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadBookmarks();
-  }, []);
+    if (!removingUrl) {
+      setPendingRemoveUrl(null);
+    }
+  }, [removingUrl]);
 
   const handleRemove = (url: string) => {
-    try {
-      localStorage.removeItem(`bookmark:${url}`);
-      setBookmarks((prev) => prev.filter((item) => item.url !== url));
-    } catch {
-      // ignore localStorage errors
+    if (isRemoving) {
+      return;
     }
+
+    setPendingRemoveUrl(url);
+    removeBookmark(url);
   };
 
-  const allTags = useMemo(() => {
-    const tags = new Set(bookmarks.map((b) => b.tag ?? "Docs"));
-    return ["All", ...Array.from(tags).sort()];
-  }, [bookmarks]);
+  const activeRemovingUrl = pendingRemoveUrl ?? removingUrl;
 
   const filteredBookmarks = useMemo(
     () =>
@@ -545,35 +482,24 @@ export default function BookmarkPage() {
           search.trim() === "" ||
           b.title.toLowerCase().includes(search.toLowerCase()) ||
           b.description?.toLowerCase().includes(search.toLowerCase());
-        const matchesTag =
-          activeTag === "All" || (b.tag ?? "Docs") === activeTag;
-        return matchesSearch && matchesTag;
+        return matchesSearch;
       }),
-    [bookmarks, search, activeTag]
+    [bookmarks, search]
   );
 
-  /* skeleton */
-  if (!isMounted) {
-    return (
-      <div className="flex flex-col items-center px-6 lg:px-10">
-        <div className="flex flex-col items-center justify-center pt-24 sm:pt-32 md:pt-40">
-          <div className="mb-4 h-16 w-80 animate-pulse rounded-2xl bg-muted" />
-          <div className="h-5 w-64 animate-pulse rounded bg-muted" />
-        </div>
-        <div className="mt-12 w-full max-w-7xl">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                className="animate-pulse rounded-2xl bg-card"
-                key={i}
-                style={{ aspectRatio: "4 / 3" }}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const showGuestState = !(sessionPending || isAuthenticated);
+
+  const heroSubtitle = (() => {
+    if (showGuestState) {
+      return "Sign in to sync and access your saved pages.";
+    }
+
+    if (bookmarks.length === 0 && !loading) {
+      return "Nothing saved yet — explore and bookmark components.";
+    }
+
+    return `${bookmarks.length} item${bookmarks.length === 1 ? "" : "s"} in your collection.`;
+  })();
 
   return (
     <div className="flex flex-col items-center px-6 lg:px-10">
@@ -593,9 +519,7 @@ export default function BookmarkPage() {
           initial={{ opacity: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          {bookmarks.length === 0 && !loading
-            ? "Nothing saved yet — explore and bookmark components."
-            : `${bookmarks.length} item${bookmarks.length === 1 ? "" : "s"} in your collection.`}
+          {heroSubtitle}
         </motion.p>
       </div>
 
@@ -620,17 +544,6 @@ export default function BookmarkPage() {
                 value={search}
               />
             </div>
-
-            {/* Tag filter pills */}
-            {/* {allTags.length > 1 && (
-              <div className="flex w-full shrink-0 flex-wrap items-center justify-center gap-2 sm:w-auto sm:justify-end">
-                <FilterGroup
-                  active={activeTag}
-                  onChange={setActiveTag}
-                  options={allTags}
-                />
-              </div>
-            )} */}
           </motion.div>
 
           {/* ── Section header ── */}
@@ -660,13 +573,18 @@ export default function BookmarkPage() {
           {/* ── Grid / List ── */}
           <div className="min-h-[300px]">
             <AnimatePresence mode="wait">
-              {renderContent({
-                loading,
-                bookmarks,
-                filteredBookmarks,
-                viewMode,
-                handleRemove,
-              })}
+              {showGuestState ? (
+                <GuestState />
+              ) : (
+                renderContent({
+                  loading,
+                  bookmarks,
+                  filteredBookmarks,
+                  viewMode,
+                  handleRemove,
+                  removingUrl: activeRemovingUrl,
+                })
+              )}
             </AnimatePresence>
           </div>
         </div>

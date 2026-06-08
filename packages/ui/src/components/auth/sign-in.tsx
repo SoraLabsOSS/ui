@@ -27,6 +27,7 @@ import { Input } from "@workspace/ui/components/ui/input";
 import { Label } from "@workspace/ui/components/ui/label";
 import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
+import { useAuthRedirectTo } from "@workspace/ui/hooks/use-auth-redirect-to";
 import { cn } from "@workspace/ui/lib/utils";
 import { type SyntheticEvent, useState } from "react";
 import { ProviderButtons, type SocialLayout } from "./provider-buttons";
@@ -57,12 +58,12 @@ export function SignIn({
     emailAndPassword,
     localization,
     plugins,
-    redirectTo,
     socialProviders,
     viewPaths,
     navigate,
     Link,
   } = useAuth();
+  const redirectTo = useAuthRedirectTo();
 
   const { fetchOptions, resetFetchOptions } = useFetchOptions();
 

@@ -128,8 +128,8 @@ export default function Layout({ children }: { children: ReactNode }) {
                 ]}
                 variant="rainbow"
               >
-                Sora is in active beta. Data resets may occur during this
-                development phase.
+                Proudly part of the shadcn/ui registry ecosystem. More
+                components coming soon.
               </Banner>
               {children}
             </Providers>

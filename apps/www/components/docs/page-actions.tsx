@@ -10,15 +10,15 @@ import {
 } from "fumadocs-ui/components/ui/popover";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import {
-  Bookmark,
   Check,
   ChevronDown,
   Copy,
   ExternalLinkIcon,
   MessageCircleIcon,
 } from "lucide-react";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
-import { type JSX, useCallback, useEffect, useMemo, useState } from "react";
+import { LayoutGroup, motion } from "motion/react";
+import { type JSX, useEffect, useMemo, useState } from "react";
+import { BookmarkButton } from "@/components/docs/bookmark-button";
 
 const cache = new Map<string, string>();
 
@@ -194,86 +194,6 @@ const layoutTransition = {
   bounce: 0,
   duration: 0.3,
 } as const;
-
-export function BookmarkButton({
-  url,
-  transition = layoutTransition,
-}: {
-  url: string;
-  transition?: React.ComponentProps<typeof motion.button>["transition"];
-}): JSX.Element {
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
-
-  // Load initial bookmark state from localStorage on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(`bookmark:${url}`);
-      if (saved === "true") {
-        setIsBookmarked(true);
-      }
-    } catch {
-      // Ignore localStorage errors in SSR or restricted environments
-    }
-  }, [url]);
-
-  const handleToggle = useCallback(() => {
-    setIsBookmarked((prev) => {
-      const next = !prev;
-      try {
-        if (next) {
-          localStorage.setItem(`bookmark:${url}`, "true");
-        } else {
-          localStorage.removeItem(`bookmark:${url}`);
-        }
-      } catch {
-        // Ignore localStorage errors
-      }
-      return next;
-    });
-  }, [url]);
-
-  return (
-    <motion.button
-      className={cn(
-        buttonVariants({
-          color: "secondary",
-          size: "sm",
-          className:
-            "shrink-0 select-none gap-2 overflow-hidden whitespace-nowrap border-0 [&_svg]:size-3.5",
-        }),
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        isBookmarked &&
-          "text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
-      )}
-      layout
-      onClick={handleToggle}
-      transition={transition}
-      type="button"
-    >
-      <motion.span layout="position" transition={transition}>
-        <Bookmark
-          className={cn(
-            "transition-all duration-300 ease-in-out [&_svg]:size-3.5",
-            isBookmarked
-              ? "fill-blue-500 text-blue-500 dark:fill-blue-400 dark:text-blue-400"
-              : "text-fd-muted-foreground"
-          )}
-        />
-      </motion.span>
-      <AnimatePresence initial={false} mode="popLayout">
-        <motion.span
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          exit={{ opacity: 0, filter: "blur(4px)" }}
-          initial={{ opacity: 0, filter: "blur(4px)" }}
-          key={isBookmarked ? "saved" : "bookmark"}
-          transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          {isBookmarked ? "Saved" : "Bookmark"}
-        </motion.span>
-      </AnimatePresence>
-    </motion.button>
-  );
-}
 
 export function PageActionButtons({
   markdownUrl,

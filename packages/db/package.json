@@ -12,6 +12,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./bookmarks": "./src/bookmarks.ts",
     "./schema": "./src/schema/index.ts",
     "./client": "./src/client.ts"
   },

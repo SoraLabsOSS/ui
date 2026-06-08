@@ -5,6 +5,7 @@ import { providerIcons, useAuth, useSignInSocial } from "@better-auth-ui/react";
 import { useIsMutating } from "@tanstack/react-query";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
+import { useAuthRedirectTo } from "@workspace/ui/hooks/use-auth-redirect-to";
 import type { SocialProvider } from "better-auth/social-providers";
 import type { ComponentProps } from "react";
 
@@ -25,7 +26,8 @@ export function ProviderButton({
   variant = "outline",
   ...props
 }: ProviderButtonProps) {
-  const { authClient, baseURL, localization, redirectTo } = useAuth();
+  const { authClient, baseURL, localization } = useAuth();
+  const redirectTo = useAuthRedirectTo();
 
   const callbackURL = `${baseURL}${redirectTo}`;
 
