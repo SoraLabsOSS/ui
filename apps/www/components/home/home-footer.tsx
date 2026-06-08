@@ -2,6 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import Link from "next/link";
+import { Suspense } from "react";
 import {
   homeShellGutterClass,
   homeShellMaxWidthClass,
@@ -10,6 +11,7 @@ import {
 import { IconLogo } from "@/components/icon-logo";
 import { FooterArrowLink } from "./footer/footer-arrow-link";
 import { FooterClock } from "./footer/footer-clock";
+import { FooterCopyright } from "./footer/footer-copyright";
 import { FooterDivider } from "./footer/footer-divider";
 import { FooterNav } from "./footer/footer-nav";
 import { FooterNewsletter } from "./footer/footer-newsletter";
@@ -90,7 +92,9 @@ export function HomeFooter() {
           <div className="py-6">
             <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-muted-foreground text-xs uppercase tracking-widest">
-                <span>© {new Date().getFullYear()} Sora UI</span>
+                <Suspense fallback={<span>© Sora UI</span>}>
+                  <FooterCopyright />
+                </Suspense>
                 <span className="opacity-40">·</span>
                 <span>Built by</span>
                 <FooterArrowLink external href="https://github.com/axyl1410">
