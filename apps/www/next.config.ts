@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     "@workspace/ui",
   ],
   experimental: {
-    globalNotFound: true,
+    // globalNotFound: true,
   },
   cacheComponents: true,
   reactCompiler: true,
