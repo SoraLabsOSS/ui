@@ -393,6 +393,23 @@
   html {
     @apply font-sans;
   }
+
+  .footer-newsletter-input:-webkit-autofill,
+  .footer-newsletter-input:-webkit-autofill:hover,
+  .footer-newsletter-input:-webkit-autofill:focus,
+  .footer-newsletter-input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--foreground) !important;
+    caret-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0 1000px var(--background) inset !important;
+    box-shadow: 0 0 0 1000px var(--background) inset !important;
+    transition: background-color 99999s ease-out 0s;
+  }
+
+  .footer-newsletter-input:autofill {
+    -webkit-text-fill-color: var(--foreground) !important;
+    caret-color: var(--foreground);
+    box-shadow: 0 0 0 1000px var(--background) inset !important;
+  }
 }
 
 .screenshot-mode #nd-sidebar,

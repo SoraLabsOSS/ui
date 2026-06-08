@@ -7,16 +7,13 @@ import { FooterArrowLink } from "./footer-arrow-link";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const inputAutofillClass =
-  "[-webkit-autofill]:shadow-[inset_0_0_0px_1000px_var(--background)] [-webkit-autofill]:[-webkit-text-fill-color:var(--foreground)] [-webkit-autofill]:transition-[background-color] [-webkit-autofill]:duration-[99999s]";
-
 const inputClassName = cn(
+  "footer-newsletter-input",
   "min-w-0 flex-1 rounded-none bg-transparent px-0 pt-2 pb-4 text-foreground text-sm",
   "placeholder:text-muted-foreground/60",
   "border-foreground/20 border-b focus:border-foreground",
   "transition-colors duration-200 ease-out",
-  "focus:outline-none disabled:opacity-50",
-  inputAutofillClass
+  "focus:outline-none disabled:opacity-50"
 );
 
 export function FooterNewsletter() {

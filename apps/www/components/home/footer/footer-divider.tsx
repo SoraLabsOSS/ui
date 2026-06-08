@@ -9,17 +9,13 @@ export function FooterDivider() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div
+    <motion.div
+      animate={isInView || shouldReduceMotion ? { scaleX: 1 } : { scaleX: 0 }}
       aria-hidden="true"
       className="h-px w-full origin-left bg-foreground/10"
+      initial={{ scaleX: shouldReduceMotion ? 1 : 0 }}
       ref={ref}
-    >
-      <motion.div
-        animate={isInView || shouldReduceMotion ? { scaleX: 1 } : { scaleX: 0 }}
-        className="h-full w-full origin-left bg-foreground/20"
-        initial={{ scaleX: shouldReduceMotion ? 1 : 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      />
-    </div>
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+    />
   );
 }
