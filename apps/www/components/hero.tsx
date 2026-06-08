@@ -1,8 +1,10 @@
 "use client";
 
+import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { HeroSlotLine } from "@/components/home/hero-slot-text";
+import { SectionCta } from "@/components/home/section-cta-motion";
 
 const CLI_COMMAND = "npx shadcn@latest add @soralabs";
 
@@ -41,18 +43,23 @@ export const Hero = () => {
         transition={{ delay: 0.25, duration: 0.55, ease: "easeOut" }}
       >
         <Link
-          className="inline-flex h-12 items-center rounded-2xl bg-muted px-5 font-mono text-foreground text-sm transition-transform active:scale-[0.99] lg:text-base"
+          className="inline-flex h-8 items-center bg-muted px-3 font-mono text-sm lg:h-10 lg:px-3"
           href="/docs/installation"
         >
-          {CLI_COMMAND}
+          {prefersReducedMotion ? (
+            CLI_COMMAND
+          ) : (
+            <TextShimmer as="span" duration={3}>
+              {CLI_COMMAND}
+            </TextShimmer>
+          )}
         </Link>
 
-        <Link
-          className="inline-flex h-12 items-center rounded-2xl bg-foreground px-5 font-medium text-background text-sm transition-transform active:scale-[0.99] lg:text-[15px]"
+        <SectionCta
           href="/docs/installation"
-        >
-          Quick start
-        </Link>
+          label="Quick start"
+          variant="inverted"
+        />
       </motion.div>
     </header>
   );

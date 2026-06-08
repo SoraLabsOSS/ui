@@ -9,7 +9,6 @@ import {
 } from "@workspace/ui/components/sora-ui/disclosure/accordion";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionEffect } from "@/components/effects/motion-effect";
-import { SectionCta } from "@/components/home/section-cta-motion";
 
 const FAQ_ITEMS = [
   {
@@ -76,14 +75,6 @@ const accordionTriggerClassName = cn(
 const accordionTextClassName =
   "max-w-[96ch] pb-6 text-base text-muted-foreground leading-relaxed";
 
-function FaqCta({ className }: { className?: string }) {
-  return (
-    <div className={className}>
-      <SectionCta href="/docs/primitives/accordion" label="See all questions" />
-    </div>
-  );
-}
-
 export function HomeFaq() {
   return (
     <section className="relative bg-background text-foreground">
@@ -113,15 +104,6 @@ export function HomeFaq() {
                 live on the primitives page.
               </p>
             </MotionEffect>
-
-            <MotionEffect
-              delay={0.2}
-              fade
-              inView
-              slide={{ direction: "up", offset: 24 }}
-            >
-              <FaqCta className="mt-8 hidden lg:flex" />
-            </MotionEffect>
           </div>
 
           <div className="col-span-12 lg:col-span-7 lg:col-start-6">
@@ -146,8 +128,6 @@ export function HomeFaq() {
                 ))}
               </Accordion>
             </MotionEffect>
-
-            <FaqCta className="mt-8 flex lg:hidden" />
           </div>
         </div>
       </div>
