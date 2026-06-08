@@ -9,6 +9,7 @@ import {
 } from "@workspace/ui/components/sora-ui/disclosure/accordion";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionEffect } from "@/components/effects/motion-effect";
+import { HomeShell } from "@/components/home/home-shell";
 
 const FAQ_ITEMS = [
   {
@@ -77,13 +78,13 @@ const accordionTextClassName =
 
 export function HomeFaq() {
   return (
-    <section className="relative bg-background text-foreground">
+    <section className="relative bg-background text-foreground" id="faq">
       <script
         // biome-ignore lint/security/noDangerouslySetInnerHtml: static FAQ JSON-LD for SEO
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
         type="application/ld+json"
       />
-      <div className="mx-auto max-w-7xl px-5 py-24 lg:py-32">
+      <HomeShell className="py-24 lg:py-32">
         <div className="grid grid-cols-12 gap-x-6 gap-y-16 lg:gap-x-12">
           <div className="col-span-12 lg:sticky lg:top-24 lg:col-span-4 lg:self-start">
             <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
@@ -130,7 +131,7 @@ export function HomeFaq() {
             </MotionEffect>
           </div>
         </div>
-      </div>
+      </HomeShell>
     </section>
   );
 }

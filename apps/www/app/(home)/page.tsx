@@ -1,8 +1,8 @@
 "use client";
 
-import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { HomeFaq } from "@/components/home/home-faq";
+import { HomeFooter } from "@/components/home/home-footer";
 import { HomeHeroFeatures } from "@/components/home/home-hero-features";
 import { HomeLenis } from "@/components/home/home-lenis";
 import { HomeTwoWays } from "@/components/home/home-two-ways";
@@ -20,7 +20,7 @@ export default function HomePage() {
             <HomeTwoWays />
             <HomeFaq />
           </div>
-          <Footer />
+          <HomeFooter />
         </div>
       </HomeLenis>
     </>

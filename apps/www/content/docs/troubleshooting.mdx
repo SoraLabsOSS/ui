@@ -26,7 +26,13 @@ If problems persist after disabling extensions, clear your browser cache and ref
 
 ## The CLI does not recognize `@soralabs`
 
-The shadcn CLI only resolves scoped registries that are declared in your project's `components.json`. Add or update the `registries` field:
+Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json). Register the namespace first:
+
+```bash
+npx shadcn@latest registry add @soralabs
+```
+
+If that still fails, add or update the `registries` field in `components.json`:
 
 ```json
 {

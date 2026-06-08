@@ -3,6 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import type { ReactNode } from "react";
 import { MotionEffect } from "@/components/effects/motion-effect";
+import { HomeShell } from "@/components/home/home-shell";
 import { SectionCta } from "@/components/home/section-cta-motion";
 
 const PRIMITIVE_COUNT = 9;
@@ -33,7 +34,7 @@ function ProductCard({ children, className, delay = 0 }: ProductCardProps) {
 export function HomeTwoWays() {
   return (
     <section className="relative bg-background py-24 text-foreground lg:py-32">
-      <div className="mx-auto max-w-7xl px-5">
+      <HomeShell>
         <header className="mb-16 max-w-[60ch] lg:mb-24">
           <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
             <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
@@ -69,7 +70,7 @@ export function HomeTwoWays() {
                 <SectionCta
                   href="/docs/primitives/text-reveal-blur"
                   label="Browse primitives"
-                  variant="inverted"
+                  variant="accent"
                 />
               </div>
             </div>
@@ -91,12 +92,16 @@ export function HomeTwoWays() {
                 customize. Built for React and Next.js.
               </p>
               <div className="mt-auto inline-flex pt-2">
-                <SectionCta href="/docs" label="See what's coming" />
+                <SectionCta
+                  href="/docs"
+                  label="See what's coming"
+                  variant="inverted"
+                />
               </div>
             </div>
           </ProductCard>
         </div>
-      </div>
+      </HomeShell>
     </section>
   );
 }

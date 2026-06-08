@@ -30,10 +30,29 @@ Run the `init` command to create a new project with shadcn/ui or setup an existi
 </Step>
 <Step>
 
+### Add the @soralabs registry
+
+Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json). Register the namespace once in your project:
+
+<CodeTabs
+  codes={{
+    pnpm: `pnpm dlx shadcn@latest registry add @soralabs`,
+    npm: `npx shadcn@latest registry add @soralabs`,
+    yarn: `yarn shadcn@latest registry add @soralabs`,
+    bun: `bunx --bun shadcn@latest registry add @soralabs`,
+  }}
+/>
+
+</Step>
+<Step>
+
 ### Add components
 
-Run the `add` command. Once Sora UI is listed in the official shadcn registry
-(upstream PR in progress), `@soralabs/...` should work without extra setup.
+Install primitives with the `@soralabs` scope. Browse the catalog on [Components](/components) or list every item:
+
+```bash
+npx shadcn@latest list @soralabs
+```
 
 <CodeTabs
   codes={{
@@ -68,12 +87,6 @@ Run the `add` command. Once Sora UI is listed in the official shadcn registry
   ```
 
   Prefer the production URL when localhost is unavailable.
-
-  List available items:
-
-  ```bash
-  bunx --bun shadcn@latest list https://ui.soralabs.io.vn/r/registry.json
-  ```
 </Callout>
 
 </Step>

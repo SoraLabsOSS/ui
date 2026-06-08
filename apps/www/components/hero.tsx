@@ -55,11 +55,7 @@ export const Hero = () => {
           )}
         </Link>
 
-        <SectionCta
-          href="/docs/installation"
-          label="Quick start"
-          variant="inverted"
-        />
+        <SectionCta href="/docs/installation" label="Quick start" />
       </motion.div>
     </header>
   );

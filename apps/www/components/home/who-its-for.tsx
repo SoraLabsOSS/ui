@@ -1,6 +1,7 @@
 "use client";
 
 import { MotionEffect } from "@/components/effects/motion-effect";
+import { HomeShell } from "@/components/home/home-shell";
 import { SectionCta } from "@/components/home/section-cta-motion";
 
 const FOR_YOU_ITEMS = [
@@ -52,8 +53,11 @@ function AudienceColumn({ title, items, delay }: AudienceColumnProps) {
 
 export function WhoItsFor() {
   return (
-    <section className="relative bg-background text-foreground">
-      <div className="mx-auto max-w-7xl px-5 py-24 lg:py-32">
+    <section
+      className="relative bg-background text-foreground"
+      id="who-its-for"
+    >
+      <HomeShell className="py-24 lg:py-32">
         <div className="grid grid-cols-12 gap-x-6 gap-y-16 lg:gap-x-12 lg:gap-y-0">
           <div className="col-span-12 flex flex-col lg:col-span-5">
             <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
@@ -86,6 +90,7 @@ export function WhoItsFor() {
                   <SectionCta
                     href="/docs/primitives/text-reveal-blur"
                     label="Browse components"
+                    variant="accent"
                   />
                 </div>
               </MotionEffect>
@@ -108,7 +113,7 @@ export function WhoItsFor() {
             />
           </div>
         </div>
-      </div>
+      </HomeShell>
     </section>
   );
 }
