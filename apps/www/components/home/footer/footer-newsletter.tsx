@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { type FormEvent, useState } from "react";
-import { SectionCtaButton } from "@/components/home/section-cta-motion";
+import { SectionCtaScrambleButton } from "@/components/buttons/section-cta-scramble";
 import { FooterArrowLink } from "./footer-arrow-link";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -134,7 +134,11 @@ export function FooterNewsletter() {
               You&apos;re on the list
             </p>
           ) : (
-            <SectionCtaButton label="Join" type="submit" variant="accent" />
+            <SectionCtaScrambleButton
+              label="Join"
+              type="submit"
+              variant="accent"
+            />
           )}
         </div>
       </div>

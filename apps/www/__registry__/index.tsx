@@ -823,6 +823,82 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/text-reveal-mask",
   },
+  "text-scramble": {
+    name: "text-scramble",
+    description:
+      "A text scramble reveal animation that decodes characters on mount or when re-triggered.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/primitives/texts/text-scramble/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-scramble.tsx",
+        content:
+          '"use client";\n\nimport { type MotionProps, motion } from "motion/react";\nimport type React from "react";\nimport {\n  type ComponentType,\n  type JSX,\n  type MouseEventHandler,\n  type ReactNode,\n  useEffect,\n  useRef,\n  useState,\n} from "react";\n\ntype MotionTextComponent = ComponentType<\n  MotionProps & {\n    children?: ReactNode;\n    className?: string;\n    onMouseEnter?: MouseEventHandler<Element>;\n  }\n>;\n\ninterface ScrambleFrame {\n  revealedLength: number;\n  text: string;\n}\n\nexport type TextScrambleProps = {\n  children: string;\n  duration?: number;\n  speed?: number;\n  characterSet?: string;\n  as?: React.ElementType;\n  className?: string;\n  onMouseEnter?: MouseEventHandler<Element>;\n  /**\n   * Color for characters still scrambling. Revealed characters keep the root\n   * text color (from `className` or `style`).\n   */\n  scrambleColor?: string;\n  /**\n   * Seconds to scramble in place before the left-to-right reveal begins.\n   * @default 0\n   */\n  holdDuration?: number;\n  /**\n   * When true, runs the scramble on mount or when this value changes.\n   * Ignored while `triggerOnHover` is true.\n   * @default true\n   */\n  trigger?: boolean;\n  /**\n   * When true, runs the scramble on hover instead of on mount.\n   * Mount `trigger` is skipped automatically.\n   * @default false\n   */\n  triggerOnHover?: boolean;\n  onScrambleComplete?: () => void;\n} & Omit<MotionProps, "onMouseEnter">;\n\nconst defaultChars =\n  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";\n\nfunction randomScrambleChar(characterSet: string): string {\n  return characterSet[Math.floor(Math.random() * characterSet.length)] ?? "";\n}\n\nfunction buildScrambledText(\n  source: string,\n  revealedLength: number,\n  characterSet: string\n): string {\n  let scrambled = "";\n\n  for (let i = 0; i < source.length; i++) {\n    if (source[i] === " ") {\n      scrambled += " ";\n      continue;\n    }\n\n    if (i < revealedLength) {\n      scrambled += source[i];\n    } else {\n      scrambled += randomScrambleChar(characterSet);\n    }\n  }\n\n  return scrambled;\n}\n\nexport function TextScramble({\n  children,\n  duration = 0.8,\n  speed = 0.04,\n  characterSet = defaultChars,\n  className,\n  as: Component = "p",\n  scrambleColor,\n  holdDuration = 0,\n  trigger = true,\n  triggerOnHover = false,\n  onScrambleComplete,\n  onMouseEnter,\n  ...props\n}: TextScrambleProps) {\n  const MotionComponent = motion.create(\n    Component as keyof JSX.IntrinsicElements\n  ) as MotionTextComponent;\n  const [frame, setFrame] = useState<ScrambleFrame | null>(null);\n  const [isAnimating, setIsAnimating] = useState(false);\n  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);\n  const text = children;\n  const shouldTriggerOnMount = trigger && !triggerOnHover;\n\n  const clearAnimationInterval = () => {\n    if (intervalRef.current) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  };\n\n  const scramble = () => {\n    if (isAnimating) {\n      return;\n    }\n\n    clearAnimationInterval();\n    setIsAnimating(true);\n\n    const holdSteps = holdDuration / speed;\n    const revealSteps = duration / speed;\n    const totalSteps = holdSteps + revealSteps;\n    let step = 0;\n\n    intervalRef.current = setInterval(() => {\n      if (step < holdSteps) {\n        setFrame({\n          text: buildScrambledText(text, 0, characterSet),\n          revealedLength: 0,\n        });\n      } else {\n        const revealStep = step - holdSteps;\n        const progress = revealStep / revealSteps;\n        const revealedLength = Math.floor(progress * text.length);\n\n        setFrame({\n          text: buildScrambledText(text, revealedLength, characterSet),\n          revealedLength,\n        });\n      }\n\n      step++;\n\n      if (step > totalSteps) {\n        clearAnimationInterval();\n        setFrame(null);\n        setIsAnimating(false);\n        onScrambleComplete?.();\n      }\n    }, speed * 1000);\n  };\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: unmount cleanup only\n  useEffect(\n    () => () => {\n      clearAnimationInterval();\n    },\n    []\n  );\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run only when mount trigger changes\n  useEffect(() => {\n    if (!shouldTriggerOnMount) {\n      return;\n    }\n\n    scramble();\n  }, [shouldTriggerOnMount, trigger]);\n\n  const handleMouseEnter: MouseEventHandler<Element> = (event) => {\n    onMouseEnter?.(event);\n\n    if (triggerOnHover) {\n      scramble();\n    }\n  };\n\n  const renderContent = () => {\n    if (!frame) {\n      return children;\n    }\n\n    if (!scrambleColor) {\n      return frame.text;\n    }\n\n    return frame.text.split("").map((char, index) => (\n      <span\n        // biome-ignore lint/suspicious/noArrayIndexKey: static string indices per frame\n        key={index}\n        style={\n          index < frame.revealedLength ? undefined : { color: scrambleColor }\n        }\n      >\n        {char}\n      </span>\n    ));\n  };\n\n  return (\n    <MotionComponent\n      aria-label={frame ? text : undefined}\n      className={className}\n      onMouseEnter={handleMouseEnter}\n      {...props}\n    >\n      {renderContent()}\n    </MotionComponent>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/texts/text-scramble/index.tsx"
+        );
+        const demoProps = {
+          TextScramble: {
+            children: { value: "Sora UI" },
+            as: { value: "p", options: { p: "p", h2: "h2", span: "span" } },
+            className: {
+              value:
+                "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
+            },
+            scrambleColor: { value: "#fb460d" },
+            holdDuration: { value: 0.3, min: 0, max: 2, step: 0.1 },
+            duration: { value: 0.3, min: 0.2, max: 3, step: 0.1 },
+            speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
+            trigger: { value: true },
+            triggerOnHover: { value: false },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextScramble: {
+          children: { value: "Sora UI" },
+          as: { value: "p", options: { p: "p", h2: "h2", span: "span" } },
+          className: {
+            value:
+              "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
+          },
+          scrambleColor: { value: "#fb460d" },
+          holdDuration: { value: 0.3, min: 0, max: 2, step: 0.1 },
+          duration: { value: 0.3, min: 0.2, max: 3, step: 0.1 },
+          speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
+          trigger: { value: true },
+          triggerOnHover: { value: false },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/text-scramble",
+  },
   "text-underline": {
     name: "text-underline",
     description: "A CSS-only link underline that slides through on hover.",
@@ -1365,6 +1441,26 @@ export const index: Record<string, any> = {
     keywords: [],
     component: null,
     command: "@soralabs/demo-text-reveal-blur",
+  },
+  "demo-text-scramble": {
+    name: "demo-text-scramble",
+    description: "Usage example for text-scramble.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["text-scramble"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-scramble/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/text-scramble.tsx",
+        content:
+          '"use client";\n\nimport { TextScramble } from "@/components/sora-ui/texts/text-scramble";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={"Sora UI"}\n      as={"p"}\n      className={"font-mono text-2xl font-bold uppercase tracking-widest text-foreground"}\n      scrambleColor={"#fb460d"}\n      holdDuration={0.3}\n      duration={0.3}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    component: null,
+    command: "@soralabs/demo-text-scramble",
   },
   "demo-text-underline": {
     name: "demo-text-underline",

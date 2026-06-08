@@ -1,8 +1,8 @@
 "use client";
 
+import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
 import { HomeShell } from "@/components/home/home-shell";
-import { SectionCta } from "@/components/home/section-cta-motion";
 
 const FOR_YOU_ITEMS = [
   "You build with React or Next.js and own every file in your codebase.",
@@ -87,7 +87,7 @@ export function WhoItsFor() {
                 slide={{ direction: "up", offset: 24 }}
               >
                 <div className="mt-8">
-                  <SectionCta
+                  <SectionCtaScramble
                     href="/docs/primitives/text-reveal-blur"
                     label="Browse components"
                     variant="accent"

@@ -1,7 +1,7 @@
 "use client";
 
+import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
-import { SectionCta } from "@/components/home/section-cta-motion";
 
 interface BookmarkEmptyStateProps {
   cta: {
@@ -37,7 +37,7 @@ export function BookmarkEmptyState({
         {description}
       </p>
       <div className="mt-10 inline-flex">
-        <SectionCta
+        <SectionCtaScramble
           href={cta.href}
           label={cta.label}
           variant={cta.variant ?? "accent"}

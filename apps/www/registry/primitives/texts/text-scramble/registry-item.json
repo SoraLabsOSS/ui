@@ -1,0 +1,62 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-scramble",
+  "type": "registry:ui",
+  "title": "Text Scramble",
+  "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-scramble/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-scramble.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TextScramble": {
+        "children": {
+          "value": "Sora UI"
+        },
+        "as": {
+          "value": "p",
+          "options": {
+            "p": "p",
+            "h2": "h2",
+            "span": "span"
+          }
+        },
+        "className": {
+          "value": "font-mono text-2xl font-bold uppercase tracking-widest text-foreground"
+        },
+        "scrambleColor": {
+          "value": "#fb460d"
+        },
+        "holdDuration": {
+          "value": 0.3,
+          "min": 0,
+          "max": 2,
+          "step": 0.1
+        },
+        "duration": {
+          "value": 0.3,
+          "min": 0.2,
+          "max": 3,
+          "step": 0.1
+        },
+        "speed": {
+          "value": 0.03,
+          "min": 0.01,
+          "max": 0.15,
+          "step": 0.01
+        },
+        "trigger": {
+          "value": true
+        },
+        "triggerOnHover": {
+          "value": false
+        }
+      }
+    }
+  }
+}

@@ -3,8 +3,8 @@
 import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { HeroSlotLine } from "@/components/home/hero-slot-text";
-import { SectionCta } from "@/components/home/section-cta-motion";
 
 const CLI_COMMAND = "npx shadcn@latest add @soralabs";
 
@@ -55,7 +55,7 @@ export const Hero = () => {
           )}
         </Link>
 
-        <SectionCta href="/docs/installation" label="Quick start" />
+        <SectionCtaScramble href="/docs/installation" label="Quick start" />
       </motion.div>
     </header>
   );

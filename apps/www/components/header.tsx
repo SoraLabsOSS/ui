@@ -21,9 +21,9 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
 export const Header = () => (
   <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 bg-background/80 backdrop-blur-md">
     <HomeShell contentClassName="flex h-16 items-center justify-between">
-      <motion.div className="flex items-center gap-2.5" layoutId="logo">
-        <IconLogo className="size-9 shrink-0" size="md" />
-        <span className="font-semibold text-foreground text-xl tracking-tight">
+      <motion.div className="flex h-7 items-center gap-2" layoutId="logo">
+        <IconLogo className="size-7 shrink-0" size="sm" />
+        <span className="font-semibold text-2xl text-foreground leading-none tracking-tight">
           Sora UI
         </span>
       </motion.div>

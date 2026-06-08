@@ -1,0 +1,121 @@
+---
+title: Text Scramble
+description: A text scramble reveal animation that decodes characters on mount or when re-triggered.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="text-scramble" />
+
+## Installation
+
+<ComponentInstallation name="text-scramble" />
+
+## Usage
+
+```tsx
+import { TextScramble } from '@/components/sora-ui/texts/text-scramble';
+
+export default function Page() {
+  return (
+    <TextScramble
+      as="h2"
+      className="font-mono text-2xl font-bold uppercase tracking-widest"
+    >
+      Sora UI
+    </TextScramble>
+  );
+}
+```
+
+Re-run the animation by toggling `trigger`:
+
+```tsx
+const [active, setActive] = useState(true);
+
+<TextScramble trigger={active}>Decode me</TextScramble>;
+```
+
+Run on hover instead of on mount (`trigger` is ignored automatically):
+
+```tsx
+<TextScramble triggerOnHover className="cursor-pointer">
+  Hover me
+</TextScramble>
+```
+
+Color sweep while decoding — scramble noise in one color, revealed letters keep your text color:
+
+```tsx
+<TextScramble
+  className="font-mono text-2xl font-bold text-foreground"
+  scrambleColor="#fb460d"
+  holdDuration={0.5}
+>
+  Sora UI
+</TextScramble>
+```
+
+`holdDuration` scrambles in place first; then the reveal sweeps left to right.
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Text to scramble.',
+      type: 'string',
+    },
+    as: {
+      description: 'HTML element rendered by Motion.',
+      type: 'ElementType',
+      default: '"p"',
+    },
+    scrambleColor: {
+      description:
+        'Color for characters still scrambling. Revealed characters use the root text color.',
+      type: 'string',
+    },
+    holdDuration: {
+      description:
+        'Seconds to scramble in place before the left-to-right reveal begins.',
+      type: 'number',
+      default: '0',
+    },
+    duration: {
+      description: 'Reveal sweep duration in seconds (after `holdDuration`).',
+      type: 'number',
+      default: '0.8',
+    },
+    speed: {
+      description: 'Interval between scramble frames, in seconds.',
+      type: 'number',
+      default: '0.04',
+    },
+    characterSet: {
+      description: 'Characters used while scrambling.',
+      type: 'string',
+    },
+    trigger: {
+      description:
+        'When true, runs the scramble on mount or when this value changes. Ignored while `triggerOnHover` is true.',
+      type: 'boolean',
+      default: 'true',
+    },
+    triggerOnHover: {
+      description:
+        'When true, runs the scramble on hover instead of on mount.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element.',
+      type: 'string',
+    },
+    onScrambleComplete: {
+      description: 'Callback fired when the scramble finishes.',
+      type: '() => void',
+    },
+  }}
+/>

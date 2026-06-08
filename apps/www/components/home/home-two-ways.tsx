@@ -2,9 +2,9 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import type { ReactNode } from "react";
+import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
 import { HomeShell } from "@/components/home/home-shell";
-import { SectionCta } from "@/components/home/section-cta-motion";
 
 const PRIMITIVE_COUNT = 9;
 
@@ -67,7 +67,7 @@ export function HomeTwoWays() {
                 source in your codebase.
               </p>
               <div className="mt-auto inline-flex pt-2">
-                <SectionCta
+                <SectionCtaScramble
                   href="/docs/primitives/text-reveal-blur"
                   label="Browse primitives"
                   variant="accent"
@@ -92,7 +92,7 @@ export function HomeTwoWays() {
                 customize. Built for React and Next.js.
               </p>
               <div className="mt-auto inline-flex pt-2">
-                <SectionCta
+                <SectionCtaScramble
                   href="/docs"
                   label="See what's coming"
                   variant="inverted"

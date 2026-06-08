@@ -5,6 +5,7 @@
   "root": true,
   "pages": [
     "---Texts---",
+    "text-scramble",
     "text-reveal-blur",
     "text-reveal-mask",
     "draw-underline-link",
