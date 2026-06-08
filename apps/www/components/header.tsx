@@ -1,13 +1,8 @@
 "use client";
 
 import XIcon from "@workspace/ui/components/icons/x-icon";
-import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
-import {
-  homeShellGutterClass,
-  homeShellMaxWidthClass,
-  homeShellOuterClass,
-} from "@/components/home/home-shell";
+import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
 import { ThemeSwitcher } from "./animate/theme-switcher";
 
@@ -25,47 +20,38 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
 
 export const Header = () => (
   <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 bg-background/80 backdrop-blur-md">
-    <div className={cn(homeShellOuterClass)}>
-      <div className={cn(homeShellGutterClass)}>
-        <div
-          className={cn(
-            homeShellMaxWidthClass,
-            "flex h-16 items-center justify-between"
-          )}
-        >
-          <motion.div className="flex items-center gap-2.5" layoutId="logo">
-            <IconLogo className="size-9 shrink-0" size="md" />
-            <span className="font-semibold text-foreground text-xl tracking-tight">
-              Sora UI
-            </span>
-          </motion.div>
+    <HomeShell contentClassName="flex h-16 items-center justify-between">
+      <motion.div className="flex items-center gap-2.5" layoutId="logo">
+        <IconLogo className="size-9 shrink-0" size="md" />
+        <span className="font-semibold text-foreground text-xl tracking-tight">
+          Sora UI
+        </span>
+      </motion.div>
 
-          <div className="flex items-center gap-x-4">
-            <div className="xs:flex hidden items-center gap-x-1">
-              <a
-                className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
-                data-active="false"
-                href="https://github.com/axyl1410/sora"
-                rel="noreferrer noopener"
-                target="_blank"
-              >
-                <GithubLogo className="size-6" />
-              </a>
-              <a
-                className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
-                data-active="false"
-                href="/"
-                rel="noreferrer noopener"
-                target="_blank"
-              >
-                <XIcon />
-              </a>
-            </div>
-
-            <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
-          </div>
+      <div className="flex items-center gap-x-4">
+        <div className="xs:flex hidden items-center gap-x-1">
+          <a
+            className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
+            data-active="false"
+            href="https://github.com/axyl1410/sora"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <GithubLogo className="size-6" />
+          </a>
+          <a
+            className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
+            data-active="false"
+            href="/"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <XIcon />
+          </a>
         </div>
+
+        <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
       </div>
-    </div>
+    </HomeShell>
   </header>
 );

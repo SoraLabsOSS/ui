@@ -1,11 +1,11 @@
 import { cn } from "@workspace/ui/lib/utils";
 import type { ElementType, ReactNode } from "react";
 
-/** Matches footer outer frame: dark gutter horizontal inset. */
-export const homeShellOuterClass = "px-5 lg:px-8";
+/** Extra inset on large screens — skipped on mobile so header/sections match hero width. */
+export const homeShellOuterClass = "lg:px-8";
 
-/** Gutter outside max-width — mirrors footer card horizontal padding. */
-export const homeShellGutterClass = "px-6 lg:px-12";
+/** Shared horizontal gutter — one inset on mobile (hero, header, sections). */
+export const homeShellGutterClass = "px-4 lg:px-12";
 
 export const homeShellMaxWidthClass = "mx-auto w-full max-w-7xl";
 
