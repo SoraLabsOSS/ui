@@ -7,7 +7,7 @@ import { type ReactNode, useEffect, useRef } from "react";
 import "lenis/dist/lenis.css";
 
 const HOME_SCROLL_CLASS =
-  "relative z-0 h-[calc(100dvh-var(--fd-banner-height,3rem))] overflow-x-hidden";
+  "relative z-0 h-[calc(100dvh-var(--fd-banner-height))] overflow-x-hidden";
 
 interface HomeLenisProps {
   children: ReactNode;

@@ -8,5 +8,13 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <>
+      <link
+        href="https://fonts.cdnfonts.com/css/sf-pro-display"
+        rel="stylesheet"
+      />
+      {children}
+    </>
+  );
 }

@@ -10,17 +10,19 @@ import { WhoItsFor } from "@/components/home/who-its-for";
 
 export default function HomePage() {
   return (
-    <HomeLenis>
+    <>
       <Header />
-      <div className="flex min-h-full w-full flex-col justify-between">
-        <div>
-          <HomeHeroFeatures />
-          <WhoItsFor />
-          <HomeTwoWays />
-          <HomeFaq />
+      <HomeLenis>
+        <div className="flex min-h-full w-full flex-col justify-between">
+          <div>
+            <HomeHeroFeatures />
+            <WhoItsFor />
+            <HomeTwoWays />
+            <HomeFaq />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </HomeLenis>
+      </HomeLenis>
+    </>
   );
 }

@@ -17,50 +17,17 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const LOGO_WRAPPER_VARIANTS = {
-  topLeft: {
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: "auto",
-    height: "auto",
-  },
-};
-
 export const Header = () => (
-  <motion.div
-    animate="topLeft"
-    className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-center"
-    initial="topLeft"
-    variants={LOGO_WRAPPER_VARIANTS}
-  >
-    <div className="relative size-full max-w-7xl">
-      <motion.div
-        animate={{
-          top: 32,
-        }}
-        className="pointer-events-auto absolute left-5 flex items-center gap-2.5"
-        layoutId="logo"
-      >
+  <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 bg-background/80 backdrop-blur-md">
+    <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
+      <motion.div className="flex items-center gap-2.5" layoutId="logo">
         <IconLogo className="size-9 shrink-0" size="md" />
         <span className="font-semibold text-foreground text-xl tracking-tight">
           Sora UI
         </span>
       </motion.div>
 
-      <motion.div
-        animate={{
-          top: 28,
-          right: 20,
-          opacity: 1,
-        }}
-        className="pointer-events-auto absolute flex items-center gap-x-4"
-        initial={{
-          top: 28,
-          right: 20,
-          opacity: 1,
-        }}
-      >
+      <div className="flex items-center gap-x-4">
         <div className="xs:flex hidden items-center gap-x-1">
           <a
             className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
@@ -83,7 +50,7 @@ export const Header = () => (
         </div>
 
         <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
-      </motion.div>
+      </div>
     </div>
-  </motion.div>
+  </header>
 );

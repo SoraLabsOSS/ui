@@ -255,6 +255,9 @@
 
   --font-sans: var(--font-sans);
 
+  --font-hero-display:
+    "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
   --radius-2xl: calc(var(--radius) * 1.8);
 
   --radius-3xl: calc(var(--radius) * 2.2);
@@ -318,8 +321,8 @@
   /* Shared layout width so nav, sidebar, and content use the same centering offset */
   :root {
     --fd-layout-width: min(100vw, 1670px);
-    /* Beta banner in root layout; keeps fixed nav/sidebar below banner on first paint */
-    --fd-banner-height: 3rem;
+    /* Banner component sets this when open; 0 when dismissed */
+    --fd-banner-height: 0px;
   }
 
   /* Balance left (sidebar + offset) and right (offset) gutters when banner shifts layout down */

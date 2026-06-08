@@ -3,6 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { X } from "lucide-react";
 import { type HTMLAttributes, useEffect, useState } from "react";
+import { getBannerDismissClass } from "@/lib/banner-config";
 import { buttonVariants } from "./ui/button";
 
 type BannerVariant = "rainbow" | "normal";
@@ -43,18 +44,27 @@ export function Banner({
   changeLayout?: boolean;
 }) {
   const [open, setOpen] = useState(true);
-  const globalKey = id ? `nd-banner-${encodeBase32(id)}` : null;
+  const globalKey = id ? getBannerDismissClass(id) : null;
 
   useEffect(() => {
-    if (globalKey && localStorage.getItem(globalKey) === "true") {
-      setOpen(false);
+    if (!globalKey) {
+      return;
     }
+
+    if (localStorage.getItem(globalKey) !== "true") {
+      return;
+    }
+
+    document.documentElement.classList.add(globalKey);
+    setOpen(false);
   }, [globalKey]);
 
   function onClose() {
     setOpen(false);
+
     if (globalKey) {
       localStorage.setItem(globalKey, "true");
+      document.documentElement.classList.add(globalKey);
     }
   }
 
@@ -70,7 +80,6 @@ export function Banner({
         "sticky top-0 z-50 flex shrink-0 flex-row items-center justify-center px-4 text-center font-medium text-sm",
         variant === "normal" && "bg-background",
         variant === "rainbow" && "bg-background",
-        !open && "hidden",
         props.className
       )}
       style={{
@@ -83,16 +92,6 @@ export function Banner({
             ? `:root:not(.${globalKey}) { --fd-banner-height: ${height}; }`
             : `:root { --fd-banner-height: ${height}; }`}
         </style>
-      ) : null}
-      {globalKey ? (
-        <style>{`.${globalKey} #${id} { display: none; }`}</style>
-      ) : null}
-      {globalKey ? (
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if (localStorage.getItem('${globalKey}') === 'true') document.documentElement.classList.add('${globalKey}');`,
-          }}
-        />
       ) : null}
 
       {variant === "rainbow"
@@ -147,28 +146,4 @@ function flow({ colors }: { colors: string[] }) {
       </style>
     </>
   );
-}
-
-function encodeBase32(str: string) {
-  const alphabet = "abcdefghijklmnopqrstuvwxyz234567";
-  let encoded = "";
-
-  let buffer = 0;
-  let bitsLeft = 0;
-
-  for (let i = 0; i < str.length; i++) {
-    buffer = (buffer << 8) | str.charCodeAt(i);
-    bitsLeft += 8;
-
-    while (bitsLeft >= 5) {
-      bitsLeft -= 5;
-      encoded += alphabet[(buffer >> bitsLeft) & 31];
-    }
-  }
-
-  if (bitsLeft > 0) {
-    encoded += alphabet[(buffer << (5 - bitsLeft)) & 31];
-  }
-
-  return encoded;
 }
