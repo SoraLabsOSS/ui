@@ -30,7 +30,7 @@
           "value": "font-mono text-2xl font-bold uppercase tracking-widest text-foreground"
         },
         "scrambleColor": {
-          "value": "#fb460d"
+          "value": ""
         },
         "holdDuration": {
           "value": 0.3,

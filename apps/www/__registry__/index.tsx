@@ -854,7 +854,7 @@ export const index: Record<string, any> = {
               value:
                 "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
             },
-            scrambleColor: { value: "#fb460d" },
+            scrambleColor: { value: "" },
             holdDuration: { value: 0.3, min: 0, max: 2, step: 0.1 },
             duration: { value: 0.3, min: 0.2, max: 3, step: 0.1 },
             speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
@@ -887,7 +887,7 @@ export const index: Record<string, any> = {
             value:
               "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
           },
-          scrambleColor: { value: "#fb460d" },
+          scrambleColor: { value: "" },
           holdDuration: { value: 0.3, min: 0, max: 2, step: 0.1 },
           duration: { value: 0.3, min: 0.2, max: 3, step: 0.1 },
           speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
@@ -1455,7 +1455,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/text-scramble.tsx",
         content:
-          '"use client";\n\nimport { TextScramble } from "@/components/sora-ui/texts/text-scramble";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={"Sora UI"}\n      as={"p"}\n      className={"font-mono text-2xl font-bold uppercase tracking-widest text-foreground"}\n      scrambleColor={"#fb460d"}\n      holdDuration={0.3}\n      duration={0.3}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n',
+          '"use client";\n\nimport { TextScramble } from "@/components/sora-ui/texts/text-scramble";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={"Sora UI"}\n      as={"p"}\n      className={"font-mono text-2xl font-bold uppercase tracking-widest text-foreground"}\n      scrambleColor={""}\n      holdDuration={0.3}\n      duration={0.3}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n',
       },
     ],
     keywords: [],
