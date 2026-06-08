@@ -1,0 +1,51 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-cta",
+  "type": "registry:ui",
+  "title": "Section CTA",
+  "description": "A chip-style call-to-action link with sliding label and rotating icon chips on hover.",
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/buttons/section-cta/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/buttons/section-cta.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "SectionCta": {
+        "label": {
+          "value": "Explore components"
+        },
+        "variant": {
+          "value": "accent",
+          "options": {
+            "Accent": "accent",
+            "Inverted": "inverted",
+            "Outline": "outline",
+            "Ghost": "ghost"
+          }
+        },
+        "size": {
+          "value": "default",
+          "options": {
+            "Small": "sm",
+            "Default": "default",
+            "Large": "lg"
+          }
+        },
+        "duration": {
+          "value": 0.7,
+          "min": 0.2,
+          "max": 2,
+          "step": 0.1
+        },
+        "href": {
+          "value": "#"
+        }
+      }
+    }
+  }
+}

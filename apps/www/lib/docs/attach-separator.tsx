@@ -7,6 +7,7 @@ import RadixIcon from "@workspace/ui/components/icons/radix-icon";
 import type { BuildPageTreeOptions } from "fumadocs-core/source";
 import {
   Code,
+  ListCollapse,
   RectangleHorizontalIcon,
   SparklesIcon,
   SquareMenu,
@@ -69,6 +70,14 @@ export const attachSeparator: BuildPageTreeOptions["attachSeparator"] = (
     case "Backgrounds":
       node.name = (
         <Separator icon={<ImageIcon strokeWidth={5} />} name="Backgrounds" />
+      );
+      break;
+    case "Disclosure":
+      node.name = (
+        <Separator
+          icon={<ListCollapse strokeWidth={2.5} />}
+          name="Disclosure"
+        />
       );
       break;
     case "Buttons":

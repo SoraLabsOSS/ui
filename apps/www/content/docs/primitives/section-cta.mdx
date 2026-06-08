@@ -1,0 +1,172 @@
+---
+title: Section CTA
+description: A chip-style call-to-action link with sliding label and rotating icon chips on hover.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="section-cta" />
+
+## Installation
+
+<ComponentInstallation name="section-cta" />
+
+## Usage
+
+```tsx
+import { SectionCta } from '@/components/sora-ui/buttons/section-cta';
+
+export default function Page() {
+  return (
+    <>
+      <SectionCta href="/docs" label="Explore components" />
+
+      <SectionCta variant="inverted" href="/docs" label="View docs" />
+
+      <SectionCta
+        asChild
+        variant="outline"
+        duration={0.5}
+        labelOffset={-32}
+        labelOffsetLg={-40}
+      >
+        <a href="/pricing">Custom anchor</a>
+      </SectionCta>
+    </>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    asChild: {
+      description:
+        'Merge animation into a single child element (`a`, `Link`, etc.).',
+      type: 'boolean',
+      default: 'false',
+    },
+    children: {
+      description:
+        'Plain-text label when `asChild` is false. With `asChild`, pass one React element — its string child or `label` provides the text.',
+      type: 'string | ReactElement',
+    },
+    label: {
+      description:
+        'Alternative text source for demos, controlled previews, or `asChild` when the child has no string content.',
+      type: 'string',
+    },
+    variant: {
+      description: 'Chip color preset for the label and icon chips.',
+      type: '"accent" | "inverted" | "outline" | "ghost"',
+      default: '"accent"',
+    },
+    size: {
+      description: 'Typography and chip dimensions.',
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+    },
+    duration: {
+      description: 'Animation duration in seconds.',
+      type: 'number',
+      default: '0.7',
+    },
+    ease: {
+      description: 'Cubic-bezier easing tuple passed to Motion.',
+      type: '[number, number, number, number]',
+      default: '[0.77, 0, 0.175, 1]',
+    },
+    labelOffset: {
+      description:
+        'Label x-offset at rest on smaller breakpoints. Defaults per `size` when omitted.',
+      type: 'number',
+    },
+    labelOffsetLg: {
+      description:
+        'Label x-offset at rest on `lg` breakpoint and up. Defaults per `size` when omitted.',
+      type: 'number',
+    },
+    startChipRestRotate: {
+      description: 'Leading chip rotation at rest, in degrees.',
+      type: 'number',
+      default: '-45',
+    },
+    startChipActiveRotate: {
+      description: 'Leading chip rotation on hover/focus, in degrees.',
+      type: 'number',
+      default: '0',
+    },
+    endChipRestRotate: {
+      description: 'Trailing chip rotation at rest, in degrees.',
+      type: 'number',
+      default: '0',
+    },
+    endChipActiveRotate: {
+      description: 'Trailing chip rotation on hover/focus, in degrees.',
+      type: 'number',
+      default: '-45',
+    },
+    startChipRestScale: {
+      description: 'Leading chip scale at rest.',
+      type: 'number',
+      default: '0',
+    },
+    startChipActiveScale: {
+      description: 'Leading chip scale on hover/focus.',
+      type: 'number',
+      default: '1',
+    },
+    endChipRestScale: {
+      description: 'Trailing chip scale at rest.',
+      type: 'number',
+      default: '1',
+    },
+    endChipActiveScale: {
+      description: 'Trailing chip scale on hover/focus.',
+      type: 'number',
+      default: '0',
+    },
+    icon: {
+      description: 'Custom icon rendered in both chips when `startIcon` / `endIcon` are not set.',
+      type: 'ReactNode',
+    },
+    startIcon: {
+      description: 'Custom icon for the leading chip only.',
+      type: 'ReactNode',
+    },
+    endIcon: {
+      description: 'Custom icon for the trailing chip only.',
+      type: 'ReactNode',
+    },
+    className: {
+      description: 'Additional class names merged onto the root anchor.',
+      type: 'string',
+    },
+    groupClassName: {
+      description: 'Override the inner motion group wrapper.',
+      type: 'string',
+    },
+    chipClassName: {
+      description: 'Class names merged onto all three chips.',
+      type: 'string',
+    },
+    labelClassName: {
+      description: 'Override the label chip only.',
+      type: 'string',
+    },
+    startChipClassName: {
+      description: 'Override the leading chip only.',
+      type: 'string',
+    },
+    endChipClassName: {
+      description: 'Override the trailing chip only.',
+      type: 'string',
+    },
+    iconClassName: {
+      description: 'Class names merged onto the default plus icons.',
+      type: 'string',
+    },
+  }}
+/>
