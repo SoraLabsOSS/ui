@@ -19,6 +19,10 @@ export const SECTION_CTA_SCRAMBLE_DEFAULTS = {
   scrambleSpeed: 0.03,
 } as const;
 
+/** Code-like glyph pool for scramble frames (alnum + operators / brackets). */
+export const SECTION_CTA_SCRAMBLE_CHARS =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>{}[]();:=+-*/%&|^~!?#@$_.,";
+
 const SCRAMBLE_VARIANT_THEME = {
   accent: {
     textClassName: "text-neutral-950",
@@ -42,6 +46,8 @@ const SCRAMBLE_VARIANT_THEME = {
 >;
 
 interface ScrambleTimingProps {
+  /** Pool of glyphs used while scrambling. @default SECTION_CTA_SCRAMBLE_CHARS */
+  characterSet?: string;
   /** Color for characters still scrambling. Defaults per variant. */
   scrambleColor?: string;
   /** TextScramble animation duration in seconds. */
@@ -52,14 +58,21 @@ interface ScrambleTimingProps {
   scrambleSpeed?: number;
 }
 
+function resolveVariant(
+  variant: SectionCtaVariant | null | undefined
+): SectionCtaVariant {
+  return variant ?? "accent";
+}
+
 type SectionCtaScrambleBaseProps = ScrambleTimingProps & {
   label: string;
-  variant?: SectionCtaVariant;
+  variant?: SectionCtaVariant | null;
 };
 
 function useScrambleInteraction({
   label,
   variant = "accent",
+  characterSet = SECTION_CTA_SCRAMBLE_CHARS,
   scrambleColor,
   scrambleDuration = SECTION_CTA_SCRAMBLE_DEFAULTS.scrambleDuration,
   scrambleSpeed = SECTION_CTA_SCRAMBLE_DEFAULTS.scrambleSpeed,
@@ -75,7 +88,7 @@ function useScrambleInteraction({
   onMouseLeave?: (event: MouseEvent<HTMLElement>) => void;
 }) {
   const [isActive, setIsActive] = useState(false);
-  const theme = SCRAMBLE_VARIANT_THEME[variant ?? "accent"];
+  const theme = SCRAMBLE_VARIANT_THEME[resolveVariant(variant)];
 
   const interactionHandlers = {
     onBlur: (event: FocusEvent<HTMLElement>) => {
@@ -99,6 +112,7 @@ function useScrambleInteraction({
   const labelSlot = (
     <TextScramble
       as="span"
+      characterSet={characterSet}
       className={theme.textClassName}
       duration={scrambleDuration}
       holdDuration={scrambleHoldDuration}
@@ -116,15 +130,17 @@ function useScrambleInteraction({
 
 export type SectionCtaScrambleProps = Omit<
   SectionCtaProps,
-  "asChild" | "children" | "labelSlot"
+  "asChild" | "children" | "labelSlot" | "variant"
 > &
   ScrambleTimingProps & {
     label: string;
+    variant?: SectionCtaVariant;
   };
 
 export function SectionCtaScramble({
   label,
   variant = "accent",
+  characterSet,
   scrambleColor,
   scrambleDuration,
   scrambleSpeed,
@@ -138,6 +154,7 @@ export function SectionCtaScramble({
   const { interactionHandlers, labelSlot } = useScrambleInteraction({
     label,
     variant,
+    characterSet,
     scrambleColor,
     scrambleDuration,
     scrambleSpeed,
@@ -161,16 +178,18 @@ export function SectionCtaScramble({
 
 export type SectionCtaScrambleButtonProps = Omit<
   SectionCtaProps,
-  "asChild" | "children" | "href" | "labelSlot"
+  "asChild" | "children" | "href" | "labelSlot" | "variant"
 > &
   ScrambleTimingProps &
   ComponentPropsWithoutRef<"button"> & {
     label: string;
+    variant?: SectionCtaVariant;
   };
 
 export function SectionCtaScrambleButton({
   label,
   variant = "accent",
+  characterSet,
   scrambleColor,
   scrambleDuration,
   scrambleSpeed,
@@ -185,14 +204,15 @@ export function SectionCtaScrambleButton({
   const { interactionHandlers, labelSlot } = useScrambleInteraction({
     label,
     variant,
+    characterSet,
     scrambleColor,
     scrambleDuration,
     scrambleSpeed,
     scrambleHoldDuration,
-    onBlur,
-    onFocus,
-    onMouseEnter,
-    onMouseLeave,
+    onBlur: onBlur as (event: FocusEvent<HTMLElement>) => void,
+    onFocus: onFocus as (event: FocusEvent<HTMLElement>) => void,
+    onMouseEnter: onMouseEnter as (event: MouseEvent<HTMLElement>) => void,
+    onMouseLeave: onMouseLeave as (event: MouseEvent<HTMLElement>) => void,
   });
 
   return (
