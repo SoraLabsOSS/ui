@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-import "./sf-pro-display.css";
-
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
@@ -10,5 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <div className="sf-pro-display min-h-full antialiased">{children}</div>
+  );
 }

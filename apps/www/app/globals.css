@@ -14,6 +14,7 @@
 @import "fumadocs-ui/css/black.css";
 @import "fumadocs-ui/css/preset.css";
 @import "shadcn/tailwind.css";
+@import "./sf-pro-display.css";
 
 @source "../node_modules/fumadocs-ui/dist/**/*.js";
 
@@ -255,7 +256,8 @@
   --font-sans: var(--font-sans);
 
   --font-hero-display:
-    "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    var(--font-sf-pro-display), system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
 
   --radius-2xl: calc(var(--radius) * 1.8);
 
