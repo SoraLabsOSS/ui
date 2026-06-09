@@ -348,6 +348,12 @@
     max-width: min(100%, var(--fd-layout-width)) !important;
   }
 
+  /* Docs nav: progressive blur on a stable fixed layer (avoids Fumadocs bg/backdrop shift on scroll) */
+  #nd-subnav {
+    transform: translateZ(0);
+    @apply isolate;
+  }
+
   #nd-page article {
     @apply !pt-23 max-2xl:max-w-[860px] 2xl:!max-w-[1124px];
   }
@@ -369,7 +375,7 @@
       var(--fd-banner-height) -
       var(--fd-nav-height)
     ) !important;
-    @apply sticky self-start pt-8 pb-2 max-xl:hidden;
+    @apply sticky self-start pt-6! pb-2 max-xl:hidden;
   }
 
   #nd-tocnav {

@@ -2,6 +2,7 @@
 
 import { useSession } from "@better-auth-ui/react";
 import { UserButton } from "@workspace/ui/components/auth/user/user-button";
+import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import {
   MotionNavigationMenu,
   MotionNavigationMenuItem,
@@ -106,8 +107,15 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
   const showAuthNav = sessionPending || Boolean(session);
 
   return (
-    <Navbar className="z-30 border-b-0 bg-background px-(--fd-layout-offset) md:h-17">
-      <div className="mx-auto flex h-14 w-full max-w-(--fd-layout-width) items-center gap-3 px-3 md:h-17 md:px-5">
+    <Navbar className="!bg-transparent !shadow-none !backdrop-blur-none z-30 h-14 overflow-visible border-b-0 px-(--fd-layout-offset) transition-none md:h-17">
+      <ProgressiveBlur
+        backgroundColor="var(--background)"
+        blurAmount="12px"
+        height="140%"
+        // maskFadeStart="45%"
+        position="top"
+      />
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-(--fd-layout-width) items-center gap-3 px-3 md:px-5">
         <Link
           className={buttonVariants({
             color: "ghost",

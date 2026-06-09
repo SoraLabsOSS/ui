@@ -23,9 +23,8 @@ export const Header = () => (
   <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible">
     <ProgressiveBlur
       backgroundColor="var(--background)"
-      // blurAmount="8px"
-      // height="calc(4rem + 2.5rem)"
-      // maskFadeStart="35%"
+      height="calc(4rem + 1rem)"
+      maskFadeStart="40%"
       position="top"
     />
     <HomeShell contentClassName="relative z-10 flex h-16 items-center justify-between">
