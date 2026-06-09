@@ -91,6 +91,8 @@ export function GoogleOneTap() {
     authClient
       .oneTap({
         callbackURL,
+        // Plugin config ignores this — must pass per call (Better Auth reads `opts` only).
+        cancelOnTapOutside: false,
         fetchOptions: {
           onRequest: () => {
             setIsPending(true);

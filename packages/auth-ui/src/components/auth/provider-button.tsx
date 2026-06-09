@@ -8,11 +8,17 @@ import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to
 import { Button } from "@workspace/ui/components/ui/button";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import type { SocialProvider } from "better-auth/social-providers";
+import Image from "next/image";
 import type { ComponentProps } from "react";
+
+const PROVIDER_LOGO: Partial<Record<SocialProvider, string>> = {
+  google: "https://www.google.com/favicon.ico",
+};
 
 export type ProviderButtonProps = {
   provider: SocialProvider;
   display?: "full" | "name" | "icon";
+  showProviderLogo?: boolean;
 } & Omit<ComponentProps<typeof Button>, "onClick" | "children" | "disabled">;
 
 /**
@@ -24,6 +30,7 @@ export type ProviderButtonProps = {
 export function ProviderButton({
   provider,
   display = "full",
+  showProviderLogo = false,
   variant = "outline",
   ...props
 }: ProviderButtonProps) {
@@ -37,6 +44,7 @@ export function ProviderButton({
     useSignInSocial(authClient);
 
   const ProviderIcon = providerIcons[provider];
+  const providerLogo = PROVIDER_LOGO[provider];
 
   const signInMutating = useIsMutating({
     mutationKey: authMutationKeys.signIn.all,
@@ -45,6 +53,38 @@ export function ProviderButton({
     mutationKey: authMutationKeys.signUp.all,
   });
   const isPending = signInMutating + signUpMutating > 0 || isOneTapPending;
+
+  const renderIcon = () => {
+    if (signInSocialPending || isOneTapPending) {
+      return <Spinner />;
+    }
+
+    if (showProviderLogo && providerLogo) {
+      return (
+        <Image
+          alt={`${getProviderName(provider)} logo`}
+          className="size-4 shrink-0"
+          height={20}
+          src={providerLogo}
+          unoptimized
+          width={20}
+        />
+      );
+    }
+
+    return <ProviderIcon />;
+  };
+
+  let label: string | null = null;
+
+  if (display === "full") {
+    label = localization.auth.continueWith.replace(
+      "{{provider}}",
+      getProviderName(provider)
+    );
+  } else if (display === "name") {
+    label = getProviderName(provider);
+  }
 
   return (
     <Button
@@ -55,16 +95,9 @@ export function ProviderButton({
       {...props}
       aria-label={getProviderName(provider)}
     >
-      {signInSocialPending || isOneTapPending ? <Spinner /> : <ProviderIcon />}
+      {renderIcon()}
 
-      {display === "full"
-        ? localization.auth.continueWith.replace(
-            "{{provider}}",
-            getProviderName(provider)
-          )
-        : display === "name"
-          ? getProviderName(provider)
-          : null}
+      {label}
     </Button>
   );
 }

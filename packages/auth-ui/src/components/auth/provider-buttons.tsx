@@ -1,13 +1,18 @@
 "use client";
 
 import { useAuth } from "@better-auth-ui/react";
+import type { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
+import type { ComponentProps } from "react";
 import { useMemo } from "react";
 import { ProviderButton } from "./provider-button";
 
-export type ProviderButtonsProps = {
+export interface ProviderButtonsProps {
+  buttonClassName?: string;
+  buttonVariant?: ComponentProps<typeof Button>["variant"];
+  showProviderLogo?: boolean;
   socialLayout?: SocialLayout;
-};
+}
 
 export type SocialLayout = "auto" | "horizontal" | "vertical" | "grid";
 
@@ -19,6 +24,9 @@ export type SocialLayout = "auto" | "horizontal" | "vertical" | "grid";
  */
 export function ProviderButtons({
   socialLayout = "auto",
+  buttonVariant,
+  buttonClassName,
+  showProviderLogo = false,
 }: ProviderButtonsProps) {
   const { socialProviders } = useAuth();
 
@@ -45,7 +53,10 @@ export function ProviderButtons({
     >
       {socialProviders?.map((provider) => (
         <ProviderButton
-          className={cn(resolvedSocialLayout === "horizontal" && "flex-1")}
+          className={cn(
+            resolvedSocialLayout === "horizontal" && "flex-1",
+            buttonClassName
+          )}
           display={
             resolvedSocialLayout === "vertical"
               ? "full"
@@ -55,6 +66,8 @@ export function ProviderButtons({
           }
           key={provider}
           provider={provider}
+          showProviderLogo={showProviderLogo}
+          variant={buttonVariant}
         />
       ))}
     </div>

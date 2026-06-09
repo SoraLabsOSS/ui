@@ -3,6 +3,7 @@ import { Auth } from "@workspace/auth-ui/components/auth/auth";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
 import { auth } from "@/lib/auth";
 import AuthLoading from "./loading";
@@ -33,11 +34,23 @@ async function AuthPageContent({
     }
   }
 
+  const isSignIn = path === "sign-in";
+
   return (
-    <div className="my-auto flex justify-center p-4 md:p-6">
-      {path === "sign-in" ? <GoogleOneTap /> : null}
-      <Auth path={path} />
-    </div>
+    <AuthPageShell>
+      {isSignIn ? <GoogleOneTap /> : null}
+      <Auth
+        description={
+          isSignIn
+            ? "Sign in below to access your account and saved components."
+            : undefined
+        }
+        path={path}
+        socialPosition={isSignIn ? "top" : undefined}
+        title={isSignIn ? "Welcome to Sora UI" : undefined}
+        variant={isSignIn ? "page" : "card"}
+      />
+    </AuthPageShell>
   );
 }
 

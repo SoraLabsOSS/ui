@@ -2,23 +2,26 @@
 
 import type { AuthView } from "@better-auth-ui/core";
 import { useAuth } from "@better-auth-ui/react";
-import { type ComponentType, useEffect } from "react";
+import { type ComponentType, type ReactNode, useEffect } from "react";
 
 import { ForgotPassword } from "./forgot-password";
 import type { SocialLayout } from "./provider-buttons";
 import { ResetPassword } from "./reset-password";
-import { SignIn } from "./sign-in";
+import { SignIn, type SignInVariant } from "./sign-in";
 import { SignOut } from "./sign-out";
 import { SignUp } from "./sign-up";
 
-export type AuthProps = {
+export interface AuthProps {
   className?: string;
+  description?: ReactNode;
   path?: string;
   socialLayout?: SocialLayout;
   socialPosition?: "top" | "bottom";
+  title?: ReactNode;
+  variant?: SignInVariant;
   /** @remarks `AuthView` */
   view?: AuthView;
-};
+}
 
 /**
  * Built-in views that only make sense when email + password auth is enabled.
@@ -51,9 +54,12 @@ const AUTH_VIEWS: Partial<Record<AuthView, ComponentType<AuthProps>>> = {
  */
 export function Auth({
   className,
+  description,
   path,
   socialLayout,
   socialPosition,
+  title,
+  variant,
   view,
 }: AuthProps) {
   const { basePaths, emailAndPassword, plugins, viewPaths, navigate } =
@@ -155,8 +161,11 @@ export function Auth({
   return (
     <AuthView
       className={className}
+      description={description}
       socialLayout={socialLayout}
       socialPosition={socialPosition}
+      title={title}
+      variant={variant}
     />
   );
 }
