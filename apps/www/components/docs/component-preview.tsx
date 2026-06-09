@@ -229,26 +229,30 @@ export function ComponentPreview({
             initial={{ opacity: 0 }}
             value="preview"
           >
-            <ComponentWrapper
-              bigScreen={bigScreen}
-              iframe={iframe}
-              name={name}
-              previewKey={previewKey}
-              tweakpane={
-                binds && <Tweakpane binds={binds} onBindsChange={setBinds} />
-              }
-            >
-              <Suspense
-                fallback={
-                  <div className="flex items-center text-muted-foreground text-sm">
-                    <Loader className="mr-2 size-4 animate-spin" />
-                    Loading...
-                  </div>
-                }
+            <div className="flex flex-col gap-3">
+              <ComponentWrapper
+                bigScreen={bigScreen}
+                iframe={iframe}
+                name={name}
+                previewKey={previewKey}
               >
-                {preview}
-              </Suspense>
-            </ComponentWrapper>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center text-muted-foreground text-sm">
+                      <Loader className="mr-2 size-4 animate-spin" />
+                      Loading...
+                    </div>
+                  }
+                >
+                  {preview}
+                </Suspense>
+              </ComponentWrapper>
+              {binds ? (
+                <div className="rounded-xl bg-accent px-1.5 py-2">
+                  <Tweakpane binds={binds} onBindsChange={setBinds} />
+                </div>
+              ) : null}
+            </div>
           </TabsContent>
           <TabsContent
             animate={{ opacity: 1 }}
