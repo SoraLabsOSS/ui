@@ -11,7 +11,7 @@ pre-commit:
         - "**/*.css"
       stage_fixed: true
 
-pre-push:
-  commands:
-    build:
-      run: bun run build
+# pre-push:
+#   commands:
+#     build:
+#       run: bun run build

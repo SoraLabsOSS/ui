@@ -1,8 +1,10 @@
 import { viewPaths } from "@better-auth-ui/core";
 import { Auth } from "@workspace/auth-ui/components/auth/auth";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
+import { auth } from "@/lib/auth";
 import AuthLoading from "./loading";
 
 export function generateStaticParams() {
@@ -20,6 +22,15 @@ async function AuthPageContent({
 
   if (!Object.values(viewPaths.auth).includes(path)) {
     notFound();
+  }
+
+  if (path === "sign-in") {
+    const requestHeaders = await headers();
+    const session = await auth.api.getSession({ headers: requestHeaders });
+
+    if (session?.user) {
+      await auth.api.signOut({ headers: requestHeaders });
+    }
   }
 
   return (

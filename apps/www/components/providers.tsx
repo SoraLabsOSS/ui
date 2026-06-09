@@ -2,6 +2,7 @@
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@workspace/auth-ui/components/auth/auth-provider";
+import { GoogleOneTapPendingProvider } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
 import Link from "next/link";
@@ -32,9 +33,11 @@ export function Providers({ children }: { children: ReactNode }) {
         plugins={[deleteUserPlugin()]}
         socialProviders={["google"]}
       >
-        {children}
+        <GoogleOneTapPendingProvider>
+          {children}
 
-        <Toaster />
+          <Toaster />
+        </GoogleOneTapPendingProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

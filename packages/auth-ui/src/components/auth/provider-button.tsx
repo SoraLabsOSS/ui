@@ -3,6 +3,7 @@
 import { authMutationKeys, getProviderName } from "@better-auth-ui/core";
 import { providerIcons, useAuth, useSignInSocial } from "@better-auth-ui/react";
 import { useIsMutating } from "@tanstack/react-query";
+import { useGoogleOneTapPending } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
@@ -28,6 +29,7 @@ export function ProviderButton({
 }: ProviderButtonProps) {
   const { authClient, baseURL, localization } = useAuth();
   const redirectTo = useAuthRedirectTo();
+  const isOneTapPending = useGoogleOneTapPending();
 
   const callbackURL = `${baseURL}${redirectTo}`;
 
@@ -42,7 +44,7 @@ export function ProviderButton({
   const signUpMutating = useIsMutating({
     mutationKey: authMutationKeys.signUp.all,
   });
-  const isPending = signInMutating + signUpMutating > 0;
+  const isPending = signInMutating + signUpMutating > 0 || isOneTapPending;
 
   return (
     <Button
@@ -53,7 +55,7 @@ export function ProviderButton({
       {...props}
       aria-label={getProviderName(provider)}
     >
-      {signInSocialPending ? <Spinner /> : <ProviderIcon />}
+      {signInSocialPending || isOneTapPending ? <Spinner /> : <ProviderIcon />}
 
       {display === "full"
         ? localization.auth.continueWith.replace(

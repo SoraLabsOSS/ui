@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@better-auth-ui/react";
+import { useGoogleOneTapPendingControls } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -19,6 +20,7 @@ export function GoogleOneTap() {
   const router = useRouter();
   const { baseURL, navigate } = useAuth();
   const redirectTo = useAuthRedirectTo();
+  const { setIsPending } = useGoogleOneTapPendingControls();
 
   useEffect(() => {
     const callbackURL = `${baseURL}${redirectTo}`;
@@ -27,17 +29,23 @@ export function GoogleOneTap() {
       .oneTap({
         callbackURL,
         fetchOptions: {
+          onRequest: () => {
+            setIsPending(true);
+          },
           onSuccess: () => {
-            navigate({ to: redirectTo || "/", replace: true });
+            setIsPending(false);
+            navigate({ to: redirectTo, replace: true });
             router.refresh();
+          },
+          onError: () => {
+            setIsPending(false);
           },
         },
       })
       .catch(() => {
-        // One Tap may be dismissed, blocked, or unavailable — sign-in form remains.
-        console.error("One Tap error");
+        setIsPending(false);
       });
-  }, [baseURL, navigate, redirectTo, router]);
+  }, [baseURL, navigate, redirectTo, router, setIsPending]);
 
   return null;
 }
