@@ -433,6 +433,22 @@
   opacity: 0 !important;
 }
 
+/*
+ * Google One Tap (#credential_picker_container is injected on <body>).
+ * Light theme: no color-scheme override needed.
+ * Dark theme: iframe canvas can show opaque white padding — force light
+ * color-scheme on the container only (not the whole page). See MDN color-scheme.
+ */
+#credential_picker_container,
+#credential_picker_container iframe {
+  background: transparent !important;
+}
+
+html.dark #credential_picker_container,
+html.dark #credential_picker_container iframe {
+  color-scheme: light;
+}
+
 /* Mobile drawer: above banner (z-50). Unlayered + !important beats Fumadocs z-40 utilities. */
 @media (max-width: 767px) {
   body:has(#nd-sidebar-mobile[data-state="open"])
