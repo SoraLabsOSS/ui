@@ -62,14 +62,14 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: "Sora UI",
-    // images: [
-    //   {
-    //     url: "https://ui.soralabs.io.vn/og-image.png",
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "Sora UI",
-    //   },
-    // ],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sora UI",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },
@@ -78,14 +78,14 @@ export const metadata: Metadata = {
     site: "@soralabs_io",
     title: "Sora UI",
     description: SITE_DESCRIPTION,
-    // images: [
-    //   {
-    //     url: "https://ui.soralabs.io.vn/og-image.png",
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "Sora UI",
-    //   },
-    // ],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sora UI",
+      },
+    ],
   },
 };
 
