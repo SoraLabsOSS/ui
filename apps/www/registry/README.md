@@ -85,6 +85,38 @@ registry/demo/primitives/texts/text-reveal-mask/
 | `content/docs/primitives/text-reveal-blur.mdx` | `<ComponentPreview name="text-reveal-blur" />` |
 | `content/docs/primitives/meta.json` | Sidebar (`root: true`, `pages`) |
 
+## Inspiration attribution
+
+When a component borrows from an external motion library or site, document it in **two places**:
+
+1. **`meta.inspiration`** on the primitive `registry-item.json`
+2. A **`## Credits`** section at the bottom of the component MDX page (after Props), using `<ComponentCredits name="<name>" />`
+
+Use one of two `type` values — copy is generated automatically:
+
+| Situation | `meta.inspiration.type` | Rendered text |
+|-----------|-------------------------|---------------|
+| UX / animation idea only | `"inspired"` | Inspired by [Source](url). |
+| Full rewrite in Motion + React | `"reimplemented"` | Inspired by [Source](url). Reimplemented for Motion and React. |
+
+```mdx
+## Credits
+
+<ComponentCredits name="text-reveal-mask" />
+```
+
+```json
+"meta": {
+  "inspiration": {
+    "type": "reimplemented",
+    "label": "Annnimate",
+    "url": "https://www.annnimate.com"
+  }
+}
+```
+
+Skip `inspiration` for components that are fully original.
+
 ## Commands
 
 ```bash

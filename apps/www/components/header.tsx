@@ -1,6 +1,7 @@
 "use client";
 
 import XIcon from "@workspace/ui/components/icons/x-icon";
+import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { motion } from "motion/react";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
@@ -19,11 +20,21 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export const Header = () => (
-  <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 bg-background/80 backdrop-blur-md">
-    <HomeShell contentClassName="flex h-16 items-center justify-between">
-      <motion.div className="flex h-7 items-center gap-2" layoutId="logo">
-        <IconLogo className="size-7 shrink-0" size="sm" />
-        <span className="font-semibold text-2xl text-foreground leading-none tracking-tight">
+  <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible">
+    <ProgressiveBlur
+      backgroundColor="var(--background)"
+      // blurAmount="8px"
+      // height="calc(4rem + 2.5rem)"
+      // maskFadeStart="35%"
+      position="top"
+    />
+    <HomeShell contentClassName="relative z-10 flex h-16 items-center justify-between">
+      <motion.div
+        className="flex h-6 items-center gap-1.5 sm:h-7 sm:gap-2"
+        layoutId="logo"
+      >
+        <IconLogo className="size-6 shrink-0 sm:size-7" size="sm" />
+        <span className="font-semibold text-foreground text-xl leading-none tracking-tight sm:text-2xl">
           Sora UI
         </span>
       </motion.div>

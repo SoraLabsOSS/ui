@@ -19,6 +19,7 @@ export const index: Record<string, any> = {
     registryDependencies: ["utils"],
     files: [],
     keywords: [],
+    inspiration: null,
     component: null,
     command: "@soralabs/index",
   },
@@ -39,6 +40,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -84,6 +86,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -143,6 +146,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -188,6 +192,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -257,6 +262,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -321,6 +327,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "Annnimate",
+      url: "https://www.annnimate.com",
+    },
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -402,6 +413,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Annnimate",
+      url: "https://www.annnimate.com",
+    },
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -448,6 +464,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -494,6 +511,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -540,6 +558,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -610,6 +629,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Osmo",
+      url: "https://osmo.supply",
+    },
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -672,10 +696,11 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/texts/text-reveal-blur.tsx",
         content:
-          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: These are static content and the indices are stable. */\n\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { motion, type UseInViewOptions, useInView } from "motion/react";\nimport { type ElementType, useMemo, useRef } from "react";\n\nexport interface BlurTextRevealProps {\n  /**\n   * HTML tag for the container element.\n   * @default "p"\n   */\n  as?: keyof React.JSX.IntrinsicElements;\n  /**\n   * Blur amount in pixels for the hidden state.\n   * @default 4\n   */\n  blur?: number;\n  className?: string;\n  /**\n   * Delay before the first unit starts animating, in seconds.\n   * @default 0.5\n   */\n  delay?: number;\n  /**\n   * Duration of each unit\'s animation in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Trigger the animation only once.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Split mode: word-by-word or character-by-character.\n   * @default "words"\n   */\n  splitBy?: "words" | "characters";\n  /**\n   * Delay between each successive unit in seconds.\n   * @default 0.05\n   */\n  staggerDelay?: number;\n  /** The text to animate. */\n  text?: string;\n  /**\n   * Additional className applied to each animated span.\n   */\n  unitClassName?: string;\n  /**\n   * Viewport margin that controls when the animation triggers.\n   * @default "0px 0px -10% 0px"\n   */\n  viewportMargin?: UseInViewOptions["margin"];\n  /**\n   * Initial vertical offset in pixels.\n   * @default 0\n   */\n  yOffset?: number;\n}\n\nconst WHITESPACE_RE = /\\s+/;\n\nexport function BlurTextReveal({\n  text = "",\n  as: Tag = "p",\n  splitBy = "words",\n  staggerDelay = 0.05,\n  delay = 0.5,\n  duration = 0.5,\n  once = true,\n  blur = 4,\n  yOffset = 0,\n  viewportMargin = "0px 0px -10% 0px",\n  className,\n  unitClassName,\n}: BlurTextRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const isInView = useInView(ref, { once, margin: viewportMargin });\n\n  const words = useMemo(() => text.split(WHITESPACE_RE), [text]);\n\n  // Pre-calculate character structures and global stagger indices to prevent mid-word wrapping\n  const parsedWords = useMemo(() => {\n    let charCount = 0;\n    return words.map((word) => {\n      const chars = word.split("").map((char) => {\n        const globalIndex = charCount;\n        charCount++;\n        return { char, globalIndex };\n      });\n      return { word, chars };\n    });\n  }, [words]);\n\n  const hiddenState = useMemo(\n    () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),\n    [blur, yOffset]\n  );\n\n  const visibleState = { opacity: 1, y: 0, filter: "blur(0px)" };\n\n  const Component = Tag as ElementType;\n\n  return (\n    <Component\n      aria-label={text}\n      className={cn("leading-relaxed", className)}\n      ref={ref}\n    >\n      {splitBy === "words"\n        ? words.map((word, i) => (\n            <span className="inline-block" key={i}>\n              <motion.span\n                animate={isInView ? visibleState : hiddenState}\n                aria-hidden="true"\n                className={cn(\n                  "inline-block will-change-[opacity,filter,transform]",\n                  unitClassName\n                )}\n                initial={hiddenState}\n                transition={{\n                  duration,\n                  delay: delay + i * staggerDelay,\n                  ease: [0.25, 0.46, 0.45, 0.94],\n                }}\n              >\n                {word}\n              </motion.span>\n              {i < words.length - 1 && (\n                <span className="inline-block">&nbsp;</span>\n              )}\n            </span>\n          ))\n        : parsedWords.map((wordData, wordIdx) => (\n            <span className="inline-block whitespace-nowrap" key={wordIdx}>\n              {wordData.chars.map((charData, charIdx) => (\n                <motion.span\n                  animate={isInView ? visibleState : hiddenState}\n                  aria-hidden="true"\n                  className={cn(\n                    "inline-block will-change-[opacity,filter,transform]",\n                    unitClassName\n                  )}\n                  initial={hiddenState}\n                  key={charIdx}\n                  transition={{\n                    duration,\n                    delay: delay + charData.globalIndex * staggerDelay,\n                    ease: [0.25, 0.46, 0.45, 0.94],\n                  }}\n                >\n                  {charData.char}\n                </motion.span>\n              ))}\n              {wordIdx < parsedWords.length - 1 && (\n                <span className="inline-block">&nbsp;</span>\n              )}\n            </span>\n          ))}\n    </Component>\n  );\n}',
+          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: These are static content and the indices are stable. */\n\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { motion, type UseInViewOptions, useInView } from "motion/react";\nimport { type ElementType, useMemo, useRef } from "react";\n\nexport interface BlurTextRevealProps {\n  /**\n   * HTML tag for the container element.\n   * @default "p"\n   */\n  as?: keyof React.JSX.IntrinsicElements;\n  /**\n   * Blur amount in pixels for the hidden state.\n   * @default 4\n   */\n  blur?: number;\n  className?: string;\n  /**\n   * Delay before the first unit starts animating, in seconds.\n   * @default 0\n   */\n  delay?: number;\n  /**\n   * Duration of each unit\'s animation in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Trigger the animation only once.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Split mode: word-by-word or character-by-character.\n   * @default "words"\n   */\n  splitBy?: "words" | "characters";\n  /**\n   * Delay between each successive unit in seconds.\n   * @default 0.05\n   */\n  staggerDelay?: number;\n  /** The text to animate. */\n  text?: string;\n  /**\n   * Additional className applied to each animated span.\n   */\n  unitClassName?: string;\n  /**\n   * Viewport margin that controls when the animation triggers.\n   * @default "0px 0px -10% 0px"\n   */\n  viewportMargin?: UseInViewOptions["margin"];\n  /**\n   * Initial vertical offset in pixels.\n   * @default 0\n   */\n  yOffset?: number;\n}\n\nconst WHITESPACE_RE = /\\s+/;\n\nexport function BlurTextReveal({\n  text = "",\n  as: Tag = "p",\n  splitBy = "words",\n  staggerDelay = 0.05,\n  delay = 0,\n  duration = 0.5,\n  once = true,\n  blur = 4,\n  yOffset = 0,\n  viewportMargin = "0px 0px -10% 0px",\n  className,\n  unitClassName,\n}: BlurTextRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const isInView = useInView(ref, { once, margin: viewportMargin });\n\n  const words = useMemo(() => text.split(WHITESPACE_RE), [text]);\n\n  // Pre-calculate character structures and global stagger indices to prevent mid-word wrapping\n  const parsedWords = useMemo(() => {\n    let charCount = 0;\n    return words.map((word) => {\n      const chars = word.split("").map((char) => {\n        const globalIndex = charCount;\n        charCount++;\n        return { char, globalIndex };\n      });\n      return { word, chars };\n    });\n  }, [words]);\n\n  const hiddenState = useMemo(\n    () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),\n    [blur, yOffset]\n  );\n\n  const visibleState = { opacity: 1, y: 0, filter: "blur(0px)" };\n\n  const Component = Tag as ElementType;\n\n  return (\n    <Component\n      aria-label={text}\n      className={cn("leading-relaxed", className)}\n      ref={ref}\n    >\n      {splitBy === "words"\n        ? words.map((word, i) => (\n            <span className="inline-block" key={i}>\n              <motion.span\n                animate={isInView ? visibleState : hiddenState}\n                aria-hidden="true"\n                className={cn(\n                  "inline-block will-change-[opacity,filter,transform]",\n                  unitClassName\n                )}\n                initial={hiddenState}\n                transition={{\n                  duration,\n                  delay: delay + i * staggerDelay,\n                  ease: [0.25, 0.46, 0.45, 0.94],\n                }}\n              >\n                {word}\n              </motion.span>\n              {i < words.length - 1 && (\n                <span className="inline-block">&nbsp;</span>\n              )}\n            </span>\n          ))\n        : parsedWords.map((wordData, wordIdx) => (\n            <span className="inline-block whitespace-nowrap" key={wordIdx}>\n              {wordData.chars.map((charData, charIdx) => (\n                <motion.span\n                  animate={isInView ? visibleState : hiddenState}\n                  aria-hidden="true"\n                  className={cn(\n                    "inline-block will-change-[opacity,filter,transform]",\n                    unitClassName\n                  )}\n                  initial={hiddenState}\n                  key={charIdx}\n                  transition={{\n                    duration,\n                    delay: delay + charData.globalIndex * staggerDelay,\n                    ease: [0.25, 0.46, 0.45, 0.94],\n                  }}\n                >\n                  {charData.char}\n                </motion.span>\n              ))}\n              {wordIdx < parsedWords.length - 1 && (\n                <span className="inline-block">&nbsp;</span>\n              )}\n            </span>\n          ))}\n    </Component>\n  );\n}',
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -691,7 +716,7 @@ export const index: Record<string, any> = {
               options: { Words: "words", Characters: "characters" },
             },
             staggerDelay: { value: 0.05, min: 0.01, max: 0.5, step: 0.01 },
-            delay: { value: 0.5, min: 0, max: 2, step: 0.1 },
+            delay: { value: 0, min: 0, max: 2, step: 0.1 },
             duration: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
             blur: { value: 4, min: 0, max: 20, step: 1 },
             yOffset: { value: 0, min: -50, max: 50, step: 1 },
@@ -725,7 +750,7 @@ export const index: Record<string, any> = {
             options: { Words: "words", Characters: "characters" },
           },
           staggerDelay: { value: 0.05, min: 0.01, max: 0.5, step: 0.01 },
-          delay: { value: 0.5, min: 0, max: 2, step: 0.1 },
+          delay: { value: 0, min: 0, max: 2, step: 0.1 },
           duration: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
           blur: { value: 4, min: 0, max: 20, step: 1 },
           yOffset: { value: 0, min: -50, max: 50, step: 1 },
@@ -753,6 +778,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Annnimate",
+      url: "https://www.annnimate.com",
+    },
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -841,6 +871,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -855,7 +886,7 @@ export const index: Record<string, any> = {
                 "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
             },
             scrambleColor: { value: "" },
-            holdDuration: { value: 0.3, min: 0, max: 2, step: 0.1 },
+            holdDuration: { value: 0, min: 0, max: 2, step: 0.1 },
             duration: { value: 0.3, min: 0.2, max: 3, step: 0.1 },
             speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
             trigger: { value: true },
@@ -888,7 +919,7 @@ export const index: Record<string, any> = {
               "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
           },
           scrambleColor: { value: "" },
-          holdDuration: { value: 0.3, min: 0, max: 2, step: 0.1 },
+          holdDuration: { value: 0, min: 0, max: 2, step: 0.1 },
           duration: { value: 0.3, min: 0.2, max: 3, step: 0.1 },
           speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
           trigger: { value: true },
@@ -916,6 +947,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Annnimate",
+      url: "https://www.annnimate.com",
+    },
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1026,6 +1062,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1076,6 +1113,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1125,6 +1163,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1170,6 +1209,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1219,6 +1259,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1265,6 +1306,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -1316,6 +1358,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/primitives/radix/tabs/index.tsx");
@@ -1359,6 +1402,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: null,
     command: "@soralabs/demo-char-stagger-button",
   },
@@ -1379,6 +1423,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "Annnimate",
+      url: "https://www.annnimate.com",
+    },
     component: null,
     command: "@soralabs/demo-section-cta",
   },
@@ -1399,6 +1448,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: null,
     component: null,
     command: "@soralabs/demo-pixelated-image-reveal",
   },
@@ -1419,6 +1469,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Osmo",
+      url: "https://osmo.supply",
+    },
     component: null,
     command: "@soralabs/demo-draw-underline-link",
   },
@@ -1435,10 +1490,11 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/text-reveal-blur.tsx",
         content:
-          '"use client";\n\nimport { BlurTextReveal } from "@/components/sora-ui/texts/text-reveal-blur";\n\nexport default function BlurTextRevealExample() {\n  return (\n    <BlurTextReveal\n      as={"h2"}\n      className={"text-center font-bold text-3xl"}\n      text={"Blur Text Animation"}\n      splitBy={"words"}\n      staggerDelay={0.05}\n      delay={0.5}\n      duration={0.5}\n      blur={4}\n      yOffset={0}\n      viewportMargin={"0px 0px -10% 0px"}\n    />\n  );\n}\n',
+          '"use client";\n\nimport { BlurTextReveal } from "@/components/sora-ui/texts/text-reveal-blur";\n\nexport default function BlurTextRevealExample() {\n  return (\n    <BlurTextReveal\n      as={"h2"}\n      className={"text-center font-bold text-3xl"}\n      text={"Blur Text Animation"}\n      splitBy={"words"}\n      staggerDelay={0.05}\n      delay={0}\n      duration={0.5}\n      blur={4}\n      yOffset={0}\n      viewportMargin={"0px 0px -10% 0px"}\n    />\n  );\n}\n',
       },
     ],
     keywords: [],
+    inspiration: null,
     component: null,
     command: "@soralabs/demo-text-reveal-blur",
   },
@@ -1455,10 +1511,11 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/text-scramble.tsx",
         content:
-          '"use client";\n\nimport { TextScramble } from "@/components/sora-ui/texts/text-scramble";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={"Sora UI"}\n      as={"p"}\n      className={"font-mono text-2xl font-bold uppercase tracking-widest text-foreground"}\n      scrambleColor={""}\n      holdDuration={0.3}\n      duration={0.3}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n',
+          '"use client";\n\nimport { TextScramble } from "@/components/sora-ui/texts/text-scramble";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={"Sora UI"}\n      as={"p"}\n      className={"font-mono text-2xl font-bold uppercase tracking-widest text-foreground"}\n      scrambleColor={""}\n      holdDuration={0}\n      duration={0.3}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n',
       },
     ],
     keywords: [],
+    inspiration: null,
     component: null,
     command: "@soralabs/demo-text-scramble",
   },
@@ -1479,6 +1536,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Annnimate",
+      url: "https://www.annnimate.com",
+    },
     component: null,
     command: "@soralabs/demo-text-underline",
   },

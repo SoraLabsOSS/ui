@@ -57,7 +57,8 @@ export function FooterNewsletter() {
           <input
             autoComplete="given-name"
             className={inputClassName}
-            disabled={submitted}
+            // disabled={submitted}
+            disabled
             id="footer-newsletter-firstname"
             onChange={(event) => {
               setFirstName(event.target.value);
@@ -79,7 +80,8 @@ export function FooterNewsletter() {
               inputClassName,
               emailError && "border-destructive focus:border-destructive"
             )}
-            disabled={submitted}
+            // disabled={submitted}
+            disabled
             id="footer-newsletter-email"
             inputMode="email"
             onChange={(event) => {

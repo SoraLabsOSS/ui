@@ -128,8 +128,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 ]}
                 variant="rainbow"
               >
-                Excited to share that Sora UI is now part of the shadcn/ui
-                registry ecosystem. 🎉
+                🎉 Sora UI is now part of the shadcn/ui registry ecosystem.
               </Banner>
               {children}
             </Providers>

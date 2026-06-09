@@ -12,5 +12,12 @@
       "type": "registry:ui",
       "target": "components/sora-ui/disclosure/accordion.tsx"
     }
-  ]
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Annnimate",
+      "url": "https://www.annnimate.com"
+    }
+  }
 }

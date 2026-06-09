@@ -19,8 +19,11 @@ const LEGAL_LINKS = [
 
 export function HomeFooter() {
   return (
-    <footer className="relative border-foreground/10 border-t bg-background text-foreground">
-      <HomeShell className="pt-6 pb-8 lg:pt-8 lg:pb-12">
+    <footer className="relative bg-background text-foreground">
+      <HomeShell
+        className="pt-6 pb-8 lg:pt-8 lg:pb-12"
+        contentClassName="border-foreground/10 border-t"
+      >
         <div className="py-6">
           <div className="grid grid-cols-12 items-center gap-4">
             <div className="col-span-12 md:col-span-7">
@@ -60,7 +63,7 @@ export function HomeFooter() {
                 className="inline-block w-fit"
                 href="/"
               >
-                <IconLogo className="h-5 w-auto text-foreground" size="md" />
+                <IconLogo className="size-9 text-foreground" size="sm" />
               </Link>
 
               <FooterNewsletter />

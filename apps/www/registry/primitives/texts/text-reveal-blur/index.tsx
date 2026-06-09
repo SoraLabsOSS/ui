@@ -20,7 +20,7 @@ export interface BlurTextRevealProps {
   className?: string;
   /**
    * Delay before the first unit starts animating, in seconds.
-   * @default 0.5
+   * @default 0
    */
   delay?: number;
   /**
@@ -68,7 +68,7 @@ export function BlurTextReveal({
   as: Tag = "p",
   splitBy = "words",
   staggerDelay = 0.05,
-  delay = 0.5,
+  delay = 0,
   duration = 0.5,
   once = true,
   blur = 4,

@@ -14,7 +14,7 @@ import {
 } from "react";
 
 export const SECTION_CTA_SCRAMBLE_DEFAULTS = {
-  scrambleDuration: 0.3,
+  scrambleDuration: 0.375,
   scrambleHoldDuration: 0.1,
   scrambleSpeed: 0.03,
 } as const;

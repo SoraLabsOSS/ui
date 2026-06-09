@@ -39,27 +39,27 @@ const FOOTER_NAV: FooterNavSection[] = [
     title: "Library",
     links: [
       { href: "/docs/primitives", label: "All primitives" },
-      { href: "/docs/primitives/char-stagger-button", label: "Buttons" },
-      { href: "/docs/primitives/draw-underline-link", label: "Texts" },
-      { href: "/docs/primitives/pixelated-image-reveal", label: "Effects" },
-      { href: "/docs/primitives/accordion", label: "Disclosure" },
-      { href: "/docs/primitives/custom-cursor", label: "Cursor" },
-      { href: "/docs/primitives/dock-nav", label: "Navigation" },
+      // { href: "/docs/primitives/char-stagger-button", label: "Buttons" },
+      // { href: "/docs/primitives/draw-underline-link", label: "Texts" },
+      // { href: "/docs/primitives/pixelated-image-reveal", label: "Effects" },
+      // { href: "/docs/primitives/accordion", label: "Disclosure" },
+      // { href: "/docs/primitives/custom-cursor", label: "Cursor" },
+      // { href: "/docs/primitives/dock-nav", label: "Navigation" },
     ],
   },
   {
     title: "Open Source",
     links: [
-      {
-        href: "https://github.com/axyl1410/sora",
-        label: "GitHub repo",
-        external: true,
-      },
-      {
-        href: "https://github.com/axyl1410/sora/issues",
-        label: "Report an issue",
-        external: true,
-      },
+      // {
+      //   href: "https://github.com/axyl1410/sora",
+      //   label: "GitHub repo",
+      //   external: true,
+      // },
+      // {
+      //   href: "https://github.com/axyl1410/sora/issues",
+      //   label: "Report an issue",
+      //   external: true,
+      // },
       { href: "/docs/license", label: "License" },
       { href: "/docs/installation", label: "Get started" },
     ],

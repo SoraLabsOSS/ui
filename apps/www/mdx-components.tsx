@@ -4,6 +4,7 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
+import { ComponentCredits } from "@/components/docs/component-credits";
 import { ComponentInstallation } from "@/components/docs/component-installation";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { ExternalLink } from "@/components/docs/external-link";
@@ -33,6 +34,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ),
     ComponentPreview,
     ComponentInstallation,
+    ComponentCredits,
     TypeTable,
     ExternalLink,
     Steps,
