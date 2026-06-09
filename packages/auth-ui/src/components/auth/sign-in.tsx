@@ -29,12 +29,7 @@ import { Label } from "@workspace/ui/components/ui/label";
 import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  type ComponentType,
-  type ReactNode,
-  type SyntheticEvent,
-  useState,
-} from "react";
+import { type ReactNode, type SyntheticEvent, useState } from "react";
 import { ProviderButtons, type SocialLayout } from "./provider-buttons";
 
 export type SignInVariant = "card" | "page";
@@ -109,7 +104,7 @@ function SignInCardLayout({
 }
 
 interface SignInEmailFormProps {
-  Captcha?: ComponentType;
+  Captcha?: ReactNode;
   emailAndPassword: NonNullable<ReturnType<typeof useAuth>["emailAndPassword"]>;
   fieldErrors: { email?: string; password?: string };
   isPending: boolean;
@@ -240,11 +235,7 @@ function SignInEmailForm({
           </Field>
         ) : null}
 
-        {Captcha ? (
-          <div className="flex justify-center">
-            <Captcha />
-          </div>
-        ) : null}
+        {Captcha ? <div className="flex justify-center">{Captcha}</div> : null}
 
         <div className="flex flex-col gap-3">
           <Button disabled={isPending} type="submit">
