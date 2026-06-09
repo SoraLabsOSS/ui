@@ -1,7 +1,7 @@
 import { viewPaths } from "@better-auth-ui/core";
 import { ensureSession } from "@better-auth-ui/react/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { Settings } from "@workspace/ui/components/auth/settings/settings";
+import { Settings } from "@workspace/auth-ui/components/auth/settings/settings";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";

@@ -31,7 +31,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "../../packages/ui/src/better-auth-ui.d.ts"
+    "../../packages/auth-ui/src/better-auth-ui.d.ts"
   ],
   "exclude": ["node_modules"]
 }

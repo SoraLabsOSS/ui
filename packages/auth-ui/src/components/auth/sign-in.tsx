@@ -8,6 +8,7 @@ import {
   useSignInEmail,
 } from "@better-auth-ui/react";
 import { useIsMutating } from "@tanstack/react-query";
+import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,
@@ -27,7 +28,6 @@ import { Input } from "@workspace/ui/components/ui/input";
 import { Label } from "@workspace/ui/components/ui/label";
 import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
-import { useAuthRedirectTo } from "@workspace/ui/hooks/use-auth-redirect-to";
 import { cn } from "@workspace/ui/lib/utils";
 import { type SyntheticEvent, useState } from "react";
 import { ProviderButtons, type SocialLayout } from "./provider-buttons";

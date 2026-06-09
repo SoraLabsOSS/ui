@@ -8,6 +8,7 @@ import {
   useListAccounts,
 } from "@better-auth-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -24,12 +25,11 @@ import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { Field, FieldError } from "@workspace/ui/components/ui/field";
 import { Input } from "@workspace/ui/components/ui/input";
 import { Label } from "@workspace/ui/components/ui/label";
+import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
-import { deleteUserPlugin } from "@workspace/ui/lib/auth/delete-user-plugin";
 import { cn } from "@workspace/ui/lib/utils";
 import { TriangleAlert } from "lucide-react";
 import { type SyntheticEvent, useState } from "react";
-import { toast } from "sonner";
 
 export interface DeleteAccountProps {
   className?: string;

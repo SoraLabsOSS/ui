@@ -23,6 +23,7 @@
     "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "@workspace/auth-ui": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/ui": "workspace:*",
     "better-auth": "^1.6.14",

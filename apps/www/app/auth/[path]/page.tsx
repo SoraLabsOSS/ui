@@ -1,5 +1,5 @@
 import { viewPaths } from "@better-auth-ui/core";
-import { Auth } from "@workspace/ui/components/auth/auth";
+import { Auth } from "@workspace/auth-ui/components/auth/auth";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import AuthLoading from "./loading";

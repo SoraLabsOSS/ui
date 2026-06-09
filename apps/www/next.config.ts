@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   transpilePackages: [
     "@t3-oss/env-core",
     "@t3-oss/env-nextjs",
+    "@workspace/auth-ui",
     "@workspace/db",
     "@workspace/ui",
   ],
@@ -44,6 +45,9 @@ const nextConfig: NextConfig = {
       },
       {
         hostname: "plus.unsplash.com",
+      },
+      {
+        hostname: "lh3.googleusercontent.com",
       },
     ],
   },

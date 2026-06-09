@@ -37,6 +37,7 @@
         "@upstash/redis": "^1.38.0",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",
+        "@workspace/auth-ui": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/ui": "workspace:*",
         "better-auth": "^1.6.14",
@@ -78,6 +79,33 @@
         "typescript": "^5.9.2",
       },
     },
+    "packages/auth-ui": {
+      "name": "@workspace/auth-ui",
+      "version": "0.0.0",
+      "dependencies": {
+        "@better-auth-ui/core": "^1.6.17",
+        "@better-auth-ui/react": "^1.6.17",
+        "@tanstack/react-query": "^5.101.0",
+        "better-auth": "^1.6.14",
+        "bowser": "^2.14.1",
+        "date-fns": "^4.1.0",
+        "lucide-react": "^1.17.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.8",
+        "@types/react-dom": "^19.1.6",
+        "@workspace/typescript-config": "workspace:*",
+        "next": "^16.2.6",
+        "react": "^19.1.2",
+        "react-dom": "^19.1.2",
+      },
+      "peerDependencies": {
+        "@workspace/ui": "workspace:*",
+        "next": ">=14.0.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+      },
+    },
     "packages/db": {
       "name": "@workspace/db",
       "version": "0.0.0",
@@ -104,11 +132,6 @@
       "version": "0.0.0",
       "dependencies": {
         "@base-ui/react": "^1.5.0",
-        "@better-auth-ui/core": "^1.6.17",
-        "@better-auth-ui/react": "^1.6.17",
-        "@tanstack/react-query": "^5.101.0",
-        "better-auth": "^1.6.14",
-        "bowser": "^2.14.1",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "date-fns": "^4.1.0",
@@ -836,6 +859,8 @@
     "@vercel/analytics": ["@vercel/analytics@2.0.1", "", { "peerDependencies": { "@remix-run/react": "^2", "@sveltejs/kit": "^1 || ^2", "next": ">= 13", "nuxt": ">= 3", "react": "^18 || ^19 || ^19.0.0-rc", "svelte": ">= 4", "vue": "^3", "vue-router": "^4" }, "optionalPeers": ["@remix-run/react", "@sveltejs/kit", "next", "nuxt", "react", "svelte", "vue", "vue-router"] }, "sha512-MTQG6V9qQrt1tsDeF+2Uoo5aPjqbVPys1xvnIftXSJYG2SrwXRHnqEvVoYID7BTruDz4lCd2Z7rM1BdkUehk2g=="],
 
     "@vercel/speed-insights": ["@vercel/speed-insights@2.0.0", "", { "peerDependencies": { "@sveltejs/kit": "^1 || ^2", "next": ">= 13", "nuxt": ">= 3", "react": "^18 || ^19 || ^19.0.0-rc", "svelte": ">= 4", "vue": "^3", "vue-router": "^4" }, "optionalPeers": ["@sveltejs/kit", "next", "nuxt", "react", "svelte", "vue", "vue-router"] }, "sha512-jwkNcrTeafWxjmWq4AHBaptSqZiJkYU5adLC9QBSqeim0GcqDMgN5Ievh8OG1rJ6W3A4l1oiP7qr9CWxGuzu3w=="],
+
+    "@workspace/auth-ui": ["@workspace/auth-ui@workspace:packages/auth-ui"],
 
     "@workspace/db": ["@workspace/db@workspace:packages/db"],
 

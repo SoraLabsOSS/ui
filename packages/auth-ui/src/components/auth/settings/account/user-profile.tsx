@@ -38,7 +38,7 @@ export type UserProfileProps = {
  * @returns A JSX element containing the profile card with avatar upload and editable name/username fields
  */
 export function UserProfile({ className }: UserProfileProps) {
-  const { additionalFields, authClient, localization } = useAuth();
+  const { additionalFields, authClient, avatar, localization } = useAuth();
   const { data: session } = useSession(authClient as UsernameAuthClient);
 
   const { mutate: updateUser, isPending } = useUpdateUser(authClient, {
@@ -96,7 +96,7 @@ export function UserProfile({ className }: UserProfileProps) {
       <form onSubmit={handleSubmit}>
         <Card className={cn(className)}>
           <CardContent className="flex flex-col gap-6">
-            <ChangeAvatar />
+            {avatar.enabled ? <ChangeAvatar /> : null}
 
             <Field data-invalid={!!fieldErrors.name}>
               <Label htmlFor="name">{localization.auth.name}</Label>

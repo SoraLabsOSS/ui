@@ -1,5 +1,5 @@
 import { ensureSession } from "@better-auth-ui/react/server";
-import { UserButton } from "@workspace/ui/components/auth/user/user-button";
+import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Loader, MoveLeft } from "lucide-react";
 import { headers } from "next/headers";

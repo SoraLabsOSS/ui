@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "@better-auth-ui/react";
-import { UserButton } from "@workspace/ui/components/auth/user/user-button";
+import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import {
   MotionNavigationMenu,
@@ -111,7 +111,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
       <ProgressiveBlur
         backgroundColor="var(--background)"
         blurAmount="12px"
-        height="140%"
+        height="170%"
         // maskFadeStart="45%"
         position="top"
       />
