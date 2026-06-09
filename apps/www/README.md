@@ -9,7 +9,7 @@
 
 </div>
 
-![hero](https://ui.soralabs.io.vn/og-image.png)
+![Sora UI — Motion-first for React](./public/og-image.png)
 
 ## Documentation
 
