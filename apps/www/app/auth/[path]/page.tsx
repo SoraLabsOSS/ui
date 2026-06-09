@@ -2,6 +2,7 @@ import { viewPaths } from "@better-auth-ui/core";
 import { Auth } from "@workspace/auth-ui/components/auth/auth";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { GoogleOneTap } from "@/components/auth/google-one-tap";
 import AuthLoading from "./loading";
 
 export function generateStaticParams() {
@@ -23,6 +24,7 @@ async function AuthPageContent({
 
   return (
     <div className="my-auto flex justify-center p-4 md:p-6">
+      {path === "sign-in" ? <GoogleOneTap /> : null}
       <Auth path={path} />
     </div>
   );
