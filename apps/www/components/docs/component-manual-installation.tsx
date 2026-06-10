@@ -76,7 +76,9 @@ export const ComponentManualInstallation = ({
       <Steps>
         {dependencies && depsCommands && (
           <Step>
-            <h4 className="pt-1 pb-4">Install the following dependencies:</h4>
+            <h4 className="mt-6 mb-2 pt-1 pb-4">
+              Install the following dependencies:
+            </h4>
             <CodeTabs codes={depsCommands} />
           </Step>
         )}

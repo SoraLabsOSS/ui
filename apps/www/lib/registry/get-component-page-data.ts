@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { index } from "@/__registry__";
-import { source } from "@/lib/docs/source";
+import { componentSource } from "@/lib/registry/component-source";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { filterComponentToc } from "@/lib/registry/parse-primitive-mdx";
 import type {
@@ -40,7 +40,7 @@ function getRegistryEntry(registryName: string) {
 
 export const getComponentPageData = cache(
   (slug: string): ComponentPageData | null => {
-    const page = source.getPage(["components", slug]);
+    const page = componentSource.getPage(slug.split("/"));
     const pageData = page?.data as {
       preview?: string;
       registryName?: string;
@@ -80,7 +80,7 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
   const items: ComponentGalleryItem[] = [];
 
   for (const slug of slugs) {
-    const page = source.getPage(["components", slug]);
+    const page = componentSource.getPage(slug.split("/"));
     if (!page) {
       continue;
     }

@@ -425,7 +425,6 @@ export const DocsSidebar = (
   // the full tree context is consumed inside child components.
   const treePath = useTreePath();
   const isComponentDocs =
-    pathname.startsWith("/docs/components") ||
     pathname.startsWith("/docs/primitives") ||
     pathname.startsWith("/docs/texts") ||
     pathname.startsWith("/docs/buttons");

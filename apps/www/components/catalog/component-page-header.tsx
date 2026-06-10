@@ -54,7 +54,7 @@ export function ComponentPageHeader({
         <BookmarkButton url={data.componentUrl} />
         <LLMCopyButton markdownUrl={`${data.docsUrl}.mdx`} />
         <ViewOptions
-          githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${githubPath}`}
+          githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/${githubPath}`}
           markdownUrl={`${data.docsUrl}.mdx`}
         />
       </div>

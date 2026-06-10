@@ -1,5 +1,6 @@
 import type { InferPageType } from "fumadocs-core/source";
 import type { source } from "@/lib/docs/source";
+import type { ComponentDocPage } from "@/lib/registry/component-source";
 
 export type PrimitiveDocPage = InferPageType<typeof source>;
 
@@ -23,7 +24,7 @@ export interface ComponentPageData {
   dependencies: string[];
   docsUrl: string;
   installCommand: string;
-  page: PrimitiveDocPage;
+  page: ComponentDocPage;
   previewName: string;
   registryDependencies: string[];
   registryName: string;

@@ -63,6 +63,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/docs/components/draw-underline-link",
+        destination: "/components/draw-underline-link",
+        permanent: true,
+      },
+      {
         source: "/docs/components/texts/text-reveal",
         destination: "/docs/primitives/text-reveal-blur",
         permanent: true,

@@ -77,12 +77,6 @@ export default async function Page(props: {
     if (page.url.startsWith("/docs/primitives/")) {
       return { url: primitivesUrl, name: "Primitives" } as const;
     }
-    if (page.url.startsWith("/docs/components/")) {
-      return {
-        url: DOCS_COMPONENTS_SECTION_URL,
-        name: "Components",
-      } as const;
-    }
 
     return;
   })();

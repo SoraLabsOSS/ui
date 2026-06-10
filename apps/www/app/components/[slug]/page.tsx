@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ComponentPageDocs } from "@/components/catalog/component-page-docs";
 import { ComponentPageLayout } from "@/components/catalog/component-page-layout";
-import { source } from "@/lib/docs/source";
 import { getCatalogMDXComponents } from "@/lib/registry/catalog-mdx";
+import { componentSource } from "@/lib/registry/component-source";
 import {
   getComponentGalleryItems,
   getComponentPageData,
@@ -42,7 +42,7 @@ export default async function ComponentDetailPage(props: PageProps) {
   return (
     <ComponentPageLayout
       data={data}
-      githubPath={`components/${slug}.mdx`}
+      githubPath={`content/components/${slug}.mdx`}
       header={getComponentPageHeaderData(data)}
       navItems={getComponentGalleryItems()}
       releaseDate={releaseDate}
@@ -51,7 +51,7 @@ export default async function ComponentDetailPage(props: PageProps) {
         <MDXContent
           components={getMDXComponents({
             ...getCatalogMDXComponents(),
-            a: createRelativeLink(source, data.page),
+            a: createRelativeLink(componentSource, data.page),
           })}
         />
       </ComponentPageDocs>

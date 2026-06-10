@@ -1,2 +1,2 @@
-/** Hub for animated components (radix, animate, …) under `content/docs/components/`. */
+/** Hub for the component catalog at `/components`. */
 export const DOCS_COMPONENTS_SECTION_URL = "/components";
