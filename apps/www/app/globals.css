@@ -434,19 +434,31 @@
 }
 
 /*
- * Google One Tap (#credential_picker_container is injected on <body>).
- * Light theme: no color-scheme override needed.
- * Dark theme: iframe canvas can show opaque white padding — force light
- * color-scheme on the container only (not the whole page). See MDN color-scheme.
+ * Google One Tap (#credential_picker_container injected on <body>).
+ * Desktop: top-right iframe. Mobile: full-width bottom sheet — same container,
+ * different dimensions; inline white backgrounds on wrapper divs are common.
+ * Cannot style inside the iframe document; fix opaque canvas via color-scheme on
+ * the embedding chain (MDN + Stack Overflow #75226935).
  */
 #credential_picker_container,
-#credential_picker_container iframe {
+#credential_picker_container iframe,
+iframe[src*="accounts.google.com/gsi/"] {
   background: transparent !important;
+  background-color: transparent !important;
 }
 
 html.dark #credential_picker_container,
-html.dark #credential_picker_container iframe {
+html.dark #credential_picker_container *,
+html.dark #credential_picker_container iframe,
+html.dark iframe[src*="accounts.google.com/gsi/"] {
   color-scheme: light;
+}
+
+/* Mobile bottom sheet: clip halo padding around the iframe when present */
+@media (max-width: 767px) {
+  html.dark #credential_picker_container {
+    overflow: hidden;
+  }
 }
 
 /* Mobile drawer: above banner (z-50). Unlayered + !important beats Fumadocs z-40 utilities. */

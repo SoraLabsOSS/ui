@@ -8,31 +8,35 @@ import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import { authClient, oneTapGisOptions } from "@/lib/auth-client";
 
+const GIS_IFRAME_SELECTOR = 'iframe[src*="accounts.google.com/gsi/"]';
+
+function applyOneTapChromeStyles(element: HTMLElement, isDark: boolean) {
+  element.style.setProperty("background", "transparent", "important");
+  element.style.setProperty("background-color", "transparent", "important");
+
+  if (isDark) {
+    element.style.setProperty("color-scheme", "light");
+  } else {
+    element.style.removeProperty("color-scheme");
+  }
+}
+
+/** Sync styles on GIS-injected nodes (desktop prompt + mobile bottom sheet). */
 function syncOneTapPickerChrome(isDark: boolean) {
   const container = document.getElementById("credential_picker_container");
-  if (!container) {
-    return;
+
+  if (container instanceof HTMLElement) {
+    applyOneTapChromeStyles(container, isDark);
+
+    for (const node of container.querySelectorAll<HTMLElement>("*")) {
+      applyOneTapChromeStyles(node, isDark);
+    }
   }
 
-  container.style.background = "transparent";
-
-  if (isDark) {
-    container.style.colorScheme = "light";
-  } else {
-    container.style.removeProperty("color-scheme");
-  }
-
-  const iframe = container.querySelector("iframe");
-  if (!(iframe instanceof HTMLIFrameElement)) {
-    return;
-  }
-
-  iframe.style.background = "transparent";
-
-  if (isDark) {
-    iframe.style.colorScheme = "light";
-  } else {
-    iframe.style.removeProperty("color-scheme");
+  for (const iframe of document.querySelectorAll<HTMLIFrameElement>(
+    GIS_IFRAME_SELECTOR
+  )) {
+    applyOneTapChromeStyles(iframe, isDark);
   }
 }
 
@@ -53,6 +57,7 @@ export function GoogleOneTap() {
   const { resolvedTheme } = useTheme();
   const [themeReady, setThemeReady] = useState(false);
   const hasPromptedRef = useRef(false);
+  const syncFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     setThemeReady(true);
@@ -65,16 +70,34 @@ export function GoogleOneTap() {
       return;
     }
 
-    syncOneTapPickerChrome(isDark);
+    const scheduleSync = () => {
+      if (syncFrameRef.current !== null) {
+        cancelAnimationFrame(syncFrameRef.current);
+      }
 
-    const observer = new MutationObserver(() => {
-      syncOneTapPickerChrome(isDark);
+      syncFrameRef.current = requestAnimationFrame(() => {
+        syncFrameRef.current = null;
+        syncOneTapPickerChrome(isDark);
+      });
+    };
+
+    scheduleSync();
+
+    const observer = new MutationObserver(scheduleSync);
+
+    observer.observe(document.body, {
+      attributeFilter: ["style", "class"],
+      attributes: true,
+      childList: true,
+      subtree: true,
     });
-
-    observer.observe(document.body, { childList: true });
 
     return () => {
       observer.disconnect();
+
+      if (syncFrameRef.current !== null) {
+        cancelAnimationFrame(syncFrameRef.current);
+      }
     };
   }, [isDark, resolvedTheme, themeReady]);
 
