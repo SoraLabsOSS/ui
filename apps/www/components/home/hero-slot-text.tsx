@@ -71,7 +71,7 @@ export function HeroSlotLine({
   return (
     <div
       className={cn(
-        "flex font-bold font-hero-display text-4xl uppercase tracking-tight sm:text-6xl md:text-7xl lg:text-8xl",
+        "flex font-bold font-hero-display text-5xl uppercase tracking-tight max-[375px]:text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
         className
       )}
       ref={ref}

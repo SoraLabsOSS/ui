@@ -472,12 +472,12 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
     z-index: 61 !important;
   }
 
-  /* Fumadocs search dialog overlay + panel */
-  .fixed.inset-0.z-50.bg-black\/30 {
-    z-index: 70 !important;
+  /* Fumadocs search dialog — above banner (z-50) and mobile drawer (z-61) */
+  .fixed.inset-0.z-50.max-md\:backdrop-blur-xs[data-state="open"] {
+    z-index: 80 !important;
   }
 
-  .fixed.left-1\/2.top-\[10vh\].z-50 {
-    z-index: 71 !important;
+  .fixed.left-1\/2.top-4.z-50.rounded-2xl[data-state="open"] {
+    z-index: 81 !important;
   }
 }
