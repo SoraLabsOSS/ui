@@ -44,10 +44,5 @@ export const auth = betterAuth({
       // ipAddressHeaders: ["x-forwarded-for"],
     },
   },
-  plugins: [
-    // ... other plugins
-    openAPI(),
-    dash(),
-    oneTap(),
-  ],
+  plugins: [openAPI(), dash(), oneTap()],
 });

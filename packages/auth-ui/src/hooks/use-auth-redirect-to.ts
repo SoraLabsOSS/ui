@@ -9,7 +9,7 @@ function isSafeRedirectPath(path: string): boolean {
 
 /**
  * Resolves post-auth redirect from `?redirectTo=` on the current page,
- * falling back to AuthProvider config (defaults to `/`).
+ * falling back to AuthProvider `redirectTo` (e.g. `/docs`).
  */
 export function useAuthRedirectTo(): string {
   const { redirectTo: fallbackRedirectTo } = useAuth();

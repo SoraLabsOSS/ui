@@ -8,10 +8,10 @@ export function AuthPageShell({ children }: { children: ReactNode }) {
       <header className="p-4">
         <Link
           className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-foreground hover:bg-muted"
-          href="/"
+          href="/docs"
         >
           <ArrowLeft aria-hidden className="size-5" />
-          <span className="ml-2 text-sm">Back to home</span>
+          <span className="ml-2 text-sm">Back to docs</span>
         </Link>
       </header>
 

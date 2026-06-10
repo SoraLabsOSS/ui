@@ -2,6 +2,13 @@ import XIcon from "@workspace/ui/components/icons/x-icon";
 import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { baseOptions } from "@/app/layout.config";
+import { AccountSidebar } from "@/components/account/sidebar";
+import { ThemeSwitcher } from "@/components/animate/theme-switcher";
+import { Nav } from "@/components/docs/nav";
+import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
+import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
+import { source } from "@/lib/docs/source";
 
 export const metadata: Metadata = {
   robots: {
@@ -9,14 +16,6 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
-
-import { baseOptions } from "@/app/layout.config";
-import { ThemeSwitcher } from "@/components/animate/theme-switcher";
-import { Nav } from "@/components/docs/nav";
-import { WorkspaceSidebar } from "@/components/workspace/sidebar";
-import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
-import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
-import { source } from "@/lib/docs/source";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
@@ -46,14 +45,14 @@ export default function Layout({ children }: { children: ReactNode }) {
       {...DOCS_LAYOUT_PROPS}
       containerProps={{
         className:
-          "workspace-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:0px]",
+          "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:0px]",
       }}
       nav={{
         component: <Nav primitivesUrl={primitivesUrl} />,
       }}
       sidebar={{
         component: (
-          <WorkspaceSidebar
+          <AccountSidebar
             componentsUrl={primitivesUrl}
             releaseDatesByUrl={releaseDatesByUrl}
             {...DOCS_LAYOUT_PROPS}

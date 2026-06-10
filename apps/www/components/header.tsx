@@ -23,7 +23,7 @@ export const Header = () => (
   <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible">
     <ProgressiveBlur
       backgroundColor="var(--background)"
-      height="calc(4rem + 1rem)"
+      // height="calc(4rem + 1rem)"
       maskFadeStart="40%"
       position="top"
     />

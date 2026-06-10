@@ -331,7 +331,7 @@
     margin-inline-end: var(--fd-layout-offset) !important;
   }
 
-  #nd-docs-layout:not(.workspace-docs-layout):not(
+  #nd-docs-layout:not(.account-docs-layout):not(
     :has(#nd-sidebar[data-collapsed="true"])
   ) {
     margin-inline-start: calc(
@@ -340,13 +340,13 @@
     ) !important;
   }
 
-  /* Workspace (settings, bookmark, components): sidebar is mobile-only */
-  #nd-docs-layout.workspace-docs-layout {
+  /* Account (settings, bookmark): sidebar is mobile-only */
+  #nd-docs-layout.account-docs-layout {
     margin-inline-start: var(--fd-layout-offset) !important;
     margin-inline-end: var(--fd-layout-offset) !important;
   }
 
-  #nd-docs-layout.workspace-docs-layout #nd-page {
+  #nd-docs-layout.account-docs-layout #nd-page {
     max-width: min(100%, var(--fd-layout-width)) !important;
   }
 

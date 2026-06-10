@@ -58,7 +58,7 @@ function isGuideSeparator(item: LinkItemType): boolean {
   return (item as { type?: string }).type === "separator";
 }
 
-function WorkspaceGuideLink({
+function AccountGuideLink({
   item,
   onNavigate,
 }: {
@@ -79,16 +79,16 @@ function WorkspaceGuideLink({
   );
 }
 
-const WORKSPACE_MENU_ITEMS = [
+const ACCOUNT_MENU_ITEMS = [
   {
-    getHref: (componentsUrl: string) => componentsUrl,
+    getHref: (primitivesUrl: string) => primitivesUrl,
     getIsActive: (pathname: string, href: string) =>
       pathname === href || pathname.startsWith(`${href}/`),
     label: "Primitives",
     requiresAuth: false,
   },
   ...AUTH_MENU_LINKS.map((link) => ({
-    getHref: (_componentsUrl: string) => link.url,
+    getHref: (_primitivesUrl: string) => link.url,
     getIsActive: (pathname: string, href: string) =>
       link.title === "Settings"
         ? pathname.startsWith("/settings")
@@ -99,22 +99,22 @@ const WORKSPACE_MENU_ITEMS = [
   })),
 ] as const;
 
-function WorkspaceMenuSection({
-  componentsUrl,
+function AccountMenuSection({
   onNavigate,
+  primitivesUrl,
 }: {
-  componentsUrl: string;
   onNavigate: () => void;
+  primitivesUrl: string;
 }) {
   const pathname = usePathname();
   const { data: session, isPending: sessionPending } = useSession(authClient);
   const { setHovered } = useSidebar001Hover();
-  const publicItems = WORKSPACE_MENU_ITEMS.filter((item) => !item.requiresAuth);
-  const authItems = WORKSPACE_MENU_ITEMS.filter((item) => item.requiresAuth);
+  const publicItems = ACCOUNT_MENU_ITEMS.filter((item) => !item.requiresAuth);
+  const authItems = ACCOUNT_MENU_ITEMS.filter((item) => item.requiresAuth);
   const showAuthItems = sessionPending || Boolean(session);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset hover on auth state change
   useEffect(() => {
-    void sessionPending;
     setHovered(null);
   }, [sessionPending, setHovered]);
 
@@ -124,7 +124,7 @@ function WorkspaceMenuSection({
       label={<Separator icon={<SquareMenu strokeWidth={2} />} name="Menu" />}
     >
       {publicItems.map((item) => {
-        const href = item.getHref(componentsUrl);
+        const href = item.getHref(primitivesUrl);
         return (
           <Sidebar001Item
             href={href}
@@ -146,7 +146,7 @@ function WorkspaceMenuSection({
               );
             }
 
-            const href = item.getHref(componentsUrl);
+            const href = item.getHref(primitivesUrl);
             return (
               <Sidebar001Item
                 href={href}
@@ -162,17 +162,17 @@ function WorkspaceMenuSection({
   );
 }
 
-export interface WorkspaceSidebarProps extends BaseLayoutProps {
+export interface AccountSidebarProps extends BaseLayoutProps {
   componentsUrl: string;
   releaseDatesByUrl?: Record<string, string>;
 }
 
-export function WorkspaceSidebar({
+export function AccountSidebar({
   links = [],
   githubUrl,
   componentsUrl,
   releaseDatesByUrl = {},
-}: WorkspaceSidebarProps) {
+}: AccountSidebarProps) {
   const isMobile = useIsMobile();
   const { setOpen } = useSidebar();
   const resolvedLinks = getLinks(links, githubUrl);
@@ -242,16 +242,16 @@ export function WorkspaceSidebar({
               }
             >
               {guideItems.map((link) => (
-                <WorkspaceGuideLink
+                <AccountGuideLink
                   item={link}
                   key={link.url}
                   onNavigate={closeMobile}
                 />
               ))}
             </Sidebar001Section>
-            <WorkspaceMenuSection
-              componentsUrl={componentsUrl}
+            <AccountMenuSection
               onNavigate={closeMobile}
+              primitivesUrl={componentsUrl}
             />
           </Sidebar001Content>
 

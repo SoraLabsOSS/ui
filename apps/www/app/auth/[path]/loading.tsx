@@ -6,7 +6,6 @@ export default function AuthLoading() {
     <AuthPageShell>
       <div className="flex text-muted-foreground text-sm">
         <Loader aria-hidden className="mr-2 size-4 animate-spin" />
-        Loading...
       </div>
     </AuthPageShell>
   );

@@ -22,6 +22,7 @@ import {
   AUTH_MENU_LINKS,
   AuthNavMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
+import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
@@ -43,13 +44,15 @@ const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
 ];
 
 function NavMenuItems({
+  hasSession,
   navItems,
+  onRequireLogin,
   sessionPending,
-  showAuthNav,
 }: {
+  hasSession: boolean;
   navItems: NavItem[];
+  onRequireLogin: (redirectUrl: string) => void;
   sessionPending: boolean;
-  showAuthNav: boolean;
 }) {
   const pathname = usePathname();
   const { setActiveValue, clearBounds } = useHighlight<string>();
@@ -75,26 +78,34 @@ function NavMenuItems({
           </MotionNavigationMenuLink>
         </MotionNavigationMenuItem>
       ))}
-      {showAuthNav
-        ? AUTH_MENU_LINKS.map((item) => (
-            <MotionNavigationMenuItem key={item.title} value={item.title}>
-              {sessionPending ? (
-                <AuthNavMenuSkeleton width={item.skeletonWidth} />
-              ) : (
-                <MotionNavigationMenuLink
-                  asChild
-                  className={cn(
-                    "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
-                    "data-[active=true]:text-black dark:data-[active=true]:text-white"
-                  )}
-                  highlightValue={item.title}
-                >
-                  <Link href={item.url}>{item.title}</Link>
-                </MotionNavigationMenuLink>
+      {AUTH_MENU_LINKS.map((item) => (
+        <MotionNavigationMenuItem key={item.title} value={item.title}>
+          {sessionPending ? (
+            <AuthNavMenuSkeleton width={item.skeletonWidth} />
+          ) : (
+            <MotionNavigationMenuLink
+              asChild
+              className={cn(
+                "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
+                "data-[active=true]:text-black dark:data-[active=true]:text-white"
               )}
-            </MotionNavigationMenuItem>
-          ))
-        : null}
+              highlightValue={item.title}
+            >
+              <Link
+                href={item.url}
+                onClick={(event) => {
+                  if (!hasSession) {
+                    event.preventDefault();
+                    onRequireLogin(item.url);
+                  }
+                }}
+              >
+                {item.title}
+              </Link>
+            </MotionNavigationMenuLink>
+          )}
+        </MotionNavigationMenuItem>
+      ))}
     </>
   );
 }
@@ -103,8 +114,8 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
   const { setOpenSearch } = useSearchContext();
   const { setOpen } = useSidebar();
   const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
   const navItems = BASE_NAV_ITEMS(primitivesUrl);
-  const showAuthNav = sessionPending || Boolean(session);
 
   return (
     <Navbar className="!bg-transparent !shadow-none !backdrop-blur-none z-30 h-14 overflow-visible border-b-0 px-(--fd-layout-offset) transition-none md:h-17">
@@ -132,9 +143,10 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
             <MotionNavigationMenu viewport={false}>
               <MotionNavigationMenuList className="gap-0 bg-transparent">
                 <NavMenuItems
+                  hasSession={Boolean(session)}
                   navItems={navItems}
+                  onRequireLogin={openLoginDialog}
                   sessionPending={sessionPending}
-                  showAuthNav={showAuthNav}
                 />
               </MotionNavigationMenuList>
             </MotionNavigationMenu>
@@ -191,6 +203,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
           </div>
         </div>
       </div>
+      {loginDialog}
     </Navbar>
   );
 };

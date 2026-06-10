@@ -31,6 +31,7 @@ export function Providers({ children }: { children: ReactNode }) {
           replace ? router.replace(to) : router.push(to)
         }
         plugins={[deleteUserPlugin()]}
+        redirectTo="/docs"
         socialProviders={["google"]}
       >
         <GoogleOneTapPendingProvider>

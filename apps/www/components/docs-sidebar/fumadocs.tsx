@@ -21,6 +21,7 @@ import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
+import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 import { ThemeSwitcher } from "../animate/theme-switcher";
@@ -117,8 +118,8 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
   }, [componentRoots]);
 
   const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
   const { setHovered } = useDocsShellHover();
-  const showAuthItems = sessionPending || Boolean(session);
 
   useEffect(() => {
     void sessionPending;
@@ -138,33 +139,38 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
         label="Primitives"
         onClick={onNavigate}
       />
-      {showAuthItems
-        ? AUTH_MENU_LINKS.map((item) => {
-            if (sessionPending) {
-              return (
-                <AuthSidebarMenuSkeleton
-                  key={item.url}
-                  width={item.skeletonWidth}
-                />
-              );
-            }
+      {AUTH_MENU_LINKS.map((item) => {
+        if (sessionPending) {
+          return (
+            <AuthSidebarMenuSkeleton
+              key={item.url}
+              width={item.skeletonWidth}
+            />
+          );
+        }
 
-            return (
-              <DocsShellNavItem
-                href={item.url}
-                isActive={
-                  item.title === "Settings"
-                    ? pathname.startsWith("/settings")
-                    : pathname === item.url ||
-                      pathname.startsWith(`${item.url}/`)
-                }
-                key={item.url}
-                label={item.title}
-                onClick={onNavigate}
-              />
-            );
-          })
-        : null}
+        return (
+          <DocsShellNavItem
+            href={item.url}
+            isActive={
+              item.title === "Settings"
+                ? pathname.startsWith("/settings")
+                : pathname === item.url || pathname.startsWith(`${item.url}/`)
+            }
+            key={item.url}
+            label={item.title}
+            onClick={(event) => {
+              if (!session) {
+                event.preventDefault();
+                openLoginDialog(item.url);
+                return;
+              }
+              onNavigate?.();
+            }}
+          />
+        );
+      })}
+      {loginDialog}
     </DocsShellSection>
   );
 }
