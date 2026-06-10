@@ -25,6 +25,8 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:ui": "turbo dev --filter=www",
+    "dev:web": "turbo dev --filter=web",
     "lint": "turbo lint",
     "format": "ultracite fix",
     "format:write": "ultracite fix",

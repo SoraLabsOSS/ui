@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="sf-pro-display min-h-full antialiased">{children}</div>
+    <div className="flex min-h-full flex-1 flex-col antialiased">
+      {children}
+    </div>
   );
 }
