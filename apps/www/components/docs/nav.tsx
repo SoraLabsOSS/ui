@@ -40,6 +40,7 @@ interface NavItem {
 
 const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
   { title: "Docs", url: DOCS_GUIDE_URL },
+  // { title: "Components", url: "/components" },
   { title: "Primitives", url: primitivesUrl },
 ];
 

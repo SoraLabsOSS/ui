@@ -175,6 +175,72 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-dock-nav",
   },
+  "demo-draw-underline-link": {
+    name: "demo-draw-underline-link",
+    description: "Scrollable catalog preview with two centered link instances.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["draw-underline-link"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/draw-underline-link/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/draw-underline-link.tsx",
+        content:
+          '"use client";\n\nimport {\n  DrawUnderlineLink,\n  type DrawUnderlineLinkProps,\n} from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkCatalogDemo({\n  label = "Hover me",\n  variant = "default",\n  duration = 0.5,\n  underlineColor = "#ff4c24",\n  ...props\n}: DrawUnderlineLinkProps) {\n  return (\n    <div className="w-full">\n      <section className="flex min-h-[100vh] items-center justify-center">\n        <DrawUnderlineLink\n          duration={duration}\n          href="#"\n          label={label}\n          underlineColor={underlineColor}\n          variant={variant}\n          {...props}\n        />\n      </section>\n      <section className="flex min-h-[100vh] items-center justify-center">\n        <DrawUnderlineLink\n          duration={duration}\n          href="#"\n          label="Keep scrolling"\n          underlineColor={underlineColor}\n          variant={variant}\n          {...props}\n        />\n      </section>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/draw-underline-link/index.tsx"
+        );
+        const demoProps = {
+          DrawUnderlineLink: {
+            label: { value: "Hover me" },
+            variant: {
+              value: "default",
+              options: { Default: "default", Small: "sm", Large: "lg" },
+            },
+            duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
+            underlineColor: { value: "#ff4c24" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        DrawUnderlineLink: {
+          label: { value: "Hover me" },
+          variant: {
+            value: "default",
+            options: { Default: "default", Small: "sm", Large: "lg" },
+          },
+          duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
+          underlineColor: { value: "#ff4c24" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-draw-underline-link",
+  },
   "demo-text-reveal-mask": {
     name: "demo-text-reveal-mask",
     description: "Scroll-triggered masked text reveal with rich text emphasis.",
@@ -188,7 +254,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/text-reveal-mask.tsx",
         content:
-          '"use client";\n\nimport {\n  MaskedTextReveal,\n  type MaskedTextRevealProps,\n} from "@/components/sora-ui/texts/text-reveal-mask";\n\nexport default function MaskedTextRevealExample({\n  splitBy = "lines",\n  stagger = 0.1,\n  duration,\n  yPercent = 110,\n  delay = 0,\n  viewportMargin = "0px 0px -20% 0px",\n  className = "mx-auto max-w-3xl text-center font-normal text-xl leading-snug tracking-[-0.02em] text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground",\n}: MaskedTextRevealProps) {\n  return (\n    <div className="w-full py-6">\n      <MaskedTextReveal\n        as="h2"\n        className={className}\n        delay={delay}\n        duration={duration}\n        splitBy={splitBy}\n        stagger={stagger}\n        viewportMargin={viewportMargin}\n        yPercent={yPercent}\n      >\n        Every stride is a statement. Every finish line a new beginning. We build\n        gear for athletes who refuse to settle for{" "}\n        <strong>yesterday&apos;s pace</strong>. Push beyond limits. Outrun\n        expectations. This is where <strong>champions are made</strong>.\n      </MaskedTextReveal>\n    </div>\n  );\n}',
+          '"use client";\n\nimport {\n  MaskedTextReveal,\n  type MaskedTextRevealProps,\n} from "@/components/sora-ui/texts/text-reveal-mask";\n\nexport default function MaskedTextRevealExample({\n  splitBy = "lines",\n  stagger = 0.1,\n  duration,\n  yPercent = 110,\n  delay = 0,\n  viewportMargin = "0px 0px -20% 0px",\n  className = "mx-auto max-w-3xl text-center font-normal text-xl leading-snug tracking-[-0.02em] text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground",\n}: MaskedTextRevealProps) {\n  return (\n    <div className="w-full py-[min(40vh,16rem)]">\n      <MaskedTextReveal\n        as="h2"\n        className={className}\n        delay={delay}\n        duration={duration}\n        splitBy={splitBy}\n        stagger={stagger}\n        viewportMargin={viewportMargin}\n        yPercent={yPercent}\n      >\n        Every stride is a statement. Every finish line a new beginning. We build\n        gear for athletes who refuse to settle for{" "}\n        <strong>yesterday&apos;s pace</strong>. Push beyond limits. Outrun\n        expectations. This is where <strong>champions are made</strong>.\n      </MaskedTextReveal>\n    </div>\n  );\n}',
       },
     ],
     keywords: [],
@@ -1451,31 +1517,6 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: null,
     command: "@soralabs/demo-pixelated-image-reveal",
-  },
-  "demo-draw-underline-link": {
-    name: "demo-draw-underline-link",
-    description: "Usage example for draw-underline-link.",
-    type: "registry:ui",
-    dependencies: ["motion", "class-variance-authority"],
-    devDependencies: undefined,
-    registryDependencies: ["draw-underline-link"],
-    files: [
-      {
-        path: "registry/demo/primitives/texts/draw-underline-link/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/demo/texts/draw-underline-link.tsx",
-        content:
-          '"use client";\n\nimport { DrawUnderlineLink } from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkExample() {\n  return (\n    <DrawUnderlineLink\n      label={"Hover me"}\n      variant={"default"}\n      duration={0.5}\n      underlineColor={"#ff4c24"}\n    />\n  );\n}\n',
-      },
-    ],
-    keywords: [],
-    inspiration: {
-      type: "reimplemented",
-      label: "Osmo",
-      url: "https://osmo.supply",
-    },
-    component: null,
-    command: "@soralabs/demo-draw-underline-link",
   },
   "demo-text-reveal-blur": {
     name: "demo-text-reveal-blur",

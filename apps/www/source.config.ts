@@ -23,6 +23,10 @@ export const docs = defineDocs({
           url: z.string().optional(),
         })
         .optional(),
+      /** Registry item name when it differs from the MDX slug. */
+      registryName: z.string().optional(),
+      /** Registry preview entry override (e.g. demo-*). */
+      preview: z.string().optional(),
     }),
     postprocess: {
       includeProcessedMarkdown: true,

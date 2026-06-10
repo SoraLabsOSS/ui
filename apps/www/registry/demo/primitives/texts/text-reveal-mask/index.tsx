@@ -15,7 +15,7 @@ export default function MaskedTextRevealExample({
   className = "mx-auto max-w-3xl text-center font-normal text-xl leading-snug tracking-[-0.02em] text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground",
 }: MaskedTextRevealProps) {
   return (
-    <div className="w-full py-6">
+    <div className="w-full py-[min(40vh,16rem)]">
       <MaskedTextReveal
         as="h2"
         className={className}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-draw-underline-link",
+  "type": "registry:ui",
+  "title": "Draw Underline Link Demo",
+  "description": "Scrollable catalog preview with two centered link instances.",
+  "registryDependencies": ["draw-underline-link"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/draw-underline-link/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/draw-underline-link.tsx"
+    }
+  ]
+}

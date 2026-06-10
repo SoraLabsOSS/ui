@@ -1,6 +1,6 @@
 import { index } from "@/__registry__";
 
-type InspirationType = "inspired" | "reimplemented";
+type InspirationType = "inspired" | "reimplemented" | "adapted";
 
 interface RegistryInspiration {
   label: string;
@@ -32,6 +32,15 @@ function getInspirationText(inspiration: RegistryInspiration) {
 
   if (inspiration.type === "reimplemented") {
     return <>Inspired by {source}. Reimplemented for Motion and React.</>;
+  }
+
+  if (inspiration.type === "adapted") {
+    return (
+      <>
+        Adapted from {source}. Independent implementation for the Sora UI
+        registry. Not affiliated with the original authors.
+      </>
+    );
   }
 
   return <>Inspired by {source}.</>;

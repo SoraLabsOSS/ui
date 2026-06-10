@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-draw-underline-link",
+  "title": "Draw Underline Link Demo",
+  "description": "Scrollable catalog preview with two centered link instances.",
+  "registryDependencies": ["@soralabs/draw-underline-link"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/draw-underline-link/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  DrawUnderlineLink,\n  type DrawUnderlineLinkProps,\n} from \"@/components/sora-ui/texts/draw-underline-link\";\n\nexport default function DrawUnderlineLinkCatalogDemo({\n  label = \"Hover me\",\n  variant = \"default\",\n  duration = 0.5,\n  underlineColor = \"#ff4c24\",\n  ...props\n}: DrawUnderlineLinkProps) {\n  return (\n    <div className=\"w-full\">\n      <section className=\"flex min-h-[100vh] items-center justify-center\">\n        <DrawUnderlineLink\n          duration={duration}\n          href=\"#\"\n          label={label}\n          underlineColor={underlineColor}\n          variant={variant}\n          {...props}\n        />\n      </section>\n      <section className=\"flex min-h-[100vh] items-center justify-center\">\n        <DrawUnderlineLink\n          duration={duration}\n          href=\"#\"\n          label=\"Keep scrolling\"\n          underlineColor={underlineColor}\n          variant={variant}\n          {...props}\n        />\n      </section>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/draw-underline-link.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
