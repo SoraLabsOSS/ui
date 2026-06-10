@@ -64,7 +64,7 @@ export const Header = () => (
 
         <UserButton
           align="end"
-          className="mr-1.5 inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 *:size-6! hover:bg-fd-accent hover:text-fd-accent-foreground sm:mt-1 [&_[data-slot=avatar-fallback]]:bg-transparent [&_[data-slot=avatar-fallback]_svg]:size-5 sm:[&_[data-slot=avatar-fallback]_svg]:size-5.5 [&_[data-slot=avatar]]:bg-transparent"
+          className="mr-1.5 inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 *:size-6! hover:bg-fd-accent hover:text-fd-accent-foreground **:data-[slot=avatar-fallback]:bg-transparent sm:mt-1 [&_[data-slot=avatar-fallback]_svg]:size-5 sm:[&_[data-slot=avatar-fallback]_svg]:size-5.5 [&_[data-slot=avatar]]:bg-transparent"
           links={[
             {
               label: "Bookmark",
