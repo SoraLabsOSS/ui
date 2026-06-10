@@ -1,7 +1,9 @@
 "use client";
 
+import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
 import XIcon from "@workspace/ui/components/icons/x-icon";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
+import { Bookmark } from "lucide-react";
 import { motion } from "motion/react";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
@@ -38,7 +40,7 @@ export const Header = () => (
         </span>
       </motion.div>
 
-      <div className="flex items-center gap-x-4">
+      <div className="flex items-center gap-x-1">
         <div className="xs:flex hidden items-center gap-x-1">
           <a
             className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
@@ -59,6 +61,20 @@ export const Header = () => (
             <XIcon />
           </a>
         </div>
+
+        <UserButton
+          align="end"
+          className="mr-1.5 inline-flex items-center justify-center rounded-md p-1.5 transition-colors duration-100 *:size-6! hover:bg-fd-accent sm:mt-1"
+          links={[
+            {
+              label: "Bookmark",
+              href: "/bookmark",
+              icon: <Bookmark />,
+              visibility: "authenticated",
+            },
+          ]}
+          size="icon"
+        />
 
         <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
       </div>
