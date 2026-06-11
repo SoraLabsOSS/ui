@@ -27,8 +27,9 @@ import {
 } from "@/lib/docs/generate-usage-example-code";
 import {
   catalogPreviewMobilePanelClassName,
+  catalogPreviewScreenClassName,
+  catalogPreviewToolbarRowClassName,
   catalogPreviewViewportClassName,
-  catalogToolbarRowClassName,
 } from "./catalog-preview-classes";
 import { CatalogScrollArea } from "./catalog-scroll-area";
 import { ComponentPagePreviewToolbar } from "./component-page-preview-toolbar";
@@ -226,7 +227,7 @@ export function ComponentPagePreviewPanel({
   const remountKey = `${previewKey}`;
 
   const previewBody = (
-    <div className="w-full px-6 md:px-10">
+    <div className="w-full px-6 md:px-10 lg:px-0">
       <div
         className="w-full"
         key={remountKey}
@@ -239,8 +240,13 @@ export function ComponentPagePreviewPanel({
       >
         <Suspense
           fallback={
-            <div className="flex items-center text-muted-foreground text-sm">
-              <Loader className="mr-2 size-4 animate-spin" />
+            <div
+              className={cn(
+                catalogPreviewScreenClassName,
+                "flex w-full items-center justify-center gap-2 text-muted-foreground text-sm"
+              )}
+            >
+              <Loader className="size-4 animate-spin" />
               Loading preview...
             </div>
           }
@@ -262,7 +268,7 @@ export function ComponentPagePreviewPanel({
           className
         )}
       >
-        <div className={catalogToolbarRowClassName}>
+        <div className={catalogPreviewToolbarRowClassName}>
           <ComponentPagePreviewToolbar
             controlsOpen={controlsOpen}
             isExpanded={isExpanded}

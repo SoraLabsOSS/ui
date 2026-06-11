@@ -16,20 +16,20 @@ export const catalogChromeRowClassName = "flex min-h-14 shrink-0 items-center";
 export const catalogChromePaddingClassName = "px-6";
 
 /** Shared horizontal inset — preview, docs, and header align on stacked layout. */
-export const catalogContentGutterClassName = "px-4 sm:px-8 md:px-12 lg:px-6";
+export const catalogContentGutterClassName = "px-4 sm:px-8 md:px-16";
 
 /** Centered content width on stacked layout — matches the docs column. */
 export const catalogStackedContentClassName =
   "max-lg:mx-auto max-lg:w-full max-lg:min-w-0 max-lg:max-w-4xl";
 
 /** Top inset for docs header + preview toolbar (symmetric). */
-export const catalogChromeTopInsetClassName = "pt-4";
+export const catalogChromeTopInsetClassName = "pt-6";
 
 /** Inset from the preview panel border (chrome inside panel). */
 export const catalogPanelChromeInsetClassName = "px-4 pt-4";
 
-/** Docs header left offset on desktop: shell padding + panel inset (matches toolbar). */
-export const catalogDocsHeaderInsetClassName = "lg:pl-10";
+/** Docs header on desktop — transparent overlay, no extra inset. */
+export const catalogDocsHeaderInsetClassName = "";
 
 /** Floating chrome toolbar surface (docs header + preview toolbar). */
 export const catalogChromeToolbarClassName =
@@ -47,7 +47,7 @@ export const catalogChromeToolbarDividerClassName =
 export const catalogDocsHeaderClassName = [
   "relative z-30 flex min-h-14 shrink-0 items-center max-lg:pb-3",
   catalogChromeTopInsetClassName,
-  catalogContentGutterClassName,
+  catalogChromePaddingClassName,
   "max-lg:pt-4",
 ].join(" ");
 
@@ -67,19 +67,23 @@ export const catalogDocsHeaderMobileFixedClassName = [
   "lg:static lg:border-0 lg:bg-transparent lg:backdrop-blur-none",
 ].join(" ");
 
+/** Preview shell gutter — reference uses `p-4` on desktop, content gutters on mobile only. */
+export const catalogPreviewShellGutterClassName =
+  "px-4 pb-6 sm:px-8 md:px-16 lg:p-4";
+
 export const catalogPreviewShellClassName = [
   "w-full pt-0",
-  "max-lg:pb-6",
   catalogStackedContentClassName,
-  catalogContentGutterClassName,
+  catalogPreviewShellGutterClassName,
 ].join(" ");
 
 /** Fixed width during expand/collapse so demo layout does not reflow mid-animation. */
 export const catalogPreviewShellFixedWidthClassName =
   "lg:w-[var(--catalog-layout-width,100%)]";
 
-export const catalogToolbarRowClassName = [
+/** Above scrollable demo content; stays below docs header (header is left-column only on lg). */
+export const catalogPreviewToolbarRowClassName = [
   catalogChromeRowClassName,
   catalogPanelChromeInsetClassName,
-  "justify-end",
+  "relative z-10 shrink-0 justify-end",
 ].join(" ");

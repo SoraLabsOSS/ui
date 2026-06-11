@@ -22,8 +22,6 @@ import { useState } from "react";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
 import {
   catalogChromeToolbarButtonClassName,
-  catalogChromeToolbarClassName,
-  catalogChromeToolbarDividerClassName,
   catalogDocsHeaderClassName,
   catalogDocsHeaderInsetClassName,
 } from "./catalog-preview-classes";
@@ -36,7 +34,7 @@ interface ComponentPageDocsHeaderProps {
 }
 
 export function ComponentPageDocsHeader({
-  isExpanded = false,
+  isExpanded: _isExpanded = false,
   title,
   navItems,
 }: ComponentPageDocsHeaderProps) {
@@ -51,23 +49,23 @@ export function ComponentPageDocsHeader({
           "max-lg:bg-background lg:bg-transparent"
         )}
       >
-        <div className={catalogChromeToolbarClassName}>
-          <motion.button
-            aria-label="Browse components"
-            className={catalogChromeToolbarButtonClassName}
-            data-sidebar-toggle="true"
-            onClick={() => setOpen(true)}
-            type="button"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-          >
-            <SidebarToggleIcon className="size-4" isOpen={open} />
-          </motion.button>
+        <div className="relative flex items-center gap-3">
+          <div>
+            <motion.button
+              aria-label="Browse components"
+              className={catalogChromeToolbarButtonClassName}
+              data-sidebar-toggle="true"
+              onClick={() => setOpen(true)}
+              type="button"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <SidebarToggleIcon className="size-5" isOpen={open} />
+            </motion.button>
+          </div>
 
-          <span aria-hidden className={catalogChromeToolbarDividerClassName} />
-
-          <Breadcrumb className="px-2">
-            <BreadcrumbList className="gap-1.5 text-sm">
+          <Breadcrumb>
+            <BreadcrumbList className="gap-1.5 text-sm sm:gap-2.5">
               <BreadcrumbItem>
                 <BreadcrumbLink href="/components">Components</BreadcrumbLink>
               </BreadcrumbItem>

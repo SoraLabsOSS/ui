@@ -128,13 +128,11 @@ export function ComponentPageLayoutClient({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [isExpanded]);
 
-  const useMobileDocumentFlow = !(isLargeScreen || isExpanded);
-
   const docsContent = (
-    <div className="flex w-full justify-center overflow-x-hidden">
+    <div className="flex w-full min-w-0 justify-center">
       <div
         className={cn(
-          "flex w-full min-w-0 max-w-4xl flex-col gap-8 pt-6 pb-24 md:pt-10 lg:gap-10",
+          "flex w-full min-w-0 max-w-4xl flex-col gap-6 py-8 pb-24 md:gap-10 md:py-14",
           catalogContentGutterClassName
         )}
       >
@@ -144,10 +142,9 @@ export function ComponentPageLayoutClient({
           releaseDate={releaseDate}
         />
 
-        <div className="grid gap-10">
-          <div className="min-w-0">{children}</div>
-          <ComponentPageToc items={toc} />
-        </div>
+        <div className="min-w-0">{children}</div>
+
+        <ComponentPageToc className="lg:hidden" items={toc} />
       </div>
     </div>
   );
@@ -156,14 +153,18 @@ export function ComponentPageLayoutClient({
     <motion.div
       animate={{ opacity: isLayoutReady ? 1 : 0 }}
       aria-busy={!isLayoutReady}
-      className="relative flex h-full min-h-0 flex-col overflow-hidden bg-background max-lg:h-auto max-lg:overflow-visible lg:grid lg:grid-cols-2 lg:grid-rows-[auto_minmax(0,1fr)]"
+      className={cn(
+        "relative h-full min-h-0 overflow-hidden bg-background",
+        "max-lg:flex max-lg:h-auto max-lg:flex-col max-lg:overflow-visible"
+      )}
       initial={false}
       ref={layoutRef}
       transition={LAYOUT_FADE_TRANSITION}
     >
       <div
         className={cn(
-          "max-lg:order-1 lg:col-start-1 lg:row-start-1",
+          "max-lg:order-1",
+          "lg:absolute lg:top-0 lg:right-1/2 lg:left-0 lg:z-30",
           !isLayoutReady && "pointer-events-none"
         )}
       >
@@ -184,44 +185,39 @@ export function ComponentPageLayoutClient({
 
       <div
         className={cn(
-          "flex min-h-0 min-w-0 flex-col max-lg:order-3 max-lg:flex-none lg:col-start-1 lg:row-start-2 lg:min-h-0",
-          isExpanded && "pointer-events-none select-none",
+          "max-lg:order-3 max-lg:flex-none",
+          "relative min-h-0 min-w-0",
+          "lg:absolute lg:inset-0 lg:z-0 lg:h-full lg:overflow-hidden lg:pr-[50%]",
+          isExpanded &&
+            "pointer-events-none select-none lg:opacity-0 lg:transition-opacity lg:duration-550 lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
           !isLayoutReady && "pointer-events-none"
         )}
       >
-        <div className="relative min-h-0 flex-1 max-lg:flex-none">
-          {useMobileDocumentFlow ? (
-            docsContent
-          ) : (
-            <CatalogScrollArea className="size-full">
-              {docsContent}
-            </CatalogScrollArea>
-          )}
+        <ProgressiveBlur
+          backgroundColor="var(--background)"
+          blurAmount="12px"
+          className="z-10 max-lg:hidden"
+          height="100px"
+          maskFadeStart="45%"
+          position="top"
+        />
+        <ProgressiveBlur
+          backgroundColor="var(--background)"
+          blurAmount="12px"
+          className="z-10 max-lg:hidden"
+          height="70px"
+          maskFadeStart="45%"
+          position="bottom"
+        />
 
-          <ProgressiveBlur
-            backgroundColor="var(--background)"
-            blurAmount="12px"
-            className="z-[1] max-lg:hidden"
-            height="50px"
-            maskFadeStart="45%"
-            position="top"
-          />
-          <ProgressiveBlur
-            backgroundColor="var(--background)"
-            blurAmount="12px"
-            className="z-[1] max-lg:hidden"
-            height="50px"
-            maskFadeStart="45%"
-            position="bottom"
-          />
-        </div>
+        <CatalogScrollArea
+          className="min-h-0 min-w-0 lg:h-full"
+          hideScrollbar
+          viewportClassName="lg:pt-12"
+        >
+          {docsContent}
+        </CatalogScrollArea>
       </div>
-
-      {/* Keeps the docs column at 50% width while the preview shell is absolute. */}
-      <div
-        aria-hidden
-        className="hidden min-h-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:block"
-      />
 
       <motion.div
         animate={

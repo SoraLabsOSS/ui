@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import { CatalogTypeTable } from "@/components/catalog/catalog-type-table";
 
 /** MDX overrides for catalog pages — preview lives in the sticky panel. */
 export function getCatalogMDXComponents(
@@ -7,5 +8,6 @@ export function getCatalogMDXComponents(
   return {
     ...components,
     ComponentPreview: () => null,
+    TypeTable: CatalogTypeTable,
   };
 }

@@ -34,7 +34,7 @@ export function ComponentInstallation({
   return (
     <div
       className={cn(
-        "relative my-4 flex flex-col space-y-2 lg:max-w-[120ch]",
+        "relative mt-2 flex flex-col space-y-3 lg:max-w-[120ch]",
         className
       )}
       {...props}

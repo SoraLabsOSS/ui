@@ -25,7 +25,7 @@ export function ComponentPageHeader({
   return (
     <motion.header
       animate={{ opacity: 1, y: 0 }}
-      className={cn("flex flex-col gap-4", className)}
+      className={cn("flex flex-col gap-6", className)}
       initial={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
@@ -33,10 +33,10 @@ export function ComponentPageHeader({
         <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.2em]">
           {data.collection}
         </p>
-        <h1 className="font-medium text-3xl tracking-tighter sm:text-4xl md:text-5xl">
+        <h1 className="text-3xl tracking-tighter sm:text-4xl md:text-5xl">
           {data.title}
         </h1>
-        <p className="mt-1 max-w-2xl text-base text-foreground/55 leading-relaxed md:text-lg">
+        <p className="mt-1 max-w-2xl text-base text-foreground/50 leading-relaxed md:text-lg">
           {data.description}
         </p>
         {releaseDate ? (
