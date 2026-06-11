@@ -14,4 +14,4 @@ pre-commit:
 pre-push:
   commands:
     build:
-      run: bun run build
+      run: bun run build:verify
