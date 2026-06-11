@@ -24,16 +24,16 @@ export function useCatalogLayoutReady(
     let cancelled = false;
 
     const media = window.matchMedia(LG_MEDIA);
-    const syncLargeScreen = () => {
-      setIsLargeScreen(media.matches);
-    };
-    syncLargeScreen();
-    media.addEventListener("change", syncLargeScreen);
-
     const syncLayoutWidth = () => {
       node.style.setProperty("--catalog-layout-width", `${node.clientWidth}px`);
     };
-    syncLayoutWidth();
+
+    const syncLargeScreen = () => {
+      setIsLargeScreen(media.matches);
+      syncLayoutWidth();
+    };
+    syncLargeScreen();
+    media.addEventListener("change", syncLargeScreen);
 
     const observer = new ResizeObserver(syncLayoutWidth);
     observer.observe(node);

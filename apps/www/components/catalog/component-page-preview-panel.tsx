@@ -26,6 +26,7 @@ import {
   installImportPathFromTarget,
 } from "@/lib/docs/generate-usage-example-code";
 import {
+  catalogPreviewMobilePanelClassName,
   catalogPreviewViewportClassName,
   catalogToolbarRowClassName,
 } from "./catalog-preview-classes";
@@ -224,11 +225,39 @@ export function ComponentPagePreviewPanel({
 
   const remountKey = `${previewKey}`;
 
+  const previewBody = (
+    <div className="w-full px-6 md:px-10">
+      <div
+        className="w-full"
+        key={remountKey}
+        onClickCapture={(event) => {
+          const anchor = (event.target as HTMLElement).closest("a[href]");
+          if (anchor) {
+            event.preventDefault();
+          }
+        }}
+      >
+        <Suspense
+          fallback={
+            <div className="flex items-center text-muted-foreground text-sm">
+              <Loader className="mr-2 size-4 animate-spin" />
+              Loading preview...
+            </div>
+          }
+        >
+          {preview}
+        </Suspense>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div
         className={cn(
-          "relative flex min-h-[min(420px,55vh)] flex-1 flex-col overflow-hidden rounded-2xl border border-border/50 bg-secondary lg:min-h-0",
+          "relative flex w-full flex-1 flex-col overflow-hidden rounded-2xl border border-border/50 bg-secondary",
+          catalogPreviewMobilePanelClassName,
+          "lg:min-h-0",
           sticky && "lg:h-full",
           className
         )}
@@ -248,29 +277,7 @@ export function ComponentPagePreviewPanel({
           className="min-h-0 flex-1"
           viewportClassName={catalogPreviewViewportClassName}
         >
-          <div className="w-full px-6 md:px-10">
-            <div
-              className="w-full"
-              key={remountKey}
-              onClickCapture={(event) => {
-                const anchor = (event.target as HTMLElement).closest("a[href]");
-                if (anchor) {
-                  event.preventDefault();
-                }
-              }}
-            >
-              <Suspense
-                fallback={
-                  <div className="flex items-center text-muted-foreground text-sm">
-                    <Loader className="mr-2 size-4 animate-spin" />
-                    Loading preview...
-                  </div>
-                }
-              >
-                {preview}
-              </Suspense>
-            </div>
-          </div>
+          {previewBody}
         </CatalogScrollArea>
 
         {controlsOpen && binds ? (

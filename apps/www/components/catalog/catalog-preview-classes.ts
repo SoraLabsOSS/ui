@@ -5,11 +5,22 @@ export const catalogPreviewViewportClassName =
 /** One full “screen” inside the preview panel (not browser `100vh`). */
 export const catalogPreviewScreenClassName = "min-h-[100cqh]";
 
+/** Preview panel height on stacked (mobile) layout — full viewport, scroll inside. */
+export const catalogPreviewMobilePanelClassName =
+  "max-lg:h-[100dvh] max-lg:min-h-[100dvh]";
+
 /** Shared chrome row layout. */
 export const catalogChromeRowClassName = "flex min-h-14 shrink-0 items-center";
 
 /** Horizontal inset from viewport / column edge. */
 export const catalogChromePaddingClassName = "px-6";
+
+/** Shared horizontal inset — preview, docs, and header align on stacked layout. */
+export const catalogContentGutterClassName = "px-4 sm:px-8 md:px-12 lg:px-6";
+
+/** Centered content width on stacked layout — matches the docs column. */
+export const catalogStackedContentClassName =
+  "max-lg:mx-auto max-lg:w-full max-lg:min-w-0 max-lg:max-w-4xl";
 
 /** Top inset for docs header + preview toolbar (symmetric). */
 export const catalogChromeTopInsetClassName = "pt-4";
@@ -36,13 +47,31 @@ export const catalogChromeToolbarDividerClassName =
 export const catalogDocsHeaderClassName = [
   "relative z-30 flex min-h-14 shrink-0 items-center max-lg:pb-3",
   catalogChromeTopInsetClassName,
-  catalogChromePaddingClassName,
+  catalogContentGutterClassName,
   "max-lg:pt-4",
 ].join(" ");
 
+/** Fixed chrome on stacked layout — min-h-14 + pt-4 + pb-3. */
+export const catalogDocsHeaderMobileHeight = "5.25rem";
+
+/** Reserves space so content does not sit under the fixed mobile header. */
+export const catalogDocsHeaderMobileSpacerClassName =
+  "max-lg:min-h-[5.25rem] max-lg:shrink-0 lg:hidden";
+
+/** Fixed chrome on stacked layout — stays visible while page scrolls. */
+export const catalogDocsHeaderMobileFixedClassName = [
+  "max-lg:fixed max-lg:inset-x-0 max-lg:top-(--fd-banner-height) max-lg:z-40",
+  "max-lg:border-border/40 max-lg:border-b",
+  "max-lg:bg-background/95 max-lg:backdrop-blur-md",
+  "max-lg:supports-[backdrop-filter]:bg-background/80",
+  "lg:static lg:border-0 lg:bg-transparent lg:backdrop-blur-none",
+].join(" ");
+
 export const catalogPreviewShellClassName = [
-  "max-lg:w-full pt-0 pb-6",
-  catalogChromePaddingClassName,
+  "w-full pt-0",
+  "max-lg:pb-6",
+  catalogStackedContentClassName,
+  catalogContentGutterClassName,
 ].join(" ");
 
 /** Fixed width during expand/collapse so demo layout does not reflow mid-animation. */

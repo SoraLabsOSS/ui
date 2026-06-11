@@ -18,7 +18,7 @@ export function ComponentsShell({
     <div className="flex h-[calc(100dvh-var(--fd-banner-height))] flex-col bg-background text-foreground">
       <main
         className={cn(
-          "relative flex min-h-0 flex-1 flex-col overflow-hidden",
+          "relative flex min-h-0 flex-1 flex-col overflow-hidden max-lg:overflow-y-auto max-lg:overflow-x-hidden",
           className
         )}
       >
