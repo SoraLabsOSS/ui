@@ -1,22 +1,20 @@
 "use client";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@workspace/ui/components/ui/breadcrumb";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
 import { useCatalogMenu } from "./catalog-menu-context";
+import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
+  catalogChromeToolbarClassName,
+  catalogDocsHeaderBreadcrumbClassName,
   catalogDocsHeaderClassName,
   catalogDocsHeaderInsetClassName,
-  catalogMenuButtonMobileOpenClassName,
+  catalogDocsHeaderMenuClassName,
+  catalogDocsHeaderMobileSymmetricClassName,
+  catalogMobileChromeInteractiveClassName,
 } from "./catalog-preview-classes";
 import { ComponentPageCatalogMenuButton } from "./component-page-catalog-menu-button";
+import { ComponentPageDocsBreadcrumb } from "./component-page-docs-breadcrumb";
 
 interface ComponentPageDocsHeaderProps {
   isExpanded?: boolean;
@@ -24,46 +22,61 @@ interface ComponentPageDocsHeaderProps {
   title: string;
 }
 
+const menuChipClassName = cn(
+  catalogDocsHeaderMenuClassName,
+  "max-lg:flex max-lg:items-center",
+  catalogChromeToolbarClassName,
+  "lg:rounded-none lg:bg-transparent lg:p-0 lg:shadow-none"
+);
+
 export function ComponentPageDocsHeader({
   isExpanded: _isExpanded = false,
   title,
   navItems: _navItems,
 }: ComponentPageDocsHeaderProps) {
   const { open } = useCatalogMenu();
+  const { toolbar } = useCatalogMobileChrome();
 
   return (
     <header
       className={cn(
         catalogDocsHeaderClassName,
         catalogDocsHeaderInsetClassName,
-        open ? "max-lg:bg-transparent" : "max-lg:bg-background",
-        !open &&
-          "max-lg:transition-colors max-lg:duration-450 max-lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
-        "lg:bg-transparent"
+        catalogDocsHeaderMobileSymmetricClassName,
+        "gap-3 lg:bg-transparent"
       )}
     >
-      <div
-        className={cn(
-          "relative flex items-center gap-3",
-          open && catalogMenuButtonMobileOpenClassName
-        )}
-      >
-        <ComponentPageCatalogMenuButton />
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        <div
+          className={cn(
+            menuChipClassName,
+            open && catalogMobileChromeInteractiveClassName
+          )}
+        >
+          <ComponentPageCatalogMenuButton />
+        </div>
 
-        {open ? null : (
-          <Breadcrumb>
-            <BreadcrumbList className="gap-1.5 text-sm sm:gap-2.5">
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="font-medium">{title}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        )}
+        <ComponentPageDocsBreadcrumb
+          className={cn(
+            catalogDocsHeaderBreadcrumbClassName,
+            "max-lg:hidden",
+            open && "lg:hidden"
+          )}
+          title={title}
+        />
       </div>
+
+      {toolbar ? (
+        <div
+          className={cn(
+            catalogDocsHeaderMenuClassName,
+            "lg:hidden",
+            open && "max-lg:hidden"
+          )}
+        >
+          {toolbar}
+        </div>
+      ) : null}
     </header>
   );
 }

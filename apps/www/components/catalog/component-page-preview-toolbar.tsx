@@ -35,7 +35,13 @@ export function ComponentPagePreviewToolbar({
   onOpenSource,
 }: ComponentPagePreviewToolbarProps) {
   return (
-    <div className={cn(catalogChromeToolbarClassName, className)}>
+    <div
+      className={cn(
+        catalogChromeToolbarClassName,
+        "pointer-events-auto",
+        className
+      )}
+    >
       <ToolbarButton
         aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
         className="max-lg:hidden"

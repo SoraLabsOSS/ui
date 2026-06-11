@@ -2,6 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import type { ReactNode } from "react";
+import { catalogDocsHeaderMobileScrollPaddingClassName } from "./catalog-preview-classes";
 
 interface ComponentsShellProps {
   children: ReactNode;
@@ -21,6 +22,7 @@ export function ComponentsShell({
           "relative flex min-h-0 flex-1 flex-col overflow-hidden",
           // Scroll on the shell below lg; hide the OS bar so horizontal padding stays even.
           "max-lg:overflow-y-auto max-lg:overflow-x-hidden max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden",
+          catalogDocsHeaderMobileScrollPaddingClassName,
           className
         )}
         data-catalog-scroll-root

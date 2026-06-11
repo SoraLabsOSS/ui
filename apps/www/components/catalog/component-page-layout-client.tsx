@@ -18,9 +18,10 @@ import type {
 import { useCatalogMenu } from "./catalog-menu-context";
 import {
   catalogContentGutterClassName,
+  catalogDocsHeaderDesktopMenuOpenClassName,
   catalogDocsHeaderMobileFixedClassName,
+  catalogDocsHeaderMobileFloatingClassName,
   catalogDocsHeaderMobileMenuOpenClassName,
-  catalogDocsHeaderMobileSpacerClassName,
   catalogPreviewShellClassName,
   catalogPreviewShellFixedWidthClassName,
 } from "./catalog-preview-classes";
@@ -174,7 +175,9 @@ export function ComponentPageLayoutClient({
         <div
           className={cn(
             catalogDocsHeaderMobileFixedClassName,
+            catalogDocsHeaderMobileFloatingClassName,
             isCatalogMenuOpen && catalogDocsHeaderMobileMenuOpenClassName,
+            isCatalogMenuOpen && catalogDocsHeaderDesktopMenuOpenClassName,
             isExpanded && "max-lg:hidden"
           )}
         >
@@ -184,7 +187,6 @@ export function ComponentPageLayoutClient({
             title={header.title}
           />
         </div>
-        <div aria-hidden className={catalogDocsHeaderMobileSpacerClassName} />
       </div>
 
       <div
@@ -234,7 +236,7 @@ export function ComponentPageLayoutClient({
         }
         className={cn(
           "z-20 flex shrink-0 overflow-hidden max-lg:z-0 max-lg:order-2",
-          "max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:w-full max-lg:max-w-full max-lg:shrink-0 max-lg:bg-background max-lg:pb-0",
+          "max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:w-full max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:bg-background max-lg:pb-0",
           "lg:absolute lg:top-0 lg:left-1/2 lg:h-full lg:min-h-[min(420px,55vh)] lg:w-1/2 lg:bg-transparent",
           isExpanded &&
             "max-lg:fixed max-lg:inset-0 max-lg:h-full max-lg:overflow-hidden max-lg:bg-background max-lg:p-6",
@@ -248,7 +250,7 @@ export function ComponentPageLayoutClient({
       >
         <div
           className={cn(
-            "flex min-h-0 w-full flex-col max-lg:h-auto lg:h-full lg:w-full",
+            "flex w-full flex-col max-lg:h-auto max-lg:min-h-min lg:h-full lg:min-h-0 lg:w-full",
             catalogPreviewShellClassName,
             useFixedPreviewShellWidth && catalogPreviewShellFixedWidthClassName
           )}

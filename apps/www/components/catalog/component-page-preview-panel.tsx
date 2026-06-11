@@ -25,14 +25,17 @@ import {
   generateUsageExampleCode,
   installImportPathFromTarget,
 } from "@/lib/docs/generate-usage-example-code";
+import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogPreviewMobilePanelClassName,
+  catalogPreviewMobileViewportClassName,
   catalogPreviewScreenClassName,
   catalogPreviewToolbarRowClassName,
   catalogPreviewViewportClassName,
 } from "./catalog-preview-classes";
 import { CatalogScrollArea } from "./catalog-scroll-area";
 import { ComponentPagePreviewToolbar } from "./component-page-preview-toolbar";
+import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
 
 type RegistryIndexEntry = (typeof index)[string];
 
@@ -124,6 +127,8 @@ export function ComponentPagePreviewPanel({
   const [controlsOpen, setControlsOpen] = useState(false);
   const [sourceOpen, setSourceOpen] = useState(false);
   const previousPropsSnapshot = useRef<string | null>(null);
+  const isStacked = useCatalogStackedLayout();
+  const { setToolbar } = useCatalogMobileChrome();
 
   const demoPropsConfig = useMemo(
     () => resolveDemoProps(previewName),
@@ -224,10 +229,34 @@ export function ComponentPagePreviewPanel({
     setPreviewKey((current) => current + 1);
   }, [binds, demoPropsConfig]);
 
+  const previewToolbar = useMemo(
+    () => (
+      <ComponentPagePreviewToolbar
+        controlsOpen={controlsOpen}
+        isExpanded={isExpanded}
+        onOpenSource={() => setSourceOpen(true)}
+        onRestart={handleRestart}
+        onToggleControls={() => setControlsOpen((open) => !open)}
+        onToggleExpanded={onToggleExpanded}
+      />
+    ),
+    [controlsOpen, handleRestart, isExpanded, onToggleExpanded]
+  );
+
+  useEffect(() => {
+    if (!isStacked || isExpanded) {
+      setToolbar(null);
+      return;
+    }
+
+    setToolbar(previewToolbar);
+    return () => setToolbar(null);
+  }, [isExpanded, isStacked, previewToolbar, setToolbar]);
+
   const remountKey = `${previewKey}`;
 
   const previewBody = (
-    <div className="w-full px-6 md:px-10 lg:px-0">
+    <div className="w-full max-lg:px-0 lg:px-0">
       <div
         className="w-full"
         key={remountKey}
@@ -261,33 +290,32 @@ export function ComponentPagePreviewPanel({
     <>
       <div
         className={cn(
-          "relative flex w-full flex-1 flex-col overflow-hidden rounded-2xl border border-border/50 bg-secondary",
+          "relative flex w-full flex-col rounded-2xl border border-border/50 bg-secondary",
+          "max-lg:flex-none max-lg:overflow-visible lg:min-h-0 lg:flex-1 lg:overflow-hidden",
           catalogPreviewMobilePanelClassName,
-          "lg:min-h-0",
           sticky && "lg:h-full",
           className
         )}
       >
-        <div className={catalogPreviewToolbarRowClassName}>
-          <ComponentPagePreviewToolbar
-            controlsOpen={controlsOpen}
-            isExpanded={isExpanded}
-            onOpenSource={() => setSourceOpen(true)}
-            onRestart={handleRestart}
-            onToggleControls={() => setControlsOpen((open) => !open)}
-            onToggleExpanded={onToggleExpanded}
-          />
+        <div className={cn(catalogPreviewToolbarRowClassName, "max-lg:hidden")}>
+          {previewToolbar}
         </div>
 
-        <CatalogScrollArea
-          className="min-h-0 flex-1"
-          viewportClassName={catalogPreviewViewportClassName}
-        >
-          {previewBody}
-        </CatalogScrollArea>
+        {isStacked && !isExpanded ? (
+          <div className={catalogPreviewMobileViewportClassName}>
+            {previewBody}
+          </div>
+        ) : (
+          <CatalogScrollArea
+            className="min-h-0 flex-1 lg:h-full"
+            viewportClassName={catalogPreviewViewportClassName}
+          >
+            {previewBody}
+          </CatalogScrollArea>
+        )}
 
         {controlsOpen && binds ? (
-          <div className="border-border/50 border-t bg-background p-3">
+          <div className="relative z-10 border-border/50 border-t bg-background p-3">
             <Tweakpane binds={binds} onBindsChange={setBinds} />
           </div>
         ) : null}

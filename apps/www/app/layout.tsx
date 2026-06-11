@@ -8,9 +8,9 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@workspace/ui/lib/utils";
-import { Banner } from "@/components/banner";
 import { Providers } from "@/components/providers";
-import { BANNER_DISMISS_CLASS, BANNER_HEIGHT } from "@/lib/banner-config";
+import { SiteBanner } from "@/components/site-banner";
+import { getBannerInitScript } from "@/lib/banner-config";
 import { jsonLd } from "@/lib/json-ld";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
@@ -97,7 +97,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var k=${JSON.stringify(BANNER_DISMISS_CLASS)};if(localStorage.getItem(k)==="true"){document.documentElement.classList.add(k);}else{document.documentElement.style.setProperty("--fd-banner-height",${JSON.stringify(BANNER_HEIGHT)});}})();`,
+            __html: getBannerInitScript(),
           }}
         />
         <script
@@ -116,20 +116,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <RootProvider>
           <NuqsAdapter>
             <Providers>
-              <Banner
-                rainbowColors={[
-                  "rgba(255,100,0, 0.5)",
-                  "rgba(255,100,0, 0.5)",
-                  "transparent",
-                  "rgba(255,100,0, 0.5)",
-                  "transparent",
-                  "rgba(255,100,0, 0.5)",
-                  "transparent",
-                ]}
-                variant="rainbow"
-              >
-                🎉 Sora UI is now part of the shadcn/ui registry ecosystem.
-              </Banner>
+              <SiteBanner />
               {children}
             </Providers>
           </NuqsAdapter>

@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
 import { CatalogMenuProvider } from "./catalog-menu-context";
+import { CatalogMobileChromeProvider } from "./catalog-mobile-chrome-context";
 import { ComponentPageCatalogSidebar } from "./component-page-catalog-sidebar";
 
 interface ComponentPageCatalogShellProps {
@@ -16,8 +17,10 @@ export function ComponentPageCatalogShell({
 }: ComponentPageCatalogShellProps) {
   return (
     <CatalogMenuProvider navItems={navItems}>
-      <ComponentPageCatalogSidebar />
-      <div className="min-h-0 min-w-0 flex-1">{children}</div>
+      <CatalogMobileChromeProvider>
+        <ComponentPageCatalogSidebar />
+        <div className="min-h-0 min-w-0 flex-1">{children}</div>
+      </CatalogMobileChromeProvider>
     </CatalogMenuProvider>
   );
 }
