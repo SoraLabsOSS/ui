@@ -1,14 +1,8 @@
 "use client";
 
-import { TextScramble } from "@workspace/ui/components/sora-ui/texts/text-scramble";
 import { cn } from "@workspace/ui/lib/utils";
 import Link from "next/link";
 import { type ComponentProps, useState } from "react";
-import { SECTION_CTA_SCRAMBLE_DEFAULTS } from "@/components/buttons/section-cta-scramble";
-
-/** Lowercase-heavy pool — matches sentence-case footer link labels. */
-const FOOTER_LINK_SCRAMBLE_CHARS =
-  "abcdefghijklmnopqrstuvwxyz0123456789<>{}[]();:=+-*/%&|^~!?#@$_.,";
 
 type FooterArrowLinkProps = {
   href: string;
@@ -44,22 +38,7 @@ export function FooterArrowLink({
           textClassName
         )}
       >
-        <span aria-hidden="true" className="invisible select-none">
-          {children}
-        </span>
-        <TextScramble
-          as="span"
-          characterSet={FOOTER_LINK_SCRAMBLE_CHARS}
-          className="absolute top-0 left-0 inline-block font-[inherit] text-[color:inherit] text-[length:inherit] leading-[inherit] tracking-[inherit]"
-          duration={SECTION_CTA_SCRAMBLE_DEFAULTS.scrambleDuration}
-          holdDuration={SECTION_CTA_SCRAMBLE_DEFAULTS.scrambleHoldDuration}
-          scrambleColor="#fb460d"
-          speed={SECTION_CTA_SCRAMBLE_DEFAULTS.scrambleSpeed}
-          trigger={isActive}
-          triggerOnHover={false}
-        >
-          {children}
-        </TextScramble>
+        {children}
       </span>
     </>
   );

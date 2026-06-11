@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { index } from "@/__registry__";
+import { catalogNavMockItems } from "@/lib/registry/catalog-nav-mock-items";
 import { componentSource } from "@/lib/registry/component-source";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { filterComponentToc } from "@/lib/registry/parse-primitive-mdx";
@@ -106,6 +107,10 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
       collection: "component",
       releaseDate,
     });
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    items.push(...catalogNavMockItems);
   }
 
   return items;

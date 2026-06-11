@@ -15,9 +15,11 @@ import type {
   ComponentPageHeaderData,
   ComponentTocItem,
 } from "@/lib/registry/types";
+import { useCatalogMenu } from "./catalog-menu-context";
 import {
   catalogContentGutterClassName,
   catalogDocsHeaderMobileFixedClassName,
+  catalogDocsHeaderMobileMenuOpenClassName,
   catalogDocsHeaderMobileSpacerClassName,
   catalogPreviewShellClassName,
   catalogPreviewShellFixedWidthClassName,
@@ -67,6 +69,7 @@ export function ComponentPageLayoutClient({
   const [isPreviewAnimating, setIsPreviewAnimating] = useState(false);
   const { isLargeScreen, isReady: isLayoutReady } =
     useCatalogLayoutReady(layoutRef);
+  const { open: isCatalogMenuOpen } = useCatalogMenu();
 
   const useFixedPreviewShellWidth =
     isLargeScreen && (isExpanded || isPreviewAnimating);
@@ -171,6 +174,7 @@ export function ComponentPageLayoutClient({
         <div
           className={cn(
             catalogDocsHeaderMobileFixedClassName,
+            isCatalogMenuOpen && catalogDocsHeaderMobileMenuOpenClassName,
             isExpanded && "max-lg:hidden"
           )}
         >
@@ -229,7 +233,7 @@ export function ComponentPageLayoutClient({
             : undefined
         }
         className={cn(
-          "z-20 flex shrink-0 overflow-hidden max-lg:order-2",
+          "z-20 flex shrink-0 overflow-hidden max-lg:z-0 max-lg:order-2",
           "max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:w-full max-lg:max-w-full max-lg:shrink-0 max-lg:bg-background max-lg:pb-0",
           "lg:absolute lg:top-0 lg:left-1/2 lg:h-full lg:min-h-[min(420px,55vh)] lg:w-1/2 lg:bg-transparent",
           isExpanded &&

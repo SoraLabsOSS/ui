@@ -38,6 +38,7 @@ export function ComponentPagePreviewToolbar({
     <div className={cn(catalogChromeToolbarClassName, className)}>
       <ToolbarButton
         aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
+        className="max-lg:hidden"
         onClick={onToggleExpanded}
       >
         {isExpanded ? (

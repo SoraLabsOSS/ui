@@ -8,24 +8,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@workspace/ui/components/ui/breadcrumb";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@workspace/ui/components/ui/sheet";
-import { SidebarToggleIcon } from "@workspace/ui/components/unlumen-ui/sidebar-toggle-icon";
 import { cn } from "@workspace/ui/lib/utils";
-import { motion } from "motion/react";
-import Link from "next/link";
-import { useState } from "react";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+import { useCatalogMenu } from "./catalog-menu-context";
 import {
-  catalogChromeToolbarButtonClassName,
   catalogDocsHeaderClassName,
   catalogDocsHeaderInsetClassName,
+  catalogMenuButtonMobileOpenClassName,
 } from "./catalog-preview-classes";
-import { CatalogScrollArea } from "./catalog-scroll-area";
+import { ComponentPageCatalogMenuButton } from "./component-page-catalog-menu-button";
 
 interface ComponentPageDocsHeaderProps {
   isExpanded?: boolean;
@@ -36,34 +27,30 @@ interface ComponentPageDocsHeaderProps {
 export function ComponentPageDocsHeader({
   isExpanded: _isExpanded = false,
   title,
-  navItems,
+  navItems: _navItems,
 }: ComponentPageDocsHeaderProps) {
-  const [open, setOpen] = useState(false);
+  const { open } = useCatalogMenu();
 
   return (
-    <>
-      <header
+    <header
+      className={cn(
+        catalogDocsHeaderClassName,
+        catalogDocsHeaderInsetClassName,
+        open ? "max-lg:bg-transparent" : "max-lg:bg-background",
+        !open &&
+          "max-lg:transition-colors max-lg:duration-450 max-lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
+        "lg:bg-transparent"
+      )}
+    >
+      <div
         className={cn(
-          catalogDocsHeaderClassName,
-          catalogDocsHeaderInsetClassName,
-          "max-lg:bg-background lg:bg-transparent"
+          "relative flex items-center gap-3",
+          open && catalogMenuButtonMobileOpenClassName
         )}
       >
-        <div className="relative flex items-center gap-3">
-          <div>
-            <motion.button
-              aria-label="Browse components"
-              className={catalogChromeToolbarButtonClassName}
-              data-sidebar-toggle="true"
-              onClick={() => setOpen(true)}
-              type="button"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              <SidebarToggleIcon className="size-5" isOpen={open} />
-            </motion.button>
-          </div>
+        <ComponentPageCatalogMenuButton />
 
+        {open ? null : (
           <Breadcrumb>
             <BreadcrumbList className="gap-1.5 text-sm sm:gap-2.5">
               <BreadcrumbItem>
@@ -75,30 +62,8 @@ export function ComponentPageDocsHeader({
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        </div>
-      </header>
-
-      <Sheet onOpenChange={setOpen} open={open}>
-        <SheetContent className="w-[min(100vw-2rem,20rem)]" side="left">
-          <SheetHeader>
-            <SheetTitle>Components</SheetTitle>
-          </SheetHeader>
-          <CatalogScrollArea className="mt-4 max-h-[min(70dvh,24rem)]">
-            <nav className="flex flex-col gap-1 pr-3">
-              {navItems.map((item) => (
-                <Link
-                  className="rounded-lg px-3 py-2 text-sm transition-colors hover:bg-muted"
-                  href={item.href}
-                  key={item.slug}
-                  onClick={() => setOpen(false)}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </nav>
-          </CatalogScrollArea>
-        </SheetContent>
-      </Sheet>
-    </>
+        )}
+      </div>
+    </header>
   );
 }

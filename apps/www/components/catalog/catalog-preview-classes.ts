@@ -60,12 +60,24 @@ export const catalogDocsHeaderMobileSpacerClassName =
 
 /** Fixed chrome on stacked layout — stays visible while page scrolls. */
 export const catalogDocsHeaderMobileFixedClassName = [
-  "max-lg:fixed max-lg:inset-x-0 max-lg:top-(--fd-banner-height) max-lg:z-40",
+  "max-lg:fixed max-lg:inset-x-0 max-lg:top-(--fd-banner-height) max-lg:z-[60]",
   "max-lg:border-border/40 max-lg:border-b",
   "max-lg:bg-background/95 max-lg:backdrop-blur-md",
   "max-lg:supports-[backdrop-filter]:bg-background/80",
-  "lg:static lg:border-0 lg:bg-transparent lg:backdrop-blur-none",
+  "max-lg:transition-[background-color,border-color,backdrop-filter] max-lg:duration-450 max-lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
+  "lg:static lg:z-auto lg:border-0 lg:bg-transparent lg:backdrop-blur-none",
 ].join(" ");
+
+/** When the catalog flyout is open — snap chrome away; menu button stays clickable above overlay. */
+export const catalogDocsHeaderMobileMenuOpenClassName = [
+  "max-lg:z-[90] max-lg:pointer-events-none max-lg:!transition-none",
+  "max-lg:border-transparent max-lg:bg-transparent max-lg:backdrop-blur-none",
+  "max-lg:supports-[backdrop-filter]:bg-transparent",
+].join(" ");
+
+/** Menu toggle stays above the flyout overlay on stacked layout. */
+export const catalogMenuButtonMobileOpenClassName =
+  "max-lg:pointer-events-auto max-lg:relative max-lg:z-10";
 
 /** Preview shell gutter — reference uses `p-4` on desktop, content gutters on mobile only. */
 export const catalogPreviewShellGutterClassName =
@@ -87,3 +99,25 @@ export const catalogPreviewToolbarRowClassName = [
   catalogPanelChromeInsetClassName,
   "relative z-10 shrink-0 justify-end",
 ].join(" ");
+
+/** Dimmed overlay behind the flyout catalog menu (must stay below the aside panel). */
+export const catalogSidebarBackdropClassName = [
+  "fixed inset-0 bg-background/50 backdrop-blur-[2px]",
+  "max-lg:pointer-events-auto max-lg:z-[80]",
+  "lg:z-10 lg:bg-background/40",
+].join(" ");
+
+/** Flyout catalog sidebar (Skiper-style rail), toggled from the menu button. */
+export const catalogDesktopSidebarAsideClassName = [
+  "fixed top-(--fd-banner-height) h-[calc(100dvh-var(--fd-banner-height))]",
+  "pointer-events-auto left-0",
+  "w-[min(20rem,calc(100vw-0.5rem))] p-3",
+  "max-lg:z-[81] lg:z-20 lg:left-2 lg:w-[320px] lg:p-4 lg:pr-2 lg:pl-2",
+].join(" ");
+
+export const catalogDesktopSidebarPanelClassName =
+  "relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-3xl bg-muted";
+
+/** Top inset inside the flyout list — clears fixed header / menu row. */
+export const catalogDesktopSidebarScrollInsetClassName =
+  "pt-20 pb-8 max-lg:pb-6";
