@@ -18,6 +18,7 @@
     "vercel-build": "bun run build"
   },
   "dependencies": {
+    "@mcpframework/docs": "^0.1.0",
     "mcp-framework": "^0.2.22",
     "zod": "^3.24.2"
   },

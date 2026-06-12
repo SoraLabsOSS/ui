@@ -1,4 +1,7 @@
 import { MCPServer, type MCPServerConfig } from "mcp-framework";
+import SoraGetPageTool from "./tools/SoraGetPageTool.js";
+import SoraListSectionsTool from "./tools/SoraListSectionsTool.js";
+import SoraSearchDocsTool from "./tools/SoraSearchDocsTool.js";
 import WeatherTool from "./tools/WeatherTool.js";
 
 const SERVER_NAME = "sora-mcp";
@@ -15,6 +18,9 @@ export function createMcpServer(config: Partial<MCPServerConfig> = {}) {
   });
 
   server.addTool(WeatherTool);
+  server.addTool(SoraSearchDocsTool);
+  server.addTool(SoraGetPageTool);
+  server.addTool(SoraListSectionsTool);
 
   return server;
 }
