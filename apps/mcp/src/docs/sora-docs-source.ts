@@ -3,6 +3,7 @@ import {
   FumadocsRemoteSource,
   type FumadocsRemoteSourceConfig,
 } from "@mcpframework/docs";
+import { DOCS_CACHE_TTL_MS, docsCache } from "./docs-cache.js";
 
 const DOCS_BASE_URL =
   process.env.DOCS_BASE_URL?.replace(/\/+$/, "") ?? "https://ui.soralabs.io.vn";
@@ -22,6 +23,8 @@ export class SoraDocsSource extends FumadocsRemoteSource {
   constructor(config: Partial<FumadocsRemoteSourceConfig> = {}) {
     super({
       baseUrl: DOCS_BASE_URL,
+      cache: docsCache,
+      refreshInterval: DOCS_CACHE_TTL_MS,
       ...config,
     });
   }

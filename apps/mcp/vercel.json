@@ -9,18 +9,31 @@
       "maxDuration": 30
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/health",
-      "destination": "/api/health"
+      "src": "/health",
+      "dest": "/api/health"
     },
     {
-      "source": "/.well-known/oauth-protected-resource",
-      "destination": "/api/mcp"
+      "src": "/",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/mcp"
     },
     {
-      "source": "/",
-      "destination": "/api/mcp"
+      "src": "/api/mcp",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/mcp"
+    },
+    {
+      "src": "/(.*)",
+      "methods": ["GET", "HEAD", "DELETE"],
+      "status": 405,
+      "headers": {
+        "Content-Type": "application/json",
+        "Allow": "POST, OPTIONS",
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "body": "{\"error\":\"Method Not Allowed\",\"transport\":\"stateless\",\"message\":\"POST-only MCP. Remote SSE polling is disabled. Use POST for JSON-RPC or run MCP via STDIO locally.\"}"
     }
   ]
 }

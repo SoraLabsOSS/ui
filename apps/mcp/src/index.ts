@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { createServer } from "node:http";
-import { getMcpServer, MCP_HTTP_ENDPOINT } from "./create-server.js";
+import { MCP_HTTP_ENDPOINT } from "./create-server.js";
+import { handleMcpRequest } from "./handle-mcp-request.js";
 
-const mcp = getMcpServer();
 const port = Number(process.env.MCP_PORT ?? 1337);
 
 async function readBody(req: IncomingMessage): Promise<Buffer | undefined> {
@@ -57,7 +57,7 @@ async function writeWebResponse(
 
 createServer(async (req, res) => {
   try {
-    const response = await mcp.handleRequest(await toWebRequest(req));
+    const response = await handleMcpRequest(await toWebRequest(req));
     await writeWebResponse(response, res);
   } catch {
     res.statusCode = 500;

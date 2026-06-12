@@ -11,6 +11,8 @@ export const MCP_HTTP_ENDPOINT = "/";
 
 /**
  * Stateless MCP server for serverless (`handleRequest`) deployments.
+ * Framework uses JSON batch mode per request — no SSE, no sessions.
+ * Remote docs are fetched only inside tool handlers (search/get/list).
  * @see https://www.mcp-framework.com/docs/transports/serverless
  */
 export function createMcpServer() {
