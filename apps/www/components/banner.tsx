@@ -43,8 +43,14 @@ export function Banner({
    */
   changeLayout?: boolean;
 }) {
-  const [open, setOpen] = useState(true);
   const globalKey = id ? getBannerDismissClass(id) : null;
+  const [open, setOpen] = useState(() => {
+    if (!globalKey || typeof window === "undefined") {
+      return true;
+    }
+
+    return localStorage.getItem(globalKey) !== "true";
+  });
 
   useEffect(() => {
     if (!globalKey) {
@@ -56,6 +62,7 @@ export function Banner({
     }
 
     document.documentElement.classList.add(globalKey);
+    document.documentElement.style.setProperty("--fd-banner-height", "0px");
     setOpen(false);
   }, [globalKey]);
 
@@ -65,6 +72,7 @@ export function Banner({
     if (globalKey) {
       localStorage.setItem(globalKey, "true");
       document.documentElement.classList.add(globalKey);
+      document.documentElement.style.setProperty("--fd-banner-height", "0px");
     }
   }
 

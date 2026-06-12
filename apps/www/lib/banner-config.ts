@@ -12,7 +12,7 @@ export function isComponentDetailPath(pathname: string): boolean {
 }
 
 export function getBannerInitScript(): string {
-  return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}var k=${JSON.stringify(BANNER_DISMISS_CLASS)};if(localStorage.getItem(k)==="true"){document.documentElement.classList.add(k);}else{document.documentElement.style.setProperty("--fd-banner-height",${JSON.stringify(BANNER_HEIGHT)});}})();`;
+  return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}document.documentElement.style.setProperty("--fd-banner-height",${JSON.stringify(BANNER_HEIGHT)});})();`;
 }
 
 export function getBannerDismissClass(id: string) {

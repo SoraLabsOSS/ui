@@ -16,13 +16,8 @@ function useBannerLayoutHeight(pathname: string) {
       return;
     }
 
-    const dismissed = localStorage.getItem(BANNER_DISMISS_CLASS) === "true";
-    if (dismissed) {
-      document.documentElement.classList.add(BANNER_DISMISS_CLASS);
-      document.documentElement.style.setProperty("--fd-banner-height", "0px");
-      return;
-    }
-
+    // Site banner is always visible (no dismiss) — keep layout offset in sync.
+    document.documentElement.classList.remove(BANNER_DISMISS_CLASS);
     document.documentElement.style.setProperty(
       "--fd-banner-height",
       BANNER_HEIGHT

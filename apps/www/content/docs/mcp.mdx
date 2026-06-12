@@ -1,9 +1,11 @@
 ---
 title: MCP
-description: How to use the Registry MCP with Sora UI.
+description: Connect the Sora UI docs MCP server to Cursor and other AI clients.
 ---
 
 import { CodeTabs } from '@/components/docs/code-tabs';
+import { AddToCursorButton } from '@/components/docs/add-to-cursor-button';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
 import {
   Tabs,
   TabsList,
@@ -11,14 +13,88 @@ import {
   TabsContents,
   TabsContent,
 } from '@/components/radix/tabs';
+import {
+  SORA_UI_MCP_SERVER_NAME,
+  SORA_UI_MCP_URL,
+} from '@/lib/mcp/cursor-install';
 
-For more information about the MCP server, please refer to the [shadcn/ui MCP documentation](https://ui.shadcn.com/docs/mcp).
+The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component catalog. It runs as a remote HTTP server at <code>{SORA_UI_MCP_URL}</code> (no local CLI required).
 
-## Automatic configuration
+## Tools
 
-Select your MCP client and follow the instructions to configure the shadcn MCP server.
+| Tool | Description |
+| --- | --- |
+| `search_docs` | Search docs and components by keyword or phrase |
+| `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `draw-underline-link`) |
+| `list_sections` | Browse the doc structure (`documentation`, `components`) |
 
-<Tabs defaultValue="claude">
+<Callout>
+  Use **Sora UI docs MCP** to read documentation. To **install** `@soralabs/*` components with natural language, also configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project.
+</Callout>
+
+## Add to Cursor
+
+Cursor supports [one-click MCP install links](https://cursor.com/docs/mcp/install-links). Click below — Cursor opens a prompt to add the server, then enable it under **Settings → Tools & MCP**.
+
+<div className="not-prose my-6 flex flex-wrap items-center gap-3">
+  <AddToCursorButton />
+</div>
+
+<Steps>
+<Step>
+
+Click **Add to Cursor** and confirm the install dialog.
+
+</Step>
+<Step>
+
+Open **Settings → Tools & MCP** and make sure **{SORA_UI_MCP_SERVER_NAME}** is enabled (green status).
+
+</Step>
+<Step>
+
+Restart Cursor if tools do not appear, then try a prompt like *“Search Sora UI docs for accordion”*.
+
+</Step>
+</Steps>
+
+## Manual configuration (Cursor)
+
+Add this to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all projects):
+
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "url": "https://mcp.soralabs.io.vn"
+    }
+  }
+}
+```
+
+After saving, enable the server in **Settings → Tools & MCP** and restart Cursor.
+
+## Example prompts
+
+### Browse documentation
+
+- List all Sora UI documentation sections
+- Search Sora UI docs for text reveal components
+- Get the MCP documentation page from Sora UI
+
+### Components catalog
+
+- Search Sora UI components for underline link
+- Get the draw-underline-link component page
+- List the components section in Sora UI docs
+
+## Registry MCP (shadcn)
+
+To add `@soralabs/*` components from the registry with natural language, configure the shadcn MCP server alongside Sora UI docs MCP.
+
+### Automatic configuration
+
+<Tabs defaultValue="cursor">
   <TabsList>
     <TabsTrigger value="claude">Claude Code</TabsTrigger>
     <TabsTrigger value="cursor">Cursor</TabsTrigger>
@@ -61,7 +137,7 @@ Select your MCP client and follow the instructions to configure the shadcn MCP s
   </TabsContents>
 </Tabs>
 
-## Manual configuration
+### Manual configuration
 
 Install the shadcn package as a dev dependency:
 
@@ -75,46 +151,60 @@ Install the shadcn package as a dev dependency:
   }}
 />
 
-Use the code below to configure the shadcn MCP server in your editor.
+Merge the shadcn entry into your MCP config (example for Cursor):
 
 <CodeTabs
   lang="json"
   codes={{
-    'Claude Code': `// Copy and paste the code into .mcp.json
-  {
-    "mcpServers": {
-      "shadcn": {
-        "command": "npx",
-        "args": ["shadcn@latest", "mcp"]
-      }
+    Cursor: `{
+  "mcpServers": {
+    "sora-ui": {
+      "url": "https://mcp.soralabs.io.vn"
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
     }
-  }`,
-    Cursor: `// Copy and paste the code into .cursor/mcp.json
-  {
-    "mcpServers": {
-      "shadcn": {
-        "command": "npx",
-        "args": ["shadcn@latest", "mcp"]
-      }
+  }
+}`,
+    'Claude Code': `{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
     }
-  }`,
-    'VS Code': `// Copy and paste the code into .vscode/mcp.json
-  {
-    "mcpServers": {
-      "shadcn": {
-        "command": "npx",
-        "args": ["shadcn@latest", "mcp"]
-      }
+  }
+}`,
+    'VS Code': `{
+  "servers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
     }
-  }`,
-    Windsurf: `// Copy and paste the code into .codeium/windsurf/mcp_config.json
-  {
-    "mcpServers": {
-      "shadcn": {
-        "command": "npx",
-        "args": ["shadcn@latest", "mcp"]
-      }
-    }
-  }`,
+  }
+}`,
   }}
 />
+
+Register `@soralabs` in `components.json` before asking the agent to install components — see [Installation](/docs/installation).
+
+## Troubleshooting
+
+### Server not connecting
+
+1. Confirm **{SORA_UI_MCP_SERVER_NAME}** is enabled in **Settings → Tools & MCP**
+2. Restart Cursor completely after changing `.cursor/mcp.json`
+3. Check **View → Output → MCP** for connection errors
+
+### Tools return no results
+
+- Use `list_sections` first to see available `documentation` and `components` sections
+- For component pages, try slugs like `draw-underline-link` or paths like `primitives/accordion`
+
+### Install link does nothing
+
+Paste the deeplink into your browser address bar, or add the [manual JSON config](#manual-configuration-cursor) above. See [Cursor MCP install links](https://cursor.com/docs/mcp/install-links).
+
+### Nested `sora-ui` key in `mcp.json`
+
+If Cursor shows *must have either a command or url* and your config looks like `"sora-ui": { "sora-ui": { "url": "..." } }`, remove the extra nesting — use the [manual JSON](#manual-configuration-cursor) shape, or click **Add to Cursor** again on this page (the install link encodes only `{ "url": "..." }`; the `name` query param supplies the server key).
