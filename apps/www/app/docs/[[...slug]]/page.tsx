@@ -179,7 +179,7 @@ export async function generateMetadata(props: {
     notFound();
   }
 
-  const image = ["/docs-og", ...slug, "image.png"].join("/");
+  const imagePath = ["/docs-og", ...slug, "image.png"].join("/");
 
   return {
     title: page.data.title,
@@ -203,7 +203,14 @@ export async function generateMetadata(props: {
       description: page.data.description,
       url: `${SITE_URL}${page.url}`,
       siteName: "Sora UI",
-      images: image,
+      images: [
+        {
+          url: imagePath,
+          width: 1200,
+          height: 630,
+          alt: page.data.title,
+        },
+      ],
       locale: "en_US",
       type: "website",
     },
@@ -211,7 +218,7 @@ export async function generateMetadata(props: {
       card: "summary_large_image",
       title: page.data.title,
       description: page.data.description,
-      images: image,
+      images: [imagePath],
     },
   };
 }
