@@ -95,9 +95,9 @@ export const catalogDocsHeaderMobileFloatingClassName = [
   "max-lg:supports-[backdrop-filter]:bg-transparent",
 ].join(" ");
 
-/** When the catalog flyout is open — menu chip stays above the aside panel. */
+/** When the catalog flyout is open — chrome bar stays under the aside overlay. */
 export const catalogDocsHeaderMobileMenuOpenClassName = [
-  "max-lg:z-[90] max-lg:pointer-events-none max-lg:!transition-none",
+  "max-lg:pointer-events-none max-lg:!transition-none",
   "max-lg:border-transparent max-lg:bg-transparent max-lg:backdrop-blur-none",
   "max-lg:supports-[backdrop-filter]:bg-transparent",
 ].join(" ");
@@ -108,7 +108,21 @@ export const catalogDocsHeaderDesktopMenuOpenClassName =
 
 /** Floating chrome chips stay clickable while the flyout overlay is open. */
 export const catalogMobileChromeInteractiveClassName =
-  "max-lg:pointer-events-auto max-lg:relative max-lg:z-10";
+  "max-lg:pointer-events-auto";
+
+/**
+ * Fixed mobile menu chip layer (`document.body`).
+ * Above the flyout aside (`z-[81]`); toolbar stays in the header (`z-[60]`).
+ */
+export const catalogMobileMenuChipFixedClassName = [
+  "pointer-events-auto fixed z-[90]",
+  "top-[calc(var(--fd-banner-height)+1rem)]",
+  "left-4 sm:left-8 md:left-16",
+].join(" ");
+
+/** @deprecated Use catalogMobileMenuChipFixedClassName */
+export const catalogMobileMenuChipOpenClassName =
+  catalogMobileMenuChipFixedClassName;
 
 /** @deprecated Use catalogMobileChromeInteractiveClassName */
 export const catalogMenuButtonMobileOpenClassName =

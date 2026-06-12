@@ -28,6 +28,8 @@
     "dev": "turbo dev",
     "dev:www": "turbo dev --filter=www",
     "dev:web": "turbo dev --filter=web",
+    "dev:mcp": "turbo dev --filter=mcp",
+    "build:mcp": "turbo build --filter=mcp",
     "lint": "turbo lint",
     "format": "ultracite fix",
     "format:write": "ultracite fix",

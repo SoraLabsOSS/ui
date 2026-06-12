@@ -7,6 +7,9 @@
     "shadcn": {
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
+    },
+    "sora-mcp": {
+      "url": "http://127.0.0.1:1337"
     }
   }
 }
