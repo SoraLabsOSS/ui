@@ -1,4 +1,5 @@
 import type { OgPageContent } from "@/lib/og/resolve-og-page";
+import { OG_FONT_FAMILY } from "@/lib/og/sf-pro-display-font";
 import { OgSoraUiBrand } from "@/lib/og/sora-ui-brand";
 import { SITE_URL } from "@/lib/site";
 
@@ -33,14 +34,14 @@ export function OgImageFrame({ title, description }: OgPageContent) {
         <div tw="flex flex-row gap-10 w-full justify-between items-end">
           <div tw="flex flex-col">
             <p
-              style={{ fontFamily: "Outfit" }}
+              style={{ fontFamily: OG_FONT_FAMILY }}
               tw="text-white text-6xl font-medium mb-0"
             >
               {title}
             </p>
             {description ? (
               <p
-                style={{ fontFamily: "Outfit" }}
+                style={{ fontFamily: OG_FONT_FAMILY }}
                 tw="text-white/60 text-2xl mt-6 -mb-2 max-w-2xl"
               >
                 {description}
@@ -50,7 +51,7 @@ export function OgImageFrame({ title, description }: OgPageContent) {
 
           <div tw="flex ml-6">
             <p
-              style={{ fontFamily: "Outfit" }}
+              style={{ fontFamily: OG_FONT_FAMILY }}
               tw="text-white/80 text-2xl -mb-2"
             >
               {new URL(SITE_URL).host}
