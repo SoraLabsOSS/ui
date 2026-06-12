@@ -18,6 +18,10 @@ import { PageActionButtons } from "@/components/docs/page-actions";
 import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
+import {
+  getOgMetadataImages,
+  getTwitterMetadataImages,
+} from "@/lib/og/og-metadata-images";
 import { SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
@@ -179,10 +183,11 @@ export async function generateMetadata(props: {
     notFound();
   }
 
-  const imagePath = ["/docs-og", ...slug, "image.png"].join("/");
+  const ogPath = slug;
+  const title = page.data.title;
 
   return {
-    title: page.data.title,
+    title,
     description: page.data.description,
     alternates: {
       canonical: page.url,
@@ -199,26 +204,19 @@ export async function generateMetadata(props: {
           url: "https://github.com/axyl1410",
         },
     openGraph: {
-      title: page.data.title,
+      title,
       description: page.data.description,
       url: `${SITE_URL}${page.url}`,
       siteName: "Sora UI",
-      images: [
-        {
-          url: imagePath,
-          width: 1200,
-          height: 630,
-          alt: page.data.title,
-        },
-      ],
+      images: getOgMetadataImages(ogPath, title),
       locale: "en_US",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: page.data.title,
+      title,
       description: page.data.description,
-      images: [imagePath],
+      images: getTwitterMetadataImages(ogPath),
     },
   };
 }

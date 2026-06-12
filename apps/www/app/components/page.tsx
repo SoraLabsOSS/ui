@@ -2,12 +2,32 @@ import type { Metadata } from "next";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
 import { ComponentGallery } from "@/components/catalog/component-gallery";
 import { ComponentPageCatalogMenuButton } from "@/components/catalog/component-page-catalog-menu-button";
+import {
+  getOgMetadataImages,
+  getTwitterMetadataImages,
+} from "@/lib/og/og-metadata-images";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
 
+const title = "Components";
+const description =
+  "Browse Sora UI components with live previews, installation commands, and API reference.";
+
 export const metadata: Metadata = {
-  title: "Components",
-  description:
-    "Browse Sora UI components with live previews, installation commands, and API reference.",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    images: getOgMetadataImages(["components"], title),
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: getTwitterMetadataImages(["components"]),
+  },
 };
 
 export default function ComponentsPage() {

@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ComponentPageDocs } from "@/components/catalog/component-page-docs";
 import { ComponentPageLayout } from "@/components/catalog/component-page-layout";
+import {
+  getOgMetadataImages,
+  getTwitterMetadataImages,
+} from "@/lib/og/og-metadata-images";
 import { getCatalogMDXComponents } from "@/lib/registry/catalog-mdx";
 import { componentSource } from "@/lib/registry/component-source";
 import {
@@ -72,24 +76,29 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 
   const url = `${SITE_URL}${data.componentUrl}`;
+  const ogPath = ["components", slug];
+  const title = data.page.data.title;
 
   return {
-    title: data.page.data.title,
+    title,
     description: data.page.data.description,
     alternates: {
       canonical: data.componentUrl,
     },
     openGraph: {
-      title: data.page.data.title,
+      title,
       description: data.page.data.description,
       url,
       siteName: "Sora UI",
+      images: getOgMetadataImages(ogPath, title),
+      locale: "en_US",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: data.page.data.title,
+      title,
       description: data.page.data.description,
+      images: getTwitterMetadataImages(ogPath),
     },
   };
 }

@@ -12,7 +12,14 @@ import { Providers } from "@/components/providers";
 import { SiteBanner } from "@/components/site-banner";
 import { getBannerInitScript } from "@/lib/banner-config";
 import { jsonLd } from "@/lib/json-ld";
+import {
+  getOgMetadataImages,
+  getTwitterMetadataImages,
+} from "@/lib/og/og-metadata-images";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+
+const defaultOgImages = getOgMetadataImages([], "Sora UI");
+const defaultTwitterImages = getTwitterMetadataImages([]);
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -62,14 +69,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: "Sora UI",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sora UI",
-      },
-    ],
+    images: defaultOgImages,
     locale: "en_US",
     type: "website",
   },
@@ -78,14 +78,7 @@ export const metadata: Metadata = {
     site: "@soralabs_io",
     title: "Sora UI",
     description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sora UI",
-      },
-    ],
+    images: defaultTwitterImages,
   },
 };
 
