@@ -4,6 +4,7 @@ import {
   frontmatterSchema,
   metaSchema,
 } from "fumadocs-mdx/config";
+import lastModified from "fumadocs-mdx/plugins/last-modified";
 import { z } from "zod/v4";
 
 const catalogDocSchema = frontmatterSchema.extend({
@@ -54,6 +55,6 @@ export const components = defineDocs({
 });
 
 export default defineConfig({
-  lastModifiedTime: "git",
   mdxOptions: {},
+  plugins: [lastModified()],
 });

@@ -9,7 +9,10 @@ import path from "node:path";
 import { rimraf } from "rimraf";
 import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.ts";
 
-const CONTENT_DOCS_PATH = path.join(process.cwd(), "content", "docs");
+const CONTENT_MDX_PATHS = [
+  path.join(process.cwd(), "content", "docs"),
+  path.join(process.cwd(), "content", "components"),
+];
 
 /**
  * Recursively collect all component/demo names referenced in .mdx files
@@ -38,7 +41,9 @@ async function collectDocumentedNames(): Promise<Set<string>> {
     }
   }
 
-  await walk(CONTENT_DOCS_PATH);
+  for (const contentPath of CONTENT_MDX_PATHS) {
+    await walk(contentPath);
+  }
 
   for (const name of [...allowedNames]) {
     allowedNames.add(`demo-${name}`);
