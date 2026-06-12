@@ -1,20 +1,8 @@
 import { getMcpServer, MCP_HTTP_ENDPOINT } from "./create-server.js";
-
-export const STATELESS_GET_BODY = {
-  error: "Method Not Allowed",
-  transport: "stateless",
-  message:
-    "POST-only MCP. Remote SSE polling is disabled. Use POST for JSON-RPC or run MCP via STDIO locally.",
-} as const;
-
-/** Cached at CDN when returned from Vercel edge routes (see vercel.json). */
-export const STATELESS_BLOCK_HEADERS = {
-  "Content-Type": "application/json",
-  Allow: "POST, OPTIONS",
-  "Cache-Control": "public, max-age=31536000, immutable",
-} as const;
-
-export const STATELESS_BLOCK_BODY = JSON.stringify(STATELESS_GET_BODY);
+import {
+  STATELESS_BLOCK_BODY,
+  STATELESS_BLOCK_HEADERS,
+} from "./stateless-block.js";
 
 /** Vercel serves `/api/mcp`; rewrites expose it at `/`. */
 export function normalizeMcpPath(request: Request): Request {
@@ -44,7 +32,7 @@ export function handleMcpPreflight(request: Request): Promise<Response> {
 
 /**
  * Local dev: reject SSE polling methods without booting MCP.
- * On Vercel, GET/DELETE never reach this handler (blocked in vercel.json routes).
+ * On Vercel, GET/DELETE never reach this handler (blocked in edge middleware).
  */
 export function rejectPollingMethods(): Response {
   return new Response(STATELESS_BLOCK_BODY, {
