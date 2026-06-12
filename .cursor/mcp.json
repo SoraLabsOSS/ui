@@ -8,7 +8,7 @@
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
     },
-    "sora-mcp": {
+    "sora-ui": {
       "url": "https://mcp.soralabs.io.vn"
     }
   }

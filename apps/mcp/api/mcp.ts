@@ -14,6 +14,7 @@ function toMcpRequest(request: Request): Request {
   return request;
 }
 
+/** Stateless serverless transport — JSON batch per request, no long-lived SSE. */
 function handle(request: Request): Promise<Response> {
   return server.handleRequest(toMcpRequest(request));
 }
