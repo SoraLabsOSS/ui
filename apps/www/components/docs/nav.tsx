@@ -123,7 +123,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
       <ProgressiveBlur
         backgroundColor="var(--background)"
         blurAmount="12px"
-        height="170%"
+        height="150%"
         // maskFadeStart="45%"
         position="top"
       />

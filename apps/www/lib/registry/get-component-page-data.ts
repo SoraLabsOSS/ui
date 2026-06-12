@@ -86,12 +86,14 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
       continue;
     }
 
-    const data = page.data as {
+    const pageMeta = page.data as {
+      category?: ComponentGalleryItem["category"];
       lastModified?: Date | string | number;
+      previewVideo?: string;
       releaseDate?: Date | string;
     };
 
-    const raw = data.releaseDate ?? data.lastModified;
+    const raw = pageMeta.releaseDate ?? pageMeta.lastModified;
     let releaseDate: string | undefined;
     if (raw instanceof Date) {
       releaseDate = raw.toISOString().slice(0, 10);
@@ -106,6 +108,8 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
       href: `/components/${slug}`,
       collection: "component",
       releaseDate,
+      category: pageMeta.category,
+      previewVideo: pageMeta.previewVideo,
     });
   }
 

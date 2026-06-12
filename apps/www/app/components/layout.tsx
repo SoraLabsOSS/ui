@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
-import { ComponentPageCatalogShell } from "@/components/catalog/component-page-catalog-shell";
 import { ComponentsExperimentalGate } from "@/components/catalog/components-experimental-gate";
-import { ComponentsShell } from "@/components/catalog/components-shell";
+import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
+import { ComponentsRouteLayout } from "./components-route-layout";
 
 export default function ComponentsLayout({
   children,
@@ -10,14 +10,13 @@ export default function ComponentsLayout({
   children: ReactNode;
 }) {
   const navItems = getComponentGalleryItems();
+  const primitivesUrl = getFirstPrimitiveDocUrl();
 
   return (
-    <ComponentsShell>
-      <ComponentsExperimentalGate>
-        <ComponentPageCatalogShell navItems={navItems}>
-          {children}
-        </ComponentPageCatalogShell>
-      </ComponentsExperimentalGate>
-    </ComponentsShell>
+    <ComponentsExperimentalGate>
+      <ComponentsRouteLayout navItems={navItems} primitivesUrl={primitivesUrl}>
+        {children}
+      </ComponentsRouteLayout>
+    </ComponentsExperimentalGate>
   );
 }

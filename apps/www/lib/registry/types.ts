@@ -46,10 +46,19 @@ export interface ComponentPageHeaderData {
   title: string;
 }
 
+export type ComponentGalleryCategory =
+  | "texts"
+  | "buttons"
+  | "effects"
+  | "disclosure"
+  | "components";
+
 export interface ComponentGalleryItem {
+  category?: ComponentGalleryCategory;
   collection: ComponentCollection;
   description: string;
   href: string;
+  previewVideo?: string;
   releaseDate?: string;
   slug: string;
   title: string;
