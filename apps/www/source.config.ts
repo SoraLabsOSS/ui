@@ -6,6 +6,7 @@ import {
 } from "fumadocs-mdx/config";
 import lastModified from "fumadocs-mdx/plugins/last-modified";
 import { z } from "zod/v4";
+import { gitLastModifiedForFile } from "./lib/docs/git-last-modified";
 
 const catalogDocSchema = frontmatterSchema.extend({
   /** Overrides git `lastModified` for the 30-day "new" badge only. */
@@ -56,5 +57,5 @@ export const components = defineDocs({
 
 export default defineConfig({
   mdxOptions: {},
-  plugins: [lastModified()],
+  plugins: [lastModified({ versionControl: gitLastModifiedForFile })],
 });
