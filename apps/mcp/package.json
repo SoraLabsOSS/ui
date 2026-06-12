@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && bun x tsc",
+    "build": "rm -rf dist && bun x tsc && mkdir -p public",
     "watch": "bun x tsc --watch",
     "dev": "bun x tsc && node dist/index.js",
     "start": "node dist/index.js",
