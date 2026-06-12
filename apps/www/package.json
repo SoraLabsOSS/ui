@@ -3,10 +3,10 @@
   "version": "1.0.27",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "bun ./scripts/ensure-git-history.mts && next build",
     "dev": "next dev -p 3000",
     "start": "next start -p 3000",
-    "postinstall": "fumadocs-mdx",
+    "postinstall": "bun ./scripts/ensure-git-history.mts && fumadocs-mdx",
     "registry:build": "bun ./scripts/build-registry.mts",
     "lint": "ultracite check",
     "lint:fix": "ultracite fix",

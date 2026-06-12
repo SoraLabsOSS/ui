@@ -56,6 +56,9 @@ export const components = defineDocs({
 });
 
 export default defineConfig({
-  mdxOptions: {},
+  mdxOptions: {
+    // remarkStructure writes to vfile.data; export it for search indexing.
+    valueToExport: ["structuredData"],
+  },
   plugins: [lastModified({ versionControl: gitLastModifiedForFile })],
 });
