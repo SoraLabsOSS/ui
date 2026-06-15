@@ -15,6 +15,11 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";
 import { User2 } from "lucide-react";
 import type { ReactNode } from "react";
+import { useClientMounted } from "../../../hooks/use-client-mounted";
+import {
+  resolveSessionUser,
+  shouldShowSessionSkeleton,
+} from "../../../lib/resolve-session-user";
 
 export type UserAvatarProps = {
   className?: string;
@@ -27,7 +32,7 @@ export type UserAvatarProps = {
 /**
  * Display a user's avatar using session information or an explicit user prop.
  *
- * Renders a circular avatar that shows the user's image when available, a fallback node if provided, or the user's first two initials; while the session is loading (or when `isPending` is true) and no `user` prop is supplied, renders a skeleton placeholder.
+ * Renders a circular avatar that shows the user's image when available, a fallback node if provided, or the user's first two initials; while the session is loading (or when `isPending` is true) and no `user` prop is supplied, renders a skeleton placeholder. Before mount, a skeleton is always shown without a `user` prop so server and client markup match.
  *
  * @param className - Additional CSS classes applied to the avatar container
  * @param user - Optional user object to display instead of the session user
@@ -41,17 +46,31 @@ export function UserAvatar({
   isPending,
   fallback,
 }: UserAvatarProps) {
+  const mounted = useClientMounted();
   const { authClient } = useAuth();
   const { data: session, isPending: sessionPending } = useSession(
     authClient as UsernameAuthClient,
     { enabled: !(user || isPending) }
   );
 
-  if ((isPending || sessionPending) && !user) {
+  if (
+    shouldShowSessionSkeleton({
+      user,
+      mounted,
+      sessionPending,
+      isPending,
+    })
+  ) {
     return <Skeleton className={cn("size-8 rounded-full", className)} />;
   }
 
-  const resolvedUser = user ?? session?.user;
+  const resolvedUser = resolveSessionUser({
+    user,
+    sessionUser: session?.user,
+    mounted,
+    sessionPending,
+    isPending,
+  });
 
   const initials = (
     resolvedUser?.username ||

@@ -95,6 +95,12 @@ const ACCOUNT_ICON_BY_TITLE: Record<
   Settings: "settings",
 };
 
+const THEME_GROUP: CommandPaletteGroup = {
+  id: "theme",
+  label: "Theme",
+  items: THEME_ITEMS,
+};
+
 const ACCOUNT_GROUP: CommandPaletteGroup = {
   id: "account",
   label: "Account",
@@ -302,13 +308,19 @@ export function CommandPaletteDialog({
   }, []);
 
   const allGroups = useMemo(() => {
-    const result: CommandPaletteGroup[] = [...groups];
+    const navigationIndex = groups.findIndex(
+      (group) => group.id === "navigation"
+    );
+    const insertAt =
+      navigationIndex === -1 ? groups.length : navigationIndex + 1;
 
-    if (session && !sessionPending) {
-      result.push(ACCOUNT_GROUP);
-    }
+    const utilityGroups: CommandPaletteGroup[] = [
+      ...(session && !sessionPending ? [ACCOUNT_GROUP] : []),
+      THEME_GROUP,
+    ];
 
-    result.push({ id: "theme", label: "Theme", items: THEME_ITEMS });
+    const result = [...groups];
+    result.splice(insertAt, 0, ...utilityGroups);
     return result;
   }, [groups, session, sessionPending]);
 

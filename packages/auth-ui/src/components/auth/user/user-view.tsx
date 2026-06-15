@@ -8,6 +8,11 @@ import {
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";
+import { useClientMounted } from "../../../hooks/use-client-mounted";
+import {
+  resolveSessionUser,
+  shouldShowSessionSkeleton,
+} from "../../../lib/resolve-session-user";
 import { UserAvatar } from "./user-avatar";
 
 export type UserViewProps = {
@@ -40,15 +45,21 @@ export function UserView({
   hideSubtitle = false,
   user,
 }: UserViewProps) {
+  const mounted = useClientMounted();
   const { authClient } = useAuth();
   const { data: session, isPending: sessionPending } = useSession(
     authClient as UsernameAuthClient,
     { enabled: !(user || isPending) }
   );
 
-  const resolvedUser = user ?? session?.user;
-
-  if ((isPending || sessionPending) && !user) {
+  if (
+    shouldShowSessionSkeleton({
+      user,
+      mounted,
+      sessionPending,
+      isPending,
+    })
+  ) {
     return (
       <div className={cn("flex min-w-0 items-center gap-2", className)}>
         <UserAvatar isPending />
@@ -61,6 +72,14 @@ export function UserView({
       </div>
     );
   }
+
+  const resolvedUser = resolveSessionUser({
+    user,
+    sessionUser: session?.user,
+    mounted,
+    sessionPending,
+    isPending,
+  });
 
   return (
     <div className={cn("flex min-w-0 items-center gap-2", className)}>
