@@ -8,9 +8,12 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@workspace/ui/lib/utils";
+import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
+import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { Providers } from "@/components/providers";
 import { SiteBanner } from "@/components/site-banner";
 import { getBannerInitScript } from "@/lib/banner-config";
+import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
 import { jsonLd } from "@/lib/json-ld";
 import {
   getOgMetadataImages,
@@ -85,6 +88,8 @@ export const metadata: Metadata = {
 const outfit = Outfit({ subsets: ["latin"] });
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const commandGroups = getCommandPaletteGroups();
+
   return (
     <html className={cn(outfit.className)} lang="en" suppressHydrationWarning>
       <head>
@@ -106,14 +111,18 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <RootProvider>
+        <CommandPaletteGroupsProvider groups={commandGroups}>
           <NuqsAdapter>
             <Providers>
-              <SiteBanner />
-              {children}
+              <RootProvider
+                search={{ SearchDialog: CommandPaletteSearchDialog }}
+              >
+                <SiteBanner />
+                {children}
+              </RootProvider>
             </Providers>
           </NuqsAdapter>
-        </RootProvider>
+        </CommandPaletteGroupsProvider>
         <Analytics />
         <SpeedInsights />
       </body>

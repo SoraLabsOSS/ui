@@ -6,8 +6,8 @@ import {
 } from "@workspace/ui/components/unlumen-ui/primitives/effects/highlight";
 import { cn } from "@workspace/ui/lib/utils";
 import { cva } from "class-variance-authority";
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { Slot } from "radix-ui";
 import * as React from "react";
 
