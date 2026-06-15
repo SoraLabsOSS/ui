@@ -29,21 +29,21 @@ export const Header = () => (
       maskFadeStart="40%"
       position="top"
     />
-    <HomeShell contentClassName="relative z-10 flex h-16 items-center justify-between">
+    <HomeShell contentClassName="relative z-10 flex h-16 items-center justify-between gap-3">
       <motion.div
-        className="flex h-6 items-center gap-1.5 sm:h-7 sm:gap-2"
+        className="flex min-w-0 items-center gap-1.5 sm:gap-2"
         layoutId="logo"
       >
         <IconLogo className="size-6 shrink-0 sm:size-7" size="sm" />
-        <span className="font-semibold text-foreground text-xl leading-none tracking-tight sm:text-2xl">
+        <span className="truncate font-semibold text-foreground text-lg leading-none tracking-tight sm:text-xl md:text-2xl">
           Sora UI
         </span>
       </motion.div>
 
-      <div className="flex items-center gap-x-1">
-        <div className="xs:flex hidden items-center gap-x-1">
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <div className="xs:flex hidden items-center gap-1">
           <a
-            className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
+            className="inline-flex size-9 items-center justify-center rounded-md font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 sm:[&_svg]:size-5.5"
             data-active="false"
             href="https://github.com/axyl1410/sora"
             rel="noreferrer noopener"
@@ -52,7 +52,7 @@ export const Header = () => (
             <GithubLogo className="size-6" />
           </a>
           <a
-            className="inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 sm:mt-1 [&_svg]:size-5 sm:[&_svg]:size-5.5"
+            className="inline-flex size-9 items-center justify-center rounded-md font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 sm:[&_svg]:size-5.5"
             data-active="false"
             href="/"
             rel="noreferrer noopener"
@@ -64,7 +64,7 @@ export const Header = () => (
 
         <UserButton
           align="end"
-          className="mr-1.5 inline-flex items-center justify-center rounded-md p-1.5 font-medium text-fd-muted-foreground text-sm transition-colors duration-100 *:size-6! hover:bg-fd-accent hover:text-fd-accent-foreground **:data-[slot=avatar-fallback]:bg-transparent sm:mt-1 [&_[data-slot=avatar-fallback]_svg]:size-5 sm:[&_[data-slot=avatar-fallback]_svg]:size-5.5 [&_[data-slot=avatar]]:bg-transparent"
+          className="inline-flex size-9 items-center justify-center rounded-full **:data-[slot=avatar]:size-7"
           links={[
             {
               label: "Bookmark",
@@ -76,7 +76,7 @@ export const Header = () => (
           size="icon"
         />
 
-        <ThemeSwitcher className="mt-1 xs:mt-0 sm:mt-1" />
+        <ThemeSwitcher />
       </div>
     </HomeShell>
   </header>

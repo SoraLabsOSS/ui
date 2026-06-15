@@ -32,7 +32,7 @@ export function Providers({ children }: { children: ReactNode }) {
         }
         plugins={[deleteUserPlugin()]}
         redirectTo="/docs"
-        socialProviders={["google"]}
+        socialProviders={["google", "github"]}
       >
         <GoogleOneTapPendingProvider>
           {children}

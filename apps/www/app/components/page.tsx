@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
 import { ComponentGalleryExplorer } from "@/components/catalog/component-gallery-explorer";
-import { ComponentPageCatalogMenuButton } from "@/components/catalog/component-page-catalog-menu-button";
 import { ComponentsGalleryHero } from "@/components/catalog/components-gallery-hero";
 import {
   getOgMetadataImages,
@@ -38,9 +37,6 @@ export default function ComponentsPage() {
     <CatalogScrollArea className="h-full min-h-0 flex-1">
       <div className="relative flex flex-col items-center overflow-visible px-6 lg:px-10">
         <div className="relative z-10 flex w-full max-w-7xl flex-col items-center justify-center pt-24 md:pt-32 lg:pt-40">
-          <div className="absolute top-4 left-0 lg:hidden">
-            <ComponentPageCatalogMenuButton />
-          </div>
           <ComponentsGalleryHero />
         </div>
 

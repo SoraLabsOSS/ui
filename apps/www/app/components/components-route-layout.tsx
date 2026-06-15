@@ -23,10 +23,7 @@ export function ComponentsRouteLayout({
 
   if (isGalleryIndex) {
     return (
-      <ComponentsGalleryLayout
-        navItems={navItems}
-        primitivesUrl={primitivesUrl}
-      >
+      <ComponentsGalleryLayout primitivesUrl={primitivesUrl}>
         {children}
       </ComponentsGalleryLayout>
     );
