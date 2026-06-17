@@ -1,35 +1,25 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  Code2,
-  Maximize2,
-  Minimize2,
-  RotateCcw,
-  Settings2,
-} from "lucide-react";
+import { Code2, Maximize2, Minimize2, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
+import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import {
   catalogChromeToolbarButtonClassName,
   catalogChromeToolbarClassName,
-  catalogChromeToolbarDividerClassName,
 } from "./catalog-preview-classes";
 
 interface ComponentPagePreviewToolbarProps {
   className?: string;
-  controlsOpen: boolean;
   isExpanded: boolean;
   onOpenSource: () => void;
   onRestart: () => void;
-  onToggleControls: () => void;
   onToggleExpanded: () => void;
 }
 
 export function ComponentPagePreviewToolbar({
   className,
-  controlsOpen,
   isExpanded,
-  onToggleControls,
   onRestart,
   onToggleExpanded,
   onOpenSource,
@@ -58,18 +48,13 @@ export function ComponentPagePreviewToolbar({
         <RotateCcw className="size-4" />
       </ToolbarButton>
 
-      <ToolbarButton
-        aria-label={controlsOpen ? "Hide controls" : "Show controls"}
-        aria-pressed={controlsOpen}
-        onClick={onToggleControls}
-      >
-        <Settings2 className={cn("size-4", controlsOpen && "text-primary")} />
-      </ToolbarButton>
-
-      <span aria-hidden className={catalogChromeToolbarDividerClassName} />
+      <CommandPaletteTrigger
+        className={catalogChromeToolbarButtonClassName}
+        variant="icon"
+      />
 
       <ToolbarButton aria-label="View source code" onClick={onOpenSource}>
-        <Code2 className="size-4 text-primary" />
+        <Code2 className="size-4" />
       </ToolbarButton>
     </div>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import { type Binds, Tweakpane } from "@workspace/ui/components/docs/tweakpane";
 import {
   Sheet,
   SheetContent,
@@ -10,21 +9,9 @@ import {
 } from "@workspace/ui/components/ui/sheet";
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { index } from "@/__registry__";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
-import {
-  extractPropsForCodegen,
-  generateUsageExampleCode,
-  installImportPathFromTarget,
-} from "@/lib/docs/generate-usage-example-code";
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogPreviewMobilePanelClassName,
@@ -48,24 +35,6 @@ interface ComponentPagePreviewPanelProps {
   sticky?: boolean;
 }
 
-function resolveDemoProps(name: string): Record<string, unknown> {
-  const entry = index[name] as RegistryIndexEntry | undefined;
-  const direct = entry?.component?.demoProps;
-  if (direct && Object.keys(direct).length > 0) {
-    return direct;
-  }
-
-  for (const dep of entry?.registryDependencies ?? []) {
-    const inherited = (index[dep] as RegistryIndexEntry | undefined)?.component
-      ?.demoProps;
-    if (inherited && Object.keys(inherited).length > 0) {
-      return inherited;
-    }
-  }
-
-  return {};
-}
-
 function resolveUsageCodeEntry(
   previewName: string,
   registryName: string
@@ -84,32 +53,6 @@ function resolveUsageCodeEntry(
   return index[registryName] as RegistryIndexEntry | undefined;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function flattenFirstLevel<T>(input: Record<string, any>): T {
-  return Object.values(input).reduce(
-    (acc, current) => ({ ...acc, ...current }),
-    {} as T
-  );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function unwrapValues(obj: Record<string, any>): Record<string, any> {
-  if (obj !== null && typeof obj === "object" && !Array.isArray(obj)) {
-    if ("value" in obj) {
-      return obj.value;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: Record<string, any> = {};
-    for (const key in obj) {
-      if (Object.hasOwn(obj, key)) {
-        result[key] = unwrapValues(obj[key]);
-      }
-    }
-    return result;
-  }
-  return obj;
-}
-
 export function ComponentPagePreviewPanel({
   previewName,
   registryName,
@@ -118,22 +61,10 @@ export function ComponentPagePreviewPanel({
   onToggleExpanded,
   sticky = true,
 }: ComponentPagePreviewPanelProps) {
-  const [binds, setBinds] = useState<Binds | null>(null);
-  const [componentProps, setComponentProps] = useState<Record<
-    string,
-    unknown
-  > | null>(null);
   const [previewKey, setPreviewKey] = useState(0);
-  const [controlsOpen, setControlsOpen] = useState(false);
   const [sourceOpen, setSourceOpen] = useState(false);
-  const previousPropsSnapshot = useRef<string | null>(null);
   const isStacked = useCatalogStackedLayout();
   const { setToolbar } = useCatalogMobileChrome();
-
-  const demoPropsConfig = useMemo(
-    () => resolveDemoProps(previewName),
-    [previewName]
-  );
 
   const usageCodeMeta = useMemo(() => {
     const entry = resolveUsageCodeEntry(previewName, registryName);
@@ -142,42 +73,11 @@ export function ComponentPagePreviewPanel({
     return {
       staticContent: file?.content ?? null,
       title: file?.target?.split("/").pop() ?? `${previewName}.tsx`,
-      installTarget: (index[registryName] as RegistryIndexEntry | undefined)
-        ?.files?.[0]?.target,
     };
   }, [previewName, registryName]);
 
-  const displayCode = useMemo(() => {
-    const { installTarget, staticContent } = usageCodeMeta;
-
-    if (
-      Object.keys(demoPropsConfig).length > 0 &&
-      componentProps &&
-      installTarget
-    ) {
-      const extracted = extractPropsForCodegen(demoPropsConfig, componentProps);
-      if (extracted) {
-        return generateUsageExampleCode({
-          componentName: extracted.componentName,
-          importPath: installImportPathFromTarget(installTarget),
-          props: extracted.props,
-        });
-      }
-    }
-
-    return staticContent;
-  }, [demoPropsConfig, componentProps, usageCodeMeta]);
-
   const preview = useMemo(() => {
     const Component = index[previewName]?.component;
-    if (Object.keys(demoPropsConfig).length !== 0) {
-      if (componentProps === null) {
-        setComponentProps(unwrapValues(demoPropsConfig));
-      }
-      if (binds === null) {
-        setBinds(demoPropsConfig as Binds);
-      }
-    }
 
     if (!Component) {
       return (
@@ -191,56 +91,23 @@ export function ComponentPagePreviewPanel({
       );
     }
 
-    return <Component {...flattenFirstLevel(componentProps ?? {})} />;
-  }, [previewName, componentProps, binds, demoPropsConfig]);
-
-  useEffect(() => {
-    if (!binds) {
-      return;
-    }
-    setComponentProps(unwrapValues(binds));
-  }, [binds]);
-
-  useEffect(() => {
-    if (componentProps === null) {
-      return;
-    }
-
-    const snapshot = JSON.stringify(componentProps);
-
-    if (previousPropsSnapshot.current === null) {
-      previousPropsSnapshot.current = snapshot;
-      return;
-    }
-
-    if (previousPropsSnapshot.current === snapshot) {
-      return;
-    }
-
-    previousPropsSnapshot.current = snapshot;
-    setPreviewKey((current) => current + 1);
-  }, [componentProps]);
+    return <Component />;
+  }, [previewName]);
 
   const handleRestart = useCallback(() => {
-    if (binds) {
-      setBinds({ ...demoPropsConfig } as Binds);
-      setComponentProps(unwrapValues(demoPropsConfig));
-    }
     setPreviewKey((current) => current + 1);
-  }, [binds, demoPropsConfig]);
+  }, []);
 
   const previewToolbar = useMemo(
     () => (
       <ComponentPagePreviewToolbar
-        controlsOpen={controlsOpen}
         isExpanded={isExpanded}
         onOpenSource={() => setSourceOpen(true)}
         onRestart={handleRestart}
-        onToggleControls={() => setControlsOpen((open) => !open)}
         onToggleExpanded={onToggleExpanded}
       />
     ),
-    [controlsOpen, handleRestart, isExpanded, onToggleExpanded]
+    [handleRestart, isExpanded, onToggleExpanded]
   );
 
   useEffect(() => {
@@ -313,12 +180,6 @@ export function ComponentPagePreviewPanel({
             {previewBody}
           </CatalogScrollArea>
         )}
-
-        {controlsOpen && binds ? (
-          <div className="relative z-10 border-border/50 border-t bg-background p-3">
-            <Tweakpane binds={binds} onBindsChange={setBinds} />
-          </div>
-        ) : null}
       </div>
 
       <Sheet onOpenChange={setSourceOpen} open={sourceOpen}>
@@ -334,7 +195,7 @@ export function ComponentPagePreviewPanel({
           </SheetHeader>
           <div className="mt-4 [&_pre]:max-h-[70vh]">
             <DynamicCodeBlock
-              code={displayCode ?? undefined}
+              code={usageCodeMeta.staticContent ?? undefined}
               lang="tsx"
               title={usageCodeMeta.title}
             />

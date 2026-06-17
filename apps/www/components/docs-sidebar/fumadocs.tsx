@@ -139,6 +139,14 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
         label="Primitives"
         onClick={onNavigate}
       />
+      <DocsShellNavItem
+        href="/components"
+        isActive={
+          pathname === "/components" || pathname.startsWith("/components/")
+        }
+        label="Components"
+        onClick={onNavigate}
+      />
       {AUTH_MENU_LINKS.map((item) => {
         if (sessionPending) {
           return (

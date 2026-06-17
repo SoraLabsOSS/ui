@@ -41,9 +41,13 @@ interface NavItem {
 
 const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
   { title: "Docs", url: DOCS_GUIDE_URL },
-  // { title: "Components", url: "/components" },
   { title: "Primitives", url: primitivesUrl },
+  { title: "Components", url: "/components" },
 ];
+
+const HEADER_AUTH_NAV_ITEMS = AUTH_MENU_LINKS.filter(
+  (item) => item.title !== "Settings"
+);
 
 function NavMenuItems({
   hasSession,
@@ -80,7 +84,7 @@ function NavMenuItems({
           </MotionNavigationMenuLink>
         </MotionNavigationMenuItem>
       ))}
-      {AUTH_MENU_LINKS.map((item) => (
+      {HEADER_AUTH_NAV_ITEMS.map((item) => (
         <MotionNavigationMenuItem key={item.title} value={item.title}>
           {sessionPending ? (
             <AuthNavMenuSkeleton width={item.skeletonWidth} />

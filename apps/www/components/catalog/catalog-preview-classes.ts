@@ -41,11 +41,7 @@ export const catalogChromeToolbarClassName =
 
 /** Icon button inside catalog chrome toolbars. */
 export const catalogChromeToolbarButtonClassName =
-  "inline-flex size-8 shrink-0 items-center justify-center rounded-xl bg-transparent text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 max-lg:text-foreground";
-
-/** Vertical rule between toolbar control groups. */
-export const catalogChromeToolbarDividerClassName =
-  "mx-0.5 h-5 w-px shrink-0 bg-border/60";
+  "inline-flex size-8 shrink-0 items-center justify-center rounded-xl bg-transparent text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 max-lg:text-foreground [&_svg]:size-4";
 
 /** Docs header — fixed height/padding across expand/collapse on desktop. */
 export const catalogDocsHeaderClassName = [

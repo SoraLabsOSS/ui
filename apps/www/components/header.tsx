@@ -1,13 +1,20 @@
 "use client";
 
 import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
-import XIcon from "@workspace/ui/components/icons/x-icon";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
+import { cn } from "@workspace/ui/lib/utils";
 import { Bookmark } from "lucide-react";
 import { motion } from "motion/react";
+import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
 import { ThemeSwitcher } from "./animate/theme-switcher";
+
+const headerIconButtonClassName =
+  "inline-flex size-9 shrink-0 items-center justify-center rounded-md font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-6";
+
+const headerThemeToggleSlotClassName =
+  "ms-1 inline-flex size-9 shrink-0 items-center justify-center px-0.5 sm:ms-1.5 sm:px-1";
 
 const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -41,30 +48,24 @@ export const Header = () => (
       </motion.div>
 
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-        <div className="xs:flex hidden items-center gap-1">
-          <a
-            className="inline-flex size-9 items-center justify-center rounded-md font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 sm:[&_svg]:size-5.5"
-            data-active="false"
-            href="https://github.com/axyl1410/sora"
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            <GithubLogo className="size-6" />
-          </a>
-          <a
-            className="inline-flex size-9 items-center justify-center rounded-md font-medium text-fd-muted-foreground text-sm transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 sm:[&_svg]:size-5.5"
-            data-active="false"
-            href="/"
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            <XIcon />
-          </a>
-        </div>
+        <CommandPaletteTrigger
+          className={headerIconButtonClassName}
+          variant="icon"
+        />
+
+        <a
+          className={cn(headerIconButtonClassName, "xs:flex hidden")}
+          data-active="false"
+          href="https://github.com/axyl1410/sora"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          <GithubLogo />
+        </a>
 
         <UserButton
           align="end"
-          className="inline-flex size-9 items-center justify-center rounded-full **:data-[slot=avatar]:size-7"
+          className="inline-flex size-9 items-center justify-center rounded-full **:data-[slot=avatar]:size-6"
           links={[
             {
               label: "Bookmark",
@@ -76,7 +77,9 @@ export const Header = () => (
           size="icon"
         />
 
-        <ThemeSwitcher />
+        <div className={headerThemeToggleSlotClassName}>
+          <ThemeSwitcher className="h-6 w-10" />
+        </div>
       </div>
     </HomeShell>
   </header>
