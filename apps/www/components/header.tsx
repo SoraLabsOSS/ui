@@ -32,7 +32,7 @@ export const Header = () => (
   <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible">
     <ProgressiveBlur
       backgroundColor="var(--background)"
-      // height="calc(4rem + 1rem)"
+      height="120px"
       maskFadeStart="40%"
       position="top"
     />
@@ -65,7 +65,7 @@ export const Header = () => (
 
         <UserButton
           align="end"
-          className="inline-flex size-9 items-center justify-center rounded-full **:data-[slot=avatar]:size-6"
+          className={headerIconButtonClassName}
           links={[
             {
               label: "Bookmark",

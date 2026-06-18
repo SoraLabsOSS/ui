@@ -1,6 +1,5 @@
 import { cache } from "react";
 import { index } from "@/__registry__";
-import { catalogNavMockItems } from "@/lib/registry/catalog-nav-mock-items";
 import { componentSource } from "@/lib/registry/component-source";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { filterComponentToc } from "@/lib/registry/parse-primitive-mdx";
@@ -9,6 +8,11 @@ import type {
   ComponentPageData,
   ComponentPageHeaderData,
 } from "@/lib/registry/types";
+
+export interface ComponentNeighbourNav {
+  name: string;
+  url: string;
+}
 
 function resolvePreviewName(
   registryName: string,
@@ -113,12 +117,30 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
     });
   }
 
-  if (process.env.NODE_ENV === "development") {
-    items.push(...catalogNavMockItems);
-  }
-
   return items;
 });
+
+export function getComponentNeighbours(slug: string): {
+  next?: ComponentNeighbourNav;
+  previous?: ComponentNeighbourNav;
+} {
+  const items = getComponentGalleryItems();
+  const index = items.findIndex((item) => item.slug === slug);
+
+  if (index === -1) {
+    return {};
+  }
+
+  const previousItem = index > 0 ? items[index - 1] : undefined;
+  const nextItem = index < items.length - 1 ? items[index + 1] : undefined;
+
+  return {
+    previous: previousItem
+      ? { url: previousItem.href, name: previousItem.title }
+      : undefined,
+    next: nextItem ? { url: nextItem.href, name: nextItem.title } : undefined,
+  };
+}
 
 export function getComponentPageHeaderData(
   data: ComponentPageData

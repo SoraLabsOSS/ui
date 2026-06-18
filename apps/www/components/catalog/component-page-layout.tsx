@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
 import type {
   ComponentGalleryItem,
   ComponentPageData,
@@ -12,6 +13,8 @@ interface ComponentPageLayoutProps {
   githubPath: string;
   header: ComponentPageHeaderData;
   navItems: ComponentGalleryItem[];
+  nextNav?: NeighborNavItem;
+  previousNav?: NeighborNavItem;
   releaseDate?: string;
 }
 
@@ -21,6 +24,8 @@ export function ComponentPageLayout({
   header,
   githubPath,
   navItems,
+  nextNav,
+  previousNav,
   releaseDate,
 }: ComponentPageLayoutProps) {
   return (
@@ -29,7 +34,9 @@ export function ComponentPageLayout({
       header={header}
       key={data.previewName}
       navItems={navItems}
+      nextNav={nextNav}
       previewName={data.previewName}
+      previousNav={previousNav}
       registryName={data.registryName}
       releaseDate={releaseDate}
       toc={data.toc}

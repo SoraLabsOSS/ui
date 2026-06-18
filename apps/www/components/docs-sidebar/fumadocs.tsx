@@ -21,6 +21,7 @@ import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
+import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
@@ -117,14 +118,15 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
     return "/docs";
   }, [componentRoots]);
 
-  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { data: session } = useSession(authClient);
+  const authNavPending = useAuthNavPending();
   const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
   const { setHovered } = useDocsShellHover();
 
   useEffect(() => {
-    void sessionPending;
+    void authNavPending;
     setHovered(null);
-  }, [sessionPending, setHovered]);
+  }, [authNavPending, setHovered]);
 
   return (
     <DocsShellSection
@@ -148,7 +150,7 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
         onClick={onNavigate}
       />
       {AUTH_MENU_LINKS.map((item) => {
-        if (sessionPending) {
+        if (authNavPending) {
           return (
             <AuthSidebarMenuSkeleton
               key={item.url}

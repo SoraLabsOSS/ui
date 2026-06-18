@@ -11,6 +11,7 @@ import { getCatalogMDXComponents } from "@/lib/registry/catalog-mdx";
 import { componentSource } from "@/lib/registry/component-source";
 import {
   getComponentGalleryItems,
+  getComponentNeighbours,
   getComponentPageData,
   getComponentPageHeaderData,
 } from "@/lib/registry/get-component-page-data";
@@ -43,12 +44,16 @@ export default async function ComponentDetailPage(props: PageProps) {
     releaseDate = new Date(raw).toISOString().slice(0, 10);
   }
 
+  const { previous: previousNav, next: nextNav } = getComponentNeighbours(slug);
+
   return (
     <ComponentPageLayout
       data={data}
       githubPath={`content/components/${slug}.mdx`}
       header={getComponentPageHeaderData(data)}
       navItems={getComponentGalleryItems()}
+      nextNav={nextNav}
+      previousNav={previousNav}
       releaseDate={releaseDate}
     >
       <ComponentPageDocs>

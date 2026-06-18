@@ -34,6 +34,7 @@ import {
 } from "@/components/docs-sidebar/release-dates-context";
 import { useDismissMobileSidebarOnOutside } from "@/components/docs-sidebar/use-dismiss-mobile-sidebar";
 import { IconLogo } from "@/components/icon-logo";
+import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 
@@ -107,16 +108,16 @@ function AccountMenuSection({
   primitivesUrl: string;
 }) {
   const pathname = usePathname();
-  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { data: session } = useSession(authClient);
+  const authNavPending = useAuthNavPending();
   const { setHovered } = useSidebar001Hover();
   const publicItems = ACCOUNT_MENU_ITEMS.filter((item) => !item.requiresAuth);
   const authItems = ACCOUNT_MENU_ITEMS.filter((item) => item.requiresAuth);
-  const showAuthItems = sessionPending || Boolean(session);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: reset hover on auth state change
   useEffect(() => {
     setHovered(null);
-  }, [sessionPending, setHovered]);
+  }, [authNavPending, setHovered]);
 
   return (
     <Sidebar001Section
@@ -135,29 +136,27 @@ function AccountMenuSection({
           />
         );
       })}
-      {showAuthItems
-        ? authItems.map((item) => {
-            if (sessionPending) {
+      {authNavPending
+        ? authItems.map((item) => (
+            <AuthSidebarMenuSkeleton
+              key={item.label}
+              width={item.skeletonWidth}
+            />
+          ))
+        : session
+          ? authItems.map((item) => {
+              const href = item.getHref(primitivesUrl);
               return (
-                <AuthSidebarMenuSkeleton
+                <Sidebar001Item
+                  href={href}
+                  isActive={item.getIsActive(pathname, href)}
                   key={item.label}
-                  width={item.skeletonWidth}
+                  label={item.label}
+                  onClick={onNavigate}
                 />
               );
-            }
-
-            const href = item.getHref(primitivesUrl);
-            return (
-              <Sidebar001Item
-                href={href}
-                isActive={item.getIsActive(pathname, href)}
-                key={item.label}
-                label={item.label}
-                onClick={onNavigate}
-              />
-            );
-          })
-        : null}
+            })
+          : null}
     </Sidebar001Section>
   );
 }

@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
 import type {
   ComponentGalleryItem,
   ComponentPageHeaderData,
@@ -49,7 +50,9 @@ interface ComponentPageLayoutClientProps {
   githubPath: string;
   header: ComponentPageHeaderData;
   navItems: ComponentGalleryItem[];
+  nextNav?: NeighborNavItem;
   previewName: string;
+  previousNav?: NeighborNavItem;
   registryName: string;
   releaseDate?: string;
   toc: ComponentTocItem[];
@@ -60,7 +63,9 @@ export function ComponentPageLayoutClient({
   header,
   githubPath,
   navItems,
+  nextNav,
   previewName,
+  previousNav,
   registryName,
   releaseDate,
   toc,
@@ -143,6 +148,8 @@ export function ComponentPageLayoutClient({
         <ComponentPageHeader
           data={header}
           githubPath={githubPath}
+          nextNav={nextNav}
+          previousNav={previousNav}
           releaseDate={releaseDate}
         />
 

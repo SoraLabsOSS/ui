@@ -16,12 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/ui/dropdown-menu";
+import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   ChevronsUpDown,
   LogIn,
   LogOut,
   Settings,
+  User2,
   UserPlus2,
 } from "lucide-react";
 import {
@@ -30,6 +32,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { useClientMounted } from "../../../hooks/use-client-mounted";
 import { UserAvatar } from "./user-avatar";
 import { UserView } from "./user-view";
 
@@ -139,17 +142,27 @@ export function UserButton({
     return [renderUserLink(link, Link, `user-button-link-${index.toString()}`)];
   });
 
+  const mounted = useClientMounted();
+  const showIconTriggerLoading =
+    !mounted || sessionPending || settingActiveSession;
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        asChild={size === "default"}
-        className={cn(
-          size === "icon" && "rounded-full",
-          size === "icon" && className
-        )}
-      >
+      <DropdownMenuTrigger asChild>
         {size === "icon" ? (
-          <UserAvatar />
+          <Button
+            className={cn(session && "rounded-full", className)}
+            size="icon-sm"
+            variant={variant}
+          >
+            {showIconTriggerLoading ? (
+              <Skeleton className="size-6 rounded-full" />
+            ) : session ? (
+              <UserAvatar className="size-6" user={session.user} />
+            ) : (
+              <User2 className="size-6" />
+            )}
+          </Button>
         ) : (
           <Button
             className={cn("h-auto py-2.5 font-normal", className)}

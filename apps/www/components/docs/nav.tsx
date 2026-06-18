@@ -23,6 +23,7 @@ import {
   AuthNavMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
+import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { ThemeSwitcher } from "../animate/theme-switcher";
@@ -118,7 +119,8 @@ function NavMenuItems({
 
 export const Nav = ({ primitivesUrl }: NavProps) => {
   const { setOpen } = useSidebar();
-  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { data: session } = useSession(authClient);
+  const authNavPending = useAuthNavPending();
   const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
   const navItems = BASE_NAV_ITEMS(primitivesUrl);
 
@@ -151,7 +153,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
                   hasSession={Boolean(session)}
                   navItems={navItems}
                   onRequireLogin={openLoginDialog}
-                  sessionPending={sessionPending}
+                  sessionPending={authNavPending}
                 />
               </MotionNavigationMenuList>
             </MotionNavigationMenu>
@@ -162,6 +164,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
 
             <UserButton
               align="end"
+              className="text-fd-muted-foreground [&_svg]:size-6"
               links={[
                 {
                   label: "Bookmark",

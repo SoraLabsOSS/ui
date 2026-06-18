@@ -5,6 +5,10 @@ import { format } from "date-fns";
 import { motion } from "motion/react";
 import { BookmarkButton } from "@/components/docs/bookmark-button";
 import { DocsAuthor } from "@/components/docs/docs-author";
+import {
+  NeighborNavButtons,
+  type NeighborNavItem,
+} from "@/components/docs/neighbor-nav-buttons";
 import { LLMCopyButton, ViewOptions } from "@/components/docs/page-actions";
 import type { ComponentPageHeaderData } from "@/lib/registry/types";
 import { ComponentPageMeta } from "./component-page-meta";
@@ -13,12 +17,16 @@ interface ComponentPageHeaderProps {
   className?: string;
   data: ComponentPageHeaderData;
   githubPath: string;
+  nextNav?: NeighborNavItem;
+  previousNav?: NeighborNavItem;
   releaseDate?: string;
 }
 
 export function ComponentPageHeader({
   data,
   githubPath,
+  nextNav,
+  previousNav,
   releaseDate,
   className,
 }: ComponentPageHeaderProps) {
@@ -33,9 +41,16 @@ export function ComponentPageHeader({
         <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.2em]">
           {data.collection}
         </p>
-        <h1 className="text-3xl tracking-tighter sm:text-4xl md:text-5xl">
-          {data.title}
-        </h1>
+        <div className="flex w-full flex-row items-start justify-between gap-2">
+          <h1 className="min-w-0 text-3xl tracking-tighter sm:text-4xl md:text-5xl">
+            {data.title}
+          </h1>
+          <NeighborNavButtons
+            fallbackUrl={data.componentUrl}
+            next={nextNav}
+            previous={previousNav}
+          />
+        </div>
         <p className="mt-1 max-w-2xl text-base text-foreground/50 leading-relaxed md:text-lg">
           {data.description}
         </p>
