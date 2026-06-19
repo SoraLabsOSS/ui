@@ -578,7 +578,7 @@
           "target": "components/sora-ui/texts/text-roll.tsx"
         },
         {
-          "path": "registry/primitives/texts/text-roll/slot-text-core.ts",
+          "path": "registry/primitives/texts/text-roll/text-roll-core.ts",
           "type": "registry:ui",
           "target": "components/sora-ui/texts/text-roll-core.ts"
         }

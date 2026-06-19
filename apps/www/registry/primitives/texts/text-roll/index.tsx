@@ -16,16 +16,16 @@ import {
   chromatic as chromaticSweep,
   clearTextRoll,
   type TextRollOptions,
-} from "./slot-text-core";
+} from "./text-roll-core";
 
-export type { ChromaticOptions, TextRollOptions } from "./slot-text-core";
+export type { ChromaticOptions, TextRollOptions } from "./text-roll-core";
 // biome-ignore lint/performance/noBarrelFile: Registry entry re-exports imperative helpers alongside the React component.
 export {
   animateTextRoll,
   buildTextRoll,
   chromatic,
   clearTextRoll,
-} from "./slot-text-core";
+} from "./text-roll-core";
 
 export interface TextRollProps
   extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
