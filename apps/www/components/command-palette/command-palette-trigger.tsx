@@ -1,5 +1,6 @@
 "use client";
 
+import { Kbd, KbdGroup } from "@workspace/ui/components/ui/kbd";
 import { cn } from "@workspace/ui/lib/utils";
 import { useSearchContext } from "fumadocs-ui/provider";
 import { CommandIcon } from "lucide-react";
@@ -53,14 +54,14 @@ export function CommandPaletteTrigger({
     >
       <span className="font-normal">Search...</span>
 
-      <div className="flex items-center gap-1">
-        <kbd className="flex size-5 items-center justify-center rounded-[4px] border bg-background leading-none">
+      <KbdGroup className="items-center gap-1">
+        <Kbd className="flex size-5 items-center justify-center rounded-[4px] border bg-background leading-none">
           <CommandIcon className="size-2.5" />
-        </kbd>
-        <kbd className="flex size-5 items-center justify-center rounded-[4px] border bg-background">
+        </Kbd>
+        <Kbd className="flex size-5 items-center justify-center rounded-[4px] border bg-background px-0">
           <span className="pt-px text-[0.625rem] leading-none">K</span>
-        </kbd>
-      </div>
+        </Kbd>
+      </KbdGroup>
     </button>
   );
 }
