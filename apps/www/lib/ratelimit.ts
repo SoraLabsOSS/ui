@@ -15,7 +15,7 @@ function getRatelimit(limit: number, window: Duration): Ratelimit {
     instance = new Ratelimit({
       redis,
       limiter: Ratelimit.slidingWindow(limit, window),
-      prefix: isDefault ? "@zola/ratelimit" : `@zola/ratelimit:${key}`,
+      prefix: isDefault ? "@sora/ratelimit" : `@sora/ratelimit:${key}`,
       // Same Map reused for this config across requests in a warm isolate (Cloudflare Worker).
       ephemeralCache: new Map<string, number>(),
     });

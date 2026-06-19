@@ -183,7 +183,7 @@ function CommandSearchResultItem({
     <CommandItem
       className={cn(
         "relative gap-2",
-        isNested && "ps-8",
+        isNested && "ps-8 sm:ps-8",
         isPage && "font-medium",
         isNested && result.type === "text" && "text-popover-foreground/80",
         isNested && result.type === "heading" && "font-medium"
