@@ -1,8 +1,12 @@
 import "./env";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
+import { buildDocRedirects } from "./lib/docs/build-doc-redirects";
 
 const withMDX = createMDX();
+const appRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   transpilePackages: [
@@ -209,6 +213,7 @@ const nextConfig: NextConfig = {
         destination: "/docs/components/community/:path*",
         permanent: true,
       },
+      ...buildDocRedirects(appRoot),
     ];
   },
 };
