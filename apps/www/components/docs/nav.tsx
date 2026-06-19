@@ -164,7 +164,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
 
             <UserButton
               align="end"
-              className="text-fd-muted-foreground [&_svg]:size-6"
+              className="text-fd-muted-foreground"
               links={[
                 {
                   label: "Bookmark",
@@ -174,6 +174,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
                 },
               ]}
               size="icon"
+              triggerSize="icon-xs"
             />
 
             <ThemeSwitcher className="max-md:hidden" />

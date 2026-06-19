@@ -1,10 +1,10 @@
 "use client";
 
-import { type MotionProps, motion } from "motion/react";
+import { getMotionComponent } from "@workspace/ui/lib/get-motion-component";
+import type { MotionProps } from "motion/react";
 import type React from "react";
 import {
   type ComponentType,
-  type JSX,
   type MouseEventHandler,
   type ReactNode,
   useEffect,
@@ -103,9 +103,7 @@ export function TextScramble({
   onMouseEnter,
   ...props
 }: TextScrambleProps) {
-  const MotionComponent = motion.create(
-    Component as keyof JSX.IntrinsicElements
-  ) as MotionTextComponent;
+  const MotionComponent = getMotionComponent(Component) as MotionTextComponent;
   const [frame, setFrame] = useState<ScrambleFrame | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);

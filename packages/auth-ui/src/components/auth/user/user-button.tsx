@@ -64,6 +64,8 @@ export type UserButtonProps = {
   align?: "center" | "end" | "start" | undefined;
   sideOffset?: number;
   size?: "default" | "icon";
+  /** Icon trigger footprint. `icon-xs` is 32px; `icon-sm` is 36px. */
+  triggerSize?: "icon-xs" | "icon-sm";
   variant?:
     | "default"
     | "destructive"
@@ -117,6 +119,7 @@ export function UserButton({
   align,
   sideOffset,
   size = "default",
+  triggerSize = "icon-sm",
   variant = "ghost",
   links,
   hideSettings = false,
@@ -145,6 +148,7 @@ export function UserButton({
   const mounted = useClientMounted();
   const showIconTriggerLoading =
     !mounted || sessionPending || settingActiveSession;
+  const triggerIconClass = triggerSize === "icon-xs" ? "size-5" : "size-6";
 
   return (
     <DropdownMenu>
@@ -152,15 +156,15 @@ export function UserButton({
         {size === "icon" ? (
           <Button
             className={cn(session && "rounded-full", className)}
-            size="icon-sm"
+            size={triggerSize}
             variant={variant}
           >
             {showIconTriggerLoading ? (
-              <Skeleton className="size-6 rounded-full" />
+              <Skeleton className={cn(triggerIconClass, "rounded-full")} />
             ) : session ? (
-              <UserAvatar className="size-6" user={session.user} />
+              <UserAvatar className={triggerIconClass} user={session.user} />
             ) : (
-              <User2 className="size-6" />
+              <User2 className={triggerIconClass} />
             )}
           </Button>
         ) : (

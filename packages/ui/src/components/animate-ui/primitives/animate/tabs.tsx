@@ -214,6 +214,17 @@ function TabsContents({
   const itemRefs = React.useRef<Array<HTMLDivElement | null>>([]);
   const [height, setHeight] = React.useState(0);
   const roRef = React.useRef<ResizeObserver | null>(null);
+  const rafRef = React.useRef<number | null>(null);
+
+  const scheduleHeight = React.useCallback((next: number) => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+    }
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      setHeight(next);
+    });
+  }, []);
 
   const measure = React.useCallback((index: number) => {
     const pane = itemRefs.current[index];
@@ -257,8 +268,7 @@ function TabsContents({
     setHeight(measure(activeIndex));
 
     const ro = new ResizeObserver(() => {
-      const next = measure(activeIndex);
-      requestAnimationFrame(() => setHeight(next));
+      scheduleHeight(measure(activeIndex));
     });
 
     ro.observe(pane);
@@ -268,8 +278,12 @@ function TabsContents({
     return () => {
       ro.disconnect();
       roRef.current = null;
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
     };
-  }, [activeIndex, measure]);
+  }, [activeIndex, measure, scheduleHeight]);
 
   React.useLayoutEffect(() => {
     if (height === 0 && activeIndex >= 0) {

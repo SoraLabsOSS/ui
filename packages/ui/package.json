@@ -38,6 +38,10 @@
       "types": "./src/lib/get-strict-context.tsx",
       "default": "./src/lib/get-strict-context.tsx"
     },
+    "./lib/get-motion-component": {
+      "types": "./src/lib/get-motion-component.ts",
+      "default": "./src/lib/get-motion-component.ts"
+    },
     "./lib/utils": "./src/lib/utils.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/use-auto-height": "./src/hooks/use-auto-height.tsx",

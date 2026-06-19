@@ -4,13 +4,31 @@ import { type MotionProps, motion } from "motion/react";
 import type React from "react";
 import {
   type ComponentType,
-  type JSX,
+  type ElementType,
   type MouseEventHandler,
   type ReactNode,
   useEffect,
   useRef,
   useState,
 } from "react";
+
+const motionComponentCache = new Map<
+  ElementType,
+  ComponentType<MotionProps & { children?: ReactNode }>
+>();
+
+function getMotionComponent(
+  Component: ElementType
+): ComponentType<MotionProps & { children?: ReactNode }> {
+  const cached = motionComponentCache.get(Component);
+  if (cached) {
+    return cached;
+  }
+
+  const created = motion.create(Component as never);
+  motionComponentCache.set(Component, created);
+  return created;
+}
 
 type MotionTextComponent = ComponentType<
   MotionProps & {
@@ -103,9 +121,7 @@ export function TextScramble({
   onMouseEnter,
   ...props
 }: TextScrambleProps) {
-  const MotionComponent = motion.create(
-    Component as keyof JSX.IntrinsicElements
-  ) as MotionTextComponent;
+  const MotionComponent = getMotionComponent(Component) as MotionTextComponent;
   const [frame, setFrame] = useState<ScrambleFrame | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
