@@ -3,7 +3,17 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { jsonLd } from "@/lib/json-ld";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import {
+  getOgMetadataImages,
+  getTwitterMetadataImages,
+} from "@/lib/og/og-metadata-images";
+import {
+  getMetadataBaseUrl,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,7 +27,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(getMetadataBaseUrl()),
   applicationName: SITE_NAME,
   title: {
     template: `%s — ${SITE_NAME}`,
@@ -69,14 +79,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_NAME,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: SITE_NAME,
-      },
-    ],
+    images: getOgMetadataImages([], SITE_NAME),
     locale: "en_US",
     type: "website",
   },
@@ -86,14 +89,7 @@ export const metadata: Metadata = {
     creator: "@soralabs_io",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: SITE_NAME,
-      },
-    ],
+    images: getTwitterMetadataImages([]),
   },
 };
 

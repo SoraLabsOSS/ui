@@ -2,6 +2,7 @@
 
 import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { getStrictContext } from "@workspace/ui/lib/get-strict-context";
+import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import type * as React from "react";
@@ -68,6 +69,7 @@ type DialogOverlayProps = Omit<
   HTMLMotionProps<"div">;
 
 function DialogOverlay({
+  className,
   transition = { duration: 0.2, ease: "easeInOut" },
   ...props
 }: DialogOverlayProps) {
@@ -75,6 +77,11 @@ function DialogOverlay({
     <DialogPrimitive.Overlay asChild data-slot="dialog-overlay" forceMount>
       <motion.div
         animate={{ opacity: 1, filter: "blur(0px)" }}
+        className={cn(
+          // w-screen extends past scrollbar-gutter reserved by html { scrollbar-gutter: stable }
+          "fixed inset-0 z-50 min-h-dvh w-screen",
+          className
+        )}
         exit={{ opacity: 0, filter: "blur(4px)" }}
         initial={{ opacity: 0, filter: "blur(4px)" }}
         key="dialog-overlay"

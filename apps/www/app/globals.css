@@ -312,6 +312,19 @@
     @apply bg-background text-foreground;
   }
 
+  /* Modal open: collapse scrollbar gutter so backdrop covers the full viewport edge. */
+  html:has([data-slot="dialog-overlay"][data-state="open"]),
+  html:has([data-slot="alert-dialog-overlay"][data-state="open"]) {
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+
+  [data-slot="dialog-overlay"],
+  [data-slot="alert-dialog-overlay"] {
+    width: 100vw;
+    min-height: 100dvh;
+  }
+
   #nd-sidebar {
     @apply md:!border-0;
   }

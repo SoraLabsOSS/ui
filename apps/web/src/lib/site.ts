@@ -12,3 +12,25 @@ export const SITE_DESCRIPTION =
   "Building developer tools and open-source software.";
 
 export const SITE_TITLE = `${SITE_NAME} — ${SITE_DESCRIPTION}`;
+
+/**
+ * Origin for resolving metadata and OG image URLs.
+ * - Vercel production: `SITE_URL` from env
+ * - Vercel preview: deployment host
+ * - Dev: `NEXT_PUBLIC_SITE_URL` or localhost
+ */
+export function getMetadataBaseUrl(): string {
+  if (process.env.VERCEL_ENV === "production") {
+    return SITE_URL;
+  }
+
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    return process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  }
+
+  return SITE_URL;
+}
