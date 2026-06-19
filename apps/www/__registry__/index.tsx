@@ -311,6 +311,68 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-text-reveal-mask",
   },
+  "demo-text-roll": {
+    name: "demo-text-roll",
+    description: "Interactive copy button with chromatic text roll feedback.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["text-roll"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-roll/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/text-roll.tsx",
+        content:
+          '"use client";\n\nimport { TextRollPlayground } from "@/components/sora-ui/texts/text-roll";\n\nexport default function TextRollDemo() {\n  return <TextRollPlayground />;\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/text-roll/index.tsx"
+        );
+        const demoProps = {
+          TextRollPlayground: {
+            className: { value: "font-medium text-lg tabular-nums" },
+            stagger: { value: 45, min: 0, max: 120, step: 5 },
+            duration: { value: 300, min: 100, max: 600, step: 25 },
+            bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
+            chromatic: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextRollPlayground: {
+          className: { value: "font-medium text-lg tabular-nums" },
+          stagger: { value: 45, min: 0, max: 120, step: 5 },
+          duration: { value: 300, min: 100, max: 600, step: 25 },
+          bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
+          chromatic: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-text-roll",
+  },
   "char-stagger-button": {
     name: "char-stagger-button",
     description: "A button with per-character stagger animation on hover.",
@@ -918,6 +980,80 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/text-reveal-mask",
+  },
+  "text-roll": {
+    name: "text-roll",
+    description:
+      "A per-character vertical text roll animation for label swaps and micro-interactions.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/text-roll/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-roll.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { useReducedMotion } from "motion/react";\nimport {\n  type HTMLAttributes,\n  type Ref,\n  type RefCallback,\n  useEffect,\n  useRef,\n  useState,\n} from "react";\nimport {\n  animateTextRoll,\n  buildTextRoll,\n  chromatic as chromaticSweep,\n  clearTextRoll,\n  type TextRollOptions,\n} from "./slot-text-core";\n\nexport type { ChromaticOptions, TextRollOptions } from "./slot-text-core";\n// biome-ignore lint/performance/noBarrelFile: Registry entry re-exports imperative helpers alongside the React component.\nexport {\n  animateTextRoll,\n  buildTextRoll,\n  chromatic,\n  clearTextRoll,\n} from "./slot-text-core";\n\nexport interface TextRollProps\n  extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {\n  /** Shorthand for `options.bounce`. */\n  bounce?: number;\n  /**\n   * When true, applies a chromatic color sweep via `chromatic()`.\n   * Use `options.color` for full control.\n   */\n  chromatic?: boolean;\n  /**\n   * Shorthand for `options.direction` — exposed for docs Tweakpane controls.\n   */\n  direction?: TextRollOptions["direction"];\n  /** Shorthand for `options.duration`. */\n  duration?: number;\n  /** Roll animation options. */\n  options?: TextRollOptions;\n  ref?: Ref<HTMLSpanElement>;\n  /** Shorthand for `options.skipUnchanged`. */\n  skipUnchanged?: boolean;\n  /** Shorthand for `options.stagger`. */\n  stagger?: number;\n  /** Text to display. Changing this value triggers the roll animation. */\n  text: string;\n}\n\nexport interface TextRollPlaygroundProps {\n  bounce?: number;\n  chromatic?: boolean;\n  className?: string;\n  duration?: number;\n  stagger?: number;\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        ref.current = node;\n      }\n    }\n  };\n}\n\nfunction resolveOptions({\n  options,\n  direction,\n  stagger,\n  duration,\n  bounce,\n  skipUnchanged,\n  chromatic: useChromatic,\n}: Pick<\n  TextRollProps,\n  | "options"\n  | "direction"\n  | "stagger"\n  | "duration"\n  | "bounce"\n  | "skipUnchanged"\n  | "chromatic"\n>): TextRollOptions {\n  return {\n    ...options,\n    ...(direction === undefined ? {} : { direction }),\n    ...(stagger === undefined ? {} : { stagger }),\n    ...(duration === undefined ? {} : { duration }),\n    ...(bounce === undefined ? {} : { bounce }),\n    ...(skipUnchanged === undefined ? {} : { skipUnchanged }),\n    ...(useChromatic ? { color: chromaticSweep() } : {}),\n  };\n}\n\n/** Matches `slot-text/react` — roll animates when `text` changes. */\nexport function TextRoll({\n  text,\n  options,\n  direction,\n  stagger,\n  duration,\n  bounce,\n  skipUnchanged,\n  chromatic: useChromatic,\n  className,\n  ref,\n  ...props\n}: TextRollProps) {\n  const elementRef = useRef<HTMLSpanElement>(null);\n  const mountedRef = useRef(false);\n  const firstTextEffectRef = useRef(true);\n  const optionsRef = useRef<TextRollOptions | undefined>(\n    resolveOptions({\n      options,\n      direction,\n      stagger,\n      duration,\n      bounce,\n      skipUnchanged,\n      chromatic: useChromatic,\n    })\n  );\n  const prefersReducedMotion = useReducedMotion();\n\n  useEffect(() => {\n    optionsRef.current = resolveOptions({\n      options,\n      direction,\n      stagger,\n      duration,\n      bounce,\n      skipUnchanged,\n      chromatic: useChromatic,\n    });\n  }, [\n    options,\n    direction,\n    stagger,\n    duration,\n    bounce,\n    skipUnchanged,\n    useChromatic,\n  ]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: mount-only DOM setup (slot-text/react)\n  useEffect(() => {\n    const element = elementRef.current;\n    if (!element) {\n      return;\n    }\n\n    buildTextRoll(element, text);\n    mountedRef.current = true;\n\n    return () => {\n      clearTextRoll(element);\n      mountedRef.current = false;\n      firstTextEffectRef.current = true;\n    };\n  }, []);\n\n  useEffect(() => {\n    const element = elementRef.current;\n    if (!(element && mountedRef.current)) {\n      return;\n    }\n    if (firstTextEffectRef.current) {\n      firstTextEffectRef.current = false;\n      return;\n    }\n\n    if (prefersReducedMotion) {\n      buildTextRoll(element, text);\n      return;\n    }\n\n    animateTextRoll(element, text, optionsRef.current);\n  }, [text, prefersReducedMotion]);\n\n  return (\n    <span\n      className={cn("inline-flex whitespace-pre", className)}\n      ref={mergeRefs(elementRef, ref)}\n      {...props}\n    />\n  );\n}\n\n/** Docs preview — click toggles Copy / Copied like slot-text examples. */\nexport function TextRollPlayground({\n  bounce = 0.6,\n  chromatic: chromaticOnCopy = true,\n  className = "font-medium text-lg tabular-nums",\n  duration = 300,\n  stagger = 45,\n}: TextRollPlaygroundProps) {\n  const [copied, setCopied] = useState(false);\n\n  return (\n    <button\n      className="cursor-pointer rounded-lg border border-border bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-accent"\n      onClick={() => {\n        setCopied(true);\n        window.setTimeout(() => setCopied(false), 1400);\n      }}\n      type="button"\n    >\n      <TextRoll\n        className={className}\n        options={{\n          bounce,\n          direction: copied ? "up" : "down",\n          duration,\n          skipUnchanged: false,\n          stagger,\n          color:\n            copied && chromaticOnCopy\n              ? chromaticSweep({ from: 190 })\n              : undefined,\n        }}\n        text={copied ? "Copied" : "Copy"}\n      />\n    </button>\n  );\n}',
+      },
+      {
+        path: "registry/primitives/texts/text-roll/slot-text-core.ts",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-roll-core.ts",
+        content:
+          '/**\n * Text roll core — per-character vertical slide transitions.\n * Ported from slot-text (motion-primitives TextRoll variant).\n */\n\n/** biome-ignore-all lint/complexity/noExcessiveCognitiveComplexity: Ported animation engine with per-glyph timing branches. */\n\nexport interface TextRollOptions {\n  /**\n   * Per-letter personality: 0 = every glyph lands identically, 1 = lots of\n   * individual variation in speed and a little tilt-wobble as each settles.\n   */\n  bounce?: number;\n  /**\n   * Chromatic flash: each incoming glyph rolls in tinted, then fades to its\n   * resting color once it lands.\n   */\n  color?: string | ((index: number, total: number) => string);\n  /** How long the chromatic tint takes to fade back to rest, in ms (default 280). */\n  colorFade?: number;\n  /** "down" rolls glyphs downward (enter from top); "up" rolls upward. */\n  direction?: "up" | "down";\n  /** Slide duration per character in ms (default 300). */\n  duration?: number;\n  /** Easing — defaults to a springy, overshooting "back" curve. */\n  easing?: string;\n  /** How long the incoming glyph trails the outgoing one, in ms (default 50). */\n  exitOffset?: number;\n  /** Interrupt in-flight rolls when a new target text is set (default true). */\n  interrupt?: boolean;\n  /** Keep characters that are identical at the same index static. */\n  skipUnchanged?: boolean;\n  /** Per-character stagger in ms (default 45). */\n  stagger?: number;\n}\n\nexport interface ChromaticOptions {\n  from?: number;\n  lightness?: number;\n  saturation?: number;\n  spread?: number;\n}\n\nconst DEFAULTS = {\n  direction: "down" as const,\n  stagger: 45,\n  duration: 300,\n  exitOffset: 50,\n  easing: "cubic-bezier(0.34, 1.56, 0.64, 1)",\n  bounce: 0.6,\n  colorFade: 280,\n  skipUnchanged: true,\n  interrupt: true,\n};\n\nconst NBSP = "\\u00A0";\n\nconst SLOT_TEXT_CLASS = "inline-flex whitespace-pre";\nconst CHAR_SLOT_CLASS =\n  "relative inline-flex flex-none justify-center overflow-hidden overflow-x-visible overflow-y-clip align-bottom leading-[1.3]";\nconst CHAR_SLOT_RESIZING_CLASS = "overflow-x-clip";\nconst CHAR_SIZER_CLASS = "invisible whitespace-pre";\nconst CHAR_FACE_CLASS =\n  "absolute inset-0 flex items-center justify-center whitespace-pre will-change-transform";\n\nconst glyph = (char: string) => (char === " " ? NBSP : char);\n\n/** Build a `color` function that sweeps hue across the line. */\nexport function chromatic({\n  from = 0,\n  spread = 320,\n  saturation = 92,\n  lightness = 60,\n}: ChromaticOptions = {}) {\n  return (index: number, total: number) => {\n    const t = total <= 1 ? 0 : index / (total - 1);\n    return `hsl(${(from + t * spread) % 360} ${saturation}% ${lightness}%)`;\n  };\n}\n\ninterface SlotState {\n  pending?: { text: string; options: TextRollOptions };\n  target: string;\n  timers: number[];\n}\n\nconst states = new WeakMap<HTMLElement, SlotState>();\n\nfunction settle(container: HTMLElement) {\n  const state = states.get(container);\n  if (!state) {\n    return;\n  }\n  for (const timer of state.timers) {\n    window.clearTimeout(timer);\n  }\n  states.delete(container);\n  buildTextRoll(container, state.target);\n}\n\nfunction makeFace(char: string) {\n  const face = document.createElement("span");\n  face.className = CHAR_FACE_CLASS;\n  face.dataset.charFace = "";\n  face.textContent = glyph(char);\n  return face;\n}\n\nfunction buildSlot(char: string) {\n  const slot = document.createElement("span");\n  slot.className = CHAR_SLOT_CLASS;\n  slot.dataset.char = char;\n  slot.dataset.charSlot = "";\n\n  const sizer = document.createElement("span");\n  sizer.className = CHAR_SIZER_CLASS;\n  sizer.dataset.charSizer = "";\n  sizer.textContent = glyph(char);\n\n  slot.append(sizer, makeFace(char));\n  return slot;\n}\n\nexport function buildTextRoll(container: HTMLElement, text: string) {\n  container.classList.add(...SLOT_TEXT_CLASS.split(" "));\n  container.replaceChildren(...Array.from(text, buildSlot));\n}\n\nexport function animateTextRoll(\n  container: HTMLElement,\n  toText: string,\n  options: TextRollOptions = {}\n) {\n  if (!(container instanceof HTMLElement)) {\n    return;\n  }\n\n  const {\n    direction,\n    stagger,\n    duration,\n    exitOffset,\n    easing,\n    bounce,\n    color,\n    colorFade,\n    skipUnchanged,\n    interrupt,\n  } = {\n    ...DEFAULTS,\n    ...options,\n  };\n\n  const running = states.get(container);\n  if (running && !interrupt) {\n    if (toText !== running.target) {\n      running.pending = { text: toText, options };\n    }\n    return;\n  }\n\n  settle(container);\n\n  if (!container.querySelector("[data-char-slot]")) {\n    buildTextRoll(container, toText);\n    return;\n  }\n\n  const slots = Array.from(\n    container.querySelectorAll<HTMLElement>("[data-char-slot]")\n  );\n  const fromText = slots.map((slot) => slot.dataset.char ?? "").join("");\n  if (!interrupt && fromText === toText) {\n    return;\n  }\n  const maxLen = Math.max(fromText.length, toText.length);\n\n  const sample =\n    slots.find((slot) => (slot.dataset.char ?? "") !== "") ?? slots[0];\n  const computedStyle = getComputedStyle(container);\n  const H =\n    Math.ceil(\n      sample?.getBoundingClientRect().height ||\n        sample?.offsetHeight ||\n        container.getBoundingClientRect().height ||\n        Number.parseFloat(computedStyle.lineHeight) ||\n        0\n    ) ||\n    Math.ceil(Number.parseFloat(computedStyle.fontSize) * 1.3) ||\n    18;\n\n  const restColor = color ? computedStyle.color : "";\n\n  for (let i = slots.length; i < maxLen; i++) {\n    const slot = buildSlot("");\n    container.appendChild(slot);\n    slots.push(slot);\n  }\n\n  const timers: number[] = [];\n  const state: SlotState = { timers, target: toText };\n  states.set(container, state);\n\n  const outY = direction === "down" ? H : -H;\n  const inStart = direction === "down" ? -H : H;\n\n  const wobble = (index: number, salt: number) => {\n    const n = Math.sin((index + 1) * 12.9898 + salt * 78.233) * 43_758.5453;\n    return (n - Math.floor(n)) * 2 - 1;\n  };\n\n  let maxEnd = 0;\n\n  for (let i = 0; i < maxLen; i++) {\n    const fromChar = fromText[i] || "";\n    const toChar = toText[i] || "";\n    if (fromChar === toChar && (skipUnchanged || fromChar === "")) {\n      continue;\n    }\n\n    const slot = slots[i];\n    const sizer = slot.querySelector<HTMLElement>("[data-char-sizer]");\n    if (!sizer) {\n      continue;\n    }\n    const oldFace = slot.querySelector<HTMLElement>("[data-char-face]");\n\n    const oldW = slot.getBoundingClientRect().width;\n    sizer.textContent = glyph(toChar);\n    const newW = sizer.getBoundingClientRect().width;\n    const widthChanges = Math.abs(newW - oldW) > 0.5;\n    if (widthChanges) {\n      slot.style.width = `${oldW}px`;\n    }\n\n    if (fromChar === "" || toChar === "") {\n      slot.classList.add(CHAR_SLOT_RESIZING_CLASS);\n    }\n\n    const tint = typeof color === "function" ? color(i, maxLen) : color;\n\n    const isTail = toChar === "";\n    const d = Math.round(\n      duration * (isTail ? 0.75 : 1) * (1 + bounce * 0.45 * wobble(i, 1))\n    );\n    const staggerIndex = isTail\n      ? toText.length * 0.5 + (i - toText.length) * 0.25\n      : i;\n    const base = Math.round(\n      staggerIndex * stagger * (1 + bounce * 0.25 * wobble(i, 2))\n    );\n    const tilt = (bounce * 5 * wobble(i, 3)).toFixed(2);\n\n    const rollTrans = `transform ${d}ms ${easing}`;\n    const trans = color\n      ? `${rollTrans}, color ${colorFade}ms linear ${d}ms`\n      : rollTrans;\n\n    const newFace = makeFace(toChar);\n    newFace.style.transformOrigin = "50% 50%";\n    newFace.style.transform = `translateY(${inStart}px) rotate(${tilt}deg)`;\n    if (tint) {\n      newFace.style.color = tint;\n    }\n    slot.appendChild(newFace);\n\n    slot.getBoundingClientRect();\n\n    if (widthChanges) {\n      let wDelay = base;\n      let wDur = d;\n      if (isTail) {\n        wDelay = base + Math.round(d * 0.55);\n        wDur = Math.max(140, Math.round(d * 0.6));\n      } else if (fromChar === "") {\n        wDur = Math.max(140, Math.round(d * 0.45));\n      }\n      timers.push(\n        window.setTimeout(() => {\n          slot.style.transition = `width ${wDur}ms cubic-bezier(0.2, 0, 0, 1)`;\n          slot.style.width = `${newW}px`;\n        }, wDelay)\n      );\n      maxEnd = Math.max(maxEnd, wDelay + wDur);\n    }\n\n    maxEnd = Math.max(maxEnd, base + exitOffset + d + (color ? colorFade : 0));\n\n    if (oldFace) {\n      timers.push(\n        window.setTimeout(() => {\n          oldFace.style.transition = rollTrans;\n          oldFace.style.transform = `translateY(${outY}px) rotate(${-Number(tilt)}deg)`;\n        }, base)\n      );\n    }\n\n    timers.push(\n      window.setTimeout(() => {\n        newFace.style.transition = trans;\n        newFace.style.transform = "translateY(0) rotate(0deg)";\n        if (color) {\n          newFace.style.color = restColor;\n        }\n\n        const done = (event: TransitionEvent) => {\n          if (event.propertyName !== "transform") {\n            return;\n          }\n          newFace.removeEventListener("transitionend", done);\n          slot.dataset.char = toChar;\n          slot.style.removeProperty("transition");\n          slot.style.removeProperty("width");\n          slot.classList.remove(CHAR_SLOT_RESIZING_CLASS);\n          for (const face of slot.querySelectorAll("[data-char-face]")) {\n            if (face !== newFace) {\n              face.remove();\n            }\n          }\n        };\n        newFace.addEventListener("transitionend", done);\n      }, base + exitOffset)\n    );\n  }\n\n  const total = maxEnd + 80;\n  timers.push(\n    window.setTimeout(() => {\n      const pending = state.pending;\n      states.delete(container);\n      buildTextRoll(container, toText);\n      if (pending) {\n        animateTextRoll(container, pending.text, pending.options);\n      }\n    }, total)\n  );\n}\n\nexport function clearTextRoll(container: HTMLElement, text = "") {\n  settle(container);\n  for (const className of SLOT_TEXT_CLASS.split(" ")) {\n    container.classList.remove(className);\n  }\n  container.textContent = text;\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "slot-text",
+      url: "https://textmotion.dev/",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/texts/text-roll/index.tsx"
+        );
+        const demoProps = {
+          TextRollPlayground: {
+            className: { value: "font-medium text-lg tabular-nums" },
+            stagger: { value: 45, min: 0, max: 120, step: 5 },
+            duration: { value: 300, min: 100, max: 600, step: 25 },
+            bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
+            chromatic: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextRollPlayground: {
+          className: { value: "font-medium text-lg tabular-nums" },
+          stagger: { value: 45, min: 0, max: 120, step: 5 },
+          duration: { value: 300, min: 100, max: 600, step: 25 },
+          bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
+          chromatic: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/text-roll",
   },
   "text-scramble": {
     name: "text-scramble",

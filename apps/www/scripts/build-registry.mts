@@ -457,8 +457,11 @@ export const index: Record<string, any> = {`;
     }
 
     console.log("Processing item:", item.name);
-    // Define the component path from the first file if exists
-    const componentPath = item.files[0]?.path ? `@/${item.files[0].path}` : "";
+    const componentFile =
+      item.files.find((file: RegistryItemFile) =>
+        file.path?.endsWith("/index.tsx")
+      ) ?? item.files[0];
+    const componentPath = componentFile?.path ? `@/${componentFile.path}` : "";
 
     // Read files and add content preserving newlines
     const filesWithContent = await Promise.all(

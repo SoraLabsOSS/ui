@@ -46,7 +46,7 @@ export function SiteBanner() {
       ]}
       variant="rainbow"
     >
-      🎉 Sora UI is now part of the shadcn/ui registry ecosystem.
+      ✨ MCP support is now available in Sora UI.
     </Banner>
   );
 }

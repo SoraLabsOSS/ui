@@ -6,6 +6,7 @@
   "pages": [
     "---Texts---",
     "text-scramble",
+    "text-roll",
     "text-reveal-blur",
     "text-reveal-mask",
     "text-underline",

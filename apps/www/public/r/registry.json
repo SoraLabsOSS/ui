@@ -151,6 +151,20 @@
       }
     },
     {
+      "name": "demo-text-roll",
+      "type": "registry:ui",
+      "title": "Text Roll Demo",
+      "description": "Interactive copy button with chromatic text roll feedback.",
+      "registryDependencies": ["@soralabs/text-roll"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-roll/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-roll.tsx"
+        }
+      ]
+    },
+    {
       "name": "hooks-use-auto-height",
       "type": "registry:hook",
       "title": "useAutoHeight",
@@ -545,6 +559,61 @@
             },
             "viewportMargin": {
               "value": "0px 0px -25% 0px"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "text-roll",
+      "type": "registry:ui",
+      "title": "Text Roll",
+      "description": "A per-character vertical text roll animation for label swaps and micro-interactions.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/text-roll/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-roll.tsx"
+        },
+        {
+          "path": "registry/primitives/texts/text-roll/slot-text-core.ts",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-roll-core.ts"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "slot-text",
+          "url": "https://textmotion.dev/"
+        },
+        "demoProps": {
+          "TextRollPlayground": {
+            "className": {
+              "value": "font-medium text-lg tabular-nums"
+            },
+            "stagger": {
+              "value": 45,
+              "min": 0,
+              "max": 120,
+              "step": 5
+            },
+            "duration": {
+              "value": 300,
+              "min": 100,
+              "max": 600,
+              "step": 25
+            },
+            "bounce": {
+              "value": 0.6,
+              "min": 0,
+              "max": 1,
+              "step": 0.1
+            },
+            "chromatic": {
+              "value": true
             }
           }
         }

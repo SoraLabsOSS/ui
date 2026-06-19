@@ -1,0 +1,126 @@
+---
+title: Text Roll
+description: A per-character vertical text roll animation for label swaps and micro-interactions.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="text-roll" />
+
+## Installation
+
+<ComponentInstallation name="text-roll" />
+
+## Usage
+
+`TextRoll` does not animate on hover or click by itself — update the `text` prop (same as `SlotText` from slot-text):
+
+```tsx
+import { useState } from 'react';
+import { TextRoll } from '@/components/sora-ui/texts/text-roll';
+
+export default function CopyButton() {
+  const [copied, setCopied] = useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1400);
+      }}
+    >
+      <TextRoll text={copied ? 'Copied' : 'Copy'} />
+    </button>
+  );
+}
+```
+
+Click the preview button to see Copy → Copied roll. Hover alone does not trigger the effect.
+
+Direction, stagger, and bounce:
+
+```tsx
+<TextRoll
+  text={label}
+  direction="up"
+  stagger={60}
+  bounce={0.8}
+  className="font-mono text-sm font-semibold"
+/>
+```
+
+Chromatic sweep on roll — pass a color function or use the built-in helper:
+
+```tsx
+import { TextRoll, chromatic } from '@/components/sora-ui/texts/text-roll';
+
+<TextRoll
+  text={label}
+  options={{
+    direction: 'up',
+    skipUnchanged: false,
+    color: chromatic({ from: 190 }),
+  }}
+/>;
+```
+
+For aligned short labels (`Copy` → `Copied`), keep `skipUnchanged` at the default `true` so shared letters stay put. Turn it off when lengths differ so the whole line rolls uniformly.
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: 'Text to display. Changing this value triggers the roll animation.',
+      type: 'string',
+    },
+    options: {
+      description:
+        'Full animation options: direction, stagger, duration, bounce, color, skipUnchanged, interrupt, and more.',
+      type: 'TextRollOptions',
+    },
+    direction: {
+      description: 'Shorthand for `options.direction`.',
+      type: '"up" | "down"',
+      default: '"down"',
+    },
+    stagger: {
+      description: 'Per-character stagger in milliseconds.',
+      type: 'number',
+      default: '45',
+    },
+    duration: {
+      description: 'Slide duration per character in milliseconds.',
+      type: 'number',
+      default: '300',
+    },
+    bounce: {
+      description:
+        'Per-letter personality — speed variation and tilt wobble (0–1).',
+      type: 'number',
+      default: '0.6',
+    },
+    skipUnchanged: {
+      description:
+        'Keep characters identical at the same index static during the roll.',
+      type: 'boolean',
+      default: 'true',
+    },
+    chromatic: {
+      description:
+        'When true, applies a built-in rainbow chromatic sweep via `chromatic()`.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: {
+      description: 'Additional class names merged onto the root span.',
+      type: 'string',
+    },
+  }}
+/>
+
+## Credits
+
+<ComponentCredits name="text-roll" />

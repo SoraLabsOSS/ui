@@ -19,13 +19,13 @@ import {
   getOgMetadataImages,
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
-import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+import { getMetadataBaseUrl, SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 const defaultOgImages = getOgMetadataImages([], "Sora UI");
 const defaultTwitterImages = getTwitterMetadataImages([]);
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(getMetadataBaseUrl()),
   title: {
     template: "%s - Sora UI",
     default: "Sora UI - Motion-first UI for React",

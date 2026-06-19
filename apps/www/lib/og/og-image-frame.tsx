@@ -31,7 +31,10 @@ export function OgImageFrame({ title, description }: OgPageContent) {
       >
         <OgSoraUiBrand />
 
-        <div tw="flex flex-row gap-10 w-full justify-between items-end">
+        <div
+          style={{ gap: 40 }}
+          tw="flex flex-row w-full justify-between items-end"
+        >
           <div tw="flex flex-col">
             <p
               style={{ fontFamily: OG_FONT_FAMILY }}

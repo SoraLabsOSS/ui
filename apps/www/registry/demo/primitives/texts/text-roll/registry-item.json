@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-roll",
+  "type": "registry:ui",
+  "title": "Text Roll Demo",
+  "description": "Interactive copy button with chromatic text roll feedback.",
+  "registryDependencies": ["text-roll"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-roll/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-roll.tsx"
+    }
+  ]
+}

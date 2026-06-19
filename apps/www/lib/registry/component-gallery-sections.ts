@@ -39,6 +39,7 @@ export const COMPONENT_GALLERY_SECTIONS: ComponentGallerySection[] = [
 
 const CATEGORY_BY_SLUG: Partial<Record<string, ComponentGalleryCategory>> = {
   "draw-underline-link": "texts",
+  "text-roll": "texts",
 };
 
 export function resolveGalleryCategory(

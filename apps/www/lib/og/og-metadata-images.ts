@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { getOgImagePath } from "@/lib/og/get-og-image-path";
+import { getMetadataBaseUrl } from "@/lib/site";
 
 const OG_SIZE = { width: 1200, height: 630 } as const;
+
+function getAbsoluteOgImageUrl(pathSegments: string[]): string {
+  return `${getMetadataBaseUrl()}${getOgImagePath(...pathSegments)}`;
+}
 
 export function getOgMetadataImages(
   pathSegments: string[],
@@ -9,7 +14,7 @@ export function getOgMetadataImages(
 ): NonNullable<Metadata["openGraph"]>["images"] {
   return [
     {
-      url: getOgImagePath(...pathSegments),
+      url: getAbsoluteOgImageUrl(pathSegments),
       ...OG_SIZE,
       alt,
     },
@@ -17,5 +22,5 @@ export function getOgMetadataImages(
 }
 
 export function getTwitterMetadataImages(pathSegments: string[]): string[] {
-  return [getOgImagePath(...pathSegments)];
+  return [getAbsoluteOgImageUrl(pathSegments)];
 }
