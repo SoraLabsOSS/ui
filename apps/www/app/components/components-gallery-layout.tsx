@@ -44,7 +44,7 @@ export function ComponentsGalleryLayout({
       {...COMPONENTS_GALLERY_LAYOUT_PROPS}
       containerProps={{
         className:
-          "account-docs-layout sf-pro-display [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px]",
+          "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px]",
       }}
       nav={{
         component: <Nav primitivesUrl={primitivesUrl} />,

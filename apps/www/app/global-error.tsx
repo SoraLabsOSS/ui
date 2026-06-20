@@ -2,10 +2,7 @@
 
 import { Button } from "@workspace/ui/components/ui/button";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import { useEffect } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function GlobalError({
   error,
@@ -35,7 +32,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html className={inter.className} lang="en">
+    <html className="sf-pro-display" lang="en">
       <body className="bg-white text-zinc-950 antialiased dark:bg-zinc-950 dark:text-zinc-50">
         <div className="relative flex min-h-screen flex-col items-center justify-center space-y-4 px-6 text-center">
           <h1 className="font-light font-mono text-7xl">500</h1>

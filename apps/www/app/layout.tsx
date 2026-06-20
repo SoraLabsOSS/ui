@@ -1,6 +1,5 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
@@ -86,13 +85,11 @@ export const metadata: Metadata = {
   },
 };
 
-const outfit = Outfit({ subsets: ["latin"] });
-
 export default function Layout({ children }: { children: ReactNode }) {
   const commandGroups = getCommandPaletteGroups();
 
   return (
-    <html className={cn(outfit.className)} lang="en" suppressHydrationWarning>
+    <html className="sf-pro-display" lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

@@ -1,3 +1,8 @@
+:root {
+  --font-sf-pro-display:
+    "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 @font-face {
   font-family: "SF Pro Display";
   font-style: italic;
@@ -80,7 +85,5 @@
 }
 
 .sf-pro-display {
-  --font-sf-pro-display:
-    "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-family: var(--font-sf-pro-display);
 }

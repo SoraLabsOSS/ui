@@ -251,13 +251,11 @@
 
   --breakpoint-3xl: 1670px;
 
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sf-pro-display);
 
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sf-pro-display);
 
-  --font-hero-display:
-    var(--font-sf-pro-display), system-ui, -apple-system, BlinkMacSystemFont,
-    sans-serif;
+  --font-hero-display: var(--font-sf-pro-display);
 
   --radius-2xl: calc(var(--radius) * 1.8);
 
