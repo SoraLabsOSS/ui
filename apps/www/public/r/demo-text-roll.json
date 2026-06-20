@@ -7,10 +7,40 @@
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-roll/index.tsx",
-      "content": "\"use client\";\n\nimport { TextRollPlayground } from \"@/components/sora-ui/texts/text-roll\";\n\nexport default function TextRollDemo() {\n  return <TextRollPlayground />;\n}\n",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { chromatic, TextRoll } from \"@/components/sora-ui/texts/text-roll\";\n\nexport interface TextRollPlaygroundProps {\n  bounce?: number;\n  chromatic?: boolean;\n  className?: string;\n  duration?: number;\n  stagger?: number;\n}\n\n/** Docs preview — click toggles Copy / Copied like slot-text examples. */\nexport default function TextRollPlayground({\n  bounce = 0.6,\n  chromatic: chromaticOnCopy = true,\n  className = \"font-medium text-lg tabular-nums\",\n  duration = 300,\n  stagger = 45,\n}: TextRollPlaygroundProps) {\n  const [copied, setCopied] = useState(false);\n\n  return (\n    <button\n      className=\"cursor-pointer rounded-lg border border-border bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-accent\"\n      onClick={() => {\n        setCopied(true);\n        window.setTimeout(() => setCopied(false), 1400);\n      }}\n      type=\"button\"\n    >\n      <TextRoll\n        className={className}\n        options={{\n          bounce,\n          direction: copied ? \"up\" : \"down\",\n          duration,\n          skipUnchanged: false,\n          stagger,\n          color:\n            copied && chromaticOnCopy ? chromatic({ from: 190 }) : undefined,\n        }}\n        text={copied ? \"Copied\" : \"Copy\"}\n      />\n    </button>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/texts/text-roll.tsx"
     }
   ],
+  "meta": {
+    "demoProps": {
+      "TextRollPlayground": {
+        "className": {
+          "value": "font-medium text-lg tabular-nums"
+        },
+        "stagger": {
+          "value": 45,
+          "min": 0,
+          "max": 120,
+          "step": 5
+        },
+        "duration": {
+          "value": 300,
+          "min": 100,
+          "max": 600,
+          "step": 25
+        },
+        "bounce": {
+          "value": 0.6,
+          "min": 0,
+          "max": 1,
+          "step": 0.1
+        },
+        "chromatic": {
+          "value": true
+        }
+      }
+    }
+  },
   "type": "registry:ui"
 }

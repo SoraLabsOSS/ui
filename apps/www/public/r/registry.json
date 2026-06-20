@@ -162,7 +162,37 @@
           "type": "registry:ui",
           "target": "components/sora-ui/demo/texts/text-roll.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "demoProps": {
+          "TextRollPlayground": {
+            "className": {
+              "value": "font-medium text-lg tabular-nums"
+            },
+            "stagger": {
+              "value": 45,
+              "min": 0,
+              "max": 120,
+              "step": 5
+            },
+            "duration": {
+              "value": 300,
+              "min": 100,
+              "max": 600,
+              "step": 25
+            },
+            "bounce": {
+              "value": 0.6,
+              "min": 0,
+              "max": 1,
+              "step": 0.1
+            },
+            "chromatic": {
+              "value": true
+            }
+          }
+        }
+      }
     },
     {
       "name": "hooks-use-auto-height",
@@ -576,11 +606,6 @@
           "path": "registry/primitives/texts/text-roll/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/texts/text-roll.tsx"
-        },
-        {
-          "path": "registry/primitives/texts/text-roll/text-roll-core.ts",
-          "type": "registry:ui",
-          "target": "components/sora-ui/texts/text-roll-core.ts"
         }
       ],
       "meta": {
@@ -588,34 +613,6 @@
           "type": "inspired",
           "label": "slot-text",
           "url": "https://textmotion.dev/"
-        },
-        "demoProps": {
-          "TextRollPlayground": {
-            "className": {
-              "value": "font-medium text-lg tabular-nums"
-            },
-            "stagger": {
-              "value": 45,
-              "min": 0,
-              "max": 120,
-              "step": 5
-            },
-            "duration": {
-              "value": 300,
-              "min": 100,
-              "max": 600,
-              "step": 25
-            },
-            "bounce": {
-              "value": 0.6,
-              "min": 0,
-              "max": 1,
-              "step": 0.1
-            },
-            "chromatic": {
-              "value": true
-            }
-          }
         }
       }
     },

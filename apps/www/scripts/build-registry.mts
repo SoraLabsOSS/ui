@@ -375,6 +375,17 @@ export const index: Record<string, any> = {`;
     if (own && Object.keys(own).length > 0) {
       return own;
     }
+
+    if (!item.name.startsWith("demo-")) {
+      const demoItem = uniqueItemsMap.get(`demo-${item.name}`) as
+        | RegistryItem
+        | undefined;
+      const fromDemo = demoItem?.meta?.demoProps;
+      if (fromDemo && Object.keys(fromDemo).length > 0) {
+        return fromDemo;
+      }
+    }
+
     for (const dep of item.registryDependencies ?? []) {
       const depItem = uniqueItemsMap.get(dep);
       const inherited = depItem?.meta?.demoProps;
@@ -461,7 +472,18 @@ export const index: Record<string, any> = {`;
       item.files.find((file: RegistryItemFile) =>
         file.path?.endsWith("/index.tsx")
       ) ?? item.files[0];
-    const componentPath = componentFile?.path ? `@/${componentFile.path}` : "";
+    let componentPath = componentFile?.path ? `@/${componentFile.path}` : "";
+
+    const demoName = `demo-${item.name}`;
+    if (!item.name.startsWith("demo-") && physicalDemoNames.has(demoName)) {
+      const demoItem = uniqueItemsMap.get(demoName) as RegistryItem | undefined;
+      const demoComponentFile =
+        demoItem?.files?.find((file) => file.path?.endsWith("/index.tsx")) ??
+        demoItem?.files?.[0];
+      if (demoComponentFile?.path) {
+        componentPath = `@/${demoComponentFile.path}`;
+      }
+    }
 
     // Read files and add content preserving newlines
     const filesWithContent = await Promise.all(

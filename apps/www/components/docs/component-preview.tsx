@@ -38,6 +38,12 @@ function resolveDemoProps(name: string): Record<string, unknown> {
     return direct;
   }
 
+  const demoEntry = index[`demo-${name}`] as RegistryIndexEntry | undefined;
+  const fromDemo = demoEntry?.component?.demoProps;
+  if (fromDemo && Object.keys(fromDemo).length > 0) {
+    return fromDemo;
+  }
+
   for (const dep of entry?.registryDependencies ?? []) {
     const inherited = (index[dep] as RegistryIndexEntry | undefined)?.component
       ?.demoProps;
