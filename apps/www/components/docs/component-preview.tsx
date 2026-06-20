@@ -76,6 +76,11 @@ function resolveUsageCodeEntry(
   return index[previewName] as RegistryIndexEntry | undefined;
 }
 
+/** Physical demo folder on disk — not the synthetic code-only `demo-*` entry. */
+function isManualUsageDemo(entry: RegistryIndexEntry | undefined): boolean {
+  return Boolean(entry?.component && entry.files?.[0]?.content);
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function flattenFirstLevel<T>(input: Record<string, any>): T {
   return Object.values(input).reduce(
@@ -129,13 +134,15 @@ export function ComponentPreview({
       title: file?.target?.split("/").pop() ?? `${demo ?? `demo-${name}`}.tsx`,
       installTarget: (index[name] as RegistryIndexEntry | undefined)?.files?.[0]
         ?.target,
+      manualDemo: isManualUsageDemo(entry),
     };
   }, [name, demo]);
 
   const displayCode = useMemo(() => {
-    const { installTarget, staticContent } = usageCodeMeta;
+    const { installTarget, staticContent, manualDemo } = usageCodeMeta;
 
     if (
+      !manualDemo &&
       Object.keys(demoPropsConfig).length > 0 &&
       componentProps &&
       installTarget
