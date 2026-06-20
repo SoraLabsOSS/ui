@@ -8,6 +8,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@workspace/ui/lib/utils";
+import { MotionConfig } from "motion/react";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { Providers } from "@/components/providers";
@@ -111,18 +112,20 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <CommandPaletteGroupsProvider groups={commandGroups}>
-          <NuqsAdapter>
-            <Providers>
-              <RootProvider
-                search={{ SearchDialog: CommandPaletteSearchDialog }}
-              >
-                <SiteBanner />
-                {children}
-              </RootProvider>
-            </Providers>
-          </NuqsAdapter>
-        </CommandPaletteGroupsProvider>
+        <MotionConfig reducedMotion="user">
+          <CommandPaletteGroupsProvider groups={commandGroups}>
+            <NuqsAdapter>
+              <Providers>
+                <RootProvider
+                  search={{ SearchDialog: CommandPaletteSearchDialog }}
+                >
+                  <SiteBanner />
+                  {children}
+                </RootProvider>
+              </Providers>
+            </NuqsAdapter>
+          </CommandPaletteGroupsProvider>
+        </MotionConfig>
         <Analytics />
         <SpeedInsights />
       </body>
