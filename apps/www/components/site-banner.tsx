@@ -46,7 +46,7 @@ export function SiteBanner() {
       ]}
       variant="rainbow"
     >
-      ✨ MCP support is now available in Sora UI.
+      Motion-first UI for React. Built for shadcn/ui.
     </Banner>
   );
 }

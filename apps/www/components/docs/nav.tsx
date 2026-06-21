@@ -164,7 +164,13 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
 
             <UserButton
               align="end"
-              className="text-fd-muted-foreground"
+              className={cn(
+                "text-fd-muted-foreground",
+                "max-md:!size-7 max-md:rounded-full max-md:p-0",
+                "max-md:[&_[data-slot=avatar]]:!size-7",
+                "max-md:[&_.rounded-full]:!size-7",
+                "max-md:[&_svg]:!size-4"
+              )}
               links={[
                 {
                   label: "Bookmark",

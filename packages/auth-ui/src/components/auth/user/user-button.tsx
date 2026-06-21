@@ -148,14 +148,25 @@ export function UserButton({
   const mounted = useClientMounted();
   const showIconTriggerLoading =
     !mounted || sessionPending || settingActiveSession;
-  const triggerIconClass = triggerSize === "icon-xs" ? "size-5" : "size-6";
+  const triggerIconSizes =
+    triggerSize === "icon-xs"
+      ? { avatar: "size-8", guest: "size-5", fillTrigger: true }
+      : { avatar: "size-7", guest: "size-6", fillTrigger: false };
+  const triggerIconClass =
+    showIconTriggerLoading || session
+      ? triggerIconSizes.avatar
+      : triggerIconSizes.guest;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {size === "icon" ? (
           <Button
-            className={cn(session && "rounded-full", className)}
+            className={cn(
+              className,
+              session && "rounded-full",
+              session && triggerIconSizes.fillTrigger && "p-0"
+            )}
             size={triggerSize}
             variant={variant}
           >
