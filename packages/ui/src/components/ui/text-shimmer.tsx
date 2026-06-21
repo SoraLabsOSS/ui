@@ -1,12 +1,10 @@
 "use client";
-
-import { getMotionComponent } from "@workspace/ui/lib/get-motion-component";
 import { cn } from "@workspace/ui/lib/utils";
-import { useInView, useReducedMotion } from "motion/react";
-import React, { type ElementType, useMemo, useRef } from "react";
+import { motion } from "motion/react";
+import React, { type JSX, useMemo } from "react";
 
 export interface TextShimmerProps {
-  as?: ElementType;
+  as?: React.ElementType;
   children: string;
   className?: string;
   duration?: number;
@@ -20,11 +18,9 @@ function TextShimmerComponent({
   duration = 2,
   spread = 2,
 }: TextShimmerProps) {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { margin: "0px" });
-  const prefersReducedMotion = useReducedMotion();
-  const shouldAnimate = isInView && !prefersReducedMotion;
-  const MotionComponent = getMotionComponent(Component);
+  const MotionComponent = motion.create(
+    Component as keyof JSX.IntrinsicElements
+  );
 
   const dynamicSpread = useMemo(
     () => children.length * spread,
@@ -42,7 +38,6 @@ function TextShimmerComponent({
         className
       )}
       initial={{ backgroundPosition: "100% center" }}
-      ref={ref}
       style={
         {
           "--spread": `${dynamicSpread}px`,
@@ -51,8 +46,8 @@ function TextShimmerComponent({
         } as React.CSSProperties
       }
       transition={{
-        repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
-        duration: shouldAnimate ? duration : 0,
+        repeat: Number.POSITIVE_INFINITY,
+        duration,
         ease: "linear",
       }}
     >
