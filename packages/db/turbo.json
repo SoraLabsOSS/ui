@@ -1,0 +1,21 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "db:generate": {
+      "env": ["DATABASE_URL", "DATABASE_URL_DIRECT"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "db:push": {
+      "env": ["DATABASE_URL", "DATABASE_URL_DIRECT"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "db:migrate": {
+      "env": ["DATABASE_URL", "DATABASE_URL_DIRECT"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "db:studio": {
+      "env": ["DATABASE_URL", "DATABASE_URL_DIRECT"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    }
+  }
+}

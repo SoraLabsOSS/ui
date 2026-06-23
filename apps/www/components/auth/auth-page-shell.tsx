@@ -22,11 +22,14 @@ export function AuthPageShell({ children }: { children: ReactNode }) {
       <footer className="px-4 py-6 text-center text-muted-foreground text-sm">
         <p>
           By continuing, you agree to our{" "}
-          <Link className="text-foreground hover:underline" href="/">
+          <Link className="text-foreground hover:underline" href="/legal/terms">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link className="text-foreground hover:underline" href="/">
+          <Link
+            className="text-foreground hover:underline"
+            href="/legal/privacy"
+          >
             Privacy Policy
           </Link>
         </p>

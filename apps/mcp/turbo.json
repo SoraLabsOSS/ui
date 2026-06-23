@@ -1,0 +1,17 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["$TURBO_EXTENDS$"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "env": [
+        "DOCS_BASE_URL",
+        "DOCS_CACHE_TTL_MS",
+        "DOCS_CACHE_MAX_ENTRIES",
+        "MCP_PORT"
+      ]
+    }
+  }
+}

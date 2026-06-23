@@ -3,22 +3,7 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "env": [
-        "BETTER_AUTH_SECRET",
-        "DATABASE_URL",
-        "DATABASE_URL_DIRECT",
-        "GOOGLE_CLIENT_SECRET",
-        "NEXT_PUBLIC_BETTER_AUTH_URL",
-        "NEXT_PUBLIC_GOOGLE_CLIENT_ID",
-        "UPSTASH_REDIS_REST_URL",
-        "UPSTASH_REDIS_REST_TOKEN",
-        "BETTER_AUTH_API_KEY",
-        "GITHUB_CLIENT_ID",
-        "GITHUB_CLIENT_SECRET"
-      ],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": ["^build"]
     },
     "lint": {
       "dependsOn": ["^lint"]

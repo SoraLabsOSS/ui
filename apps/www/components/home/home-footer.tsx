@@ -12,6 +12,8 @@ import { FooterNewsletter } from "./footer/footer-newsletter";
 import { FooterSocial } from "./footer/footer-social";
 
 const LEGAL_LINKS = [
+  { href: "/legal/privacy", label: "Privacy" },
+  { href: "/legal/terms", label: "Terms" },
   { href: "/docs/license", label: "License" },
   { href: "https://github.com/axyl1410/sora", label: "GitHub", external: true },
 ] as const;
