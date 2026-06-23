@@ -1,6 +1,6 @@
-"use client";
-
 import Link from "next/link";
+
+const COPYRIGHT_YEAR = 2026;
 
 const FOOTER_LINKS = [
   { href: "/legal/terms", label: "Terms" },
@@ -50,7 +50,7 @@ export function LegalPageFooter() {
           })}
         </div>
         <span className="shrink-0 font-mono text-[10px] text-foreground/50">
-          © {new Date().getFullYear()} Sora UI
+          © {COPYRIGHT_YEAR} Sora UI
         </span>
       </div>
     </footer>
