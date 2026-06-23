@@ -6,6 +6,7 @@ import { Bookmark, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { type JSX, useCallback, useEffect, useState } from "react";
 import { BookmarkLoginDialog } from "@/components/docs/bookmark-login-dialog";
+import { setPendingBookmark } from "@/lib/bookmarks/pending-intent";
 import { useBookmarks } from "@/lib/bookmarks/use-bookmarks";
 
 const layoutTransition = {
@@ -33,6 +34,7 @@ export function BookmarkButton({
 
   const isBookmarked = bookmarks.some((bookmark) => bookmark.url === url);
   const isBusy = localPending && togglingUrl === url;
+  const showLoadingState = isBusy;
 
   useEffect(() => {
     if (!togglingUrl) {
@@ -54,6 +56,7 @@ export function BookmarkButton({
     }
 
     if (!isAuthenticated) {
+      setPendingBookmark(url);
       setLoginDialogOpen(true);
       return;
     }
@@ -65,7 +68,7 @@ export function BookmarkButton({
   return (
     <>
       <motion.button
-        aria-busy={isBusy}
+        aria-busy={showLoadingState}
         className={cn(
           buttonVariants({
             color: "secondary",
@@ -73,15 +76,16 @@ export function BookmarkButton({
             className:
               "shrink-0 select-none gap-2 overflow-hidden whitespace-nowrap border-0 [&_svg]:size-3.5",
           }),
-          isBusy && "cursor-wait opacity-70"
+          showLoadingState && "cursor-wait opacity-70"
         )}
+        disabled={showLoadingState}
         layout
         onClick={handleClick}
         transition={transition}
         type="button"
       >
         <motion.span layout="position" transition={transition}>
-          {isBusy ? (
+          {showLoadingState ? (
             <Loader2 className="size-3.5 animate-spin text-fd-muted-foreground" />
           ) : (
             <Bookmark
@@ -95,15 +99,17 @@ export function BookmarkButton({
           )}
         </motion.span>
         <AnimatePresence initial={false} mode="popLayout">
-          <motion.span
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, filter: "blur(4px)" }}
-            initial={{ opacity: 0, filter: "blur(4px)" }}
-            key={isBookmarked ? "saved" : "bookmark"}
-            transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            {isBookmarked ? "Saved" : "Bookmark"}
-          </motion.span>
+          {showLoadingState ? null : (
+            <motion.span
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: "blur(4px)" }}
+              initial={{ opacity: 0, filter: "blur(4px)" }}
+              key={isBookmarked ? "saved" : "bookmark"}
+              transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              {isBookmarked ? "Saved" : "Bookmark"}
+            </motion.span>
+          )}
         </AnimatePresence>
       </motion.button>
 

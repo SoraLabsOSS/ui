@@ -8,6 +8,45 @@ interface BookmarksResponse {
   bookmarks: BookmarkRecord[];
 }
 
+interface CreateBookmarkResponse {
+  bookmark: BookmarkRecord;
+}
+
+interface BookmarkErrorBody {
+  error?: string;
+}
+
+export class BookmarkRequestError extends Error {
+  readonly status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "BookmarkRequestError";
+    this.status = status;
+  }
+}
+
+async function parseErrorMessage(response: Response): Promise<string> {
+  try {
+    const body = (await response.json()) as BookmarkErrorBody;
+    return body.error ?? "Bookmark update failed";
+  } catch {
+    return "Bookmark update failed";
+  }
+}
+
+async function assertBookmarkResponse(
+  response: Response,
+  allowedStatuses: number[] = []
+): Promise<void> {
+  if (response.ok || allowedStatuses.includes(response.status)) {
+    return;
+  }
+
+  const message = await parseErrorMessage(response);
+  throw new BookmarkRequestError(message, response.status);
+}
+
 export async function fetchBookmarks(): Promise<BookmarkRecord[]> {
   const response = await fetch("/api/bookmarks", { credentials: "include" });
 
@@ -19,7 +58,9 @@ export async function fetchBookmarks(): Promise<BookmarkRecord[]> {
   return data.bookmarks;
 }
 
-export async function createBookmark(url: string): Promise<boolean> {
+export async function createBookmark(
+  url: string
+): Promise<BookmarkRecord | null> {
   const response = await fetch("/api/bookmarks", {
     method: "POST",
     credentials: "include",
@@ -27,10 +68,17 @@ export async function createBookmark(url: string): Promise<boolean> {
     body: JSON.stringify({ url }),
   });
 
-  return response.ok || response.status === 409;
+  if (response.status === 409) {
+    return null;
+  }
+
+  await assertBookmarkResponse(response);
+
+  const data = (await response.json()) as CreateBookmarkResponse;
+  return data.bookmark;
 }
 
-export async function removeBookmark(url: string): Promise<boolean> {
+export async function removeBookmark(url: string): Promise<void> {
   const response = await fetch("/api/bookmarks", {
     method: "DELETE",
     credentials: "include",
@@ -38,5 +86,5 @@ export async function removeBookmark(url: string): Promise<boolean> {
     body: JSON.stringify({ url }),
   });
 
-  return response.ok;
+  await assertBookmarkResponse(response);
 }

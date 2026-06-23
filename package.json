@@ -3,8 +3,6 @@
   "version": "1.0.27",
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
-    "@commitlint/cli": "^19.8.0",
-    "@commitlint/config-conventional": "^19.8.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/node": "24.0.7",
     "@types/react": "^19.1.8",

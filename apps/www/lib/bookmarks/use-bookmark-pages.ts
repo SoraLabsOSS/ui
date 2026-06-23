@@ -15,7 +15,7 @@ export function useBookmarkPages() {
   const {
     bookmarks,
     isAuthenticated,
-    isLoading: isBookmarksLoading,
+    isBookmarksLoading,
     isToggling,
     removingUrl,
     sessionPending,
