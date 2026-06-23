@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Cossette+Titre:wght@400;700&display=swap");
+
+.text-reveal-demo {
+  --tone-100: #000000;
+  --tone-200: #222222;
+  --tone-300: #5b5c57;
+  --tone-400: #e3e4d8;
+  --tone-500: #c8e600;
+
+  font-family: "Cossette Titre", sans-serif;
+  color: var(--tone-100);
+  background-color: var(--tone-400);
+}
+
+.text-reveal-demo * {
+  box-sizing: border-box;
+}
+
+.text-reveal-demo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text-reveal-demo h1,
+.text-reveal-demo p {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.text-reveal-demo h1 {
+  font-size: 6rem;
+  letter-spacing: -0.1rem;
+}
+
+.text-reveal-demo p {
+  font-size: 3rem;
+  letter-spacing: -0.025rem;
+}
+
+.text-reveal-demo nav {
+  position: fixed;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem;
+  mix-blend-mode: difference;
+}
+
+.text-reveal-demo nav p {
+  font-size: 1.5rem;
+  color: var(--tone-400);
+}
+
+.text-reveal-demo section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.text-reveal-demo .section-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.text-reveal-demo .section-bg::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.45), rgb(0 0 0 / 0.55));
+}
+
+.text-reveal-demo .section-bg img {
+  object-fit: cover;
+}
+
+.text-reveal-demo section h1 {
+  width: 75%;
+}
+
+.text-reveal-demo section p {
+  width: 60%;
+}
+
+.text-reveal-demo .intro h1,
+.text-reveal-demo .outro h1 {
+  color: var(--tone-400);
+}
+
+.text-reveal-demo .services {
+  background-color: #1a1c14;
+}
+
+.text-reveal-demo .services h1 {
+  color: var(--tone-500);
+}
+
+.text-reveal-demo section h1 .text-reveal-block-line,
+.text-reveal-demo section p .text-reveal-block-line {
+  margin: 0 auto;
+}
+
+@media (max-width: 1000px) {
+  .text-reveal-demo h1 {
+    font-size: 3rem;
+  }
+
+  .text-reveal-demo p {
+    font-size: 1.5rem;
+  }
+
+  .text-reveal-demo section {
+    padding: 2rem;
+  }
+
+  .text-reveal-demo section h1,
+  .text-reveal-demo section p {
+    width: 100%;
+  }
+}

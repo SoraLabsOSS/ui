@@ -6,12 +6,12 @@ import { Banner } from "@/components/banner";
 import {
   BANNER_DISMISS_CLASS,
   BANNER_HEIGHT,
-  isComponentDetailPath,
+  shouldHideSiteBanner,
 } from "@/lib/banner-config";
 
 function useBannerLayoutHeight(pathname: string) {
   useEffect(() => {
-    if (isComponentDetailPath(pathname)) {
+    if (shouldHideSiteBanner(pathname)) {
       document.documentElement.style.setProperty("--fd-banner-height", "0px");
       return;
     }
@@ -29,7 +29,7 @@ export function SiteBanner() {
   const pathname = usePathname();
   useBannerLayoutHeight(pathname);
 
-  if (isComponentDetailPath(pathname)) {
+  if (shouldHideSiteBanner(pathname)) {
     return null;
   }
 

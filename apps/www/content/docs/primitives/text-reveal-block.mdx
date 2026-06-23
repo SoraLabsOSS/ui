@@ -1,0 +1,106 @@
+---
+title: Text Reveal (Block)
+description: Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="text-reveal-block" />
+
+## Installation
+
+<ComponentInstallation name="text-reveal-block" />
+
+## Usage
+
+Wrap a heading or paragraph. With one child, the component clones that element so semantics stay intact.
+
+```tsx
+import TextRevealBlock from "@/components/sora-ui/texts/text-reveal-block";
+
+export default function Hero() {
+  return (
+    <TextRevealBlock blockColor="var(--accent-pro)">
+      <h1>Every line wipes in with a deliberate block reveal.</h1>
+    </TextRevealBlock>
+  );
+}
+```
+
+### Scroll sections
+
+`animateOnScroll` is `true` by default: each line plays once when the block enters the viewport. Stack multiple blocks in tall sections for a scroll-driven sequence:
+
+```tsx
+<section className="flex min-h-svh items-center justify-center px-8">
+  <TextRevealBlock blockColor="#fe0100">
+    <h1>Headline with an accent wipe.</h1>
+  </TextRevealBlock>
+</section>
+
+<section className="flex min-h-svh items-center justify-center px-8">
+  <TextRevealBlock>
+    <p>Body copy uses the foreground block color by default.</p>
+  </TextRevealBlock>
+</section>
+```
+
+The preview plays on mount (`animateOnScroll={false}`) so the effect fits the docs panel. Use the **direction** control in the preview to switch wipe travel (`left`, `right`, `up`, `down`). On a real page, leave the default `animateOnScroll` and stack blocks in tall sections—optional [Lenis](https://lenis.darkroom.engineering/) at the root for smooth scrolling.
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description:
+        "Text content to reveal. Pass one element (h1, p, …) or multiple children inside a wrapper.",
+      type: "ReactNode",
+    },
+    text: {
+      description: "Plain-text alternative to `children` for demos and simple usage.",
+      type: "string",
+    },
+    as: {
+      description: "HTML tag when using the `text` prop.",
+      type: '"h1" | "h2" | "p" | …',
+      default: '"p"',
+    },
+    className: {
+      description: "Class name for the element created from `text` + `as`.",
+      type: "string",
+    },
+    animateOnScroll: {
+      description:
+        "When true, each line plays once when the block enters the viewport (ScrollTrigger).",
+      type: "boolean",
+      default: "true",
+    },
+    blockColor: {
+      description: "Background color of the wipe block.",
+      type: "string",
+      default: '"var(--foreground)"',
+    },
+    direction: {
+      description:
+        "Wipe travel direction per line: horizontal (`left`, `right`) or vertical (`up`, `down`).",
+      type: '"left" | "right" | "up" | "down"',
+      default: '"left"',
+    },
+    delay: {
+      description: "Delay before the first line starts, in seconds.",
+      type: "number",
+      default: "0",
+    },
+    duration: {
+      description: "Duration of each wipe phase, in seconds.",
+      type: "number",
+      default: "0.75",
+    },
+    stagger: {
+      description: "Extra delay between each line, in seconds.",
+      type: "number",
+      default: "0.15",
+    },
+  }}
+/>

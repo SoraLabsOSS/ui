@@ -64,6 +64,14 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
       destination: `/docs/primitives/${slug}`,
       permanent: true,
     });
+
+    if (!componentSlugs.has(slug)) {
+      redirects.push({
+        source: `/components/${slug}`,
+        destination: `/docs/primitives/${slug}`,
+        permanent: true,
+      });
+    }
   }
 
   for (const slug of componentSlugs) {

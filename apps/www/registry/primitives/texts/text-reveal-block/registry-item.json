@@ -1,0 +1,68 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-reveal-block",
+  "type": "registry:ui",
+  "title": "Text Reveal (Block)",
+  "description": "Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.",
+  "dependencies": ["gsap", "@gsap/react"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-reveal-block/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-reveal-block.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TextRevealBlock": {
+        "as": {
+          "value": "h2",
+          "options": {
+            "h1": "h1",
+            "h2": "h2",
+            "p": "p"
+          }
+        },
+        "text": {
+          "value": "Framed in shadow and light, every line arrives with deliberate tension."
+        },
+        "className": {
+          "value": "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight"
+        },
+        "animateOnScroll": {
+          "value": false
+        },
+        "blockColor": {
+          "value": "#fe0100"
+        },
+        "stagger": {
+          "value": 0.15,
+          "min": 0,
+          "max": 0.5,
+          "step": 0.05
+        },
+        "duration": {
+          "value": 0.75,
+          "min": 0.2,
+          "max": 2,
+          "step": 0.05
+        },
+        "delay": {
+          "value": 0,
+          "min": 0,
+          "max": 1,
+          "step": 0.05
+        },
+        "direction": {
+          "value": "left",
+          "options": {
+            "left": "left",
+            "right": "right",
+            "up": "up",
+            "down": "down"
+          }
+        }
+      }
+    }
+  }
+}
