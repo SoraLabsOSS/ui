@@ -1,5 +1,56 @@
+import { captureException, captureMessage } from "@sentry/nextjs";
 import type { SecondaryStorage } from "better-auth";
 import redis from "./redis";
+
+const REDIS_STORAGE_COMPONENT = "redis-secondary-storage";
+const SENTRY_REPORT_WINDOW_MS = 60_000;
+
+type RedisStorageOperation =
+  | "get"
+  | "getAndDelete"
+  | "set"
+  | "delete"
+  | "increment";
+
+const lastReportedAt = new Map<string, number>();
+
+function shouldReportToSentry(reportKey: string) {
+  const now = Date.now();
+  const last = lastReportedAt.get(reportKey) ?? 0;
+
+  if (now - last < SENTRY_REPORT_WINDOW_MS) {
+    return false;
+  }
+
+  lastReportedAt.set(reportKey, now);
+  return true;
+}
+
+function captureRedisFailOpen(
+  operation: RedisStorageOperation,
+  error: unknown
+) {
+  const reportKey = `${REDIS_STORAGE_COMPONENT}:${operation}`;
+
+  if (!shouldReportToSentry(reportKey)) {
+    return;
+  }
+
+  captureException(
+    error instanceof Error
+      ? error
+      : new Error(`Redis ${operation} failed: ${String(error)}`),
+    {
+      level: "warning",
+      tags: {
+        component: REDIS_STORAGE_COMPONENT,
+        operation,
+        failOpen: "true",
+      },
+      fingerprint: [REDIS_STORAGE_COMPONENT, operation],
+    }
+  );
+}
 
 /** INCR + EXPIRE only on first hit — matches Better Auth `SecondaryStorage.increment` contract. */
 const INCREMENT_WITH_TTL_SCRIPT = `
@@ -31,7 +82,7 @@ export const redisSecondaryStorage: SecondaryStorage = {
     try {
       return normalizeStoredValue(await redis.get(key));
     } catch (error) {
-      console.error("Redis get error:", error);
+      captureRedisFailOpen("get", error);
       return null;
     }
   },
@@ -40,7 +91,7 @@ export const redisSecondaryStorage: SecondaryStorage = {
     try {
       return normalizeStoredValue(await redis.getdel(key));
     } catch (error) {
-      console.error("Redis getAndDelete error:", error);
+      captureRedisFailOpen("getAndDelete", error);
       return null;
     }
   },
@@ -50,13 +101,15 @@ export const redisSecondaryStorage: SecondaryStorage = {
       const stringValue =
         typeof value === "string" ? value : JSON.stringify(value);
 
-      if (ttl) {
+      if (typeof ttl === "number" && ttl > 0) {
         await redis.set(key, stringValue, { ex: ttl });
       } else {
+        // Intentional bounded cache TTL.
+        // Durable auth records are stored in Postgres via storeSessionInDatabase/storeInDatabase.
         await redis.set(key, stringValue, { ex: 7 * 24 * 60 * 60 });
       }
     } catch (error) {
-      console.error("Redis set error:", error);
+      captureRedisFailOpen("set", error);
     }
   },
 
@@ -64,7 +117,7 @@ export const redisSecondaryStorage: SecondaryStorage = {
     try {
       await redis.del(key);
     } catch (error) {
-      console.error("Redis delete error:", error);
+      captureRedisFailOpen("delete", error);
     }
   },
 
@@ -85,10 +138,34 @@ export const redisSecondaryStorage: SecondaryStorage = {
         return parsed;
       }
 
-      throw new TypeError(`Unexpected increment result for key "${key}"`);
+      const reportKey = `${REDIS_STORAGE_COMPONENT}:increment:unexpected-result`;
+
+      if (shouldReportToSentry(reportKey)) {
+        captureMessage("Redis increment returned unexpected result", {
+          level: "warning",
+          tags: {
+            component: REDIS_STORAGE_COMPONENT,
+            operation: "increment",
+            failOpen: "true",
+          },
+          fingerprint: [
+            REDIS_STORAGE_COMPONENT,
+            "increment",
+            "unexpected-result",
+          ],
+          extra: {
+            resultType: typeof result,
+          },
+        });
+      }
+      // Fail open intentionally:
+      // If Redis is unavailable, allow the auth request instead of breaking sign-in.
+      // Trade-off: rate limiting is bypassed until Redis recovers.
+      return 1;
     } catch (error) {
-      console.error("Redis increment error:", error);
-      throw error;
+      // Fail open: allow auth when Redis is unavailable (quota, network, etc.).
+      captureRedisFailOpen("increment", error);
+      return 1;
     }
   },
 };

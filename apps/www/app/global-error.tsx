@@ -1,5 +1,6 @@
 "use client";
 
+import { captureException } from "@sentry/nextjs";
 import { Button } from "@workspace/ui/components/ui/button";
 import "./globals.css";
 import { useEffect } from "react";
@@ -12,7 +13,7 @@ export default function GlobalError({
   unstable_retry: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    captureException(error);
 
     // Detect dark theme from localStorage or system preferences
     const savedTheme = localStorage.getItem("theme");
