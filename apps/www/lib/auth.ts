@@ -48,5 +48,9 @@ export const auth = betterAuth({
       // ipAddressHeaders: ["x-forwarded-for"],
     },
   },
+  rateLimit: {
+    storage: "secondary-storage",
+    enabled: true,
+  },
   plugins: [openAPI(), dash(), oneTap()],
 });
