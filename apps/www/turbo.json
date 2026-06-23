@@ -16,7 +16,8 @@
         "GITHUB_CLIENT_ID",
         "GITHUB_CLIENT_SECRET",
         "NEXT_PUBLIC_SENTRY_DSN",
-        "SENTRY_AUTH_TOKEN"
+        "SENTRY_AUTH_TOKEN",
+        "NODE_ENV"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
