@@ -14,6 +14,15 @@ const PRIMITIVE_CATEGORY_PREFIXES = [
   "disclosure",
 ] as const;
 
+/** Old top-level doc paths before primitives were grouped under `/docs/primitives`. */
+const TOP_LEVEL_PRIMITIVE_PREFIXES = ["texts", "buttons", "effects"] as const;
+
+/** Renamed primitive slugs — keeps old bookmarks working. */
+const LEGACY_PRIMITIVE_SLUG_RENAMES: Record<string, string> = {
+  "scroll-text-reveal": "text-reveal-mask",
+  "text-reveal": "text-reveal-blur",
+};
+
 function readMetaPages(metaPath: string): string[] {
   const meta = JSON.parse(fs.readFileSync(metaPath, "utf8")) as {
     pages?: string[];
@@ -36,15 +45,52 @@ function readGuideSlugs(docsRoot: string): Set<string> {
 /** Redirects inferred from docs/component meta — fills missing `primitives` or `components` segments. */
 export function buildDocRedirects(appRoot: string): DocRedirect[] {
   const docsRoot = path.join(appRoot, "content/docs");
-  const primitiveSlugs = new Set(
-    readMetaPages(path.join(docsRoot, "primitives/meta.json"))
+  const primitivePageList = readMetaPages(
+    path.join(docsRoot, "primitives/meta.json")
   );
+  const primitiveSlugs = new Set(primitivePageList);
   const componentSlugs = new Set(
     readMetaPages(path.join(appRoot, "content/components/meta.json"))
   );
   const guideSlugs = readGuideSlugs(docsRoot);
 
   const redirects: DocRedirect[] = [];
+  const firstPrimitiveSlug = primitivePageList[0];
+
+  if (firstPrimitiveSlug) {
+    redirects.push({
+      source: "/docs/primitives",
+      destination: `/docs/primitives/${firstPrimitiveSlug}`,
+      permanent: true,
+    });
+  }
+
+  for (const [from, to] of Object.entries(LEGACY_PRIMITIVE_SLUG_RENAMES)) {
+    redirects.push({
+      source: `/docs/primitives/${from}`,
+      destination: `/docs/primitives/${to}`,
+      permanent: true,
+    });
+    redirects.push({
+      source: `/docs/${from}`,
+      destination: `/docs/primitives/${to}`,
+      permanent: true,
+    });
+  }
+
+  redirects.push({
+    source: "/docs/components/texts/text-reveal",
+    destination: "/docs/primitives/text-reveal-blur",
+    permanent: true,
+  });
+
+  for (const category of TOP_LEVEL_PRIMITIVE_PREFIXES) {
+    redirects.push({
+      source: `/docs/${category}/:path*`,
+      destination: "/docs/primitives/:path*",
+      permanent: true,
+    });
+  }
 
   for (const category of PRIMITIVE_CATEGORY_PREFIXES) {
     redirects.push({
