@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/header";
 import { LegalArticle } from "@/components/legal/legal-article";
 import { LegalShell } from "@/components/legal/legal-shell";
 import { TermsOfServiceArticle } from "@/components/legal/terms-of-service-article";
@@ -15,13 +14,10 @@ export const metadata: Metadata = {
 
 export default function LegalTermsPage() {
   return (
-    <>
-      <Header />
-      <LegalShell>
-        <LegalArticle>
-          <TermsOfServiceArticle />
-        </LegalArticle>
-      </LegalShell>
-    </>
+    <LegalShell>
+      <LegalArticle>
+        <TermsOfServiceArticle />
+      </LegalArticle>
+    </LegalShell>
   );
 }

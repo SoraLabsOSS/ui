@@ -31,6 +31,8 @@ import { cn } from "@workspace/ui/lib/utils";
 import { TriangleAlert } from "lucide-react";
 import { type SyntheticEvent, useState } from "react";
 
+const DELETE_CONFIRMATION = "DELETE";
+
 export interface DeleteAccountProps {
   className?: string;
 }
@@ -53,6 +55,7 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [password, setPassword] = useState("");
+  const [confirmationText, setConfirmationText] = useState("");
 
   const hasCredentialAccount = accounts?.some(
     (account) => account.providerId === "credential"
@@ -61,9 +64,12 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
 
   const { mutate: deleteUser, isPending } = useDeleteUser(authClient);
 
+  const isConfirmationValid = confirmationText === DELETE_CONFIRMATION;
+
   const handleDialogOpenChange = (open: boolean) => {
     setConfirmOpen(open);
     setPassword("");
+    setConfirmationText("");
   };
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
@@ -77,6 +83,7 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
       onSuccess: () => {
         setConfirmOpen(false);
         setPassword("");
+        setConfirmationText("");
 
         if (sendDeleteAccountVerification) {
           toast.success(deleteUserLocalization.deleteUserVerificationSent);
@@ -150,13 +157,33 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
                 </Field>
               )}
 
+              <Field>
+                <Label htmlFor="delete-confirmation">
+                  Type &quot;{DELETE_CONFIRMATION}&quot; to confirm
+                </Label>
+
+                <Input
+                  autoComplete="off"
+                  disabled={isPending}
+                  id="delete-confirmation"
+                  name="confirmation"
+                  onChange={(e) => setConfirmationText(e.target.value)}
+                  placeholder={DELETE_CONFIRMATION}
+                  required
+                  spellCheck={false}
+                  value={confirmationText}
+                />
+
+                <FieldError />
+              </Field>
+
               <AlertDialogFooter>
                 <AlertDialogCancel disabled={isPending}>
                   {localization.settings.cancel}
                 </AlertDialogCancel>
 
                 <Button
-                  disabled={isPending}
+                  disabled={isPending || !isConfirmationValid}
                   type="submit"
                   variant="destructive"
                 >

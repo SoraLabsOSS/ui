@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/header";
 import { LegalArticle } from "@/components/legal/legal-article";
 import { LegalShell } from "@/components/legal/legal-shell";
 import { PrivacyPolicyArticle } from "@/components/legal/privacy-policy-article";
@@ -15,13 +14,10 @@ export const metadata: Metadata = {
 
 export default function LegalPrivacyPage() {
   return (
-    <>
-      <Header />
-      <LegalShell>
-        <LegalArticle>
-          <PrivacyPolicyArticle />
-        </LegalArticle>
-      </LegalShell>
-    </>
+    <LegalShell>
+      <LegalArticle>
+        <PrivacyPolicyArticle />
+      </LegalArticle>
+    </LegalShell>
   );
 }
