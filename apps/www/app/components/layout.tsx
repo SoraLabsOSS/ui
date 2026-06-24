@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { ComponentsExperimentalGate } from "@/components/catalog/components-experimental-gate";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
 import { ComponentsRouteLayout } from "./components-route-layout";
@@ -13,10 +12,8 @@ export default function ComponentsLayout({
   const primitivesUrl = getFirstPrimitiveDocUrl();
 
   return (
-    <ComponentsExperimentalGate>
-      <ComponentsRouteLayout navItems={navItems} primitivesUrl={primitivesUrl}>
-        {children}
-      </ComponentsRouteLayout>
-    </ComponentsExperimentalGate>
+    <ComponentsRouteLayout navItems={navItems} primitivesUrl={primitivesUrl}>
+      {children}
+    </ComponentsRouteLayout>
   );
 }

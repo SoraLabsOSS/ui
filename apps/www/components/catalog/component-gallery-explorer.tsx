@@ -9,8 +9,9 @@ import {
 } from "@workspace/ui/components/animate-ui/primitives/animate/tabs";
 import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode, useMemo, useRef, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import {
   COMPONENT_GALLERY_SECTIONS,
   groupGalleryItemsByCategory,
@@ -18,6 +19,7 @@ import {
   resolveGalleryCategory,
 } from "@/lib/registry/component-gallery-sections";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+import { GalleryCardPreview } from "./gallery-card-preview";
 import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
 import { GallerySegmentedTabs } from "./gallery-segmented-tabs";
 
@@ -94,37 +96,32 @@ function filterItems(
   });
 }
 
-function GalleryCard({ item }: { item: ComponentGalleryItem }) {
+function GalleryCard({
+  item,
+  priority = false,
+}: {
+  item: ComponentGalleryItem;
+  priority?: boolean;
+}) {
   const category = resolveGalleryCategory(item);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const handlePreviewHover = (playing: boolean) => {
-    const video = videoRef.current;
-    if (!video) {
-      return;
-    }
-
-    if (playing) {
-      video.play().catch(() => {
-        /* autoplay blocked */
-      });
-      return;
-    }
-
-    video.pause();
-    video.currentTime = 0;
-  };
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   return (
     <div>
       <Link
         className="block"
         href={item.href}
+        onBlur={() => {
+          setIsPreviewActive(false);
+        }}
+        onFocus={() => {
+          setIsPreviewActive(true);
+        }}
         onMouseEnter={() => {
-          handlePreviewHover(true);
+          setIsPreviewActive(true);
         }}
         onMouseLeave={() => {
-          handlePreviewHover(false);
+          setIsPreviewActive(false);
         }}
       >
         <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-3 transition-colors duration-200 hover:border-foreground/15">
@@ -132,19 +129,13 @@ function GalleryCard({ item }: { item: ComponentGalleryItem }) {
             className="relative w-full overflow-hidden rounded-xl bg-muted"
             style={{ aspectRatio: "4 / 3" }}
           >
-            {item.previewVideo ? (
-              <video
-                className="absolute inset-0 size-full object-cover"
-                loop
-                muted
-                playsInline
-                preload="none"
-                ref={videoRef}
-                src={item.previewVideo}
-              />
-            ) : (
-              <GalleryCardThumbnail category={category} title={item.title} />
-            )}
+            <GalleryCardPreview
+              active={isPreviewActive}
+              category={category}
+              preview={item.cardPreview}
+              priority={priority}
+              title={item.title}
+            />
           </div>
 
           <div className="flex items-center px-4 py-2.5">
@@ -158,8 +149,15 @@ function GalleryCard({ item }: { item: ComponentGalleryItem }) {
   );
 }
 
-function GalleryCompactCard({ item }: { item: ComponentGalleryItem }) {
+function GalleryCompactCard({
+  item,
+  priority = false,
+}: {
+  item: ComponentGalleryItem;
+  priority?: boolean;
+}) {
   const category = resolveGalleryCategory(item);
+  const poster = item.cardPreview?.poster;
 
   return (
     <div>
@@ -169,7 +167,19 @@ function GalleryCompactCard({ item }: { item: ComponentGalleryItem }) {
             className="relative w-full overflow-hidden rounded-xl bg-muted"
             style={{ aspectRatio: "4 / 3" }}
           >
-            <GalleryCardThumbnail category={category} title={item.title} />
+            {poster ? (
+              <Image
+                alt=""
+                aria-hidden
+                className="object-cover"
+                fill
+                priority={priority}
+                sizes="(max-width: 640px) 50vw, 25vw"
+                src={poster}
+              />
+            ) : (
+              <GalleryCardThumbnail category={category} title={item.title} />
+            )}
           </div>
           <div className="flex items-center px-3 py-2">
             <span className="truncate font-medium text-foreground text-sm">
@@ -205,10 +215,12 @@ function GalleryListRow({ item }: { item: ComponentGalleryItem }) {
 }
 
 function GallerySectionItems({
+  isFirstSection,
   items,
   prefersReducedMotion,
   viewMode,
 }: {
+  isFirstSection: boolean;
   items: ComponentGalleryItem[];
   prefersReducedMotion: boolean | null;
   viewMode: ViewMode;
@@ -234,16 +246,24 @@ function GallerySectionItems({
   } else if (viewMode === "compact") {
     content = (
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {items.map((item) => (
-          <GalleryCompactCard item={item} key={item.slug} />
+        {items.map((item, index) => (
+          <GalleryCompactCard
+            item={item}
+            key={item.slug}
+            priority={isFirstSection && index < 4}
+          />
         ))}
       </div>
     );
   } else {
     content = (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <GalleryCard item={item} key={item.slug} />
+        {items.map((item, index) => (
+          <GalleryCard
+            item={item}
+            key={item.slug}
+            priority={isFirstSection && index < 3}
+          />
         ))}
       </div>
     );
@@ -405,6 +425,7 @@ export function ComponentGalleryExplorer({
                   </div>
 
                   <GallerySectionItems
+                    isFirstSection={index === 0}
                     items={sectionItems}
                     prefersReducedMotion={prefersReducedMotion}
                     viewMode={viewMode}

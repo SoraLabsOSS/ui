@@ -53,11 +53,20 @@ export type ComponentGalleryCategory =
   | "disclosure"
   | "components";
 
+export interface ComponentGalleryCardPreview {
+  poster?: string;
+  videoMp4?: string;
+  videoWebm?: string;
+}
+
 export interface ComponentGalleryItem {
+  /** Poster + optional hover video sources for gallery cards. */
+  cardPreview?: ComponentGalleryCardPreview;
   category?: ComponentGalleryCategory;
   collection: ComponentCollection;
   description: string;
   href: string;
+  /** @deprecated Use `cardPreview.videoMp4` instead. */
   previewVideo?: string;
   releaseDate?: string;
   slug: string;

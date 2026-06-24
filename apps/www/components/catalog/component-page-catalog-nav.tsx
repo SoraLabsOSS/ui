@@ -9,6 +9,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
 import { catalogDesktopSidebarScrollInsetClassName } from "./catalog-preview-classes";
 
@@ -62,6 +63,7 @@ export function ComponentPageCatalogNav({
             <Sidebar001Item
               href={item.href}
               isActive={isCatalogItemActive(pathname, item.slug)}
+              isNew={isRecentlyReleased(item.releaseDate)}
               itemKey={item.slug}
               key={item.slug}
               label={`${String(index + 1).padStart(2, "0")} ${item.title}`}

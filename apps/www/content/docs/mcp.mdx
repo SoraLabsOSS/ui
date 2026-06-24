@@ -25,7 +25,7 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | Tool | Description |
 | --- | --- |
 | `search_docs` | Search docs and components by keyword or phrase |
-| `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `draw-underline-link`) |
+| `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `primitives/draw-underline-link`) |
 | `list_sections` | Browse the doc structure (`documentation`, `components`) |
 
 <Callout>
@@ -85,7 +85,7 @@ After saving, enable the server in **Settings → Tools & MCP** and restart Curs
 ### Components catalog
 
 - Search Sora UI components for underline link
-- Get the draw-underline-link component page
+- Get the draw-underline-link primitive page
 - List the components section in Sora UI docs
 
 ## Registry MCP (shadcn)
@@ -199,7 +199,7 @@ Register `@soralabs` in `components.json` before asking the agent to install com
 ### Tools return no results
 
 - Use `list_sections` first to see available `documentation` and `components` sections
-- For component pages, try slugs like `draw-underline-link` or paths like `primitives/accordion`
+- For component pages, try slugs like `cursor-trail-reveal` or paths like `primitives/accordion`
 
 ### Install link does nothing
 

@@ -25,6 +25,16 @@ const catalogDocSchema = frontmatterSchema.extend({
   registryName: z.string().optional(),
   /** Registry preview entry override (e.g. demo-*). */
   preview: z.string().optional(),
+  /** Gallery card poster + hover video preview assets. */
+  cardPreview: z
+    .object({
+      poster: z.string().optional(),
+      videoWebm: z.string().optional(),
+      videoMp4: z.string().optional(),
+    })
+    .optional(),
+  /** @deprecated Use `cardPreview.videoMp4`. */
+  previewVideo: z.string().optional(),
 });
 
 const catalogDocPostprocess = {

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-cursor-trail-reveal",
+  "title": "Cursor Trail Reveal Demo",
+  "description": "Full-page contact layout with cursor trail image reveals on desktop.",
+  "registryDependencies": [
+    "@soralabs/cursor-trail-reveal",
+    "@soralabs/text-reveal-block",
+    "@soralabs/text-scramble"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/cursor-trail-reveal/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { catalogPreviewScreenClassName } from \"@/components/catalog/catalog-preview-classes\";\nimport { CursorTrailReveal } from \"@/components/sora-ui/effects/cursor-trail-reveal\";\nimport { TextRevealBlock } from \"@/components/sora-ui/texts/text-reveal-block\";\n\nimport { DEMO_TRAIL_IMAGES } from \"./trail-images\";\n\nexport function CursorTrailRevealExample() {\n  return (\n    <div\n      className={cn(\"relative overflow-hidden\", catalogPreviewScreenClassName)}\n    >\n      <CursorTrailReveal images={DEMO_TRAIL_IMAGES} maskColor=\"#1a1a1a\" />\n\n      <div className=\"absolute inset-0 z-1 flex items-center justify-center\">\n        <div className=\"mx-auto flex w-3/4 flex-col items-center gap-8 text-center max-lg:w-[90%]\">\n          <TextRevealBlock\n            animateOnScroll={false}\n            blockColor=\"#c8e600\"\n            delay={0.65}\n          >\n            <div className=\"flex w-full flex-col items-center gap-2\">\n              <h6 className=\"m-0 font-medium text-[2.5rem] uppercase leading-none tracking-[-0.05rem] max-lg:text-[1.75rem]\">\n                Trying to hover to see the cursor trail\n              </h6>\n            </div>\n          </TextRevealBlock>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport default CursorTrailRevealExample;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/cursor-trail-reveal.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

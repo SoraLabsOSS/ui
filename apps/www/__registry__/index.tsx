@@ -69,6 +69,99 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-accordion",
   },
+  "demo-cursor-trail-reveal": {
+    name: "demo-cursor-trail-reveal",
+    description:
+      "Full-page contact layout with cursor trail image reveals on desktop.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: [
+      "cursor-trail-reveal",
+      "text-reveal-block",
+      "text-scramble",
+    ],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/cursor-trail-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/cursor-trail-reveal.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { catalogPreviewScreenClassName } from "@/components/catalog/catalog-preview-classes";\nimport { CursorTrailReveal } from "@/components/sora-ui/effects/cursor-trail-reveal";\nimport { TextRevealBlock } from "@/components/sora-ui/texts/text-reveal-block";\n\nimport { DEMO_TRAIL_IMAGES } from "./trail-images";\n\nexport function CursorTrailRevealExample() {\n  return (\n    <div\n      className={cn("relative overflow-hidden", catalogPreviewScreenClassName)}\n    >\n      <CursorTrailReveal images={DEMO_TRAIL_IMAGES} maskColor="#1a1a1a" />\n\n      <div className="absolute inset-0 z-1 flex items-center justify-center">\n        <div className="mx-auto flex w-3/4 flex-col items-center gap-8 text-center max-lg:w-[90%]">\n          <TextRevealBlock\n            animateOnScroll={false}\n            blockColor="#c8e600"\n            delay={0.65}\n          >\n            <div className="flex w-full flex-col items-center gap-2">\n              <h6 className="m-0 font-medium text-[2.5rem] uppercase leading-none tracking-[-0.05rem] max-lg:text-[1.75rem]">\n                Trying to hover to see the cursor trail\n              </h6>\n            </div>\n          </TextRevealBlock>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport default CursorTrailRevealExample;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/cursor-trail-reveal/index.tsx"
+        );
+        const demoProps = {
+          TextRevealBlock: {
+            as: { value: "h2", options: { h1: "h1", h2: "h2", p: "p" } },
+            text: {
+              value:
+                "Framed in shadow and light, every line arrives with deliberate tension.",
+            },
+            className: {
+              value:
+                "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight",
+            },
+            animateOnScroll: { value: false },
+            blockColor: { value: "#fe0100" },
+            stagger: { value: 0.15, min: 0, max: 0.5, step: 0.05 },
+            duration: { value: 0.75, min: 0.2, max: 2, step: 0.05 },
+            delay: { value: 0, min: 0, max: 1, step: 0.05 },
+            direction: {
+              value: "left",
+              options: { left: "left", right: "right", up: "up", down: "down" },
+            },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextRevealBlock: {
+          as: { value: "h2", options: { h1: "h1", h2: "h2", p: "p" } },
+          text: {
+            value:
+              "Framed in shadow and light, every line arrives with deliberate tension.",
+          },
+          className: {
+            value:
+              "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight",
+          },
+          animateOnScroll: { value: false },
+          blockColor: { value: "#fe0100" },
+          stagger: { value: 0.15, min: 0, max: 0.5, step: 0.05 },
+          duration: { value: 0.75, min: 0.2, max: 2, step: 0.05 },
+          delay: { value: 0, min: 0, max: 1, step: 0.05 },
+          direction: {
+            value: "left",
+            options: { left: "left", right: "right", up: "up", down: "down" },
+          },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-cursor-trail-reveal",
+  },
   "demo-custom-cursor": {
     name: "demo-custom-cursor",
     description: "Custom cursor demo with Sora icons and shape variants.",
@@ -188,7 +281,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/draw-underline-link.tsx",
         content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { catalogPreviewScreenClassName } from "@/components/catalog/catalog-preview-classes";\nimport {\n  DrawUnderlineLink,\n  type DrawUnderlineLinkProps,\n} from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkCatalogDemo({\n  label = "Hover me",\n  variant = "default",\n  duration = 0.5,\n  underlineColor = "#ff4c24",\n  ...props\n}: DrawUnderlineLinkProps) {\n  const sectionClassName = cn(\n    "flex items-center justify-center",\n    catalogPreviewScreenClassName\n  );\n\n  return (\n    <>\n      <section className={sectionClassName}>\n        <DrawUnderlineLink\n          duration={duration}\n          href="#"\n          label={label}\n          underlineColor={underlineColor}\n          variant={variant}\n          {...props}\n        />\n      </section>\n      <section className={sectionClassName}>\n        <DrawUnderlineLink\n          duration={duration}\n          href="#"\n          label="Keep scrolling"\n          underlineColor={underlineColor}\n          variant={variant}\n          {...props}\n        />\n      </section>\n    </>\n  );\n}',
+          '"use client";\nimport {\n  DrawUnderlineLink,\n  type DrawUnderlineLinkProps,\n} from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkCatalogDemo({\n  label = "Hover me",\n  variant = "default",\n  duration = 0.5,\n  underlineColor = "#ff4c24",\n  ...props\n}: DrawUnderlineLinkProps) {\n  return (\n    <section>\n      <DrawUnderlineLink\n        duration={duration}\n        href="#"\n        label={label}\n        underlineColor={underlineColor}\n        variant={variant}\n        {...props}\n      />\n    </section>\n  );\n}',
       },
     ],
     keywords: [],
@@ -573,6 +666,53 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/accordion",
+  },
+  "cursor-trail-reveal": {
+    name: "cursor-trail-reveal",
+    description:
+      "Desktop cursor trail that reveals staggered image strips with clip-path wipes as the pointer moves.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/effects/cursor-trail-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/cursor-trail-reveal.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { type ComponentPropsWithoutRef, useEffect, useRef } from "react";\n\nconst MASK_LAYER_COUNT = 10;\nconst DEFAULT_IMAGE_SIZE = 175;\n\nconst cursorTrailRevealVariants = cva(\n  "pointer-events-none absolute inset-0 z-[2] overflow-hidden",\n  {\n    variants: {\n      layout: {\n        default: "",\n        fill: "size-full",\n      },\n    },\n    defaultVariants: {\n      layout: "default",\n    },\n  }\n);\n\ninterface TrailConfig {\n  easing: string;\n  imageLifespan: number;\n  inDuration: number;\n  mouseThreshold: number;\n  outDuration: number;\n  slideDuration: number;\n  slideEasing: string;\n  staggerIn: number;\n  staggerOut: number;\n}\n\ninterface TrailImageEntry {\n  element: HTMLDivElement;\n  imageLayers: HTMLDivElement[];\n  maskLayers: HTMLDivElement[];\n  removeTime: number;\n}\n\nconst MathUtils = {\n  lerp: (a: number, b: number, n: number) => (1 - n) * a + n * b,\n  distance: (x1: number, y1: number, x2: number, y2: number) =>\n    Math.hypot(x2 - x1, y2 - y1),\n};\n\nexport interface CursorTrailRevealProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof cursorTrailRevealVariants> {\n  /** Viewport width above which the trail is active. */\n  desktopBreakpoint?: number;\n  /** Trail thumbnail size in pixels. */\n  imageSize?: number;\n  /** Image URLs cycled as the cursor moves (desktop only). */\n  images: readonly string[];\n  /** Background color behind each strip during the clip-path reveal. */\n  maskColor?: string;\n  /** Minimum pointer travel before spawning the next image. */\n  mouseThreshold?: number;\n}\n\nfunction CursorTrailReveal({\n  className,\n  desktopBreakpoint = 1000,\n  imageSize = DEFAULT_IMAGE_SIZE,\n  images,\n  layout = "default",\n  maskColor = "var(--background, #1a1a1a)",\n  mouseThreshold = 150,\n  ...props\n}: CursorTrailRevealProps) {\n  const trailContainerRef = useRef<HTMLDivElement>(null);\n  const animationStateRef = useRef<number | null>(null);\n  const trailRef = useRef<TrailImageEntry[]>([]);\n  const timeoutIdsRef = useRef<number[]>([]);\n  const currentImageIndexRef = useRef(0);\n  const mousePosRef = useRef({ x: 0, y: 0 });\n  const lastMousePosRef = useRef({ x: 0, y: 0 });\n  const interpolatedMousePosRef = useRef({ x: 0, y: 0 });\n  const isDesktopRef = useRef(false);\n  const configRef = useRef<TrailConfig>({\n    imageLifespan: 1000,\n    mouseThreshold,\n    inDuration: 750,\n    outDuration: 1000,\n    staggerIn: 100,\n    staggerOut: 25,\n    slideDuration: 1000,\n    slideEasing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",\n    easing: "cubic-bezier(0.87, 0, 0.13, 1)",\n  });\n\n  useEffect(() => {\n    configRef.current.mouseThreshold = mouseThreshold;\n  }, [mouseThreshold]);\n\n  useEffect(() => {\n    if (images.length === 0) {\n      return;\n    }\n\n    for (const src of images) {\n      const img = new Image();\n      img.src = src;\n    }\n  }, [images]);\n\n  useEffect(() => {\n    const trailContainer = trailContainerRef.current;\n    if (!trailContainer || images.length === 0) {\n      return;\n    }\n\n    const clearScheduledTimeouts = () => {\n      for (const id of timeoutIdsRef.current) {\n        clearTimeout(id);\n      }\n      timeoutIdsRef.current.length = 0;\n    };\n\n    const scheduleTimeout = (callback: () => void, delay: number) => {\n      const id = window.setTimeout(() => {\n        const index = timeoutIdsRef.current.indexOf(id);\n        if (index !== -1) {\n          timeoutIdsRef.current.splice(index, 1);\n        }\n        callback();\n      }, delay);\n      timeoutIdsRef.current.push(id);\n    };\n\n    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");\n\n    const halfImageSize = imageSize / 2;\n    const trailImageCount = images.length;\n    const config = configRef.current;\n\n    isDesktopRef.current = window.innerWidth > desktopBreakpoint;\n\n    const getMouseDistance = () =>\n      MathUtils.distance(\n        mousePosRef.current.x,\n        mousePosRef.current.y,\n        lastMousePosRef.current.x,\n        lastMousePosRef.current.y\n      );\n\n    const isInTrailContainer = (x: number, y: number) => {\n      const rect = trailContainer.getBoundingClientRect();\n      return (\n        x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom\n      );\n    };\n\n    const createTrailImage = () => {\n      const imgContainer = document.createElement("div");\n      imgContainer.className = "pointer-events-none absolute overflow-hidden";\n      imgContainer.style.width = `${imageSize}px`;\n      imgContainer.style.height = `${imageSize}px`;\n\n      const imgSrc = images[currentImageIndexRef.current] ?? images[0] ?? "";\n      currentImageIndexRef.current =\n        (currentImageIndexRef.current + 1) % trailImageCount;\n\n      const rect = trailContainer.getBoundingClientRect();\n      const startX =\n        interpolatedMousePosRef.current.x - rect.left - halfImageSize;\n      const startY =\n        interpolatedMousePosRef.current.y - rect.top - halfImageSize;\n      const targetX = mousePosRef.current.x - rect.left - halfImageSize;\n      const targetY = mousePosRef.current.y - rect.top - halfImageSize;\n\n      imgContainer.style.left = "0px";\n      imgContainer.style.top = "0px";\n      imgContainer.style.willChange = "transform";\n      imgContainer.style.transform = `translate3d(${startX}px, ${startY}px, 0)`;\n      imgContainer.style.transition = `transform ${config.slideDuration}ms ${config.slideEasing}`;\n\n      const maskLayers: HTMLDivElement[] = [];\n      const imageLayers: HTMLDivElement[] = [];\n\n      for (let i = 0; i < MASK_LAYER_COUNT; i++) {\n        const layer = document.createElement("div");\n        layer.className = "absolute inset-0 will-change-[clip-path]";\n        layer.style.backgroundColor = maskColor;\n\n        const imageLayer = document.createElement("div");\n        imageLayer.className = "absolute inset-0 bg-cover bg-center";\n        imageLayer.style.backgroundImage = `url(${imgSrc})`;\n\n        const stripStart = i * 10;\n        const stripEnd = (i + 1) * 10;\n\n        layer.style.clipPath = `polygon(50% ${stripStart}%, 50% ${stripStart}%, 50% ${stripEnd}%, 50% ${stripEnd}%)`;\n        layer.style.transition = `clip-path ${config.inDuration}ms ${config.easing}`;\n        layer.style.transform = "translateZ(0)";\n        layer.style.backfaceVisibility = "hidden";\n\n        layer.appendChild(imageLayer);\n        imgContainer.appendChild(layer);\n        maskLayers.push(layer);\n        imageLayers.push(imageLayer);\n      }\n\n      trailContainer.appendChild(imgContainer);\n\n      requestAnimationFrame(() => {\n        imgContainer.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;\n\n        for (const [i, layer] of maskLayers.entries()) {\n          const stripStart = i * 10;\n          const stripEnd = (i + 1) * 10;\n          const distanceFromMiddle = Math.abs(i - 4.5);\n          const delay = distanceFromMiddle * config.staggerIn;\n\n          scheduleTimeout(() => {\n            layer.style.clipPath = `polygon(0% ${stripStart}%, 100% ${stripStart}%, 100% ${stripEnd}%, 0% ${stripEnd}%)`;\n          }, delay);\n        }\n      });\n\n      trailRef.current.push({\n        element: imgContainer,\n        maskLayers,\n        imageLayers,\n        removeTime: Date.now() + config.imageLifespan,\n      });\n    };\n\n    const removeOldImages = () => {\n      const now = Date.now();\n      if (trailRef.current.length === 0) {\n        return;\n      }\n\n      const oldestImage = trailRef.current[0];\n      if (!oldestImage || now < oldestImage.removeTime) {\n        return;\n      }\n\n      const imgToRemove = trailRef.current.shift();\n      if (!imgToRemove) {\n        return;\n      }\n\n      for (const [i, layer] of imgToRemove.maskLayers.entries()) {\n        const stripStart = i * 10;\n        const stripEnd = (i + 1) * 10;\n        const distanceFromEdge = 4.5 - Math.abs(i - 4.5);\n        const delay = distanceFromEdge * config.staggerOut;\n\n        layer.style.transition = `clip-path ${config.outDuration}ms ${config.easing}`;\n\n        scheduleTimeout(() => {\n          layer.style.clipPath = `polygon(50% ${stripStart}%, 50% ${stripStart}%, 50% ${stripEnd}%, 50% ${stripEnd}%)`;\n        }, delay);\n      }\n\n      for (const imageLayer of imgToRemove.imageLayers) {\n        imageLayer.style.transition = `opacity ${config.outDuration}ms ${config.easing}`;\n        imageLayer.style.opacity = "0.25";\n      }\n\n      scheduleTimeout(() => {\n        imgToRemove.element.remove();\n      }, config.outDuration + 112);\n    };\n\n    const render = () => {\n      if (!isDesktopRef.current) {\n        return;\n      }\n\n      const distance = getMouseDistance();\n\n      interpolatedMousePosRef.current.x = MathUtils.lerp(\n        interpolatedMousePosRef.current.x || mousePosRef.current.x,\n        mousePosRef.current.x,\n        0.1\n      );\n      interpolatedMousePosRef.current.y = MathUtils.lerp(\n        interpolatedMousePosRef.current.y || mousePosRef.current.y,\n        mousePosRef.current.y,\n        0.1\n      );\n\n      if (\n        distance > config.mouseThreshold &&\n        isInTrailContainer(mousePosRef.current.x, mousePosRef.current.y)\n      ) {\n        createTrailImage();\n        lastMousePosRef.current = { ...mousePosRef.current };\n      }\n\n      removeOldImages();\n      animationStateRef.current = requestAnimationFrame(render);\n    };\n\n    const startAnimation = (): (() => void) | null => {\n      if (!isDesktopRef.current || reduceMotion.matches) {\n        return null;\n      }\n\n      const handleMouseMove = (event: MouseEvent) => {\n        mousePosRef.current = { x: event.clientX, y: event.clientY };\n      };\n\n      document.addEventListener("mousemove", handleMouseMove);\n      animationStateRef.current = requestAnimationFrame(render);\n\n      return () => {\n        document.removeEventListener("mousemove", handleMouseMove);\n      };\n    };\n\n    const stopAnimation = () => {\n      if (animationStateRef.current !== null) {\n        cancelAnimationFrame(animationStateRef.current);\n        animationStateRef.current = null;\n      }\n\n      clearScheduledTimeouts();\n\n      for (const item of trailRef.current) {\n        item.element.remove();\n      }\n      trailRef.current.length = 0;\n    };\n\n    let cleanUpMouseListener: (() => void) | null = null;\n\n    const handleResize = () => {\n      const wasDesktop = isDesktopRef.current;\n      isDesktopRef.current = window.innerWidth > desktopBreakpoint;\n\n      if (reduceMotion.matches) {\n        if (wasDesktop) {\n          stopAnimation();\n          cleanUpMouseListener?.();\n          cleanUpMouseListener = null;\n        }\n        return;\n      }\n\n      if (isDesktopRef.current && !wasDesktop) {\n        cleanUpMouseListener = startAnimation();\n      } else if (!isDesktopRef.current && wasDesktop) {\n        stopAnimation();\n        cleanUpMouseListener?.();\n        cleanUpMouseListener = null;\n      }\n    };\n\n    const handleReduceMotionChange = () => {\n      if (reduceMotion.matches) {\n        stopAnimation();\n        cleanUpMouseListener?.();\n        cleanUpMouseListener = null;\n        return;\n      }\n\n      if (isDesktopRef.current) {\n        cleanUpMouseListener = startAnimation();\n      }\n    };\n\n    window.addEventListener("resize", handleResize);\n    reduceMotion.addEventListener("change", handleReduceMotionChange);\n\n    if (!reduceMotion.matches && isDesktopRef.current) {\n      cleanUpMouseListener = startAnimation();\n    }\n\n    return () => {\n      stopAnimation();\n      cleanUpMouseListener?.();\n      window.removeEventListener("resize", handleResize);\n      reduceMotion.removeEventListener("change", handleReduceMotionChange);\n    };\n  }, [desktopBreakpoint, imageSize, images, maskColor]);\n\n  return (\n    <div\n      className={cn(cursorTrailRevealVariants({ layout, className }))}\n      ref={trailContainerRef}\n      {...props}\n    />\n  );\n}\n\nexport { CursorTrailReveal, cursorTrailRevealVariants };',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/cursor-trail-reveal/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/cursor-trail-reveal",
   },
   "custom-cursor": {
     name: "custom-cursor",

@@ -175,6 +175,7 @@ export function ComponentPagePreviewPanel({
         ) : (
           <CatalogScrollArea
             className="min-h-0 flex-1 lg:h-full"
+            hideScrollbar
             viewportClassName={catalogPreviewViewportClassName}
           >
             {previewBody}

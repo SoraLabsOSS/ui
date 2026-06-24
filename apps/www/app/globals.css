@@ -305,6 +305,11 @@
     display: none;
   }
 
+  /* Radix custom thumb: collapse when idle so it does not offset preview content. */
+  [data-radix-scroll-area-scrollbar][data-state="hidden"] {
+    display: none;
+  }
+
   body {
     overscroll-behavior: none;
     @apply bg-background text-foreground;
@@ -313,6 +318,15 @@
   /* Modal open: collapse scrollbar gutter so backdrop covers the full viewport edge. */
   html:has([data-slot="dialog-overlay"][data-state="open"]),
   html:has([data-slot="alert-dialog-overlay"][data-state="open"]) {
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+
+  /*
+   * Catalog component pages scroll inside [data-catalog-scroll-root], not on
+   * <html>. Drop the stable gutter so the fixed viewport layout stays centered.
+   */
+  html:has([data-catalog-scroll-root]) {
     overflow: hidden;
     scrollbar-gutter: auto;
   }

@@ -32,7 +32,7 @@ export function buildLlmsIndex(
     "",
     "## LLM exports",
     `- [llms-full.txt](${SITE_URL}/llms-full.txt): full docs + components for AI`,
-    `- Append \`.mdx\` to any docs or component URL for markdown (e.g. \`${SITE_URL}/components/draw-underline-link.mdx\`)`,
+    `- Append \`.mdx\` to any docs or component URL for markdown (e.g. \`${SITE_URL}/docs/primitives/draw-underline-link.mdx\`)`,
   ];
 
   return lines.join("\n");

@@ -91,11 +91,17 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
     }
 
     const pageMeta = page.data as {
+      cardPreview?: ComponentGalleryItem["cardPreview"];
       category?: ComponentGalleryItem["category"];
       lastModified?: Date | string | number;
       previewVideo?: string;
       releaseDate?: Date | string;
     };
+
+    const legacyVideo = pageMeta.previewVideo;
+    const cardPreview =
+      pageMeta.cardPreview ??
+      (legacyVideo ? { videoMp4: legacyVideo } : undefined);
 
     const raw = pageMeta.releaseDate ?? pageMeta.lastModified;
     let releaseDate: string | undefined;
@@ -113,7 +119,8 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
       collection: "component",
       releaseDate,
       category: pageMeta.category,
-      previewVideo: pageMeta.previewVideo,
+      cardPreview,
+      previewVideo: legacyVideo,
     });
   }
 
