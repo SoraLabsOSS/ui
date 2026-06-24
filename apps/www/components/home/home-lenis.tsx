@@ -1,11 +1,16 @@
 "use client";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type LenisRef, ReactLenis } from "lenis/react";
 import { cancelFrame, frame, useReducedMotion } from "motion/react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import "lenis/dist/lenis.css";
 
+gsap.registerPlugin(ScrollTrigger);
+
+const HOME_PAGE_ID = "home-page";
 const HOME_SCROLL_CLASS =
   "relative z-0 h-[calc(100dvh-var(--fd-banner-height))] overflow-x-hidden";
 
@@ -44,7 +49,7 @@ function useScrollMode() {
 
 function HomeNativeScroll({ children }: HomeLenisProps) {
   return (
-    <main className={`${HOME_SCROLL_CLASS} overflow-y-auto`} id="home-page">
+    <main className={`${HOME_SCROLL_CLASS} overflow-y-auto`} id={HOME_PAGE_ID}>
       {children}
     </main>
   );
@@ -64,10 +69,74 @@ function HomeLenisScroller({ children }: HomeLenisProps) {
     return () => cancelFrame(update);
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    let teardown: (() => void) | undefined;
+
+    const setupScrollTrigger = () => {
+      const lenis = lenisRef.current?.lenis;
+      const scroller = document.getElementById(HOME_PAGE_ID);
+
+      if (!(lenis && scroller)) {
+        return false;
+      }
+
+      const onScroll = () => {
+        ScrollTrigger.update();
+      };
+
+      lenis.on("scroll", onScroll);
+
+      ScrollTrigger.scrollerProxy(scroller, {
+        scrollTop(value?: number) {
+          if (value !== undefined) {
+            lenis.scrollTo(value, { immediate: true });
+          }
+          return lenis.scroll;
+        },
+        getBoundingClientRect() {
+          return {
+            top: 0,
+            left: 0,
+            width: window.innerWidth,
+            height: window.innerHeight,
+          };
+        },
+      });
+
+      ScrollTrigger.refresh();
+
+      teardown = () => {
+        lenis.off("scroll", onScroll);
+        ScrollTrigger.scrollerProxy(scroller);
+      };
+
+      return true;
+    };
+
+    if (!setupScrollTrigger()) {
+      const frameId = requestAnimationFrame(() => {
+        if (!cancelled) {
+          setupScrollTrigger();
+        }
+      });
+
+      return () => {
+        cancelled = true;
+        cancelAnimationFrame(frameId);
+        teardown?.();
+      };
+    }
+
+    return () => {
+      teardown?.();
+    };
+  }, []);
+
   return (
     <ReactLenis
       className={`${HOME_SCROLL_CLASS} overflow-hidden`}
-      id="home-page"
+      id={HOME_PAGE_ID}
       options={{
         autoRaf: false,
         lerp: 0.1,

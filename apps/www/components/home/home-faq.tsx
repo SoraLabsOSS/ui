@@ -9,6 +9,8 @@ import {
 } from "@workspace/ui/components/sora-ui/disclosure/accordion";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionEffect } from "@/components/effects/motion-effect";
+import { HomeSectionHeading } from "@/components/home/home-section-heading";
+import { HomeSectionIntro } from "@/components/home/home-section-intro";
 import { HomeShell } from "@/components/home/home-shell";
 
 const FAQ_ITEMS = [
@@ -87,24 +89,15 @@ export function HomeFaq() {
       <HomeShell className="py-24 lg:py-32">
         <div className="grid grid-cols-12 gap-x-6 gap-y-16 lg:gap-x-12">
           <div className="col-span-12 lg:sticky lg:top-24 lg:col-span-4 lg:self-start">
-            <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
-              <h2 className="max-w-[14ch] font-medium text-3xl leading-tight tracking-tight md:text-4xl lg:text-5xl">
-                <span className="block">Questions and</span>
-                <span className="block">answers.</span>
-              </h2>
-            </MotionEffect>
+            <HomeSectionHeading className="max-w-[14ch]">
+              <span className="block">Questions and</span>
+              <span className="block">answers.</span>
+            </HomeSectionHeading>
 
-            <MotionEffect
-              delay={0.1}
-              fade
-              inView
-              slide={{ direction: "up", offset: 24 }}
-            >
-              <p className="mt-6 max-w-[34ch] text-base text-muted-foreground leading-relaxed">
-                Everything worth knowing before you install. Full accordion docs
-                live on the primitives page.
-              </p>
-            </MotionEffect>
+            <HomeSectionIntro className="mt-6 max-w-[34ch]">
+              Everything worth knowing before you install. Full accordion docs
+              live on the primitives page.
+            </HomeSectionIntro>
           </div>
 
           <div className="col-span-12 lg:col-span-7 lg:col-start-6">

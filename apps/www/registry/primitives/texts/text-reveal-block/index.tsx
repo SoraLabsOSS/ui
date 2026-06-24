@@ -87,9 +87,23 @@ interface AnimationOptions {
 }
 
 const CATALOG_PREVIEW_SCROLL_SELECTOR = "[data-radix-scroll-area-viewport]";
+const HOME_PAGE_SCROLL_SELECTOR = "#home-page";
 
 function resolveScrollRoot(container: HTMLElement): Element | Window {
-  return container.closest(CATALOG_PREVIEW_SCROLL_SELECTOR) ?? window;
+  const catalogScroller = container.closest(CATALOG_PREVIEW_SCROLL_SELECTOR);
+  if (catalogScroller) {
+    return catalogScroller;
+  }
+
+  const homeScroller =
+    container.closest(HOME_PAGE_SCROLL_SELECTOR) ??
+    document.querySelector(HOME_PAGE_SCROLL_SELECTOR);
+
+  if (homeScroller instanceof HTMLElement) {
+    return homeScroller;
+  }
+
+  return window;
 }
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {

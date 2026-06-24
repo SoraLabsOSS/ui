@@ -4,6 +4,8 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { ReactNode } from "react";
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
+import { HomeSectionHeading } from "@/components/home/home-section-heading";
+import { HomeSectionIntro } from "@/components/home/home-section-intro";
 import { HomeShell } from "@/components/home/home-shell";
 
 const PRIMITIVE_COUNT = 13;
@@ -40,15 +42,14 @@ export function HomeTwoWays({ primitivesUrl }: { primitivesUrl: string }) {
             <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
               What you get
             </p>
-            <h2 className="mt-3 max-w-[18ch] font-medium text-3xl leading-tight tracking-tight md:text-4xl lg:text-5xl">
-              Two ways to ship motion.
-            </h2>
-            <p className="mt-6 max-w-[52ch] text-base text-muted-foreground leading-relaxed lg:text-lg">
-              Named primitives you reach for in every project. Full blocks you
-              compose once they land—same Motion + GSAP stack, same install
-              flow.
-            </p>
           </MotionEffect>
+          <HomeSectionHeading className="mt-3 max-w-[18ch]">
+            Two ways to ship motion.
+          </HomeSectionHeading>
+          <HomeSectionIntro className="mt-6 max-w-[52ch] lg:text-lg">
+            Named primitives you reach for in every project. Full blocks you
+            compose once they land—same Motion + GSAP stack, same install flow.
+          </HomeSectionIntro>
         </header>
 
         <div className="grid grid-cols-12 gap-6 lg:gap-8">

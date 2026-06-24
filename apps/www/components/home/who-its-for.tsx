@@ -2,6 +2,8 @@
 
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
+import { HomeSectionHeading } from "@/components/home/home-section-heading";
+import { HomeSectionIntro } from "@/components/home/home-section-intro";
 import { HomeShell } from "@/components/home/home-shell";
 
 const FOR_YOU_ITEMS = [
@@ -60,26 +62,17 @@ export function WhoItsFor({ primitivesUrl }: { primitivesUrl: string }) {
       <HomeShell className="py-24 lg:py-32">
         <div className="grid grid-cols-12 gap-x-6 gap-y-16 lg:gap-x-12 lg:gap-y-0">
           <div className="col-span-12 flex flex-col lg:col-span-5">
-            <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
-              <h2 className="max-w-[18ch] font-medium text-3xl leading-tight tracking-tight md:text-4xl lg:text-5xl">
-                <span className="block">Built for developers who</span>
-                <span className="block">care how it moves.</span>
-              </h2>
-            </MotionEffect>
+            <HomeSectionHeading className="max-w-[18ch]">
+              <span className="block">Built for developers who</span>
+              <span className="block">care how it moves.</span>
+            </HomeSectionHeading>
 
             <div className="mt-12 lg:mt-auto lg:pt-24">
-              <MotionEffect
-                delay={0.1}
-                fade
-                inView
-                slide={{ direction: "up", offset: 24 }}
-              >
-                <p className="max-w-[36ch] text-base text-muted-foreground leading-relaxed">
-                  Motion-first primitives—most powered by Motion, with GSAP for
-                  scroll-driven text—you can inspect, copy, and customize. Real
-                  React code, real refs, no bloat—built for teams who ship.
-                </p>
-              </MotionEffect>
+              <HomeSectionIntro className="max-w-[36ch]">
+                Motion-first primitives—most powered by Motion, with GSAP for
+                scroll-driven text—you can inspect, copy, and customize. Real
+                React code, real refs, no bloat—built for teams who ship.
+              </HomeSectionIntro>
 
               <MotionEffect
                 delay={0.2}
