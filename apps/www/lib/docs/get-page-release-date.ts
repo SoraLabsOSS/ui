@@ -23,3 +23,16 @@ export function getPageReleaseDateString(
 ): string | undefined {
   return toReleaseDateString(data.releaseDate ?? data.lastModified);
 }
+
+export function getPageReleaseTimestamp(
+  data: PageReleaseDateFields
+): number | undefined {
+  const value = data.releaseDate ?? data.lastModified;
+  if (value === undefined) {
+    return;
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  const time = date.getTime();
+  return Number.isNaN(time) ? undefined : time;
+}

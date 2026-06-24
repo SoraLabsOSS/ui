@@ -1,7 +1,10 @@
 import { cache } from "react";
 import { index } from "@/__registry__";
 import type { PageReleaseDateFields } from "@/lib/docs/get-page-release-date";
-import { getPageReleaseDateString } from "@/lib/docs/get-page-release-date";
+import {
+  getPageReleaseDateString,
+  getPageReleaseTimestamp,
+} from "@/lib/docs/get-page-release-date";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
 
@@ -11,9 +14,21 @@ export interface LatestShippedItem {
   title: string;
 }
 
+type ShippedItemSource = "catalog" | "primitive";
+
+interface ShippedItem extends LatestShippedItem {
+  releasedAtTimestamp: number;
+  source: ShippedItemSource;
+}
+
 interface CatalogPageData extends PageReleaseDateFields {
   registryName?: string;
 }
+
+const SOURCE_PRIORITY: Record<ShippedItemSource, number> = {
+  catalog: 0,
+  primitive: 1,
+};
 
 function getRegistryName(slugs: string[], data: CatalogPageData): string {
   return data.registryName ?? slugs.at(-1) ?? "";
@@ -24,54 +39,63 @@ function hasRegistryCommand(registryName: string): boolean {
   return Boolean(entry?.command);
 }
 
-function collectShippedItems(): LatestShippedItem[] {
-  const items: LatestShippedItem[] = [];
+function pushShippedItem(
+  items: ShippedItem[],
+  page: { data: { title: string }; url: string; slugs: string[] },
+  data: CatalogPageData,
+  source: ShippedItemSource
+): void {
+  const registryName = getRegistryName(page.slugs, data);
+
+  if (!hasRegistryCommand(registryName)) {
+    return;
+  }
+
+  const releasedAtTimestamp = getPageReleaseTimestamp(data);
+  const releasedAt = getPageReleaseDateString(data);
+  if (releasedAtTimestamp === undefined || !releasedAt) {
+    return;
+  }
+
+  items.push({
+    title: page.data.title,
+    href: page.url,
+    releasedAt,
+    releasedAtTimestamp,
+    source,
+  });
+}
+
+function collectShippedItems(): ShippedItem[] {
+  const items: ShippedItem[] = [];
 
   for (const page of source.getPages()) {
     if (!page.url.startsWith("/docs/primitives/")) {
       continue;
     }
 
-    const data = page.data as CatalogPageData;
-    const registryName = getRegistryName(page.slugs, data);
-
-    if (!hasRegistryCommand(registryName)) {
-      continue;
-    }
-
-    const releasedAt = getPageReleaseDateString(data);
-    if (!releasedAt) {
-      continue;
-    }
-
-    items.push({
-      title: page.data.title,
-      href: page.url,
-      releasedAt,
-    });
+    pushShippedItem(items, page, page.data as CatalogPageData, "primitive");
   }
 
   for (const page of componentSource.getPages()) {
-    const data = page.data as CatalogPageData;
-    const registryName = getRegistryName(page.slugs, data);
-
-    if (!hasRegistryCommand(registryName)) {
-      continue;
-    }
-
-    const releasedAt = getPageReleaseDateString(data);
-    if (!releasedAt) {
-      continue;
-    }
-
-    items.push({
-      title: page.data.title,
-      href: page.url,
-      releasedAt,
-    });
+    pushShippedItem(items, page, page.data as CatalogPageData, "catalog");
   }
 
   return items;
+}
+
+function compareShippedItems(a: ShippedItem, b: ShippedItem): number {
+  const byTimestamp = b.releasedAtTimestamp - a.releasedAtTimestamp;
+  if (byTimestamp !== 0) {
+    return byTimestamp;
+  }
+
+  const bySource = SOURCE_PRIORITY[a.source] - SOURCE_PRIORITY[b.source];
+  if (bySource !== 0) {
+    return bySource;
+  }
+
+  return a.title.localeCompare(b.title);
 }
 
 export const getLatestShippedRegistryItem = cache(
@@ -82,15 +106,15 @@ export const getLatestShippedRegistryItem = cache(
       return null;
     }
 
-    return (
-      items.toSorted((a, b) => {
-        const byDate = b.releasedAt.localeCompare(a.releasedAt);
-        if (byDate !== 0) {
-          return byDate;
-        }
+    const latest = items.toSorted(compareShippedItems)[0];
+    if (!latest) {
+      return null;
+    }
 
-        return a.title.localeCompare(b.title);
-      })[0] ?? null
-    );
+    return {
+      title: latest.title,
+      href: latest.href,
+      releasedAt: latest.releasedAt,
+    };
   }
 );

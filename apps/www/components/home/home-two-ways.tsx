@@ -33,7 +33,20 @@ function ProductCard({ children, className, delay = 0 }: ProductCardProps) {
   );
 }
 
-export function HomeTwoWays({ primitivesUrl }: { primitivesUrl: string }) {
+export function HomeTwoWays({
+  blocksCount,
+  blocksUrl,
+  primitivesUrl,
+}: {
+  blocksCount: number;
+  blocksUrl: string;
+  primitivesUrl: string;
+}) {
+  const hasBlocks = blocksCount > 0;
+  const blocksBadge = hasBlocks
+    ? `${blocksCount} block${blocksCount === 1 ? "" : "s"} / growing`
+    : "First block / coming soon";
+
   return (
     <section className="relative bg-background py-24 text-foreground lg:py-32">
       <HomeShell>
@@ -85,7 +98,7 @@ export function HomeTwoWays({ primitivesUrl }: { primitivesUrl: string }) {
                   Blocks
                 </h3>
                 <span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
-                  First block / coming soon
+                  {blocksBadge}
                 </span>
               </div>
               <p className="m-0 max-w-[52ch] text-base text-muted-foreground leading-relaxed">
@@ -95,8 +108,8 @@ export function HomeTwoWays({ primitivesUrl }: { primitivesUrl: string }) {
               </p>
               <div className="mt-auto inline-flex pt-2">
                 <SectionCtaScramble
-                  href="/docs"
-                  label="See what's coming"
+                  href={hasBlocks ? blocksUrl : "/docs"}
+                  label={hasBlocks ? "Browse blocks" : "See what's coming"}
                   variant="inverted"
                 />
               </div>

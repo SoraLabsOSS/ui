@@ -10,11 +10,15 @@ import { WhoItsFor } from "@/components/home/who-its-for";
 import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-registry-item";
 
 interface HomePageClientProps {
+  blocksCount: number;
+  blocksUrl: string;
   latestShipped: LatestShippedItem | null;
   primitivesUrl: string;
 }
 
 export function HomePageClient({
+  blocksCount,
+  blocksUrl,
   latestShipped,
   primitivesUrl,
 }: HomePageClientProps) {
@@ -26,7 +30,11 @@ export function HomePageClient({
           <div>
             <HomeHeroFeatures />
             <WhoItsFor primitivesUrl={primitivesUrl} />
-            <HomeTwoWays primitivesUrl={primitivesUrl} />
+            <HomeTwoWays
+              blocksCount={blocksCount}
+              blocksUrl={blocksUrl}
+              primitivesUrl={primitivesUrl}
+            />
             <HomeFaq />
           </div>
           <HomeFooter latestShipped={latestShipped} />

@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { index } from "@/__registry__";
+import { isGalleryCatalogItem } from "@/lib/registry/component-gallery-sections";
 import { componentSource } from "@/lib/registry/component-source";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { filterComponentToc } from "@/lib/registry/parse-primitive-mdx";
@@ -126,6 +127,10 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
 
   return items;
 });
+
+export const getBlockCount = cache(
+  (): number => getComponentGalleryItems().filter(isGalleryCatalogItem).length
+);
 
 export function getComponentNeighbours(slug: string): {
   next?: ComponentNeighbourNav;
