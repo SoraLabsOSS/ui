@@ -6,7 +6,7 @@ import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
 import { HomeShell } from "@/components/home/home-shell";
 
-const PRIMITIVE_COUNT = 9;
+const PRIMITIVE_COUNT = 13;
 
 interface ProductCardProps {
   children: ReactNode;
@@ -31,7 +31,7 @@ function ProductCard({ children, className, delay = 0 }: ProductCardProps) {
   );
 }
 
-export function HomeTwoWays() {
+export function HomeTwoWays({ primitivesUrl }: { primitivesUrl: string }) {
   return (
     <section className="relative bg-background py-24 text-foreground lg:py-32">
       <HomeShell>
@@ -45,7 +45,8 @@ export function HomeTwoWays() {
             </h2>
             <p className="mt-6 max-w-[52ch] text-base text-muted-foreground leading-relaxed lg:text-lg">
               Named primitives you reach for in every project. Full blocks you
-              compose once they land—same Motion stack, same install flow.
+              compose once they land—same Motion + GSAP stack, same install
+              flow.
             </p>
           </MotionEffect>
         </header>
@@ -62,13 +63,13 @@ export function HomeTwoWays() {
                 </span>
               </div>
               <p className="m-0 max-w-[52ch] text-base text-muted-foreground leading-relaxed">
-                Every motion primitive is production-grade and documented.
+                Motion and GSAP primitives are production-grade and documented.
                 Preview in the docs, install with the shadcn CLI, and own the
                 source in your codebase.
               </p>
               <div className="mt-auto inline-flex pt-2">
                 <SectionCtaScramble
-                  href="/docs/primitives/text-reveal-blur"
+                  href={primitivesUrl}
                   label="Browse primitives"
                   variant="accent"
                 />

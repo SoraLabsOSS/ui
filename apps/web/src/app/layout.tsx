@@ -13,6 +13,7 @@ import {
   SITE_NAME,
   SITE_TITLE,
   SITE_URL,
+  TWITTER_HANDLE,
 } from "@/lib/site";
 import "./globals.css";
 
@@ -85,8 +86,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@soralabs_io",
-    creator: "@soralabs_io",
+    site: `@${TWITTER_HANDLE}`,
+    creator: `@${TWITTER_HANDLE}`,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: getTwitterMetadataImages([]),

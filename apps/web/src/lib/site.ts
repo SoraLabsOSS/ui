@@ -13,6 +13,10 @@ export const SITE_DESCRIPTION =
 
 export const SITE_TITLE = `${SITE_NAME} — ${SITE_DESCRIPTION}`;
 
+export const TWITTER_HANDLE = "soralabs_io";
+export const TWITTER_URL = `https://x.com/${TWITTER_HANDLE}`;
+export const GITHUB_URL = "https://github.com/axyl1410";
+
 /**
  * Origin for resolving metadata and OG image URLs.
  * - Vercel production: `SITE_URL` from env

@@ -3,7 +3,6 @@
 import { useSession } from "@better-auth-ui/react";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
-import { HideIfEmpty } from "fumadocs-core/hide-if-empty";
 import type { PageTree } from "fumadocs-core/server";
 import type { SidebarComponents } from "fumadocs-ui/components/layout/sidebar";
 import { Sidebar } from "fumadocs-ui/components/layout/sidebar";
@@ -563,11 +562,7 @@ export const DocsSidebar = (
                 <ThemeSwitcher />
               </div>
             </div>
-            <HideIfEmpty>
-              <div className="mt-2 empty:hidden data-[empty=true]:hidden">
-                {sidebarFooter}
-              </div>
-            </HideIfEmpty>
+            {sidebarFooter ? <div className="mt-2">{sidebarFooter}</div> : null}
           </DocsShellFooter>
         </DocsShell>
       </Sidebar>

@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     "TypeScript",
     "Tailwind CSS",
     "Motion",
+    "GSAP",
     "Animated UI components",
     "UI library",
     "shadcn CLI",

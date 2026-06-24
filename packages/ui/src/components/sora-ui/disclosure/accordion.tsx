@@ -326,16 +326,23 @@ function AccordionItem({
 
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [panelHeight, setPanelHeight] = useState(0);
+  const isOpenRef = useRef(isOpen);
 
-  const sectionDisabled = useDisabledOn(sectionDisabledOn);
-  const itemDisabled = useDisabledOn(itemDisabledOn);
-  const isDisabled = sectionDisabled || itemDisabled;
+  useEffect(() => {
+    isOpenRef.current = isOpen;
+  }, [isOpen]);
+
+  const sectionAnimationsDisabled = useDisabledOn(sectionDisabledOn);
+  const itemAnimationsDisabled = useDisabledOn(itemDisabledOn);
+  const animationsDisabled =
+    sectionAnimationsDisabled || itemAnimationsDisabled;
 
   const duration = itemDuration ?? defaultDuration;
   const ease = itemEase ?? defaultEase;
   const iconRotation = itemIconRotation ?? defaultIconRotation;
 
   const close = useCallback(() => {
+    isOpenRef.current = false;
     setIsOpen(false);
   }, []);
 
@@ -363,19 +370,19 @@ function AccordionItem({
   );
 
   const toggle = useCallback(() => {
-    setIsOpen((current) => {
-      if (current) {
-        onClose?.();
-        dispatchItemEvent("anm-accordion-close");
-        return false;
-      }
+    if (isOpenRef.current) {
+      onClose?.();
+      dispatchItemEvent("anm-accordion-close");
+      close();
+      return;
+    }
 
-      notifyItemOpen(itemId);
-      onOpen?.();
-      dispatchItemEvent("anm-accordion-open");
-      return true;
-    });
-  }, [dispatchItemEvent, itemId, notifyItemOpen, onClose, onOpen]);
+    notifyItemOpen(itemId);
+    onOpen?.();
+    dispatchItemEvent("anm-accordion-open");
+    isOpenRef.current = true;
+    setIsOpen(true);
+  }, [close, dispatchItemEvent, itemId, notifyItemOpen, onClose, onOpen]);
 
   const clearIconInlineStyles = useCallback(() => {
     iconRef.current?.style.removeProperty("transform");
@@ -492,7 +499,7 @@ function AccordionItem({
   useEffect(() => {
     animationRef.current?.stop();
 
-    if (isDisabled || shouldReduceMotion) {
+    if (animationsDisabled || shouldReduceMotion) {
       applyStaticPanelState(isOpen, panelHeight);
       return;
     }
@@ -531,7 +538,7 @@ function AccordionItem({
     buildPanelSequence,
     clearIconInlineStyles,
     defaultOpen,
-    isDisabled,
+    animationsDisabled,
     isOpen,
     panelHeight,
     shouldReduceMotion,
@@ -544,7 +551,7 @@ function AccordionItem({
         contentId,
         contentPanelRef,
         iconRef,
-        isDisabled,
+        isDisabled: animationsDisabled,
         isOpen,
         setPanelHeight,
         toggle,
@@ -568,6 +575,7 @@ function AccordionItem({
 function AccordionTrigger({
   children,
   className,
+  disabled,
   hideIcon = false,
   onClick,
   ...props
@@ -581,24 +589,25 @@ function AccordionTrigger({
     triggerId,
     verticalBarRef,
   } = useAccordionItemContext();
+  const isTriggerDisabled = Boolean(disabled || isDisabled);
 
   return (
     <button
+      {...props}
       aria-controls={contentId}
       aria-expanded={isOpen}
       className={cn(accordionTriggerVariants(), className)}
       data-anm-accordion-trigger
       data-state={isOpen ? "open" : "closed"}
-      disabled={isDisabled}
+      disabled={isTriggerDisabled}
       id={triggerId}
       onClick={(event) => {
         onClick?.(event);
-        if (!(event.defaultPrevented || isDisabled)) {
+        if (!(event.defaultPrevented || isTriggerDisabled)) {
           toggle();
         }
       }}
       type="button"
-      {...props}
     >
       <span className={accordionTitleVariants()}>{children}</span>
       {hideIcon ? null : (
@@ -634,6 +643,7 @@ function AccordionTrigger({
 function AccordionContent({
   children,
   className,
+  style,
   ...props
 }: AccordionContentProps) {
   const { contentId, contentPanelRef, isOpen, setPanelHeight, triggerId } =
@@ -646,14 +656,14 @@ function AccordionContent({
 
   return (
     <section
+      {...props}
       aria-hidden={!isOpen}
       aria-labelledby={triggerId}
       className={cn(accordionContentVariants(), className)}
       data-anm-accordion-content=""
       id={contentId}
       ref={contentPanelRef}
-      style={{ height: 0 }}
-      {...props}
+      style={{ ...style, height: 0 }}
     >
       <div ref={ref}>{children}</div>
     </section>

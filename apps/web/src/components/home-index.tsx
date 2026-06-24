@@ -1,8 +1,5 @@
 import Link from "next/link";
-import { DOCS_URL } from "@/lib/site";
-
-const GITHUB_URL = "https://github.com/axyl1410/";
-// const TWITTER_URL = "https://x.com/soralabs_io";
+import { DOCS_URL, GITHUB_URL, TWITTER_URL } from "@/lib/site";
 
 export function HomeIndex() {
   return (
@@ -13,10 +10,10 @@ export function HomeIndex() {
             <Link className="flex items-center gap-2" href="/">
               Soralabs
             </Link>
-            {/* <span>/</span>
+            <span>/</span>
             <a href={TWITTER_URL} rel="noreferrer" target="_blank">
               twitter
-            </a> */}
+            </a>
             <span>/</span>
             <a href={GITHUB_URL} rel="noreferrer" target="_blank">
               github

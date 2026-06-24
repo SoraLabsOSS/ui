@@ -92,7 +92,7 @@ export default function Page() {
     },
     disabledOn: {
       description:
-        'Disable accordion animations on matching breakpoints (mobile, tablet, desktop).',
+        'Skip expand/collapse animations on matching breakpoints (mobile, tablet, desktop). Items stay interactive.',
       type: '("mobile" | "tablet" | "desktop")[]',
     },
     items: {
@@ -134,7 +134,8 @@ export default function Page() {
       type: 'number',
     },
     disabledOn: {
-      description: 'Disable this item on matching breakpoints.',
+      description:
+        'Skip animations for this item on matching breakpoints. The trigger stays clickable.',
       type: '("mobile" | "tablet" | "desktop")[]',
     },
     onOpen: {

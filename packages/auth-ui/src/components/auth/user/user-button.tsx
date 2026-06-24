@@ -18,6 +18,7 @@ import {
 } from "@workspace/ui/components/ui/dropdown-menu";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
+import type { User } from "better-auth";
 import {
   ChevronsUpDown,
   LogIn,
@@ -99,6 +100,58 @@ function renderUserLink(
   );
 }
 
+function renderIconTriggerContent({
+  iconClass,
+  sessionUser,
+  showAuthenticated,
+  showLoading,
+}: {
+  iconClass: string;
+  sessionUser: User | undefined;
+  showAuthenticated: boolean;
+  showLoading: boolean;
+}) {
+  if (showLoading) {
+    return <Skeleton className={cn(iconClass, "rounded-full")} />;
+  }
+
+  if (showAuthenticated && sessionUser) {
+    return <UserAvatar className={iconClass} user={sessionUser} />;
+  }
+
+  return <User2 className={iconClass} />;
+}
+
+function renderDefaultTriggerContent({
+  accountLabel,
+  settingActiveSession,
+  showAuthenticated,
+  showLoading,
+}: {
+  accountLabel: ReactNode;
+  settingActiveSession: boolean;
+  showAuthenticated: boolean;
+  showLoading: boolean;
+}) {
+  if (showLoading || settingActiveSession) {
+    return <UserView isPending={settingActiveSession} />;
+  }
+
+  if (showAuthenticated) {
+    return <UserView />;
+  }
+
+  return (
+    <>
+      <UserAvatar />
+
+      <div className="grid flex-1 text-left text-sm leading-tight">
+        {accountLabel}
+      </div>
+    </>
+  );
+}
+
 /**
  * Render a user dropdown button that shows user info, settings, theme controls, and authentication actions.
  *
@@ -148,12 +201,13 @@ export function UserButton({
   const mounted = useClientMounted();
   const showIconTriggerLoading =
     !mounted || sessionPending || settingActiveSession;
+  const showAuthenticatedTrigger = mounted && Boolean(session);
   const triggerIconSizes =
     triggerSize === "icon-xs"
       ? { avatar: "size-8", guest: "size-5", fillTrigger: true }
       : { avatar: "size-7", guest: "size-6", fillTrigger: false };
   const triggerIconClass =
-    showIconTriggerLoading || session
+    showIconTriggerLoading || showAuthenticatedTrigger
       ? triggerIconSizes.avatar
       : triggerIconSizes.guest;
 
@@ -164,19 +218,18 @@ export function UserButton({
           <Button
             className={cn(
               className,
-              session && "rounded-full",
-              session && triggerIconSizes.fillTrigger && "p-0"
+              showAuthenticatedTrigger && "rounded-full",
+              showAuthenticatedTrigger && triggerIconSizes.fillTrigger && "p-0"
             )}
             size={triggerSize}
             variant={variant}
           >
-            {showIconTriggerLoading ? (
-              <Skeleton className={cn(triggerIconClass, "rounded-full")} />
-            ) : session ? (
-              <UserAvatar className={triggerIconClass} user={session.user} />
-            ) : (
-              <User2 className={triggerIconClass} />
-            )}
+            {renderIconTriggerContent({
+              iconClass: triggerIconClass,
+              sessionUser: session?.user,
+              showAuthenticated: showAuthenticatedTrigger,
+              showLoading: showIconTriggerLoading,
+            })}
           </Button>
         ) : (
           <Button
@@ -184,17 +237,12 @@ export function UserButton({
             size="lg"
             variant={variant}
           >
-            {session || sessionPending || settingActiveSession ? (
-              <UserView isPending={!!settingActiveSession} />
-            ) : (
-              <>
-                <UserAvatar />
-
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  {localization.auth.account}
-                </div>
-              </>
-            )}
+            {renderDefaultTriggerContent({
+              accountLabel: localization.auth.account,
+              settingActiveSession,
+              showAuthenticated: showAuthenticatedTrigger,
+              showLoading: showIconTriggerLoading,
+            })}
 
             <ChevronsUpDown className="ml-auto size-4" />
           </Button>

@@ -13,7 +13,7 @@ const FOR_YOU_ITEMS = [
 
 const NOT_FOR_YOU_ITEMS = [
   "You need a full UI kit—forms, tables, data grids. Sora focuses on motion primitives.",
-  "You don't use Tailwind CSS or Motion in your stack.",
+  "You don't use Tailwind CSS, Motion, or GSAP in your stack.",
   "You want locked npm packages you can't edit—Sora copies source into your repo.",
   "You build mainly in Webflow or Framer without a code-first workflow.",
 ] as const;
@@ -51,7 +51,7 @@ function AudienceColumn({ title, items, delay }: AudienceColumnProps) {
   );
 }
 
-export function WhoItsFor() {
+export function WhoItsFor({ primitivesUrl }: { primitivesUrl: string }) {
   return (
     <section
       className="relative bg-background text-foreground"
@@ -75,8 +75,9 @@ export function WhoItsFor() {
                 slide={{ direction: "up", offset: 24 }}
               >
                 <p className="max-w-[36ch] text-base text-muted-foreground leading-relaxed">
-                  Motion-first primitives you can inspect, copy, and customize.
-                  Real React code, real refs, no bloat—built for teams who ship.
+                  Motion-first primitives—most powered by Motion, with GSAP for
+                  scroll-driven text—you can inspect, copy, and customize. Real
+                  React code, real refs, no bloat—built for teams who ship.
                 </p>
               </MotionEffect>
 
@@ -88,7 +89,7 @@ export function WhoItsFor() {
               >
                 <div className="mt-8">
                   <SectionCtaScramble
-                    href="/docs/primitives/text-reveal-blur"
+                    href={primitivesUrl}
                     label="Browse components"
                     variant="accent"
                   />

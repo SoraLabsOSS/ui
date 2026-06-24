@@ -46,7 +46,7 @@ export function SiteBanner() {
       ]}
       variant="rainbow"
     >
-      Motion-first UI for React. Built for shadcn/ui.
+      Motion & GSAP UI for React. Built for shadcn/ui.
     </Banner>
   );
 }

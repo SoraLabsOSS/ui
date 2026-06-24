@@ -15,7 +15,7 @@ const FAQ_ITEMS = [
   {
     title: "What is Sora UI?",
     content:
-      "Sora UI is an animated component registry for React and Next.js. It ships copy-paste primitives built on Motion, with live docs, demos, and a shadcn-compatible install flow so you can add polished UI effects directly into your project.",
+      "Sora UI is an animated component registry for React and Next.js. It ships copy-paste primitives built on Motion and GSAP, with live docs, demos, and a shadcn-compatible install flow so you can add polished UI effects directly into your project.",
   },
   {
     title: "How do I install a component?",
@@ -30,12 +30,12 @@ const FAQ_ITEMS = [
   {
     title: "What animation library does Sora UI use?",
     content:
-      "Sora UI is built on Motion (motion/react). Timelines, springs, and layout animations are composed with Motion APIs. Wrap your app in MotionConfig with reducedMotion set to user for accessible defaults.",
+      "Most primitives use Motion (motion/react)—timelines, springs, and layout animations composed with Motion APIs. Scroll-driven text like Text Reveal Block uses GSAP SplitText and ScrollTrigger. Wrap your app in MotionConfig with reducedMotion set to user for accessible defaults.",
   },
   {
     title: "Are Sora UI components accessible and reduced-motion aware?",
     content:
-      "Yes. Components respect prefers-reduced-motion via Motion and useReducedMotion where needed. Interactive primitives handle keyboard focus and ARIA. The docs spell out what each one does when motion is reduced.",
+      "Yes. Components respect prefers-reduced-motion via Motion and useReducedMotion where needed. GSAP-powered primitives simplify or skip scroll animations when motion is reduced. Interactive primitives handle keyboard focus and ARIA. The docs spell out what each one does when motion is reduced.",
   },
   {
     title: "Is there a free version of Sora UI?",

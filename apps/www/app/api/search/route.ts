@@ -1,8 +1,12 @@
 import { createSearchAPI } from "fumadocs-core/search/server";
-import { getSearchIndexes } from "@/lib/docs/search-index";
+import { getCachedSearchIndexes } from "@/lib/docs/cached/search-index";
 
-export const { GET } = createSearchAPI("advanced", {
-  // https://docs.orama.com/open-source/supported-languages
-  language: "english",
-  indexes: getSearchIndexes(),
-});
+export async function GET(request: Request) {
+  const indexes = await getCachedSearchIndexes();
+  const { GET: searchGET } = createSearchAPI("advanced", {
+    // https://docs.orama.com/open-source/supported-languages
+    language: "english",
+    indexes,
+  });
+  return searchGET(request);
+}

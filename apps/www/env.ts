@@ -2,6 +2,12 @@ import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
+  shared: {
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development"),
+  },
+
   server: {
     BETTER_AUTH_SECRET: z.string().min(1),
     /** Transaction pooler (port 6543) — used by @workspace/db at runtime */
@@ -23,6 +29,7 @@ export const env = createEnv({
   },
 
   experimental__runtimeEnv: {
+    NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,

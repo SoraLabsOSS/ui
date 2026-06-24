@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { source } from "@/lib/docs/source";
-import { createOgImageResponse } from "@/lib/og/create-og-image-response";
-import { resolveOgPage } from "@/lib/og/resolve-og-page";
+import { getCachedOgImageBuffer } from "@/lib/og/get-cached-og-image";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 
 export async function GET(
@@ -10,13 +9,18 @@ export async function GET(
 ) {
   const { slug } = await params;
   const pageSlug = slug.slice(0, -1);
-  const content = resolveOgPage(pageSlug);
+  const buffer = await getCachedOgImageBuffer(pageSlug);
 
-  if (!content) {
+  if (!buffer) {
     notFound();
   }
 
-  return createOgImageResponse(content);
+  return new Response(buffer, {
+    headers: {
+      "Content-Type": "image/png",
+      "Cache-Control": "public, max-age=31536000, immutable",
+    },
+  });
 }
 
 export function generateStaticParams(): {

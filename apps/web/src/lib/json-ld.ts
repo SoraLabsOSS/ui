@@ -1,4 +1,10 @@
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import {
+  GITHUB_URL,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  TWITTER_URL,
+} from "@/lib/site";
 
 export const jsonLd = {
   "@context": "https://schema.org",
@@ -19,7 +25,7 @@ export const jsonLd = {
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
-      sameAs: ["https://github.com/axyl1410", "https://x.com/soralabs_io"],
+      sameAs: [GITHUB_URL, TWITTER_URL],
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/android-chrome-512x512.png`,

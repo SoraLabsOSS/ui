@@ -11,9 +11,13 @@ import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-regist
 
 interface HomePageClientProps {
   latestShipped: LatestShippedItem | null;
+  primitivesUrl: string;
 }
 
-export function HomePageClient({ latestShipped }: HomePageClientProps) {
+export function HomePageClient({
+  latestShipped,
+  primitivesUrl,
+}: HomePageClientProps) {
   return (
     <>
       <Header />
@@ -21,8 +25,8 @@ export function HomePageClient({ latestShipped }: HomePageClientProps) {
         <div className="flex min-h-full w-full flex-col justify-between">
           <div>
             <HomeHeroFeatures />
-            <WhoItsFor />
-            <HomeTwoWays />
+            <WhoItsFor primitivesUrl={primitivesUrl} />
+            <HomeTwoWays primitivesUrl={primitivesUrl} />
             <HomeFaq />
           </div>
           <HomeFooter latestShipped={latestShipped} />
