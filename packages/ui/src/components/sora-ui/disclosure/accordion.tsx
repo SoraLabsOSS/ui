@@ -189,7 +189,7 @@ export interface AccordionContentProps
 
 export interface AccordionTextProps
   extends Omit<ComponentPropsWithoutRef<"p">, "children"> {
-  children: string;
+  children: ReactNode;
 }
 
 function renderAccordionItemContent(content: ReactNode) {

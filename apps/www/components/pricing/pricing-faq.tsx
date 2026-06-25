@@ -24,7 +24,7 @@ const accordionTextClassName =
 function FaqAnswer({ content, title }: { content: string; title: string }) {
   if (title === "Can I use components commercially?") {
     return (
-      <p className={accordionTextClassName}>
+      <AccordionText className={accordionTextClassName}>
         Yes. Use components in personal, commercial, and client projects. See
         the{" "}
         <Link
@@ -35,13 +35,13 @@ function FaqAnswer({ content, title }: { content: string; title: string }) {
         </Link>{" "}
         page for full terms, including the Commons Clause restriction on
         reselling components as-is.
-      </p>
+      </AccordionText>
     );
   }
 
   if (title === "How do I install?") {
     return (
-      <p className={accordionTextClassName}>
+      <AccordionText className={accordionTextClassName}>
         Initialize shadcn/ui, register the @soralabs namespace, then run{" "}
         <code className="font-mono text-foreground text-sm">
           npx shadcn@latest add @soralabs/&lt;component-name&gt;
@@ -54,7 +54,7 @@ function FaqAnswer({ content, title }: { content: string; title: string }) {
           Installation
         </Link>{" "}
         guide.
-      </p>
+      </AccordionText>
     );
   }
 
