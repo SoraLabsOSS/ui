@@ -11,3 +11,9 @@ export const BLOG_AUTHORS = {
 } as const;
 
 export type BlogAuthorId = keyof typeof BLOG_AUTHORS;
+
+export function getBlogAuthorByName(name: string) {
+  return Object.values(BLOG_AUTHORS).find(
+    (author) => author.name.toLowerCase() === name.toLowerCase()
+  );
+}

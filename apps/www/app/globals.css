@@ -389,6 +389,10 @@
     @apply !pt-23 max-2xl:max-w-[860px] 2xl:!max-w-[1124px];
   }
 
+  #nd-page article.blog-article {
+    @apply !pt-3 !max-w-none;
+  }
+
   /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
   #nd-page {
     max-width: min(
@@ -545,4 +549,10 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
+}
+
+@layer components {
+  .blog-inner {
+    @apply mx-auto w-11/12 max-w-7xl;
+  }
 }

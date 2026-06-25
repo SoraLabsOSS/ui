@@ -1,3 +1,4 @@
+import { createBlogPostOgContent } from "@/lib/blog/create-blog-post-og-content";
 import type { BlogOgContent } from "@/lib/og/blog-og-types";
 
 /**
@@ -7,9 +8,9 @@ import type { BlogOgContent } from "@/lib/og/blog-og-types";
  * Use `createBlogPostOgContent` from `@/lib/blog/create-blog-post-og-content`.
  */
 export const blogOgPostsBySlug: Record<string, BlogOgContent> = {
-  // Example:
-  // "cursor-trail-reveal": createBlogPostOgContent(
-  //   "How I built Cursor Trail Reveal with Motion and clip-path.",
-  //   "axyl"
-  // ),
+  "introducing-sora-ui": createBlogPostOgContent("Introducing Sora UI", "axyl"),
+  "motion-first-ui": createBlogPostOgContent(
+    "Motion-first UI without the black box",
+    "axyl"
+  ),
 };

@@ -7,3 +7,5 @@ export const OG_PALETTE = {
   foreground: "#FAFAFA",
   foregroundMuted: "rgba(255, 255, 255, 0.6)",
 } as const;
+
+export type OgPalette = typeof OG_PALETTE;

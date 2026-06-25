@@ -1,9 +1,10 @@
-import { OG_PALETTE } from "./palette";
+import { OG_PALETTE, type OgPalette } from "./palette";
 
 export interface QuoteProps {
   author: string;
   avatar?: string;
   handle: string;
+  palette?: OgPalette;
   quote: string;
 }
 
@@ -15,11 +16,17 @@ const initials = (name: string) =>
     .join("")
     .toUpperCase();
 
-export const Quote = ({ quote, author, handle, avatar }: QuoteProps) => (
+export const Quote = ({
+  quote,
+  author,
+  handle,
+  avatar,
+  palette = OG_PALETTE,
+}: QuoteProps) => (
   <div
     style={{
-      backgroundColor: OG_PALETTE.background,
-      color: OG_PALETTE.foreground,
+      backgroundColor: palette.background,
+      color: palette.foreground,
       display: "flex",
       flexDirection: "column",
       height: "100%",
@@ -30,7 +37,7 @@ export const Quote = ({ quote, author, handle, avatar }: QuoteProps) => (
   >
     <div
       style={{
-        color: OG_PALETTE.accent,
+        color: palette.accent,
         display: "flex",
         fontSize: "140px",
         fontWeight: 800,
@@ -75,9 +82,9 @@ export const Quote = ({ quote, author, handle, avatar }: QuoteProps) => (
         <div
           style={{
             alignItems: "center",
-            backgroundColor: OG_PALETTE.accent,
+            backgroundColor: palette.accent,
             borderRadius: "999px",
-            color: OG_PALETTE.foreground,
+            color: palette.foreground,
             display: "flex",
             fontSize: "32px",
             fontWeight: 700,
@@ -95,7 +102,7 @@ export const Quote = ({ quote, author, handle, avatar }: QuoteProps) => (
         </div>
         <div
           style={{
-            color: OG_PALETTE.foregroundMuted,
+            color: palette.foregroundMuted,
             display: "flex",
             fontSize: "26px",
           }}

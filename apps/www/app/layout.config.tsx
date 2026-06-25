@@ -52,5 +52,10 @@ export const baseOptions: BaseLayoutProps = {
       url: "/docs/license",
       secondary: false,
     },
+    {
+      text: "Blog",
+      url: "/blog",
+      secondary: false,
+    },
   ],
 };

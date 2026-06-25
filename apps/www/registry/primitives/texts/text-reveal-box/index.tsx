@@ -1,14 +1,9 @@
 // biome-ignore-all lint: scroll-driven word reveal ported from deadlock-studios
 "use client";
 
+import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  type CSSProperties,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { type CSSProperties, useMemo, useRef } from "react";
 
 /** Deadlock Studios–style typography and layout preset. Pass via `*ClassName` props. */
 export const TEXT_REVEAL_BOX_STUDIO_CLASSES = {
@@ -78,6 +73,26 @@ interface ResolvedTiming {
   reverseOverlap: number;
 }
 
+interface CachedWord {
+  el: HTMLElement;
+  textEl: HTMLElement;
+}
+
+function cacheWords(track: HTMLElement): CachedWord[] {
+  const cached: CachedWord[] = [];
+
+  for (const node of track.querySelectorAll(".trb-word")) {
+    const el = node as HTMLElement;
+    const textEl = el.firstElementChild;
+
+    if (textEl instanceof HTMLElement) {
+      cached.push({ el, textEl });
+    }
+  }
+
+  return cached;
+}
+
 function resolveTiming(timing?: TextRevealBoxTiming): ResolvedTiming {
   return {
     revealPortion: timing?.revealPortion ?? 0.7,
@@ -113,55 +128,63 @@ function readHighlightConfig(
   return { rgb: highlightBg, alpha: highlightAlpha ?? 1 };
 }
 
-function lockWordsRevealed(words: Element[], highlightRgb: string) {
-  for (const word of words) {
-    const wordEl = word as HTMLElement;
-    const wordText = wordEl.querySelector("span") as HTMLElement | null;
-    if (!wordText) {
-      continue;
-    }
-
-    wordEl.style.opacity = "1";
-    wordText.style.opacity = "1";
-    wordEl.style.backgroundColor = `rgba(${highlightRgb}, 0)`;
+function lockWordsRevealed(cachedWords: CachedWord[], highlightRgb: string) {
+  for (const { el, textEl } of cachedWords) {
+    el.style.opacity = "1";
+    textEl.style.opacity = "1";
+    el.style.backgroundColor = `rgba(${highlightRgb}, 0)`;
   }
 }
 
 function updateWords(
   progress: number,
-  words: Element[],
-  totalWords: number,
+  cachedWords: CachedWord[],
   highlightRgb: string,
   highlightAlpha: number,
   timing: ResolvedTiming
 ) {
+  const totalWords = cachedWords.length;
+  if (totalWords === 0) {
+    return;
+  }
+
   const { revealPortion, revealOverlap, reverseOverlap, reverseOnScroll } =
     timing;
 
   if (!reverseOnScroll && progress > revealPortion) {
-    lockWordsRevealed(words, highlightRgb);
+    lockWordsRevealed(cachedWords, highlightRgb);
     return;
   }
 
-  for (const [index, word] of words.entries()) {
-    const wordEl = word as HTMLElement;
-    const wordText = wordEl.querySelector("span") as HTMLElement | null;
-    if (!wordText) {
-      continue;
-    }
+  const revealTimelineScale =
+    1 /
+    Math.min(
+      1 + revealOverlap / totalWords,
+      1 + (totalWords - 1) / totalWords + revealOverlap / totalWords
+    );
+  const reverseTimelineScale =
+    1 /
+    Math.max(1, (totalWords - 1) / totalWords + reverseOverlap / totalWords);
+  const overlapShare = revealOverlap / totalWords;
+  const reverseOverlapShare = reverseOverlap / totalWords;
 
-    if (progress <= revealPortion) {
-      const revealProgress = Math.min(1, progress / revealPortion);
+  const inRevealPhase = progress <= revealPortion;
+  const revealProgress = inRevealPhase
+    ? Math.min(1, progress / revealPortion)
+    : 0;
+  const reversePortion = 1 - revealPortion;
+  const reverseProgress = inRevealPhase
+    ? 0
+    : (progress - revealPortion) / reversePortion;
+
+  for (let index = 0; index < totalWords; index++) {
+    const { el: wordEl, textEl: wordText } = cachedWords[index];
+
+    if (inRevealPhase) {
       const wordStart = index / totalWords;
-      const wordEnd = wordStart + revealOverlap / totalWords;
-      const timelineScale =
-        1 /
-        Math.min(
-          1 + revealOverlap / totalWords,
-          1 + (totalWords - 1) / totalWords + revealOverlap / totalWords
-        );
-      const adjStart = wordStart * timelineScale;
-      const adjEnd = wordEnd * timelineScale;
+      const wordEnd = wordStart + overlapShare;
+      const adjStart = wordStart * revealTimelineScale;
+      const adjEnd = wordEnd * revealTimelineScale;
       const duration = adjEnd - adjStart;
       const wordProgress =
         revealProgress <= adjStart
@@ -180,17 +203,12 @@ function updateWords(
       continue;
     }
 
-    const reversePortion = 1 - revealPortion;
-    const reverseProgress = (progress - revealPortion) / reversePortion;
     wordEl.style.opacity = "1";
 
     const rStart = index / totalWords;
-    const rEnd = rStart + reverseOverlap / totalWords;
-    const rScale =
-      1 /
-      Math.max(1, (totalWords - 1) / totalWords + reverseOverlap / totalWords);
-    const rAdjStart = rStart * rScale;
-    const rAdjEnd = rEnd * rScale;
+    const rEnd = rStart + reverseOverlapShare;
+    const rAdjStart = rStart * reverseTimelineScale;
+    const rAdjEnd = rEnd * reverseTimelineScale;
     const rDur = rAdjEnd - rAdjStart;
     const rWordProgress =
       reverseProgress <= rAdjStart
@@ -232,9 +250,6 @@ export function TextRevealBox({
   keywordClassName,
 }: TextRevealBoxProps) {
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const triggerRef = useRef<ReturnType<
-    typeof import("gsap/ScrollTrigger").ScrollTrigger.create
-  > | null>(null);
 
   const resolvedTiming = useMemo(
     () => resolveTiming(timingProp),
@@ -262,116 +277,117 @@ export function TextRevealBox({
     return keywordLookup?.has(normalizeWord(word)) ?? false;
   };
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function init() {
-      const gsapMod = await import("gsap");
-      const stMod = await import("gsap/ScrollTrigger");
-
-      const gsap = gsapMod.default ?? gsapMod.gsap;
-      const { ScrollTrigger } = stMod;
-
-      gsap.registerPlugin(ScrollTrigger);
-
+  useGSAP(
+    () => {
       const track = trackRef.current;
-      if (!track || cancelled) {
+      if (!track) {
         return;
       }
 
-      const words = Array.from(track.querySelectorAll(".trb-word"));
-      const totalWords = words.length;
-      const { rgb: resolvedHighlight, alpha: resolvedAlpha } =
-        readHighlightConfig(track, highlightBg, highlightAlpha);
-
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        updateWords(
-          1,
-          words,
-          totalWords,
-          resolvedHighlight,
-          resolvedAlpha,
-          resolvedTiming
-        );
-        return;
-      }
-
-      const scroller = scrollerProp ?? window;
-
-      await new Promise<void>((resolve) => {
-        requestAnimationFrame(() => resolve());
-      });
-      await new Promise<void>((resolve) => {
-        requestAnimationFrame(() => resolve());
-      });
-
-      if (cancelled) {
-        return;
-      }
-
+      let disposed = false;
+      let frameId = 0;
+      let scrollTrigger: import("gsap/ScrollTrigger").ScrollTrigger | null =
+        null;
       let resizeObserver: ResizeObserver | undefined;
 
-      triggerRef.current = ScrollTrigger.create({
-        trigger: track,
-        scroller,
-        start: "top top",
-        end: "bottom bottom",
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
+      const mountScrollReveal = async () => {
+        const [gsapMod, stMod] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+
+        if (disposed || !trackRef.current) {
+          return;
+        }
+
+        const gsap = gsapMod.default ?? gsapMod.gsap;
+        const { ScrollTrigger } = stMod;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        const activeTrack = trackRef.current;
+        const cachedWords = cacheWords(activeTrack);
+        const { rgb: resolvedHighlight, alpha: resolvedAlpha } =
+          readHighlightConfig(activeTrack, highlightBg, highlightAlpha);
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           updateWords(
-            self.progress,
-            words,
-            totalWords,
+            1,
+            cachedWords,
             resolvedHighlight,
             resolvedAlpha,
             resolvedTiming
           );
-        },
+          return;
+        }
+
+        const scroller = scrollerProp ?? window;
+
+        await new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve());
+        });
+        await new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve());
+        });
+
+        if (disposed || !trackRef.current) {
+          return;
+        }
+
+        scrollTrigger = ScrollTrigger.create({
+          trigger: activeTrack,
+          scroller,
+          start: "top top",
+          end: "bottom bottom",
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            updateWords(
+              self.progress,
+              cachedWords,
+              resolvedHighlight,
+              resolvedAlpha,
+              resolvedTiming
+            );
+          },
+        });
+
+        if (scroller instanceof HTMLElement) {
+          resizeObserver = new ResizeObserver(() => {
+            ScrollTrigger.refresh();
+          });
+          resizeObserver.observe(scroller);
+        }
+
+        ScrollTrigger.refresh();
+        scrollTrigger.refresh();
+      };
+
+      frameId = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          void mountScrollReveal();
+        });
       });
 
-      if (scroller instanceof HTMLElement) {
-        resizeObserver = new ResizeObserver(() => {
-          ScrollTrigger.refresh();
-        });
-        resizeObserver.observe(scroller);
-      }
-
-      ScrollTrigger.refresh();
-      triggerRef.current.refresh();
-
       return () => {
+        disposed = true;
+        cancelAnimationFrame(frameId);
         resizeObserver?.disconnect();
+        scrollTrigger?.kill();
+        scrollTrigger = null;
       };
-    }
-
-    let teardownResize: (() => void) | undefined;
-
-    init().then((teardown) => {
-      teardownResize = teardown;
-    });
-
-    return () => {
-      cancelled = true;
-      teardownResize?.();
-      triggerRef.current?.kill();
-      triggerRef.current = null;
-    };
-  }, [
-    paragraphs,
-    keywords,
-    highlightBg,
-    highlightAlpha,
-    pinDuration,
-    scrollerProp,
-    resolvedTiming,
-  ]);
-
-  useLayoutEffect(
-    () => () => {
-      triggerRef.current?.kill();
-      triggerRef.current = null;
     },
-    []
+    {
+      scope: trackRef,
+      dependencies: [
+        paragraphs,
+        keywords,
+        highlightBg,
+        highlightAlpha,
+        pinDuration,
+        scrollerProp,
+        resolvedTiming,
+      ],
+    }
   );
 
   const rootStyle = {

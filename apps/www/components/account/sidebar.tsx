@@ -97,6 +97,13 @@ const ACCOUNT_MENU_ITEMS = [
     label: "Components",
     requiresAuth: false,
   },
+  {
+    getHref: () => "/blog",
+    getIsActive: (pathname: string, href: string) =>
+      pathname === href || pathname.startsWith(`${href}/`),
+    label: "Blog",
+    requiresAuth: false,
+  },
   ...AUTH_MENU_LINKS.map((link) => ({
     getHref: (_primitivesUrl: string) => link.url,
     getIsActive: (pathname: string, href: string) =>

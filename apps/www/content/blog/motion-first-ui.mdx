@@ -1,0 +1,23 @@
+---
+title: Motion-first UI without the black box
+description: Why Sora UI ships scroll-driven primitives you can copy, tune, and own.
+author: Axyl
+date: 2026-03-01
+hashtags: ["#motion", "#react", "#gsap"]
+---
+
+Most animated component libraries ask you to trust the abstraction: import a `<Reveal />`, hope the easing feels right, and fight the API when you need something bespoke.
+
+Sora UI takes the opposite path — **registry primitives** you install with the shadcn CLI, read in full, and adapt. Scroll pinning, word reveals, cursor trails: the motion logic lives in your repo, not behind a versioned package wall.
+
+## What we're optimizing for
+
+- **Inspectable code** — Tailwind surfaces, explicit GSAP setup, no mystery CSS files.
+- **SSR-safe defaults** — heavy animation deps load on the client; reduced motion is respected.
+- **Docs that match production** — catalog previews use the same components you install.
+
+## What's next on the blog
+
+We'll share implementation notes as new primitives ship: performance passes on scroll handlers, accessibility trade-offs, and patterns that survived real client work — not trend-chasing motion for its own sake.
+
+If you're building a marketing site or product landing that needs cinematic scroll without surrendering control, you're in the right place.

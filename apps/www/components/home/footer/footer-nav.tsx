@@ -26,6 +26,7 @@ const FOOTER_NAV: FooterNavSection[] = [
     links: [
       { href: "/#who-its-for", label: "How it works" },
       { href: "/docs", label: "Documentation" },
+      { href: "/blog", label: "Blog" },
       { href: "/docs/installation", label: "Installation" },
       { href: "/pricing", label: "Pricing" },
       {

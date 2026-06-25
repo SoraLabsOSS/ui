@@ -1,0 +1,120 @@
+---
+title: Introducing Sora UI
+description: Motion-first React primitives you install with shadcn, read in full, and ship in production.
+author: Axyl
+date: 2026-06-26
+hashtags: ["#soraui", "#react", "#motion"]
+---
+
+We're launching the Sora UI blog with the thing we should have said on day one: **what this project is**, who it's for, and how to get your first component running in minutes.
+
+If you've landed here from a docs preview or a scroll-driven demo and wondered *"is this another animation npm package I'll fight in six months?"* — fair question. The short answer is no. Sora UI is an **open component registry** for React and Next.js: copy-paste primitives built on **Motion** and **GSAP**, installed through the same **shadcn CLI** flow you already use for UI.
+
+## What Sora UI is
+
+Sora UI is a distribution of animated components — not a typical `npm install` library.
+
+You browse the catalog, pick a primitive, run one CLI command, and the **source lands in your repo** under something like `components/sora-ui/`. You own the files. You change Tailwind classes, tweak easing, rip out a timeline, or fork a variant without opening a GitHub issue against a black-box package.
+
+That model is deliberate. We're optimizing for teams who ship **marketing sites, product landings, and client work** where motion has to feel considered — and where someone on the team will inevitably need to **open the file** and adjust it.
+
+The docs previews load the **same registry items** the CLI installs. What you see in the catalog is what you get in your codebase.
+
+## Two ways to ship motion
+
+Sora UI splits into two lanes that share the same stack and install flow:
+
+### Primitives
+
+Named building blocks you reach for across projects: accordions with motion-aware disclosure, char-stagger buttons, custom cursors, scroll-pinned text reveals, and more. Most primitives use **Motion** (`motion/react`) for springs, layout, and in-view effects. Scroll-driven copy — like word-by-word text reveals — uses **GSAP** where scrubbing and pinning are the right tool.
+
+Primitives are **documented, previewed, and installable today**. Browse the [Primitives docs](/docs/primitives/text-scramble) or the full [component catalog](/components).
+
+### Blocks
+
+Composed page sections — hero flows, feature grids, motion systems you drop in and customize. Blocks are **not** a grab bag of unrelated widgets; they're larger pieces built from the same Motion + GSAP foundation.
+
+The blocks catalog is **growing**. When a block ships, it follows the same `@soralabs` registry scope and copy-first workflow as primitives.
+
+## How we're different from "just use shadcn"
+
+[shadcn/ui](https://ui.shadcn.com/) proved that developers want **ownable UI** — baseline components you copy and adapt. Sora UI sits in the **animation layer** next to it: motion-first primitives that complement shadcn, [Magic UI](https://magicui.design/), and your own design system.
+
+We are **not** trying to be a full UI kit. You won't find data tables, complex form builders, or every layout primitive under the sun. If you need a complete component library, keep shadcn/ui as your base and pull motion from Sora where it matters.
+
+## Who this is for
+
+**Sora UI is for you if:**
+
+- You build with React or Next.js and want **real source** in your tree.
+- You install with the shadcn CLI (`@soralabs/...`) and customize with Tailwind.
+- You care about motion that feels **intentional**, not decorative noise.
+- You ship client or product work and refuse opaque animation packages.
+
+**Sora UI is probably not for you if:**
+
+- You need a full UI kit — forms, tables, data grids. We focus on motion.
+- Your stack doesn't include Tailwind, Motion, or GSAP.
+- You want locked npm packages you can't edit.
+- You work mainly in no-code tools without a code-first workflow.
+
+## Get started in three steps
+
+If you already use shadcn/ui, you're most of the way there.
+
+**1. Initialize shadcn** (skip if your project is already set up):
+
+```bash
+npx shadcn@latest init
+```
+
+**2. Add the Sora UI registry** — listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json):
+
+```bash
+npx shadcn@latest registry add @soralabs
+```
+
+**3. Install a primitive** — list everything available, or add one directly:
+
+```bash
+npx shadcn@latest list @soralabs
+npx shadcn@latest add @soralabs/text-reveal-blur
+```
+
+Import it like any other local component:
+
+```tsx
+import { BlurTextReveal } from "@/components/sora-ui/texts/text-reveal-blur";
+
+export default function Home() {
+  return <BlurTextReveal text="Hello World" />;
+}
+```
+
+Full details — project structure, registry URLs, troubleshooting — live in the [Installation guide](/docs/installation).
+
+## Performance and accessibility by default
+
+Motion without guardrails is how you get janky scroll handlers and ignored `prefers-reduced-motion`. Sora primitives are built with production constraints in mind:
+
+- **SSR-safe defaults** — heavy animation deps load on the client where needed.
+- **Reduced motion** — Motion's `useReducedMotion` and simplified fallbacks on GSAP scroll paths.
+- **Inspectable setup** — explicit timelines and class names instead of magic one-liners.
+
+We document what each primitive does when motion is reduced, so you're not guessing at runtime behavior.
+
+## Free to use, built for commercial work
+
+Every primitive in the docs is **open to preview and install**. No account required to copy source into your project and ship.
+
+You can use Sora UI in **commercial and client work**. The limit is repackaging or reselling the components as a competing library — the same spirit as other open registry projects.
+
+## What's next on the blog
+
+This post is the front door. Coming posts will go deeper:
+
+- **Implementation notes** as new primitives ship — ScrollTrigger refresh patterns, performance passes, accessibility trade-offs.
+- **Flagship deep-dives** — how scroll-pinned text reveals work under the hood, and when to reach for Motion vs GSAP.
+- **Philosophy** — why we chose registry-over-package for motion UI ([motion-first, without the black box](/blog/motion-first-ui)).
+
+If you're building a site that needs cinematic scroll **without** surrendering control of the code, start with the [docs](/docs), install one primitive, and make it yours.
