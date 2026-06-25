@@ -6,6 +6,17 @@ export const catalogPreviewViewportClassName =
 export const catalogPreviewScreenClassName =
   "min-h-[100cqh] max-lg:min-h-[70dvh]";
 
+/**
+ * Fixed-height demo shell inside the catalog preview scroll viewport (desktop).
+ * On stacked mobile layout, height grows with demo content — page scrolls on
+ * `[data-catalog-scroll-root]`.
+ */
+export const catalogPreviewDemoShellClassName = [
+  catalogPreviewScreenClassName,
+  "w-full lg:h-[100cqh]",
+  "max-lg:h-auto max-lg:min-h-[70dvh]",
+].join(" ");
+
 /** Preview panel on stacked layout — grows with demo content; page scrolls instead. */
 export const catalogPreviewMobilePanelClassName = "max-lg:h-auto";
 

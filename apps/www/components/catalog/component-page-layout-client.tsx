@@ -32,6 +32,7 @@ import { ComponentPageHeader } from "./component-page-header";
 import { ComponentPagePreviewPanel } from "./component-page-preview-panel";
 import { ComponentPageToc } from "./component-page-toc";
 import { useCatalogLayoutReady } from "./use-catalog-layout-ready";
+import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
 
 const LG_MEDIA = "(min-width: 1024px)";
 
@@ -75,6 +76,7 @@ export function ComponentPageLayoutClient({
   const [isPreviewAnimating, setIsPreviewAnimating] = useState(false);
   const { isLargeScreen, isReady: isLayoutReady } =
     useCatalogLayoutReady(layoutRef);
+  const isStacked = useCatalogStackedLayout();
   const { open: isCatalogMenuOpen } = useCatalogMenu();
 
   const useFixedPreviewShellWidth =
@@ -223,13 +225,17 @@ export function ComponentPageLayoutClient({
           position="bottom"
         />
 
-        <CatalogScrollArea
-          className="min-h-0 min-w-0 lg:h-full"
-          hideScrollbar
-          viewportClassName="lg:pt-12"
-        >
-          {docsContent}
-        </CatalogScrollArea>
+        {isStacked ? (
+          <div className="min-h-0 min-w-0">{docsContent}</div>
+        ) : (
+          <CatalogScrollArea
+            className="min-h-0 min-w-0 lg:h-full"
+            hideScrollbar
+            viewportClassName="lg:pt-12"
+          >
+            {docsContent}
+          </CatalogScrollArea>
+        )}
       </div>
 
       <motion.div

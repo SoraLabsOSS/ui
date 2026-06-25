@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-reveal-box",
+  "type": "registry:ui",
+  "title": "Text Reveal Box",
+  "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
+  "dependencies": ["gsap"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-reveal-box/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-reveal-box.tsx"
+    },
+    {
+      "path": "registry/primitives/texts/text-reveal-box/text-reveal-box-fonts.css",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-reveal-box-fonts.css"
+    },
+    {
+      "path": "registry/primitives/texts/text-reveal-box/text-reveal-box.css",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-reveal-box.css"
+    }
+  ],
+  "meta": {
+    "keywords": ["scroll", "text", "reveal", "gsap", "scrolltrigger", "pin"],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Deadlock Studios",
+      "url": "https://github.com/Axyl1410"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-reveal-box",
+  "type": "registry:ui",
+  "title": "Text Reveal Box Demo",
+  "description": "Scroll-pinned manifesto copy with word-by-word highlight reveal.",
+  "registryDependencies": ["text-reveal-box"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-reveal-box/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-reveal-box.tsx"
+    }
+  ]
+}

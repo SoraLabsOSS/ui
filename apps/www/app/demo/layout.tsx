@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   robots: "noindex,nofollow",
-  title: "Cursor Trail Reveal Demo",
+  title: "Sora UI Demos",
 };
 
 export default function DemoLayout({ children }: { children: ReactNode }) {

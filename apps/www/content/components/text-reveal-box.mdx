@@ -1,0 +1,92 @@
+---
+title: Text Reveal Box
+description: Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.
+category: texts
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: text-reveal-box
+---
+
+## Installation
+
+<ComponentInstallation name="text-reveal-box" />
+
+## Usage
+
+Wrap `TextRevealBox` in a root element with the `text-reveal-box-root` class so fonts, colors, and typography reset apply. The install command copies `text-reveal-box-fonts.css` and `text-reveal-box.css` — import the component from your project and add the font files under `public/fonts/` (`cossette-titre.ttf`, `verilet.ttf`, `suse-mono-variable.ttf`).
+
+Place the block in a tall page section so ScrollTrigger can pin and scrub through the reveal. Each word fades in with a gray highlight flash, then the highlight reverses as you keep scrolling.
+
+```tsx
+import { TextRevealBox } from "@/components/sora-ui/texts/text-reveal-box";
+
+const paragraphs = [
+  "Your first paragraph of manifesto copy.",
+  "A second paragraph that continues the scroll-driven reveal.",
+];
+
+export default function StudioSection() {
+  return (
+    <div className="text-reveal-box-root">
+      <TextRevealBox
+        paragraphs={paragraphs}
+        keywords={[]}
+        keywordColors={{}}
+        highlightBg="60, 60, 60"
+        pinDuration={4}
+      />
+    </div>
+  );
+}
+```
+
+### Keywords
+
+Pass normalized keywords (lowercase, no punctuation) to paint pill highlights during the reveal:
+
+```tsx
+<TextRevealBox
+  paragraphs={["Systems design meets psychological tension."]}
+  keywords={["systems", "tension"]}
+  keywordColors={{
+    systems: "#c8e600",
+    tension: "#f7f5f0",
+  }}
+  highlightBg="60, 60, 60"
+  pinDuration={4}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    paragraphs: {
+      description: "Paragraph strings split into animated words.",
+      type: "string[]",
+      default: "[]",
+    },
+    keywords: {
+      description:
+        "Words that receive colored pill highlights (matched after lowercasing and stripping punctuation).",
+      type: "string[]",
+      default: "[]",
+    },
+    keywordColors: {
+      description: "Map of normalized keyword to CSS color for the pill background.",
+      type: "Record<string, string>",
+      default: "{}",
+    },
+    highlightBg: {
+      description: "RGB triplet for the scroll reveal flash, without `rgb()`.",
+      type: "string",
+      default: '"237, 235, 231"',
+    },
+    pinDuration: {
+      description: "Pinned scroll length as a multiple of viewport height.",
+      type: "number",
+      default: "4",
+    },
+  }}
+/>

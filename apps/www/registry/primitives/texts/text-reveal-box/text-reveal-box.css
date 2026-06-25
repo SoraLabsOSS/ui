@@ -1,0 +1,152 @@
+/* Skiper-style scroll track: tall block + sticky viewport (no GSAP pin). */
+.text-reveal-box-root .trb-track {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: calc(var(--trb-pin-duration, 4) * 100svh);
+}
+
+.text-reveal-box-root .trb-sticky {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 100svh;
+  padding: 2rem;
+  overflow: hidden;
+  background-color: var(--base-300);
+}
+
+@container preview (min-width: 0) {
+  .text-reveal-box-root .trb-track {
+    height: calc(var(--trb-pin-duration, 4) * 100cqh);
+  }
+
+  .text-reveal-box-root .trb-sticky {
+    height: 100cqh;
+  }
+}
+
+.text-reveal-box-root .trb-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.text-reveal-box-root .trb-text {
+  width: 100%;
+}
+
+.text-reveal-box-root .trb-text .container {
+  width: 55%;
+}
+
+.text-reveal-box-root .trb-text p {
+  margin-bottom: 2rem;
+  font-family: var(--type-2);
+  font-size: clamp(1.5rem, 2.5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--base-100);
+  text-align: center;
+  letter-spacing: -2%;
+}
+
+.text-reveal-box-root .trb-word {
+  position: relative;
+  display: inline-block;
+  padding: 0.1rem 0.2rem;
+  margin-right: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-family: var(--type-2);
+  font-weight: 400;
+  line-height: 1;
+  vertical-align: top;
+  border-radius: 0.5rem;
+  opacity: 0;
+  will-change: background-color, opacity;
+}
+
+.text-reveal-box-root .trb-word.trb-keyword-wrapper {
+  margin: 0 0.4rem 0.2rem 0.2rem;
+}
+
+.text-reveal-box-root .trb-word span {
+  position: relative;
+  line-height: 1;
+  opacity: 0;
+}
+
+.text-reveal-box-root .trb-word span.trb-keyword {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: 0.1rem 0;
+  color: #141414;
+  border-radius: 0.5rem;
+}
+
+.text-reveal-box-root .trb-word span.trb-keyword::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: calc(100% + 1rem);
+  height: calc(100% + 0.4rem);
+  content: "";
+  background-color: var(--kw-color, var(--base-100));
+  border-radius: 0.5rem;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1000px) {
+  .text-reveal-box-root .trb-text .container {
+    width: 90%;
+  }
+
+  .text-reveal-box-root .trb-text p {
+    font-size: 1.25rem;
+  }
+
+  .text-reveal-box-root .trb-word {
+    padding: 0.1rem 0.2rem;
+    margin-right: 0.1rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .text-reveal-box-root .trb-word.trb-keyword-wrapper {
+    margin: 0 0.2rem 0.1rem 0.1rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .text-reveal-box-root .trb-track {
+    height: calc(var(--trb-pin-duration, 4) * 100dvh);
+  }
+
+  .text-reveal-box-root .trb-sticky {
+    height: 100dvh;
+  }
+}
+
+/* Catalog preview — no dark fill; theme-aware highlight flash */
+.text-reveal-box-root.text-reveal-box-catalog {
+  --base-100: var(--foreground);
+  --base-300: transparent;
+  --trb-highlight-bg: 0, 0, 0;
+  --trb-highlight-alpha: 0.14;
+  color: var(--foreground);
+  background-color: transparent;
+}
+
+.dark .text-reveal-box-root.text-reveal-box-catalog {
+  --trb-highlight-bg: 255, 255, 255;
+  --trb-highlight-alpha: 0.12;
+}
+
+.text-reveal-box-root.text-reveal-box-catalog .trb-sticky {
+  background-color: transparent;
+}
