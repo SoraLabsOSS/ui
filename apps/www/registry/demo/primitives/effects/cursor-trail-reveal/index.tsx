@@ -21,7 +21,7 @@ export function CursorTrailRevealExample() {
             blockColor="#c8e600"
             delay={0.65}
           >
-            <div className="flex w-full flex-col items-center gap-2">
+            <div className="flex w-full flex-col items-center">
               <h6 className="m-0 font-medium text-[2.5rem] uppercase leading-none tracking-[-0.05rem] max-lg:text-[1.75rem]">
                 Move your cursor to reveal the trail
               </h6>

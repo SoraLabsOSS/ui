@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@workspace/ui/components/ui/breadcrumb";
+import Link from "next/link";
 
 interface ComponentPageDocsBreadcrumbProps {
   className?: string;
@@ -21,7 +22,9 @@ export function ComponentPageDocsBreadcrumb({
       <Breadcrumb>
         <BreadcrumbList className="gap-1.5 text-sm sm:gap-2.5">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link href="/components">Components</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
