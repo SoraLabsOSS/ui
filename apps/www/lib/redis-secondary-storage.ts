@@ -4,6 +4,7 @@ import redis from "./redis";
 
 const REDIS_STORAGE_COMPONENT = "redis-secondary-storage";
 const SENTRY_REPORT_WINDOW_MS = 60_000;
+const FALLBACK_INCREMENT_MAX_ENTRIES = 10_000;
 
 type RedisStorageOperation =
   | "get"
@@ -12,7 +13,13 @@ type RedisStorageOperation =
   | "delete"
   | "increment";
 
+interface FallbackIncrementEntry {
+  count: number;
+  expiresAt: number;
+}
+
 const lastReportedAt = new Map<string, number>();
+const fallbackIncrements = new Map<string, FallbackIncrementEntry>();
 
 function shouldReportToSentry(reportKey: string) {
   const now = Date.now();
@@ -50,6 +57,92 @@ function captureRedisFailOpen(
       fingerprint: [REDIS_STORAGE_COMPONENT, operation],
     }
   );
+}
+
+function captureIncrementFallback(
+  reason: "error" | "unexpected-result",
+  error?: unknown
+) {
+  const reportKey = `${REDIS_STORAGE_COMPONENT}:increment:fallback:${reason}`;
+
+  if (!shouldReportToSentry(reportKey)) {
+    return;
+  }
+
+  if (reason === "error" && error !== undefined) {
+    captureException(
+      error instanceof Error
+        ? error
+        : new Error(`Redis increment failed: ${String(error)}`),
+      {
+        level: "warning",
+        tags: {
+          component: REDIS_STORAGE_COMPONENT,
+          operation: "increment",
+          fallback: "in-memory",
+        },
+        fingerprint: [REDIS_STORAGE_COMPONENT, "increment", "fallback"],
+      }
+    );
+    return;
+  }
+
+  captureMessage(
+    "Redis increment returned unexpected result; using in-memory fallback",
+    {
+      level: "warning",
+      tags: {
+        component: REDIS_STORAGE_COMPONENT,
+        operation: "increment",
+        fallback: "in-memory",
+      },
+      fingerprint: [REDIS_STORAGE_COMPONENT, "increment", "fallback"],
+    }
+  );
+}
+
+function pruneFallbackIncrements(now = Date.now()) {
+  for (const [key, entry] of fallbackIncrements) {
+    if (now >= entry.expiresAt) {
+      fallbackIncrements.delete(key);
+    }
+  }
+
+  if (fallbackIncrements.size <= FALLBACK_INCREMENT_MAX_ENTRIES) {
+    return;
+  }
+
+  const overflow = fallbackIncrements.size - FALLBACK_INCREMENT_MAX_ENTRIES;
+  let removed = 0;
+
+  for (const key of fallbackIncrements.keys()) {
+    fallbackIncrements.delete(key);
+    if (++removed >= overflow) {
+      break;
+    }
+  }
+}
+
+/**
+ * Local INCR + TTL window when Redis is unavailable.
+ * Per-instance only (serverless), but still enforces limits during Redis outages.
+ */
+function incrementWithLocalFallback(key: string, ttlSeconds: number): number {
+  const now = Date.now();
+  const ttlMs = Math.max(1, ttlSeconds) * 1000;
+
+  pruneFallbackIncrements(now);
+
+  const existing = fallbackIncrements.get(key);
+
+  if (!existing || now >= existing.expiresAt) {
+    fallbackIncrements.set(key, { count: 1, expiresAt: now + ttlMs });
+    return 1;
+  }
+
+  const count = existing.count + 1;
+  fallbackIncrements.set(key, { count, expiresAt: existing.expiresAt });
+  return count;
 }
 
 /** INCR + EXPIRE only on first hit — matches Better Auth `SecondaryStorage.increment` contract. */
@@ -138,34 +231,11 @@ export const redisSecondaryStorage: SecondaryStorage = {
         return parsed;
       }
 
-      const reportKey = `${REDIS_STORAGE_COMPONENT}:increment:unexpected-result`;
-
-      if (shouldReportToSentry(reportKey)) {
-        captureMessage("Redis increment returned unexpected result", {
-          level: "warning",
-          tags: {
-            component: REDIS_STORAGE_COMPONENT,
-            operation: "increment",
-            failOpen: "true",
-          },
-          fingerprint: [
-            REDIS_STORAGE_COMPONENT,
-            "increment",
-            "unexpected-result",
-          ],
-          extra: {
-            resultType: typeof result,
-          },
-        });
-      }
-      // Fail open intentionally:
-      // If Redis is unavailable, allow the auth request instead of breaking sign-in.
-      // Trade-off: rate limiting is bypassed until Redis recovers.
-      return 1;
+      captureIncrementFallback("unexpected-result");
+      return incrementWithLocalFallback(key, ttl);
     } catch (error) {
-      // Fail open: allow auth when Redis is unavailable (quota, network, etc.).
-      captureRedisFailOpen("increment", error);
-      return 1;
+      captureIncrementFallback("error", error);
+      return incrementWithLocalFallback(key, ttl);
     }
   },
 };

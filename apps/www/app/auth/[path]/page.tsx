@@ -1,7 +1,8 @@
 import { viewPaths } from "@better-auth-ui/core";
 import { Auth } from "@workspace/auth-ui/components/auth/auth";
+import { resolveAuthRedirectTo } from "@workspace/auth-ui/lib/auth/redirect-to";
 import { headers } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
@@ -12,14 +13,29 @@ export function generateStaticParams() {
   return Object.values(viewPaths.auth).map((path) => ({ path }));
 }
 
+function readRedirectToQuery(
+  redirectTo: string | string[] | undefined
+): string | undefined {
+  if (typeof redirectTo === "string") {
+    return redirectTo;
+  }
+
+  return redirectTo?.[0];
+}
+
 async function AuthPageContent({
   params,
+  searchParams,
 }: {
   params: Promise<{
     path: string;
   }>;
+  searchParams: Promise<{
+    redirectTo?: string | string[];
+  }>;
 }) {
   const { path } = await params;
+  const { redirectTo: redirectToParam } = await searchParams;
 
   if (!Object.values(viewPaths.auth).includes(path)) {
     notFound();
@@ -30,7 +46,7 @@ async function AuthPageContent({
     const session = await auth.api.getSession({ headers: requestHeaders });
 
     if (session?.user) {
-      await auth.api.signOut({ headers: requestHeaders });
+      redirect(resolveAuthRedirectTo(readRedirectToQuery(redirectToParam)));
     }
   }
 
@@ -56,14 +72,18 @@ async function AuthPageContent({
 
 export default function AuthPage({
   params,
+  searchParams,
 }: {
   params: Promise<{
     path: string;
   }>;
+  searchParams: Promise<{
+    redirectTo?: string | string[];
+  }>;
 }) {
   return (
     <Suspense fallback={<AuthLoading />}>
-      <AuthPageContent params={params} />
+      <AuthPageContent params={params} searchParams={searchParams} />
     </Suspense>
   );
 }
