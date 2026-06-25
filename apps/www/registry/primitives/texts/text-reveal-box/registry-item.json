@@ -10,16 +10,6 @@
       "path": "registry/primitives/texts/text-reveal-box/index.tsx",
       "type": "registry:ui",
       "target": "components/sora-ui/texts/text-reveal-box.tsx"
-    },
-    {
-      "path": "registry/primitives/texts/text-reveal-box/text-reveal-box-fonts.css",
-      "type": "registry:ui",
-      "target": "components/sora-ui/texts/text-reveal-box-fonts.css"
-    },
-    {
-      "path": "registry/primitives/texts/text-reveal-box/text-reveal-box.css",
-      "type": "registry:ui",
-      "target": "components/sora-ui/texts/text-reveal-box.css"
     }
   ],
   "meta": {

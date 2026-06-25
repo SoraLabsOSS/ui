@@ -1,6 +1,9 @@
 "use client";
 
-import { TextRevealBox } from "@/registry/primitives/texts/text-reveal-box";
+import {
+  TEXT_REVEAL_BOX_STUDIO_CLASSES as studio,
+  TextRevealBox,
+} from "@/registry/primitives/texts/text-reveal-box";
 
 const PARAGRAPHS = [
   "Deadlock Studios is a design-led game studio that operates at the edge of comfort. We make experiences for people who want to be unsettled, challenged, and held in place by worlds that feel more real than they should.",
@@ -12,14 +15,19 @@ const KEYWORD_COLORS: Record<string, string> = {};
 
 export function ScrollDemoPage() {
   return (
-    <div className="text-reveal-box-root">
-      <TextRevealBox
-        highlightBg="60, 60, 60"
-        keywordColors={KEYWORD_COLORS}
-        keywords={KEYWORDS}
-        paragraphs={PARAGRAPHS}
-        pinDuration={4}
-      />
-    </div>
+    <TextRevealBox
+      className={studio.root}
+      containerClassName={studio.container}
+      highlightBg="60, 60, 60"
+      keywordClassName={studio.keyword}
+      keywordColors={KEYWORD_COLORS}
+      keywords={KEYWORDS}
+      keywordWrapperClassName={studio.keywordWrapper}
+      paragraphClassName={studio.paragraph}
+      paragraphs={PARAGRAPHS}
+      pinDuration={4}
+      stickyClassName={studio.sticky}
+      wordClassName={studio.word}
+    />
   );
 }
