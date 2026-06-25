@@ -62,6 +62,10 @@ export function ComponentPageCatalogSidebar() {
     scrollRoot.style.overflow = "hidden";
 
     return () => {
+      if (!scrollRoot.isConnected) {
+        return;
+      }
+
       scrollRoot.style.overflow = previousOverflow;
       scrollRoot.scrollTop = scrollTop;
     };

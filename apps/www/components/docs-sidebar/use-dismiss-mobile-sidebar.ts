@@ -17,13 +17,14 @@ export function useDismissMobileSidebarOnOutside() {
   const { open, setOpen } = useSidebar();
 
   useEffect(() => {
-    if (isMobile && open) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
+    if (!(isMobile && open)) {
+      return;
     }
+
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.removeProperty("overflow");
+    };
   }, [isMobile, open]);
 
   useEffect(() => {

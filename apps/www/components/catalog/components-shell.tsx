@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 import { catalogDocsHeaderMobileScrollPaddingClassName } from "./catalog-preview-classes";
 
 interface ComponentsShellProps {
@@ -15,6 +15,14 @@ export function ComponentsShell({
   className,
   topBar,
 }: ComponentsShellProps) {
+  useEffect(() => {
+    document.documentElement.classList.add("catalog-scroll-lock");
+
+    return () => {
+      document.documentElement.classList.remove("catalog-scroll-lock");
+    };
+  }, []);
+
   return (
     <div className="flex h-[calc(100dvh-var(--fd-banner-height))] flex-col bg-background text-foreground">
       <main

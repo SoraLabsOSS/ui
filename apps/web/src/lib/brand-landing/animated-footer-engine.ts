@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
-import { BRAND_ACCENT, BRAND_ASCII_CHAR } from "./config";
+import { BRAND_ASCII_CHAR } from "./config";
 
 gsap.registerPlugin(SplitText);
 
@@ -11,7 +11,7 @@ const ASCII_COLUMNS = 80;
 const DPR = 2;
 
 const CHAR_COLOR = BRAND_ASCII_CHAR;
-const HOVER_COLOR = BRAND_ACCENT;
+const HOVER_COLOR = "rgba(255, 255, 255, 0.18)";
 const HOVER_CHAR_COLOR = "#ffffff";
 
 const HOVER_RADIUS = 8;
@@ -22,11 +22,19 @@ const COMPACT_BREAKPOINT = "(max-width: 1000px)";
 
 const isCompactLayout = () => window.matchMedia(COMPACT_BREAKPOINT).matches;
 
+const getRevealStart = () => {
+  const isCompact = isCompactLayout();
+  return {
+    left: isCompact ? -72 : -120,
+    right: isCompact ? 72 : 120,
+  };
+};
+
 const getRevealEnd = () => {
   const isCompact = isCompactLayout();
   return {
-    left: isCompact ? -22 : 0,
-    right: isCompact ? 22 : 0,
+    left: isCompact ? -18 : -24,
+    right: isCompact ? 18 : 24,
   };
 };
 
@@ -276,8 +284,8 @@ const splitContentLines = (footer: HTMLElement) => {
 
 export function initAnimatedFooter(footer: HTMLElement) {
   const hands: HandInstance[] = [];
-  const handWrappers = [
-    ...footer.querySelectorAll<HTMLElement>(".footer-hand-img"),
+  const handSlots = [
+    ...footer.querySelectorAll<HTMLElement>(".footer-hand-slot"),
   ];
   const loadCleanups: Array<() => void> = [];
 
@@ -300,13 +308,13 @@ export function initAnimatedFooter(footer: HTMLElement) {
   const contentLines = splitContentLines(footer);
 
   const revealEnd = getRevealEnd();
-  const reveal = { left: -125, right: 125 };
+  const revealStart = getRevealStart();
+  const reveal = { ...revealStart };
   const pointer = { x: 0, y: 0 };
   const drift = { x: 0, y: 0 };
 
-  const PARALLAX_STRENGTH = 20;
+  const PARALLAX_STRENGTH = 16;
   const PARALLAX_EASE = 0.05;
-  const parallaxScale = 1 + (PARALLAX_STRENGTH * 2) / 200;
 
   let parallaxEnabled = !isCompactLayout();
 
@@ -337,15 +345,14 @@ export function initAnimatedFooter(footer: HTMLElement) {
       drift.y += (pointer.y - drift.y) * PARALLAX_EASE;
     }
 
-    const scale = parallaxEnabled ? parallaxScale : 1;
-
-    handWrappers.forEach((wrapper, index) => {
-      const direction = index === 0 ? 1 : -1;
-      const revealX = index === 0 ? reveal.left : reveal.right;
+    for (const slot of handSlots) {
+      const isLeft = slot.classList.contains("footer-hand-slot--left");
+      const direction = isLeft ? 1 : -1;
+      const revealX = isLeft ? reveal.left : reveal.right;
       const x = parallaxEnabled ? drift.x * direction : 0;
-      const y = parallaxEnabled ? -drift.y : 0;
-      wrapper.style.transform = `translate(calc(${x}px + ${revealX}%), ${y}px) scale(${scale})`;
-    });
+      const y = parallaxEnabled ? -drift.y * 0.35 : 0;
+      slot.style.transform = `translate3d(${revealX + x}px, ${y}px, 0)`;
+    }
 
     parallaxFrameId = requestAnimationFrame(renderParallax);
   };
@@ -365,28 +372,35 @@ export function initAnimatedFooter(footer: HTMLElement) {
 
   const compactQuery = window.matchMedia(COMPACT_BREAKPOINT);
 
-  const syncParallaxEnabled = () => {
+  const syncLayoutMode = () => {
     const nextEnabled = !compactQuery.matches;
-    if (nextEnabled === parallaxEnabled) {
-      return;
+    const nextRevealEnd = getRevealEnd();
+
+    if (nextEnabled !== parallaxEnabled) {
+      parallaxEnabled = nextEnabled;
+
+      if (parallaxEnabled) {
+        window.addEventListener("mousemove", onMouseMove, { passive: true });
+      } else {
+        window.removeEventListener("mousemove", onMouseMove);
+        resetPointerMotion();
+      }
     }
 
-    parallaxEnabled = nextEnabled;
-
-    if (parallaxEnabled) {
-      window.addEventListener("mousemove", onMouseMove, { passive: true });
-      return;
-    }
-
-    window.removeEventListener("mousemove", onMouseMove);
-    resetPointerMotion();
+    gsap.to(reveal, {
+      left: nextRevealEnd.left,
+      right: nextRevealEnd.right,
+      duration: 0.6,
+      ease: "power3.out",
+      overwrite: true,
+    });
   };
+
+  compactQuery.addEventListener("change", syncLayoutMode);
 
   if (parallaxEnabled) {
     window.addEventListener("mousemove", onMouseMove, { passive: true });
   }
-
-  compactQuery.addEventListener("change", syncParallaxEnabled);
 
   const charStagger = { each: 0.04, from: "center" as const };
 
@@ -434,7 +448,7 @@ export function initAnimatedFooter(footer: HTMLElement) {
   return () => {
     cancelAnimationFrame(parallaxFrameId);
     window.removeEventListener("mousemove", onMouseMove);
-    compactQuery.removeEventListener("change", syncParallaxEnabled);
+    compactQuery.removeEventListener("change", syncLayoutMode);
     for (const cleanup of loadCleanups) {
       cleanup();
     }

@@ -5,7 +5,7 @@
   --color-foreground: oklch(0.985 0 0);
   --color-muted-foreground: oklch(0.708 0 0);
   --color-accent-brand: #fb460d;
-  --color-ascii-char: rgba(253, 85, 29, 0.68);
+  --color-ascii-char: rgba(255, 255, 255, 0.68);
   --font-instrument: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 }
 

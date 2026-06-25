@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { Code2, Maximize2, Minimize2, RotateCcw } from "lucide-react";
+import { Maximize2, Minimize2, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import {
@@ -12,7 +12,6 @@ import {
 interface ComponentPagePreviewToolbarProps {
   className?: string;
   isExpanded: boolean;
-  onOpenSource: () => void;
   onRestart: () => void;
   onToggleExpanded: () => void;
 }
@@ -22,7 +21,6 @@ export function ComponentPagePreviewToolbar({
   isExpanded,
   onRestart,
   onToggleExpanded,
-  onOpenSource,
 }: ComponentPagePreviewToolbarProps) {
   return (
     <div
@@ -52,10 +50,6 @@ export function ComponentPagePreviewToolbar({
         className={catalogChromeToolbarButtonClassName}
         variant="icon"
       />
-
-      <ToolbarButton aria-label="View source code" onClick={onOpenSource}>
-        <Code2 className="size-4" />
-      </ToolbarButton>
     </div>
   );
 }

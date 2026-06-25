@@ -324,9 +324,9 @@
 
   /*
    * Catalog component pages scroll inside [data-catalog-scroll-root], not on
-   * <html>. Drop the stable gutter so the fixed viewport layout stays centered.
+   * <html>. Class is toggled in ComponentsShell mount/unmount.
    */
-  html:has([data-catalog-scroll-root]) {
+  html.catalog-scroll-lock {
     overflow: hidden;
     scrollbar-gutter: auto;
   }

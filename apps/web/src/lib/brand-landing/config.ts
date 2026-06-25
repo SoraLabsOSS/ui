@@ -3,8 +3,8 @@ import { DOCS_URL, GITHUB_URL, TWITTER_URL } from "@/lib/site";
 /** Sora UI accent — matches apps/www `--accent-pro`. */
 export const BRAND_ACCENT = "#fb460d";
 
-/** ASCII hand glyph — brand orange, softened on dark bg. */
-export const BRAND_ASCII_CHAR = "rgba(253, 85, 29, 0.68)";
+/** ASCII hand glyph — soft white on dark bg. */
+export const BRAND_ASCII_CHAR = "rgba(255, 255, 255, 0.68)";
 
 export const BRAND_TAGLINE =
   "From ideas to interfaces. We build polished digital products and reusable UI systems for developers. Sora UI — animated React components and a shadcn/ui registry.";
