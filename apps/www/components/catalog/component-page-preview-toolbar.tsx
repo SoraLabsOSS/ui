@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { Maximize2, Minimize2, RotateCcw } from "lucide-react";
+import { CodeXml, Maximize2, Minimize2, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import {
@@ -11,16 +11,22 @@ import {
 
 interface ComponentPagePreviewToolbarProps {
   className?: string;
+  hasSourceCode?: boolean;
   isExpanded: boolean;
+  isSourceOpen?: boolean;
   onRestart: () => void;
   onToggleExpanded: () => void;
+  onToggleSource?: () => void;
 }
 
 export function ComponentPagePreviewToolbar({
   className,
+  hasSourceCode = false,
   isExpanded,
+  isSourceOpen = false,
   onRestart,
   onToggleExpanded,
+  onToggleSource,
 }: ComponentPagePreviewToolbarProps) {
   return (
     <div
@@ -30,6 +36,20 @@ export function ComponentPagePreviewToolbar({
         className
       )}
     >
+      {hasSourceCode && onToggleSource ? (
+        <ToolbarButton
+          aria-label={isSourceOpen ? "Hide source" : "View source"}
+          aria-pressed={isSourceOpen}
+          className={cn(
+            isSourceOpen &&
+              "bg-foreground text-background hover:bg-foreground/90 hover:text-background max-lg:text-background dark:bg-zinc-100 dark:text-zinc-900 max-lg:dark:text-zinc-900 dark:hover:bg-zinc-100/90"
+          )}
+          onClick={onToggleSource}
+        >
+          <CodeXml className="size-4" />
+        </ToolbarButton>
+      ) : null}
+
       <ToolbarButton
         aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
         className="max-lg:hidden"

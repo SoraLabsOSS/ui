@@ -145,10 +145,16 @@ export const catalogDocsHeaderMenuClassName = "shrink-0";
 /** Breadcrumb slot — desktop docs header only. */
 export const catalogDocsHeaderBreadcrumbClassName = "min-w-0 flex-1 truncate";
 
-/** Preview shell gutter — 8px top/x on mobile; `p-4` on desktop. */
+/** Preview shell gutter — 8px top/x on mobile; asymmetric inset on desktop for tighter center gap. */
 export const catalogPreviewShellGutterClassName = [
   "max-lg:px-2 max-lg:pt-2 max-lg:pb-6",
-  "lg:p-4",
+  "lg:pt-4 lg:pb-4 lg:pr-4 lg:pl-1.5",
+].join(" ");
+
+/** Source panel gutter — mirrors preview shell so the center gap stays tight. */
+export const catalogSourcePanelGutterClassName = [
+  "max-lg:px-2 max-lg:pt-2 max-lg:pb-6",
+  "lg:pt-4 lg:pb-4 lg:pl-4 lg:pr-1.5",
 ].join(" ");
 
 export const catalogPreviewShellClassName = [

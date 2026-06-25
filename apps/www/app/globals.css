@@ -511,3 +511,38 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
     z-index: 81 !important;
   }
 }
+
+/* Catalog source drawer + docs code blocks — Shiki dual-theme (light/dark) */
+[data-code-block] .shiki {
+  counter-reset: line;
+}
+
+[data-code-block] .shiki code {
+  display: grid;
+}
+
+[data-code-block] .shiki,
+[data-code-block] .shiki span {
+  background-color: transparent !important;
+}
+
+.dark [data-code-block] .shiki,
+.dark [data-code-block] .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: transparent !important;
+}
+
+[data-drawer-code] .shiki [data-line]::before {
+  display: none !important;
+}
+
+[data-drawer-code] * {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+[data-drawer-code] *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
