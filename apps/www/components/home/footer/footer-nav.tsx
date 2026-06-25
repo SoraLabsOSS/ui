@@ -27,6 +27,7 @@ const FOOTER_NAV: FooterNavSection[] = [
       { href: "/#who-its-for", label: "How it works" },
       { href: "/docs", label: "Documentation" },
       { href: "/docs/installation", label: "Installation" },
+      { href: "/pricing", label: "Pricing" },
       {
         href: "https://github.com/axyl1410/sora/releases",
         label: "Changelog",
@@ -38,6 +39,7 @@ const FOOTER_NAV: FooterNavSection[] = [
   {
     title: "Library",
     links: [
+      { href: "/components", label: "Components" },
       { href: "/docs/primitives", label: "All primitives" },
       // { href: "/docs/primitives/char-stagger-button", label: "Buttons" },
       // { href: "/docs/primitives/draw-underline-link", label: "Texts" },

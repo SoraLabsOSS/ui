@@ -14,6 +14,7 @@ import { getLinks } from "fumadocs-ui/layouts/shared";
 import { useSidebar, useTreeContext, useTreePath } from "fumadocs-ui/provider";
 import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, type ReactNode, useEffect, useMemo } from "react";
 import {
@@ -460,7 +461,6 @@ export const DocsSidebar = (
         className={cn(
           "min-h-0 overflow-hidden",
           "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
-          "max-md:data-[state=open]:!z-[61]",
           scrollViewportSelector,
           sidebarProps.className
         )}
@@ -474,10 +474,14 @@ export const DocsSidebar = (
           minWidth={180}
         >
           <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
-            <div className="flex items-center gap-2">
+            <Link
+              aria-label="Sora UI home"
+              className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
+              href="/"
+            >
               <IconLogo size="sm" />
               <span className="font-semibold text-sm">Sora UI</span>
-            </div>
+            </Link>
             <button
               aria-label="Close menu"
               className={cn(

@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import { jsonLd } from "@/lib/json-ld";
 import {
@@ -17,14 +17,9 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-instrument",
 });
 
 export const metadata: Metadata = {
@@ -96,17 +91,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      lang="en"
-    >
+    <html className={`${instrumentSans.variable} h-full antialiased`} lang="en">
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           type="application/ld+json"
         />
       </head>
-      <body className="flex min-h-full flex-col">
+      <body className={`${instrumentSans.className} flex min-h-full flex-col`}>
         {children}
         <Analytics />
       </body>

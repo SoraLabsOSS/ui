@@ -21,6 +21,7 @@ import { getLinks } from "fumadocs-ui/layouts/shared";
 import { useSidebar } from "fumadocs-ui/provider";
 import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect } from "react";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
@@ -35,6 +36,7 @@ import {
 import { useDismissMobileSidebarOnOutside } from "@/components/docs-sidebar/use-dismiss-mobile-sidebar";
 import { IconLogo } from "@/components/icon-logo";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
+import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 
@@ -88,6 +90,13 @@ const ACCOUNT_MENU_ITEMS = [
     label: "Primitives",
     requiresAuth: false,
   },
+  {
+    getHref: () => "/components",
+    getIsActive: (pathname: string, href: string) =>
+      pathname === href || pathname.startsWith(`${href}/`),
+    label: "Components",
+    requiresAuth: false,
+  },
   ...AUTH_MENU_LINKS.map((link) => ({
     getHref: (_primitivesUrl: string) => link.url,
     getIsActive: (pathname: string, href: string) =>
@@ -110,6 +119,7 @@ function AccountMenuSection({
   const pathname = usePathname();
   const { data: session } = useSession(authClient);
   const authNavPending = useAuthNavPending();
+  const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
   const { setHovered } = useSidebar001Hover();
   const publicItems = ACCOUNT_MENU_ITEMS.filter((item) => !item.requiresAuth);
   const authItems = ACCOUNT_MENU_ITEMS.filter((item) => item.requiresAuth);
@@ -136,27 +146,36 @@ function AccountMenuSection({
           />
         );
       })}
-      {authNavPending
-        ? authItems.map((item) => (
+      {authItems.map((item) => {
+        if (authNavPending) {
+          return (
             <AuthSidebarMenuSkeleton
               key={item.label}
               width={item.skeletonWidth}
             />
-          ))
-        : session
-          ? authItems.map((item) => {
-              const href = item.getHref(primitivesUrl);
-              return (
-                <Sidebar001Item
-                  href={href}
-                  isActive={item.getIsActive(pathname, href)}
-                  key={item.label}
-                  label={item.label}
-                  onClick={onNavigate}
-                />
-              );
-            })
-          : null}
+          );
+        }
+
+        const href = item.getHref(primitivesUrl);
+
+        return (
+          <Sidebar001Item
+            href={href}
+            isActive={item.getIsActive(pathname, href)}
+            key={item.label}
+            label={item.label}
+            onClick={(event) => {
+              if (!session) {
+                event.preventDefault();
+                openLoginDialog(href);
+                return;
+              }
+              onNavigate();
+            }}
+          />
+        );
+      })}
+      {loginDialog}
     </Sidebar001Section>
   );
 }
@@ -195,8 +214,7 @@ export function AccountSidebar({
       <Sidebar
         className={cn(
           "md:!hidden min-h-0 overflow-hidden",
-          "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
-          "max-md:data-[state=open]:!z-[61]"
+          "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]"
         )}
         collapsible={false}
       >
@@ -207,10 +225,14 @@ export function AccountSidebar({
           minWidth={180}
         >
           <Sidebar001Header className="flex items-center justify-between border-b px-4 py-3 md:hidden">
-            <div className="flex items-center gap-2">
+            <Link
+              aria-label="Sora UI home"
+              className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
+              href="/"
+            >
               <IconLogo size="sm" />
               <span className="font-semibold text-sm">Sora UI</span>
-            </div>
+            </Link>
             <button
               aria-label="Close menu"
               className={cn(

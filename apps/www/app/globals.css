@@ -490,14 +490,15 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   }
 }
 
-/* Mobile drawer: above banner (z-50). Unlayered + !important beats Fumadocs z-40 utilities. */
+/* Mobile drawer: above banner (z-50) while open and during close animation.
+   Fumadocs flips data-state to closed immediately; Presence keeps the panel
+   mounted until animate-fd-sidebar-out finishes, then adds .invisible. */
 @media (max-width: 767px) {
-  body:has(#nd-sidebar-mobile[data-state="open"])
-    .fixed.z-40.inset-0[data-state="open"] {
+  .fixed.z-40.inset-0:has(+ #nd-sidebar-mobile:not(.invisible)) {
     z-index: 60 !important;
   }
 
-  #nd-sidebar-mobile[data-state="open"] {
+  #nd-sidebar-mobile:not(.invisible) {
     z-index: 61 !important;
   }
 

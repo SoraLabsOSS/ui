@@ -192,6 +192,13 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       icon: "box",
       path: "/components",
     }),
+    item({
+      id: "page-pricing",
+      label: "Pricing",
+      href: "/pricing",
+      icon: "arrow",
+      path: "/pricing",
+    }),
   ];
 
   const documentation = getDocumentationItems();

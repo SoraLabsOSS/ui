@@ -4,6 +4,7 @@ import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button"
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { Bookmark } from "lucide-react";
+import Link from "next/link";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
@@ -36,12 +37,16 @@ export const Header = () => (
       position="top"
     />
     <HomeShell contentClassName="relative z-10 flex h-16 items-center justify-between gap-3">
-      <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
+      <Link
+        aria-label="Sora UI home"
+        className="flex min-w-0 items-center gap-1.5 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring sm:gap-2"
+        href="/"
+      >
         <IconLogo className="size-6 shrink-0 sm:size-7" size="sm" />
         <span className="truncate font-semibold text-foreground text-lg leading-none tracking-tight sm:text-xl md:text-2xl">
           Sora UI
         </span>
-      </div>
+      </Link>
 
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
         <CommandPaletteTrigger

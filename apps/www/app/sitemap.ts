@@ -67,6 +67,11 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.85,
     },
+    {
+      url: `${SITE_URL}/pricing`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...componentEntries,
     ...LEGAL_ENTRIES,
   ]);

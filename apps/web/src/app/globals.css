@@ -1,6 +1,24 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: #141314;
+  --color-foreground: oklch(0.985 0 0);
+  --color-muted-foreground: oklch(0.708 0 0);
+  --color-accent-brand: #fb460d;
+  --color-ascii-char: rgba(253, 85, 29, 0.68);
+  --font-instrument: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
 @layer base {
+  html,
+  body {
+    @apply h-full overflow-hidden bg-background text-foreground;
+  }
+
+  body {
+    font-family: var(--font-instrument);
+  }
+
   a {
     @apply underline underline-offset-2;
   }
