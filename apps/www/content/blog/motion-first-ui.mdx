@@ -1,23 +1,47 @@
 ---
 title: Motion-first UI without the black box
-description: Why Sora UI ships scroll-driven primitives you can copy, tune, and own.
+description: Why Sora UI ships scroll-driven React primitives you can copy, tune, and own—through a shadcn registry, not opaque animation packages.
 author: Axyl
-date: 2026-03-01
+date: 2026-06-26
 hashtags: ["#motion", "#react", "#gsap"]
 ---
 
-Most animated component libraries ask you to trust the abstraction: import a `<Reveal />`, hope the easing feels right, and fight the API when you need something bespoke.
+You import a `<Reveal />`, tweak three props, and it almost works. Then your designer asks for one small easing change—and suddenly you're reading minified source instead of shipping features.
 
-Sora UI takes the opposite path — **registry primitives** you install with the shadcn CLI, read in full, and adapt. Scroll pinning, word reveals, cursor trails: the motion logic lives in your repo, not behind a versioned package wall.
+Most animation libraries optimize for convenience. The trade-off shows up the moment you need something custom: you're debugging someone else's abstraction, not bending motion to your product.
+
+Sora UI takes the opposite path — **registry primitives** you install with the shadcn CLI (`npx shadcn add @soralabs/...`). Every primitive is plain **React + Tailwind + GSAP** (or Motion) copied directly into your project.
+
+Scroll pinning. Word reveals. Cursor trails.
+
+**The motion logic lives in your repo—not behind a versioned package wall.**
 
 ## What we're optimizing for
 
 - **Inspectable code** — Tailwind surfaces, explicit GSAP setup, no mystery CSS files.
+- **No vendor lock-in** — delete or rewrite any line whenever your product needs something different.
 - **SSR-safe defaults** — heavy animation deps load on the client; reduced motion is respected.
-- **Docs that match production** — catalog previews use the same components you install.
+- **What you preview is what you install** — catalog demos load the same registry items the CLI copies into your project.
+
+## What that looks like in practice
+
+**[Cursor Trail Reveal](/components/cursor-trail-reveal)** copies the full source into `components/sora-ui/effects/`. The trail logic, clip-path wipes, and reduced-motion guard are all in files you own. Need a slower stagger or a different breakpoint? Change the timeline—no fork, no `!important` war with a package.
+
+**[Text Reveal Box](/components/text-reveal-box)** is scroll-pinned copy driven by GSAP ScrollTrigger. The tall track, sticky viewport, and word scrub live in one place. Swap the easing. Shorten `pinDuration`. Replace GSAP entirely if your stack later moves to Motion.
+
+> **Primitives are starting points, not contracts.**
 
 ## What's next on the blog
 
-We'll share implementation notes as new primitives ship: performance passes on scroll handlers, accessibility trade-offs, and patterns that survived real client work — not trend-chasing motion for its own sake.
+Upcoming posts will break down how primitives like **Text Reveal Box**, **Cursor Trail Reveal**, and **Text Reveal Block** are built—from ScrollTrigger timelines to reduced-motion fallbacks and hydration-safe client loading.
 
-If you're building a marketing site or product landing that needs cinematic scroll without surrendering control, you're in the right place.
+We'll share the messy parts too: when to refresh ScrollTrigger after layout shifts, what we skip on mobile, and patterns that survived real client work—not trend-chasing motion for its own sake.
+
+## Start with one primitive
+
+1. [Add the `@soralabs` registry](/docs/installation).
+2. Install a primitive—`npx shadcn@latest add @soralabs/text-reveal-blur`, or [browse the catalog](/components).
+3. Read the source.
+4. Make it yours.
+
+**Install one primitive. Inspect every line. Make it yours.**

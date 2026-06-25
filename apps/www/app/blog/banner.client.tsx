@@ -18,10 +18,10 @@ const BANNER_HEIGHT = 300;
 
 const BANNER_GRADIENT = {
   dark: {
-    colors: ["#fb460d", "#2a2a2a", "#e8e6e3"],
-    colorBack: "#ffffff00",
-    intensity: 0.15,
-    noise: 0.5,
+    colors: ["#fb460d", "#1a1a1a", "#0c0c0c"],
+    colorBack: "#09090b",
+    intensity: 0.1,
+    noise: 0.35,
   },
   light: {
     colors: ["#fb460d", "#f3ece6", "#fafafa"],
@@ -62,7 +62,7 @@ export function BlogHeaderBanner() {
           position={["top-left", "top-right", "bottom-left", "bottom-right"]}
         />
         {showShaders && isMounted ? (
-          <div className="h-[300px] w-full">
+          <div className="relative h-[300px] w-full">
             <GrainGradient
               className="w-full animate-fd-fade-in bg-background/20 duration-1000"
               colorBack={gradient.colorBack}
@@ -78,16 +78,22 @@ export function BlogHeaderBanner() {
               softness={0.7}
               speed={0.7}
             />
+            {isDark ? (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-background/25"
+              />
+            ) : null}
           </div>
         ) : (
           <div className="h-[300px] w-full bg-muted/30" />
         )}
-        <div className="absolute inset-0 z-10 h-full w-full text-foreground dark:text-white dark:mix-blend-difference">
+        <div className="absolute inset-0 z-10 h-full w-full text-foreground">
           <div className="flex h-full flex-col justify-center gap-3 px-8 py-12 sm:px-10 md:gap-4 md:px-12 md:py-16">
             <h2 className="text-2xl md:text-4xl">
               Sora UI <span className="text-accent-pro">blog.</span>
             </h2>
-            <p className="text-muted-foreground text-sm md:text-base dark:opacity-90">
+            <p className="text-muted-foreground text-sm md:text-base">
               Notes on motion, UI craft, and shipping React experiences.
             </p>
             <Link
