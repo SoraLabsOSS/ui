@@ -1,3 +1,5 @@
+import { cn } from "@workspace/ui/lib/utils";
+
 /** Scroll viewport — size container so demos can use `100cqh` inside a fixed-height panel. */
 export const catalogPreviewViewportClassName =
   "@container/preview [container-type:size]";
@@ -46,13 +48,75 @@ export const catalogPanelChromeInsetClassName = "px-4 pt-4";
 /** Docs header on desktop — transparent overlay, no extra inset. */
 export const catalogDocsHeaderInsetClassName = "";
 
-/** Floating chrome toolbar surface (docs header + preview toolbar). */
-export const catalogChromeToolbarClassName =
-  "flex w-fit items-center gap-0.5 rounded-2xl bg-background max-lg:bg-secondary p-1";
+/** Shared chrome height — `p-1.5` + `size-8` cell = 2.75rem (44px). */
+export const catalogChromeToolbarHeightClassName = "h-11";
 
-/** Icon button inside catalog chrome toolbars. */
-export const catalogChromeToolbarButtonClassName =
-  "inline-flex size-8 shrink-0 items-center justify-center rounded-xl bg-transparent text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 max-lg:text-foreground [&_svg]:size-4";
+/** Shared dock surface (border, fill, shadow). */
+export const catalogChromeToolbarSurfaceClassName = [
+  "rounded-2xl border border-border/40",
+  "bg-background/75 shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl",
+  "dark:border-white/[0.06] dark:bg-[#121212]/80",
+].join(" ");
+
+/** Floating chrome toolbar surface (docs header + preview toolbar). */
+export const catalogChromeToolbarClassName = [
+  "flex w-fit select-none items-center gap-1 p-1.5",
+  catalogChromeToolbarHeightClassName,
+  catalogChromeToolbarSurfaceClassName,
+].join(" ");
+
+/** Standalone menu toggle chip (sidebar) — bordered pill, not inverted on open. */
+export const catalogMenuToggleChipClassName = [
+  "flex size-8 shrink-0 items-center justify-center rounded-2xl border border-border/40",
+  "bg-zinc-200/65 text-foreground/65 shadow-sm backdrop-blur-xl",
+  "dark:border-white/[0.06] dark:bg-zinc-800/75",
+].join(" ");
+
+/**
+ * Single-action chrome — square dock matching preview toolbar baseline height.
+ * Icon size matches toolbar cells; padding is distributed by flex centering.
+ */
+export const catalogChromeToolbarSoloClassName = [
+  "flex aspect-square w-11 shrink-0 items-center justify-center",
+  catalogChromeToolbarHeightClassName,
+  catalogChromeToolbarSurfaceClassName,
+  "text-foreground/65 transition-all ease-in-out active:scale-95",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+].join(" ");
+
+/** Open solo dock — subtle emphasis, matches chip open tone. */
+export const catalogChromeToolbarSoloOpenClassName =
+  "border-foreground/15 bg-zinc-300/35 dark:border-white/12 dark:bg-zinc-700/50";
+
+/** Open menu — subtle emphasis without full foreground invert. */
+export const catalogMenuToggleChipOpenClassName =
+  "border-foreground/15 bg-zinc-300/90 text-foreground dark:border-white/12 dark:bg-zinc-700/90 dark:text-foreground";
+
+/** Icon cell inside catalog chrome toolbars. */
+export const catalogChromeToolbarCellClassName =
+  "flex size-8 shrink-0 items-center justify-center rounded-2xl bg-zinc-200/65 text-foreground/65 dark:bg-zinc-800/75";
+
+/** Active icon cell — inverted surface like componentry preview controls. */
+export const catalogChromeToolbarCellActiveClassName =
+  "bg-foreground text-background dark:bg-zinc-100 dark:text-zinc-900";
+
+/** Icon button inside a toolbar cell. */
+export const catalogChromeToolbarIconClassName =
+  "flex size-full items-center justify-center rounded-2xl text-current transition-all ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4";
+
+/** Desktop menu toggle — icon only, no chip/dock surface. */
+export const catalogMenuTogglePlainClassName = cn(
+  catalogChromeToolbarIconClassName,
+  "size-8 shrink-0 text-foreground/65 hover:text-foreground"
+);
+
+export const catalogMenuTogglePlainOpenClassName = "text-foreground";
+
+/** @deprecated Use catalogChromeToolbarCellClassName + catalogChromeToolbarIconClassName */
+export const catalogChromeToolbarButtonClassName = cn(
+  catalogChromeToolbarCellClassName,
+  catalogChromeToolbarIconClassName
+);
 
 /** Docs header — fixed height/padding across expand/collapse on desktop. */
 export const catalogDocsHeaderClassName = [
@@ -175,7 +239,7 @@ export const catalogPreviewShellFixedWidthClassName =
 export const catalogPreviewToolbarRowClassName = [
   catalogChromeRowClassName,
   catalogPanelChromeInsetClassName,
-  "pointer-events-none z-10 justify-end",
+  "pointer-events-none z-20 justify-end",
   "lg:absolute lg:top-0 lg:right-2 lg:left-auto lg:w-auto lg:px-0 lg:pt-0",
 ].join(" ");
 

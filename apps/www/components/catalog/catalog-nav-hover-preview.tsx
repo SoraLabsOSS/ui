@@ -1,15 +1,27 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "motion/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ResolvedCardPreviewMedia } from "@/lib/registry/resolve-card-preview-media";
 
 const PREVIEW_WIDTH = 224;
 const PREVIEW_HEIGHT = 170;
 const PREVIEW_OFFSET = 18;
+
+const PREVIEW_SPRING = {
+  stiffness: 260,
+  damping: 28,
+  mass: 0.65,
+} as const;
 
 export interface CatalogNavHoverPreviewState {
   media: ResolvedCardPreviewMedia;
@@ -26,6 +38,10 @@ export function getCatalogNavHoverPreviewPosition(
   const y = Math.max(16, Math.min(event.clientY + PREVIEW_OFFSET, maxY));
 
   return { x, y };
+}
+
+function getPreviewKey(preview: CatalogNavHoverPreviewState) {
+  return preview.videoSrc ?? preview.media.poster ?? preview.title;
 }
 
 function useCanHoverPreview() {
@@ -93,6 +109,39 @@ function CatalogNavPreviewMedia({
   );
 }
 
+function useSmoothPreviewPosition(
+  position: { x: number; y: number } | null,
+  previewKey: string | null
+) {
+  const prefersReducedMotion = useReducedMotion();
+  const targetX = useMotionValue(0);
+  const targetY = useMotionValue(0);
+  const x = useSpring(targetX, PREVIEW_SPRING);
+  const y = useSpring(targetY, PREVIEW_SPRING);
+  const activePreviewKeyRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!position) {
+      activePreviewKeyRef.current = null;
+      return;
+    }
+
+    const isNewPreview = previewKey !== activePreviewKeyRef.current;
+    activePreviewKeyRef.current = previewKey;
+
+    if (prefersReducedMotion || isNewPreview) {
+      targetX.jump(position.x);
+      targetY.jump(position.y);
+      return;
+    }
+
+    targetX.set(position.x);
+    targetY.set(position.y);
+  }, [position, previewKey, prefersReducedMotion, targetX, targetY]);
+
+  return { x, y };
+}
+
 interface CatalogNavHoverPreviewProps {
   position: { x: number; y: number } | null;
   preview: CatalogNavHoverPreviewState | null;
@@ -104,6 +153,8 @@ export function CatalogNavHoverPreview({
 }: CatalogNavHoverPreviewProps) {
   const canHoverPreview = useCanHoverPreview();
   const [mounted, setMounted] = useState(false);
+  const previewKey = preview ? getPreviewKey(preview) : null;
+  const { x, y } = useSmoothPreviewPosition(position, previewKey);
 
   useEffect(() => {
     setMounted(true);
@@ -118,19 +169,16 @@ export function CatalogNavHoverPreview({
       {preview && position ? (
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
-          className="pointer-events-none fixed z-80 w-56"
+          className="pointer-events-none fixed top-0 left-0 z-80 w-56"
           exit={{ opacity: 0, scale: 0.98 }}
           initial={{ opacity: 0, scale: 0.98 }}
-          key={preview.videoSrc ?? preview.media.poster ?? preview.title}
-          style={{
-            left: position.x,
-            top: position.y,
-          }}
+          key={previewKey}
+          style={{ x, y }}
           transition={{ duration: 0.08, ease: "easeOut" }}
         >
           <div className="overflow-hidden rounded-xl border border-border/70 bg-card/95 shadow-2xl backdrop-blur-md">
             <CatalogNavPreviewMedia
-              key={preview.videoSrc ?? preview.media.poster ?? preview.title}
+              key={previewKey}
               media={preview.media}
               videoSrc={preview.videoSrc}
             />

@@ -2,11 +2,12 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { CodeXml, Maximize2, Minimize2, RotateCcw } from "lucide-react";
-import { motion } from "motion/react";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import {
-  catalogChromeToolbarButtonClassName,
+  catalogChromeToolbarCellActiveClassName,
+  catalogChromeToolbarCellClassName,
   catalogChromeToolbarClassName,
+  catalogChromeToolbarIconClassName,
 } from "./catalog-preview-classes";
 
 interface ComponentPagePreviewToolbarProps {
@@ -17,6 +18,28 @@ interface ComponentPagePreviewToolbarProps {
   onRestart: () => void;
   onToggleExpanded: () => void;
   onToggleSource?: () => void;
+}
+
+export function PreviewToolbarCell({
+  active,
+  children,
+  className,
+}: {
+  active?: boolean;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        catalogChromeToolbarCellClassName,
+        active && catalogChromeToolbarCellActiveClassName,
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function ComponentPagePreviewToolbar({
@@ -37,67 +60,62 @@ export function ComponentPagePreviewToolbar({
       )}
     >
       {hasSourceCode && onToggleSource ? (
-        <ToolbarButton
-          aria-label={isSourceOpen ? "Hide source" : "View source"}
-          aria-pressed={isSourceOpen}
-          className={cn(
-            isSourceOpen &&
-              "bg-foreground text-background hover:bg-foreground/90 hover:text-background max-lg:text-background dark:bg-zinc-100 dark:text-zinc-900 max-lg:dark:text-zinc-900 dark:hover:bg-zinc-100/90"
-          )}
-          onClick={onToggleSource}
-        >
-          <CodeXml className="size-4" />
-        </ToolbarButton>
+        <PreviewToolbarCell active={isSourceOpen}>
+          <ToolbarIconButton
+            aria-label={isSourceOpen ? "Hide source" : "View source"}
+            aria-pressed={isSourceOpen}
+            onClick={onToggleSource}
+          >
+            <CodeXml />
+          </ToolbarIconButton>
+        </PreviewToolbarCell>
       ) : null}
 
-      <ToolbarButton
-        aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
-        className="max-lg:hidden"
-        onClick={onToggleExpanded}
-      >
-        {isExpanded ? (
-          <Minimize2 className="size-4" />
-        ) : (
-          <Maximize2 className="size-4" />
-        )}
-      </ToolbarButton>
+      <PreviewToolbarCell active={isExpanded} className="max-lg:hidden">
+        <ToolbarIconButton
+          aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
+          onClick={onToggleExpanded}
+        >
+          {isExpanded ? <Minimize2 /> : <Maximize2 />}
+        </ToolbarIconButton>
+      </PreviewToolbarCell>
 
-      <ToolbarButton aria-label="Restart animation" onClick={onRestart}>
-        <RotateCcw className="size-4" />
-      </ToolbarButton>
+      <PreviewToolbarCell>
+        <ToolbarIconButton aria-label="Restart animation" onClick={onRestart}>
+          <RotateCcw />
+        </ToolbarIconButton>
+      </PreviewToolbarCell>
 
-      <CommandPaletteTrigger
-        className={catalogChromeToolbarButtonClassName}
-        variant="icon"
-      />
+      <PreviewToolbarCell>
+        <CommandPaletteTrigger
+          className={catalogChromeToolbarIconClassName}
+          variant="icon"
+        />
+      </PreviewToolbarCell>
     </div>
   );
 }
 
-interface ToolbarButtonProps {
+interface ToolbarIconButtonProps {
   "aria-label": string;
   "aria-pressed"?: boolean;
   children: React.ReactNode;
-  className?: string;
   onClick: () => void;
 }
 
-function ToolbarButton({
+function ToolbarIconButton({
   children,
-  className,
   onClick,
   ...ariaProps
-}: ToolbarButtonProps) {
+}: ToolbarIconButtonProps) {
   return (
-    <motion.button
-      className={cn(catalogChromeToolbarButtonClassName, className)}
+    <button
+      className={catalogChromeToolbarIconClassName}
       onClick={onClick}
       type="button"
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.96 }}
       {...ariaProps}
     >
       {children}
-    </motion.button>
+    </button>
   );
 }
