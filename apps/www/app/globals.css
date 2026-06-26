@@ -353,6 +353,7 @@
     --fd-layout-width: min(100vw, 1670px);
     /* Banner component sets this when open; 0 when dismissed */
     --fd-banner-height: 0px;
+    --_fd-blog-slug-gutter: 0px;
   }
 
   /* Balance left (sidebar + offset) and right (offset) gutters when banner shifts layout down */
@@ -402,15 +403,48 @@
     @apply mx-auto w-full items-start !pt-0;
   }
 
-  /* Fumadocs default: sticky pb-2 pt-12. items-start on #nd-page so flex stretch does not break sticky. */
+  /* Reserve TOC column width in page flex layout. */
+  #nd-page:has(> #nd-toc) {
+    padding-inline-end: var(--fd-toc-width);
+  }
+
+  /*
+   * Fixed TOC survives Radix dialog scroll-lock (overflow:hidden breaks sticky).
+   * Align to the right edge of the centered #nd-page column.
+   */
   #nd-toc {
+    --_fd-content-width: calc(
+      100vw -
+      var(--fd-sidebar-width, 0px) -
+      2 *
+      var(--fd-layout-offset, 0px) -
+      var(--_fd-blog-slug-gutter)
+    );
+    --_fd-page-width: min(
+      var(--_fd-content-width),
+      calc(var(--fd-layout-width) - var(--fd-sidebar-width, 0px))
+    );
+    --_fd-toc-inset-end: calc(
+      var(--fd-layout-offset, 0px) +
+      max(0px, (var(--_fd-content-width) - var(--_fd-page-width)) / 2)
+    );
+
+    position: fixed !important;
+    inset-inline-end: var(--_fd-toc-inset-end) !important;
     top: calc(var(--fd-banner-height) + var(--fd-nav-height)) !important;
+    width: var(--fd-toc-width) !important;
     height: calc(
       100dvh -
       var(--fd-banner-height) -
       var(--fd-nav-height)
     ) !important;
-    @apply sticky self-start pt-6! pb-2 max-xl:hidden;
+    @apply z-20 self-start pt-6! pb-2 max-xl:hidden;
+  }
+
+  @media (min-width: 1536px) {
+    .blog-post-layout {
+      --_fd-blog-slug-gutter: 320px;
+    }
   }
 
   #nd-tocnav {
