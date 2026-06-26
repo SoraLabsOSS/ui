@@ -29,64 +29,75 @@ export default function BlogPage() {
 
   return (
     <main>
-      <section className="w-full border-border/40 border-b">
-        <div className="blog-inner relative flex h-24 gap-2 border-border/40 border-x" />
+      <section className="w-full border-foreground/10 border-b">
+        <div className="blog-inner relative flex h-24 gap-2 border-foreground/10 border-x" />
       </section>
       <BlogHeaderBanner />
-      <section className="w-full border-border/40 border-b">
-        <div className="blog-inner relative grid grid-cols-1 gap-2 border-border/40 border-x px-2 pt-20 pb-16 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => {
+      <section className="w-full border-foreground/10 border-b">
+        <div className="blog-inner relative grid grid-cols-1 gap-3 border-foreground/10 border-x px-0 pt-12 pb-12 md:grid-cols-2 md:gap-2 md:px-2 md:pt-20 md:pb-16 lg:grid-cols-3">
+          {posts.map((post, index) => {
             const isOgPreview = !post.data.image;
+            const isLcpCandidate = index === 0;
 
             return (
               <Link
-                className="group relative flex flex-col overflow-hidden rounded-xs border border-border/60 bg-background px-6 pt-6 pb-6 transition hover:border-foreground/20"
+                className="group relative flex flex-col overflow-hidden rounded-xs border border-foreground/10 bg-background transition hover:border-foreground/20"
                 href={post.url}
                 key={post.url}
               >
                 <span
                   className={cn(
-                    "relative mb-4 block w-full overflow-hidden rounded-xs bg-background",
-                    isOgPreview ? "aspect-1200/630" : "h-64"
+                    "relative block w-full overflow-hidden bg-muted",
+                    isOgPreview ? "aspect-1200/630" : "h-48 md:h-64"
                   )}
                 >
                   <Image
                     alt={post.data.title}
-                    className={isOgPreview ? "object-contain" : "object-cover"}
+                    className="object-cover"
                     fill
+                    loading={isLcpCandidate ? "eager" : undefined}
+                    priority={isLcpCandidate}
                     src={post.data.image ?? getBlogPageImage(post).url}
                     unoptimized
                   />
                 </span>
-                <p className="mt-5 font-medium text-lg leading-5">
-                  {post.data.title}
-                </p>
-                <p className="mt-px text-fd-muted-foreground text-sm leading-4.5">
-                  {post.data.description}
-                </p>
-
-                <span className="mt-4 flex items-center justify-between">
-                  <span className="inline-flex text-foreground/70 text-xs">
-                    {(post.data.hashtags ?? []).map((tag, idx) => (
-                      <span className="inline-flex h-4 items-center" key={tag}>
-                        <p>{tag}</p>
-                        {idx ===
-                        (post.data.hashtags?.length ?? 0) - 1 ? null : (
-                          <Separator className="mx-2" orientation="vertical" />
-                        )}
-                      </span>
-                    ))}
-                  </span>
-                  <p className="mt-auto text-foreground/70 text-xs">
-                    {new Date(
-                      post.data.date ?? getName(post.path)
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
+                <div className="flex flex-1 flex-col px-4 py-4 md:px-6 md:py-6">
+                  <p className="font-medium text-lg leading-5">
+                    {post.data.title}
                   </p>
-                </span>
+                  <p className="mt-px text-fd-muted-foreground text-sm leading-4.5">
+                    {post.data.description}
+                  </p>
+
+                  <span className="mt-4 flex items-center justify-between">
+                    <span className="inline-flex text-foreground/70 text-xs">
+                      {(post.data.hashtags ?? []).map((tag, idx) => (
+                        <span
+                          className="inline-flex h-4 items-center"
+                          key={tag}
+                        >
+                          <p>{tag}</p>
+                          {idx ===
+                          (post.data.hashtags?.length ?? 0) - 1 ? null : (
+                            <Separator
+                              className="mx-2"
+                              orientation="vertical"
+                            />
+                          )}
+                        </span>
+                      ))}
+                    </span>
+                    <p className="mt-auto text-foreground/70 text-xs">
+                      {new Date(
+                        post.data.date ?? getName(post.path)
+                      ).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </p>
+                  </span>
+                </div>
               </Link>
             );
           })}

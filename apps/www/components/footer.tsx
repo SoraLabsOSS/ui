@@ -15,13 +15,13 @@ export const Footer = () => (
           <p className="truncate whitespace-normal text-center">
             Built by{" "}
             <a
-              href="https://github.com/Axyl1410"
+              href="https://github.com/axyl1410/"
               rel="noopener noreferrer"
               target="_blank"
             >
               Axyl
             </a>
-            . The source code will be available on GitHub soon.
+            . A motion-first component registry for React.
           </p>
         </div>
       </div>

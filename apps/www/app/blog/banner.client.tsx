@@ -91,7 +91,7 @@ export function BlogHeaderBanner() {
         <div className="absolute inset-0 z-10 h-full w-full text-foreground">
           <div className="flex h-full flex-col justify-center gap-3 px-8 py-12 sm:px-10 md:gap-4 md:px-12 md:py-16">
             <h2 className="text-2xl md:text-4xl">
-              Sora UI <span className="text-accent-pro">blog.</span>
+              Sora <span className="text-accent-pro">Blog.</span>
             </h2>
             <p className="text-muted-foreground text-sm md:text-base">
               Notes on motion, UI craft, and shipping React experiences.

@@ -56,9 +56,9 @@ export function BookmarkLoginDialog({
   return (
     <Dialog onOpenChange={handleOpenChange} open={open}>
       <DialogPortal>
-        <DialogOverlay className="fixed inset-0 z-50 bg-black/80" />
+        <DialogOverlay className="fixed inset-0 z-[80] bg-black/80" />
         <DialogContent
-          className="fixed top-[50%] left-[50%] z-50 w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-lg border bg-background p-5 sm:p-6"
+          className="fixed top-[50%] left-[50%] z-[81] w-[calc(100vw-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] rounded-lg border bg-background p-5 sm:p-6"
           from="left"
         >
           <DialogHeader>

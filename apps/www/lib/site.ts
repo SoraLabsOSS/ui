@@ -1,6 +1,9 @@
 /** Production site origin — used for sitemap, robots, metadata, and JSON-LD. */
 export const SITE_URL = "https://ui.soralabs.io.vn" as const;
 
+export const GITHUB_PROFILE_URL = "https://github.com/axyl1410/" as const;
+export const X_PROFILE_URL = "https://x.com/axyl1410" as const;
+
 export const SITE_DESCRIPTION =
   "Motion-first React component registry with GSAP scroll primitives. Preview animated Next.js components in docs and install with shadcn CLI.";
 

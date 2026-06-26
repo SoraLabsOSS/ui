@@ -8,6 +8,7 @@ import Link from "next/link";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
+import { GITHUB_PROFILE_URL } from "@/lib/site";
 import { ThemeSwitcher } from "./animate/theme-switcher";
 
 const headerIconButtonClassName =
@@ -42,8 +43,8 @@ export const Header = () => (
         className="flex min-w-0 items-center gap-1.5 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring sm:gap-2"
         href="/"
       >
-        <IconLogo className="size-6 shrink-0 sm:size-7" size="sm" />
-        <span className="truncate font-semibold text-foreground text-lg leading-none tracking-tight sm:text-xl md:text-2xl">
+        <IconLogo className="size-7 shrink-0 sm:size-8" size="sm" />
+        <span className="truncate font-semibold text-foreground text-xl leading-none tracking-tight sm:text-2xl">
           Sora UI
         </span>
       </Link>
@@ -57,7 +58,7 @@ export const Header = () => (
         <a
           className={cn(headerIconButtonClassName, "xs:flex hidden")}
           data-active="false"
-          href="https://github.com/axyl1410/sora"
+          href={GITHUB_PROFILE_URL}
           rel="noreferrer noopener"
           target="_blank"
         >

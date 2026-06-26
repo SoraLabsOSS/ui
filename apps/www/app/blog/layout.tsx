@@ -5,13 +5,16 @@ import { baseOptions } from "@/app/layout.config";
 import { AccountSidebar } from "@/components/account/sidebar";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
+import { HomeFooter } from "@/components/home/home-footer";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
+import { getLatestShippedRegistryItem } from "@/lib/registry/get-latest-shipped-registry-item";
+import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
-  githubUrl: "https://github.com/axyl1410/sora",
+  githubUrl: GITHUB_PROFILE_URL,
   themeSwitch: {
     component: <ThemeSwitcher />,
   },
@@ -20,7 +23,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
     ...(baseOptions.links || []),
     {
       icon: <XIcon />,
-      url: "",
+      url: X_PROFILE_URL,
       text: "X",
       type: "icon",
     },
@@ -30,6 +33,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
 export default function BlogLayout({ children }: { children: ReactNode }) {
   const primitivesUrl = getFirstPrimitiveDocUrl();
   const releaseDatesByUrl = getReleaseDatesByUrl();
+  const latestShipped = getLatestShippedRegistryItem();
 
   return (
     <DocsLayout
@@ -51,7 +55,10 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
         ),
       }}
     >
-      {children}
+      <div className="flex min-h-full flex-1 flex-col">
+        {children}
+        <HomeFooter latestShipped={latestShipped} showTopBorder={false} />
+      </div>
     </DocsLayout>
   );
 }

@@ -1,8 +1,10 @@
+import { cn } from "@workspace/ui/lib/utils";
 import Link from "next/link";
 import { Suspense } from "react";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
 import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-registry-item";
+import { GITHUB_PROFILE_URL } from "@/lib/site";
 import { FooterArrowLink } from "./footer/footer-arrow-link";
 import { FooterClock } from "./footer/footer-clock";
 import { FooterCopyright } from "./footer/footer-copyright";
@@ -15,19 +17,23 @@ const LEGAL_LINKS = [
   { href: "/legal/privacy", label: "Privacy" },
   { href: "/legal/terms", label: "Terms" },
   { href: "/docs/license", label: "License" },
-  { href: "https://github.com/axyl1410/sora", label: "GitHub", external: true },
+  { href: GITHUB_PROFILE_URL, label: "GitHub", external: true },
 ] as const;
 
 interface HomeFooterProps {
   latestShipped: LatestShippedItem | null;
+  showTopBorder?: boolean;
 }
 
-export function HomeFooter({ latestShipped }: HomeFooterProps) {
+export function HomeFooter({
+  latestShipped,
+  showTopBorder = true,
+}: HomeFooterProps) {
   return (
     <footer className="relative bg-background text-foreground">
       <HomeShell
         className="pt-6 pb-8 lg:pt-8 lg:pb-12"
-        contentClassName="border-foreground/10 border-t"
+        contentClassName={cn(showTopBorder && "border-foreground/10 border-t")}
       >
         <div className="py-6">
           <div className="grid grid-cols-12 items-center gap-4">
@@ -91,7 +97,7 @@ export function HomeFooter({ latestShipped }: HomeFooterProps) {
               </Suspense>
               <span className="opacity-40">·</span>
               <span>Built by</span>
-              <FooterArrowLink external href="https://github.com/axyl1410">
+              <FooterArrowLink external href={GITHUB_PROFILE_URL}>
                 Axyl
               </FooterArrowLink>
             </div>

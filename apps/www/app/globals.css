@@ -587,6 +587,6 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
 
 @layer components {
   .blog-inner {
-    @apply mx-auto w-11/12 max-w-7xl;
+    @apply mx-auto w-full max-w-7xl md:w-11/12;
   }
 }

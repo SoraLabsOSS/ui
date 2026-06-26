@@ -23,10 +23,8 @@ export function CatalogTypeTable({ type }: CatalogTypeTableProps) {
   return (
     <div
       className={cn(
-        "catalog-type-table my-4 w-full min-w-0 max-w-full overflow-x-auto",
-        "[&_table]:table-fixed! [&_table]:whitespace-normal! [&_table]:w-full! [&_table]:max-w-full!",
-        "[&_td]:whitespace-normal! [&_th]:whitespace-normal! [&_td]:break-words",
-        "[&_code]:whitespace-pre-wrap [&_code]:break-all"
+        "catalog-type-table my-4 w-full min-w-0 max-w-full",
+        "[&>div]:min-w-0 [&>div]:max-w-full"
       )}
     >
       <TypeTable type={type} />

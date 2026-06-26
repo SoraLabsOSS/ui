@@ -29,11 +29,6 @@ const FOOTER_NAV: FooterNavSection[] = [
       { href: "/blog", label: "Blog" },
       { href: "/docs/installation", label: "Installation" },
       { href: "/pricing", label: "Pricing" },
-      {
-        href: "https://github.com/axyl1410/sora/releases",
-        label: "Changelog",
-        external: true,
-      },
       { href: "/#faq", label: "FAQs" },
     ],
   },
@@ -51,7 +46,7 @@ const FOOTER_NAV: FooterNavSection[] = [
     ],
   },
   {
-    title: "Open Source",
+    title: "Resources",
     links: [
       // {
       //   href: "https://github.com/axyl1410/sora",

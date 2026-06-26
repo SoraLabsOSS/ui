@@ -1,4 +1,5 @@
 import path from "node:path";
+import { cn } from "@workspace/ui/lib/utils";
 import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -14,6 +15,7 @@ import { getMDXComponents } from "@/mdx-components";
 import { BlogPostHeader } from "./post-header";
 
 const HASHTAG_PREFIX = /^#/;
+const blogPostGutterClassName = "px-0 md:px-4";
 
 export default async function BlogPostPage(props: {
   params: Promise<{ slug: string }>;
@@ -55,7 +57,12 @@ export default async function BlogPostPage(props: {
       toc={toc}
     >
       <article className="blog-article flex w-full flex-col pb-16">
-        <div className="mx-auto flex w-full max-w-[800px] flex-col px-4">
+        <div
+          className={cn(
+            "mx-auto flex w-full max-w-[800px] flex-col",
+            blogPostGutterClassName
+          )}
+        >
           <BlogPostHeader
             author={page.data.author}
             date={publishedAt}
@@ -65,12 +72,18 @@ export default async function BlogPostPage(props: {
           />
         </div>
 
-        <figure className="mx-auto mb-6 w-full max-w-[800px] px-4">
+        <figure
+          className={cn(
+            "mx-auto mb-6 w-full max-w-[800px]",
+            blogPostGutterClassName
+          )}
+        >
           <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
             <Image
               alt={page.data.title}
               className="h-auto w-full"
               height={image.height}
+              loading="eager"
               priority
               src={image.url}
               unoptimized
@@ -79,7 +92,12 @@ export default async function BlogPostPage(props: {
           </div>
         </figure>
 
-        <div className="prose dark:prose-invert mx-auto w-full min-w-0 max-w-[800px] flex-1 px-4">
+        <div
+          className={cn(
+            "prose dark:prose-invert mx-auto w-full min-w-0 max-w-[800px] flex-1",
+            blogPostGutterClassName
+          )}
+        >
           {page.data.flags?.includes("personal-opinion") ? (
             <p className="mt-8 rounded-md border-yellow-500 border-l-4 bg-yellow-300/50 p-4 text-xs md:text-sm">
               <strong>Personal opinion:</strong> The views in this post are the
