@@ -9,9 +9,8 @@ import {
 } from "@workspace/ui/components/animate-ui/primitives/animate/tabs";
 import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import {
   COMPONENT_GALLERY_SECTIONS,
   groupGalleryItemsByCategory,
@@ -19,9 +18,10 @@ import {
   resolveGalleryCategory,
 } from "@/lib/registry/component-gallery-sections";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+import { CatalogNavHoverPreview } from "./catalog-nav-hover-preview";
 import { GalleryCardPreview } from "./gallery-card-preview";
-import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
 import { GallerySegmentedTabs } from "./gallery-segmented-tabs";
+import { useCatalogHoverPreview } from "./use-catalog-hover-preview";
 
 type SortMode = "default" | "newest";
 type ViewMode = "cards" | "compact" | "list";
@@ -157,29 +157,38 @@ function GalleryCompactCard({
   priority?: boolean;
 }) {
   const category = resolveGalleryCategory(item);
-  const poster = item.cardPreview?.poster;
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   return (
     <div>
-      <Link className="block" href={item.href}>
-        <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-colors duration-200">
+      <Link
+        className="block"
+        href={item.href}
+        onBlur={() => {
+          setIsPreviewActive(false);
+        }}
+        onFocus={() => {
+          setIsPreviewActive(true);
+        }}
+        onMouseEnter={() => {
+          setIsPreviewActive(true);
+        }}
+        onMouseLeave={() => {
+          setIsPreviewActive(false);
+        }}
+      >
+        <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-colors duration-200 hover:border-foreground/15">
           <div
             className="relative w-full overflow-hidden rounded-xl bg-muted"
             style={{ aspectRatio: "4 / 3" }}
           >
-            {poster ? (
-              <Image
-                alt=""
-                aria-hidden
-                className="object-cover"
-                fill
-                priority={priority}
-                sizes="(max-width: 640px) 50vw, 25vw"
-                src={poster}
-              />
-            ) : (
-              <GalleryCardThumbnail category={category} title={item.title} />
-            )}
+            <GalleryCardPreview
+              active={isPreviewActive}
+              category={category}
+              preview={item.cardPreview}
+              priority={priority}
+              title={item.title}
+            />
           </div>
           <div className="flex items-center px-3 py-2">
             <span className="truncate font-medium text-foreground text-sm">
@@ -192,10 +201,31 @@ function GalleryCompactCard({
   );
 }
 
-function GalleryListRow({ item }: { item: ComponentGalleryItem }) {
+function GalleryListRow({
+  item,
+  onPointerEnter,
+  onPointerLeave,
+  onPointerMove,
+}: {
+  item: ComponentGalleryItem;
+  onPointerEnter?: (
+    item: ComponentGalleryItem,
+    event: React.MouseEvent<HTMLElement>
+  ) => void;
+  onPointerLeave?: () => void;
+  onPointerMove?: (event: React.MouseEvent<HTMLElement>) => void;
+}) {
   return (
-    <div className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15">
-      <Link className="flex min-w-0 flex-1 flex-col gap-0.5" href={item.href}>
+    <Link
+      className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
+      href={item.href}
+      onMouseEnter={(event) => {
+        onPointerEnter?.(item, event);
+      }}
+      onMouseLeave={onPointerLeave}
+      onMouseMove={onPointerMove}
+    >
+      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <div className="flex items-center gap-2">
           <span className="truncate font-medium text-foreground text-sm">
             {item.title}
@@ -209,19 +239,28 @@ function GalleryListRow({ item }: { item: ComponentGalleryItem }) {
             {item.description}
           </p>
         ) : null}
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
 
 function GallerySectionItems({
   isFirstSection,
   items,
+  listHoverHandlers,
   prefersReducedMotion,
   viewMode,
 }: {
   isFirstSection: boolean;
   items: ComponentGalleryItem[];
+  listHoverHandlers?: {
+    onPointerEnter: (
+      item: ComponentGalleryItem,
+      event: React.MouseEvent<HTMLElement>
+    ) => void;
+    onPointerLeave: () => void;
+    onPointerMove: (event: React.MouseEvent<HTMLElement>) => void;
+  };
   prefersReducedMotion: boolean | null;
   viewMode: ViewMode;
 }) {
@@ -239,7 +278,13 @@ function GallerySectionItems({
     content = (
       <div className="flex flex-col gap-3">
         {items.map((item) => (
-          <GalleryListRow item={item} key={item.slug} />
+          <GalleryListRow
+            item={item}
+            key={item.slug}
+            onPointerEnter={listHoverHandlers?.onPointerEnter}
+            onPointerLeave={listHoverHandlers?.onPointerLeave}
+            onPointerMove={listHoverHandlers?.onPointerMove}
+          />
         ))}
       </div>
     );
@@ -344,6 +389,39 @@ export function ComponentGalleryExplorer({
     [items, search, sortMode]
   );
 
+  const {
+    clearHoverPreview,
+    hoverPosition,
+    hoverPreview,
+    onItemPointerEnter,
+    onItemPointerLeave,
+    onItemPointerMove,
+  } = useCatalogHoverPreview(filteredItems);
+
+  useEffect(() => {
+    if (viewMode !== "list") {
+      clearHoverPreview();
+    }
+  }, [viewMode, clearHoverPreview]);
+
+  // Reset flyout when filters change so stale previews do not linger.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: search and sortMode drive intentional reset
+  useEffect(() => {
+    clearHoverPreview();
+  }, [search, sortMode]);
+
+  const listHoverHandlers = useMemo(
+    () =>
+      viewMode === "list"
+        ? {
+            onPointerEnter: onItemPointerEnter,
+            onPointerLeave: onItemPointerLeave,
+            onPointerMove: onItemPointerMove,
+          }
+        : undefined,
+    [viewMode, onItemPointerEnter, onItemPointerLeave, onItemPointerMove]
+  );
+
   const groupedItems = useMemo(
     () => groupGalleryItemsByCategory(filteredItems),
     [filteredItems]
@@ -427,6 +505,7 @@ export function ComponentGalleryExplorer({
                   <GallerySectionItems
                     isFirstSection={index === 0}
                     items={sectionItems}
+                    listHoverHandlers={listHoverHandlers}
                     prefersReducedMotion={prefersReducedMotion}
                     viewMode={viewMode}
                   />
@@ -445,6 +524,8 @@ export function ComponentGalleryExplorer({
           </div>
         )}
       </div>
+
+      <CatalogNavHoverPreview position={hoverPosition} preview={hoverPreview} />
     </div>
   );
 }

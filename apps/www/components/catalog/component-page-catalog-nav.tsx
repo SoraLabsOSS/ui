@@ -8,20 +8,12 @@ import {
 } from "@workspace/ui/components/unlumen-ui/sidebar-001";
 import { cn } from "@workspace/ui/lib/utils";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
-import {
-  getPreferredCardPreviewVideoSrc,
-  resolveCardPreviewMedia,
-  warmCardPreviewVideo,
-} from "@/lib/registry/resolve-card-preview-media";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
-import {
-  CatalogNavHoverPreview,
-  type CatalogNavHoverPreviewState,
-  getCatalogNavHoverPreviewPosition,
-} from "./catalog-nav-hover-preview";
+import { CatalogNavHoverPreview } from "./catalog-nav-hover-preview";
 import { catalogDesktopSidebarScrollInsetClassName } from "./catalog-preview-classes";
+import { useCatalogHoverPreview } from "./use-catalog-hover-preview";
 
 interface ComponentPageCatalogNavProps {
   className?: string;
@@ -39,92 +31,24 @@ export function ComponentPageCatalogNav({
   onNavigate,
 }: ComponentPageCatalogNavProps) {
   const pathname = usePathname();
-  const [hoverPreview, setHoverPreview] =
-    useState<CatalogNavHoverPreviewState | null>(null);
-  const [hoverPosition, setHoverPosition] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
-
   const sortedItems = useMemo(
     () => [...items].toSorted((a, b) => a.slug.localeCompare(b.slug)),
     [items]
   );
-
-  const previewBySlug = useMemo(() => {
-    const map = new Map<string, ReturnType<typeof resolveCardPreviewMedia>>();
-
-    for (const item of sortedItems) {
-      const media = resolveCardPreviewMedia(
-        item.cardPreview,
-        item.previewVideo
-      );
-      if (media) {
-        map.set(item.slug, media);
-      }
-    }
-
-    return map;
-  }, [sortedItems]);
-
-  const clearHoverPreview = useCallback(() => {
-    setHoverPreview(null);
-    setHoverPosition(null);
-  }, []);
-
-  const updateHoverPreview = useCallback(
-    (
-      item: ComponentGalleryItem,
-      event: React.MouseEvent<HTMLAnchorElement>
-    ) => {
-      const media = previewBySlug.get(item.slug);
-      if (!media) {
-        clearHoverPreview();
-        return;
-      }
-
-      const videoSrc = getPreferredCardPreviewVideoSrc(media);
-      if (videoSrc) {
-        warmCardPreviewVideo(videoSrc);
-      }
-
-      setHoverPosition(getCatalogNavHoverPreviewPosition(event));
-      setHoverPreview({
-        title: item.title,
-        media,
-        videoSrc,
-      });
-    },
-    [clearHoverPreview, previewBySlug]
-  );
-
-  const updateHoverPosition = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
-      setHoverPosition(getCatalogNavHoverPreviewPosition(event));
-    },
-    []
-  );
+  const {
+    clearHoverPreview,
+    hoverPosition,
+    hoverPreview,
+    onItemPointerEnter,
+    onItemPointerLeave,
+    onItemPointerMove,
+  } = useCatalogHoverPreview(sortedItems);
 
   // Reset flyout when navigating to another component page.
   // biome-ignore lint/correctness/useExhaustiveDependencies: pathname drives intentional reset
   useEffect(() => {
-    setHoverPreview(null);
-    setHoverPosition(null);
+    clearHoverPreview();
   }, [pathname]);
-
-  useEffect(() => {
-    for (const item of sortedItems.slice(0, 5)) {
-      const media = previewBySlug.get(item.slug);
-      if (!media) {
-        continue;
-      }
-
-      const videoSrc = getPreferredCardPreviewVideoSrc(media);
-      if (videoSrc) {
-        warmCardPreviewVideo(videoSrc);
-      }
-    }
-  }, [previewBySlug, sortedItems]);
 
   const isAllComponentsActive = pathname === "/components";
 
@@ -150,7 +74,7 @@ export function ComponentPageCatalogNav({
               itemKey="all-components"
               label="All Components"
               onClick={onNavigate}
-              onItemPointerLeave={clearHoverPreview}
+              onItemPointerLeave={onItemPointerLeave}
             />
             {sortedItems.map((item, index) => (
               <Sidebar001Item
@@ -165,10 +89,10 @@ export function ComponentPageCatalogNav({
                   onNavigate?.();
                 }}
                 onItemPointerEnter={(event) => {
-                  updateHoverPreview(item, event);
+                  onItemPointerEnter(item, event);
                 }}
-                onItemPointerLeave={clearHoverPreview}
-                onItemPointerMove={updateHoverPosition}
+                onItemPointerLeave={onItemPointerLeave}
+                onItemPointerMove={onItemPointerMove}
               />
             ))}
           </Sidebar001Section>

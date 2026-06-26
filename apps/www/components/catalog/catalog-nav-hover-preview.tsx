@@ -9,7 +9,7 @@ import {
   useSpring,
 } from "motion/react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ResolvedCardPreviewMedia } from "@/lib/registry/resolve-card-preview-media";
 
@@ -22,6 +22,13 @@ const PREVIEW_SPRING = {
   damping: 28,
   mass: 0.65,
 } as const;
+
+const MEDIA_CROSSFADE = {
+  duration: 0.24,
+  ease: [0.4, 0, 0.2, 1] as const,
+};
+
+const MEDIA_LAYER_FADE_MS = 280;
 
 export interface CatalogNavHoverPreviewState {
   media: ResolvedCardPreviewMedia;
@@ -73,28 +80,28 @@ function CatalogNavPreviewMedia({
   const [isVideoReady, setIsVideoReady] = useState(false);
 
   return (
-    <div className="relative h-32 w-full bg-muted">
+    <>
       {media.poster ? (
         <Image
           alt=""
           aria-hidden
           className={cn(
-            "object-cover transition-opacity duration-150",
+            "object-cover transition-opacity",
             videoSrc && isVideoReady ? "opacity-0" : "opacity-100"
           )}
           fill
           sizes="224px"
           src={media.poster}
+          style={{ transitionDuration: `${MEDIA_LAYER_FADE_MS}ms` }}
         />
       ) : null}
       {videoSrc ? (
         <video
           autoPlay
           className={cn(
-            "absolute inset-0 size-full object-cover transition-opacity duration-150",
+            "absolute inset-0 size-full object-cover transition-opacity",
             isVideoReady ? "opacity-100" : "opacity-0"
           )}
-          key={videoSrc}
           loop
           muted
           onLoadedData={() => {
@@ -103,9 +110,10 @@ function CatalogNavPreviewMedia({
           playsInline
           preload="auto"
           src={videoSrc}
+          style={{ transitionDuration: `${MEDIA_LAYER_FADE_MS}ms` }}
         />
       ) : null}
-    </div>
+    </>
   );
 }
 
@@ -119,25 +127,32 @@ function useSmoothPreviewPosition(
   const x = useSpring(targetX, PREVIEW_SPRING);
   const y = useSpring(targetY, PREVIEW_SPRING);
   const activePreviewKeyRef = useRef<string | null>(null);
+  const wasVisibleRef = useRef(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!position) {
       activePreviewKeyRef.current = null;
+      wasVisibleRef.current = false;
       return;
     }
 
-    const isNewPreview = previewKey !== activePreviewKeyRef.current;
+    const isFirstShow = !wasVisibleRef.current;
+    wasVisibleRef.current = true;
     activePreviewKeyRef.current = previewKey;
 
-    if (prefersReducedMotion || isNewPreview) {
+    const shouldSnap = prefersReducedMotion || isFirstShow;
+
+    if (shouldSnap) {
       targetX.jump(position.x);
       targetY.jump(position.y);
+      x.jump(position.x);
+      y.jump(position.y);
       return;
     }
 
     targetX.set(position.x);
     targetY.set(position.y);
-  }, [position, previewKey, prefersReducedMotion, targetX, targetY]);
+  }, [position, previewKey, prefersReducedMotion, targetX, targetY, x, y]);
 
   return { x, y };
 }
@@ -168,20 +183,32 @@ export function CatalogNavHoverPreview({
     <AnimatePresence>
       {preview && position ? (
         <motion.div
-          animate={{ opacity: 1, scale: 1 }}
+          animate={{ opacity: 1 }}
           className="pointer-events-none fixed top-0 left-0 z-80 w-56"
-          exit={{ opacity: 0, scale: 0.98 }}
-          initial={{ opacity: 0, scale: 0.98 }}
-          key={previewKey}
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          key="catalog-nav-hover-preview"
           style={{ x, y }}
-          transition={{ duration: 0.08, ease: "easeOut" }}
+          transition={{ duration: 0.14, ease: "easeOut" }}
         >
           <div className="overflow-hidden rounded-xl border border-border/70 bg-card/95 shadow-2xl backdrop-blur-md">
-            <CatalogNavPreviewMedia
-              key={previewKey}
-              media={preview.media}
-              videoSrc={preview.videoSrc}
-            />
+            <div className="relative h-32 w-full bg-muted">
+              <AnimatePresence initial={false} mode="sync">
+                <motion.div
+                  animate={{ opacity: 1 }}
+                  className="absolute inset-0"
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0 }}
+                  key={previewKey}
+                  transition={MEDIA_CROSSFADE}
+                >
+                  <CatalogNavPreviewMedia
+                    media={preview.media}
+                    videoSrc={preview.videoSrc}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </motion.div>
       ) : null}
