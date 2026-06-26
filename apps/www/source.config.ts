@@ -9,7 +9,7 @@ import { z } from "zod/v4";
 import { gitLastModifiedForFile } from "./lib/docs/git-last-modified";
 
 const catalogDocSchema = frontmatterSchema.extend({
-  /** Overrides git `lastModified` for the 30-day "new" badge only. */
+  /** Overrides git `lastModified` for the 10-day "new" badge only. */
   releaseDate: z.coerce.date().optional(),
   beta: z.boolean().optional(),
   alpha: z.boolean().optional(),

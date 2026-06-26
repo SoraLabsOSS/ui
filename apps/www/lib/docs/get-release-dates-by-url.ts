@@ -5,7 +5,7 @@ import {
 import { source } from "@/lib/docs/source";
 
 /**
- * URL → date used for the 30-day "new" sidebar badge.
+ * URL → date used for the 10-day "new" sidebar badge.
  * Defaults to git lastModified per page; `releaseDate` in frontmatter overrides.
  */
 export function getReleaseDatesByUrl(): Record<string, string> {
