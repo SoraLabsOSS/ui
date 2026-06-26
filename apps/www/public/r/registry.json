@@ -100,6 +100,20 @@
       ]
     },
     {
+      "name": "demo-logo-carousel-swapper",
+      "type": "registry:ui",
+      "title": "Logo Carousel Swapper Demo",
+      "description": "Staggered four-column logo swapper with blur and vertical motion.",
+      "registryDependencies": ["@soralabs/logo-carousel-swapper"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/logo-carousel-swapper.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-draw-underline-link",
       "type": "registry:ui",
       "title": "Draw Underline Link Demo",
@@ -394,6 +408,32 @@
           "target": "components/sora-ui/effects/dock-nav.tsx"
         }
       ]
+    },
+    {
+      "name": "logo-carousel-swapper",
+      "type": "registry:ui",
+      "title": "Logo Carousel Swapper",
+      "description": "Staggered logo column swapper with fade, vertical shift, and motion blur powered by Motion.",
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/logo-carousel-swapper/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/logo-carousel-swapper.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "logo",
+          "carousel",
+          "stagger",
+          "blur",
+          "motion",
+          "brands",
+          "swap"
+        ]
+      }
     },
     {
       "name": "pixelated-image-reveal",
