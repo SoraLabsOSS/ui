@@ -6,12 +6,12 @@ import { IconLogo } from "@/components/icon-logo";
 import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-registry-item";
 import { GITHUB_PROFILE_URL } from "@/lib/site";
 import { FooterArrowLink } from "./footer/footer-arrow-link";
-import { FooterClock } from "./footer/footer-clock";
 import { FooterCopyright } from "./footer/footer-copyright";
 import { FooterDivider } from "./footer/footer-divider";
 import { FooterNav } from "./footer/footer-nav";
 import { FooterNewsletter } from "./footer/footer-newsletter";
 import { FooterSocial } from "./footer/footer-social";
+import { FooterSystemStatus } from "./footer/footer-system-status";
 
 const LEGAL_LINKS = [
   { href: "/legal/privacy", label: "Privacy" },
@@ -61,7 +61,7 @@ export function HomeFooter({
             </div>
 
             <div className="col-span-12 md:col-span-5 md:justify-self-end">
-              <FooterClock />
+              <FooterSystemStatus />
             </div>
           </div>
         </div>

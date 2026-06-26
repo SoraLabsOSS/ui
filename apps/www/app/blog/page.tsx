@@ -34,14 +34,14 @@ export default function BlogPage() {
       </section>
       <BlogHeaderBanner />
       <section className="w-full border-foreground/10 border-b">
-        <div className="blog-inner relative grid grid-cols-1 gap-3 border-foreground/10 border-x px-0 pt-12 pb-12 md:grid-cols-2 md:gap-2 md:px-2 md:pt-20 md:pb-16 lg:grid-cols-3">
+        <div className="blog-inner relative grid grid-cols-1 gap-5 border-foreground/10 border-x px-3 pt-12 pb-12 sm:px-4 md:grid-cols-2 md:gap-6 md:px-5 md:pt-20 md:pb-16 lg:grid-cols-3 lg:px-6">
           {posts.map((post, index) => {
             const isOgPreview = !post.data.image;
             const isLcpCandidate = index === 0;
 
             return (
               <Link
-                className="group relative flex flex-col overflow-hidden rounded-xs border border-foreground/10 bg-background transition hover:border-foreground/20"
+                className="group relative flex flex-col overflow-hidden bg-secondary/70 shadow-sm ring-1 ring-foreground/4 transition-[box-shadow,background-color] duration-200 hover:bg-secondary hover:shadow-md dark:bg-card dark:ring-foreground/10 dark:hover:bg-muted/40"
                 href={post.url}
                 key={post.url}
               >
@@ -62,11 +62,11 @@ export default function BlogPage() {
                     unoptimized
                   />
                 </span>
-                <div className="flex flex-1 flex-col px-4 py-4 md:px-6 md:py-6">
-                  <p className="font-medium text-lg leading-5">
+                <div className="flex flex-1 flex-col border-foreground/6 border-t px-4 py-4 md:px-5 md:py-5">
+                  <p className="font-semibold text-base text-foreground leading-snug tracking-tight transition-colors group-hover:text-foreground md:text-lg">
                     {post.data.title}
                   </p>
-                  <p className="mt-px text-fd-muted-foreground text-sm leading-4.5">
+                  <p className="mt-1.5 text-fd-muted-foreground text-sm leading-relaxed">
                     {post.data.description}
                   </p>
 
