@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { AccountSidebar } from "@/components/account/sidebar";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
+import { BlogTocFooterGuard } from "@/components/blog/blog-toc-footer-guard";
 import { Nav } from "@/components/docs/nav";
 import { HomeFooter } from "@/components/home/home-footer";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
@@ -55,9 +56,12 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
         ),
       }}
     >
-      <div className="flex min-h-full flex-1 flex-col">
+      <div className="flex min-h-full flex-1 flex-col" data-blog-footer>
+        <BlogTocFooterGuard />
         {children}
-        <HomeFooter latestShipped={latestShipped} showTopBorder={false} />
+        <div className="relative z-30 bg-background" data-blog-site-footer>
+          <HomeFooter latestShipped={latestShipped} showTopBorder={false} />
+        </div>
       </div>
     </DocsLayout>
   );

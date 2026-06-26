@@ -82,6 +82,7 @@ export default async function BlogPostPage(props: {
             <Image
               alt={page.data.title}
               className="h-auto w-full"
+              draggable={false}
               height={image.height}
               loading="eager"
               priority

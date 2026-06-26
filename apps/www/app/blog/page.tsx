@@ -54,6 +54,7 @@ export default function BlogPage() {
                   <Image
                     alt={post.data.title}
                     className="object-cover"
+                    draggable={false}
                     fill
                     loading={isLcpCandidate ? "eager" : undefined}
                     priority={isLcpCandidate}

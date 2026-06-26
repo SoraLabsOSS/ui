@@ -441,6 +441,40 @@
     @apply z-20 self-start pt-6! pb-2 max-xl:hidden;
   }
 
+  /*
+   * Blog slug: dismiss fixed TOC with an exit animation before HomeFooter.
+   */
+  [data-blog-footer] #nd-toc {
+    transition:
+      opacity 0.32s ease,
+      transform 0.32s ease,
+      visibility 0s linear 0.32s;
+  }
+
+  [data-blog-footer] #nd-toc[data-blog-toc-leaving] {
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(12px, 0, 0);
+  }
+
+  [data-blog-footer] #nd-toc[data-blog-toc-hidden] {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 0.32s ease,
+      transform 0.32s ease,
+      visibility 0s linear 0s;
+  }
+
+  [data-blog-footer]
+    #nd-toc:not([data-blog-toc-leaving]):not([data-blog-toc-hidden]) {
+    transition:
+      opacity 0.28s ease,
+      transform 0.28s ease,
+      visibility 0s linear 0s;
+  }
+
   @media (min-width: 1536px) {
     .blog-post-layout {
       --_fd-blog-slug-gutter: 320px;
@@ -588,5 +622,11 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
 @layer components {
   .blog-inner {
     @apply mx-auto w-full max-w-7xl md:w-11/12;
+  }
+
+  /* Prevent accidental image drag while scrolling blog cards and articles. */
+  [data-blog-footer] img {
+    -webkit-user-drag: none;
+    user-drag: none;
   }
 }

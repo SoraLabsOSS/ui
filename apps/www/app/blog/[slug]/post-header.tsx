@@ -22,6 +22,7 @@ function AuthorAvatar({ author }: { author: string }) {
       <Image
         alt=""
         className="size-4 shrink-0 rounded-full ring-1 ring-border"
+        draggable={false}
         height={16}
         src={profile.avatar}
         unoptimized
