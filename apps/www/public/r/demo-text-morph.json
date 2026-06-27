@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-morph",
+  "title": "Text Morph Demo",
+  "description": "Continue / Confirm pill button with per-character layout morph.",
+  "registryDependencies": ["@soralabs/text-morph"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-morph/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { useState } from \"react\";\nimport { TextMorph } from \"@/components/sora-ui/texts/text-morph\";\n\n/** Docs preview — click toggles Continue / Confirm with layout morph. */\nexport default function TextMorphPlayground() {\n  const [text, setText] = useState(\"Continue\");\n\n  return (\n    <button\n      className={cn(\n        \"flex h-10 w-[120px] shrink-0 cursor-pointer items-center justify-center rounded-full\",\n        \"bg-foreground px-4 font-medium text-background text-base shadow-xs transition-colors\",\n        \"hover:bg-foreground/85 dark:hover:bg-foreground/90\"\n      )}\n      onClick={() => {\n        setText((current) => (current === \"Continue\" ? \"Confirm\" : \"Continue\"));\n      }}\n      type=\"button\"\n    >\n      <TextMorph as=\"span\">{text}</TextMorph>\n    </button>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-morph.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

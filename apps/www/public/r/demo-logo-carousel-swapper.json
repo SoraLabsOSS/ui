@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
-      "content": "\"use client\";\n\nimport { PARTNER_LOGO_CAROUSEL_ROWS } from \"@/lib/partner-logos\";\nimport { LogoCarouselSwapper } from \"@/components/sora-ui/effects/logo-carousel-swapper\";\n\nexport function LogoCarouselSwapperExample() {\n  return (\n    <div className=\"flex min-h-40 w-full items-center justify-center px-4 py-10\">\n      <LogoCarouselSwapper\n        aria-label=\"Partner logos\"\n        className=\"max-w-3xl\"\n        interval={3000}\n        rows={PARTNER_LOGO_CAROUSEL_ROWS}\n        stagger={0.12}\n      />\n    </div>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { PARTNER_LOGO_CAROUSEL_ROWS } from \"@/lib/partner-logos\";\nimport { LogoCarouselSwapper } from \"@/components/sora-ui/effects/logo-carousel-swapper\";\n\nexport function LogoCarouselSwapperExample() {\n  return (\n    <div className=\"flex w-full items-center justify-center overflow-visible px-4\">\n      <LogoCarouselSwapper\n        aria-label=\"Partner logos\"\n        className=\"max-w-3xl\"\n        interval={3000}\n        monochrome\n        rows={PARTNER_LOGO_CAROUSEL_ROWS}\n        stagger={0.12}\n      />\n    </div>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/effects/logo-carousel-swapper.tsx"
     }

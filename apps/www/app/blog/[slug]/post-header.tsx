@@ -1,10 +1,7 @@
-import { cn } from "@workspace/ui/lib/utils";
-import { buttonVariants } from "fumadocs-ui/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogAuthorByName } from "@/lib/blog/blog-authors";
-import { BlogShareButton } from "./share-button";
+import { BlogPostActions } from "./blog-post-actions";
 
 function formatPostDate(date: Date) {
   return date.toLocaleDateString("en-GB", {
@@ -98,23 +95,7 @@ export function BlogPostHeader({
           </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <BlogShareButton url={url} />
-          <Link
-            className={cn(
-              buttonVariants({
-                color: "secondary",
-                size: "sm",
-                className:
-                  "gap-1.5 border-0 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
-              })
-            )}
-            href="/blog"
-          >
-            <ArrowLeft aria-hidden />
-            Blog
-          </Link>
-        </div>
+        <BlogPostActions url={url} />
       </div>
     </header>
   );

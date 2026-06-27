@@ -282,7 +282,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/effects/logo-carousel-swapper.tsx",
         content:
-          '"use client";\n\nimport { PARTNER_LOGO_CAROUSEL_ROWS } from "@/lib/partner-logos";\nimport { LogoCarouselSwapper } from "@/components/sora-ui/effects/logo-carousel-swapper";\n\nexport function LogoCarouselSwapperExample() {\n  return (\n    <div className="flex min-h-40 w-full items-center justify-center px-4 py-10">\n      <LogoCarouselSwapper\n        aria-label="Partner logos"\n        className="max-w-3xl"\n        interval={3000}\n        rows={PARTNER_LOGO_CAROUSEL_ROWS}\n        stagger={0.12}\n      />\n    </div>\n  );\n}',
+          '"use client";\n\nimport { PARTNER_LOGO_CAROUSEL_ROWS } from "@/lib/partner-logos";\nimport { LogoCarouselSwapper } from "@/components/sora-ui/effects/logo-carousel-swapper";\n\nexport function LogoCarouselSwapperExample() {\n  return (\n    <div className="flex w-full items-center justify-center overflow-visible px-4">\n      <LogoCarouselSwapper\n        aria-label="Partner logos"\n        className="max-w-3xl"\n        interval={3000}\n        monochrome\n        rows={PARTNER_LOGO_CAROUSEL_ROWS}\n        stagger={0.12}\n      />\n    </div>\n  );\n}',
       },
     ],
     keywords: [],
@@ -292,7 +292,9 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/demo/primitives/effects/logo-carousel-swapper/index.tsx"
         );
-        const demoProps = {};
+        const demoProps = {
+          LogoCarouselSwapper: { monochrome: { value: true } },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
@@ -310,7 +312,9 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        LogoCarouselSwapper: { monochrome: { value: true } },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-logo-carousel-swapper",
@@ -380,6 +384,53 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-draw-underline-link",
+  },
+  "demo-text-morph": {
+    name: "demo-text-morph",
+    description:
+      "Continue / Confirm pill button with per-character layout morph.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["text-morph"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-morph/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/text-morph.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { useState } from "react";\nimport { TextMorph } from "@/components/sora-ui/texts/text-morph";\n\n/** Docs preview — click toggles Continue / Confirm with layout morph. */\nexport default function TextMorphPlayground() {\n  const [text, setText] = useState("Continue");\n\n  return (\n    <button\n      className={cn(\n        "flex h-10 w-[120px] shrink-0 cursor-pointer items-center justify-center rounded-full",\n        "bg-foreground px-4 font-medium text-background text-base shadow-xs transition-colors",\n        "hover:bg-foreground/85 dark:hover:bg-foreground/90"\n      )}\n      onClick={() => {\n        setText((current) => (current === "Continue" ? "Confirm" : "Continue"));\n      }}\n      type="button"\n    >\n      <TextMorph as="span">{text}</TextMorph>\n    </button>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/text-morph/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-text-morph",
   },
   "demo-text-reveal-box": {
     name: "demo-text-reveal-box",
@@ -930,7 +981,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/effects/logo-carousel-swapper.tsx",
         content:
-          '// biome-ignore-all lint/performance/noImgElement: Motion animates filter, opacity, and y on native img elements.\n// biome-ignore-all lint/correctness/useImageSize: Slot containers use fixed dimensions; logos are object-contain.\n// biome-ignore-all lint/suspicious/noArrayIndexKey: Column slots are fixed-position and never reorder.\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { AnimatePresence, motion, useReducedMotion } from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  useEffect,\n  useMemo,\n  useState,\n} from "react";\n\nconst DEFAULT_INTERVAL_MS = 3000;\nconst DEFAULT_STAGGER_S = 0.12;\nconst DEFAULT_COLUMNS = 4;\nconst EXIT_DURATION_S = 0.5;\nconst ENTER_DURATION_S = 0.7;\nconst EXIT_OVERLAP_S = 0.35;\n\nconst EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;\nconst ENTER_EASE = [0.16, 1, 0.3, 1] as const;\n\nconst ENTER_FROM = {\n  filter: "blur(12px)",\n  opacity: 0,\n  y: 25,\n} as const;\n\nconst ENTER_TO = {\n  filter: "blur(0px)",\n  opacity: 1,\n  y: 0,\n} as const;\n\nconst EXIT_TO = {\n  filter: "blur(10px)",\n  opacity: 0,\n  y: -20,\n} as const;\n\nconst logoCarouselSwapperVariants = cva("w-full", {\n  variants: {\n    align: {\n      center: "",\n      end: "",\n      start: "",\n    },\n    size: {\n      default: "",\n      lg: "",\n      sm: "",\n    },\n  },\n  defaultVariants: {\n    align: "center",\n    size: "default",\n  },\n});\n\nconst logoCarouselSwapperRowVariants = cva("flex w-full items-center", {\n  variants: {\n    align: {\n      center: "justify-center",\n      end: "justify-end",\n      start: "justify-start",\n    },\n    size: {\n      default: "gap-8 md:gap-10",\n      lg: "gap-10 md:gap-12",\n      sm: "gap-5 md:gap-6",\n    },\n  },\n  defaultVariants: {\n    align: "center",\n    size: "default",\n  },\n});\n\nconst logoCarouselSwapperSlotVariants = cva(\n  "relative grid shrink-0 place-items-center overflow-hidden",\n  {\n    variants: {\n      size: {\n        default: "h-14 w-28",\n        lg: "h-16 w-32",\n        sm: "h-12 w-24",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperImageVariants = cva(\n  "pointer-events-none absolute inset-0 m-auto max-h-[70%] w-auto max-w-[80%] select-none object-contain will-change-[transform,opacity,filter] dark:brightness-0 dark:invert",\n  {\n    variants: {\n      size: {\n        default: "max-h-10",\n        lg: "max-h-12",\n        sm: "max-h-8",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\nexport interface LogoCarouselSwapperItem {\n  alt: string;\n  src: string;\n}\n\nexport type LogoCarouselSwapperRow = LogoCarouselSwapperItem[];\n\nexport interface LogoCarouselSwapperProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof logoCarouselSwapperVariants> {\n  columns?: number;\n  interval?: number;\n  rows: LogoCarouselSwapperRow[];\n  stagger?: number;\n}\n\nfunction normalizeRows(\n  rows: LogoCarouselSwapperRow[],\n  columns: number\n): LogoCarouselSwapperRow[] {\n  return rows\n    .map((row) => {\n      const next = row.slice(0, columns);\n\n      while (next.length < columns) {\n        const fallback = row[next.length % Math.max(row.length, 1)];\n        if (!fallback) {\n          break;\n        }\n        next.push(fallback);\n      }\n\n      return next;\n    })\n    .filter((row) => row.length === columns && row.every((item) => item.src));\n}\n\ninterface LogoSlotProps {\n  columnIndex: number;\n  item: LogoCarouselSwapperItem;\n  reduceMotion: boolean | null;\n  rowKey: number;\n  size: VariantProps<typeof logoCarouselSwapperSlotVariants>["size"];\n  stagger: number;\n}\n\nfunction LogoSlot({\n  columnIndex,\n  item,\n  reduceMotion,\n  rowKey,\n  size,\n  stagger,\n}: LogoSlotProps) {\n  const exitDelay = columnIndex * stagger;\n  const enterDelay = columnIndex * stagger + (EXIT_DURATION_S - EXIT_OVERLAP_S);\n\n  if (reduceMotion) {\n    return (\n      <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n        <img\n          alt={item.alt}\n          className={logoCarouselSwapperImageVariants({ size })}\n          draggable={false}\n          src={item.src}\n        />\n      </div>\n    );\n  }\n\n  return (\n    <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n      <AnimatePresence initial={false} mode="sync">\n        <motion.img\n          alt={item.alt}\n          animate={{\n            ...ENTER_TO,\n            transition: {\n              delay: enterDelay,\n              duration: ENTER_DURATION_S,\n              ease: ENTER_EASE,\n            },\n          }}\n          className={logoCarouselSwapperImageVariants({ size })}\n          draggable={false}\n          exit={{\n            ...EXIT_TO,\n            transition: {\n              delay: exitDelay,\n              duration: EXIT_DURATION_S,\n              ease: EXIT_EASE,\n            },\n          }}\n          initial={ENTER_FROM}\n          key={`${rowKey}-${item.src}`}\n          src={item.src}\n        />\n      </AnimatePresence>\n    </div>\n  );\n}\n\nexport function LogoCarouselSwapper({\n  align,\n  className,\n  columns = DEFAULT_COLUMNS,\n  interval = DEFAULT_INTERVAL_MS,\n  rows,\n  size,\n  stagger = DEFAULT_STAGGER_S,\n  ...props\n}: LogoCarouselSwapperProps) {\n  const [rowIndex, setRowIndex] = useState(0);\n  const reduceMotion = useReducedMotion();\n\n  const normalizedRows = useMemo(\n    () => normalizeRows(rows, columns),\n    [columns, rows]\n  );\n\n  const activeRow = normalizedRows[rowIndex] ?? [];\n\n  useEffect(() => {\n    if (normalizedRows.length < 2) {\n      return;\n    }\n\n    const intervalId = window.setInterval(() => {\n      setRowIndex((current) => (current + 1) % normalizedRows.length);\n    }, interval);\n\n    return () => {\n      window.clearInterval(intervalId);\n    };\n  }, [interval, normalizedRows.length]);\n\n  if (activeRow.length === 0) {\n    return null;\n  }\n\n  return (\n    <div\n      className={cn(logoCarouselSwapperVariants({ align, size }), className)}\n      {...props}\n    >\n      <div\n        aria-hidden={props["aria-label"] ? undefined : true}\n        className={logoCarouselSwapperRowVariants({ align, size })}\n      >\n        {activeRow.map((item, columnIndex) => (\n          <LogoSlot\n            columnIndex={columnIndex}\n            item={item}\n            key={`logo-slot-${columnIndex}`}\n            reduceMotion={reduceMotion}\n            rowKey={rowIndex}\n            size={size}\n            stagger={stagger}\n          />\n        ))}\n      </div>\n    </div>\n  );\n}',
+          '// biome-ignore-all lint/performance/noImgElement: Motion animates filter, opacity, and y on native img elements.\n// biome-ignore-all lint/correctness/useImageSize: Slot containers use fixed dimensions; logos are object-contain.\n// biome-ignore-all lint/suspicious/noArrayIndexKey: Column slots are fixed-position and never reorder.\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { AnimatePresence, motion, useReducedMotion } from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  useEffect,\n  useMemo,\n  useState,\n} from "react";\n\nconst DEFAULT_INTERVAL_MS = 3000;\nconst DEFAULT_STAGGER_S = 0.14;\nconst DEFAULT_COLUMNS = 4;\nconst EXIT_DURATION_S = 0.55;\nconst ENTER_DURATION_S = 0.7;\n/** Enter overlaps exit so the incoming logo "pushes" the outgoing one. */\nconst ENTER_OVERLAP_S = 0.14;\n\nconst MOTION_BLUR = "blur(3px)";\nconst EXIT_OFFSET_Y = -25;\nconst ENTER_OFFSET_Y = 25;\n\n/** GSAP power3.in — accelerates out quickly. */\nconst EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;\n/** GSAP power4.out — snappy approach, soft landing. */\nconst ENTER_EASE = [0.165, 0.84, 0.44, 1] as const;\n\nconst ENTER_FROM = {\n  filter: MOTION_BLUR,\n  opacity: 0,\n  y: ENTER_OFFSET_Y,\n  z: 0,\n} as const;\n\nconst ENTER_TO = {\n  filter: "blur(0px)",\n  opacity: 1,\n  y: 0,\n  z: 0,\n} as const;\n\nconst EXIT_TO = {\n  filter: MOTION_BLUR,\n  opacity: 0,\n  y: EXIT_OFFSET_Y,\n  z: 0,\n} as const;\n\nconst logoCarouselSwapperVariants = cva("w-full overflow-visible", {\n  variants: {\n    align: {\n      center: "",\n      end: "",\n      start: "",\n    },\n    size: {\n      default: "",\n      lg: "",\n      sm: "",\n    },\n  },\n  defaultVariants: {\n    align: "center",\n    size: "default",\n  },\n});\n\nconst logoCarouselSwapperRowVariants = cva(\n  "flex w-full items-center overflow-visible py-10",\n  {\n    variants: {\n      align: {\n        center: "justify-center",\n        end: "justify-end",\n        start: "justify-start",\n      },\n      size: {\n        default: "gap-8 md:gap-10",\n        lg: "gap-10 md:gap-12",\n        sm: "gap-5 md:gap-6",\n      },\n    },\n    defaultVariants: {\n      align: "center",\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperSlotVariants = cva(\n  "relative grid shrink-0 place-items-center overflow-visible",\n  {\n    variants: {\n      size: {\n        default: "h-16 w-28",\n        lg: "h-20 w-32",\n        sm: "h-14 w-24",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperMotionLayerVariants = cva(\n  "absolute inset-0 grid place-items-center will-change-[transform,opacity,filter] [transform:translateZ(0)]"\n);\n\nconst logoCarouselSwapperImageVariants = cva(\n  "pointer-events-none max-h-[70%] w-auto max-w-[80%] select-none object-contain",\n  {\n    variants: {\n      monochrome: {\n        false: "dark:brightness-0 dark:invert",\n        true: "brightness-0 dark:invert",\n      },\n      size: {\n        default: "max-h-10",\n        lg: "max-h-12",\n        sm: "max-h-8",\n      },\n    },\n    defaultVariants: {\n      monochrome: false,\n      size: "default",\n    },\n  }\n);\n\nexport interface LogoCarouselSwapperItem {\n  alt: string;\n  src: string;\n}\n\nexport type LogoCarouselSwapperRow = LogoCarouselSwapperItem[];\n\nexport interface LogoCarouselSwapperProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof logoCarouselSwapperVariants> {\n  columns?: number;\n  interval?: number;\n  monochrome?: boolean;\n  rows: LogoCarouselSwapperRow[];\n  stagger?: number;\n}\n\nfunction normalizeRows(\n  rows: LogoCarouselSwapperRow[],\n  columns: number\n): LogoCarouselSwapperRow[] {\n  return rows\n    .map((row) => {\n      const next = row.slice(0, columns);\n\n      while (next.length < columns) {\n        const fallback = row[next.length % Math.max(row.length, 1)];\n        if (!fallback) {\n          break;\n        }\n        next.push(fallback);\n      }\n\n      return next;\n    })\n    .filter((row) => row.length === columns && row.every((item) => item.src));\n}\n\ninterface LogoSlotProps {\n  columnIndex: number;\n  item: LogoCarouselSwapperItem;\n  monochrome: boolean;\n  reduceMotion: boolean | null;\n  rowKey: number;\n  size: VariantProps<typeof logoCarouselSwapperSlotVariants>["size"];\n  stagger: number;\n}\n\nfunction LogoSlot({\n  columnIndex,\n  item,\n  monochrome,\n  reduceMotion,\n  rowKey,\n  size,\n  stagger,\n}: LogoSlotProps) {\n  const exitDelay = columnIndex * stagger;\n  const enterDelay = exitDelay + EXIT_DURATION_S - ENTER_OVERLAP_S;\n\n  if (reduceMotion) {\n    return (\n      <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n        <img\n          alt={item.alt}\n          className={logoCarouselSwapperImageVariants({ monochrome, size })}\n          draggable={false}\n          src={item.src}\n        />\n      </div>\n    );\n  }\n\n  return (\n    <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n      <AnimatePresence initial={false} mode="sync">\n        <motion.div\n          animate={{\n            ...ENTER_TO,\n            transition: {\n              delay: enterDelay,\n              duration: ENTER_DURATION_S,\n              ease: ENTER_EASE,\n            },\n          }}\n          className={logoCarouselSwapperMotionLayerVariants()}\n          exit={{\n            ...EXIT_TO,\n            transition: {\n              delay: exitDelay,\n              duration: EXIT_DURATION_S,\n              ease: EXIT_EASE,\n            },\n          }}\n          initial={ENTER_FROM}\n          key={`${rowKey}-${item.src}`}\n        >\n          <img\n            alt={item.alt}\n            className={logoCarouselSwapperImageVariants({ monochrome, size })}\n            draggable={false}\n            src={item.src}\n          />\n        </motion.div>\n      </AnimatePresence>\n    </div>\n  );\n}\n\nexport function LogoCarouselSwapper({\n  align,\n  className,\n  columns = DEFAULT_COLUMNS,\n  interval = DEFAULT_INTERVAL_MS,\n  monochrome = false,\n  rows,\n  size,\n  stagger = DEFAULT_STAGGER_S,\n  ...props\n}: LogoCarouselSwapperProps) {\n  const [rowIndex, setRowIndex] = useState(0);\n  const reduceMotion = useReducedMotion();\n\n  const normalizedRows = useMemo(\n    () => normalizeRows(rows, columns),\n    [columns, rows]\n  );\n\n  const activeRow = normalizedRows[rowIndex] ?? [];\n\n  useEffect(() => {\n    if (normalizedRows.length < 2) {\n      return;\n    }\n\n    const intervalId = window.setInterval(() => {\n      setRowIndex((current) => (current + 1) % normalizedRows.length);\n    }, interval);\n\n    return () => {\n      window.clearInterval(intervalId);\n    };\n  }, [interval, normalizedRows.length]);\n\n  if (activeRow.length === 0) {\n    return null;\n  }\n\n  return (\n    <div\n      className={cn(logoCarouselSwapperVariants({ align, size }), className)}\n      {...props}\n    >\n      <div\n        aria-hidden={props["aria-label"] ? undefined : true}\n        className={logoCarouselSwapperRowVariants({ align, size })}\n      >\n        {activeRow.map((item, columnIndex) => (\n          <LogoSlot\n            columnIndex={columnIndex}\n            item={item}\n            key={`logo-slot-${columnIndex}`}\n            monochrome={monochrome}\n            reduceMotion={reduceMotion}\n            rowKey={rowIndex}\n            size={size}\n            stagger={stagger}\n          />\n        ))}\n      </div>\n    </div>\n  );\n}',
       },
     ],
     keywords: [
@@ -948,7 +999,9 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/demo/primitives/effects/logo-carousel-swapper/index.tsx"
         );
-        const demoProps = {};
+        const demoProps = {
+          LogoCarouselSwapper: { monochrome: { value: true } },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
@@ -966,7 +1019,9 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        LogoCarouselSwapper: { monochrome: { value: true } },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/logo-carousel-swapper",
@@ -1112,6 +1167,57 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/draw-underline-link",
+  },
+  "text-morph": {
+    name: "text-morph",
+    description:
+      "Per-character layout morphing for labels, counters, and live text swaps.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/text-morph/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-morph.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  motion,\n  type Transition,\n  useReducedMotion,\n  type Variants,\n} from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  type CSSProperties,\n  type ElementType,\n  useEffect,\n  useId,\n  useMemo,\n  useRef,\n} from "react";\n\nconst NBSP = "\\u00A0";\n\nconst TEXT_MORPH_VARIANTS = {\n  blur: {\n    initial: { opacity: 0, y: 6, filter: "blur(6px)" },\n    animate: { opacity: 1, y: 0, filter: "blur(0px)" },\n    exit: { opacity: 0, y: -6, filter: "blur(6px)" },\n  },\n  slide: {\n    initial: { opacity: 0, y: 8 },\n    animate: { opacity: 1, y: 0 },\n    exit: { opacity: 0, y: -8 },\n  },\n} as const satisfies Record<string, Variants>;\n\nconst DEFAULT_VARIANTS: Variants = {\n  initial: { opacity: 0 },\n  animate: { opacity: 1 },\n  exit: { opacity: 0 },\n};\n\nconst DEFAULT_TRANSITION: Transition = {\n  type: "spring",\n  stiffness: 280,\n  damping: 18,\n  mass: 0.3,\n};\n\nexport type TextMorphVariant = keyof typeof TEXT_MORPH_VARIANTS;\n\nexport type TextMorphProps = {\n  /** String label to morph between updates. */\n  children: string;\n  as?: ElementType;\n  className?: string;\n  /** Class names applied to each animated character span. */\n  charClassName?: string;\n  style?: CSSProperties;\n  variants?: Variants;\n  transition?: Transition;\n  /** Optional preset when `variants` is omitted. Default motion matches opacity crossfade + layoutId morph. */\n  variant?: TextMorphVariant;\n  /**\n   * Per-character delay in seconds.\n   * @default 0\n   */\n  staggerDelay?: number;\n  /**\n   * Keep same-index glyphs static instead of layout-morphing shared letters.\n   * @default false\n   */\n  skipUnchanged?: boolean;\n  /**\n   * Live region politeness when the label updates.\n   * @default "off"\n   */\n  live?: "assertive" | "off" | "polite";\n} & Omit<ComponentPropsWithoutRef<"p">, "children">;\n\nexport function TextMorph({\n  children,\n  as: Component = "p",\n  className,\n  charClassName,\n  style,\n  variants,\n  transition,\n  variant,\n  staggerDelay = 0,\n  skipUnchanged = false,\n  live = "off",\n  ...props\n}: TextMorphProps) {\n  const uniqueId = useId();\n  const prefersReducedMotion = useReducedMotion();\n  const previousTextRef = useRef<string | null>(null);\n\n  const characters = useMemo(() => {\n    const charCounts: Record<string, number> = {};\n\n    return children.split("").map((char) => {\n      const lowerChar = char.toLowerCase();\n      charCounts[lowerChar] = (charCounts[lowerChar] || 0) + 1;\n\n      return {\n        id: `${uniqueId}-${lowerChar}${charCounts[lowerChar]}`,\n        label: char === " " ? NBSP : char,\n      };\n    });\n  }, [children, uniqueId]);\n\n  const previousText = previousTextRef.current;\n  const resolvedVariants =\n    variants ?? (variant ? TEXT_MORPH_VARIANTS[variant] : DEFAULT_VARIANTS);\n  const resolvedTransition = transition ?? DEFAULT_TRANSITION;\n\n  useEffect(() => {\n    previousTextRef.current = children;\n  }, [children]);\n\n  if (prefersReducedMotion) {\n    return (\n      <Component\n        aria-live={live === "off" ? undefined : live}\n        className={cn(className)}\n        style={style}\n        {...props}\n      >\n        {children}\n      </Component>\n    );\n  }\n\n  return (\n    <Component\n      aria-label={children}\n      aria-live={live === "off" ? undefined : live}\n      className={cn(className)}\n      style={style}\n      {...props}\n    >\n      <AnimatePresence initial={false} mode="popLayout">\n        {characters.map((character, index) => {\n          if (skipUnchanged) {\n            const previousChar = previousText?.[index];\n            const currentChar = children[index];\n\n            if (\n              previousText !== null &&\n              index < previousText.length &&\n              previousChar === currentChar\n            ) {\n              return (\n                <span\n                  aria-hidden\n                  className={cn("inline-block", charClassName)}\n                  key={character.id}\n                >\n                  {character.label}\n                </span>\n              );\n            }\n          }\n\n          return (\n            <motion.span\n              animate="animate"\n              aria-hidden\n              className={cn("inline-block", charClassName)}\n              exit="exit"\n              initial="initial"\n              key={character.id}\n              layoutId={character.id}\n              transition={\n                staggerDelay > 0\n                  ? { ...resolvedTransition, delay: index * staggerDelay }\n                  : resolvedTransition\n              }\n              variants={resolvedVariants}\n            >\n              {character.label}\n            </motion.span>\n          );\n        })}\n      </AnimatePresence>\n    </Component>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "motion-primitives",
+      url: "https://motion-primitives.com/docs/text-morph",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/text-morph/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/text-morph",
   },
   "text-reveal-block": {
     name: "text-reveal-block",

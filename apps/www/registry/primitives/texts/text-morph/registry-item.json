@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-morph",
+  "type": "registry:ui",
+  "title": "Text Morph",
+  "description": "Per-character layout morphing for labels, counters, and live text swaps.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-morph/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-morph.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/text-morph"
+    }
+  }
+}
