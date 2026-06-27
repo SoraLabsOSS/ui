@@ -8,6 +8,12 @@ author:
 
 <ComponentPreview name="text-morph" />
 
+## Examples
+
+### Text Morph Input
+
+<ComponentPreview name="demo-text-morph-input" />
+
 ## Installation
 
 <ComponentInstallation name="text-morph" />
@@ -51,6 +57,34 @@ export function TextMorphButton() {
     >
       <TextMorph as="span">{text}</TextMorph>
     </button>
+  );
+}
+```
+
+Live morph while typing:
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+
+export function TextMorphInput() {
+  const [text, setText] = useState('Craft');
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center space-y-12">
+      <TextMorph className="text-5xl font-medium" live="polite">
+        {text}
+      </TextMorph>
+      <input
+        className="h-9 w-full rounded-lg border border-input bg-transparent p-2 text-base shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+        onChange={(event) => setText(event.target.value)}
+        placeholder="Type your text here"
+        type="text"
+        value={text}
+      />
+    </div>
   );
 }
 ```

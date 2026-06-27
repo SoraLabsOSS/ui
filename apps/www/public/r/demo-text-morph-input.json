@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-morph-input",
+  "title": "Text Morph Input Demo",
+  "description": "Live text morph driven by a controlled input.",
+  "registryDependencies": ["@soralabs/text-morph"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { useState } from \"react\";\nimport { TextMorph } from \"@/components/sora-ui/texts/text-morph\";\n\n/** Docs preview — live morph as you type. */\nexport function TextMorphInput() {\n  const [text, setText] = useState(\"Craft\");\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col items-center justify-end space-y-12\">\n      <TextMorph className=\"font-medium text-5xl text-foreground\" live=\"polite\">\n        {text}\n      </TextMorph>\n      <input\n        className={cn(\n          \"h-9 w-full rounded-lg border border-input bg-transparent p-2\",\n          \"text-base text-foreground shadow-xs outline-none transition-colors\",\n          \"placeholder:text-muted-foreground\",\n          \"focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50\"\n        )}\n        onChange={(event) => setText(event.target.value)}\n        placeholder=\"Type your text here\"\n        type=\"text\"\n        value={text}\n      />\n    </div>\n  );\n}\n\nexport default TextMorphInput;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-morph-input.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

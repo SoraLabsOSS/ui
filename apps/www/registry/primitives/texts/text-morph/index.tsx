@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import {
-  AnimatePresence,
+  LayoutGroup,
   motion,
   type Transition,
   useReducedMotion,
@@ -94,6 +94,7 @@ export function TextMorph({
   const uniqueId = useId();
   const prefersReducedMotion = useReducedMotion();
   const previousTextRef = useRef<string | null>(null);
+  const previousIdsRef = useRef<Set<string>>(new Set());
 
   const characters = useMemo(() => {
     const charCounts: Record<string, number> = {};
@@ -110,13 +111,17 @@ export function TextMorph({
   }, [children, uniqueId]);
 
   const previousText = previousTextRef.current;
+  const previousIds = previousIdsRef.current;
   const resolvedVariants =
     variants ?? (variant ? TEXT_MORPH_VARIANTS[variant] : DEFAULT_VARIANTS);
   const resolvedTransition = transition ?? DEFAULT_TRANSITION;
 
   useEffect(() => {
     previousTextRef.current = children;
-  }, [children]);
+    previousIdsRef.current = new Set(
+      characters.map((character) => character.id)
+    );
+  }, [children, characters]);
 
   if (prefersReducedMotion) {
     return (
@@ -135,11 +140,11 @@ export function TextMorph({
     <Component
       aria-label={children}
       aria-live={live === "off" ? undefined : live}
-      className={cn(className)}
+      className={cn("relative", className)}
       style={style}
       {...props}
     >
-      <AnimatePresence initial={false} mode="popLayout">
+      <LayoutGroup id={uniqueId}>
         {characters.map((character, index) => {
           if (skipUnchanged) {
             const previousChar = previousText?.[index];
@@ -162,14 +167,17 @@ export function TextMorph({
             }
           }
 
+          const isEntering =
+            previousText !== null && !previousIds.has(character.id);
+
           return (
             <motion.span
               animate="animate"
               aria-hidden
               className={cn("inline-block", charClassName)}
-              exit="exit"
-              initial="initial"
+              initial={isEntering ? "initial" : false}
               key={character.id}
+              layout="position"
               layoutId={character.id}
               transition={
                 staggerDelay > 0
@@ -182,7 +190,7 @@ export function TextMorph({
             </motion.span>
           );
         })}
-      </AnimatePresence>
+      </LayoutGroup>
     </Component>
   );
 }
