@@ -26,7 +26,7 @@ const charStaggerButtonVariants = cva("group cursor-pointer no-underline", {
 });
 
 const charStaggerButtonBgVariants = cva(
-  "absolute inset-0 rounded-[0.25em] bg-[#efeeec] transition-[inset] duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:inset-[0.125em]"
+  "absolute inset-0 rounded-[0.25em] bg-[#efeeec] transition-[inset] duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:inset-[0.125em] motion-reduce:transition-none motion-reduce:group-hover:inset-0"
 );
 
 const charStaggerButtonTextVariants = cva("whitespace-nowrap leading-[1.3]");
@@ -36,7 +36,7 @@ const charStaggerButtonCharsVariants = cva(
 );
 
 const charStaggerButtonCharVariants = cva(
-  "relative inline-block translate-y-0 rotate-[0.001deg] transition-transform duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] [text-shadow:0px_1.3em_currentColor] group-hover:-translate-y-[1.3em] group-hover:rotate-[0.001deg]"
+  "relative inline-block translate-y-0 rotate-[0.001deg] transition-transform duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] [text-shadow:0px_1.3em_currentColor] group-hover:-translate-y-[1.3em] group-hover:rotate-[0.001deg] motion-reduce:translate-y-0 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:rotate-[0.001deg]"
 );
 
 type WithAsChild<Base extends object> =

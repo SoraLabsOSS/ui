@@ -1,6 +1,6 @@
 "use client";
 
-import { type MotionProps, motion } from "motion/react";
+import { type MotionProps, motion, useReducedMotion } from "motion/react";
 import type React from "react";
 import {
   type ComponentType,
@@ -121,6 +121,7 @@ export function TextScramble({
   onMouseEnter,
   ...props
 }: TextScrambleProps) {
+  const prefersReducedMotion = useReducedMotion();
   const MotionComponent = getMotionComponent(Component) as MotionTextComponent;
   const [frame, setFrame] = useState<ScrambleFrame | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -136,7 +137,7 @@ export function TextScramble({
   };
 
   const scramble = () => {
-    if (isAnimating) {
+    if (prefersReducedMotion || isAnimating) {
       return;
     }
 
@@ -186,17 +187,26 @@ export function TextScramble({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: re-run only when mount trigger changes
   useEffect(() => {
-    if (!shouldTriggerOnMount) {
+    if (!shouldTriggerOnMount || prefersReducedMotion) {
       return;
     }
 
     scramble();
   }, [shouldTriggerOnMount, trigger]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run when mount trigger changes
+  useEffect(() => {
+    if (!(prefersReducedMotion && shouldTriggerOnMount)) {
+      return;
+    }
+
+    onScrambleComplete?.();
+  }, [prefersReducedMotion, shouldTriggerOnMount, trigger, onScrambleComplete]);
+
   const handleMouseEnter: MouseEventHandler<Element> = (event) => {
     onMouseEnter?.(event);
 
-    if (triggerOnHover) {
+    if (triggerOnHover && !prefersReducedMotion) {
       scramble();
     }
   };
@@ -222,6 +232,18 @@ export function TextScramble({
       </span>
     ));
   };
+
+  if (prefersReducedMotion) {
+    return (
+      <MotionComponent
+        className={className}
+        onMouseEnter={handleMouseEnter}
+        {...props}
+      >
+        {children}
+      </MotionComponent>
+    );
+  }
 
   return (
     <MotionComponent

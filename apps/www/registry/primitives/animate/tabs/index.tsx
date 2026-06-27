@@ -1,6 +1,11 @@
 "use client";
 
-import { type HTMLMotionProps, motion, type Transition } from "motion/react";
+import {
+  type HTMLMotionProps,
+  motion,
+  type Transition,
+  useReducedMotion,
+} from "motion/react";
 import * as React from "react";
 import { getStrictContext } from "@/registry/lib/get-strict-context";
 import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
@@ -200,6 +205,7 @@ function TabsContents({
   ...props
 }: TabsContentsProps) {
   const { activeValue } = useTabs();
+  const prefersReducedMotion = useReducedMotion();
   const childrenArray = React.Children.toArray(children);
   const activeIndex = childrenArray.findIndex(
     (child): child is React.ReactElement<{ value: string }> =>
@@ -294,19 +300,23 @@ function TabsContents({
     }
   }, [activeIndex, height, measure]);
 
+  const contentsTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : transition;
+
   return (
     <motion.div
       animate={{ height }}
       data-slot="tabs-contents"
       ref={containerRef}
       style={{ overflow: "hidden" }}
-      transition={transition}
+      transition={contentsTransition}
       {...props}
     >
       <motion.div
         animate={{ x: activeIndex * -100 + "%" }}
         className="-mx-2 flex"
-        transition={transition}
+        transition={contentsTransition}
       >
         {childrenArray.map((child, index) => (
           <div
@@ -338,20 +348,26 @@ function TabsContent({
   ...props
 }: TabsContentProps) {
   const { activeValue } = useTabs();
+  const prefersReducedMotion = useReducedMotion();
   const isActive = activeValue === value;
 
   const Component = asChild ? Slot : motion.div;
+  const contentTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 200, damping: 25 };
 
   return (
     <Component
-      animate={{ filter: isActive ? "blur(0px)" : "blur(4px)" }}
+      animate={{
+        filter: prefersReducedMotion || isActive ? "blur(0px)" : "blur(4px)",
+      }}
       data-slot="tabs-content"
       exit={{ filter: "blur(0px)" }}
       inert={!isActive}
       initial={{ filter: "blur(0px)" }}
       role="tabpanel"
       style={{ overflow: "hidden", ...style }}
-      transition={{ type: "spring", stiffness: 200, damping: 25 }}
+      transition={contentTransition}
       {...props}
     />
   );
