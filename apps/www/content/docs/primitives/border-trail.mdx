@@ -16,6 +16,8 @@ author:
 
 `BorderTrail` is a **client component** and decorative overlay. The parent must be `relative` with a matching `border-radius` (the trail inherits rounding via `rounded-[inherit]`).
 
+Set `radius` to the parent’s corner radius in pixels — e.g. `rounded-xl` is `12`. If omitted, `radius` defaults to `size`, which often overshoots the card corners.
+
 ```tsx
 import {
   BorderTrail,
@@ -25,7 +27,11 @@ import {
 export default function FeatureCard() {
   return (
     <div className="relative overflow-hidden rounded-xl border bg-card p-6">
-      <BorderTrail size={100} style={BORDER_TRAIL_DEFAULT_GLOW} />
+      <BorderTrail
+        radius={12}
+        size={100}
+        style={BORDER_TRAIL_DEFAULT_GLOW}
+      />
       <h3 className="relative z-[1] font-medium">Featured</h3>
       <p className="relative z-[1] text-muted-foreground text-sm">
         Your content sits above the trail.
@@ -49,7 +55,7 @@ When `prefers-reduced-motion: reduce` is set, the loop is replaced by a subtle s
     },
     radius: {
       description:
-        'Corner radius for the motion path. Defaults to `size` (motion-primitives parity).',
+        'Motion-path corner radius in pixels. Match the parent border radius (e.g. `12` for `rounded-xl`). Defaults to `size` when omitted.',
       type: 'number',
     },
     transition: {

@@ -67,6 +67,7 @@ function PricingCard({
       {borderTrail ? (
         <>
           <BorderTrail
+            radius={12}
             size={100}
             style={BORDER_TRAIL_DEFAULT_GLOW}
             transition={{

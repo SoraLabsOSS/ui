@@ -14,11 +14,15 @@ export interface BorderTrailDemoProps extends BorderTrailProps {
 }
 
 /** Docs preview — card with animated border trail. */
+/** Matches Tailwind `rounded-xl` (0.75rem). */
+const ROUNDED_XL_RADIUS = 12;
+
 export function BorderTrailDemo({
   containerClassName,
   duration = 5,
   enabled = true,
   glow = true,
+  radius = ROUNDED_XL_RADIUS,
   size = 100,
   style,
   transition,
@@ -44,6 +48,7 @@ export function BorderTrailDemo({
         <BorderTrail
           className="bg-zinc-500"
           enabled={enabled}
+          radius={radius}
           size={size}
           style={resolvedStyle}
           transition={resolvedTransition}
