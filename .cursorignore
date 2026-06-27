@@ -1,0 +1,5 @@
+# Block secrets from Agent, Tab, semantic search, and @ mentions.
+# https://cursor.com/docs/reference/ignore-file
+**/.env
+**/.env.*
+!**/.env.example
