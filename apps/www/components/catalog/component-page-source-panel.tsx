@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { Check, ChevronLeft, Copy, FileCode2 } from "lucide-react";
+import { Check, ChevronLeft, Copy, FileCode2, Loader } from "lucide-react";
 import {
   AnimatePresence,
   motion,
@@ -10,7 +10,12 @@ import {
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { catalogSourcePanelGutterClassName } from "./catalog-preview-classes";
+import {
+  catalogSourcePanelDesktopLayerClassName,
+  catalogSourcePanelGutterClassName,
+  catalogSourcePanelMobileHeightClassName,
+  catalogSourcePanelMobileLayerClassName,
+} from "./catalog-preview-classes";
 
 interface ComponentPageSourcePanelProps {
   filename?: string;
@@ -25,45 +30,83 @@ interface SourcePanelContentProps {
   sourceHtml: string | null;
 }
 
-function SourcePanelContent({
+const sourceContentTransition = {
+  duration: 0.25,
+  ease: [0.25, 0.46, 0.45, 0.94] as const,
+};
+
+function resolveSourceContentState({
   isLoading,
   loadError,
   sourceHtml,
-}: SourcePanelContentProps) {
+}: SourcePanelContentProps): "code" | "error" | "loading" | null {
   if (isLoading) {
-    return (
-      <div className="flex h-full items-center justify-center px-4 pt-24 pb-24">
-        <span className="font-mono text-muted-foreground/60 text-sm tracking-wide">
-          Loading source code...
-        </span>
-      </div>
-    );
+    return "loading";
   }
 
   if (loadError) {
-    return (
-      <div className="px-4 pt-24 pb-24 text-muted-foreground text-sm">
-        {loadError}
-      </div>
-    );
+    return "error";
   }
 
-  if (!sourceHtml) {
-    return null;
+  if (sourceHtml) {
+    return "code";
   }
+
+  return null;
+}
+
+function SourcePanelContent(props: SourcePanelContentProps) {
+  const { loadError, sourceHtml } = props;
+  const contentState = resolveSourceContentState(props);
 
   return (
-    <div
-      className={cn(
-        "relative w-full border-none bg-transparent text-sm",
-        "[&_.relative.group_>_button]:hidden",
-        "[&_.shiki]:rounded-none [&_.shiki]:border-none"
-      )}
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: server-highlighted shiki HTML
-      dangerouslySetInnerHTML={{ __html: sourceHtml }}
-      data-code-block
-      data-line-numbers="false"
-    />
+    <AnimatePresence initial={false} mode="wait">
+      {contentState === "loading" ? (
+        <motion.div
+          animate={{ opacity: 1 }}
+          className="flex h-full min-h-48 items-center justify-center gap-2 px-4 pt-24 pb-24 text-muted-foreground text-sm"
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          key="loading"
+          transition={sourceContentTransition}
+        >
+          <Loader aria-hidden className="size-4 animate-spin" />
+          <span>Loading source code...</span>
+        </motion.div>
+      ) : null}
+
+      {contentState === "error" ? (
+        <motion.div
+          animate={{ opacity: 1 }}
+          className="px-4 pt-24 pb-24 text-muted-foreground text-sm"
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          key="error"
+          transition={sourceContentTransition}
+        >
+          {loadError}
+        </motion.div>
+      ) : null}
+
+      {contentState === "code" ? (
+        <motion.div
+          animate={{ opacity: 1 }}
+          className={cn(
+            "relative w-full border-none bg-transparent text-sm",
+            "[&_.relative.group_>_button]:hidden",
+            "[&_.shiki]:rounded-none [&_.shiki]:border-none"
+          )}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: server-highlighted shiki HTML
+          dangerouslySetInnerHTML={{ __html: sourceHtml ?? "" }}
+          data-code-block
+          data-line-numbers="false"
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          key="code"
+          transition={sourceContentTransition}
+        />
+      ) : null}
+    </AnimatePresence>
   );
 }
 
@@ -220,9 +263,13 @@ export function ComponentPageSourcePanel({
         <motion.div
           animate={{ y: 0 }}
           className={cn(
-            "pointer-events-none fixed left-0 z-70 flex w-full flex-col outline-none",
+            "pointer-events-none fixed left-0 flex w-full flex-col outline-none",
+            catalogSourcePanelMobileLayerClassName,
+            catalogSourcePanelDesktopLayerClassName,
             "top-(--fd-banner-height) h-[calc(100dvh-var(--fd-banner-height))]",
-            "max-lg:top-auto max-lg:bottom-0 max-lg:h-[80vh] max-lg:rounded-t-lg max-lg:border-border/20 max-lg:border-t",
+            "max-lg:top-auto max-lg:bottom-0",
+            catalogSourcePanelMobileHeightClassName,
+            "max-lg:rounded-t-lg max-lg:border-border/20 max-lg:border-t",
             "lg:w-1/2",
             catalogSourcePanelGutterClassName
           )}

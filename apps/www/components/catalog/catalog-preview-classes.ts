@@ -181,10 +181,9 @@ export const catalogDocsHeaderDesktopMenuOpenClassName =
 export const catalogMobileChromeInteractiveClassName =
   "max-lg:pointer-events-auto";
 
-/**
- * Fixed mobile menu chip layer (`document.body`).
+/** Fixed mobile menu chip layer (`document.body`).
  * Above the flyout aside (`z-[81]`); toolbar stays in the header (`z-[60]`).
- */
+ * Source drawer stays below toolbar (`z-[55]`). */
 export const catalogMobileMenuChipFixedClassName = [
   "pointer-events-auto fixed z-[90]",
   "top-[calc(var(--fd-banner-height)+1rem)]",
@@ -220,6 +219,19 @@ export const catalogSourcePanelGutterClassName = [
   "max-lg:px-2 max-lg:pt-2 max-lg:pb-6",
   "lg:pt-4 lg:pb-4 lg:pl-4 lg:pr-1.5",
 ].join(" ");
+
+/** Mobile bottom sheet — below fixed catalog chrome, above in-flow preview content. */
+export const catalogSourcePanelMobileLayerClassName = "max-lg:z-[55]";
+
+/** Desktop split view — overlays the preview column. */
+export const catalogSourcePanelDesktopLayerClassName = "lg:z-70";
+
+/**
+ * Mobile sheet height — cap below the fixed header so short viewports do not
+ * bury the preview toolbar (`catalogDocsHeaderMobileHeight`).
+ */
+export const catalogSourcePanelMobileHeightClassName =
+  "max-lg:h-[min(80dvh,calc(100dvh-var(--fd-banner-height)-4.5rem))]";
 
 export const catalogPreviewShellClassName = [
   "w-full",
