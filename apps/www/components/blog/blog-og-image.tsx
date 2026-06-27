@@ -62,7 +62,7 @@ export function BlogOgImage({
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const mediaReadyRef = useRef(false);
-  const startedAtRef = useRef(Date.now());
+  const startedAtRef = useRef(0);
   const timeoutIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const [phase, setPhase] = useState<LoadPhase>("loading");
 
@@ -102,6 +102,10 @@ export function BlogOgImage({
   }, [fadeDuration, minDuration, prefersReducedMotion, schedule]);
 
   useEffect(() => clearTimeouts, [clearTimeouts]);
+
+  useEffect(() => {
+    startedAtRef.current = Date.now();
+  }, []);
 
   useEffect(() => {
     const image = containerRef.current?.querySelector("img");
