@@ -7,6 +7,10 @@ import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
 import { HomeShell } from "@/components/home/home-shell";
 import {
+  BORDER_TRAIL_DEFAULT_GLOW,
+  BorderTrail,
+} from "@/registry/primitives/effects/border-trail";
+import {
   GITHUB_SPONSORS_URL,
   getSupportMailtoUrl,
   PRICING_DISCLAIMER,
@@ -38,23 +42,44 @@ function PricingFeatureList({ items }: PricingFeatureListProps) {
 }
 
 interface PricingCardProps {
+  borderTrail?: boolean;
   children: ReactNode;
   className?: string;
   delay?: number;
 }
 
-function PricingCard({ children, className, delay = 0 }: PricingCardProps) {
+function PricingCard({
+  borderTrail = false,
+  children,
+  className,
+  delay = 0,
+}: PricingCardProps) {
   return (
     <MotionEffect
       className={cn(
-        "flex flex-1 flex-col overflow-hidden border border-foreground/10 bg-muted/40 p-6 text-foreground md:p-8",
+        "relative flex flex-1 flex-col overflow-hidden rounded-xl border border-foreground/10 bg-muted/40 p-6 text-foreground md:p-8",
         className
       )}
       delay={delay}
       fade
       inView
     >
-      {children}
+      {borderTrail ? (
+        <>
+          <BorderTrail
+            size={100}
+            style={BORDER_TRAIL_DEFAULT_GLOW}
+            transition={{
+              duration: 10,
+              ease: "linear",
+              repeat: Number.POSITIVE_INFINITY,
+            }}
+          />
+          <div className="relative z-1 flex flex-1 flex-col">{children}</div>
+        </>
+      ) : (
+        children
+      )}
     </MotionEffect>
   );
 }
@@ -75,7 +100,7 @@ export function PricingCards() {
         </div>
 
         <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-4 sm:flex-row sm:items-stretch">
-          <PricingCard>
+          <PricingCard borderTrail>
             <div className="flex flex-1 flex-col">
               <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
                 Free

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "border-trail",
+  "type": "registry:ui",
+  "title": "Border Trail",
+  "description": "Animated border spotlight that travels around a rounded container.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/border-trail/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/border-trail.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/border-trail"
+    }
+  }
+}

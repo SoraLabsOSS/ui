@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "border-trail",
+  "title": "Border Trail",
+  "description": "Animated border spotlight that travels around a rounded container.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/border-trail/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion, type Transition, useReducedMotion } from \"motion/react\";\nimport type { CSSProperties } from \"react\";\n\nconst DEFAULT_TRANSITION: Transition = {\n  repeat: Number.POSITIVE_INFINITY,\n  duration: 5,\n  ease: \"linear\",\n};\n\n/** Classic soft glow from motion-primitives Border Trail card examples. */\nexport const BORDER_TRAIL_DEFAULT_GLOW: CSSProperties = {\n  boxShadow:\n    \"0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)\",\n};\n\nexport interface BorderTrailProps {\n  className?: string;\n  /** When `false`, the trail is not rendered. */\n  enabled?: boolean;\n  /**\n   * Corner radius for the motion path. Defaults to `size` (motion-primitives\n   * behavior). Set explicitly to match the parent `border-radius` when needed.\n   */\n  radius?: number;\n  /** Spotlight size in pixels — also drives path round when `radius` is omitted. */\n  size?: number;\n  style?: CSSProperties;\n  transition?: Transition;\n}\n\n/** Animated border spotlight overlay — place inside a `relative` rounded container. */\nexport function BorderTrail({\n  className,\n  size = 60,\n  radius,\n  transition,\n  style,\n  enabled = true,\n}: BorderTrailProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const pathRadius = radius ?? size;\n\n  if (!enabled) {\n    return null;\n  }\n\n  if (prefersReducedMotion) {\n    return (\n      <div\n        aria-hidden\n        className=\"pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25\"\n        data-slot=\"border-trail\"\n      />\n    );\n  }\n\n  return (\n    <div\n      aria-hidden\n      className=\"pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]\"\n      data-slot=\"border-trail\"\n    >\n      <motion.div\n        animate={{ offsetDistance: [\"0%\", \"100%\"] }}\n        className={cn(\"absolute aspect-square bg-zinc-500\", className)}\n        style={{\n          width: size,\n          offsetPath: `rect(0 auto auto 0 round ${pathRadius}px)`,\n          ...style,\n        }}\n        transition={transition ?? DEFAULT_TRANSITION}\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/border-trail.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/border-trail"
+    }
+  },
+  "type": "registry:ui"
+}

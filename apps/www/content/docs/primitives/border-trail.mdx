@@ -1,0 +1,79 @@
+---
+title: Border Trail
+description: Animated border spotlight that travels around a rounded container edge.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="border-trail" />
+
+## Installation
+
+<ComponentInstallation name="border-trail" />
+
+## Usage
+
+`BorderTrail` is a **client component** and decorative overlay. The parent must be `relative` with a matching `border-radius` (the trail inherits rounding via `rounded-[inherit]`).
+
+```tsx
+import {
+  BorderTrail,
+  BORDER_TRAIL_DEFAULT_GLOW,
+} from '@/components/sora-ui/effects/border-trail';
+
+export default function FeatureCard() {
+  return (
+    <div className="relative overflow-hidden rounded-xl border bg-card p-6">
+      <BorderTrail size={100} style={BORDER_TRAIL_DEFAULT_GLOW} />
+      <h3 className="relative z-[1] font-medium">Featured</h3>
+      <p className="relative z-[1] text-muted-foreground text-sm">
+        Your content sits above the trail.
+      </p>
+    </div>
+  );
+}
+```
+
+When `prefers-reduced-motion: reduce` is set, the loop is replaced by a subtle static ring. Pass `enabled={false}` to hide the effect entirely.
+
+## Props
+
+<TypeTable
+  type={{
+    size: {
+      description:
+        'Spotlight size in pixels. Also sets motion-path corner round when `radius` is omitted.',
+      type: 'number',
+      default: '60',
+    },
+    radius: {
+      description:
+        'Corner radius for the motion path. Defaults to `size` (motion-primitives parity).',
+      type: 'number',
+    },
+    transition: {
+      description: 'Motion transition for the offset-distance loop.',
+      type: 'Transition',
+    },
+    enabled: {
+      description: 'When false, nothing is rendered.',
+      type: 'boolean',
+      default: 'true',
+    },
+    className: {
+      description: 'Classes merged onto the moving spotlight (e.g. trail color).',
+      type: 'string',
+      default: '"bg-zinc-500"',
+    },
+    style: {
+      description:
+        'Inline styles on the spotlight. Use `BORDER_TRAIL_DEFAULT_GLOW` for the classic soft glow.',
+      type: 'CSSProperties',
+    },
+  }}
+/>
+
+## Credits
+
+Inspired by [motion-primitives Border Trail](https://motion-primitives.com/docs/border-trail).

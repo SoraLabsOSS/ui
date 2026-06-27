@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-border-trail",
+  "title": "Border Trail Demo",
+  "description": "Card with animated border spotlight.",
+  "registryDependencies": ["@soralabs/border-trail"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/border-trail/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  BORDER_TRAIL_DEFAULT_GLOW,\n  BorderTrail,\n  type BorderTrailProps,\n} from \"@/components/sora-ui/effects/border-trail\";\n\nexport interface BorderTrailDemoProps extends BorderTrailProps {\n  containerClassName?: string;\n  duration?: number;\n  glow?: boolean;\n}\n\n/** Docs preview — card with animated border trail. */\nexport function BorderTrailDemo({\n  containerClassName,\n  duration = 5,\n  enabled = true,\n  glow = true,\n  size = 100,\n  style,\n  transition,\n}: BorderTrailDemoProps) {\n  const resolvedTransition = transition ?? {\n    repeat: Number.POSITIVE_INFINITY,\n    duration,\n    ease: \"linear\" as const,\n  };\n\n  const resolvedStyle = glow\n    ? { ...BORDER_TRAIL_DEFAULT_GLOW, ...style }\n    : style;\n\n  return (\n    <div className=\"flex items-center justify-center p-6\">\n      <div\n        className={cn(\n          \"relative w-full max-w-sm overflow-hidden rounded-xl border bg-card p-8\",\n          containerClassName\n        )}\n      >\n        <BorderTrail\n          className=\"bg-zinc-500\"\n          enabled={enabled}\n          size={size}\n          style={resolvedStyle}\n          transition={resolvedTransition}\n        />\n        <div className=\"relative z-1 space-y-2\">\n          <p className=\"font-medium text-sm\">Border trail</p>\n          <p className=\"text-muted-foreground text-sm\">\n            Spotlight loops around the card edge via CSS offset-path.\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/border-trail.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "BorderTrailDemo": {
+        "size": {
+          "value": 100,
+          "min": 40,
+          "max": 140,
+          "step": 4
+        },
+        "glow": {
+          "value": true
+        },
+        "duration": {
+          "value": 5,
+          "min": 1,
+          "max": 12,
+          "step": 0.5
+        },
+        "enabled": {
+          "value": true
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}
