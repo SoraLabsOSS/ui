@@ -5,10 +5,14 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { env } from "@/env";
-import { SENTRY_TRACES_SAMPLE_RATE } from "@/lib/sentry/traces-sample-rate";
+import {
+  SENTRY_ENABLED,
+  SENTRY_TRACES_SAMPLE_RATE,
+} from "@/lib/sentry/traces-sample-rate";
 
 Sentry.init({
   dsn: env.NEXT_PUBLIC_SENTRY_DSN,
+  enabled: SENTRY_ENABLED,
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
   tracesSampleRate: SENTRY_TRACES_SAMPLE_RATE,
