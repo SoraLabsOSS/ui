@@ -4,12 +4,9 @@
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Image, { type ImageProps } from "next/image";
 import {
-  Children,
   type ComponentPropsWithoutRef,
-  cloneElement,
-  isValidElement,
-  type ReactElement,
   type SyntheticEvent,
   useCallback,
   useEffect,
@@ -20,13 +17,13 @@ import {
 type LoadPhase = "loading" | "fading" | "revealed";
 
 export interface BlogOgImageProps extends ComponentPropsWithoutRef<"div"> {
-  /** Single Next.js `Image` or `img` element. */
-  children: ReactElement;
   /**
    * Skeleton fade-out duration in seconds.
    * @default 0.45
    */
   fadeDuration?: number;
+  /** Next.js Image props (rendered inside the client boundary). */
+  image: ImageProps;
   /**
    * Minimum time to show the skeleton before fading out, in seconds.
    * @default 0
@@ -35,16 +32,11 @@ export interface BlogOgImageProps extends ComponentPropsWithoutRef<"div"> {
   skeletonClassName?: string;
 }
 
-interface ImageChildProps {
-  className?: string;
-  onLoad?: (event: SyntheticEvent) => void;
-}
-
 function mergeImageReadyHandler(
-  existing: ((event: SyntheticEvent) => void) | undefined,
+  existing: ImageProps["onLoad"],
   onReady: () => void
 ) {
-  return (event: SyntheticEvent) => {
+  return (event: SyntheticEvent<HTMLImageElement>) => {
     existing?.(event);
     onReady();
   };
@@ -52,7 +44,7 @@ function mergeImageReadyHandler(
 
 /** Skeleton overlay that crossfades to a loaded blog OG image. */
 export function BlogOgImage({
-  children,
+  image,
   className,
   fadeDuration = 0.45,
   minDuration = 0,
@@ -108,24 +100,13 @@ export function BlogOgImage({
   }, []);
 
   useEffect(() => {
-    const image = containerRef.current?.querySelector("img");
-    if (image?.complete && image.naturalWidth > 0) {
+    const img = containerRef.current?.querySelector("img");
+    if (img?.complete && img.naturalWidth > 0) {
       beginReveal();
     }
   }, [beginReveal]);
 
-  const child = Children.only(children);
-
-  if (!isValidElement(child)) {
-    throw new Error("BlogOgImage expects a single React element child.");
-  }
-
-  const childProps = child.props as ImageChildProps;
-
-  const media = cloneElement(child, {
-    className: childProps.className,
-    onLoad: mergeImageReadyHandler(childProps.onLoad, beginReveal),
-  } as ImageChildProps);
+  const { onLoad, ...imageProps } = image;
 
   const showSkeleton = phase !== "revealed";
   const showMedia = phase !== "loading";
@@ -140,14 +121,17 @@ export function BlogOgImage({
       <motion.div
         animate={{ opacity: showMedia ? 1 : 0 }}
         aria-busy={showSkeleton}
-        className="size-full"
+        className="relative size-full"
         initial={false}
         transition={{
           duration: phase === "fading" ? fadeDuration : 0,
           ease: [0.16, 1, 0.3, 1],
         }}
       >
-        {media}
+        <Image
+          {...imageProps}
+          onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
+        />
       </motion.div>
 
       <AnimatePresence>

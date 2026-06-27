@@ -1,7 +1,6 @@
 import path from "node:path";
 import { cn } from "@workspace/ui/lib/utils";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { getBlogIndexOgContent } from "@/lib/blog/get-blog-index-og-content";
@@ -47,18 +46,17 @@ export default function BlogPage() {
                     "block w-full bg-muted/50 ring-1 ring-border/30 ring-inset",
                     isOgPreview ? "aspect-1200/630" : "h-48 md:h-56"
                   )}
-                >
-                  <Image
-                    alt={post.data.title}
-                    className="object-cover"
-                    draggable={false}
-                    fill
-                    loading={isLcpCandidate ? "eager" : undefined}
-                    priority={isLcpCandidate}
-                    src={post.data.image ?? getBlogPageImage(post).url}
-                    unoptimized
-                  />
-                </BlogOgImage>
+                  image={{
+                    alt: post.data.title,
+                    className: "object-cover",
+                    draggable: false,
+                    fill: true,
+                    loading: isLcpCandidate ? "eager" : undefined,
+                    priority: isLcpCandidate,
+                    src: post.data.image ?? getBlogPageImage(post).url,
+                    unoptimized: true,
+                  }}
+                />
                 <div className="flex flex-1 flex-col gap-3 px-4 py-4 md:px-5 md:py-5">
                   <div className="space-y-1.5">
                     <p className="font-medium text-base text-foreground leading-snug tracking-tight md:text-lg">
