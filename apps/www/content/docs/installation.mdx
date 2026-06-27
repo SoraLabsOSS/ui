@@ -56,10 +56,10 @@ npx shadcn@latest list @soralabs
 
 <CodeTabs
   codes={{
-    pnpm: `pnpm dlx shadcn@latest add @soralabs/text-reveal-blur`,
-    npm: `npx shadcn@latest add @soralabs/text-reveal-blur`,
-    yarn: `npx shadcn@latest add @soralabs/text-reveal-blur`,
-    bun: `bunx --bun shadcn@latest add @soralabs/text-reveal-blur`,
+    pnpm: `pnpm dlx shadcn@latest add @soralabs/text-effect`,
+    npm: `npx shadcn@latest add @soralabs/text-effect`,
+    yarn: `npx shadcn@latest add @soralabs/text-effect`,
+    bun: `bunx --bun shadcn@latest add @soralabs/text-effect`,
   }}
 />
 
@@ -97,10 +97,14 @@ npx shadcn@latest list @soralabs
 Import the component to your project.
 
 ```tsx
-import { BlurTextReveal } from '@/components/sora-ui/texts/text-reveal-blur';
+import { TextEffect } from '@/components/sora-ui/texts/text-effect';
 
 export default function Home() {
-  return <BlurTextReveal text="Hello World" />;
+  return (
+    <TextEffect scrollTrigger preset="fade-in-blur">
+      Hello World
+    </TextEffect>
+  );
 }
 ```
 

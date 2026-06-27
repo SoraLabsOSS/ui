@@ -4,6 +4,7 @@ import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { InlineTOC } from "@/components/blog/inline-toc";
 import {
   createBlogMetadata,
@@ -79,17 +80,19 @@ export default async function BlogPostPage(props: {
           )}
         >
           <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
-            <Image
-              alt={page.data.title}
-              className="h-auto w-full"
-              draggable={false}
-              height={image.height}
-              loading="eager"
-              priority
-              src={image.url}
-              unoptimized
-              width={image.width}
-            />
+            <BlogOgImage className="w-full">
+              <Image
+                alt={page.data.title}
+                className="h-auto w-full"
+                draggable={false}
+                height={image.height}
+                loading="eager"
+                priority
+                src={image.url}
+                unoptimized
+                width={image.width}
+              />
+            </BlogOgImage>
           </div>
         </figure>
 

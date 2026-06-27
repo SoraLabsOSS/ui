@@ -78,16 +78,20 @@ npx shadcn@latest registry add @soralabs
 
 ```bash
 npx shadcn@latest list @soralabs
-npx shadcn@latest add @soralabs/text-reveal-blur
+npx shadcn@latest add @soralabs/text-effect
 ```
 
 Import it like any other local component:
 
 ```tsx
-import { BlurTextReveal } from "@/components/sora-ui/texts/text-reveal-blur";
+import { TextEffect } from "@/components/sora-ui/texts/text-effect";
 
 export default function Home() {
-  return <BlurTextReveal text="Hello World" />;
+  return (
+    <TextEffect scrollTrigger preset="fade-in-blur">
+      Hello World
+    </TextEffect>
+  );
 }
 ```
 

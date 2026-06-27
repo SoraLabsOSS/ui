@@ -1,0 +1,158 @@
+---
+title: Text Effect
+description: Preset-driven staggered text reveals with blur, fade, slide, and scale animations.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-text-effect" />
+
+## Installation
+
+<ComponentInstallation name="text-effect" />
+
+## Usage
+
+Scroll-triggered headline — set `scrollTrigger` (built-in `useInView`):
+
+```tsx
+import { TextEffect } from '@/components/sora-ui/texts/text-effect';
+
+export default function HeroTitle() {
+  return (
+    <TextEffect
+      as="h1"
+      className="font-bold text-4xl tracking-tight"
+      preset="fade-in-blur"
+      per="word"
+      scrollTrigger
+    >
+      Animation should not be a black box.
+    </TextEffect>
+  );
+}
+```
+
+Animate immediately on mount (default) or toggle with `trigger`:
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { TextEffect } from '@/components/sora-ui/texts/text-effect';
+
+export default function LiveLabel() {
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <button onClick={() => setVisible((current) => !current)} type="button">
+      <TextEffect preset="slide" per="char" trigger={visible}>
+        {visible ? 'Hide me' : 'Show me'}
+      </TextEffect>
+    </button>
+  );
+}
+```
+
+Use `blurRevealItemVariants()` when you need the old blur-reveal tuning (`blur`, `yOffset`):
+
+```tsx
+import {
+  blurRevealItemVariants,
+  TextEffect,
+} from '@/components/sora-ui/texts/text-effect';
+
+<TextEffect
+  scrollTrigger
+  per="word"
+  variants={{ item: blurRevealItemVariants({ blur: 4, yOffset: 12 }) }}
+>
+  Hello world
+</TextEffect>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'The text content to animate.',
+      type: 'string',
+    },
+    as: {
+      description: 'HTML tag used for the animated container.',
+      type: 'keyof JSX.IntrinsicElements',
+      default: '"p"',
+    },
+    preset: {
+      description: 'Built-in animation style for each segment.',
+      type: '"blur" | "fade-in-blur" | "fade" | "slide" | "scale"',
+      default: '"fade"',
+    },
+    per: {
+      description: 'Split text by word, character, or line.',
+      type: '"word" | "char" | "line"',
+      default: '"word"',
+    },
+    scrollTrigger: {
+      description: 'When true, reveal after the element scrolls into view.',
+      type: 'boolean',
+      default: 'false',
+    },
+    once: {
+      description: 'When scrollTrigger is enabled, animate only the first time the element enters the viewport.',
+      type: 'boolean',
+      default: 'true',
+    },
+    viewportMargin: {
+      description: 'Intersection Observer margin when scrollTrigger is enabled.',
+      type: 'string',
+      default: '"0px 0px -10% 0px"',
+    },
+    trigger: {
+      description: 'When true, animates to the visible state. Ignored when scrollTrigger is enabled.',
+      type: 'boolean',
+      default: 'true',
+    },
+    delay: {
+      description: 'Delay before the stagger starts, in seconds.',
+      type: 'number',
+      default: '0',
+    },
+    speedReveal: {
+      description: 'Stagger speed multiplier. Higher values reveal faster.',
+      type: 'number',
+      default: '1',
+    },
+    speedSegment: {
+      description: 'Per-segment duration multiplier. Higher values animate faster.',
+      type: 'number',
+      default: '1',
+    },
+    variants: {
+      description: 'Optional Motion container and item variants that override the active preset.',
+      type: '{ container?: Variants; item?: Variants }',
+    },
+    containerTransition: {
+      description: 'Extra transition values merged into the container visible variant.',
+      type: 'Transition',
+    },
+    segmentTransition: {
+      description: 'Extra transition values merged into each segment variant.',
+      type: 'Transition',
+    },
+    className: {
+      description: 'Class names applied to the animated container.',
+      type: 'string',
+    },
+    segmentWrapperClassName: {
+      description: 'Class names applied around each animated segment.',
+      type: 'string',
+    },
+  }}
+/>
+
+## Credits
+
+<ComponentCredits name="text-effect" />

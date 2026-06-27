@@ -3,6 +3,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { getBlogIndexOgContent } from "@/lib/blog/get-blog-index-og-content";
 import { createBlogMetadata, getBlogPageImage } from "@/lib/blog/metadata";
 import { blog } from "@/lib/blog/source";
@@ -41,9 +42,9 @@ export default function BlogPage() {
                 href={post.url}
                 key={post.url}
               >
-                <span
+                <BlogOgImage
                   className={cn(
-                    "relative block w-full overflow-hidden bg-muted/50 ring-1 ring-border/30 ring-inset",
+                    "block w-full bg-muted/50 ring-1 ring-border/30 ring-inset",
                     isOgPreview ? "aspect-1200/630" : "h-48 md:h-56"
                   )}
                 >
@@ -57,7 +58,7 @@ export default function BlogPage() {
                     src={post.data.image ?? getBlogPageImage(post).url}
                     unoptimized
                   />
-                </span>
+                </BlogOgImage>
                 <div className="flex flex-1 flex-col gap-3 px-4 py-4 md:px-5 md:py-5">
                   <div className="space-y-1.5">
                     <p className="font-medium text-base text-foreground leading-snug tracking-tight md:text-lg">

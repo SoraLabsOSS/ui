@@ -282,7 +282,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/effects/logo-carousel-swapper.tsx",
         content:
-          '"use client";\n\nimport { PARTNER_LOGO_CAROUSEL_ROWS } from "@/lib/partner-logos";\nimport { LogoCarouselSwapper } from "@/components/sora-ui/effects/logo-carousel-swapper";\n\nexport function LogoCarouselSwapperExample() {\n  return (\n    <div className="flex w-full items-center justify-center overflow-visible px-4">\n      <LogoCarouselSwapper\n        aria-label="Partner logos"\n        className="max-w-3xl"\n        interval={3000}\n        monochrome\n        rows={PARTNER_LOGO_CAROUSEL_ROWS}\n        stagger={0.12}\n      />\n    </div>\n  );\n}',
+          '"use client";\n\nimport { PARTNER_LOGO_CAROUSEL_ROWS } from "@/lib/partner-logos";\nimport {\n  LogoCarouselSwapper,\n  type LogoCarouselSwapperProps,\n} from "@/components/sora-ui/effects/logo-carousel-swapper";\n\nexport function LogoCarouselSwapperExample({\n  monochrome = true,\n}: Pick<LogoCarouselSwapperProps, "monochrome">) {\n  return (\n    <div className="flex w-full max-w-full items-center justify-center overflow-hidden px-2 sm:px-4">\n      <LogoCarouselSwapper\n        aria-label="Partner logos"\n        className="max-w-3xl"\n        interval={3000}\n        monochrome={monochrome}\n        rows={PARTNER_LOGO_CAROUSEL_ROWS}\n        stagger={0.12}\n      />\n    </div>\n  );\n}',
       },
     ],
     keywords: [],
@@ -384,6 +384,101 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-draw-underline-link",
+  },
+  "demo-text-effect": {
+    name: "demo-text-effect",
+    description:
+      "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["text-effect"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-effect/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/text-effect.tsx",
+        content:
+          '"use client";\n\nimport {\n  TextEffect,\n  type TextEffectPer,\n  type TextEffectPreset,\n} from "@/components/sora-ui/texts/text-effect";\n\ninterface TextEffectDemoProps {\n  children?: string;\n  className?: string;\n  delay?: number;\n  per?: TextEffectPer;\n  preset?: TextEffectPreset;\n  scrollTrigger?: boolean;\n  speedReveal?: number;\n  speedSegment?: number;\n}\n\n/** Docs preview — scroll-triggered preset text reveal. */\nexport default function TextEffectDemo({\n  children = "Motion-first text effects",\n  className = "text-center font-bold text-3xl",\n  delay = 0,\n  per = "word",\n  preset = "fade-in-blur",\n  scrollTrigger = true,\n  speedReveal = 1,\n  speedSegment = 1,\n}: TextEffectDemoProps) {\n  return (\n    <div className="flex min-h-[140px] items-center justify-center px-4">\n      <TextEffect\n        as="h2"\n        className={className}\n        delay={delay}\n        per={per}\n        preset={preset}\n        scrollTrigger={scrollTrigger}\n        speedReveal={speedReveal}\n        speedSegment={speedSegment}\n      >\n        {children}\n      </TextEffect>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/text-effect/index.tsx"
+        );
+        const demoProps = {
+          TextEffect: {
+            as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
+            children: { value: "Motion-first text effects" },
+            className: { value: "text-center font-bold text-3xl" },
+            preset: {
+              value: "fade-in-blur",
+              options: {
+                "Fade in blur": "fade-in-blur",
+                Blur: "blur",
+                Fade: "fade",
+                Slide: "slide",
+                Scale: "scale",
+              },
+            },
+            per: {
+              value: "word",
+              options: { Word: "word", Char: "char", Line: "line" },
+            },
+            delay: { value: 0, min: 0, max: 2, step: 0.1 },
+            speedReveal: { value: 1, min: 0.25, max: 3, step: 0.25 },
+            speedSegment: { value: 1, min: 0.25, max: 3, step: 0.25 },
+            scrollTrigger: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextEffect: {
+          as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
+          children: { value: "Motion-first text effects" },
+          className: { value: "text-center font-bold text-3xl" },
+          preset: {
+            value: "fade-in-blur",
+            options: {
+              "Fade in blur": "fade-in-blur",
+              Blur: "blur",
+              Fade: "fade",
+              Slide: "slide",
+              Scale: "scale",
+            },
+          },
+          per: {
+            value: "word",
+            options: { Word: "word", Char: "char", Line: "line" },
+          },
+          delay: { value: 0, min: 0, max: 2, step: 0.1 },
+          speedReveal: { value: 1, min: 0.25, max: 3, step: 0.25 },
+          speedSegment: { value: 1, min: 0.25, max: 3, step: 0.25 },
+          scrollTrigger: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-text-effect",
   },
   "demo-text-morph": {
     name: "demo-text-morph",
@@ -981,7 +1076,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/effects/logo-carousel-swapper.tsx",
         content:
-          '// biome-ignore-all lint/performance/noImgElement: Motion animates filter, opacity, and y on native img elements.\n// biome-ignore-all lint/correctness/useImageSize: Slot containers use fixed dimensions; logos are object-contain.\n// biome-ignore-all lint/suspicious/noArrayIndexKey: Column slots are fixed-position and never reorder.\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { AnimatePresence, motion, useReducedMotion } from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  useEffect,\n  useMemo,\n  useState,\n} from "react";\n\nconst DEFAULT_INTERVAL_MS = 3000;\nconst DEFAULT_STAGGER_S = 0.14;\nconst DEFAULT_COLUMNS = 4;\nconst EXIT_DURATION_S = 0.55;\nconst ENTER_DURATION_S = 0.7;\n/** Enter overlaps exit so the incoming logo "pushes" the outgoing one. */\nconst ENTER_OVERLAP_S = 0.14;\n\nconst MOTION_BLUR = "blur(3px)";\nconst EXIT_OFFSET_Y = -25;\nconst ENTER_OFFSET_Y = 25;\n\n/** GSAP power3.in — accelerates out quickly. */\nconst EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;\n/** GSAP power4.out — snappy approach, soft landing. */\nconst ENTER_EASE = [0.165, 0.84, 0.44, 1] as const;\n\nconst ENTER_FROM = {\n  filter: MOTION_BLUR,\n  opacity: 0,\n  y: ENTER_OFFSET_Y,\n  z: 0,\n} as const;\n\nconst ENTER_TO = {\n  filter: "blur(0px)",\n  opacity: 1,\n  y: 0,\n  z: 0,\n} as const;\n\nconst EXIT_TO = {\n  filter: MOTION_BLUR,\n  opacity: 0,\n  y: EXIT_OFFSET_Y,\n  z: 0,\n} as const;\n\nconst logoCarouselSwapperVariants = cva("w-full overflow-visible", {\n  variants: {\n    align: {\n      center: "",\n      end: "",\n      start: "",\n    },\n    size: {\n      default: "",\n      lg: "",\n      sm: "",\n    },\n  },\n  defaultVariants: {\n    align: "center",\n    size: "default",\n  },\n});\n\nconst logoCarouselSwapperRowVariants = cva(\n  "flex w-full items-center overflow-visible py-10",\n  {\n    variants: {\n      align: {\n        center: "justify-center",\n        end: "justify-end",\n        start: "justify-start",\n      },\n      size: {\n        default: "gap-8 md:gap-10",\n        lg: "gap-10 md:gap-12",\n        sm: "gap-5 md:gap-6",\n      },\n    },\n    defaultVariants: {\n      align: "center",\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperSlotVariants = cva(\n  "relative grid shrink-0 place-items-center overflow-visible",\n  {\n    variants: {\n      size: {\n        default: "h-16 w-28",\n        lg: "h-20 w-32",\n        sm: "h-14 w-24",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperMotionLayerVariants = cva(\n  "absolute inset-0 grid place-items-center will-change-[transform,opacity,filter] [transform:translateZ(0)]"\n);\n\nconst logoCarouselSwapperImageVariants = cva(\n  "pointer-events-none max-h-[70%] w-auto max-w-[80%] select-none object-contain",\n  {\n    variants: {\n      monochrome: {\n        false: "dark:brightness-0 dark:invert",\n        true: "brightness-0 dark:invert",\n      },\n      size: {\n        default: "max-h-10",\n        lg: "max-h-12",\n        sm: "max-h-8",\n      },\n    },\n    defaultVariants: {\n      monochrome: false,\n      size: "default",\n    },\n  }\n);\n\nexport interface LogoCarouselSwapperItem {\n  alt: string;\n  src: string;\n}\n\nexport type LogoCarouselSwapperRow = LogoCarouselSwapperItem[];\n\nexport interface LogoCarouselSwapperProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof logoCarouselSwapperVariants> {\n  columns?: number;\n  interval?: number;\n  monochrome?: boolean;\n  rows: LogoCarouselSwapperRow[];\n  stagger?: number;\n}\n\nfunction normalizeRows(\n  rows: LogoCarouselSwapperRow[],\n  columns: number\n): LogoCarouselSwapperRow[] {\n  return rows\n    .map((row) => {\n      const next = row.slice(0, columns);\n\n      while (next.length < columns) {\n        const fallback = row[next.length % Math.max(row.length, 1)];\n        if (!fallback) {\n          break;\n        }\n        next.push(fallback);\n      }\n\n      return next;\n    })\n    .filter((row) => row.length === columns && row.every((item) => item.src));\n}\n\ninterface LogoSlotProps {\n  columnIndex: number;\n  item: LogoCarouselSwapperItem;\n  monochrome: boolean;\n  reduceMotion: boolean | null;\n  rowKey: number;\n  size: VariantProps<typeof logoCarouselSwapperSlotVariants>["size"];\n  stagger: number;\n}\n\nfunction LogoSlot({\n  columnIndex,\n  item,\n  monochrome,\n  reduceMotion,\n  rowKey,\n  size,\n  stagger,\n}: LogoSlotProps) {\n  const exitDelay = columnIndex * stagger;\n  const enterDelay = exitDelay + EXIT_DURATION_S - ENTER_OVERLAP_S;\n\n  if (reduceMotion) {\n    return (\n      <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n        <img\n          alt={item.alt}\n          className={logoCarouselSwapperImageVariants({ monochrome, size })}\n          draggable={false}\n          src={item.src}\n        />\n      </div>\n    );\n  }\n\n  return (\n    <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n      <AnimatePresence initial={false} mode="sync">\n        <motion.div\n          animate={{\n            ...ENTER_TO,\n            transition: {\n              delay: enterDelay,\n              duration: ENTER_DURATION_S,\n              ease: ENTER_EASE,\n            },\n          }}\n          className={logoCarouselSwapperMotionLayerVariants()}\n          exit={{\n            ...EXIT_TO,\n            transition: {\n              delay: exitDelay,\n              duration: EXIT_DURATION_S,\n              ease: EXIT_EASE,\n            },\n          }}\n          initial={ENTER_FROM}\n          key={`${rowKey}-${item.src}`}\n        >\n          <img\n            alt={item.alt}\n            className={logoCarouselSwapperImageVariants({ monochrome, size })}\n            draggable={false}\n            src={item.src}\n          />\n        </motion.div>\n      </AnimatePresence>\n    </div>\n  );\n}\n\nexport function LogoCarouselSwapper({\n  align,\n  className,\n  columns = DEFAULT_COLUMNS,\n  interval = DEFAULT_INTERVAL_MS,\n  monochrome = false,\n  rows,\n  size,\n  stagger = DEFAULT_STAGGER_S,\n  ...props\n}: LogoCarouselSwapperProps) {\n  const [rowIndex, setRowIndex] = useState(0);\n  const reduceMotion = useReducedMotion();\n\n  const normalizedRows = useMemo(\n    () => normalizeRows(rows, columns),\n    [columns, rows]\n  );\n\n  const activeRow = normalizedRows[rowIndex] ?? [];\n\n  useEffect(() => {\n    if (normalizedRows.length < 2) {\n      return;\n    }\n\n    const intervalId = window.setInterval(() => {\n      setRowIndex((current) => (current + 1) % normalizedRows.length);\n    }, interval);\n\n    return () => {\n      window.clearInterval(intervalId);\n    };\n  }, [interval, normalizedRows.length]);\n\n  if (activeRow.length === 0) {\n    return null;\n  }\n\n  return (\n    <div\n      className={cn(logoCarouselSwapperVariants({ align, size }), className)}\n      {...props}\n    >\n      <div\n        aria-hidden={props["aria-label"] ? undefined : true}\n        className={logoCarouselSwapperRowVariants({ align, size })}\n      >\n        {activeRow.map((item, columnIndex) => (\n          <LogoSlot\n            columnIndex={columnIndex}\n            item={item}\n            key={`logo-slot-${columnIndex}`}\n            monochrome={monochrome}\n            reduceMotion={reduceMotion}\n            rowKey={rowIndex}\n            size={size}\n            stagger={stagger}\n          />\n        ))}\n      </div>\n    </div>\n  );\n}',
+          '// biome-ignore-all lint/performance/noImgElement: Motion animates filter, opacity, and y on native img elements.\n// biome-ignore-all lint/correctness/useImageSize: Slot containers use fixed dimensions; logos are object-contain.\n// biome-ignore-all lint/suspicious/noArrayIndexKey: Column slots are fixed-position and never reorder.\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { AnimatePresence, motion, useReducedMotion } from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  useEffect,\n  useMemo,\n  useState,\n} from "react";\n\nconst DEFAULT_INTERVAL_MS = 3000;\nconst DEFAULT_STAGGER_S = 0.14;\nconst DEFAULT_COLUMNS = 4;\nconst EXIT_DURATION_S = 0.55;\nconst ENTER_DURATION_S = 0.7;\n/** Enter overlaps exit so the incoming logo "pushes" the outgoing one. */\nconst ENTER_OVERLAP_S = 0.14;\n\nconst MOTION_BLUR = "blur(3px)";\n\n/** Minimum rendered logo footprint on narrow viewports (72×76px). */\nconst MOBILE_LOGO_SIZE_CLASSES =\n  "max-sm:h-[76px] max-sm:min-h-[76px] max-sm:w-[72px] max-sm:min-w-[72px] max-sm:max-h-[76px] max-sm:max-w-[72px]";\n\ntype LogoCarouselSize = "default" | "lg" | "sm";\n\n/** Vertical travel per size — kept within slot height when combined with overflow clipping. */\nconst MOTION_OFFSET_Y = {\n  default: { enter: 18, exit: -18 },\n  lg: { enter: 22, exit: -22 },\n  sm: { enter: 14, exit: -14 },\n} as const satisfies Record<LogoCarouselSize, { enter: number; exit: number }>;\n\nfunction motionOffsetForSize(\n  size: VariantProps<typeof logoCarouselSwapperSlotVariants>["size"]\n) {\n  return MOTION_OFFSET_Y[(size ?? "default") as LogoCarouselSize];\n}\n\nfunction enterFrom(offsetY: number) {\n  return {\n    filter: MOTION_BLUR,\n    opacity: 0,\n    y: offsetY,\n    z: 0,\n  } as const;\n}\n\nconst ENTER_TO = {\n  filter: "blur(0px)",\n  opacity: 1,\n  y: 0,\n  z: 0,\n} as const;\n\nfunction exitTo(offsetY: number) {\n  return {\n    filter: MOTION_BLUR,\n    opacity: 0,\n    y: offsetY,\n    z: 0,\n  } as const;\n}\n\n/** GSAP power3.in — accelerates out quickly. */\nconst EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;\n/** GSAP power4.out — snappy approach, soft landing. */\nconst ENTER_EASE = [0.165, 0.84, 0.44, 1] as const;\n\nconst logoCarouselSwapperVariants = cva("w-full max-w-full overflow-hidden", {\n  variants: {\n    align: {\n      center: "",\n      end: "",\n      start: "",\n    },\n    size: {\n      default: "",\n      lg: "",\n      sm: "",\n    },\n  },\n  defaultVariants: {\n    align: "center",\n    size: "default",\n  },\n});\n\nconst logoCarouselSwapperRowVariants = cva(\n  [\n    "grid w-full min-w-0 max-w-full grid-cols-2 items-center overflow-hidden py-4",\n    "sm:flex sm:flex-row sm:py-6 md:py-8",\n  ].join(" "),\n  {\n    variants: {\n      align: {\n        center: "justify-items-center sm:justify-center",\n        end: "justify-items-end sm:justify-end",\n        start: "justify-items-start sm:justify-start",\n      },\n      size: {\n        default: "gap-3 sm:gap-6 md:gap-10",\n        lg: "gap-3 sm:gap-8 md:gap-12",\n        sm: "gap-2 sm:gap-4 md:gap-6",\n      },\n    },\n    defaultVariants: {\n      align: "center",\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperSlotVariants = cva(\n  [\n    "relative isolate grid place-items-center overflow-hidden",\n    "max-sm:h-[76px] max-sm:min-h-[76px] max-sm:w-full",\n    "sm:min-w-0 sm:flex-1 sm:basis-0",\n  ].join(" "),\n  {\n    variants: {\n      size: {\n        default: "sm:h-14 md:h-16",\n        lg: "sm:h-16 md:h-20",\n        sm: "sm:h-12 md:h-14",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\nconst logoCarouselSwapperMotionLayerVariants = cva(\n  "absolute inset-0 grid place-items-center will-change-[transform,opacity,filter] [transform:translateZ(0)]"\n);\n\nconst logoCarouselSwapperImageVariants = cva(\n  [\n    "pointer-events-none select-none object-contain",\n    MOBILE_LOGO_SIZE_CLASSES,\n    "sm:max-h-[70%] sm:w-auto sm:max-w-[80%]",\n  ].join(" "),\n  {\n    variants: {\n      monochrome: {\n        false: "",\n        true: "brightness-0 dark:invert",\n      },\n      size: {\n        default: "sm:max-h-8 md:max-h-10",\n        lg: "sm:max-h-10 md:max-h-12",\n        sm: "sm:max-h-7 md:max-h-8",\n      },\n    },\n    defaultVariants: {\n      monochrome: false,\n      size: "default",\n    },\n  }\n);\n\nexport interface LogoCarouselSwapperItem {\n  alt: string;\n  src: string;\n}\n\nexport type LogoCarouselSwapperRow = LogoCarouselSwapperItem[];\n\nexport interface LogoCarouselSwapperProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children">,\n    VariantProps<typeof logoCarouselSwapperVariants> {\n  columns?: number;\n  interval?: number;\n  monochrome?: boolean;\n  rows: LogoCarouselSwapperRow[];\n  stagger?: number;\n}\n\nfunction normalizeRows(\n  rows: LogoCarouselSwapperRow[],\n  columns: number\n): LogoCarouselSwapperRow[] {\n  return rows\n    .map((row) => {\n      const next = row.slice(0, columns);\n\n      while (next.length < columns) {\n        const fallback = row[next.length % Math.max(row.length, 1)];\n        if (!fallback) {\n          break;\n        }\n        next.push(fallback);\n      }\n\n      return next;\n    })\n    .filter((row) => row.length === columns && row.every((item) => item.src));\n}\n\ninterface LogoSlotProps {\n  columnIndex: number;\n  item: LogoCarouselSwapperItem;\n  monochrome: boolean;\n  reduceMotion: boolean | null;\n  rowKey: number;\n  size: VariantProps<typeof logoCarouselSwapperSlotVariants>["size"];\n  stagger: number;\n}\n\nfunction LogoSlot({\n  columnIndex,\n  item,\n  monochrome,\n  reduceMotion,\n  rowKey,\n  size,\n  stagger,\n}: LogoSlotProps) {\n  const exitDelay = columnIndex * stagger;\n  const enterDelay = exitDelay + EXIT_DURATION_S - ENTER_OVERLAP_S;\n  const { enter: enterOffsetY, exit: exitOffsetY } = motionOffsetForSize(size);\n\n  if (reduceMotion) {\n    return (\n      <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n        <img\n          alt={item.alt}\n          className={logoCarouselSwapperImageVariants({ monochrome, size })}\n          draggable={false}\n          src={item.src}\n        />\n      </div>\n    );\n  }\n\n  return (\n    <div className={logoCarouselSwapperSlotVariants({ size })} data-logo-slot>\n      <AnimatePresence initial={false} mode="sync">\n        <motion.div\n          animate={{\n            ...ENTER_TO,\n            transition: {\n              delay: enterDelay,\n              duration: ENTER_DURATION_S,\n              ease: ENTER_EASE,\n            },\n          }}\n          className={logoCarouselSwapperMotionLayerVariants()}\n          exit={{\n            ...exitTo(exitOffsetY),\n            transition: {\n              delay: exitDelay,\n              duration: EXIT_DURATION_S,\n              ease: EXIT_EASE,\n            },\n          }}\n          initial={enterFrom(enterOffsetY)}\n          key={`${rowKey}-${item.src}`}\n        >\n          <img\n            alt={item.alt}\n            className={logoCarouselSwapperImageVariants({ monochrome, size })}\n            draggable={false}\n            src={item.src}\n          />\n        </motion.div>\n      </AnimatePresence>\n    </div>\n  );\n}\n\nexport function LogoCarouselSwapper({\n  align,\n  className,\n  columns = DEFAULT_COLUMNS,\n  interval = DEFAULT_INTERVAL_MS,\n  monochrome = false,\n  rows,\n  size,\n  stagger = DEFAULT_STAGGER_S,\n  ...props\n}: LogoCarouselSwapperProps) {\n  const [rowIndex, setRowIndex] = useState(0);\n  const reduceMotion = useReducedMotion();\n\n  const normalizedRows = useMemo(\n    () => normalizeRows(rows, columns),\n    [columns, rows]\n  );\n\n  const activeRow = normalizedRows[rowIndex] ?? [];\n\n  useEffect(() => {\n    if (normalizedRows.length < 2) {\n      return;\n    }\n\n    const intervalId = window.setInterval(() => {\n      setRowIndex((current) => (current + 1) % normalizedRows.length);\n    }, interval);\n\n    return () => {\n      window.clearInterval(intervalId);\n    };\n  }, [interval, normalizedRows.length]);\n\n  if (activeRow.length === 0) {\n    return null;\n  }\n\n  return (\n    <div\n      className={cn(logoCarouselSwapperVariants({ align, size }), className)}\n      {...props}\n    >\n      <div\n        aria-hidden={props["aria-label"] ? undefined : true}\n        className={logoCarouselSwapperRowVariants({ align, size })}\n      >\n        {activeRow.map((item, columnIndex) => (\n          <LogoSlot\n            columnIndex={columnIndex}\n            item={item}\n            key={`logo-slot-${columnIndex}`}\n            monochrome={monochrome}\n            reduceMotion={reduceMotion}\n            rowKey={rowIndex}\n            size={size}\n            stagger={stagger}\n          />\n        ))}\n      </div>\n    </div>\n  );\n}',
       },
     ],
     keywords: [
@@ -1168,6 +1263,105 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/draw-underline-link",
   },
+  "text-effect": {
+    name: "text-effect",
+    description:
+      "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/text-effect/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-effect.tsx",
+        content:
+          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: Segment indices are stable for static text content. */\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  motion,\n  type TargetAndTransition,\n  type Transition,\n  type UseInViewOptions,\n  useInView,\n  useReducedMotion,\n  type Variant,\n  type Variants,\n} from "motion/react";\nimport React, {\n  type ComponentPropsWithoutRef,\n  type JSX,\n  memo,\n  useMemo,\n  useRef,\n} from "react";\n\nexport type TextEffectPreset =\n  | "blur"\n  | "fade-in-blur"\n  | "scale"\n  | "fade"\n  | "slide";\n\nexport type TextEffectPer = "word" | "char" | "line";\n\nexport interface TextEffectProps extends ComponentPropsWithoutRef<"div"> {\n  as?: keyof JSX.IntrinsicElements;\n  children: string;\n  className?: string;\n  containerTransition?: Transition;\n  delay?: number;\n  onAnimationComplete?: () => void;\n  onAnimationStart?: () => void;\n  /**\n   * When `scrollTrigger` is enabled, fire the reveal only once.\n   * @default true\n   */\n  once?: boolean;\n  per?: TextEffectPer;\n  preset?: TextEffectPreset;\n  /**\n   * When `true`, reveal only after the element enters the viewport.\n   * @default false\n   */\n  scrollTrigger?: boolean;\n  segmentTransition?: Transition;\n  segmentWrapperClassName?: string;\n  speedReveal?: number;\n  speedSegment?: number;\n  style?: React.CSSProperties;\n  /**\n   * When `true`, animates to the visible state. When `false`, holds the hidden\n   * state. Ignored when `scrollTrigger` is enabled.\n   * @default true\n   */\n  trigger?: boolean;\n  variants?: {\n    container?: Variants;\n    item?: Variants;\n  };\n  /**\n   * Intersection margin used when `scrollTrigger` is enabled.\n   * @default "0px 0px -10% 0px"\n   */\n  viewportMargin?: UseInViewOptions["margin"];\n}\n\nconst defaultStaggerTimes: Record<TextEffectPer, number> = {\n  char: 0.03,\n  word: 0.05,\n  line: 0.1,\n};\n\nconst defaultContainerVariants: Variants = {\n  hidden: { opacity: 0 },\n  visible: {\n    opacity: 1,\n    transition: {\n      staggerChildren: 0.05,\n    },\n  },\n  exit: {\n    transition: { staggerChildren: 0.05, staggerDirection: -1 },\n  },\n};\n\nconst WHITESPACE_SPLIT_RE = /(\\s+)/;\n\nconst presetVariants: Record<\n  TextEffectPreset,\n  { container: Variants; item: Variants }\n> = {\n  blur: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, filter: "blur(12px)" },\n      visible: { opacity: 1, filter: "blur(0px)" },\n      exit: { opacity: 0, filter: "blur(12px)" },\n    },\n  },\n  "fade-in-blur": {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, y: 20, filter: "blur(12px)" },\n      visible: { opacity: 1, y: 0, filter: "blur(0px)" },\n      exit: { opacity: 0, y: 20, filter: "blur(12px)" },\n    },\n  },\n  scale: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, scale: 0 },\n      visible: { opacity: 1, scale: 1 },\n      exit: { opacity: 0, scale: 0 },\n    },\n  },\n  fade: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0 },\n      visible: { opacity: 1 },\n      exit: { opacity: 0 },\n    },\n  },\n  slide: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, y: 20 },\n      visible: { opacity: 1, y: 0 },\n      exit: { opacity: 0, y: 20 },\n    },\n  },\n};\n\nconst AnimationComponent = memo(function AnimationComponent({\n  segment,\n  variants,\n  per,\n  segmentWrapperClassName,\n}: {\n  segment: string;\n  variants: Variants;\n  per: TextEffectPer;\n  segmentWrapperClassName?: string;\n}) {\n  let content: React.ReactNode;\n\n  if (per === "line") {\n    content = (\n      <motion.span className="block" variants={variants}>\n        {segment}\n      </motion.span>\n    );\n  } else if (per === "word") {\n    content = (\n      <motion.span\n        aria-hidden="true"\n        className="inline-block whitespace-pre"\n        variants={variants}\n      >\n        {segment}\n      </motion.span>\n    );\n  } else if (segment.trim() === "") {\n    content = <span className="inline-block whitespace-pre">{segment}</span>;\n  } else {\n    content = (\n      <span className="inline-block whitespace-nowrap">\n        {segment.split("").map((char, charIndex) => (\n          <motion.span\n            aria-hidden="true"\n            className="inline-block whitespace-pre will-change-[opacity,filter,transform]"\n            key={`${segment}-${charIndex}`}\n            variants={variants}\n          >\n            {char}\n          </motion.span>\n        ))}\n      </span>\n    );\n  }\n\n  if (!segmentWrapperClassName) {\n    return content;\n  }\n\n  const defaultWrapperClassName = per === "line" ? "block" : "inline-block";\n\n  return (\n    <span className={cn(defaultWrapperClassName, segmentWrapperClassName)}>\n      {content}\n    </span>\n  );\n});\n\nfunction splitText(text: string, per: TextEffectPer) {\n  if (per === "line") {\n    return text.split("\\n");\n  }\n\n  return text.split(WHITESPACE_SPLIT_RE);\n}\n\nfunction hasTransition(\n  variant?: Variant\n): variant is TargetAndTransition & { transition?: Transition } {\n  if (!variant) {\n    return false;\n  }\n\n  return typeof variant === "object" && "transition" in variant;\n}\n\nfunction createVariantsWithTransition(\n  baseVariants: Variants,\n  transition?: Transition & { exit?: Transition }\n): Variants {\n  if (!transition) {\n    return baseVariants;\n  }\n\n  const { exit: _exit, ...mainTransition } = transition;\n\n  return {\n    ...baseVariants,\n    visible: {\n      ...baseVariants.visible,\n      transition: {\n        ...(hasTransition(baseVariants.visible)\n          ? baseVariants.visible.transition\n          : {}),\n        ...mainTransition,\n      },\n    },\n    exit: {\n      ...baseVariants.exit,\n      transition: {\n        ...(hasTransition(baseVariants.exit)\n          ? baseVariants.exit.transition\n          : {}),\n        ...mainTransition,\n        staggerDirection: -1,\n      },\n    },\n  };\n}\n\nexport function blurRevealItemVariants({\n  blur = 4,\n  yOffset = 0,\n}: {\n  blur?: number;\n  yOffset?: number;\n} = {}): Variants {\n  return {\n    hidden: { opacity: 0, y: yOffset, filter: `blur(${blur}px)` },\n    visible: { opacity: 1, y: 0, filter: "blur(0px)" },\n    exit: { opacity: 0, y: yOffset, filter: `blur(${blur}px)` },\n  };\n}\n\nexport function TextEffect({\n  children,\n  per = "word",\n  as = "p",\n  variants,\n  className,\n  preset = "fade",\n  delay = 0,\n  speedReveal = 1,\n  speedSegment = 1,\n  scrollTrigger = false,\n  once = true,\n  viewportMargin = "0px 0px -10% 0px",\n  trigger = true,\n  onAnimationComplete,\n  onAnimationStart,\n  segmentWrapperClassName,\n  containerTransition,\n  segmentTransition,\n  style,\n}: TextEffectProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const scrollRef = useRef<HTMLDivElement>(null);\n  const isInView = useInView(scrollRef, {\n    margin: viewportMargin,\n    once,\n  });\n  const shouldReveal = scrollTrigger ? isInView : trigger;\n  const segments = useMemo(() => splitText(children, per), [children, per]);\n  const MotionTag = motion[as as keyof typeof motion] as typeof motion.div;\n\n  const computedVariants = useMemo(() => {\n    const baseVariants = presetVariants[preset];\n    const stagger = defaultStaggerTimes[per] / speedReveal;\n    const baseDuration = 0.3 / speedSegment;\n\n    const fallbackContainer = variants?.container ?? baseVariants.container;\n    const fallbackItem = variants?.item ?? baseVariants.item;\n\n    const customStagger = hasTransition(variants?.container?.visible ?? {})\n      ? (variants?.container?.visible as TargetAndTransition).transition\n          ?.staggerChildren\n      : undefined;\n\n    const customDelay = hasTransition(variants?.container?.visible ?? {})\n      ? (variants?.container?.visible as TargetAndTransition).transition\n          ?.delayChildren\n      : undefined;\n\n    return {\n      container: createVariantsWithTransition(fallbackContainer, {\n        staggerChildren: customStagger ?? stagger,\n        delayChildren: customDelay ?? delay,\n        ...containerTransition,\n        exit: {\n          staggerChildren: customStagger ?? stagger,\n          staggerDirection: -1,\n        },\n      }),\n      item: createVariantsWithTransition(fallbackItem, {\n        duration: baseDuration,\n        ...segmentTransition,\n      }),\n    };\n  }, [\n    containerTransition,\n    delay,\n    per,\n    preset,\n    segmentTransition,\n    speedReveal,\n    speedSegment,\n    variants?.container,\n    variants?.item,\n  ]);\n\n  if (prefersReducedMotion) {\n    const Tag = as;\n\n    return (\n      <Tag className={cn("leading-relaxed", className)} style={style}>\n        {children}\n      </Tag>\n    );\n  }\n\n  return (\n    <AnimatePresence mode="popLayout">\n      <div\n        ref={scrollTrigger ? scrollRef : undefined}\n        style={scrollTrigger ? undefined : { display: "contents" }}\n      >\n        <MotionTag\n          animate={shouldReveal ? "visible" : "hidden"}\n          className={cn("leading-relaxed", className)}\n          exit="exit"\n          initial="hidden"\n          key={children}\n          onAnimationComplete={onAnimationComplete}\n          onAnimationStart={onAnimationStart}\n          style={style}\n          variants={computedVariants.container}\n        >\n          {per === "line" ? null : <span className="sr-only">{children}</span>}\n          {segments.map((segment, index) => (\n            <AnimationComponent\n              key={`${per}-${index}-${segment}`}\n              per={per}\n              segment={segment}\n              segmentWrapperClassName={segmentWrapperClassName}\n              variants={computedVariants.item}\n            />\n          ))}\n        </MotionTag>\n      </div>\n    </AnimatePresence>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "motion-primitives",
+      url: "https://motion-primitives.com/docs/text-effect",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/text-effect/index.tsx"
+        );
+        const demoProps = {
+          TextEffect: {
+            as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
+            children: { value: "Motion-first text effects" },
+            className: { value: "text-center font-bold text-3xl" },
+            preset: {
+              value: "fade-in-blur",
+              options: {
+                "Fade in blur": "fade-in-blur",
+                Blur: "blur",
+                Fade: "fade",
+                Slide: "slide",
+                Scale: "scale",
+              },
+            },
+            per: {
+              value: "word",
+              options: { Word: "word", Char: "char", Line: "line" },
+            },
+            delay: { value: 0, min: 0, max: 2, step: 0.1 },
+            speedReveal: { value: 1, min: 0.25, max: 3, step: 0.25 },
+            speedSegment: { value: 1, min: 0.25, max: 3, step: 0.25 },
+            scrollTrigger: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextEffect: {
+          as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
+          children: { value: "Motion-first text effects" },
+          className: { value: "text-center font-bold text-3xl" },
+          preset: {
+            value: "fade-in-blur",
+            options: {
+              "Fade in blur": "fade-in-blur",
+              Blur: "blur",
+              Fade: "fade",
+              Slide: "slide",
+              Scale: "scale",
+            },
+          },
+          per: {
+            value: "word",
+            options: { Word: "word", Char: "char", Line: "line" },
+          },
+          delay: { value: 0, min: 0, max: 2, step: 0.1 },
+          speedReveal: { value: 1, min: 0.25, max: 3, step: 0.25 },
+          speedSegment: { value: 1, min: 0.25, max: 3, step: 0.25 },
+          scrollTrigger: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/text-effect",
+  },
   "text-morph": {
     name: "text-morph",
     description:
@@ -1307,85 +1501,6 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/text-reveal-block",
-  },
-  "text-reveal-blur": {
-    name: "text-reveal-blur",
-    description:
-      "A scroll-triggered text reveal animation with blur and opacity.",
-    type: "registry:ui",
-    dependencies: ["motion"],
-    devDependencies: undefined,
-    registryDependencies: ["utils"],
-    files: [
-      {
-        path: "registry/primitives/texts/text-reveal-blur/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/texts/text-reveal-blur.tsx",
-        content:
-          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: These are static content and the indices are stable. */\n\n"use client";\n\nimport { cn } from "@/lib/utils";\nimport { motion, type UseInViewOptions, useInView } from "motion/react";\nimport { type ElementType, useMemo, useRef } from "react";\n\nexport interface BlurTextRevealProps {\n  /**\n   * HTML tag for the container element.\n   * @default "p"\n   */\n  as?: keyof React.JSX.IntrinsicElements;\n  /**\n   * Blur amount in pixels for the hidden state.\n   * @default 4\n   */\n  blur?: number;\n  className?: string;\n  /**\n   * Delay before the first unit starts animating, in seconds.\n   * @default 0\n   */\n  delay?: number;\n  /**\n   * Duration of each unit\'s animation in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Trigger the animation only once.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Split mode: word-by-word or character-by-character.\n   * @default "words"\n   */\n  splitBy?: "words" | "characters";\n  /**\n   * Delay between each successive unit in seconds.\n   * @default 0.05\n   */\n  staggerDelay?: number;\n  /** The text to animate. */\n  text?: string;\n  /**\n   * Additional className applied to each animated span.\n   */\n  unitClassName?: string;\n  /**\n   * Viewport margin that controls when the animation triggers.\n   * @default "0px 0px -10% 0px"\n   */\n  viewportMargin?: UseInViewOptions["margin"];\n  /**\n   * Initial vertical offset in pixels.\n   * @default 0\n   */\n  yOffset?: number;\n}\n\nconst WHITESPACE_RE = /\\s+/;\n\nexport function BlurTextReveal({\n  text = "",\n  as: Tag = "p",\n  splitBy = "words",\n  staggerDelay = 0.05,\n  delay = 0,\n  duration = 0.5,\n  once = true,\n  blur = 4,\n  yOffset = 0,\n  viewportMargin = "0px 0px -10% 0px",\n  className,\n  unitClassName,\n}: BlurTextRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const isInView = useInView(ref, { once, margin: viewportMargin });\n\n  const words = useMemo(() => text.split(WHITESPACE_RE), [text]);\n\n  // Pre-calculate character structures and global stagger indices to prevent mid-word wrapping\n  const parsedWords = useMemo(() => {\n    let charCount = 0;\n    return words.map((word) => {\n      const chars = word.split("").map((char) => {\n        const globalIndex = charCount;\n        charCount++;\n        return { char, globalIndex };\n      });\n      return { word, chars };\n    });\n  }, [words]);\n\n  const hiddenState = useMemo(\n    () => ({ opacity: 0, y: yOffset, filter: `blur(${blur}px)` }),\n    [blur, yOffset]\n  );\n\n  const visibleState = { opacity: 1, y: 0, filter: "blur(0px)" };\n\n  const Component = Tag as ElementType;\n\n  return (\n    <Component\n      aria-label={text}\n      className={cn("leading-relaxed", className)}\n      ref={ref}\n    >\n      {splitBy === "words"\n        ? words.map((word, i) => (\n            <span className="inline-block" key={i}>\n              <motion.span\n                animate={isInView ? visibleState : hiddenState}\n                aria-hidden="true"\n                className={cn(\n                  "inline-block will-change-[opacity,filter,transform]",\n                  unitClassName\n                )}\n                initial={hiddenState}\n                transition={{\n                  duration,\n                  delay: delay + i * staggerDelay,\n                  ease: [0.25, 0.46, 0.45, 0.94],\n                }}\n              >\n                {word}\n              </motion.span>\n              {i < words.length - 1 && (\n                <span className="inline-block">&nbsp;</span>\n              )}\n            </span>\n          ))\n        : parsedWords.map((wordData, wordIdx) => (\n            <span className="inline-block whitespace-nowrap" key={wordIdx}>\n              {wordData.chars.map((charData, charIdx) => (\n                <motion.span\n                  animate={isInView ? visibleState : hiddenState}\n                  aria-hidden="true"\n                  className={cn(\n                    "inline-block will-change-[opacity,filter,transform]",\n                    unitClassName\n                  )}\n                  initial={hiddenState}\n                  key={charIdx}\n                  transition={{\n                    duration,\n                    delay: delay + charData.globalIndex * staggerDelay,\n                    ease: [0.25, 0.46, 0.45, 0.94],\n                  }}\n                >\n                  {charData.char}\n                </motion.span>\n              ))}\n              {wordIdx < parsedWords.length - 1 && (\n                <span className="inline-block">&nbsp;</span>\n              )}\n            </span>\n          ))}\n    </Component>\n  );\n}',
-      },
-    ],
-    keywords: [],
-    inspiration: null,
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/primitives/texts/text-reveal-blur/index.tsx"
-        );
-        const demoProps = {
-          BlurTextReveal: {
-            as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
-            className: { value: "text-center font-bold text-3xl" },
-            text: { value: "Blur Text Animation" },
-            splitBy: {
-              value: "words",
-              options: { Words: "words", Characters: "characters" },
-            },
-            staggerDelay: { value: 0.05, min: 0.01, max: 0.5, step: 0.01 },
-            delay: { value: 0, min: 0, max: 2, step: 0.1 },
-            duration: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
-            blur: { value: 4, min: 0, max: 20, step: 1 },
-            yOffset: { value: 0, min: -50, max: 50, step: 1 },
-            viewportMargin: { value: "0px 0px -10% 0px" },
-          },
-        };
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {
-        BlurTextReveal: {
-          as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
-          className: { value: "text-center font-bold text-3xl" },
-          text: { value: "Blur Text Animation" },
-          splitBy: {
-            value: "words",
-            options: { Words: "words", Characters: "characters" },
-          },
-          staggerDelay: { value: 0.05, min: 0.01, max: 0.5, step: 0.01 },
-          delay: { value: 0, min: 0, max: 2, step: 0.1 },
-          duration: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
-          blur: { value: 4, min: 0, max: 20, step: 1 },
-          yOffset: { value: 0, min: -50, max: 50, step: 1 },
-          viewportMargin: { value: "0px 0px -10% 0px" },
-        },
-      };
-      return LazyComp;
-    })(),
-    command: "@soralabs/text-reveal-blur",
   },
   "text-reveal-box": {
     name: "text-reveal-box",
@@ -2216,27 +2331,6 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: null,
     command: "@soralabs/demo-text-reveal-block",
-  },
-  "demo-text-reveal-blur": {
-    name: "demo-text-reveal-blur",
-    description: "Usage example for text-reveal-blur.",
-    type: "registry:ui",
-    dependencies: ["motion"],
-    devDependencies: undefined,
-    registryDependencies: ["text-reveal-blur"],
-    files: [
-      {
-        path: "registry/demo/primitives/texts/text-reveal-blur/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/demo/texts/text-reveal-blur.tsx",
-        content:
-          '"use client";\n\nimport { BlurTextReveal } from "@/components/sora-ui/texts/text-reveal-blur";\n\nexport default function BlurTextRevealExample() {\n  return (\n    <BlurTextReveal\n      as={"h2"}\n      className={"text-center font-bold text-3xl"}\n      text={"Blur Text Animation"}\n      splitBy={"words"}\n      staggerDelay={0.05}\n      delay={0}\n      duration={0.5}\n      blur={4}\n      yOffset={0}\n      viewportMargin={"0px 0px -10% 0px"}\n    />\n  );\n}\n',
-      },
-    ],
-    keywords: [],
-    inspiration: null,
-    component: null,
-    command: "@soralabs/demo-text-reveal-blur",
   },
   "demo-text-scramble": {
     name: "demo-text-scramble",

@@ -128,6 +128,20 @@
       ]
     },
     {
+      "name": "demo-text-effect",
+      "type": "registry:ui",
+      "title": "Text Effect Demo",
+      "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
+      "registryDependencies": ["@soralabs/text-effect"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-effect/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-effect.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-text-morph",
       "type": "registry:ui",
       "title": "Text Morph Demo",
@@ -553,6 +567,85 @@
       }
     },
     {
+      "name": "text-effect",
+      "type": "registry:ui",
+      "title": "Text Effect",
+      "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/text-effect/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-effect.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "motion-primitives",
+          "url": "https://motion-primitives.com/docs/text-effect"
+        },
+        "demoProps": {
+          "TextEffect": {
+            "as": {
+              "value": "h2",
+              "options": {
+                "h2": "h2",
+                "p": "p",
+                "span": "span"
+              }
+            },
+            "children": {
+              "value": "Motion-first text effects"
+            },
+            "className": {
+              "value": "text-center font-bold text-3xl"
+            },
+            "preset": {
+              "value": "fade-in-blur",
+              "options": {
+                "Fade in blur": "fade-in-blur",
+                "Blur": "blur",
+                "Fade": "fade",
+                "Slide": "slide",
+                "Scale": "scale"
+              }
+            },
+            "per": {
+              "value": "word",
+              "options": {
+                "Word": "word",
+                "Char": "char",
+                "Line": "line"
+              }
+            },
+            "delay": {
+              "value": 0,
+              "min": 0,
+              "max": 2,
+              "step": 0.1
+            },
+            "speedReveal": {
+              "value": 1,
+              "min": 0.25,
+              "max": 3,
+              "step": 0.25
+            },
+            "speedSegment": {
+              "value": 1,
+              "min": 0.25,
+              "max": 3,
+              "step": 0.25
+            },
+            "scrollTrigger": {
+              "value": true
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "text-morph",
       "type": "registry:ui",
       "title": "Text Morph",
@@ -636,81 +729,6 @@
                 "up": "up",
                 "down": "down"
               }
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "text-reveal-blur",
-      "type": "registry:ui",
-      "title": "Text Reveal (Blur)",
-      "description": "A scroll-triggered text reveal animation with blur and opacity.",
-      "dependencies": ["motion"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/texts/text-reveal-blur/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/texts/text-reveal-blur.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "BlurTextReveal": {
-            "as": {
-              "value": "h2",
-              "options": {
-                "h2": "h2",
-                "p": "p",
-                "span": "span"
-              }
-            },
-            "className": {
-              "value": "text-center font-bold text-3xl"
-            },
-            "text": {
-              "value": "Blur Text Animation"
-            },
-            "splitBy": {
-              "value": "words",
-              "options": {
-                "Words": "words",
-                "Characters": "characters"
-              }
-            },
-            "staggerDelay": {
-              "value": 0.05,
-              "min": 0.01,
-              "max": 0.5,
-              "step": 0.01
-            },
-            "delay": {
-              "value": 0,
-              "min": 0,
-              "max": 2,
-              "step": 0.1
-            },
-            "duration": {
-              "value": 0.5,
-              "min": 0.1,
-              "max": 2,
-              "step": 0.1
-            },
-            "blur": {
-              "value": 4,
-              "min": 0,
-              "max": 20,
-              "step": 1
-            },
-            "yOffset": {
-              "value": 0,
-              "min": -50,
-              "max": 50,
-              "step": 1
-            },
-            "viewportMargin": {
-              "value": "0px 0px -10% 0px"
             }
           }
         }
