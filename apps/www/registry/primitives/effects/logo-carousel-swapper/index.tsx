@@ -22,20 +22,34 @@ const ENTER_DURATION_S = 0.7;
 const ENTER_OVERLAP_S = 0.14;
 
 const MOTION_BLUR = "blur(3px)";
-const EXIT_OFFSET_Y = -25;
-const ENTER_OFFSET_Y = 25;
 
-/** GSAP power3.in — accelerates out quickly. */
-const EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;
-/** GSAP power4.out — snappy approach, soft landing. */
-const ENTER_EASE = [0.165, 0.84, 0.44, 1] as const;
+/** Minimum rendered logo footprint on narrow viewports (72×76px). */
+const MOBILE_LOGO_SIZE_CLASSES =
+  "max-sm:h-[76px] max-sm:min-h-[76px] max-sm:w-[72px] max-sm:min-w-[72px] max-sm:max-h-[76px] max-sm:max-w-[72px]";
 
-const ENTER_FROM = {
-  filter: MOTION_BLUR,
-  opacity: 0,
-  y: ENTER_OFFSET_Y,
-  z: 0,
-} as const;
+type LogoCarouselSize = "default" | "lg" | "sm";
+
+/** Vertical travel per size — kept within slot height when combined with overflow clipping. */
+const MOTION_OFFSET_Y = {
+  default: { enter: 18, exit: -18 },
+  lg: { enter: 22, exit: -22 },
+  sm: { enter: 14, exit: -14 },
+} as const satisfies Record<LogoCarouselSize, { enter: number; exit: number }>;
+
+function motionOffsetForSize(
+  size: VariantProps<typeof logoCarouselSwapperSlotVariants>["size"]
+) {
+  return MOTION_OFFSET_Y[(size ?? "default") as LogoCarouselSize];
+}
+
+function enterFrom(offsetY: number) {
+  return {
+    filter: MOTION_BLUR,
+    opacity: 0,
+    y: offsetY,
+    z: 0,
+  } as const;
+}
 
 const ENTER_TO = {
   filter: "blur(0px)",
@@ -44,14 +58,21 @@ const ENTER_TO = {
   z: 0,
 } as const;
 
-const EXIT_TO = {
-  filter: MOTION_BLUR,
-  opacity: 0,
-  y: EXIT_OFFSET_Y,
-  z: 0,
-} as const;
+function exitTo(offsetY: number) {
+  return {
+    filter: MOTION_BLUR,
+    opacity: 0,
+    y: offsetY,
+    z: 0,
+  } as const;
+}
 
-const logoCarouselSwapperVariants = cva("w-full overflow-visible", {
+/** GSAP power3.in — accelerates out quickly. */
+const EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;
+/** GSAP power4.out — snappy approach, soft landing. */
+const ENTER_EASE = [0.165, 0.84, 0.44, 1] as const;
+
+const logoCarouselSwapperVariants = cva("w-full max-w-full overflow-hidden", {
   variants: {
     align: {
       center: "",
@@ -71,18 +92,21 @@ const logoCarouselSwapperVariants = cva("w-full overflow-visible", {
 });
 
 const logoCarouselSwapperRowVariants = cva(
-  "flex w-full items-center overflow-visible py-10",
+  [
+    "grid w-full min-w-0 max-w-full grid-cols-2 items-center overflow-hidden py-4",
+    "sm:flex sm:flex-row sm:py-6 md:py-8",
+  ].join(" "),
   {
     variants: {
       align: {
-        center: "justify-center",
-        end: "justify-end",
-        start: "justify-start",
+        center: "justify-items-center sm:justify-center",
+        end: "justify-items-end sm:justify-end",
+        start: "justify-items-start sm:justify-start",
       },
       size: {
-        default: "gap-8 md:gap-10",
-        lg: "gap-10 md:gap-12",
-        sm: "gap-5 md:gap-6",
+        default: "gap-3 sm:gap-6 md:gap-10",
+        lg: "gap-3 sm:gap-8 md:gap-12",
+        sm: "gap-2 sm:gap-4 md:gap-6",
       },
     },
     defaultVariants: {
@@ -93,13 +117,17 @@ const logoCarouselSwapperRowVariants = cva(
 );
 
 const logoCarouselSwapperSlotVariants = cva(
-  "relative grid shrink-0 place-items-center overflow-visible",
+  [
+    "relative isolate grid place-items-center overflow-hidden",
+    "max-sm:h-[76px] max-sm:min-h-[76px] max-sm:w-full",
+    "sm:min-w-0 sm:flex-1 sm:basis-0",
+  ].join(" "),
   {
     variants: {
       size: {
-        default: "h-16 w-28",
-        lg: "h-20 w-32",
-        sm: "h-14 w-24",
+        default: "sm:h-14 md:h-16",
+        lg: "sm:h-16 md:h-20",
+        sm: "sm:h-12 md:h-14",
       },
     },
     defaultVariants: {
@@ -113,17 +141,21 @@ const logoCarouselSwapperMotionLayerVariants = cva(
 );
 
 const logoCarouselSwapperImageVariants = cva(
-  "pointer-events-none max-h-[70%] w-auto max-w-[80%] select-none object-contain",
+  [
+    "pointer-events-none select-none object-contain",
+    MOBILE_LOGO_SIZE_CLASSES,
+    "sm:max-h-[70%] sm:w-auto sm:max-w-[80%]",
+  ].join(" "),
   {
     variants: {
       monochrome: {
-        false: "dark:brightness-0 dark:invert",
+        false: "",
         true: "brightness-0 dark:invert",
       },
       size: {
-        default: "max-h-10",
-        lg: "max-h-12",
-        sm: "max-h-8",
+        default: "sm:max-h-8 md:max-h-10",
+        lg: "sm:max-h-10 md:max-h-12",
+        sm: "sm:max-h-7 md:max-h-8",
       },
     },
     defaultVariants: {
@@ -192,6 +224,7 @@ function LogoSlot({
 }: LogoSlotProps) {
   const exitDelay = columnIndex * stagger;
   const enterDelay = exitDelay + EXIT_DURATION_S - ENTER_OVERLAP_S;
+  const { enter: enterOffsetY, exit: exitOffsetY } = motionOffsetForSize(size);
 
   if (reduceMotion) {
     return (
@@ -220,14 +253,14 @@ function LogoSlot({
           }}
           className={logoCarouselSwapperMotionLayerVariants()}
           exit={{
-            ...EXIT_TO,
+            ...exitTo(exitOffsetY),
             transition: {
               delay: exitDelay,
               duration: EXIT_DURATION_S,
               ease: EXIT_EASE,
             },
           }}
-          initial={ENTER_FROM}
+          initial={enterFrom(enterOffsetY)}
           key={`${rowKey}-${item.src}`}
         >
           <img
