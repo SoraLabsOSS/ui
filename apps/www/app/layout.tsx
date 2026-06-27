@@ -4,10 +4,9 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionConfig } from "motion/react";
+import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { Providers } from "@/components/providers";
@@ -124,8 +123,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </NuqsAdapter>
           </CommandPaletteGroupsProvider>
         </MotionConfig>
-        <Analytics />
-        <SpeedInsights />
+        <DeferredAnalytics />
       </body>
     </html>
   );

@@ -35,6 +35,7 @@
     "registry:build": "bun run --cwd apps/www registry:build",
     "prepare": "lefthook install",
     "check": "ultracite check",
+    "check-types": "turbo check-types",
     "fix": "ultracite fix"
   },
   "workspaces": [

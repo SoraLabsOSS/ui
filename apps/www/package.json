@@ -3,7 +3,9 @@
   "version": "1.0.27",
   "private": true,
   "scripts": {
+    "analyze": "cross-env ANALYZE=true next build",
     "build": "bun ./scripts/ensure-git-history.mts && next build",
+    "check-types": "tsc --noEmit",
     "dev": "next dev -p 3000",
     "start": "next start -p 3000",
     "postinstall": "bun ./scripts/ensure-git-history.mts && fumadocs-mdx",
@@ -56,6 +58,8 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.6",
+    "cross-env": "^10.0.0",
     "shadcn": "^4.10.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/mdx": "^2.0.13",
