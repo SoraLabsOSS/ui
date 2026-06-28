@@ -10,6 +10,7 @@ import { useScrollActiveItemIntoView } from "./scroll-active-nearest";
 
 export interface DocsShellNavItemProps {
   className?: string;
+  external?: boolean;
   href: string;
   isActive: boolean;
   isNew?: boolean;
@@ -22,6 +23,7 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
   label,
   isActive,
   isNew,
+  external = false,
   className,
   onClick,
 }: DocsShellNavItemProps) {
@@ -104,6 +106,8 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
             }
           }}
           onMouseLeave={() => setHovered(null)}
+          rel={external ? "noopener noreferrer" : undefined}
+          target={external ? "_blank" : undefined}
         >
           <span className="relative z-1 truncate">{label}</span>
           {isNew && (

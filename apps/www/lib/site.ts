@@ -1,6 +1,17 @@
 /** Production site origin — used for sitemap, robots, metadata, and JSON-LD. */
 export const SITE_URL = "https://ui.soralabs.io.vn" as const;
 
+export const GITHUB_PROFILE_URL = "https://github.com/axyl1410/" as const;
+export const X_PROFILE_URL = "https://x.com/axyl1410" as const;
+
+/** Public community hub — bug reports, discussions, and feature requests. */
+export const COMMUNITY_REPO_URL =
+  "https://github.com/SoraLabsOSS/sora-ui-community" as const;
+export const COMMUNITY_ISSUES_URL =
+  "https://github.com/SoraLabsOSS/sora-ui-community/issues/new" as const;
+export const COMMUNITY_DISCUSSIONS_URL =
+  "https://github.com/SoraLabsOSS/sora-ui-community/discussions/1" as const;
+
 export const SITE_DESCRIPTION =
   "Motion-first React component registry with GSAP scroll primitives. Preview animated Next.js components in docs and install with shadcn CLI.";
 

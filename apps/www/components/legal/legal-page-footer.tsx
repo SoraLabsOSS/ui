@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { COMMUNITY_REPO_URL } from "@/lib/site";
 
 const COPYRIGHT_YEAR = 2026;
 
@@ -7,8 +8,8 @@ const FOOTER_LINKS = [
   { href: "/legal/privacy", label: "Privacy" },
   { href: "/docs", label: "Docs" },
   {
-    href: "https://github.com/axyl1410/sora",
-    label: "GitHub",
+    href: COMMUNITY_REPO_URL,
+    label: "Community",
     external: true,
   },
 ] as const;

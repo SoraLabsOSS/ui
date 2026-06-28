@@ -412,6 +412,7 @@ export function SidebarLinkItem({
   return (
     <DocsShellNavItem
       className={props.className}
+      external={item.external}
       href={item.url}
       isActive={active}
       isNew={isNewFromRelease || Boolean((item as { new?: boolean }).new)}

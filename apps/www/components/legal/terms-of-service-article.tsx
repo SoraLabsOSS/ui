@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { COMMUNITY_ISSUES_URL } from "@/lib/site";
 
 const LAST_UPDATED = "June 24, 2026";
 
@@ -77,15 +78,15 @@ export function TermsOfServiceArticle() {
 
       <h2 id="contact">8. Contact</h2>
       <p>
-        Questions about these Terms? Open an issue on{" "}
+        Questions about these Terms?{" "}
         <a
-          href="https://github.com/axyl1410/sora"
+          href={COMMUNITY_ISSUES_URL}
           rel="noopener noreferrer"
           target="_blank"
         >
-          GitHub
-        </a>
-        .
+          Open an issue
+        </a>{" "}
+        on GitHub.
       </p>
     </>
   );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { COMMUNITY_DISCUSSIONS_URL, COMMUNITY_ISSUES_URL } from "@/lib/site";
 
 const LAST_UPDATED = "June 24, 2026";
 
@@ -99,7 +100,7 @@ export function PrivacyPolicyArticle() {
         If you believe an error report included something it should not have,
         open an issue on{" "}
         <a
-          href="https://github.com/axyl1410/sora"
+          href={COMMUNITY_ISSUES_URL}
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -151,13 +152,21 @@ export function PrivacyPolicyArticle() {
 
       <h2 id="contact">9. Contact</h2>
       <p>
-        Questions about this policy? Open an issue or discussion on{" "}
+        Questions about this policy?{" "}
         <a
-          href="https://github.com/axyl1410/sora"
+          href={COMMUNITY_ISSUES_URL}
           rel="noopener noreferrer"
           target="_blank"
         >
-          GitHub
+          Open an issue
+        </a>{" "}
+        or join the{" "}
+        <a
+          href={COMMUNITY_DISCUSSIONS_URL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          community discussion
         </a>
         .
       </p>
