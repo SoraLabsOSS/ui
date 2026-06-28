@@ -282,7 +282,24 @@ const splitContentLines = (footer: HTMLElement) => {
   return lines;
 };
 
-export function initAnimatedFooter(footer: HTMLElement) {
+interface FooterAnimationState {
+  animateIn: (options?: { duration?: number }) => void;
+}
+
+const footerAnimationState = new WeakMap<HTMLElement, FooterAnimationState>();
+
+export function revealAnimatedFooter(
+  footer: HTMLElement,
+  options?: { duration?: number }
+) {
+  footerAnimationState.get(footer)?.animateIn(options);
+}
+
+export function initAnimatedFooter(
+  footer: HTMLElement,
+  options: { autoReveal?: boolean } = {}
+) {
+  const { autoReveal = true } = options;
   const hands: HandInstance[] = [];
   const handSlots = [
     ...footer.querySelectorAll<HTMLElement>(".footer-hand-slot"),
@@ -404,18 +421,20 @@ export function initAnimatedFooter(footer: HTMLElement) {
 
   const charStagger = { each: 0.04, from: "center" as const };
 
-  const animateIn = () => {
+  const animateIn = (options?: { duration?: number }) => {
+    const duration = options?.duration ?? 1;
+
     gsap.to(reveal, {
       left: revealEnd.left,
       right: revealEnd.right,
-      duration: 1,
+      duration,
       ease: "power3.out",
       overwrite: true,
     });
     if (headingChars.length > 0) {
       gsap.to(headingChars, {
         yPercent: 0,
-        duration: 1,
+        duration,
         ease: "power3.out",
         stagger: charStagger,
         overwrite: true,
@@ -424,7 +443,7 @@ export function initAnimatedFooter(footer: HTMLElement) {
     if (contentLines.length > 0) {
       gsap.to(contentLines, {
         yPercent: 0,
-        duration: 1,
+        duration,
         ease: "power3.out",
         stagger: 0.08,
         overwrite: true,
@@ -436,16 +455,19 @@ export function initAnimatedFooter(footer: HTMLElement) {
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
+  footerAnimationState.set(footer, { animateIn });
+
   if (prefersReducedMotion) {
     reveal.left = revealEnd.left;
     reveal.right = revealEnd.right;
     gsap.set(headingChars, { yPercent: 0 });
     gsap.set(contentLines, { yPercent: 0 });
-  } else {
+  } else if (autoReveal) {
     animateIn();
   }
 
   return () => {
+    footerAnimationState.delete(footer);
     cancelAnimationFrame(parallaxFrameId);
     window.removeEventListener("mousemove", onMouseMove);
     compactQuery.removeEventListener("change", syncLayoutMode);

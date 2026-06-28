@@ -52,19 +52,16 @@ async function collectDocumentedNames(): Promise<Set<string>> {
   return allowedNames;
 }
 
-type RegistryItemFile = {
+interface RegistryItemFile {
   path: string;
   target?: string;
   type?: string;
-};
+}
 
-type RegistryItem = {
-  name: string;
-  description?: string;
-  type: string;
+interface RegistryItem {
   dependencies?: string[];
+  description?: string;
   devDependencies?: string[];
-  registryDependencies?: string[];
   files?: RegistryItemFile[];
   meta?: {
     demoProps?: Record<string, Record<string, unknown>>;
@@ -75,7 +72,10 @@ type RegistryItem = {
       url: string;
     };
   };
-};
+  name: string;
+  registryDependencies?: string[];
+  type: string;
+}
 
 function inferSyntheticDemoTarget(item: RegistryItem): string {
   const target = item.files?.[0]?.target;
