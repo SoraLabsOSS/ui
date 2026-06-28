@@ -1,7 +1,9 @@
 "use client";
 
+import { useSession } from "@better-auth-ui/react";
 import { useEffect, useRef } from "react";
 import { env } from "@/env";
+import { authClient } from "@/lib/auth-client";
 
 const CHAT_PLACEHOLDER = "Ask anything about Sora UI…";
 const COMPACT_STYLE_ID = "sora-docs-chat-compact";
@@ -24,6 +26,10 @@ const CHAT_TRANSLATIONS = JSON.stringify({
  * Shadow root is open, so we inject compact overrides after each internal render.
  */
 const COMPACT_CHAT_SHADOW_CSS = `
+  .chat-header-actions .minimize-button {
+    display: none;
+  }
+
   .chat-window.minimized {
     width: 250px;
     height: 46px;
@@ -121,15 +127,18 @@ function watchChatOverrides(chatBubble: HTMLElement): MutationObserver {
 
 /**
  * Cloudflare AI Search floating chat (RAG over docs).
+ * Experimental — authenticated users only.
  * Requires `NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL` — see `.env.example`.
  */
 export function DocsAiSearchChatBubble() {
   const hostRef = useRef<HTMLDivElement>(null);
+  const { data: session, isPending: sessionPending } = useSession(authClient);
   const apiUrl = env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL;
+  const isAuthenticated = Boolean(session);
 
   useEffect(() => {
     const url = env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL;
-    if (!(url && hostRef.current)) {
+    if (!(url && hostRef.current && isAuthenticated)) {
       return;
     }
 
@@ -172,9 +181,9 @@ export function DocsAiSearchChatBubble() {
       styleObserver?.disconnect();
       chatBubble?.remove();
     };
-  }, []);
+  }, [isAuthenticated]);
 
-  if (!apiUrl) {
+  if (!apiUrl || sessionPending || !isAuthenticated) {
     return null;
   }
 

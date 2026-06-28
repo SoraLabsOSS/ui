@@ -92,7 +92,7 @@ export function ComponentsGalleryHero({ className }: { className?: string }) {
           containerTransition={{ staggerChildren: 0.04 }}
           delay={0.1}
           per="word"
-          preset="fade-in-blur"
+          preset="blur"
           scrollTrigger
           segmentTransition={{ duration: 0.5 }}
         >
@@ -106,7 +106,7 @@ export function ComponentsGalleryHero({ className }: { className?: string }) {
         containerTransition={{ staggerChildren: 0.02 }}
         delay={0.25}
         per="word"
-        preset="fade-in-blur"
+        preset="blur"
         scrollTrigger
         segmentTransition={{ duration: 0.5 }}
       >

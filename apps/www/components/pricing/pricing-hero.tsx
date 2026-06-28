@@ -34,7 +34,7 @@ export function PricingHero() {
             containerTransition={{ staggerChildren: 0.04 }}
             delay={0.05}
             per="word"
-            preset="fade-in-blur"
+            preset="blur"
             scrollTrigger
             segmentTransition={{ duration: 0.5 }}
           >
@@ -47,7 +47,7 @@ export function PricingHero() {
             containerTransition={{ staggerChildren: 0.02 }}
             delay={0.2}
             per="word"
-            preset="fade-in-blur"
+            preset="blur"
             scrollTrigger
             segmentTransition={{ duration: 0.5 }}
           >
