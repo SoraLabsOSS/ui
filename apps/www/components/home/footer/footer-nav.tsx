@@ -7,6 +7,11 @@ import {
   AccordionTrigger,
 } from "@workspace/ui/components/sora-ui/disclosure/accordion";
 import { cn } from "@workspace/ui/lib/utils";
+import {
+  COMMUNITY_DISCUSSIONS_URL,
+  COMMUNITY_ISSUES_URL,
+  COMMUNITY_REPO_URL,
+} from "@/lib/site";
 import { FooterArrowLink } from "./footer-arrow-link";
 
 interface FooterNavLink {
@@ -48,16 +53,21 @@ const FOOTER_NAV: FooterNavSection[] = [
   {
     title: "Resources",
     links: [
-      // {
-      //   href: "https://github.com/axyl1410/sora",
-      //   label: "GitHub repo",
-      //   external: true,
-      // },
-      // {
-      //   href: "https://github.com/axyl1410/sora/issues",
-      //   label: "Report an issue",
-      //   external: true,
-      // },
+      {
+        href: COMMUNITY_REPO_URL,
+        label: "Community repo",
+        external: true,
+      },
+      {
+        href: COMMUNITY_ISSUES_URL,
+        label: "Report an issue",
+        external: true,
+      },
+      {
+        href: COMMUNITY_DISCUSSIONS_URL,
+        label: "Discussions",
+        external: true,
+      },
       { href: "/docs/license", label: "License" },
       { href: "/docs/installation", label: "Get started" },
     ],

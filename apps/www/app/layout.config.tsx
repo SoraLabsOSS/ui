@@ -1,5 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { BookOpen } from "lucide-react";
+import { COMMUNITY_DISCUSSIONS_URL, COMMUNITY_ISSUES_URL } from "@/lib/site";
 
 /**
  * Shared layout configurations
@@ -50,6 +51,18 @@ export const baseOptions: BaseLayoutProps = {
     {
       text: "License",
       url: "/docs/license",
+      secondary: false,
+    },
+    {
+      text: "Report an issue",
+      url: COMMUNITY_ISSUES_URL,
+      external: true,
+      secondary: false,
+    },
+    {
+      text: "Community",
+      url: COMMUNITY_DISCUSSIONS_URL,
+      external: true,
       secondary: false,
     },
   ],
