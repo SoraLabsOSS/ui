@@ -65,6 +65,7 @@
         "@better-auth-ui/core": "^1.6.17",
         "@better-auth-ui/react": "^1.6.17",
         "@better-auth/infra": "0.3.2",
+        "@cloudflare/ai-search-snippet": "^0.0.40",
         "@floating-ui/react": "^0.27.15",
         "@gsap/react": "^2.1.2",
         "@paper-design/shaders-react": "^0.0.66",
@@ -317,6 +318,8 @@
     "@clack/core": ["@clack/core@1.4.0", "", { "dependencies": { "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-7Wctjq6f7c1CPz8sPpkwUnz8yRgVANkpNupb81q432FjcJg4l+Sw7XANdNSdWfAKq0IHI0JTcUeK5dxs/HrGPw=="],
 
     "@clack/prompts": ["@clack/prompts@1.5.0", "", { "dependencies": { "@clack/core": "1.4.0", "fast-string-width": "^3.0.2", "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-wKh+wTjmrUoUdkZg8KpJO5X+p9PWV+KE9mePseq9UYWkukgTKsGS47RRL2HstwVcvDQH+PenrPJWII8+MfiiyA=="],
+
+    "@cloudflare/ai-search-snippet": ["@cloudflare/ai-search-snippet@0.0.40", "", {}, "sha512-DB2sUIT7ZASoIv2bGNK6OzfUSEF6qNZJ/pz7opbLasgMPDz9e5ArtNEp3UyyNjy8Pfj+2sGsNcHpESHUkbGTuw=="],
 
     "@date-fns/tz": ["@date-fns/tz@1.5.0", "", {}, "sha512-lwYN/vDPeNRULcepoE/LO2Pgx+7/RV+S9ARfbc9lr2DtGkOD7pAiruHvbR1RX3Qyf6ja47EWJDMsNK5vK08DJg=="],
 

@@ -26,6 +26,8 @@ export const env = createEnv({
     NEXT_PUBLIC_BETTER_AUTH_URL: z.url().default("http://localhost:3000"),
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().min(1),
     NEXT_PUBLIC_SENTRY_DSN: z.url().optional(),
+    /** Cloudflare AI Search endpoint, e.g. https://<hash>/search.ai.cloudflare.com/ */
+    NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL: z.url().optional(),
   },
 
   experimental__runtimeEnv: {
@@ -33,6 +35,8 @@ export const env = createEnv({
     NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL:
+      process.env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL,
   },
 
   emptyStringAsUndefined: true,

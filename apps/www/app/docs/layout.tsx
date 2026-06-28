@@ -3,6 +3,7 @@ import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
+import { DocsAiSearchChatBubble } from "@/components/docs/ai-search-chat-bubble";
 import { Nav } from "@/components/docs/nav";
 import { DocsSidebar } from "@/components/docs/sidebar";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
@@ -53,6 +54,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       }}
     >
       {children}
+      <DocsAiSearchChatBubble />
     </DocsLayout>
   );
 }
