@@ -82,7 +82,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/effects/border-trail.tsx",
         content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  BORDER_TRAIL_DEFAULT_GLOW,\n  BorderTrail,\n  type BorderTrailProps,\n} from "@/components/sora-ui/effects/border-trail";\n\nexport interface BorderTrailDemoProps extends BorderTrailProps {\n  containerClassName?: string;\n  duration?: number;\n  glow?: boolean;\n}\n\n/** Docs preview — card with animated border trail. */\n/** Matches Tailwind `rounded-xl` (0.75rem). */\nconst ROUNDED_XL_RADIUS = 12;\n\nexport function BorderTrailDemo({\n  containerClassName,\n  duration = 5,\n  enabled = true,\n  glow = true,\n  radius = ROUNDED_XL_RADIUS,\n  size = 100,\n  style,\n  transition,\n}: BorderTrailDemoProps) {\n  const resolvedTransition = transition ?? {\n    repeat: Number.POSITIVE_INFINITY,\n    duration,\n    ease: "linear" as const,\n  };\n\n  const resolvedStyle = glow\n    ? { ...BORDER_TRAIL_DEFAULT_GLOW, ...style }\n    : style;\n\n  return (\n    <div className="flex items-center justify-center p-6">\n      <div\n        className={cn(\n          "relative w-full max-w-sm overflow-hidden rounded-xl border bg-card p-8",\n          containerClassName\n        )}\n      >\n        <BorderTrail\n          className="bg-zinc-500"\n          enabled={enabled}\n          radius={radius}\n          size={size}\n          style={resolvedStyle}\n          transition={resolvedTransition}\n        />\n        <div className="relative z-1 space-y-2">\n          <p className="font-medium text-sm">Border trail</p>\n          <p className="text-muted-foreground text-sm">\n            Spotlight loops around the card edge via CSS offset-path.\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}',
+          '"use client";\n\nimport { BorderTrail } from "@/components/sora-ui/effects/border-trail";\n\nconst BORDER_TRAIL_CARD_GLOW = {\n  boxShadow:\n    "0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)",\n} as const;\n\nexport interface BorderTrailDemoProps {\n  duration?: number;\n  size?: number;\n}\n\n/** motion-primitives `border-trail-card-1` */\nexport function BorderTrailDemo({\n  duration = 5,\n  size = 100,\n}: BorderTrailDemoProps) {\n  return (\n    <div className="relative flex h-[200px] w-[300px] flex-col items-center justify-center rounded-md bg-zinc-200 px-5 py-2 dark:bg-zinc-800">\n      <BorderTrail\n        size={size}\n        style={BORDER_TRAIL_CARD_GLOW}\n        transition={{\n          duration,\n          ease: "linear",\n          repeat: Number.POSITIVE_INFINITY,\n        }}\n      />\n      <div\n        aria-label="Loading..."\n        className="flex h-full animate-pulse flex-col items-start justify-center space-y-2"\n        role="status"\n      >\n        <div className="h-1 w-4 rounded-[4px] bg-zinc-600" />\n        <div className="h-1 w-10 rounded-[4px] bg-zinc-600" />\n        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />\n        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />\n        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />\n      </div>\n    </div>\n  );\n}\n\nexport default BorderTrailDemo;',
       },
     ],
     keywords: [],
@@ -95,10 +95,7 @@ export const index: Record<string, any> = {
         const demoProps = {
           BorderTrailDemo: {
             size: { value: 100, min: 40, max: 140, step: 4 },
-            radius: { value: 12, min: 0, max: 48, step: 2 },
-            glow: { value: true },
             duration: { value: 5, min: 1, max: 12, step: 0.5 },
-            enabled: { value: true },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -121,15 +118,122 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         BorderTrailDemo: {
           size: { value: 100, min: 40, max: 140, step: 4 },
-          radius: { value: 12, min: 0, max: 48, step: 2 },
-          glow: { value: true },
           duration: { value: 5, min: 1, max: 12, step: 0.5 },
-          enabled: { value: true },
         },
       };
       return LazyComp;
     })(),
     command: "@soralabs/demo-border-trail",
+  },
+  "demo-border-trail-loading": {
+    name: "demo-border-trail-loading",
+    description: "Submit-triggered border trail that loops twice then fades.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["border-trail"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/border-trail-loading/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/border-trail-loading.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { useState } from "react";\nimport { BorderTrail } from "@/components/sora-ui/effects/border-trail";\n\nexport interface BorderTrailLoadingCardProps {\n  size?: number;\n}\n\n/** motion-primitives `border-trail-card-2` */\nexport function BorderTrailLoadingCard({\n  size = 120,\n}: BorderTrailLoadingCardProps) {\n  const [isLoading, setIsLoading] = useState(false);\n  const [isVisible, setIsVisible] = useState(true);\n\n  const handleAnimationComplete = () => {\n    setIsLoading(false);\n    setTimeout(() => setIsVisible(false), 300);\n  };\n\n  const handleLoad = () => {\n    setIsLoading(true);\n    setIsVisible(true);\n  };\n\n  return (\n    <div className="relative h-[200px] w-[300px] rounded-md border border-zinc-300/40 bg-zinc-100 px-4 py-3 dark:border-zinc-700/40 dark:bg-zinc-900">\n      {isVisible ? (\n        <BorderTrail\n          className={cn(\n            "bg-linear-to-l from-green-300 via-green-500 to-green-300 transition-opacity duration-300 dark:from-green-700/30 dark:via-green-500 dark:to-green-700/30",\n            isLoading ? "opacity-100" : "opacity-0"\n          )}\n          onAnimationComplete={handleAnimationComplete}\n          size={size}\n          transition={{\n            duration: 4,\n            ease: [0, 0.5, 0.8, 0.5],\n            repeat: 2,\n          }}\n        />\n      ) : null}\n      <div className="flex h-full flex-col items-end justify-end">\n        <button\n          aria-label="Load"\n          className="relative ml-1 flex h-8 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 bg-white px-2 text-sm text-zinc-500 focus-visible:ring-2 active:scale-[0.96] dark:border-zinc-50/10"\n          onClick={handleLoad}\n          type="button"\n        >\n          Submit\n        </button>\n      </div>\n    </div>\n  );\n}\n\nexport default BorderTrailLoadingCard;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/border-trail-loading/index.tsx"
+        );
+        const demoProps = {
+          BorderTrailLoadingCard: {
+            size: { value: 120, min: 60, max: 160, step: 4 },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        BorderTrailLoadingCard: {
+          size: { value: 120, min: 60, max: 160, step: 4 },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-border-trail-loading",
+  },
+  "demo-border-trail-textarea": {
+    name: "demo-border-trail-textarea",
+    description: "Textarea with a continuous gradient border trail.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["border-trail"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/border-trail-textarea/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/border-trail-textarea.tsx",
+        content:
+          '"use client";\n\nimport { BorderTrail } from "@/components/sora-ui/effects/border-trail";\n\nexport interface BorderTrailTextareaProps {\n  duration?: number;\n  size?: number;\n}\n\n/** motion-primitives `border-trail-textarea` */\nexport function BorderTrailTextarea({\n  duration = 5,\n  size = 120,\n}: BorderTrailTextareaProps) {\n  return (\n    <div className="relative h-[160px] w-[260px] overflow-hidden rounded-md border border-zinc-950/10 bg-white text-zinc-700 outline-hidden dark:border-zinc-50/20 dark:bg-zinc-950 dark:text-zinc-300">\n      <textarea className="h-full w-full resize-none rounded-md bg-transparent px-4 py-3 text-sm outline-hidden" />\n      <BorderTrail\n        className="bg-linear-to-l from-blue-200 via-blue-500 to-blue-200 dark:from-blue-400 dark:via-blue-500 dark:to-blue-700"\n        size={size}\n        transition={{\n          duration,\n          ease: "linear",\n          repeat: Number.POSITIVE_INFINITY,\n        }}\n      />\n    </div>\n  );\n}\n\nexport default BorderTrailTextarea;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/border-trail-textarea/index.tsx"
+        );
+        const demoProps = {
+          BorderTrailTextarea: {
+            size: { value: 120, min: 60, max: 160, step: 4 },
+            duration: { value: 5, min: 1, max: 12, step: 0.5 },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        BorderTrailTextarea: {
+          size: { value: 120, min: 60, max: 160, step: 4 },
+          duration: { value: 5, min: 1, max: 12, step: 0.5 },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-border-trail-textarea",
   },
   "demo-cursor-trail-reveal": {
     name: "demo-cursor-trail-reveal",
@@ -1029,7 +1133,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/effects/border-trail.tsx",
         content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { motion, type Transition, useReducedMotion } from "motion/react";\nimport type { CSSProperties } from "react";\n\nconst DEFAULT_TRANSITION: Transition = {\n  repeat: Number.POSITIVE_INFINITY,\n  duration: 5,\n  ease: "linear",\n};\n\n/** Classic soft glow from motion-primitives Border Trail card examples. */\nexport const BORDER_TRAIL_DEFAULT_GLOW: CSSProperties = {\n  boxShadow:\n    "0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)",\n};\n\nexport interface BorderTrailProps {\n  className?: string;\n  /** When `false`, the trail is not rendered. */\n  enabled?: boolean;\n  /**\n   * Corner radius for the motion path. Defaults to `size` (motion-primitives\n   * behavior). Set explicitly to match the parent `border-radius` when needed.\n   */\n  radius?: number;\n  /** Spotlight size in pixels — also drives path round when `radius` is omitted. */\n  size?: number;\n  style?: CSSProperties;\n  transition?: Transition;\n}\n\n/** Animated border spotlight overlay — place inside a `relative` rounded container. */\nexport function BorderTrail({\n  className,\n  size = 60,\n  radius,\n  transition,\n  style,\n  enabled = true,\n}: BorderTrailProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const pathRadius = radius ?? size;\n\n  if (!enabled) {\n    return null;\n  }\n\n  if (prefersReducedMotion) {\n    return (\n      <div\n        aria-hidden\n        className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25"\n        data-slot="border-trail"\n      />\n    );\n  }\n\n  return (\n    <div\n      aria-hidden\n      className="pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]"\n      data-slot="border-trail"\n    >\n      <motion.div\n        animate={{ offsetDistance: ["0%", "100%"] }}\n        className={cn("absolute aspect-square bg-zinc-500", className)}\n        style={{\n          width: size,\n          offsetPath: `rect(0 auto auto 0 round ${pathRadius}px)`,\n          ...style,\n        }}\n        transition={transition ?? DEFAULT_TRANSITION}\n      />\n    </div>\n  );\n}',
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { motion, type Transition, useReducedMotion } from "motion/react";\nimport { type CSSProperties, useEffect, useRef } from "react";\n\nexport interface BorderTrailProps {\n  className?: string;\n  onAnimationComplete?: () => void;\n  size?: number;\n  style?: CSSProperties;\n  transition?: Transition;\n}\n\nconst DEFAULT_TRANSITION: Transition = {\n  repeat: Number.POSITIVE_INFINITY,\n  duration: 5,\n  ease: "linear",\n};\n\nfunction getReducedMotionCompletionMs(\n  duration: number,\n  delay: number,\n  repeat: number | undefined,\n  repeatDelay: number\n): number | null {\n  if (\n    repeat === Number.POSITIVE_INFINITY ||\n    repeat === Number.NEGATIVE_INFINITY\n  ) {\n    return null;\n  }\n\n  // Motion: repeat N = initial play + N additional iterations.\n  const iterationCount =\n    typeof repeat === "number" && repeat > 0 ? repeat + 1 : 1;\n  const betweenRepeatDelays =\n    typeof repeat === "number" && repeat > 0 ? repeat * repeatDelay : 0;\n\n  return (delay + duration * iterationCount + betweenRepeatDelays) * 1000;\n}\n\nexport function BorderTrail({\n  className,\n  size = 60,\n  transition,\n  onAnimationComplete,\n  style,\n}: BorderTrailProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const onAnimationCompleteRef = useRef(onAnimationComplete);\n  onAnimationCompleteRef.current = onAnimationComplete;\n\n  const resolvedTransition = { ...DEFAULT_TRANSITION, ...transition };\n  const duration =\n    typeof resolvedTransition.duration === "number"\n      ? resolvedTransition.duration\n      : 5;\n  const delay =\n    typeof resolvedTransition.delay === "number" ? resolvedTransition.delay : 0;\n  const repeat = resolvedTransition.repeat;\n  const repeatDelay =\n    typeof resolvedTransition.repeatDelay === "number"\n      ? resolvedTransition.repeatDelay\n      : 0;\n\n  useEffect(() => {\n    if (!prefersReducedMotion) {\n      return;\n    }\n\n    const completionMs = getReducedMotionCompletionMs(\n      duration,\n      delay,\n      repeat,\n      repeatDelay\n    );\n    if (completionMs === null) {\n      return;\n    }\n\n    const timeoutId = window.setTimeout(\n      () => onAnimationCompleteRef.current?.(),\n      completionMs\n    );\n    return () => window.clearTimeout(timeoutId);\n  }, [prefersReducedMotion, duration, delay, repeat, repeatDelay]);\n\n  if (prefersReducedMotion) {\n    return (\n      <div\n        aria-hidden\n        className={cn(\n          "pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25",\n          className\n        )}\n        data-slot="border-trail"\n        style={style}\n      />\n    );\n  }\n\n  return (\n    <div\n      aria-hidden\n      className="pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]"\n      data-slot="border-trail"\n    >\n      <motion.div\n        animate={{\n          offsetDistance: ["0%", "100%"],\n        }}\n        className={cn("absolute aspect-square bg-zinc-500", className)}\n        onAnimationComplete={onAnimationComplete}\n        style={{\n          width: size,\n          offsetPath: `rect(0 auto auto 0 round ${size}px)`,\n          ...style,\n        }}\n        transition={resolvedTransition}\n      />\n    </div>\n  );\n}',
       },
     ],
     keywords: [],
@@ -1046,10 +1150,7 @@ export const index: Record<string, any> = {
         const demoProps = {
           BorderTrailDemo: {
             size: { value: 100, min: 40, max: 140, step: 4 },
-            radius: { value: 12, min: 0, max: 48, step: 2 },
-            glow: { value: true },
             duration: { value: 5, min: 1, max: 12, step: 0.5 },
-            enabled: { value: true },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -1072,10 +1173,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         BorderTrailDemo: {
           size: { value: 100, min: 40, max: 140, step: 4 },
-          radius: { value: 12, min: 0, max: 48, step: 2 },
-          glow: { value: true },
           duration: { value: 5, min: 1, max: 12, step: 0.5 },
-          enabled: { value: true },
         },
       };
       return LazyComp;

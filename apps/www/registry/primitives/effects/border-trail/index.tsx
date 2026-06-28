@@ -2,7 +2,15 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { motion, type Transition, useReducedMotion } from "motion/react";
-import type { CSSProperties } from "react";
+import { type CSSProperties, useEffect, useRef } from "react";
+
+export interface BorderTrailProps {
+  className?: string;
+  onAnimationComplete?: () => void;
+  size?: number;
+  style?: CSSProperties;
+  transition?: Transition;
+}
 
 const DEFAULT_TRANSITION: Transition = {
   repeat: Number.POSITIVE_INFINITY,
@@ -10,49 +18,84 @@ const DEFAULT_TRANSITION: Transition = {
   ease: "linear",
 };
 
-/** Classic soft glow from motion-primitives Border Trail card examples. */
-export const BORDER_TRAIL_DEFAULT_GLOW: CSSProperties = {
-  boxShadow:
-    "0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)",
-};
+function getReducedMotionCompletionMs(
+  duration: number,
+  delay: number,
+  repeat: number | undefined,
+  repeatDelay: number
+): number | null {
+  if (
+    repeat === Number.POSITIVE_INFINITY ||
+    repeat === Number.NEGATIVE_INFINITY
+  ) {
+    return null;
+  }
 
-export interface BorderTrailProps {
-  className?: string;
-  /** When `false`, the trail is not rendered. */
-  enabled?: boolean;
-  /**
-   * Corner radius for the motion path. Defaults to `size` (motion-primitives
-   * behavior). Set explicitly to match the parent `border-radius` when needed.
-   */
-  radius?: number;
-  /** Spotlight size in pixels — also drives path round when `radius` is omitted. */
-  size?: number;
-  style?: CSSProperties;
-  transition?: Transition;
+  // Motion: repeat N = initial play + N additional iterations.
+  const iterationCount =
+    typeof repeat === "number" && repeat > 0 ? repeat + 1 : 1;
+  const betweenRepeatDelays =
+    typeof repeat === "number" && repeat > 0 ? repeat * repeatDelay : 0;
+
+  return (delay + duration * iterationCount + betweenRepeatDelays) * 1000;
 }
 
-/** Animated border spotlight overlay — place inside a `relative` rounded container. */
 export function BorderTrail({
   className,
   size = 60,
-  radius,
   transition,
+  onAnimationComplete,
   style,
-  enabled = true,
 }: BorderTrailProps) {
   const prefersReducedMotion = useReducedMotion();
-  const pathRadius = radius ?? size;
+  const onAnimationCompleteRef = useRef(onAnimationComplete);
+  onAnimationCompleteRef.current = onAnimationComplete;
 
-  if (!enabled) {
-    return null;
-  }
+  const resolvedTransition = { ...DEFAULT_TRANSITION, ...transition };
+  const duration =
+    typeof resolvedTransition.duration === "number"
+      ? resolvedTransition.duration
+      : 5;
+  const delay =
+    typeof resolvedTransition.delay === "number" ? resolvedTransition.delay : 0;
+  const repeat = resolvedTransition.repeat;
+  const repeatDelay =
+    typeof resolvedTransition.repeatDelay === "number"
+      ? resolvedTransition.repeatDelay
+      : 0;
+
+  useEffect(() => {
+    if (!prefersReducedMotion) {
+      return;
+    }
+
+    const completionMs = getReducedMotionCompletionMs(
+      duration,
+      delay,
+      repeat,
+      repeatDelay
+    );
+    if (completionMs === null) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(
+      () => onAnimationCompleteRef.current?.(),
+      completionMs
+    );
+    return () => window.clearTimeout(timeoutId);
+  }, [prefersReducedMotion, duration, delay, repeat, repeatDelay]);
 
   if (prefersReducedMotion) {
     return (
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25"
+        className={cn(
+          "pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25",
+          className
+        )}
         data-slot="border-trail"
+        style={style}
       />
     );
   }
@@ -64,14 +107,17 @@ export function BorderTrail({
       data-slot="border-trail"
     >
       <motion.div
-        animate={{ offsetDistance: ["0%", "100%"] }}
+        animate={{
+          offsetDistance: ["0%", "100%"],
+        }}
         className={cn("absolute aspect-square bg-zinc-500", className)}
+        onAnimationComplete={onAnimationComplete}
         style={{
           width: size,
-          offsetPath: `rect(0 auto auto 0 round ${pathRadius}px)`,
+          offsetPath: `rect(0 auto auto 0 round ${size}px)`,
           ...style,
         }}
-        transition={transition ?? DEFAULT_TRANSITION}
+        transition={resolvedTransition}
       />
     </div>
   );

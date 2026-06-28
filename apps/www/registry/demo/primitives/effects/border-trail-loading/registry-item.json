@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-border-trail-loading",
+  "type": "registry:ui",
+  "title": "Border Trail Loading Card Demo",
+  "description": "Submit-triggered border trail that loops twice then fades.",
+  "registryDependencies": ["border-trail"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/border-trail-loading/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/border-trail-loading.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "BorderTrailLoadingCard": {
+        "size": {
+          "value": 120,
+          "min": 60,
+          "max": 160,
+          "step": 4
+        }
+      }
+    }
+  }
+}

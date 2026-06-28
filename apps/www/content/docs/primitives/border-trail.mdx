@@ -8,6 +8,16 @@ author:
 
 <ComponentPreview name="border-trail" />
 
+## Examples
+
+### Border Trail Loading Card
+
+<ComponentPreview name="demo-border-trail-loading" />
+
+### Border Trail Textarea
+
+<ComponentPreview name="demo-border-trail-textarea" />
+
 ## Installation
 
 <ComponentInstallation name="border-trail" />
@@ -16,56 +26,48 @@ author:
 
 `BorderTrail` is a **client component** and decorative overlay. The parent must be `relative` with a matching `border-radius` (the trail inherits rounding via `rounded-[inherit]`).
 
-Set `radius` to the parent’s corner radius in pixels — e.g. `rounded-xl` is `12`. If omitted, `radius` defaults to `size`, which often overshoots the card corners.
-
 ```tsx
-import {
-  BorderTrail,
-  BORDER_TRAIL_DEFAULT_GLOW,
-} from '@/components/sora-ui/effects/border-trail';
+import { BorderTrail } from '@/components/sora-ui/effects/border-trail';
 
-export default function FeatureCard() {
+export function BorderTrailCard() {
   return (
-    <div className="relative overflow-hidden rounded-xl border bg-card p-6">
+    <div className="relative flex h-[200px] w-[300px] flex-col items-center justify-center rounded-md bg-zinc-200 px-5 py-2 dark:bg-zinc-800">
       <BorderTrail
-        radius={12}
         size={100}
-        style={BORDER_TRAIL_DEFAULT_GLOW}
+        style={{
+          boxShadow:
+            '0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)',
+        }}
       />
-      <h3 className="relative z-[1] font-medium">Featured</h3>
-      <p className="relative z-[1] text-muted-foreground text-sm">
-        Your content sits above the trail.
-      </p>
+      <div className="flex h-full animate-pulse flex-col items-start justify-center space-y-2">
+        <div className="h-1 w-4 rounded-[4px] bg-zinc-600" />
+        <div className="h-1 w-10 rounded-[4px] bg-zinc-600" />
+        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />
+      </div>
     </div>
   );
 }
 ```
 
-When `prefers-reduced-motion: reduce` is set, the loop is replaced by a subtle static ring. Pass `enabled={false}` to hide the effect entirely.
+When `prefers-reduced-motion: reduce` is set, the looping trail is replaced by a subtle static ring. Finite animations (e.g. the loading card) still call `onAnimationComplete` after the equivalent duration. See [Accessibility](/docs/accessibility).
 
 ## Props
 
 <TypeTable
   type={{
     size: {
-      description:
-        'Spotlight size in pixels. Also sets motion-path corner round when `radius` is omitted.',
+      description: 'Spotlight size in pixels. Also sets motion-path corner round.',
       type: 'number',
       default: '60',
-    },
-    radius: {
-      description:
-        'Motion-path corner radius in pixels. Match the parent border radius (e.g. `12` for `rounded-xl`). Defaults to `size` when omitted.',
-      type: 'number',
     },
     transition: {
       description: 'Motion transition for the offset-distance loop.',
       type: 'Transition',
     },
-    enabled: {
-      description: 'When false, nothing is rendered.',
-      type: 'boolean',
-      default: 'true',
+    onAnimationComplete: {
+      description:
+        'Called when the full animation sequence completes (after all repeats).',
+      type: '() => void',
     },
     className: {
       description: 'Classes merged onto the moving spotlight (e.g. trail color).',
@@ -73,8 +75,7 @@ When `prefers-reduced-motion: reduce` is set, the loop is replaced by a subtle s
       default: '"bg-zinc-500"',
     },
     style: {
-      description:
-        'Inline styles on the spotlight. Use `BORDER_TRAIL_DEFAULT_GLOW` for the classic soft glow.',
+      description: 'Inline styles on the moving spotlight.',
       type: 'CSSProperties',
     },
   }}

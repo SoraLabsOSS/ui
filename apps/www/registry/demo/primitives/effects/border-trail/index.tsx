@@ -1,65 +1,46 @@
 "use client";
 
-import { cn } from "@workspace/ui/lib/utils";
-import {
-  BORDER_TRAIL_DEFAULT_GLOW,
-  BorderTrail,
-  type BorderTrailProps,
-} from "@/registry/primitives/effects/border-trail";
+import { BorderTrail } from "@/registry/primitives/effects/border-trail";
 
-export interface BorderTrailDemoProps extends BorderTrailProps {
-  containerClassName?: string;
+const BORDER_TRAIL_CARD_GLOW = {
+  boxShadow:
+    "0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)",
+} as const;
+
+export interface BorderTrailDemoProps {
   duration?: number;
-  glow?: boolean;
+  size?: number;
 }
 
-/** Docs preview — card with animated border trail. */
-/** Matches Tailwind `rounded-xl` (0.75rem). */
-const ROUNDED_XL_RADIUS = 12;
-
+/** motion-primitives `border-trail-card-1` */
 export function BorderTrailDemo({
-  containerClassName,
   duration = 5,
-  enabled = true,
-  glow = true,
-  radius = ROUNDED_XL_RADIUS,
   size = 100,
-  style,
-  transition,
 }: BorderTrailDemoProps) {
-  const resolvedTransition = transition ?? {
-    repeat: Number.POSITIVE_INFINITY,
-    duration,
-    ease: "linear" as const,
-  };
-
-  const resolvedStyle = glow
-    ? { ...BORDER_TRAIL_DEFAULT_GLOW, ...style }
-    : style;
-
   return (
-    <div className="flex items-center justify-center p-6">
+    <div className="relative flex h-[200px] w-[300px] flex-col items-center justify-center rounded-md bg-zinc-200 px-5 py-2 dark:bg-zinc-800">
+      <BorderTrail
+        size={size}
+        style={BORDER_TRAIL_CARD_GLOW}
+        transition={{
+          duration,
+          ease: "linear",
+          repeat: Number.POSITIVE_INFINITY,
+        }}
+      />
       <div
-        className={cn(
-          "relative w-full max-w-sm overflow-hidden rounded-xl border bg-card p-8",
-          containerClassName
-        )}
+        aria-label="Loading..."
+        className="flex h-full animate-pulse flex-col items-start justify-center space-y-2"
+        role="status"
       >
-        <BorderTrail
-          className="bg-zinc-500"
-          enabled={enabled}
-          radius={radius}
-          size={size}
-          style={resolvedStyle}
-          transition={resolvedTransition}
-        />
-        <div className="relative z-1 space-y-2">
-          <p className="font-medium text-sm">Border trail</p>
-          <p className="text-muted-foreground text-sm">
-            Spotlight loops around the card edge via CSS offset-path.
-          </p>
-        </div>
+        <div className="h-1 w-4 rounded-[4px] bg-zinc-600" />
+        <div className="h-1 w-10 rounded-[4px] bg-zinc-600" />
+        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />
+        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />
+        <div className="h-1 w-12 rounded-[4px] bg-zinc-600" />
       </div>
     </div>
   );
 }
+
+export default BorderTrailDemo;

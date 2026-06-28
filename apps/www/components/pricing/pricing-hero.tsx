@@ -10,7 +10,7 @@ import { PRICING_CORE_MESSAGE, PRICING_HERO } from "./pricing-config";
 
 export function PricingHero() {
   return (
-    <section className="relative overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28 lg:pt-36 lg:pb-32">
+    <section className="relative min-h-[calc(100dvh-var(--fd-banner-height))] overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28 lg:pt-36 lg:pb-32">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(50%_89%_at_50%_100%,rgba(255,255,255,0.13),rgba(171,171,171,0))] dark:bg-[radial-gradient(50%_89%_at_50%_100%,rgba(255,255,255,0.06),rgba(0,0,0,0))]"

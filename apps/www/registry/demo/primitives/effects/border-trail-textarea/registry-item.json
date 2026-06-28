@@ -1,24 +1,24 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "demo-border-trail",
+  "name": "demo-border-trail-textarea",
   "type": "registry:ui",
-  "title": "Border Trail Demo",
-  "description": "Card with animated border spotlight.",
+  "title": "Border Trail Textarea Demo",
+  "description": "Textarea with a continuous gradient border trail.",
   "registryDependencies": ["border-trail"],
   "files": [
     {
-      "path": "registry/demo/primitives/effects/border-trail/index.tsx",
+      "path": "registry/demo/primitives/effects/border-trail-textarea/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/demo/effects/border-trail.tsx"
+      "target": "components/sora-ui/demo/effects/border-trail-textarea.tsx"
     }
   ],
   "meta": {
     "demoProps": {
-      "BorderTrailDemo": {
+      "BorderTrailTextarea": {
         "size": {
-          "value": 100,
-          "min": 40,
-          "max": 140,
+          "value": 120,
+          "min": 60,
+          "max": 160,
           "step": 4
         },
         "duration": {
