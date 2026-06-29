@@ -5,12 +5,9 @@ import "./preloader.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { revealAnimatedFooter } from "@/lib/brand-landing/animated-footer-engine";
-import {
-  completeInitialLoad,
-  isInitialLoad,
-} from "@/lib/brand-landing/preloader-state";
+import { usePreloaderContext } from "@/lib/brand-landing/preloader-context";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
@@ -104,12 +101,31 @@ function animateCounter(
   }
 
   let currentValue = 0;
+  let cancelled = false;
+  const timeoutIds: number[] = [];
   const updateInterval = 200;
   const maxDuration = duration * 1000;
   const startTime = Date.now();
 
-  const timeoutId = window.setTimeout(() => {
+  const schedule = (callback: () => void, ms: number) => {
+    const timeoutId = window.setTimeout(callback, ms);
+    timeoutIds.push(timeoutId);
+  };
+
+  const clearAll = () => {
+    cancelled = true;
+    for (const timeoutId of timeoutIds) {
+      window.clearTimeout(timeoutId);
+    }
+    timeoutIds.length = 0;
+  };
+
+  schedule(() => {
     const updateCounter = () => {
+      if (cancelled) {
+        return;
+      }
+
       const elapsedTime = Date.now() - startTime;
       const progress = elapsedTime / maxDuration;
 
@@ -118,7 +134,7 @@ function animateCounter(
         const jump = Math.floor(Math.random() * 25) + 5;
         currentValue = Math.min(currentValue + jump, target, 100);
         counterElement.textContent = currentValue.toString().padStart(2, "0");
-        window.setTimeout(updateCounter, updateInterval + Math.random() * 100);
+        schedule(updateCounter, updateInterval + Math.random() * 100);
       } else {
         counterElement.textContent = "100";
       }
@@ -127,15 +143,15 @@ function animateCounter(
     updateCounter();
   }, delay * 1000);
 
-  return () => window.clearTimeout(timeoutId);
+  return clearAll;
 }
 
 export function Preloader() {
   const preloaderRef = useRef<HTMLDivElement>(null);
-  const [showPreloader, setShowPreloader] = useState(isInitialLoad);
+  const { deferFooterReveal, completeInitialLoad } = usePreloaderContext();
 
   useEffect(() => {
-    if (!showPreloader) {
+    if (!deferFooterReveal) {
       return;
     }
 
@@ -145,20 +161,12 @@ export function Preloader() {
 
     if (prefersReducedMotion) {
       completeInitialLoad();
-      setShowPreloader(false);
     }
-  }, [showPreloader]);
-
-  useEffect(
-    () => () => {
-      completeInitialLoad();
-    },
-    []
-  );
+  }, [completeInitialLoad, deferFooterReveal]);
 
   useGSAP(
     () => {
-      if (!showPreloader) {
+      if (!deferFooterReveal) {
         return;
       }
 
@@ -209,9 +217,7 @@ export function Preloader() {
 
         timeline = gsap.timeline({
           onComplete: () => {
-            window.setTimeout(() => {
-              setShowPreloader(false);
-            }, 100);
+            completeInitialLoad();
           },
         });
 
@@ -292,10 +298,13 @@ export function Preloader() {
         }
       };
     },
-    { scope: preloaderRef, dependencies: [showPreloader] }
+    {
+      scope: preloaderRef,
+      dependencies: [completeInitialLoad, deferFooterReveal],
+    }
   );
 
-  if (!showPreloader) {
+  if (!deferFooterReveal) {
     return null;
   }
 

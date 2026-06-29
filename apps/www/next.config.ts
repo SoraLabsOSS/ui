@@ -15,6 +15,8 @@ const appRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   transpilePackages: [
+    "@better-auth-ui/core",
+    "@better-auth-ui/react",
     "@t3-oss/env-core",
     "@t3-oss/env-nextjs",
     "@workspace/auth-ui",

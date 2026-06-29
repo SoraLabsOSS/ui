@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 import { initAnimatedFooter } from "@/lib/brand-landing/animated-footer-engine";
 import { BRAND_NAV_LINKS, BRAND_TAGLINE } from "@/lib/brand-landing/config";
-import { isInitialLoad } from "@/lib/brand-landing/preloader-state";
+import { usePreloaderContext } from "@/lib/brand-landing/preloader-context";
 
 export function AnimatedFooter() {
   const footerRef = useRef<HTMLElement>(null);
+  const { initialDeferFooterReveal } = usePreloaderContext();
 
   useEffect(() => {
     const footer = footerRef.current;
@@ -17,10 +18,10 @@ export function AnimatedFooter() {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    const autoReveal = prefersReducedMotion || !isInitialLoad;
+    const autoReveal = prefersReducedMotion || !initialDeferFooterReveal;
 
     return initAnimatedFooter(footer, { autoReveal });
-  }, []);
+  }, [initialDeferFooterReveal]);
 
   return (
     <footer
