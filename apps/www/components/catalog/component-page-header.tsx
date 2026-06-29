@@ -34,7 +34,7 @@ export function ComponentPageHeader({
     <motion.header
       animate={{ opacity: 1, y: 0 }}
       className={cn("flex flex-col gap-6", className)}
-      initial={{ opacity: 0, y: 10 }}
+      initial={false}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="flex flex-col gap-1.5">

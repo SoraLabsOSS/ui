@@ -3,7 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { index } from "@/__registry__";
+import { previewComponents } from "@/__registry__/preview";
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogPreviewMobilePanelClassName,
@@ -40,7 +40,7 @@ export function ComponentPagePreviewPanel({
   const { setToolbar } = useCatalogMobileChrome();
 
   const preview = useMemo(() => {
-    const Component = index[previewName]?.component;
+    const Component = previewComponents[previewName];
 
     if (!Component) {
       return (

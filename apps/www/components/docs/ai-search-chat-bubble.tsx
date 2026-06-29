@@ -130,15 +130,13 @@ function watchChatOverrides(chatBubble: HTMLElement): MutationObserver {
  * Experimental — authenticated users only.
  * Requires `NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL` — see `.env.example`.
  */
-export function DocsAiSearchChatBubble() {
+function DocsAiSearchChatBubbleInner({ apiUrl }: { apiUrl: string }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const { data: session, isPending: sessionPending } = useSession(authClient);
-  const apiUrl = env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL;
   const isAuthenticated = Boolean(session);
 
   useEffect(() => {
-    const url = env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL;
-    if (!(url && hostRef.current && isAuthenticated)) {
+    if (!(hostRef.current && isAuthenticated)) {
       return;
     }
 
@@ -154,7 +152,7 @@ export function DocsAiSearchChatBubble() {
 
         chatBubble = document.createElement("chat-bubble-snippet");
         chatBubble.className = "docs-ai-search-chat";
-        chatBubble.setAttribute("api-url", url);
+        chatBubble.setAttribute("api-url", apiUrl);
         chatBubble.setAttribute("placeholder", CHAT_PLACEHOLDER);
         chatBubble.setAttribute("theme", "auto");
         chatBubble.setAttribute("hide-branding", "true");
@@ -181,11 +179,19 @@ export function DocsAiSearchChatBubble() {
       styleObserver?.disconnect();
       chatBubble?.remove();
     };
-  }, [isAuthenticated]);
+  }, [apiUrl, isAuthenticated]);
 
-  if (!apiUrl || sessionPending || !isAuthenticated) {
+  if (sessionPending || !isAuthenticated) {
     return null;
   }
 
   return <div ref={hostRef} />;
+}
+
+export function DocsAiSearchChatBubble() {
+  const apiUrl = env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL;
+  if (!apiUrl) {
+    return null;
+  }
+  return <DocsAiSearchChatBubbleInner apiUrl={apiUrl} />;
 }

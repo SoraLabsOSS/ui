@@ -19,6 +19,7 @@ import {
 import { LayoutGroup, motion } from "motion/react";
 import { type JSX, useEffect, useMemo, useState } from "react";
 import { BookmarkButton } from "@/components/docs/bookmark-button";
+import { SITE_URL } from "@/lib/site";
 
 const cache = new Map<string, string>();
 
@@ -92,10 +93,7 @@ export function ViewOptions({
   githubUrl: string;
 }) {
   const items = useMemo(() => {
-    const fullMarkdownUrl =
-      typeof window === "undefined"
-        ? "loading"
-        : new URL(markdownUrl, window.location.origin);
+    const fullMarkdownUrl = `${SITE_URL}${markdownUrl}`;
     const q = `Read ${fullMarkdownUrl}, I want to ask questions about it.`;
 
     return [
@@ -206,10 +204,10 @@ export function PageActionButtons({
 
   useEffect(() => {
     setIsReady(false);
-    const timer = setTimeout(() => {
+    const raf = requestAnimationFrame(() => {
       setIsReady(true);
-    }, 100);
-    return () => clearTimeout(timer);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const activeTransition = isReady ? layoutTransition : { duration: 0 };

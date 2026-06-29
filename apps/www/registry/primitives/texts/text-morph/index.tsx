@@ -2,6 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import {
+  AnimatePresence,
   LayoutGroup,
   motion,
   type Transition,
@@ -145,51 +146,57 @@ export function TextMorph({
       {...props}
     >
       <LayoutGroup id={uniqueId}>
-        {characters.map((character, index) => {
-          if (skipUnchanged) {
-            const previousChar = previousText?.[index];
-            const currentChar = children[index];
+        <AnimatePresence mode="popLayout">
+          {characters.map((character, index) => {
+            if (skipUnchanged) {
+              const previousChar = previousText?.[index];
+              const currentChar = children[index];
 
-            if (
-              previousText !== null &&
-              index < previousText.length &&
-              previousChar === currentChar
-            ) {
-              return (
-                <span
-                  aria-hidden
-                  className={cn("inline-block", charClassName)}
-                  key={character.id}
-                >
-                  {character.label}
-                </span>
-              );
-            }
-          }
-
-          const isEntering =
-            previousText !== null && !previousIds.has(character.id);
-
-          return (
-            <motion.span
-              animate="animate"
-              aria-hidden
-              className={cn("inline-block", charClassName)}
-              initial={isEntering ? "initial" : false}
-              key={character.id}
-              layout="position"
-              layoutId={character.id}
-              transition={
-                staggerDelay > 0
-                  ? { ...resolvedTransition, delay: index * staggerDelay }
-                  : resolvedTransition
+              if (
+                previousText !== null &&
+                index < previousText.length &&
+                previousChar === currentChar
+              ) {
+                return (
+                  <motion.span
+                    aria-hidden
+                    className={cn("inline-block", charClassName)}
+                    key={character.id}
+                    layout="position"
+                    layoutId={character.id}
+                    transition={resolvedTransition}
+                  >
+                    {character.label}
+                  </motion.span>
+                );
               }
-              variants={resolvedVariants}
-            >
-              {character.label}
-            </motion.span>
-          );
-        })}
+            }
+
+            const isEntering =
+              previousText !== null && !previousIds.has(character.id);
+
+            return (
+              <motion.span
+                animate="animate"
+                aria-hidden
+                className={cn("inline-block", charClassName)}
+                exit="exit"
+                initial={isEntering ? "initial" : false}
+                key={character.id}
+                layout="position"
+                layoutId={character.id}
+                transition={
+                  staggerDelay > 0
+                    ? { ...resolvedTransition, delay: index * staggerDelay }
+                    : resolvedTransition
+                }
+                variants={resolvedVariants}
+              >
+                {character.label}
+              </motion.span>
+            );
+          })}
+        </AnimatePresence>
       </LayoutGroup>
     </Component>
   );

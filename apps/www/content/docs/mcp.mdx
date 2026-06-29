@@ -74,6 +74,85 @@ Add this to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all 
 
 After saving, enable the server in **Settings → Tools & MCP** and restart Cursor.
 
+## Add to Claude Code
+
+[Claude Code](https://claude.ai/code) is Anthropic's official CLI. Add the server with one command:
+
+```bash
+claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn
+```
+
+<Steps>
+<Step>
+
+Run the command above in your terminal (inside or outside a project).
+
+</Step>
+<Step>
+
+Verify the server was added with `claude mcp list` — you should see **sora-ui** in the list.
+
+</Step>
+<Step>
+
+Start a new Claude Code session and try a prompt like *"Search Sora UI docs for accordion"*.
+
+</Step>
+</Steps>
+
+### Manual configuration (Claude Code)
+
+Add to `~/.claude/settings.json` (global) or `.claude/settings.json` (project):
+
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "type": "http",
+      "url": "https://mcp.soralabs.io.vn"
+    }
+  }
+}
+```
+
+## Add to Claude Desktop
+
+Open the Claude Desktop config file:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the server under `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "type": "http",
+      "url": "https://mcp.soralabs.io.vn"
+    }
+  }
+}
+```
+
+<Steps>
+<Step>
+
+Open the config file at the path for your operating system.
+
+</Step>
+<Step>
+
+Add the `sora-ui` entry under `mcpServers` (create the file with the content above if it does not exist yet).
+
+</Step>
+<Step>
+
+**Restart Claude Desktop** — the server connects automatically on the next launch.
+
+</Step>
+</Steps>
+
 ## Example prompts
 
 ### Browse documentation
@@ -169,6 +248,10 @@ Merge the shadcn entry into your MCP config (example for Cursor):
 }`,
     'Claude Code': `{
   "mcpServers": {
+    "sora-ui": {
+      "type": "http",
+      "url": "https://mcp.soralabs.io.vn"
+    },
     "shadcn": {
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
@@ -192,9 +275,11 @@ Register `@soralabs` in `components.json` before asking the agent to install com
 
 ### Server not connecting
 
-1. Confirm **{SORA_UI_MCP_SERVER_NAME}** is enabled in **Settings → Tools & MCP**
-2. Restart Cursor completely after changing `.cursor/mcp.json`
-3. Check **View → Output → MCP** for connection errors
+**Cursor**: Confirm **{SORA_UI_MCP_SERVER_NAME}** is enabled in **Settings → Tools & MCP**, restart Cursor after changing `.cursor/mcp.json`, and check **View → Output → MCP** for errors.
+
+**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn`. Use `claude mcp get sora-ui` to inspect the saved config.
+
+**Claude Desktop**: Confirm the JSON in `claude_desktop_config.json` is valid (no trailing commas), then fully quit and reopen the app.
 
 ### Tools return no results
 

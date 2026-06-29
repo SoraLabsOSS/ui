@@ -41,11 +41,6 @@ const EXPAND_TRANSITION = {
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
-const LAYOUT_FADE_TRANSITION = {
-  duration: 0.4,
-  ease: [0.32, 0.72, 0, 1] as const,
-};
-
 interface ComponentPageLayoutClientProps {
   children: ReactNode;
   githubPath: string;
@@ -163,16 +158,13 @@ export function ComponentPageLayoutClient({
   );
 
   return (
-    <motion.div
-      animate={{ opacity: isLayoutReady ? 1 : 0 }}
+    <div
       aria-busy={!isLayoutReady}
       className={cn(
         "relative h-full min-h-0 overflow-hidden bg-background",
         "max-lg:flex max-lg:h-auto max-lg:flex-col max-lg:overflow-visible"
       )}
-      initial={false}
       ref={layoutRef}
-      transition={LAYOUT_FADE_TRANSITION}
     >
       <div
         className={cn(
@@ -277,6 +269,6 @@ export function ComponentPageLayoutClient({
           />
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

@@ -38,3 +38,5 @@ npm-debug.log*
 apps/www/app/(playground)
 
 sandbox
+
+.claude/settings.local.json

@@ -4,9 +4,7 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
-import { ComponentCredits } from "@/components/docs/component-credits";
-import { ComponentInstallation } from "@/components/docs/component-installation";
-import { ComponentPreview } from "@/components/docs/component-preview";
+import dynamic from "next/dynamic";
 import { ExternalLink } from "@/components/docs/external-link";
 import { Callout } from "./components/docs/callout";
 import {
@@ -15,11 +13,28 @@ import {
   Pre,
 } from "./components/docs/codeblock";
 
+const ComponentCredits = dynamic(() =>
+  import("@/components/docs/component-credits").then((m) => ({
+    default: m.ComponentCredits,
+  }))
+);
+
+const ComponentInstallation = dynamic(() =>
+  import("@/components/docs/component-installation").then((m) => ({
+    default: m.ComponentInstallation,
+  }))
+);
+
+const ComponentPreview = dynamic(() =>
+  import("@/components/docs/component-preview").then((m) => ({
+    default: m.ComponentPreview,
+  }))
+);
+
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
-    ...components,
     Card: ({ children, className, accent, ...props }) => (
       <Card
         className={cn(
@@ -45,5 +60,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
         <Pre>{props.children}</Pre>
       </CodeBlock>
     ),
+    // caller-supplied overrides win (e.g. getCatalogMDXComponents)
+    ...components,
   };
 }
