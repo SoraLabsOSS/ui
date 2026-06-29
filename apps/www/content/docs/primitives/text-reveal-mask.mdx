@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-text-reveal-mask" />
+<ComponentPreview name="demo-text-reveal-mask" description="Scroll-triggered masked slide-up reveal — scroll the preview into view or refresh to replay." />
 
 ## Installation
 
@@ -95,6 +95,16 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use `MaskedTextReveal` for large body copy, pull-quotes, or taglines in tall scroll sections where a staggered upward reveal adds drama. The `splitBy="lines"` default is most legible for multi-line paragraphs; switch to `"words"` for shorter, more energetic reveals.
+
+For headings paired with a colored block wipe, use `TextRevealBlock` instead — the mask variant is optimized for multi-line typographic content.
+
+## Accessibility
+
+Each animated unit slides up from behind a CSS `overflow: hidden` mask — the text is in the DOM throughout and readable by screen readers. Setting `once={true}` (the default) ensures the animation does not loop. When `prefers-reduced-motion: reduce` is active, the mask is removed and text is fully visible from the start.
 
 ## Credits
 

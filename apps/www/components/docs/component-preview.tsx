@@ -25,6 +25,8 @@ interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
   /** Registry demo item for the Code tab (defaults to `demo-{name}` when present). */
   demo?: string;
+  /** Short description rendered above the preview — always visible to crawlers, not inside Suspense. */
+  description?: string;
   iframe?: boolean;
   name: string;
 }
@@ -110,6 +112,7 @@ function unwrapValues(obj: Record<string, any>): Record<string, any> {
 export function ComponentPreview({
   name,
   demo,
+  description,
   className,
   iframe = false,
   bigScreen = false,
@@ -243,6 +246,9 @@ export function ComponentPreview({
             value="preview"
           >
             <div className="flex flex-col gap-3">
+              {description ? (
+                <p className="text-muted-foreground text-sm">{description}</p>
+              ) : null}
               <ComponentWrapper
                 bigScreen={bigScreen}
                 iframe={iframe}

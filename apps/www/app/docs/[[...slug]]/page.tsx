@@ -14,6 +14,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
+import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
 import { PageActionButtons } from "@/components/docs/page-actions";
 import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
@@ -22,7 +23,7 @@ import {
   getOgMetadataImages,
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
-import { SITE_URL } from "@/lib/site";
+import { getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
 function isPrimitivesSectionRoot(slug: string[] | undefined): boolean {
@@ -123,6 +124,7 @@ export default async function Page(props: {
       tableOfContent={{ style: "clerk" }}
       toc={page.data.toc}
     >
+      <DocsPageJsonLd page={page} />
       <div className="flex w-full flex-row items-start justify-between gap-2">
         <DocsTitle className="font-medium">{page.data.title}</DocsTitle>
         {(prevNav || nextNav) && (
@@ -203,9 +205,7 @@ export async function generateMetadata(props: {
   return {
     title,
     description: page.data.description,
-    alternates: {
-      canonical: page.url,
-    },
+    alternates: getPageAlternates(page.url),
     authors: page.data?.author
       ? [
           {

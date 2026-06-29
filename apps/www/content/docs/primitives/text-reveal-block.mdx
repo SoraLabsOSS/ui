@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-reveal-block" />
+<ComponentPreview name="text-reveal-block" description="Line-by-line text reveal with a colored block wipe — the effect plays on mount in this preview." />
 
 ## Installation
 
@@ -104,3 +104,13 @@ The preview plays on mount (`animateOnScroll={false}`) so the effect fits the do
     },
   }}
 />
+
+## When to Use
+
+Use `TextRevealBlock` for large display headings in hero sections, case study pages, or anywhere a deliberate reveal frames the text as a key moment. Stack multiple blocks inside full-viewport sections for a scroll-driven narrative — each block reveals as the user scrolls into that section.
+
+Avoid it for body copy or longer paragraphs. The block wipe obscures the text while it plays, which frustrates readers who want to scan.
+
+## Accessibility
+
+The text content is in the DOM and readable before and after animation. GSAP SplitText wraps each line in a `<div>`; semantic heading or paragraph structure is preserved by the `as` prop. When `prefers-reduced-motion: reduce` is set, GSAP skips the animation and the text is visible immediately.

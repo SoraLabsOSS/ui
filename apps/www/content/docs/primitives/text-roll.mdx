@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-roll" />
+<ComponentPreview name="text-roll" description="Per-character vertical text roll — click the preview button to trigger a Copy → Copied swap." />
 
 ## Installation
 
@@ -120,6 +120,16 @@ For aligned short labels (`Copy` → `Copied`), keep `skipUnchanged` at the defa
     },
   }}
 />
+
+## When to Use
+
+Use `TextRoll` for micro-interactions where a label changes state: copy buttons, submit confirmations, tab switches, quantity controls, or any short string that toggles between two values. The per-character roll gives discrete state changes a physical weight that a plain text swap lacks.
+
+Keep labels short (1–10 characters) for the effect to be legible. For longer text swaps or multi-word labels, consider `TextMorph` or a simple fade.
+
+## Accessibility
+
+`TextRoll` animates characters via CSS transforms — the text string is always in the DOM. When using it inside an interactive element, ensure the parent has a clear accessible label if the visible text may be ambiguous mid-animation. The `bounce` parameter controls personality, not speed; total animation time is `duration + (text.length × stagger)` in milliseconds.
 
 ## Credits
 

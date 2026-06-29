@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ComponentPageDocs } from "@/components/catalog/component-page-docs";
 import { ComponentPageLayout } from "@/components/catalog/component-page-layout";
+import { ComponentPageJsonLd } from "@/components/docs/component-page-json-ld";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
@@ -16,7 +17,7 @@ import {
   getComponentPageHeaderData,
 } from "@/lib/registry/get-component-page-data";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
-import { SITE_URL } from "@/lib/site";
+import { getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
 interface PageProps {
@@ -47,24 +48,27 @@ export default async function ComponentDetailPage(props: PageProps) {
   const { previous: previousNav, next: nextNav } = getComponentNeighbours(slug);
 
   return (
-    <ComponentPageLayout
-      data={data}
-      githubPath={`content/components/${slug}.mdx`}
-      header={getComponentPageHeaderData(data)}
-      navItems={getComponentGalleryItems()}
-      nextNav={nextNav}
-      previousNav={previousNav}
-      releaseDate={releaseDate}
-    >
-      <ComponentPageDocs>
-        <MDXContent
-          components={getMDXComponents({
-            ...getCatalogMDXComponents(),
-            a: createRelativeLink(componentSource, data.page),
-          })}
-        />
-      </ComponentPageDocs>
-    </ComponentPageLayout>
+    <>
+      <ComponentPageJsonLd componentUrl={data.componentUrl} page={data.page} />
+      <ComponentPageLayout
+        data={data}
+        githubPath={`content/components/${slug}.mdx`}
+        header={getComponentPageHeaderData(data)}
+        navItems={getComponentGalleryItems()}
+        nextNav={nextNav}
+        previousNav={previousNav}
+        releaseDate={releaseDate}
+      >
+        <ComponentPageDocs>
+          <MDXContent
+            components={getMDXComponents({
+              ...getCatalogMDXComponents(),
+              a: createRelativeLink(componentSource, data.page),
+            })}
+          />
+        </ComponentPageDocs>
+      </ComponentPageLayout>
+    </>
   );
 }
 
@@ -87,9 +91,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   return {
     title,
     description: data.page.data.description,
-    alternates: {
-      canonical: data.componentUrl,
-    },
+    alternates: getPageAlternates(data.componentUrl),
     openGraph: {
       title,
       description: data.page.data.description,

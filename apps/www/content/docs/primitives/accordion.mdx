@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-accordion" />
+<ComponentPreview name="demo-accordion" description="Animated FAQ accordion showing expandable panels with smooth height transitions." />
 
 ## Installation
 
@@ -148,6 +148,16 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use the Accordion for FAQ sections, settings panels, or any content group where users need to scan multiple topics quickly and expand only the ones they care about. It works well when you have 4–12 items of similar importance and collapsing them reduces cognitive load — for example, product feature breakdowns, pricing tier details, or support documentation.
+
+Avoid it when all items need to be visible at once, or when there are fewer than 3 items (a simple list or card layout is clearer).
+
+## Accessibility
+
+`AccordionTrigger` renders as a native `<button>`, so keyboard navigation (Tab, Enter, Space) works without extra configuration. Each panel region gets an `aria-expanded` attribute and is linked to its trigger via `aria-controls`. When `prefers-reduced-motion: reduce` is active, expand and collapse animations are skipped while the items remain fully interactive.
 
 ## Credits
 

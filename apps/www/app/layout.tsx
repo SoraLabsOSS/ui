@@ -18,7 +18,12 @@ import {
   getOgMetadataImages,
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
-import { getMetadataBaseUrl, SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+import {
+  getMetadataBaseUrl,
+  getPageAlternates,
+  SITE_DESCRIPTION,
+  SITE_URL,
+} from "@/lib/site";
 
 const defaultOgImages = getOgMetadataImages([], "Sora UI");
 const defaultTwitterImages = getTwitterMetadataImages([]);
@@ -67,6 +72,7 @@ export const metadata: Metadata = {
     },
   ],
   publisher: "Sora UI",
+  alternates: getPageAlternates("/"),
   openGraph: {
     title: "Sora UI",
     description: SITE_DESCRIPTION,

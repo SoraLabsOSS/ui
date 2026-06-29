@@ -6,14 +6,13 @@ import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { getBlogIndexOgContent } from "@/lib/blog/get-blog-index-og-content";
 import { createBlogMetadata, getBlogPageImage } from "@/lib/blog/metadata";
 import { blog } from "@/lib/blog/source";
+import { getPageAlternates } from "@/lib/site";
 import { BlogHeaderBanner } from "./banner.client";
 
 export const metadata: Metadata = createBlogMetadata({
   title: "Blog",
   description: getBlogIndexOgContent().quote,
-  alternates: {
-    canonical: "/blog",
-  },
+  alternates: getPageAlternates("/blog"),
 });
 
 export default function BlogPage() {

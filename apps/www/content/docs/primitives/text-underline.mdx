@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-underline" />
+<ComponentPreview name="text-underline" description="CSS-only link underline that slides through on hover — hover each link to see the transition." />
 
 ## Installation
 
@@ -77,6 +77,16 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use `TextUnderline` for inline links in articles, marketing pages, or anywhere the default browser underline feels too static. The slide-through animation signals interactivity without the overhead of a JavaScript animation library — it uses CSS `transform` only.
+
+It works best at `text-base` or larger. At very small sizes the underline may be too thin to register as an animated element.
+
+## Accessibility
+
+`TextUnderline` renders as a standard `<a>` tag with an underline that is always visible (not hidden until hover). The sliding animation is a CSS `transform` on a pseudo-element and does not affect the link's accessible name, role, or keyboard behavior. Focus state adds the standard browser outline. There are no Motion dependencies; `prefers-reduced-motion` is honored automatically by the browser for CSS transitions.
 
 ## Credits
 

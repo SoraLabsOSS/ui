@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-custom-cursor" />
+<ComponentPreview name="demo-custom-cursor" description="Custom cursor that morphs on hover over interactive targets — move your pointer inside the preview." />
 
 ## Installation
 
@@ -81,3 +81,13 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use `CustomCursor` on creative portfolio sites, interactive landing pages, or immersive showcases where a distinct cursor reinforces brand personality. It pairs well with hero sections that invite exploration.
+
+Limit it to desktop viewports only — the component only activates when a pointer device is present. On touch devices it renders nothing and causes no side effects.
+
+## Accessibility
+
+The custom cursor is purely visual. It does not change keyboard navigation, tab order, or focus indicators. Standard `:focus-visible` styles remain fully functional alongside it. When `prefers-reduced-motion: reduce` is set, consider checking the media query and not rendering the component to avoid animating a decorative element for users who have opted out of motion.

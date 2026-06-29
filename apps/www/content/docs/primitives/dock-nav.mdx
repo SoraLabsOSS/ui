@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-dock-nav" />
+<ComponentPreview name="demo-dock-nav" description="Apple-style dock navigation with expanding icons and animated tooltips on hover." />
 
 ## Installation
 
@@ -88,3 +88,13 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use `DockNav` for creative portfolio navigation, desktop-focused admin toolbars, or showcase pages where a compact icon bar with animated expansion fits the visual language. Keep the item count between 4 and 8 — fewer items don't justify the layout, and more items crowd the expansion effect.
+
+For primary site navigation that needs to be accessible on mobile, use a standard header or sidebar instead.
+
+## Accessibility
+
+Each item renders as an `<a>` and uses its `label` as the visible tooltip and accessible name. Image icons get the accessible label from the `alt` prop — always supply it. The expansion animation is Motion-driven; when `prefers-reduced-motion: reduce` is set, the item scales without the spring overshoot.
