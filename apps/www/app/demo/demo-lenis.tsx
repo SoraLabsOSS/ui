@@ -3,7 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type LenisRef, ReactLenis } from "lenis/react";
-import { cancelFrame, frame, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import {
   type ReactNode,
   useEffect,
@@ -13,13 +13,45 @@ import {
 } from "react";
 
 import "lenis/dist/lenis.css";
+import { dispatchDemoScrollReady } from "@/lib/demo/demo-scroll-ready";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const DEMO_PAGE_ID = "demo-page";
 
-const DEMO_SCROLL_CLASS =
-  "relative z-0 h-[calc(100dvh-var(--fd-banner-height))] overflow-x-hidden";
+const MOBILE_BREAKPOINT = 1000;
+
+/** Lenis scroll easing — matches Deadlock Studios client-layout. */
+const LENIS_EASING = (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t));
+
+const LENIS_SHARED = {
+  easing: LENIS_EASING,
+  direction: "vertical" as const,
+  gestureDirection: "vertical" as const,
+  smooth: true,
+  infinite: false,
+  wheelMultiplier: 1,
+  orientation: "vertical" as const,
+  smoothWheel: true,
+  syncTouch: true,
+  autoRaf: false,
+};
+
+const LENIS_MOBILE = {
+  ...LENIS_SHARED,
+  duration: 0.8,
+  smoothTouch: true,
+  touchMultiplier: 1.5,
+  lerp: 0.09,
+};
+
+const LENIS_DESKTOP = {
+  ...LENIS_SHARED,
+  duration: 1.2,
+  smoothTouch: false,
+  touchMultiplier: 2,
+  lerp: 0.1,
+};
 
 interface DemoLenisProps {
   children: ReactNode;
@@ -39,7 +71,6 @@ function useScrollMode() {
         setScrollMode("native");
         return;
       }
-
       setScrollMode("lenis");
     };
 
@@ -55,36 +86,51 @@ function useScrollMode() {
 }
 
 function DemoNativeScroll({ children }: DemoLenisProps) {
+  useLayoutEffect(() => {
+    dispatchDemoScrollReady();
+    ScrollTrigger.refresh();
+  }, []);
+
   return (
-    <main className={`${DEMO_SCROLL_CLASS} overflow-y-auto`} id={DEMO_PAGE_ID}>
+    <main className="relative z-0 min-h-dvh overflow-x-clip" id={DEMO_PAGE_ID}>
       {children}
     </main>
   );
 }
 
-function DemoLenisScroller({ children }: DemoLenisProps) {
+/**
+ * Deadlock Studios pattern: ReactLenis `root` + gsap.ticker (no scrollerProxy).
+ * ScrollTrigger pins against window scroll while Lenis smooths the document.
+ */
+function DemoLenisRoot({ children }: DemoLenisProps) {
   const lenisRef = useRef<LenisRef>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    function update(data: { timestamp: number }) {
-      lenisRef.current?.lenis?.raf(data.timestamp);
-    }
-
-    frame.update(update, true);
-
-    return () => cancelFrame(update);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  useLayoutEffect(() => {
-    let cancelled = false;
-    let teardown: (() => void) | undefined;
+  useEffect(() => {
+    function update(time: number) {
+      lenisRef.current?.lenis?.raf(time * 1000);
+    }
 
-    const setupScrollTrigger = () => {
+    gsap.ticker.add(update);
+    gsap.ticker.lagSmoothing(0);
+
+    let scrollCleanup: (() => void) | undefined;
+
+    const connectLenis = () => {
       const lenis = lenisRef.current?.lenis;
-      const scroller = document.getElementById(DEMO_PAGE_ID);
-
-      if (!(lenis && scroller)) {
-        return false;
+      if (!lenis) {
+        return;
       }
 
       const onScroll = () => {
@@ -92,66 +138,30 @@ function DemoLenisScroller({ children }: DemoLenisProps) {
       };
 
       lenis.on("scroll", onScroll);
-
-      ScrollTrigger.scrollerProxy(scroller, {
-        scrollTop(value?: number) {
-          if (value !== undefined) {
-            lenis.scrollTo(value, { immediate: true });
-          }
-          return lenis.scroll;
-        },
-        getBoundingClientRect() {
-          return {
-            top: 0,
-            left: 0,
-            width: window.innerWidth,
-            height: window.innerHeight,
-          };
-        },
-      });
-
-      ScrollTrigger.refresh();
-
-      teardown = () => {
+      scrollCleanup = () => {
         lenis.off("scroll", onScroll);
-        ScrollTrigger.scrollerProxy(scroller);
-        ScrollTrigger.refresh();
       };
-
-      return true;
+      ScrollTrigger.refresh();
+      dispatchDemoScrollReady();
     };
 
-    if (!setupScrollTrigger()) {
-      const frameId = requestAnimationFrame(() => {
-        if (!cancelled) {
-          setupScrollTrigger();
-        }
-      });
-
-      return () => {
-        cancelled = true;
-        cancelAnimationFrame(frameId);
-        teardown?.();
-      };
-    }
+    connectLenis();
+    const retryId = window.setTimeout(connectLenis, 0);
 
     return () => {
-      teardown?.();
+      window.clearTimeout(retryId);
+      gsap.ticker.remove(update);
+      scrollCleanup?.();
     };
   }, []);
 
+  const lenisOptions = isMobile ? LENIS_MOBILE : LENIS_DESKTOP;
+
   return (
-    <ReactLenis
-      className={`${DEMO_SCROLL_CLASS} overflow-hidden`}
-      id={DEMO_PAGE_ID}
-      options={{
-        autoRaf: false,
-        lerp: 0.1,
-        smoothWheel: true,
-      }}
-      ref={lenisRef}
-    >
-      {children}
+    <ReactLenis options={lenisOptions} ref={lenisRef} root>
+      <main className="relative z-0 overflow-x-clip" id={DEMO_PAGE_ID}>
+        {children}
+      </main>
     </ReactLenis>
   );
 }
@@ -163,5 +173,5 @@ export function DemoLenis({ children }: DemoLenisProps) {
     return <DemoNativeScroll>{children}</DemoNativeScroll>;
   }
 
-  return <DemoLenisScroller>{children}</DemoLenisScroller>;
+  return <DemoLenisRoot>{children}</DemoLenisRoot>;
 }

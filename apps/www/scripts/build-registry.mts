@@ -104,6 +104,19 @@ const REGISTRY_JSON_PATH = path.join(
   "registry.json"
 );
 
+/** www-only catalog previews — not included in shadcn install bundles. */
+const CATALOG_PREVIEW_IMPORT_OVERRIDES: Record<string, string> = {
+  "scroll-gallery": "@/components/catalog/scroll-gallery-catalog-preview",
+  "demo-scroll-gallery": "@/components/catalog/scroll-gallery-catalog-preview",
+};
+
+function resolveCatalogPreviewPath(
+  itemName: string,
+  defaultPath: string
+): string {
+  return CATALOG_PREVIEW_IMPORT_OVERRIDES[itemName] ?? defaultPath;
+}
+
 /**
  * Replace registry paths with component paths.
  * @param inputStr - The input string to process.
@@ -519,6 +532,8 @@ export const previewComponents: Record<string, any> = {`;
         componentPath = `@/${demoComponentFile.path}`;
       }
     }
+
+    componentPath = resolveCatalogPreviewPath(item.name, componentPath);
 
     // Read files and add content preserving newlines
     const filesWithContent = await Promise.all(

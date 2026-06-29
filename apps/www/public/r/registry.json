@@ -204,6 +204,20 @@
       ]
     },
     {
+      "name": "demo-scroll-gallery",
+      "type": "registry:ui",
+      "title": "Scroll Gallery Demo",
+      "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
+      "registryDependencies": ["@soralabs/scroll-gallery"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/scroll-gallery.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-draw-underline-link",
       "type": "registry:ui",
       "title": "Draw Underline Link Demo",
@@ -641,6 +655,60 @@
             },
             "className": {
               "value": "mx-auto w-72"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "scroll-gallery",
+      "type": "registry:ui",
+      "title": "Scroll Gallery",
+      "description": "A full-viewport sticky scroll slider with strip-mask image transitions and animated title swaps, driven by GSAP ScrollTrigger.",
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/scroll-gallery/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/scroll-gallery.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "ScrollGallery": {
+            "prefixLabel": {
+              "value": "Featured"
+            },
+            "linkLabel": {
+              "value": "Explore"
+            },
+            "showPrefix": {
+              "value": true
+            },
+            "showLink": {
+              "value": true
+            },
+            "showInfoBand": {
+              "value": true
+            },
+            "scrollPerTransition": {
+              "value": 600,
+              "min": 200,
+              "max": 1500,
+              "step": 50
+            },
+            "stripsCount": {
+              "value": 20,
+              "min": 4,
+              "max": 40,
+              "step": 2
+            },
+            "scrub": {
+              "value": 1,
+              "min": 0,
+              "max": 3,
+              "step": 0.1
             }
           }
         }

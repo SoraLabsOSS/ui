@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-scroll-gallery",
+  "title": "Scroll Gallery Demo",
+  "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
+  "registryDependencies": ["@soralabs/scroll-gallery"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",
+      "content": "\"use client\";\n\nimport { ScrollGallery } from \"@/components/sora-ui/effects/scroll-gallery\";\n\nconst DEMO_SLIDES = [\n  {\n    title: \"Room 14B\",\n    image: \"/featured-work/featured-work-1.jpg\",\n    url: \"#\",\n  },\n  {\n    title: \"Subject Identified\",\n    image: \"/featured-work/featured-work-2.jpg\",\n    url: \"#\",\n  },\n  {\n    title: \"Dossier 09\",\n    image: \"/featured-work/featured-work-3.jpg\",\n    url: \"#\",\n  },\n  {\n    title: \"Stairwell C7\",\n    image: \"/featured-work/featured-work-4.jpg\",\n    url: \"#\",\n  },\n];\n\n/** Deadlock Studios featured-work layout — copy into your page or customize. */\nconst studio = {\n  root: \"relative h-svh w-full overflow-hidden max-lg:h-dvh\",\n  images: \"absolute inset-0 h-full w-full\",\n  imageFrame: \"absolute inset-0 h-full w-full\",\n  image:\n    \"h-full w-full origin-center object-cover transition-transform duration-100 ease-out\",\n  info: \"absolute top-1/2 left-0 z-[2] w-screen -translate-y-1/2 border-white/20 border-b\",\n  infoInner: \"flex gap-8 px-9\",\n  prefix: \"flex-1 max-[1000px]:hidden\",\n  prefixText:\n    \"font-medium text-[36px] text-white leading-none tracking-[-0.02rem] antialiased will-change-transform max-[1000px]:text-[18px]\",\n  title: \"relative h-10 flex-[2] overflow-hidden max-[1000px]:h-[22px]\",\n  titleText:\n    \"font-medium text-[36px] text-white leading-none tracking-[-0.02rem] antialiased will-change-transform [clip-path:polygon(0_0,100%_0,100%_100%,0%_100%)] max-[1000px]:text-[18px]\",\n  link: \"flex flex-1 justify-end\",\n  linkText:\n    \"font-medium text-[36px] text-white leading-none tracking-[-0.02rem] no-underline antialiased will-change-transform max-[1000px]:text-[18px]\",\n} as const;\n\nexport default function ScrollGalleryDemo() {\n  return (\n    <ScrollGallery\n      className={studio.root}\n      imageClassName={studio.image}\n      imageFrameClassName={studio.imageFrame}\n      imagesClassName={studio.images}\n      infoClassName={studio.info}\n      infoInnerClassName={studio.infoInner}\n      linkClassName={studio.link}\n      linkLabel=\"Explore\"\n      linkTextClassName={studio.linkText}\n      prefixClassName={studio.prefix}\n      prefixLabel=\"Featured\"\n      prefixTextClassName={studio.prefixText}\n      slides={DEMO_SLIDES}\n      titleClassName={studio.title}\n      titleTextClassName={studio.titleText}\n    />\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/scroll-gallery.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
