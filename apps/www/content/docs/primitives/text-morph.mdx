@@ -6,13 +6,13 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-morph" />
+<ComponentPreview name="text-morph" description="Per-character layout morph between two labels — click the preview button to trigger a swap." />
 
 ## Examples
 
 ### Text Morph Input
 
-<ComponentPreview name="demo-text-morph-input" />
+<ComponentPreview name="demo-text-morph-input" description="TextMorph driven by a live input field — type to see characters morph in real time." />
 
 ## Installation
 
@@ -141,6 +141,16 @@ export function TextMorphInput() {
     },
   }}
 />
+
+## When to Use
+
+Use `TextMorph` for label swaps that need to feel fluid rather than abrupt: copy buttons toggling "Copy" → "Copied", tab selectors, status badges, or counters where a hard cut feels jarring. It is most effective on short text (1–15 characters) where individual character transitions are clearly visible.
+
+For longer text or entire paragraphs that change, a fade transition is simpler and more legible.
+
+## Accessibility
+
+Set `live="polite"` when the content change is the result of a user action that screen reader users should be notified about (e.g., "Copied"). Use `live="assertive"` only for urgent status updates. The morphing animation is visual only; the final string is announced by the live region after the transition completes.
 
 ## Credits
 

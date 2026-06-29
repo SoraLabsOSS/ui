@@ -1,5 +1,37 @@
+import type { Metadata } from "next";
+
 /** Production site origin — used for sitemap, robots, metadata, and JSON-LD. */
 export const SITE_URL = "https://ui.soralabs.io.vn" as const;
+
+function toAbsoluteSiteUrl(pathname: string): string {
+  if (pathname === "/" || pathname === "") {
+    return SITE_URL;
+  }
+
+  return `${SITE_URL}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
+}
+
+/** Canonical path + hreflang for English-only pages (en + x-default). */
+export function getPageAlternates(
+  pathname: string
+): NonNullable<Metadata["alternates"]> {
+  let canonical = pathname;
+  if (pathname === "") {
+    canonical = "/";
+  } else if (!pathname.startsWith("/")) {
+    canonical = `/${pathname}`;
+  }
+
+  const href = toAbsoluteSiteUrl(canonical);
+
+  return {
+    canonical,
+    languages: {
+      en: href,
+      "x-default": href,
+    },
+  };
+}
 
 export const GITHUB_PROFILE_URL = "https://github.com/axyl1410/" as const;
 export const X_PROFILE_URL = "https://x.com/axyl1410" as const;

@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-text-effect" />
+<ComponentPreview name="demo-text-effect" description="Preset-driven staggered text reveals — blur, fade, slide, and scale animations on words and characters." />
 
 ## Installation
 
@@ -152,6 +152,16 @@ import {
     },
   }}
 />
+
+## When to Use
+
+Use `TextEffect` for hero headings, section titles, or any large display text where an entrance animation emphasizes the content on first impression. The `scrollTrigger` mode works well for below-the-fold content in marketing pages, triggering the reveal as each section scrolls into view.
+
+Use `per="word"` for phrases and headings; switch to `per="char"` for short labels where individual character timing creates a typewriter feel.
+
+## Accessibility
+
+The text content is always present in the DOM — animation is purely visual opacity and transform. Screen readers announce the full text immediately, regardless of animation state. When `prefers-reduced-motion: reduce` is set, Motion skips to the final visible state so the content appears instantly without any transition.
 
 ## Credits
 

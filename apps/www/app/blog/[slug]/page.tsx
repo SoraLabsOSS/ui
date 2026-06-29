@@ -4,6 +4,7 @@ import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
+import { BlogPostJsonLd } from "@/components/blog/blog-post-json-ld";
 import { InlineTOC } from "@/components/blog/inline-toc";
 import {
   createBlogMetadata,
@@ -11,6 +12,7 @@ import {
   getBlogPostOgMetadataImage,
 } from "@/lib/blog/metadata";
 import { blog } from "@/lib/blog/source";
+import { getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 import { BlogPostHeader } from "./post-header";
 
@@ -56,6 +58,7 @@ export default async function BlogPostPage(props: {
       }}
       toc={toc}
     >
+      <BlogPostJsonLd page={page} />
       <article className="blog-article flex w-full flex-col pb-16">
         <div
           className={cn(
@@ -128,12 +131,21 @@ export async function generateMetadata(props: {
   }
 
   const image = getBlogPostOgMetadataImage(page);
+  const canonicalPath = page.url;
+  const publishedTime = new Date(page.data.date).toISOString();
 
   return createBlogMetadata({
     title: page.data.title,
     description: page.data.description ?? "A post from the Sora UI blog.",
+    authors: [{ name: page.data.author }],
+    alternates: getPageAlternates(canonicalPath),
     openGraph: {
-      url: `/blog/${page.slugs.join("/")}`,
+      type: "article",
+      url: canonicalPath,
+      publishedTime,
+      modifiedTime: page.data.lastModified
+        ? new Date(page.data.lastModified).toISOString()
+        : publishedTime,
       images: [image],
     },
     twitter: {

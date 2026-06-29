@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-scramble" />
+<ComponentPreview name="text-scramble" description="Text scramble reveal that decodes characters on mount — refresh or use the trigger prop to replay." />
 
 ## Installation
 
@@ -119,3 +119,13 @@ Color sweep while decoding — scramble noise in one color, revealed letters kee
     },
   }}
 />
+
+## When to Use
+
+Use `TextScramble` for hero headings, data dashboards revealing a new value, or any reveal moment where the text should feel like it is being decoded. It pairs well with monospace or uppercase fonts where individual character changes are visually clear.
+
+The `triggerOnHover` mode works well for navigation labels and interactive buttons that reward hovering.
+
+## Accessibility
+
+The final decoded text is always in the DOM — the scramble is a visual effect applied character by character. Screen readers announce the final string. When `prefers-reduced-motion: reduce` is set, consider disabling the scramble by setting `trigger={false}` or not rendering the component, as the rapid character cycling can be disorienting for users sensitive to motion.

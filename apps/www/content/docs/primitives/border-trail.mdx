@@ -6,17 +6,17 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="border-trail" />
+<ComponentPreview name="border-trail" description="Animated border spotlight circling a card container — hover to see the looping trail." />
 
 ## Examples
 
 ### Border Trail Loading Card
 
-<ComponentPreview name="demo-border-trail-loading" />
+<ComponentPreview name="demo-border-trail-loading" description="Border trail used as a loading state indicator on a skeleton card." />
 
 ### Border Trail Textarea
 
-<ComponentPreview name="demo-border-trail-textarea" />
+<ComponentPreview name="demo-border-trail-textarea" description="Border trail applied to a textarea to highlight it on focus." />
 
 ## Installation
 
@@ -80,6 +80,16 @@ When `prefers-reduced-motion: reduce` is set, the looping trail is replaced by a
     },
   }}
 />
+
+## When to Use
+
+Use `BorderTrail` to draw attention to a selected card, active form field, or featured section. Common patterns: loading skeleton cards that feel alive while data fetches, focused textareas that need stronger visual feedback than a plain outline, and featured cards in a grid that should stand out from inactive siblings.
+
+Avoid applying it to every card simultaneously — the spotlight loses meaning when nothing is actively selected.
+
+## Accessibility
+
+`BorderTrail` is a decorative overlay with no semantic role or interactive affordance. Screen readers ignore it. When `prefers-reduced-motion: reduce` is set, the looping animation is replaced by a static ring so the visual hint remains without motion.
 
 ## Credits
 

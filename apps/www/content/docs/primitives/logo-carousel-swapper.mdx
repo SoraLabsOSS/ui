@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-logo-carousel-swapper" />
+<ComponentPreview name="demo-logo-carousel-swapper" description="Staggered logo columns cycling between sets with fade, vertical shift, and motion blur." />
 
 ## Installation
 
@@ -109,3 +109,13 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use `LogoCarouselSwapper` in social proof sections to showcase partner logos, client brands, or integration icons. The staggered swap animation draws the eye without being distracting, making it ideal for "As seen in" or "Trusted by" sections on landing pages.
+
+Provide at least two full sets of logos to fill all columns on every cycle — otherwise vacant column slots during a swap look like a layout bug.
+
+## Accessibility
+
+Each logo requires an `alt` text via the `alt` prop. The root element should receive an `aria-label` describing the section (e.g., `"Partner logos"`). The swap animation cycles automatically with no play/pause control. When `prefers-reduced-motion: reduce` is set, consider setting a very long `interval` or disabling the component to avoid looping motion.

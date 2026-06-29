@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="draw-underline-link" />
+<ComponentPreview name="draw-underline-link" description="Link with a hand-drawn SVG underline that animates on hover — hover to see the stroke draw in." />
 
 ## Installation
 
@@ -73,6 +73,16 @@ export default function Page() {
     },
   }}
 />
+
+## When to Use
+
+Use `DrawUnderlineLink` for editorial body copy, blog post inline links, and marketing pages where you want links to feel crafted rather than mechanical. It works particularly well in large headline text or pull-quotes where the SVG stroke is clearly visible at the text size.
+
+Avoid it for navigation menus, button-style links, or links inside dense paragraphs where the animation competes with surrounding content.
+
+## Accessibility
+
+The component renders as a standard `<a>` tag. The SVG underline is `aria-hidden` and purely decorative — screen readers announce the link text without any mention of the animation. Keyboard focus shows the standard browser outline alongside the drawn underline.
 
 ## Credits
 

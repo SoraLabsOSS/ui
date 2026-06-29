@@ -7,6 +7,7 @@ import {
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
+import { getPageAlternates } from "@/lib/site";
 
 const title = "Components";
 const description =
@@ -15,6 +16,7 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
+  alternates: getPageAlternates("/components"),
   openGraph: {
     title,
     description,

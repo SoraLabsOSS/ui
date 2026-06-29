@@ -115,12 +115,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${SITE_URL}/blog/rss.xml`,
-      lastModified: latestBlogDate,
-      changeFrequency: "daily",
-      priority: 0.4,
-    },
     ...blogEntries,
     {
       url: `${SITE_URL}/pricing`,
