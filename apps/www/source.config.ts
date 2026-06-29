@@ -1,4 +1,5 @@
 import {
+  defineCollections,
   defineConfig,
   defineDocs,
   frontmatterSchema,
@@ -62,6 +63,24 @@ export const components = defineDocs({
   },
   meta: {
     schema: metaSchema,
+  },
+});
+
+/** Blog posts — served at `/blog/*`. */
+export const blog = defineCollections({
+  type: "doc",
+  dir: "content/blog",
+  schema: frontmatterSchema.extend({
+    author: z.string(),
+    date: z.iso.date().or(z.date()),
+    image: z.string().optional(),
+    hashtags: z.array(z.string().startsWith("#")).optional(),
+    flags: z.array(z.string()).optional(),
+    subpage: z.boolean().optional(),
+    hidden: z.boolean().optional(),
+  }),
+  postprocess: {
+    includeProcessedMarkdown: true,
   },
 });
 

@@ -5,7 +5,6 @@ import type { ComponentGalleryItem } from "@/lib/registry/types";
 import { useCatalogMenu } from "./catalog-menu-context";
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
-  catalogChromeToolbarClassName,
   catalogDocsHeaderBreadcrumbClassName,
   catalogDocsHeaderClassName,
   catalogDocsHeaderInsetClassName,
@@ -21,11 +20,7 @@ interface ComponentPageDocsHeaderProps {
   title: string;
 }
 
-const desktopMenuChipClassName = cn(
-  catalogDocsHeaderMenuClassName,
-  catalogChromeToolbarClassName,
-  "lg:rounded-none lg:bg-transparent lg:p-0 lg:shadow-none"
-);
+const desktopMenuChipClassName = catalogDocsHeaderMenuClassName;
 
 export function ComponentPageDocsHeader({
   isExpanded: _isExpanded = false,
@@ -46,12 +41,12 @@ export function ComponentPageDocsHeader({
     >
       <div className="flex min-w-0 flex-1 items-center gap-3">
         {/* Mobile menu lives in ComponentPageCatalogMobileMenuLayer — spacer only */}
-        <div aria-hidden className="size-10 shrink-0 lg:hidden" />
+        <div aria-hidden className="size-11 shrink-0 lg:hidden" />
 
         {/* Wrapper must not share a node with `catalogChromeToolbarClassName` (`flex` beats `hidden`). */}
         <div className="hidden lg:flex lg:items-center">
           <div className={desktopMenuChipClassName}>
-            <ComponentPageCatalogMenuButton />
+            <ComponentPageCatalogMenuButton variant="plain" />
           </div>
         </div>
 

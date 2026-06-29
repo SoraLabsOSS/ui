@@ -32,16 +32,12 @@ import { ComponentPageHeader } from "./component-page-header";
 import { ComponentPagePreviewPanel } from "./component-page-preview-panel";
 import { ComponentPageToc } from "./component-page-toc";
 import { useCatalogLayoutReady } from "./use-catalog-layout-ready";
+import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
 
 const LG_MEDIA = "(min-width: 1024px)";
 
 const EXPAND_TRANSITION = {
   duration: 0.55,
-  ease: [0.32, 0.72, 0, 1] as const,
-};
-
-const LAYOUT_FADE_TRANSITION = {
-  duration: 0.4,
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
@@ -75,6 +71,7 @@ export function ComponentPageLayoutClient({
   const [isPreviewAnimating, setIsPreviewAnimating] = useState(false);
   const { isLargeScreen, isReady: isLayoutReady } =
     useCatalogLayoutReady(layoutRef);
+  const isStacked = useCatalogStackedLayout();
   const { open: isCatalogMenuOpen } = useCatalogMenu();
 
   const useFixedPreviewShellWidth =
@@ -161,16 +158,13 @@ export function ComponentPageLayoutClient({
   );
 
   return (
-    <motion.div
-      animate={{ opacity: isLayoutReady ? 1 : 0 }}
+    <div
       aria-busy={!isLayoutReady}
       className={cn(
         "relative h-full min-h-0 overflow-hidden bg-background",
         "max-lg:flex max-lg:h-auto max-lg:flex-col max-lg:overflow-visible"
       )}
-      initial={false}
       ref={layoutRef}
-      transition={LAYOUT_FADE_TRANSITION}
     >
       <div
         className={cn(
@@ -223,13 +217,17 @@ export function ComponentPageLayoutClient({
           position="bottom"
         />
 
-        <CatalogScrollArea
-          className="min-h-0 min-w-0 lg:h-full"
-          hideScrollbar
-          viewportClassName="lg:pt-12"
-        >
-          {docsContent}
-        </CatalogScrollArea>
+        {isStacked ? (
+          <div className="min-h-0 min-w-0">{docsContent}</div>
+        ) : (
+          <CatalogScrollArea
+            className="min-h-0 min-w-0 lg:h-full"
+            hideScrollbar
+            viewportClassName="lg:pt-12"
+          >
+            {docsContent}
+          </CatalogScrollArea>
+        )}
       </div>
 
       <motion.div
@@ -271,6 +269,6 @@ export function ComponentPageLayoutClient({
           />
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

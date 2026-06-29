@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { BlogOgImage } from "@/components/blog/blog-og-image";
 import type { ComponentGalleryCardPreview } from "@/lib/registry/types";
 import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
 
@@ -129,17 +129,20 @@ export function GalleryCardPreview({
   return (
     <div className="absolute inset-0" ref={containerRef}>
       {poster ? (
-        <Image
-          alt=""
-          aria-hidden
+        <BlogOgImage
           className={cn(
-            "object-cover transition-opacity duration-300",
+            "absolute inset-0 transition-opacity duration-300",
             showVideoLayer ? "opacity-0" : "opacity-100"
           )}
-          fill
-          priority={priority}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          src={poster}
+          image={{
+            alt: "",
+            "aria-hidden": true,
+            className: "object-cover",
+            fill: true,
+            priority,
+            sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+            src: poster,
+          }}
         />
       ) : (
         <GalleryCardThumbnail category={category} title={title} />

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-border-trail",
+  "title": "Border Trail Demo",
+  "description": "Card with animated border spotlight.",
+  "registryDependencies": ["@soralabs/border-trail"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/border-trail/index.tsx",
+      "content": "\"use client\";\n\nimport { BorderTrail } from \"@/components/sora-ui/effects/border-trail\";\n\nconst BORDER_TRAIL_CARD_GLOW = {\n  boxShadow:\n    \"0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)\",\n} as const;\n\nexport interface BorderTrailDemoProps {\n  duration?: number;\n  size?: number;\n}\n\n/** motion-primitives `border-trail-card-1` */\nexport function BorderTrailDemo({\n  duration = 5,\n  size = 100,\n}: BorderTrailDemoProps) {\n  return (\n    <div className=\"relative flex h-[200px] w-[300px] flex-col items-center justify-center rounded-md bg-zinc-200 px-5 py-2 dark:bg-zinc-800\">\n      <BorderTrail\n        size={size}\n        style={BORDER_TRAIL_CARD_GLOW}\n        transition={{\n          duration,\n          ease: \"linear\",\n          repeat: Number.POSITIVE_INFINITY,\n        }}\n      />\n      <div\n        aria-label=\"Loading...\"\n        className=\"flex h-full animate-pulse flex-col items-start justify-center space-y-2\"\n        role=\"status\"\n      >\n        <div className=\"h-1 w-4 rounded-[4px] bg-zinc-600\" />\n        <div className=\"h-1 w-10 rounded-[4px] bg-zinc-600\" />\n        <div className=\"h-1 w-12 rounded-[4px] bg-zinc-600\" />\n        <div className=\"h-1 w-12 rounded-[4px] bg-zinc-600\" />\n        <div className=\"h-1 w-12 rounded-[4px] bg-zinc-600\" />\n      </div>\n    </div>\n  );\n}\n\nexport default BorderTrailDemo;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/border-trail.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "BorderTrailDemo": {
+        "size": {
+          "value": 100,
+          "min": 40,
+          "max": 140,
+          "step": 4
+        },
+        "duration": {
+          "value": 5,
+          "min": 1,
+          "max": 12,
+          "step": 0.5
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

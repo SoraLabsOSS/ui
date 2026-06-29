@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-morph-input",
+  "type": "registry:ui",
+  "title": "Text Morph Input Demo",
+  "description": "Live text morph driven by a controlled input.",
+  "registryDependencies": ["text-morph"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-morph-input.tsx"
+    }
+  ]
+}

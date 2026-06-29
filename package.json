@@ -29,12 +29,14 @@
     "dev:mcp": "turbo dev --filter=mcp",
     "build:mcp": "turbo build --filter=mcp",
     "lint": "turbo lint",
+    "lint:links": "bun run --cwd apps/www lint:links",
     "format": "ultracite fix",
     "format:write": "ultracite fix",
     "format:check": "ultracite check",
     "registry:build": "bun run --cwd apps/www registry:build",
     "prepare": "lefthook install",
     "check": "ultracite check",
+    "check-types": "turbo check-types",
     "fix": "ultracite fix"
   },
   "workspaces": [

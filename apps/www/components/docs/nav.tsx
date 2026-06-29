@@ -44,6 +44,7 @@ const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
   { title: "Docs", url: DOCS_GUIDE_URL },
   { title: "Primitives", url: primitivesUrl },
   { title: "Components", url: "/components" },
+  { title: "Blog", url: "/blog" },
 ];
 
 const HEADER_AUTH_NAV_ITEMS = AUTH_MENU_LINKS.filter(

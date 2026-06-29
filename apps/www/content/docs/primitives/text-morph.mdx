@@ -1,0 +1,147 @@
+---
+title: Text Morph
+description: Per-character layout morphing for labels, counters, and live text swaps.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="text-morph" />
+
+## Examples
+
+### Text Morph Input
+
+<ComponentPreview name="demo-text-morph-input" />
+
+## Installation
+
+<ComponentInstallation name="text-morph" />
+
+## Usage
+
+```tsx
+import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+
+export default function StatusLabel({ value }: { value: string }) {
+  return (
+    <TextMorph
+      as="span"
+      className="font-mono text-sm uppercase tracking-widest"
+      live="polite"
+    >
+      {value}
+    </TextMorph>
+  );
+}
+```
+
+Cycle copy on click:
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+
+export function TextMorphButton() {
+  const [text, setText] = useState('Continue');
+
+  return (
+    <button
+      className="flex h-10 w-[120px] shrink-0 items-center justify-center rounded-full bg-foreground px-4 text-base font-medium text-background shadow-xs transition-colors hover:bg-foreground/85"
+      onClick={() =>
+        setText((current) => (current === 'Continue' ? 'Confirm' : 'Continue'))
+      }
+      type="button"
+    >
+      <TextMorph as="span">{text}</TextMorph>
+    </button>
+  );
+}
+```
+
+Live morph while typing:
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+
+export function TextMorphInput() {
+  const [text, setText] = useState('Craft');
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center space-y-12">
+      <TextMorph className="text-5xl font-medium" live="polite">
+        {text}
+      </TextMorph>
+      <input
+        className="h-9 w-full rounded-lg border border-input bg-transparent p-2 text-base shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+        onChange={(event) => setText(event.target.value)}
+        placeholder="Type your text here"
+        type="text"
+        value={text}
+      />
+    </div>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Label string to morph when updated.',
+      type: 'string',
+    },
+    as: {
+      description: 'Semantic HTML element for the root.',
+      type: 'ElementType',
+      default: '"p"',
+    },
+    variant: {
+      description:
+        'Optional preset (`blur`, `slide`). Omit for default opacity morph.',
+      type: '"blur" | "slide"',
+    },
+    staggerDelay: {
+      description: 'Per-character delay in seconds.',
+      type: 'number',
+      default: '0',
+    },
+    skipUnchanged: {
+      description:
+        'Keep same-index glyphs static instead of layout-morphing shared letters.',
+      type: 'boolean',
+      default: 'false',
+    },
+    charClassName: {
+      description: 'Class names applied to each character span.',
+      type: 'string',
+    },
+    live: {
+      description: 'ARIA live region mode for dynamic label updates.',
+      type: '"off" | "polite" | "assertive"',
+      default: '"off"',
+    },
+    variants: {
+      description: 'Custom Motion variants for enter, animate, and exit.',
+      type: 'Variants',
+    },
+    transition: {
+      description: 'Motion transition for each character.',
+      type: 'Transition',
+    },
+    className: {
+      description: 'Class names on the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## Credits
+
+<ComponentCredits name="text-morph" />

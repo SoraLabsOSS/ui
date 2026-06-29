@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-logo-carousel-swapper",
+  "type": "registry:ui",
+  "title": "Logo Carousel Swapper Demo",
+  "description": "Staggered four-column logo swapper with blur and vertical motion.",
+  "registryDependencies": ["logo-carousel-swapper"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/logo-carousel-swapper.tsx"
+    }
+  ]
+}

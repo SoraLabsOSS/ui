@@ -2,10 +2,7 @@
 
 import { useAuth } from "@better-auth-ui/react";
 import { useSearchParams } from "next/navigation";
-
-function isSafeRedirectPath(path: string): boolean {
-  return path.startsWith("/") && !path.startsWith("//");
-}
+import { resolveAuthRedirectTo } from "../lib/auth/redirect-to";
 
 /**
  * Resolves post-auth redirect from `?redirectTo=` on the current page,
@@ -14,11 +11,9 @@ function isSafeRedirectPath(path: string): boolean {
 export function useAuthRedirectTo(): string {
   const { redirectTo: fallbackRedirectTo } = useAuth();
   const searchParams = useSearchParams();
-  const redirectFromQuery = searchParams.get("redirectTo")?.trim();
 
-  if (redirectFromQuery && isSafeRedirectPath(redirectFromQuery)) {
-    return redirectFromQuery;
-  }
-
-  return fallbackRedirectTo;
+  return resolveAuthRedirectTo(
+    searchParams.get("redirectTo"),
+    fallbackRedirectTo
+  );
 }

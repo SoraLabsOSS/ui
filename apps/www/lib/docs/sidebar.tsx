@@ -36,6 +36,6 @@ export const SIDEBAR_TABS = [
         <Component />
       </div>
     ),
-    url: "/docs/primitives/text-reveal-blur",
+    url: "/docs/primitives/text-effect",
   },
 ];

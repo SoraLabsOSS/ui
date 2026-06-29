@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { index } from "@/__registry__";
+import { resolveComponentCardPreview } from "@/lib/component-media";
 import { isGalleryCatalogItem } from "@/lib/registry/component-gallery-sections";
 import { componentSource } from "@/lib/registry/component-source";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
@@ -100,9 +101,11 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
     };
 
     const legacyVideo = pageMeta.previewVideo;
-    const cardPreview =
-      pageMeta.cardPreview ??
-      (legacyVideo ? { videoMp4: legacyVideo } : undefined);
+    const cardPreview = resolveComponentCardPreview(
+      slug,
+      pageMeta.cardPreview,
+      legacyVideo
+    );
 
     const raw = pageMeta.releaseDate ?? pageMeta.lastModified;
     let releaseDate: string | undefined;

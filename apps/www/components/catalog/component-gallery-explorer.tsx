@@ -9,9 +9,8 @@ import {
 } from "@workspace/ui/components/animate-ui/primitives/animate/tabs";
 import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import {
   COMPONENT_GALLERY_SECTIONS,
   groupGalleryItemsByCategory,
@@ -19,9 +18,10 @@ import {
   resolveGalleryCategory,
 } from "@/lib/registry/component-gallery-sections";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+import { CatalogNavHoverPreview } from "./catalog-nav-hover-preview";
 import { GalleryCardPreview } from "./gallery-card-preview";
-import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
 import { GallerySegmentedTabs } from "./gallery-segmented-tabs";
+import { useCatalogHoverPreview } from "./use-catalog-hover-preview";
 
 type SortMode = "default" | "newest";
 type ViewMode = "cards" | "compact" | "list";
@@ -31,6 +31,58 @@ const VIEW_BLUR = "8px";
 const VIEW_SLIDE_TRANSITION = {
   duration: 0.32,
   ease: [0.19, 1, 0.22, 1] as const,
+};
+
+const FILTER_ITEM_STAGGER = 0.05;
+const FILTER_ITEM_STAGGER_CAP = 0.35;
+const FILTER_ITEM_TRANSITION = {
+  duration: 0.5,
+  ease: [0.19, 1, 0.22, 1] as const,
+};
+
+const FILTER_TRANSITION = {
+  duration: 0.48,
+  ease: [0.19, 1, 0.22, 1] as const,
+};
+
+const filterItemVariants = {
+  initial: {
+    filter: "blur(4px)",
+    opacity: 0,
+    y: 10,
+  },
+  animate: {
+    filter: "blur(0px)",
+    opacity: 1,
+    y: 0,
+  },
+  exit: {
+    filter: "blur(4px)",
+    opacity: 0,
+    y: -6,
+    transition: { duration: 0.36, ease: [0.19, 1, 0.22, 1] },
+  },
+};
+
+const reducedFilterItemVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+const sectionVariants = {
+  initial: {
+    opacity: 0,
+    y: 16,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+  exit: {
+    opacity: 0,
+    y: -12,
+  },
 };
 
 const viewTransitionVariants = {
@@ -96,6 +148,42 @@ function filterItems(
   });
 }
 
+function GalleryAnimatedItem({
+  children,
+  index,
+  prefersReducedMotion,
+}: {
+  children: ReactNode;
+  index: number;
+  prefersReducedMotion: boolean | null;
+}) {
+  const variants = prefersReducedMotion
+    ? reducedFilterItemVariants
+    : filterItemVariants;
+
+  return (
+    <motion.div
+      animate="animate"
+      exit="exit"
+      initial="initial"
+      layout
+      transition={{
+        ...FILTER_ITEM_TRANSITION,
+        delay: prefersReducedMotion
+          ? 0
+          : Math.min(index * FILTER_ITEM_STAGGER, FILTER_ITEM_STAGGER_CAP),
+        layout: {
+          duration: 0.45,
+          ease: [0.19, 1, 0.22, 1],
+        },
+      }}
+      variants={variants}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function GalleryCard({
   item,
   priority = false,
@@ -157,29 +245,38 @@ function GalleryCompactCard({
   priority?: boolean;
 }) {
   const category = resolveGalleryCategory(item);
-  const poster = item.cardPreview?.poster;
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   return (
     <div>
-      <Link className="block" href={item.href}>
-        <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-colors duration-200">
+      <Link
+        className="block"
+        href={item.href}
+        onBlur={() => {
+          setIsPreviewActive(false);
+        }}
+        onFocus={() => {
+          setIsPreviewActive(true);
+        }}
+        onMouseEnter={() => {
+          setIsPreviewActive(true);
+        }}
+        onMouseLeave={() => {
+          setIsPreviewActive(false);
+        }}
+      >
+        <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-colors duration-200 hover:border-foreground/15">
           <div
             className="relative w-full overflow-hidden rounded-xl bg-muted"
             style={{ aspectRatio: "4 / 3" }}
           >
-            {poster ? (
-              <Image
-                alt=""
-                aria-hidden
-                className="object-cover"
-                fill
-                priority={priority}
-                sizes="(max-width: 640px) 50vw, 25vw"
-                src={poster}
-              />
-            ) : (
-              <GalleryCardThumbnail category={category} title={item.title} />
-            )}
+            <GalleryCardPreview
+              active={isPreviewActive}
+              category={category}
+              preview={item.cardPreview}
+              priority={priority}
+              title={item.title}
+            />
           </div>
           <div className="flex items-center px-3 py-2">
             <span className="truncate font-medium text-foreground text-sm">
@@ -192,10 +289,31 @@ function GalleryCompactCard({
   );
 }
 
-function GalleryListRow({ item }: { item: ComponentGalleryItem }) {
+function GalleryListRow({
+  item,
+  onPointerEnter,
+  onPointerLeave,
+  onPointerMove,
+}: {
+  item: ComponentGalleryItem;
+  onPointerEnter?: (
+    item: ComponentGalleryItem,
+    event: React.MouseEvent<HTMLElement>
+  ) => void;
+  onPointerLeave?: () => void;
+  onPointerMove?: (event: React.MouseEvent<HTMLElement>) => void;
+}) {
   return (
-    <div className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15">
-      <Link className="flex min-w-0 flex-1 flex-col gap-0.5" href={item.href}>
+    <Link
+      className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
+      href={item.href}
+      onMouseEnter={(event) => {
+        onPointerEnter?.(item, event);
+      }}
+      onMouseLeave={onPointerLeave}
+      onMouseMove={onPointerMove}
+    >
+      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <div className="flex items-center gap-2">
           <span className="truncate font-medium text-foreground text-sm">
             {item.title}
@@ -209,19 +327,28 @@ function GalleryListRow({ item }: { item: ComponentGalleryItem }) {
             {item.description}
           </p>
         ) : null}
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
 
 function GallerySectionItems({
   isFirstSection,
   items,
+  listHoverHandlers,
   prefersReducedMotion,
   viewMode,
 }: {
   isFirstSection: boolean;
   items: ComponentGalleryItem[];
+  listHoverHandlers?: {
+    onPointerEnter: (
+      item: ComponentGalleryItem,
+      event: React.MouseEvent<HTMLElement>
+    ) => void;
+    onPointerLeave: () => void;
+    onPointerMove: (event: React.MouseEvent<HTMLElement>) => void;
+  };
   prefersReducedMotion: boolean | null;
   viewMode: ViewMode;
 }) {
@@ -238,33 +365,57 @@ function GallerySectionItems({
   if (viewMode === "list") {
     content = (
       <div className="flex flex-col gap-3">
-        {items.map((item) => (
-          <GalleryListRow item={item} key={item.slug} />
-        ))}
+        <AnimatePresence mode="popLayout">
+          {items.map((item, index) => (
+            <GalleryAnimatedItem
+              index={index}
+              key={item.slug}
+              prefersReducedMotion={prefersReducedMotion}
+            >
+              <GalleryListRow
+                item={item}
+                onPointerEnter={listHoverHandlers?.onPointerEnter}
+                onPointerLeave={listHoverHandlers?.onPointerLeave}
+                onPointerMove={listHoverHandlers?.onPointerMove}
+              />
+            </GalleryAnimatedItem>
+          ))}
+        </AnimatePresence>
       </div>
     );
   } else if (viewMode === "compact") {
     content = (
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {items.map((item, index) => (
-          <GalleryCompactCard
-            item={item}
-            key={item.slug}
-            priority={isFirstSection && index < 4}
-          />
-        ))}
+        <AnimatePresence mode="popLayout">
+          {items.map((item, index) => (
+            <GalleryAnimatedItem
+              index={index}
+              key={item.slug}
+              prefersReducedMotion={prefersReducedMotion}
+            >
+              <GalleryCompactCard
+                item={item}
+                priority={isFirstSection && index < 4}
+              />
+            </GalleryAnimatedItem>
+          ))}
+        </AnimatePresence>
       </div>
     );
   } else {
     content = (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item, index) => (
-          <GalleryCard
-            item={item}
-            key={item.slug}
-            priority={isFirstSection && index < 3}
-          />
-        ))}
+        <AnimatePresence mode="popLayout">
+          {items.map((item, index) => (
+            <GalleryAnimatedItem
+              index={index}
+              key={item.slug}
+              prefersReducedMotion={prefersReducedMotion}
+            >
+              <GalleryCard item={item} priority={isFirstSection && index < 3} />
+            </GalleryAnimatedItem>
+          ))}
+        </AnimatePresence>
       </div>
     );
   }
@@ -344,6 +495,39 @@ export function ComponentGalleryExplorer({
     [items, search, sortMode]
   );
 
+  const {
+    clearHoverPreview,
+    hoverPosition,
+    hoverPreview,
+    onItemPointerEnter,
+    onItemPointerLeave,
+    onItemPointerMove,
+  } = useCatalogHoverPreview(filteredItems);
+
+  useEffect(() => {
+    if (viewMode !== "list") {
+      clearHoverPreview();
+    }
+  }, [viewMode, clearHoverPreview]);
+
+  // Reset flyout when filters change so stale previews do not linger.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: search and sortMode drive intentional reset
+  useEffect(() => {
+    clearHoverPreview();
+  }, [search, sortMode]);
+
+  const listHoverHandlers = useMemo(
+    () =>
+      viewMode === "list"
+        ? {
+            onPointerEnter: onItemPointerEnter,
+            onPointerLeave: onItemPointerLeave,
+            onPointerMove: onItemPointerMove,
+          }
+        : undefined,
+    [viewMode, onItemPointerEnter, onItemPointerLeave, onItemPointerMove]
+  );
+
   const groupedItems = useMemo(
     () => groupGalleryItemsByCategory(filteredItems),
     [filteredItems]
@@ -390,61 +574,105 @@ export function ComponentGalleryExplorer({
           </div>
         </div>
 
-        {hasResults ? (
-          <div className="flex flex-col gap-24">
-            {visibleSections.map((section, index) => {
-              const sectionItems = groupedItems.get(section.id) ?? [];
+        <AnimatePresence mode="wait">
+          {hasResults ? (
+            <motion.div
+              animate="animate"
+              className="flex flex-col gap-24"
+              exit="exit"
+              initial="initial"
+              key="gallery-results"
+              transition={FILTER_TRANSITION}
+              variants={
+                prefersReducedMotion
+                  ? {
+                      initial: { opacity: 0 },
+                      animate: { opacity: 1 },
+                      exit: { opacity: 0 },
+                    }
+                  : sectionVariants
+              }
+            >
+              <AnimatePresence mode="popLayout">
+                {visibleSections.map((section, index) => {
+                  const sectionItems = groupedItems.get(section.id) ?? [];
 
-              return (
-                <section
-                  className="flex flex-col gap-6"
-                  id={section.id}
-                  key={section.id}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex flex-col gap-1">
-                      <div className="inline-flex items-start gap-2">
-                        <h2 className="text-4xl tracking-tight">
-                          {section.title}
-                        </h2>
-                        <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1.5 font-medium text-foreground/70 text-xs tabular-nums">
-                          {sectionItems.length}
-                        </span>
+                  return (
+                    <motion.section
+                      animate="animate"
+                      className="flex flex-col gap-6"
+                      exit="exit"
+                      id={section.id}
+                      initial="initial"
+                      key={section.id}
+                      layout
+                      transition={FILTER_TRANSITION}
+                      variants={
+                        prefersReducedMotion
+                          ? {
+                              initial: { opacity: 0 },
+                              animate: { opacity: 1 },
+                              exit: { opacity: 0 },
+                            }
+                          : sectionVariants
+                      }
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex flex-col gap-1">
+                          <div className="inline-flex items-start gap-2">
+                            <h2 className="text-4xl tracking-tight">
+                              {section.title}
+                            </h2>
+                            <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1.5 font-medium text-foreground/70 text-xs tabular-nums">
+                              {sectionItems.length}
+                            </span>
+                          </div>
+                          <p className="text-base text-foreground/50">
+                            {section.description}
+                          </p>
+                        </div>
+
+                        {index === 0 ? (
+                          <ViewToggle
+                            setViewMode={setViewMode}
+                            viewMode={viewMode}
+                          />
+                        ) : null}
                       </div>
-                      <p className="text-base text-foreground/50">
-                        {section.description}
-                      </p>
-                    </div>
 
-                    {index === 0 ? (
-                      <ViewToggle
-                        setViewMode={setViewMode}
+                      <GallerySectionItems
+                        isFirstSection={index === 0}
+                        items={sectionItems}
+                        listHoverHandlers={listHoverHandlers}
+                        prefersReducedMotion={prefersReducedMotion}
                         viewMode={viewMode}
                       />
-                    ) : null}
-                  </div>
-
-                  <GallerySectionItems
-                    isFirstSection={index === 0}
-                    items={sectionItems}
-                    prefersReducedMotion={prefersReducedMotion}
-                    viewMode={viewMode}
-                  />
-                </section>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="flex min-h-[240px] flex-col items-center justify-center gap-2 text-center">
-            <p className="font-medium text-foreground text-lg tracking-tight">
-              No components found
-            </p>
-            <p className="max-w-md text-foreground/50 text-sm">
-              Try a different search term or sort order.
-            </p>
-          </div>
-        )}
+                    </motion.section>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          ) : (
+            <motion.div
+              animate={{ opacity: 1, y: 0 }}
+              className="flex min-h-[240px] flex-col items-center justify-center gap-2 text-center"
+              exit={{ opacity: 0, y: -8 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+              key="gallery-empty"
+              transition={FILTER_TRANSITION}
+            >
+              <p className="font-medium text-foreground text-lg tracking-tight">
+                No components found
+              </p>
+              <p className="max-w-md text-foreground/50 text-sm">
+                Try a different search term or sort order.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      <CatalogNavHoverPreview position={hoverPosition} preview={hoverPreview} />
     </div>
   );
 }

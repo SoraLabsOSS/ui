@@ -25,7 +25,7 @@ You do **not** need `registry/demo/...` unless the usage example is complex (see
 | Part | Source | Notes |
 |------|--------|-------|
 | **Preview** | `ComponentPreview name="<name>"` | Loads primitive from `@/registry/...`, props from `meta.demoProps` |
-| **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` | Top-level key = React export name (e.g. `BlurTextReveal`) |
+| **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` | Top-level key = React export name (e.g. `TextEffect`) |
 | **Code** | Auto-generated `demo-<name>` at build time; **updates live** when Tweakpane changes | Snippet uses `@/components/sora-ui/...` (post–`shadcn add` paths) |
 | **Install** | `ComponentInstallation name="<name>"` | CLI tab in docs |
 
@@ -34,13 +34,13 @@ You do **not** need `registry/demo/...` unless the usage example is complex (see
 ```json
 "meta": {
   "demoProps": {
-    "BlurTextReveal": {
-      "text": { "value": "Blur Text Animation" },
-      "splitBy": {
-        "value": "words",
-        "options": { "Words": "words", "Characters": "characters" }
+    "TextEffect": {
+      "children": { "value": "Motion-first text effects" },
+      "preset": {
+        "value": "fade-in-blur",
+        "options": { "Fade in blur": "fade-in-blur", "Slide": "slide" }
       },
-      "blur": { "value": 4, "min": 0, "max": 20, "step": 1 }
+      "scrollTrigger": { "value": true }
     }
   }
 }
@@ -76,13 +76,14 @@ registry/demo/primitives/texts/text-reveal-mask/
 3. For each documented primitive with `demoProps` and **no** `demo-*` folder on disk → synthesizes a `demo-<name>` entry (`component: null`, `files[].content` only).
 4. Runs `shadcn build` → JSON artifacts under `public/r/*.json`.
 
-## Example: `text-reveal-blur`
+## Example: `text-effect`
 
 | File | Role |
 |------|------|
-| `registry/primitives/texts/text-reveal-blur/index.tsx` | Component source |
-| `registry/primitives/texts/text-reveal-blur/registry-item.json` | Registry metadata + `demoProps` |
-| `content/docs/primitives/text-reveal-blur.mdx` | `<ComponentPreview name="text-reveal-blur" />` |
+| `registry/primitives/texts/text-effect/index.tsx` | Component source |
+| `registry/primitives/texts/text-effect/registry-item.json` | Registry metadata + `demoProps` |
+| `registry/demo/primitives/texts/text-effect/index.tsx` | Manual docs preview demo |
+| `content/docs/primitives/text-effect.mdx` | `<ComponentPreview name="demo-text-effect" />` |
 | `content/docs/primitives/meta.json` | Sidebar (`root: true`, `pages`) |
 
 ## Inspiration attribution

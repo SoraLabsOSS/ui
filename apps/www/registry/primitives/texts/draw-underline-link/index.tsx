@@ -2,8 +2,8 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion } from "motion/react";
-import type { ComponentPropsWithoutRef, Ref } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import type { ComponentPropsWithoutRef, MouseEvent, Ref } from "react";
 import { useCallback, useRef, useState } from "react";
 
 const DEFAULT_UNDERLINE_PATHS = [
@@ -66,6 +66,31 @@ export interface DrawUnderlineLinkProps
   underlineColor?: string;
 }
 
+function StaticUnderlinePath({
+  path,
+  underlineColor,
+}: {
+  path: string;
+  underlineColor?: string;
+}) {
+  return (
+    <svg
+      aria-hidden="true"
+      className="absolute h-full w-full overflow-visible"
+      preserveAspectRatio="none"
+      viewBox="0 0 310 40"
+    >
+      <path
+        d={path}
+        fill="none"
+        stroke={underlineColor ?? "currentColor"}
+        strokeLinecap="round"
+        strokeWidth={10}
+      />
+    </svg>
+  );
+}
+
 function DrawUnderlineLink({
   variant = "default",
   duration = 0.5,
@@ -85,8 +110,10 @@ function DrawUnderlineLink({
 }: DrawUnderlineLinkProps & {
   ref?: Ref<HTMLAnchorElement>;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const text = children ?? label ?? "";
   const [activePathIndex, setActivePathIndex] = useState<number | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
   const [phase, setPhase] = useState<DrawPhase>("idle");
   const phaseRef = useRef<DrawPhase>("idle");
   phaseRef.current = phase;
@@ -126,7 +153,14 @@ function DrawUnderlineLink({
     setPhase("leave");
   }, [activePathIndex, phase]);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (event: MouseEvent<HTMLAnchorElement>) => {
+    onMouseEnterProp?.(event);
+
+    if (prefersReducedMotion) {
+      setIsHovered(true);
+      return;
+    }
+
     if (phase === "enter") {
       return;
     }
@@ -135,7 +169,14 @@ function DrawUnderlineLink({
     beginEnter();
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (event: MouseEvent<HTMLAnchorElement>) => {
+    onMouseLeaveProp?.(event);
+
+    if (prefersReducedMotion) {
+      setIsHovered(false);
+      return;
+    }
+
     beginLeave();
   };
 
@@ -167,19 +208,17 @@ function DrawUnderlineLink({
       ? { pathLength: 1, pathOffset: 1 }
       : { pathLength: 1, pathOffset: 0 };
 
+  const showStaticUnderline = prefersReducedMotion && isHovered;
+  const showAnimatedUnderline =
+    !prefersReducedMotion && activePathIndex !== null;
+
   return (
     <a
       aria-label={ariaLabel ?? (text || undefined)}
       className={cn(drawUnderlineLinkVariants({ variant, className }))}
       href={href}
-      onMouseEnter={(event) => {
-        onMouseEnterProp?.(event);
-        handleMouseEnter();
-      }}
-      onMouseLeave={(event) => {
-        onMouseLeaveProp?.(event);
-        handleMouseLeave();
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       ref={ref}
       {...props}
     >
@@ -190,7 +229,13 @@ function DrawUnderlineLink({
         aria-hidden="true"
         className={cn(drawUnderlineLinkBoxVariants(), underlineClassName)}
       >
-        {activePathIndex === null ? null : (
+        {showStaticUnderline ? (
+          <StaticUnderlinePath
+            path={paths[0] ?? ""}
+            underlineColor={underlineColor}
+          />
+        ) : null}
+        {showAnimatedUnderline ? (
           <svg
             aria-hidden="true"
             className="absolute h-full w-full overflow-visible"
@@ -217,7 +262,7 @@ function DrawUnderlineLink({
               transition={{ duration, ease: DRAW_EASE }}
             />
           </svg>
-        )}
+        ) : null}
       </span>
     </a>
   );

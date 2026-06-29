@@ -30,6 +30,96 @@
       ]
     },
     {
+      "name": "demo-border-trail",
+      "type": "registry:ui",
+      "title": "Border Trail Demo",
+      "description": "Card with animated border spotlight.",
+      "registryDependencies": ["@soralabs/border-trail"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/border-trail/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/border-trail.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "BorderTrailDemo": {
+            "size": {
+              "value": 100,
+              "min": 40,
+              "max": 140,
+              "step": 4
+            },
+            "duration": {
+              "value": 5,
+              "min": 1,
+              "max": 12,
+              "step": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-border-trail-loading",
+      "type": "registry:ui",
+      "title": "Border Trail Loading Card Demo",
+      "description": "Submit-triggered border trail that loops twice then fades.",
+      "registryDependencies": ["@soralabs/border-trail"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/border-trail-loading/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/border-trail-loading.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "BorderTrailLoadingCard": {
+            "size": {
+              "value": 120,
+              "min": 60,
+              "max": 160,
+              "step": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-border-trail-textarea",
+      "type": "registry:ui",
+      "title": "Border Trail Textarea Demo",
+      "description": "Textarea with a continuous gradient border trail.",
+      "registryDependencies": ["@soralabs/border-trail"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/border-trail-textarea/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/border-trail-textarea.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "BorderTrailTextarea": {
+            "size": {
+              "value": 120,
+              "min": 60,
+              "max": 160,
+              "step": 4
+            },
+            "duration": {
+              "value": 5,
+              "min": 1,
+              "max": 12,
+              "step": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "demo-cursor-trail-reveal",
       "type": "registry:ui",
       "title": "Cursor Trail Reveal Demo",
@@ -100,6 +190,20 @@
       ]
     },
     {
+      "name": "demo-logo-carousel-swapper",
+      "type": "registry:ui",
+      "title": "Logo Carousel Swapper Demo",
+      "description": "Staggered four-column logo swapper with blur and vertical motion.",
+      "registryDependencies": ["@soralabs/logo-carousel-swapper"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/logo-carousel-swapper.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-draw-underline-link",
       "type": "registry:ui",
       "title": "Draw Underline Link Demo",
@@ -110,6 +214,62 @@
           "path": "registry/demo/primitives/texts/draw-underline-link/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/texts/draw-underline-link.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-text-effect",
+      "type": "registry:ui",
+      "title": "Text Effect Demo",
+      "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
+      "registryDependencies": ["@soralabs/text-effect"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-effect/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-effect.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-text-morph",
+      "type": "registry:ui",
+      "title": "Text Morph Demo",
+      "description": "Continue / Confirm pill button with per-character layout morph.",
+      "registryDependencies": ["@soralabs/text-morph"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-morph/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-morph.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-text-morph-input",
+      "type": "registry:ui",
+      "title": "Text Morph Input Demo",
+      "description": "Live text morph driven by a controlled input.",
+      "registryDependencies": ["@soralabs/text-morph"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-morph-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-text-reveal-box",
+      "type": "registry:ui",
+      "title": "Text Reveal Box Demo",
+      "description": "Scroll-pinned manifesto copy with word-by-word highlight reveal.",
+      "registryDependencies": ["@soralabs/text-reveal-box"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-reveal-box/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-reveal-box.tsx"
         }
       ]
     },
@@ -337,6 +497,28 @@
       }
     },
     {
+      "name": "border-trail",
+      "type": "registry:ui",
+      "title": "Border Trail",
+      "description": "Animated border spotlight that travels around a rounded container.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/border-trail/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/border-trail.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "motion-primitives",
+          "url": "https://motion-primitives.com/docs/border-trail"
+        }
+      }
+    },
+    {
       "name": "cursor-trail-reveal",
       "type": "registry:ui",
       "title": "Cursor Trail Reveal",
@@ -380,6 +562,39 @@
           "target": "components/sora-ui/effects/dock-nav.tsx"
         }
       ]
+    },
+    {
+      "name": "logo-carousel-swapper",
+      "type": "registry:ui",
+      "title": "Logo Carousel Swapper",
+      "description": "Staggered logo column swapper with fade, vertical shift, and motion blur powered by Motion.",
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/logo-carousel-swapper/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/logo-carousel-swapper.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "logo",
+          "carousel",
+          "stagger",
+          "blur",
+          "motion",
+          "brands",
+          "swap"
+        ],
+        "demoProps": {
+          "LogoCarouselSwapper": {
+            "monochrome": {
+              "value": true
+            }
+          }
+        }
+      }
     },
     {
       "name": "pixelated-image-reveal",
@@ -478,6 +693,107 @@
       }
     },
     {
+      "name": "text-effect",
+      "type": "registry:ui",
+      "title": "Text Effect",
+      "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/text-effect/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-effect.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "motion-primitives",
+          "url": "https://motion-primitives.com/docs/text-effect"
+        },
+        "demoProps": {
+          "TextEffect": {
+            "as": {
+              "value": "h2",
+              "options": {
+                "h2": "h2",
+                "p": "p",
+                "span": "span"
+              }
+            },
+            "children": {
+              "value": "Motion-first text effects"
+            },
+            "className": {
+              "value": "text-center font-bold text-3xl"
+            },
+            "preset": {
+              "value": "fade-in-blur",
+              "options": {
+                "Fade in blur": "fade-in-blur",
+                "Blur": "blur",
+                "Fade": "fade",
+                "Slide": "slide",
+                "Scale": "scale"
+              }
+            },
+            "per": {
+              "value": "word",
+              "options": {
+                "Word": "word",
+                "Char": "char",
+                "Line": "line"
+              }
+            },
+            "delay": {
+              "value": 0,
+              "min": 0,
+              "max": 2,
+              "step": 0.1
+            },
+            "speedReveal": {
+              "value": 1,
+              "min": 0.25,
+              "max": 3,
+              "step": 0.25
+            },
+            "speedSegment": {
+              "value": 1,
+              "min": 0.25,
+              "max": 3,
+              "step": 0.25
+            },
+            "scrollTrigger": {
+              "value": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "text-morph",
+      "type": "registry:ui",
+      "title": "Text Morph",
+      "description": "Per-character layout morphing for labels, counters, and live text swaps.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/text-morph/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-morph.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "motion-primitives",
+          "url": "https://motion-primitives.com/docs/text-morph"
+        }
+      }
+    },
+    {
       "name": "text-reveal-block",
       "type": "registry:ui",
       "title": "Text Reveal (Block)",
@@ -545,77 +861,31 @@
       }
     },
     {
-      "name": "text-reveal-blur",
+      "name": "text-reveal-box",
       "type": "registry:ui",
-      "title": "Text Reveal (Blur)",
-      "description": "A scroll-triggered text reveal animation with blur and opacity.",
-      "dependencies": ["motion"],
-      "registryDependencies": ["utils"],
+      "title": "Text Reveal Box",
+      "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
+      "dependencies": ["gsap"],
       "files": [
         {
-          "path": "registry/primitives/texts/text-reveal-blur/index.tsx",
+          "path": "registry/primitives/texts/text-reveal-box/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/texts/text-reveal-blur.tsx"
+          "target": "components/sora-ui/texts/text-reveal-box.tsx"
         }
       ],
       "meta": {
-        "demoProps": {
-          "BlurTextReveal": {
-            "as": {
-              "value": "h2",
-              "options": {
-                "h2": "h2",
-                "p": "p",
-                "span": "span"
-              }
-            },
-            "className": {
-              "value": "text-center font-bold text-3xl"
-            },
-            "text": {
-              "value": "Blur Text Animation"
-            },
-            "splitBy": {
-              "value": "words",
-              "options": {
-                "Words": "words",
-                "Characters": "characters"
-              }
-            },
-            "staggerDelay": {
-              "value": 0.05,
-              "min": 0.01,
-              "max": 0.5,
-              "step": 0.01
-            },
-            "delay": {
-              "value": 0,
-              "min": 0,
-              "max": 2,
-              "step": 0.1
-            },
-            "duration": {
-              "value": 0.5,
-              "min": 0.1,
-              "max": 2,
-              "step": 0.1
-            },
-            "blur": {
-              "value": 4,
-              "min": 0,
-              "max": 20,
-              "step": 1
-            },
-            "yOffset": {
-              "value": 0,
-              "min": -50,
-              "max": 50,
-              "step": 1
-            },
-            "viewportMargin": {
-              "value": "0px 0px -10% 0px"
-            }
-          }
+        "keywords": [
+          "scroll",
+          "text",
+          "reveal",
+          "gsap",
+          "scrolltrigger",
+          "pin"
+        ],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Deadlock Studios",
+          "url": "https://github.com/Axyl1410"
         }
       }
     },

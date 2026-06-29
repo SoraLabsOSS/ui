@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-border-trail",
+  "type": "registry:ui",
+  "title": "Border Trail Demo",
+  "description": "Card with animated border spotlight.",
+  "registryDependencies": ["border-trail"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/border-trail/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/border-trail.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "BorderTrailDemo": {
+        "size": {
+          "value": 100,
+          "min": 40,
+          "max": 140,
+          "step": 4
+        },
+        "duration": {
+          "value": 5,
+          "min": 1,
+          "max": 12,
+          "step": 0.5
+        }
+      }
+    }
+  }
+}

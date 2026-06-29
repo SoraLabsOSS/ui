@@ -20,6 +20,7 @@
   "registries": {
     "@soralabs": "https://ui.soralabs.io.vn/r/{name}.json",
     "@animate-ui": "https://animate-ui.com/r/{name}.json",
-    "@unlumen-ui": "https://ui.unlumen.com/r/{name}.json"
+    "@unlumen-ui": "https://ui.unlumen.com/r/{name}.json",
+    "@ogimagecn": "https://ogimagecn.vercel.app/r/{name}.json"
   }
 }

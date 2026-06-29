@@ -1,0 +1,81 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-effect",
+  "title": "Text Effect",
+  "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-effect/index.tsx",
+      "content": "/** biome-ignore-all lint/suspicious/noArrayIndexKey: Segment indices are stable for static text content. */\n\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  AnimatePresence,\n  motion,\n  type TargetAndTransition,\n  type Transition,\n  type UseInViewOptions,\n  useInView,\n  useReducedMotion,\n  type Variant,\n  type Variants,\n} from \"motion/react\";\nimport React, {\n  type ComponentPropsWithoutRef,\n  type JSX,\n  memo,\n  useMemo,\n  useRef,\n} from \"react\";\n\nexport type TextEffectPreset =\n  | \"blur\"\n  | \"fade-in-blur\"\n  | \"scale\"\n  | \"fade\"\n  | \"slide\";\n\nexport type TextEffectPer = \"word\" | \"char\" | \"line\";\n\nexport interface TextEffectProps extends ComponentPropsWithoutRef<\"div\"> {\n  as?: keyof JSX.IntrinsicElements;\n  children: string;\n  className?: string;\n  containerTransition?: Transition;\n  delay?: number;\n  onAnimationComplete?: () => void;\n  onAnimationStart?: () => void;\n  /**\n   * When `scrollTrigger` is enabled, fire the reveal only once.\n   * @default true\n   */\n  once?: boolean;\n  per?: TextEffectPer;\n  preset?: TextEffectPreset;\n  /**\n   * When `true`, reveal only after the element enters the viewport.\n   * @default false\n   */\n  scrollTrigger?: boolean;\n  segmentTransition?: Transition;\n  segmentWrapperClassName?: string;\n  speedReveal?: number;\n  speedSegment?: number;\n  style?: React.CSSProperties;\n  /**\n   * When `true`, animates to the visible state. When `false`, holds the hidden\n   * state. Ignored when `scrollTrigger` is enabled.\n   * @default true\n   */\n  trigger?: boolean;\n  variants?: {\n    container?: Variants;\n    item?: Variants;\n  };\n  /**\n   * Intersection margin used when `scrollTrigger` is enabled.\n   * @default \"0px 0px -10% 0px\"\n   */\n  viewportMargin?: UseInViewOptions[\"margin\"];\n}\n\nconst defaultStaggerTimes: Record<TextEffectPer, number> = {\n  char: 0.03,\n  word: 0.05,\n  line: 0.1,\n};\n\nconst defaultContainerVariants: Variants = {\n  hidden: { opacity: 0 },\n  visible: {\n    opacity: 1,\n    transition: {\n      staggerChildren: 0.05,\n    },\n  },\n  exit: {\n    transition: { staggerChildren: 0.05, staggerDirection: -1 },\n  },\n};\n\nconst WHITESPACE_SPLIT_RE = /(\\s+)/;\n\nconst presetVariants: Record<\n  TextEffectPreset,\n  { container: Variants; item: Variants }\n> = {\n  blur: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, filter: \"blur(12px)\" },\n      visible: { opacity: 1, filter: \"blur(0px)\" },\n      exit: { opacity: 0, filter: \"blur(12px)\" },\n    },\n  },\n  \"fade-in-blur\": {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, y: 20, filter: \"blur(12px)\" },\n      visible: { opacity: 1, y: 0, filter: \"blur(0px)\" },\n      exit: { opacity: 0, y: 20, filter: \"blur(12px)\" },\n    },\n  },\n  scale: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, scale: 0 },\n      visible: { opacity: 1, scale: 1 },\n      exit: { opacity: 0, scale: 0 },\n    },\n  },\n  fade: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0 },\n      visible: { opacity: 1 },\n      exit: { opacity: 0 },\n    },\n  },\n  slide: {\n    container: defaultContainerVariants,\n    item: {\n      hidden: { opacity: 0, y: 20 },\n      visible: { opacity: 1, y: 0 },\n      exit: { opacity: 0, y: 20 },\n    },\n  },\n};\n\nconst AnimationComponent = memo(function AnimationComponent({\n  segment,\n  variants,\n  per,\n  segmentWrapperClassName,\n}: {\n  segment: string;\n  variants: Variants;\n  per: TextEffectPer;\n  segmentWrapperClassName?: string;\n}) {\n  let content: React.ReactNode;\n\n  if (per === \"line\") {\n    content = (\n      <motion.span className=\"block\" variants={variants}>\n        {segment}\n      </motion.span>\n    );\n  } else if (per === \"word\") {\n    content = (\n      <motion.span\n        aria-hidden=\"true\"\n        className=\"inline-block whitespace-pre\"\n        variants={variants}\n      >\n        {segment}\n      </motion.span>\n    );\n  } else if (segment.trim() === \"\") {\n    content = <span className=\"inline-block whitespace-pre\">{segment}</span>;\n  } else {\n    content = (\n      <span className=\"inline-block whitespace-nowrap\">\n        {segment.split(\"\").map((char, charIndex) => (\n          <motion.span\n            aria-hidden=\"true\"\n            className=\"inline-block whitespace-pre will-change-[opacity,filter,transform]\"\n            key={`${segment}-${charIndex}`}\n            variants={variants}\n          >\n            {char}\n          </motion.span>\n        ))}\n      </span>\n    );\n  }\n\n  if (!segmentWrapperClassName) {\n    return content;\n  }\n\n  const defaultWrapperClassName = per === \"line\" ? \"block\" : \"inline-block\";\n\n  return (\n    <span className={cn(defaultWrapperClassName, segmentWrapperClassName)}>\n      {content}\n    </span>\n  );\n});\n\nfunction splitText(text: string, per: TextEffectPer) {\n  if (per === \"line\") {\n    return text.split(\"\\n\");\n  }\n\n  return text.split(WHITESPACE_SPLIT_RE);\n}\n\nfunction hasTransition(\n  variant?: Variant\n): variant is TargetAndTransition & { transition?: Transition } {\n  if (!variant) {\n    return false;\n  }\n\n  return typeof variant === \"object\" && \"transition\" in variant;\n}\n\nfunction createVariantsWithTransition(\n  baseVariants: Variants,\n  transition?: Transition & { exit?: Transition }\n): Variants {\n  if (!transition) {\n    return baseVariants;\n  }\n\n  const { exit: _exit, ...mainTransition } = transition;\n\n  return {\n    ...baseVariants,\n    visible: {\n      ...baseVariants.visible,\n      transition: {\n        ...(hasTransition(baseVariants.visible)\n          ? baseVariants.visible.transition\n          : {}),\n        ...mainTransition,\n      },\n    },\n    exit: {\n      ...baseVariants.exit,\n      transition: {\n        ...(hasTransition(baseVariants.exit)\n          ? baseVariants.exit.transition\n          : {}),\n        ...mainTransition,\n        staggerDirection: -1,\n      },\n    },\n  };\n}\n\nexport function blurRevealItemVariants({\n  blur = 4,\n  yOffset = 0,\n}: {\n  blur?: number;\n  yOffset?: number;\n} = {}): Variants {\n  return {\n    hidden: { opacity: 0, y: yOffset, filter: `blur(${blur}px)` },\n    visible: { opacity: 1, y: 0, filter: \"blur(0px)\" },\n    exit: { opacity: 0, y: yOffset, filter: `blur(${blur}px)` },\n  };\n}\n\nexport function TextEffect({\n  children,\n  per = \"word\",\n  as = \"p\",\n  variants,\n  className,\n  preset = \"fade\",\n  delay = 0,\n  speedReveal = 1,\n  speedSegment = 1,\n  scrollTrigger = false,\n  once = true,\n  viewportMargin = \"0px 0px -10% 0px\",\n  trigger = true,\n  onAnimationComplete,\n  onAnimationStart,\n  segmentWrapperClassName,\n  containerTransition,\n  segmentTransition,\n  style,\n}: TextEffectProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const scrollRef = useRef<HTMLDivElement>(null);\n  const isInView = useInView(scrollRef, {\n    margin: viewportMargin,\n    once,\n  });\n  const shouldReveal = scrollTrigger ? isInView : trigger;\n  const segments = useMemo(() => splitText(children, per), [children, per]);\n  const MotionTag = motion[as as keyof typeof motion] as typeof motion.div;\n\n  const computedVariants = useMemo(() => {\n    const baseVariants = presetVariants[preset];\n    const stagger = defaultStaggerTimes[per] / speedReveal;\n    const baseDuration = 0.3 / speedSegment;\n\n    const fallbackContainer = variants?.container ?? baseVariants.container;\n    const fallbackItem = variants?.item ?? baseVariants.item;\n\n    const customStagger = hasTransition(variants?.container?.visible ?? {})\n      ? (variants?.container?.visible as TargetAndTransition).transition\n          ?.staggerChildren\n      : undefined;\n\n    const customDelay = hasTransition(variants?.container?.visible ?? {})\n      ? (variants?.container?.visible as TargetAndTransition).transition\n          ?.delayChildren\n      : undefined;\n\n    return {\n      container: createVariantsWithTransition(fallbackContainer, {\n        staggerChildren: customStagger ?? stagger,\n        delayChildren: customDelay ?? delay,\n        ...containerTransition,\n        exit: {\n          staggerChildren: customStagger ?? stagger,\n          staggerDirection: -1,\n        },\n      }),\n      item: createVariantsWithTransition(fallbackItem, {\n        duration: baseDuration,\n        ...segmentTransition,\n      }),\n    };\n  }, [\n    containerTransition,\n    delay,\n    per,\n    preset,\n    segmentTransition,\n    speedReveal,\n    speedSegment,\n    variants?.container,\n    variants?.item,\n  ]);\n\n  if (prefersReducedMotion) {\n    const Tag = as;\n\n    return (\n      <Tag className={cn(\"leading-relaxed\", className)} style={style}>\n        {children}\n      </Tag>\n    );\n  }\n\n  return (\n    <AnimatePresence mode=\"popLayout\">\n      <div\n        ref={scrollTrigger ? scrollRef : undefined}\n        style={scrollTrigger ? undefined : { display: \"contents\" }}\n      >\n        <MotionTag\n          animate={shouldReveal ? \"visible\" : \"hidden\"}\n          className={cn(\"leading-relaxed\", className)}\n          exit=\"exit\"\n          initial=\"hidden\"\n          key={children}\n          onAnimationComplete={onAnimationComplete}\n          onAnimationStart={onAnimationStart}\n          style={style}\n          variants={computedVariants.container}\n        >\n          {per === \"line\" ? null : <span className=\"sr-only\">{children}</span>}\n          {segments.map((segment, index) => (\n            <AnimationComponent\n              key={`${per}-${index}-${segment}`}\n              per={per}\n              segment={segment}\n              segmentWrapperClassName={segmentWrapperClassName}\n              variants={computedVariants.item}\n            />\n          ))}\n        </MotionTag>\n      </div>\n    </AnimatePresence>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-effect.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/text-effect"
+    },
+    "demoProps": {
+      "TextEffect": {
+        "as": {
+          "value": "h2",
+          "options": {
+            "h2": "h2",
+            "p": "p",
+            "span": "span"
+          }
+        },
+        "children": {
+          "value": "Motion-first text effects"
+        },
+        "className": {
+          "value": "text-center font-bold text-3xl"
+        },
+        "preset": {
+          "value": "fade-in-blur",
+          "options": {
+            "Fade in blur": "fade-in-blur",
+            "Blur": "blur",
+            "Fade": "fade",
+            "Slide": "slide",
+            "Scale": "scale"
+          }
+        },
+        "per": {
+          "value": "word",
+          "options": {
+            "Word": "word",
+            "Char": "char",
+            "Line": "line"
+          }
+        },
+        "delay": {
+          "value": 0,
+          "min": 0,
+          "max": 2,
+          "step": 0.1
+        },
+        "speedReveal": {
+          "value": 1,
+          "min": 0.25,
+          "max": 3,
+          "step": 0.25
+        },
+        "speedSegment": {
+          "value": 1,
+          "min": 0.25,
+          "max": 3,
+          "step": 0.25
+        },
+        "scrollTrigger": {
+          "value": true
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

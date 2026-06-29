@@ -1,5 +1,6 @@
 import { env } from "@/env";
 
-/** 10% in production, 100% otherwise. */
-export const SENTRY_TRACES_SAMPLE_RATE =
-  env.NODE_ENV === "production" ? 0.1 : 1.0;
+export const SENTRY_ENABLED = env.NODE_ENV === "production";
+
+/** 10% performance traces in production; Sentry disabled otherwise. */
+export const SENTRY_TRACES_SAMPLE_RATE = SENTRY_ENABLED ? 0.1 : 0;

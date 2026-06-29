@@ -14,6 +14,8 @@ import {
   type Ref,
   useRef,
 } from "react";
+import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
+import { HOME_SCROLL_READY_EVENT } from "@/lib/home/home-scroll-ready";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -84,26 +86,6 @@ interface AnimationOptions {
   direction: TextRevealBlockDirection;
   duration: number;
   stagger: number;
-}
-
-const CATALOG_PREVIEW_SCROLL_SELECTOR = "[data-radix-scroll-area-viewport]";
-const HOME_PAGE_SCROLL_SELECTOR = "#home-page";
-
-function resolveScrollRoot(container: HTMLElement): Element | Window {
-  const catalogScroller = container.closest(CATALOG_PREVIEW_SCROLL_SELECTOR);
-  if (catalogScroller) {
-    return catalogScroller;
-  }
-
-  const homeScroller =
-    container.closest(HOME_PAGE_SCROLL_SELECTOR) ??
-    document.querySelector(HOME_PAGE_SCROLL_SELECTOR);
-
-  if (homeScroller instanceof HTMLElement) {
-    return homeScroller;
-  }
-
-  return window;
 }
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
@@ -274,6 +256,26 @@ function createBlockRevealTimeline(
   return tl;
 }
 
+function playTimelineIfInView(
+  timeline: gsap.core.Timeline,
+  scrollTrigger: ScrollTrigger
+) {
+  if (scrollTrigger.isActive && timeline.paused()) {
+    timeline.play();
+  }
+}
+
+function refreshScrollRevealTriggers(scrollTriggers: ScrollTrigger[]) {
+  ScrollTrigger.refresh();
+
+  for (const scrollTrigger of scrollTriggers) {
+    const timeline = scrollTrigger.animation as gsap.core.Timeline | undefined;
+    if (timeline) {
+      playTimelineIfInView(timeline, scrollTrigger);
+    }
+  }
+}
+
 function runLineRevealAnimations(
   options: AnimationOptions,
   setup: LineSetup
@@ -306,15 +308,21 @@ function runLineRevealAnimations(
     );
 
     if (animateOnScroll) {
-      timeline.pause();
       scrollTriggers.push(
         ScrollTrigger.create({
           trigger: container,
           scroller: resolveScrollRoot(container),
           start: "top 90%",
           once: true,
-          onEnter: () => {
-            timeline.play();
+          animation: timeline,
+          invalidateOnRefresh: true,
+          onRefresh(self) {
+            const activeTimeline = self.animation as
+              | gsap.core.Timeline
+              | undefined;
+            if (activeTimeline) {
+              playTimelineIfInView(activeTimeline, self);
+            }
           },
         })
       );
@@ -322,7 +330,9 @@ function runLineRevealAnimations(
   }
 
   if (scrollTriggers.length > 0) {
-    ScrollTrigger.refresh();
+    requestAnimationFrame(() => {
+      refreshScrollRevealTriggers(scrollTriggers);
+    });
   }
 
   return scrollTriggers;
@@ -372,21 +382,53 @@ export function TextRevealBlock({
         return;
       }
 
-      const { cleanup, scrollTriggers } = initTextRevealBlock({
-        animateOnScroll,
-        blockColor,
-        container,
-        delay,
-        direction,
-        duration,
-        stagger,
+      let disposed = false;
+      let frameId = 0;
+      let teardown: (() => void) | undefined;
+      let scrollTriggers: ScrollTrigger[] = [];
+
+      const mountAnimation = () => {
+        if (disposed || !containerRef.current) {
+          return;
+        }
+
+        const result = initTextRevealBlock({
+          animateOnScroll,
+          blockColor,
+          container: containerRef.current,
+          delay,
+          direction,
+          duration,
+          stagger,
+        });
+
+        scrollTriggers = result.scrollTriggers;
+        teardown = () => {
+          for (const trigger of scrollTriggers) {
+            trigger.kill();
+          }
+          result.cleanup();
+          scrollTriggers = [];
+        };
+      };
+
+      const onHomeScrollReady = () => {
+        if (scrollTriggers.length > 0) {
+          refreshScrollRevealTriggers(scrollTriggers);
+        }
+      };
+
+      window.addEventListener(HOME_SCROLL_READY_EVENT, onHomeScrollReady);
+
+      frameId = requestAnimationFrame(() => {
+        requestAnimationFrame(mountAnimation);
       });
 
       return () => {
-        for (const trigger of scrollTriggers) {
-          trigger.kill();
-        }
-        cleanup();
+        disposed = true;
+        cancelAnimationFrame(frameId);
+        window.removeEventListener(HOME_SCROLL_READY_EVENT, onHomeScrollReady);
+        teardown?.();
       };
     },
     {

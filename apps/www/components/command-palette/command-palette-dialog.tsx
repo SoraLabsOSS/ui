@@ -398,11 +398,11 @@ export function CommandPaletteDialog({
           onOpenAutoFocus={handleOpenAutoFocus}
         >
           <DialogTitle className="sr-only">
-            Search components, pages, actions
+            Search components, docs, blog, and actions
           </DialogTitle>
           <DialogDescription className="sr-only">
-            Search and navigate to components, documentation pages, and quick
-            actions.
+            Search and navigate to components, documentation, blog posts, and
+            quick actions.
           </DialogDescription>
 
           <Command className="relative min-w-0" loop shouldFilter={!hasQuery}>

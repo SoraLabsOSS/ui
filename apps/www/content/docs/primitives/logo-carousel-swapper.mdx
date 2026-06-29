@@ -1,0 +1,111 @@
+---
+title: Logo Carousel Swapper
+description: Staggered logo columns that swap with fade, vertical shift, and motion blur.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-logo-carousel-swapper" />
+
+## Installation
+
+<ComponentInstallation name="logo-carousel-swapper" />
+
+## Usage
+
+```tsx
+import {
+  LogoCarouselSwapper,
+  type LogoCarouselSwapperRow,
+} from '@/components/sora-ui/effects/logo-carousel-swapper';
+
+const rows: LogoCarouselSwapperRow[] = [
+  [
+    { src: 'https://sora.axyl.io.vn/logos/partners/nvidia-wordmark.svg', alt: 'Nvidia' },
+    { src: 'https://sora.axyl.io.vn/logos/partners/supabase-wordmark.svg', alt: 'Supabase' },
+    { src: 'https://sora.axyl.io.vn/logos/partners/github-wordmark.svg', alt: 'GitHub' },
+    { src: 'https://sora.axyl.io.vn/logos/partners/openai-wordmark.svg', alt: 'OpenAI' },
+  ],
+  [
+    { src: 'https://sora.axyl.io.vn/logos/partners/turso-wordmark.svg', alt: 'Turso' },
+    { src: 'https://sora.axyl.io.vn/logos/partners/clerk-wordmark.svg', alt: 'Clerk' },
+    { src: 'https://sora.axyl.io.vn/logos/partners/claude-wordmark.svg', alt: 'Claude' },
+    { src: 'https://sora.axyl.io.vn/logos/partners/vercel-wordmark.svg', alt: 'Vercel' },
+  ],
+];
+
+export default function Page() {
+  return (
+    <LogoCarouselSwapper
+      aria-label="Partner logos"
+      rows={rows}
+      interval={3000}
+      stagger={0.12}
+      monochrome
+    />
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    rows: {
+      description:
+        'Ordered logo sets cycled on each swap. Each row should provide one logo per column.',
+      type: 'LogoCarouselSwapperRow[]',
+    },
+    interval: {
+      description: 'Milliseconds between swap cycles.',
+      type: 'number',
+      default: '3000',
+    },
+    stagger: {
+      description: 'Left-to-right stagger between columns in seconds.',
+      type: 'number',
+      default: '0.12',
+    },
+    columns: {
+      description: 'Fixed column count. Rows are normalized to this length.',
+      type: 'number',
+      default: '4',
+    },
+    align: {
+      description: 'Horizontal alignment of the logo row.',
+      type: '"center" | "start" | "end"',
+      default: '"center"',
+    },
+    size: {
+      description: 'Slot and logo scale preset.',
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+    },
+    monochrome: {
+      description:
+        'Render logos as black on light backgrounds and white on dark backgrounds instead of original SVG colors.',
+      type: 'boolean',
+      default: 'false',
+    },
+    className: {
+      description: 'Additional class names on the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+### LogoCarouselSwapperItem
+
+<TypeTable
+  type={{
+    src: {
+      description: 'Logo image URL.',
+      type: 'string',
+    },
+    alt: {
+      description: 'Accessible label for the logo.',
+      type: 'string',
+    },
+  }}
+/>

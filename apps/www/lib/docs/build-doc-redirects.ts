@@ -20,7 +20,8 @@ const TOP_LEVEL_PRIMITIVE_PREFIXES = ["texts", "buttons", "effects"] as const;
 /** Renamed primitive slugs — keeps old bookmarks working. */
 const LEGACY_PRIMITIVE_SLUG_RENAMES: Record<string, string> = {
   "scroll-text-reveal": "text-reveal-mask",
-  "text-reveal": "text-reveal-blur",
+  "text-reveal": "text-effect",
+  "text-reveal-blur": "text-effect",
 };
 
 function readMetaPages(metaPath: string): string[] {
@@ -80,7 +81,7 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
 
   redirects.push({
     source: "/docs/components/texts/text-reveal",
-    destination: "/docs/primitives/text-reveal-blur",
+    destination: "/docs/primitives/text-effect",
     permanent: true,
   });
 

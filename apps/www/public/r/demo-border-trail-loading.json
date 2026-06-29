@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-border-trail-loading",
+  "title": "Border Trail Loading Card Demo",
+  "description": "Submit-triggered border trail that loops twice then fades.",
+  "registryDependencies": ["@soralabs/border-trail"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/border-trail-loading/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { useState } from \"react\";\nimport { BorderTrail } from \"@/components/sora-ui/effects/border-trail\";\n\nexport interface BorderTrailLoadingCardProps {\n  size?: number;\n}\n\n/** motion-primitives `border-trail-card-2` */\nexport function BorderTrailLoadingCard({\n  size = 120,\n}: BorderTrailLoadingCardProps) {\n  const [isLoading, setIsLoading] = useState(false);\n  const [isVisible, setIsVisible] = useState(true);\n\n  const handleAnimationComplete = () => {\n    setIsLoading(false);\n    setTimeout(() => setIsVisible(false), 300);\n  };\n\n  const handleLoad = () => {\n    setIsLoading(true);\n    setIsVisible(true);\n  };\n\n  return (\n    <div className=\"relative h-[200px] w-[300px] rounded-md border border-zinc-300/40 bg-zinc-100 px-4 py-3 dark:border-zinc-700/40 dark:bg-zinc-900\">\n      {isVisible ? (\n        <BorderTrail\n          className={cn(\n            \"bg-linear-to-l from-green-300 via-green-500 to-green-300 transition-opacity duration-300 dark:from-green-700/30 dark:via-green-500 dark:to-green-700/30\",\n            isLoading ? \"opacity-100\" : \"opacity-0\"\n          )}\n          onAnimationComplete={handleAnimationComplete}\n          size={size}\n          transition={{\n            duration: 4,\n            ease: [0, 0.5, 0.8, 0.5],\n            repeat: 2,\n          }}\n        />\n      ) : null}\n      <div className=\"flex h-full flex-col items-end justify-end\">\n        <button\n          aria-label=\"Load\"\n          className=\"relative ml-1 flex h-8 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 bg-white px-2 text-sm text-zinc-500 focus-visible:ring-2 active:scale-[0.96] dark:border-zinc-50/10\"\n          onClick={handleLoad}\n          type=\"button\"\n        >\n          Submit\n        </button>\n      </div>\n    </div>\n  );\n}\n\nexport default BorderTrailLoadingCard;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/border-trail-loading.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "BorderTrailLoadingCard": {
+        "size": {
+          "value": 120,
+          "min": 60,
+          "max": 160,
+          "step": 4
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

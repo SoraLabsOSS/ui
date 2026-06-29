@@ -1,0 +1,93 @@
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100svh;
+  padding: 2rem;
+  overflow: hidden;
+  background-color: #141314;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  will-change: clip-path;
+}
+
+.preloader p {
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  color: oklch(0.708 0 0);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.preloader-revealer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  visibility: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: #2a2829;
+  will-change: transform;
+}
+
+.preloader.is-copy-ready .preloader-revealer {
+  visibility: visible;
+}
+
+.preloader-copy,
+.preloader-copy-col,
+.preloader-counter {
+  display: flex;
+  flex: 1;
+}
+
+.preloader-copy,
+.preloader-counter {
+  visibility: hidden;
+}
+
+.preloader.is-copy-ready .preloader-copy,
+.preloader.is-copy-ready .preloader-counter {
+  visibility: visible;
+}
+
+.preloader-counter {
+  justify-content: flex-end;
+}
+
+.preloader-copy p {
+  width: 75%;
+}
+
+.preloader .line {
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+@media (max-width: 1000px) {
+  .preloader,
+  .preloader-copy {
+    flex-direction: column;
+  }
+
+  .preloader-revealer {
+    width: 200%;
+  }
+
+  .preloader-copy-col {
+    align-items: center;
+  }
+
+  .preloader-copy p {
+    width: 100%;
+  }
+
+  .preloader-counter {
+    align-items: center;
+  }
+}

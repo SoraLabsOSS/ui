@@ -39,7 +39,7 @@ const textUnderlineVariants = cva(
   [
     "relative inline-block cursor-pointer pb-1 font-normal text-foreground text-lg leading-[1.4] no-underline antialiased",
     "after:absolute after:bottom-0 after:left-0 after:w-full after:will-change-transform after:content-['']",
-    "after:transition-transform after:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:after:transition-none",
+    "after:transition-transform after:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:after:scale-x-100 motion-reduce:after:transition-none",
     "after:h-[var(--tu-height)] after:bg-[var(--tu-color)] after:duration-[var(--tu-duration)]",
     "after:scale-x-[var(--tu-initial-scale)]",
     "hover:after:scale-x-100 focus-visible:after:scale-x-100",

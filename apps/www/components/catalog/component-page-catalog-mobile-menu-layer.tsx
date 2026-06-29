@@ -3,19 +3,9 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import {
-  catalogChromeToolbarClassName,
-  catalogDocsHeaderMenuClassName,
-  catalogMobileMenuChipFixedClassName,
-} from "./catalog-preview-classes";
+import { catalogMobileMenuChipFixedClassName } from "./catalog-preview-classes";
 import { ComponentPageCatalogMenuButton } from "./component-page-catalog-menu-button";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
-
-const mobileMenuChipClassName = cn(
-  catalogDocsHeaderMenuClassName,
-  "flex items-center",
-  catalogChromeToolbarClassName
-);
 
 /**
  * Mobile menu chip on a stable body layer (`z-[90]`).
@@ -34,13 +24,8 @@ export function ComponentPageCatalogMobileMenuLayer() {
   }
 
   return createPortal(
-    <div
-      className={cn(
-        mobileMenuChipClassName,
-        catalogMobileMenuChipFixedClassName
-      )}
-    >
-      <ComponentPageCatalogMenuButton />
+    <div className={cn(catalogMobileMenuChipFixedClassName)}>
+      <ComponentPageCatalogMenuButton variant="solo" />
     </div>,
     document.body
   );

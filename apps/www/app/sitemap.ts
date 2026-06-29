@@ -1,5 +1,6 @@
 import type { InferPageType } from "fumadocs-core/source";
 import type { MetadataRoute } from "next";
+import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
@@ -8,6 +9,8 @@ import { SITE_URL } from "@/lib/site";
 type ContentPage =
   | InferPageType<typeof source>
   | InferPageType<typeof componentSource>;
+
+type BlogPage = InferPageType<typeof blog>;
 
 function toLastModified(value: Date | string | number | undefined) {
   if (!value) {
@@ -27,6 +30,41 @@ function contentPageToEntry(
     changeFrequency: "weekly",
     priority,
   };
+}
+
+function blogPageToEntry(page: BlogPage): MetadataRoute.Sitemap[number] {
+  return {
+    url: `${SITE_URL}${page.url}`,
+    lastModified:
+      toLastModified(page.data.lastModified) ?? toLastModified(page.data.date),
+    changeFrequency: "monthly",
+    priority: 0.65,
+  };
+}
+
+function getVisibleBlogPages() {
+  return blog
+    .getPages()
+    .filter((page) => !(page.data.hidden || page.data.subpage));
+}
+
+function getLatestBlogDate(pages: BlogPage[]) {
+  let latest: Date | undefined;
+
+  for (const page of pages) {
+    const date =
+      toLastModified(page.data.lastModified) ?? toLastModified(page.data.date);
+
+    if (!date) {
+      continue;
+    }
+
+    if (!latest || date > latest) {
+      latest = date;
+    }
+  }
+
+  return latest;
 }
 
 const LEGAL_ENTRIES: MetadataRoute.Sitemap = [
@@ -55,6 +93,10 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .getPages()
     .map((page) => contentPageToEntry(page, 0.75));
 
+  const visibleBlogPages = getVisibleBlogPages();
+  const blogEntries = visibleBlogPages.map(blogPageToEntry);
+  const latestBlogDate = getLatestBlogDate(visibleBlogPages);
+
   return await Promise.resolve([
     {
       url: SITE_URL,
@@ -67,6 +109,19 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.85,
     },
+    {
+      url: `${SITE_URL}/blog`,
+      lastModified: latestBlogDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/blog/rss.xml`,
+      lastModified: latestBlogDate,
+      changeFrequency: "daily",
+      priority: 0.4,
+    },
+    ...blogEntries,
     {
       url: `${SITE_URL}/pricing`,
       changeFrequency: "monthly",

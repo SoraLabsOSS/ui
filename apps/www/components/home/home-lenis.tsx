@@ -4,9 +4,16 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type LenisRef, ReactLenis } from "lenis/react";
 import { cancelFrame, frame, useReducedMotion } from "motion/react";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import "lenis/dist/lenis.css";
+import { dispatchHomeScrollReady } from "@/lib/home/home-scroll-ready";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,7 +31,7 @@ function useScrollMode() {
   const prefersReducedMotion = useReducedMotion();
   const [scrollMode, setScrollMode] = useState<ScrollMode>("pending");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
 
     const update = () => {
@@ -48,6 +55,10 @@ function useScrollMode() {
 }
 
 function HomeNativeScroll({ children }: HomeLenisProps) {
+  useLayoutEffect(() => {
+    dispatchHomeScrollReady();
+  }, []);
+
   return (
     <main className={`${HOME_SCROLL_CLASS} overflow-y-auto`} id={HOME_PAGE_ID}>
       {children}
@@ -69,7 +80,7 @@ function HomeLenisScroller({ children }: HomeLenisProps) {
     return () => cancelFrame(update);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let cancelled = false;
     let teardown: (() => void) | undefined;
 
@@ -105,10 +116,12 @@ function HomeLenisScroller({ children }: HomeLenisProps) {
       });
 
       ScrollTrigger.refresh();
+      dispatchHomeScrollReady();
 
       teardown = () => {
         lenis.off("scroll", onScroll);
         ScrollTrigger.scrollerProxy(scroller);
+        ScrollTrigger.refresh();
       };
 
       return true;

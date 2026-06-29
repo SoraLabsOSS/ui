@@ -353,6 +353,7 @@
     --fd-layout-width: min(100vw, 1670px);
     /* Banner component sets this when open; 0 when dismissed */
     --fd-banner-height: 0px;
+    --_fd-blog-slug-gutter: 0px;
   }
 
   /* Balance left (sidebar + offset) and right (offset) gutters when banner shifts layout down */
@@ -389,6 +390,10 @@
     @apply !pt-23 max-2xl:max-w-[860px] 2xl:!max-w-[1124px];
   }
 
+  #nd-page article.blog-article {
+    @apply !pt-3 !max-w-none;
+  }
+
   /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
   #nd-page {
     max-width: min(
@@ -398,15 +403,82 @@
     @apply mx-auto w-full items-start !pt-0;
   }
 
-  /* Fumadocs default: sticky pb-2 pt-12. items-start on #nd-page so flex stretch does not break sticky. */
+  /* Reserve TOC column width in page flex layout. */
+  #nd-page:has(> #nd-toc) {
+    padding-inline-end: var(--fd-toc-width);
+  }
+
+  /*
+   * Fixed TOC survives Radix dialog scroll-lock (overflow:hidden breaks sticky).
+   * Align to the right edge of the centered #nd-page column.
+   */
   #nd-toc {
+    --_fd-content-width: calc(
+      100vw -
+      var(--fd-sidebar-width, 0px) -
+      2 *
+      var(--fd-layout-offset, 0px) -
+      var(--_fd-blog-slug-gutter)
+    );
+    --_fd-page-width: min(
+      var(--_fd-content-width),
+      calc(var(--fd-layout-width) - var(--fd-sidebar-width, 0px))
+    );
+    --_fd-toc-inset-end: calc(
+      var(--fd-layout-offset, 0px) +
+      max(0px, (var(--_fd-content-width) - var(--_fd-page-width)) / 2)
+    );
+
+    position: fixed !important;
+    inset-inline-end: var(--_fd-toc-inset-end) !important;
     top: calc(var(--fd-banner-height) + var(--fd-nav-height)) !important;
+    width: var(--fd-toc-width) !important;
     height: calc(
       100dvh -
       var(--fd-banner-height) -
       var(--fd-nav-height)
     ) !important;
-    @apply sticky self-start pt-6! pb-2 max-xl:hidden;
+    @apply z-20 self-start pt-6! pb-2 max-xl:hidden;
+  }
+
+  /*
+   * Blog slug: dismiss fixed TOC with an exit animation before HomeFooter.
+   */
+  [data-blog-footer] #nd-toc {
+    transition:
+      opacity 0.32s ease,
+      transform 0.32s ease,
+      visibility 0s linear 0.32s;
+  }
+
+  [data-blog-footer] #nd-toc[data-blog-toc-leaving] {
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(12px, 0, 0);
+  }
+
+  [data-blog-footer] #nd-toc[data-blog-toc-hidden] {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 0.32s ease,
+      transform 0.32s ease,
+      visibility 0s linear 0s;
+  }
+
+  [data-blog-footer]
+    #nd-toc:not([data-blog-toc-leaving]):not([data-blog-toc-hidden]) {
+    transition:
+      opacity 0.28s ease,
+      transform 0.28s ease,
+      visibility 0s linear 0s;
+  }
+
+  @media (min-width: 1536px) {
+    .blog-post-layout {
+      --_fd-blog-slug-gutter: 320px;
+    }
   }
 
   #nd-tocnav {
@@ -509,5 +581,87 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
 
   .fixed.left-1\/2.top-4.z-50.rounded-2xl[data-state="open"] {
     z-index: 81 !important;
+  }
+}
+
+/* Catalog source drawer + docs code blocks — Shiki dual-theme (light/dark) */
+[data-code-block] .shiki {
+  counter-reset: line;
+}
+
+[data-code-block] .shiki code {
+  display: grid;
+}
+
+[data-code-block] .shiki,
+[data-code-block] .shiki span {
+  background-color: transparent !important;
+}
+
+.dark [data-code-block] .shiki,
+.dark [data-code-block] .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: transparent !important;
+}
+
+[data-drawer-code] .shiki [data-line]::before {
+  display: none !important;
+}
+
+[data-drawer-code] * {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+[data-drawer-code] *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+@layer components {
+  .blog-inner {
+    @apply mx-auto w-full max-w-7xl md:w-11/12;
+  }
+
+  /* Prevent accidental image drag while scrolling blog cards and articles. */
+  [data-blog-footer] img {
+    -webkit-user-drag: none;
+    user-drag: none;
+  }
+
+  /* Cloudflare AI Search chat bubble — docs RAG assistant */
+  chat-bubble-snippet.docs-ai-search-chat {
+    --search-snippet-primary-color: var(--accent-pro);
+    --search-snippet-primary-hover: color-mix(
+      in oklch,
+      var(--accent-pro) 88%,
+      black
+    );
+    --search-snippet-background: var(--background);
+    --search-snippet-surface: var(--muted);
+    --search-snippet-hover-background: var(--accent);
+    --search-snippet-text-color: var(--foreground);
+    --search-snippet-text-secondary: var(--muted-foreground);
+    --search-snippet-border-color: var(--border);
+    --search-snippet-user-message-bg: var(--accent-pro);
+    --search-snippet-user-message-text: #ffffff;
+    --search-snippet-assistant-message-bg: var(--muted);
+    --search-snippet-assistant-message-text: var(--foreground);
+    --search-snippet-border-radius: calc(var(--radius) + 2px);
+    --search-snippet-font-size-base: 13px;
+    --search-snippet-font-size-lg: 15px;
+    --search-snippet-spacing-md: 10px;
+    --search-snippet-input-height: 40px;
+    --search-snippet-button-height: 32px;
+    /* FAB — default 60px / 28px icon feels oversized on docs */
+    --chat-bubble-button-size: 52px;
+    --chat-bubble-button-icon-size: 24px;
+    --chat-bubble-button-shadow: 0 4px 14px
+      color-mix(in oklch, var(--accent-pro) 35%, transparent);
+    --chat-bubble-window-shadow: 0 8px 28px rgb(0 0 0 / 0.18);
+    --chat-bubble-button-bottom: 1rem;
+    --chat-bubble-button-right: 1rem;
+    --chat-bubble-button-z-index: 40;
   }
 }

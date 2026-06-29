@@ -4,7 +4,6 @@ import { Kbd, KbdGroup } from "@workspace/ui/components/ui/kbd";
 import { cn } from "@workspace/ui/lib/utils";
 import { useSearchContext } from "fumadocs-ui/provider";
 import { CommandIcon } from "lucide-react";
-import { motion } from "motion/react";
 import { useCallback } from "react";
 
 type CommandPaletteTriggerVariant = "search" | "icon";
@@ -30,16 +29,14 @@ export function CommandPaletteTrigger({
 
   if (variant === "icon") {
     return (
-      <motion.button
+      <button
         aria-label="Open command palette"
         className={className}
         onClick={openCommandPalette}
         type="button"
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.96 }}
       >
         <CommandIcon />
-      </motion.button>
+      </button>
     );
   }
 

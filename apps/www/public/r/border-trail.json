@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "border-trail",
+  "title": "Border Trail",
+  "description": "Animated border spotlight that travels around a rounded container.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/border-trail/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion, type Transition, useReducedMotion } from \"motion/react\";\nimport { type CSSProperties, useEffect, useRef } from \"react\";\n\nexport interface BorderTrailProps {\n  className?: string;\n  onAnimationComplete?: () => void;\n  size?: number;\n  style?: CSSProperties;\n  transition?: Transition;\n}\n\nconst DEFAULT_TRANSITION: Transition = {\n  repeat: Number.POSITIVE_INFINITY,\n  duration: 5,\n  ease: \"linear\",\n};\n\nfunction getReducedMotionCompletionMs(\n  duration: number,\n  delay: number,\n  repeat: number | undefined,\n  repeatDelay: number\n): number | null {\n  if (\n    repeat === Number.POSITIVE_INFINITY ||\n    repeat === Number.NEGATIVE_INFINITY\n  ) {\n    return null;\n  }\n\n  // Motion: repeat N = initial play + N additional iterations.\n  const iterationCount =\n    typeof repeat === \"number\" && repeat > 0 ? repeat + 1 : 1;\n  const betweenRepeatDelays =\n    typeof repeat === \"number\" && repeat > 0 ? repeat * repeatDelay : 0;\n\n  return (delay + duration * iterationCount + betweenRepeatDelays) * 1000;\n}\n\nexport function BorderTrail({\n  className,\n  size = 60,\n  transition,\n  onAnimationComplete,\n  style,\n}: BorderTrailProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const onAnimationCompleteRef = useRef(onAnimationComplete);\n  onAnimationCompleteRef.current = onAnimationComplete;\n\n  const resolvedTransition = { ...DEFAULT_TRANSITION, ...transition };\n  const duration =\n    typeof resolvedTransition.duration === \"number\"\n      ? resolvedTransition.duration\n      : 5;\n  const delay =\n    typeof resolvedTransition.delay === \"number\" ? resolvedTransition.delay : 0;\n  const repeat = resolvedTransition.repeat;\n  const repeatDelay =\n    typeof resolvedTransition.repeatDelay === \"number\"\n      ? resolvedTransition.repeatDelay\n      : 0;\n\n  useEffect(() => {\n    if (!prefersReducedMotion) {\n      return;\n    }\n\n    const completionMs = getReducedMotionCompletionMs(\n      duration,\n      delay,\n      repeat,\n      repeatDelay\n    );\n    if (completionMs === null) {\n      return;\n    }\n\n    const timeoutId = window.setTimeout(\n      () => onAnimationCompleteRef.current?.(),\n      completionMs\n    );\n    return () => window.clearTimeout(timeoutId);\n  }, [prefersReducedMotion, duration, delay, repeat, repeatDelay]);\n\n  if (prefersReducedMotion) {\n    return (\n      <div\n        aria-hidden\n        className={cn(\n          \"pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25\",\n          className\n        )}\n        data-slot=\"border-trail\"\n        style={style}\n      />\n    );\n  }\n\n  return (\n    <div\n      aria-hidden\n      className=\"pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]\"\n      data-slot=\"border-trail\"\n    >\n      <motion.div\n        animate={{\n          offsetDistance: [\"0%\", \"100%\"],\n        }}\n        className={cn(\"absolute aspect-square bg-zinc-500\", className)}\n        onAnimationComplete={onAnimationComplete}\n        style={{\n          width: size,\n          offsetPath: `rect(0 auto auto 0 round ${size}px)`,\n          ...style,\n        }}\n        transition={resolvedTransition}\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/border-trail.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/border-trail"
+    }
+  },
+  "type": "registry:ui"
+}

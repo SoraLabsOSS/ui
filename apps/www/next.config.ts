@@ -1,3 +1,4 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
 import "./env";
 import path from "node:path";
@@ -7,10 +8,15 @@ import type { NextConfig } from "next";
 import { buildDocRedirects } from "./lib/docs/build-doc-redirects";
 
 const withMDX = createMDX();
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   transpilePackages: [
+    "@better-auth-ui/core",
+    "@better-auth-ui/react",
     "@t3-oss/env-core",
     "@t3-oss/env-nextjs",
     "@workspace/auth-ui",
@@ -18,7 +24,12 @@ const nextConfig: NextConfig = {
     "@workspace/ui",
   ],
   experimental: {
-    // globalNotFound: true,
+    optimizePackageImports: [
+      "lucide-react",
+      "motion",
+      "date-fns",
+      "@workspace/ui",
+    ],
   },
   cacheComponents: true,
   reactCompiler: true,
@@ -31,6 +42,7 @@ const nextConfig: NextConfig = {
       { hostname: "cdn.prod.website-files.com" },
       { hostname: "images.unsplash.com" },
       { hostname: "plus.unsplash.com" },
+      { hostname: "sora.axyl.io.vn", pathname: "/**" },
     ],
   },
   reactStrictMode: false,
@@ -59,7 +71,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(withMDX(nextConfig), {
+export default withSentryConfig(withBundleAnalyzer(withMDX(nextConfig)), {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

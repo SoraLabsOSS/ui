@@ -149,6 +149,12 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
         label="Components"
         onClick={onNavigate}
       />
+      <DocsShellNavItem
+        href="/blog"
+        isActive={pathname === "/blog" || pathname.startsWith("/blog/")}
+        label="Blog"
+        onClick={onNavigate}
+      />
       {AUTH_MENU_LINKS.map((item) => {
         if (authNavPending) {
           return (

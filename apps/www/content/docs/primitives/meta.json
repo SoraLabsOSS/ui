@@ -6,8 +6,9 @@
   "pages": [
     "---Texts---",
     "text-scramble",
+    "text-morph",
     "text-roll",
-    "text-reveal-blur",
+    "text-effect",
     "text-reveal-mask",
     "text-reveal-block",
     "text-underline",
@@ -18,8 +19,10 @@
     "char-stagger-button",
     "section-cta",
     "---Effects---",
+    "border-trail",
     "pixelated-image-reveal",
     "custom-cursor",
-    "dock-nav"
+    "dock-nav",
+    "logo-carousel-swapper"
   ]
 }

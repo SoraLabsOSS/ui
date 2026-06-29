@@ -8,10 +8,11 @@ import { ComponentsShell } from "@/components/catalog/components-shell";
 import { Nav } from "@/components/docs/nav";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
+import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
 
 const COMPONENTS_GALLERY_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
-  githubUrl: "https://github.com/axyl1410/sora",
+  githubUrl: GITHUB_PROFILE_URL,
   themeSwitch: {
     component: <ThemeSwitcher />,
   },
@@ -20,7 +21,7 @@ const COMPONENTS_GALLERY_LAYOUT_PROPS: DocsLayoutProps = {
     ...(baseOptions.links || []),
     {
       icon: <XIcon />,
-      url: "",
+      url: X_PROFILE_URL,
       text: "X",
       type: "icon",
     },

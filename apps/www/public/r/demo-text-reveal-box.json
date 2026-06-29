@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-reveal-box",
+  "title": "Text Reveal Box Demo",
+  "description": "Scroll-pinned manifesto copy with word-by-word highlight reveal.",
+  "registryDependencies": ["@soralabs/text-reveal-box"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-reveal-box/index.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useRef, useState } from \"react\";\nimport { CatalogScrollHint } from \"@/components/catalog/catalog-scroll-hint\";\nimport { TextRevealBox } from \"@/components/sora-ui/texts/text-reveal-box\";\n\nconst PARAGRAPHS = [\n  \"We work at the intersection of systems design and psychological tension. Every project ships only when the player feels watched from the first frame and never fully shakes it after the last.\",\n];\n\nfunction resolveCatalogScroller(node: HTMLElement): Element | Window {\n  const previewScroller = node.closest(\"[data-radix-scroll-area-viewport]\");\n  if (previewScroller) {\n    return previewScroller;\n  }\n\n  const pageScroller = node.closest(\"[data-catalog-scroll-root]\");\n  if (pageScroller instanceof HTMLElement) {\n    return pageScroller;\n  }\n\n  return window;\n}\n\nexport default function TextRevealBoxExample() {\n  const rootRef = useRef<HTMLDivElement>(null);\n  const [scroller, setScroller] = useState<Element | Window | null>(null);\n\n  useEffect(() => {\n    const node = rootRef.current;\n    if (!node) {\n      return;\n    }\n\n    setScroller(resolveCatalogScroller(node));\n  }, []);\n\n  return (\n    <div className=\"w-full\" ref={rootRef}>\n      <CatalogScrollHint label=\"Scroll to reveal text word by word\" />\n\n      <TextRevealBox\n        containerClassName=\"w-[90%] max-w-2xl\"\n        embedded\n        paragraphClassName=\"text-center text-2xl font-medium leading-tight tracking-tight md:text-3xl\"\n        paragraphs={PARAGRAPHS}\n        pinDuration={4}\n        scroller={scroller ?? undefined}\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-reveal-box.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

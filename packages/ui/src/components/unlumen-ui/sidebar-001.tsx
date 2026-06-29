@@ -204,6 +204,9 @@ export interface Sidebar001ItemProps {
   itemKey?: string;
   label: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  onItemPointerEnter?: React.MouseEventHandler<HTMLAnchorElement>;
+  onItemPointerLeave?: () => void;
+  onItemPointerMove?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 export const Sidebar001Item = memo(function Sidebar001Item({
@@ -214,6 +217,9 @@ export const Sidebar001Item = memo(function Sidebar001Item({
   isNew,
   className,
   onClick,
+  onItemPointerEnter,
+  onItemPointerLeave,
+  onItemPointerMove,
 }: Sidebar001ItemProps) {
   const hoverId = itemKey ?? href;
   const { hovered, setHovered, containerRef } = useContext(HoverContext);
@@ -223,25 +229,37 @@ export const Sidebar001Item = memo(function Sidebar001Item({
   const opacity = isActive ? 1 : hovered === null ? 0.55 : isHovered ? 1 : 0.3;
   const x = isActive ? 8 : isHovered ? 6 : 0;
 
-  const handleMouseEnter = useCallback(() => {
-    const el = itemRef.current;
-    const container = containerRef.current;
-    if (el && container) {
-      const elRect = el.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      setHovered(hoverId, {
-        top: elRect.top - containerRect.top,
-        height: elRect.height,
-        left: 25,
-      });
-    } else {
-      setHovered(hoverId);
-    }
-  }, [containerRef, hoverId, itemRef, setHovered]);
+  const handleMouseEnter = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      const el = itemRef.current;
+      const container = containerRef.current;
+      if (el && container) {
+        const elRect = el.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        setHovered(hoverId, {
+          top: elRect.top - containerRect.top,
+          height: elRect.height,
+          left: 25,
+        });
+      } else {
+        setHovered(hoverId);
+      }
+      onItemPointerEnter?.(event);
+    },
+    [containerRef, hoverId, itemRef, onItemPointerEnter, setHovered]
+  );
 
   const handleMouseLeave = useCallback(() => {
     setHovered(null);
-  }, [setHovered]);
+    onItemPointerLeave?.();
+  }, [onItemPointerLeave, setHovered]);
+
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      onItemPointerMove?.(event);
+    },
+    [onItemPointerMove]
+  );
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -294,6 +312,7 @@ export const Sidebar001Item = memo(function Sidebar001Item({
             onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -306,6 +325,7 @@ export const Sidebar001Item = memo(function Sidebar001Item({
             onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
           >
             {linkContent}
           </Link>

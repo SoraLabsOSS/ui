@@ -187,7 +187,7 @@ function CustomCursor({
   );
 
   useEffect(() => {
-    if (isCoarsePointer) {
+    if (isCoarsePointer || prefersReducedMotion) {
       return;
     }
 
@@ -201,7 +201,7 @@ function CustomCursor({
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [cursorX, cursorY, isCoarsePointer]);
+  }, [cursorX, cursorY, isCoarsePointer, prefersReducedMotion]);
 
   const appearance = resolveCursorAppearance(isHovering, color);
 
@@ -211,15 +211,15 @@ function CustomCursor({
         className={cn(customCursorVariants({ layout, className }))}
         {...props}
       >
-        {isCoarsePointer ? null : (
+        {isCoarsePointer || prefersReducedMotion ? null : (
           <motion.div
             animate={appearance}
             aria-hidden="true"
             className="pointer-events-none fixed top-0 left-0 z-[100] border"
             initial={false}
             style={{
-              x: prefersReducedMotion ? cursorX : springX,
-              y: prefersReducedMotion ? cursorY : springY,
+              x: springX,
+              y: springY,
               translateX: "-50%",
               translateY: "-50%",
             }}

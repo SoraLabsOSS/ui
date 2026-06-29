@@ -5,6 +5,7 @@ import {
   type HTMLMotionProps,
   motion,
   type Transition,
+  useReducedMotion,
 } from "motion/react";
 import { Tabs as TabsPrimitive } from "radix-ui";
 import type * as React from "react";
@@ -98,17 +99,22 @@ function TabsContent({
   transition = { duration: 0.5, ease: "easeInOut" },
   ...props
 }: TabsContentProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const resolvedTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : transition;
+
   return (
     <AnimatePresence mode="wait">
       <TabsPrimitive.Content asChild forceMount={forceMount} value={value}>
         <motion.div
           animate={{ opacity: 1, filter: "blur(0px)" }}
           data-slot="tabs-content"
-          exit={{ opacity: 0, filter: "blur(4px)" }}
-          initial={{ opacity: 0, filter: "blur(4px)" }}
-          layout
+          exit={{ opacity: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, filter: "blur(0px)" }}
+          layout={!prefersReducedMotion}
           layoutDependency={value}
-          transition={transition}
+          transition={resolvedTransition}
           {...props}
         />
       </TabsPrimitive.Content>
@@ -142,29 +148,36 @@ function isAutoMode(props: TabsContentsProps): props is TabsContentsAutoProps {
 
 function TabsContents(props: TabsContentsProps) {
   const { value } = useTabs();
+  const prefersReducedMotion = useReducedMotion();
 
   if (isAutoMode(props)) {
     const { transition = defaultTransition, ...autoProps } = props;
+    const resolvedTransition = prefersReducedMotion
+      ? { duration: 0 }
+      : transition;
 
     return (
       <AutoHeight
         data-slot="tabs-contents"
         deps={[value]}
-        transition={transition}
+        transition={resolvedTransition}
         {...autoProps}
       />
     );
   }
 
   const { transition = defaultTransition, style, ...layoutProps } = props;
+  const resolvedTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { layout: transition };
 
   return (
     <motion.div
       data-slot="tabs-contents"
-      layout="size"
+      layout={prefersReducedMotion ? false : "size"}
       layoutDependency={value}
       style={{ overflow: "hidden", ...style }}
-      transition={{ layout: transition }}
+      transition={resolvedTransition}
       {...layoutProps}
     />
   );

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-effect",
+  "type": "registry:ui",
+  "title": "Text Effect Demo",
+  "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
+  "registryDependencies": ["text-effect"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-effect/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-effect.tsx"
+    }
+  ]
+}

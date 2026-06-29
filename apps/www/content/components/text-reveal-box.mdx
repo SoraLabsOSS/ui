@@ -1,0 +1,236 @@
+---
+title: Text Reveal Box
+description: Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.
+category: texts
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: text-reveal-box
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Installation
+
+<ComponentInstallation name="text-reveal-box" />
+
+Client component — lazy-loads **GSAP ScrollTrigger** in `useEffect` (SSR-safe). Scroll is a **tall track + sticky viewport** (not GSAP `pin`): `pinDuration` sets how many viewport-heights you scroll while words reveal. Respects `prefers-reduced-motion`.
+
+## How to use
+
+<Steps>
+<Step>
+
+### Basic
+
+Neutral defaults (`bg-background`, `text-foreground`). Style via `*ClassName` props.
+
+```tsx
+import { TextRevealBox } from "@/components/sora-ui/texts/text-reveal-box";
+
+const paragraphs = [
+  "Your first paragraph of manifesto copy.",
+  "A second paragraph that continues the scroll-driven reveal.",
+];
+
+export default function Section() {
+  return (
+    <TextRevealBox
+      paragraphs={paragraphs}
+      paragraphClassName="text-center text-3xl font-medium tracking-tight md:text-5xl"
+      highlightBg="60, 60, 60"
+      pinDuration={4}
+    />
+  );
+}
+```
+
+</Step>
+<Step>
+
+### Studio preset
+
+Bundled dark manifesto typography — pass `TEXT_REVEAL_BOX_STUDIO_CLASSES` into class slots:
+
+```tsx
+import {
+  TEXT_REVEAL_BOX_STUDIO_CLASSES as studio,
+  TextRevealBox,
+} from "@/components/sora-ui/texts/text-reveal-box";
+
+<TextRevealBox
+  className={studio.root}
+  stickyClassName={studio.sticky}
+  containerClassName={studio.container}
+  paragraphClassName={studio.paragraph}
+  wordClassName={studio.word}
+  keywordClassName={studio.keyword}
+  paragraphs={paragraphs}
+  highlightBg="60, 60, 60"
+  pinDuration={4}
+/>;
+```
+
+</Step>
+<Step>
+
+### Docs preview
+
+`embedded` = transparent surface + theme-aware highlight. Pass `scroller` when inside a scroll panel.
+
+```tsx
+<TextRevealBox embedded scroller={viewport} paragraphs={paragraphs} pinDuration={4} />
+```
+
+</Step>
+</Steps>
+
+## Keywords & timing
+
+```tsx
+<TextRevealBox
+  paragraphs={["Systems design meets psychological tension."]}
+  keywords={["systems", "tension"]}
+  keywordColors={{ systems: "#c8e600", tension: "#f7f5f0" }}
+  keywordClassName={studio.keyword}
+  highlightBg="60, 60, 60"
+  pinDuration={4}
+/>
+```
+
+Default matcher: `lowercaseNormalizeWord` (strip edge punctuation, lowercase). Override with `normalizeWord` or `matchKeyword`.
+
+Lock words after reveal — skip the reverse fade:
+
+```tsx
+<TextRevealBox
+  paragraphs={paragraphs}
+  timing={{ revealPortion: 0.7, revealOverlap: 15, reverseOnScroll: false }}
+/>
+```
+
+## Styling
+
+<Callout type="warn" title="Word spacing">
+  Words are adjacent `<span>` nodes **without** spaces in markup. Gaps come from built-in `mr-[0.2rem] mb-[0.2rem]` on `.trb-word`. If you override `wordClassName`, keep equivalent margins or pills will touch.
+</Callout>
+
+<Callout title="GSAP inline styles">
+  ScrollTrigger sets `opacity` and `backgroundColor` on each `.trb-word`, and `opacity` on the inner span. CSS alone cannot drive the reveal — only initial hidden state and pill shape.
+</Callout>
+
+### Class slots
+
+Pass any of these to override a layer (`cn()` merges after built-ins):
+
+- `className` — root `<section data-slot="text-reveal-box">`
+- `trackClassName` — scroll track (ScrollTrigger trigger)
+- `stickyClassName` — sticky viewport (`h-svh`, `p-8`)
+- `innerClassName` — flex center wrapper
+- `containerClassName` — width container (default `max-w-3xl`)
+- `paragraphClassName` — each `<p>`
+- `wordClassName` — `.trb-word` wrapper
+- `keywordWrapperClassName` / `keywordClassName` — keyword pill (`before:` + `--kw-color`)
+
+### CSS variables
+
+On the root section:
+
+- `--trb-pin-duration` — from `pinDuration`; drives `h-[calc(var(--trb-pin-duration)*100svh)]`
+- `--trb-highlight-bg` — RGB triplet, no `rgb()` wrapper (e.g. `60,60,60`)
+- `--trb-highlight-alpha` — flash opacity `0–1`
+
+On keyword inner spans: `--kw-color` from `keywordColors`.
+
+Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlightBg` + `highlightAlpha`.
+
+```tsx
+<TextRevealBox
+  className="[--trb-highlight-bg:60,60,60] [--trb-highlight-alpha:0.85]"
+  paragraphs={paragraphs}
+/>
+```
+
+### Built-in structure (reference)
+
+**Track** — `h-[calc(var(--trb-pin-duration)*100svh)]`, `max-lg:…100dvh`, `@/preview:…100cqh` for catalog preview.
+
+**Word wrapper** — `inline-block rounded-lg p-[0.1rem_0.2rem] opacity-0 will-change-[background-color,opacity]` plus spacing margins above.
+
+**Scroll phases** — first `revealPortion` (default 70%) reveals with overlap; remainder reverses highlight when `reverseOnScroll` is true.
+
+## Props
+
+<TypeTable
+  type={{
+    paragraphs: {
+      description: "Strings split into `.trb-word` spans.",
+      type: "string[]",
+      default: "[]",
+    },
+    pinDuration: {
+      description: "Track height = N × viewport. Sets `--trb-pin-duration`.",
+      type: "number",
+      default: "4",
+    },
+    scroller: {
+      description: "ScrollTrigger root (`window` or `Element`).",
+      type: "Element | Window",
+    },
+    highlightBg: {
+      description: 'RGB triplet for flash when CSS vars unset. Applied as `rgba(...)` inline.',
+      type: "string",
+      default: '"237, 235, 231"',
+    },
+    highlightAlpha: {
+      description: "Flash opacity when CSS vars unset.",
+      type: "number",
+      default: "1",
+    },
+    timing: {
+      description: "`revealPortion`, `revealOverlap`, `reverseOverlap`, `reverseOnScroll`.",
+      type: "TextRevealBoxTiming",
+    },
+    embedded: {
+      description: "Transparent bg + auto `--trb-highlight-*` for previews.",
+      type: "boolean",
+      default: "false",
+    },
+    keywords: {
+      description: "Tokens matched for keyword pill styling.",
+      type: "string[]",
+      default: "[]",
+    },
+    keywordColors: {
+      description: "Normalized keyword → `--kw-color` for pill background.",
+      type: "Record<string, string>",
+      default: "{}",
+    },
+    normalizeWord: {
+      description: "Token normalizer before lookup. Default: `lowercaseNormalizeWord`.",
+      type: "(word: string) => string",
+    },
+    matchKeyword: {
+      description: "Custom `(word, keywords) => boolean` matcher.",
+      type: "(word: string, keywords: string[]) => boolean",
+    },
+    className: { description: "Root section classes.", type: "string" },
+    trackClassName: { description: "Scroll track.", type: "string" },
+    stickyClassName: { description: "Sticky viewport.", type: "string" },
+    innerClassName: { description: "Center flex wrapper.", type: "string" },
+    containerClassName: { description: "Content width container.", type: "string" },
+    paragraphClassName: { description: "Paragraph blocks.", type: "string" },
+    wordClassName: {
+      description: "Word wrappers — preserve spacing if overriding.",
+      type: "string",
+    },
+    keywordWrapperClassName: {
+      description: "Extra classes on keyword words.",
+      type: "string",
+    },
+    keywordClassName: {
+      description: "Keyword pill span (`before:` utilities).",
+      type: "string",
+    },
+  }}
+/>

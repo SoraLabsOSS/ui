@@ -1,12 +1,22 @@
 import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
 import type { AdvancedIndex } from "fumadocs-core/search/server";
 import type { InferPageType } from "fumadocs-core/source";
+import { blog } from "@/lib/blog/source";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
 
 type SearchablePage =
   | InferPageType<typeof source>
-  | InferPageType<typeof componentSource>;
+  | InferPageType<typeof componentSource>
+  | InferPageType<typeof blog>;
+
+function getSearchTag(page: SearchablePage): string {
+  if (page.url === "/blog" || page.url.startsWith("/blog/")) {
+    return "blog";
+  }
+
+  return page.slugs[0];
+}
 
 function pageToAdvancedIndex(page: SearchablePage): AdvancedIndex {
   if (!("structuredData" in page.data)) {
@@ -23,7 +33,7 @@ function pageToAdvancedIndex(page: SearchablePage): AdvancedIndex {
     url: page.url,
     id: page.url,
     structuredData,
-    tag: page.slugs[0],
+    tag: getSearchTag(page),
   };
 }
 
@@ -32,8 +42,11 @@ export function getSearchablePages(): SearchablePage[] {
     .getPages()
     .filter((page) => page.slugs[0] !== "openapi");
   const componentPages = componentSource.getPages();
+  const blogPages = blog
+    .getPages()
+    .filter((page) => !(page.data.hidden || page.data.subpage));
 
-  return [...docPages, ...componentPages];
+  return [...docPages, ...componentPages, ...blogPages];
 }
 
 export function getSearchIndexes(): AdvancedIndex[] {
@@ -51,7 +64,7 @@ export function getStaticSearchDocuments(): OramaDocument[] {
     return {
       id: page.url,
       structured: page.data.structuredData,
-      tag: page.slugs[0],
+      tag: getSearchTag(page),
       url: page.url,
       title: page.data.title,
       description: page.data.description,

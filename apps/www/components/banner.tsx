@@ -80,52 +80,57 @@ export function Banner({
     return null;
   }
 
-  return (
-    <div
-      id={id}
-      {...props}
-      className={cn(
-        "sticky top-0 z-50 flex shrink-0 flex-row items-center justify-center px-4 text-center font-medium text-sm",
-        variant === "normal" && "bg-background",
-        variant === "rainbow" && "bg-background",
-        props.className
-      )}
-      style={{
-        height,
-      }}
-    >
-      {changeLayout && open ? (
-        <style>
-          {globalKey
-            ? `:root:not(.${globalKey}) { --fd-banner-height: ${height}; }`
-            : `:root { --fd-banner-height: ${height}; }`}
-        </style>
-      ) : null}
+  const bannerHeightStyle = { height };
 
-      {variant === "rainbow"
-        ? flow({
-            colors: rainbowColors,
-          })
-        : null}
-      {props.children}
-      {id ? (
-        <button
-          aria-label="Close Banner"
-          className={cn(
-            buttonVariants({
-              color: "ghost",
-              className:
-                "absolute inset-e-2 top-1/2 -translate-y-1/2 text-fd-muted-foreground/50",
-              size: "icon-sm",
+  return (
+    <>
+      <div
+        id={id}
+        {...props}
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 flex shrink-0 flex-row items-center justify-center px-4 text-center font-medium text-sm",
+          variant === "normal" && "bg-background",
+          variant === "rainbow" && "bg-background",
+          props.className
+        )}
+        style={bannerHeightStyle}
+      >
+        {changeLayout && open ? (
+          <style>
+            {globalKey
+              ? `:root:not(.${globalKey}) { --fd-banner-height: ${height}; }`
+              : `:root { --fd-banner-height: ${height}; }`}
+          </style>
+        ) : null}
+
+        {variant === "rainbow"
+          ? flow({
+              colors: rainbowColors,
             })
-          )}
-          onClick={onClose}
-          type="button"
-        >
-          <X />
-        </button>
+          : null}
+        {props.children}
+        {id ? (
+          <button
+            aria-label="Close Banner"
+            className={cn(
+              buttonVariants({
+                color: "ghost",
+                className:
+                  "absolute inset-e-2 top-1/2 -translate-y-1/2 text-fd-muted-foreground/50",
+                size: "icon-sm",
+              })
+            )}
+            onClick={onClose}
+            type="button"
+          >
+            <X />
+          </button>
+        ) : null}
+      </div>
+      {changeLayout ? (
+        <div aria-hidden className="shrink-0" style={bannerHeightStyle} />
       ) : null}
-    </div>
+    </>
   );
 }
 

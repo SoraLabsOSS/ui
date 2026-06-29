@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-effect",
+  "title": "Text Effect Demo",
+  "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
+  "registryDependencies": ["@soralabs/text-effect"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-effect/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  TextEffect,\n  type TextEffectPer,\n  type TextEffectPreset,\n} from \"@/components/sora-ui/texts/text-effect\";\n\ninterface TextEffectDemoProps {\n  children?: string;\n  className?: string;\n  delay?: number;\n  per?: TextEffectPer;\n  preset?: TextEffectPreset;\n  scrollTrigger?: boolean;\n  speedReveal?: number;\n  speedSegment?: number;\n}\n\n/** Docs preview — scroll-triggered preset text reveal. */\nexport default function TextEffectDemo({\n  children = \"Motion-first text effects\",\n  className = \"text-center font-bold text-3xl\",\n  delay = 0,\n  per = \"word\",\n  preset = \"fade-in-blur\",\n  scrollTrigger = true,\n  speedReveal = 1,\n  speedSegment = 1,\n}: TextEffectDemoProps) {\n  return (\n    <div className=\"flex min-h-[140px] items-center justify-center px-4\">\n      <TextEffect\n        as=\"h2\"\n        className={className}\n        delay={delay}\n        per={per}\n        preset={preset}\n        scrollTrigger={scrollTrigger}\n        speedReveal={speedReveal}\n        speedSegment={speedSegment}\n      >\n        {children}\n      </TextEffect>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-effect.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

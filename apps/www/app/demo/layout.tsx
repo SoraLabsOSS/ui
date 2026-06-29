@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { DemoLenis } from "./demo-lenis";
 
 export const metadata: Metadata = {
   robots: "noindex,nofollow",
-  title: "Cursor Trail Reveal Demo",
+  title: "Sora UI Demos",
 };
 
 export default function DemoLayout({ children }: { children: ReactNode }) {
-  return children;
+  return <DemoLenis>{children}</DemoLenis>;
 }

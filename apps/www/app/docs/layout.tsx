@@ -3,16 +3,18 @@ import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
+import { DocsAiSearchChatBubble } from "@/components/docs/ai-search-chat-bubble";
 import { Nav } from "@/components/docs/nav";
 import { DocsSidebar } from "@/components/docs/sidebar";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
+import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
 
-  githubUrl: "https://github.com/axyl1410/sora",
+  githubUrl: GITHUB_PROFILE_URL,
   themeSwitch: {
     component: <ThemeSwitcher />,
   },
@@ -21,7 +23,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
     ...(baseOptions.links || []),
     {
       icon: <XIcon />,
-      url: "",
+      url: X_PROFILE_URL,
       text: "X",
       type: "icon",
     },
@@ -52,6 +54,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       }}
     >
       {children}
+      <DocsAiSearchChatBubble />
     </DocsLayout>
   );
 }

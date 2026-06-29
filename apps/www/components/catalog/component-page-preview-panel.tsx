@@ -3,7 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { index } from "@/__registry__";
+import { previewComponents } from "@/__registry__/preview";
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogPreviewMobilePanelClassName,
@@ -14,6 +14,7 @@ import {
 } from "./catalog-preview-classes";
 import { CatalogScrollArea } from "./catalog-scroll-area";
 import { ComponentPagePreviewToolbar } from "./component-page-preview-toolbar";
+import { ComponentPageSourcePanel } from "./component-page-source-panel";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
 
 interface ComponentPagePreviewPanelProps {
@@ -27,18 +28,19 @@ interface ComponentPagePreviewPanelProps {
 
 export function ComponentPagePreviewPanel({
   previewName,
-  registryName: _registryName,
+  registryName,
   className,
   isExpanded,
   onToggleExpanded,
   sticky = true,
 }: ComponentPagePreviewPanelProps) {
   const [previewKey, setPreviewKey] = useState(0);
+  const [isSourceOpen, setIsSourceOpen] = useState(false);
   const isStacked = useCatalogStackedLayout();
   const { setToolbar } = useCatalogMobileChrome();
 
   const preview = useMemo(() => {
-    const Component = index[previewName]?.component;
+    const Component = previewComponents[previewName];
 
     if (!Component) {
       return (
@@ -59,15 +61,45 @@ export function ComponentPagePreviewPanel({
     setPreviewKey((current) => current + 1);
   }, []);
 
+  const handleToggleSource = useCallback(() => {
+    if (isSourceOpen) {
+      setIsSourceOpen(false);
+      return;
+    }
+
+    if (isExpanded) {
+      onToggleExpanded();
+    }
+    setIsSourceOpen(true);
+  }, [isExpanded, isSourceOpen, onToggleExpanded]);
+
+  const handleToggleExpanded = useCallback(() => {
+    setIsSourceOpen(false);
+    onToggleExpanded();
+  }, [onToggleExpanded]);
+
+  const handleCloseSource = useCallback(() => {
+    setIsSourceOpen(false);
+  }, []);
+
   const previewToolbar = useMemo(
     () => (
       <ComponentPagePreviewToolbar
+        hasSourceCode
         isExpanded={isExpanded}
+        isSourceOpen={isSourceOpen}
         onRestart={handleRestart}
-        onToggleExpanded={onToggleExpanded}
+        onToggleExpanded={handleToggleExpanded}
+        onToggleSource={handleToggleSource}
       />
     ),
-    [handleRestart, isExpanded, onToggleExpanded]
+    [
+      handleRestart,
+      handleToggleExpanded,
+      handleToggleSource,
+      isExpanded,
+      isSourceOpen,
+    ]
   );
 
   useEffect(() => {
@@ -140,6 +172,12 @@ export function ComponentPagePreviewPanel({
           {previewBody}
         </CatalogScrollArea>
       )}
+
+      <ComponentPageSourcePanel
+        onClose={handleCloseSource}
+        open={isSourceOpen}
+        registryName={registryName}
+      />
     </div>
   );
 }
