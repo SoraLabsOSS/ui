@@ -1,0 +1,210 @@
+---
+title: Highlight
+description: A shared motion highlight that slides between items on hover, or fades per-item on click.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="highlight" description="A shared pill highlight slides between nav items on hover — move slowly to see the spring." />
+
+## Examples
+
+### Click Mode
+
+<ComponentPreview name="demo-highlight-click" description="A per-item fade background activated on click, useful for menus and sidebars." />
+
+## Installation
+
+<ComponentInstallation name="highlight" />
+
+## Usage
+
+### Parent mode — shared sliding element
+
+One `motion.div` lives inside the container and slides to whichever item is active. This is the same pattern used by the sidebar hover highlight.
+
+```tsx
+import { Highlight, HighlightItem } from '@/components/sora-ui/primitives/effects/highlight';
+
+const ITEMS = ['Design', 'Engineering', 'Product'];
+
+export default function NavBar() {
+  return (
+    <Highlight
+      mode="parent"
+      trigger="hover"
+      className="rounded-full bg-foreground/8"
+      containerClassName="flex items-center"
+    >
+      {ITEMS.map((item) => (
+        <HighlightItem key={item} value={item}>
+          <button className="px-4 py-1.5 text-sm" type="button">
+            {item}
+          </button>
+        </HighlightItem>
+      ))}
+    </Highlight>
+  );
+}
+```
+
+### Children mode — per-item fade
+
+Each item renders its own `motion.div` overlay. Framer Motion's `layoutId` animates between items on click.
+
+```tsx
+import { Highlight, HighlightItem } from '@/components/sora-ui/primitives/effects/highlight';
+
+export default function Menu() {
+  return (
+    <Highlight
+      mode="children"
+      trigger="click"
+      defaultValue="inbox"
+      className="rounded-md bg-foreground/8"
+    >
+      {['Inbox', 'Drafts', 'Sent'].map((label) => (
+        <HighlightItem key={label} value={label}>
+          <button className="w-full px-3 py-2 text-sm text-left" type="button">
+            {label}
+          </button>
+        </HighlightItem>
+      ))}
+    </Highlight>
+  );
+}
+```
+
+### Controlled value
+
+```tsx
+const [active, setActive] = React.useState<string | null>('design');
+
+<Highlight
+  mode="parent"
+  trigger="click"
+  value={active}
+  onValueChange={setActive}
+  className="rounded-lg bg-accent"
+>
+  ...
+</Highlight>
+```
+
+## Props
+
+### Highlight
+
+<TypeTable
+  type={{
+    mode: {
+      description:
+        '`"parent"` — one shared highlight slides between items. `"children"` — each item has its own overlay.',
+      type: '"parent" | "children"',
+      default: '"children"',
+    },
+    trigger: {
+      description: 'What user interaction activates an item.',
+      type: '"hover" | "click"',
+      default: '"click"',
+    },
+    value: {
+      description: 'Controlled active value. Pass `null` to clear.',
+      type: 'string | null',
+    },
+    defaultValue: {
+      description: 'Uncontrolled initial active value.',
+      type: 'string | null',
+    },
+    onValueChange: {
+      description: 'Called when the active value changes.',
+      type: '(value: string | null) => void',
+    },
+    className: {
+      description: 'Classes merged onto the highlight overlay element.',
+      type: 'string',
+    },
+    style: {
+      description: 'Inline styles on the highlight overlay.',
+      type: 'CSSProperties',
+    },
+    transition: {
+      description: 'Motion transition for the highlight animation.',
+      type: 'Transition',
+      default: '{ type: "spring", stiffness: 350, damping: 35 }',
+    },
+    exitDelay: {
+      description:
+        'Milliseconds to delay the highlight exit fade. Useful with `trigger="hover"` to prevent flicker when crossing item gaps.',
+      type: 'number',
+      default: '0',
+    },
+    disabled: {
+      description: 'Disables all interaction across every item.',
+      type: 'boolean',
+      default: 'false',
+    },
+    containerClassName: {
+      description: '`mode="parent"` only. Classes on the relative container `div`.',
+      type: 'string',
+    },
+    boundsOffset: {
+      description:
+        '`mode="parent"` only. Pixel offsets applied to the measured item bounds before positioning the highlight.',
+      type: 'Partial<{ top: number; left: number; width: number; height: number }>',
+    },
+  }}
+/>
+
+### HighlightItem
+
+<TypeTable
+  type={{
+    value: {
+      description: 'Unique string identifying this item.',
+      type: 'string',
+    },
+    disabled: {
+      description: 'Disables interaction for this item only.',
+      type: 'boolean',
+      default: 'false',
+    },
+    activeClassName: {
+      description: 'Extra class applied to the highlight overlay when this item is active.',
+      type: 'string',
+    },
+    className: {
+      description: '`mode="children"` only. Class merged onto this item\'s local highlight overlay.',
+      type: 'string',
+    },
+    style: {
+      description: '`mode="children"` only. Inline styles on this item\'s local highlight overlay.',
+      type: 'CSSProperties',
+    },
+    transition: {
+      description: '`mode="children"` only. Override the transition for this item.',
+      type: 'Transition',
+    },
+    asChild: {
+      description:
+        'Merge event handlers and ref into the child element instead of wrapping it in a `div`.',
+      type: 'boolean',
+      default: 'false',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `mode="parent"` for navigation bars, tab rows, and any horizontal/vertical list where you want one smooth background element sliding between items. The spring physics make the motion feel natural even when the cursor skips quickly across items.
+
+Use `mode="children"` for menus, sidebars, and selection lists where each item independently fades in its background. The shared `layoutId` cross-fades between items on click.
+
+Avoid using `trigger="hover"` with `mode="children"` and widely-spaced items — the per-item fade-in/out can feel noisy. In that case, prefer `mode="parent"` which slides a single element.
+
+## Accessibility
+
+`HighlightItem` sets `aria-selected` and `data-active` on each item wrapper. The highlight overlay itself is decorative (`pointer-events-none`) and invisible to assistive technologies. Keyboard navigation is not wired automatically — connect it via the controlled `value`/`onValueChange` API if needed.
+
+When `prefers-reduced-motion: reduce` is set, Framer Motion automatically reduces the spring animation to a simple fade.

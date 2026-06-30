@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ResolvedCardPreviewMedia } from "@/lib/registry/resolve-card-preview-media";
+import { catalogNavHoverPreviewLayerClassName } from "./catalog-preview-classes";
 
 const PREVIEW_WIDTH = 224;
 const PREVIEW_HEIGHT = 170;
@@ -184,7 +185,7 @@ export function CatalogNavHoverPreview({
       {preview && position ? (
         <motion.div
           animate={{ opacity: 1 }}
-          className="pointer-events-none fixed top-0 left-0 z-80 w-56"
+          className={catalogNavHoverPreviewLayerClassName}
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           key="catalog-nav-hover-preview"

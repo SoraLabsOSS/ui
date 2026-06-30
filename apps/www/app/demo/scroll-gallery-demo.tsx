@@ -21,6 +21,7 @@ export function ScrollGalleryDemoPage() {
       prefixClassName={studio.prefix}
       prefixLabel="Featured"
       prefixTextClassName={studio.prefixText}
+      refreshPriority={-1}
       scrollPerTransition={1000}
       slides={scrollGalleryDemoSlides}
       titleClassName={studio.title}

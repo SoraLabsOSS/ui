@@ -115,7 +115,7 @@ function Tabs({
   );
 }
 
-type TabsHighlightProps = Omit<HighlightProps, "controlledItems" | "value">;
+type TabsHighlightProps = Omit<HighlightProps, "value">;
 
 function TabsHighlight({
   transition = { type: "spring", stiffness: 200, damping: 25 },
@@ -125,8 +125,6 @@ function TabsHighlight({
 
   return (
     <Highlight
-      click={false}
-      controlledItems
       data-slot="tabs-highlight"
       transition={transition}
       value={activeValue}

@@ -173,6 +173,12 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
       type: "number",
       default: "4",
     },
+    refreshPriority: {
+      description:
+        "GSAP ScrollTrigger refresh priority. Set lower than any pinned section above this one in the DOM so spacers are re-added before this trigger measures its position.",
+      type: "number",
+      default: "-1",
+    },
     scroller: {
       description: "ScrollTrigger root (`window` or `Element`).",
       type: "Element | Window",

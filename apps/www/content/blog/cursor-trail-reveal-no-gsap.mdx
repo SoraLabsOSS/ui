@@ -1,0 +1,267 @@
+---
+title: Cursor Trail Reveal — no GSAP, no Motion
+description: A deep dive into building a cursor trail effect with clip-path polygon, requestAnimationFrame, and plain CSS transitions — zero animation library imports.
+author: Axyl
+date: 2026-06-30
+hashtags: ["#css", "#react", "#animation", "#vanilla"]
+---
+
+Every time someone looks at `CursorTrailReveal`, the first question is the same: *"Framer Motion? GSAP?"*
+
+Neither. The entire effect — images popping out along the cursor path, horizontal strips wiping open one by one, running smooth at 60fps — is built with **`requestAnimationFrame` + CSS transitions + `clip-path polygon()`**. Not a single animation library import.
+
+Here's how it works.
+
+---
+
+## What the effect looks like
+
+Move your cursor over the target area and an image appears at the cursor position, sliding gently in the direction you're heading. The image doesn't appear all at once — it's **split into 10 horizontal strips**, each one opening outward from the center with a custom cubic-bezier easing and a small stagger delay from the middle to the edges. When the image ages out, the strips collapse back toward the center in reverse order, and the element is removed from the DOM.
+
+All of this orchestration runs inside a single `requestAnimationFrame` loop.
+
+---
+
+## Architecture overview
+
+```
+render() ← requestAnimationFrame loop
+  ├── lerp interpolatedMousePos → mousePos
+  ├── if distance > threshold AND mouse in container
+  │     └── createTrailImage()
+  └── removeOldImages()
+```
+
+No React state is updated during animation. All mutable state lives in `useRef`:
+
+```ts
+const trailRef = useRef<TrailImageEntry[]>([]);          // queue of visible images
+const mousePosRef = useRef({ x: 0, y: 0 });             // current cursor position
+const lastMousePosRef = useRef({ x: 0, y: 0 });         // position when last image spawned
+const interpolatedMousePosRef = useRef({ x: 0, y: 0 }); // lerped position
+const animationStateRef = useRef<number | null>(null);   // requestAnimationFrame ID
+```
+
+`useRef` here isn't about pointing at DOM elements — it's about storing **mutable state that shouldn't trigger re-renders**. This is an important pattern for animation in React: everything that belongs to the frame loop has to live outside React state.
+
+---
+
+## Part 1: The render loop
+
+```ts
+const render = () => {
+  if (!isDesktopRef.current) return;
+
+  const distance = getMouseDistance();
+
+  // Pull the interpolated position 10% closer to the real cursor each frame
+  interpolatedMousePosRef.current.x = MathUtils.lerp(
+    interpolatedMousePosRef.current.x || mousePosRef.current.x,
+    mousePosRef.current.x,
+    0.1
+  );
+  interpolatedMousePosRef.current.y = MathUtils.lerp(
+    interpolatedMousePosRef.current.y || mousePosRef.current.y,
+    mousePosRef.current.y,
+    0.1
+  );
+
+  if (distance > config.mouseThreshold && isInTrailContainer(...)) {
+    createTrailImage();
+    lastMousePosRef.current = { ...mousePosRef.current };
+  }
+
+  removeOldImages();
+  animationStateRef.current = requestAnimationFrame(render);
+};
+```
+
+**Lerp** (Linear Interpolation) — `lerp(a, b, 0.1)` — moves `a` 10% toward `b` every frame. At 60fps this creates a position that lags behind the real cursor. This is why images don't spawn exactly where your cursor is but at a point chasing it — giving the trail a sense of physical weight.
+
+**`mouseThreshold`** is the minimum distance the cursor must travel since the last spawn before a new image is created. Default is 150px. Without this guard, a new image would spawn every frame and the browser would be creating hundreds of DOM elements per second.
+
+---
+
+## Part 2: Clip-path polygon — the core of the wipe
+
+This is the interesting part. Each image is divided into **10 horizontal strips**, each covering 10% of the height (`0%–10%`, `10%–20%`, ..., `90%–100%`).
+
+Each strip is a `div` with:
+- `backgroundColor: maskColor` (the covering layer)
+- A child `div` with `backgroundImage` set to the actual photo
+- A `clipPath` that starts with **zero width at the center**
+
+```ts
+// Strip i, initial state — width = 0, pinned at center (50%)
+layer.style.clipPath = `polygon(
+  50% ${stripStart}%,   // top-left
+  50% ${stripStart}%,   // top-right  (same x → zero width)
+  50% ${stripEnd}%,     // bottom-right
+  50% ${stripEnd}%      // bottom-left
+)`;
+```
+
+Then, one `requestAnimationFrame` tick later — giving the browser a chance to commit the initial layout — the clip-path transitions to **full width**:
+
+```ts
+requestAnimationFrame(() => {
+  for (const [i, layer] of maskLayers.entries()) {
+    const distanceFromMiddle = Math.abs(i - 4.5);
+    const delay = distanceFromMiddle * config.staggerIn; // staggerIn = 100ms
+
+    scheduleTimeout(() => {
+      layer.style.clipPath = `polygon(
+        0%   ${stripStart}%,
+        100% ${stripStart}%,
+        100% ${stripEnd}%,
+        0%   ${stripEnd}%
+      )`;
+    }, delay);
+  }
+});
+```
+
+`distanceFromMiddle` measures how far each strip is from the center (strips 4 and 5 have the smallest value). Strips near the middle open **first**, strips at the edges open **last** — producing the outward wipe from center to edge.
+
+The CSS transition does the rest:
+
+```ts
+layer.style.transition = `clip-path ${config.inDuration}ms ${config.easing}`;
+// easing: "cubic-bezier(0.87, 0, 0.13, 1)" — sharp in-out
+```
+
+No JavaScript is computing intermediate states. The browser interpolates `clip-path` from `50%` to `0%/100%` on its own, following the cubic-bezier curve.
+
+---
+
+## Part 3: The slide — CSS transition on the GPU
+
+Images don't teleport to the cursor. Each one is placed at the **interpolated position** (lagging behind the cursor), then immediately transitions to the real cursor position:
+
+```ts
+// At spawn time: place at the interpolated (lagging) position
+imgContainer.style.transform = `translate3d(${startX}px, ${startY}px, 0)`;
+imgContainer.style.transition = `transform ${config.slideDuration}ms ${config.slideEasing}`;
+
+// One tick later: target is the real cursor position
+requestAnimationFrame(() => {
+  imgContainer.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+  // ... kick off strip animations
+});
+```
+
+`slideDuration` is 1000ms with `slideEasing` set to `cubic-bezier(0.25, 0.46, 0.45, 0.94)` — a relaxed ease-out. The image always slides toward where the cursor was heading, which gives the trail a sense of momentum.
+
+Using `translate3d` promotes the element to a compositor layer. The transition runs entirely on the GPU, never blocking the main thread.
+
+---
+
+## Part 4: Exit animation — reversed stagger
+
+When an image exceeds `imageLifespan` (1000ms), `removeOldImages()` fires:
+
+```ts
+for (const [i, layer] of imgToRemove.maskLayers.entries()) {
+  const distanceFromEdge = 4.5 - Math.abs(i - 4.5); // inverse of the enter stagger
+  const delay = distanceFromEdge * config.staggerOut; // staggerOut = 25ms (faster)
+
+  scheduleTimeout(() => {
+    layer.style.clipPath = `polygon(
+      50% ${stripStart}%,
+      50% ${stripStart}%,
+      50% ${stripEnd}%,
+      50% ${stripEnd}%
+    )`; // collapse back to center
+  }, delay);
+}
+```
+
+This time `distanceFromEdge` is largest at the **center** — edge strips close first, center strips close last. The stagger is the exact inverse of the enter animation: the wipe contracts inward from the edges toward the center.
+
+A subtle fade runs alongside:
+
+```ts
+imageLayer.style.transition = `opacity ${config.outDuration}ms ${config.easing}`;
+imageLayer.style.opacity = "0.25";
+```
+
+The image doesn't fade fully to zero — it dims to 25%, because the closing strips are already doing most of the covering work. The result feels like the image has depth rather than just fading away.
+
+---
+
+## Part 5: Performance details
+
+A few small choices that matter at scale.
+
+**Preload images on mount:**
+
+```ts
+useEffect(() => {
+  for (const src of images) {
+    const img = new Image();
+    img.src = src;
+  }
+}, [images]);
+```
+
+`new Image()` triggers a browser fetch and cache fill. When `createTrailImage()` later sets `backgroundImage`, the image is already in cache — no flicker, no loading flash.
+
+**GPU hints on every element:**
+
+```ts
+imgContainer.style.willChange = "transform";
+layer.style.transform = "translateZ(0)";
+layer.style.backfaceVisibility = "hidden";
+```
+
+`willChange: transform` signals the browser to prepare a composite layer ahead of time. `translateZ(0)` forces GPU layer creation immediately. `backfaceVisibility: hidden` reduces paint cost when multiple layers overlap.
+
+**`createElement` instead of `innerHTML`:**
+
+Every strip and image layer is built with `document.createElement` + `appendChild`. Using `innerHTML` forces the browser to re-parse an HTML string and re-calculate layout for the entire subtree, which is measurably slower when you're creating DOM on every cursor event.
+
+---
+
+## Part 6: Reduced motion and mobile
+
+```ts
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+if (!reduceMotion.matches && isDesktopRef.current) {
+  cleanUpMouseListener = startAnimation();
+}
+
+reduceMotion.addEventListener("change", handleReduceMotionChange);
+```
+
+This isn't a one-time check on mount — the listener watches for runtime changes. If a user enables reduced motion in system settings while the page is open, the animation stops immediately and all active trail elements are removed from the DOM.
+
+Mobile is handled by checking `window.innerWidth > desktopBreakpoint`. A cursor trail has no meaning on a touch device, and listening to `mousemove` on mobile is wasted work. `handleResize` toggles the animation on and off as the viewport changes — including when DevTools opens and shrinks the window.
+
+---
+
+## Why not Framer Motion or GSAP?
+
+Not because they're bad — GSAP is excellent for complex timelines. But this effect doesn't need them.
+
+Everything here is **CSS transition + clip-path interpolation**. The browser engine does the heaviest work. JavaScript has exactly one job: deciding *when* and *where* to change a `clipPath` string.
+
+When you use GSAP to animate `clipPath`, GSAP is also doing exactly this — computing intermediate values and setting them on the style object every frame. The difference is that CSS transitions do it at the compositor thread level, not on the main thread.
+
+The result: **smaller bundle**, **less jank risk**, and code short enough for a new team member to fully understand in ten minutes.
+
+---
+
+## What I'd do differently
+
+**Pool DOM elements instead of create/destroy.** Right now each trail image creates 10+ fresh `div` elements and removes them after a second. With fast continuous mouse movement, this creates sustained GC pressure. An object pool that reuses elements would eliminate this entirely.
+
+**`IntersectionObserver` to pause when off-screen.** If the component sits in a long page and the user has scrolled past it, the `requestAnimationFrame` loop keeps running. Pausing when the component isn't visible is a worthwhile optimization.
+
+**Web Animation API instead of CSS transitions for strips.** [WAAPI](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) allows programmatic control — pause, reverse, seek — while still running on the compositor. For strip animations, this would make it possible to cancel mid-animation if an image is removed earlier than expected, rather than letting the CSS transition finish to a state that no longer exists in the DOM.
+
+---
+
+The full source is at [/components/cursor-trail-reveal](/components/cursor-trail-reveal) — install it with the shadcn CLI and the file lands in your repo. Open it, read it, change any number you like.
+
+That's how it's meant to be used.

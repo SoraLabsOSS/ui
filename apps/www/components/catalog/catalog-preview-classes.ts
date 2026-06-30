@@ -190,6 +190,14 @@ export const catalogMobileMenuChipFixedClassName = [
   "left-4 sm:left-8 md:left-16",
 ].join(" ");
 
+/**
+ * Cursor-following nav preview — above flyout aside (`z-[81]`),
+ * below the fixed menu chip (`z-[90]`).
+ */
+export const catalogNavHoverPreviewLayerClassName = [
+  "pointer-events-none fixed top-0 left-0 z-[88] w-56",
+].join(" ");
+
 /** @deprecated Use catalogMobileMenuChipFixedClassName */
 export const catalogMobileMenuChipOpenClassName =
   catalogMobileMenuChipFixedClassName;
