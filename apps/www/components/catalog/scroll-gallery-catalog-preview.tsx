@@ -3,34 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
+import { scrollGalleryDemoSlides } from "@/lib/demo/scroll-gallery-demo-slides";
 import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
 import {
   SCROLL_GALLERY_STUDIO_CLASSES,
   ScrollGallery,
 } from "@/registry/primitives/effects/scroll-gallery";
-
-const DEMO_SLIDES = [
-  {
-    title: "Room 14B",
-    image: "/featured-work/featured-work-1.jpg",
-    url: "#",
-  },
-  {
-    title: "Subject Identified",
-    image: "/featured-work/featured-work-2.jpg",
-    url: "#",
-  },
-  {
-    title: "Dossier 09",
-    image: "/featured-work/featured-work-3.jpg",
-    url: "#",
-  },
-  {
-    title: "Stairwell C7",
-    image: "/featured-work/featured-work-4.jpg",
-    url: "#",
-  },
-];
 
 export default function ScrollGalleryCatalogPreview() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -72,7 +50,7 @@ export default function ScrollGalleryCatalogPreview() {
           prefixLabel="Featured"
           prefixTextClassName={SCROLL_GALLERY_STUDIO_CLASSES.prefixText}
           scroller={scroller}
-          slides={DEMO_SLIDES}
+          slides={scrollGalleryDemoSlides}
           titleClassName={SCROLL_GALLERY_STUDIO_CLASSES.title}
           titleTextClassName={SCROLL_GALLERY_STUDIO_CLASSES.titleText}
         />
