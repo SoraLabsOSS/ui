@@ -26,6 +26,7 @@ export function ScrollDemoPage() {
       paragraphClassName={studio.paragraph}
       paragraphs={PARAGRAPHS}
       pinDuration={4}
+      refreshPriority={-2}
       stickyClassName={studio.sticky}
       wordClassName={studio.word}
     />

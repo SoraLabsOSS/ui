@@ -125,6 +125,13 @@ export interface TextRevealBoxProps {
   paragraphs?: string[];
   /** Scroll-pin length as multiples of the scroller viewport height. @default 4 */
   pinDuration?: number;
+  /**
+   * GSAP ScrollTrigger refresh priority. Lower numbers refresh later.
+   * Set below any pinned section that appears earlier in the DOM to ensure
+   * their spacers are re-added before this trigger measures its position.
+   * @default -1
+   */
+  refreshPriority?: number;
   /** Scroll container for ScrollTrigger. Defaults to the window. */
   scroller?: Element | Window;
   /** Pinned viewport surface classes (legacy prop name from the CSS-sticky version). */
@@ -393,6 +400,7 @@ export function TextRevealBox({
   highlightBg = "237, 235, 231",
   highlightAlpha,
   pinDuration = 4,
+  refreshPriority = -1,
   scroller: scrollerProp,
   embedded = false,
   containerQuery = false,
@@ -551,7 +559,7 @@ export function TextRevealBox({
             pinSpacing: true,
             pinReparent: !useWindowPin,
             invalidateOnRefresh: true,
-            refreshPriority: -1,
+            refreshPriority,
             onUpdate: (self) => {
               onProgress(self.progress);
             },
@@ -593,6 +601,7 @@ export function TextRevealBox({
         highlightBg,
         highlightAlpha,
         pinDuration,
+        refreshPriority,
         scrollerProp,
         resolvedTiming,
         embedded,

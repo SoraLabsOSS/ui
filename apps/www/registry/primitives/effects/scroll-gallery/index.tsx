@@ -175,6 +175,13 @@ export interface ScrollGalleryProps {
   /** Prefix label (left column). Set `showPrefix={false}` to hide. @default "Featured" */
   prefixLabel?: string;
   prefixTextClassName?: string;
+  /**
+   * GSAP ScrollTrigger refresh priority. Lower numbers refresh later.
+   * Set below any pinned section that appears earlier in the DOM to ensure
+   * their spacers are re-added before this trigger measures its position.
+   * @default -1
+   */
+  refreshPriority?: number;
   /** Scroll container for ScrollTrigger. Defaults to `window`. */
   scroller?: Element | Window;
   /** Scroll distance in vh per slide transition. @default 1000 */
@@ -397,6 +404,7 @@ export function ScrollGallery({
   linkClassName,
   linkTextClassName,
   trackClassName,
+  refreshPriority = -1,
 }: ScrollGalleryProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedTiming = useMemo(() => resolveTiming(timingProp), [timingProp]);
@@ -777,6 +785,7 @@ export function ScrollGallery({
             pinSpacing: true,
             scrub,
             invalidateOnRefresh: true,
+            refreshPriority,
             onUpdate: (self) => {
               handleScrollUpdate(self.progress);
             },
@@ -831,6 +840,7 @@ export function ScrollGallery({
         displayLink,
         linkLabel,
         embedded,
+        refreshPriority,
       ],
     }
   );

@@ -134,6 +134,12 @@ Use high-quality full-bleed images (at least 1920 × 1080). The component crops 
       type: "string",
       default: "top top",
     },
+    refreshPriority: {
+      description:
+        "GSAP ScrollTrigger refresh priority. Set lower than any pinned section above this one in the DOM so spacers are re-added before this trigger measures its position.",
+      type: "number",
+      default: "-1",
+    },
     scroller: {
       description: "Scroll container. Defaults to catalog preview or window.",
       type: "Element | Window",
