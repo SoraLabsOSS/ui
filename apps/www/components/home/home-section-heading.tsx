@@ -18,7 +18,9 @@ export function HomeSectionHeading({
   children,
   className,
 }: HomeSectionHeadingProps) {
-  const [scroller, setScroller] = useState<Element | Window>(window);
+  const [scroller, setScroller] = useState<Element | Window | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     const homeScroller = document.querySelector(HOME_PAGE_SCROLL_SELECTOR);
