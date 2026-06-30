@@ -601,12 +601,12 @@ export function TextRevealBox({
   );
 
   if (embedded) {
-    const trackHeightStyle: CSSProperties = containerQuery
-      ? { height: `calc(var(--trb-pin-duration) * 100cqh)` }
-      : {};
-    const stickyHeightStyle: CSSProperties = containerQuery
-      ? { height: "100cqh" }
-      : {};
+    const trackHeightStyle = (
+      containerQuery ? { height: `calc(var(--trb-pin-duration) * 100cqh)` } : {}
+    ) as CSSProperties;
+    const stickyHeightStyle = (
+      containerQuery ? { height: "100cqh" } : {}
+    ) as CSSProperties;
 
     return (
       <section
