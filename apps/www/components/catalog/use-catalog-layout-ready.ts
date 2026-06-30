@@ -35,16 +35,15 @@ export function useCatalogLayoutReady(
     syncLargeScreen();
     media.addEventListener("change", syncLargeScreen);
 
-    const observer = new ResizeObserver(syncLayoutWidth);
-    observer.observe(node);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (!cancelled) {
-          setIsReady(true);
-        }
-      });
+    let initialSizeSynced = false;
+    const observer = new ResizeObserver(() => {
+      syncLayoutWidth();
+      if (!(initialSizeSynced || cancelled)) {
+        initialSizeSynced = true;
+        setIsReady(true);
+      }
     });
+    observer.observe(node);
 
     return () => {
       cancelled = true;
