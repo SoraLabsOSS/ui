@@ -39,6 +39,10 @@ import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
+import {
+  isPrimitivesNavItemActive,
+  MENU_PRIMITIVES_ITEM_KEY,
+} from "@/lib/docs/primitive-nav-active";
 
 type GuideLinkItem = MainItemType;
 
@@ -86,7 +90,7 @@ const ACCOUNT_MENU_ITEMS = [
   {
     getHref: (primitivesUrl: string) => primitivesUrl,
     getIsActive: (pathname: string, href: string) =>
-      pathname === href || pathname.startsWith(`${href}/`),
+      isPrimitivesNavItemActive(pathname, href),
     label: "Primitives",
     requiresAuth: false,
   },
@@ -147,6 +151,9 @@ function AccountMenuSection({
           <Sidebar001Item
             href={href}
             isActive={item.getIsActive(pathname, href)}
+            itemKey={
+              item.label === "Primitives" ? MENU_PRIMITIVES_ITEM_KEY : undefined
+            }
             key={item.label}
             label={item.label}
             onClick={onNavigate}

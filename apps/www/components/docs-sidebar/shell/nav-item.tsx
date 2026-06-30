@@ -14,12 +14,15 @@ export interface DocsShellNavItemProps {
   href: string;
   isActive: boolean;
   isNew?: boolean;
+  /** Unique id for hover tracking. Defaults to `href`. */
+  itemKey?: string;
   label: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 export const DocsShellNavItem = memo(function DocsShellNavItem({
   href,
+  itemKey,
   label,
   isActive,
   isNew,
@@ -27,8 +30,9 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
   className,
   onClick,
 }: DocsShellNavItemProps) {
+  const hoverId = itemKey ?? href;
   const { hovered, setHovered, containerRef } = useDocsShellHover();
-  const isHovered = hovered === href;
+  const isHovered = hovered === hoverId;
   const itemRef = useScrollActiveItemIntoView(isActive);
 
   let opacity = 0.3;
@@ -96,13 +100,13 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
             if (el && container) {
               const elRect = el.getBoundingClientRect();
               const containerRect = container.getBoundingClientRect();
-              setHovered(href, {
+              setHovered(hoverId, {
                 top: elRect.top - containerRect.top,
                 height: elRect.height,
                 left: 25,
               });
             } else {
-              setHovered(href);
+              setHovered(hoverId);
             }
           }}
           onMouseLeave={() => setHovered(null)}

@@ -59,7 +59,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
       <div className="flex min-h-full flex-1 flex-col" data-blog-footer>
         <BlogTocFooterGuard />
         {children}
-        <div className="relative z-30 bg-background" data-blog-site-footer>
+        <div className="relative z-20 bg-background" data-blog-site-footer>
           <HomeFooter latestShipped={latestShipped} showTopBorder={false} />
         </div>
       </div>

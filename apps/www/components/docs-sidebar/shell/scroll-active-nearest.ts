@@ -62,7 +62,6 @@ export function useScrollActiveItemIntoView(active: boolean) {
 
     let cancelled = false;
     let attempts = 0;
-    let didScroll = false;
     const timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
     const tryScroll = () => {
@@ -90,12 +89,10 @@ export function useScrollActiveItemIntoView(active: boolean) {
         return;
       }
 
-      applyScroll(node, viewport, didScroll ? "auto" : "smooth");
-      didScroll = true;
-
-      if (attempts >= MAX_ATTEMPTS) {
-        scrolled.current = true;
-      }
+      applyScroll(node, viewport, "smooth");
+      // Mark done immediately so retries don't fire a second scroll
+      // while the smooth animation is still in progress.
+      scrolled.current = true;
     };
 
     const schedule = (fn: () => void, delayMs: number) => {
