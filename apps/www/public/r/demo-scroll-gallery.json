@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-scroll-gallery",
+  "title": "Scroll Gallery Demo",
+  "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
+  "registryDependencies": ["@soralabs/scroll-gallery"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  ScrollGallery,\n  SCROLL_GALLERY_STUDIO_CLASSES as studio,\n} from \"@/components/sora-ui/effects/scroll-gallery\";\n\nconst DEMO_SLIDES = [\n  {\n    title: \"Room 14B\",\n    image: \"/featured-work/featured-work-1.jpg\",\n    url: \"#\",\n  },\n  {\n    title: \"Subject Identified\",\n    image: \"/featured-work/featured-work-2.jpg\",\n    url: \"#\",\n  },\n  {\n    title: \"Dossier 09\",\n    image: \"/featured-work/featured-work-3.jpg\",\n    url: \"#\",\n  },\n  {\n    title: \"Stairwell C7\",\n    image: \"/featured-work/featured-work-4.jpg\",\n    url: \"#\",\n  },\n];\n\nexport default function ScrollGalleryDemo() {\n  return (\n    <ScrollGallery\n      className={studio.root}\n      imageClassName={studio.image}\n      imageFrameClassName={studio.imageFrame}\n      imagesClassName={studio.images}\n      infoClassName={studio.info}\n      infoInnerClassName={studio.infoInner}\n      linkClassName={studio.link}\n      linkLabel=\"Explore\"\n      linkTextClassName={studio.linkText}\n      prefixClassName={studio.prefix}\n      prefixLabel=\"Featured\"\n      prefixTextClassName={studio.prefixText}\n      scrollPerTransition={1000}\n      slides={DEMO_SLIDES}\n      titleClassName={studio.title}\n      titleTextClassName={studio.titleText}\n    />\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/scroll-gallery.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

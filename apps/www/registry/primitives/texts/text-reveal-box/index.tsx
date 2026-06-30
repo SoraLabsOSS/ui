@@ -3,7 +3,60 @@
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type CSSProperties, useMemo, useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+function isWindowScroller(scroller: Element | Window): boolean {
+  return (
+    scroller === window ||
+    scroller === document.documentElement ||
+    scroller === document.body
+  );
+}
+
+function waitForNextFrame(): Promise<void> {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resolve();
+      });
+    });
+  });
+}
+
+async function waitForScrollerReady(scroller: Element | Window): Promise<void> {
+  await waitForNextFrame();
+  if (!isWindowScroller(scroller)) {
+    await waitForNextFrame();
+  }
+}
+
+function getScrollerHeight(scroller: Element | Window): number {
+  if (isWindowScroller(scroller)) {
+    return window.innerHeight;
+  }
+
+  return (scroller as HTMLElement).clientHeight;
+}
+
+function observeWindowResize(onResize: () => void): () => void {
+  let frameId = 0;
+
+  const handleResize = () => {
+    cancelAnimationFrame(frameId);
+    frameId = requestAnimationFrame(onResize);
+  };
+
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    cancelAnimationFrame(frameId);
+    window.removeEventListener("resize", handleResize);
+  };
+}
 
 /** Deadlock Studios–style typography and layout preset. Pass via `*ClassName` props. */
 export const TEXT_REVEAL_BOX_STUDIO_CLASSES = {
@@ -19,6 +72,9 @@ export const TEXT_REVEAL_BOX_STUDIO_CLASSES = {
 } as const;
 
 const STRIP_EDGE_PUNCTUATION_RE = /^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu;
+
+const FULL_PAGE_PIN_LAYOUT =
+  "relative h-svh w-full overflow-hidden p-8 max-lg:h-dvh";
 
 /** Default keyword normalizer — strips edge punctuation, preserves casing. */
 export function defaultNormalizeWord(word: string): string {
@@ -44,7 +100,17 @@ export interface TextRevealBoxTiming {
 export interface TextRevealBoxProps {
   className?: string;
   containerClassName?: string;
-  /** Transparent surface for catalog/docs previews (theme-aware highlight flash). */
+  /**
+   * Use container query height (`cqh`) instead of viewport height (`svh/dvh`)
+   * for embedded mode. Enable when the component lives inside a
+   * `container-type: size` ancestor (e.g. a preview panel).
+   * @default false
+   */
+  containerQuery?: boolean;
+  /**
+   * Catalog/docs preview — CSS sticky scroll track (no GSAP pin).
+   * Full-page usage omits this for Deadlock-style GSAP pin.
+   */
   embedded?: boolean;
   highlightAlpha?: number;
   highlightBg?: string;
@@ -57,11 +123,14 @@ export interface TextRevealBoxProps {
   normalizeWord?: (word: string) => string;
   paragraphClassName?: string;
   paragraphs?: string[];
+  /** Scroll-pin length as multiples of the scroller viewport height. @default 4 */
   pinDuration?: number;
   /** Scroll container for ScrollTrigger. Defaults to the window. */
   scroller?: Element | Window;
+  /** Pinned viewport surface classes (legacy prop name from the CSS-sticky version). */
   stickyClassName?: string;
   timing?: TextRevealBoxTiming;
+  /** Extra classes on the scroll track (embedded) or pinned section (full page). */
   trackClassName?: string;
   wordClassName?: string;
 }
@@ -78,10 +147,10 @@ interface CachedWord {
   textEl: HTMLElement;
 }
 
-function cacheWords(track: HTMLElement): CachedWord[] {
+function cacheWords(root: HTMLElement): CachedWord[] {
   const cached: CachedWord[] = [];
 
-  for (const node of track.querySelectorAll(".trb-word")) {
+  for (const node of root.querySelectorAll(".trb-word")) {
     const el = node as HTMLElement;
     const textEl = el.firstElementChild;
 
@@ -103,16 +172,16 @@ function resolveTiming(timing?: TextRevealBoxTiming): ResolvedTiming {
 }
 
 function readHighlightConfig(
-  track: HTMLElement,
+  root: HTMLElement,
   highlightBg: string,
   highlightAlpha?: number
 ): { alpha: number; rgb: string } {
-  const root = track.closest('[data-slot="text-reveal-box"]');
-  if (!root) {
+  const slot = root.closest('[data-slot="text-reveal-box"]');
+  if (!slot) {
     return { rgb: highlightBg, alpha: highlightAlpha ?? 1 };
   }
 
-  const style = getComputedStyle(root);
+  const style = getComputedStyle(slot);
   const cssRgb = style.getPropertyValue("--trb-highlight-bg").trim();
   const cssAlpha = Number.parseFloat(
     style.getPropertyValue("--trb-highlight-alpha")
@@ -126,6 +195,13 @@ function readHighlightConfig(
   }
 
   return { rgb: highlightBg, alpha: highlightAlpha ?? 1 };
+}
+
+function getPinScrollDistance(
+  scroller: Element | Window,
+  pinDuration: number
+): number {
+  return getScrollerHeight(scroller) * pinDuration;
 }
 
 function lockWordsRevealed(cachedWords: CachedWord[], highlightRgb: string) {
@@ -227,6 +303,89 @@ function updateWords(
   }
 }
 
+function TextRevealContent({
+  paragraphs,
+  isKeyword,
+  normalizeWord,
+  keywordColors,
+  containerClassName,
+  paragraphClassName,
+  wordClassName,
+  keywordWrapperClassName,
+  keywordClassName,
+  innerClassName,
+}: {
+  paragraphs: string[];
+  isKeyword: (word: string) => boolean;
+  normalizeWord: (word: string) => string;
+  keywordColors: Record<string, string>;
+  containerClassName?: string;
+  paragraphClassName?: string;
+  wordClassName?: string;
+  keywordWrapperClassName?: string;
+  keywordClassName?: string;
+  innerClassName?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex h-full w-full items-center justify-center text-center",
+        innerClassName
+      )}
+    >
+      <div className="w-full">
+        <div
+          className={cn(
+            "relative mx-auto h-full w-full max-w-3xl p-3",
+            containerClassName
+          )}
+        >
+          {paragraphs.map((para, pi) => (
+            <p className={cn("mb-6 text-pretty", paragraphClassName)} key={pi}>
+              {para
+                .split(/\s+/)
+                .filter(Boolean)
+                .map((word, wi) => {
+                  const keyword = isKeyword(word);
+                  const color = keywordColors[normalizeWord(word)];
+                  return (
+                    <span
+                      className={cn(
+                        "trb-word relative inline-block rounded-lg p-[0.1rem_0.2rem] align-top leading-none opacity-0 will-change-[background-color,opacity]",
+                        "mb-[0.2rem] mr-[0.2rem] max-[1000px]:mb-[0.15rem] max-[1000px]:mr-[0.1rem]",
+                        wordClassName,
+                        keyword &&
+                          cn(
+                            "mt-0 mb-[0.2rem] ml-[0.2rem] mr-[0.4rem] max-[1000px]:mb-[0.1rem] max-[1000px]:ml-[0.1rem] max-[1000px]:mr-[0.2rem]",
+                            keywordWrapperClassName
+                          )
+                      )}
+                      key={wi}
+                    >
+                      <span
+                        className={cn(
+                          "relative leading-none opacity-0",
+                          keyword && keywordClassName
+                        )}
+                        style={
+                          keyword && color
+                            ? ({ "--kw-color": color } as CSSProperties)
+                            : undefined
+                        }
+                      >
+                        {word}
+                      </span>
+                    </span>
+                  );
+                })}
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function TextRevealBox({
   paragraphs = [],
   keywords = [],
@@ -236,6 +395,7 @@ export function TextRevealBox({
   pinDuration = 4,
   scroller: scrollerProp,
   embedded = false,
+  containerQuery = false,
   timing: timingProp,
   normalizeWord = lowercaseNormalizeWord,
   matchKeyword,
@@ -249,7 +409,8 @@ export function TextRevealBox({
   keywordWrapperClassName,
   keywordClassName,
 }: TextRevealBoxProps) {
-  const trackRef = useRef<HTMLDivElement | null>(null);
+  const pinRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   const resolvedTiming = useMemo(
     () => resolveTiming(timingProp),
@@ -277,38 +438,60 @@ export function TextRevealBox({
     return keywordLookup?.has(normalizeWord(word)) ?? false;
   };
 
+  const contentProps = {
+    paragraphs,
+    isKeyword,
+    normalizeWord,
+    keywordColors,
+    containerClassName,
+    paragraphClassName,
+    wordClassName,
+    keywordWrapperClassName,
+    keywordClassName,
+    innerClassName,
+  };
+
+  const rootClassName = cn(
+    "antialiased [-webkit-tap-highlight-color:transparent]",
+    embedded
+      ? "bg-transparent text-foreground [--trb-highlight-alpha:0.14] [--trb-highlight-bg:0,0,0] dark:[--trb-highlight-alpha:0.12] dark:[--trb-highlight-bg:255,255,255]"
+      : "bg-background text-foreground",
+    className
+  );
+
+  const rootStyle = {
+    "--trb-pin-duration": pinDuration,
+  } as CSSProperties;
+
   useGSAP(
     () => {
-      const track = trackRef.current;
-      if (!track) {
+      const triggerRoot = embedded ? trackRef.current : pinRef.current;
+      if (!triggerRoot) {
+        return;
+      }
+
+      if (embedded && scrollerProp === undefined) {
         return;
       }
 
       let disposed = false;
-      let frameId = 0;
-      let scrollTrigger: import("gsap/ScrollTrigger").ScrollTrigger | null =
-        null;
+      let scrollTrigger: ScrollTrigger | null = null;
       let resizeObserver: ResizeObserver | undefined;
+      let unbindWindowResize: (() => void) | undefined;
 
       const mountScrollReveal = async () => {
-        const [gsapMod, stMod] = await Promise.all([
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
-
-        if (disposed || !trackRef.current) {
+        if (disposed) {
           return;
         }
 
-        const gsap = gsapMod.default ?? gsapMod.gsap;
-        const { ScrollTrigger } = stMod;
+        const activeTrigger = embedded ? trackRef.current : pinRef.current;
+        if (!activeTrigger) {
+          return;
+        }
 
-        gsap.registerPlugin(ScrollTrigger);
-
-        const activeTrack = trackRef.current;
-        const cachedWords = cacheWords(activeTrack);
+        const cachedWords = cacheWords(activeTrigger);
         const { rgb: resolvedHighlight, alpha: resolvedAlpha } =
-          readHighlightConfig(activeTrack, highlightBg, highlightAlpha);
+          readHighlightConfig(activeTrigger, highlightBg, highlightAlpha);
 
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           updateWords(
@@ -322,62 +505,88 @@ export function TextRevealBox({
         }
 
         const scroller = scrollerProp ?? window;
+        await waitForScrollerReady(scroller);
 
-        await new Promise<void>((resolve) => {
-          requestAnimationFrame(() => resolve());
-        });
-        await new Promise<void>((resolve) => {
-          requestAnimationFrame(() => resolve());
-        });
-
-        if (disposed || !trackRef.current) {
+        if (disposed) {
           return;
         }
 
-        scrollTrigger = ScrollTrigger.create({
-          trigger: activeTrack,
-          scroller,
-          start: "top top",
-          end: "bottom bottom",
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            updateWords(
-              self.progress,
-              cachedWords,
-              resolvedHighlight,
-              resolvedAlpha,
-              resolvedTiming
-            );
-          },
-        });
+        const currentTrigger = embedded ? trackRef.current : pinRef.current;
+        if (!currentTrigger || currentTrigger !== activeTrigger) {
+          return;
+        }
+
+        const onProgress = (progress: number) => {
+          updateWords(
+            progress,
+            cachedWords,
+            resolvedHighlight,
+            resolvedAlpha,
+            resolvedTiming
+          );
+        };
+
+        if (embedded) {
+          scrollTrigger = ScrollTrigger.create({
+            trigger: currentTrigger,
+            scroller,
+            start: "top top",
+            end: "bottom bottom",
+            invalidateOnRefresh: true,
+            refreshPriority: -1,
+            onUpdate: (self) => {
+              onProgress(self.progress);
+            },
+          });
+        } else {
+          const pinScrollDistance = getPinScrollDistance(scroller, pinDuration);
+          const useWindowPin = isWindowScroller(scroller);
+
+          scrollTrigger = ScrollTrigger.create({
+            trigger: currentTrigger,
+            pin: currentTrigger,
+            scroller,
+            start: "top top",
+            end: `+=${pinScrollDistance}`,
+            pinSpacing: true,
+            pinReparent: !useWindowPin,
+            invalidateOnRefresh: true,
+            refreshPriority: -1,
+            onUpdate: (self) => {
+              onProgress(self.progress);
+            },
+          });
+        }
 
         if (scroller instanceof HTMLElement) {
           resizeObserver = new ResizeObserver(() => {
             ScrollTrigger.refresh();
+            scrollTrigger?.refresh();
           });
           resizeObserver.observe(scroller);
+        } else {
+          unbindWindowResize = observeWindowResize(() => {
+            ScrollTrigger.refresh();
+            scrollTrigger?.refresh();
+          });
         }
 
         ScrollTrigger.refresh();
         scrollTrigger.refresh();
       };
 
-      frameId = requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          void mountScrollReveal();
-        });
-      });
+      void mountScrollReveal();
 
       return () => {
         disposed = true;
-        cancelAnimationFrame(frameId);
         resizeObserver?.disconnect();
+        unbindWindowResize?.();
         scrollTrigger?.kill();
         scrollTrigger = null;
       };
     },
     {
-      scope: trackRef,
+      scope: embedded ? trackRef : pinRef,
       dependencies: [
         paragraphs,
         keywords,
@@ -386,106 +595,63 @@ export function TextRevealBox({
         pinDuration,
         scrollerProp,
         resolvedTiming,
+        embedded,
       ],
     }
   );
 
-  const rootStyle = {
-    "--trb-pin-duration": pinDuration,
-  } as CSSProperties;
+  if (embedded) {
+    const trackHeightStyle = (
+      containerQuery ? { height: `calc(var(--trb-pin-duration) * 100cqh)` } : {}
+    ) as CSSProperties;
+    const stickyHeightStyle = (
+      containerQuery ? { height: "100cqh" } : {}
+    ) as CSSProperties;
+
+    return (
+      <section
+        className={rootClassName}
+        data-slot="text-reveal-box"
+        style={rootStyle}
+      >
+        <div
+          className={cn(
+            "relative z-0 w-full",
+            !containerQuery &&
+              "h-[calc(var(--trb-pin-duration)*100svh)] max-lg:h-[calc(var(--trb-pin-duration)*100dvh)]",
+            trackClassName
+          )}
+          ref={trackRef}
+          style={trackHeightStyle}
+        >
+          <div
+            className={cn(
+              "sticky top-0 flex w-full overflow-hidden p-8",
+              !containerQuery && "h-svh max-lg:h-dvh",
+              "bg-transparent",
+              stickyClassName
+            )}
+            style={stickyHeightStyle}
+          >
+            <TextRevealContent {...contentProps} />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       className={cn(
-        "antialiased [-webkit-tap-highlight-color:transparent]",
-        embedded
-          ? "bg-transparent text-foreground [--trb-highlight-alpha:0.14] [--trb-highlight-bg:0,0,0] dark:[--trb-highlight-alpha:0.12] dark:[--trb-highlight-bg:255,255,255]"
-          : "bg-background text-foreground",
-        className
+        rootClassName,
+        FULL_PAGE_PIN_LAYOUT,
+        stickyClassName,
+        trackClassName
       )}
       data-slot="text-reveal-box"
-      style={rootStyle}
+      ref={pinRef}
     >
-      <div
-        className={cn(
-          "relative z-0 w-full",
-          "h-[calc(var(--trb-pin-duration)*100svh)]",
-          "max-lg:h-[calc(var(--trb-pin-duration)*100dvh)]",
-          "@/preview:h-[calc(var(--trb-pin-duration)*100cqh)]",
-          trackClassName
-        )}
-        ref={trackRef}
-      >
-        <div
-          className={cn(
-            "sticky top-0 flex h-svh w-full overflow-hidden p-8",
-            "max-lg:h-dvh",
-            "@/preview:h-[100cqh]",
-            embedded ? "bg-transparent" : "bg-background",
-            stickyClassName
-          )}
-        >
-          <div
-            className={cn(
-              "flex h-full w-full items-center justify-center text-center",
-              innerClassName
-            )}
-          >
-            <div className="w-full">
-              <div
-                className={cn(
-                  "relative mx-auto h-full w-full max-w-3xl p-3",
-                  containerClassName
-                )}
-              >
-                {paragraphs.map((para, pi) => (
-                  <p
-                    className={cn("mb-6 text-pretty", paragraphClassName)}
-                    key={pi}
-                  >
-                    {para
-                      .split(/\s+/)
-                      .filter(Boolean)
-                      .map((word, wi) => {
-                        const keyword = isKeyword(word);
-                        const color = keywordColors[normalizeWord(word)];
-                        return (
-                          <span
-                            className={cn(
-                              "trb-word relative inline-block rounded-lg p-[0.1rem_0.2rem] align-top leading-none opacity-0 will-change-[background-color,opacity]",
-                              "mb-[0.2rem] mr-[0.2rem] max-[1000px]:mb-[0.15rem] max-[1000px]:mr-[0.1rem]",
-                              wordClassName,
-                              keyword &&
-                                cn(
-                                  "mt-0 mb-[0.2rem] ml-[0.2rem] mr-[0.4rem] max-[1000px]:mb-[0.1rem] max-[1000px]:ml-[0.1rem] max-[1000px]:mr-[0.2rem]",
-                                  keywordWrapperClassName
-                                )
-                            )}
-                            key={wi}
-                          >
-                            <span
-                              className={cn(
-                                "relative leading-none opacity-0",
-                                keyword && keywordClassName
-                              )}
-                              style={
-                                keyword && color
-                                  ? ({ "--kw-color": color } as CSSProperties)
-                                  : undefined
-                              }
-                            >
-                              {word}
-                            </span>
-                          </span>
-                        );
-                      })}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TextRevealContent {...contentProps} />
     </section>
   );
 }
