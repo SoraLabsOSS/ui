@@ -36,13 +36,7 @@ function resolvePreviewName(
 }
 
 function getRegistryEntry(registryName: string) {
-  return index[registryName] as
-    | {
-        command?: string;
-        dependencies?: string[];
-        registryDependencies?: string[];
-      }
-    | undefined;
+  return index[registryName] as { command?: string } | undefined;
 }
 
 export const getComponentPageData = cache(
@@ -74,9 +68,6 @@ export const getComponentPageData = cache(
       componentUrl: `/components/${slug}`,
       docsUrl: page.url,
       toc,
-      dependencies: registryEntry.dependencies ?? [],
-      registryDependencies: registryEntry.registryDependencies ?? [],
-      installCommand: registryEntry.command,
     };
   }
 );
@@ -171,7 +162,5 @@ export function getComponentPageHeaderData(
     componentUrl: data.componentUrl,
     docsUrl: data.docsUrl,
     author,
-    dependencies: data.dependencies,
-    registryDependencies: data.registryDependencies,
   };
 }

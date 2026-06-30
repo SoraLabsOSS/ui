@@ -29,8 +29,13 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Header = () => (
-  <header className="fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible">
+export const Header = ({ className }: { className?: string }) => (
+  <header
+    className={cn(
+      "fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible",
+      className
+    )}
+  >
     <ProgressiveBlur
       backgroundColor="var(--background)"
       height="120px"

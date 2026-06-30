@@ -11,7 +11,6 @@ import {
 } from "@/components/docs/neighbor-nav-buttons";
 import { LLMCopyButton, ViewOptions } from "@/components/docs/page-actions";
 import type { ComponentPageHeaderData } from "@/lib/registry/types";
-import { ComponentPageMeta } from "./component-page-meta";
 
 interface ComponentPageHeaderProps {
   className?: string;
@@ -73,8 +72,6 @@ export function ComponentPageHeader({
           markdownUrl={`${data.docsUrl}.mdx`}
         />
       </div>
-
-      <ComponentPageMeta data={data} />
     </motion.header>
   );
 }

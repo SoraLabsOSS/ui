@@ -10,6 +10,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/radix/tabs";
+import { ComponentFileStructure } from "./component-file-structure";
 import { ComponentManualInstallation } from "./component-manual-installation";
 
 interface ComponentInstallationProps
@@ -60,6 +61,8 @@ export function ComponentInstallation({
           </TabsContent>
         </TabsContents>
       </Tabs>
+
+      <ComponentFileStructure name={name} />
     </div>
   );
 }

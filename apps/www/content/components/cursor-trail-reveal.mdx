@@ -1,6 +1,6 @@
 ---
 title: Cursor Trail Reveal
-description: Desktop cursor trail that reveals staggered image strips with clip-path wipes as the pointer moves.
+description: Desktop cursor trail with CSS clip-path reveals as the pointer moves — no Motion or GSAP.
 category: effects
 author:
   name: Axyl
@@ -14,7 +14,7 @@ registryName: cursor-trail-reveal
 
 ## Usage
 
-`CursorTrailReveal` is a **client component** with **no default images** — you must pass `images`. The trail only runs on **desktop** (viewport wider than `desktopBreakpoint`, default `1000px`). On smaller screens it renders an empty layer and does nothing. When `prefers-reduced-motion: reduce` is set, the trail is disabled entirely.
+You must pass `images` — there is no built-in default. The trail only runs on **desktop** (viewport wider than `desktopBreakpoint`, default `1000px`). On smaller screens it renders an empty layer and does nothing.
 
 Place it inside a **relatively positioned** section that fills the area you want the trail to cover (usually full viewport). Layer your copy **above** the trail with a higher `z-index` (for example `z-[1]`). The trail container uses `pointer-events-none`, so buttons and links in the overlay stay clickable.
 
@@ -91,3 +91,7 @@ Use the preview panel for the full contact-page demo with sample trail images.
     },
   }}
 />
+
+## Accessibility
+
+The trail is decorative and does not change keyboard navigation or focus order. When `prefers-reduced-motion: reduce` is set, the trail is disabled entirely.

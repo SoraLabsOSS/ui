@@ -43,7 +43,9 @@
       "default": "./src/lib/get-motion-component.ts"
     },
     "./lib/utils": "./src/lib/utils.ts",
+    "./components/og/palette": "./src/components/og/palette.ts",
     "./components/*": "./src/components/*.tsx",
+    "./components/unlumen-ui/file-tree": "./src/components/unlumen-ui/file-tree.tsx",
     "./hooks/use-auto-height": "./src/hooks/use-auto-height.tsx",
     "./hooks/*": "./src/hooks/*.ts"
   }

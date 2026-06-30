@@ -69,6 +69,7 @@ export function ComponentPageLayoutClient({
   const layoutRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isPreviewAnimating, setIsPreviewAnimating] = useState(false);
+  const [isBreakpointTransition, setIsBreakpointTransition] = useState(false);
   const { isLargeScreen, isReady: isLayoutReady } =
     useCatalogLayoutReady(layoutRef);
   const isStacked = useCatalogStackedLayout();
@@ -106,6 +107,12 @@ export function ComponentPageLayoutClient({
     media.addEventListener("change", handleBreakpointChange);
     return () => media.removeEventListener("change", handleBreakpointChange);
   }, []);
+
+  useEffect(() => {
+    setIsBreakpointTransition(true);
+    const id = requestAnimationFrame(() => setIsBreakpointTransition(false));
+    return () => cancelAnimationFrame(id);
+  }, [isLargeScreen]);
 
   useEffect(() => {
     if (!isExpanded) {
@@ -248,10 +255,11 @@ export function ComponentPageLayoutClient({
           !isLayoutReady && "pointer-events-none"
         )}
         initial={false}
-        key={isLargeScreen ? "preview-lg" : "preview-sm"}
         onAnimationComplete={handlePreviewAnimationComplete}
         style={isLargeScreen ? undefined : { left: "auto", width: "auto" }}
-        transition={EXPAND_TRANSITION}
+        transition={
+          isBreakpointTransition ? { duration: 0 } : EXPAND_TRANSITION
+        }
       >
         <div
           className={cn(

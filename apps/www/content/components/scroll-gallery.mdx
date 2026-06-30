@@ -12,8 +12,6 @@ registryName: scroll-gallery
 
 <ComponentInstallation name="scroll-gallery" />
 
-`ScrollGallery` is a **client component** that uses **GSAP ScrollTrigger** to pin the section while the user scrolls through slides. Each transition uses a 20-strip CSS `mask-image` wipe and a scale effect (1.25 → 1.0). The title band swaps with a GSAP slide animation at 30% through each transition.
-
 ## Usage
 
 ### Basic
@@ -31,9 +29,9 @@ export default function Page() {
 }
 ```
 
-### Studio preset
+### Editorial class map
 
-Deadlock Studios featured-work typography and layout — import `SCROLL_GALLERY_STUDIO_CLASSES` and spread into `*ClassName` props:
+Ship a full-bleed hero with a three-column info band (prefix, title, link) and large white type. Import `SCROLL_GALLERY_STUDIO_CLASSES` and spread each slot into the matching `*ClassName` prop:
 
 ```tsx
 import {

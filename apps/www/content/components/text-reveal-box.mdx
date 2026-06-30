@@ -8,18 +8,11 @@ author:
 registryName: text-reveal-box
 ---
 
-import { Step, Steps } from "fumadocs-ui/components/steps";
-
 ## Installation
 
 <ComponentInstallation name="text-reveal-box" />
 
-Client component — lazy-loads **GSAP ScrollTrigger** in `useEffect` (SSR-safe). Scroll is a **tall track + sticky viewport** (not GSAP `pin`): `pinDuration` sets how many viewport-heights you scroll while words reveal. Respects `prefers-reduced-motion`.
-
-## How to use
-
-<Steps>
-<Step>
+## Usage
 
 ### Basic
 
@@ -45,12 +38,9 @@ export default function Section() {
 }
 ```
 
-</Step>
-<Step>
+### Dark serif preset
 
-### Studio preset
-
-Bundled dark manifesto typography — pass `TEXT_REVEAL_BOX_STUDIO_CLASSES` into class slots:
+Near-black canvas, uppercase serif copy, and keyword pills tuned for long-form manifesto sections. Pass `TEXT_REVEAL_BOX_STUDIO_CLASSES` into the class slots below:
 
 ```tsx
 import {
@@ -71,9 +61,6 @@ import {
 />;
 ```
 
-</Step>
-<Step>
-
 ### Docs preview
 
 `embedded` = transparent surface + theme-aware highlight. Pass `scroller` when inside a scroll panel.
@@ -82,8 +69,7 @@ import {
 <TextRevealBox embedded scroller={viewport} paragraphs={paragraphs} pinDuration={4} />
 ```
 
-</Step>
-</Steps>
+Scroll uses a **tall track + sticky viewport** (not GSAP `pin`): `pinDuration` sets how many viewport-heights you scroll while words reveal.
 
 ## Keywords & timing
 
@@ -240,3 +226,7 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
     },
   }}
 />
+
+## Accessibility
+
+Text is in the DOM throughout the reveal. When `prefers-reduced-motion: reduce` is set, GSAP skips the animation and words are shown immediately.
