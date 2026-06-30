@@ -1,7 +1,9 @@
 "use client";
 
-import { SCROLL_GALLERY_STUDIO_CLASSES as studio } from "@/components/catalog/scroll-gallery-catalog-preview";
-import { ScrollGallery } from "@/registry/primitives/effects/scroll-gallery";
+import {
+  ScrollGallery,
+  SCROLL_GALLERY_STUDIO_CLASSES as studio,
+} from "@/registry/primitives/effects/scroll-gallery";
 
 const DEMO_SLIDES = [
   {
@@ -29,7 +31,7 @@ const DEMO_SLIDES = [
 export function ScrollGalleryDemoPage() {
   return (
     <ScrollGallery
-      className="relative h-svh w-full overflow-hidden max-lg:h-dvh"
+      className={studio.root}
       imageClassName={studio.image}
       imageFrameClassName={studio.imageFrame}
       imagesClassName={studio.images}

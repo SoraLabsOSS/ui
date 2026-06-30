@@ -101,6 +101,13 @@ export interface TextRevealBoxProps {
   className?: string;
   containerClassName?: string;
   /**
+   * Use container query height (`cqh`) instead of viewport height (`svh/dvh`)
+   * for embedded mode. Enable when the component lives inside a
+   * `container-type: size` ancestor (e.g. a preview panel).
+   * @default false
+   */
+  containerQuery?: boolean;
+  /**
    * Catalog/docs preview — CSS sticky scroll track (no GSAP pin).
    * Full-page usage omits this for Deadlock-style GSAP pin.
    */
@@ -388,6 +395,7 @@ export function TextRevealBox({
   pinDuration = 4,
   scroller: scrollerProp,
   embedded = false,
+  containerQuery = false,
   timing: timingProp,
   normalizeWord = lowercaseNormalizeWord,
   matchKeyword,
@@ -593,6 +601,13 @@ export function TextRevealBox({
   );
 
   if (embedded) {
+    const trackHeightStyle: CSSProperties = containerQuery
+      ? { height: `calc(var(--trb-pin-duration) * 100cqh)` }
+      : {};
+    const stickyHeightStyle: CSSProperties = containerQuery
+      ? { height: "100cqh" }
+      : {};
+
     return (
       <section
         className={rootClassName}
@@ -602,21 +617,21 @@ export function TextRevealBox({
         <div
           className={cn(
             "relative z-0 w-full",
-            "h-[calc(var(--trb-pin-duration)*100svh)]",
-            "max-lg:h-[calc(var(--trb-pin-duration)*100dvh)]",
-            "@/preview:h-[calc(var(--trb-pin-duration)*100cqh)]",
+            !containerQuery &&
+              "h-[calc(var(--trb-pin-duration)*100svh)] max-lg:h-[calc(var(--trb-pin-duration)*100dvh)]",
             trackClassName
           )}
           ref={trackRef}
+          style={trackHeightStyle}
         >
           <div
             className={cn(
-              "sticky top-0 flex h-svh w-full overflow-hidden p-8",
-              "max-lg:h-dvh",
-              "@/preview:h-[100cqh]",
+              "sticky top-0 flex w-full overflow-hidden p-8",
+              !containerQuery && "h-svh max-lg:h-dvh",
               "bg-transparent",
               stickyClassName
             )}
+            style={stickyHeightStyle}
           >
             <TextRevealContent {...contentProps} />
           </div>

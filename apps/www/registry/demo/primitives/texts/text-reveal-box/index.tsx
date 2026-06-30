@@ -38,6 +38,7 @@ export default function TextRevealBoxExample() {
       {scroller ? (
         <TextRevealBox
           containerClassName="w-[90%] max-w-2xl"
+          containerQuery
           embedded
           paragraphClassName="text-center text-2xl font-medium leading-tight tracking-tight md:text-3xl"
           paragraphs={PARAGRAPHS}

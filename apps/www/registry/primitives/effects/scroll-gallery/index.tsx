@@ -37,6 +37,25 @@ const LAYOUT = {
   link: "flex flex-1 justify-end",
 } as const;
 
+/** Deadlock Studios featured-work layout — pass via `*ClassName` props. */
+export const SCROLL_GALLERY_STUDIO_CLASSES = {
+  root: "relative h-svh w-full overflow-hidden max-lg:h-dvh",
+  images: "absolute inset-0 h-full w-full",
+  imageFrame: "absolute inset-0 h-full w-full",
+  image: "h-full w-full origin-center object-cover",
+  info: "absolute top-1/2 left-0 z-[2] w-screen -translate-y-1/2 border-white/20 border-b",
+  infoInner: "flex gap-8 px-9",
+  prefix: "flex-1 max-[1000px]:hidden",
+  prefixText:
+    "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] antialiased will-change-transform max-[1000px]:text-[18px]",
+  title: "relative h-10 flex-[2] overflow-hidden max-[1000px]:h-[22px]",
+  titleText:
+    "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] antialiased will-change-transform [clip-path:polygon(0_0,100%_0,100%_100%,0%_100%)] max-[1000px]:text-[18px]",
+  link: "flex flex-1 justify-end",
+  linkText:
+    "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] no-underline antialiased will-change-transform max-[1000px]:text-[18px]",
+} as const;
+
 function isWindowScroller(scroller: Element | Window): boolean {
   return (
     scroller === window ||
@@ -127,6 +146,13 @@ export interface ScrollGalleryTiming {
 
 export interface ScrollGalleryProps {
   className?: string;
+  /**
+   * Use container query height (`cqh`) instead of viewport height (`svh/dvh`)
+   * for embedded mode. Enable when the gallery lives inside a
+   * `container-type: size` ancestor (e.g. a preview panel).
+   * @default false
+   */
+  containerQuery?: boolean;
   /** Catalog/docs preview — CSS sticky scroll track (no GSAP pin). */
   embedded?: boolean;
   /**
@@ -351,6 +377,7 @@ export function ScrollGallery({
   timing: timingProp,
   scroller: scrollerProp,
   embedded = false,
+  containerQuery = false,
   embeddedScrollPerTransition,
   prefixLabel = "Featured",
   linkLabel = "Explore",
@@ -871,24 +898,31 @@ export function ScrollGallery({
   );
 
   if (embedded) {
+    const trackHeightStyle: CSSProperties = containerQuery
+      ? { ...trackStyle, height: `calc(var(--sg-scroll-vh) * 1cqh)` }
+      : trackStyle;
+
+    const stickyHeightStyle: CSSProperties = containerQuery
+      ? { height: "100cqh" }
+      : {};
+
     return (
       <div
         className={cn(
           "relative w-full",
-          "h-[calc(var(--sg-scroll-vh)*1svh)]",
-          "max-lg:h-[calc(var(--sg-scroll-vh)*1dvh)]",
-          "@/preview:h-[calc(var(--sg-scroll-vh)*1cqh)]",
+          !containerQuery &&
+            "h-[calc(var(--sg-scroll-vh)*1svh)] max-lg:h-[calc(var(--sg-scroll-vh)*1dvh)]",
           trackClassName
         )}
         ref={trackRef}
-        style={trackStyle}
+        style={trackHeightStyle}
       >
         <div
           className={cn(
             "sticky top-0 z-0 w-full overflow-hidden",
-            "h-svh max-lg:h-dvh",
-            "@/preview:h-[100cqh]"
+            !containerQuery && "h-svh max-lg:h-dvh"
           )}
+          style={stickyHeightStyle}
         >
           {gallerySection}
         </div>

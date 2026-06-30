@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
 import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
-import { ScrollGallery } from "@/registry/primitives/effects/scroll-gallery";
+import {
+  SCROLL_GALLERY_STUDIO_CLASSES,
+  ScrollGallery,
+} from "@/registry/primitives/effects/scroll-gallery";
 
 const DEMO_SLIDES = [
   {
@@ -28,25 +31,6 @@ const DEMO_SLIDES = [
     url: "#",
   },
 ];
-
-/** Catalog / docs preview preset — not shipped with the registry primitive. */
-export const SCROLL_GALLERY_STUDIO_CLASSES = {
-  root: "relative h-svh w-full overflow-hidden max-lg:h-dvh @/preview:h-[100cqh]",
-  images: "absolute inset-0 h-full w-full",
-  imageFrame: "absolute inset-0 h-full w-full",
-  image: "h-full w-full origin-center object-cover",
-  info: "absolute top-1/2 left-0 z-[2] w-screen -translate-y-1/2 border-white/20 border-b",
-  infoInner: "flex gap-8 px-9",
-  prefix: "flex-1 max-[1000px]:hidden",
-  prefixText:
-    "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] antialiased will-change-transform max-[1000px]:text-[18px]",
-  title: "relative h-10 flex-[2] overflow-hidden max-[1000px]:h-[22px]",
-  titleText:
-    "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] antialiased will-change-transform [clip-path:polygon(0_0,100%_0,100%_100%,0%_100%)] max-[1000px]:text-[18px]",
-  link: "flex flex-1 justify-end",
-  linkText:
-    "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] no-underline antialiased will-change-transform max-[1000px]:text-[18px]",
-} as const;
 
 export default function ScrollGalleryCatalogPreview() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -74,6 +58,7 @@ export default function ScrollGalleryCatalogPreview() {
       <CatalogScrollHint label="Scroll inside the preview to scrub slides" />
       {scroller ? (
         <ScrollGallery
+          containerQuery
           embedded
           imageClassName={SCROLL_GALLERY_STUDIO_CLASSES.image}
           imageFrameClassName={SCROLL_GALLERY_STUDIO_CLASSES.imageFrame}

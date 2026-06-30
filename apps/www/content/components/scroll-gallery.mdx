@@ -31,22 +31,29 @@ export default function Page() {
 }
 ```
 
-### Studio preset 
+### Studio preset
 
-Featured-work typography and layout — pass Tailwind classes into the `*ClassName` slots (see the installable demo for a full preset):
+Deadlock Studios featured-work typography and layout — import `SCROLL_GALLERY_STUDIO_CLASSES` and spread into `*ClassName` props:
 
 ```tsx
-import { ScrollGallery } from "@/components/sora-ui/effects/scroll-gallery";
+import {
+  SCROLL_GALLERY_STUDIO_CLASSES as studio,
+  ScrollGallery,
+} from "@/components/sora-ui/effects/scroll-gallery";
 
 <ScrollGallery
-  className="relative h-svh w-full overflow-hidden max-lg:h-dvh"
-  imagesClassName="absolute inset-0 h-full w-full"
-  imageClassName="h-full w-full origin-center object-cover"
-  infoClassName="absolute top-1/2 left-0 z-[2] w-screen -translate-y-1/2 border-white/20 border-b"
-  infoInnerClassName="flex gap-8 px-9"
-  prefixTextClassName="font-medium text-[36px] text-white leading-none max-[1000px]:text-[18px]"
-  titleTextClassName="font-medium text-[36px] text-white leading-none max-[1000px]:text-[18px]"
-  linkTextClassName="font-medium text-[36px] text-white no-underline max-[1000px]:text-[18px]"
+  className={studio.root}
+  imagesClassName={studio.images}
+  imageClassName={studio.image}
+  imageFrameClassName={studio.imageFrame}
+  infoClassName={studio.info}
+  infoInnerClassName={studio.infoInner}
+  prefixClassName={studio.prefix}
+  prefixTextClassName={studio.prefixText}
+  titleClassName={studio.title}
+  titleTextClassName={studio.titleText}
+  linkClassName={studio.link}
+  linkTextClassName={studio.linkText}
   slides={slides}
   prefixLabel="Featured"
   linkLabel="Explore"
