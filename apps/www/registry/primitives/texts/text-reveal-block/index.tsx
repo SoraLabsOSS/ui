@@ -14,10 +14,69 @@ import {
   type Ref,
   useRef,
 } from "react";
-import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
-import { HOME_SCROLL_READY_EVENT } from "@/lib/home/home-scroll-ready";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
+
+function isWindowScroller(scroller: Element | Window): boolean {
+  return (
+    scroller === window ||
+    scroller === document.documentElement ||
+    scroller === document.body
+  );
+}
+
+function waitForNextFrame(): Promise<void> {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resolve();
+      });
+    });
+  });
+}
+
+async function waitForScrollerReady(
+  scroller: Element | Window,
+  scrollReadyEvent?: string
+): Promise<void> {
+  await waitForNextFrame();
+
+  if (!scrollReadyEvent || isWindowScroller(scroller)) {
+    if (!isWindowScroller(scroller)) {
+      await waitForNextFrame();
+    }
+    return;
+  }
+
+  await Promise.race([
+    new Promise<void>((resolve) => {
+      window.addEventListener(scrollReadyEvent, () => resolve(), {
+        once: true,
+      });
+    }),
+    new Promise<void>((resolve) => {
+      window.setTimeout(resolve, 300);
+    }),
+  ]);
+
+  await waitForNextFrame();
+}
+
+function observeWindowResize(onResize: () => void): () => void {
+  let frameId = 0;
+
+  const handleResize = () => {
+    cancelAnimationFrame(frameId);
+    frameId = requestAnimationFrame(onResize);
+  };
+
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    cancelAnimationFrame(frameId);
+    window.removeEventListener("resize", handleResize);
+  };
+}
 
 export type TextRevealBlockDirection = "down" | "left" | "right" | "up";
 
@@ -66,6 +125,13 @@ export interface TextRevealBlockProps {
   direction?: TextRevealBlockDirection;
   /** Duration of each wipe phase, in seconds. */
   duration?: number;
+  /** Scroll container for `animateOnScroll` triggers. @default window */
+  scroller?: Element | Window;
+  /**
+   * Custom event dispatched when a Lenis/proxied scroller is ready.
+   * Refreshes ScrollTrigger positions after the scroller mounts.
+   */
+  scrollReadyEvent?: string;
   /** Delay between each line, in seconds. */
   stagger?: number;
   /** Plain-text alternative to `children`. */
@@ -85,6 +151,7 @@ interface AnimationOptions {
   delay: number;
   direction: TextRevealBlockDirection;
   duration: number;
+  scroller: Element | Window;
   stagger: number;
 }
 
@@ -311,7 +378,7 @@ function runLineRevealAnimations(
       scrollTriggers.push(
         ScrollTrigger.create({
           trigger: container,
-          scroller: resolveScrollRoot(container),
+          scroller: options.scroller,
           start: "top 90%",
           once: true,
           animation: timeline,
@@ -369,6 +436,8 @@ export function TextRevealBlock({
   direction = "left",
   stagger = 0.15,
   duration = 0.75,
+  scroller: scrollerProp,
+  scrollReadyEvent,
 }: TextRevealBlockProps) {
   const containerRef = useRef<HTMLElement | null>(null);
 
@@ -383,11 +452,29 @@ export function TextRevealBlock({
       }
 
       let disposed = false;
-      let frameId = 0;
       let teardown: (() => void) | undefined;
       let scrollTriggers: ScrollTrigger[] = [];
+      let resizeObserver: ResizeObserver | undefined;
+      let unbindWindowResize: (() => void) | undefined;
 
-      const mountAnimation = () => {
+      const refreshTriggers = () => {
+        if (scrollTriggers.length > 0) {
+          refreshScrollRevealTriggers(scrollTriggers);
+        }
+      };
+
+      const onScrollReady = () => {
+        refreshTriggers();
+      };
+
+      const mountAnimation = async () => {
+        if (disposed || !containerRef.current) {
+          return;
+        }
+
+        const scroller = scrollerProp ?? window;
+        await waitForScrollerReady(scroller, scrollReadyEvent);
+
         if (disposed || !containerRef.current) {
           return;
         }
@@ -399,6 +486,7 @@ export function TextRevealBlock({
           delay,
           direction,
           duration,
+          scroller,
           stagger,
         });
 
@@ -410,24 +498,32 @@ export function TextRevealBlock({
           result.cleanup();
           scrollTriggers = [];
         };
-      };
 
-      const onHomeScrollReady = () => {
         if (scrollTriggers.length > 0) {
-          refreshScrollRevealTriggers(scrollTriggers);
+          if (scroller instanceof HTMLElement) {
+            resizeObserver = new ResizeObserver(() => {
+              refreshTriggers();
+            });
+            resizeObserver.observe(scroller);
+          } else {
+            unbindWindowResize = observeWindowResize(refreshTriggers);
+          }
         }
       };
 
-      window.addEventListener(HOME_SCROLL_READY_EVENT, onHomeScrollReady);
+      if (scrollReadyEvent) {
+        window.addEventListener(scrollReadyEvent, onScrollReady);
+      }
 
-      frameId = requestAnimationFrame(() => {
-        requestAnimationFrame(mountAnimation);
-      });
+      mountAnimation().catch(() => undefined);
 
       return () => {
         disposed = true;
-        cancelAnimationFrame(frameId);
-        window.removeEventListener(HOME_SCROLL_READY_EVENT, onHomeScrollReady);
+        if (scrollReadyEvent) {
+          window.removeEventListener(scrollReadyEvent, onScrollReady);
+        }
+        resizeObserver?.disconnect();
+        unbindWindowResize?.();
         teardown?.();
       };
     },
@@ -440,6 +536,8 @@ export function TextRevealBlock({
         direction,
         stagger,
         duration,
+        scrollerProp,
+        scrollReadyEvent,
       ],
     }
   );
