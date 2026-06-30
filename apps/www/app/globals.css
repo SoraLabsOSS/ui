@@ -59,6 +59,9 @@
 
   --accent-pro: #fb460d;
 
+  /* File tree highlight — light: soft blue, readable on muted bg */
+  --code-highlight: #388bfd;
+
   --chart-1: oklch(0.87 0 0);
 
   --chart-2: oklch(0.556 0 0);
@@ -91,13 +94,21 @@
 
   --color-fd-background: var(--background);
 
+  --color-fd-secondary: color-mix(
+    in oklab,
+    var(--foreground) 6%,
+    var(--background)
+  );
+
+  --color-fd-secondary-foreground: var(--foreground);
+
   --background: oklch(1 0 0);
 
   --foreground: oklch(0.145 0 0);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #121212;
 
   --foreground: oklch(0.985 0 0);
 
@@ -141,6 +152,9 @@
 
   --accent-pro: #fb460d;
 
+  /* Shiki github-dark bash strings (e.g. @soralabs/...) */
+  --code-highlight: #9ecbff;
+
   --chart-1: oklch(0.87 0 0);
 
   --chart-2: oklch(0.556 0 0);
@@ -170,6 +184,14 @@
   --color-fd-primary: oklch(1 0 0);
 
   --color-fd-background: var(--background);
+
+  --color-fd-secondary: color-mix(
+    in oklab,
+    var(--foreground) 8%,
+    var(--background)
+  );
+
+  --color-fd-secondary-foreground: var(--foreground);
 }
 
 @theme inline {

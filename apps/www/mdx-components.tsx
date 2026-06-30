@@ -1,11 +1,11 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Card } from "fumadocs-ui/components/card";
 import { Step, Steps } from "fumadocs-ui/components/steps";
-import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
 import { ExternalLink } from "@/components/docs/external-link";
+import { SoraTypeTable } from "@/components/docs/sora-type-table";
 import { Callout } from "./components/docs/callout";
 import {
   CodeBlock,
@@ -22,6 +22,12 @@ const ComponentCredits = dynamic(() =>
 const ComponentInstallation = dynamic(() =>
   import("@/components/docs/component-installation").then((m) => ({
     default: m.ComponentInstallation,
+  }))
+);
+
+const InstallationFileStructure = dynamic(() =>
+  import("@/components/docs/installation-file-structure").then((m) => ({
+    default: m.InstallationFileStructure,
   }))
 );
 
@@ -49,8 +55,9 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ),
     ComponentPreview,
     ComponentInstallation,
+    InstallationFileStructure,
     ComponentCredits,
-    TypeTable,
+    TypeTable: SoraTypeTable,
     ExternalLink,
     Steps,
     Step,

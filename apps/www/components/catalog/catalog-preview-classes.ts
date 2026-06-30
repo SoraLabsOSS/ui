@@ -22,7 +22,7 @@ export const catalogPreviewDemoShellClassName = [
 /** Preview panel on stacked layout — grows with demo content; page scrolls instead. */
 export const catalogPreviewMobilePanelClassName = "max-lg:h-auto";
 
-/** Shared chrome row layout. */
+/** Shared chrome row layout (mobile / stacked). */
 export const catalogChromeRowClassName = "flex min-h-14 shrink-0 items-center";
 
 /** Horizontal inset from viewport / column edge (desktop chrome rows). */
@@ -105,12 +105,15 @@ export const catalogChromeToolbarIconClassName =
   "flex size-full items-center justify-center rounded-2xl text-current transition-all ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 [&_svg]:size-4";
 
 /** Desktop menu toggle — icon only, no chip/dock surface. */
-export const catalogMenuTogglePlainClassName = cn(
-  catalogChromeToolbarIconClassName,
-  "size-8 shrink-0 text-foreground/65 hover:text-foreground"
-);
+export const catalogMenuTogglePlainClassName = [
+  "flex h-8 w-8 shrink-0 items-center justify-center rounded",
+  "text-zinc-500 transition-colors duration-200 hover:text-zinc-900",
+  "dark:text-zinc-400 dark:hover:text-zinc-100",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+].join(" ");
 
-export const catalogMenuTogglePlainOpenClassName = "text-foreground";
+export const catalogMenuTogglePlainOpenClassName =
+  "text-zinc-900 dark:text-zinc-100";
 
 /** @deprecated Use catalogChromeToolbarCellClassName + catalogChromeToolbarIconClassName */
 export const catalogChromeToolbarButtonClassName = cn(
@@ -120,13 +123,17 @@ export const catalogChromeToolbarButtonClassName = cn(
 
 /** Docs header — fixed height/padding across expand/collapse on desktop. */
 export const catalogDocsHeaderClassName = [
-  "relative z-30 flex min-h-14 shrink-0 items-center",
-  catalogChromeTopInsetClassName,
+  "relative z-30 flex shrink-0 items-center",
+  "min-h-14 pt-6",
   catalogStackedContentClassName,
   catalogStackedHorizontalGutterClassName,
   "max-lg:pt-4",
-  "lg:mx-0 lg:max-w-none lg:px-6",
+  "lg:mx-0 lg:max-w-none lg:min-h-0 lg:px-6 lg:pt-4",
 ].join(" ");
+
+/** Desktop docs chrome row — same `min-h-14` band as preview toolbar row. */
+export const catalogDocsHeaderDesktopRowClassName =
+  "lg:min-h-14 lg:items-center";
 
 /** Fixed mobile chrome row — `pt-4` + `min-h-14`. */
 export const catalogDocsHeaderMobileHeight = "4.5rem";
@@ -214,7 +221,8 @@ export const catalogDocsHeaderMobileSymmetricClassName =
 export const catalogDocsHeaderMenuClassName = "shrink-0";
 
 /** Breadcrumb slot — desktop docs header only. */
-export const catalogDocsHeaderBreadcrumbClassName = "min-w-0 flex-1 truncate";
+export const catalogDocsHeaderBreadcrumbClassName =
+  "flex h-full min-w-0 flex-1 items-center truncate";
 
 /** Preview shell gutter — 8px top/x on mobile; asymmetric inset on desktop for tighter center gap. */
 export const catalogPreviewShellGutterClassName = [
@@ -253,7 +261,6 @@ export const catalogPreviewShellFixedWidthClassName =
 
 /**
  * Desktop preview toolbar — overlays the scroll viewport (not in flex flow).
- * `top-2 right-2` inside the panel offsets the shell `lg:p-4` to match docs header `pt-6 px-6`.
  * Mobile toolbar lives in the docs header via portal context.
  */
 export const catalogPreviewToolbarRowClassName = [

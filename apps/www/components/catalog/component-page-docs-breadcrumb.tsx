@@ -19,16 +19,21 @@ export function ComponentPageDocsBreadcrumb({
 }: ComponentPageDocsBreadcrumbProps) {
   return (
     <div className={className}>
-      <Breadcrumb>
-        <BreadcrumbList className="gap-1.5 text-sm sm:gap-2.5">
+      <Breadcrumb className="flex h-full items-center">
+        <BreadcrumbList className="flex h-full flex-nowrap items-center gap-1.5 font-normal text-[15px] text-zinc-500 leading-none tracking-[-0.01em] dark:text-zinc-400">
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
+            <BreadcrumbLink
+              asChild
+              className="text-inherit hover:text-zinc-900 dark:hover:text-zinc-100"
+            >
               <Link href="/components">Components</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className="opacity-50" />
           <BreadcrumbItem>
-            <BreadcrumbPage className="font-medium">{title}</BreadcrumbPage>
+            <BreadcrumbPage className="truncate font-medium text-zinc-900 dark:text-zinc-100">
+              {title}
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

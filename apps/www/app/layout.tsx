@@ -11,7 +11,10 @@ import { CommandPaletteGroupsProvider } from "@/components/command-palette/comma
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { Providers } from "@/components/providers";
 import { SiteBanner } from "@/components/site-banner";
-import { getBannerInitScript } from "@/lib/banner-config";
+import {
+  getBannerLayoutScript,
+  SITE_BANNER_ENABLED,
+} from "@/lib/banner-config";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
 import { jsonLd } from "@/lib/json-ld";
 import {
@@ -93,13 +96,14 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   const commandGroups = getCommandPaletteGroups();
+  const bannerLayoutScript = getBannerLayoutScript();
 
   return (
     <html className="sf-pro-display" lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: getBannerInitScript(),
+            __html: bannerLayoutScript,
           }}
         />
         <script
@@ -122,7 +126,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <RootProvider
                   search={{ SearchDialog: CommandPaletteSearchDialog }}
                 >
-                  <SiteBanner />
+                  {SITE_BANNER_ENABLED ? <SiteBanner /> : null}
                   {children}
                 </RootProvider>
               </Providers>

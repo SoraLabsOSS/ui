@@ -21,12 +21,9 @@ export interface ComponentTocItem {
 export interface ComponentPageData {
   collection: ComponentCollection;
   componentUrl: string;
-  dependencies: string[];
   docsUrl: string;
-  installCommand: string;
   page: ComponentDocPage;
   previewName: string;
-  registryDependencies: string[];
   registryName: string;
   slug: string;
   toc: ComponentTocItem[];
@@ -39,10 +36,8 @@ export interface ComponentPageHeaderData {
   };
   collection: ComponentCollection;
   componentUrl: string;
-  dependencies: string[];
   description: string;
   docsUrl: string;
-  registryDependencies: string[];
   title: string;
 }
 

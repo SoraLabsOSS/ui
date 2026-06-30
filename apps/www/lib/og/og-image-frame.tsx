@@ -1,3 +1,4 @@
+import { OG_PALETTE } from "@workspace/ui/components/og/palette";
 import type { OgPageContent } from "@/lib/og/resolve-og-page";
 import { OG_FONT_FAMILY } from "@/lib/og/sf-pro-display-font";
 import { OgSoraUiBrand } from "@/lib/og/sora-ui-brand";
@@ -5,23 +6,62 @@ import { SITE_URL } from "@/lib/site";
 
 export function OgImageFrame({ title, description }: OgPageContent) {
   return (
-    <div tw="relative flex w-full h-full bg-[#0A0A0A]">
-      <div tw="absolute left-15 top-0 bottom-0 w-0.5 h-full bg-[#171717]" />
-      <div tw="absolute right-15 top-0 bottom-0 w-0.5 h-full bg-[#171717]" />
-      <div tw="absolute bottom-15 left-0 right-0 w-full h-0.5 bg-[#171717]" />
-      <div tw="absolute top-15 left-0 right-0 w-full h-0.5 bg-[#171717]" />
+    <div
+      style={{ backgroundColor: OG_PALETTE.background }}
+      tw="relative flex w-full h-full"
+    >
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderSubtle }}
+        tw="absolute left-15 top-0 bottom-0 w-0.5 h-full"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderSubtle }}
+        tw="absolute right-15 top-0 bottom-0 w-0.5 h-full"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderSubtle }}
+        tw="absolute bottom-15 left-0 right-0 w-full h-0.5"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderSubtle }}
+        tw="absolute top-15 left-0 right-0 w-full h-0.5"
+      />
 
-      <div tw="absolute top-15 left-[43.5px] w-[35px] h-0.5 bg-[#404040]" />
-      <div tw="absolute left-15 top-[43.5px] h-[35px] w-0.5 bg-[#404040]" />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute top-15 left-[43.5px] w-[35px] h-0.5"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute left-15 top-[43.5px] h-[35px] w-0.5"
+      />
 
-      <div tw="absolute bottom-15 left-[43.5px] w-[35px] h-0.5 bg-[#404040]" />
-      <div tw="absolute left-15 bottom-[43.5px] h-[35px] w-0.5 bg-[#404040]" />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute bottom-15 left-[43.5px] w-[35px] h-0.5"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute left-15 bottom-[43.5px] h-[35px] w-0.5"
+      />
 
-      <div tw="absolute top-15 right-[43.5px] w-[35px] h-0.5 bg-[#404040]" />
-      <div tw="absolute right-15 top-[43.5px] h-[35px] w-0.5 bg-[#404040]" />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute top-15 right-[43.5px] w-[35px] h-0.5"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute right-15 top-[43.5px] h-[35px] w-0.5"
+      />
 
-      <div tw="absolute bottom-15 right-[43.5px] w-[35px] h-0.5 bg-[#404040]" />
-      <div tw="absolute right-15 bottom-[43.5px] h-[35px] w-0.5 bg-[#404040]" />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute bottom-15 right-[43.5px] w-[35px] h-0.5"
+      />
+      <div
+        style={{ backgroundColor: OG_PALETTE.borderMuted }}
+        tw="absolute right-15 bottom-[43.5px] h-[35px] w-0.5"
+      />
 
       <div
         style={{

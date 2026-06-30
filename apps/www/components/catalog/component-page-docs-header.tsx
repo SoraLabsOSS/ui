@@ -7,6 +7,7 @@ import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogDocsHeaderBreadcrumbClassName,
   catalogDocsHeaderClassName,
+  catalogDocsHeaderDesktopRowClassName,
   catalogDocsHeaderInsetClassName,
   catalogDocsHeaderMenuClassName,
   catalogDocsHeaderMobileSymmetricClassName,
@@ -19,8 +20,6 @@ interface ComponentPageDocsHeaderProps {
   navItems: ComponentGalleryItem[];
   title: string;
 }
-
-const desktopMenuChipClassName = catalogDocsHeaderMenuClassName;
 
 export function ComponentPageDocsHeader({
   isExpanded: _isExpanded = false,
@@ -39,15 +38,17 @@ export function ComponentPageDocsHeader({
         "gap-3 lg:bg-transparent"
       )}
     >
-      <div className="flex min-w-0 flex-1 items-center gap-3">
+      <div
+        className={cn(
+          "flex min-w-0 flex-1 items-center gap-3 lg:gap-2.5",
+          catalogDocsHeaderDesktopRowClassName
+        )}
+      >
         {/* Mobile menu lives in ComponentPageCatalogMobileMenuLayer — spacer only */}
         <div aria-hidden className="size-11 shrink-0 lg:hidden" />
 
-        {/* Wrapper must not share a node with `catalogChromeToolbarClassName` (`flex` beats `hidden`). */}
-        <div className="hidden lg:flex lg:items-center">
-          <div className={desktopMenuChipClassName}>
-            <ComponentPageCatalogMenuButton variant="plain" />
-          </div>
+        <div className="hidden h-full items-center lg:flex">
+          <ComponentPageCatalogMenuButton variant="plain" />
         </div>
 
         <ComponentPageDocsBreadcrumb

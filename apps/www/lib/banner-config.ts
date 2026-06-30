@@ -1,6 +1,9 @@
 export const BANNER_ID = "banner";
 export const BANNER_HEIGHT = "3rem";
 
+/** Toggle site-wide promo banner and layout offset (`--fd-banner-height`). */
+export const SITE_BANNER_ENABLED = false;
+
 /** Dismiss class for `id="banner"` (Fumadocs base32 encoding). */
 export const BANNER_DISMISS_CLASS = "nd-banner-mjqw43tfoi";
 
@@ -22,7 +25,24 @@ export function shouldHideSiteBanner(pathname: string): boolean {
   return isComponentDetailPath(pathname) || isFullscreenDemoPath(pathname);
 }
 
-export function getBannerInitScript(): string {
+export function getBannerInitScript(): string | null {
+  if (!SITE_BANNER_ENABLED) {
+    return null;
+  }
+
+  return getBannerEnabledInitScript();
+}
+
+/** Inline script for `<head>` — keeps `--fd-banner-height` correct before first paint. */
+export function getBannerLayoutScript(): string {
+  if (!SITE_BANNER_ENABLED) {
+    return `document.documentElement.style.setProperty("--fd-banner-height","0px");`;
+  }
+
+  return getBannerEnabledInitScript();
+}
+
+function getBannerEnabledInitScript(): string {
   return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)||/^\\/demo\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}document.documentElement.style.setProperty("--fd-banner-height",${JSON.stringify(BANNER_HEIGHT)});})();`;
 }
 
