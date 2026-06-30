@@ -190,6 +190,34 @@
       ]
     },
     {
+      "name": "demo-highlight",
+      "type": "registry:ui",
+      "title": "Highlight Demo",
+      "description": "Shared sliding highlight pill moving between nav items on hover.",
+      "registryDependencies": ["@soralabs/highlight"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/highlight/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/highlight.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-highlight-click",
+      "type": "registry:ui",
+      "title": "Highlight Click Demo",
+      "description": "Per-item fade background activated on click — menu list style.",
+      "registryDependencies": ["@soralabs/highlight"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/highlight-click/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/highlight-click.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-logo-carousel-swapper",
       "type": "registry:ui",
       "title": "Logo Carousel Swapper Demo",
@@ -574,6 +602,21 @@
           "path": "registry/primitives/effects/dock-nav/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/effects/dock-nav.tsx"
+        }
+      ]
+    },
+    {
+      "name": "highlight",
+      "type": "registry:ui",
+      "title": "Highlight",
+      "description": "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/highlight/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/primitives/effects/highlight.tsx"
         }
       ]
     },

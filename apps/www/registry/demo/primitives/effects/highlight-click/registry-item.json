@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-highlight-click",
+  "type": "registry:ui",
+  "title": "Highlight Click Demo",
+  "description": "Per-item fade background activated on click — menu list style.",
+  "registryDependencies": ["highlight"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/highlight-click/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/highlight-click.tsx"
+    }
+  ]
+}

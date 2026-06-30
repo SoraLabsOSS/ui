@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-highlight-click",
+  "title": "Highlight Click Demo",
+  "description": "Per-item fade background activated on click — menu list style.",
+  "registryDependencies": ["@soralabs/highlight"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/highlight-click/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  Highlight,\n  HighlightItem,\n} from \"@/components/sora-ui/effects/highlight\";\n\nconst MENU_ITEMS = [\n  { value: \"inbox\", label: \"Inbox\", count: 12 },\n  { value: \"drafts\", label: \"Drafts\", count: 3 },\n  { value: \"sent\", label: \"Sent\" },\n  { value: \"starred\", label: \"Starred\" },\n  { value: \"archive\", label: \"Archive\" },\n];\n\nexport function HighlightClickDemo() {\n  return (\n    <div className=\"flex min-h-40 items-center justify-center\">\n      <Highlight\n        className=\"rounded-md bg-foreground/8\"\n        defaultValue=\"inbox\"\n        mode=\"children\"\n        trigger=\"click\"\n      >\n        {MENU_ITEMS.map(({ value, label, count }) => (\n          <HighlightItem key={value} value={value}>\n            <button\n              className=\"flex w-48 cursor-pointer items-center justify-between px-3 py-2 text-sm\"\n              type=\"button\"\n            >\n              <span>{label}</span>\n              {count !== undefined && (\n                <span className=\"text-xs text-foreground/40\">{count}</span>\n              )}\n            </button>\n          </HighlightItem>\n        ))}\n      </Highlight>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/highlight-click.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -434,6 +434,100 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-dock-nav",
   },
+  "demo-highlight": {
+    name: "demo-highlight",
+    description:
+      "Shared sliding highlight pill moving between nav items on hover.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["highlight"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/highlight/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/highlight.tsx",
+        content:
+          '"use client";\n\nimport {\n  Highlight,\n  HighlightItem,\n} from "@/components/sora-ui/effects/highlight";\n\nconst ITEMS = ["Design", "Engineering", "Product", "Marketing", "Growth"];\n\nexport function HighlightDemo() {\n  return (\n    <div className="flex min-h-40 items-center justify-center">\n      <Highlight\n        className="rounded-full bg-foreground/8"\n        containerClassName="flex items-center"\n        mode="parent"\n        trigger="hover"\n      >\n        {ITEMS.map((item) => (\n          <HighlightItem key={item} value={item}>\n            <button\n              className="relative z-10 cursor-pointer px-4 py-1.5 text-sm text-foreground/60 transition-colors hover:text-foreground"\n              type="button"\n            >\n              {item}\n            </button>\n          </HighlightItem>\n        ))}\n      </Highlight>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/highlight/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-highlight",
+  },
+  "demo-highlight-click": {
+    name: "demo-highlight-click",
+    description:
+      "Per-item fade background activated on click — menu list style.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["highlight"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/highlight-click/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/highlight-click.tsx",
+        content:
+          '"use client";\n\nimport {\n  Highlight,\n  HighlightItem,\n} from "@/components/sora-ui/effects/highlight";\n\nconst MENU_ITEMS = [\n  { value: "inbox", label: "Inbox", count: 12 },\n  { value: "drafts", label: "Drafts", count: 3 },\n  { value: "sent", label: "Sent" },\n  { value: "starred", label: "Starred" },\n  { value: "archive", label: "Archive" },\n];\n\nexport function HighlightClickDemo() {\n  return (\n    <div className="flex min-h-40 items-center justify-center">\n      <Highlight\n        className="rounded-md bg-foreground/8"\n        defaultValue="inbox"\n        mode="children"\n        trigger="click"\n      >\n        {MENU_ITEMS.map(({ value, label, count }) => (\n          <HighlightItem key={value} value={value}>\n            <button\n              className="flex w-48 cursor-pointer items-center justify-between px-3 py-2 text-sm"\n              type="button"\n            >\n              <span>{label}</span>\n              {count !== undefined && (\n                <span className="text-xs text-foreground/40">{count}</span>\n              )}\n            </button>\n          </HighlightItem>\n        ))}\n      </Highlight>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/highlight-click/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-highlight-click",
+  },
   "demo-logo-carousel-swapper": {
     name: "demo-logo-carousel-swapper",
     description:
@@ -1403,6 +1497,53 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/dock-nav",
+  },
+  highlight: {
+    name: "highlight",
+    description:
+      "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/effects/highlight/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/primitives/effects/highlight.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { AnimatePresence, motion, type Transition } from "motion/react";\nimport {\n  type CSSProperties,\n  type ReactElement,\n  type ReactNode,\n  type RefCallback,\n  cloneElement,\n  createContext,\n  isValidElement,\n  useCallback,\n  useContext,\n  useEffect,\n  useId,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\ntype HighlightMode = "children" | "parent";\ntype HighlightTrigger = "hover" | "click";\n\ninterface Bounds {\n  top: number;\n  left: number;\n  width: number;\n  height: number;\n}\n\ninterface HighlightContextValue {\n  mode: HighlightMode;\n  trigger: HighlightTrigger;\n  activeValue: string | null;\n  setActiveValue: (value: string | null) => void;\n  setBounds: (bounds: DOMRect) => void;\n  clearBounds: () => void;\n  id: string;\n  className?: string;\n  style?: CSSProperties;\n  activeClassName: string;\n  setActiveClassName: (className: string) => void;\n  transition: Transition;\n  disabled: boolean;\n  exitDelay: number;\n}\n\nconst HighlightContext = createContext<HighlightContextValue | undefined>(\n  undefined\n);\n\nfunction useHighlight(): HighlightContextValue {\n  const ctx = useContext(HighlightContext);\n  if (!ctx) {\n    throw new Error("useHighlight must be used within a Highlight");\n  }\n  return ctx;\n}\n\n// ─── Highlight ────────────────────────────────────────────────────────────────\n\ninterface HighlightBaseProps {\n  children: ReactNode;\n  mode?: HighlightMode;\n  trigger?: HighlightTrigger;\n  value?: string | null;\n  defaultValue?: string | null;\n  onValueChange?: (value: string | null) => void;\n  className?: string;\n  style?: CSSProperties;\n  transition?: Transition;\n  /** Milliseconds to delay the exit fade. Useful for hover mode to prevent flicker. */\n  exitDelay?: number;\n  disabled?: boolean;\n}\n\ninterface HighlightParentOnlyProps {\n  boundsOffset?: Partial<Bounds>;\n  containerClassName?: string;\n}\n\nexport type HighlightProps = HighlightBaseProps &\n  (({ mode: "parent" } & HighlightParentOnlyProps) | { mode?: "children" });\n\nexport function Highlight({\n  children,\n  mode = "children",\n  trigger = "click",\n  value: valueProp,\n  defaultValue,\n  onValueChange,\n  className,\n  style,\n  transition = { type: "spring", stiffness: 350, damping: 35 },\n  exitDelay = 0,\n  disabled = false,\n  ...rest\n}: HighlightProps) {\n  const containerRef = useRef<HTMLDivElement>(null);\n  const [activeValue, setActiveValueState] = useState<string | null>(\n    valueProp === undefined ? (defaultValue ?? null) : valueProp\n  );\n  const [boundsState, setBoundsState] = useState<Bounds | null>(null);\n  const [activeClassName, setActiveClassName] = useState("");\n\n  useEffect(() => {\n    if (valueProp !== undefined) {\n      setActiveValueState(valueProp);\n    }\n  }, [valueProp]);\n\n  const setActiveValue = useCallback(\n    (id: string | null) => {\n      setActiveValueState((prev) => {\n        if (prev === id) {\n          return prev;\n        }\n        onValueChange?.(id);\n        return id;\n      });\n    },\n    [onValueChange]\n  );\n\n  // Keep boundsOffset always fresh without re-creating setBounds\n  const boundsOffsetRef = useRef<Partial<Bounds>>(\n    (rest as HighlightParentOnlyProps).boundsOffset ?? {}\n  );\n  useEffect(() => {\n    boundsOffsetRef.current =\n      (rest as HighlightParentOnlyProps).boundsOffset ?? {};\n  });\n\n  const setBounds = useCallback((bounds: DOMRect) => {\n    if (!containerRef.current) {\n      return;\n    }\n    const cr = containerRef.current.getBoundingClientRect();\n    const o = boundsOffsetRef.current;\n    const next: Bounds = {\n      top: bounds.top - cr.top + (o.top ?? 0),\n      left: bounds.left - cr.left + (o.left ?? 0),\n      width: bounds.width + (o.width ?? 0),\n      height: bounds.height + (o.height ?? 0),\n    };\n    setBoundsState((prev) => {\n      if (\n        prev &&\n        prev.top === next.top &&\n        prev.left === next.left &&\n        prev.width === next.width &&\n        prev.height === next.height\n      ) {\n        return prev;\n      }\n      return next;\n    });\n  }, []);\n\n  const clearBounds = useCallback(\n    () => setBoundsState((prev) => (prev === null ? prev : null)),\n    []\n  );\n\n  // Re-measure active item on scroll (parent mode only)\n  useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    const container = containerRef.current;\n    if (!container) {\n      return;\n    }\n    const onScroll = () => {\n      if (!activeValue) {\n        return;\n      }\n      const el = container.querySelector<HTMLElement>(\n        `[data-highlight-value="${activeValue}"]`\n      );\n      if (el) {\n        setBounds(el.getBoundingClientRect());\n      }\n    };\n    container.addEventListener("scroll", onScroll, { passive: true });\n    return () => container.removeEventListener("scroll", onScroll);\n  }, [mode, activeValue, setBounds]);\n\n  const id = useId();\n  const containerClassName = (rest as HighlightParentOnlyProps).containerClassName;\n\n  const ctx = useMemo<HighlightContextValue>(\n    () => ({\n      mode,\n      trigger,\n      activeValue,\n      setActiveValue,\n      setBounds,\n      clearBounds,\n      id,\n      className,\n      style,\n      activeClassName,\n      setActiveClassName,\n      transition,\n      disabled,\n      exitDelay,\n    }),\n    [\n      mode,\n      trigger,\n      activeValue,\n      setActiveValue,\n      setBounds,\n      clearBounds,\n      id,\n      className,\n      style,\n      activeClassName,\n      transition,\n      disabled,\n      exitDelay,\n    ]\n  );\n\n  return (\n    <HighlightContext.Provider value={ctx}>\n      {mode === "parent" ? (\n        <div\n          className={cn("relative", containerClassName)}\n          data-slot="highlight-container"\n          ref={containerRef}\n        >\n          <AnimatePresence initial={false}>\n            {boundsState && (\n              <motion.div\n                animate={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 1,\n                }}\n                className={cn(className, activeClassName)}\n                data-slot="highlight"\n                exit={{\n                  opacity: 0,\n                  transition: {\n                    ...transition,\n                    delay: (transition?.delay ?? 0) + exitDelay / 1000,\n                  },\n                }}\n                initial={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 0,\n                }}\n                style={{ position: "absolute", zIndex: 0, ...style }}\n                transition={transition}\n              />\n            )}\n          </AnimatePresence>\n          {children}\n        </div>\n      ) : (\n        children\n      )}\n    </HighlightContext.Provider>\n  );\n}\n\n// ─── HighlightItem ────────────────────────────────────────────────────────────\n\nexport interface HighlightItemProps {\n  children: ReactElement;\n  /** Unique value identifying this item. */\n  value: string;\n  disabled?: boolean;\n  /** Extra class applied to the highlight overlay when this item is active. */\n  activeClassName?: string;\n  /** Class on the highlight overlay (children mode). Merged with Highlight className. */\n  className?: string;\n  style?: CSSProperties;\n  /** Override transition for this item (children mode). */\n  transition?: Transition;\n  /** Merge event handlers and refs into the child element instead of wrapping. */\n  asChild?: boolean;\n}\n\nexport function HighlightItem({\n  children,\n  value,\n  disabled = false,\n  activeClassName,\n  className,\n  style,\n  transition,\n  asChild = false,\n}: HighlightItemProps) {\n  const {\n    activeValue,\n    setActiveValue,\n    mode,\n    trigger,\n    setBounds,\n    clearBounds,\n    disabled: ctxDisabled,\n    className: ctxClassName,\n    style: ctxStyle,\n    transition: ctxTransition,\n    id: ctxId,\n    exitDelay: ctxExitDelay,\n    setActiveClassName,\n  } = useHighlight();\n\n  const localRef = useRef<HTMLElement | null>(null);\n  const refCallback = useCallback<RefCallback<HTMLElement>>((node) => {\n    localRef.current = node;\n  }, []);\n\n  const isActive = activeValue === value;\n  const isDisabled = disabled || ctxDisabled;\n  const itemTransition = transition ?? ctxTransition;\n\n  // Parent mode: report this item\'s bounds when it becomes active\n  useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    if (isActive && localRef.current) {\n      setBounds(localRef.current.getBoundingClientRect());\n      setActiveClassName(activeClassName ?? "");\n    } else if (!activeValue) {\n      clearBounds();\n    }\n  }, [\n    mode,\n    isActive,\n    activeValue,\n    setBounds,\n    clearBounds,\n    activeClassName,\n    setActiveClassName,\n  ]);\n\n  const handlers = useMemo(() => {\n    if (isDisabled) {\n      return {};\n    }\n    if (trigger === "hover") {\n      return {\n        onMouseEnter: () => setActiveValue(value),\n        onMouseLeave: () => setActiveValue(null),\n      };\n    }\n    return {\n      onClick: () => setActiveValue(value),\n    };\n  }, [trigger, isDisabled, setActiveValue, value]);\n\n  if (!isValidElement(children)) {\n    return children;\n  }\n\n  const dataAttrs = {\n    "data-active": isActive ? "true" : "false",\n    "aria-selected": isActive,\n    "data-disabled": isDisabled || undefined,\n    "data-highlight-value": value,\n  };\n\n  // Shared highlight overlay (children mode only)\n  const overlay =\n    mode === "children" ? (\n      <AnimatePresence initial={false}>\n        {isActive && !isDisabled && (\n          <motion.div\n            animate={{ opacity: 1 }}\n            className={cn(ctxClassName, activeClassName, className)}\n            data-slot="highlight"\n            exit={{\n              opacity: 0,\n              transition: {\n                ...itemTransition,\n                delay:\n                  (itemTransition?.delay ?? 0) + (ctxExitDelay ?? 0) / 1000,\n              },\n            }}\n            initial={{ opacity: 0 }}\n            layoutId={`highlight-${ctxId}`}\n            style={{\n              position: "absolute",\n              inset: 0,\n              zIndex: 0,\n              ...ctxStyle,\n              ...style,\n            }}\n            transition={itemTransition}\n          />\n        )}\n      </AnimatePresence>\n    ) : null;\n\n  // asChild: inject directly into the child element\n  if (asChild) {\n    // biome-ignore lint/suspicious/noExplicitAny: element props are dynamic at runtime\n    const el = children as ReactElement<any>;\n\n    if (mode === "children") {\n      return cloneElement(\n        el,\n        {\n          ...el.props,\n          ref: refCallback,\n          className: cn("relative", el.props.className),\n          ...dataAttrs,\n          ...handlers,\n        },\n        overlay,\n        el.props.children\n      );\n    }\n\n    return cloneElement(el, {\n      ...el.props,\n      ref: refCallback,\n      ...dataAttrs,\n      ...handlers,\n    });\n  }\n\n  // Default: wrapper div\n  return (\n    <div\n      className={cn(mode === "children" && "relative")}\n      data-slot="highlight-item"\n      ref={refCallback as RefCallback<HTMLDivElement>}\n      {...dataAttrs}\n      {...handlers}\n    >\n      {overlay}\n      {mode === "children" ? (\n        <div className="relative z-1">{children}</div>\n      ) : (\n        children\n      )}\n    </div>\n  );\n}\n\nexport { useHighlight };',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/highlight/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/highlight",
   },
   "logo-carousel-swapper": {
     name: "logo-carousel-swapper",
@@ -2557,53 +2698,6 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/primitives-effects-auto-height",
-  },
-  "primitives-effects-highlight": {
-    name: "primitives-effects-highlight",
-    description:
-      "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
-    type: "registry:ui",
-    dependencies: ["motion"],
-    devDependencies: undefined,
-    registryDependencies: ["utils"],
-    files: [
-      {
-        path: "registry/primitives/effects/highlight/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/primitives/effects/highlight.tsx",
-        content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { AnimatePresence, motion, type Transition } from "motion/react";\nimport * as React from "react";\n\ntype HighlightMode = "children" | "parent";\n\ntype Bounds = {\n  top: number;\n  left: number;\n  width: number;\n  height: number;\n};\n\nconst DEFAULT_BOUNDS_OFFSET: Bounds = {\n  top: 0,\n  left: 0,\n  width: 0,\n  height: 0,\n};\n\ntype HighlightContextType<T extends string> = {\n  as?: keyof HTMLElementTagNameMap;\n  mode: HighlightMode;\n  activeValue: T | null;\n  setActiveValue: (value: T | null) => void;\n  setBounds: (bounds: DOMRect) => void;\n  clearBounds: () => void;\n  id: string;\n  hover: boolean;\n  click: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n  activeClassName?: string;\n  setActiveClassName: (className: string) => void;\n  transition?: Transition;\n  disabled?: boolean;\n  enabled?: boolean;\n  exitDelay?: number;\n  forceUpdateBounds?: boolean;\n};\n\nconst HighlightContext = React.createContext<\n  // eslint-disable-next-line @typescript-eslint/no-explicit-any\n  HighlightContextType<any> | undefined\n>(undefined);\n\nfunction useHighlight<T extends string>(): HighlightContextType<T> {\n  const context = React.useContext(HighlightContext);\n  if (!context) {\n    throw new Error("useHighlight must be used within a HighlightProvider");\n  }\n  return context as unknown as HighlightContextType<T>;\n}\n\ntype BaseHighlightProps<T extends React.ElementType = "div"> = {\n  as?: T;\n  ref?: React.Ref<HTMLDivElement>;\n  mode?: HighlightMode;\n  value?: string | null;\n  defaultValue?: string | null;\n  onValueChange?: (value: string | null) => void;\n  className?: string;\n  style?: React.CSSProperties;\n  transition?: Transition;\n  hover?: boolean;\n  click?: boolean;\n  disabled?: boolean;\n  enabled?: boolean;\n  exitDelay?: number;\n};\n\ntype ParentModeHighlightProps = {\n  boundsOffset?: Partial<Bounds>;\n  containerClassName?: string;\n  forceUpdateBounds?: boolean;\n};\n\ntype ControlledParentModeHighlightProps<T extends React.ElementType = "div"> =\n  BaseHighlightProps<T> &\n    ParentModeHighlightProps & {\n      mode: "parent";\n      controlledItems: true;\n      children: React.ReactNode;\n    };\n\ntype ControlledChildrenModeHighlightProps<T extends React.ElementType = "div"> =\n  BaseHighlightProps<T> & {\n    mode?: "children" | undefined;\n    controlledItems: true;\n    children: React.ReactNode;\n  };\n\ntype UncontrolledParentModeHighlightProps<T extends React.ElementType = "div"> =\n  BaseHighlightProps<T> &\n    ParentModeHighlightProps & {\n      mode: "parent";\n      controlledItems?: false;\n      itemsClassName?: string;\n      children: React.ReactElement | React.ReactElement[];\n    };\n\ntype UncontrolledChildrenModeHighlightProps<\n  T extends React.ElementType = "div",\n> = BaseHighlightProps<T> & {\n  mode?: "children";\n  controlledItems?: false;\n  itemsClassName?: string;\n  children: React.ReactElement | React.ReactElement[];\n};\n\ntype HighlightProps<T extends React.ElementType = "div"> =\n  | ControlledParentModeHighlightProps<T>\n  | ControlledChildrenModeHighlightProps<T>\n  | UncontrolledParentModeHighlightProps<T>\n  | UncontrolledChildrenModeHighlightProps<T>;\n\nfunction Highlight<T extends React.ElementType = "div">({\n  ref,\n  ...props\n}: HighlightProps<T>) {\n  const {\n    as: Component = "div",\n    children,\n    value,\n    defaultValue,\n    onValueChange,\n    className,\n    style,\n    transition = { type: "spring", stiffness: 350, damping: 35 },\n    hover = false,\n    click = true,\n    enabled = true,\n    controlledItems,\n    disabled = false,\n    exitDelay = 200,\n    mode = "children",\n  } = props;\n\n  const localRef = React.useRef<HTMLDivElement>(null);\n  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);\n\n  const propsBoundsOffset = (props as ParentModeHighlightProps)?.boundsOffset;\n  const boundsOffset = propsBoundsOffset ?? DEFAULT_BOUNDS_OFFSET;\n  const boundsOffsetTop = boundsOffset.top ?? 0;\n  const boundsOffsetLeft = boundsOffset.left ?? 0;\n  const boundsOffsetWidth = boundsOffset.width ?? 0;\n  const boundsOffsetHeight = boundsOffset.height ?? 0;\n\n  const boundsOffsetRef = React.useRef({\n    top: boundsOffsetTop,\n    left: boundsOffsetLeft,\n    width: boundsOffsetWidth,\n    height: boundsOffsetHeight,\n  });\n\n  React.useEffect(() => {\n    boundsOffsetRef.current = {\n      top: boundsOffsetTop,\n      left: boundsOffsetLeft,\n      width: boundsOffsetWidth,\n      height: boundsOffsetHeight,\n    };\n  }, [\n    boundsOffsetTop,\n    boundsOffsetLeft,\n    boundsOffsetWidth,\n    boundsOffsetHeight,\n  ]);\n\n  const [activeValue, setActiveValue] = React.useState<string | null>(\n    value ?? defaultValue ?? null\n  );\n  const [boundsState, setBoundsState] = React.useState<Bounds | null>(null);\n  const [activeClassNameState, setActiveClassNameState] =\n    React.useState<string>("");\n\n  const safeSetActiveValue = (id: string | null) => {\n    setActiveValue((prev) => {\n      if (prev !== id) {\n        onValueChange?.(id);\n        return id;\n      }\n      return prev;\n    });\n  };\n\n  const safeSetBoundsRef = React.useRef<\n    ((bounds: DOMRect) => void) | undefined\n  >(undefined);\n\n  React.useEffect(() => {\n    safeSetBoundsRef.current = (bounds: DOMRect) => {\n      if (!localRef.current) {\n        return;\n      }\n\n      const containerRect = localRef.current.getBoundingClientRect();\n      const offset = boundsOffsetRef.current;\n      const newBounds: Bounds = {\n        top: bounds.top - containerRect.top + offset.top,\n        left: bounds.left - containerRect.left + offset.left,\n        width: bounds.width + offset.width,\n        height: bounds.height + offset.height,\n      };\n\n      setBoundsState((prev) => {\n        if (\n          prev &&\n          prev.top === newBounds.top &&\n          prev.left === newBounds.left &&\n          prev.width === newBounds.width &&\n          prev.height === newBounds.height\n        ) {\n          return prev;\n        }\n        return newBounds;\n      });\n    };\n  });\n\n  const safeSetBounds = (bounds: DOMRect) => {\n    safeSetBoundsRef.current?.(bounds);\n  };\n\n  const clearBounds = React.useCallback(() => {\n    setBoundsState((prev) => (prev === null ? prev : null));\n  }, []);\n\n  React.useEffect(() => {\n    if (value !== undefined) {\n      setActiveValue(value);\n    } else if (defaultValue !== undefined) {\n      setActiveValue(defaultValue);\n    }\n  }, [value, defaultValue]);\n\n  const id = React.useId();\n\n  React.useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    const container = localRef.current;\n    if (!container) {\n      return;\n    }\n\n    const onScroll = () => {\n      if (!activeValue) {\n        return;\n      }\n      const activeEl = container.querySelector<HTMLElement>(\n        `[data-value="${activeValue}"][data-highlight="true"]`\n      );\n      if (activeEl) {\n        safeSetBoundsRef.current?.(activeEl.getBoundingClientRect());\n      }\n    };\n\n    container.addEventListener("scroll", onScroll, { passive: true });\n    return () => container.removeEventListener("scroll", onScroll);\n  }, [mode, activeValue]);\n\n  const render = (children: React.ReactNode) => {\n    if (mode === "parent") {\n      return (\n        <Component\n          className={(props as ParentModeHighlightProps)?.containerClassName}\n          data-slot="motion-highlight-container"\n          ref={localRef}\n          style={{ position: "relative", zIndex: 1 }}\n        >\n          <AnimatePresence initial={false} mode="wait">\n            {boundsState && (\n              <motion.div\n                animate={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 1,\n                }}\n                className={cn(className, activeClassNameState)}\n                data-slot="motion-highlight"\n                exit={{\n                  opacity: 0,\n                  transition: {\n                    ...transition,\n                    delay: (transition?.delay ?? 0) + (exitDelay ?? 0) / 1000,\n                  },\n                }}\n                initial={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 0,\n                }}\n                style={{ position: "absolute", zIndex: 0, ...style }}\n                transition={transition}\n              />\n            )}\n          </AnimatePresence>\n          {children}\n        </Component>\n      );\n    }\n\n    return children;\n  };\n\n  return (\n    <HighlightContext.Provider\n      value={{\n        mode,\n        activeValue,\n        setActiveValue: safeSetActiveValue,\n        id,\n        hover,\n        click,\n        className,\n        style,\n        transition,\n        disabled,\n        enabled,\n        exitDelay,\n        setBounds: safeSetBounds,\n        clearBounds,\n        activeClassName: activeClassNameState,\n        setActiveClassName: setActiveClassNameState,\n        forceUpdateBounds: (props as ParentModeHighlightProps)\n          ?.forceUpdateBounds,\n      }}\n    >\n      {enabled\n        ? controlledItems\n          ? render(children)\n          : render(\n              React.Children.map(children, (child, index) => (\n                <HighlightItem className={props?.itemsClassName} key={index}>\n                  {child}\n                </HighlightItem>\n              ))\n            )\n        : children}\n    </HighlightContext.Provider>\n  );\n}\n\nfunction getNonOverridingDataAttributes(\n  element: React.ReactElement,\n  dataAttributes: Record<string, unknown>\n): Record<string, unknown> {\n  return Object.keys(dataAttributes).reduce<Record<string, unknown>>(\n    (acc, key) => {\n      if ((element.props as Record<string, unknown>)[key] === undefined) {\n        acc[key] = dataAttributes[key];\n      }\n      return acc;\n    },\n    {}\n  );\n}\n\ntype ExtendedChildProps = React.ComponentProps<"div"> & {\n  id?: string;\n  ref?: React.Ref<HTMLElement>;\n  "data-active"?: string;\n  "data-value"?: string;\n  "data-disabled"?: boolean;\n  "data-highlight"?: boolean;\n  "data-slot"?: string;\n};\n\ntype HighlightItemProps<T extends React.ElementType = "div"> =\n  React.ComponentProps<T> & {\n    as?: T;\n    children: React.ReactElement;\n    id?: string;\n    value?: string;\n    className?: string;\n    style?: React.CSSProperties;\n    transition?: Transition;\n    activeClassName?: string;\n    disabled?: boolean;\n    exitDelay?: number;\n    asChild?: boolean;\n    forceUpdateBounds?: boolean;\n  };\n\nfunction HighlightItem<T extends React.ElementType>({\n  ref,\n  as,\n  children,\n  id,\n  value,\n  className,\n  style,\n  transition,\n  disabled = false,\n  activeClassName,\n  exitDelay,\n  asChild = false,\n  forceUpdateBounds,\n  ...props\n}: HighlightItemProps<T>) {\n  const itemId = React.useId();\n  const {\n    activeValue,\n    setActiveValue,\n    mode,\n    setBounds,\n    clearBounds,\n    hover,\n    click,\n    enabled,\n    className: contextClassName,\n    style: contextStyle,\n    transition: contextTransition,\n    id: contextId,\n    disabled: contextDisabled,\n    exitDelay: contextExitDelay,\n    forceUpdateBounds: contextForceUpdateBounds,\n    setActiveClassName,\n  } = useHighlight();\n\n  const Component = as ?? "div";\n  const element = children as React.ReactElement<ExtendedChildProps>;\n  const childValue =\n    id ?? value ?? element.props?.["data-value"] ?? element.props?.id ?? itemId;\n  const isActive = activeValue === childValue;\n  const isDisabled = disabled === undefined ? contextDisabled : disabled;\n  const itemTransition = transition ?? contextTransition;\n\n  const localRef = React.useRef<HTMLDivElement>(null);\n  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);\n\n  const refCallback = React.useCallback((node: HTMLElement | null) => {\n    localRef.current = node as HTMLDivElement;\n  }, []);\n\n  React.useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    let rafId: number;\n    let previousBounds: Bounds | null = null;\n    const shouldUpdateBounds =\n      forceUpdateBounds === true ||\n      (contextForceUpdateBounds && forceUpdateBounds !== false);\n\n    const updateBounds = () => {\n      if (!localRef.current) {\n        return;\n      }\n\n      const bounds = localRef.current.getBoundingClientRect();\n\n      if (shouldUpdateBounds) {\n        if (\n          previousBounds &&\n          previousBounds.top === bounds.top &&\n          previousBounds.left === bounds.left &&\n          previousBounds.width === bounds.width &&\n          previousBounds.height === bounds.height\n        ) {\n          rafId = requestAnimationFrame(updateBounds);\n          return;\n        }\n        previousBounds = bounds;\n        rafId = requestAnimationFrame(updateBounds);\n      }\n\n      setBounds(bounds);\n    };\n\n    if (isActive) {\n      updateBounds();\n      setActiveClassName(activeClassName ?? "");\n    } else if (!activeValue) {\n      clearBounds();\n    }\n\n    if (shouldUpdateBounds) {\n      return () => cancelAnimationFrame(rafId);\n    }\n  }, [\n    mode,\n    isActive,\n    activeValue,\n    setBounds,\n    clearBounds,\n    activeClassName,\n    setActiveClassName,\n    forceUpdateBounds,\n    contextForceUpdateBounds,\n  ]);\n\n  if (!React.isValidElement(children)) {\n    return children;\n  }\n\n  const dataAttributes = {\n    "data-active": isActive ? "true" : "false",\n    "aria-selected": isActive,\n    "data-disabled": isDisabled,\n    "data-value": childValue,\n    "data-highlight": true,\n  };\n\n  const commonHandlers = hover\n    ? {\n        onMouseEnter: (e: React.MouseEvent<HTMLDivElement>) => {\n          setActiveValue(childValue);\n          element.props.onMouseEnter?.(e);\n        },\n        onMouseLeave: (e: React.MouseEvent<HTMLDivElement>) => {\n          setActiveValue(null);\n          element.props.onMouseLeave?.(e);\n        },\n      }\n    : click\n      ? {\n          onClick: (e: React.MouseEvent<HTMLDivElement>) => {\n            setActiveValue(childValue);\n            element.props.onClick?.(e);\n          },\n        }\n      : {};\n\n  if (asChild) {\n    if (mode === "children") {\n      return React.cloneElement(\n        element,\n        {\n          key: childValue,\n          ref: refCallback,\n          className: cn("relative", element.props.className),\n          ...getNonOverridingDataAttributes(element, {\n            ...dataAttributes,\n            "data-slot": "motion-highlight-item-container",\n          }),\n          ...commonHandlers,\n          ...props,\n        },\n        <>\n          <AnimatePresence initial={false} mode="wait">\n            {isActive && !isDisabled && (\n              <motion.div\n                animate={{ opacity: 1 }}\n                className={cn(contextClassName, activeClassName)}\n                data-slot="motion-highlight"\n                exit={{\n                  opacity: 0,\n                  transition: {\n                    ...itemTransition,\n                    delay:\n                      (itemTransition?.delay ?? 0) +\n                      (exitDelay ?? contextExitDelay ?? 0) / 1000,\n                  },\n                }}\n                initial={{ opacity: 0 }}\n                layoutId={`transition-background-${contextId}`}\n                style={{\n                  position: "absolute",\n                  zIndex: 0,\n                  ...contextStyle,\n                  ...style,\n                }}\n                transition={itemTransition}\n                {...dataAttributes}\n              />\n            )}\n          </AnimatePresence>\n\n          <Component\n            className={className}\n            data-slot="motion-highlight-item"\n            style={{ position: "relative", zIndex: 1 }}\n            {...dataAttributes}\n          >\n            {children}\n          </Component>\n        </>\n      );\n    }\n\n    return React.cloneElement(element, {\n      ref: refCallback,\n      ...getNonOverridingDataAttributes(element, {\n        ...dataAttributes,\n        "data-slot": "motion-highlight-item",\n      }),\n      ...commonHandlers,\n    });\n  }\n\n  return enabled ? (\n    <Component\n      className={cn(mode === "children" && "relative", className)}\n      data-slot="motion-highlight-item-container"\n      key={childValue}\n      ref={localRef}\n      {...dataAttributes}\n      {...props}\n      {...commonHandlers}\n    >\n      {mode === "children" && (\n        <AnimatePresence initial={false} mode="wait">\n          {isActive && !isDisabled && (\n            <motion.div\n              animate={{ opacity: 1 }}\n              className={cn(contextClassName, activeClassName)}\n              data-slot="motion-highlight"\n              exit={{\n                opacity: 0,\n                transition: {\n                  ...itemTransition,\n                  delay:\n                    (itemTransition?.delay ?? 0) +\n                    (exitDelay ?? contextExitDelay ?? 0) / 1000,\n                },\n              }}\n              initial={{ opacity: 0 }}\n              layoutId={`transition-background-${contextId}`}\n              style={{\n                position: "absolute",\n                zIndex: 0,\n                ...contextStyle,\n                ...style,\n              }}\n              transition={itemTransition}\n              {...dataAttributes}\n            />\n          )}\n        </AnimatePresence>\n      )}\n\n      {React.cloneElement(element, {\n        style: { position: "relative", zIndex: 1 },\n        className: element.props.className,\n        ...getNonOverridingDataAttributes(element, {\n          ...dataAttributes,\n          "data-slot": "motion-highlight-item",\n        }),\n      })}\n    </Component>\n  ) : (\n    children\n  );\n}\n\nexport {\n  Highlight,\n  HighlightItem,\n  type HighlightItemProps,\n  type HighlightProps,\n  useHighlight,\n};',
-      },
-    ],
-    keywords: [],
-    inspiration: null,
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/primitives/effects/highlight/index.tsx"
-        );
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/primitives-effects-highlight",
   },
   "primitives-radix-tabs": {
     name: "primitives-radix-tabs",

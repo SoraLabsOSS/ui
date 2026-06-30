@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "primitives-effects-highlight",
+  "name": "highlight",
   "type": "registry:ui",
   "title": "Highlight",
   "description": "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",

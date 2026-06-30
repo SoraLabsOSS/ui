@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-highlight",
+  "title": "Highlight Demo",
+  "description": "Shared sliding highlight pill moving between nav items on hover.",
+  "registryDependencies": ["@soralabs/highlight"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/highlight/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  Highlight,\n  HighlightItem,\n} from \"@/components/sora-ui/effects/highlight\";\n\nconst ITEMS = [\"Design\", \"Engineering\", \"Product\", \"Marketing\", \"Growth\"];\n\nexport function HighlightDemo() {\n  return (\n    <div className=\"flex min-h-40 items-center justify-center\">\n      <Highlight\n        className=\"rounded-full bg-foreground/8\"\n        containerClassName=\"flex items-center\"\n        mode=\"parent\"\n        trigger=\"hover\"\n      >\n        {ITEMS.map((item) => (\n          <HighlightItem key={item} value={item}>\n            <button\n              className=\"relative z-10 cursor-pointer px-4 py-1.5 text-sm text-foreground/60 transition-colors hover:text-foreground\"\n              type=\"button\"\n            >\n              {item}\n            </button>\n          </HighlightItem>\n        ))}\n      </Highlight>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/highlight.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
