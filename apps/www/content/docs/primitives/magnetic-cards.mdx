@@ -117,3 +117,7 @@ For image grids that need to stay readable and scannable (e.g. a gallery or cata
 ## Accessibility
 
 Cursor tracking is scoped to the component's own root element via `pointermove`/`pointerleave`, so it never hijacks page-wide input. When `prefers-reduced-motion: reduce` is set, the physics loop never starts — cards render directly at their rest position/rotation with no motion at all, and the setting is watched live via `usePrefersReducedMotion`, so toggling it while the page is open updates immediately.
+
+## Credits
+
+<ComponentCredits name="magnetic-cards" />

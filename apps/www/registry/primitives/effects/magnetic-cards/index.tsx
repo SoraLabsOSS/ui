@@ -42,6 +42,12 @@ export interface MagneticCardsProps
   tiltAmount?: number;
 }
 
+const REMOTE_IMAGE_SRC = /^https?:\/\//;
+
+function isRemoteImageSrc(src: string): boolean {
+  return REMOTE_IMAGE_SRC.test(src);
+}
+
 const DEFAULTS = {
   bounceFriction: 0.85,
   cursorSmoothing: 0.75,
@@ -296,6 +302,7 @@ function MagneticCards({
                 fill
                 sizes="160px"
                 src={item.src}
+                unoptimized={isRemoteImageSrc(item.src)}
               />
             </div>
           );

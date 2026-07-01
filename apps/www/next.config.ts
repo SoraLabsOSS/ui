@@ -42,7 +42,7 @@ const nextConfig: NextConfig = {
       { hostname: "cdn.prod.website-files.com" },
       { hostname: "images.unsplash.com" },
       { hostname: "plus.unsplash.com" },
-      { hostname: "sora.axyl.io.vn", pathname: "/**" },
+      { hostname: "sora.axyl.io.vn", pathname: "/**", protocol: "https" },
     ],
   },
   reactStrictMode: false,
