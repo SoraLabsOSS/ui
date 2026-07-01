@@ -52,5 +52,12 @@ export const auth = betterAuth({
     storage: "secondary-storage",
     enabled: true,
   },
-  plugins: [openAPI(), dash(), oneTap()],
+  plugins: [
+    // Interactive API reference and raw OpenAPI schema expose exact
+    // endpoint paths/payloads (including dash() admin routes) to anyone;
+    // only serve them outside production.
+    ...(env.NODE_ENV === "production" ? [] : [openAPI()]),
+    dash(),
+    oneTap(),
+  ],
 });

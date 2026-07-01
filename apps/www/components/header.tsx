@@ -32,7 +32,7 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
 export const Header = ({ className }: { className?: string }) => (
   <header
     className={cn(
-      "fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible",
+      "fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible py-4",
       className
     )}
   >
