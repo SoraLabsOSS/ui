@@ -3,7 +3,7 @@
   "name": "text-effect",
   "type": "registry:ui",
   "title": "Text Effect",
-  "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+  "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations, powered by Motion.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [

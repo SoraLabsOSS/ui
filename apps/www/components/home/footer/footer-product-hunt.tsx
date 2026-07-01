@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const PRODUCT_HUNT_POST_ID = "1185665";
 const PRODUCT_HUNT_URL =
@@ -8,7 +9,17 @@ const PRODUCT_HUNT_URL =
 
 export function FooterProductHunt() {
   const { resolvedTheme } = useTheme();
-  const badgeTheme = resolvedTheme === "dark" ? "dark" : "light";
+  const [mounted, setMounted] = useState(false);
+
+  // next-themes resolves the real theme from a blocking inline script that
+  // runs before hydration, so `resolvedTheme` can already differ from the
+  // server's default at hydration time. Only trust it post-mount to avoid a
+  // hydration mismatch on the badge `src`.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const badgeTheme = mounted && resolvedTheme === "dark" ? "dark" : "light";
 
   return (
     <a

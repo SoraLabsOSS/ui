@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "border-trail",
   "title": "Border Trail",
-  "description": "Animated border spotlight that travels around a rounded container.",
+  "description": "Animated border spotlight that travels around a rounded container, powered by Motion.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [

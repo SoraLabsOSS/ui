@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "section-cta",
   "title": "Section CTA",
-  "description": "A chip-style call-to-action link with sliding label and rotating icon chips on hover.",
+  "description": "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils"],
   "files": [

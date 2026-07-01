@@ -579,6 +579,53 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-logo-carousel-swapper",
   },
+  "demo-magnetic-cards": {
+    name: "demo-magnetic-cards",
+    description:
+      "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["magnetic-cards"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/magnetic-cards/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/magnetic-cards.tsx",
+        content:
+          '"use client";\n\nimport { magneticCardsDemoItems } from "@/lib/demo/magnetic-cards-demo-items";\nimport { MagneticCards } from "@/components/sora-ui/effects/magnetic-cards";\n\nexport function MagneticCardsExample() {\n  return (\n    <div className="h-[min(420px,60dvh)] w-full min-w-0 sm:h-[460px]">\n      <MagneticCards className="h-full w-full" items={magneticCardsDemoItems} />\n    </div>\n  );\n}\n\nexport default MagneticCardsExample;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/magnetic-cards/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-magnetic-cards",
+  },
   "demo-scroll-gallery": {
     name: "demo-scroll-gallery",
     description:
@@ -1240,7 +1287,7 @@ export const index: Record<string, any> = {
   "section-cta": {
     name: "section-cta",
     description:
-      "A chip-style call-to-action link with sliding label and rotating icon chips on hover.",
+      "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
@@ -1326,7 +1373,8 @@ export const index: Record<string, any> = {
   },
   accordion: {
     name: "accordion",
-    description: "An animated FAQ accordion with expandable panels.",
+    description:
+      "An animated FAQ accordion with expandable panels, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
@@ -1377,7 +1425,7 @@ export const index: Record<string, any> = {
   "border-trail": {
     name: "border-trail",
     description:
-      "Animated border spotlight that travels around a rounded container.",
+      "Animated border spotlight that travels around a rounded container, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -1485,7 +1533,7 @@ export const index: Record<string, any> = {
   "custom-cursor": {
     name: "custom-cursor",
     description:
-      "A smooth custom cursor that morphs when hovering interactive targets.",
+      "A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
@@ -1546,7 +1594,7 @@ export const index: Record<string, any> = {
   "dock-nav": {
     name: "dock-nav",
     description:
-      "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
+      "An Apple-style dock navigation bar with Motion-powered expanding icons and tooltips on hover.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
@@ -1593,7 +1641,7 @@ export const index: Record<string, any> = {
   highlight: {
     name: "highlight",
     description:
-      "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
+      "A Motion-powered highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -1696,10 +1744,61 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/logo-carousel-swapper",
   },
+  "magnetic-cards": {
+    name: "magnetic-cards",
+    description:
+      "A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.",
+    type: "registry:ui",
+    dependencies: ["gsap", "@gsap/react"],
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/hooks-use-prefers-reduced-motion"],
+    files: [
+      {
+        path: "registry/primitives/effects/magnetic-cards/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/magnetic-cards.tsx",
+        content:
+          '"use client";\n\nimport { useGSAP } from "@gsap/react";\nimport { cn } from "@/lib/utils";\nimport gsap from "gsap";\nimport Image from "next/image";\nimport { type ComponentPropsWithoutRef, useMemo, useRef } from "react";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\n\nexport interface MagneticCardsItem {\n  alt?: string;\n  src: string;\n}\n\nexport interface MagneticCardsLayout {\n  rotation: number;\n  x: number;\n  y: number;\n}\n\nexport interface MagneticCardsProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {\n  /** Velocity friction applied to each card every frame (0-1). Lower settles faster, higher feels bouncier. @default 0.85 */\n  bounceFriction?: number;\n  /** Extra classes applied to each card wrapper. */\n  cardClassName?: string;\n  /** Smooths cursor velocity across frames (0-1). Higher feels smoother, less twitchy. @default 0.75 */\n  cursorSmoothing?: number;\n  /** Cards to render, in left-to-right stacking order. */\n  items: MagneticCardsItem[];\n  /** Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching `items.length`. */\n  layout?: MagneticCardsLayout[];\n  /** How much a pushed card drags its neighbors along, per index step away (0-1). @default 0.2 */\n  neighborInfluence?: number;\n  /** Cursor distance in pixels within which cards start reacting. @default 500 */\n  proximityRadius?: number;\n  /** How strongly cursor velocity pushes nearby cards. @default 10 */\n  pushForce?: number;\n  /** Spring stiffness pulling cards back to their rest position (0-1). @default 0.05 */\n  springStiffness?: number;\n  /** How much a card tilts relative to how far it\'s pushed. @default 0.1 */\n  tiltAmount?: number;\n}\n\nconst DEFAULTS = {\n  bounceFriction: 0.85,\n  cursorSmoothing: 0.75,\n  neighborInfluence: 0.2,\n  proximityRadius: 500,\n  pushForce: 10,\n  springStiffness: 0.05,\n  tiltAmount: 0.1,\n} as const;\n\nconst LAYOUT_SPACING = 130;\nconst LAYOUT_ROTATION_STEP = 5;\nconst MIN_REACTIVE_SPEED = 0.5;\n\nfunction createDefaultLayout(count: number): MagneticCardsLayout[] {\n  const mid = (count - 1) / 2;\n  return Array.from({ length: count }, (_, index) => {\n    const offset = index - mid;\n    const sign = index % 2 === 0 ? 1 : -1;\n    return {\n      rotation: offset * LAYOUT_ROTATION_STEP + sign * 2.5,\n      x: offset * LAYOUT_SPACING,\n      y: sign * 10,\n    };\n  });\n}\n\ninterface CardPhysics {\n  el: HTMLDivElement;\n  r: number;\n  restR: number;\n  restX: number;\n  restY: number;\n  vr: number;\n  vx: number;\n  vy: number;\n  x: number;\n  y: number;\n}\n\nfunction staticCardStyle(rest: MagneticCardsLayout, index: number) {\n  return {\n    transform: `translate(-50%, -50%) translate(${rest.x}px, ${rest.y}px) rotate(${rest.rotation}deg)`,\n    zIndex: index,\n  };\n}\n\nfunction MagneticCards({\n  bounceFriction = DEFAULTS.bounceFriction,\n  cardClassName,\n  className,\n  cursorSmoothing = DEFAULTS.cursorSmoothing,\n  items,\n  layout,\n  neighborInfluence = DEFAULTS.neighborInfluence,\n  proximityRadius = DEFAULTS.proximityRadius,\n  pushForce = DEFAULTS.pushForce,\n  springStiffness = DEFAULTS.springStiffness,\n  tiltAmount = DEFAULTS.tiltAmount,\n  ...props\n}: MagneticCardsProps) {\n  const rootRef = useRef<HTMLDivElement>(null);\n  const containerRef = useRef<HTMLDivElement>(null);\n  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);\n  const prefersReducedMotion = usePrefersReducedMotion();\n\n  const resolvedLayout = useMemo(\n    () => layout ?? createDefaultLayout(items.length),\n    [layout, items.length]\n  );\n\n  useGSAP(\n    () => {\n      const root = rootRef.current;\n      const container = containerRef.current;\n      if (!(root && container) || prefersReducedMotion) {\n        return;\n      }\n\n      const cards: CardPhysics[] = resolvedLayout\n        .map((rest, index) => {\n          const el = cardRefs.current[index];\n          if (!el) {\n            return null;\n          }\n\n          gsap.set(el, {\n            rotation: rest.rotation,\n            x: rest.x,\n            xPercent: -50,\n            y: rest.y,\n            yPercent: -50,\n            zIndex: index,\n          });\n\n          return {\n            el,\n            r: rest.rotation,\n            restR: rest.rotation,\n            restX: rest.x,\n            restY: rest.y,\n            vr: 0,\n            vx: 0,\n            vy: 0,\n            x: rest.x,\n            y: rest.y,\n          };\n        })\n        .filter((card): card is CardPhysics => card !== null);\n\n      const cursor = { vx: 0, vy: 0, x: 0, y: 0 };\n      let prevCursorX = 0;\n      let prevCursorY = 0;\n\n      const handlePointerMove = (event: PointerEvent) => {\n        cursor.vx =\n          cursor.vx * cursorSmoothing +\n          (event.clientX - prevCursorX) * (1 - cursorSmoothing);\n        cursor.vy =\n          cursor.vy * cursorSmoothing +\n          (event.clientY - prevCursorY) * (1 - cursorSmoothing);\n        prevCursorX = cursor.x = event.clientX;\n        prevCursorY = cursor.y = event.clientY;\n      };\n\n      const handlePointerLeave = () => {\n        cursor.vx = 0;\n        cursor.vy = 0;\n      };\n\n      const calculatePushForce = (card: CardPhysics) => {\n        const speed = Math.hypot(cursor.vx, cursor.vy);\n        if (speed < MIN_REACTIVE_SPEED) {\n          return { fx: 0, fy: 0 };\n        }\n\n        const rect = container.getBoundingClientRect();\n        const cx = rect.left + rect.width / 2 + card.restX;\n        const cy = rect.top + rect.height / 2 + card.restY;\n        const dist = Math.hypot(cursor.x - cx, cursor.y - cy);\n\n        if (dist > proximityRadius) {\n          return { fx: 0, fy: 0 };\n        }\n\n        const weight = (1 - dist / proximityRadius) ** 3;\n\n        return {\n          fx: cursor.vx * pushForce * weight,\n          fy: cursor.vy * pushForce * weight,\n        };\n      };\n\n      const applyNeighborInfluence = (\n        forces: { fx: number; fy: number }[],\n        index: number\n      ) => {\n        let fx = forces[index]?.fx ?? 0;\n        let fy = forces[index]?.fy ?? 0;\n\n        for (const [j, force] of forces.entries()) {\n          if (j === index) {\n            continue;\n          }\n          const falloff = neighborInfluence ** Math.abs(j - index);\n          fx += force.fx * falloff;\n          fy += force.fy * falloff * 0.6;\n        }\n\n        return { fx, fy };\n      };\n\n      const tick = () => {\n        const forces = cards.map(calculatePushForce);\n\n        cards.forEach((card, index) => {\n          const { fx, fy } = applyNeighborInfluence(forces, index);\n\n          card.vx =\n            (card.vx + (card.restX + fx - card.x) * springStiffness) *\n            bounceFriction;\n          card.vy =\n            (card.vy + (card.restY + fy - card.y) * springStiffness) *\n            bounceFriction;\n          card.vr =\n            (card.vr +\n              (card.restR + fx * tiltAmount - card.r) * springStiffness) *\n            bounceFriction;\n\n          card.x += card.vx;\n          card.y += card.vy;\n          card.r += card.vr;\n\n          gsap.set(card.el, { rotation: card.r, x: card.x, y: card.y });\n        });\n      };\n\n      root.addEventListener("pointermove", handlePointerMove);\n      root.addEventListener("pointerleave", handlePointerLeave);\n      gsap.ticker.add(tick);\n\n      return () => {\n        root.removeEventListener("pointermove", handlePointerMove);\n        root.removeEventListener("pointerleave", handlePointerLeave);\n        gsap.ticker.remove(tick);\n      };\n    },\n    {\n      dependencies: [\n        items,\n        resolvedLayout,\n        prefersReducedMotion,\n        proximityRadius,\n        pushForce,\n        tiltAmount,\n        neighborInfluence,\n        springStiffness,\n        bounceFriction,\n        cursorSmoothing,\n      ],\n      scope: rootRef,\n    }\n  );\n\n  return (\n    <div className={cn("relative isolate", className)} ref={rootRef} {...props}>\n      <div\n        className="relative flex h-full w-full items-center justify-center"\n        ref={containerRef}\n      >\n        {items.map((item, index) => {\n          const rest = resolvedLayout[index] ?? { rotation: 0, x: 0, y: 0 };\n          return (\n            <div\n              className={cn(\n                "absolute top-1/2 left-1/2 aspect-[3/4] w-40 overflow-hidden rounded-xl shadow-xl",\n                !prefersReducedMotion && "will-change-transform",\n                cardClassName\n              )}\n              key={item.src}\n              ref={(el) => {\n                cardRefs.current[index] = el;\n              }}\n              style={\n                prefersReducedMotion ? staticCardStyle(rest, index) : undefined\n              }\n            >\n              <Image\n                alt={item.alt ?? ""}\n                className="pointer-events-none object-cover"\n                draggable={false}\n                fill\n                sizes="160px"\n                src={item.src}\n              />\n            </div>\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n\nexport { MagneticCards };',
+      },
+    ],
+    keywords: ["magnetic", "cards", "cursor", "physics", "spring", "gsap"],
+    inspiration: {
+      type: "reimplemented",
+      label: "Codegrid — Spencer Gabor",
+      url: "https://codegrid.com",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/magnetic-cards/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/magnetic-cards",
+  },
   "pixelated-image-reveal": {
     name: "pixelated-image-reveal",
     description:
-      "An image card that reveals a second image through a randomized pixel grid on hover.",
+      "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
@@ -1842,7 +1941,7 @@ export const index: Record<string, any> = {
   "draw-underline-link": {
     name: "draw-underline-link",
     description:
-      "A link with a hand-drawn SVG underline that animates on hover.",
+      "A link with a hand-drawn SVG underline that animates on hover, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
@@ -1913,7 +2012,7 @@ export const index: Record<string, any> = {
   "text-effect": {
     name: "text-effect",
     description:
-      "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+      "Preset-driven staggered text reveals with blur, fade, slide, and scale animations, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2012,7 +2111,7 @@ export const index: Record<string, any> = {
   "text-morph": {
     name: "text-morph",
     description:
-      "Per-character layout morphing for labels, counters, and live text swaps.",
+      "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2202,7 +2301,8 @@ export const index: Record<string, any> = {
   },
   "text-reveal-mask": {
     name: "text-reveal-mask",
-    description: "A scroll-triggered masked slide-up text reveal animation.",
+    description:
+      "A scroll-triggered masked slide-up text reveal animation, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2295,7 +2395,7 @@ export const index: Record<string, any> = {
   "text-roll": {
     name: "text-roll",
     description:
-      "A per-character vertical text roll animation for label swaps and micro-interactions.",
+      "A per-character vertical text roll animation for label swaps and micro-interactions, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2362,7 +2462,7 @@ export const index: Record<string, any> = {
   "text-scramble": {
     name: "text-scramble",
     description:
-      "A text scramble reveal animation that decodes characters on mount or when re-triggered.",
+      "A text scramble reveal animation that decodes characters on mount or when re-triggered, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2600,7 +2700,7 @@ export const index: Record<string, any> = {
   "primitives-animate-tabs": {
     name: "primitives-animate-tabs",
     description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+      "A set of layered sections of content—known as tab panels—that are displayed one at a time, animated with Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2651,7 +2751,7 @@ export const index: Record<string, any> = {
   "primitives-animate-tooltip": {
     name: "primitives-animate-tooltip",
     description:
-      "An animated tooltip that shows contextual info on hover or focus and smoothly glides to the next element without disappearing between transitions.",
+      "A Motion-powered tooltip that shows contextual info on hover or focus and smoothly glides to the next element without disappearing between transitions.",
     type: "registry:ui",
     dependencies: ["motion", "@floating-ui/react"],
     devDependencies: undefined,
@@ -2700,7 +2800,8 @@ export const index: Record<string, any> = {
   },
   "primitives-buttons-button": {
     name: "primitives-buttons-button",
-    description: "A simple button that animates on hover and tap.",
+    description:
+      "A simple button that animates on hover and tap, powered by Motion.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2747,7 +2848,7 @@ export const index: Record<string, any> = {
   "primitives-effects-auto-height": {
     name: "primitives-effects-auto-height",
     description:
-      "An effect that automatically adjusts the height of an element based on its content.",
+      "A Motion-powered effect that automatically adjusts the height of an element based on its content.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
@@ -2797,7 +2898,7 @@ export const index: Record<string, any> = {
   "primitives-radix-tabs": {
     name: "primitives-radix-tabs",
     description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+      "A set of layered sections of content—known as tab panels—that are displayed one at a time, built on Radix UI and animated with Motion.",
     type: "registry:ui",
     dependencies: ["motion", "radix-ui"],
     devDependencies: undefined,

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "dock-nav",
   "title": "Dock Nav",
-  "description": "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
+  "description": "An Apple-style dock navigation bar with Motion-powered expanding icons and tooltips on hover.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils"],
   "files": [

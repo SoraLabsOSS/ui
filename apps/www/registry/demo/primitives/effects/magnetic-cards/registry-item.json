@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-magnetic-cards",
+  "type": "registry:ui",
+  "title": "Magnetic Cards Demo",
+  "description": "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
+  "registryDependencies": ["magnetic-cards"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/magnetic-cards.tsx"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "name": "primitives-animate-tabs",
   "type": "registry:ui",
   "title": "Tabs",
-  "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+  "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time, animated with Motion.",
   "dependencies": ["motion"],
   "registryDependencies": [
     "@soralabs/primitives-effects-highlight",

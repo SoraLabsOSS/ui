@@ -3,7 +3,7 @@
   "name": "accordion",
   "type": "registry:ui",
   "title": "Accordion",
-  "description": "An animated FAQ accordion with expandable panels.",
+  "description": "An animated FAQ accordion with expandable panels, powered by Motion.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils", "@soralabs/hooks-use-auto-height"],
   "files": [

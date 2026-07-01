@@ -3,7 +3,7 @@
   "name": "text-reveal-mask",
   "type": "registry:ui",
   "title": "Text Reveal (Mask)",
-  "description": "A scroll-triggered masked slide-up text reveal animation.",
+  "description": "A scroll-triggered masked slide-up text reveal animation, powered by Motion.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [

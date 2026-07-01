@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-magnetic-cards",
+  "title": "Magnetic Cards Demo",
+  "description": "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
+  "registryDependencies": ["@soralabs/magnetic-cards"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
+      "content": "\"use client\";\n\nimport { magneticCardsDemoItems } from \"@/lib/demo/magnetic-cards-demo-items\";\nimport { MagneticCards } from \"@/components/sora-ui/effects/magnetic-cards\";\n\nexport function MagneticCardsExample() {\n  return (\n    <div className=\"h-[min(420px,60dvh)] w-full min-w-0 sm:h-[460px]\">\n      <MagneticCards className=\"h-full w-full\" items={magneticCardsDemoItems} />\n    </div>\n  );\n}\n\nexport default MagneticCardsExample;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/magnetic-cards.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -3,7 +3,7 @@
   "name": "primitives-buttons-button",
   "type": "registry:ui",
   "title": "Button",
-  "description": "A simple button that animates on hover and tap.",
+  "description": "A simple button that animates on hover and tap, powered by Motion.",
   "dependencies": ["motion"],
   "registryDependencies": ["@soralabs/primitives-animate-slot"],
   "files": [

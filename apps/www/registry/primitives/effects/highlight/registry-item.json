@@ -3,7 +3,7 @@
   "name": "highlight",
   "type": "registry:ui",
   "title": "Highlight",
-  "description": "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
+  "description": "A Motion-powered highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [

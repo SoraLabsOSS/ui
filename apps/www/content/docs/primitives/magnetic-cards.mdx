@@ -1,0 +1,119 @@
+---
+title: Magnetic Cards
+description: A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-magnetic-cards" description="Move your cursor across the fanned stack — cards spring away based on cursor speed and proximity." />
+
+`MagneticCards` runs its spring simulation on [GSAP](https://gsap.com/)'s ticker (`gsap.ticker`), driving each card with `gsap.set` every frame instead of React state — the same low-overhead approach used by `ScrollGallery` and `TextRevealBox`.
+
+## Installation
+
+<ComponentInstallation name="magnetic-cards" />
+
+## Usage
+
+```tsx
+import { MagneticCards } from '@/components/sora-ui/effects/magnetic-cards';
+
+const items = [
+  { src: '/cards/card-1.jpg', alt: 'Card one' },
+  { src: '/cards/card-2.jpg', alt: 'Card two' },
+  { src: '/cards/card-3.jpg', alt: 'Card three' },
+  { src: '/cards/card-4.jpg', alt: 'Card four' },
+];
+
+export default function Page() {
+  return (
+    <div className="h-[420px] w-full">
+      <MagneticCards items={items} />
+    </div>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    items: {
+      description: 'Cards to render, in left-to-right stacking order. Each item accepts src and an optional alt.',
+      type: 'MagneticCardsItem[]',
+    },
+    layout: {
+      description: 'Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching items.length.',
+      type: 'MagneticCardsLayout[]',
+    },
+    proximityRadius: {
+      description: 'Cursor distance in pixels within which cards start reacting.',
+      type: 'number',
+      default: '500',
+    },
+    pushForce: {
+      description: "How strongly cursor velocity pushes nearby cards.",
+      type: 'number',
+      default: '10',
+    },
+    tiltAmount: {
+      description: 'How much a card tilts relative to how far it\'s pushed.',
+      type: 'number',
+      default: '0.1',
+    },
+    neighborInfluence: {
+      description: "How much a pushed card drags its neighbors along, per index step away (0-1).",
+      type: 'number',
+      default: '0.2',
+    },
+    springStiffness: {
+      description: 'Spring stiffness pulling cards back to their rest position (0-1).',
+      type: 'number',
+      default: '0.05',
+    },
+    bounceFriction: {
+      description: 'Velocity friction applied every frame (0-1). Lower settles faster, higher feels bouncier.',
+      type: 'number',
+      default: '0.85',
+    },
+    cursorSmoothing: {
+      description: 'Smooths cursor velocity across frames (0-1). Higher feels smoother, less twitchy.',
+      type: 'number',
+      default: '0.75',
+    },
+    cardClassName: {
+      description: 'Extra classes applied to each card wrapper.',
+      type: 'string',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+### MagneticCardsItem
+
+<TypeTable
+  type={{
+    src: {
+      description: 'Image URL for the card.',
+      type: 'string',
+    },
+    alt: {
+      description: 'Accessible label for the card image.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `MagneticCards` for hero sections, portfolio spotlights, or landing pages where a small set of images (3-6 works best) deserves a tactile, playful entrance. The physics simulation reads best with generous surrounding space — give the root element real height (e.g. a fixed-height section) rather than letting it collapse to content size.
+
+For image grids that need to stay readable and scannable (e.g. a gallery or catalog), use a static grid instead — the constant motion here is decorative, not information-dense.
+
+## Accessibility
+
+Cursor tracking is scoped to the component's own root element via `pointermove`/`pointerleave`, so it never hijacks page-wide input. When `prefers-reduced-motion: reduce` is set, the physics loop never starts — cards render directly at their rest position/rotation with no motion at all, and the setting is watched live via `usePrefersReducedMotion`, so toggling it while the page is open updates immediately.

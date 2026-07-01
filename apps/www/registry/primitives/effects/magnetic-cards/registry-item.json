@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magnetic-cards",
+  "type": "registry:ui",
+  "title": "Magnetic Cards",
+  "description": "A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.",
+  "dependencies": ["gsap", "@gsap/react"],
+  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/magnetic-cards/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/magnetic-cards.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": ["magnetic", "cards", "cursor", "physics", "spring", "gsap"],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Codegrid — Spencer Gabor",
+      "url": "https://codegrid.com"
+    }
+  }
+}

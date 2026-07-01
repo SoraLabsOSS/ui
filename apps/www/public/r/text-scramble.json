@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-scramble",
   "title": "Text Scramble",
-  "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered.",
+  "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered, powered by Motion.",
   "dependencies": ["motion"],
   "files": [
     {

@@ -3,7 +3,7 @@
   "name": "custom-cursor",
   "type": "registry:ui",
   "title": "Custom Cursor",
-  "description": "A smooth custom cursor that morphs when hovering interactive targets.",
+  "description": "A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils"],
   "files": [
