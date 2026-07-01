@@ -2558,12 +2558,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
-    inspiration: {
-      type: "reimplemented",
-      label: "Annnimate",
-      url: "https://www.annnimate.com",
-      stack: "React and CSS",
-    },
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
@@ -3077,12 +3072,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
-    inspiration: {
-      type: "reimplemented",
-      label: "Annnimate",
-      url: "https://www.annnimate.com",
-      stack: "React and CSS",
-    },
+    inspiration: null,
     component: null,
     command: "@soralabs/demo-text-underline",
   },

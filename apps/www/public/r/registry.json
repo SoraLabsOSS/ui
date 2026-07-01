@@ -1240,12 +1240,6 @@
         }
       ],
       "meta": {
-        "inspiration": {
-          "type": "reimplemented",
-          "label": "Annnimate",
-          "url": "https://www.annnimate.com",
-          "stack": "React and CSS"
-        },
         "demoProps": {
           "TextUnderline": {
             "label": {
