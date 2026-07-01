@@ -24,12 +24,14 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 
 | Tool | Description |
 | --- | --- |
-| `search_docs` | Search docs and components by keyword or phrase |
+| `search_docs` | Search docs and components by keyword or phrase. Capped at 25 results per call — the response notes when results may be truncated, so narrow the query or raise `limit` |
 | `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `primitives/draw-underline-link`) |
-| `list_sections` | Browse the doc structure (`documentation`, `components`) |
+| `list_sections` | Browse the doc structure. Valid `section` filters: `documentation`, `components` |
+| `list_components` | List installable Sora UI components and hooks with short descriptions — no need to configure a second MCP server just to browse |
+| `get_component_info` | Get the install command, dependencies, and file targets for a component or hook by name |
 
 <Callout>
-  Use **Sora UI docs MCP** to read documentation. To **install** `@soralabs/*` components with natural language, also configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project.
+  `list_components` and `get_component_info` let you browse and inspect the registry directly from **Sora UI docs MCP** — handy if you just want to look something up. To actually **install** `@soralabs/*` components with natural language, still configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
 ## Add to Cursor
@@ -166,6 +168,12 @@ Add the `sora-ui` entry under `mcpServers` (create the file with the content abo
 - Search Sora UI components for underline link
 - Get the draw-underline-link primitive page
 - List the components section in Sora UI docs
+
+### Registry browsing
+
+- List installable Sora UI components
+- Get install info for char-stagger-button
+- What dependencies does the scroll-gallery component need?
 
 ## Registry MCP (shadcn)
 
