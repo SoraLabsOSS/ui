@@ -561,7 +561,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Annnimate",
-          "url": "https://www.annnimate.com"
+          "url": "https://www.annnimate.com",
+          "stack": "Motion and React"
         }
       }
     },
@@ -706,7 +707,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Spencer Gabor",
-          "url": "https://spencergabor.work/"
+          "url": "https://spencergabor.work/",
+          "stack": "GSAP and React"
         }
       }
     },
@@ -835,7 +837,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Osmo",
-          "url": "https://osmo.supply"
+          "url": "https://osmo.supply",
+          "stack": "Motion and React"
         },
         "demoProps": {
           "DrawUnderlineLink": {
@@ -1058,7 +1061,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Deadlock Studios",
-          "url": "https://github.com/Axyl1410"
+          "url": "https://github.com/Axyl1410",
+          "stack": "GSAP and React"
         }
       }
     },
@@ -1080,7 +1084,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Annnimate",
-          "url": "https://www.annnimate.com"
+          "url": "https://www.annnimate.com",
+          "stack": "Motion and React"
         },
         "demoProps": {
           "MaskedTextReveal": {
@@ -1238,7 +1243,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Annnimate",
-          "url": "https://www.annnimate.com"
+          "url": "https://www.annnimate.com",
+          "stack": "React and CSS"
         },
         "demoProps": {
           "TextUnderline": {

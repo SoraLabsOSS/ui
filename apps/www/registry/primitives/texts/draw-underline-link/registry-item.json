@@ -17,7 +17,8 @@
     "inspiration": {
       "type": "reimplemented",
       "label": "Osmo",
-      "url": "https://osmo.supply"
+      "url": "https://osmo.supply",
+      "stack": "Motion and React"
     },
     "demoProps": {
       "DrawUnderlineLink": {

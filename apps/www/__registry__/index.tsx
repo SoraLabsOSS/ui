@@ -1393,6 +1393,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Annnimate",
       url: "https://www.annnimate.com",
+      stack: "Motion and React",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1766,6 +1767,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Spencer Gabor",
       url: "https://spencergabor.work/",
+      stack: "GSAP and React",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1960,6 +1962,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Osmo",
       url: "https://osmo.supply",
+      stack: "Motion and React",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2270,6 +2273,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Deadlock Studios",
       url: "https://github.com/Axyl1410",
+      stack: "GSAP and React",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2321,6 +2325,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Annnimate",
       url: "https://www.annnimate.com",
+      stack: "Motion and React",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2557,6 +2562,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Annnimate",
       url: "https://www.annnimate.com",
+      stack: "React and CSS",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3075,6 +3081,7 @@ export const index: Record<string, any> = {
       type: "reimplemented",
       label: "Annnimate",
       url: "https://www.annnimate.com",
+      stack: "React and CSS",
     },
     component: null,
     command: "@soralabs/demo-text-underline",

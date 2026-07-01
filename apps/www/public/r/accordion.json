@@ -17,7 +17,8 @@
     "inspiration": {
       "type": "reimplemented",
       "label": "Annnimate",
-      "url": "https://www.annnimate.com"
+      "url": "https://www.annnimate.com",
+      "stack": "Motion and React"
     }
   },
   "type": "registry:ui"

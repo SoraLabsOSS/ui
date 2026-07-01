@@ -18,7 +18,8 @@
     "inspiration": {
       "type": "reimplemented",
       "label": "Deadlock Studios",
-      "url": "https://github.com/Axyl1410"
+      "url": "https://github.com/Axyl1410",
+      "stack": "GSAP and React"
     }
   },
   "type": "registry:ui"

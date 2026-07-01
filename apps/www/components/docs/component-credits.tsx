@@ -4,6 +4,7 @@ type InspirationType = "inspired" | "reimplemented" | "adapted";
 
 interface RegistryInspiration {
   label: string;
+  stack?: string;
   type: InspirationType;
   url: string;
 }
@@ -31,7 +32,12 @@ function getInspirationText(inspiration: RegistryInspiration) {
   );
 
   if (inspiration.type === "reimplemented") {
-    return <>Inspired by {source}. Reimplemented for Motion and React.</>;
+    const stack = inspiration.stack ?? "Motion and React";
+    return (
+      <>
+        Inspired by {source}. Reimplemented for {stack}.
+      </>
+    );
   }
 
   if (inspiration.type === "adapted") {

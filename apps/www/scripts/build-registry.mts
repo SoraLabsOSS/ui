@@ -69,6 +69,7 @@ interface RegistryItem {
     inspiration?: {
       type: "inspired" | "reimplemented";
       label: string;
+      stack?: string;
       url: string;
     };
   };
