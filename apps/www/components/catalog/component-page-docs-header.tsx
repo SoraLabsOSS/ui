@@ -54,8 +54,8 @@ export function ComponentPageDocsHeader({
         <ComponentPageDocsBreadcrumb
           className={cn(
             catalogDocsHeaderBreadcrumbClassName,
-            "max-lg:hidden",
-            open && "lg:hidden"
+            "max-lg:hidden lg:transition-opacity lg:duration-200 lg:ease-out",
+            open && "lg:pointer-events-none lg:opacity-0"
           )}
           title={title}
         />
