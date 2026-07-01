@@ -25,7 +25,7 @@ author:
 One `motion.div` lives inside the container and slides to whichever item is active. This is the same pattern used by the sidebar hover highlight.
 
 ```tsx
-import { Highlight, HighlightItem } from '@/components/sora-ui/primitives/effects/highlight';
+import { Highlight, HighlightItem } from '@/components/sora-ui/effects/highlight';
 
 const ITEMS = ['Design', 'Engineering', 'Product'];
 
@@ -54,7 +54,7 @@ export default function NavBar() {
 Each item renders its own `motion.div` overlay. Framer Motion's `layoutId` animates between items on click.
 
 ```tsx
-import { Highlight, HighlightItem } from '@/components/sora-ui/primitives/effects/highlight';
+import { Highlight, HighlightItem } from '@/components/sora-ui/effects/highlight';
 
 export default function Menu() {
   return (

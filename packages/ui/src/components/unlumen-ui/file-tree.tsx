@@ -127,7 +127,13 @@ function FileTreeHoverHighlight({ className }: { className?: string }) {
           }}
           className={className}
           exit={{ opacity: 0 }}
-          initial={{ opacity: 0 }}
+          initial={{
+            opacity: 0,
+            top: highlightBounds.top,
+            left: highlightBounds.left,
+            width: highlightBounds.width,
+            height: highlightBounds.height,
+          }}
           style={{ position: "absolute", pointerEvents: "none", zIndex: 0 }}
           transition={{ type: "spring", stiffness: 500, damping: 40 }}
         />
@@ -174,17 +180,12 @@ function FolderIcon({
     <span className="relative inline-flex size-[1.125rem] shrink-0">
       <AnimatePresence initial={false} mode="popLayout">
         <motion.span
-          animate={{ scale: 1, opacity: 1, rotate: 0 }}
+          animate={{ opacity: 1 }}
           className="inline-flex"
-          exit={{ scale: 0.5, opacity: 0, rotate: 15 }}
-          initial={{ scale: 0.5, opacity: 0, rotate: -15 }}
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
           key={isOpen ? "open" : "close"}
-          transition={{
-            type: "spring",
-            stiffness: 500,
-            damping: 30,
-            mass: 0.8,
-          }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
         >
           {isOpen ? openIcon : closeIcon}
         </motion.span>

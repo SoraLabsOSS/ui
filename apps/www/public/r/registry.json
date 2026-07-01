@@ -616,7 +616,7 @@
         {
           "path": "registry/primitives/effects/highlight/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/primitives/effects/highlight.tsx"
+          "target": "components/sora-ui/effects/highlight.tsx"
         }
       ]
     },
