@@ -6,6 +6,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type CSSProperties, useMemo, useRef } from "react";
+import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -419,6 +420,7 @@ export function TextRevealBox({
 }: TextRevealBoxProps) {
   const pinRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const resolvedTiming = useMemo(
     () => resolveTiming(timingProp),
@@ -501,7 +503,7 @@ export function TextRevealBox({
         const { rgb: resolvedHighlight, alpha: resolvedAlpha } =
           readHighlightConfig(activeTrigger, highlightBg, highlightAlpha);
 
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (prefersReducedMotion) {
           updateWords(
             1,
             cachedWords,
@@ -605,6 +607,7 @@ export function TextRevealBox({
         scrollerProp,
         resolvedTiming,
         embedded,
+        prefersReducedMotion,
       ],
     }
   );

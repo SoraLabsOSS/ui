@@ -4,13 +4,8 @@ import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  type CSSProperties,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { type CSSProperties, useMemo, useRef } from "react";
+import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,24 +90,6 @@ async function waitForScrollerReady(scroller: Element | Window): Promise<void> {
   if (!isWindowScroller(scroller)) {
     await waitForNextFrame();
   }
-}
-
-function usePrefersReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => {
-      setPrefersReducedMotion(media.matches);
-    };
-    update();
-    media.addEventListener("change", update);
-    return () => {
-      media.removeEventListener("change", update);
-    };
-  }, []);
-
-  return prefersReducedMotion;
 }
 
 export interface ScrollGallerySlide {

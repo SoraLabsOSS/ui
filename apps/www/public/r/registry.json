@@ -428,6 +428,19 @@
       ]
     },
     {
+      "name": "hooks-use-prefers-reduced-motion",
+      "type": "registry:hook",
+      "title": "usePrefersReducedMotion",
+      "description": "A hook that tracks the OS-level Reduced Motion setting live, so GSAP-driven primitives can skip or shortcut their animations.",
+      "files": [
+        {
+          "path": "registry/hooks/use-prefers-reduced-motion/index.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-prefers-reduced-motion.tsx"
+        }
+      ]
+    },
+    {
       "name": "char-stagger-button",
       "type": "registry:ui",
       "title": "Char Stagger Button",
@@ -709,7 +722,10 @@
       "title": "Scroll Gallery",
       "description": "A full-viewport sticky scroll slider with strip-mask image transitions and animated title swaps, driven by GSAP ScrollTrigger.",
       "dependencies": ["gsap", "@gsap/react"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-prefers-reduced-motion"
+      ],
       "files": [
         {
           "path": "registry/primitives/effects/scroll-gallery/index.tsx",
@@ -910,6 +926,7 @@
       "title": "Text Reveal (Block)",
       "description": "Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.",
       "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-block/index.tsx",
@@ -976,7 +993,8 @@
       "type": "registry:ui",
       "title": "Text Reveal Box",
       "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
-      "dependencies": ["gsap"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-box/index.tsx",

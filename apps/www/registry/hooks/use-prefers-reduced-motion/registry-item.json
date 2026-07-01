@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hooks-use-prefers-reduced-motion",
+  "type": "registry:hook",
+  "title": "usePrefersReducedMotion",
+  "description": "A hook that tracks the OS-level Reduced Motion setting live, so GSAP-driven primitives can skip or shortcut their animations.",
+  "files": [
+    {
+      "path": "registry/hooks/use-prefers-reduced-motion/index.tsx",
+      "type": "registry:hook",
+      "target": "hooks/use-prefers-reduced-motion.tsx"
+    }
+  ]
+}

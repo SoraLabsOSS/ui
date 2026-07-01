@@ -14,6 +14,7 @@ import {
   type Ref,
   useRef,
 } from "react";
+import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -151,6 +152,7 @@ interface AnimationOptions {
   delay: number;
   direction: TextRevealBlockDirection;
   duration: number;
+  prefersReducedMotion: boolean;
   scroller: Element | Window;
   stagger: number;
 }
@@ -408,7 +410,7 @@ function runLineRevealAnimations(
 function initTextRevealBlock(options: AnimationOptions) {
   const setup = setupLineReveal(options.container, options.blockColor);
 
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (options.prefersReducedMotion) {
     gsap.set(setup.lines, { opacity: 1 });
     gsap.set(setup.blocks, { display: "none" });
     return {
@@ -440,6 +442,7 @@ export function TextRevealBlock({
   scrollReadyEvent,
 }: TextRevealBlockProps) {
   const containerRef = useRef<HTMLElement | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const resolvedChild =
     children ?? (text ? createElement(Component, { className }, text) : null);
@@ -486,6 +489,7 @@ export function TextRevealBlock({
           delay,
           direction,
           duration,
+          prefersReducedMotion,
           scroller,
           stagger,
         });
@@ -536,6 +540,7 @@ export function TextRevealBlock({
         direction,
         stagger,
         duration,
+        prefersReducedMotion,
         scrollerProp,
         scrollReadyEvent,
       ],
