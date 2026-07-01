@@ -1081,6 +1081,98 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-text-roll",
   },
+  "hooks-use-auto-height": {
+    name: "hooks-use-auto-height",
+    description:
+      "A hook that allows you to automatically adjust the height of an element based on its content.",
+    type: "registry:hook",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-auto-height/index.tsx",
+        type: "registry:hook",
+        target: "hooks/use-auto-height.tsx",
+        content:
+          '"use client";\n\nimport * as React from "react";\n\ntype AutoHeightOptions = {\n  includeParentBox?: boolean;\n  includeSelfBox?: boolean;\n};\n\nexport function useAutoHeight<T extends HTMLElement = HTMLDivElement>(\n  deps: React.DependencyList = [],\n  options: AutoHeightOptions = {\n    includeParentBox: true,\n    includeSelfBox: false,\n  }\n) {\n  const ref = React.useRef<T | null>(null);\n  const roRef = React.useRef<ResizeObserver | null>(null);\n  const rafRef = React.useRef<number | null>(null);\n  const [height, setHeight] = React.useState(0);\n\n  const scheduleHeight = React.useCallback((next: number) => {\n    if (rafRef.current !== null) {\n      cancelAnimationFrame(rafRef.current);\n    }\n    rafRef.current = requestAnimationFrame(() => {\n      rafRef.current = null;\n      setHeight(next);\n    });\n  }, []);\n\n  const measure = React.useCallback(() => {\n    const el = ref.current;\n    if (!el) {\n      return 0;\n    }\n\n    const base = el.getBoundingClientRect().height || 0;\n\n    let extra = 0;\n\n    if (options.includeParentBox && el.parentElement) {\n      const cs = getComputedStyle(el.parentElement);\n      const paddingY =\n        (Number.parseFloat(cs.paddingTop || "0") || 0) +\n        (Number.parseFloat(cs.paddingBottom || "0") || 0);\n      const borderY =\n        (Number.parseFloat(cs.borderTopWidth || "0") || 0) +\n        (Number.parseFloat(cs.borderBottomWidth || "0") || 0);\n      const isBorderBox = cs.boxSizing === "border-box";\n      if (isBorderBox) {\n        extra += paddingY + borderY;\n      }\n    }\n\n    if (options.includeSelfBox) {\n      const cs = getComputedStyle(el);\n      const paddingY =\n        (Number.parseFloat(cs.paddingTop || "0") || 0) +\n        (Number.parseFloat(cs.paddingBottom || "0") || 0);\n      const borderY =\n        (Number.parseFloat(cs.borderTopWidth || "0") || 0) +\n        (Number.parseFloat(cs.borderBottomWidth || "0") || 0);\n      const isBorderBox = cs.boxSizing === "border-box";\n      if (isBorderBox) {\n        extra += paddingY + borderY;\n      }\n    }\n\n    const dpr =\n      typeof window === "undefined" ? 1 : window.devicePixelRatio || 1;\n    const total = Math.ceil((base + extra) * dpr) / dpr;\n\n    return total;\n  }, [options.includeParentBox, options.includeSelfBox]);\n\n  React.useLayoutEffect(() => {\n    const el = ref.current;\n    if (!el) {\n      return;\n    }\n\n    setHeight(measure());\n\n    if (roRef.current) {\n      roRef.current.disconnect();\n      roRef.current = null;\n    }\n\n    const ro = new ResizeObserver(() => {\n      scheduleHeight(measure());\n    });\n\n    ro.observe(el);\n    if (options.includeParentBox && el.parentElement) {\n      ro.observe(el.parentElement);\n    }\n\n    roRef.current = ro;\n\n    return () => {\n      ro.disconnect();\n      roRef.current = null;\n      if (rafRef.current !== null) {\n        cancelAnimationFrame(rafRef.current);\n        rafRef.current = null;\n      }\n    };\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, deps);\n\n  React.useLayoutEffect(() => {\n    if (height === 0) {\n      const next = measure();\n      if (next !== 0) {\n        setHeight(next);\n      }\n    }\n  }, [height, measure]);\n\n  return { ref, height } as const;\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/hooks/use-auto-height/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/hooks-use-auto-height",
+  },
+  "hooks-use-prefers-reduced-motion": {
+    name: "hooks-use-prefers-reduced-motion",
+    description:
+      "A hook that tracks the OS-level Reduced Motion setting live, so GSAP-driven primitives can skip or shortcut their animations.",
+    type: "registry:hook",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-prefers-reduced-motion/index.tsx",
+        type: "registry:hook",
+        target: "hooks/use-prefers-reduced-motion.tsx",
+        content:
+          '"use client";\n\nimport { useEffect, useState } from "react";\n\nconst REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";\n\n/**\n * Tracks the OS-level Reduced Motion setting, live. Unlike a one-time\n * `matchMedia(...).matches` check, this updates if the user toggles the\n * setting while the page is open (no reload needed).\n */\nexport function usePrefersReducedMotion(): boolean {\n  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);\n\n  useEffect(() => {\n    const media = window.matchMedia(REDUCED_MOTION_QUERY);\n    const update = () => {\n      setPrefersReducedMotion(media.matches);\n    };\n    update();\n    media.addEventListener("change", update);\n    return () => {\n      media.removeEventListener("change", update);\n    };\n  }, []);\n\n  return prefersReducedMotion;\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-prefers-reduced-motion/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/hooks-use-prefers-reduced-motion",
+  },
   "char-stagger-button": {
     name: "char-stagger-button",
     description: "A button with per-character stagger animation on hover.",

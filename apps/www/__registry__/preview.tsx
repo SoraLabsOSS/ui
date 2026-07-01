@@ -294,6 +294,36 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "hooks-use-auto-height": React.lazy(async () => {
+    const mod = await import("@/registry/hooks/use-auto-height/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "hooks-use-prefers-reduced-motion": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/hooks/use-prefers-reduced-motion/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "char-stagger-button": React.lazy(async () => {
     const mod = await import(
       "@/registry/primitives/buttons/char-stagger-button/index.tsx"
