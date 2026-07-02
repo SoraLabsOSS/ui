@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lib-scroll-trigger-utils",
+  "type": "registry:lib",
+  "title": "Scroll Trigger Utils",
+  "description": "Shared GSAP ScrollTrigger helpers (window/scroller detection, ready/resize waiting) used by scroll-driven primitives.",
+  "files": [
+    {
+      "path": "registry/lib/scroll-trigger-utils/index.tsx",
+      "type": "registry:lib",
+      "target": "lib/scroll-trigger-utils.tsx"
+    }
+  ]
+}

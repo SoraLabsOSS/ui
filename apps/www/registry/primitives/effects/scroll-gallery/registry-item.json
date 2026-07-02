@@ -7,7 +7,8 @@
   "dependencies": ["gsap", "@gsap/react"],
   "registryDependencies": [
     "utils",
-    "@soralabs/hooks-use-prefers-reduced-motion"
+    "@soralabs/hooks-use-prefers-reduced-motion",
+    "@soralabs/lib-scroll-trigger-utils"
   ],
   "files": [
     {

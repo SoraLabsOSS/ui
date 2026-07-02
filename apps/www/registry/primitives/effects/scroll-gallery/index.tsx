@@ -6,6 +6,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type CSSProperties, useMemo, useRef } from "react";
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
+import {
+  isWindowScroller,
+  observeWindowResize,
+  waitForScrollerReady,
+} from "@/registry/lib/scroll-trigger-utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +24,7 @@ const MASKED_IMAGE_STYLE =
 const IMAGE_CONTAINER_STYLE =
   "position:absolute;top:0;left:0;width:100%;height:100%;transform:translateZ(0);backface-visibility:hidden;";
 
-/** Minimal layout defaults — typography and styling via `*ClassName` props. */
+/** Minimal layout defaults — typography and styling via `variant` or the `classNames` prop. */
 const LAYOUT = {
   root: "relative h-svh w-full overflow-hidden",
   images: "absolute inset-0 h-full w-full",
@@ -32,7 +37,17 @@ const LAYOUT = {
   link: "flex flex-1 justify-end",
 } as const;
 
-/** Deadlock Studios featured-work layout — pass via `*ClassName` props. */
+export type ScrollGalleryVariant = "minimal" | "studio";
+
+/** Structural-only preset for `variant="minimal"`. Override slots via the `classNames` prop. */
+export const SCROLL_GALLERY_MINIMAL_CLASSES = {
+  ...LAYOUT,
+  prefixText: "",
+  titleText: "",
+  linkText: "",
+} as const;
+
+/** Deadlock Studios featured-work layout — used by `variant="studio"` or pass via the `classNames` prop. */
 export const SCROLL_GALLERY_STUDIO_CLASSES = {
   root: "relative h-svh w-full overflow-hidden max-lg:h-dvh",
   images: "absolute inset-0 h-full w-full",
@@ -50,47 +65,6 @@ export const SCROLL_GALLERY_STUDIO_CLASSES = {
   linkText:
     "font-medium text-[36px] text-white leading-none tracking-[-0.02rem] no-underline antialiased will-change-transform max-[1000px]:text-[18px]",
 } as const;
-
-function isWindowScroller(scroller: Element | Window): boolean {
-  return (
-    scroller === window ||
-    scroller === document.documentElement ||
-    scroller === document.body
-  );
-}
-
-function waitForNextFrame(): Promise<void> {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        resolve();
-      });
-    });
-  });
-}
-
-function observeWindowResize(onResize: () => void): () => void {
-  let frameId = 0;
-
-  const handleResize = () => {
-    cancelAnimationFrame(frameId);
-    frameId = requestAnimationFrame(onResize);
-  };
-
-  window.addEventListener("resize", handleResize);
-
-  return () => {
-    cancelAnimationFrame(frameId);
-    window.removeEventListener("resize", handleResize);
-  };
-}
-
-async function waitForScrollerReady(scroller: Element | Window): Promise<void> {
-  await waitForNextFrame();
-  if (!isWindowScroller(scroller)) {
-    await waitForNextFrame();
-  }
-}
 
 export interface ScrollGallerySlide {
   image: string;
@@ -121,8 +95,37 @@ export interface ScrollGalleryTiming {
   titleOffset?: string;
 }
 
+export interface ScrollGalleryClassNames {
+  /** First slide img element. */
+  image?: string;
+  /** Image frame wrapper. */
+  imageFrame?: string;
+  /** Image stack wrapper. */
+  images?: string;
+  /** Info band wrapper. */
+  info?: string;
+  /** Info band inner flex row. */
+  infoInner?: string;
+  /** CTA link column. */
+  link?: string;
+  /** CTA link text. */
+  linkText?: string;
+  /** Prefix label column. */
+  prefix?: string;
+  /** Prefix label text. */
+  prefixText?: string;
+  /** Animated title column. */
+  title?: string;
+  /** Animated title text. */
+  titleText?: string;
+  /** Extra classes on the scroll track (embedded mode only). */
+  track?: string;
+}
+
 export interface ScrollGalleryProps {
   className?: string;
+  /** Per-slot class overrides. `cn()` merges after built-ins/variant preset. */
+  classNames?: ScrollGalleryClassNames;
   /**
    * Use container query height (`cqh`) instead of viewport height (`svh/dvh`)
    * for embedded mode. Enable when the gallery lives inside a
@@ -137,21 +140,12 @@ export interface ScrollGalleryProps {
    * When omitted, embedded mode auto-targets ~5 panel heights total.
    */
   embeddedScrollPerTransition?: number;
-  imageClassName?: string;
-  imageFrameClassName?: string;
-  imagesClassName?: string;
-  infoClassName?: string;
-  infoInnerClassName?: string;
-  linkClassName?: string;
   /** Global CTA label (right column). @default "Explore" */
   linkLabel?: string;
-  linkTextClassName?: string;
   /** ScrollTrigger pin start. @default "top top" */
   pinStart?: string;
-  prefixClassName?: string;
   /** Prefix label (left column). Set `showPrefix={false}` to hide. @default "Featured" */
   prefixLabel?: string;
-  prefixTextClassName?: string;
   /**
    * GSAP ScrollTrigger refresh priority. Lower numbers refresh later.
    * Set below any pinned section that appears earlier in the DOM to ensure
@@ -172,10 +166,38 @@ export interface ScrollGalleryProps {
   /** Number of horizontal mask strips for the wipe transition. @default 20 */
   stripsCount?: number;
   timing?: ScrollGalleryTiming;
-  titleClassName?: string;
-  titleTextClassName?: string;
-  /** Extra classes on the scroll track (embedded mode only). */
-  trackClassName?: string;
+  /**
+   * Visual preset. `studio` applies Deadlock Studios editorial styling;
+   * `minimal` is structural-only (override via the `classNames` prop).
+   * @default "minimal"
+   */
+  variant?: ScrollGalleryVariant;
+}
+
+function resolveScrollGalleryClasses(
+  variant: ScrollGalleryVariant,
+  classNames: ScrollGalleryClassNames | undefined
+) {
+  const preset =
+    variant === "studio"
+      ? SCROLL_GALLERY_STUDIO_CLASSES
+      : SCROLL_GALLERY_MINIMAL_CLASSES;
+
+  return {
+    rootPreset: preset.root,
+    images: cn(preset.images, classNames?.images),
+    imageFrame: cn(preset.imageFrame, classNames?.imageFrame),
+    image: cn(preset.image, classNames?.image),
+    info: cn(preset.info, classNames?.info),
+    infoInner: cn(preset.infoInner, classNames?.infoInner),
+    prefix: cn(preset.prefix, classNames?.prefix),
+    prefixText: cn(preset.prefixText, classNames?.prefixText),
+    title: cn(preset.title, classNames?.title),
+    titleText: cn(preset.titleText, classNames?.titleText),
+    link: cn(preset.link, classNames?.link),
+    linkText: cn(preset.linkText, classNames?.linkText),
+    track: classNames?.track,
+  };
 }
 
 interface ResolvedTiming {
@@ -369,20 +391,15 @@ export function ScrollGallery({
   showPrefix = true,
   showLink = true,
   className,
-  imagesClassName,
-  imageFrameClassName,
-  imageClassName,
-  infoClassName,
-  infoInnerClassName,
-  prefixClassName,
-  prefixTextClassName,
-  titleClassName,
-  titleTextClassName,
-  linkClassName,
-  linkTextClassName,
-  trackClassName,
+  classNames,
   refreshPriority = -1,
+  variant = "minimal",
 }: ScrollGalleryProps) {
+  const classes = useMemo(
+    () => resolveScrollGalleryClasses(variant, classNames),
+    [variant, classNames]
+  );
+
   const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedTiming = useMemo(() => resolveTiming(timingProp), [timingProp]);
   const scrollConfig = useMemo(() => {
@@ -441,6 +458,11 @@ export function ScrollGallery({
       }
 
       if (embedded && scrollerProp === undefined) {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn(
+            "[ScrollGallery] embedded=true requires a `scroller` prop — animation will not mount without it."
+          );
+        }
         return;
       }
 
@@ -833,17 +855,19 @@ export function ScrollGallery({
   const gallerySection = (
     <section
       className={cn(
-        embedded ? "relative h-full w-full overflow-hidden" : LAYOUT.root,
+        embedded
+          ? "relative h-full w-full overflow-hidden"
+          : classes.rootPreset,
         className
       )}
       ref={sectionRef}
     >
-      <div className={cn(LAYOUT.images, imagesClassName)} ref={slideImagesRef}>
-        <div className={cn(LAYOUT.imageFrame, imageFrameClassName)}>
+      <div className={classes.images} ref={slideImagesRef}>
+        <div className={classes.imageFrame}>
           {firstSlide ? (
             <img
               alt={firstSlide.title}
-              className={cn(LAYOUT.image, imageClassName)}
+              className={classes.image}
               ref={firstImgRef}
               src={firstSlide.image}
               style={imageScaleStyle(initialImageScale)}
@@ -853,24 +877,24 @@ export function ScrollGallery({
       </div>
 
       {showInfoBand && firstSlide ? (
-        <div className={cn(LAYOUT.info, infoClassName)}>
-          <div className={cn(LAYOUT.infoInner, infoInnerClassName)}>
+        <div className={classes.info}>
+          <div className={classes.infoInner}>
             {displayPrefix ? (
-              <div className={cn(LAYOUT.prefix, prefixClassName)}>
-                <p className={prefixTextClassName}>{prefixLabel}</p>
+              <div className={classes.prefix}>
+                <p className={classes.prefixText}>{prefixLabel}</p>
               </div>
             ) : null}
 
-            <div className={cn(LAYOUT.title, titleClassName)}>
-              <p className={titleTextClassName} ref={titleRef}>
+            <div className={classes.title}>
+              <p className={classes.titleText} ref={titleRef}>
                 {firstSlide.title}
               </p>
             </div>
 
             {displayLink ? (
-              <div className={cn(LAYOUT.link, linkClassName)}>
+              <div className={classes.link}>
                 <a
-                  className={linkTextClassName}
+                  className={classes.linkText}
                   href={firstSlide.url ?? "#"}
                   ref={exploreLinkRef}
                 >
@@ -899,7 +923,7 @@ export function ScrollGallery({
           "relative w-full",
           !containerQuery &&
             "h-[calc(var(--sg-scroll-vh)*1svh)] max-lg:h-[calc(var(--sg-scroll-vh)*1dvh)]",
-          trackClassName
+          classes.track
         )}
         ref={trackRef}
         style={trackHeightStyle}

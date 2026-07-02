@@ -29,9 +29,19 @@ export default function Page() {
 }
 ```
 
-### Editorial class map
+### Editorial preset (`variant="studio"`)
 
-Ship a full-bleed hero with a three-column info band (prefix, title, link) and large white type. Import `SCROLL_GALLERY_STUDIO_CLASSES` and spread each slot into the matching `*ClassName` prop:
+Full-bleed hero with a three-column info band (prefix, title, link) and large white type:
+
+```tsx
+<ScrollGallery slides={slides} variant="studio" />
+```
+
+`variant="minimal"` (default) ships structural layout only — add your own typography via the `classNames` prop.
+
+### Custom class map (advanced)
+
+Import `SCROLL_GALLERY_STUDIO_CLASSES` to extend or partially override the studio preset:
 
 ```tsx
 import {
@@ -40,21 +50,9 @@ import {
 } from "@/components/sora-ui/effects/scroll-gallery";
 
 <ScrollGallery
-  className={studio.root}
-  imagesClassName={studio.images}
-  imageClassName={studio.image}
-  imageFrameClassName={studio.imageFrame}
-  infoClassName={studio.info}
-  infoInnerClassName={studio.infoInner}
-  prefixClassName={studio.prefix}
-  prefixTextClassName={studio.prefixText}
-  titleClassName={studio.title}
-  titleTextClassName={studio.titleText}
-  linkClassName={studio.link}
-  linkTextClassName={studio.linkText}
+  variant="studio"
+  classNames={{ titleText: cn(studio.titleText, "text-amber-200") }}
   slides={slides}
-  prefixLabel="Featured"
-  linkLabel="Explore"
 />;
 ```
 
@@ -147,32 +145,19 @@ Use high-quality full-bleed images (at least 1920 × 1080). The component crops 
       type: "ScrollGalleryTiming",
     },
     className: {
-      description: "Root section class names.",
+      description: "Root section class names (merged after variant preset).",
       type: "string",
     },
-    imagesClassName: {
-      description: "Image stack wrapper.",
-      type: "string",
+    variant: {
+      description:
+        'Visual preset. "studio" applies Deadlock Studios editorial styling; "minimal" is structural-only.',
+      type: '"minimal" | "studio"',
+      default: "minimal",
     },
-    imageClassName: {
-      description: "First slide img element.",
-      type: "string",
-    },
-    infoClassName: {
-      description: "Info band wrapper.",
-      type: "string",
-    },
-    prefixTextClassName: {
-      description: "Prefix label text.",
-      type: "string",
-    },
-    titleTextClassName: {
-      description: "Animated title text.",
-      type: "string",
-    },
-    linkTextClassName: {
-      description: "CTA link text.",
-      type: "string",
+    classNames: {
+      description:
+        "Per-slot class overrides: `images`, `imageFrame`, `image`, `info`, `infoInner`, `prefix`, `prefixText`, `title`, `titleText`, `link`, `linkText`, `track`.",
+      type: "ScrollGalleryClassNames",
     },
   }}
 />

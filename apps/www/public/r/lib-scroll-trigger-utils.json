@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lib-scroll-trigger-utils",
+  "title": "Scroll Trigger Utils",
+  "description": "Shared GSAP ScrollTrigger helpers (window/scroller detection, ready/resize waiting) used by scroll-driven primitives.",
+  "files": [
+    {
+      "path": "registry/lib/scroll-trigger-utils/index.tsx",
+      "content": "function isWindowScroller(scroller: Element | Window): boolean {\n  return (\n    scroller === window ||\n    scroller === document.documentElement ||\n    scroller === document.body\n  );\n}\n\nfunction waitForNextFrame(): Promise<void> {\n  return new Promise((resolve) => {\n    requestAnimationFrame(() => {\n      requestAnimationFrame(() => {\n        resolve();\n      });\n    });\n  });\n}\n\nasync function waitForScrollerReady(\n  scroller: Element | Window,\n  scrollReadyEvent?: string\n): Promise<void> {\n  await waitForNextFrame();\n\n  if (!scrollReadyEvent || isWindowScroller(scroller)) {\n    if (!isWindowScroller(scroller)) {\n      await waitForNextFrame();\n    }\n    return;\n  }\n\n  await Promise.race([\n    new Promise<void>((resolve) => {\n      window.addEventListener(scrollReadyEvent, () => resolve(), {\n        once: true,\n      });\n    }),\n    new Promise<void>((resolve) => {\n      window.setTimeout(resolve, 300);\n    }),\n  ]);\n\n  await waitForNextFrame();\n}\n\nfunction observeWindowResize(onResize: () => void): () => void {\n  let frameId = 0;\n\n  const handleResize = () => {\n    cancelAnimationFrame(frameId);\n    frameId = requestAnimationFrame(onResize);\n  };\n\n  window.addEventListener(\"resize\", handleResize);\n\n  return () => {\n    cancelAnimationFrame(frameId);\n    window.removeEventListener(\"resize\", handleResize);\n  };\n}\n\nexport {\n  isWindowScroller,\n  observeWindowResize,\n  waitForNextFrame,\n  waitForScrollerReady,\n};\n",
+      "type": "registry:lib",
+      "target": "lib/scroll-trigger-utils.tsx"
+    }
+  ],
+  "type": "registry:lib"
+}

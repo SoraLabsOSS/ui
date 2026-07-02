@@ -16,7 +16,7 @@ registryName: text-reveal-box
 
 ### Basic
 
-Neutral defaults (`bg-background`, `text-foreground`). Style via `*ClassName` props.
+Neutral defaults (`bg-background`, `text-foreground`). Style via the `classNames` prop.
 
 ```tsx
 import { TextRevealBox } from "@/components/sora-ui/texts/text-reveal-box";
@@ -30,7 +30,9 @@ export default function Section() {
   return (
     <TextRevealBox
       paragraphs={paragraphs}
-      paragraphClassName="text-center text-3xl font-medium tracking-tight md:text-5xl"
+      classNames={{
+        paragraph: "text-center text-3xl font-medium tracking-tight md:text-5xl",
+      }}
       highlightBg="60, 60, 60"
       pinDuration={4}
     />
@@ -38,9 +40,24 @@ export default function Section() {
 }
 ```
 
-### Dark serif preset
+### Dark serif preset (`variant="studio"`)
 
-Near-black canvas, uppercase serif copy, and keyword pills tuned for long-form manifesto sections. Pass `TEXT_REVEAL_BOX_STUDIO_CLASSES` into the class slots below:
+Near-black canvas, uppercase serif copy, and keyword pills tuned for long-form manifesto sections:
+
+```tsx
+<TextRevealBox
+  paragraphs={paragraphs}
+  highlightBg="60, 60, 60"
+  pinDuration={4}
+  variant="studio"
+/>
+```
+
+`variant="minimal"` (default) uses theme tokens (`bg-background`, `text-foreground`). Override any slot via the `classNames` prop.
+
+### Custom class map (advanced)
+
+Import `TEXT_REVEAL_BOX_STUDIO_CLASSES` to extend the studio preset:
 
 ```tsx
 import {
@@ -49,24 +66,25 @@ import {
 } from "@/components/sora-ui/texts/text-reveal-box";
 
 <TextRevealBox
-  className={studio.root}
-  stickyClassName={studio.sticky}
-  containerClassName={studio.container}
-  paragraphClassName={studio.paragraph}
-  wordClassName={studio.word}
-  keywordClassName={studio.keyword}
+  variant="studio"
+  classNames={{ paragraph: cn(studio.paragraph, "text-balance") }}
   paragraphs={paragraphs}
-  highlightBg="60, 60, 60"
   pinDuration={4}
 />;
 ```
 
 ### Docs preview
 
-`embedded` = transparent surface + theme-aware highlight. Pass `scroller` when inside a scroll panel.
+`embedded` = transparent surface + theme-aware highlight (minimal) or studio canvas (`variant="studio"`). Pass `scroller` when inside a scroll panel.
 
 ```tsx
-<TextRevealBox embedded scroller={viewport} paragraphs={paragraphs} pinDuration={4} />
+<TextRevealBox
+  embedded
+  scroller={viewport}
+  paragraphs={paragraphs}
+  pinDuration={4}
+  variant="studio"
+/>
 ```
 
 Scroll uses a **tall track + sticky viewport** (not GSAP `pin`): `pinDuration` sets how many viewport-heights you scroll while words reveal.
@@ -78,7 +96,7 @@ Scroll uses a **tall track + sticky viewport** (not GSAP `pin`): `pinDuration` s
   paragraphs={["Systems design meets psychological tension."]}
   keywords={["systems", "tension"]}
   keywordColors={{ systems: "#c8e600", tension: "#f7f5f0" }}
-  keywordClassName={studio.keyword}
+  classNames={{ keyword: studio.keyword }}
   highlightBg="60, 60, 60"
   pinDuration={4}
 />
@@ -98,7 +116,7 @@ Lock words after reveal — skip the reverse fade:
 ## Styling
 
 <Callout type="warn" title="Word spacing">
-  Words are adjacent `<span>` nodes **without** spaces in markup. Gaps come from built-in `mr-[0.2rem] mb-[0.2rem]` on `.trb-word`. If you override `wordClassName`, keep equivalent margins or pills will touch.
+  Words are adjacent `<span>` nodes **without** spaces in markup. Gaps come from built-in `mr-[0.2rem] mb-[0.2rem]` on `.trb-word`. If you override `classNames.word`, keep equivalent margins or pills will touch.
 </Callout>
 
 <Callout title="GSAP inline styles">
@@ -107,16 +125,16 @@ Lock words after reveal — skip the reverse fade:
 
 ### Class slots
 
-Pass any of these to override a layer (`cn()` merges after built-ins):
+`className` styles the root `<section data-slot="text-reveal-box">`. Pass any of
+these to `classNames` to override an inner layer (`cn()` merges after built-ins):
 
-- `className` — root `<section data-slot="text-reveal-box">`
-- `trackClassName` — scroll track (ScrollTrigger trigger)
-- `stickyClassName` — sticky viewport (`h-svh`, `p-8`)
-- `innerClassName` — flex center wrapper
-- `containerClassName` — width container (default `max-w-3xl`)
-- `paragraphClassName` — each `<p>`
-- `wordClassName` — `.trb-word` wrapper
-- `keywordWrapperClassName` / `keywordClassName` — keyword pill (`before:` + `--kw-color`)
+- `track` — scroll track (ScrollTrigger trigger)
+- `sticky` — sticky viewport (`h-svh`, `p-8`)
+- `inner` — flex center wrapper
+- `container` — width container (default `max-w-3xl`)
+- `paragraph` — each `<p>`
+- `word` — `.trb-word` wrapper
+- `keywordWrapper` / `keyword` — keyword pill (`before:` + `--kw-color`)
 
 ### CSS variables
 
@@ -188,6 +206,12 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
       type: "boolean",
       default: "false",
     },
+    variant: {
+      description:
+        'Visual preset. "studio" applies Deadlock Studios editorial styling; "minimal" uses theme tokens.',
+      type: '"minimal" | "studio"',
+      default: "minimal",
+    },
     keywords: {
       description: "Tokens matched for keyword pill styling.",
       type: "string[]",
@@ -207,22 +231,10 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
       type: "(word: string, keywords: string[]) => boolean",
     },
     className: { description: "Root section classes.", type: "string" },
-    trackClassName: { description: "Scroll track.", type: "string" },
-    stickyClassName: { description: "Sticky viewport.", type: "string" },
-    innerClassName: { description: "Center flex wrapper.", type: "string" },
-    containerClassName: { description: "Content width container.", type: "string" },
-    paragraphClassName: { description: "Paragraph blocks.", type: "string" },
-    wordClassName: {
-      description: "Word wrappers — preserve spacing if overriding.",
-      type: "string",
-    },
-    keywordWrapperClassName: {
-      description: "Extra classes on keyword words.",
-      type: "string",
-    },
-    keywordClassName: {
-      description: "Keyword pill span (`before:` utilities).",
-      type: "string",
+    classNames: {
+      description:
+        "Per-slot class overrides: `track`, `sticky`, `inner`, `container`, `paragraph`, `word`, `keywordWrapper`, `keyword`.",
+      type: "TextRevealBoxClassNames",
     },
   }}
 />

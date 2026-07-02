@@ -455,6 +455,19 @@
       ]
     },
     {
+      "name": "lib-scroll-trigger-utils",
+      "type": "registry:lib",
+      "title": "Scroll Trigger Utils",
+      "description": "Shared GSAP ScrollTrigger helpers (window/scroller detection, ready/resize waiting) used by scroll-driven primitives.",
+      "files": [
+        {
+          "path": "registry/lib/scroll-trigger-utils/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/scroll-trigger-utils.tsx"
+        }
+      ]
+    },
+    {
       "name": "char-stagger-button",
       "type": "registry:ui",
       "title": "Char Stagger Button",
@@ -770,7 +783,8 @@
       "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": [
         "utils",
-        "@soralabs/hooks-use-prefers-reduced-motion"
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
       ],
       "files": [
         {
@@ -973,7 +987,10 @@
       "title": "Text Reveal (Block)",
       "description": "Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.",
       "dependencies": ["gsap", "@gsap/react"],
-      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-block/index.tsx",
@@ -1041,7 +1058,10 @@
       "title": "Text Reveal Box",
       "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
       "dependencies": ["gsap", "@gsap/react"],
-      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-box/index.tsx",
