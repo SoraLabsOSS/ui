@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  TEXT_REVEAL_BOX_STUDIO_CLASSES as studio,
-  TextRevealBox,
-} from "@/registry/primitives/texts/text-reveal-box";
+import { TextRevealBox } from "@/registry/primitives/texts/text-reveal-box";
 
 const PARAGRAPHS = [
   "Sora UI is a motion-first registry for React and Next.js. Copy-paste primitives built on Motion and GSAP.",
@@ -16,19 +13,13 @@ const KEYWORD_COLORS: Record<string, string> = {};
 export function ScrollDemoPage() {
   return (
     <TextRevealBox
-      className={studio.root}
-      containerClassName={studio.container}
       highlightBg="60, 60, 60"
-      keywordClassName={studio.keyword}
       keywordColors={KEYWORD_COLORS}
       keywords={KEYWORDS}
-      keywordWrapperClassName={studio.keywordWrapper}
-      paragraphClassName={studio.paragraph}
       paragraphs={PARAGRAPHS}
       pinDuration={4}
       refreshPriority={-2}
-      stickyClassName={studio.sticky}
-      wordClassName={studio.word}
+      variant="studio"
     />
   );
 }

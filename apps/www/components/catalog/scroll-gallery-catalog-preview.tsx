@@ -5,10 +5,7 @@ import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
 import { scrollGalleryDemoSlides } from "@/lib/demo/scroll-gallery-demo-slides";
 import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
-import {
-  SCROLL_GALLERY_STUDIO_CLASSES,
-  ScrollGallery,
-} from "@/registry/primitives/effects/scroll-gallery";
+import { ScrollGallery } from "@/registry/primitives/effects/scroll-gallery";
 
 export default function ScrollGalleryCatalogPreview() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -38,21 +35,11 @@ export default function ScrollGalleryCatalogPreview() {
         <ScrollGallery
           containerQuery
           embedded
-          imageClassName={SCROLL_GALLERY_STUDIO_CLASSES.image}
-          imageFrameClassName={SCROLL_GALLERY_STUDIO_CLASSES.imageFrame}
-          imagesClassName={SCROLL_GALLERY_STUDIO_CLASSES.images}
-          infoClassName={SCROLL_GALLERY_STUDIO_CLASSES.info}
-          infoInnerClassName={SCROLL_GALLERY_STUDIO_CLASSES.infoInner}
-          linkClassName={SCROLL_GALLERY_STUDIO_CLASSES.link}
           linkLabel="Explore"
-          linkTextClassName={SCROLL_GALLERY_STUDIO_CLASSES.linkText}
-          prefixClassName={SCROLL_GALLERY_STUDIO_CLASSES.prefix}
           prefixLabel="Featured"
-          prefixTextClassName={SCROLL_GALLERY_STUDIO_CLASSES.prefixText}
           scroller={scroller}
           slides={scrollGalleryDemoSlides}
-          titleClassName={SCROLL_GALLERY_STUDIO_CLASSES.title}
-          titleTextClassName={SCROLL_GALLERY_STUDIO_CLASSES.titleText}
+          variant="studio"
         />
       ) : null}
     </div>
