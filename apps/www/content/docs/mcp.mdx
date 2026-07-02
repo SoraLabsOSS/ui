@@ -34,6 +34,44 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
   `list_components` and `get_component_info` let you browse and inspect the registry directly from **Sora UI docs MCP** — handy if you just want to look something up. To actually **install** `@soralabs/*` components with natural language, still configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
+## How it works in practice
+
+**MCP does not auto-suggest Sora components in the editor** — there is no autocomplete, component picker, or inline hint while you type JSX. MCP is **optional tooling for the AI agent**: after you enable a server, the agent *can* call its tools when your prompt is relevant, but it is neither always-on nor guaranteed on every message.
+
+### Two servers, two jobs
+
+| Server | Role |
+| --- | --- |
+| **`sora-ui`** | Read docs and browse the catalog — `search_docs`, `get_page`, `list_components`, `get_component_info` |
+| **`shadcn`** | Install `@soralabs/*` into your project via the shadcn CLI |
+
+Use **both** when you want the agent to look up usage *and* run `shadcn add` for a registry item. Register `@soralabs` in `components.json` first — see [Installation](/docs/installation).
+
+### What is automatic vs manual
+
+1. **Setup (manual, one-time)** — Add MCP config (or click **Add to Cursor** below), then enable the server under **Settings → Tools & MCP**. Restart Cursor if tools do not appear.
+
+2. **During Agent chat (semi-automatic)** — The agent may call MCP when it decides it needs live docs — for example, you ask for a scroll-pinned hero and it searches for `scroll-gallery`. This depends on your prompt, mode (Agent vs Ask), and model; **it will not happen on every request**.
+
+3. **Explicit prompts (most reliable)** — Name Sora UI or the task directly: *“List installable Sora UI components”*, *“Get install info for scroll-gallery”*, *“Add scroll-gallery from @soralabs and use variant=studio”*.
+
+### What MCP is not
+
+- **Not** IDE IntelliSense or Copilot-style inline completions
+- **Not** a replacement for reading source when you already have components in your repo
+- **Not** the same as project rules or skills — those load into context; MCP tools are invoked on demand
+
+### Typical workflow
+
+```text
+1. Enable sora-ui MCP (+ shadcn MCP if installing)
+2. Register @soralabs in components.json
+3. In Agent chat, ask naturally or explicitly:
+   - "What Sora component fits a pinned scroll text reveal?"
+   - "Install scroll-gallery and show usage with variant=studio"
+4. Agent calls MCP → reads docs → (optionally) runs shadcn add → writes code in your repo
+```
+
 ## Add to Cursor
 
 Cursor supports [one-click MCP install links](https://cursor.com/docs/mcp/install-links). Click below — Cursor opens a prompt to add the server, then enable it under **Settings → Tools & MCP**.
@@ -169,11 +207,12 @@ Add the `sora-ui` entry under `mcpServers` (create the file with the content abo
 - Get the draw-underline-link primitive page
 - List the components section in Sora UI docs
 
-### Registry browsing
+### Registry install
 
 - List installable Sora UI components
 - Get install info for char-stagger-button
 - What dependencies does the scroll-gallery component need?
+- Add scroll-gallery from @soralabs and wire it into my page with variant=studio
 
 ## Registry MCP (shadcn)
 
@@ -280,6 +319,10 @@ Merge the shadcn entry into your MCP config (example for Cursor):
 Register `@soralabs` in `components.json` before asking the agent to install components — see [Installation](/docs/installation).
 
 ## Troubleshooting
+
+### Agent does not use MCP tools
+
+MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in **Settings → Tools & MCP**, use **Agent** mode (not Ask), and mention Sora UI explicitly in your prompt. Prompts like *“Search Sora UI docs for …”* or *“List installable Sora UI components”* are the most reliable way to trigger tool calls.
 
 ### Server not connecting
 
