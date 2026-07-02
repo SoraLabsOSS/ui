@@ -28,6 +28,8 @@ export const env = createEnv({
     NEXT_PUBLIC_SENTRY_DSN: z.url().optional(),
     /** Cloudflare AI Search endpoint, e.g. https://<hash>/search.ai.cloudflare.com/ */
     NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL: z.url().optional(),
+    /** Sentinel KV identify endpoint — Better Auth Cloud dashboard project URL. Used by both the server (kvUrl) and the browser client (identifyUrl); not a secret. */
+    NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL: z.url().optional(),
   },
 
   experimental__runtimeEnv: {
@@ -37,6 +39,8 @@ export const env = createEnv({
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
     NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL:
       process.env.NEXT_PUBLIC_CLOUDFLARE_AI_SEARCH_API_URL,
+    NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL:
+      process.env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
   },
 
   emptyStringAsUndefined: true,

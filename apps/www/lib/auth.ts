@@ -1,4 +1,4 @@
-import { dash } from "@better-auth/infra";
+import { dash, sentinel } from "@better-auth/infra";
 import { db } from "@workspace/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
@@ -59,5 +59,42 @@ export const auth = betterAuth({
     ...(env.NODE_ENV === "production" ? [] : [openAPI()]),
     dash(),
     oneTap(),
+    sentinel({
+      apiKey: env.BETTER_AUTH_API_KEY,
+      kvUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
+      security: {
+        // Safe to hard-block regardless of traffic — no legitimate case for
+        // a leaked password or disposable signup email.
+        compromisedPassword: {
+          enabled: true,
+          action: "block",
+        },
+        emailValidation: {
+          enabled: true,
+          strictness: "medium",
+          action: "block",
+        },
+        emailNormalization: { enabled: true },
+
+        // Everything below starts in "log" mode — this is a brand-new,
+        // low-traffic site with no baseline yet. Flip to "challenge"/"block"
+        // once Sentinel's dashboard shows these aren't firing on real users.
+        credentialStuffing: {
+          enabled: true,
+          thresholds: { challenge: 3, block: 5 },
+        },
+        impossibleTravel: {
+          enabled: true,
+          action: "log",
+        },
+        velocity: {
+          enabled: true,
+          maxSignupsPerVisitor: 5,
+          action: "log",
+        },
+        botBlocking: { action: "log" },
+        suspiciousIpBlocking: { action: "log" },
+      },
+    }),
   ],
 });
