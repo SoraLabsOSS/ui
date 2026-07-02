@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { initAnimatedFooter } from "@/lib/brand-landing/animated-footer-engine";
 import { BRAND_NAV_LINKS, BRAND_TAGLINE } from "@/lib/brand-landing/config";
 import { usePreloaderContext } from "@/lib/brand-landing/preloader-context";
+import { SITE_NAME } from "@/lib/site";
 
 export function AnimatedFooter() {
   const footerRef = useRef<HTMLElement>(null);
@@ -28,6 +29,10 @@ export function AnimatedFooter() {
       className="fixed inset-0 z-0 flex h-svh w-full flex-col overflow-hidden bg-background max-[1000px]:justify-start max-[1000px]:gap-4 max-[1000px]:overflow-y-auto"
       ref={footerRef}
     >
+      <h1 className="sr-only">
+        {SITE_NAME} — {BRAND_TAGLINE}
+      </h1>
+
       <div className="footer-content relative z-10 flex w-full shrink-0 justify-between gap-8 p-6 text-foreground max-[1000px]:flex-col max-[1000px]:p-6 min-[1001px]:absolute min-[1001px]:top-0 min-[1001px]:left-0 min-[1001px]:p-8">
         <nav aria-label="Primary" className="footer-links flex flex-col gap-1">
           {BRAND_NAV_LINKS.map((link) => (
