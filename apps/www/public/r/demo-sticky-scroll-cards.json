@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-sticky-scroll-cards",
+  "title": "Sticky Scroll Cards Demo",
+  "description": "Front card flips to reveal 4 stacked back cards that dismiss one at a time as you scroll.",
+  "registryDependencies": ["@soralabs/sticky-scroll-cards"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useRef, useState } from \"react\";\nimport { CatalogScrollHint } from \"@/components/catalog/catalog-scroll-hint\";\nimport { resolveScrollRoot } from \"@/lib/catalog/resolve-scroll-root\";\nimport { waitForScrollerReady } from \"@/lib/scroll/scroller-ready\";\nimport { StickyScrollCards } from \"@/components/sora-ui/effects/sticky-scroll-cards\";\n\nconst FRONT = {\n  title: \"First Frame\",\n  description:\n    \"A single moment, held in place before everything begins to move.\",\n};\n\nconst CARDS = [\n  {\n    title: \"Final Hold\",\n    description:\n      \"Everything settles into place, leaving a lasting frame that feels complete.\",\n  },\n  {\n    title: \"Layered Time\",\n    description:\n      \"Moments stack, overlap, and reveal themselves slowly as the scroll continues.\",\n  },\n  {\n    title: \"Weight & Flow\",\n    description:\n      \"Elements carry presence, easing in and out with balance, never rushed, never still.\",\n  },\n  {\n    title: \"Soft Motion\",\n    description:\n      \"Subtle shifts and gentle transitions that build a quiet sense of rhythm as you move forward.\",\n  },\n];\n\nexport default function StickyScrollCardsExample() {\n  const rootRef = useRef<HTMLDivElement>(null);\n  const [scroller, setScroller] = useState<Element | Window | undefined>();\n\n  useEffect(() => {\n    const node = rootRef.current;\n    if (!node) {\n      return;\n    }\n\n    const resolved = resolveScrollRoot(node);\n\n    waitForScrollerReady(resolved)\n      .then(() => {\n        setScroller(resolved);\n      })\n      .catch(() => {\n        /* preview unmounted */\n      });\n  }, []);\n\n  return (\n    <div className=\"w-full\" ref={rootRef}>\n      <CatalogScrollHint label=\"Scroll to flip and dismiss cards\" />\n\n      {scroller ? (\n        <StickyScrollCards\n          cards={CARDS}\n          containerQuery\n          embedded\n          front={FRONT}\n          headline=\"Scroll to pin, flip, and let go\"\n          scroller={scroller}\n          timing={{\n            cardDismissDuration: 70,\n            cardFlipTrigger: 140,\n            cardsEnterEnd: 70,\n            dismissStart: 210,\n          }}\n          variant=\"studio\"\n        />\n      ) : null}\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/sticky-scroll-cards.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

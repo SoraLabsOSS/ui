@@ -1,0 +1,228 @@
+---
+title: Sticky Scroll Cards
+description: Scroll-pinned hero where a front card flips to reveal a stack of back cards, dismissed one at a time as you keep scrolling.
+category: effects
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: sticky-scroll-cards
+---
+
+## Installation
+
+<ComponentInstallation name="sticky-scroll-cards" />
+
+## Usage
+
+### Basic
+
+```tsx
+import { StickyScrollCards } from "@/components/sora-ui/effects/sticky-scroll-cards";
+
+const front = {
+  title: "First Frame",
+  description: "A single moment, held in place before everything begins to move.",
+};
+
+const cards = [
+  { title: "Final Hold", description: "Everything settles into place." },
+  { title: "Layered Time", description: "Moments stack and reveal themselves." },
+  { title: "Weight & Flow", description: "Elements ease in and out with balance." },
+  { title: "Soft Motion", description: "Subtle shifts build a quiet rhythm." },
+];
+
+export default function Section() {
+  return (
+    <StickyScrollCards
+      cards={cards}
+      front={front}
+      headline="Scroll to pin, flip, and let go"
+    />
+  );
+}
+```
+
+### Codegrid preset (`variant="studio"`)
+
+Cream canvas, condensed display type, and the original Codegrid "MaximaTherapy"
+palette cycled across back cards:
+
+```tsx
+<StickyScrollCards
+  cards={cards}
+  front={front}
+  headline="Scroll to pin, flip, and let go"
+  variant="studio"
+/>
+```
+
+`variant="minimal"` (default) uses theme tokens (`bg-background`/`bg-foreground`).
+Override any slot via the `classNames` prop.
+
+### Custom class map (advanced)
+
+Import `STICKY_SCROLL_CARDS_STUDIO_CLASSES` to extend the studio preset:
+
+```tsx
+import {
+  STICKY_SCROLL_CARDS_STUDIO_CLASSES as studio,
+  StickyScrollCards,
+} from "@/components/sora-ui/effects/sticky-scroll-cards";
+
+<StickyScrollCards
+  cards={cards}
+  classNames={{ front: cn(studio.front, "shadow-2xl") }}
+  front={front}
+  headline={headline}
+  variant="studio"
+/>;
+```
+
+### Docs preview
+
+`embedded` = CSS sticky scroll track (no GSAP pin) sized for a preview panel. Pass
+`scroller` when inside a scroll panel.
+
+```tsx
+<StickyScrollCards
+  cards={cards}
+  containerQuery
+  embedded
+  front={front}
+  headline={headline}
+  scroller={viewport}
+  variant="studio"
+/>
+```
+
+## Timing
+
+Total scroll distance is `dismissStart + cards.length × cardDismissDuration` (svh).
+Back cards dismiss one at a time in **reverse order** — the last card in the array
+leaves first.
+
+```tsx
+<StickyScrollCards
+  cards={cards}
+  front={front}
+  headline={headline}
+  timing={{
+    cardsEnterEnd: 500,
+    cardFlipTrigger: 1000,
+    dismissStart: 1500,
+    cardDismissDuration: 500,
+    flipTiltAngles: [-10, -20, -5, 10],
+    dismissTiltAngles: [-50, -60, -45, 50],
+  }}
+/>
+```
+
+`flipTiltAngles`/`dismissTiltAngles` are cycled by index — pass fewer values than
+`cards.length` and they repeat.
+
+## Styling
+
+<Callout title="3D flip">
+  The front card flips `rotationY: 0 → 180` while back cards flip `-180 → 0`, so
+  both live in the same stacking position with `backface-visibility: hidden`. If
+  you override `classNames.front`/`classNames.back`, keep `backface-visibility`
+  intact or the flip will show the reverse face mid-turn.
+</Callout>
+
+<Callout type="warn" title="Card colors">
+  In `variant="studio"`, back card colors come from a cycled palette applied as
+  inline `style`, not Tailwind classes — `classNames.back` layers on top via
+  `className`, it doesn't replace the color.
+</Callout>
+
+### Class slots
+
+`className` styles the root section. Pass any of these to `classNames` to
+override an inner layer:
+
+- `headline` — hero headline wrapper
+- `cardsLayer` — 3D perspective container
+- `front` / `back` — card surfaces
+- `frontIcon` / `backIcon` — icon circle
+- `badge` — front-only pill (e.g. "Start here")
+- `title` / `description` — card text
+- `track` — scroll track (embedded mode only)
+
+## Props
+
+<TypeTable
+  type={{
+    front: {
+      description: "Card shown before the flip.",
+      type: "StickyScrollCardsItem",
+    },
+    cards: {
+      description: "Back cards — revealed on flip, dismissed in reverse order.",
+      type: "StickyScrollCardsItem[]",
+    },
+    headline: {
+      description: "Hero headline, scrolls out during the enter phase.",
+      type: "string",
+    },
+    badgeLabel: {
+      description: "Front-only pill label.",
+      type: "string",
+      default: '"Start here"',
+    },
+    variant: {
+      description:
+        'Visual preset. "studio" applies the Codegrid palette; "minimal" uses theme tokens.',
+      type: '"minimal" | "studio"',
+      default: "minimal",
+    },
+    embedded: {
+      description: "CSS sticky scroll track for previews (no GSAP pin).",
+      type: "boolean",
+      default: "false",
+    },
+    scroller: {
+      description: "ScrollTrigger root (`window` or `Element`).",
+      type: "Element | Window",
+    },
+    refreshPriority: {
+      description:
+        "GSAP ScrollTrigger refresh priority. Set lower than any pinned section above this one in the DOM so spacers are re-added before this trigger measures its position.",
+      type: "number",
+      default: "-1",
+    },
+    timing: {
+      description: "Scroll-distance breakpoints, tilt angles, and flip ease.",
+      type: "StickyScrollCardsTiming",
+    },
+    className: { description: "Root section classes.", type: "string" },
+    classNames: {
+      description:
+        "Per-slot class overrides: `headline`, `cardsLayer`, `front`, `back`, `frontIcon`, `backIcon`, `badge`, `title`, `description`, `track`.",
+      type: "StickyScrollCardsClassNames",
+    },
+  }}
+/>
+
+### StickyScrollCardsItem
+
+<TypeTable
+  type={{
+    title: { description: "Card heading.", type: "string" },
+    description: { description: "Card body copy.", type: "string" },
+    icon: { description: "Optional icon node.", type: "ReactNode" },
+  }}
+/>
+
+## When to Use
+
+Use `StickyScrollCards` for a hero moment that needs to hold attention through a
+reveal-then-dismiss sequence — feature highlights, a portfolio's opening act, or
+any section where a single held frame should fan out into a short, deliberate
+series before releasing the scroll. Fewer than 3 back cards makes the dismiss
+phase feel abrupt; 3–5 gives the rhythm room to land.
+
+## Accessibility
+
+Card content stays in the DOM throughout the sequence. When
+`prefers-reduced-motion: reduce` is set, GSAP skips the animation and the section
+renders in its fully-dismissed end state immediately.

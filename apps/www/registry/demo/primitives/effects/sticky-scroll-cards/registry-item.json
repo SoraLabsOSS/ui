@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-sticky-scroll-cards",
+  "type": "registry:ui",
+  "title": "Sticky Scroll Cards Demo",
+  "description": "Front card flips to reveal 4 stacked back cards that dismiss one at a time as you scroll.",
+  "registryDependencies": ["sticky-scroll-cards"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/sticky-scroll-cards.tsx"
+    }
+  ]
+}
