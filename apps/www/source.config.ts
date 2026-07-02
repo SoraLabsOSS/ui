@@ -6,6 +6,7 @@ import {
   metaSchema,
 } from "fumadocs-mdx/config";
 import lastModified from "fumadocs-mdx/plugins/last-modified";
+import remarkReadingTime from "remark-reading-time";
 import { z } from "zod/v4";
 import { gitLastModifiedForFile } from "./lib/docs/git-last-modified";
 
@@ -81,13 +82,36 @@ export const blog = defineCollections({
   }),
   postprocess: {
     includeProcessedMarkdown: true,
+    // remark-reading-time writes to vfile.data; per-collection postprocess is
+    // what actually reaches remarkPostprocess — the global mdxOptions one doesn't.
+    valueToExport: ["readingTime"],
   },
 });
 
+/**
+ * `valueToExport` alone only injects the export into the compiled MDX
+ * module — the runtime loader still needs `doc.passthroughs` to forward it
+ * onto `page.data` (see how the built-in `lastModified` plugin does this).
+ */
+const readingTimePassthrough = {
+  name: "reading-time-passthrough",
+  "index-file": {
+    serverOptions(options: { doc?: { passthroughs?: string[] } }) {
+      options.doc ??= {};
+      options.doc.passthroughs ??= [];
+      options.doc.passthroughs.push("readingTime");
+    },
+  },
+};
+
 export default defineConfig({
   mdxOptions: {
+    remarkPlugins: (v) => [...v, remarkReadingTime],
     // remarkStructure writes to vfile.data; export it for search indexing.
     valueToExport: ["structuredData"],
   },
-  plugins: [lastModified({ versionControl: gitLastModifiedForFile })],
+  plugins: [
+    lastModified({ versionControl: gitLastModifiedForFile }),
+    readingTimePassthrough,
+  ],
 });

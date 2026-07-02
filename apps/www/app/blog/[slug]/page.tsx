@@ -3,6 +3,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ReadTimeResults } from "reading-time";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { BlogPostJsonLd } from "@/components/blog/blog-post-json-ld";
 import { InlineTOC } from "@/components/blog/inline-toc";
@@ -44,7 +45,7 @@ export default async function BlogPostPage(props: {
   );
   const primaryTag = page.data.hashtags?.[0]?.replace(HASHTAG_PREFIX, "");
   const readingMinutes = getReadingTimeMinutes(
-    await page.data.getText("processed")
+    page.data as unknown as { readingTime: ReadTimeResults }
   );
 
   return (
