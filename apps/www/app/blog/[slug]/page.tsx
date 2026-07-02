@@ -11,6 +11,7 @@ import {
   getBlogPageImage,
   getBlogPostOgMetadataImage,
 } from "@/lib/blog/metadata";
+import { getReadingTimeMinutes } from "@/lib/blog/reading-time";
 import { blog } from "@/lib/blog/source";
 import { getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
@@ -42,6 +43,9 @@ export default async function BlogPostPage(props: {
     page.data.date ?? path.basename(page.path, path.extname(page.path))
   );
   const primaryTag = page.data.hashtags?.[0]?.replace(HASHTAG_PREFIX, "");
+  const readingMinutes = getReadingTimeMinutes(
+    await page.data.getText("processed")
+  );
 
   return (
     <DocsPage
@@ -70,6 +74,7 @@ export default async function BlogPostPage(props: {
             author={page.data.author}
             date={publishedAt}
             primaryTag={primaryTag}
+            readingMinutes={readingMinutes}
             title={page.data.title}
             url={page.url}
           />
