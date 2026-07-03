@@ -6,15 +6,15 @@ date: 2026-06-26
 hashtags: ["#motion", "#react", "#gsap"]
 ---
 
-You import a `<Reveal />`, tweak three props, and it almost works. Then your designer asks for one small easing change—and suddenly you're reading minified source instead of shipping features.
+You import a `<Reveal />`, tweak three props, and it almost works. Then your designer asks for one small easing change — and suddenly you're stepping through minified source in devtools instead of shipping the feature you were actually supposed to ship today.
 
-Most animation libraries optimize for convenience. The trade-off shows up the moment you need something custom: you're debugging someone else's abstraction, not bending motion to your product.
+Most animation libraries optimize for convenience, which is fine right up until the moment you need something custom. Then you're debugging someone else's abstraction instead of just bending the motion to fit your product.
 
-Sora UI takes the opposite path — **registry primitives** you install with the shadcn CLI (`npx shadcn add @soralabs/...`). Every primitive is plain **React + Tailwind + GSAP** (or Motion) copied directly into your project.
+Sora UI takes the opposite path — **registry primitives** you install with the shadcn CLI (`npx shadcn add @soralabs/...`). Every primitive is plain **React + Tailwind + GSAP** (or Motion), copied straight into your project, no black box included.
 
 Scroll pinning. Word reveals. Cursor trails.
 
-**The motion logic lives in your repo—not behind a versioned package wall.**
+**The motion logic lives in your repo — not behind a versioned package wall you need a support ticket to get past.**
 
 ## What we're optimizing for
 
@@ -25,23 +25,23 @@ Scroll pinning. Word reveals. Cursor trails.
 
 ## What that looks like in practice
 
-**[Cursor Trail Reveal](/components/cursor-trail-reveal)** copies the full source into `components/sora-ui/effects/`. The trail logic, clip-path wipes, and reduced-motion guard are all in files you own. Need a slower stagger or a different breakpoint? Change the timeline—no fork, no `!important` war with a package.
+**[Cursor Trail Reveal](/components/cursor-trail-reveal)** copies the full source into `components/sora-ui/effects/`. The trail logic, clip-path wipes, and reduced-motion guard are all sitting in files you own. Want a slower stagger or a different breakpoint? Change the timeline — no fork, no `!important` war with a package that doesn't know your layout exists.
 
-**[Text Reveal Box](/components/text-reveal-box)** is scroll-pinned copy driven by GSAP ScrollTrigger. The tall track, sticky viewport, and word scrub live in one place. Swap the easing. Shorten `pinDuration`. Replace GSAP entirely if your stack later moves to Motion.
+**[Text Reveal Box](/components/text-reveal-box)** is scroll-pinned copy driven by GSAP ScrollTrigger. The tall track, sticky viewport, and word scrub all live in one place, in plain sight. Swap the easing. Shorten `pinDuration`. Rip GSAP out entirely if your stack moves to Motion next year — it's your code now, do what you want with it.
 
 > **Primitives are starting points, not contracts.**
 
 ## What's next on the blog
 
-Upcoming posts will break down how primitives like **Text Reveal Box**, **Cursor Trail Reveal**, and **Text Reveal Block** are built—from ScrollTrigger timelines to reduced-motion fallbacks and hydration-safe client loading.
+Upcoming posts will get into the actual guts of how primitives like **Text Reveal Box**, **Cursor Trail Reveal**, **Sticky Scroll Cards**, and **Text Reveal Block** are built — ScrollTrigger math, reduced-motion fallbacks, hydration-safe client loading, the works.
 
-We'll share the messy parts too: when to refresh ScrollTrigger after layout shifts, what we skip on mobile, and patterns that survived real client work—not trend-chasing motion for its own sake.
+We'll share the messy parts too: when you actually need to refresh ScrollTrigger after a layout shift, what we skip on mobile and why, and the patterns that survived real client work instead of just looking good in a demo.
 
 ## Start with one primitive
 
 1. [Add the `@soralabs` registry](/docs/installation).
 2. Install a primitive—`npx shadcn@latest add @soralabs/text-effect`, or [browse the catalog](/components).
-3. Read the source.
+3. Read the source. All of it — it's shorter than you think.
 4. Make it yours.
 
 **Install one primitive. Inspect every line. Make it yours.**
