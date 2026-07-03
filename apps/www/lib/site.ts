@@ -47,6 +47,12 @@ export const COMMUNITY_DISCUSSIONS_URL =
 export const SITE_DESCRIPTION =
   "Motion-first React component registry with GSAP scroll primitives. Preview animated Next.js components in docs and install with shadcn CLI.";
 
+/** Default OG image headline — matches home hero (`MOTION-FIRST` / `FOR REACT`). */
+export const SITE_OG_HERO_TITLE = "Motion-first for React";
+
+/** OG image subline — matches home hero tag (`FOR SHADCN/UI`). */
+export const SITE_OG_HERO_SUBLINE = "For shadcn/ui";
+
 /**
  * Origin for resolving metadata and OG image URLs.
  * - Vercel: deployment host (preview or production)
