@@ -70,7 +70,7 @@ interface RegistryItem {
       type: "inspired" | "reimplemented";
       label: string;
       stack?: string;
-      url: string;
+      url?: string;
     };
   };
   name: string;

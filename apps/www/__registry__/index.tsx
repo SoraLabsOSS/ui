@@ -2071,7 +2071,6 @@ export const index: Record<string, any> = {
     inspiration: {
       type: "reimplemented",
       label: "Codegrid",
-      url: "https://github.com/Codegrid",
       stack: "GSAP and vanilla JS",
     },
     component: (() => {

@@ -881,7 +881,6 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Codegrid",
-          "url": "https://github.com/Codegrid",
           "stack": "GSAP and vanilla JS"
         }
       }
