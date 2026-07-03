@@ -129,7 +129,7 @@ Keep labels short (1–10 characters) for the effect to be legible. For longer t
 
 ## Accessibility
 
-`TextRoll` animates characters via CSS transforms — the text string is always in the DOM. When using it inside an interactive element, ensure the parent has a clear accessible label if the visible text may be ambiguous mid-animation. The `bounce` parameter controls personality, not speed; total animation time is `duration + (text.length × stagger)` in milliseconds.
+`TextRoll` animates characters via CSS transforms — the text string is always in the DOM. When using it inside an interactive element, ensure the parent has a clear accessible label if the visible text may be ambiguous mid-animation. The `bounce` parameter controls personality, not speed; total animation time is `duration + (text.length × stagger)` in milliseconds. When `prefers-reduced-motion: reduce` is set, the component skips the roll animation via `useReducedMotion()` and renders the text directly — no extra configuration needed.
 
 ## Credits
 

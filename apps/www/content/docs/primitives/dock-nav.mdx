@@ -97,4 +97,4 @@ For primary site navigation that needs to be accessible on mobile, use a standar
 
 ## Accessibility
 
-Each item renders as an `<a>` and uses its `label` as the visible tooltip and accessible name. Image icons get the accessible label from the `alt` prop — always supply it. The expansion animation is Motion-driven; when `prefers-reduced-motion: reduce` is set, the item scales without the spring overshoot.
+Each item renders as an `<a>` and uses its `label` as the visible tooltip and accessible name. Image icons get the accessible label from the `alt` prop — always supply it. The expansion animation is Motion-driven; when `prefers-reduced-motion: reduce` is set, `useReducedMotion()` collapses transitions to `duration: 0` — item widths and the tooltip still change state, just instantly instead of animating.

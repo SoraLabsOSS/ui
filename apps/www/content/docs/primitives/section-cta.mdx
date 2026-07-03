@@ -179,7 +179,7 @@ Pair it with a clear, short label (2–5 words). Avoid using more than one `Sect
 
 ## Accessibility
 
-`SectionCta` renders as an `<a>` by default and forwards `href` directly. Use `asChild` to wrap a `<button>` for in-page actions that do not navigate. The sliding label and rotating chips are purely decorative; the link text is always in the DOM and read by screen readers. Focus state uses the standard visible outline.
+`SectionCta` renders as an `<a>` by default and forwards `href` directly. Use `asChild` to wrap a `<button>` for in-page actions that do not navigate. The sliding label and rotating chips are purely decorative; the link text is always in the DOM and read by screen readers. Focus state uses the standard visible outline. When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` collapses the hover transition to `duration: 0` — the end state still applies instantly, just without the animated motion.
 
 ## Credits
 

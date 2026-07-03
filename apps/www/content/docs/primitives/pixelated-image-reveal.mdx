@@ -86,4 +86,4 @@ It works best when there is clear visual contrast between the default and active
 
 ## Accessibility
 
-Both `defaultSrc` and `activeSrc` represent the same content in different visual states. Provide a meaningful `alt` description of what the image shows. The reveal transition is purely visual; screen readers announce only the `alt` text. The component responds to tap on touch devices as well as hover on pointer devices.
+Both `defaultSrc` and `activeSrc` represent the same content in different visual states. Provide a meaningful `alt` description of what the image shows. The reveal transition is purely visual; screen readers announce only the `alt` text. The component responds to tap on touch devices as well as hover on pointer devices. When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` skips the staggered pixel reveal and swaps between images directly — no extra configuration needed.

@@ -96,4 +96,4 @@ Avoid it for buttons used repeatedly in lists, destructive actions (the playful 
 
 ## Accessibility
 
-The button renders as an `<a>` by default, or wraps any element via `asChild`. All animation is CSS opacity and transform — the visible text is always present in the DOM and readable by screen readers. The default `staggerDelay` of 10 ms per character means total animation time stays under 200 ms for most labels, within the threshold that avoids vestibular concerns.
+The button renders as an `<a>` by default, or wraps any element via `asChild`. All animation is CSS opacity and transform — the visible text is always present in the DOM and readable by screen readers. The default `staggerDelay` of 10 ms per character means total animation time stays under 200 ms for most labels, within the threshold that avoids vestibular concerns. Unlike the Motion-driven primitives in this registry, this component has no JS animation to gate — the hover transition and character stagger are disabled via the Tailwind `motion-reduce:transition-none`/`motion-reduce:group-hover:*` utilities, which apply automatically under `prefers-reduced-motion: reduce`.

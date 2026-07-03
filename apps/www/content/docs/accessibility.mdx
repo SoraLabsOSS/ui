@@ -44,7 +44,7 @@ As a result, Sora UI components will automatically respect user preferences with
 
 ## Sora UI & GSAP
 
-A few primitives (`scroll-gallery`, `text-reveal-block`, `text-reveal-box`) are driven by [GSAP](https://gsap.com/) instead of Motion — `MotionConfig` has no effect on them, since GSAP has no equivalent built-in setting.
+A few primitives (`scroll-gallery`, `sticky-scroll-cards`, `text-reveal-block`, `text-reveal-box`, `magnetic-cards`) are driven by [GSAP](https://gsap.com/) instead of Motion — `MotionConfig` has no effect on them, since GSAP has no equivalent built-in setting.
 
 These primitives install `@soralabs/hooks-use-prefers-reduced-motion` as a registry dependency (pulled in automatically by the CLI) and use it internally to track the OS Reduced Motion setting live. When enabled, each primitive skips its own scroll-driven timeline and jumps straight to the fully revealed state instead — no configuration needed on your end.
 
@@ -55,6 +55,8 @@ const prefersReducedMotion = usePrefersReducedMotion();
 ```
 
 You can reuse this hook directly if you're building your own GSAP-driven effects and want the same behavior.
+
+`cursor-trail-reveal` also installs `@soralabs/hooks-use-prefers-reduced-motion` directly, even though it isn't GSAP-based (it's a vanilla DOM/CSS effect) — when reduced motion is on, the trail simply never starts.
 
 ## Conclusion
 

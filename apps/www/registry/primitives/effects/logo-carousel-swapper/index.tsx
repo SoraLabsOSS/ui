@@ -297,6 +297,11 @@ export function LogoCarouselSwapper({
   const activeRow = normalizedRows[rowIndex] ?? [];
 
   useEffect(() => {
+    if (reduceMotion) {
+      setRowIndex(0);
+      return;
+    }
+
     if (normalizedRows.length < 2) {
       return;
     }
@@ -308,7 +313,7 @@ export function LogoCarouselSwapper({
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [interval, normalizedRows.length]);
+  }, [interval, normalizedRows.length, reduceMotion]);
 
   if (activeRow.length === 0) {
     return null;

@@ -1,7 +1,12 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { AnimatePresence, motion, type Transition } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  type Transition,
+  useReducedMotion,
+} from "motion/react";
 import {
   type CSSProperties,
   cloneElement,
@@ -46,6 +51,14 @@ interface HighlightContextValue {
   style?: CSSProperties;
   transition: Transition;
   trigger: HighlightTrigger;
+}
+
+/** Collapse to an instant transition for `prefers-reduced-motion: reduce`. */
+function resolveTransition(
+  transition: Transition,
+  prefersReducedMotion: boolean | null
+): Transition {
+  return prefersReducedMotion ? { duration: 0 } : transition;
 }
 
 const HighlightContext = createContext<HighlightContextValue | undefined>(
@@ -100,6 +113,11 @@ export function Highlight({
   ...rest
 }: HighlightProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const resolvedTransition = resolveTransition(
+    transition,
+    prefersReducedMotion
+  );
   const [activeValue, setActiveValueState] = useState<string | null>(
     valueProp === undefined ? (defaultValue ?? null) : valueProp
   );
@@ -206,7 +224,7 @@ export function Highlight({
       style,
       activeClassName,
       setActiveClassName,
-      transition,
+      transition: resolvedTransition,
       disabled,
       exitDelay,
     }),
@@ -221,7 +239,7 @@ export function Highlight({
       className,
       style,
       activeClassName,
-      transition,
+      resolvedTransition,
       disabled,
       exitDelay,
     ]
@@ -250,8 +268,8 @@ export function Highlight({
                 exit={{
                   opacity: 0,
                   transition: {
-                    ...transition,
-                    delay: (transition?.delay ?? 0) + exitDelay / 1000,
+                    ...resolvedTransition,
+                    delay: (resolvedTransition?.delay ?? 0) + exitDelay / 1000,
                   },
                 }}
                 initial={{
@@ -262,7 +280,7 @@ export function Highlight({
                   opacity: 0,
                 }}
                 style={{ position: "absolute", zIndex: 0, ...style }}
-                transition={transition}
+                transition={resolvedTransition}
               />
             )}
           </AnimatePresence>
@@ -326,7 +344,11 @@ export function HighlightItem({
 
   const isActive = activeValue === value;
   const isDisabled = disabled || ctxDisabled;
-  const itemTransition = transition ?? ctxTransition;
+  const prefersReducedMotion = useReducedMotion();
+  const itemTransition = resolveTransition(
+    transition ?? ctxTransition,
+    prefersReducedMotion
+  );
 
   // Parent mode: report this item's bounds when it becomes active
   useEffect(() => {

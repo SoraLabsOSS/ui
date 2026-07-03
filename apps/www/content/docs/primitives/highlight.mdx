@@ -207,4 +207,4 @@ Avoid using `trigger="hover"` with `mode="children"` and widely-spaced items —
 
 `HighlightItem` sets `aria-selected` and `data-active` on each item wrapper. The highlight overlay itself is decorative (`pointer-events-none`) and invisible to assistive technologies. Keyboard navigation is not wired automatically — connect it via the controlled `value`/`onValueChange` API if needed.
 
-When `prefers-reduced-motion: reduce` is set, Framer Motion automatically reduces the spring animation to a simple fade.
+When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` collapses the transition to `duration: 0` — the highlight still moves to the active item's bounds, just instantly instead of animating.

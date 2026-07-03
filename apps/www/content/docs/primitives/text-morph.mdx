@@ -150,7 +150,7 @@ For longer text or entire paragraphs that change, a fade transition is simpler a
 
 ## Accessibility
 
-Set `live="polite"` when the content change is the result of a user action that screen reader users should be notified about (e.g., "Copied"). Use `live="assertive"` only for urgent status updates. The morphing animation is visual only; the final string is announced by the live region after the transition completes.
+Set `live="polite"` when the content change is the result of a user action that screen reader users should be notified about (e.g., "Copied"). Use `live="assertive"` only for urgent status updates. The morphing animation is visual only; the final string is announced by the live region after the transition completes. When `prefers-reduced-motion: reduce` is set, the component skips the character-by-character morph via `useReducedMotion()` and renders the text directly — no extra configuration needed.
 
 ## Credits
 
