@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton Demo",
+  "description": "A profile card loading, then crossfading into content once ready.",
+  "registryDependencies": ["skeleton"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/skeleton/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/skeleton.tsx"
+    }
+  ]
+}

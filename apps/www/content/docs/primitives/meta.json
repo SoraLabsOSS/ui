@@ -13,18 +13,21 @@
     "text-reveal-block",
     "text-underline",
     "draw-underline-link",
-    "---Disclosure---",
-    "accordion",
     "---Buttons---",
     "char-stagger-button",
     "section-cta",
+    "---Disclosure---",
+    "accordion",
+    "---Loading---",
+    "skeleton",
+    "---Navigation---",
+    "dock-nav",
     "---Effects---",
-    "magnetic-cards",
     "highlight",
     "border-trail",
+    "magnetic-cards",
     "pixelated-image-reveal",
-    "custom-cursor",
-    "dock-nav",
-    "logo-carousel-swapper"
+    "logo-carousel-swapper",
+    "custom-cursor"
   ]
 }

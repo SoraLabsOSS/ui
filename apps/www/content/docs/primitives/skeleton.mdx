@@ -1,0 +1,198 @@
+---
+title: Skeleton
+description: A loading placeholder with shimmer or fade variants, plus a transition that crossfades into real content once loading finishes.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-skeleton" description="A cover image (fade) above a profile row (shimmer) that crossfades into content once ready." />
+
+## Installation
+
+<ComponentInstallation name="skeleton" />
+
+## Usage
+
+### Basic
+
+```tsx
+import { Skeleton } from '@/components/sora-ui/effects/skeleton';
+
+export default function Page() {
+  return <Skeleton className="h-4 w-40" />;
+}
+```
+
+Use `SkeletonAvatar`, `SkeletonText`, and `SkeletonButton` for common shapes — they accept all
+`Skeleton` props (`SkeletonAvatar`/`SkeletonButton` fix `rounded` to their own shape, so that
+one prop isn't available on those two):
+
+```tsx
+import {
+  SkeletonAvatar,
+  SkeletonButton,
+  SkeletonText,
+} from '@/components/sora-ui/effects/skeleton';
+
+export default function Page() {
+  return (
+    <div className="flex items-center gap-3">
+      <SkeletonAvatar />
+      <SkeletonText className="w-32" />
+      <SkeletonButton />
+    </div>
+  );
+}
+```
+
+`ShimmerSkeleton` is an alias for `Skeleton` (same component, same props) — pick whichever
+name reads better at the call site.
+
+### Variants
+
+`variant="shimmer"` (default) sweeps a moving highlight; `variant="fade"` uses Tailwind
+`animate-pulse` for a calmer opacity pulse — a good fit for large blocks like cover images
+or cards:
+
+```tsx
+import { Skeleton } from '@/components/sora-ui/effects/skeleton';
+
+export default function Page() {
+  return <Skeleton className="h-24 w-full" rounded="lg" variant="fade" />;
+}
+```
+
+### Customizing colors
+
+There's no `color` or `background` prop — Skeleton reads two CSS variables instead:
+`--sk-muted` for the surface fill and `--sk-foreground` for the shimmer highlight. Both
+default to your app's own `--muted` / `--foreground` shadcn tokens when present, so it
+matches your theme automatically. Override either directly to use different colors:
+
+```tsx
+<Skeleton className="[--sk-muted:theme(colors.zinc.200)] [--sk-foreground:theme(colors.zinc.600)]" />
+```
+
+Plain Tailwind background utilities (`bg-accent`, etc.) also work for the surface fill since
+`className` is merged last, but the shimmer highlight only follows `--sk-foreground` — override
+both if you want the two to stay in sync.
+
+### Transitioning into content
+
+Wrap a placeholder and the real content in `SkeletonTransition` — when `loading` flips to
+`false`, the shimmer settles for a beat, then the skeleton and content crossfade:
+
+```tsx
+import {
+  SkeletonAvatar,
+  SkeletonText,
+  SkeletonTransition,
+} from '@/components/sora-ui/effects/skeleton';
+
+export default function Page({ loading, user }: { loading: boolean; user?: User }) {
+  return (
+    <SkeletonTransition
+      loading={loading}
+      skeleton={
+        <div className="flex items-center gap-3">
+          <SkeletonAvatar />
+          <SkeletonText className="w-32" />
+        </div>
+      }
+    >
+      <div className="flex items-center gap-3">
+        <img alt="" className="size-10 rounded-full" src={user?.avatarUrl} />
+        <p>{user?.name}</p>
+      </div>
+    </SkeletonTransition>
+  );
+}
+```
+
+<Callout type="warn" title="Size skeleton to match content">
+  While both are mounted, `children` is absolutely positioned over `skeleton`, which drives
+  the wrapper's height. If the two differ a lot in size, the layout snaps to the content's
+  real height the instant the crossfade finishes. Keep `skeleton` close to the real content's
+  dimensions to avoid a visible jump.
+</Callout>
+
+## Props
+
+### Skeleton
+
+<TypeTable
+  type={{
+    variant: {
+      description: 'Loading animation style.',
+      type: '"shimmer" | "fade"',
+      default: '"shimmer"',
+    },
+    duration: {
+      description: 'Animation duration in seconds.',
+      type: 'number',
+      default: '1.6 (shimmer) / 2.4 (fade)',
+    },
+    rounded: {
+      description: 'Corner radius preset.',
+      type: '"none" | "sm" | "md" | "lg" | "full"',
+      default: '"md"',
+    },
+    animate: {
+      description: 'Set false to render a static placeholder with no animation.',
+      type: 'boolean',
+      default: 'true',
+    },
+    decorative: {
+      description:
+        'When true, the skeleton is hidden from assistive tech (aria-hidden). Set false to announce it as a loading status instead.',
+      type: 'boolean',
+      default: 'true',
+    },
+    label: {
+      description:
+        'Custom label announced when decorative is false. Pass null to opt out of accessibility props entirely.',
+      type: 'string | null',
+    },
+  }}
+/>
+
+### SkeletonTransition
+
+<TypeTable
+  type={{
+    loading: {
+      description: 'While true, only skeleton is shown.',
+      type: 'boolean',
+    },
+    skeleton: {
+      description: 'Placeholder rendered while loading is true.',
+      type: 'ReactNode',
+    },
+    children: {
+      description: 'Real content, revealed once loading becomes false.',
+      type: 'ReactNode',
+    },
+    className: {
+      description: 'Class names for the root wrapper.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use Skeleton for content that loads asynchronously and has a roughly known shape ahead of
+time — profile cards, list rows, article previews. It reduces perceived load time better
+than a spinner because it previews the coming layout. Reach for `SkeletonTransition` whenever
+the loading state and the real content live in the same spot, so the swap reads as one
+continuous moment instead of a layout jump.
+
+## Accessibility
+
+By default, `Skeleton` is `aria-hidden` — a purely decorative placeholder alongside content
+that's coming. Set `decorative={false}` to announce it as a live loading status
+(`role="status"`, `aria-live="polite"`) when there's no other loading indicator on the page.
+When `prefers-reduced-motion: reduce` is set, shimmer animation stops (injected CSS is
+disabled), fade uses `motion-reduce:animate-none`, and `SkeletonTransition` skips its settle
+delay and crossfades immediately.

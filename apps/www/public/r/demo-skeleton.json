@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-skeleton",
+  "title": "Skeleton Demo",
+  "description": "A profile card loading, then crossfading into content once ready.",
+  "registryDependencies": ["@soralabs/skeleton"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/skeleton/index.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport {\n  Skeleton,\n  SkeletonAvatar,\n  SkeletonText,\n  SkeletonTransition,\n} from \"@/components/sora-ui/effects/skeleton\";\n\nconst LOADING_DURATION_MS = 2000;\n\nfunction ProfileCard() {\n  return (\n    <div className=\"flex items-center gap-3\">\n      <div className=\"flex size-10 items-center justify-center rounded-full bg-accent font-medium text-sm\">\n        AX\n      </div>\n      <div className=\"flex flex-col gap-1\">\n        <p className=\"font-medium text-sm\">Axyl</p>\n        <p className=\"text-muted-foreground text-xs\">\n          Building Sora UI, one primitive at a time.\n        </p>\n      </div>\n    </div>\n  );\n}\n\nfunction ProfileSkeleton() {\n  return (\n    <div className=\"flex items-center gap-3\">\n      <SkeletonAvatar />\n      <div className=\"flex flex-col gap-2\">\n        <SkeletonText className=\"w-24\" />\n        <SkeletonText className=\"w-40\" />\n      </div>\n    </div>\n  );\n}\n\nexport default function SkeletonDemo() {\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    const timer = window.setTimeout(\n      () => setLoading(false),\n      LOADING_DURATION_MS\n    );\n    return () => window.clearTimeout(timer);\n  }, []);\n\n  const replay = () => {\n    setLoading(true);\n    window.setTimeout(() => setLoading(false), LOADING_DURATION_MS);\n  };\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-4 rounded-xl border p-6\">\n      <Skeleton className=\"h-24 w-full\" rounded=\"lg\" variant=\"fade\" />\n      <SkeletonTransition loading={loading} skeleton={<ProfileSkeleton />}>\n        <ProfileCard />\n      </SkeletonTransition>\n      <button\n        className=\"self-start text-muted-foreground text-xs underline underline-offset-2 hover:text-foreground\"\n        onClick={replay}\n        type=\"button\"\n      >\n        Replay\n      </button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/skeleton.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

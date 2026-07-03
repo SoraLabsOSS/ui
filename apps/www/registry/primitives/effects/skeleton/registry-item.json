@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "A loading placeholder with shimmer or fade variants, plus a transition that crossfades into real content once loading finishes.",
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/skeleton/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/skeleton.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "skeleton",
+      "loading",
+      "placeholder",
+      "shimmer",
+      "shimmer-effect"
+    ]
+  }
+}

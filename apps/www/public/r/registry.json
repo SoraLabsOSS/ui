@@ -260,6 +260,20 @@
       ]
     },
     {
+      "name": "demo-skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton Demo",
+      "description": "A profile card loading, then crossfading into content once ready.",
+      "registryDependencies": ["@soralabs/skeleton"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/skeleton/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/skeleton.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-sticky-scroll-cards",
       "type": "registry:ui",
       "title": "Sticky Scroll Cards Demo",
@@ -848,6 +862,29 @@
             }
           }
         }
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A loading placeholder with shimmer or fade variants, plus a transition that crossfades into real content once loading finishes.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/skeleton/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/skeleton.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "skeleton",
+          "loading",
+          "placeholder",
+          "shimmer",
+          "shimmer-effect"
+        ]
       }
     },
     {
