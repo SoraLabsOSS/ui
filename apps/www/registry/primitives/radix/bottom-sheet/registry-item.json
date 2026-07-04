@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bottom-sheet",
+  "type": "registry:ui",
+  "title": "Bottom Sheet",
+  "description": "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
+  "dependencies": ["motion", "radix-ui"],
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-controlled-state",
+    "@soralabs/hooks-use-prefers-reduced-motion",
+    "@soralabs/lib-get-strict-context",
+    "@soralabs/lib-ease"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/radix/bottom-sheet/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/bottom-sheet.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "Vaul",
+      "url": "https://vaul.emilkowal.ski",
+      "stack": "Radix Dialog and Motion"
+    }
+  }
+}

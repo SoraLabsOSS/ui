@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-bottom-sheet",
+  "type": "registry:ui",
+  "title": "Bottom Sheet Demo",
+  "description": "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
+  "registryDependencies": ["bottom-sheet"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/radix/bottom-sheet/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/bottom-sheet.tsx"
+    }
+  ]
+}

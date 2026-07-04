@@ -302,6 +302,20 @@
       ]
     },
     {
+      "name": "demo-bottom-sheet",
+      "type": "registry:ui",
+      "title": "Bottom Sheet Demo",
+      "description": "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
+      "registryDependencies": ["@soralabs/bottom-sheet"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/radix/bottom-sheet/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/radix/bottom-sheet.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-draw-underline-link",
       "type": "registry:ui",
       "title": "Draw Underline Link Demo",
@@ -484,6 +498,19 @@
       ]
     },
     {
+      "name": "hooks-use-controlled-state",
+      "type": "registry:hook",
+      "title": "useControlledState",
+      "description": "A hook that allows you to control a state.",
+      "files": [
+        {
+          "path": "registry/hooks/use-controlled-state/index.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-controlled-state.tsx"
+        }
+      ]
+    },
+    {
       "name": "hooks-use-prefers-reduced-motion",
       "type": "registry:hook",
       "title": "usePrefersReducedMotion",
@@ -493,6 +520,32 @@
           "path": "registry/hooks/use-prefers-reduced-motion/index.tsx",
           "type": "registry:hook",
           "target": "hooks/use-prefers-reduced-motion.tsx"
+        }
+      ]
+    },
+    {
+      "name": "lib-ease",
+      "type": "registry:lib",
+      "title": "Ease & Spring Tokens",
+      "description": "Shared cubic-bezier eases and Motion spring presets (press, swap, panel, layout, mouse) used across primitives to keep motion consistent.",
+      "files": [
+        {
+          "path": "registry/lib/ease/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/ease.tsx"
+        }
+      ]
+    },
+    {
+      "name": "lib-get-strict-context",
+      "type": "registry:lib",
+      "title": "getStrictContext",
+      "description": "A hook that allows you to create a strict context.",
+      "files": [
+        {
+          "path": "registry/lib/get-strict-context/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/get-strict-context.tsx"
         }
       ]
     },
@@ -965,6 +1018,35 @@
           "type": "reimplemented",
           "label": "Codegrid",
           "stack": "GSAP and vanilla JS"
+        }
+      }
+    },
+    {
+      "name": "bottom-sheet",
+      "type": "registry:ui",
+      "title": "Bottom Sheet",
+      "description": "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-controlled-state",
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-get-strict-context",
+        "@soralabs/lib-ease"
+      ],
+      "files": [
+        {
+          "path": "registry/primitives/radix/bottom-sheet/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/bottom-sheet.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "Vaul",
+          "url": "https://vaul.emilkowal.ski",
+          "stack": "Radix Dialog and Motion"
         }
       }
     },

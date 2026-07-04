@@ -836,6 +836,53 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-sticky-scroll-cards",
   },
+  "demo-bottom-sheet": {
+    name: "demo-bottom-sheet",
+    description:
+      "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["bottom-sheet"],
+    files: [
+      {
+        path: "registry/demo/primitives/radix/bottom-sheet/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/radix/bottom-sheet.tsx",
+        content:
+          '"use client";\n\nimport { useState } from "react";\nimport {\n  BottomSheet,\n  BottomSheetContent,\n  BottomSheetList,\n  BottomSheetPanel,\n  BottomSheetRow,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n} from "@/components/sora-ui/radix/bottom-sheet";\n\ninterface SettingsState {\n  preloader: boolean;\n  showLabels: boolean;\n  sound: boolean;\n  systemTheme: boolean;\n  theme: "dark" | "light";\n}\n\nconst initialSettings: SettingsState = {\n  preloader: true,\n  showLabels: false,\n  theme: "dark",\n  systemTheme: true,\n  sound: false,\n};\n\nexport default function BottomSheetDemo() {\n  const [open, setOpen] = useState(false);\n  const [settings, setSettings] = useState(initialSettings);\n\n  return (\n    <BottomSheet onOpenChange={setOpen} open={open}>\n      <BottomSheetTrigger className="rounded-lg border border-border bg-card px-4 py-2 font-medium text-sm">\n        Open settings\n      </BottomSheetTrigger>\n      <BottomSheetContent\n        className="max-w-[361px]"\n        defaultSnap={0}\n        showHandle={false}\n        snapPoints={["auto"]}\n      >\n        <BottomSheetTitle>Settings</BottomSheetTitle>\n        <BottomSheetPanel>\n          <BottomSheetList>\n            <BottomSheetRow\n              label="preloader"\n              onClick={() =>\n                setSettings((s) => ({ ...s, preloader: !s.preloader }))\n              }\n              value={String(settings.preloader)}\n            />\n            <BottomSheetRow\n              label="show labels"\n              onClick={() =>\n                setSettings((s) => ({ ...s, showLabels: !s.showLabels }))\n              }\n              value={String(settings.showLabels)}\n            />\n            <BottomSheetRow\n              label="theme"\n              onClick={() =>\n                setSettings((s) => ({\n                  ...s,\n                  theme: s.theme === "dark" ? "light" : "dark",\n                }))\n              }\n              value={settings.theme}\n            />\n            <BottomSheetRow\n              label="system theme"\n              onClick={() =>\n                setSettings((s) => ({ ...s, systemTheme: !s.systemTheme }))\n              }\n              value={settings.systemTheme ? "on" : "off"}\n            />\n            <BottomSheetRow\n              label="sound"\n              onClick={() => setSettings((s) => ({ ...s, sound: !s.sound }))}\n              value={settings.sound ? "enabled" : "disabled"}\n            />\n          </BottomSheetList>\n        </BottomSheetPanel>\n      </BottomSheetContent>\n    </BottomSheet>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/radix/bottom-sheet/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-bottom-sheet",
+  },
   "demo-draw-underline-link": {
     name: "demo-draw-underline-link",
     description: "Scrollable catalog preview with two centered link instances.",
@@ -1314,6 +1361,52 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/hooks-use-auto-height",
   },
+  "hooks-use-controlled-state": {
+    name: "hooks-use-controlled-state",
+    description: "A hook that allows you to control a state.",
+    type: "registry:hook",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/hooks/use-controlled-state/index.tsx",
+        type: "registry:hook",
+        target: "hooks/use-controlled-state.tsx",
+        content:
+          'import * as React from "react";\n\ninterface CommonControlledStateProps<T> {\n  defaultValue?: T;\n  value?: T;\n}\n\n// eslint-disable-next-line @typescript-eslint/no-explicit-any\nexport function useControlledState<T, Rest extends any[] = []>(\n  props: CommonControlledStateProps<T> & {\n    onChange?: (value: T, ...args: Rest) => void;\n  }\n): readonly [T, (next: T, ...args: Rest) => void] {\n  const { value, defaultValue, onChange } = props;\n\n  const [state, setInternalState] = React.useState<T>(\n    value === undefined ? (defaultValue as T) : value\n  );\n\n  React.useEffect(() => {\n    if (value !== undefined) {\n      setInternalState(value);\n    }\n  }, [value]);\n\n  const setState = React.useCallback(\n    (next: T, ...args: Rest) => {\n      setInternalState(next);\n      onChange?.(next, ...args);\n    },\n    [onChange]\n  );\n\n  return [state, setState] as const;\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/hooks/use-controlled-state/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/hooks-use-controlled-state",
+  },
   "hooks-use-prefers-reduced-motion": {
     name: "hooks-use-prefers-reduced-motion",
     description:
@@ -1360,6 +1453,95 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/hooks-use-prefers-reduced-motion",
+  },
+  "lib-ease": {
+    name: "lib-ease",
+    description:
+      "Shared cubic-bezier eases and Motion spring presets (press, swap, panel, layout, mouse) used across primitives to keep motion consistent.",
+    type: "registry:lib",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/lib/ease/index.tsx",
+        type: "registry:lib",
+        target: "lib/ease.tsx",
+        content:
+          'export const EASE_OUT = [0.16, 1, 0.3, 1] as const;\nexport const EASE_IN_OUT = [0.77, 0, 0.175, 1] as const;\nexport const EASE_DRAWER = [0.32, 0.72, 0, 1] as const;\n\n/** CSS string form of EASE_OUT for inline style transitions. */\nexport const EASE_OUT_CSS = "cubic-bezier(0.16, 1, 0.3, 1)";\n\n/** Press feedback on buttons and other tappable surfaces. */\nexport const SPRING_PRESS = {\n  type: "spring",\n  stiffness: 500,\n  damping: 30,\n  mass: 0.6,\n} as const;\n\n/** Content swaps — label/icon slots trading places inside a control. */\nexport const SPRING_SWAP = {\n  type: "spring",\n  stiffness: 460,\n  damping: 30,\n  mass: 0.55,\n} as const;\n\n/** Overlay panel entrances — modals and sheets summoned by pointer. */\nexport const SPRING_PANEL = {\n  type: "spring",\n  stiffness: 420,\n  damping: 40,\n  mass: 0.5,\n} as const;\n\n/** Shared-layout glides — pills, indicators and panels morphing between positions. */\nexport const SPRING_LAYOUT = {\n  type: "spring",\n  stiffness: 360,\n  damping: 32,\n  mass: 0.6,\n} as const;\n\n/** Cursor-follow physics for decorative mouse tracking (magnetic, tilt, dock). */\nexport const SPRING_MOUSE = {\n  stiffness: 200,\n  damping: 15,\n  mass: 0.3,\n} as const;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/lib/ease/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/lib-ease",
+  },
+  "lib-get-strict-context": {
+    name: "lib-get-strict-context",
+    description: "A hook that allows you to create a strict context.",
+    type: "registry:lib",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/lib/get-strict-context/index.tsx",
+        type: "registry:lib",
+        target: "lib/get-strict-context.tsx",
+        content:
+          'import * as React from "react";\n\nfunction getStrictContext<T>(\n  name?: string\n): readonly [\n  ({\n    value,\n    children,\n  }: {\n    value: T;\n    children?: React.ReactNode;\n  }) => React.JSX.Element,\n  () => T,\n] {\n  const Context = React.createContext<T | undefined>(undefined);\n\n  const Provider = ({\n    value,\n    children,\n  }: {\n    value: T;\n    children?: React.ReactNode;\n  }) => <Context.Provider value={value}>{children}</Context.Provider>;\n\n  const useSafeContext = () => {\n    const ctx = React.useContext(Context);\n    if (ctx === undefined) {\n      throw new Error(`useContext must be used within ${name ?? "a Provider"}`);\n    }\n    return ctx;\n  };\n\n  return [Provider, useSafeContext] as const;\n}\n\nexport { getStrictContext };',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/lib/get-strict-context/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/lib-get-strict-context",
   },
   "lib-scroll-trigger-utils": {
     name: "lib-scroll-trigger-utils",
@@ -1844,7 +2026,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/effects/highlight.tsx",
         content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  motion,\n  type Transition,\n  useReducedMotion,\n} from "motion/react";\nimport {\n  type CSSProperties,\n  cloneElement,\n  createContext,\n  isValidElement,\n  type ReactElement,\n  type ReactNode,\n  type RefCallback,\n  useCallback,\n  useContext,\n  useEffect,\n  useId,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\ntype HighlightMode = "children" | "parent";\ntype HighlightTrigger = "hover" | "click";\n\ninterface Bounds {\n  height: number;\n  left: number;\n  top: number;\n  width: number;\n}\n\ninterface HighlightContextValue {\n  activeClassName: string;\n  activeValue: string | null;\n  className?: string;\n  clearBounds: () => void;\n  disabled: boolean;\n  exitDelay: number;\n  id: string;\n  mode: HighlightMode;\n  setActiveClassName: (className: string) => void;\n  setActiveValue: (value: string | null) => void;\n  setBounds: (bounds: DOMRect) => void;\n  style?: CSSProperties;\n  transition: Transition;\n  trigger: HighlightTrigger;\n}\n\n/** Collapse to an instant transition for `prefers-reduced-motion: reduce`. */\nfunction resolveTransition(\n  transition: Transition,\n  prefersReducedMotion: boolean | null\n): Transition {\n  return prefersReducedMotion ? { duration: 0 } : transition;\n}\n\nconst HighlightContext = createContext<HighlightContextValue | undefined>(\n  undefined\n);\n\nfunction useHighlight(): HighlightContextValue {\n  const ctx = useContext(HighlightContext);\n  if (!ctx) {\n    throw new Error("useHighlight must be used within a Highlight");\n  }\n  return ctx;\n}\n\n// ─── Highlight ────────────────────────────────────────────────────────────────\n\ninterface HighlightBaseProps {\n  children: ReactNode;\n  className?: string;\n  defaultValue?: string | null;\n  disabled?: boolean;\n  /** Milliseconds to delay the exit fade. Useful for hover mode to prevent flicker. */\n  exitDelay?: number;\n  mode?: HighlightMode;\n  onValueChange?: (value: string | null) => void;\n  style?: CSSProperties;\n  transition?: Transition;\n  trigger?: HighlightTrigger;\n  value?: string | null;\n}\n\ninterface HighlightParentOnlyProps {\n  boundsOffset?: Partial<Bounds>;\n  containerClassName?: string;\n}\n\nexport type HighlightProps = HighlightBaseProps &\n  (({ mode: "parent" } & HighlightParentOnlyProps) | { mode?: "children" });\n\nexport function Highlight({\n  children,\n  mode = "children",\n  trigger = "click",\n  value: valueProp,\n  defaultValue,\n  onValueChange,\n  className,\n  style,\n  transition = { type: "spring", stiffness: 350, damping: 35 },\n  exitDelay = 0,\n  disabled = false,\n  ...rest\n}: HighlightProps) {\n  const containerRef = useRef<HTMLDivElement>(null);\n  const prefersReducedMotion = useReducedMotion();\n  const resolvedTransition = resolveTransition(\n    transition,\n    prefersReducedMotion\n  );\n  const [activeValue, setActiveValueState] = useState<string | null>(\n    valueProp === undefined ? (defaultValue ?? null) : valueProp\n  );\n  const [boundsState, setBoundsState] = useState<Bounds | null>(null);\n  const [activeClassName, setActiveClassName] = useState("");\n\n  useEffect(() => {\n    if (valueProp !== undefined) {\n      setActiveValueState(valueProp);\n    }\n  }, [valueProp]);\n\n  const setActiveValue = useCallback(\n    (id: string | null) => {\n      setActiveValueState((prev) => {\n        if (prev === id) {\n          return prev;\n        }\n        onValueChange?.(id);\n        return id;\n      });\n    },\n    [onValueChange]\n  );\n\n  // Keep boundsOffset always fresh without re-creating setBounds\n  const boundsOffsetRef = useRef<Partial<Bounds>>(\n    (rest as HighlightParentOnlyProps).boundsOffset ?? {}\n  );\n  useEffect(() => {\n    boundsOffsetRef.current =\n      (rest as HighlightParentOnlyProps).boundsOffset ?? {};\n  });\n\n  const setBounds = useCallback((bounds: DOMRect) => {\n    if (!containerRef.current) {\n      return;\n    }\n    const cr = containerRef.current.getBoundingClientRect();\n    const o = boundsOffsetRef.current;\n    const next: Bounds = {\n      top: bounds.top - cr.top + (o.top ?? 0),\n      left: bounds.left - cr.left + (o.left ?? 0),\n      width: bounds.width + (o.width ?? 0),\n      height: bounds.height + (o.height ?? 0),\n    };\n    setBoundsState((prev) => {\n      if (\n        prev &&\n        prev.top === next.top &&\n        prev.left === next.left &&\n        prev.width === next.width &&\n        prev.height === next.height\n      ) {\n        return prev;\n      }\n      return next;\n    });\n  }, []);\n\n  const clearBounds = useCallback(\n    () => setBoundsState((prev) => (prev === null ? prev : null)),\n    []\n  );\n\n  // Re-measure active item on scroll (parent mode only)\n  useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    const container = containerRef.current;\n    if (!container) {\n      return;\n    }\n    const onScroll = () => {\n      if (!activeValue) {\n        return;\n      }\n      const el = container.querySelector<HTMLElement>(\n        `[data-highlight-value="${activeValue}"]`\n      );\n      if (el) {\n        setBounds(el.getBoundingClientRect());\n      }\n    };\n    container.addEventListener("scroll", onScroll, { passive: true });\n    return () => container.removeEventListener("scroll", onScroll);\n  }, [mode, activeValue, setBounds]);\n\n  const id = useId();\n  const containerClassName = (rest as HighlightParentOnlyProps)\n    .containerClassName;\n\n  const ctx = useMemo<HighlightContextValue>(\n    () => ({\n      mode,\n      trigger,\n      activeValue,\n      setActiveValue,\n      setBounds,\n      clearBounds,\n      id,\n      className,\n      style,\n      activeClassName,\n      setActiveClassName,\n      transition: resolvedTransition,\n      disabled,\n      exitDelay,\n    }),\n    [\n      mode,\n      trigger,\n      activeValue,\n      setActiveValue,\n      setBounds,\n      clearBounds,\n      id,\n      className,\n      style,\n      activeClassName,\n      resolvedTransition,\n      disabled,\n      exitDelay,\n    ]\n  );\n\n  return (\n    <HighlightContext.Provider value={ctx}>\n      {mode === "parent" ? (\n        <div\n          className={cn("relative", containerClassName)}\n          data-slot="highlight-container"\n          ref={containerRef}\n        >\n          <AnimatePresence initial={false}>\n            {boundsState && (\n              <motion.div\n                animate={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 1,\n                }}\n                className={cn(className, activeClassName)}\n                data-slot="highlight"\n                exit={{\n                  opacity: 0,\n                  transition: {\n                    ...resolvedTransition,\n                    delay: (resolvedTransition?.delay ?? 0) + exitDelay / 1000,\n                  },\n                }}\n                initial={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 0,\n                }}\n                style={{ position: "absolute", zIndex: 0, ...style }}\n                transition={resolvedTransition}\n              />\n            )}\n          </AnimatePresence>\n          {children}\n        </div>\n      ) : (\n        children\n      )}\n    </HighlightContext.Provider>\n  );\n}\n\n// ─── HighlightItem ────────────────────────────────────────────────────────────\n\nexport interface HighlightItemProps {\n  /** Extra class applied to the highlight overlay when this item is active. */\n  activeClassName?: string;\n  /** Merge event handlers and refs into the child element instead of wrapping. */\n  asChild?: boolean;\n  children: ReactElement;\n  /** Class on the highlight overlay (children mode). Merged with Highlight className. */\n  className?: string;\n  disabled?: boolean;\n  style?: CSSProperties;\n  /** Override transition for this item (children mode). */\n  transition?: Transition;\n  /** Unique value identifying this item. */\n  value: string;\n}\n\nexport function HighlightItem({\n  children,\n  value,\n  disabled = false,\n  activeClassName,\n  className,\n  style,\n  transition,\n  asChild = false,\n}: HighlightItemProps) {\n  const {\n    activeValue,\n    setActiveValue,\n    mode,\n    trigger,\n    setBounds,\n    clearBounds,\n    disabled: ctxDisabled,\n    className: ctxClassName,\n    style: ctxStyle,\n    transition: ctxTransition,\n    id: ctxId,\n    exitDelay: ctxExitDelay,\n    setActiveClassName,\n  } = useHighlight();\n\n  const localRef = useRef<HTMLElement | null>(null);\n  const refCallback = useCallback<RefCallback<HTMLElement>>((node) => {\n    localRef.current = node;\n  }, []);\n\n  const isActive = activeValue === value;\n  const isDisabled = disabled || ctxDisabled;\n  const prefersReducedMotion = useReducedMotion();\n  const itemTransition = resolveTransition(\n    transition ?? ctxTransition,\n    prefersReducedMotion\n  );\n\n  // Parent mode: report this item\'s bounds when it becomes active\n  useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    if (isActive && localRef.current) {\n      setBounds(localRef.current.getBoundingClientRect());\n      setActiveClassName(activeClassName ?? "");\n    } else if (!activeValue) {\n      clearBounds();\n    }\n  }, [\n    mode,\n    isActive,\n    activeValue,\n    setBounds,\n    clearBounds,\n    activeClassName,\n    setActiveClassName,\n  ]);\n\n  const handlers = useMemo(() => {\n    if (isDisabled) {\n      return {};\n    }\n    if (trigger === "hover") {\n      return {\n        onMouseEnter: () => setActiveValue(value),\n        onMouseLeave: () => setActiveValue(null),\n      };\n    }\n    return {\n      onClick: () => setActiveValue(value),\n    };\n  }, [trigger, isDisabled, setActiveValue, value]);\n\n  if (!isValidElement(children)) {\n    return children;\n  }\n\n  const dataAttrs = {\n    "data-active": isActive ? "true" : "false",\n    "aria-selected": isActive,\n    "data-disabled": isDisabled || undefined,\n    "data-highlight-value": value,\n  };\n\n  // Shared highlight overlay (children mode only)\n  const overlay =\n    mode === "children" ? (\n      <AnimatePresence initial={false}>\n        {isActive && !isDisabled && (\n          <motion.div\n            animate={{ opacity: 1 }}\n            className={cn(ctxClassName, activeClassName, className)}\n            data-slot="highlight"\n            exit={{\n              opacity: 0,\n              transition: {\n                ...itemTransition,\n                delay:\n                  (itemTransition?.delay ?? 0) + (ctxExitDelay ?? 0) / 1000,\n              },\n            }}\n            initial={{ opacity: 0 }}\n            layoutId={`highlight-${ctxId}`}\n            style={{\n              position: "absolute",\n              inset: 0,\n              zIndex: 0,\n              ...ctxStyle,\n              ...style,\n            }}\n            transition={itemTransition}\n          />\n        )}\n      </AnimatePresence>\n    ) : null;\n\n  // asChild: inject directly into the child element\n  if (asChild) {\n    // biome-ignore lint/suspicious/noExplicitAny: element props are dynamic at runtime\n    const el = children as ReactElement<any>;\n\n    if (mode === "children") {\n      return cloneElement(\n        el,\n        {\n          ...el.props,\n          ref: refCallback,\n          className: cn("relative", el.props.className),\n          ...dataAttrs,\n          ...handlers,\n        },\n        overlay,\n        el.props.children\n      );\n    }\n\n    return cloneElement(el, {\n      ...el.props,\n      ref: refCallback,\n      ...dataAttrs,\n      ...handlers,\n    });\n  }\n\n  // Default: wrapper div\n  return (\n    <div\n      className={cn(mode === "children" && "relative")}\n      data-slot="highlight-item"\n      ref={refCallback as RefCallback<HTMLDivElement>}\n      {...dataAttrs}\n      {...handlers}\n    >\n      {overlay}\n      {mode === "children" ? (\n        <div className="relative z-1">{children}</div>\n      ) : (\n        children\n      )}\n    </div>\n  );\n}\n\nexport { useHighlight };',
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  motion,\n  type Transition,\n  useReducedMotion,\n} from "motion/react";\nimport {\n  type CSSProperties,\n  cloneElement,\n  createContext,\n  isValidElement,\n  type ReactElement,\n  type ReactNode,\n  type RefCallback,\n  useCallback,\n  useContext,\n  useEffect,\n  useId,\n  useLayoutEffect,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\ntype HighlightMode = "children" | "parent";\ntype HighlightTrigger = "hover" | "click";\n\ninterface Bounds {\n  height: number;\n  left: number;\n  top: number;\n  width: number;\n}\n\ninterface HighlightContextValue {\n  activeClassName: string;\n  activeValue: string | null;\n  className?: string;\n  clearBounds: () => void;\n  disabled: boolean;\n  exitDelay: number;\n  id: string;\n  mode: HighlightMode;\n  setActiveClassName: (className: string) => void;\n  setActiveValue: (value: string | null) => void;\n  setBounds: (bounds: DOMRect) => void;\n  style?: CSSProperties;\n  transition: Transition;\n  trigger: HighlightTrigger;\n}\n\n/** Collapse to an instant transition for `prefers-reduced-motion: reduce`. */\nfunction resolveTransition(\n  transition: Transition,\n  prefersReducedMotion: boolean | null\n): Transition {\n  return prefersReducedMotion ? { duration: 0 } : transition;\n}\n\nconst HighlightContext = createContext<HighlightContextValue | undefined>(\n  undefined\n);\n\nfunction useHighlight(): HighlightContextValue {\n  const ctx = useContext(HighlightContext);\n  if (!ctx) {\n    throw new Error("useHighlight must be used within a Highlight");\n  }\n  return ctx;\n}\n\n// ─── Highlight ────────────────────────────────────────────────────────────────\n\ninterface HighlightBaseProps {\n  children: ReactNode;\n  className?: string;\n  defaultValue?: string | null;\n  disabled?: boolean;\n  /** Milliseconds to delay the exit fade. Useful for hover mode to prevent flicker. */\n  exitDelay?: number;\n  mode?: HighlightMode;\n  onValueChange?: (value: string | null) => void;\n  style?: CSSProperties;\n  transition?: Transition;\n  trigger?: HighlightTrigger;\n  value?: string | null;\n}\n\ninterface HighlightParentOnlyProps {\n  boundsOffset?: Partial<Bounds>;\n  containerClassName?: string;\n}\n\nexport type HighlightProps = HighlightBaseProps &\n  (({ mode: "parent" } & HighlightParentOnlyProps) | { mode?: "children" });\n\nexport function Highlight({\n  children,\n  mode = "children",\n  trigger = "click",\n  value: valueProp,\n  defaultValue,\n  onValueChange,\n  className,\n  style,\n  transition = { type: "spring", stiffness: 350, damping: 35 },\n  exitDelay = 0,\n  disabled = false,\n  ...rest\n}: HighlightProps) {\n  const containerRef = useRef<HTMLDivElement>(null);\n  const prefersReducedMotion = useReducedMotion();\n  const resolvedTransition = resolveTransition(\n    transition,\n    prefersReducedMotion\n  );\n  const [activeValue, setActiveValueState] = useState<string | null>(\n    valueProp === undefined ? (defaultValue ?? null) : valueProp\n  );\n  const [boundsState, setBoundsState] = useState<Bounds | null>(null);\n  const [activeClassName, setActiveClassName] = useState("");\n  const [pillTransition, setPillTransition] = useState<Transition>(transition);\n\n  useEffect(() => {\n    if (valueProp !== undefined) {\n      setActiveValueState(valueProp);\n    }\n  }, [valueProp]);\n\n  useEffect(() => {\n    setPillTransition(resolveTransition(transition, prefersReducedMotion));\n  }, [transition, prefersReducedMotion]);\n\n  const setActiveValue = useCallback(\n    (id: string | null) => {\n      setActiveValueState((prev) => {\n        if (prev === id) {\n          return prev;\n        }\n        onValueChange?.(id);\n        return id;\n      });\n    },\n    [onValueChange]\n  );\n\n  // Keep boundsOffset always fresh without re-creating setBounds\n  const boundsOffsetRef = useRef<Partial<Bounds>>(\n    (rest as HighlightParentOnlyProps).boundsOffset ?? {}\n  );\n  useEffect(() => {\n    boundsOffsetRef.current =\n      (rest as HighlightParentOnlyProps).boundsOffset ?? {};\n  });\n\n  const setBounds = useCallback((bounds: DOMRect) => {\n    if (!containerRef.current) {\n      return;\n    }\n    const cr = containerRef.current.getBoundingClientRect();\n    const o = boundsOffsetRef.current;\n    const next: Bounds = {\n      top: bounds.top - cr.top + (o.top ?? 0),\n      left: bounds.left - cr.left + (o.left ?? 0),\n      width: bounds.width + (o.width ?? 0),\n      height: bounds.height + (o.height ?? 0),\n    };\n    setBoundsState((prev) => {\n      if (\n        prev &&\n        prev.top === next.top &&\n        prev.left === next.left &&\n        prev.width === next.width &&\n        prev.height === next.height\n      ) {\n        return prev;\n      }\n      return next;\n    });\n  }, []);\n\n  const clearBounds = useCallback(\n    () => setBoundsState((prev) => (prev === null ? prev : null)),\n    []\n  );\n\n  const measureActiveItem = useCallback(\n    (layout = false) => {\n      if (mode !== "parent" || !activeValue || !containerRef.current) {\n        return;\n      }\n      const el = containerRef.current.querySelector<HTMLElement>(\n        `[data-highlight-value="${CSS.escape(activeValue)}"]`\n      );\n      if (el) {\n        if (layout) {\n          setPillTransition({ duration: 0 });\n        }\n        setBounds(el.getBoundingClientRect());\n      }\n    },\n    [mode, activeValue, setBounds]\n  );\n\n  // Parent mode: measure when controlled selection changes (e.g. cmdk keyboard init)\n  useLayoutEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    if (!activeValue) {\n      clearBounds();\n      return;\n    }\n    setPillTransition(resolvedTransition);\n    measureActiveItem();\n    const frame = requestAnimationFrame(() => measureActiveItem());\n    return () => cancelAnimationFrame(frame);\n  }, [mode, activeValue, measureActiveItem, clearBounds, resolvedTransition]);\n\n  // Parent mode: keep pill aligned while the list layout animates or resizes\n  useEffect(() => {\n    if (mode !== "parent" || !activeValue) {\n      return;\n    }\n    const container = containerRef.current;\n    if (!container) {\n      return;\n    }\n\n    const onLayout = () => measureActiveItem(true);\n    const observer = new ResizeObserver(onLayout);\n    observer.observe(container);\n\n    const activeEl = container.querySelector<HTMLElement>(\n      `[data-highlight-value="${CSS.escape(activeValue)}"]`\n    );\n    if (activeEl) {\n      observer.observe(activeEl);\n    }\n\n    return () => observer.disconnect();\n  }, [mode, activeValue, measureActiveItem]);\n\n  // Re-measure active item on scroll (parent mode only)\n  useEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    const container = containerRef.current;\n    if (!container) {\n      return;\n    }\n    const onScroll = () => {\n      if (!activeValue) {\n        return;\n      }\n      measureActiveItem(true);\n    };\n    container.addEventListener("scroll", onScroll, { passive: true });\n    return () => container.removeEventListener("scroll", onScroll);\n  }, [mode, activeValue, measureActiveItem]);\n\n  const id = useId();\n  const containerClassName = (rest as HighlightParentOnlyProps)\n    .containerClassName;\n\n  const ctx = useMemo<HighlightContextValue>(\n    () => ({\n      mode,\n      trigger,\n      activeValue,\n      setActiveValue,\n      setBounds,\n      clearBounds,\n      id,\n      className,\n      style,\n      activeClassName,\n      setActiveClassName,\n      transition: resolvedTransition,\n      disabled,\n      exitDelay,\n    }),\n    [\n      mode,\n      trigger,\n      activeValue,\n      setActiveValue,\n      setBounds,\n      clearBounds,\n      id,\n      className,\n      style,\n      activeClassName,\n      resolvedTransition,\n      disabled,\n      exitDelay,\n    ]\n  );\n\n  return (\n    <HighlightContext.Provider value={ctx}>\n      {mode === "parent" ? (\n        <div\n          className={cn("relative", containerClassName)}\n          data-slot="highlight-container"\n          ref={containerRef}\n        >\n          <AnimatePresence initial={false}>\n            {boundsState && (\n              <motion.div\n                animate={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 1,\n                }}\n                className={cn(\n                  "pointer-events-none",\n                  className,\n                  activeClassName\n                )}\n                data-slot="highlight"\n                exit={{\n                  opacity: 0,\n                  transition: {\n                    ...resolvedTransition,\n                    delay: (resolvedTransition?.delay ?? 0) + exitDelay / 1000,\n                  },\n                }}\n                initial={{\n                  top: boundsState.top,\n                  left: boundsState.left,\n                  width: boundsState.width,\n                  height: boundsState.height,\n                  opacity: 0,\n                }}\n                style={{ position: "absolute", zIndex: 0, ...style }}\n                transition={pillTransition}\n              />\n            )}\n          </AnimatePresence>\n          {children}\n        </div>\n      ) : (\n        children\n      )}\n    </HighlightContext.Provider>\n  );\n}\n\n// ─── HighlightItem ────────────────────────────────────────────────────────────\n\nexport interface HighlightItemProps {\n  /** Extra class applied to the highlight overlay when this item is active. */\n  activeClassName?: string;\n  /** Merge event handlers and refs into the child element instead of wrapping. */\n  asChild?: boolean;\n  children: ReactElement;\n  /** Class on the highlight overlay (children mode). Merged with Highlight className. */\n  className?: string;\n  disabled?: boolean;\n  style?: CSSProperties;\n  /** Override transition for this item (children mode). */\n  transition?: Transition;\n  /** Unique value identifying this item. */\n  value: string;\n}\n\nexport function HighlightItem({\n  children,\n  value,\n  disabled = false,\n  activeClassName,\n  className,\n  style,\n  transition,\n  asChild = false,\n}: HighlightItemProps) {\n  const {\n    activeValue,\n    setActiveValue,\n    mode,\n    trigger,\n    setBounds,\n    clearBounds,\n    disabled: ctxDisabled,\n    className: ctxClassName,\n    style: ctxStyle,\n    transition: ctxTransition,\n    id: ctxId,\n    exitDelay: ctxExitDelay,\n    setActiveClassName,\n  } = useHighlight();\n\n  const localRef = useRef<HTMLElement | null>(null);\n  const refCallback = useCallback<RefCallback<HTMLElement>>(\n    (node) => {\n      localRef.current = node;\n      if (node && mode === "parent" && activeValue === value) {\n        setBounds(node.getBoundingClientRect());\n      }\n    },\n    [mode, activeValue, value, setBounds]\n  );\n\n  const isActive = activeValue === value;\n  const isDisabled = disabled || ctxDisabled;\n  const prefersReducedMotion = useReducedMotion();\n  const itemTransition = resolveTransition(\n    transition ?? ctxTransition,\n    prefersReducedMotion\n  );\n\n  // Parent mode: report this item\'s bounds when it becomes active\n  useLayoutEffect(() => {\n    if (mode !== "parent") {\n      return;\n    }\n    if (!isActive) {\n      if (!activeValue) {\n        clearBounds();\n      }\n      return;\n    }\n\n    const measure = () => {\n      if (localRef.current) {\n        setBounds(localRef.current.getBoundingClientRect());\n        setActiveClassName(activeClassName ?? "");\n      }\n    };\n\n    measure();\n    const frame = requestAnimationFrame(measure);\n    return () => cancelAnimationFrame(frame);\n  }, [\n    mode,\n    isActive,\n    activeValue,\n    setBounds,\n    clearBounds,\n    activeClassName,\n    setActiveClassName,\n  ]);\n\n  const handlers = useMemo(() => {\n    if (isDisabled) {\n      return {};\n    }\n    if (trigger === "hover") {\n      return {\n        onMouseEnter: () => setActiveValue(value),\n        onMouseLeave: () => setActiveValue(null),\n      };\n    }\n    return {\n      onClick: () => setActiveValue(value),\n    };\n  }, [trigger, isDisabled, setActiveValue, value]);\n\n  if (!isValidElement(children)) {\n    return children;\n  }\n\n  const dataAttrs = {\n    "data-active": isActive ? "true" : "false",\n    "aria-selected": isActive,\n    "data-disabled": isDisabled || undefined,\n    "data-highlight-value": value,\n  };\n\n  // Shared highlight overlay (children mode only)\n  const overlay =\n    mode === "children" ? (\n      <AnimatePresence initial={false}>\n        {isActive && !isDisabled && (\n          <motion.div\n            animate={{ opacity: 1 }}\n            className={cn(ctxClassName, activeClassName, className)}\n            data-slot="highlight"\n            exit={{\n              opacity: 0,\n              transition: {\n                ...itemTransition,\n                delay:\n                  (itemTransition?.delay ?? 0) + (ctxExitDelay ?? 0) / 1000,\n              },\n            }}\n            initial={{ opacity: 0 }}\n            layoutId={`highlight-${ctxId}`}\n            style={{\n              position: "absolute",\n              inset: 0,\n              zIndex: 0,\n              ...ctxStyle,\n              ...style,\n            }}\n            transition={itemTransition}\n          />\n        )}\n      </AnimatePresence>\n    ) : null;\n\n  // asChild: inject directly into the child element\n  if (asChild) {\n    // biome-ignore lint/suspicious/noExplicitAny: element props are dynamic at runtime\n    const el = children as ReactElement<any>;\n\n    if (mode === "children") {\n      return cloneElement(\n        el,\n        {\n          ...el.props,\n          ref: refCallback,\n          className: cn("relative", el.props.className),\n          ...dataAttrs,\n          ...handlers,\n        },\n        overlay,\n        el.props.children\n      );\n    }\n\n    return cloneElement(el, {\n      ...el.props,\n      ref: refCallback,\n      ...dataAttrs,\n      ...handlers,\n    });\n  }\n\n  // Default: wrapper div\n  return (\n    <div\n      className={cn(mode === "children" && "relative")}\n      data-slot="highlight-item"\n      ref={refCallback as RefCallback<HTMLDivElement>}\n      {...dataAttrs}\n      {...handlers}\n    >\n      {overlay}\n      {mode === "children" ? (\n        <div className="relative z-1">{children}</div>\n      ) : (\n        children\n      )}\n    </div>\n  );\n}\n\nexport { useHighlight };',
       },
     ],
     keywords: [],
@@ -2308,6 +2490,64 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/sticky-scroll-cards",
+  },
+  "bottom-sheet": {
+    name: "bottom-sheet",
+    description:
+      "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
+    type: "registry:ui",
+    dependencies: ["motion", "radix-ui"],
+    devDependencies: undefined,
+    registryDependencies: [
+      "utils",
+      "@soralabs/hooks-use-controlled-state",
+      "@soralabs/hooks-use-prefers-reduced-motion",
+      "@soralabs/lib-get-strict-context",
+      "@soralabs/lib-ease",
+    ],
+    files: [
+      {
+        path: "registry/primitives/radix/bottom-sheet/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/radix/bottom-sheet.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  type HTMLMotionProps,\n  motion,\n  type PanInfo,\n  useDragControls,\n} from "motion/react";\nimport { Dialog as SheetPrimitive } from "radix-ui";\nimport {\n  type ComponentProps,\n  type ReactNode,\n  useCallback,\n  useEffect,\n  useState,\n} from "react";\nimport { useControlledState } from "@/hooks/use-controlled-state";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\nimport { EASE_DRAWER } from "@/lib/ease";\nimport { getStrictContext } from "@/lib/get-strict-context";\n\n// Vaul-style glide: a long, fully-damped tween reads smoother than a spring on\n// open — no settle/overshoot, just one clean decel. Same curve drives the\n// backdrop fade so the surface and scrim move as one.\nconst DRAWER_TRANSITION = { duration: 0.5, ease: EASE_DRAWER } as const;\n\ninterface BottomSheetContextType {\n  open: boolean;\n  setOpen: (open: boolean) => void;\n}\n\nconst [BottomSheetProvider, useBottomSheet] =\n  getStrictContext<BottomSheetContextType>("BottomSheetContext");\n\ntype BottomSheetProps = ComponentProps<typeof SheetPrimitive.Root>;\n\nfunction BottomSheet({\n  open,\n  defaultOpen,\n  onOpenChange,\n  ...props\n}: BottomSheetProps) {\n  const [isOpen, setIsOpen] = useControlledState({\n    value: open,\n    defaultValue: defaultOpen ?? false,\n    onChange: onOpenChange,\n  });\n\n  return (\n    <BottomSheetProvider value={{ open: isOpen, setOpen: setIsOpen }}>\n      <SheetPrimitive.Root\n        data-slot="bottom-sheet"\n        onOpenChange={setIsOpen}\n        open={isOpen}\n        {...props}\n      />\n    </BottomSheetProvider>\n  );\n}\n\ntype BottomSheetTriggerProps = ComponentProps<typeof SheetPrimitive.Trigger>;\n\nfunction BottomSheetTrigger(props: BottomSheetTriggerProps) {\n  return <SheetPrimitive.Trigger data-slot="bottom-sheet-trigger" {...props} />;\n}\n\ntype BottomSheetCloseProps = ComponentProps<typeof SheetPrimitive.Close>;\n\nfunction BottomSheetClose(props: BottomSheetCloseProps) {\n  return <SheetPrimitive.Close data-slot="bottom-sheet-close" {...props} />;\n}\n\ntype BottomSheetOverlayProps = HTMLMotionProps<"div">;\n\nfunction BottomSheetOverlay({ className, ...props }: BottomSheetOverlayProps) {\n  return (\n    <SheetPrimitive.Overlay asChild forceMount>\n      <motion.div\n        animate={{ opacity: 1 }}\n        className={cn(\n          "fixed inset-0 z-50 bg-background/40 backdrop-blur-sm",\n          className\n        )}\n        data-slot="bottom-sheet-overlay"\n        exit={{ opacity: 0 }}\n        initial={{ opacity: 0 }}\n        transition={DRAWER_TRANSITION}\n        {...props}\n      />\n    </SheetPrimitive.Overlay>\n  );\n}\n\ninterface BottomSheetContentProps\n  extends Omit<\n    ComponentProps<typeof SheetPrimitive.Content>,\n    "asChild" | "forceMount" | "children" | keyof HTMLMotionProps<"div">\n  > {\n  children?: ReactNode;\n  className?: string;\n  defaultSnap?: number;\n  /** Min drag distance (px) past the current snap point before it dismisses. */\n  dismissThreshold?: number;\n  handleClassName?: string;\n  /** Renders the dimmed, blurred scrim behind the sheet. */\n  overlay?: boolean;\n  overlayClassName?: string;\n  /** Renders the draggable grab handle above `children`. */\n  showHandle?: boolean;\n  /** Heights (0-1 = fraction of viewport, or "auto"). First entry is the default. */\n  snapPoints?: (number | "auto")[];\n  style?: HTMLMotionProps<"div">["style"];\n}\n\nfunction BottomSheetContent({\n  className,\n  children,\n  snapPoints = [0.5, 0.92],\n  defaultSnap = 0,\n  dismissThreshold = 120,\n  overlay = true,\n  overlayClassName,\n  showHandle = true,\n  handleClassName,\n  style,\n  ...props\n}: BottomSheetContentProps) {\n  const { open, setOpen } = useBottomSheet();\n  const [snap, setSnap] = useState(defaultSnap);\n  const dragControls = useDragControls();\n  const reduceMotion = usePrefersReducedMotion();\n\n  useEffect(() => {\n    if (open) {\n      setSnap(defaultSnap);\n    }\n  }, [open, defaultSnap]);\n\n  // Lock background scroll while open. overflow:hidden alone is ignored by\n  // iOS Safari — boundary scrolls inside the sheet chain to the page, which\n  // scrolls underneath and ends up somewhere else on close. position:fixed\n  // is the lock that actually holds; restore the scroll position after.\n  useEffect(() => {\n    if (!open) {\n      return;\n    }\n    const body = document.body;\n    const scrollY = window.scrollY;\n    const prev = {\n      position: body.style.position,\n      top: body.style.top,\n      left: body.style.left,\n      right: body.style.right,\n      overflow: body.style.overflow,\n    };\n    body.style.position = "fixed";\n    body.style.top = `-${scrollY}px`;\n    body.style.left = "0";\n    body.style.right = "0";\n    body.style.overflow = "hidden";\n    return () => {\n      body.style.position = prev.position;\n      body.style.top = prev.top;\n      body.style.left = prev.left;\n      body.style.right = prev.right;\n      body.style.overflow = prev.overflow;\n      window.scrollTo(0, scrollY);\n    };\n  }, [open]);\n\n  const onDragEnd = useCallback(\n    (_: unknown, info: PanInfo) => {\n      const velocity = info.velocity.y;\n      const offset = info.offset.y;\n\n      // Strong downward fling or large drag → dismiss (or drop one snap).\n      if (velocity > 600 || offset > dismissThreshold) {\n        const smaller = snapPoints.map((_, i) => i).filter((i) => i < snap);\n        if (\n          smaller.length &&\n          velocity < 800 &&\n          offset < dismissThreshold * 1.6\n        ) {\n          setSnap(smaller.at(-1) as number);\n        } else {\n          setOpen(false);\n        }\n        return;\n      }\n\n      // Strong upward fling → next snap.\n      if (velocity < -500) {\n        setSnap(Math.min(snapPoints.length - 1, snap + 1));\n        return;\n      }\n\n      // Otherwise snap to nearest by current offset.\n      if (offset > 80 && snap > 0) {\n        setSnap(snap - 1);\n      } else if (offset < -80 && snap < snapPoints.length - 1) {\n        setSnap(snap + 1);\n      }\n    },\n    [dismissThreshold, setOpen, snap, snapPoints]\n  );\n\n  const snapValue = snapPoints[snap];\n  const heightStyle =\n    snapValue === "auto"\n      ? { maxHeight: "92vh" }\n      : { height: `${(snapValue ?? 1) * 100}vh` };\n\n  return (\n    <AnimatePresence>\n      {open ? (\n        <SheetPrimitive.Portal forceMount>\n          {overlay ? <BottomSheetOverlay className={overlayClassName} /> : null}\n          <SheetPrimitive.Content asChild forceMount>\n            <motion.div\n              animate={reduceMotion ? { y: 0, opacity: 1 } : { y: 0 }}\n              className={cn(\n                "fixed inset-x-4 bottom-0 z-50 mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl bg-transparent pb-4 outline-none will-change-transform md:mx-auto md:w-full",\n                className\n              )}\n              data-slot="bottom-sheet-content"\n              drag="y"\n              dragConstraints={{ top: 0, bottom: 0 }}\n              dragControls={dragControls}\n              dragElastic={{ top: 0.02, bottom: 0.4 }}\n              dragListener={false}\n              dragMomentum={false}\n              exit={reduceMotion ? { y: 0, opacity: 0 } : { y: "100%" }}\n              initial={reduceMotion ? { y: 0, opacity: 0 } : { y: "100%" }}\n              onDragEnd={onDragEnd}\n              style={{ ...heightStyle, ...style }}\n              transition={\n                reduceMotion\n                  ? { duration: 0.18, ease: EASE_DRAWER }\n                  : DRAWER_TRANSITION\n              }\n              {...props}\n            >\n              {showHandle ? (\n                <BottomSheetHandle\n                  className={handleClassName}\n                  dragControls={dragControls}\n                />\n              ) : null}\n              {children}\n            </motion.div>\n          </SheetPrimitive.Content>\n        </SheetPrimitive.Portal>\n      ) : null}\n    </AnimatePresence>\n  );\n}\n\ninterface BottomSheetHandleProps extends ComponentProps<"div"> {\n  dragControls: ReturnType<typeof useDragControls>;\n}\n\nfunction BottomSheetHandle({\n  className,\n  dragControls,\n  ...props\n}: BottomSheetHandleProps) {\n  return (\n    <div\n      className={cn(\n        "flex shrink-0 cursor-grab touch-none flex-col items-center px-4 pt-3 pb-2 active:cursor-grabbing",\n        className\n      )}\n      data-slot="bottom-sheet-handle"\n      onPointerDown={(event) => dragControls.start(event)}\n      {...props}\n    >\n      <div className="h-1.5 w-10 rounded-full bg-muted-foreground/40" />\n    </div>\n  );\n}\n\ntype BottomSheetTitleProps = ComponentProps<typeof SheetPrimitive.Title>;\n\nfunction BottomSheetTitle({ className, ...props }: BottomSheetTitleProps) {\n  return (\n    <SheetPrimitive.Title\n      className={cn("sr-only", className)}\n      data-slot="bottom-sheet-title"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetDescriptionProps = ComponentProps<\n  typeof SheetPrimitive.Description\n>;\n\nfunction BottomSheetDescription({\n  className,\n  ...props\n}: BottomSheetDescriptionProps) {\n  return (\n    <SheetPrimitive.Description\n      className={cn("sr-only", className)}\n      data-slot="bottom-sheet-description"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetPanelProps = ComponentProps<"div">;\n\n/** The rounded surface that sits inside `BottomSheetContent` — swap `bg-*` to restyle. */\nfunction BottomSheetPanel({ className, ...props }: BottomSheetPanelProps) {\n  return (\n    <div\n      className={cn(\n        "relative z-[2] min-h-0 grow space-y-2 overflow-y-auto overscroll-contain rounded-2xl bg-muted p-2",\n        className\n      )}\n      data-slot="bottom-sheet-panel"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetListProps = ComponentProps<"ul">;\n\nfunction BottomSheetList({ className, ...props }: BottomSheetListProps) {\n  return (\n    <ul\n      className={cn("grid w-full space-y-1.5 text-sm", className)}\n      data-slot="bottom-sheet-list"\n      {...props}\n    />\n  );\n}\n\ninterface BottomSheetRowProps\n  extends Omit<ComponentProps<"button">, "children" | "value"> {\n  /** Overrides `label`/`value` entirely when you need a fully custom row layout. */\n  children?: ReactNode;\n  label: ReactNode;\n  labelClassName?: string;\n  lineClassName?: string;\n  value?: ReactNode;\n  valueClassName?: string;\n}\n\n/** One selectable row: `label ---- value`, with a hover surface and a bottom-edge reveal bar. */\nfunction BottomSheetRow({\n  className,\n  label,\n  value,\n  children,\n  labelClassName,\n  valueClassName,\n  lineClassName,\n  type = "button",\n  ...props\n}: BottomSheetRowProps) {\n  return (\n    <li data-slot="bottom-sheet-row-item">\n      <button\n        className={cn(\n          "relative w-full rounded-lg px-2.5 py-1.5 text-left transition-colors hover:bg-accent",\n          className\n        )}\n        data-slot="bottom-sheet-row"\n        type={type}\n        {...props}\n      >\n        {children ?? (\n          <div className="flex flex-1 items-center justify-between gap-2 text-sm">\n            <div\n              className={cn(\n                "flex items-center justify-center gap-2 font-medium uppercase tracking-wide",\n                labelClassName\n              )}\n            >\n              {label}\n            </div>\n            <span\n              className={cn(\n                "relative h-px flex-1 rounded-2xl bg-current/20",\n                lineClassName\n              )}\n            />\n            <span\n              className={cn("font-sans text-foreground/50", valueClassName)}\n            >\n              {value}\n            </span>\n          </div>\n        )}\n      </button>\n    </li>\n  );\n}\n\nexport {\n  BottomSheet,\n  BottomSheetClose,\n  BottomSheetContent,\n  type BottomSheetContentProps,\n  BottomSheetDescription,\n  BottomSheetHandle,\n  BottomSheetList,\n  BottomSheetOverlay,\n  BottomSheetPanel,\n  type BottomSheetProps,\n  BottomSheetRow,\n  type BottomSheetRowProps,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n  useBottomSheet,\n};',
+      },
+    ],
+    keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "Vaul",
+      url: "https://vaul.emilkowal.ski",
+      stack: "Radix Dialog and Motion",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/radix/bottom-sheet/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/bottom-sheet",
   },
   "draw-underline-link": {
     name: "draw-underline-link",
