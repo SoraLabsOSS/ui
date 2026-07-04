@@ -216,8 +216,8 @@ const ShimmerSkeleton = Skeleton;
 
 type SkeletonTransitionPhase = "done" | "loading" | "revealing" | "settling";
 
-const SKELETON_TRANSITION_SETTLE_MS = 400;
-const SKELETON_TRANSITION_CROSSFADE_MS = 150;
+const SKELETON_TRANSITION_DEFAULT_SETTLE_DURATION = 0.4;
+const SKELETON_TRANSITION_DEFAULT_FADE_DURATION = 0.15;
 
 function prefersReducedMotion() {
   return (
@@ -229,8 +229,20 @@ function prefersReducedMotion() {
 interface SkeletonTransitionProps {
   children: ReactNode;
   className?: string;
+  /**
+   * Crossfade duration between skeleton and content, in seconds.
+   * @default 0.15
+   */
+  fadeDuration?: number;
   /** While true, only `skeleton` is shown. Flipping to false plays the reveal. */
   loading: boolean;
+  /**
+   * How long the skeleton lingers after `loading` turns false, before the
+   * crossfade starts, in seconds. Gives the shimmer a beat to settle instead
+   * of cutting away mid-cycle.
+   * @default 0.4
+   */
+  settleDuration?: number;
   /** Placeholder shown while `loading` is true — typically `Skeleton` or its variants. */
   skeleton: ReactNode;
 }
@@ -248,7 +260,9 @@ interface SkeletonTransitionProps {
 function SkeletonTransition({
   children,
   className,
+  fadeDuration = SKELETON_TRANSITION_DEFAULT_FADE_DURATION,
   loading,
+  settleDuration = SKELETON_TRANSITION_DEFAULT_SETTLE_DURATION,
   skeleton,
 }: SkeletonTransitionProps) {
   const [phase, setPhase] = useState<SkeletonTransitionPhase>(
@@ -269,10 +283,10 @@ function SkeletonTransition({
     }
     const timer = window.setTimeout(
       () => setPhase("revealing"),
-      SKELETON_TRANSITION_SETTLE_MS
+      settleDuration * 1000
     );
     return () => window.clearTimeout(timer);
-  }, [phase]);
+  }, [phase, settleDuration]);
 
   useEffect(() => {
     if (phase !== "revealing") {
@@ -280,14 +294,15 @@ function SkeletonTransition({
     }
     const timer = window.setTimeout(
       () => setPhase("done"),
-      SKELETON_TRANSITION_CROSSFADE_MS
+      fadeDuration * 1000
     );
     return () => window.clearTimeout(timer);
-  }, [phase]);
+  }, [phase, fadeDuration]);
 
   const showSkeleton = phase !== "done";
   const showContent = phase !== "loading";
   const crossfading = phase === "revealing" || phase === "done";
+  const fadeStyle: CSSProperties = { transitionDuration: `${fadeDuration}s` };
 
   return (
     <div className={cn("relative", className)}>
@@ -295,9 +310,10 @@ function SkeletonTransition({
         <div
           aria-hidden="true"
           className={cn(
-            "transition-opacity duration-150 ease-out",
+            "transition-opacity ease-out",
             crossfading ? "pointer-events-none opacity-0" : "opacity-100"
           )}
+          style={fadeStyle}
         >
           {skeleton}
         </div>
@@ -306,9 +322,10 @@ function SkeletonTransition({
         <div
           className={cn(
             showSkeleton && "absolute inset-0",
-            "transition-opacity duration-150 ease-out",
+            "transition-opacity ease-out",
             crossfading ? "opacity-100" : "opacity-0"
           )}
+          style={fadeStyle}
         >
           {children}
         </div>

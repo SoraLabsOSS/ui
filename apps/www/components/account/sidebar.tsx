@@ -43,6 +43,7 @@ import {
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
 } from "@/lib/docs/primitive-nav-active";
+import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 
 type GuideLinkItem = MainItemType;
 
@@ -161,32 +162,28 @@ function AccountMenuSection({
         );
       })}
       {authItems.map((item) => {
-        if (authNavPending) {
-          return (
-            <AuthSidebarMenuSkeleton
-              key={item.label}
-              width={item.skeletonWidth}
-            />
-          );
-        }
-
         const href = item.getHref(primitivesUrl);
 
         return (
-          <Sidebar001Item
-            href={href}
-            isActive={item.getIsActive(pathname, href)}
+          <SkeletonTransition
             key={item.label}
-            label={item.label}
-            onClick={(event) => {
-              if (!session) {
-                event.preventDefault();
-                openLoginDialog(href);
-                return;
-              }
-              onNavigate();
-            }}
-          />
+            loading={authNavPending}
+            skeleton={<AuthSidebarMenuSkeleton width={item.skeletonWidth} />}
+          >
+            <Sidebar001Item
+              href={href}
+              isActive={item.getIsActive(pathname, href)}
+              label={item.label}
+              onClick={(event) => {
+                if (!session) {
+                  event.preventDefault();
+                  openLoginDialog(href);
+                  return;
+                }
+                onNavigate();
+              }}
+            />
+          </SkeletonTransition>
         );
       })}
       {loginDialog}

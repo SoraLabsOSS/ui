@@ -110,6 +110,20 @@ export default function Page({ loading, user }: { loading: boolean; user?: User 
 }
 ```
 
+Tune the pacing with `settleDuration` (how long the skeleton lingers once `loading` turns
+false, before the crossfade starts) and `fadeDuration` (the crossfade itself), both in seconds:
+
+```tsx
+<SkeletonTransition
+  fadeDuration={0.3}
+  loading={loading}
+  settleDuration={0.6}
+  skeleton={<SkeletonText className="w-32" />}
+>
+  <p>{user?.name}</p>
+</SkeletonTransition>
+```
+
 <Callout type="warn" title="Size skeleton to match content">
   While both are mounted, `children` is absolutely positioned over `skeleton`, which drives
   the wrapper's height. If the two differ a lot in size, the layout snaps to the content's
@@ -176,6 +190,17 @@ export default function Page({ loading, user }: { loading: boolean; user?: User 
     className: {
       description: 'Class names for the root wrapper.',
       type: 'string',
+    },
+    settleDuration: {
+      description:
+        'How long the skeleton lingers after loading turns false, before the crossfade starts, in seconds.',
+      type: 'number',
+      default: '0.4',
+    },
+    fadeDuration: {
+      description: 'Crossfade duration between skeleton and content, in seconds.',
+      type: 'number',
+      default: '0.15',
     },
   }}
 />

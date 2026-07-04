@@ -29,6 +29,7 @@ import {
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
 } from "@/lib/docs/primitive-nav-active";
+import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 import {
@@ -167,17 +168,12 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
         label="Blog"
         onClick={onNavigate}
       />
-      {AUTH_MENU_LINKS.map((item) => {
-        if (authNavPending) {
-          return (
-            <AuthSidebarMenuSkeleton
-              key={item.url}
-              width={item.skeletonWidth}
-            />
-          );
-        }
-
-        return (
+      {AUTH_MENU_LINKS.map((item) => (
+        <SkeletonTransition
+          key={item.url}
+          loading={authNavPending}
+          skeleton={<AuthSidebarMenuSkeleton width={item.skeletonWidth} />}
+        >
           <DocsShellNavItem
             href={item.url}
             isActive={
@@ -185,7 +181,6 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
                 ? pathname.startsWith("/settings")
                 : pathname === item.url || pathname.startsWith(`${item.url}/`)
             }
-            key={item.url}
             label={item.title}
             onClick={(event) => {
               if (!session) {
@@ -196,8 +191,8 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
               onNavigate?.();
             }}
           />
-        );
-      })}
+        </SkeletonTransition>
+      ))}
       {loginDialog}
     </DocsShellSection>
   );
