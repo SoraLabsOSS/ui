@@ -18,6 +18,7 @@ author:
 import {
   BottomSheet,
   BottomSheetContent,
+  BottomSheetDescription,
   BottomSheetList,
   BottomSheetPanel,
   BottomSheetRow,
@@ -31,6 +32,7 @@ export default function Page() {
       <BottomSheetTrigger>Open settings</BottomSheetTrigger>
       <BottomSheetContent>
         <BottomSheetTitle>Settings</BottomSheetTitle>
+        <BottomSheetDescription>Adjust sound and theme.</BottomSheetDescription>
         <BottomSheetPanel>
           <BottomSheetList>
             <BottomSheetRow label="Sound" value="On" />
@@ -146,7 +148,7 @@ Avoid it for content that must stay reachable on desktop without a pointer-drag 
 
 ## Accessibility
 
-Built on Radix `Dialog`, so focus is trapped inside the sheet while open, <kbd>Esc</kbd> and an outside click close it, and focus returns to the trigger on close. `BottomSheetTitle` is required for screen readers even when visually hidden (it defaults to `sr-only`); pair it with `BottomSheetDescription` when the sheet needs more context. When `prefers-reduced-motion: reduce` is set, the sheet fades in/out instead of sliding.
+Built on Radix `Dialog`, so focus is trapped inside the sheet while open, <kbd>Esc</kbd> and an outside click close it, and focus returns to the trigger on close. Radix requires both `BottomSheetTitle` and `BottomSheetDescription` on every sheet — both default to `sr-only`, so include them even when the sheet doesn't need a visible heading (Radix logs a console warning if `BottomSheetDescription` is missing). When `prefers-reduced-motion: reduce` is set, the sheet fades in/out instead of sliding.
 
 ## Credits
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   BottomSheet,
   BottomSheetContent,
+  BottomSheetDescription,
   BottomSheetList,
   BottomSheetPanel,
   BottomSheetRow,
@@ -43,6 +44,9 @@ export default function BottomSheetDemo() {
         snapPoints={["auto"]}
       >
         <BottomSheetTitle>Settings</BottomSheetTitle>
+        <BottomSheetDescription>
+          Toggle preloader, labels, theme, and sound.
+        </BottomSheetDescription>
         <BottomSheetPanel>
           <BottomSheetList>
             <BottomSheetRow
