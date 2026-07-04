@@ -15,11 +15,24 @@ const GrainGradient = dynamic(
 
 const BANNER_HEIGHT = 300;
 
+function supportsWebGL2() {
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(canvas.getContext("webgl2"));
+  } catch {
+    return false;
+  }
+}
+
 export function BlogHeaderBanner() {
   const [showShaders, setShowShaders] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (!supportsWebGL2()) {
+      return;
+    }
+
     // Delay avoids uniform load errors on slower devices.
     const timer = window.setTimeout(() => {
       setShowShaders(true);
