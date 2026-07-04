@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-progressive-blur",
+  "type": "registry:ui",
+  "title": "Progressive Blur Demo",
+  "description": "A scrollable panel with progressive blur fading content under the top and bottom edges.",
+  "registryDependencies": ["progressive-blur"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/progressive-blur.tsx"
+    }
+  ]
+}

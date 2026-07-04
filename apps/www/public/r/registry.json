@@ -246,6 +246,20 @@
       ]
     },
     {
+      "name": "demo-progressive-blur",
+      "type": "registry:ui",
+      "title": "Progressive Blur Demo",
+      "description": "A scrollable panel with progressive blur fading content under the top and bottom edges.",
+      "registryDependencies": ["@soralabs/progressive-blur"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/progressive-blur.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-scroll-gallery",
       "type": "registry:ui",
       "title": "Scroll Gallery Demo",
@@ -803,6 +817,38 @@
               "value": "mx-auto w-72"
             }
           }
+        }
+      }
+    },
+    {
+      "name": "progressive-blur",
+      "type": "registry:ui",
+      "title": "Progressive Blur",
+      "description": "A stacked-layer blur that ramps smoothly from sharp to fully blurred toward an edge, for fading content under a fixed header or above a scroll boundary.",
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-prefers-reduced-motion"
+      ],
+      "files": [
+        {
+          "path": "registry/primitives/effects/progressive-blur/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/progressive-blur.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "progressive-blur",
+          "blur",
+          "scroll",
+          "fade",
+          "backdrop-filter",
+          "gradient-blur"
+        ],
+        "inspiration": {
+          "type": "adapted",
+          "label": "gxuri (Skiper UI)",
+          "url": "https://gxuri.me"
         }
       }
     },

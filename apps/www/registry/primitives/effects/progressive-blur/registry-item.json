@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progressive-blur",
+  "type": "registry:ui",
+  "title": "Progressive Blur",
+  "description": "A stacked-layer blur that ramps smoothly from sharp to fully blurred toward an edge, for fading content under a fixed header or above a scroll boundary.",
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/effects/progressive-blur/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/progressive-blur.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "progressive-blur",
+      "blur",
+      "scroll",
+      "fade",
+      "backdrop-filter",
+      "gradient-blur"
+    ],
+    "inspiration": {
+      "type": "adapted",
+      "label": "gxuri (Skiper UI)",
+      "url": "https://gxuri.me"
+    }
+  }
+}
