@@ -2689,7 +2689,7 @@ export const index: Record<string, any> = {
     inspiration: {
       type: "reimplemented",
       label: "Number Flow",
-      url: "https://number-flow.dev",
+      url: "https://number-flow.barvian.me/",
       stack: "Motion and React",
     },
     component: (() => {
