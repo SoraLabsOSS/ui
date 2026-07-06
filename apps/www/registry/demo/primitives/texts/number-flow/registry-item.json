@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-number-flow",
+  "type": "registry:ui",
+  "title": "Number Flow Demo",
+  "description": "Number Flow demo with currency, input overlay, and countdown examples.",
+  "registryDependencies": ["number-flow"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/number-flow/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/number-flow.tsx"
+    }
+  ]
+}
