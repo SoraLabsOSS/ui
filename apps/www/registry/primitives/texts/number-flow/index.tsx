@@ -510,7 +510,7 @@ export function NumberFlow({
     >
       <span
         aria-hidden="true"
-        className="inline-flex"
+        className="isolate inline-flex"
         style={numberMaskInnerStyle}
       >
         <AnimatePresence initial={false} mode="popLayout">
@@ -530,7 +530,11 @@ export function NumberFlow({
             ) : (
               <motion.span
                 animate={{ opacity: 1 }}
-                className="inline-block"
+                // plus-lighter (not source-over) so an exiting and entering
+                // symbol at the same spot add together instead of
+                // double-darkening while both are partially opaque mid-fade
+                // (e.g. a sign flipping from "+" to "-").
+                className="inline-block [mix-blend-mode:plus-lighter]"
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
                 key={part.key}
