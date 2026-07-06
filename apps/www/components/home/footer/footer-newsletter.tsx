@@ -111,7 +111,8 @@ export function FooterNewsletter() {
                 "disabled:opacity-50",
                 policyError ? "border-destructive" : "border-foreground/30"
               )}
-              disabled={submitted}
+              // disabled={submitted}
+              disabled
               id="footer-newsletter-policy"
               onChange={(event) => {
                 setPolicyAccepted(event.target.checked);
@@ -137,6 +138,8 @@ export function FooterNewsletter() {
             </p>
           ) : (
             <SectionCtaScrambleButton
+              className="disabled:cursor-not-allowed disabled:opacity-50"
+              disabled
               label="Join"
               type="submit"
               variant="accent"

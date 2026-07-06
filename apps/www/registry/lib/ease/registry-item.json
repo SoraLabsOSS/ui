@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lib-ease",
+  "type": "registry:lib",
+  "title": "Ease & Spring Tokens",
+  "description": "Shared cubic-bezier eases and Motion spring presets (press, swap, panel, layout, mouse) used across primitives to keep motion consistent.",
+  "files": [
+    {
+      "path": "registry/lib/ease/index.tsx",
+      "type": "registry:lib",
+      "target": "lib/ease.tsx"
+    }
+  ]
+}

@@ -42,12 +42,14 @@ export function BlogPostHeader({
   author,
   date,
   primaryTag,
+  readingMinutes,
   title,
   url,
 }: {
   author: string;
   date: Date;
   primaryTag?: string;
+  readingMinutes: number | null;
   title: string;
   url: string;
 }) {
@@ -92,6 +94,11 @@ export function BlogPostHeader({
             >
               {formattedDate}
             </time>
+            {readingMinutes === null ? null : (
+              <span className="text-muted-foreground before:mr-2 before:content-['·']">
+                {readingMinutes} min read
+              </span>
+            )}
           </span>
         </div>
 

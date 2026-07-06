@@ -7,6 +7,7 @@ import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { auth } from "@/lib/auth";
 import { getQueryClient } from "@/lib/query-client";
+import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
 export function generateStaticParams() {
   return Object.values(viewPaths.settings).map((path) => ({ path }));
@@ -15,7 +16,7 @@ export function generateStaticParams() {
 function SettingsPageSkeleton() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-24 pb-6 md:px-6 md:pt-28 md:pb-8">
-      <div className="h-64 animate-pulse rounded-xl bg-muted" />
+      <Skeleton className="h-64" rounded="lg" />
     </div>
   );
 }

@@ -1,0 +1,155 @@
+---
+title: Bottom Sheet
+description: A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-bottom-sheet" description="A mobile-style settings panel: drag to dismiss, snap points, and a customizable row list." />
+
+## Installation
+
+<ComponentInstallation name="bottom-sheet" />
+
+## Usage
+
+```tsx
+import {
+  BottomSheet,
+  BottomSheetContent,
+  BottomSheetDescription,
+  BottomSheetList,
+  BottomSheetPanel,
+  BottomSheetRow,
+  BottomSheetTitle,
+  BottomSheetTrigger,
+} from '@/components/sora-ui/radix/bottom-sheet';
+
+export default function Page() {
+  return (
+    <BottomSheet>
+      <BottomSheetTrigger>Open settings</BottomSheetTrigger>
+      <BottomSheetContent>
+        <BottomSheetTitle>Settings</BottomSheetTitle>
+        <BottomSheetDescription>Adjust sound and theme.</BottomSheetDescription>
+        <BottomSheetPanel>
+          <BottomSheetList>
+            <BottomSheetRow label="Sound" value="On" />
+            <BottomSheetRow label="Theme" value="Dark" />
+          </BottomSheetList>
+        </BottomSheetPanel>
+      </BottomSheetContent>
+    </BottomSheet>
+  );
+}
+```
+
+For a fully custom row (not the `label — value` layout), pass `children` to `BottomSheetRow` instead of `label` and `value`, or skip `BottomSheetPanel`, `BottomSheetList`, and `BottomSheetRow` entirely and render your own content inside `BottomSheetContent`.
+
+## Props
+
+### BottomSheet
+
+<TypeTable
+  type={{
+    open: {
+      description: 'Controlled open state.',
+      type: 'boolean',
+    },
+    defaultOpen: {
+      description: 'Initial open state when uncontrolled.',
+      type: 'boolean',
+      default: 'false',
+    },
+    onOpenChange: {
+      description: 'Called when the sheet opens or closes (drag-to-dismiss included).',
+      type: '(open: boolean) => void',
+    },
+  }}
+/>
+
+### BottomSheetContent
+
+<TypeTable
+  type={{
+    snapPoints: {
+      description: 'Heights, as a fraction of the viewport (0-1) or "auto". The first entry is the default.',
+      type: '(number | "auto")[]',
+      default: '[0.5, 0.92]',
+    },
+    defaultSnap: {
+      description: 'Index into `snapPoints` the sheet opens at.',
+      type: 'number',
+      default: '0',
+    },
+    dismissThreshold: {
+      description: 'Minimum downward drag distance, in pixels, past the current snap point before it dismisses.',
+      type: 'number',
+      default: '120',
+    },
+    showHandle: {
+      description: 'Renders the draggable grab handle above the content.',
+      type: 'boolean',
+      default: 'true',
+    },
+    handleClassName: {
+      description: 'Class names for the grab handle.',
+      type: 'string',
+    },
+    overlay: {
+      description: 'Renders the dimmed, blurred scrim behind the sheet.',
+      type: 'boolean',
+      default: 'true',
+    },
+    overlayClassName: {
+      description: 'Class names for the scrim.',
+      type: 'string',
+    },
+  }}
+/>
+
+### BottomSheetRow
+
+<TypeTable
+  type={{
+    label: {
+      description: 'Left-aligned row label, rendered uppercase.',
+      type: 'React.ReactNode',
+    },
+    value: {
+      description: 'Right-aligned value, shown after the dotted line.',
+      type: 'React.ReactNode',
+    },
+    children: {
+      description: 'Overrides `label`/`value` entirely for a fully custom row layout.',
+      type: 'React.ReactNode',
+    },
+    labelClassName: {
+      description: 'Class names for the label.',
+      type: 'string',
+    },
+    valueClassName: {
+      description: 'Class names for the value.',
+      type: 'string',
+    },
+    lineClassName: {
+      description: 'Class names for the connecting line between label and value.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use the Bottom Sheet for mobile-first actions that need more room than a dropdown but shouldn't take over the whole screen — settings panels, filters, or action lists reachable with a thumb. `snapPoints` lets it act as a half-height quick-glance panel that expands to near-fullscreen on a second drag.
+
+Avoid it for content that must stay reachable on desktop without a pointer-drag affordance, or for anything that must block navigation entirely — use a centered dialog instead.
+
+## Accessibility
+
+Built on Radix `Dialog`, so focus is trapped inside the sheet while open, <kbd>Esc</kbd> and an outside click close it, and focus returns to the trigger on close. Radix requires both `BottomSheetTitle` and `BottomSheetDescription` on every sheet — both default to `sr-only`, so include them even when the sheet doesn't need a visible heading (Radix logs a console warning if `BottomSheetDescription` is missing). When `prefers-reduced-motion: reduce` is set, the sheet fades in/out instead of sliding.
+
+## Credits
+
+<ComponentCredits name="bottom-sheet" />

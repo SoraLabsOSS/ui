@@ -5,9 +5,11 @@ import {
   FumadocsRemoteSource,
   type FumadocsRemoteSourceConfig,
 } from "@mcpframework/docs";
+import { logger } from "mcp-framework";
 import { DOCS_CACHE_TTL_MS, docsCache } from "./docs-cache.js";
 
-const DOCS_BASE_URL =
+/** Also used by `registry/sora-registry-source.ts` — same host serves `/r/registry.json`. */
+export const DOCS_BASE_URL =
   process.env.DOCS_BASE_URL?.replace(/\/+$/, "") ?? "https://ui.soralabs.io.vn";
 
 /** Matches `apps/www/app` LLM + search routes. */
@@ -149,14 +151,24 @@ export class SoraDocsSource extends FumadocsRemoteSource {
           content,
         };
 
+        // Only cached on success — a failed lookup never poisons the cache
+        // with a negative result, so a page added later is picked up on
+        // the very next request (no stale 24h "not found").
         await this.cache.set(cacheKey, page);
         return page;
-      } catch {
-        // Try the next candidate path.
+      } catch (error) {
+        // Expected: trying multiple candidate paths, most will 404.
+        logger.debug(
+          `getPage candidate failed (${fetchPath}): ${error instanceof Error ? error.message : String(error)}`
+        );
       }
     }
 
-    return super.getPage(slug);
+    const fallback = await super.getPage(slug);
+    if (!fallback) {
+      logger.warn(`getPage: no candidate matched for slug "${trimmedSlug}"`);
+    }
+    return fallback;
   }
 }
 

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sticky-scroll-cards",
+  "type": "registry:ui",
+  "title": "Sticky Scroll Cards",
+  "description": "Scroll-pinned hero where a front card flips to reveal a stack of back cards, dismissed one at a time as you keep scrolling.",
+  "dependencies": ["gsap", "@gsap/react"],
+  "registryDependencies": [
+    "@soralabs/hooks-use-prefers-reduced-motion",
+    "@soralabs/lib-scroll-trigger-utils"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/effects/sticky-scroll-cards/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/sticky-scroll-cards.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "sticky",
+      "pin",
+      "card",
+      "flip",
+      "stack",
+      "scroll",
+      "gsap",
+      "scrolltrigger"
+    ],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Codegrid",
+      "stack": "GSAP and vanilla JS"
+    }
+  }
+}

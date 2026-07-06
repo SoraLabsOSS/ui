@@ -3,7 +3,7 @@
   "name": "pixelated-image-reveal",
   "type": "registry:ui",
   "title": "Pixelated Image Reveal",
-  "description": "An image card that reveals a second image through a randomized pixel grid on hover.",
+  "description": "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils"],
   "files": [

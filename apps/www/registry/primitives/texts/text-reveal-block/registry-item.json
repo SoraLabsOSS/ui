@@ -5,6 +5,10 @@
   "title": "Text Reveal (Block)",
   "description": "Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.",
   "dependencies": ["gsap", "@gsap/react"],
+  "registryDependencies": [
+    "@soralabs/hooks-use-prefers-reduced-motion",
+    "@soralabs/lib-scroll-trigger-utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/text-reveal-block/index.tsx",

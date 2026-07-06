@@ -4,15 +4,20 @@ type InspirationType = "inspired" | "reimplemented" | "adapted";
 
 interface RegistryInspiration {
   label: string;
+  stack?: string;
   type: InspirationType;
-  url: string;
+  url?: string;
 }
 
 interface ComponentCreditsProps {
   name: string;
 }
 
-function InspirationSource({ label, url }: { label: string; url: string }) {
+function InspirationSource({ label, url }: { label: string; url?: string }) {
+  if (!url) {
+    return <span className="font-medium text-foreground">{label}</span>;
+  }
+
   return (
     <a
       className="font-medium text-foreground underline underline-offset-2 transition-colors hover:text-foreground/80"
@@ -31,7 +36,12 @@ function getInspirationText(inspiration: RegistryInspiration) {
   );
 
   if (inspiration.type === "reimplemented") {
-    return <>Inspired by {source}. Reimplemented for Motion and React.</>;
+    const stack = inspiration.stack ?? "Motion and React";
+    return (
+      <>
+        Inspired by {source}. Reimplemented for {stack}.
+      </>
+    );
   }
 
   if (inspiration.type === "adapted") {

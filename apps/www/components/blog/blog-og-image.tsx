@@ -1,7 +1,6 @@
 /** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: onLoad tracks image readiness for the skeleton overlay. */
 "use client";
 
-import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image, { type ImageProps } from "next/image";
@@ -13,6 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
 type LoadPhase = "loading" | "fading" | "revealed";
 
@@ -150,9 +150,10 @@ export function BlogOgImage({
           >
             <Skeleton
               className={cn(
-                "size-full rounded-none bg-muted-foreground/15",
+                "size-full bg-muted-foreground/15",
                 skeletonClassName
               )}
+              rounded="none"
             />
           </motion.div>
         ) : null}

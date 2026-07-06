@@ -9,7 +9,7 @@ export type ComponentCollection = "component" | "block" | "showcase";
 export interface RegistryInspiration {
   label: string;
   type: "inspired" | "reimplemented" | "adapted";
-  url: string;
+  url?: string;
 }
 
 export interface ComponentTocItem {

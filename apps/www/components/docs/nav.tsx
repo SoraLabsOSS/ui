@@ -26,6 +26,7 @@ import { CommandPaletteTrigger } from "@/components/command-palette/command-pale
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
+import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 
@@ -88,9 +89,10 @@ function NavMenuItems({
       ))}
       {HEADER_AUTH_NAV_ITEMS.map((item) => (
         <MotionNavigationMenuItem key={item.title} value={item.title}>
-          {sessionPending ? (
-            <AuthNavMenuSkeleton width={item.skeletonWidth} />
-          ) : (
+          <SkeletonTransition
+            loading={sessionPending}
+            skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
+          >
             <MotionNavigationMenuLink
               asChild
               className={cn(
@@ -111,7 +113,7 @@ function NavMenuItems({
                 {item.title}
               </Link>
             </MotionNavigationMenuLink>
-          )}
+          </SkeletonTransition>
         </MotionNavigationMenuItem>
       ))}
     </>

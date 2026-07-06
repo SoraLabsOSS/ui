@@ -1,6 +1,6 @@
 ---
 title: Custom Cursor
-description: A smooth custom cursor that morphs when hovering interactive targets.
+description: A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
@@ -90,4 +90,4 @@ Limit it to desktop viewports only — the component only activates when a point
 
 ## Accessibility
 
-The custom cursor is purely visual. It does not change keyboard navigation, tab order, or focus indicators. Standard `:focus-visible` styles remain fully functional alongside it. When `prefers-reduced-motion: reduce` is set, consider checking the media query and not rendering the component to avoid animating a decorative element for users who have opted out of motion.
+The custom cursor is purely visual. It does not change keyboard navigation, tab order, or focus indicators. Standard `:focus-visible` styles remain fully functional alongside it. When `prefers-reduced-motion: reduce` is set, the component already doesn't render — no extra configuration needed.

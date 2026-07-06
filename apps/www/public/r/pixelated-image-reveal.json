@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "pixelated-image-reveal",
   "title": "Pixelated Image Reveal",
-  "description": "An image card that reveals a second image through a randomized pixel grid on hover.",
+  "description": "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils"],
   "files": [

@@ -14,17 +14,50 @@ interface ComponentFileStructureProps {
   name: string;
 }
 
+const SORALABS_DEP_PREFIX = "@soralabs/";
+
+interface RegistryEntry {
+  files?: Array<{ target?: string }>;
+  registryDependencies?: string[];
+}
+
+/**
+ * Walks `registryDependencies` for internal (`@soralabs/*`) items — e.g. the
+ * shared hooks a primitive installs alongside itself — so the file tree
+ * matches everything the CLI actually writes to disk, not just the
+ * component's own file.
+ */
 function getRegistryInstallTargets(name: string): string[] {
-  const component = index[name] as
-    | { files?: Array<{ target?: string }> }
-    | undefined;
-  if (!component?.files?.length) {
-    return [];
+  const targets: string[] = [];
+  const visited = new Set<string>();
+  const queue = [name];
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (!current || visited.has(current)) {
+      continue;
+    }
+    visited.add(current);
+
+    const entry = (index as Record<string, RegistryEntry | undefined>)[current];
+    if (!entry) {
+      continue;
+    }
+
+    for (const file of entry.files ?? []) {
+      if (file.target) {
+        targets.push(file.target);
+      }
+    }
+
+    for (const dep of entry.registryDependencies ?? []) {
+      if (dep.startsWith(SORALABS_DEP_PREFIX)) {
+        queue.push(dep.slice(SORALABS_DEP_PREFIX.length));
+      }
+    }
   }
 
-  return component.files
-    .map((file: { target?: string }) => file.target)
-    .filter((target): target is string => Boolean(target));
+  return targets;
 }
 
 export function ComponentFileStructure({

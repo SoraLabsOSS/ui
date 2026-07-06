@@ -37,13 +37,16 @@ export default function TextRevealBoxExample() {
 
       {scroller ? (
         <TextRevealBox
-          containerClassName="w-[90%] max-w-2xl"
+          classNames={{
+            paragraph:
+              "text-[clamp(1.5rem,2.5vw,4.5rem)] font-medium leading-none tracking-[-0.02em]",
+          }}
           containerQuery
           embedded
-          paragraphClassName="text-center text-2xl font-medium leading-tight tracking-tight md:text-3xl"
           paragraphs={PARAGRAPHS}
           pinDuration={4}
           scroller={scroller}
+          variant="minimal"
         />
       ) : null}
     </div>

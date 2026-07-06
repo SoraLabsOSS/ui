@@ -232,6 +232,34 @@
       ]
     },
     {
+      "name": "demo-magnetic-cards",
+      "type": "registry:ui",
+      "title": "Magnetic Cards Demo",
+      "description": "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
+      "registryDependencies": ["@soralabs/magnetic-cards"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/magnetic-cards.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-progressive-blur",
+      "type": "registry:ui",
+      "title": "Progressive Blur Demo",
+      "description": "A scrollable panel with progressive blur fading content under the top and bottom edges.",
+      "registryDependencies": ["@soralabs/progressive-blur"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/progressive-blur.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-scroll-gallery",
       "type": "registry:ui",
       "title": "Scroll Gallery Demo",
@@ -242,6 +270,48 @@
           "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/effects/scroll-gallery.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton Demo",
+      "description": "A profile card loading, then crossfading into content once ready.",
+      "registryDependencies": ["@soralabs/skeleton"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/skeleton/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/skeleton.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-sticky-scroll-cards",
+      "type": "registry:ui",
+      "title": "Sticky Scroll Cards Demo",
+      "description": "Front card flips to reveal 4 stacked back cards that dismiss one at a time as you scroll.",
+      "registryDependencies": ["@soralabs/sticky-scroll-cards"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/sticky-scroll-cards.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-bottom-sheet",
+      "type": "registry:ui",
+      "title": "Bottom Sheet Demo",
+      "description": "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
+      "registryDependencies": ["@soralabs/bottom-sheet"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/radix/bottom-sheet/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/radix/bottom-sheet.tsx"
         }
       ]
     },
@@ -442,6 +512,71 @@
       ]
     },
     {
+      "name": "hooks-use-controlled-state",
+      "type": "registry:hook",
+      "title": "useControlledState",
+      "description": "A hook that allows you to control a state.",
+      "files": [
+        {
+          "path": "registry/hooks/use-controlled-state/index.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-controlled-state.tsx"
+        }
+      ]
+    },
+    {
+      "name": "hooks-use-prefers-reduced-motion",
+      "type": "registry:hook",
+      "title": "usePrefersReducedMotion",
+      "description": "A hook that tracks the OS-level Reduced Motion setting live, so GSAP-driven primitives can skip or shortcut their animations.",
+      "files": [
+        {
+          "path": "registry/hooks/use-prefers-reduced-motion/index.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-prefers-reduced-motion.tsx"
+        }
+      ]
+    },
+    {
+      "name": "lib-ease",
+      "type": "registry:lib",
+      "title": "Ease & Spring Tokens",
+      "description": "Shared cubic-bezier eases and Motion spring presets (press, swap, panel, layout, mouse) used across primitives to keep motion consistent.",
+      "files": [
+        {
+          "path": "registry/lib/ease/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/ease.tsx"
+        }
+      ]
+    },
+    {
+      "name": "lib-get-strict-context",
+      "type": "registry:lib",
+      "title": "getStrictContext",
+      "description": "A hook that allows you to create a strict context.",
+      "files": [
+        {
+          "path": "registry/lib/get-strict-context/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/get-strict-context.tsx"
+        }
+      ]
+    },
+    {
+      "name": "lib-scroll-trigger-utils",
+      "type": "registry:lib",
+      "title": "Scroll Trigger Utils",
+      "description": "Shared GSAP ScrollTrigger helpers (window/scroller detection, ready/resize waiting) used by scroll-driven primitives.",
+      "files": [
+        {
+          "path": "registry/lib/scroll-trigger-utils/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/scroll-trigger-utils.tsx"
+        }
+      ]
+    },
+    {
       "name": "char-stagger-button",
       "type": "registry:ui",
       "title": "Char Stagger Button",
@@ -482,7 +617,7 @@
       "name": "section-cta",
       "type": "registry:ui",
       "title": "Section CTA",
-      "description": "A chip-style call-to-action link with sliding label and rotating icon chips on hover.",
+      "description": "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
@@ -534,7 +669,7 @@
       "name": "accordion",
       "type": "registry:ui",
       "title": "Accordion",
-      "description": "An animated FAQ accordion with expandable panels.",
+      "description": "An animated FAQ accordion with expandable panels, powered by Motion.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils", "@soralabs/hooks-use-auto-height"],
       "files": [
@@ -548,7 +683,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Annnimate",
-          "url": "https://www.annnimate.com"
+          "url": "https://www.annnimate.com",
+          "stack": "Motion and React"
         }
       }
     },
@@ -556,7 +692,7 @@
       "name": "border-trail",
       "type": "registry:ui",
       "title": "Border Trail",
-      "description": "Animated border spotlight that travels around a rounded container.",
+      "description": "Animated border spotlight that travels around a rounded container, powered by Motion.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
@@ -580,7 +716,10 @@
       "title": "Cursor Trail Reveal",
       "description": "Desktop cursor trail that reveals staggered image strips with clip-path wipes as the pointer moves.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-prefers-reduced-motion"
+      ],
       "files": [
         {
           "path": "registry/primitives/effects/cursor-trail-reveal/index.tsx",
@@ -593,7 +732,7 @@
       "name": "custom-cursor",
       "type": "registry:ui",
       "title": "Custom Cursor",
-      "description": "A smooth custom cursor that morphs when hovering interactive targets.",
+      "description": "A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
@@ -608,7 +747,7 @@
       "name": "dock-nav",
       "type": "registry:ui",
       "title": "Dock Nav",
-      "description": "An Apple-style dock navigation bar with expanding icons and tooltips on hover.",
+      "description": "An Apple-style dock navigation bar with Motion-powered expanding icons and tooltips on hover.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
@@ -623,14 +762,14 @@
       "name": "highlight",
       "type": "registry:ui",
       "title": "Highlight",
-      "description": "A highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
+      "description": "A Motion-powered highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/highlight/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/primitives/effects/highlight.tsx"
+          "target": "components/sora-ui/effects/highlight.tsx"
         }
       ]
     },
@@ -668,10 +807,41 @@
       }
     },
     {
+      "name": "magnetic-cards",
+      "type": "registry:ui",
+      "title": "Magnetic Cards",
+      "description": "A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.",
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/magnetic-cards/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/magnetic-cards.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "magnetic",
+          "cards",
+          "cursor",
+          "physics",
+          "spring",
+          "gsap"
+        ],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Spencer Gabor",
+          "url": "https://spencergabor.work/",
+          "stack": "GSAP and React"
+        }
+      }
+    },
+    {
       "name": "pixelated-image-reveal",
       "type": "registry:ui",
       "title": "Pixelated Image Reveal",
-      "description": "An image card that reveals a second image through a randomized pixel grid on hover.",
+      "description": "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
@@ -718,12 +888,48 @@
       }
     },
     {
+      "name": "progressive-blur",
+      "type": "registry:ui",
+      "title": "Progressive Blur",
+      "description": "A stacked-layer blur that ramps smoothly from sharp to fully blurred toward an edge, for fading content under a fixed header or above a scroll boundary.",
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-prefers-reduced-motion"
+      ],
+      "files": [
+        {
+          "path": "registry/primitives/effects/progressive-blur/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/progressive-blur.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "progressive-blur",
+          "blur",
+          "scroll",
+          "fade",
+          "backdrop-filter",
+          "gradient-blur"
+        ],
+        "inspiration": {
+          "type": "adapted",
+          "label": "gxuri (Skiper UI)",
+          "url": "https://gxuri.me"
+        }
+      }
+    },
+    {
       "name": "scroll-gallery",
       "type": "registry:ui",
       "title": "Scroll Gallery",
       "description": "A full-viewport sticky scroll slider with strip-mask image transitions and animated title swaps, driven by GSAP ScrollTrigger.",
       "dependencies": ["gsap", "@gsap/react"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
       "files": [
         {
           "path": "registry/primitives/effects/scroll-gallery/index.tsx",
@@ -772,10 +978,97 @@
       }
     },
     {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A loading placeholder with shimmer or fade variants, plus a transition that crossfades into real content once loading finishes.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/skeleton/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/skeleton.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "skeleton",
+          "loading",
+          "placeholder",
+          "shimmer",
+          "shimmer-effect"
+        ]
+      }
+    },
+    {
+      "name": "sticky-scroll-cards",
+      "type": "registry:ui",
+      "title": "Sticky Scroll Cards",
+      "description": "Scroll-pinned hero where a front card flips to reveal a stack of back cards, dismissed one at a time as you keep scrolling.",
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
+      "files": [
+        {
+          "path": "registry/primitives/effects/sticky-scroll-cards/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/sticky-scroll-cards.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "sticky",
+          "pin",
+          "card",
+          "flip",
+          "stack",
+          "scroll",
+          "gsap",
+          "scrolltrigger"
+        ],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Codegrid",
+          "stack": "GSAP and vanilla JS"
+        }
+      }
+    },
+    {
+      "name": "bottom-sheet",
+      "type": "registry:ui",
+      "title": "Bottom Sheet",
+      "description": "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-controlled-state",
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-get-strict-context",
+        "@soralabs/lib-ease"
+      ],
+      "files": [
+        {
+          "path": "registry/primitives/radix/bottom-sheet/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/bottom-sheet.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "Vaul",
+          "url": "https://vaul.emilkowal.ski",
+          "stack": "Radix Dialog and Motion"
+        }
+      }
+    },
+    {
       "name": "draw-underline-link",
       "type": "registry:ui",
       "title": "Draw Underline Link",
-      "description": "A link with a hand-drawn SVG underline that animates on hover.",
+      "description": "A link with a hand-drawn SVG underline that animates on hover, powered by Motion.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
@@ -789,7 +1082,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Osmo",
-          "url": "https://osmo.supply"
+          "url": "https://osmo.supply",
+          "stack": "Motion and React"
         },
         "demoProps": {
           "DrawUnderlineLink": {
@@ -844,7 +1138,7 @@
       "name": "text-effect",
       "type": "registry:ui",
       "title": "Text Effect",
-      "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations.",
+      "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations, powered by Motion.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
@@ -923,7 +1217,7 @@
       "name": "text-morph",
       "type": "registry:ui",
       "title": "Text Morph",
-      "description": "Per-character layout morphing for labels, counters, and live text swaps.",
+      "description": "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
@@ -947,6 +1241,10 @@
       "title": "Text Reveal (Block)",
       "description": "Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.",
       "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-block/index.tsx",
@@ -1013,7 +1311,11 @@
       "type": "registry:ui",
       "title": "Text Reveal Box",
       "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
-      "dependencies": ["gsap"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-box/index.tsx",
@@ -1033,7 +1335,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Deadlock Studios",
-          "url": "https://github.com/Axyl1410"
+          "url": "https://github.com/Axyl1410",
+          "stack": "GSAP and React"
         }
       }
     },
@@ -1041,7 +1344,7 @@
       "name": "text-reveal-mask",
       "type": "registry:ui",
       "title": "Text Reveal (Mask)",
-      "description": "A scroll-triggered masked slide-up text reveal animation.",
+      "description": "A scroll-triggered masked slide-up text reveal animation, powered by Motion.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
@@ -1055,7 +1358,8 @@
         "inspiration": {
           "type": "reimplemented",
           "label": "Annnimate",
-          "url": "https://www.annnimate.com"
+          "url": "https://www.annnimate.com",
+          "stack": "Motion and React"
         },
         "demoProps": {
           "MaskedTextReveal": {
@@ -1116,7 +1420,7 @@
       "name": "text-roll",
       "type": "registry:ui",
       "title": "Text Roll",
-      "description": "A per-character vertical text roll animation for label swaps and micro-interactions.",
+      "description": "A per-character vertical text roll animation for label swaps and micro-interactions, powered by Motion.",
       "dependencies": ["motion"],
       "registryDependencies": ["utils"],
       "files": [
@@ -1138,7 +1442,7 @@
       "name": "text-scramble",
       "type": "registry:ui",
       "title": "Text Scramble",
-      "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered.",
+      "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered, powered by Motion.",
       "dependencies": ["motion"],
       "files": [
         {
@@ -1210,11 +1514,6 @@
         }
       ],
       "meta": {
-        "inspiration": {
-          "type": "reimplemented",
-          "label": "Annnimate",
-          "url": "https://www.annnimate.com"
-        },
         "demoProps": {
           "TextUnderline": {
             "label": {

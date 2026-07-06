@@ -3,7 +3,7 @@
   "name": "primitives-radix-tabs",
   "type": "registry:ui",
   "title": "Radix Tabs",
-  "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+  "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time, built on Radix UI and animated with Motion.",
   "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
     "@soralabs/primitives-effects-highlight",

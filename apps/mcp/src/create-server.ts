@@ -1,7 +1,9 @@
 import { MCPServer } from "mcp-framework";
-import SoraGetPageTool from "./tools/SoraGetPageTool.js";
-import SoraListSectionsTool from "./tools/SoraListSectionsTool.js";
-import SoraSearchDocsTool from "./tools/SoraSearchDocsTool.js";
+import SoraGetComponentInfoTool from "./tools/sora-get-component-info-tool.js";
+import SoraGetPageTool from "./tools/sora-get-page-tool.js";
+import SoraListComponentsTool from "./tools/sora-list-components-tool.js";
+import SoraListSectionsTool from "./tools/sora-list-sections-tool.js";
+import SoraSearchDocsTool from "./tools/sora-search-docs-tool.js";
 
 const SERVER_NAME = "sora-mcp";
 const SERVER_VERSION = "0.0.1";
@@ -24,6 +26,8 @@ export function createMcpServer() {
   server.addTool(SoraSearchDocsTool);
   server.addTool(SoraGetPageTool);
   server.addTool(SoraListSectionsTool);
+  server.addTool(SoraListComponentsTool);
+  server.addTool(SoraGetComponentInfoTool);
 
   return server;
 }

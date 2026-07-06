@@ -69,7 +69,8 @@ interface RegistryItem {
     inspiration?: {
       type: "inspired" | "reimplemented";
       label: string;
-      url: string;
+      stack?: string;
+      url?: string;
     };
   };
   name: string;
@@ -347,8 +348,15 @@ async function buildRegistryIndex() {
   const allItemsFromFolder =
     await getRegistryItemsFromFolder(registryFolderPath);
 
-  // Collect documented names to also filter the index
+  // Collect documented names, then expand to include transitive
+  // registryDependencies (e.g. shared hooks) so the docs UI (File Structure,
+  // manual install tab) can look them up in `index` too — not just the item
+  // that's directly referenced in an .mdx page.
   const documentedNames = await collectDocumentedNames();
+  const includedNames = collectTransitiveRegistryDependencyNames(
+    allItemsFromFolder,
+    documentedNames
+  );
 
   let index = `/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -506,11 +514,12 @@ export const previewComponents: Record<string, any> = {`;
     if (!item.files) {
       continue;
     }
-    // Skip items not referenced in any doc page (keep primitives as internal deps)
+    // Skip items not referenced in any doc page or transitively depended on
+    // (keep primitives as internal deps)
     if (
       !item.name.startsWith("primitives-") &&
       item.name !== "index" &&
-      !documentedNames.has(item.name)
+      !includedNames.has(item.name)
     ) {
       continue;
     }
@@ -578,7 +587,7 @@ export const previewComponents: Record<string, any> = {`;
     if (
       !registryItem.name.startsWith("primitives-") &&
       registryItem.name !== "index" &&
-      !documentedNames.has(registryItem.name)
+      !includedNames.has(registryItem.name)
     ) {
       continue;
     }

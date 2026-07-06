@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { createServer } from "node:http";
+import { logger } from "mcp-framework";
 import { MCP_HTTP_ENDPOINT } from "./create-server.js";
 import { handleMcpRequest } from "./handle-mcp-request.js";
 
@@ -59,7 +60,10 @@ createServer(async (req, res) => {
   try {
     const response = await handleMcpRequest(await toWebRequest(req));
     await writeWebResponse(response, res);
-  } catch {
+  } catch (error) {
+    logger.error(
+      `Unhandled request error: ${error instanceof Error ? (error.stack ?? error.message) : String(error)}`
+    );
     res.statusCode = 500;
     res.end("Internal Server Error");
   }

@@ -22,10 +22,10 @@ export const Hero = () => {
         SORA UI
       </motion.p>
 
-      <div className="flex flex-col items-center">
+      <h1 className="flex flex-col items-center">
         <HeroSlotLine text="MOTION-FIRST" />
         <HeroSlotLine text="FOR REACT" />
-      </div>
+      </h1>
 
       <motion.p
         animate={{ opacity: 1, y: 0 }}

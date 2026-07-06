@@ -14,11 +14,6 @@
     }
   ],
   "meta": {
-    "inspiration": {
-      "type": "reimplemented",
-      "label": "Annnimate",
-      "url": "https://www.annnimate.com"
-    },
     "demoProps": {
       "TextUnderline": {
         "label": {

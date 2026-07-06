@@ -59,7 +59,7 @@ export function HomePageClient({
 
   return (
     <>
-      <Header className="top-[calc(var(--fd-banner-height)+0.75rem)]" />
+      <Header />
       <HomeLenis>
         <div className="flex min-h-full w-full flex-col justify-between">
           <div>

@@ -65,25 +65,29 @@ export function HeroSlotLine({
   className?: string;
   text: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
-    <div
-      className={cn(
-        "flex font-bold font-hero-display text-5xl uppercase tracking-tight max-[375px]:text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
-        className
-      )}
-      ref={ref}
-    >
-      {text.split("").map((char, index) => (
-        <HeroSlotChar
-          char={char}
-          charIndex={index}
-          key={`${text}-${index}`}
-          play={isInView}
-        />
-      ))}
-    </div>
+    <>
+      <span
+        aria-hidden
+        className={cn(
+          "flex font-bold font-hero-display text-5xl uppercase tracking-tight max-[375px]:text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
+          className
+        )}
+        ref={ref}
+      >
+        {text.split("").map((char, index) => (
+          <HeroSlotChar
+            char={char}
+            charIndex={index}
+            key={`${text}-${index}`}
+            play={isInView}
+          />
+        ))}
+      </span>
+      <span className="sr-only">{text}</span>
+    </>
   );
 }

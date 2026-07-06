@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progressive-blur",
+  "title": "Progressive Blur",
+  "description": "A stacked-layer blur that ramps smoothly from sharp to fully blurred toward an edge, for fading content under a fixed header or above a scroll boundary.",
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/effects/progressive-blur/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { type CSSProperties, useMemo } from \"react\";\nimport { usePrefersReducedMotion } from \"@/hooks/use-prefers-reduced-motion\";\n\n// Reads --pb-background for the optional solid-fade layer only. Defaults to\n// the app's own shadcn --background token when present, so the fade lands on\n// the surrounding surface color out of the box. The light-dark() fallback\n// only kicks in for apps with neither shadcn tokens nor a declared\n// color-scheme, so it degrades to plain white — override --pb-background\n// directly (className or style) if the edge sits on a dark surface without\n// shadcn tokens.\nconst componentThemeClassName =\n  \"[--pb-background:var(--background,light-dark(#ffffff,#0a0a0a))]\";\n\nconst MAX_LAYERS = 16;\n// backdrop-filter is a per-layer paint cost, so reduced motion drops straight\n// to a single band — same silhouette, a sixth of the paints.\nconst REDUCED_MOTION_LAYERS = 1;\n\ntype ProgressiveBlurDirection = \"top\" | \"bottom\" | \"left\" | \"right\";\n\nconst directionGradientAngle = {\n  top: \"to bottom\",\n  bottom: \"to top\",\n  left: \"to right\",\n  right: \"to left\",\n} as const satisfies Record<ProgressiveBlurDirection, string>;\n\nconst directionSizeProperty = {\n  top: \"height\",\n  bottom: \"height\",\n  left: \"width\",\n  right: \"width\",\n} as const satisfies Record<ProgressiveBlurDirection, \"height\" | \"width\">;\n\ninterface ProgressiveBlurProps {\n  className?: string;\n  /** Edge the blur ramps in from. @default \"bottom\" */\n  direction?: ProgressiveBlurDirection;\n  /**\n   * Add a final solid-color layer that fades to `--pb-background` right at\n   * the edge, fully hiding content instead of leaving a faint blurred trace.\n   * @default true\n   */\n  fade?: boolean;\n  /**\n   * Number of stacked blur layers, clamped to 1–16. Each layer's mask\n   * isolates a band of the fade zone, so more layers read as a smoother\n   * ramp at the cost of more `backdrop-filter` paints. Ignored (forced to\n   * 1) when the OS Reduced Motion setting is on.\n   * @default 6\n   */\n  layers?: number;\n  /** Strongest blur radius, reached by the layer nearest the edge, in px. @default 12 */\n  maxBlur?: number;\n  /** Depth of the blurred region along `direction`, any CSS length. @default \"6rem\" */\n  size?: string;\n  style?: CSSProperties;\n}\n\nfunction getLayerBlurPx(index: number, layerCount: number, maxBlur: number) {\n  // Doubles per layer toward the edge (…maxBlur/4, maxBlur/2, maxBlur) rather\n  // than scaling linearly — blur perceptually compounds, so a linear ramp\n  // reads as mostly-sharp-then-a-sudden-smear instead of a gradual fade.\n  return maxBlur * 2 ** (index - layerCount + 1);\n}\n\nfunction getLayerMaskImage(\n  direction: ProgressiveBlurDirection,\n  index: number,\n  layerCount: number\n) {\n  // `directionGradientAngle` points 0% at the pinned edge (e.g. the box's\n  // own top, for direction=\"top\"). The strongest layer (highest `index`)\n  // must band nearest that edge, so its position runs opposite to `index`.\n  const bandIndex = layerCount - 1 - index;\n  const step = 100 / layerCount;\n  const start = bandIndex * step;\n  const rampIn = Math.min(100, (bandIndex + 1) * step);\n  const rampOutStart = Math.min(100, (bandIndex + 2) * step);\n  const end = Math.min(100, (bandIndex + 3) * step);\n\n  return `linear-gradient(${directionGradientAngle[direction]}, transparent ${start}%, black ${rampIn}%, black ${rampOutStart}%, transparent ${end}%)`;\n}\n\nfunction ProgressiveBlur({\n  className,\n  direction = \"bottom\",\n  fade = true,\n  layers = 6,\n  maxBlur = 12,\n  size = \"6rem\",\n  style,\n}: ProgressiveBlurProps) {\n  const prefersReducedMotion = usePrefersReducedMotion();\n  const clampedMaxBlur = Math.max(0, maxBlur);\n  const layerCount = prefersReducedMotion\n    ? REDUCED_MOTION_LAYERS\n    : Math.min(MAX_LAYERS, Math.max(1, Math.trunc(layers)));\n\n  const blurLayers = useMemo(\n    () =>\n      Array.from({ length: layerCount }, (_, index) => {\n        const blurPx = getLayerBlurPx(index, layerCount, clampedMaxBlur);\n        const maskImage = getLayerMaskImage(direction, index, layerCount);\n\n        return { blurPx, id: `${direction}-${layerCount}-${index}`, maskImage };\n      }),\n    [direction, layerCount, clampedMaxBlur]\n  );\n\n  const sizeStyle: CSSProperties = {\n    [directionSizeProperty[direction]]: size,\n  };\n\n  return (\n    <div\n      aria-hidden=\"true\"\n      className={cn(\n        componentThemeClassName,\n        \"pointer-events-none absolute select-none\",\n        direction === \"top\" && \"inset-x-0 top-0\",\n        direction === \"bottom\" && \"inset-x-0 bottom-0\",\n        direction === \"left\" && \"inset-y-0 left-0\",\n        direction === \"right\" && \"inset-y-0 right-0\",\n        className\n      )}\n      style={{ ...sizeStyle, ...style }}\n    >\n      {blurLayers.map((layer) => (\n        <div\n          className=\"absolute inset-0\"\n          key={layer.id}\n          style={{\n            backdropFilter: `blur(${layer.blurPx}px)`,\n            maskImage: layer.maskImage,\n            WebkitBackdropFilter: `blur(${layer.blurPx}px)`,\n            WebkitMaskImage: layer.maskImage,\n          }}\n        />\n      ))}\n      {fade ? (\n        <div\n          className=\"absolute inset-0\"\n          style={{\n            background: `linear-gradient(${directionGradientAngle[direction]}, var(--pb-background), transparent)`,\n          }}\n        />\n      ) : null}\n    </div>\n  );\n}\n\nexport type { ProgressiveBlurDirection, ProgressiveBlurProps };\nexport { ProgressiveBlur };\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/progressive-blur.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "progressive-blur",
+      "blur",
+      "scroll",
+      "fade",
+      "backdrop-filter",
+      "gradient-blur"
+    ],
+    "inspiration": {
+      "type": "adapted",
+      "label": "gxuri (Skiper UI)",
+      "url": "https://gxuri.me"
+    }
+  },
+  "type": "registry:ui"
+}

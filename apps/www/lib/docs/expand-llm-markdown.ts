@@ -14,6 +14,7 @@ interface RegistryEntry {
   inspiration?: {
     type: "inspired" | "reimplemented" | "adapted";
     label: string;
+    stack?: string;
     url: string;
   } | null;
   registryDependencies?: string[];
@@ -93,7 +94,8 @@ function expandComponentCredits(name: string): string {
   const source = `[${inspiration.label}](${inspiration.url})`;
 
   if (inspiration.type === "reimplemented") {
-    return `Inspired by ${source}. Reimplemented for Motion and React.`;
+    const stack = inspiration.stack ?? "Motion and React";
+    return `Inspired by ${source}. Reimplemented for ${stack}.`;
   }
 
   if (inspiration.type === "adapted") {

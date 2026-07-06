@@ -1,0 +1,126 @@
+---
+title: Progressive Blur
+description: A stacked-layer blur that ramps smoothly from sharp to fully blurred toward an edge, for fading content under a fixed header or above a scroll boundary.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-progressive-blur" description="Scroll the panel — content fades under a progressive blur at the top and bottom edges." />
+
+## Installation
+
+<ComponentInstallation name="progressive-blur" />
+
+## Usage
+
+```tsx
+import { ProgressiveBlur } from '@/components/sora-ui/effects/progressive-blur';
+
+export default function ScrollPanel() {
+  return (
+    <div className="relative h-80 overflow-y-auto">
+      <ProgressiveBlur direction="top" />
+      {/* scrollable content */}
+      <ProgressiveBlur direction="bottom" />
+    </div>
+  );
+}
+```
+
+The wrapping element needs `position: relative` (or any positioning context) — `ProgressiveBlur`
+renders as an absolutely positioned overlay pinned to one edge via `direction`.
+
+<Callout type="warn" title="Keep scrolling content as a sibling">
+  `ProgressiveBlur` blurs whatever sits behind it in the same stacking context. Mount it as a
+  sibling of the scrollable element (both inside the `relative` wrapper), not as a child of it —
+  otherwise it scrolls away with the content instead of staying pinned to the edge. Also avoid
+  `overflow: hidden` or a `transform` on an ancestor between the two: either creates a new
+  stacking/containing context and the blur will sample the wrong content, or get clipped
+  entirely.
+</Callout>
+
+### How it works
+
+A single `backdrop-filter: blur()` with a gradient mask blurs uniformly, then fades in opacity —
+it doesn't get *blurrier* toward the edge, just fainter. `ProgressiveBlur` instead stacks several
+layers, each with its own blur radius and a mask that isolates a band of the fade zone, so the
+blur radius itself ramps up toward the edge. More `layers` reads smoother, at the cost of more
+`backdrop-filter` paints:
+
+```tsx
+<ProgressiveBlur direction="bottom" layers={12} maxBlur={20} size="10rem" />
+```
+
+Set `fade={false}` to skip the trailing solid-color layer and let the blurred content show
+through all the way to the edge, instead of fading out to `--pb-background`:
+
+```tsx
+<ProgressiveBlur direction="bottom" fade={false} />
+```
+
+### Customizing the fade color
+
+`ProgressiveBlur` reads `--pb-background` for its solid-fade layer, defaulting to your app's own
+`--background` shadcn token when present. Override it directly if the edge sits on a different
+surface than the page background:
+
+```tsx
+<ProgressiveBlur
+  className="[--pb-background:var(--card)]"
+  direction="top"
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    direction: {
+      description: 'Edge the blur ramps in from.',
+      type: '"top" | "bottom" | "left" | "right"',
+      default: '"bottom"',
+    },
+    size: {
+      description: 'Depth of the blurred region along `direction`, any CSS length.',
+      type: 'string',
+      default: '"6rem"',
+    },
+    maxBlur: {
+      description: 'Strongest blur radius, reached by the layer nearest the edge, in px.',
+      type: 'number',
+      default: '12',
+    },
+    layers: {
+      description: 'Number of stacked blur layers, clamped to 1–16 — more layers read as a smoother ramp. Forced to 1 when Reduced Motion is on.',
+      type: 'number',
+      default: '6',
+    },
+    fade: {
+      description: 'Add a trailing solid-color layer that fades to `--pb-background` at the edge.',
+      type: 'boolean',
+      default: 'true',
+    },
+    className: {
+      description: 'Class names for the root overlay.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Reach for `ProgressiveBlur` at the boundary of any scrollable region where content needs to fade
+out gracefully instead of clipping abruptly — under a sticky header, above a fixed footer, or at
+the edges of a horizontally scrolling rail. It reads as glass rather than a hard cutoff because
+the blur intensity itself increases toward the edge, matching how out-of-focus content actually
+looks.
+
+## Accessibility
+
+`ProgressiveBlur` is `aria-hidden` and `pointer-events-none` — it's a purely visual overlay and
+never intercepts clicks or scroll. `backdrop-filter` itself has no motion to disable, but stacking
+6–16 of them is a real paint cost, so when the OS Reduced Motion setting is on, `ProgressiveBlur`
+collapses to a single layer regardless of `layers` — same silhouette, far less work per frame.
+
+<ComponentCredits name="progressive-blur" />

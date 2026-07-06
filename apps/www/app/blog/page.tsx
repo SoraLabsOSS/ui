@@ -32,7 +32,8 @@ export default function BlogPage() {
         <div className="blog-inner grid grid-cols-1 gap-6 px-3 pt-12 pb-16 sm:px-4 md:grid-cols-2 md:gap-7 md:px-0 md:pt-16 md:pb-20 lg:grid-cols-3 lg:gap-8">
           {posts.map((post, index) => {
             const isOgPreview = !post.data.image;
-            const isLcpCandidate = index === 0;
+            // First row is above the fold up to the widest grid (lg:grid-cols-3).
+            const isLcpCandidate = index < 3;
 
             return (
               <Link

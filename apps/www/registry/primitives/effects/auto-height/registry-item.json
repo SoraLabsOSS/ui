@@ -3,7 +3,7 @@
   "name": "primitives-effects-auto-height",
   "type": "registry:ui",
   "title": "Auto Height",
-  "description": "An effect that automatically adjusts the height of an element based on its content.",
+  "description": "A Motion-powered effect that automatically adjusts the height of an element based on its content.",
   "dependencies": ["motion"],
   "registryDependencies": [
     "@soralabs/primitives-animate-slot",

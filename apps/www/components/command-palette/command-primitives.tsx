@@ -1,9 +1,14 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { Command as CommandPrimitive } from "cmdk";
+import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { Search } from "lucide-react";
 import type * as React from "react";
+import { useEffect, useState } from "react";
+import {
+  Highlight,
+  HighlightItem,
+} from "@/registry/primitives/effects/highlight";
 
 const LIST_HEIGHT_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
 const LIST_HEIGHT_DURATION_MS = 350;
@@ -130,12 +135,77 @@ function CommandItem({
   return (
     <CommandPrimitive.Item
       className={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-md py-2.5 ps-2.5 pe-2.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 sm:py-3 sm:ps-3 sm:pe-3 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative z-10 flex cursor-default select-none items-center gap-2 rounded-md py-2.5 ps-2.5 pe-2.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 sm:py-3 sm:ps-3 sm:pe-3 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       data-slot="command-item"
       {...props}
     />
+  );
+}
+
+function CommandGroupHighlight({
+  className,
+  containerClassName,
+  deferMeasure = false,
+  values,
+  children,
+}: {
+  className?: string;
+  containerClassName?: string;
+  /** Wait until the command list finishes its open height animation. */
+  deferMeasure?: boolean;
+  values: string[];
+  children: React.ReactNode;
+}) {
+  const selectedValue = useCommandState((state) => state.value);
+  // Re-render when cmdk finishes registering/filtering items so the pill can measure.
+  useCommandState((state) => state.filtered.count);
+  const [ready, setReady] = useState(!deferMeasure);
+
+  useEffect(() => {
+    if (deferMeasure) {
+      setReady(false);
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      setReady(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [deferMeasure]);
+
+  const activeValue =
+    ready && selectedValue && values.includes(selectedValue)
+      ? selectedValue
+      : null;
+
+  return (
+    <Highlight
+      className={cn("rounded-md bg-accent", className)}
+      containerClassName={cn("flex flex-col", containerClassName)}
+      exitDelay={80}
+      mode="parent"
+      transition={{ type: "spring", stiffness: 500, damping: 40 }}
+      trigger="click"
+      value={activeValue}
+    >
+      {children}
+    </Highlight>
+  );
+}
+
+function CommandHighlightItem({
+  className,
+  value,
+  ...props
+}: Omit<React.ComponentProps<typeof CommandPrimitive.Item>, "value"> & {
+  value: string;
+}) {
+  return (
+    <HighlightItem asChild value={value}>
+      <CommandItem className={className} value={value} {...props} />
+    </HighlightItem>
   );
 }
 
@@ -145,6 +215,8 @@ export {
   Command,
   CommandEmpty,
   CommandGroup,
+  CommandGroupHighlight,
+  CommandHighlightItem,
   CommandInput,
   CommandItem,
   CommandList,

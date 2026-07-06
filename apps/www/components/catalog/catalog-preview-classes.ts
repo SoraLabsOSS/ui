@@ -289,8 +289,11 @@ export const catalogDesktopSidebarAsideClassName = [
   "max-lg:z-[81] lg:z-[22] lg:left-2 lg:w-[320px] lg:p-4 lg:pr-2 lg:pl-2",
 ].join(" ");
 
-export const catalogDesktopSidebarPanelClassName =
-  "relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-3xl bg-muted";
+export const catalogDesktopSidebarPanelClassName = [
+  "relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-3xl",
+  "bg-white/35 backdrop-blur-xl backdrop-saturate-150 dark:bg-[#080808]/30",
+  "supports-[backdrop-filter]:bg-white/35 dark:supports-[backdrop-filter]:bg-[#080808]/30",
+].join(" ");
 
 /** Top inset inside the flyout list — clears fixed header / menu row. */
 export const catalogDesktopSidebarScrollInsetClassName =

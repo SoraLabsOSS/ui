@@ -1,0 +1,244 @@
+---
+title: Sticky Scroll Cards — one ScrollTrigger, three acts
+description: How StickyScrollCards turns a single 0-to-1 scroll progress number into pin, 3D flip, and staggered dismiss — plus the two GSAP footguns that took the longest to figure out.
+author: Axyl
+date: 2026-07-03
+hashtags: ["#gsap", "#scrolltrigger", "#react", "#animation"]
+---
+
+I've built a fair number of scroll-driven sections at this point, and I'll say the quiet part out loud: most of them are one `ScrollTrigger.create` with a `scrub` and a prayer. `StickyScrollCards` started the same way and then refused to stay simple, because I wanted three things to happen in sequence *inside one pin* — cards enter, a front card flips to reveal a stack behind it, then that stack peels away one card at a time. Three acts, one scrollbar.
+
+No timeline. No three separate triggers. One `onUpdate`, one `progress` number from 0 to 1, and a pile of `mapRange` calls doing the acting.
+
+Here's the breakdown.
+
+---
+
+## What it looks like
+
+You land on the section, a headline sits center stage, a single "front" card underneath it. You scroll — the headline slides up and out, the front card and its hidden stack drift into position. Keep scrolling and the front card **flips like a coin**, revealing back cards fanned out behind it, each tilted a few degrees. Keep going and the topmost back card gets flung off — rotated, shot upward — then the next, then the next, in reverse array order, until the section lets go of your scrollbar and moves on with its life.
+
+That's `enter → flip → dismiss`, and the whole thing is driven by exactly one pinned `ScrollTrigger`.
+
+---
+
+## The load-bearing idea: everything is a function of `progress`
+
+```ts
+const trigger = ScrollTrigger.create({
+  trigger: section,
+  start: "top top",
+  end: `+=${totalScrollVh}vh`,
+  pin: true,
+  scrub: 1,
+  onUpdate: (self) => onUpdate(self.progress),
+});
+```
+
+`progress` goes from `0` to `1` over `totalScrollVh` of scroll. There's no per-phase trigger, no nested timeline — `onUpdate` just gets a float and re-derives *everything* every tick: where the cards sit, whether the flip has happened, how dismissed each back card is. It's closer to a React render function than a GSAP timeline, and once that clicked, the rest of the component fell out pretty naturally.
+
+The svh values in `timing` (`cardsEnterEnd: 500`, `cardFlipTrigger: 1000`, `dismissStart: 1500`, `cardDismissDuration: 500`) are just converted into progress fractions up front:
+
+```ts
+const svhToProgress = (svh: number) => svh / totalScrollVh;
+```
+
+So `cardFlipTrigger: 1000` out of a `totalScrollVh` of, say, 3500 (`1500 + 4 × 500` for 4 back cards) becomes `flipTriggerProgress ≈ 0.286`. Nice round svh numbers for the person tuning it, ugly fractions for the math — everybody wins.
+
+---
+
+## Act 1 — the enter, done with `mapRange` instead of a tween
+
+```ts
+const enterProgress = gsap.utils.clamp(
+  0, 1,
+  gsap.utils.mapRange(0, enterEndProgress, 0, 1, progress)
+);
+
+gsap.set([frontEl, ...backEls], {
+  y: `${gsap.utils.mapRange(0, 1, 50, -50, enterProgress)}%`,
+});
+```
+
+`mapRange(0, enterEndProgress, 0, 1, progress)` remaps "the first slice of overall progress" into its own local 0→1, then `clamp` pins it once we're past that slice so it doesn't keep sliding during the flip and dismiss phases. Cards go from `y: 50%` to `y: -50%` over that window — a plain linear drift, no easing curve, because `scrub: 1` already gives it a little lag behind the actual scrollbar. That lag *is* the easing. Adding a GSAP ease on top would be double-dipping.
+
+This is the pattern for basically every phase in this component: carve out a sub-range of `progress`, `mapRange` it to local `0–1`, `clamp` it so it doesn't leak into neighboring phases, then use that local value to drive a `gsap.set`.
+
+---
+
+## Act 2 — the flip is a coin, not a slide
+
+```ts
+gsap.set(refs.frontEl, { rotationY: 0 });
+gsap.set(refs.backEls, { rotationY: -180 });
+```
+
+Front and back cards are **stacked in the exact same spot**, front facing you at `rotationY: 0`, backs pre-rotated to `-180deg` so they're facing *away* from you, hidden behind their own backs. Add `backface-visibility: hidden` to both (that `[backface-visibility:hidden]` in the `LAYOUT.card` class isn't decorative, it's structural) and you get a coin: only one face is ever visible at a time, they're just sharing a hinge in 3D space.
+
+Crossing `flipTriggerProgress` fires this, once, in either direction:
+
+```ts
+const onUpdate = (progress: number) => {
+  // ...
+  if (progress > flipTriggerProgress && !isFlipped) {
+    revealBackCards();
+    isFlipped = true;
+  } else if (progress <= flipTriggerProgress && isFlipped) {
+    concealBackCards();
+    isFlipped = false;
+  }
+  // ...
+};
+```
+
+`isFlipped` is a closure variable, not React state — same instinct as the cursor-trail post: anything that lives inside a scroll-driven loop and doesn't need to trigger a re-render has no business being `useState`. `revealBackCards` tweens the front to `rotationY: 180` and every back card to `rotationY: 0` with `rotationZ` set to its tilt angle, using `elastic.out(1, 0.5)` as the ease — which is the one spot in this whole component that gets an actual eased `gsap.to()` instead of a `mapRange`-driven `gsap.set()`. Everything else tracks the scrollbar 1:1; the flip is the one moment allowed to have its own personality and overshoot a little, like a card actually being flicked.
+
+Worth noticing: this check is a **boundary crossing**, not a continuous drive. Scrub back and forth around `flipTriggerProgress` and you're not scrubbing the flip itself — you're re-triggering the same 1-second elastic tween from wherever it currently is. On a slow trackpad that reads as "reactive." On a very fast flick past the boundary it can look like a little pop instead of a buttery scroll-tied rotation. If I revisited this, the flip is the one phase I'd consider making progress-driven too, at the cost of losing that nice elastic snap.
+
+---
+
+## Act 3 — dismiss, and why it goes in reverse
+
+The most "wait, why" line in the file:
+
+```ts
+const dismissOrder = cardCount - 1 - i;
+```
+
+Back cards are stacked front-to-back in array order — index `0` is nearest the viewer (drawn last, sits on top visually as z-order goes by DOM order here since they're absolutely positioned in the same spot). The **last card in the array is dismissed first**. Makes sense once you picture it as a physical deck: you're not going to yank the card at the bottom of the pile out from underneath everything else, you take from the top. Index `cards.length - 1` is what your eye reads as "on top," so that's the one that goes first, and `dismissOrder` is just translating "index in the array" into "order it leaves the stage."
+
+Each card gets its own dismiss window:
+
+```ts
+const dismissRanges = backEls.map((_, i) => {
+  const dismissOrder = cardCount - 1 - i;
+  return [
+    svhToProgress(dismissStart + dismissOrder * cardDismissDuration),
+    svhToProgress(dismissStart + (dismissOrder + 1) * cardDismissDuration),
+  ] as const;
+});
+```
+
+Card 3 (last in the array, dismissed first) gets `[dismissStart, dismissStart + duration]`. Card 0 (dismissed last) gets the final window. Four cards, four sequential 500svh slots, nobody's animation overlaps anybody else's — which is exactly the kind of bookkeeping you'd reach for a GSAP timeline with `.to(card, {...}, "+=0.5")` labels to handle, done instead with plain array math because the whole component already committed to "no timeline, just `progress`."
+
+Inside its own window, each card interpolates rotation from its flip tilt to its dismiss tilt, and flies up past `-250%`:
+
+```ts
+gsap.set(el, {
+  rotation: gsap.utils.mapRange(0, 1, flipTilt, dismissTilt, dismissProgress),
+  y: `${gsap.utils.mapRange(0, 1, -50, -250, dismissProgress)}%`,
+});
+```
+
+Same recipe as act 1, just with rotation added and a different y range. At this point in the file you could probably guess the implementation from the prop names alone, which — for a component with this many moving parts — feels like a genuine win.
+
+---
+
+## The two footguns that ate the most time
+
+Neither of these is visible when you first read the animation logic. Both are the reason the component doesn't ship a naive `ScrollTrigger.create` and call it done.
+
+**1. `gsap.ticker.lagSmoothing(0)`, with a comment I'm glad past-me left:**
+
+```ts
+// Client-only: gsap.ticker touches Date.now() internally, which Next's
+// prerender flags if called at module scope. Without this, GSAP tries
+// to "catch up" after main-thread jank by compressing elapsed time on
+// the next tick — on a pinned, transform-heavy section like this one
+// that reads as a sudden rush/jump into the next card.
+gsap.ticker.lagSmoothing(0);
+```
+
+GSAP's default behavior is *helpful* for a spinner or a looping animation — if the tab was backgrounded for 400ms, catch up smoothly instead of jumping. On a `scrub`-driven pin where every frame is supposed to correspond to a specific scroll position, "catching up" means the card stack visibly lurches forward the instant the main thread hiccups. Turning lag smoothing off means GSAP just reports what actually happened, frame by frame, no compensation. For anything scrub-tied to the scrollbar, you almost always want this off — the scrollbar is already the source of truth, GSAP doesn't need to also have opinions about pacing.
+
+**2. Waiting for the scroller to actually be ready before measuring anything:**
+
+```ts
+const scroller = scrollerProp ?? window;
+await waitForScrollerReady(scroller);
+```
+
+`ScrollTrigger.create` measures element positions at creation time. If you create it the instant the component mounts, on a page with fonts still swapping in, images still reflowing, or a smooth-scroll library (Lenis, native `scroll-behavior`) still settling its own internal state — you get a pin `start`/`end` calculated against a layout that's about to shift underneath it. The classic symptom: the pin triggers a few dozen pixels early or late, and it's maddeningly inconsistent between reloads.
+
+`waitForScrollerReady` (from the shared `lib/scroll-trigger-utils`) is almost comically small for how much flake it prevents:
+
+```ts
+async function waitForNextFrame(): Promise<void> {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+  });
+}
+```
+
+Double-`rAF` is the standard trick for "wait until the browser has actually painted the current layout," not just "wait until the next microtask." For a plain window scroller that's basically it. For a custom scroll container it also races a configurable `scrollReadyEvent` against a 300ms timeout, so a smooth-scroll library that fires its own "ready" event gets to say so, but a broken or absent event doesn't hang the animation forever. Belt, suspenders, timeout.
+
+The same file exports `isWindowScroller` and `observeWindowResize` — small enough that it'd be tempting to inline them, except three other primitives in this registry (`scroll-gallery`, `text-reveal-block`, `text-reveal-box`) hit the exact same "is this `window` or a real element, and do I need `ResizeObserver` or a `resize` listener" question. That's the actual bar I use for "does this deserve to be a shared lib" — not "is it reusable in theory" but "did I already copy-paste it three times."
+
+---
+
+## `pinReparent`, or: pinning inside something that isn't the page
+
+```ts
+const useWindowPin = isWindowScroller(scroller);
+
+trigger = ScrollTrigger.create({
+  // ...
+  pinReparent: !useWindowPin,
+  pinSpacing: true,
+  scroller,
+});
+```
+
+When you pin against the window, GSAP can pin in place with `position: fixed`-style transforms and everything's fine — the document itself is the coordinate system. When `scroller` is some other scrollable `<div>` (say, a docs preview panel with its own overflow), GSAP has to physically move the pinned element out to a sibling of the scroller and reparent it back when unpinned, because `position: fixed` doesn't mean "fixed relative to that div," it means "fixed relative to the viewport." `pinReparent: true` is what makes pinning-inside-a-scrollable-container work at all instead of silently pinning against the wrong box.
+
+This is also exactly why the component has an `embedded` prop that skips the GSAP pin entirely and uses a plain CSS `position: sticky` track instead:
+
+```tsx
+{embedded ? (
+  <div className="sticky top-0 ...">{cardsSection}</div>
+) : (
+  cardsSection // real GSAP pin
+)}
+```
+
+The docs preview panel is a small scrollable box, not the real page — reparenting a pin in and out of a tiny iframe-like panel for a documentation screenshot is a lot of complexity to buy a preview nobody's actually scrolling through slowly. `position: sticky` gets close enough visually for "here's roughly what this looks like," and the real GSAP path is reserved for where it actually earns its keep: a full page section a visitor scrolls through for real.
+
+---
+
+## Reduced motion isn't a CSS media query bolt-on here
+
+```ts
+const shouldAnimate = !prefersReducedMotion && cardCount > 0;
+```
+
+If the user has `prefers-reduced-motion: reduce`, the `useGSAP` effect bails before even creating a `ScrollTrigger`. But — and this is the part that's easy to get lazy about — it doesn't just *stop animating*, it explicitly sets the **end state**:
+
+```ts
+function applyReducedMotionEndState(refs, cardCount, timing) {
+  gsap.set(refs.frontEl, { rotationY: 180 });
+  for (const [i, el] of refs.backEls.entries()) {
+    const dismissOrder = cardCount - 1 - i;
+    gsap.set(el, {
+      rotation: angleAt(timing.dismissTiltAngles, dismissOrder),
+      rotationY: 0,
+      y: "-250%",
+    });
+  }
+}
+```
+
+Which... if a card's `y` is `-250%`, doesn't that mean it renders off-screen for a reduced-motion user? Yes, on purpose. This component's whole reason for existing is "reveal-then-dismiss as a *sequence*" — there's no meaningful non-animated equivalent of "here are five cards taking turns," because the sequencing *is* the content, not a decoration on top of static content. The honest answer for reduced motion here isn't "show it without moving," it's "land where the sequence would have ended, immediately." All the card copy is still in the DOM the whole time (worth restating: nothing gets removed, so screen readers and page-find still see everything), it's just not staged as a flip-and-fling show for someone who's told their OS they don't want flip-and-fling shows.
+
+---
+
+## What I'd change
+
+**The flip boundary-crossing thing from Act 2.** Re-triggering a fixed-duration elastic tween on a scrub boundary is a compromise, not a design decision — it works because most people don't scrub violently back and forth exactly on that line, not because it's the "correct" approach. A fully progress-driven flip (interpolate `rotationY` directly off `progress` inside the flip window, no `gsap.to`) would be scrub-perfect at the cost of the free elastic overshoot.
+
+**`refreshPriority` shouldn't be a prop you have to know to set.** Right now, if you stack `StickyScrollCards` after another pinned section, you have to manually hand it a `refreshPriority` lower than the section above so ScrollTrigger re-adds that section's spacer before this one measures. That's correct GSAP behavior, but it's also a thing you only learn about by hitting the bug once. A registry primitive should probably not require reading a GSAP changelog to compose two sections safely.
+
+**Pool the back-card DOM instead of always rendering the max.** Not really an issue at 4-5 cards, but if someone throws 20 cards at this, every one of them is a live DOM node with a 3D transform the whole time, just parked off-screen most of the sequence. Fine for a hero section, worth a second look before calling it "handles arbitrary length."
+
+---
+
+Full source is at [/components/sticky-scroll-cards](/components/sticky-scroll-cards) — `npx shadcn add` it and it's just a file in your repo, no package to `npm update` into a surprise six months from now. If `elastic.out(1, 0.5)` is too bouncy for your taste, it's one string in the `timing` prop. Go make it worse, that's how you learn what the good version actually was.

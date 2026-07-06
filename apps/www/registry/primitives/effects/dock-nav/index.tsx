@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { type ComponentPropsWithoutRef, type ReactNode, useState } from "react";
 
@@ -134,11 +134,14 @@ function DockNav({
   ...props
 }: DockNavProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
-  const transition = {
-    duration,
-    ease: DOCK_EASE,
-  };
+  const transition = prefersReducedMotion
+    ? { duration: 0 }
+    : {
+        duration,
+        ease: DOCK_EASE,
+      };
 
   return (
     <nav className={cn(dockNavVariants({ align, className }))} {...props}>

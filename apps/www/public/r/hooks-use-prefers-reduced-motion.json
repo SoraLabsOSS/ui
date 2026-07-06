@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hooks-use-prefers-reduced-motion",
+  "title": "usePrefersReducedMotion",
+  "description": "A hook that tracks the OS-level Reduced Motion setting live, so GSAP-driven primitives can skip or shortcut their animations.",
+  "files": [
+    {
+      "path": "registry/hooks/use-prefers-reduced-motion/index.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\n\nconst REDUCED_MOTION_QUERY = \"(prefers-reduced-motion: reduce)\";\n\n/**\n * Tracks the OS-level Reduced Motion setting, live. Unlike a one-time\n * `matchMedia(...).matches` check, this updates if the user toggles the\n * setting while the page is open (no reload needed).\n */\nexport function usePrefersReducedMotion(): boolean {\n  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);\n\n  useEffect(() => {\n    const media = window.matchMedia(REDUCED_MOTION_QUERY);\n    const update = () => {\n      setPrefersReducedMotion(media.matches);\n    };\n    update();\n    media.addEventListener(\"change\", update);\n    return () => {\n      media.removeEventListener(\"change\", update);\n    };\n  }, []);\n\n  return prefersReducedMotion;\n}\n",
+      "type": "registry:hook",
+      "target": "hooks/use-prefers-reduced-motion.tsx"
+    }
+  ],
+  "type": "registry:hook"
+}

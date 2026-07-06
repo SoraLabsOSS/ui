@@ -1,7 +1,12 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { AnimatePresence, motion, type Transition } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  type Transition,
+  useReducedMotion,
+} from "motion/react";
 import {
   type CSSProperties,
   cloneElement,
@@ -14,6 +19,7 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -46,6 +52,14 @@ interface HighlightContextValue {
   style?: CSSProperties;
   transition: Transition;
   trigger: HighlightTrigger;
+}
+
+/** Collapse to an instant transition for `prefers-reduced-motion: reduce`. */
+function resolveTransition(
+  transition: Transition,
+  prefersReducedMotion: boolean | null
+): Transition {
+  return prefersReducedMotion ? { duration: 0 } : transition;
 }
 
 const HighlightContext = createContext<HighlightContextValue | undefined>(
@@ -100,17 +114,27 @@ export function Highlight({
   ...rest
 }: HighlightProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const resolvedTransition = resolveTransition(
+    transition,
+    prefersReducedMotion
+  );
   const [activeValue, setActiveValueState] = useState<string | null>(
     valueProp === undefined ? (defaultValue ?? null) : valueProp
   );
   const [boundsState, setBoundsState] = useState<Bounds | null>(null);
   const [activeClassName, setActiveClassName] = useState("");
+  const [pillTransition, setPillTransition] = useState<Transition>(transition);
 
   useEffect(() => {
     if (valueProp !== undefined) {
       setActiveValueState(valueProp);
     }
   }, [valueProp]);
+
+  useEffect(() => {
+    setPillTransition(resolveTransition(transition, prefersReducedMotion));
+  }, [transition, prefersReducedMotion]);
 
   const setActiveValue = useCallback(
     (id: string | null) => {
@@ -165,6 +189,63 @@ export function Highlight({
     []
   );
 
+  const measureActiveItem = useCallback(
+    (layout = false) => {
+      if (mode !== "parent" || !activeValue || !containerRef.current) {
+        return;
+      }
+      const el = containerRef.current.querySelector<HTMLElement>(
+        `[data-highlight-value="${CSS.escape(activeValue)}"]`
+      );
+      if (el) {
+        if (layout) {
+          setPillTransition({ duration: 0 });
+        }
+        setBounds(el.getBoundingClientRect());
+      }
+    },
+    [mode, activeValue, setBounds]
+  );
+
+  // Parent mode: measure when controlled selection changes (e.g. cmdk keyboard init)
+  useLayoutEffect(() => {
+    if (mode !== "parent") {
+      return;
+    }
+    if (!activeValue) {
+      clearBounds();
+      return;
+    }
+    setPillTransition(resolvedTransition);
+    measureActiveItem();
+    const frame = requestAnimationFrame(() => measureActiveItem());
+    return () => cancelAnimationFrame(frame);
+  }, [mode, activeValue, measureActiveItem, clearBounds, resolvedTransition]);
+
+  // Parent mode: keep pill aligned while the list layout animates or resizes
+  useEffect(() => {
+    if (mode !== "parent" || !activeValue) {
+      return;
+    }
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const onLayout = () => measureActiveItem(true);
+    const observer = new ResizeObserver(onLayout);
+    observer.observe(container);
+
+    const activeEl = container.querySelector<HTMLElement>(
+      `[data-highlight-value="${CSS.escape(activeValue)}"]`
+    );
+    if (activeEl) {
+      observer.observe(activeEl);
+    }
+
+    return () => observer.disconnect();
+  }, [mode, activeValue, measureActiveItem]);
+
   // Re-measure active item on scroll (parent mode only)
   useEffect(() => {
     if (mode !== "parent") {
@@ -178,16 +259,11 @@ export function Highlight({
       if (!activeValue) {
         return;
       }
-      const el = container.querySelector<HTMLElement>(
-        `[data-highlight-value="${activeValue}"]`
-      );
-      if (el) {
-        setBounds(el.getBoundingClientRect());
-      }
+      measureActiveItem(true);
     };
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
-  }, [mode, activeValue, setBounds]);
+  }, [mode, activeValue, measureActiveItem]);
 
   const id = useId();
   const containerClassName = (rest as HighlightParentOnlyProps)
@@ -206,7 +282,7 @@ export function Highlight({
       style,
       activeClassName,
       setActiveClassName,
-      transition,
+      transition: resolvedTransition,
       disabled,
       exitDelay,
     }),
@@ -221,7 +297,7 @@ export function Highlight({
       className,
       style,
       activeClassName,
-      transition,
+      resolvedTransition,
       disabled,
       exitDelay,
     ]
@@ -245,13 +321,17 @@ export function Highlight({
                   height: boundsState.height,
                   opacity: 1,
                 }}
-                className={cn(className, activeClassName)}
+                className={cn(
+                  "pointer-events-none",
+                  className,
+                  activeClassName
+                )}
                 data-slot="highlight"
                 exit={{
                   opacity: 0,
                   transition: {
-                    ...transition,
-                    delay: (transition?.delay ?? 0) + exitDelay / 1000,
+                    ...resolvedTransition,
+                    delay: (resolvedTransition?.delay ?? 0) + exitDelay / 1000,
                   },
                 }}
                 initial={{
@@ -262,7 +342,7 @@ export function Highlight({
                   opacity: 0,
                 }}
                 style={{ position: "absolute", zIndex: 0, ...style }}
-                transition={transition}
+                transition={pillTransition}
               />
             )}
           </AnimatePresence>
@@ -320,25 +400,46 @@ export function HighlightItem({
   } = useHighlight();
 
   const localRef = useRef<HTMLElement | null>(null);
-  const refCallback = useCallback<RefCallback<HTMLElement>>((node) => {
-    localRef.current = node;
-  }, []);
+  const refCallback = useCallback<RefCallback<HTMLElement>>(
+    (node) => {
+      localRef.current = node;
+      if (node && mode === "parent" && activeValue === value) {
+        setBounds(node.getBoundingClientRect());
+      }
+    },
+    [mode, activeValue, value, setBounds]
+  );
 
   const isActive = activeValue === value;
   const isDisabled = disabled || ctxDisabled;
-  const itemTransition = transition ?? ctxTransition;
+  const prefersReducedMotion = useReducedMotion();
+  const itemTransition = resolveTransition(
+    transition ?? ctxTransition,
+    prefersReducedMotion
+  );
 
   // Parent mode: report this item's bounds when it becomes active
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (mode !== "parent") {
       return;
     }
-    if (isActive && localRef.current) {
-      setBounds(localRef.current.getBoundingClientRect());
-      setActiveClassName(activeClassName ?? "");
-    } else if (!activeValue) {
-      clearBounds();
+    if (!isActive) {
+      if (!activeValue) {
+        clearBounds();
+      }
+      return;
     }
+
+    const measure = () => {
+      if (localRef.current) {
+        setBounds(localRef.current.getBoundingClientRect());
+        setActiveClassName(activeClassName ?? "");
+      }
+    };
+
+    measure();
+    const frame = requestAnimationFrame(measure);
+    return () => cancelAnimationFrame(frame);
   }, [
     mode,
     isActive,

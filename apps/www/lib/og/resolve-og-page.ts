@@ -1,6 +1,10 @@
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
-import { SITE_DESCRIPTION } from "@/lib/site";
+import {
+  SITE_DESCRIPTION,
+  SITE_OG_HERO_SUBLINE,
+  SITE_OG_HERO_TITLE,
+} from "@/lib/site";
 
 export interface OgPageContent {
   description?: string;
@@ -14,8 +18,8 @@ const COMPONENTS_CATALOG: OgPageContent = {
 };
 
 const SITE_DEFAULT: OgPageContent = {
-  title: "Sora UI",
-  description: SITE_DESCRIPTION,
+  title: SITE_OG_HERO_TITLE,
+  description: `${SITE_OG_HERO_SUBLINE}. ${SITE_DESCRIPTION}`,
 };
 
 /**

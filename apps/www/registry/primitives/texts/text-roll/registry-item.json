@@ -3,7 +3,7 @@
   "name": "text-roll",
   "type": "registry:ui",
   "title": "Text Roll",
-  "description": "A per-character vertical text roll animation for label swaps and micro-interactions.",
+  "description": "A per-character vertical text roll animation for label swaps and micro-interactions, powered by Motion.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [

@@ -3,7 +3,7 @@
   "name": "text-morph",
   "type": "registry:ui",
   "title": "Text Morph",
-  "description": "Per-character layout morphing for labels, counters, and live text swaps.",
+  "description": "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
   "dependencies": ["motion"],
   "registryDependencies": ["utils"],
   "files": [

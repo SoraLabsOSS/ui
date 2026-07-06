@@ -1,6 +1,6 @@
 ---
 title: Draw Underline Link
-description: A link with a hand-drawn SVG underline that animates on hover.
+description: A link with a hand-drawn SVG underline that animates on hover, powered by Motion.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
@@ -82,7 +82,7 @@ Avoid it for navigation menus, button-style links, or links inside dense paragra
 
 ## Accessibility
 
-The component renders as a standard `<a>` tag. The SVG underline is `aria-hidden` and purely decorative — screen readers announce the link text without any mention of the animation. Keyboard focus shows the standard browser outline alongside the drawn underline.
+The component renders as a standard `<a>` tag. The SVG underline is `aria-hidden` and purely decorative — screen readers announce the link text without any mention of the animation. Keyboard focus shows the standard browser outline alongside the drawn underline. When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` swaps the draw-in/draw-out animation for a static underline that just appears and disappears on hover — no extra configuration needed.
 
 ## Credits
 

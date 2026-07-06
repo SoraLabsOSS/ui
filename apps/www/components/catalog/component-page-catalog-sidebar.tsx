@@ -19,19 +19,17 @@ const SIDEBAR_TRANSITION = {
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
+// Both variants animate a small offset (not a full off-canvas slide): moving
+// a `backdrop-filter` element across the screen forces the browser to
+// resample a different region of background on every frame, which is far
+// more expensive than fading it in place. A small x offset keeps the
+// directional "slide" feel without that per-frame resampling cost.
 function getPanelMotion(isStacked: boolean) {
-  if (isStacked) {
-    return {
-      animate: { x: 0 },
-      exit: { x: "-100%" },
-      initial: { x: "-100%" },
-    };
-  }
-
+  const offset = isStacked ? -24 : -16;
   return {
     animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -16 },
-    initial: { opacity: 0, x: -16 },
+    exit: { opacity: 0, x: offset },
+    initial: { opacity: 0, x: offset },
   };
 }
 
@@ -86,22 +84,30 @@ export function ComponentPageCatalogSidebar() {
             transition={SIDEBAR_TRANSITION}
             type="button"
           />
-          <motion.div
-            animate={panelMotion.animate}
-            aria-label="Components"
-            aria-modal="true"
+          <div
             className={catalogDesktopSidebarAsideClassName}
-            exit={panelMotion.exit}
-            initial={panelMotion.initial}
             key="catalog-sidebar-panel"
-            role="dialog"
-            transition={SIDEBAR_TRANSITION}
           >
-            <div
+            {/*
+              backdrop-blur lives on the SAME element that animates (not a
+              descendant of an animated ancestor) — Chromium/WebKit only keep
+              backdrop-filter in sync with the compositor on the transformed
+              layer itself; on a plain descendant it renders a stale (blank)
+              backdrop until the transform settles, then pops in.
+            */}
+            <motion.div
+              animate={panelMotion.animate}
+              aria-label="Components"
+              aria-modal="true"
               className={cn(catalogDesktopSidebarPanelClassName, "relative")}
+              exit={panelMotion.exit}
+              initial={panelMotion.initial}
+              role="dialog"
+              style={{ willChange: "transform, opacity, backdrop-filter" }}
+              transition={SIDEBAR_TRANSITION}
             >
               <ProgressiveBlur
-                backgroundColor="var(--muted)"
+                backgroundColor="color-mix(in oklab, var(--background) 35%, transparent)"
                 blurAmount="12px"
                 className="z-10 rounded-t-3xl"
                 height="5.5rem"
@@ -109,7 +115,7 @@ export function ComponentPageCatalogSidebar() {
                 position="top"
               />
               <ProgressiveBlur
-                backgroundColor="var(--muted)"
+                backgroundColor="color-mix(in oklab, var(--background) 35%, transparent)"
                 blurAmount="12px"
                 className="z-10 rounded-b-3xl"
                 height="4rem"
@@ -118,8 +124,8 @@ export function ComponentPageCatalogSidebar() {
               />
 
               <ComponentPageCatalogNav items={navItems} onNavigate={close} />
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </>
       ) : null}
     </AnimatePresence>

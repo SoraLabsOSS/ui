@@ -6,15 +6,15 @@ date: 2026-06-27
 hashtags: ["#soraui", "#react", "#motion"]
 ---
 
-We're launching the Sora UI blog with the thing we should have said on day one: **what this project is**, who it's for, and how to get your first component running in minutes.
+We're launching the Sora UI blog with the thing we probably should've said on day one: **what this project is**, who it's for, and how to get your first component running before you finish your coffee.
 
-If you've landed here from a docs preview or a scroll-driven demo and wondered *"is this another animation npm package I'll fight in six months?"* — fair question. The short answer is no. Sora UI is an **open component registry** for React and Next.js: copy-paste primitives built on **Motion** and **GSAP**, installed through the same **shadcn CLI** flow you already use for UI.
+If you've landed here from a docs preview or a scroll-driven demo and thought *"cool, but is this another animation npm package I'll be fighting with in six months?"* — fair question, we'd ask the same thing. Short answer: no. Sora UI is an **open component registry** for React and Next.js — copy-paste primitives built on **Motion** and **GSAP**, installed through the same **shadcn CLI** flow you already use for everything else.
 
 ## What Sora UI is
 
-Sora UI is a distribution of animated components — not a typical `npm install` library.
+Sora UI is a distribution of animated components — not a typical `npm install` library, and honestly not trying to be one.
 
-You browse the catalog, pick a primitive, run one CLI command, and the **source lands in your repo** under something like `components/sora-ui/`. You own the files. You change Tailwind classes, tweak easing, rip out a timeline, or fork a variant without opening a GitHub issue against a black-box package.
+You browse the catalog, pick a primitive, run one CLI command, and the **source lands in your repo** under something like `components/sora-ui/`. You own the files, full stop. Change Tailwind classes, tweak the easing, rip out a timeline, fork a variant at 11pm before a client demo — none of that requires opening a GitHub issue and waiting for a maintainer to agree with you.
 
 That model is deliberate. We're optimizing for teams who ship **marketing sites, product landings, and client work** where motion has to feel considered — and where someone on the team will inevitably need to **open the file** and adjust it.
 
@@ -40,7 +40,7 @@ The blocks catalog is **growing**. When a block ships, it follows the same `@sor
 
 [shadcn/ui](https://ui.shadcn.com/) proved that developers want **ownable UI** — baseline components you copy and adapt. Sora UI sits in the **animation layer** next to it: motion-first primitives that complement shadcn, [Magic UI](https://magicui.design/), and your own design system.
 
-We are **not** trying to be a full UI kit. You won't find data tables, complex form builders, or every layout primitive under the sun. If you need a complete component library, keep shadcn/ui as your base and pull motion from Sora where it matters.
+We are **not** trying to be a full UI kit. You won't find data tables, complex form builders, or every layout primitive under the sun — and we're not going to pretend we do. If you need a complete component library, keep shadcn/ui as your base and pull motion from Sora where it matters.
 
 ## Who this is for
 
@@ -99,7 +99,7 @@ Full details — project structure, registry URLs, troubleshooting — live in t
 
 ## Performance and accessibility by default
 
-Motion without guardrails is how you get janky scroll handlers and ignored `prefers-reduced-motion`. Sora primitives are built with production constraints in mind:
+Motion without guardrails is how you end up with janky scroll handlers and a `prefers-reduced-motion` check that only your CSS knows about. Sora primitives are built with production constraints in mind, not demo-day constraints:
 
 - **SSR-safe defaults** — heavy animation deps load on the client where needed.
 - **Reduced motion** — Motion's `useReducedMotion` and simplified fallbacks on GSAP scroll paths.
@@ -121,4 +121,4 @@ This post is the front door. Coming posts will go deeper:
 - **Flagship deep-dives** — how scroll-pinned text reveals work under the hood, and when to reach for Motion vs GSAP.
 - **Philosophy** — why we chose registry-over-package for motion UI ([motion-first, without the black box](/blog/motion-first-ui)).
 
-If you're building a site that needs cinematic scroll **without** surrendering control of the code, start with the [docs](/docs), install one primitive, and make it yours.
+If you're building a site that needs cinematic scroll **without** surrendering control of the code the moment something needs to be different, start with the [docs](/docs), install one primitive, and see for yourself.

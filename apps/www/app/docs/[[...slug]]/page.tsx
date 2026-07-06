@@ -55,7 +55,11 @@ export default async function Page(props: {
       return false;
     }
     const obj = l as Record<string, unknown>;
-    return typeof obj.url === "string" && typeof obj.text === "string";
+    return (
+      typeof obj.url === "string" &&
+      typeof obj.text === "string" &&
+      !obj.external
+    );
   };
   const guideItems = (baseOptions.links ?? []).filter(isGuideLink);
   const guideIndex = guideItems.findIndex((it) => it.url === page.url);

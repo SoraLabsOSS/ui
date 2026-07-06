@@ -1,6 +1,6 @@
 ---
 title: Text Scramble
-description: A text scramble reveal animation that decodes characters on mount or when re-triggered.
+description: A text scramble reveal animation that decodes characters on mount or when re-triggered, powered by Motion.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
@@ -128,4 +128,4 @@ The `triggerOnHover` mode works well for navigation labels and interactive butto
 
 ## Accessibility
 
-The final decoded text is always in the DOM — the scramble is a visual effect applied character by character. Screen readers announce the final string. When `prefers-reduced-motion: reduce` is set, consider disabling the scramble by setting `trigger={false}` or not rendering the component, as the rapid character cycling can be disorienting for users sensitive to motion.
+The final decoded text is always in the DOM — the scramble is a visual effect applied character by character. Screen readers announce the final string. When `prefers-reduced-motion: reduce` is set, the component already skips the scramble automatically (via `useReducedMotion()`) and renders the final text directly — no extra configuration needed.

@@ -57,8 +57,9 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
+  CommandGroupHighlight,
+  CommandHighlightItem,
   CommandInput,
-  CommandItem,
   CommandList,
   CommandSeparator,
 } from "./command-primitives";
@@ -180,9 +181,9 @@ function CommandSearchResultItem({
   const isNested = !isPage;
 
   return (
-    <CommandItem
+    <CommandHighlightItem
       className={cn(
-        "relative gap-2",
+        "gap-2",
         isNested && "ps-8 sm:ps-8",
         isPage && "font-medium",
         isNested && result.type === "text" && "text-popover-foreground/80",
@@ -199,7 +200,7 @@ function CommandSearchResultItem({
       ) : null}
       <SearchResultIcon type={result.type} />
       <span className="min-w-0 flex-1 truncate">{result.content}</span>
-    </CommandItem>
+    </CommandHighlightItem>
   );
 }
 
@@ -347,7 +348,7 @@ export function CommandPaletteDialog({
     entry: CommandPaletteGroup["items"][number],
     isThemeAction: boolean
   ) => (
-    <CommandItem
+    <CommandHighlightItem
       key={entry.id}
       onSelect={() => {
         if (isThemeAction) {
@@ -375,7 +376,7 @@ export function CommandPaletteDialog({
       {"shortcut" in entry && entry.shortcut ? (
         <CommandPaletteShortcut keys={entry.shortcut} />
       ) : null}
-    </CommandItem>
+    </CommandHighlightItem>
   );
 
   return (
@@ -436,34 +437,48 @@ export function CommandPaletteDialog({
                 <CommandEmpty>No results found.</CommandEmpty>
               ) : null}
 
-              {hasQuery && searchResults.length > 0 ? (
-                <CommandGroup heading="Results">
-                  {searchResults.map((result) => (
-                    <CommandSearchResultItem
-                      key={result.id}
-                      onSelect={() => navigate(result.url)}
-                      result={result}
-                    />
+              {showLoadingState || showEmptyState ? null : (
+                <>
+                  {hasQuery && searchResults.length > 0 ? (
+                    <CommandGroup heading="Results">
+                      <CommandGroupHighlight
+                        deferMeasure={scrollLocked}
+                        values={searchResults.map((result) => result.id)}
+                      >
+                        {searchResults.map((result) => (
+                          <CommandSearchResultItem
+                            key={result.id}
+                            onSelect={() => navigate(result.url)}
+                            result={result}
+                          />
+                        ))}
+                      </CommandGroupHighlight>
+                    </CommandGroup>
+                  ) : null}
+
+                  {hasQuery &&
+                  searchResults.length > 0 &&
+                  filteredGroups.length > 0 ? (
+                    <CommandSeparator />
+                  ) : null}
+
+                  {filteredGroups.map((group, groupIndex) => (
+                    <Fragment key={group.id}>
+                      {groupIndex > 0 ? <CommandSeparator /> : null}
+                      <CommandGroup heading={group.label}>
+                        <CommandGroupHighlight
+                          deferMeasure={scrollLocked}
+                          values={group.items.map((entry) => entry.searchValue)}
+                        >
+                          {group.items.map((entry) =>
+                            renderPaletteItem(entry, "action" in entry)
+                          )}
+                        </CommandGroupHighlight>
+                      </CommandGroup>
+                    </Fragment>
                   ))}
-                </CommandGroup>
-              ) : null}
-
-              {hasQuery &&
-              searchResults.length > 0 &&
-              filteredGroups.length > 0 ? (
-                <CommandSeparator />
-              ) : null}
-
-              {filteredGroups.map((group, groupIndex) => (
-                <Fragment key={group.id}>
-                  {groupIndex > 0 ? <CommandSeparator /> : null}
-                  <CommandGroup heading={group.label}>
-                    {group.items.map((entry) =>
-                      renderPaletteItem(entry, "action" in entry)
-                    )}
-                  </CommandGroup>
-                </Fragment>
-              ))}
+                </>
+              )}
             </CommandList>
           </Command>
         </DialogContent>
