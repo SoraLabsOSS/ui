@@ -40,6 +40,15 @@ export default function Page() {
 }
 ```
 
+### Scroll-triggered count-up
+
+Enable `scrollTrigger` to count up from 0 the first time the element scrolls
+into view — useful for landing-page stats sections:
+
+```tsx
+<NumberFlow scrollTrigger value={12_500} suffix="+ users" />
+```
+
 ## Props
 
 <TypeTable
@@ -86,9 +95,25 @@ export default function Page() {
     },
     willChange: {
       description:
-        'Hints the browser to promote digits/symbols onto their own layer ahead of time. Costs GPU memory, so only enable it for instances that animate often.',
+        'Opts in to hinting `will-change: transform` on digits/symbols while any of them is actively spinning, then removes it once the batch settles — so the GPU layer is only held during real animation, not for the life of the component.',
       type: 'boolean',
       default: 'false',
+    },
+    scrollTrigger: {
+      description:
+        'Count up from 0 the first (or, with `once={false}`, every) time this element enters the viewport, instead of showing the final value immediately. Ignored when reduced motion is active.',
+      type: 'boolean',
+      default: 'false',
+    },
+    once: {
+      description: 'When `scrollTrigger` is enabled, fire the count-up only once.',
+      type: 'boolean',
+      default: 'true',
+    },
+    viewportMargin: {
+      description: 'Intersection margin used when `scrollTrigger` is enabled.',
+      type: 'string',
+      default: '"0px 0px -10% 0px"',
     },
     onAnimationsStart: {
       description:

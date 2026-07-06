@@ -7,6 +7,8 @@ import {
   type MotionValue,
   motion,
   type Transition,
+  type UseInViewOptions,
+  useInView,
   useMotionValue,
   useReducedMotion,
   useTransform,
@@ -18,6 +20,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 
 // --- formatting -------------------------------------------------------------
@@ -427,6 +430,8 @@ const DEFAULT_OPACITY_TRANSITION: Transition = {
 
 const REDUCED_TRANSITION: Transition = { duration: 0 };
 
+const DEFAULT_VIEWPORT_MARGIN = "0px 0px -10% 0px";
+
 export interface NumberFlowProps
   extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
   /** Passed to `Intl.NumberFormat`. */
@@ -440,10 +445,22 @@ export interface NumberFlowProps
    * previous batch has fully settled.
    */
   onAnimationsStart?: () => void;
+  /**
+   * When `scrollTrigger` is enabled, fire the count-up only once.
+   * @default true
+   */
+  once?: boolean;
   /** Rendered before the formatted value, e.g. a currency symbol override. */
   prefix?: string;
   /** Skip animation when the user has requested reduced motion (default true). */
   respectMotionPreference?: boolean;
+  /**
+   * Count up from 0 the first (or, with `once={false}`, every) time this
+   * element enters the viewport, instead of showing the final value
+   * immediately. Ignored when reduced motion is active.
+   * @default false
+   */
+  scrollTrigger?: boolean;
   /** Overrides `transition` for the digit roll specifically. */
   spinTransition?: Transition;
   /** Rendered after the formatted value, e.g. a unit. */
@@ -458,6 +475,11 @@ export interface NumberFlowProps
   trend?: NumberFlowTrend;
   /** The number to display. Changing this triggers the roll animation. */
   value: number;
+  /**
+   * Intersection margin used when `scrollTrigger` is enabled.
+   * @default "0px 0px -10% 0px"
+   */
+  viewportMargin?: UseInViewOptions["margin"];
   /**
    * Hints the browser to promote digits/symbols onto their own composite
    * layer ahead of time. Costs GPU memory, so only turn it on for instances
@@ -503,6 +525,9 @@ export function NumberFlow({
   spinTransition,
   respectMotionPreference = true,
   willChange = false,
+  scrollTrigger = false,
+  once = true,
+  viewportMargin = DEFAULT_VIEWPORT_MARGIN,
   onAnimationsStart,
   onAnimationsFinish,
   className,
@@ -512,26 +537,47 @@ export function NumberFlow({
   const prefersReducedMotion = useReducedMotion();
   const isFirstRender = useIsFirstRender();
   const rootRef = useRef<HTMLSpanElement>(null);
-  // Aggregates every digit's spin so onAnimationsStart/Finish fire once per
-  // batch (0 -> >0, then back to 0), not once per digit.
+  const isInView = useInView(rootRef, { margin: viewportMargin, once });
+  // Aggregates every digit's spin so onAnimationsStart/Finish (and the
+  // will-change toggle below) fire once per batch (0 -> >0, then back to 0),
+  // not once per digit.
   const activeSpins = useRef(0);
+  // `will-change` should only cost a GPU layer while digits are actually
+  // spinning — promoting them for the component's entire lifetime would leak
+  // memory for instances that update rarely. Gated by `willChange` so opting
+  // out skips the extra state/re-renders entirely.
+  const [isAnimating, setIsAnimating] = useState(false);
   const handleAnimationStart = () => {
     activeSpins.current += 1;
     if (activeSpins.current === 1) {
       onAnimationsStart?.();
+      if (willChange) {
+        setIsAnimating(true);
+      }
     }
   };
   const handleAnimationEnd = () => {
     activeSpins.current -= 1;
     if (activeSpins.current === 0) {
       onAnimationsFinish?.();
+      if (willChange) {
+        setIsAnimating(false);
+      }
     }
   };
+  const activeWillChange = willChange && isAnimating;
   // Re-checked every render so off-screen or backgrounded instances skip
   // animation on the next value update.
   const reduced =
     Boolean(respectMotionPreference && prefersReducedMotion) ||
     !(isFirstRender || canAnimateElement(rootRef.current));
+
+  // Holds at 0 until the element scrolls into view, then flips to the real
+  // value — which flows through the normal update path below and counts up
+  // exactly like any other value change. Ignored under reduced motion so
+  // motion-sensitive users see the final value immediately instead of
+  // waiting on scroll position for content that won't animate anyway.
+  const effectiveValue = scrollTrigger && !reduced && !isInView ? 0 : value;
 
   const localesKey = JSON.stringify(locales ?? null);
   const formatKey = JSON.stringify(format ?? null);
@@ -542,8 +588,8 @@ export function NumberFlow({
   );
 
   const data = useMemo(
-    () => formatToParts(value, formatter, prefix, suffix),
-    [value, formatter, prefix, suffix]
+    () => formatToParts(effectiveValue, formatter, prefix, suffix),
+    [effectiveValue, formatter, prefix, suffix]
   );
 
   const prevData = usePrevious(data);
@@ -577,7 +623,7 @@ export function NumberFlow({
         aria-hidden="true"
         className={cn(
           "isolate inline-flex",
-          willChange && "will-change-transform"
+          activeWillChange && "will-change-transform"
         )}
         style={numberMaskInnerStyle}
       >
@@ -596,7 +642,7 @@ export function NumberFlow({
                 transition={spinT}
                 trend={computedTrend}
                 value={part.value}
-                willChange={willChange}
+                willChange={activeWillChange}
               />
             ) : (
               <motion.span
@@ -607,7 +653,7 @@ export function NumberFlow({
                 // (e.g. a sign flipping from "+" to "-").
                 className={cn(
                   "inline-block mix-blend-plus-lighter",
-                  willChange && "will-change-transform"
+                  activeWillChange && "will-change-transform"
                 )}
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
