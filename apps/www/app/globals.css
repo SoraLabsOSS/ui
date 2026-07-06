@@ -294,6 +294,21 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Hero slot roll — strip glyphs via data-char; column width from one invisible sizer. */
+.hero-slot-glyph {
+  position: relative;
+  width: 100%;
+}
+
+.hero-slot-glyph::before {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: attr(data-char);
+}
+
 @layer base {
   html {
     scrollbar-gutter: stable;
