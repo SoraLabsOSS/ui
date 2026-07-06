@@ -147,3 +147,5 @@ When `prefers-reduced-motion: reduce` is set, `NumberFlow` updates instantly wit
 ## Credits
 
 <ComponentCredits name="number-flow" />
+
+The original is a framework-agnostic web component built in vanilla JS/CSS, with thin wrappers for React, Vue, and Svelte. This version is a ground-up port for the Sora registry: same core ideas — per-digit rolling faces, the continuous trend-loop, the edge mask — reimplemented with React state and Motion's `motion/react` (motion values, `useTransform`, `AnimatePresence`) in place of the original's custom element and CSS-driven animation.
