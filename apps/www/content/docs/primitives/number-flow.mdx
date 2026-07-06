@@ -1,0 +1,149 @@
+---
+title: Number Flow
+description: An animated, digit-by-digit number counter with a smooth rolling odometer effect, powered by Motion.
+author:
+  name: Sora
+  url: https://github.com/soralabs
+---
+
+<ComponentPreview name="demo-number-flow" description="Animated number counter with tabbed examples — currency, input overlay, and countdown. Switch tabs above the preview to explore each pattern." />
+
+## Examples
+
+The preview includes three tabbed patterns:
+
+| Tab | Pattern |
+| --- | ------- |
+| **Currency** | Formatted counter with increment controls |
+| **Input** | Native number input with a NumberFlow overlay — typing skips animation, stepper buttons animate |
+| **Countdown** | `HH:MM:SS` with `trend={-1}` so digits roll downward |
+
+## Installation
+
+<ComponentInstallation name="number-flow" />
+
+## Usage
+
+```tsx
+import { NumberFlow } from '@/components/sora-ui/texts/number-flow';
+import { useState } from 'react';
+
+export default function Page() {
+  const [value, setValue] = useState(1234.56);
+
+  return (
+    <NumberFlow
+      value={value}
+      format={{ style: 'currency', currency: 'USD' }}
+    />
+  );
+}
+```
+
+### Scroll-triggered count-up
+
+Enable `scrollTrigger` to count up from 0 the first time the element scrolls
+into view — useful for landing-page stats sections:
+
+```tsx
+<NumberFlow scrollTrigger value={12_500} suffix="+ users" />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    value: {
+      description: 'The number to display. Changing this triggers the roll animation.',
+      type: 'number',
+    },
+    locales: {
+      description: 'Passed to `Intl.NumberFormat`.',
+      type: 'Intl.LocalesArgument',
+    },
+    format: {
+      description: 'Passed to `Intl.NumberFormat`.',
+      type: 'Intl.NumberFormatOptions',
+    },
+    prefix: {
+      description: 'Rendered before the formatted value.',
+      type: 'string',
+    },
+    suffix: {
+      description: 'Rendered after the formatted value.',
+      type: 'string',
+    },
+    trend: {
+      description:
+        'Controls which direction digits spin. A number is used directly as the sign; a function receives `(prevValue, value)` and should return one.',
+      type: 'number | ((prevValue: number, value: number) => number)',
+      default: '(prevValue, value) => Math.sign(value - prevValue)',
+    },
+    transition: {
+      description: 'Motion transition for the digit roll and layout reflow.',
+      type: 'Transition',
+      default: '{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }',
+    },
+    spinTransition: {
+      description: 'Overrides `transition` for the digit roll specifically.',
+      type: 'Transition',
+    },
+    respectMotionPreference: {
+      description: "Skip animation when the user has requested reduced motion.",
+      type: 'boolean',
+      default: 'true',
+    },
+    willChange: {
+      description:
+        'Opts in to hinting `will-change: transform` on digits/symbols while any of them is actively spinning, then removes it once the batch settles — so the GPU layer is only held during real animation, not for the life of the component.',
+      type: 'boolean',
+      default: 'false',
+    },
+    scrollTrigger: {
+      description:
+        'Count up from 0 the first (or, with `once={false}`, every) time this element enters the viewport, instead of showing the final value immediately. Ignored when reduced motion is active.',
+      type: 'boolean',
+      default: 'false',
+    },
+    once: {
+      description: 'When `scrollTrigger` is enabled, fire the count-up only once.',
+      type: 'boolean',
+      default: 'true',
+    },
+    viewportMargin: {
+      description: 'Intersection margin used when `scrollTrigger` is enabled.',
+      type: 'string',
+      default: '"0px 0px -10% 0px"',
+    },
+    onAnimationsStart: {
+      description:
+        'Called once when a value update starts spinning any digit, after any previous batch has fully settled.',
+      type: '() => void',
+    },
+    onAnimationsFinish: {
+      description:
+        'Called once every digit spun by the current value update has settled.',
+      type: '() => void',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `NumberFlow` for stats, KPIs, live counters, and pricing displays where a value updates over time and you want to draw attention to the change — dashboards, checkout totals, leaderboard scores, or animated metrics on a landing page.
+
+It's not meant for large blocks of static numeric text; the animation overhead only pays off when the value actually changes at runtime.
+
+## Accessibility
+
+The root element uses `role="img"` with an `aria-label` set to the fully formatted value (e.g. `"$1,234.56"`), so assistive technology always reads the current number as a single unit rather than a stream of individually-rolling digits, which are hidden from the accessibility tree via `aria-hidden`.
+
+When `prefers-reduced-motion: reduce` is set, `NumberFlow` updates instantly with no animation by default (`respectMotionPreference`).
+
+## Credits
+
+<ComponentCredits name="number-flow" />

@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  ChevronDown,
+  Gem,
+  Infinity as InfinityIcon,
+  Layers,
+  LockOpen,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
@@ -10,6 +17,7 @@ const FRONT = {
   title: "First Frame",
   description:
     "A single moment, held in place before everything begins to move.",
+  icon: <ChevronDown />,
 };
 
 const CARDS = [
@@ -17,21 +25,25 @@ const CARDS = [
     title: "Final Hold",
     description:
       "Everything settles into place, leaving a lasting frame that feels complete.",
+    icon: <LockOpen />,
   },
   {
     title: "Layered Time",
     description:
       "Moments stack, overlap, and reveal themselves slowly as the scroll continues.",
+    icon: <Layers />,
   },
   {
     title: "Weight & Flow",
     description:
       "Elements carry presence, easing in and out with balance, never rushed, never still.",
+    icon: <Gem />,
   },
   {
     title: "Soft Motion",
     description:
       "Subtle shifts and gentle transitions that build a quiet sense of rhythm as you move forward.",
+    icon: <InfinityIcon />,
   },
 ];
 

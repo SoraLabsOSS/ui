@@ -9,6 +9,7 @@ import { MotionConfig } from "motion/react";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
+import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { Providers } from "@/components/providers";
 import { SiteBanner } from "@/components/site-banner";
 import {
@@ -120,6 +121,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
       >
         <MotionConfig reducedMotion="user">
+          <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>
             <NuqsAdapter>
               <Providers>

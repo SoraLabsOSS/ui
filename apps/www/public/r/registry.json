@@ -330,6 +330,20 @@
       ]
     },
     {
+      "name": "demo-number-flow",
+      "type": "registry:ui",
+      "title": "Number Flow Demo",
+      "description": "Number Flow demo with currency, input overlay, and countdown examples.",
+      "registryDependencies": ["@soralabs/number-flow"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/number-flow/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/number-flow.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-text-effect",
       "type": "registry:ui",
       "title": "Text Effect Demo",
@@ -1094,6 +1108,29 @@
               "value": "#ff4c24"
             }
           }
+        }
+      }
+    },
+    {
+      "name": "number-flow",
+      "type": "registry:ui",
+      "title": "Number Flow",
+      "description": "An animated, digit-by-digit number counter with a smooth rolling odometer effect, powered by Motion.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/number-flow/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/number-flow.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Number Flow",
+          "url": "https://number-flow.barvian.me/",
+          "stack": "Motion and React"
         }
       }
     },
