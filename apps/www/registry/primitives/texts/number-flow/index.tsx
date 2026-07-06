@@ -273,14 +273,18 @@ const DIGIT_FACES = Array.from({ length: DIGIT_LENGTH }, (_, i) => i);
 interface DigitFaceProps {
   mv: MotionValue<number>;
   n: number;
+  willChange: boolean;
 }
 
-function DigitFace({ n, mv }: DigitFaceProps) {
+function DigitFace({ n, mv, willChange }: DigitFaceProps) {
   const y = useTransform(mv, (c) => `${digitFaceOffset(n, c) * 100}%`);
   return (
     <motion.span
       aria-hidden="true"
-      className="absolute inset-0 flex items-center justify-center"
+      className={cn(
+        "absolute inset-0 flex items-center justify-center",
+        willChange && "will-change-transform"
+      )}
       style={{ y }}
     >
       {n}
@@ -300,6 +304,7 @@ interface DigitProps {
   transition: Transition;
   trend: number;
   value: number;
+  willChange: boolean;
 }
 
 // `mode="popLayout"` needs to grab this component's underlying DOM node to pop
@@ -315,6 +320,7 @@ function Digit({
   reduced,
   pos,
   startingPos,
+  willChange,
   ref,
 }: DigitProps) {
   const mv = useMotionValue(reduced || !animateIn ? value : 0);
@@ -363,7 +369,10 @@ function Digit({
       // here would cut them off before the mask ever gets to soften them, and
       // (per the original) `overflow:clip` also breaks baseline alignment in
       // Safari.
-      className="relative inline-block align-bottom tabular-nums"
+      className={cn(
+        "relative inline-block align-bottom tabular-nums",
+        willChange && "will-change-transform"
+      )}
       exit={{ opacity: 0 }}
       initial={{ opacity: 0 }}
       layout
@@ -374,7 +383,7 @@ function Digit({
         0
       </span>
       {DIGIT_FACES.map((n) => (
-        <DigitFace key={n} mv={mv} n={n} />
+        <DigitFace key={n} mv={mv} n={n} willChange={willChange} />
       ))}
     </motion.span>
   );
@@ -418,6 +427,13 @@ export interface NumberFlowProps
   trend?: NumberFlowTrend;
   /** The number to display. Changing this triggers the roll animation. */
   value: number;
+  /**
+   * Hints the browser to promote digits/symbols onto their own composite
+   * layer ahead of time. Costs GPU memory, so only turn it on for instances
+   * that animate often (e.g. a live-updating counter), not static ones.
+   * @default false
+   */
+  willChange?: boolean;
 }
 
 function usePrevious<T>(value: T) {
@@ -455,6 +471,7 @@ export function NumberFlow({
   transition = DEFAULT_TRANSITION,
   spinTransition,
   respectMotionPreference = true,
+  willChange = false,
   className,
   style,
   ...props
@@ -510,7 +527,10 @@ export function NumberFlow({
     >
       <span
         aria-hidden="true"
-        className="isolate inline-flex"
+        className={cn(
+          "isolate inline-flex",
+          willChange && "will-change-transform"
+        )}
         style={numberMaskInnerStyle}
       >
         <AnimatePresence initial={false} mode="popLayout">
@@ -526,6 +546,7 @@ export function NumberFlow({
                 transition={spinT}
                 trend={computedTrend}
                 value={part.value}
+                willChange={willChange}
               />
             ) : (
               <motion.span
@@ -534,7 +555,10 @@ export function NumberFlow({
                 // symbol at the same spot add together instead of
                 // double-darkening while both are partially opaque mid-fade
                 // (e.g. a sign flipping from "+" to "-").
-                className="inline-block [mix-blend-mode:plus-lighter]"
+                className={cn(
+                  "inline-block mix-blend-plus-lighter",
+                  willChange && "will-change-transform"
+                )}
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
                 key={part.key}

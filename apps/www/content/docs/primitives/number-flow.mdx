@@ -84,6 +84,12 @@ export default function Page() {
       type: 'boolean',
       default: 'true',
     },
+    willChange: {
+      description:
+        'Hints the browser to promote digits/symbols onto their own layer ahead of time. Costs GPU memory, so only enable it for instances that animate often.',
+      type: 'boolean',
+      default: 'false',
+    },
     className: {
       description: 'Additional class names merged onto the root element.',
       type: 'string',
