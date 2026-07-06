@@ -90,6 +90,16 @@ export default function Page() {
       type: 'boolean',
       default: 'false',
     },
+    onAnimationsStart: {
+      description:
+        'Called once when a value update starts spinning any digit, after any previous batch has fully settled.',
+      type: '() => void',
+    },
+    onAnimationsFinish: {
+      description:
+        'Called once every digit spun by the current value update has settled.',
+      type: '() => void',
+    },
     className: {
       description: 'Additional class names merged onto the root element.',
       type: 'string',

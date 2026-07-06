@@ -295,6 +295,10 @@ function DigitFace({ n, mv, willChange }: DigitFaceProps) {
 interface DigitProps {
   animateIn: boolean;
   layoutTransition: Transition;
+  /** Called right before this digit starts a spin animation. */
+  onAnimationEnd: () => void;
+  /** Called once this digit's spin animation settles (naturally or interrupted). */
+  onAnimationStart: () => void;
   /** Digit place (see `KeyedDigitPart.pos`); used for the continuous-loop effect. */
   pos: number;
   reduced: boolean;
@@ -321,6 +325,8 @@ function Digit({
   pos,
   startingPos,
   willChange,
+  onAnimationStart,
+  onAnimationEnd,
   ref,
 }: DigitProps) {
   const mv = useMotionValue(reduced || !animateIn ? value : 0);
@@ -328,12 +334,31 @@ function Digit({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: startingPos must also retrigger the roll, for digits whose own value didn't change (continuous-loop effect)
   useEffect(() => {
+    // Runs a spin and reports it to the parent's onAnimationsStart/Finish
+    // aggregate — settled fires exactly once whether the spin completes
+    // naturally or gets interrupted (stop()'d) by the next update/unmount.
+    const spin = (delta: number) => {
+      onAnimationStart();
+      let settled = false;
+      const settle = () => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        onAnimationEnd();
+      };
+      const controls = animate(mv, delta, transition);
+      controls.then(settle, settle);
+      return () => {
+        controls.stop();
+        settle();
+      };
+    };
+
     if (isMountRef.current) {
       isMountRef.current = false;
       if (!reduced && animateIn) {
-        const delta = getDigitDelta(0, value, trend);
-        const controls = animate(mv, delta, transition);
-        return () => controls.stop();
+        return spin(getDigitDelta(0, value, trend));
       }
       return;
     }
@@ -357,8 +382,7 @@ function Digit({
         return;
       }
     }
-    const controls = animate(mv, current + delta, transition);
-    return () => controls.stop();
+    return spin(current + delta);
   }, [value, startingPos]);
 
   return (
@@ -409,6 +433,13 @@ export interface NumberFlowProps
   format?: Intl.NumberFormatOptions;
   /** Passed to `Intl.NumberFormat`. */
   locales?: Intl.LocalesArgument;
+  /** Called once every digit spun by the current value update has settled. */
+  onAnimationsFinish?: () => void;
+  /**
+   * Called once when a value update starts spinning any digit, after any
+   * previous batch has fully settled.
+   */
+  onAnimationsStart?: () => void;
   /** Rendered before the formatted value, e.g. a currency symbol override. */
   prefix?: string;
   /** Skip animation when the user has requested reduced motion (default true). */
@@ -472,6 +503,8 @@ export function NumberFlow({
   spinTransition,
   respectMotionPreference = true,
   willChange = false,
+  onAnimationsStart,
+  onAnimationsFinish,
   className,
   style,
   ...props
@@ -479,6 +512,21 @@ export function NumberFlow({
   const prefersReducedMotion = useReducedMotion();
   const isFirstRender = useIsFirstRender();
   const rootRef = useRef<HTMLSpanElement>(null);
+  // Aggregates every digit's spin so onAnimationsStart/Finish fire once per
+  // batch (0 -> >0, then back to 0), not once per digit.
+  const activeSpins = useRef(0);
+  const handleAnimationStart = () => {
+    activeSpins.current += 1;
+    if (activeSpins.current === 1) {
+      onAnimationsStart?.();
+    }
+  };
+  const handleAnimationEnd = () => {
+    activeSpins.current -= 1;
+    if (activeSpins.current === 0) {
+      onAnimationsFinish?.();
+    }
+  };
   // Re-checked every render so off-screen or backgrounded instances skip
   // animation on the next value update.
   const reduced =
@@ -540,6 +588,8 @@ export function NumberFlow({
                 animateIn={!isFirstRender}
                 key={part.key}
                 layoutTransition={layoutT}
+                onAnimationEnd={handleAnimationEnd}
+                onAnimationStart={handleAnimationStart}
                 pos={part.pos}
                 reduced={reduced}
                 startingPos={startingPos}
