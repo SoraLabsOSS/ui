@@ -20,15 +20,20 @@ import {
 import * as React from "react";
 
 type CursorProviderProps = Omit<CursorProviderPropsPrimitive, "children"> &
-  CursorContainerPropsPrimitive & {
+  Omit<CursorContainerPropsPrimitive, "asChild" | "children"> & {
     children?: React.ReactNode;
   };
 
 function CursorProvider({ global, children, ...props }: CursorProviderProps) {
   return (
     <CursorProviderPrimitive global={global}>
-      <CursorContainerPrimitive {...props} />
-      {children}
+      {global ? (
+        children
+      ) : (
+        <CursorContainerPrimitive {...props}>
+          {children}
+        </CursorContainerPrimitive>
+      )}
     </CursorProviderPrimitive>
   );
 }
