@@ -25,7 +25,8 @@ const LAYOUT = {
   card: "absolute top-1/2 left-1/2 flex aspect-[4/5] w-1/4 min-w-[300px] -translate-x-1/2 flex-col items-center justify-between rounded-2xl p-8 text-center [backface-visibility:hidden] [will-change:transform]",
   front: "",
   back: "",
-  icon: "flex size-16 items-center justify-center rounded-full",
+  frontIcon: "flex size-16 items-center justify-center rounded-full",
+  backIcon: "flex size-20 items-center justify-center rounded-full",
   badge: "rounded-md px-2 py-2 text-xs uppercase",
   title: "font-black text-3xl uppercase leading-[0.85]",
   description: "text-base leading-tight",
@@ -39,7 +40,8 @@ export const STICKY_SCROLL_CARDS_MINIMAL_CLASSES = {
   root: cn(LAYOUT.root, "bg-background text-foreground"),
   front: "bg-foreground text-background",
   back: "bg-muted text-foreground",
-  icon: "bg-background/20",
+  frontIcon: cn(LAYOUT.frontIcon, "border-2 border-background/80"),
+  backIcon: cn(LAYOUT.backIcon, "bg-background/20"),
   badge: "bg-background/90 text-foreground",
 } as const;
 
@@ -61,7 +63,11 @@ export const STICKY_SCROLL_CARDS_STUDIO_CLASSES = {
   ),
   front: "bg-[#fd4400] text-white",
   back: "",
-  icon: "bg-white/90",
+  // Fixed, not inherited from the per-card cycled palette color: the back
+  // circle is always white, so the glyph needs a color that reads on white
+  // no matter which card's foreground happens to also be white.
+  frontIcon: cn(LAYOUT.frontIcon, "border-2 border-white/90"),
+  backIcon: cn(LAYOUT.backIcon, "bg-white/90 text-[#fd4400]"),
   badge: "bg-white text-[#0f0f0f]",
 } as const;
 
@@ -190,8 +196,8 @@ function resolveStickyScrollCardsClasses(
     cardsLayer: cn(preset.cardsLayer, classNames?.cardsLayer),
     front: cn(LAYOUT.card, preset.front, classNames?.front),
     back: cn(LAYOUT.card, preset.back, classNames?.back),
-    frontIcon: cn(LAYOUT.icon, preset.icon, classNames?.frontIcon),
-    backIcon: cn(LAYOUT.icon, preset.icon, classNames?.backIcon),
+    frontIcon: cn(preset.frontIcon, classNames?.frontIcon),
+    backIcon: cn(preset.backIcon, classNames?.backIcon),
     badge: cn(LAYOUT.badge, preset.badge, classNames?.badge),
     title: cn(LAYOUT.title, classNames?.title),
     description: cn(LAYOUT.description, classNames?.description),
