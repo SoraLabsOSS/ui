@@ -118,4 +118,4 @@ Provide at least two full sets of logos to fill all columns on every cycle — o
 
 ## Accessibility
 
-Each logo requires an `alt` text via the `alt` prop. The root element should receive an `aria-label` describing the section (e.g., `"Partner logos"`). When `prefers-reduced-motion: reduce` is set, the row-swap interval doesn't start — the carousel freezes on the first row instead of cycling, with no extra configuration needed.
+Each logo requires an `alt` text via the `alt` prop. The root element should receive an `aria-label` describing the section (e.g., `"Partner logos"`). When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` keeps the row-swap interval running but replaces the per-column blur, vertical shift, and stagger with a single opacity crossfade between full rows — no extra configuration needed.

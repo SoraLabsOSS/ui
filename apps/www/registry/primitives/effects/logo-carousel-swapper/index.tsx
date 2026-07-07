@@ -20,6 +20,8 @@ const EXIT_DURATION_S = 0.55;
 const ENTER_DURATION_S = 0.7;
 /** Enter overlaps exit so the incoming logo "pushes" the outgoing one. */
 const ENTER_OVERLAP_S = 0.14;
+/** Opacity-only crossfade when `prefers-reduced-motion: reduce`. */
+const REDUCED_MOTION_FADE_DURATION_S = 0.35;
 
 const MOTION_BLUR = "blur(3px)";
 
@@ -297,11 +299,6 @@ export function LogoCarouselSwapper({
   const activeRow = normalizedRows[rowIndex] ?? [];
 
   useEffect(() => {
-    if (reduceMotion) {
-      setRowIndex(0);
-      return;
-    }
-
     if (normalizedRows.length < 2) {
       return;
     }
@@ -313,10 +310,51 @@ export function LogoCarouselSwapper({
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [interval, normalizedRows.length, reduceMotion]);
+  }, [interval, normalizedRows.length]);
 
   if (activeRow.length === 0) {
     return null;
+  }
+
+  const logoSlots = activeRow.map((item, columnIndex) => (
+    <LogoSlot
+      columnIndex={columnIndex}
+      item={item}
+      key={`logo-slot-${columnIndex}`}
+      monochrome={monochrome}
+      reduceMotion={reduceMotion}
+      rowKey={rowIndex}
+      size={size}
+      stagger={stagger}
+    />
+  ));
+
+  if (reduceMotion) {
+    return (
+      <div
+        className={cn(logoCarouselSwapperVariants({ align, size }), className)}
+        {...props}
+      >
+        <div className="grid *:col-start-1 *:row-start-1">
+          <AnimatePresence initial={false} mode="sync">
+            <motion.div
+              animate={{ opacity: 1 }}
+              aria-hidden={props["aria-label"] ? undefined : true}
+              className={logoCarouselSwapperRowVariants({ align, size })}
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              key={rowIndex}
+              transition={{
+                duration: REDUCED_MOTION_FADE_DURATION_S,
+                ease: "easeInOut",
+              }}
+            >
+              {logoSlots}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -328,18 +366,7 @@ export function LogoCarouselSwapper({
         aria-hidden={props["aria-label"] ? undefined : true}
         className={logoCarouselSwapperRowVariants({ align, size })}
       >
-        {activeRow.map((item, columnIndex) => (
-          <LogoSlot
-            columnIndex={columnIndex}
-            item={item}
-            key={`logo-slot-${columnIndex}`}
-            monochrome={monochrome}
-            reduceMotion={reduceMotion}
-            rowKey={rowIndex}
-            size={size}
-            stagger={stagger}
-          />
-        ))}
+        {logoSlots}
       </div>
     </div>
   );
