@@ -1,0 +1,99 @@
+---
+title: Infinite Scrolling Images
+description: Infinite stacked image cards that advance with wheel, touch, and keyboard controls.
+category: effects
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: infinite-scrolling-images
+---
+
+## Installation
+
+<ComponentInstallation name="infinite-scrolling-images" />
+
+## Usage
+
+```tsx
+import { InfiniteScrollingImages } from "@/components/sora-ui/effects/infinite-scrolling-images";
+
+const items = [
+  { src: "/images/frame-1.jpg", alt: "Frame 1" },
+  { src: "/images/frame-2.jpg", alt: "Frame 2" },
+  { src: "/images/frame-3.jpg", alt: "Frame 3" },
+];
+
+export default function Section() {
+  return (
+    <div className="h-[70vh] w-full">
+      <InfiniteScrollingImages items={items} />
+    </div>
+  );
+}
+```
+
+Use a fixed-height wrapper (`h-[60vh]` to `h-[80vh]`) so the stack has enough room to breathe.
+
+## Props
+
+<TypeTable
+  type={{
+    items: {
+      description: "Cards rendered in an infinite loop.",
+      type: "InfiniteScrollingImagesItem[]",
+    },
+    frameOffset: {
+      description: "Vertical spacing between cards.",
+      type: "number",
+      default: "-30",
+    },
+    framesVisible: {
+      description: "How many cards remain visible in front of the stack.",
+      type: "number",
+      default: "3",
+    },
+    renderBuffer: {
+      description: "Extra cards rendered before and after the visible range.",
+      type: "number",
+      default: "8",
+    },
+    scrollThreshold: {
+      description: "Minimum wheel/touch delta before frame advance.",
+      type: "number",
+      default: "40",
+    },
+    minUpdateInterval: {
+      description: "Minimum milliseconds between frame updates.",
+      type: "number",
+      default: "75",
+    },
+    keyboardControls: {
+      description: "Enable keyboard navigation (ArrowUp / ArrowDown, with Left / Right fallback).",
+      type: "boolean",
+      default: "true",
+    },
+    className: {
+      description: "Additional class names for the root container.",
+      type: "string",
+    },
+  }}
+/>
+
+### InfiniteScrollingImagesItem
+
+<TypeTable
+  type={{
+    src: {
+      description: "Image URL or local path.",
+      type: "string",
+    },
+    alt: {
+      description: "Accessible label for the image.",
+      type: "string",
+    },
+  }}
+/>
+
+## Accessibility
+
+When `prefers-reduced-motion: reduce` is set, animated transitions and wheel/touch progression are disabled, and the stack renders as a static single image.

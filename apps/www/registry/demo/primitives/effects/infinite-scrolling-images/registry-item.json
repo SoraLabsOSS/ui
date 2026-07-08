@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-infinite-scrolling-images",
+  "type": "registry:ui",
+  "title": "Infinite Scrolling Images Demo",
+  "description": "Preview for the infinite stacked image scroll effect.",
+  "registryDependencies": ["infinite-scrolling-images"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/infinite-scrolling-images/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/infinite-scrolling-images.tsx"
+    }
+  ]
+}

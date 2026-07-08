@@ -73,11 +73,11 @@ export const ShadcnRegistry3 = ({
         {description ? (
           <div
             style={{
-              color: "rgba(250,250,250,0.7)",
-              fontSize: "30px",
+              color: "rgba(250,250,250,0.55)",
+              fontSize: "28px",
               fontWeight: 400,
-              lineHeight: 1.45,
-              marginTop: "28px",
+              lineHeight: 1.4,
+              marginTop: "24px",
               maxWidth: "760px",
               textWrap: "balance",
             }}

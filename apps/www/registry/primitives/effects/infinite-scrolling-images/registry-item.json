@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "infinite-scrolling-images",
+  "type": "registry:ui",
+  "title": "Infinite Scrolling Images",
+  "description": "An infinite card stack that advances with wheel, touch, or keyboard input using spring-based Motion transitions.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/infinite-scrolling-images/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/infinite-scrolling-images.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "infinite",
+      "scrolling",
+      "images",
+      "stack",
+      "motion",
+      "wheel",
+      "touch"
+    ]
+  }
+}

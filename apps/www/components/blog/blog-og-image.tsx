@@ -29,6 +29,8 @@ export interface BlogOgImageProps extends ComponentPropsWithoutRef<"div"> {
    * @default 0
    */
   minDuration?: number;
+  /** Called when the image fails to load. Skeleton stays visible. */
+  onMediaError?: () => void;
   skeletonClassName?: string;
 }
 
@@ -42,12 +44,23 @@ function mergeImageReadyHandler(
   };
 }
 
+function mergeImageErrorHandler(
+  existing: ImageProps["onError"],
+  onError: () => void
+) {
+  return (event: SyntheticEvent<HTMLImageElement>) => {
+    existing?.(event);
+    onError();
+  };
+}
+
 /** Skeleton overlay that crossfades to a loaded blog OG image. */
 export function BlogOgImage({
   image,
   className,
   fadeDuration = 0.45,
   minDuration = 0,
+  onMediaError,
   skeletonClassName,
   ...props
 }: BlogOgImageProps) {
@@ -56,6 +69,7 @@ export function BlogOgImage({
   const mediaReadyRef = useRef(false);
   const startedAtRef = useRef(0);
   const timeoutIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [phase, setPhase] = useState<LoadPhase>("loading");
 
   const clearTimeouts = useCallback(() => {
@@ -71,8 +85,14 @@ export function BlogOgImage({
     timeoutIdsRef.current.push(id);
   }, []);
 
+  const handleMediaError = useCallback(() => {
+    clearTimeouts();
+    setLoadFailed(true);
+    onMediaError?.();
+  }, [clearTimeouts, onMediaError]);
+
   const beginReveal = useCallback(() => {
-    if (mediaReadyRef.current) {
+    if (mediaReadyRef.current || loadFailed) {
       return;
     }
 
@@ -91,9 +111,11 @@ export function BlogOgImage({
       setPhase("fading");
       schedule(() => setPhase("revealed"), fadeDuration * 1000);
     }, waitMs);
-  }, [fadeDuration, minDuration, prefersReducedMotion, schedule]);
+  }, [fadeDuration, loadFailed, minDuration, prefersReducedMotion, schedule]);
 
   useEffect(() => clearTimeouts, [clearTimeouts]);
+
+  const { onError, onLoad, src, ...imageProps } = image;
 
   useEffect(() => {
     startedAtRef.current = Date.now();
@@ -106,10 +128,8 @@ export function BlogOgImage({
     }
   }, [beginReveal]);
 
-  const { onLoad, ...imageProps } = image;
-
-  const showSkeleton = phase !== "revealed";
-  const showMedia = phase !== "loading";
+  const showSkeleton = loadFailed || phase !== "revealed";
+  const showMedia = !loadFailed && phase !== "loading";
 
   return (
     <div
@@ -128,10 +148,14 @@ export function BlogOgImage({
           ease: [0.16, 1, 0.3, 1],
         }}
       >
-        <Image
-          {...imageProps}
-          onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
-        />
+        {loadFailed ? null : (
+          <Image
+            {...imageProps}
+            onError={mergeImageErrorHandler(onError, handleMediaError)}
+            onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
+            src={src}
+          />
+        )}
       </motion.div>
 
       <AnimatePresence>

@@ -5,13 +5,14 @@ import type { BlogOgContent } from "@/lib/og/blog-og-types";
 export function createBlogPostOgContent(
   title: string,
   authorId: BlogAuthorId,
-  description?: string
+  description?: string,
+  ogSubtitle?: string
 ): BlogOgContent {
   const author = BLOG_AUTHORS[authorId];
 
   return {
     quote: title,
-    description,
+    description: ogSubtitle ?? description,
     author: author.name,
     handle: author.handle,
     avatar: author.avatar,

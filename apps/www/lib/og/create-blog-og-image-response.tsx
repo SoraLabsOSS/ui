@@ -1,6 +1,7 @@
 import { ShadcnRegistry3 } from "@workspace/ui/components/og/shadcn-registry-3";
 import { ImageResponse } from "next/og";
 import type { BlogOgContent } from "@/lib/og/blog-og-types";
+import { resolveBlogOgSubtitle } from "@/lib/og/resolve-blog-og-subtitle";
 import { resolveOgImageSrc } from "@/lib/og/resolve-og-image-src";
 import {
   getOgSfProDisplayFontData,
@@ -13,7 +14,11 @@ const BLOG_OG_CREDIT = "Developed By @axyl1410";
 function toRegistryProps(content: BlogOgContent, logo: string | undefined) {
   return {
     title: content.quote,
-    description: content.description,
+    description: resolveBlogOgSubtitle(
+      content.quote,
+      content.description,
+      content.forceSubtitle
+    ),
     credit: BLOG_OG_CREDIT,
     ghost: BLOG_OG_GHOST,
     logo: logo ?? "",

@@ -3,6 +3,8 @@ export interface BlogOgContent {
   author: string;
   avatar?: string;
   description?: string;
+  /** Render description under title even when the title is long (blog index). */
+  forceSubtitle?: boolean;
   handle: string;
   quote: string;
 }

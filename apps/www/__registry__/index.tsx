@@ -528,6 +528,52 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-highlight-click",
   },
+  "demo-infinite-scrolling-images": {
+    name: "demo-infinite-scrolling-images",
+    description: "Preview for the infinite stacked image scroll effect.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["infinite-scrolling-images"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/infinite-scrolling-images/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/infinite-scrolling-images.tsx",
+        content:
+          '"use client";\n\nimport { infiniteScrollingImagesDemoItems } from "@/lib/demo/infinite-scrolling-images-demo-items";\nimport { InfiniteScrollingImages } from "@/components/sora-ui/effects/infinite-scrolling-images";\n\nexport function InfiniteScrollingImagesExample() {\n  return (\n    <div className="flex h-full w-full min-w-0 items-center justify-center py-6 lg:py-10">\n      <InfiniteScrollingImages\n        className="h-[min(56dvh,560px)] w-full md:h-screen"\n        items={infiniteScrollingImagesDemoItems}\n      />\n    </div>\n  );\n}\n\nexport default InfiniteScrollingImagesExample;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/infinite-scrolling-images/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-infinite-scrolling-images",
+  },
   "demo-logo-carousel-swapper": {
     name: "demo-logo-carousel-swapper",
     description:
@@ -2105,6 +2151,61 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/highlight",
+  },
+  "infinite-scrolling-images": {
+    name: "infinite-scrolling-images",
+    description:
+      "An infinite card stack that advances with wheel, touch, or keyboard input using spring-based Motion transitions.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/hooks-use-prefers-reduced-motion"],
+    files: [
+      {
+        path: "registry/primitives/effects/infinite-scrolling-images/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/infinite-scrolling-images.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { motion } from "motion/react";\nimport Image from "next/image";\nimport {\n  type ComponentPropsWithoutRef,\n  useCallback,\n  useEffect,\n  useRef,\n  useState,\n} from "react";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\n\nexport interface InfiniteScrollingImagesItem {\n  alt?: string;\n  src: string;\n}\n\nexport interface InfiniteScrollingImagesProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {\n  /** Enable automatic frame progression. @default false */\n  autoplay?: boolean;\n  /** Seconds between auto-advance steps when autoplay is enabled. @default 3 */\n  autoplayIntervalSeconds?: number;\n  /** Vertical spacing between cards in pixels. @default -30 */\n  frameOffset?: number;\n  /** Number of visible cards (excluding buffered cards). @default 3 */\n  framesVisible?: number;\n  /** Cards to display in an infinite loop. */\n  items: InfiniteScrollingImagesItem[];\n  /** Whether ArrowUp / ArrowDown keys should move frames. @default true */\n  keyboardControls?: boolean;\n  /** Minimum ms between frame updates while scrolling. @default 75 */\n  minUpdateInterval?: number;\n  /** Number of cards rendered before/after visible range. @default 8 */\n  renderBuffer?: number;\n  /** Scroll delta threshold before moving to next frame. @default 40 */\n  scrollThreshold?: number;\n}\n\nconst REMOTE_IMAGE_SRC = /^https?:\\/\\//;\nconst REDUCED_MOTION_VISIBLE = 1;\n\nfunction isRemoteImageSrc(src: string): boolean {\n  return REMOTE_IMAGE_SRC.test(src);\n}\n\nfunction clamp(value: number, min: number, max: number): number {\n  return Math.min(Math.max(value, min), max);\n}\n\nfunction wrapIndex(index: number, length: number): number {\n  return ((index % length) + length) % length;\n}\n\nfunction InfiniteScrollingImages({\n  autoplay = false,\n  autoplayIntervalSeconds = 3,\n  className,\n  frameOffset = -30,\n  framesVisible = 3,\n  items,\n  keyboardControls = true,\n  minUpdateInterval = 75,\n  renderBuffer = 8,\n  scrollThreshold = 40,\n  ...props\n}: InfiniteScrollingImagesProps) {\n  const [currentIndex, setCurrentIndex] = useState(0);\n  const containerRef = useRef<HTMLDivElement>(null);\n  const scrollAccumulatorRef = useRef(0);\n  const lastUpdateTimeRef = useRef(Date.now());\n  const touchStartYRef = useRef(0);\n  const prefersReducedMotion = usePrefersReducedMotion();\n\n  const updateFrame = useCallback(\n    (delta: number) => {\n      if (items.length === 0 || delta === 0) {\n        return;\n      }\n      setCurrentIndex((previous) => previous + delta);\n    },\n    [items.length]\n  );\n\n  const flushScrollAccumulator = useCallback(() => {\n    const now = Date.now();\n    const elapsed = now - lastUpdateTimeRef.current;\n\n    if (Math.abs(scrollAccumulatorRef.current) < scrollThreshold) {\n      return;\n    }\n\n    if (elapsed < minUpdateInterval) {\n      return;\n    }\n\n    const delta = scrollAccumulatorRef.current > 0 ? 1 : -1;\n    updateFrame(delta);\n    scrollAccumulatorRef.current = 0;\n    lastUpdateTimeRef.current = now;\n  }, [minUpdateInterval, scrollThreshold, updateFrame]);\n\n  useEffect(() => {\n    if (!keyboardControls || prefersReducedMotion) {\n      return;\n    }\n\n    const onKeyDown = (event: KeyboardEvent) => {\n      if (event.key === "ArrowDown" || event.key === "ArrowRight") {\n        updateFrame(1);\n      } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {\n        updateFrame(-1);\n      }\n    };\n\n    window.addEventListener("keydown", onKeyDown);\n    return () => {\n      window.removeEventListener("keydown", onKeyDown);\n    };\n  }, [keyboardControls, prefersReducedMotion, updateFrame]);\n\n  useEffect(() => {\n    if (!autoplay || prefersReducedMotion || items.length === 0) {\n      return;\n    }\n\n    const intervalMs = Math.max(0.25, autoplayIntervalSeconds) * 1000;\n    const intervalId = window.setInterval(() => {\n      updateFrame(1);\n    }, intervalMs);\n\n    return () => {\n      window.clearInterval(intervalId);\n    };\n  }, [\n    autoplay,\n    autoplayIntervalSeconds,\n    items.length,\n    prefersReducedMotion,\n    updateFrame,\n  ]);\n\n  useEffect(() => {\n    if (prefersReducedMotion) {\n      return;\n    }\n\n    const container = containerRef.current;\n    if (!container) {\n      return;\n    }\n\n    const onWheel = (event: WheelEvent) => {\n      event.preventDefault();\n      scrollAccumulatorRef.current += event.deltaY;\n      flushScrollAccumulator();\n    };\n\n    const onTouchStart = (event: TouchEvent) => {\n      touchStartYRef.current = event.touches[0]?.clientY ?? 0;\n    };\n\n    const onTouchMove = (event: TouchEvent) => {\n      event.preventDefault();\n      const touchY = event.touches[0]?.clientY ?? touchStartYRef.current;\n      const deltaY = touchStartYRef.current - touchY;\n      touchStartYRef.current = touchY;\n      scrollAccumulatorRef.current += deltaY;\n      flushScrollAccumulator();\n    };\n\n    container.addEventListener("wheel", onWheel, { passive: false });\n    container.addEventListener("touchstart", onTouchStart, { passive: false });\n    container.addEventListener("touchmove", onTouchMove, { passive: false });\n\n    return () => {\n      container.removeEventListener("wheel", onWheel);\n      container.removeEventListener("touchstart", onTouchStart);\n      container.removeEventListener("touchmove", onTouchMove);\n    };\n  }, [flushScrollAccumulator, prefersReducedMotion]);\n\n  const safeFramesVisible = prefersReducedMotion\n    ? REDUCED_MOTION_VISIBLE\n    : Math.max(1, framesVisible);\n  const start = currentIndex - renderBuffer;\n  const end = currentIndex + safeFramesVisible + renderBuffer;\n  const visibleCards: Array<{ imageIndex: number; index: number }> = [];\n\n  for (let index = start; index <= end; index += 1) {\n    visibleCards.push({\n      imageIndex: wrapIndex(index, items.length),\n      index,\n    });\n  }\n\n  return (\n    <div\n      className={cn(\n        "relative flex h-full w-full items-center justify-center overflow-hidden",\n        className\n      )}\n      ref={containerRef}\n      {...props}\n    >\n      <div className="relative flex h-full w-full items-center justify-center">\n        {visibleCards.map((card) => {\n          const item = items[card.imageIndex];\n          if (!item) {\n            return null;\n          }\n\n          const offsetIndex = card.index - currentIndex;\n          const blur = currentIndex > card.index ? 2 : 0;\n          const opacity = currentIndex > card.index ? 0 : 1;\n          const scale = clamp(1 - offsetIndex * 0.08, 0.08, 2);\n          const y = clamp(\n            offsetIndex * frameOffset,\n            frameOffset * safeFramesVisible,\n            Number.POSITIVE_INFINITY\n          );\n\n          return (\n            <motion.div\n              animate={{\n                scale,\n                y,\n                transition: prefersReducedMotion\n                  ? { duration: 0 }\n                  : {\n                      damping: 20,\n                      mass: 0.5,\n                      stiffness: 250,\n                      type: "spring",\n                    },\n              }}\n              className="absolute aspect-video w-[85%] max-w-[800px] overflow-hidden rounded-lg bg-black shadow-2xl"\n              initial={false}\n              key={card.index}\n              style={{\n                filter: `blur(${prefersReducedMotion ? 0 : blur}px)`,\n                opacity: prefersReducedMotion ? 1 : opacity,\n                transitionDuration: "200ms",\n                transitionProperty: "opacity, filter",\n                transitionTimingFunction: "ease-in-out",\n                willChange: "opacity, filter, transform",\n                zIndex: 1000 - card.index,\n              }}\n            >\n              <Image\n                alt={item.alt ?? ""}\n                className="h-full w-full object-cover"\n                draggable={false}\n                fill\n                referrerPolicy={\n                  isRemoteImageSrc(item.src) ? "no-referrer" : undefined\n                }\n                sizes="(max-width: 768px) 85vw, 800px"\n                src={item.src}\n                unoptimized={isRemoteImageSrc(item.src)}\n              />\n            </motion.div>\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n\nexport { InfiniteScrollingImages };',
+      },
+    ],
+    keywords: [
+      "infinite",
+      "scrolling",
+      "images",
+      "stack",
+      "motion",
+      "wheel",
+      "touch",
+    ],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/infinite-scrolling-images/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/infinite-scrolling-images",
   },
   "logo-carousel-swapper": {
     name: "logo-carousel-swapper",

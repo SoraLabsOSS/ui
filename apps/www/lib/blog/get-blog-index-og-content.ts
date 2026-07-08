@@ -9,6 +9,7 @@ export function getBlogIndexOgContent(): BlogOgContent {
       "Notes on motion, UI craft, and shipping React experiences that feel intentional.",
     description:
       "Deep dives on GSAP scroll primitives, registry workflows, and motion you can own in production.",
+    forceSubtitle: true,
     author: "Sora UI",
     handle: new URL(SITE_URL).host,
     avatar: `${getMetadataBaseUrl()}${BLOG_BRAND_AVATAR_PATH}`,

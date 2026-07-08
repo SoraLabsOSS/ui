@@ -29,7 +29,8 @@ export const blogOgPostsBySlug: Record<string, BlogOgContent> =
           createBlogPostOgContent(
             page.data.title,
             getAuthorIdFromName(page.data.author ?? "Axyl"),
-            page.data.description
+            page.data.description,
+            page.data.ogSubtitle
           ),
         ],
       ];

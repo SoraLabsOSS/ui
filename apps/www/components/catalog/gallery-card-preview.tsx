@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import type { ComponentGalleryCardPreview } from "@/lib/registry/types";
+import { Skeleton } from "@/registry/primitives/effects/skeleton";
 import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
 
 const VIDEO_READY_STATE = 3;
@@ -15,6 +16,15 @@ interface GalleryCardPreviewProps {
   /** Preload poster when above the fold (LCP). */
   priority?: boolean;
   title: string;
+}
+
+function GalleryCardMediaSkeleton() {
+  return (
+    <Skeleton
+      className="absolute inset-0 size-full bg-muted-foreground/15"
+      rounded="none"
+    />
+  );
 }
 
 function useCanHoverPreview() {
@@ -36,7 +46,50 @@ function useCanHoverPreview() {
   return canHoverPreview;
 }
 
-export function GalleryCardPreview({
+function GalleryCardBaseLayer({
+  category,
+  poster,
+  priority,
+  showVideoLayer,
+  showVideoOnlySkeleton,
+  title,
+}: {
+  category?: string;
+  poster?: string;
+  priority: boolean;
+  showVideoLayer: boolean;
+  showVideoOnlySkeleton: boolean;
+  title: string;
+}) {
+  if (poster) {
+    return (
+      <BlogOgImage
+        className={cn(
+          "absolute inset-0 transition-opacity duration-300",
+          showVideoLayer ? "opacity-0" : "opacity-100"
+        )}
+        image={{
+          alt: "",
+          "aria-hidden": true,
+          className: "object-cover",
+          fill: true,
+          priority,
+          sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+          src: poster,
+        }}
+        key={poster}
+      />
+    );
+  }
+
+  if (showVideoOnlySkeleton) {
+    return <GalleryCardMediaSkeleton />;
+  }
+
+  return <GalleryCardThumbnail category={category} title={title} />;
+}
+
+function GalleryCardPreviewMedia({
   active,
   category,
   priority = false,
@@ -48,14 +101,16 @@ export function GalleryCardPreview({
   const canHoverPreview = useCanHoverPreview();
   const [warmInView, setWarmInView] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
 
   const poster = preview?.poster;
   const videoWebm = preview?.videoWebm;
   const videoMp4 = preview?.videoMp4;
   const hasVideo = Boolean(videoWebm ?? videoMp4);
   const shouldMountVideo =
-    canHoverPreview && hasVideo && (warmInView || active);
+    canHoverPreview && hasVideo && !videoFailed && (warmInView || active);
   const showVideoLayer = active && videoReady;
+  const showVideoOnlySkeleton = !poster && hasVideo && videoFailed;
 
   useEffect(() => {
     const node = containerRef.current;
@@ -91,15 +146,22 @@ export function GalleryCardPreview({
       setVideoReady(true);
     };
 
+    const handleVideoError = () => {
+      setVideoFailed(true);
+      setVideoReady(false);
+    };
+
     if (video.readyState >= VIDEO_READY_STATE) {
       handleCanPlay();
     } else {
       video.addEventListener("canplay", handleCanPlay);
+      video.addEventListener("error", handleVideoError);
       video.load();
     }
 
     return () => {
       video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("error", handleVideoError);
     };
   }, [shouldMountVideo]);
 
@@ -122,31 +184,16 @@ export function GalleryCardPreview({
     }
   }, [active, videoReady]);
 
-  if (!(poster ?? hasVideo)) {
-    return <GalleryCardThumbnail category={category} title={title} />;
-  }
-
   return (
     <div className="absolute inset-0" ref={containerRef}>
-      {poster ? (
-        <BlogOgImage
-          className={cn(
-            "absolute inset-0 transition-opacity duration-300",
-            showVideoLayer ? "opacity-0" : "opacity-100"
-          )}
-          image={{
-            alt: "",
-            "aria-hidden": true,
-            className: "object-cover",
-            fill: true,
-            priority,
-            sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
-            src: poster,
-          }}
-        />
-      ) : (
-        <GalleryCardThumbnail category={category} title={title} />
-      )}
+      <GalleryCardBaseLayer
+        category={category}
+        poster={poster}
+        priority={priority}
+        showVideoLayer={showVideoLayer}
+        showVideoOnlySkeleton={showVideoOnlySkeleton}
+        title={title}
+      />
 
       {shouldMountVideo ? (
         <video
@@ -156,6 +203,10 @@ export function GalleryCardPreview({
           )}
           loop
           muted
+          onError={() => {
+            setVideoFailed(true);
+            setVideoReady(false);
+          }}
           playsInline
           preload="auto"
           ref={videoRef}
@@ -166,4 +217,20 @@ export function GalleryCardPreview({
       ) : null}
     </div>
   );
+}
+
+export function GalleryCardPreview(props: GalleryCardPreviewProps) {
+  const poster = props.preview?.poster;
+  const videoWebm = props.preview?.videoWebm;
+  const videoMp4 = props.preview?.videoMp4;
+  const hasVideo = Boolean(videoWebm ?? videoMp4);
+  const previewMediaKey = `${poster ?? ""}|${videoWebm ?? ""}|${videoMp4 ?? ""}`;
+
+  if (!(poster ?? hasVideo)) {
+    return (
+      <GalleryCardThumbnail category={props.category} title={props.title} />
+    );
+  }
+
+  return <GalleryCardPreviewMedia key={previewMediaKey} {...props} />;
 }

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-infinite-scrolling-images",
+  "title": "Infinite Scrolling Images Demo",
+  "description": "Preview for the infinite stacked image scroll effect.",
+  "registryDependencies": ["@soralabs/infinite-scrolling-images"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/infinite-scrolling-images/index.tsx",
+      "content": "\"use client\";\n\nimport { infiniteScrollingImagesDemoItems } from \"@/lib/demo/infinite-scrolling-images-demo-items\";\nimport { InfiniteScrollingImages } from \"@/components/sora-ui/effects/infinite-scrolling-images\";\n\nexport function InfiniteScrollingImagesExample() {\n  return (\n    <div className=\"flex h-full w-full min-w-0 items-center justify-center py-6 lg:py-10\">\n      <InfiniteScrollingImages\n        className=\"h-[min(56dvh,560px)] w-full md:h-screen\"\n        items={infiniteScrollingImagesDemoItems}\n      />\n    </div>\n  );\n}\n\nexport default InfiniteScrollingImagesExample;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/infinite-scrolling-images.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

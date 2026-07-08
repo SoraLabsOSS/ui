@@ -1,4 +1,8 @@
 {
   "title": "Catalog",
-  "pages": ["cursor-trail-reveal", "text-reveal-box"]
+  "pages": [
+    "cursor-trail-reveal",
+    "text-reveal-box",
+    "infinite-scrolling-images"
+  ]
 }

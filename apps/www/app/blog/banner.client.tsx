@@ -1,6 +1,7 @@
 "use client";
 
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { motion, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -14,6 +15,10 @@ const GrainGradient = dynamic(
 );
 
 const BANNER_HEIGHT = 300;
+const BANNER_READY_DELAY_MS = 400;
+/** Buffer for dynamic import + async WebGL uniform init before fade. */
+const SHADER_PAINT_BUFFER_MS = 120;
+const BANNER_FADE_DURATION_S = 1.4;
 
 function supportsWebGL2() {
   try {
@@ -24,36 +29,89 @@ function supportsWebGL2() {
   }
 }
 
+function waitForNextPaint(callback: () => void) {
+  let raf1 = 0;
+  let raf2 = 0;
+
+  raf1 = window.requestAnimationFrame(() => {
+    raf2 = window.requestAnimationFrame(callback);
+  });
+
+  return () => {
+    window.cancelAnimationFrame(raf1);
+    window.cancelAnimationFrame(raf2);
+  };
+}
+
 export function BlogHeaderBanner() {
   const [showShaders, setShowShaders] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isShaderVisible, setIsShaderVisible] = useState(false);
   const isMobile = useIsMobile();
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (!supportsWebGL2()) {
-      return;
-    }
-
-    // Delay avoids uniform load errors on slower devices.
     const timer = window.setTimeout(() => {
-      setShowShaders(true);
-    }, 400);
+      setShowShaders(supportsWebGL2());
+      setIsContentVisible(true);
+    }, BANNER_READY_DELAY_MS);
 
     return () => {
       window.clearTimeout(timer);
     };
   }, []);
 
+  useEffect(() => {
+    if (!showShaders) {
+      return;
+    }
+
+    let cancelled = false;
+    let cancelPaintWait: (() => void) | undefined;
+
+    const timer = window.setTimeout(() => {
+      if (cancelled) {
+        return;
+      }
+
+      cancelPaintWait = waitForNextPaint(() => {
+        if (!cancelled) {
+          setIsShaderVisible(true);
+        }
+      });
+    }, SHADER_PAINT_BUFFER_MS);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      cancelPaintWait?.();
+    };
+  }, [showShaders]);
+
+  const fadeTransition = {
+    duration: prefersReducedMotion ? 0 : BANNER_FADE_DURATION_S,
+    ease: [0.16, 1, 0.3, 1] as const,
+  };
+
   return (
     <section className="w-full">
-      <div className="blog-inner relative flex min-h-[300px] overflow-hidden rounded-xl">
+      <div className="blog-inner relative min-h-[300px] overflow-hidden rounded-xl">
+        <div aria-hidden className="h-[300px] w-full" />
+
         <PlusSeparator
           main={{ className: "z-20 opacity-40" }}
           position={["top-left", "top-right", "bottom-left", "bottom-right"]}
         />
+
         {showShaders ? (
-          <div className="h-[300px] w-full">
+          <motion.div
+            animate={{ opacity: isShaderVisible ? 1 : 0 }}
+            className="absolute inset-0 h-[300px] w-full"
+            initial={false}
+            transition={fadeTransition}
+          >
             <GrainGradient
-              className="w-full animate-fd-fade-in bg-background/20 duration-1000"
+              className="w-full bg-background/20"
               colorBack="#ffffff00"
               colors={["#fb460d", "#c9784a", "#e8ddd6"]}
               height={BANNER_HEIGHT}
@@ -66,11 +124,22 @@ export function BlogHeaderBanner() {
               softness={0.7}
               speed={0.7}
             />
-          </div>
+          </motion.div>
         ) : (
-          <div className="h-[300px] w-full" />
+          <motion.div
+            animate={{ opacity: isContentVisible ? 1 : 0 }}
+            className="absolute inset-0 h-[300px] w-full bg-muted/25"
+            initial={false}
+            transition={fadeTransition}
+          />
         )}
-        <div className="absolute inset-0 z-10 h-full w-full text-foreground">
+
+        <motion.div
+          animate={{ opacity: isContentVisible ? 1 : 0 }}
+          className="absolute inset-0 z-10 h-full w-full text-foreground"
+          initial={false}
+          transition={fadeTransition}
+        >
           <div className="flex h-full flex-col justify-center gap-3 px-8 py-12 sm:px-10 md:gap-4 md:px-12 md:py-16">
             <h2 className="text-2xl md:text-4xl">
               Sora <span className="text-accent-pro">Blog.</span>
@@ -85,7 +154,7 @@ export function BlogHeaderBanner() {
               [/rss.xml]
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
