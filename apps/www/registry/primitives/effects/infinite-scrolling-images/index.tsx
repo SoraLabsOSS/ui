@@ -70,7 +70,11 @@ function InfiniteScrollingImages({
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAccumulatorRef = useRef(0);
-  const lastUpdateTimeRef = useRef(Date.now());
+  // Seeded at 0, not Date.now(): reading the clock during render breaks
+  // Next.js static prerendering. The actual value doesn't matter here — it
+  // only needs to be far enough in the past that the first scroll flush
+  // isn't throttled by the `elapsed < minUpdateInterval` check below.
+  const lastUpdateTimeRef = useRef(0);
   const touchStartYRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
 
