@@ -45,15 +45,18 @@ function waitForNextPaint(callback: () => void) {
 
 export function BlogHeaderBanner() {
   const [showShaders, setShowShaders] = useState(false);
-  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isFallbackVisible, setIsFallbackVisible] = useState(false);
   const [isShaderVisible, setIsShaderVisible] = useState(false);
   const isMobile = useIsMobile();
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      setShowShaders(supportsWebGL2());
-      setIsContentVisible(true);
+      const hasWebGL = supportsWebGL2();
+      setShowShaders(hasWebGL);
+      if (!hasWebGL) {
+        setIsFallbackVisible(true);
+      }
     }, BANNER_READY_DELAY_MS);
 
     return () => {
@@ -127,19 +130,14 @@ export function BlogHeaderBanner() {
           </motion.div>
         ) : (
           <motion.div
-            animate={{ opacity: isContentVisible ? 1 : 0 }}
+            animate={{ opacity: isFallbackVisible ? 1 : 0 }}
             className="absolute inset-0 h-[300px] w-full bg-muted/25"
             initial={false}
             transition={fadeTransition}
           />
         )}
 
-        <motion.div
-          animate={{ opacity: isContentVisible ? 1 : 0 }}
-          className="absolute inset-0 z-10 h-full w-full text-foreground"
-          initial={false}
-          transition={fadeTransition}
-        >
+        <div className="absolute inset-0 z-10 h-full w-full text-foreground">
           <div className="flex h-full flex-col justify-center gap-3 px-8 py-12 sm:px-10 md:gap-4 md:px-12 md:py-16">
             <h2 className="text-2xl md:text-4xl">
               Sora <span className="text-accent-pro">Blog.</span>
@@ -154,7 +152,7 @@ export function BlogHeaderBanner() {
               [/rss.xml]
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
