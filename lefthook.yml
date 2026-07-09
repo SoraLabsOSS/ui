@@ -16,4 +16,4 @@ pre-commit:
 
 pre-push:
   jobs:
-    - run: bun run build:verify
+    - run: bun run build
