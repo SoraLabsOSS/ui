@@ -1,14 +1,14 @@
 ---
 title: Magnetic Cards
-description: A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.
+description: A fanned stack of cards that fling away from the cursor on release, with GSAP InertiaPlugin easing each one back to rest.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-magnetic-cards" description="Move your cursor across the fanned stack — cards spring away based on cursor speed and proximity." />
+<ComponentPreview name="demo-magnetic-cards" description="Move your cursor across a card, then release — it flings off based on how fast the cursor was moving, and eases back to rest." />
 
-`MagneticCards` runs its spring simulation on [GSAP](https://gsap.com/)'s ticker (`gsap.ticker`), driving each card with `gsap.set` every frame instead of React state — the same low-overhead approach used by `ScrollGallery` and `TextRevealBox`.
+`MagneticCards` tracks cursor speed per card while it's hovered (`mousemove`/`mouseenter`), then on `mouseleave` hands that speed to [GSAP](https://gsap.com/)'s `InertiaPlugin` as a starting velocity, targeting the card's own rest position/rotation as the `end` value — the same per-card fling-and-settle model as [Truus.co](https://www.truus.co/)'s cards.
 
 ## Installation
 
@@ -47,40 +47,15 @@ export default function Page() {
       description: 'Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching items.length.',
       type: 'MagneticCardsLayout[]',
     },
-    proximityRadius: {
-      description: 'Cursor distance in pixels within which cards start reacting.',
+    velocityMultiplier: {
+      description: 'How far a card flies on release, scaled from cursor speed while hovering it.',
       type: 'number',
-      default: '500',
+      default: '20',
     },
-    pushForce: {
-      description: "How strongly cursor velocity pushes nearby cards.",
+    rotationVelocityMultiplier: {
+      description: 'How much a card spins on release, scaled from horizontal cursor speed while hovering it.',
       type: 'number',
-      default: '10',
-    },
-    tiltAmount: {
-      description: 'How much a card tilts relative to how far it\'s pushed.',
-      type: 'number',
-      default: '0.1',
-    },
-    neighborInfluence: {
-      description: "How much a pushed card drags its neighbors along, per index step away (0-1).",
-      type: 'number',
-      default: '0.2',
-    },
-    springStiffness: {
-      description: 'Spring stiffness pulling cards back to their rest position (0-1).',
-      type: 'number',
-      default: '0.05',
-    },
-    bounceFriction: {
-      description: 'Velocity friction applied every frame (0-1). Lower settles faster, higher feels bouncier.',
-      type: 'number',
-      default: '0.85',
-    },
-    cursorSmoothing: {
-      description: 'Smooths cursor velocity across frames (0-1). Higher feels smoother, less twitchy.',
-      type: 'number',
-      default: '0.75',
+      default: '1.5',
     },
     cardClassName: {
       description: 'Extra classes applied to each card wrapper.',
@@ -110,13 +85,13 @@ export default function Page() {
 
 ## When to Use
 
-Use `MagneticCards` for hero sections, portfolio spotlights, or landing pages where a small set of images (3-6 works best) deserves a tactile, playful entrance. The physics simulation reads best with generous surrounding space — give the root element real height (e.g. a fixed-height section) rather than letting it collapse to content size.
+Use `MagneticCards` for hero sections, portfolio spotlights, or landing pages where a small set of images (3-6 works best) deserves a tactile, playful entrance. The fling reads best with generous surrounding space — give the root element real height (e.g. a fixed-height section) rather than letting it collapse to content size.
 
 For image grids that need to stay readable and scannable (e.g. a gallery or catalog), use a static grid instead — the constant motion here is decorative, not information-dense.
 
 ## Accessibility
 
-Cursor tracking is scoped to the component's own root element via `pointermove`/`pointerleave`, so it never hijacks page-wide input. When `prefers-reduced-motion: reduce` is set, the physics loop never starts — cards render directly at their rest position/rotation with no motion at all, and the setting is watched live via `usePrefersReducedMotion`, so toggling it while the page is open updates immediately.
+Cursor tracking is scoped to each card individually via `mousemove`/`mouseenter`/`mouseleave`, so it never hijacks page-wide input. When `prefers-reduced-motion: reduce` is set, no listeners are attached at all — cards render directly at their rest position/rotation with no motion, and the setting is watched live via `usePrefersReducedMotion`, so toggling it while the page is open updates immediately.
 
 ## Credits
 

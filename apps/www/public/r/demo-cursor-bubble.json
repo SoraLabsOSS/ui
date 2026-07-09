@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-cursor-bubble",
+  "title": "Cursor Bubble Demo",
+  "description": "A floating cursor label that elastic-pops into view over interactive links.",
+  "registryDependencies": ["@soralabs/cursor-bubble"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/cursor-bubble/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  CursorBubble,\n  CursorBubbleTarget,\n} from \"@/components/sora-ui/effects/cursor-bubble\";\n\nexport function CursorBubbleExample() {\n  return (\n    <CursorBubble className=\"flex h-[min(320px,50dvh)] w-full flex-col items-center justify-center gap-6 text-center sm:h-72\">\n      <CursorBubbleTarget label=\"explore\">\n        <a\n          className=\"font-medium text-2xl underline underline-offset-4 sm:text-3xl\"\n          href=\"#\"\n        >\n          Our work\n        </a>\n      </CursorBubbleTarget>\n      <CursorBubbleTarget label=\"say hi\">\n        <a className=\"text-muted-foreground text-sm\" href=\"#\">\n          Get in touch\n        </a>\n      </CursorBubbleTarget>\n    </CursorBubble>\n  );\n}\n\nexport default CursorBubbleExample;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/cursor-bubble.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

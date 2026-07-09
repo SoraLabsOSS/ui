@@ -10,6 +10,7 @@ import {
   Layers,
   LayoutTemplate,
   ListCollapse,
+  MousePointerClick,
   Navigation,
   RectangleHorizontalIcon,
   SparklesIcon,
@@ -93,6 +94,14 @@ export const attachSeparator: BuildPageTreeOptions["attachSeparator"] = (
         <Separator
           icon={<RectangleHorizontalIcon fill="currentColor" />}
           name="Buttons"
+        />
+      );
+      break;
+    case "Interaction":
+      node.name = (
+        <Separator
+          icon={<MousePointerClick strokeWidth={2.5} />}
+          name="Interaction"
         />
       );
       break;

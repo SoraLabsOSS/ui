@@ -17,13 +17,10 @@
     "---Buttons---",
     "char-stagger-button",
     "section-cta",
-    "---Disclosure---",
+    "---Interaction---",
     "accordion",
-    "---Overlays---",
     "bottom-sheet",
-    "---Loading---",
     "skeleton",
-    "---Navigation---",
     "dock-nav",
     "---Effects---",
     "highlight",
@@ -32,6 +29,7 @@
     "magnetic-cards",
     "pixelated-image-reveal",
     "logo-carousel-swapper",
-    "custom-cursor"
+    "custom-cursor",
+    "cursor-bubble"
   ]
 }

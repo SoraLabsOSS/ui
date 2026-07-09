@@ -70,6 +70,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-cursor-bubble": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/effects/cursor-bubble/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-cursor-trail-reveal": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/cursor-trail-reveal/index.tsx"
@@ -543,6 +559,22 @@ export const previewComponents: Record<string, any> = {
   "border-trail": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/border-trail/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "cursor-bubble": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/effects/cursor-bubble/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)

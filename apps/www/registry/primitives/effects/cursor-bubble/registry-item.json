@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "cursor-bubble",
+  "type": "registry:ui",
+  "title": "Cursor Bubble",
+  "description": "A floating label that follows the cursor and elastic-pops into view over interactive targets, powered by GSAP.",
+  "dependencies": ["gsap", "@gsap/react"],
+  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/cursor-bubble/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/cursor-bubble.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": ["cursor", "bubble", "hover", "label", "gsap"],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Truus.co",
+      "url": "https://www.truus.co/",
+      "stack": "GSAP and React"
+    }
+  }
+}

@@ -120,6 +120,20 @@
       }
     },
     {
+      "name": "demo-cursor-bubble",
+      "type": "registry:ui",
+      "title": "Cursor Bubble Demo",
+      "description": "A floating cursor label that elastic-pops into view over interactive links.",
+      "registryDependencies": ["@soralabs/cursor-bubble"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/cursor-bubble/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/cursor-bubble.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-cursor-trail-reveal",
       "type": "registry:ui",
       "title": "Cursor Trail Reveal Demo",
@@ -725,6 +739,30 @@
       }
     },
     {
+      "name": "cursor-bubble",
+      "type": "registry:ui",
+      "title": "Cursor Bubble",
+      "description": "A floating label that follows the cursor and elastic-pops into view over interactive targets, powered by GSAP.",
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/cursor-bubble/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/cursor-bubble.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": ["cursor", "bubble", "hover", "label", "gsap"],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Truus.co",
+          "url": "https://www.truus.co/",
+          "stack": "GSAP and React"
+        }
+      }
+    },
+    {
       "name": "cursor-trail-reveal",
       "type": "registry:ui",
       "title": "Cursor Trail Reveal",
@@ -850,7 +888,7 @@
       "name": "magnetic-cards",
       "type": "registry:ui",
       "title": "Magnetic Cards",
-      "description": "A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.",
+      "description": "A fanned stack of cards that fling away from the cursor on release, with GSAP InertiaPlugin easing each one back to rest.",
       "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
@@ -861,19 +899,12 @@
         }
       ],
       "meta": {
-        "keywords": [
-          "magnetic",
-          "cards",
-          "cursor",
-          "physics",
-          "spring",
-          "gsap"
-        ],
+        "keywords": ["magnetic", "cards", "cursor", "inertia", "gsap"],
         "inspiration": {
           "type": "reimplemented",
-          "label": "Spencer Gabor",
-          "url": "https://spencergabor.work/",
-          "stack": "GSAP and React"
+          "label": "Truus.co",
+          "url": "https://www.truus.co/",
+          "stack": "GSAP InertiaPlugin and React"
         }
       }
     },

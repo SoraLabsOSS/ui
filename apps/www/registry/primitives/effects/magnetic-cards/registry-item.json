@@ -3,7 +3,7 @@
   "name": "magnetic-cards",
   "type": "registry:ui",
   "title": "Magnetic Cards",
-  "description": "A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.",
+  "description": "A fanned stack of cards that fling away from the cursor on release, with GSAP InertiaPlugin easing each one back to rest.",
   "dependencies": ["gsap", "@gsap/react"],
   "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
   "files": [
@@ -14,12 +14,12 @@
     }
   ],
   "meta": {
-    "keywords": ["magnetic", "cards", "cursor", "physics", "spring", "gsap"],
+    "keywords": ["magnetic", "cards", "cursor", "inertia", "gsap"],
     "inspiration": {
       "type": "reimplemented",
-      "label": "Spencer Gabor",
-      "url": "https://spencergabor.work/",
-      "stack": "GSAP and React"
+      "label": "Truus.co",
+      "url": "https://www.truus.co/",
+      "stack": "GSAP InertiaPlugin and React"
     }
   }
 }

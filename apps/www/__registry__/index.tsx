@@ -235,6 +235,53 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-border-trail-textarea",
   },
+  "demo-cursor-bubble": {
+    name: "demo-cursor-bubble",
+    description:
+      "A floating cursor label that elastic-pops into view over interactive links.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["cursor-bubble"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/cursor-bubble/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/cursor-bubble.tsx",
+        content:
+          '"use client";\n\nimport {\n  CursorBubble,\n  CursorBubbleTarget,\n} from "@/components/sora-ui/effects/cursor-bubble";\n\nexport function CursorBubbleExample() {\n  return (\n    <CursorBubble className="flex h-[min(320px,50dvh)] w-full flex-col items-center justify-center gap-6 text-center sm:h-72">\n      <CursorBubbleTarget label="explore">\n        <a\n          className="font-medium text-2xl underline underline-offset-4 sm:text-3xl"\n          href="#"\n        >\n          Our work\n        </a>\n      </CursorBubbleTarget>\n      <CursorBubbleTarget label="say hi">\n        <a className="text-muted-foreground text-sm" href="#">\n          Get in touch\n        </a>\n      </CursorBubbleTarget>\n    </CursorBubble>\n  );\n}\n\nexport default CursorBubbleExample;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/cursor-bubble/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-cursor-bubble",
+  },
   "demo-cursor-trail-reveal": {
     name: "demo-cursor-trail-reveal",
     description:
@@ -1947,6 +1994,58 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/border-trail",
   },
+  "cursor-bubble": {
+    name: "cursor-bubble",
+    description:
+      "A floating label that follows the cursor and elastic-pops into view over interactive targets, powered by GSAP.",
+    type: "registry:ui",
+    dependencies: ["gsap", "@gsap/react"],
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/hooks-use-prefers-reduced-motion"],
+    files: [
+      {
+        path: "registry/primitives/effects/cursor-bubble/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/cursor-bubble.tsx",
+        content:
+          '"use client";\n\nimport { useGSAP } from "@gsap/react";\nimport { cn } from "@/lib/utils";\nimport gsap from "gsap";\nimport {\n  type ComponentPropsWithoutRef,\n  createContext,\n  type ReactNode,\n  useContext,\n  useEffect,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\n\nconst DEFAULT_LABEL = "click";\nconst CURSOR_OFFSET_X = 13;\nconst CURSOR_OFFSET_Y = -43;\nconst FOLLOW_DURATION = 0.5;\nconst POP_IN_DURATION = 1.7;\nconst POP_IN_DELAY = 0.1;\nconst POP_OUT_DURATION = 0.3;\nconst RESTING_ROTATION = -30;\n\ninterface CursorBubbleContextValue {\n  hide: () => void;\n  show: (label: string) => void;\n}\n\nconst CursorBubbleContext = createContext<CursorBubbleContextValue | null>(\n  null\n);\n\nfunction useCursorBubbleContext() {\n  const context = useContext(CursorBubbleContext);\n\n  if (!context) {\n    throw new Error(\n      "CursorBubbleTarget must be used within a CursorBubble provider."\n    );\n  }\n\n  return context;\n}\n\nfunction useCoarsePointer() {\n  const [isCoarsePointer, setIsCoarsePointer] = useState(false);\n\n  useEffect(() => {\n    const mediaQuery = window.matchMedia("(pointer: coarse)");\n\n    const update = () => {\n      setIsCoarsePointer(mediaQuery.matches);\n    };\n\n    update();\n    mediaQuery.addEventListener("change", update);\n\n    return () => {\n      mediaQuery.removeEventListener("change", update);\n    };\n  }, []);\n\n  return isCoarsePointer;\n}\n\nexport interface CursorBubbleProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {\n  children?: ReactNode;\n}\n\nfunction CursorBubble({ children, className, ...props }: CursorBubbleProps) {\n  const bubbleRef = useRef<HTMLDivElement>(null);\n  const showRef = useRef<(label: string) => void>(() => undefined);\n  const hideRef = useRef<() => void>(() => undefined);\n  const prefersReducedMotion = usePrefersReducedMotion();\n  const isCoarsePointer = useCoarsePointer();\n  const disabled = prefersReducedMotion || isCoarsePointer;\n\n  useGSAP(\n    () => {\n      const bubble = bubbleRef.current;\n      if (!bubble || disabled) {\n        return;\n      }\n\n      const xTo = gsap.quickTo(bubble, "x", {\n        duration: FOLLOW_DURATION,\n        ease: "power3",\n      });\n      const yTo = gsap.quickTo(bubble, "y", {\n        duration: FOLLOW_DURATION,\n        ease: "power3",\n      });\n\n      gsap.set(bubble, { rotation: RESTING_ROTATION });\n\n      showRef.current = (label: string) => {\n        bubble.textContent = label;\n        gsap.killTweensOf(bubble, "opacity,scale,rotation");\n        gsap.to(bubble, {\n          duration: POP_IN_DURATION,\n          delay: POP_IN_DELAY,\n          ease: "elastic.out(1, 0.4)",\n          opacity: 1,\n          rotation: 0,\n          scale: 1,\n        });\n      };\n\n      hideRef.current = () => {\n        gsap.killTweensOf(bubble, "opacity,scale,rotation");\n        gsap.to(bubble, {\n          duration: POP_OUT_DURATION,\n          ease: "sine.inOut",\n          opacity: 1,\n          rotation: RESTING_ROTATION,\n          scale: 0,\n        });\n      };\n\n      const handlePointerMove = (event: PointerEvent) => {\n        xTo(event.clientX + CURSOR_OFFSET_X);\n        yTo(event.clientY + CURSOR_OFFSET_Y);\n      };\n\n      window.addEventListener("pointermove", handlePointerMove);\n\n      return () => {\n        window.removeEventListener("pointermove", handlePointerMove);\n        showRef.current = () => undefined;\n        hideRef.current = () => undefined;\n      };\n    },\n    { dependencies: [disabled] }\n  );\n\n  const contextValue = useMemo<CursorBubbleContextValue>(\n    () => ({\n      hide: () => hideRef.current(),\n      show: (label: string) => showRef.current(label),\n    }),\n    []\n  );\n\n  return (\n    <CursorBubbleContext.Provider value={contextValue}>\n      <div className={cn("contents", className)} {...props}>\n        {children}\n        {disabled ? null : (\n          <div\n            aria-hidden="true"\n            className="pointer-events-none fixed top-0 left-0 z-[100] origin-left scale-0 whitespace-nowrap rounded-[50px_50px_50px_0] bg-primary px-[7px] py-[5px] font-medium text-primary-foreground text-lg opacity-0 capitalize"\n            ref={bubbleRef}\n          />\n        )}\n      </div>\n    </CursorBubbleContext.Provider>\n  );\n}\n\nexport interface CursorBubbleTargetProps\n  extends Omit<ComponentPropsWithoutRef<"span">, "children"> {\n  children?: ReactNode;\n  /** Text shown in the bubble while hovering this target. @default "click" */\n  label?: string;\n}\n\nfunction CursorBubbleTarget({\n  children,\n  label = DEFAULT_LABEL,\n  ...props\n}: CursorBubbleTargetProps) {\n  const { hide, show } = useCursorBubbleContext();\n\n  return (\n    <span\n      onMouseEnter={() => show(label)}\n      onMouseLeave={hide}\n      {...props}\n    >\n      {children}\n    </span>\n  );\n}\n\nexport { CursorBubble, CursorBubbleTarget };',
+      },
+    ],
+    keywords: ["cursor", "bubble", "hover", "label", "gsap"],
+    inspiration: {
+      type: "reimplemented",
+      label: "Truus.co",
+      url: "https://www.truus.co/",
+      stack: "GSAP and React",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/cursor-bubble/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/cursor-bubble",
+  },
   "cursor-trail-reveal": {
     name: "cursor-trail-reveal",
     description:
@@ -2269,7 +2368,7 @@ export const index: Record<string, any> = {
   "magnetic-cards": {
     name: "magnetic-cards",
     description:
-      "A fanned stack of cards that spring away from the cursor with GSAP-driven, velocity-based physics.",
+      "A fanned stack of cards that fling away from the cursor on release, with GSAP InertiaPlugin easing each one back to rest.",
     type: "registry:ui",
     dependencies: ["gsap", "@gsap/react"],
     devDependencies: undefined,
@@ -2280,15 +2379,15 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/effects/magnetic-cards.tsx",
         content:
-          '"use client";\n\nimport { useGSAP } from "@gsap/react";\nimport { cn } from "@/lib/utils";\nimport gsap from "gsap";\nimport Image from "next/image";\nimport { type ComponentPropsWithoutRef, useMemo, useRef } from "react";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\n\nexport interface MagneticCardsItem {\n  alt?: string;\n  src: string;\n}\n\nexport interface MagneticCardsLayout {\n  rotation: number;\n  x: number;\n  y: number;\n}\n\nexport interface MagneticCardsProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {\n  /** Velocity friction applied to each card every frame (0-1). Lower settles faster, higher feels bouncier. @default 0.85 */\n  bounceFriction?: number;\n  /** Extra classes applied to each card wrapper. */\n  cardClassName?: string;\n  /** Smooths cursor velocity across frames (0-1). Higher feels smoother, less twitchy. @default 0.75 */\n  cursorSmoothing?: number;\n  /** Cards to render, in left-to-right stacking order. */\n  items: MagneticCardsItem[];\n  /** Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching `items.length`. */\n  layout?: MagneticCardsLayout[];\n  /** How much a pushed card drags its neighbors along, per index step away (0-1). @default 0.2 */\n  neighborInfluence?: number;\n  /** Cursor distance in pixels within which cards start reacting. @default 500 */\n  proximityRadius?: number;\n  /** How strongly cursor velocity pushes nearby cards. @default 10 */\n  pushForce?: number;\n  /** Spring stiffness pulling cards back to their rest position (0-1). @default 0.05 */\n  springStiffness?: number;\n  /** How much a card tilts relative to how far it\'s pushed. @default 0.1 */\n  tiltAmount?: number;\n}\n\nconst REMOTE_IMAGE_SRC = /^https?:\\/\\//;\n\nfunction isRemoteImageSrc(src: string): boolean {\n  return REMOTE_IMAGE_SRC.test(src);\n}\n\nconst DEFAULTS = {\n  bounceFriction: 0.85,\n  cursorSmoothing: 0.75,\n  neighborInfluence: 0.2,\n  proximityRadius: 500,\n  pushForce: 10,\n  springStiffness: 0.05,\n  tiltAmount: 0.1,\n} as const;\n\nconst LAYOUT_SPACING = 130;\nconst LAYOUT_ROTATION_STEP = 5;\nconst MIN_REACTIVE_SPEED = 0.5;\n\nfunction createDefaultLayout(count: number): MagneticCardsLayout[] {\n  const mid = (count - 1) / 2;\n  return Array.from({ length: count }, (_, index) => {\n    const offset = index - mid;\n    const sign = index % 2 === 0 ? 1 : -1;\n    return {\n      rotation: offset * LAYOUT_ROTATION_STEP + sign * 2.5,\n      x: offset * LAYOUT_SPACING,\n      y: sign * 10,\n    };\n  });\n}\n\ninterface CardPhysics {\n  el: HTMLDivElement;\n  r: number;\n  restR: number;\n  restX: number;\n  restY: number;\n  vr: number;\n  vx: number;\n  vy: number;\n  x: number;\n  y: number;\n}\n\nfunction staticCardStyle(rest: MagneticCardsLayout, index: number) {\n  return {\n    transform: `translate(-50%, -50%) translate(${rest.x}px, ${rest.y}px) rotate(${rest.rotation}deg)`,\n    zIndex: index,\n  };\n}\n\nfunction MagneticCards({\n  bounceFriction = DEFAULTS.bounceFriction,\n  cardClassName,\n  className,\n  cursorSmoothing = DEFAULTS.cursorSmoothing,\n  items,\n  layout,\n  neighborInfluence = DEFAULTS.neighborInfluence,\n  proximityRadius = DEFAULTS.proximityRadius,\n  pushForce = DEFAULTS.pushForce,\n  springStiffness = DEFAULTS.springStiffness,\n  tiltAmount = DEFAULTS.tiltAmount,\n  ...props\n}: MagneticCardsProps) {\n  const rootRef = useRef<HTMLDivElement>(null);\n  const containerRef = useRef<HTMLDivElement>(null);\n  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);\n  const prefersReducedMotion = usePrefersReducedMotion();\n\n  const resolvedLayout = useMemo(\n    () => layout ?? createDefaultLayout(items.length),\n    [layout, items.length]\n  );\n\n  useGSAP(\n    () => {\n      const root = rootRef.current;\n      const container = containerRef.current;\n      if (!(root && container) || prefersReducedMotion) {\n        return;\n      }\n\n      const cards: CardPhysics[] = resolvedLayout\n        .map((rest, index) => {\n          const el = cardRefs.current[index];\n          if (!el) {\n            return null;\n          }\n\n          gsap.set(el, {\n            rotation: rest.rotation,\n            x: rest.x,\n            xPercent: -50,\n            y: rest.y,\n            yPercent: -50,\n            zIndex: index,\n          });\n\n          return {\n            el,\n            r: rest.rotation,\n            restR: rest.rotation,\n            restX: rest.x,\n            restY: rest.y,\n            vr: 0,\n            vx: 0,\n            vy: 0,\n            x: rest.x,\n            y: rest.y,\n          };\n        })\n        .filter((card): card is CardPhysics => card !== null);\n\n      const cursor = { vx: 0, vy: 0, x: 0, y: 0 };\n      let prevCursorX = 0;\n      let prevCursorY = 0;\n\n      const handlePointerMove = (event: PointerEvent) => {\n        cursor.vx =\n          cursor.vx * cursorSmoothing +\n          (event.clientX - prevCursorX) * (1 - cursorSmoothing);\n        cursor.vy =\n          cursor.vy * cursorSmoothing +\n          (event.clientY - prevCursorY) * (1 - cursorSmoothing);\n        prevCursorX = cursor.x = event.clientX;\n        prevCursorY = cursor.y = event.clientY;\n      };\n\n      const handlePointerLeave = () => {\n        cursor.vx = 0;\n        cursor.vy = 0;\n      };\n\n      const calculatePushForce = (card: CardPhysics) => {\n        const speed = Math.hypot(cursor.vx, cursor.vy);\n        if (speed < MIN_REACTIVE_SPEED) {\n          return { fx: 0, fy: 0 };\n        }\n\n        const rect = container.getBoundingClientRect();\n        const cx = rect.left + rect.width / 2 + card.restX;\n        const cy = rect.top + rect.height / 2 + card.restY;\n        const dist = Math.hypot(cursor.x - cx, cursor.y - cy);\n\n        if (dist > proximityRadius) {\n          return { fx: 0, fy: 0 };\n        }\n\n        const weight = (1 - dist / proximityRadius) ** 3;\n\n        return {\n          fx: cursor.vx * pushForce * weight,\n          fy: cursor.vy * pushForce * weight,\n        };\n      };\n\n      const applyNeighborInfluence = (\n        forces: { fx: number; fy: number }[],\n        index: number\n      ) => {\n        let fx = forces[index]?.fx ?? 0;\n        let fy = forces[index]?.fy ?? 0;\n\n        for (const [j, force] of forces.entries()) {\n          if (j === index) {\n            continue;\n          }\n          const falloff = neighborInfluence ** Math.abs(j - index);\n          fx += force.fx * falloff;\n          fy += force.fy * falloff * 0.6;\n        }\n\n        return { fx, fy };\n      };\n\n      const tick = () => {\n        const forces = cards.map(calculatePushForce);\n\n        cards.forEach((card, index) => {\n          const { fx, fy } = applyNeighborInfluence(forces, index);\n\n          card.vx =\n            (card.vx + (card.restX + fx - card.x) * springStiffness) *\n            bounceFriction;\n          card.vy =\n            (card.vy + (card.restY + fy - card.y) * springStiffness) *\n            bounceFriction;\n          card.vr =\n            (card.vr +\n              (card.restR + fx * tiltAmount - card.r) * springStiffness) *\n            bounceFriction;\n\n          card.x += card.vx;\n          card.y += card.vy;\n          card.r += card.vr;\n\n          gsap.set(card.el, { rotation: card.r, x: card.x, y: card.y });\n        });\n      };\n\n      root.addEventListener("pointermove", handlePointerMove);\n      root.addEventListener("pointerleave", handlePointerLeave);\n      gsap.ticker.add(tick);\n\n      return () => {\n        root.removeEventListener("pointermove", handlePointerMove);\n        root.removeEventListener("pointerleave", handlePointerLeave);\n        gsap.ticker.remove(tick);\n      };\n    },\n    {\n      dependencies: [\n        items,\n        resolvedLayout,\n        prefersReducedMotion,\n        proximityRadius,\n        pushForce,\n        tiltAmount,\n        neighborInfluence,\n        springStiffness,\n        bounceFriction,\n        cursorSmoothing,\n      ],\n      scope: rootRef,\n    }\n  );\n\n  return (\n    <div className={cn("relative isolate", className)} ref={rootRef} {...props}>\n      <div\n        className="relative flex h-full w-full items-center justify-center"\n        ref={containerRef}\n      >\n        {items.map((item, index) => {\n          const rest = resolvedLayout[index] ?? { rotation: 0, x: 0, y: 0 };\n          return (\n            <div\n              className={cn(\n                "absolute top-1/2 left-1/2 aspect-[3/4] w-40 overflow-hidden rounded-xl shadow-xl",\n                !prefersReducedMotion && "will-change-transform",\n                cardClassName\n              )}\n              key={item.src}\n              ref={(el) => {\n                cardRefs.current[index] = el;\n              }}\n              style={\n                prefersReducedMotion ? staticCardStyle(rest, index) : undefined\n              }\n            >\n              <Image\n                alt={item.alt ?? ""}\n                className="pointer-events-none object-cover"\n                draggable={false}\n                fill\n                sizes="160px"\n                src={item.src}\n                unoptimized={isRemoteImageSrc(item.src)}\n              />\n            </div>\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n\nexport { MagneticCards };',
+          '"use client";\n\nimport { useGSAP } from "@gsap/react";\nimport { cn } from "@/lib/utils";\nimport gsap from "gsap";\nimport { InertiaPlugin } from "gsap/InertiaPlugin";\nimport Image from "next/image";\nimport { type ComponentPropsWithoutRef, useMemo, useRef } from "react";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\n\ngsap.registerPlugin(InertiaPlugin);\n\nexport interface MagneticCardsItem {\n  alt?: string;\n  src: string;\n}\n\nexport interface MagneticCardsLayout {\n  rotation: number;\n  x: number;\n  y: number;\n}\n\nexport interface MagneticCardsProps\n  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {\n  /** Extra classes applied to each card wrapper. */\n  cardClassName?: string;\n  /** Cards to render, in left-to-right stacking order. */\n  items: MagneticCardsItem[];\n  /** Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching `items.length`. */\n  layout?: MagneticCardsLayout[];\n  /** How much a card spins on release, scaled from horizontal cursor speed while hovering it. @default 1.5 */\n  rotationVelocityMultiplier?: number;\n  /** How far a card flies on release, scaled from cursor speed while hovering it. @default 20 */\n  velocityMultiplier?: number;\n}\n\nconst REMOTE_IMAGE_SRC = /^https?:\\/\\//;\n\nfunction isRemoteImageSrc(src: string): boolean {\n  return REMOTE_IMAGE_SRC.test(src);\n}\n\nconst DEFAULTS = {\n  rotationVelocityMultiplier: 1.5,\n  velocityMultiplier: 20,\n} as const;\n\nconst LAYOUT_SPACING = 130;\nconst LAYOUT_ROTATION_STEP = 5;\n\nfunction createDefaultLayout(count: number): MagneticCardsLayout[] {\n  const mid = (count - 1) / 2;\n  return Array.from({ length: count }, (_, index) => {\n    const offset = index - mid;\n    const sign = index % 2 === 0 ? 1 : -1;\n    return {\n      rotation: offset * LAYOUT_ROTATION_STEP + sign * 2.5,\n      x: offset * LAYOUT_SPACING,\n      y: sign * 10,\n    };\n  });\n}\n\nfunction staticCardStyle(rest: MagneticCardsLayout, index: number) {\n  return {\n    transform: `translate(-50%, -50%) translate(${rest.x}px, ${rest.y}px) rotate(${rest.rotation}deg)`,\n    zIndex: index,\n  };\n}\n\n/** Tracks cursor speed while over a single card and flings it back to rest with GSAP\'s InertiaPlugin on release — same per-card model as Truus.co\'s MotionCards. */\nfunction attachCardInertia(\n  el: HTMLDivElement,\n  rest: MagneticCardsLayout,\n  velocityMultiplier: number,\n  rotationVelocityMultiplier: number\n): () => void {\n  let lastX = 0;\n  let lastY = 0;\n  let speedX = 0;\n  let speedY = 0;\n\n  const onMove = (event: MouseEvent) => {\n    speedX = event.clientX - lastX;\n    speedY = event.clientY - lastY;\n    lastX = event.clientX;\n    lastY = event.clientY;\n  };\n\n  const onEnter = (event: MouseEvent) => {\n    speedX = 0;\n    speedY = 0;\n    lastX = event.clientX;\n    lastY = event.clientY;\n  };\n\n  const onLeave = () => {\n    gsap.to(el, {\n      inertia: {\n        rotation: {\n          end: rest.rotation,\n          velocity: speedX * rotationVelocityMultiplier,\n        },\n        x: { end: rest.x, velocity: speedX * velocityMultiplier },\n        y: { end: rest.y, velocity: speedY * velocityMultiplier },\n      },\n    });\n  };\n\n  el.addEventListener("mousemove", onMove);\n  el.addEventListener("mouseenter", onEnter);\n  el.addEventListener("mouseleave", onLeave);\n\n  return () => {\n    el.removeEventListener("mousemove", onMove);\n    el.removeEventListener("mouseenter", onEnter);\n    el.removeEventListener("mouseleave", onLeave);\n  };\n}\n\nfunction MagneticCards({\n  cardClassName,\n  className,\n  items,\n  layout,\n  rotationVelocityMultiplier = DEFAULTS.rotationVelocityMultiplier,\n  velocityMultiplier = DEFAULTS.velocityMultiplier,\n  ...props\n}: MagneticCardsProps) {\n  const rootRef = useRef<HTMLDivElement>(null);\n  const containerRef = useRef<HTMLDivElement>(null);\n  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);\n  const prefersReducedMotion = usePrefersReducedMotion();\n\n  const resolvedLayout = useMemo(\n    () => layout ?? createDefaultLayout(items.length),\n    [layout, items.length]\n  );\n\n  useGSAP(\n    () => {\n      const root = rootRef.current;\n      if (!root || prefersReducedMotion) {\n        return;\n      }\n\n      const cleanups = resolvedLayout.flatMap((rest, index) => {\n        const el = cardRefs.current[index];\n        if (!el) {\n          return [];\n        }\n\n        gsap.set(el, {\n          rotation: rest.rotation,\n          x: rest.x,\n          xPercent: -50,\n          y: rest.y,\n          yPercent: -50,\n          zIndex: index,\n        });\n\n        return [\n          attachCardInertia(\n            el,\n            rest,\n            velocityMultiplier,\n            rotationVelocityMultiplier\n          ),\n        ];\n      });\n\n      return () => {\n        for (const cleanup of cleanups) {\n          cleanup();\n        }\n      };\n    },\n    {\n      dependencies: [\n        items,\n        resolvedLayout,\n        prefersReducedMotion,\n        velocityMultiplier,\n        rotationVelocityMultiplier,\n      ],\n      scope: rootRef,\n    }\n  );\n\n  return (\n    <div className={cn("relative isolate", className)} ref={rootRef} {...props}>\n      <div\n        className="relative flex h-full w-full items-center justify-center"\n        ref={containerRef}\n      >\n        {items.map((item, index) => {\n          const rest = resolvedLayout[index] ?? { rotation: 0, x: 0, y: 0 };\n          return (\n            <div\n              className={cn(\n                "absolute top-1/2 left-1/2 aspect-[3/4] w-40 overflow-hidden rounded-xl shadow-xl",\n                !prefersReducedMotion && "will-change-transform",\n                cardClassName\n              )}\n              key={item.src}\n              ref={(el) => {\n                cardRefs.current[index] = el;\n              }}\n              style={\n                prefersReducedMotion ? staticCardStyle(rest, index) : undefined\n              }\n            >\n              <Image\n                alt={item.alt ?? ""}\n                className="pointer-events-none object-cover"\n                draggable={false}\n                fill\n                sizes="160px"\n                src={item.src}\n                unoptimized={isRemoteImageSrc(item.src)}\n              />\n            </div>\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n\nexport { MagneticCards };',
       },
     ],
-    keywords: ["magnetic", "cards", "cursor", "physics", "spring", "gsap"],
+    keywords: ["magnetic", "cards", "cursor", "inertia", "gsap"],
     inspiration: {
       type: "reimplemented",
-      label: "Spencer Gabor",
-      url: "https://spencergabor.work/",
-      stack: "GSAP and React",
+      label: "Truus.co",
+      url: "https://www.truus.co/",
+      stack: "GSAP InertiaPlugin and React",
     },
     component: (() => {
       const LazyComp = React.lazy(async () => {

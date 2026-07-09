@@ -1,0 +1,83 @@
+---
+title: Cursor Bubble
+description: A floating label that follows the cursor and elastic-pops into view over interactive targets, powered by GSAP.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-cursor-bubble" description="Move your cursor over the links below — a floating label pops in with the target's text." />
+
+`CursorBubble` follows the pointer with `gsap.quickTo` (a lightweight per-frame tween, cheaper than re-running a full tween every `mousemove`), offset from the cursor so it reads like a little tag trailing behind it. Each `CursorBubbleTarget` reports its own label to the bubble on hover, which pops in with an elastic ease and collapses back to a dot-sized, rotated resting state on leave — the same feel as [Truus.co](https://www.truus.co/)'s footer link cursor.
+
+## Installation
+
+<ComponentInstallation name="cursor-bubble" />
+
+## Usage
+
+```tsx
+import {
+  CursorBubble,
+  CursorBubbleTarget,
+} from '@/components/sora-ui/effects/cursor-bubble';
+
+export default function Page() {
+  return (
+    <CursorBubble>
+      <CursorBubbleTarget label="say hi">
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </CursorBubbleTarget>
+    </CursorBubble>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Page content — CursorBubble renders as display: contents by default, so it adds no layout of its own.',
+      type: 'ReactNode',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element. Override the default contents display to give the bubble a positioned container.',
+      type: 'string',
+    },
+  }}
+/>
+
+### CursorBubbleTarget
+
+<TypeTable
+  type={{
+    label: {
+      description: 'Text shown in the bubble while hovering this target.',
+      type: 'string',
+      default: '"click"',
+    },
+    children: {
+      description: 'The interactive element (link, button, etc.) to wrap.',
+      type: 'ReactNode',
+    },
+    className: {
+      description: 'Additional class names merged onto the target span.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Mount one `CursorBubble` near the root of a page (or layout) and wrap individual links, logos, or buttons in `CursorBubbleTarget` to give them a contextual hover hint — "say hi", "watch reel", "to home" — instead of relying on the browser's default cursor alone. It reads best on desktop marketing/portfolio pages with a handful of key links, not dense UI with many small targets.
+
+Only one bubble should be mounted per page; multiple `CursorBubble` providers will each attach their own `pointermove` listener and fight over the same targets.
+
+## Accessibility
+
+The bubble is `aria-hidden` and `pointer-events: none` — it never intercepts clicks or enters the tab order, and screen readers ignore it entirely. It only activates on pointer devices: on touch/coarse pointers it renders nothing, and when `prefers-reduced-motion: reduce` is set it also doesn't render, watched live via `usePrefersReducedMotion` so toggling the setting mid-session updates immediately.
+
+## Credits
+
+<ComponentCredits name="cursor-bubble" />
