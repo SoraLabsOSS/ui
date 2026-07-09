@@ -4,8 +4,18 @@ import { checkRateLimit } from "@/lib/ratelimit";
 const BOOKMARK_PAGE_LIMIT = 5;
 const BOOKMARK_PAGE_WINDOW = "30 s" as const;
 
+/** FNV-1a 32-bit; only needs to be a compact, deterministic key, not cryptographic. */
+function hashUrl(url: string): string {
+  let hash = 0x81_1c_9d_c5;
+  for (let i = 0; i < url.length; i++) {
+    hash ^= url.charCodeAt(i);
+    hash = Math.imul(hash, 0x01_00_01_93);
+  }
+  return (hash >>> 0).toString(16);
+}
+
 function bookmarkPageIdentifier(userId: string, url: string): string {
-  return `bookmark:${userId}:${url}`;
+  return `bookmark:${userId}:${hashUrl(url)}`;
 }
 
 export function checkBookmarkPageRateLimit(userId: string, url: string) {

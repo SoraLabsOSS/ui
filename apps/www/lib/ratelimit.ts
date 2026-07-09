@@ -4,6 +4,27 @@ import redis from "./redis";
 const DEFAULT_LIMIT = 100;
 const DEFAULT_WINDOW: Duration = "60 s";
 
+/** Upstash's ephemeralCache never evicts entries on its own; cap it so high-cardinality identifiers (e.g. per-IP) can't grow it unbounded over a warm isolate's lifetime. */
+const MAX_EPHEMERAL_CACHE_ENTRIES = 5000;
+
+function createBoundedEphemeralCache(): Map<string, number> {
+  const cache = new Map<string, number>();
+  const set = cache.set.bind(cache);
+  cache.set = (key: string, value: number) => {
+    // Re-inserting an existing key doesn't move it in Map's iteration order, so
+    // delete first to bump it to the most-recently-used end before re-adding.
+    cache.delete(key);
+    if (cache.size >= MAX_EPHEMERAL_CACHE_ENTRIES) {
+      const oldestKey = cache.keys().next().value;
+      if (oldestKey !== undefined) {
+        cache.delete(oldestKey);
+      }
+    }
+    return set(key, value);
+  };
+  return cache;
+}
+
 /** One `Ratelimit` per (limit, window); each keeps a single `Map` for its lifetime (not recreated per request). */
 const ratelimitByConfig = new Map<string, Ratelimit>();
 
@@ -16,8 +37,8 @@ function getRatelimit(limit: number, window: Duration): Ratelimit {
       redis,
       limiter: Ratelimit.slidingWindow(limit, window),
       prefix: isDefault ? "@sora/ratelimit" : `@sora/ratelimit:${key}`,
-      // Same Map reused for this config across requests in a warm isolate (Cloudflare Worker).
-      ephemeralCache: new Map<string, number>(),
+      // Same Map reused for this config across requests on a warm Vercel serverless instance.
+      ephemeralCache: createBoundedEphemeralCache(),
     });
     ratelimitByConfig.set(key, instance);
   }

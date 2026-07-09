@@ -30,7 +30,10 @@ function getClientIp(request: NextRequest): string {
   return (
     request.headers.get("x-vercel-forwarded-for") ??
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    "unknown"
+    // No IP header (shouldn't happen behind Vercel's edge in production):
+    // give each such request its own bucket instead of lumping unrelated
+    // clients into a single shared "unknown" identifier.
+    `unknown:${crypto.randomUUID()}`
   );
 }
 
