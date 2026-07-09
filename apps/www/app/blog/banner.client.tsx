@@ -4,7 +4,7 @@ import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { motion, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PlusSeparator } from "@/components/blog/plus-separator";
 
 const GrainGradient = dynamic(
@@ -16,9 +16,9 @@ const GrainGradient = dynamic(
 
 const BANNER_HEIGHT = 300;
 const BANNER_READY_DELAY_MS = 400;
-/** Buffer for dynamic import + async WebGL uniform init before fade. */
-const SHADER_PAINT_BUFFER_MS = 120;
 const BANNER_FADE_DURATION_S = 1.4;
+/** Safety net if shader mount detection misses. */
+const SHADER_REVEAL_FALLBACK_MS = 1800;
 
 function supportsWebGL2() {
   try {
@@ -43,12 +43,23 @@ function waitForNextPaint(callback: () => void) {
   };
 }
 
+function isShaderPainted(container: HTMLElement) {
+  return Boolean(container.querySelector("[data-paper-shader] canvas"));
+}
+
 export function BlogHeaderBanner() {
   const [showShaders, setShowShaders] = useState(false);
   const [isFallbackVisible, setIsFallbackVisible] = useState(false);
   const [isShaderVisible, setIsShaderVisible] = useState(false);
+  const shaderContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    import("@paper-design/shaders-react").catch(() => {
+      // Preload only; runtime path handles missing WebGL separately.
+    });
+  }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -66,13 +77,17 @@ export function BlogHeaderBanner() {
 
   useEffect(() => {
     if (!showShaders) {
+      setIsShaderVisible(false);
       return;
     }
 
     let cancelled = false;
+    let retryRaf = 0;
     let cancelPaintWait: (() => void) | undefined;
+    let observer: MutationObserver | undefined;
+    let fallbackTimer = 0;
 
-    const timer = window.setTimeout(() => {
+    const reveal = () => {
       if (cancelled) {
         return;
       }
@@ -82,12 +97,47 @@ export function BlogHeaderBanner() {
           setIsShaderVisible(true);
         }
       });
-    }, SHADER_PAINT_BUFFER_MS);
+    };
+
+    const attach = (container: HTMLElement) => {
+      if (isShaderPainted(container)) {
+        reveal();
+        return;
+      }
+
+      observer = new MutationObserver(() => {
+        if (isShaderPainted(container)) {
+          observer?.disconnect();
+          reveal();
+        }
+      });
+      observer.observe(container, { childList: true, subtree: true });
+
+      fallbackTimer = window.setTimeout(() => {
+        if (!cancelled) {
+          reveal();
+        }
+      }, SHADER_REVEAL_FALLBACK_MS);
+    };
+
+    const waitForContainer = () => {
+      const container = shaderContainerRef.current;
+      if (!container) {
+        retryRaf = window.requestAnimationFrame(waitForContainer);
+        return;
+      }
+
+      attach(container);
+    };
+
+    waitForContainer();
 
     return () => {
       cancelled = true;
-      window.clearTimeout(timer);
+      window.cancelAnimationFrame(retryRaf);
+      window.clearTimeout(fallbackTimer);
       cancelPaintWait?.();
+      observer?.disconnect();
     };
   }, [showShaders]);
 
@@ -110,29 +160,31 @@ export function BlogHeaderBanner() {
           <motion.div
             animate={{ opacity: isShaderVisible ? 1 : 0 }}
             className="absolute inset-0 h-[300px] w-full"
-            initial={false}
+            initial={{ opacity: 0 }}
             transition={fadeTransition}
           >
-            <GrainGradient
-              className="w-full bg-background/20"
-              colorBack="#ffffff00"
-              colors={["#fb460d", "#c9784a", "#e8ddd6"]}
-              height={BANNER_HEIGHT}
-              intensity={0.15}
-              noise={isMobile ? 0.25 : 0.5}
-              offsetX={1}
-              offsetY={0.6}
-              scale={isMobile ? 1 : 2.5}
-              shape="wave"
-              softness={0.7}
-              speed={0.7}
-            />
+            <div className="h-full w-full" ref={shaderContainerRef}>
+              <GrainGradient
+                className="w-full bg-background/20"
+                colorBack="#ffffff00"
+                colors={["#fb460d", "#c9784a", "#e8ddd6"]}
+                height={BANNER_HEIGHT}
+                intensity={0.15}
+                noise={isMobile ? 0.25 : 0.5}
+                offsetX={1}
+                offsetY={0.6}
+                scale={isMobile ? 1 : 2.5}
+                shape="wave"
+                softness={0.7}
+                speed={0.7}
+              />
+            </div>
           </motion.div>
         ) : (
           <motion.div
             animate={{ opacity: isFallbackVisible ? 1 : 0 }}
             className="absolute inset-0 h-[300px] w-full bg-muted/25"
-            initial={false}
+            initial={{ opacity: 0 }}
             transition={fadeTransition}
           />
         )}
