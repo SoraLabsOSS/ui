@@ -1,3 +1,6 @@
+/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: The target wraps its own interactive child; the span only needs hover affordances. */
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: Same as above — hover-only, no keyboard/click semantics of its own. */
+
 "use client";
 
 import { useGSAP } from "@gsap/react";
@@ -68,10 +71,17 @@ function useCoarsePointer() {
 
 export interface CursorBubbleProps
   extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+  /** Extra classes applied to the floating bubble itself (color, padding, shape, etc). */
+  bubbleClassName?: string;
   children?: ReactNode;
 }
 
-function CursorBubble({ children, className, ...props }: CursorBubbleProps) {
+function CursorBubble({
+  bubbleClassName,
+  children,
+  className,
+  ...props
+}: CursorBubbleProps) {
   const bubbleRef = useRef<HTMLDivElement>(null);
   const showRef = useRef<(label: string) => void>(() => undefined);
   const hideRef = useRef<() => void>(() => undefined);
@@ -152,7 +162,10 @@ function CursorBubble({ children, className, ...props }: CursorBubbleProps) {
         {disabled ? null : (
           <div
             aria-hidden="true"
-            className="pointer-events-none fixed top-0 left-0 z-[100] origin-left scale-0 whitespace-nowrap rounded-[50px_50px_50px_0] bg-primary px-[7px] py-[5px] font-medium text-lg text-primary-foreground capitalize opacity-0"
+            className={cn(
+              "pointer-events-none fixed top-0 left-0 z-100 origin-left scale-0 whitespace-nowrap rounded-[50px_50px_50px_0] bg-primary px-[7px] py-[5px] font-medium text-lg text-primary-foreground capitalize opacity-0",
+              bubbleClassName
+            )}
             ref={bubbleRef}
           />
         )}
