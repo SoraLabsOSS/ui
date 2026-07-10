@@ -1,0 +1,177 @@
+---
+title: Inline Testimonials
+description: A flowing quote stream where each avatar reveals its author on hover, with Motion fading and blurring the rest.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-inline-testimonials" description="Hover any avatar to reveal the author while the rest of the quote stream blurs out." />
+
+## Installation
+
+<ComponentInstallation name="inline-testimonials" />
+
+## Usage
+
+```tsx
+import {
+  InlineTestimonials,
+  type Testimonial,
+} from '@/components/sora-ui/disclosure/inline-testimonials';
+
+const testimonials: Testimonial[] = [
+  {
+    id: '1',
+    text: 'Undoubtedly one of the best resources in the world.',
+    author: {
+      name: 'Benji Taylor',
+      role: 'Head of Design @Base',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces',
+    },
+  },
+];
+
+export default function Page() {
+  return <InlineTestimonials testimonials={testimonials} />;
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    testimonials: {
+      description: 'Quotes to render inline. Each entry needs an id, text, and author (name, role, avatar URL or custom ReactNode).',
+      type: 'Testimonial[]',
+    },
+    avatarSize: {
+      description: 'Avatar diameter in pixels.',
+      type: 'number',
+      default: '32',
+    },
+    blurAmount: {
+      description: 'Blur amount applied to non-hovered items, in pixels.',
+      type: 'number',
+      default: '5',
+    },
+    blurOpacity: {
+      description: 'Opacity of non-hovered items (0–1).',
+      type: 'number',
+      default: '0.25',
+    },
+    fontSize: {
+      description: 'Font size of the quote stream in pixels.',
+      type: 'number',
+      default: '30',
+    },
+    alternate: {
+      description: 'Alternating opacity pattern applied across items: { pattern?: boolean; opacity?: number }.',
+      type: 'InlineTestimonialsAlternateConfig',
+      default: '{ pattern: true, opacity: 0.7 }',
+    },
+    interaction: {
+      description: 'Which interactions reveal the author label — hover only, focus only (keyboard-accessible), or both.',
+      type: '"hover" | "focus" | "both"',
+      default: '"hover"',
+    },
+    hoveredId: {
+      description: 'Controlled id of the currently hovered/active testimonial.',
+      type: 'string | null',
+    },
+    defaultHoveredId: {
+      description: 'Uncontrolled initial hovered/active testimonial id.',
+      type: 'string | null',
+    },
+    onHoveredIdChange: {
+      description: 'Called whenever the hovered/active testimonial id changes, controlled or uncontrolled.',
+      type: '(id: string | null) => void',
+    },
+    renderAvatar: {
+      description: 'Overrides avatar rendering entirely; receives the testimonial and resolved size. Falls back to next/image for string avatars, or renders the avatar field directly if it is a ReactNode.',
+      type: '(testimonial: Testimonial, size: number) => ReactNode',
+    },
+    label: {
+      description: 'Styling and motion for the hover-revealed author label — see InlineTestimonialsLabelConfig below.',
+      type: 'InlineTestimonialsLabelConfig',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element.',
+      type: 'string',
+    },
+    classNames: {
+      description: 'Class names for individual parts: root, item, avatar, label, name, role.',
+      type: 'InlineTestimonialsClassNames',
+    },
+  }}
+/>
+
+### `InlineTestimonialsLabelConfig`
+
+<TypeTable
+  type={{
+    accentColor: {
+      description: 'CSS color for the author name text.',
+      type: 'string',
+      default: '"#f97316"',
+    },
+    nameFontSize: {
+      description: 'Font size of the author name, in pixels.',
+      type: 'number',
+      default: '12',
+    },
+    roleFontSize: {
+      description: 'Font size of the author role, in pixels.',
+      type: 'number',
+      default: '9',
+    },
+    roleColor: {
+      description: 'CSS color for the author role text.',
+      type: 'string',
+      default: '"var(--muted-foreground, #6b7280)"',
+    },
+    roleLetterSpacing: {
+      description: 'Letter spacing of the author role text.',
+      type: 'string',
+      default: '"0.1em"',
+    },
+    roleUppercase: {
+      description: 'Uppercase the author role text.',
+      type: 'boolean',
+      default: 'true',
+    },
+    offsetX: {
+      description: "Horizontal offset from the avatar's left edge, in pixels.",
+      type: 'number',
+      default: 'avatarSize / 2',
+    },
+    offsetY: {
+      description: 'Vertical offset above the avatar.',
+      type: 'string',
+      default: '"150%"',
+    },
+    slideX: {
+      description: 'Horizontal slide distance (px) for the reveal/exit animation.',
+      type: 'number',
+      default: '-6',
+    },
+    transitionDuration: {
+      description: 'Duration of the reveal/exit animation, in seconds.',
+      type: 'number',
+      default: '0.16',
+    },
+    ease: {
+      description: 'Easing for the reveal/exit animation.',
+      type: 'Easing',
+      default: '"easeOut"',
+    },
+  }}
+/>
+
+## Accessibility
+
+By default only mouse hover reveals the author label (`interaction="hover"`), matching a decorative quote stream. Set `interaction="focus"` or `interaction="both"` to also attach `tabIndex` and `onFocus`/`onBlur` to each item, making the label reachable by keyboard (Tab) and screen-reader focus.
+
+When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` disables the label's slide-in animation and the blur filter on dimmed items — only a plain opacity fade remains. No extra configuration needed.
+
+The quote text is always in the DOM. The visible author label only mounts on hover/focus (via `AnimatePresence`), so each item also renders a `sr-only` "— Name, Role" string right after its quote — screen readers get the attribution unconditionally, without needing to trigger the hover/focus reveal.

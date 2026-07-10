@@ -30,6 +30,34 @@
       ]
     },
     {
+      "name": "demo-expandable-tabs",
+      "type": "registry:ui",
+      "title": "Expandable Tabs Demo",
+      "description": "Pill tab bar expanding into a floating profile/notifications/settings panel.",
+      "registryDependencies": ["@soralabs/expandable-tabs"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/disclosure/expandable-tabs/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/disclosure/expandable-tabs.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-inline-testimonials",
+      "type": "registry:ui",
+      "title": "Inline Testimonials Demo",
+      "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
+      "registryDependencies": ["@soralabs/inline-testimonials"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/disclosure/inline-testimonials.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-border-trail",
       "type": "registry:ui",
       "title": "Border Trail Demo",
@@ -340,6 +368,20 @@
           "path": "registry/demo/primitives/radix/bottom-sheet/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/radix/bottom-sheet.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-dia-text-reveal",
+      "type": "registry:ui",
+      "title": "Dia Text Reveal Demo",
+      "description": "Gradient sweep revealing a headline with a looping chromatic wash.",
+      "registryDependencies": ["@soralabs/dia-text-reveal"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/dia-text-reveal.tsx"
         }
       ]
     },
@@ -715,6 +757,36 @@
           "stack": "Motion and React"
         }
       }
+    },
+    {
+      "name": "expandable-tabs",
+      "type": "registry:ui",
+      "title": "Expandable Tabs",
+      "description": "A pill-shaped tab bar that expands into a floating panel, with Motion driving the shell, label, and content transitions.",
+      "dependencies": ["motion", "lucide-react", "react-use-measure"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/disclosure/expandable-tabs/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/disclosure/expandable-tabs.tsx"
+        }
+      ]
+    },
+    {
+      "name": "inline-testimonials",
+      "type": "registry:ui",
+      "title": "Inline Testimonials",
+      "description": "A flowing quote stream where each avatar reveals its author on hover, with Motion fading and blurring the rest.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/disclosure/inline-testimonials/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/disclosure/inline-testimonials.tsx"
+        }
+      ]
     },
     {
       "name": "border-trail",
@@ -1132,6 +1204,29 @@
           "label": "Vaul",
           "url": "https://vaul.emilkowal.ski",
           "stack": "Radix Dialog and Motion"
+        }
+      }
+    },
+    {
+      "name": "dia-text-reveal",
+      "type": "registry:ui",
+      "title": "Dia Text Reveal",
+      "description": "A gradient sweep that reveals text with a chromatic wash, powered by Motion.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/dia-text-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/dia-text-reveal.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Dia Text",
+          "url": "https://iconiqui.com/texts/dia-text",
+          "stack": "Motion and React"
         }
       }
     },

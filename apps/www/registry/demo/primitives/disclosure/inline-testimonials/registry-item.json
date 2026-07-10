@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-inline-testimonials",
+  "type": "registry:ui",
+  "title": "Inline Testimonials Demo",
+  "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
+  "registryDependencies": ["inline-testimonials"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/disclosure/inline-testimonials.tsx"
+    }
+  ]
+}

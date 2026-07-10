@@ -3,6 +3,7 @@
   "pages": [
     "cursor-trail-reveal",
     "text-reveal-box",
-    "infinite-scrolling-images"
+    "infinite-scrolling-images",
+    "sticky-scroll-cards"
   ]
 }

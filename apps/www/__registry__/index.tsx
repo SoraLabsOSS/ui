@@ -69,6 +69,100 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-accordion",
   },
+  "demo-expandable-tabs": {
+    name: "demo-expandable-tabs",
+    description:
+      "Pill tab bar expanding into a floating profile/notifications/settings panel.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["expandable-tabs"],
+    files: [
+      {
+        path: "registry/demo/primitives/disclosure/expandable-tabs/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/disclosure/expandable-tabs.tsx",
+        content:
+          '"use client";\n\nimport {\n  BadgeCheck,\n  Brush,\n  CalendarClock,\n  ChartSpline,\n  ChevronRight,\n  ClipboardCheck,\n  CloudUpload,\n  FileText,\n  Gauge,\n  GitBranch,\n  Images,\n  Inbox,\n  type LucideIcon,\n  Megaphone,\n  MessageCircle,\n  PackageOpen,\n  RefreshCw,\n  Rocket,\n  Siren,\n  SwatchBook,\n  UploadCloud,\n  Users,\n  Webhook,\n  Workflow,\n} from "lucide-react";\nimport {\n  type ExpandableTab,\n  ExpandableTabs,\n} from "@/components/sora-ui/disclosure/expandable-tabs";\n\nfunction Row({ icon: Icon, label }: { icon: LucideIcon; label: string }) {\n  return (\n    <button\n      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left font-medium text-foreground text-sm transition-colors hover:bg-muted"\n      type="button"\n    >\n      <Icon className="h-4 w-4 text-muted-foreground" />\n      <span className="flex-1">{label}</span>\n      <ChevronRight className="h-4 w-4 text-muted-foreground" />\n    </button>\n  );\n}\n\nfunction Menu({ rows }: { rows: { icon: LucideIcon; label: string }[] }) {\n  return (\n    <div className="flex w-68.5 flex-col gap-0.5">\n      {rows.map((row) => (\n        <Row icon={row.icon} key={row.label} label={row.label} />\n      ))}\n    </div>\n  );\n}\n\nconst TABS: ExpandableTab[] = [\n  {\n    id: "launch",\n    label: "Launch",\n    icon: Rocket,\n    content: (\n      <Menu\n        rows={[\n          { icon: FileText, label: "Release Brief" },\n          { icon: ClipboardCheck, label: "Launch Checklist" },\n          { icon: Megaphone, label: "Campaign Notes" },\n          { icon: CalendarClock, label: "Rollout Calendar" },\n          { icon: CloudUpload, label: "Ship Build" },\n        ]}\n      />\n    ),\n  },\n  {\n    id: "inbox",\n    label: "Inbox",\n    icon: Inbox,\n    content: (\n      <Menu\n        rows={[\n          { icon: MessageCircle, label: "Client Feedback" },\n          { icon: Users, label: "Team Requests" },\n          { icon: BadgeCheck, label: "Approval Notes" },\n        ]}\n      />\n    ),\n  },\n  {\n    id: "flows",\n    label: "Flows",\n    icon: Workflow,\n    content: (\n      <Menu\n        rows={[\n          { icon: GitBranch, label: "Trigger Map" },\n          { icon: Webhook, label: "Webhook Runs" },\n          { icon: RefreshCw, label: "Retry Queue" },\n        ]}\n      />\n    ),\n  },\n  {\n    id: "assets",\n    label: "Assets",\n    icon: PackageOpen,\n    content: (\n      <Menu\n        rows={[\n          { icon: SwatchBook, label: "Brand Kit" },\n          { icon: Images, label: "Mockup Library" },\n          { icon: Brush, label: "Design Tokens" },\n          { icon: UploadCloud, label: "Export Queue" },\n        ]}\n      />\n    ),\n  },\n  {\n    id: "status",\n    label: "Status",\n    icon: ChartSpline,\n    content: (\n      <Menu\n        rows={[\n          { icon: Gauge, label: "Activation" },\n          { icon: ChartSpline, label: "Conversion" },\n          { icon: Siren, label: "Incidents" },\n        ]}\n      />\n    ),\n  },\n];\n\nexport default function ExpandableTabsExample() {\n  return (\n    <div className="flex min-h-88 w-full items-end justify-center bg-muted/50 p-8 dark:bg-muted/30">\n      <ExpandableTabs\n        classNames={{\n          content: "bg-card/90",\n          toolbar: "border border-border bg-card shadow-sm",\n        }}\n        tabs={TABS}\n      />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/disclosure/expandable-tabs/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-expandable-tabs",
+  },
+  "demo-inline-testimonials": {
+    name: "demo-inline-testimonials",
+    description:
+      "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["inline-testimonials"],
+    files: [
+      {
+        path: "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/disclosure/inline-testimonials.tsx",
+        content:
+          '"use client";\n\nimport {\n  InlineTestimonials,\n  type Testimonial,\n} from "@/components/sora-ui/disclosure/inline-testimonials";\n\nconst TESTIMONIALS: Testimonial[] = [\n  {\n    id: "1",\n    text: "Finally a registry that treats animation as a first-class citizen.",\n    author: {\n      name: "Jordan Lee",\n      role: "Staff Engineer @Vercel",\n      avatar:\n        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=faces",\n    },\n  },\n  {\n    id: "2",\n    text: "Shipped our marketing site in a weekend — the motion primitives just work.",\n    author: {\n      name: "Maya Chen",\n      role: "Founder @Orbit",\n      avatar:\n        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=faces",\n    },\n  },\n  {\n    id: "3",\n    text: "Copy-paste, tweak tokens, ship. No black-box npm package in the way.",\n    author: {\n      name: "Sofia Alvarez",\n      role: "Product Designer @Linear",\n      avatar:\n        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop&crop=faces",\n    },\n  },\n  {\n    id: "4",\n    text: "Looks editorial, feels interactive — exactly what our landing needed.",\n    author: {\n      name: "Elena Rossi",\n      role: "Brand Lead @Figma",\n      avatar:\n        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces",\n    },\n  },\n];\n\nexport default function InlineTestimonialsExample() {\n  return (\n    <div className="mx-auto w-full max-w-3xl px-4 py-10">\n      <InlineTestimonials testimonials={TESTIMONIALS} />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/disclosure/inline-testimonials/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-inline-testimonials",
+  },
   "demo-border-trail": {
     name: "demo-border-trail",
     description: "Card with animated border spotlight.",
@@ -975,6 +1069,53 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-bottom-sheet",
+  },
+  "demo-dia-text-reveal": {
+    name: "demo-dia-text-reveal",
+    description:
+      "Gradient sweep revealing a headline with a looping chromatic wash.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["dia-text-reveal"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/dia-text-reveal.tsx",
+        content:
+          '"use client";\n\nimport { DiaTextReveal } from "@/components/sora-ui/texts/dia-text-reveal";\n\nexport default function DiaTextRevealExample() {\n  return (\n    <p className="font-light text-4xl tracking-tight">\n      Make interfaces feel{" "}\n      <DiaTextReveal\n        fixedWidth\n        repeat\n        repeatDelay={0.5}\n        text={["smooth.", "focused.", "refined."]}\n      />\n    </p>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/dia-text-reveal/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-dia-text-reveal",
   },
   "demo-draw-underline-link": {
     name: "demo-draw-underline-link",
@@ -1933,6 +2074,100 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/accordion",
   },
+  "expandable-tabs": {
+    name: "expandable-tabs",
+    description:
+      "A pill-shaped tab bar that expands into a floating panel, with Motion driving the shell, label, and content transitions.",
+    type: "registry:ui",
+    dependencies: ["motion", "lucide-react", "react-use-measure"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/disclosure/expandable-tabs/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/disclosure/expandable-tabs.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  LayoutGroup,\n  motion,\n  type Transition,\n  useReducedMotion,\n} from "motion/react";\nimport type { ComponentType, ReactNode } from "react";\nimport {\n  useCallback,\n  useEffect,\n  useId,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\nimport useMeasure from "react-use-measure";\n\nexport interface ExpandableTab {\n  /** Panel content rendered when this tab is selected. */\n  content: ReactNode;\n  icon: ComponentType<{ className?: string }>;\n  iconClassName?: string;\n  id: string;\n  label: string;\n}\n\nexport interface ExpandableTabsClassNames {\n  /** Merged onto the content wrapper shown while a tab is open. */\n  content?: string;\n  /** Merged onto the revealed label span inside the active tab button. */\n  label?: string;\n  /** Merged onto the outermost element. */\n  root?: string;\n  /** Merged onto the pill shell (background, rounding, border). */\n  toolbar?: string;\n  /** Merged onto every tab button. */\n  trigger?: string;\n  /** Merged onto the currently active tab button, in addition to `trigger`. */\n  triggerActive?: string;\n}\n\nexport interface ExpandableTabsProps {\n  className?: string;\n  classNames?: ExpandableTabsClassNames;\n  /** Uncontrolled initial selected tab id. @default null */\n  defaultSelectedId?: string | null;\n  /** Delay in seconds before an active tab\'s label starts revealing. @default 0.08 */\n  labelDelay?: number;\n  /** Maximum width of the open content panel (CSS value). @default "24rem" */\n  maxContentWidth?: string;\n  /** Called whenever the selected tab id changes (controlled or uncontrolled). */\n  onSelectedIdChange?: (id: string | null) => void;\n  /** Controlled selected tab id. `null` means no panel is open. */\n  selectedId?: string | null;\n  /** Bounce of the shared spring. 0 is a smooth ease, higher values overshoot more. @default 0 */\n  springBounce?: number;\n  /** Duration of the shared spring driving the shell, pill, tab, and content transitions. @default 0.45 */\n  springDuration?: number;\n  tabs: ExpandableTab[];\n  /** Vertical scale applied to a tab while pressed, for tactile press feedback. @default 0.8 */\n  tapScale?: number;\n}\n\nconst contentVariants = {\n  initial: (direction: number) => ({ x: `${60 * direction}%`, opacity: 0 }),\n  active: { x: "0%", opacity: 1 },\n  exit: (direction: number) => ({ x: `${-60 * direction}%`, opacity: 0 }),\n};\n\n/** Shared padding/gap for a trigger button, used by both the ghost\n * measurement row and the real interactive row so they can\'t drift apart. */\nfunction triggerBoxStyle(isActive: boolean) {\n  return {\n    gap: isActive ? ".5rem" : 0,\n    paddingLeft: isActive ? "1rem" : ".5rem",\n    paddingRight: isActive ? "1rem" : ".5rem",\n  };\n}\n\nexport function ExpandableTabs({\n  tabs,\n  selectedId: controlledSelectedId,\n  defaultSelectedId = null,\n  onSelectedIdChange,\n  springDuration = 0.45,\n  springBounce = 0,\n  labelDelay = 0.08,\n  maxContentWidth = "24rem",\n  tapScale = 0.8,\n  className,\n  classNames,\n}: ExpandableTabsProps) {\n  const idPrefix = useId();\n  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(\n    defaultSelectedId\n  );\n  const [direction, setDirection] = useState(1);\n  const [lastContentHeight, setLastContentHeight] = useState(0);\n  const prefersReducedMotion = useReducedMotion();\n\n  const isControlled = controlledSelectedId !== undefined;\n  const selected = isControlled ? controlledSelectedId : internalSelectedId;\n\n  const setSelected = useCallback(\n    (id: string | null) => {\n      if (!isControlled) {\n        setInternalSelectedId(id);\n      }\n      onSelectedIdChange?.(id);\n    },\n    [isControlled, onSelectedIdChange]\n  );\n\n  const containerRef = useRef<HTMLDivElement>(null);\n  const triggerRefs = useRef<Array<HTMLButtonElement | null>>([]);\n\n  const [rowRef, rowBounds] = useMeasure();\n  const [measureRef, bounds] = useMeasure();\n\n  const activeIndex = tabs.findIndex((tab) => tab.id === selected);\n  const activeTab = activeIndex === -1 ? null : tabs[activeIndex];\n  const barHeight = rowBounds.height || 52;\n\n  const spring = useMemo<Transition>(\n    () =>\n      prefersReducedMotion\n        ? { duration: 0 }\n        : { duration: springDuration, type: "spring", bounce: springBounce },\n    [prefersReducedMotion, springDuration, springBounce]\n  );\n\n  // Content opacity fades faster than the shell/box shrink so it\'s already\n  // near-invisible before the narrowing pill would otherwise clip it —\n  // avoids a hard edge cutting through still-legible text on close.\n  const contentTransition = useMemo<Transition>(\n    () => ({\n      ...spring,\n      opacity: { duration: prefersReducedMotion ? 0 : 0.15 },\n    }),\n    [spring, prefersReducedMotion]\n  );\n\n  // Label width always moves in lockstep with the button\'s own gap/padding\n  // (no delay, same on reveal and hide) so the row\'s footprint never lags\n  // behind the pill. `labelDelay` only staggers the label\'s own fade —\n  // purely cosmetic, applied evenly on both reveal and hide.\n  const labelTransition = useMemo<Transition>(\n    () => ({\n      ...spring,\n      opacity: { ...spring, delay: labelDelay },\n    }),\n    [spring, labelDelay]\n  );\n\n  useEffect(() => {\n    function handleMouseDown(event: MouseEvent) {\n      if (\n        selected !== null &&\n        containerRef.current &&\n        !containerRef.current.contains(event.target as Node)\n      ) {\n        setSelected(null);\n      }\n    }\n    document.addEventListener("mousedown", handleMouseDown);\n    return () => document.removeEventListener("mousedown", handleMouseDown);\n  }, [selected, setSelected]);\n\n  useEffect(() => {\n    if (selected === null) {\n      return;\n    }\n\n    const openIndex = activeIndex;\n\n    function handleKeyDown(event: KeyboardEvent) {\n      if (event.key === "Escape") {\n        setSelected(null);\n        triggerRefs.current[openIndex]?.focus();\n      }\n    }\n\n    document.addEventListener("keydown", handleKeyDown);\n    return () => document.removeEventListener("keydown", handleKeyDown);\n  }, [selected, activeIndex, setSelected]);\n\n  useEffect(() => {\n    if (bounds.height > 0) {\n      setLastContentHeight(bounds.height);\n    }\n  }, [bounds.height]);\n  const contentHeight = bounds.height > 0 ? bounds.height : lastContentHeight;\n\n  function handleTabClick(tab: ExpandableTab, index: number) {\n    if (selected === null) {\n      // Opening from closed: fade in place, no lateral tab to slide from.\n      setDirection(0);\n      setSelected(tab.id);\n    } else if (selected === tab.id) {\n      // Closing: fade out in place, don\'t slide toward a stale direction.\n      setDirection(0);\n      setSelected(null);\n    } else {\n      setDirection(index > activeIndex ? 1 : -1);\n      setSelected(tab.id);\n    }\n  }\n\n  return (\n    <div className={cn(classNames?.root, className)} ref={containerRef}>\n      <LayoutGroup>\n        <motion.div\n          animate={{\n            height: selected === null ? barHeight : contentHeight + barHeight,\n            width:\n              selected === null\n                ? rowBounds.width\n                : Math.max(rowBounds.width, bounds.width),\n          }}\n          className={cn(\n            "relative overflow-hidden rounded-3xl bg-background",\n            classNames?.toolbar\n          )}\n          initial={false}\n          transition={spring}\n        >\n          {/* No `mode="popLayout"`: it snapshots the exiting child\'s\n              position in absolute pixels, which fights the live\n              `left-1/2 -translate-x-1/2` recentering below as the pill keeps\n              shrinking. Each content instance (entering AND exiting) is its\n              own `position:absolute` element instead of a shared normal-flow\n              wrapper — otherwise, while switching tabs, the exiting and\n              entering copies would briefly coexist in normal flow and stack\n              vertically, inflating the measured height. Only the current\n              (entering) instance carries `ref={measureRef}`, since the\n              exiting clone is a separate Motion-managed instance. */}\n          <AnimatePresence custom={direction} initial={false}>\n            {selected !== null && activeTab && (\n              <motion.div\n                animate="active"\n                aria-labelledby={`${idPrefix}-trigger-${activeTab.id}`}\n                className={cn(\n                  "absolute top-0 left-1/2 -translate-x-1/2 bg-background/80 p-4 pb-4",\n                  classNames?.content\n                )}\n                custom={direction}\n                exit="exit"\n                id={`${idPrefix}-panel-${activeTab.id}`}\n                initial="initial"\n                key={activeTab.id}\n                ref={measureRef}\n                role="region"\n                style={{ maxWidth: maxContentWidth }}\n                transition={contentTransition}\n                variants={contentVariants}\n              >\n                {activeTab.content}\n              </motion.div>\n            )}\n          </AnimatePresence>\n\n          {/* Ghost row: mirrors the current (settled) row size for measurement\n              only, so useMeasure never chases the visible label\'s own\n              width-reveal animation — it reads the final target size\n              immediately instead of frame-by-frame. */}\n          <div\n            aria-hidden="true"\n            className="invisible absolute bottom-0 left-1/2 -translate-x-1/2 bg-background p-2"\n            ref={rowRef}\n          >\n            <div className="flex h-9 items-center gap-1">\n              {tabs.map((tab) => {\n                const isActive = selected === tab.id;\n                return (\n                  <div\n                    className="flex h-full items-center rounded-2xl font-medium text-sm"\n                    key={tab.id}\n                    style={triggerBoxStyle(isActive)}\n                  >\n                    <tab.icon className={cn("size-4", tab.iconClassName)} />\n                    {isActive && (\n                      <span className="whitespace-nowrap font-medium tracking-tight">\n                        {tab.label}\n                      </span>\n                    )}\n                  </div>\n                );\n              })}\n            </div>\n          </div>\n\n          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-background p-2">\n            <div className="flex h-9 items-center gap-1">\n              {tabs.map((tab, index) => {\n                const Icon = tab.icon;\n                const isActive = selected === tab.id;\n                const triggerId = `${idPrefix}-trigger-${tab.id}`;\n                const panelId = `${idPrefix}-panel-${tab.id}`;\n\n                return (\n                  <motion.button\n                    animate={triggerBoxStyle(isActive)}\n                    aria-controls={panelId}\n                    aria-expanded={isActive}\n                    className={cn(\n                      "flex h-full cursor-pointer items-center rounded-2xl font-medium text-sm transition-colors duration-300",\n                      isActive\n                        ? cn("bg-foreground/4", classNames?.triggerActive)\n                        : "text-muted-foreground hover:bg-muted hover:text-foreground",\n                      classNames?.trigger\n                    )}\n                    id={triggerId}\n                    initial={false}\n                    key={tab.id}\n                    onClick={() => handleTabClick(tab, index)}\n                    ref={(node) => {\n                      triggerRefs.current[index] = node;\n                    }}\n                    transition={spring}\n                    type="button"\n                    whileTap={{\n                      scaleY: prefersReducedMotion ? 1 : tapScale,\n                      transition: { duration: 0.2 },\n                    }}\n                  >\n                    <Icon className={cn("size-4", tab.iconClassName)} />\n                    <AnimatePresence initial={false}>\n                      {isActive && (\n                        <motion.span\n                          animate={{ width: "auto", opacity: 1 }}\n                          className={cn(\n                            "overflow-hidden whitespace-nowrap font-medium tracking-tight",\n                            classNames?.label\n                          )}\n                          exit={{\n                            width: 0,\n                            opacity: 0,\n                            transition: labelTransition,\n                          }}\n                          initial={{ width: 0, opacity: 0 }}\n                          transition={labelTransition}\n                        >\n                          {tab.label}\n                        </motion.span>\n                      )}\n                    </AnimatePresence>\n                  </motion.button>\n                );\n              })}\n            </div>\n          </div>\n        </motion.div>\n      </LayoutGroup>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/disclosure/expandable-tabs/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/expandable-tabs",
+  },
+  "inline-testimonials": {
+    name: "inline-testimonials",
+    description:
+      "A flowing quote stream where each avatar reveals its author on hover, with Motion fading and blurring the rest.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/disclosure/inline-testimonials/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/disclosure/inline-testimonials.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  type Easing,\n  type MotionStyle,\n  motion,\n  useReducedMotion,\n} from "motion/react";\nimport Image from "next/image";\nimport type { ReactNode } from "react";\nimport { useCallback, useState } from "react";\n\nexport interface Testimonial {\n  author: {\n    name: string;\n    role: string;\n    /** Avatar image URL, or any ReactNode to render a custom avatar (skips next/image). */\n    avatar: ReactNode | string;\n  };\n  id: string;\n  text: string;\n}\n\nexport interface InlineTestimonialsClassNames {\n  /** Merged onto the avatar wrapper. */\n  avatar?: string;\n  /** Merged onto each testimonial `<span>`. */\n  item?: string;\n  /** Merged onto the hover label container. */\n  label?: string;\n  /** Merged onto the author name label. */\n  name?: string;\n  /** Merged onto the author role label. */\n  role?: string;\n  /** Merged onto the root element. */\n  root?: string;\n}\n\nexport interface InlineTestimonialsAlternateConfig {\n  /** Opacity applied to every other (odd-indexed) item. @default 0.7 */\n  opacity?: number;\n  /** Toggles the alternating opacity pattern across items. @default true */\n  pattern?: boolean;\n}\n\nexport interface InlineTestimonialsLabelConfig {\n  /** CSS color for the author name text. @default "#f97316" */\n  accentColor?: string;\n  /** Easing for the reveal/exit animation. @default "easeOut" */\n  ease?: Easing;\n  /** Font size of the author name, in pixels. @default 12 */\n  nameFontSize?: number;\n  /** Horizontal offset from the avatar\'s left edge, in pixels. @default avatarSize / 2 */\n  offsetX?: number;\n  /** Vertical offset above the avatar. @default "150%" */\n  offsetY?: string;\n  /** CSS color for the author role text. @default "var(--muted-foreground, #6b7280)" */\n  roleColor?: string;\n  /** Font size of the author role, in pixels. @default 9 */\n  roleFontSize?: number;\n  /** Letter spacing of the author role text. @default "0.1em" */\n  roleLetterSpacing?: string;\n  /** Uppercase the author role text. @default true */\n  roleUppercase?: boolean;\n  /** Horizontal slide distance (px) for the reveal/exit animation. @default -6 */\n  slideX?: number;\n  /** Duration of the reveal/exit animation, in seconds. @default 0.16 */\n  transitionDuration?: number;\n}\n\nexport interface InlineTestimonialsProps {\n  /** Alternating opacity pattern applied across items. */\n  alternate?: InlineTestimonialsAlternateConfig;\n  /** Avatar diameter in pixels. @default 32 */\n  avatarSize?: number;\n  /** Blur amount applied to non-hovered items in px. @default 5 */\n  blurAmount?: number;\n  /** Opacity of non-hovered items (0–1). @default 0.25 */\n  blurOpacity?: number;\n  className?: string;\n  /** Class names for individual parts of the component. */\n  classNames?: InlineTestimonialsClassNames;\n  /** Uncontrolled initial hovered/active testimonial id. */\n  defaultHoveredId?: string | null;\n  /** Font size in pixels. @default 30 */\n  fontSize?: number;\n  /** Controlled hovered/active testimonial id. */\n  hoveredId?: string | null;\n  /** Which interactions reveal the author label. @default "hover" */\n  interaction?: "both" | "focus" | "hover";\n  /** Styling and motion for the hover-revealed author label. */\n  label?: InlineTestimonialsLabelConfig;\n  /** Called whenever the hovered/active testimonial id changes (controlled or uncontrolled). */\n  onHoveredIdChange?: (id: string | null) => void;\n  /** Overrides avatar rendering entirely; receives the testimonial and resolved size. */\n  renderAvatar?: (testimonial: Testimonial, size: number) => ReactNode;\n  testimonials: Testimonial[];\n}\n\ninterface ResolvedLabelConfig extends Required<InlineTestimonialsLabelConfig> {}\n\nfunction resolveLabelConfig(\n  avatarSize: number,\n  label?: InlineTestimonialsLabelConfig\n): ResolvedLabelConfig {\n  return {\n    accentColor: label?.accentColor ?? "#f97316",\n    ease: label?.ease ?? "easeOut",\n    nameFontSize: label?.nameFontSize ?? 12,\n    offsetX: label?.offsetX ?? avatarSize / 2,\n    offsetY: label?.offsetY ?? "150%",\n    roleColor: label?.roleColor ?? "var(--muted-foreground, #6b7280)",\n    roleFontSize: label?.roleFontSize ?? 9,\n    roleLetterSpacing: label?.roleLetterSpacing ?? "0.1em",\n    roleUppercase: label?.roleUppercase ?? true,\n    slideX: label?.slideX ?? -6,\n    transitionDuration: label?.transitionDuration ?? 0.16,\n  };\n}\n\ninterface TestimonialAvatarProps {\n  avatarSize: number;\n  renderAvatar?: (testimonial: Testimonial, size: number) => ReactNode;\n  testimonial: Testimonial;\n}\n\nfunction TestimonialAvatar({\n  testimonial,\n  avatarSize,\n  renderAvatar,\n}: TestimonialAvatarProps) {\n  if (renderAvatar) {\n    return renderAvatar(testimonial, avatarSize);\n  }\n\n  if (typeof testimonial.author.avatar !== "string") {\n    return testimonial.author.avatar;\n  }\n\n  return (\n    <Image\n      alt={testimonial.author.name}\n      height={avatarSize}\n      src={testimonial.author.avatar}\n      style={{\n        width: avatarSize,\n        height: avatarSize,\n        borderRadius: "50%",\n        objectFit: "cover",\n        display: "block",\n      }}\n      unoptimized\n      width={avatarSize}\n    />\n  );\n}\n\ninterface TestimonialLabelProps {\n  classNames?: InlineTestimonialsClassNames;\n  label: ResolvedLabelConfig;\n  prefersReducedMotion: boolean;\n  testimonial: Testimonial;\n}\n\nfunction TestimonialLabel({\n  testimonial,\n  classNames,\n  label,\n  prefersReducedMotion,\n}: TestimonialLabelProps) {\n  const labelStyle: MotionStyle = {\n    position: "absolute",\n    left: label.offsetX,\n    bottom: label.offsetY,\n    transform: "translateY(-50%)",\n    display: "inline-flex",\n    flexDirection: "column",\n    gap: 3,\n    whiteSpace: "nowrap",\n    pointerEvents: "none",\n    zIndex: 20,\n  };\n  const slideX = prefersReducedMotion ? 0 : label.slideX;\n  const duration = prefersReducedMotion ? 0 : label.transitionDuration;\n\n  return (\n    <motion.span\n      animate={{ opacity: 1, x: 0 }}\n      className={classNames?.label}\n      exit={{ opacity: 0, x: slideX }}\n      initial={{ opacity: 0, x: slideX }}\n      style={labelStyle}\n      transition={{ duration, ease: label.ease }}\n    >\n      <span\n        className={classNames?.name}\n        style={{\n          fontSize: label.nameFontSize,\n          fontWeight: 500,\n          color: label.accentColor,\n          lineHeight: 1.2,\n        }}\n      >\n        {testimonial.author.name}\n      </span>\n      <span\n        className={classNames?.role}\n        style={{\n          fontSize: label.roleFontSize,\n          fontWeight: 500,\n          letterSpacing: label.roleLetterSpacing,\n          textTransform: label.roleUppercase ? "uppercase" : "none",\n          color: label.roleColor,\n          lineHeight: 1.2,\n        }}\n      >\n        {testimonial.author.role}\n      </span>\n    </motion.span>\n  );\n}\n\ninterface TestimonialItemProps {\n  allowFocus: boolean;\n  allowHover: boolean;\n  alternate: Required<InlineTestimonialsAlternateConfig>;\n  avatarSize: number;\n  blurAmount: number;\n  blurOpacity: number;\n  classNames?: InlineTestimonialsClassNames;\n  index: number;\n  isAnyHovered: boolean;\n  isHovered: boolean;\n  label: ResolvedLabelConfig;\n  prefersReducedMotion: boolean;\n  renderAvatar?: (testimonial: Testimonial, size: number) => ReactNode;\n  setHoveredId: (id: string | null) => void;\n  testimonial: Testimonial;\n}\n\nfunction TestimonialItem({\n  testimonial,\n  index,\n  isHovered,\n  isAnyHovered,\n  allowHover,\n  allowFocus,\n  alternate,\n  blurAmount,\n  blurOpacity,\n  prefersReducedMotion,\n  setHoveredId,\n  classNames,\n  avatarSize,\n  renderAvatar,\n  label,\n}: TestimonialItemProps) {\n  const isDimmed = isAnyHovered && !isHovered;\n  const isAlternate = alternate.pattern && index % 2 !== 0;\n  const baseOpacity = isAlternate ? alternate.opacity : 1;\n\n  let itemOpacity = baseOpacity;\n  if (isDimmed) {\n    itemOpacity = blurOpacity;\n  } else if (isHovered) {\n    itemOpacity = 1;\n  }\n\n  return (\n    // biome-ignore lint/a11y/noStaticElementInteractions: hover/focus reveal is decorative and progressively enhanced (interaction defaults to "hover"; tabIndex/onFocus only attach when interaction includes "focus")\n    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: same as above\n    <span\n      className={classNames?.item}\n      onBlur={allowFocus ? () => setHoveredId(null) : undefined}\n      onFocus={allowFocus ? () => setHoveredId(testimonial.id) : undefined}\n      onMouseEnter={allowHover ? () => setHoveredId(testimonial.id) : undefined}\n      onMouseLeave={allowHover ? () => setHoveredId(null) : undefined}\n      style={{\n        filter:\n          isDimmed && !prefersReducedMotion ? `blur(${blurAmount}px)` : "none",\n        opacity: itemOpacity,\n        transition: prefersReducedMotion\n          ? "opacity 0.3s ease"\n          : "filter 0.3s ease, opacity 0.3s ease",\n        cursor: "default",\n      }}\n      tabIndex={allowFocus ? 0 : undefined}\n    >\n      <span\n        className={cn("relative inline-block", classNames?.avatar)}\n        style={{\n          width: avatarSize,\n          height: avatarSize,\n          verticalAlign: "middle",\n          marginRight: 3,\n        }}\n      >\n        <TestimonialAvatar\n          avatarSize={avatarSize}\n          renderAvatar={renderAvatar}\n          testimonial={testimonial}\n        />\n        <AnimatePresence>\n          {isHovered && (\n            <TestimonialLabel\n              classNames={classNames}\n              label={label}\n              prefersReducedMotion={prefersReducedMotion}\n              testimonial={testimonial}\n            />\n          )}\n        </AnimatePresence>\n      </span>\n      <span>\n        {testimonial.text}{" "}\n        <span className="sr-only">\n          — {testimonial.author.name}, {testimonial.author.role}\n        </span>{" "}\n      </span>\n    </span>\n  );\n}\n\nexport function InlineTestimonials({\n  testimonials,\n  blurAmount = 5,\n  blurOpacity = 0.25,\n  avatarSize = 32,\n  fontSize = 30,\n  alternate,\n  interaction = "hover",\n  hoveredId: controlledHoveredId,\n  defaultHoveredId = null,\n  onHoveredIdChange,\n  renderAvatar,\n  label,\n  className,\n  classNames,\n}: InlineTestimonialsProps) {\n  const [internalHoveredId, setInternalHoveredId] = useState<string | null>(\n    defaultHoveredId\n  );\n  const prefersReducedMotion = useReducedMotion();\n\n  const isControlled = controlledHoveredId !== undefined;\n  const hoveredId = isControlled ? controlledHoveredId : internalHoveredId;\n\n  const setHoveredId = useCallback(\n    (id: string | null) => {\n      if (!isControlled) {\n        setInternalHoveredId(id);\n      }\n      onHoveredIdChange?.(id);\n    },\n    [isControlled, onHoveredIdChange]\n  );\n\n  const allowHover = interaction === "hover" || interaction === "both";\n  const allowFocus = interaction === "focus" || interaction === "both";\n\n  const resolvedAlternate = {\n    pattern: alternate?.pattern ?? true,\n    opacity: alternate?.opacity ?? 0.7,\n  };\n  const resolvedLabel = resolveLabelConfig(avatarSize, label);\n\n  return (\n    <div\n      className={cn("font-medium tracking-tight", classNames?.root, className)}\n      style={{ fontSize: `${fontSize}px`, lineHeight: 1.35 }}\n    >\n      {testimonials.map((t, index) => (\n        <TestimonialItem\n          allowFocus={allowFocus}\n          allowHover={allowHover}\n          alternate={resolvedAlternate}\n          avatarSize={avatarSize}\n          blurAmount={blurAmount}\n          blurOpacity={blurOpacity}\n          classNames={classNames}\n          index={index}\n          isAnyHovered={hoveredId !== null}\n          isHovered={hoveredId === t.id}\n          key={t.id}\n          label={resolvedLabel}\n          prefersReducedMotion={!!prefersReducedMotion}\n          renderAvatar={renderAvatar}\n          setHoveredId={setHoveredId}\n          testimonial={t}\n        />\n      ))}\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/disclosure/inline-testimonials/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/inline-testimonials",
+  },
   "border-trail": {
     name: "border-trail",
     description:
@@ -2795,6 +3030,58 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/bottom-sheet",
+  },
+  "dia-text-reveal": {
+    name: "dia-text-reveal",
+    description:
+      "A gradient sweep that reveals text with a chromatic wash, powered by Motion.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/dia-text-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/dia-text-reveal.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  animate,\n  type MotionProps,\n  motion,\n  useInView,\n  useMotionValue,\n  useReducedMotion,\n  useTransform,\n} from "motion/react";\nimport {\n  type ComponentType,\n  type ElementType,\n  type ReactNode,\n  type Ref,\n  useCallback,\n  useEffect,\n  useImperativeHandle,\n  useLayoutEffect,\n  useMemo,\n  useRef,\n  useState,\n} from "react";\n\ntype EaseValue =\n  | "linear"\n  | "easeIn"\n  | "easeOut"\n  | "easeInOut"\n  | "circIn"\n  | "circOut"\n  | "circInOut"\n  | "backIn"\n  | "backOut"\n  | "backInOut"\n  | "anticipate"\n  | readonly [number, number, number, number]\n  | ((t: number) => number);\n\nexport interface DiaTextRevealHandle {\n  /** (Re)starts the sweep immediately, ignoring startOnView/inView gating. */\n  play: () => void;\n  /** Resets to the first phrase and starts the sweep immediately. */\n  replay: () => void;\n}\n\nexport interface DiaTextRevealProps {\n  /** Render as a different element/component instead of `span`. */\n  as?: ElementType;\n  className?: string;\n  colors?: string[];\n  delay?: number;\n  /** Sweep direction across the text. @default "ltr" */\n  direction?: "ltr" | "rtl";\n  duration?: number;\n  /** Easing for the reveal sweep. */\n  ease?: EaseValue;\n  fadeDuration?: number;\n  /** Easing for the fade-out between repeats. */\n  fadeEase?: EaseValue;\n  /** Lock width to the longest phrase so rotating text does not shift layout. */\n  fixedWidth?: boolean;\n  holdDuration?: number;\n  inViewMargin?:\n    | `${number}px`\n    | `${number}px ${number}px`\n    | `${number}px ${number}px ${number}px`\n    | `${number}px ${number}px ${number}px ${number}px`;\n  /** Called every time a phrase finishes revealing (fully visible). */\n  onComplete?: () => void;\n  once?: boolean;\n  ref?: Ref<DiaTextRevealHandle>;\n  repeat?: boolean;\n  repeatDelay?: number;\n  startOnView?: boolean;\n  text: string | string[];\n  /** Final revealed text color. @default "currentColor" */\n  textColor?: string;\n}\n\nconst DEFAULT_EASE: EaseValue = [0.23, 1, 0.32, 1];\n\nfunction buildGradient(colors: string[], textColor: string, angle: number) {\n  const bandStart = 40;\n  const bandEnd = 60;\n  const stops = colors.map((color, index) => {\n    const t = colors.length === 1 ? 0.5 : index / (colors.length - 1);\n    const pct = bandStart + t * (bandEnd - bandStart);\n    return `${color} ${pct}%`;\n  });\n\n  // First third = final text color, middle = chromatic ribbon, last third =\n  // transparent (hidden). Start at background-position 100% (transparent),\n  // animate to 0%. `angle` flips which edge the reveal starts from.\n  return `linear-gradient(${angle}deg, ${textColor} 0%, ${textColor} 33.33%, ${stops.join(", ")}, transparent 66.67%, transparent 100%)`;\n}\n\nfunction measureMaxWidth(element: HTMLElement, texts: string[]) {\n  const ghost = element.cloneNode() as HTMLElement;\n\n  Object.assign(ghost.style, {\n    position: "absolute",\n    visibility: "hidden",\n    pointerEvents: "none",\n    width: "auto",\n    whiteSpace: "nowrap",\n  });\n\n  element.parentElement?.appendChild(ghost);\n\n  let max = 0;\n\n  for (const entry of texts) {\n    ghost.textContent = entry;\n    max = Math.max(max, ghost.getBoundingClientRect().width);\n  }\n\n  ghost.remove();\n  return max;\n}\n\nexport function DiaTextReveal({\n  text,\n  colors = ["#c679c4", "#fa3d1d", "#ffb005", "#e1e1fe", "#0358f7"],\n  textColor = "currentColor",\n  direction = "ltr",\n  duration = 1.5,\n  delay = 0,\n  ease = DEFAULT_EASE,\n  fadeEase = "easeInOut",\n  repeat = false,\n  repeatDelay = 0.5,\n  holdDuration = 1,\n  fadeDuration = 0.6,\n  fixedWidth = false,\n  startOnView = true,\n  once = true,\n  inViewMargin = "0px",\n  onComplete,\n  as: Component = "span",\n  className,\n  ref: controlRef,\n}: DiaTextRevealProps) {\n  const elementRef = useRef<HTMLElement>(null);\n  const isInView = useInView(elementRef, {\n    once,\n    margin: inViewMargin,\n  });\n  const prefersReducedMotion = useReducedMotion();\n  const canAnimate = !prefersReducedMotion && (!startOnView || isInView);\n\n  const texts = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);\n  const isMulti = texts.length > 1;\n  const [activeIndex, setActiveIndex] = useState(0);\n  const [lockedWidth, setLockedWidth] = useState<number | undefined>();\n  const indexRef = useRef(0);\n  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);\n\n  // sweep: 100 = hidden, 0 = fully revealed. Position and opacity are driven\n  // independently so the gradient only ever resets back to 100 while the\n  // text is fully invisible — the reverse sweep is never actually seen.\n  const sweep = useMotionValue(100);\n  const textOpacity = useMotionValue(0);\n  const backgroundPosition = useTransform(sweep, (v) => `${v}% 50%`);\n  const angle = direction === "rtl" ? 270 : 90;\n\n  useLayoutEffect(() => {\n    const element = elementRef.current;\n\n    if (!(element && fixedWidth && isMulti)) {\n      setLockedWidth(undefined);\n      return;\n    }\n\n    setLockedWidth(measureMaxWidth(element, texts));\n  }, [fixedWidth, isMulti, texts]);\n\n  const clearCycle = useCallback(() => {\n    sweep.stop();\n    textOpacity.stop();\n\n    if (timerRef.current) {\n      clearTimeout(timerRef.current);\n    }\n\n    timerRef.current = undefined;\n  }, [sweep, textOpacity]);\n\n  const playRef = useRef<() => void>(() => undefined);\n\n  playRef.current = () => {\n    clearCycle();\n    sweep.set(100);\n    textOpacity.set(0);\n\n    animate(sweep, 0, { duration, delay, ease });\n    animate(textOpacity, 1, {\n      duration,\n      delay,\n      ease,\n      onComplete() {\n        onComplete?.();\n\n        if (!repeat) {\n          return;\n        }\n\n        timerRef.current = setTimeout(() => {\n          animate(textOpacity, 0, {\n            duration: fadeDuration,\n            ease: fadeEase,\n            onComplete() {\n              indexRef.current = (indexRef.current + 1) % texts.length;\n              setActiveIndex(indexRef.current);\n              sweep.set(100);\n\n              timerRef.current = setTimeout(() => {\n                playRef.current();\n              }, repeatDelay * 1000);\n            },\n          });\n        }, holdDuration * 1000);\n      },\n    });\n  };\n\n  const replay = useCallback(() => {\n    if (prefersReducedMotion) {\n      return;\n    }\n\n    indexRef.current = 0;\n    setActiveIndex(0);\n    playRef.current();\n  }, [prefersReducedMotion]);\n\n  const play = useCallback(() => {\n    if (prefersReducedMotion) {\n      return;\n    }\n\n    playRef.current();\n  }, [prefersReducedMotion]);\n\n  useImperativeHandle(controlRef, () => ({ play, replay }), [play, replay]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run only when visibility or text list changes\n  useEffect(() => {\n    indexRef.current = 0;\n    setActiveIndex(0);\n    clearCycle();\n    sweep.set(100);\n    textOpacity.set(0);\n\n    if (canAnimate) {\n      playRef.current();\n    }\n\n    return clearCycle;\n  }, [canAnimate, texts]);\n\n  const MotionComponent = useMemo(\n    () =>\n      motion.create(Component as never) as ComponentType<\n        MotionProps & {\n          children?: ReactNode;\n          className?: string;\n          ref?: Ref<HTMLElement>;\n        }\n      >,\n    [Component]\n  );\n  const resolvedColor = textColor === "currentColor" ? "inherit" : textColor;\n\n  return (\n    <MotionComponent\n      className={cn("inline-block bg-clip-text", className)}\n      ref={elementRef}\n      style={\n        prefersReducedMotion\n          ? {\n              color: resolvedColor,\n              WebkitTextFillColor: "transparent",\n              backgroundImage: buildGradient(colors, textColor, angle),\n              backgroundSize: "300% 100%",\n              backgroundPosition: "0% 50%",\n              opacity: 1,\n              ...(lockedWidth != null && {\n                width: lockedWidth,\n                whiteSpace: "nowrap",\n              }),\n            }\n          : {\n              color: resolvedColor,\n              WebkitTextFillColor: "transparent",\n              backgroundImage: buildGradient(colors, textColor, angle),\n              backgroundSize: "300% 100%",\n              backgroundPosition,\n              opacity: textOpacity,\n              ...(lockedWidth != null && {\n                width: lockedWidth,\n                whiteSpace: "nowrap",\n              }),\n            }\n      }\n    >\n      {prefersReducedMotion ? texts[0] : texts[activeIndex]}\n    </MotionComponent>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: {
+      type: "reimplemented",
+      label: "Dia Text",
+      url: "https://iconiqui.com/texts/dia-text",
+      stack: "Motion and React",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/dia-text-reveal/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/dia-text-reveal",
   },
   "draw-underline-link": {
     name: "draw-underline-link",

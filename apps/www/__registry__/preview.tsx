@@ -22,6 +22,38 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-expandable-tabs": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/disclosure/expandable-tabs/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-inline-testimonials": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/disclosure/inline-testimonials/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-border-trail": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/border-trail/index.tsx"
@@ -281,6 +313,22 @@ export const previewComponents: Record<string, any> = {
   "demo-bottom-sheet": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/radix/bottom-sheet/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-dia-text-reveal": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/texts/dia-text-reveal/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
@@ -556,6 +604,38 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "expandable-tabs": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/disclosure/expandable-tabs/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "inline-testimonials": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/disclosure/inline-testimonials/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "border-trail": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/border-trail/index.tsx"
@@ -783,6 +863,22 @@ export const previewComponents: Record<string, any> = {
   "bottom-sheet": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/radix/bottom-sheet/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "dia-text-reveal": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/texts/dia-text-reveal/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)

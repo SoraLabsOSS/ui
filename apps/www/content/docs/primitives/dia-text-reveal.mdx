@@ -1,0 +1,197 @@
+---
+title: Dia Text Reveal
+description: A gradient sweep that reveals text with a chromatic wash, powered by Motion.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-dia-text-reveal" description="Gradient sweep revealing a headline — scroll into view or refresh to replay." />
+
+## Installation
+
+<ComponentInstallation name="dia-text-reveal" />
+
+## Usage
+
+```tsx
+import { DiaTextReveal } from '@/components/sora-ui/texts/dia-text-reveal';
+
+export default function Page() {
+  return (
+    <DiaTextReveal
+      className="font-semibold text-3xl tracking-tight"
+      text="Design systems that move with you."
+    />
+  );
+}
+```
+
+Loop the wash:
+
+```tsx
+<DiaTextReveal
+  text="Always in motion."
+  repeat
+  repeatDelay={0.5}
+  duration={1.5}
+/>
+```
+
+Custom palette:
+
+```tsx
+<DiaTextReveal
+  text="Chromatic headline"
+  colors={['#f0abfc', '#f472b6', '#fb923c', '#facc15', '#a3e635']}
+/>
+```
+
+Cycle through multiple words (requires `repeat`):
+
+```tsx
+<DiaTextReveal
+  text={['smooth.', 'focused.', 'refined.']}
+  repeat
+  fixedWidth
+  holdDuration={1}
+  fadeDuration={0.6}
+/>
+```
+
+Right-to-left sweep, custom color, and a completion callback:
+
+```tsx
+<DiaTextReveal
+  text="Reversed sweep."
+  direction="rtl"
+  textColor="#111111"
+  onComplete={() => console.log('revealed')}
+/>
+```
+
+Render as a different element and control it imperatively:
+
+```tsx
+const handle = useRef<DiaTextRevealHandle>(null);
+
+<DiaTextReveal ref={handle} as="h1" text="Controlled headline." startOnView={false} />
+<button onClick={() => handle.current?.replay()}>Replay</button>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: 'Text to reveal. Pass an array to cycle through multiple words each time the loop repeats (requires repeat).',
+      type: 'string | string[]',
+    },
+    colors: {
+      description: 'Gradient stop colors for the chromatic wash.',
+      type: 'string[]',
+      default: '["#f0abfc", "#f472b6", "#fb923c", "#facc15", "#a3e635"]',
+    },
+    duration: {
+      description: 'Duration of one sweep in seconds.',
+      type: 'number',
+      default: '1.5',
+    },
+    delay: {
+      description: 'Delay before the animation starts, in seconds.',
+      type: 'number',
+      default: '0',
+    },
+    direction: {
+      description: 'Sweep direction across the text.',
+      type: '"ltr" | "rtl"',
+      default: '"ltr"',
+    },
+    ease: {
+      description: 'Easing for the reveal sweep.',
+      type: 'string | number[] | ((t: number) => number)',
+      default: '[0.23, 1, 0.32, 1]',
+    },
+    fadeEase: {
+      description: 'Easing for the fade-out between repeats.',
+      type: 'string | number[] | ((t: number) => number)',
+      default: '"easeInOut"',
+    },
+    textColor: {
+      description: 'Final revealed text color. Defaults to the inherited color.',
+      type: 'string',
+      default: '"currentColor"',
+    },
+    as: {
+      description: 'Render as a different element or component instead of `span`.',
+      type: 'React.ElementType',
+      default: '"span"',
+    },
+    onComplete: {
+      description: 'Called every time a phrase finishes revealing (fully visible).',
+      type: '() => void',
+    },
+    ref: {
+      description: 'Imperative handle exposing play() and replay(), independent of startOnView/inView gating.',
+      type: 'Ref<DiaTextRevealHandle>',
+    },
+    repeat: {
+      description: 'When true, the gradient wash loops indefinitely (cycling through text if an array is passed).',
+      type: 'boolean',
+      default: 'false',
+    },
+    repeatDelay: {
+      description: 'Pause between loops when repeat is enabled, in seconds.',
+      type: 'number',
+      default: '0.5',
+    },
+    holdDuration: {
+      description: 'How long the fully revealed text holds before fading out, in seconds.',
+      type: 'number',
+      default: '1',
+    },
+    fadeDuration: {
+      description: 'How long the text takes to fade out before the next reveal, in seconds.',
+      type: 'number',
+      default: '0.6',
+    },
+    fixedWidth: {
+      description: 'When cycling phrases, lock the slot width to the longest string so surrounding layout does not shift.',
+      type: 'boolean',
+      default: 'false',
+    },
+    startOnView: {
+      description: 'Only start the animation once the element enters the viewport.',
+      type: 'boolean',
+      default: 'true',
+    },
+    once: {
+      description: 'When startOnView is true, fire only on the first intersection.',
+      type: 'boolean',
+      default: 'true',
+    },
+    inViewMargin: {
+      description: 'Root margin passed to useInView (Intersection Observer).',
+      type: 'string',
+      default: '"0px"',
+    },
+    className: {
+      description: 'Additional class names merged onto the root span.',
+      type: 'string',
+    },
+  }}
+/>
+
+## Accessibility
+
+The revealed string is always in the DOM — the gradient sweep and opacity fade are visual only. Screen readers announce the current phrase as plain text.
+
+When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` skips the sweep, fade, and phrase rotation entirely: the first string in `text` renders fully visible at the final gradient position (`background-position: 0%`, `opacity: 1`). Imperative `play()` / `replay()` become no-ops. No extra configuration needed.
+
+If you cycle phrases with `repeat` and an array, only the first phrase is shown under reduced motion — prefer a single string (or put the most important phrase first) when that static fallback matters for meaning.
+
+## Credits
+
+<ComponentCredits name="dia-text-reveal" />
+
+This is a from-scratch rebuild of the idea, not a port: the gradient-wash reveal and multi-phrase cycling are reimplemented in React with `motion/react` (motion values, `useTransform`, imperative `animate()` sequencing), and extended with a `repeat` fade-hold-reset cycle, `direction`, `textColor`, `ease`/`fadeEase`, polymorphic `as`, and an imperative `play`/`replay` control ref.

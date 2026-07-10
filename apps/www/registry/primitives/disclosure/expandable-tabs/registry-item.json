@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "expandable-tabs",
+  "type": "registry:ui",
+  "title": "Expandable Tabs",
+  "description": "A pill-shaped tab bar that expands into a floating panel, with Motion driving the shell, label, and content transitions.",
+  "dependencies": ["motion", "lucide-react", "react-use-measure"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/disclosure/expandable-tabs/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/disclosure/expandable-tabs.tsx"
+    }
+  ]
+}

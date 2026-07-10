@@ -1,0 +1,134 @@
+---
+title: Expandable Tabs
+description: A pill-shaped tab bar that expands into a floating panel, with Motion driving the shell, label, and content transitions.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-expandable-tabs" description="Pill tab bar expanding into a floating focus, progression, ideas, activity, and profile panel." />
+
+## Installation
+
+<ComponentInstallation name="expandable-tabs" />
+
+## Usage
+
+```tsx
+import { Info, Settings } from 'lucide-react';
+import { ExpandableTabs, type ExpandableTab } from '@/components/sora-ui/disclosure/expandable-tabs';
+
+const tabs: ExpandableTab[] = [
+  {
+    id: 'about',
+    label: 'About',
+    icon: Info,
+    content: <p className="px-1 text-sm">A pill toolbar that expands into a panel.</p>,
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    icon: Settings,
+    content: <p className="px-1 text-sm">Whatever content you pass is rendered here.</p>,
+  },
+];
+
+export default function Page() {
+  return <ExpandableTabs tabs={tabs} />;
+}
+```
+
+Tune the shared spring and label reveal timing with props:
+
+```tsx
+<ExpandableTabs
+  tabs={tabs}
+  springDuration={0.45}
+  springBounce={0}
+  labelDelay={0.08}
+  tapScale={0.8}
+/>
+```
+
+Control the open tab yourself:
+
+```tsx
+const [selectedId, setSelectedId] = useState<string | null>(null);
+
+<ExpandableTabs
+  tabs={tabs}
+  selectedId={selectedId}
+  onSelectedIdChange={setSelectedId}
+/>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    tabs: {
+      description: 'Tabs to render. Each entry needs an id, label, icon, and content — the panel JSX shown while that tab is selected.',
+      type: 'ExpandableTab[]',
+    },
+    selectedId: {
+      description: 'Controlled id of the currently open tab. `null` means no panel is open.',
+      type: 'string | null',
+    },
+    defaultSelectedId: {
+      description: 'Uncontrolled initial selected tab id.',
+      type: 'string | null',
+      default: 'null',
+    },
+    onSelectedIdChange: {
+      description: 'Called whenever the selected tab id changes, controlled or uncontrolled.',
+      type: '(id: string | null) => void',
+    },
+    springDuration: {
+      description: 'Duration of the shared spring driving the shell, pill, tab, and content transitions.',
+      type: 'number',
+      default: '0.45',
+    },
+    springBounce: {
+      description: 'Bounce of the shared spring. 0 is a smooth ease, higher values overshoot more.',
+      type: 'number',
+      default: '0',
+    },
+    labelDelay: {
+      description: 'Delay in seconds before an active tab\'s label starts revealing.',
+      type: 'number',
+      default: '0.08',
+    },
+    tapScale: {
+      description: 'Vertical scale applied to a tab while pressed, for tactile press feedback.',
+      type: 'number',
+      default: '0.8',
+    },
+    maxContentWidth: {
+      description: 'Maximum width of the open content panel (CSS value). Prevents wide content from growing the pill past a sane size.',
+      type: 'string',
+      default: '"24rem"',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element.',
+      type: 'string',
+    },
+    classNames: {
+      description: 'Class names for individual parts: root, toolbar, trigger, triggerActive, label, content.',
+      type: 'ExpandableTabsClassNames',
+    },
+  }}
+/>
+
+## When to Use
+
+Use Expandable Tabs for compact toolbars or headers where a full nav bar would take up too much space — a focus/progress/ideas/activity/profile cluster, a floating action bar, or a mobile-friendly nav that only needs to reveal detail on demand. Pass any tab set and panel content via the `tabs` prop.
+
+Avoid it when tab content needs to stay visible alongside other content, or when users need to compare multiple tabs' content at once — use a standard tabbed panel instead.
+
+## Accessibility
+
+Each trigger button gets a stable `id`, `aria-expanded`, and `aria-controls` pointing at its panel's id; the open panel has a matching `id`, `role="region"`, and `aria-labelledby` pointing back at its trigger — the same disclosure pattern used by [Accordion](/docs/primitives/accordion), since Expandable Tabs can have zero panels open at once (unlike classic ARIA tabs, which always keep exactly one panel visible). Only the active tab's panel is mounted at a time, so `aria-controls` references an id that doesn't exist in the DOM while collapsed — accepted practice for this pattern, since `aria-expanded="false"` already communicates the state.
+
+Pressing <kbd>Escape</kbd> while a panel is open closes it and returns focus to its trigger button. Clicking outside the root also closes the open panel.
+
+`useReducedMotion()` collapses the shell, pill-width, label-reveal, and content slide/fade transitions to instant when `prefers-reduced-motion: reduce` is set.

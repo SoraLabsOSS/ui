@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-inline-testimonials",
+  "title": "Inline Testimonials Demo",
+  "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
+  "registryDependencies": ["@soralabs/inline-testimonials"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  InlineTestimonials,\n  type Testimonial,\n} from \"@/components/sora-ui/disclosure/inline-testimonials\";\n\nconst TESTIMONIALS: Testimonial[] = [\n  {\n    id: \"1\",\n    text: \"Finally a registry that treats animation as a first-class citizen.\",\n    author: {\n      name: \"Jordan Lee\",\n      role: \"Staff Engineer @Vercel\",\n      avatar:\n        \"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=faces\",\n    },\n  },\n  {\n    id: \"2\",\n    text: \"Shipped our marketing site in a weekend — the motion primitives just work.\",\n    author: {\n      name: \"Maya Chen\",\n      role: \"Founder @Orbit\",\n      avatar:\n        \"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=faces\",\n    },\n  },\n  {\n    id: \"3\",\n    text: \"Copy-paste, tweak tokens, ship. No black-box npm package in the way.\",\n    author: {\n      name: \"Sofia Alvarez\",\n      role: \"Product Designer @Linear\",\n      avatar:\n        \"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop&crop=faces\",\n    },\n  },\n  {\n    id: \"4\",\n    text: \"Looks editorial, feels interactive — exactly what our landing needed.\",\n    author: {\n      name: \"Elena Rossi\",\n      role: \"Brand Lead @Figma\",\n      avatar:\n        \"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=faces\",\n    },\n  },\n];\n\nexport default function InlineTestimonialsExample() {\n  return (\n    <div className=\"mx-auto w-full max-w-3xl px-4 py-10\">\n      <InlineTestimonials testimonials={TESTIMONIALS} />\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/disclosure/inline-testimonials.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

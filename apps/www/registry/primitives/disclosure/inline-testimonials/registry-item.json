@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "inline-testimonials",
+  "type": "registry:ui",
+  "title": "Inline Testimonials",
+  "description": "A flowing quote stream where each avatar reveals its author on hover, with Motion fading and blurring the rest.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/disclosure/inline-testimonials/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/disclosure/inline-testimonials.tsx"
+    }
+  ]
+}

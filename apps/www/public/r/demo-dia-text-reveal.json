@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dia-text-reveal",
+  "title": "Dia Text Reveal Demo",
+  "description": "Gradient sweep revealing a headline with a looping chromatic wash.",
+  "registryDependencies": ["@soralabs/dia-text-reveal"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
+      "content": "\"use client\";\n\nimport { DiaTextReveal } from \"@/components/sora-ui/texts/dia-text-reveal\";\n\nexport default function DiaTextRevealExample() {\n  return (\n    <p className=\"font-light text-4xl tracking-tight\">\n      Make interfaces feel{\" \"}\n      <DiaTextReveal\n        fixedWidth\n        repeat\n        repeatDelay={0.5}\n        text={[\"smooth.\", \"focused.\", \"refined.\"]}\n      />\n    </p>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/dia-text-reveal.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
