@@ -12,5 +12,13 @@
       "type": "registry:ui",
       "target": "components/sora-ui/disclosure/expandable-tabs.tsx"
     }
-  ]
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "beui.dev's Expandable Tabs",
+      "url": "https://beui.dev",
+      "stack": "Motion and React"
+    }
+  }
 }

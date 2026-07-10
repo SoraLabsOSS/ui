@@ -77,6 +77,6 @@
     "shadcn": "^4.10.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.13",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.0"
   }
 }

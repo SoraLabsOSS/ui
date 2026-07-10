@@ -71,8 +71,7 @@ const contentVariants = {
   exit: (direction: number) => ({ x: `${-60 * direction}%`, opacity: 0 }),
 };
 
-/** Shared padding/gap for a trigger button, used by both the ghost
- * measurement row and the real interactive row so they can't drift apart. */
+/** Shared padding/gap so the ghost row and real row can't drift apart. */
 function triggerBoxStyle(isActive: boolean) {
   return {
     gap: isActive ? ".5rem" : 0,
@@ -133,9 +132,7 @@ export function ExpandableTabs({
     [prefersReducedMotion, springDuration, springBounce]
   );
 
-  // Content opacity fades faster than the shell/box shrink so it's already
-  // near-invisible before the narrowing pill would otherwise clip it —
-  // avoids a hard edge cutting through still-legible text on close.
+  // Opacity fades faster than the shell shrinks, so text isn't clipped mid-fade.
   const contentTransition = useMemo<Transition>(
     () => ({
       ...spring,
@@ -144,10 +141,7 @@ export function ExpandableTabs({
     [spring, prefersReducedMotion]
   );
 
-  // Label width always moves in lockstep with the button's own gap/padding
-  // (no delay, same on reveal and hide) so the row's footprint never lags
-  // behind the pill. `labelDelay` only staggers the label's own fade —
-  // purely cosmetic, applied evenly on both reveal and hide.
+  // Width tracks the button in lockstep; `labelDelay` only staggers the fade.
   const labelTransition = useMemo<Transition>(
     () => ({
       ...spring,
@@ -211,7 +205,12 @@ export function ExpandableTabs({
   }
 
   return (
-    <div className={cn(classNames?.root, className)} ref={containerRef}>
+    <div
+      className={cn(classNames?.root, className)}
+      ref={containerRef}
+      // Opt out of CSS scroll anchoring so our animated resizes don't shift window.scrollY.
+      style={{ overflowAnchor: "none" }}
+    >
       <LayoutGroup>
         <motion.div
           animate={{
@@ -228,16 +227,8 @@ export function ExpandableTabs({
           initial={false}
           transition={spring}
         >
-          {/* No `mode="popLayout"`: it snapshots the exiting child's
-              position in absolute pixels, which fights the live
-              `left-1/2 -translate-x-1/2` recentering below as the pill keeps
-              shrinking. Each content instance (entering AND exiting) is its
-              own `position:absolute` element instead of a shared normal-flow
-              wrapper — otherwise, while switching tabs, the exiting and
-              entering copies would briefly coexist in normal flow and stack
-              vertically, inflating the measured height. Only the current
-              (entering) instance carries `ref={measureRef}`, since the
-              exiting clone is a separate Motion-managed instance. */}
+          {/* No `mode="popLayout"`: it'd snapshot exit position in absolute
+              pixels, fighting the live centering below as the pill shrinks. */}
           <AnimatePresence custom={direction} initial={false}>
             {selected !== null && activeTab && (
               <motion.div
@@ -263,10 +254,8 @@ export function ExpandableTabs({
             )}
           </AnimatePresence>
 
-          {/* Ghost row: mirrors the current (settled) row size for measurement
-              only, so useMeasure never chases the visible label's own
-              width-reveal animation — it reads the final target size
-              immediately instead of frame-by-frame. */}
+          {/* Ghost row: measures the settled target size so useMeasure doesn't
+              chase the label's own reveal animation frame-by-frame. */}
           <div
             aria-hidden="true"
             className="invisible absolute bottom-0 left-1/2 -translate-x-1/2 bg-background p-2"
@@ -293,8 +282,11 @@ export function ExpandableTabs({
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-background p-2">
-            <div className="flex h-9 items-center gap-1">
+          {/* left-0 w-full + justify-center (not translate-x centering) so a
+              focused button's position doesn't shift mid-animation and
+              trigger browser auto-scroll. Fine here since it isn't measured. */}
+          <div className="absolute bottom-0 left-0 w-full bg-background p-2">
+            <div className="flex h-9 items-center justify-center gap-1">
               {tabs.map((tab, index) => {
                 const Icon = tab.icon;
                 const isActive = selected === tab.id;
