@@ -1,4 +1,5 @@
 import { CursorTrailDemoPage } from "./cursor-trail-demo";
+import { MagneticDemoPage } from "./magnetic-demo";
 import { ScrollDemoPage } from "./scroll-demo";
 import { ScrollGalleryDemoPage } from "./scroll-gallery-demo";
 import { StickyScrollCardsDemoPage } from "./sticky-scroll-cards-demo";
@@ -10,6 +11,7 @@ export default function DemoPage() {
       <ScrollGalleryDemoPage />
       <ScrollDemoPage />
       <StickyScrollCardsDemoPage />
+      <MagneticDemoPage />
     </>
   );
 }

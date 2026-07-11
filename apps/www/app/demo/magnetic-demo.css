@@ -1,0 +1,268 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,450;9..40,500&family=Epilogue:wght@700;800&display=swap");
+
+.magnetic-demo {
+  --magnetic-demo-dark: #141314;
+  --magnetic-demo-bg: #f4f1ea;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  color: var(--magnetic-demo-dark);
+  background: var(--magnetic-demo-bg);
+}
+
+.magnetic-demo__section {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 120px 60px 100px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.magnetic-demo__heading {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto 60px;
+}
+
+.magnetic-demo__title {
+  margin: 0;
+  font-family: "Epilogue", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.75rem, 8vw, 7rem);
+  font-weight: 750;
+  line-height: 0.9;
+  color: var(--magnetic-demo-dark);
+  letter-spacing: -5px;
+}
+
+.magnetic-demo__subtitle {
+  position: relative;
+  top: -30px;
+  display: inline-block;
+  margin: 0;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: clamp(2.5rem, 8vw, 7.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--magnetic-demo-dark);
+  letter-spacing: -2px;
+}
+
+.magnetic-demo__sticker {
+  position: absolute;
+  top: -15px;
+  right: -25px;
+  display: inline-block;
+  width: 150px;
+  height: 80px;
+  pointer-events: none;
+  rotate: -10deg;
+}
+
+.magnetic-demo__sticker img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.magnetic-demo__underline {
+  display: block;
+  max-width: 720px;
+  height: auto;
+  margin: -45px auto 0;
+  color: var(--magnetic-demo-dark);
+}
+
+.magnetic-demo__cards-area {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 550px;
+  margin: 40px auto 80px;
+}
+
+.magnetic-demo__blob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 580px;
+  height: 500px;
+  pointer-events: none;
+  transform: translate(-116.5%, -45%);
+}
+
+.magnetic-demo__blob img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.magnetic-demo__cards {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.magnetic-demo__card {
+  position: relative;
+  flex-shrink: 0;
+  width: 17vw;
+  height: 22vw;
+  overflow: clip;
+  border-radius: 0.375rem;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 15%);
+}
+
+.magnetic-demo__card-image {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #d9d2cb;
+  border-radius: 0.375rem;
+}
+
+.magnetic-demo__cover {
+  object-fit: cover;
+}
+
+.magnetic-demo__card--1 {
+  z-index: 1;
+  margin-right: -2vw;
+  transform: rotate(-6deg);
+}
+
+.magnetic-demo__card--2 {
+  bottom: -3rem;
+  left: -2rem;
+  z-index: 2;
+  margin-right: -2vw;
+  transform: rotate(6deg);
+}
+
+.magnetic-demo__card--3 {
+  left: -3rem;
+  z-index: 3;
+  margin-right: -2vw;
+  transform: rotate(-6deg);
+}
+
+.magnetic-demo__card--4 {
+  bottom: -2rem;
+  left: -3.5rem;
+  z-index: 4;
+  margin-right: -2vw;
+  transform: rotate(4deg);
+}
+
+.magnetic-demo__labels {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.magnetic-demo__label {
+  position: absolute;
+  z-index: 10;
+  padding: 0.1vw 0.5vw;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: default;
+  border-radius: 9999px;
+  border-bottom-left-radius: 0;
+  transform: translate(-50%, -50%);
+}
+
+.magnetic-demo__label p {
+  margin: 0;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 450;
+  color: var(--magnetic-demo-dark);
+  pointer-events: none;
+}
+
+.magnetic-demo__label--pink {
+  top: 31%;
+  left: 30%;
+  background-color: #efbbd8;
+}
+
+.magnetic-demo__label--orange {
+  top: 69%;
+  left: 48%;
+  background-color: #f4825c;
+}
+
+.magnetic-demo__label--green {
+  top: 46%;
+  left: 89%;
+  background-color: #dcec9d;
+}
+
+.magnetic-demo__footer {
+  max-width: 550px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.magnetic-demo__description {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--magnetic-demo-dark);
+  letter-spacing: -0.2px;
+}
+
+@media (max-width: 900px) {
+  .magnetic-demo__card {
+    width: 22vw;
+    height: 28vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .magnetic-demo__section {
+    padding: 80px 24px 72px;
+  }
+
+  .magnetic-demo__subtitle {
+    top: -12px;
+  }
+
+  .magnetic-demo__sticker {
+    top: -8px;
+    right: -8px;
+    width: 100px;
+    height: auto;
+  }
+
+  .magnetic-demo__cards-area {
+    height: 420px;
+    margin: 24px auto 56px;
+  }
+
+  .magnetic-demo__blob {
+    width: 75%;
+    height: auto;
+    transform: translate(-100%, -45%);
+  }
+
+  .magnetic-demo__card {
+    width: 28vw;
+    height: 36vw;
+  }
+
+  .magnetic-demo__label--green {
+    left: 78%;
+  }
+
+  .magnetic-demo__description {
+    font-size: 1.05rem;
+  }
+}
