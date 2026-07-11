@@ -209,10 +209,10 @@ The docs preview panel is a small scrollable box, not the real page — reparent
 ## Reduced motion isn't a CSS media query bolt-on here
 
 ```ts
-const shouldAnimate = !prefersReducedMotion && cardCount > 0;
+const hasCards = cardCount > 0;
 ```
 
-If the user has `prefers-reduced-motion: reduce`, the `useGSAP` effect bails before even creating a `ScrollTrigger`. But — and this is the part that's easy to get lazy about — it doesn't just *stop animating*, it explicitly sets the **end state**:
+The `useGSAP` effect only bails early when there are no cards to mount — reduced motion is *not* a reason to skip the effect. It still mounts, still measures the scroller, still sets the cards' initial transforms — it just never creates a `ScrollTrigger`. That distinction matters: the effect has to keep running for a reduced-motion user, because — and this is the part that's easy to get lazy about — the honest reduced-motion behavior isn't *stop animating*, it's explicitly setting the **end state**:
 
 ```ts
 function applyReducedMotionEndState(refs, cardCount, timing) {

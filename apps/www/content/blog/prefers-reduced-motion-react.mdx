@@ -1,0 +1,221 @@
+---
+title: "prefers-reduced-motion in React: 5 production patterns beyond duration: 0"
+description: What 24 shipped React primitives taught me about handling prefers-reduced-motion properly — five different strategies, and why "just set duration to 0" is the wrong default.
+ogSubtitle: Five real strategies for prefers-reduced-motion, pulled from 24 production components.
+author: Axyl
+date: 2026-07-11
+hashtags: ["#a11y", "#accessibility", "#css", "#react"]
+---
+
+I maintain [Sora UI](https://ui.soralabs.io.vn) — a small React component library: animated cards, custom cursors, scroll effects, the stuff people reach for to make a landing page feel alive. It's grown to 24 published motion primitives, all built on either GSAP or Motion, and both of those libraries will happily animate someone straight into a migraine if you let them.
+
+Grep `prefers-reduced-motion` across all 24 components and every single one touches it somewhere.
+
+100% coverage sounds like a clean stat to open a post with. In practice it's not saying much. "Touches it" and "handles it correctly" turn out to be two very different bars, and most of this post is about the gap between them.
+
+I've written enough of these primitives now that I don't want to do the usual thing — "here's the media query, add it to your CSS" — and call it a day. What I actually want to get into is what breaks when you treat reduced motion as a checkbox instead of a design constraint, and the five different shapes the fix ends up taking once you're doing this across two dozen real components instead of one demo.
+
+---
+
+## Who this is actually for
+
+This isn't a nice-to-have preference the way dark mode is. Up to 35% of adults over 40 in the US have experienced some form of vestibular dysfunction — the inner-ear system that governs balance — and for a meaningful chunk of them, parallax, large-scale transforms, and auto-playing motion trigger real vertigo, nausea, or migraine. It's WCAG Success Criterion 2.3.3 for a reason. Not an edge case you accommodate to be polite. A documented, physiological failure mode of the thing you shipped.
+
+The setting lives at the OS level — macOS Accessibility, Windows "Show animations," Android's remove-animations toggle — and the browser exposes it as a media query:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  /* ... */
+}
+```
+
+That's the whole CSS version, one line. The React-with-GSAP-and-Motion version is not one line, and that gap is what this post is actually about.
+
+---
+
+## The one-line fix that's wrong more often than it's right
+
+Every tutorial leads with the same fix: detect the preference, and if it's set, collapse every transition to `duration: 0`. Fine sometimes. Wrong a lot of the time, because it assumes the animation was decorative — that underneath the motion there's a "finished" state that was always going to look fine once the tween settled.
+
+That assumption breaks the moment the sequence itself *is* the content. One of the primitives, `StickyScrollCards` — a stack of cards that pins to the viewport and flips through in sequence as you scroll — does enter → flip → dismiss across one scroll-linked pin. There's no honest "un-animated version" of that — "cards taking turns" isn't decorating a static layout, it is the layout. Set every tween's duration to `0` there and you haven't disabled the animation, you've teleported the DOM through three overlapping states in one frame. Probably garbage on screen.
+
+What the component actually does is compute the state the sequence would have ended in, and set it directly. `refs` holds references to the card DOM elements, `cardCount` is how many cards are in the stack, and `timing` is a config object with the angles each dismissed card should end up rotated to:
+
+```ts
+function applyReducedMotionEndState(refs, cardCount, timing) {
+  gsap.set(refs.frontEl, { rotationY: 180 });
+  for (const [i, el] of refs.backEls.entries()) {
+    const dismissOrder = cardCount - 1 - i;
+    gsap.set(el, {
+      rotation: angleAt(timing.dismissTiltAngles, dismissOrder),
+      rotationY: 0,
+      y: "-250%",
+    });
+  }
+}
+```
+
+`gsap.set()` is the key detail — it writes the properties immediately, no tween, no frames in between. Everything on the right ends up looking exactly like the last frame of the full animation would have, minus the two seconds it took to get there.
+
+The `ScrollTrigger` — the GSAP plugin that ties an animation's progress to how far the user has scrolled — never even gets created for reduced-motion users. `mountCards` sets the end state, then hits `if (prefersReducedMotion) { ...; return; }` before it ever reaches the `ScrollTrigger.create()` call further down. This is what "just add a media query" glosses over: reduced motion isn't "same result, faster." It's "same destination, no journey." All the card copy stays in the DOM either way, nothing gets removed, so screen readers and page-find see everything regardless — the only thing that changes is whether getting there is staged as a performance.
+
+Full disclosure, since a post about auditing reduced-motion handling should probably survive its own audit: that's what the component does *now*. It's not what the component did an hour ago, when I sat down to use it as this section's example.
+
+The effect used to be gated like this, one level up from everything you just read:
+
+```ts
+const shouldAnimate = !prefersReducedMotion && cardCount > 0;
+
+useGSAP(() => {
+  if (!shouldAnimate) {
+    return;
+  }
+  // ...mountCards, which is the only place applyReducedMotionEndState gets called
+});
+```
+
+`shouldAnimate` is `false` the moment `prefersReducedMotion` is `true` — which means the whole `useGSAP` callback returned on line one, before `mountCards` was even defined, let alone called. `applyReducedMotionEndState` — the function I just walked through two paragraphs ago as the "honest" way to handle this — was dead code. Unreachable. Every reduced-motion visitor who ever loaded this component got the cards in whatever state they default to with zero transforms applied: front and back stacked directly on top of each other at dead center, unrotated, all facing forward. Not "same destination, no journey." Just a pile.
+
+The fix was one variable: gate the effect on `hasCards = cardCount > 0` only, and let `mountCards` decide what to do about `prefersReducedMotion` internally, where the reduced-motion branch had been sitting the entire time, fully written, correctly written, and never once executed. I didn't catch it by testing the component. I caught it because I was about to hold it up as the good example in a post about not trusting components that merely *look* like they handle this correctly.
+
+---
+
+## Five strategies, pulled from real components
+
+Once "duration: 0" stops being the universal answer, you're deciding per-component, based on what the motion is actually for. Here's how the 24 primitives in this library sorted out in practice.
+
+**Bail and render nothing.** `CustomCursor` replaces the system pointer with a custom animated shape that follows your mouse — pure decoration. There's no reduced version of a custom cursor. There's just off.
+
+```tsx
+const prefersReducedMotion = useReducedMotion();
+const isCoarsePointer = useCoarsePointer();
+// ...
+{isCoarsePointer || prefersReducedMotion ? null : (
+  <motion.div animate={appearance} ... />
+)}
+```
+
+Worth noticing it's bundled with the coarse-pointer check, not standalone. Reduced motion and "this is a touchscreen, there's nothing to replace" land in the same branch because they're really the same question underneath: does this effect make sense for this user at all.
+
+**Snap to the end state, don't just stop.** That's `StickyScrollCards` above, but the same shape shows up in `MagneticCards` too — a grid of cards that drift toward the cursor like they're magnetized. It precomputes the resting layout as a plain style object instead of letting GSAP's inertia physics settle there.
+
+```ts
+function staticCardStyle(rest: MagneticCardsLayout, index: number) {
+  return {
+    transform: `translate(-50%, -50%) translate(${rest.x}px, ${rest.y}px) rotate(${rest.rotation}deg)`,
+    zIndex: index,
+  };
+}
+```
+
+`rest` is just the x/y/rotation values each card would eventually settle at if you let the magnetic pull run its course. Instead of computing those through physics, the function returns a plain CSS `transform` string with the destination baked in — no simulation, just the answer.
+
+```tsx
+style={prefersReducedMotion ? staticCardStyle(rest, index) : undefined}
+```
+
+No GSAP tween runs for these cards at all when this branch is taken. The component skips the animation library entirely rather than asking it to animate at zero duration — a small but real difference in what actually executes.
+
+**Collapse the transition object, let the library keep doing its job.** For Motion-based components, `useReducedMotion()` plus a resolver function does the same thing more declaratively. `Highlight` — a pill-shaped background that slides between tabs or nav items to mark the active one — does it at the transition level:
+
+```ts
+function resolveTransition(
+  transition: Transition,
+  prefersReducedMotion: boolean | null
+): Transition {
+  return prefersReducedMotion ? { duration: 0 } : transition;
+}
+```
+
+`transition` here is Motion's config object — the thing that normally says "ease this over 300ms with a spring curve." The function just swaps that whole object out for `{ duration: 0 }` when reduced motion is on, and Motion takes it from there — no manual property-setting needed, unlike the GSAP examples above.
+
+`duration: 0` is genuinely fine here, because what's moving is a small active-state indicator — a tab underline, a pill background — and "appear instantly in the right spot" is a faithful reduced version of "slide there." Same code shape as `Highlight`'s neighbor components, different verdict, because the thing moving was always decorating a result here, not constituting one.
+
+**Reduce complexity, not just duration.** This is the one that actually surprised me, because it's less about removing motion and more about removing cost. `ProgressiveBlur` stacks up to 16 `backdrop-filter` layers to fake a smooth blur gradient — each layer is a real paint cost — and reduced motion drops it to one.
+
+```ts
+const MAX_LAYERS = 16;
+// backdrop-filter is a per-layer paint cost, so reduced motion drops straight
+// to a single band — same silhouette, a sixth of the paints.
+const REDUCED_MOTION_LAYERS = 1;
+```
+
+Some background for why this even needs 16 layers: `backdrop-filter: blur()` in CSS applies one uniform blur strength, but a gradient blur — sharp at the top, heavily blurred at the bottom, like a fade — needs multiple overlapping layers with different blur amounts to fake that gradient, since there's no native CSS property for a *graduated* blur. Sixteen looks smooth. One paints a lot faster and reduced-motion users don't need the extra smoothness in the first place.
+
+`InfiniteScrollingImages` — a carousel of images that loops endlessly and drifts on its own — does the same to its visible-card count, and kills autoplay and keyboard momentum scrolling outright, not just makes them instant. Turns out "this person doesn't want a lot of movement" correlates with "this person also doesn't need 16 blur layers fighting for main-thread time" — reduced motion as a stand-in for reduced visual complexity generally, not only reduced animation.
+
+**Don't trust a one-time check.** Every strategy above reads the preference through a hook, not a single `matchMedia(...).matches` call at mount:
+
+```tsx
+export function usePrefersReducedMotion(): boolean {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return prefersReducedMotion;
+}
+```
+
+People flip this setting mid-session more than you'd guess — a demo, a screen-share, somebody else's laptop with different defaults. `addEventListener("change", ...)` means toggling it in OS settings updates every mounted primitive, no reload needed. A `matches` check with no listener isn't wrong on day one. It's wrong the first time someone changes their mind without refreshing the tab.
+
+Which, as it happens, is the exact bug sitting in `Skeleton` — a loading placeholder that pulses gently while content loads — right now. It doesn't import the shared hook. It has its own inline version:
+
+```ts
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+```
+
+Called once, inside an effect, the moment loading flips to `false`. No listener, no re-render on change. Low stakes in this particular spot — the read only matters at the exact instant a skeleton resolves to content, and nobody's toggling OS accessibility settings in that half-second window — but it's the textbook version of the mistake, sitting in the same registry that gets it right everywhere else. Found it writing this post. Not writing a test for it, which is a little embarrassing to admit.
+
+---
+
+## Why not just use the animation library's own hook
+
+Motion ships `useReducedMotion()`. GSAP ships `gsap.matchMedia()` for the same purpose:
+
+```ts
+const mm = gsap.matchMedia();
+mm.add("(prefers-reduced-motion: reduce)", () => {
+  gsap.from(".box", { opacity: 0 });
+});
+```
+
+Both are genuinely fine, and the components in this library that only ever touch Motion do reach for `useReducedMotion()` directly instead of the shared hook — no reason to reinvent it there. But this library has primitives on GSAP, on Motion, sometimes both in the same file, and none of that should care which library happens to be underneath. One hook, one boolean, works the same whether the caller is `gsap.set` or `motion.div`'s `animate` prop. Past a couple of components split across two motion libraries, "the preference" needs to be a boundary you own — not something each library independently re-derives for you every time.
+
+---
+
+## The gotcha I haven't hit yet, but will
+
+Everything above collapses `duration` to `0`, which is correct for `gsap.set` — that's not an animation, it's an instant property write. But `duration: 0` on a *tweened* transition that something else listens for the completion of — a `transitionend` handler, an `onComplete` gating a state change — and some browsers just silently drop that event for a truly zero-length transition. Usual fix is `0.01ms` instead of `0`: long enough the event still fires, short enough nobody perceives it as motion. None of the 24 currently chain logic off a reduced-motion transition's completion, so it hasn't bitten anyone yet. First thing I'd check the day a `prefersReducedMotion` branch grows an `onComplete`.
+
+---
+
+## What I'd actually change
+
+No user-facing override exists. Everything here follows the OS setting exactly, which is the right default, but a small in-app "reduce motion" toggle that overrides the media query would be more resilient — right now someone who wants full motion sitewide but reduced motion in the one app that triggers them has no way to say so short of flipping an OS-wide setting. GSAP's own docs recommend this pattern for anything motion-forward, for what it's worth.
+
+Coverage isn't audited, it's grepped. "24 of 24 primitives touch it" is a fact I know because I ran a grep five minutes ago, not because a lint rule or a test fails when a new primitive ships a `gsap.to()` with no `prefersReducedMotion` branch next to it. And grepping doesn't even catch the bad kind of "touches it" — `StickyScrollCards` matched every grep I threw at it, imported the hook, wrote a whole dedicated end-state function, and none of that stopped it from being dead code for however long it's been shipping. `Skeleton`'s unlistened check is the same species of problem, just lower stakes. "Every component mentions it," "every component's reduced-motion branch is reachable," and "every component gets it right" are three different claims, and grep only verifies the first one.
+
+And honestly, the five strategies aren't formalized anywhere. Which one a new primitive gets is a judgment call right now, made per-component, and that's fine at 24 and won't stay fine at 100. Probably needs a one-question decision tree — is the motion sequence the content, or is it decorating a result that exists either way — just so the call is faster to make and easier to review later.
+
+The `StickyScrollCards` bug specifically suggests something more mechanical than an audit, too. A snapshot test that renders each primitive twice — `prefers-reduced-motion: no-preference` and `reduce` — and fails if the reduced render is pixel-identical to some *other* broken invariant (all cards stacked at the same coordinates is a pretty detectable shape) would've caught this in CI the first time it shipped, instead of by accident, later, while writing a blog post about not trusting components that only look correct.
+
+---
+
+None of this is exotic. `window.matchMedia`, a `useEffect`, a handful of `if` statements repeated 24 times with different endings. But "does this component respect reduced motion" turns out to be the wrong question past a handful of components. The real one is what does this component's content actually reduce to — a cursor reduces to nothing, a pill indicator reduces to instant, a card stack reduces to wherever the story would've ended. Same hook underneath all three. Three different answers, because the question was never really about the hook.
+
+Every component discussed here — `StickyScrollCards`, `MagneticCards`, `Highlight`, `ProgressiveBlur`, `CustomCursor`, `Skeleton`, and the shared `usePrefersReducedMotion` hook itself — is open source in the [Sora UI](https://ui.soralabs.io.vn) registry, `npx shadcn add`-able, source included, no package to trust blindly.
+
+Reduced motion isn't about removing animation.
+
+It's about deciding what remains when animation disappears.
