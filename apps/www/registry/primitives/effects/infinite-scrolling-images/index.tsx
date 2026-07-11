@@ -245,7 +245,15 @@ function InfiniteScrollingImages({
               key={card.index}
               style={{
                 filter: `blur(${prefersReducedMotion ? 0 : blur}px)`,
-                opacity: prefersReducedMotion ? 1 : opacity,
+                // Forcing opacity to 1 unconditionally used to reveal the
+                // whole `renderBuffer` — including already-scrolled-past
+                // cards scaled up to 2x for the normal crossfade. Reduced
+                // motion should only ever show the single current frame.
+                opacity: prefersReducedMotion
+                  ? card.index === currentIndex
+                    ? 1
+                    : 0
+                  : opacity,
                 transitionDuration: "200ms",
                 transitionProperty: "opacity, filter",
                 transitionTimingFunction: "ease-in-out",

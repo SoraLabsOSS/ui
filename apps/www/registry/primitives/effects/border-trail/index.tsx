@@ -87,15 +87,15 @@ export function BorderTrail({
   }, [prefersReducedMotion, duration, delay, repeat, repeatDelay]);
 
   if (prefersReducedMotion) {
+    // className/style style the small moving square (glow shadows, gradient
+    // fills sized for `size`px) — reusing them here would stretch a
+    // comet-sized glow across the full inset-0 ring. The reduced-motion
+    // fallback is intentionally a plain static ring, not a scaled-up trail.
     return (
       <div
         aria-hidden
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25",
-          className
-        )}
+        className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-primary/25"
         data-slot="border-trail"
-        style={style}
       />
     );
   }

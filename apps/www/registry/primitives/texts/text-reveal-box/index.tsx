@@ -537,13 +537,11 @@ export function TextRevealBox({
           readHighlightConfig(activeTrigger, highlightBg, highlightAlpha);
 
         if (prefersReducedMotion) {
-          updateWords(
-            1,
-            cachedWords,
-            resolvedHighlight,
-            resolvedAlpha,
-            resolvedTiming
-          );
+          // updateWords(1, ...) would land past revealPortion, in the
+          // reverse-highlight phase — every word ends up covered by a solid
+          // highlight block with its text opacity at 0. lockWordsRevealed is
+          // the actual "fully revealed, plain readable" end state.
+          lockWordsRevealed(cachedWords, resolvedHighlight);
           return;
         }
 

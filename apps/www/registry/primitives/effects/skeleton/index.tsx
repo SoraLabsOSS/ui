@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 // Skeleton only reads --sk-muted (surface fill) and --sk-foreground (shimmer
 // highlight). Both default to the app's own shadcn tokens when present, so
@@ -219,13 +220,6 @@ type SkeletonTransitionPhase = "done" | "loading" | "revealing" | "settling";
 const SKELETON_TRANSITION_DEFAULT_SETTLE_DURATION = 0.4;
 const SKELETON_TRANSITION_DEFAULT_FADE_DURATION = 0.15;
 
-function prefersReducedMotion() {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
 interface SkeletonTransitionProps {
   children: ReactNode;
   className?: string;
@@ -268,14 +262,15 @@ function SkeletonTransition({
   const [phase, setPhase] = useState<SkeletonTransitionPhase>(
     loading ? "loading" : "done"
   );
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (loading) {
       setPhase("loading");
       return;
     }
-    setPhase(prefersReducedMotion() ? "done" : "settling");
-  }, [loading]);
+    setPhase(prefersReducedMotion ? "done" : "settling");
+  }, [loading, prefersReducedMotion]);
 
   useEffect(() => {
     if (phase !== "settling") {

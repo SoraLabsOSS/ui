@@ -223,18 +223,21 @@ function setInitialTransforms(refs: CardRefs) {
   gsap.set(refs.backEls, { rotationY: -180 });
 }
 
-function applyReducedMotionEndState(
-  refs: CardRefs,
-  cardCount: number,
-  timing: ResolvedTiming
-) {
-  gsap.set(refs.frontEl, { rotationY: 180 });
+// Snapshots the "just flipped, nothing dismissed yet" moment — not
+// progress=1. The literal end of the sequence is every card flown off
+// (y: -250%) and the front card hidden behind its own flip: an accurate
+// last frame, but a blank one. Reduced-motion visitors never watched the
+// scroll, so they need the frame where the content is actually visible.
+function applyReducedMotionEndState(refs: CardRefs, timing: ResolvedTiming) {
+  if (refs.headlineEl) {
+    gsap.set(refs.headlineEl, { y: "-100%" });
+  }
+  gsap.set(refs.frontEl, { rotationY: 180, y: "-50%" });
   for (const [i, el] of refs.backEls.entries()) {
-    const dismissOrder = cardCount - 1 - i;
     gsap.set(el, {
-      rotation: angleAt(timing.dismissTiltAngles, dismissOrder),
+      rotation: angleAt(timing.flipTiltAngles, i),
       rotationY: 0,
-      y: "-250%",
+      y: "-50%",
     });
   }
 }
@@ -299,11 +302,11 @@ export function StickyScrollCards({
     [cardCount, resolvedTiming]
   );
 
-  const shouldAnimate = !prefersReducedMotion && cardCount > 0;
+  const hasCards = cardCount > 0;
 
   useGSAP(
     () => {
-      if (!shouldAnimate) {
+      if (!hasCards) {
         return;
       }
 
@@ -365,7 +368,7 @@ export function StickyScrollCards({
         setInitialTransforms(refs);
 
         if (prefersReducedMotion) {
-          applyReducedMotionEndState(refs, cardCount, resolvedTiming);
+          applyReducedMotionEndState(refs, resolvedTiming);
           return;
         }
 
@@ -535,7 +538,7 @@ export function StickyScrollCards({
         refreshPriority,
         resolvedTiming,
         totalScrollVh,
-        shouldAnimate,
+        hasCards,
         prefersReducedMotion,
       ],
       scope: embedded ? trackRef : sectionRef,
