@@ -846,7 +846,15 @@ export function ScrollGallery({
 
   const firstSlide = slides[0];
   const initialLinkLabel = firstSlide?.linkLabel ?? linkLabel;
-  const initialImageScale = scrollConfig.timing.scaleFrom;
+  // scaleFrom is the pre-scroll "zoomed in" starting point that the GSAP
+  // mount corrects toward scaleTo as the user scrolls. That mount never runs
+  // under reduced motion (shouldAnimate gates it off entirely, and there's
+  // no equivalent to StickyScrollCards' end-state snapshot here), so without
+  // this branch the first slide would sit permanently scaled up — the only
+  // slide ever shown, stuck at its zoomed-in starting frame.
+  const initialImageScale = prefersReducedMotion
+    ? scrollConfig.timing.scaleTo
+    : scrollConfig.timing.scaleFrom;
 
   const trackStyle = {
     "--sg-scroll-vh": scrollDistanceVh,
