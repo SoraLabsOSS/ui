@@ -1,0 +1,129 @@
+---
+title: Pixel Background
+description: A canvas-based pixel grid that animates in on hover, with configurable reveal patterns.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-pixel-background" description="Hover the panel to reveal a grid of pixels staggered by the selected pattern." />
+
+## Installation
+
+<ComponentInstallation name="pixel-background" />
+
+## Usage
+
+```tsx
+import { PixelBackground } from '@/components/sora-ui/effects/pixel-background';
+
+export default function Hero() {
+  return (
+    <PixelBackground className="h-[420px] w-full" pattern="center">
+      <div className="flex h-full items-center justify-center">
+        <h1 className="text-2xl font-medium">Hover me</h1>
+      </div>
+    </PixelBackground>
+  );
+}
+```
+
+Custom colors — pass a comma-separated list directly, no CSS setup required:
+
+```tsx
+<PixelBackground className="h-[420px] w-full" colors="#f8fafc,#f1f5f9,#cbd5e1">
+  {children}
+</PixelBackground>
+```
+
+Optional: theme-aware colors via CSS custom properties (updates live on a `.dark` class or `data-theme` toggle, no theme library required) — define the tokens once in your global CSS:
+
+```css
+:root {
+  --pixel-bg-1: #d4d4d4;
+  --pixel-bg-2: #bdbdbd;
+  --pixel-bg-3: #a3a3a3;
+}
+.dark {
+  --pixel-bg-1: #2a2a2a;
+  --pixel-bg-2: #3b3b3b;
+  --pixel-bg-3: #525252;
+}
+```
+
+```tsx
+<PixelBackground
+  className="h-[420px] w-full"
+  colors="var(--pixel-bg-1),var(--pixel-bg-2),var(--pixel-bg-3)"
+>
+  {children}
+</PixelBackground>
+```
+
+Touch / coarse-pointer devices — play once the element scrolls into view instead of requiring hover:
+
+```tsx
+<PixelBackground trigger="inView">{children}</PixelBackground>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Content rendered above the pixel canvas.',
+      type: 'ReactNode',
+    },
+    colors: {
+      description:
+        'Comma-separated color list cycled across pixels. Accepts literal colors or `var(--token, fallback)` references resolved against the container, so colors can react to a `.dark` class or `data-theme` attribute toggle.',
+      type: 'string',
+      default: '"#d4d4d4,#bdbdbd,#a3a3a3"',
+    },
+    pattern: {
+      description:
+        'Reveal pattern used to stagger each pixel\'s animation delay: `center`, `top`, `bottom`, `left`, `right`, `diagonal`, `ascend`, `edges`, `spiral`, `cursor`, or `random`.',
+      type: 'AnimationPattern',
+      default: '"center"',
+    },
+    gap: {
+      description: 'Gap between pixels, in logical (CSS) pixels.',
+      type: 'number',
+      default: '5',
+    },
+    speed: {
+      description: 'Shimmer speed, 0-100.',
+      type: 'number',
+      default: '35',
+    },
+    pixelOpacity: {
+      description: 'Opacity applied to the canvas layer.',
+      type: 'number',
+      default: '1',
+    },
+    trigger: {
+      description:
+        '"hover" animates on pointer enter/leave (desktop). "inView" plays once when the element scrolls into the viewport, for touch/coarse-pointer devices where hover isn\'t available.',
+      type: '"hover" | "inView"',
+      default: '"hover"',
+    },
+    className: {
+      description: 'Class names on the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `PixelBackground` behind hero copy, cards, or CTA panels where a subtle, decorative reveal on hover adds texture without competing with the content. Give the root element real height (e.g. a fixed-height section) — the canvas fills its parent.
+
+For content-dense areas where motion could distract from reading, skip it — the effect is purely decorative.
+
+## Accessibility
+
+The canvas is `aria-hidden` — it's decorative and carries no information. Visibility is tracked via `IntersectionObserver`, so the animation loop is fully cancelled while the element is offscreen, not just paused visually. When `prefers-reduced-motion: reduce` is set, no animation frames are ever scheduled — the setting is watched live via `usePrefersReducedMotion`, so toggling it while the page is open takes effect immediately.
+
+## Credits
+
+<ComponentCredits name="pixel-background" />

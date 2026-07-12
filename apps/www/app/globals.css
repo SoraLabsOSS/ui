@@ -109,6 +109,12 @@
   --background: oklch(1 0 0);
 
   --foreground: oklch(0.145 0 0);
+
+  --pixel-bg-1: #d4d4d4;
+
+  --pixel-bg-2: #bdbdbd;
+
+  --pixel-bg-3: #a3a3a3;
 }
 
 .dark {
@@ -200,6 +206,12 @@
   --color-fd-card: var(--background);
 
   --color-fd-card-foreground: var(--foreground);
+
+  --pixel-bg-1: #2a2a2a;
+
+  --pixel-bg-2: #3b3b3b;
+
+  --pixel-bg-3: #525252;
 }
 
 @theme inline {

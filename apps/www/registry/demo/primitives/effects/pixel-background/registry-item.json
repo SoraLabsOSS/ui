@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-pixel-background",
+  "type": "registry:ui",
+  "title": "Pixel Background Demo",
+  "description": "A hoverable panel revealing a grid of pixels staggered by the selected pattern.",
+  "registryDependencies": ["pixel-background"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/pixel-background/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/pixel-background.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-pixel-background",
+  "title": "Pixel Background Demo",
+  "description": "A hoverable panel revealing a grid of pixels staggered by the selected pattern.",
+  "registryDependencies": ["@soralabs/pixel-background"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/pixel-background/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  type AnimationPattern,\n  PixelBackground,\n} from \"@/components/sora-ui/effects/pixel-background\";\n\nexport function PixelBackgroundExample({\n  colors = \"#f8fafc,#f1f5f9,#cbd5e1\",\n  pattern = \"center\",\n  gap = 5,\n  speed = 35,\n  pixelOpacity = 1,\n}: {\n  colors?: string;\n  gap?: number;\n  pattern?: AnimationPattern;\n  pixelOpacity?: number;\n  speed?: number;\n}) {\n  return (\n    <div className=\"h-[min(420px,60dvh)] w-full min-w-0 sm:h-[420px]\">\n      <PixelBackground\n        className=\"h-full w-full\"\n        colors={colors}\n        gap={gap}\n        pattern={pattern}\n        pixelOpacity={pixelOpacity}\n        speed={speed}\n      >\n        <div className=\"flex h-full w-full items-center justify-center\">\n          <p className=\"font-medium text-lg\">Hover me</p>\n        </div>\n      </PixelBackground>\n    </div>\n  );\n}\n\nexport default PixelBackgroundExample;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/pixel-background.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

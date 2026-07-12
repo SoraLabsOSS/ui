@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pixel-background",
+  "type": "registry:ui",
+  "title": "Pixel Background",
+  "description": "A canvas-based pixel grid that animates in on hover, with configurable reveal patterns.",
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/effects/pixel-background/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/pixel-background.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "PixelBackground": {
+        "colors": {
+          "value": "#f8fafc,#f1f5f9,#cbd5e1",
+          "options": {
+            "White": "#f8fafc,#f1f5f9,#cbd5e1",
+            "Blue": "#e0f2fe,#7dd3fc,#0ea5e9",
+            "Pink": "#fecdd3,#fda4af,#e11d48"
+          }
+        },
+        "pattern": {
+          "value": "center",
+          "options": {
+            "Center": "center",
+            "Cursor": "cursor",
+            "Spiral": "spiral",
+            "Edges": "edges",
+            "Random": "random"
+          }
+        },
+        "gap": { "value": 5, "min": 2, "max": 20, "step": 1 },
+        "speed": { "value": 35, "min": 0, "max": 100, "step": 1 },
+        "pixelOpacity": { "value": 1, "min": 0.1, "max": 1, "step": 0.05 }
+      }
+    },
+    "inspiration": {
+      "type": "inspired",
+      "label": "React Bits",
+      "url": "https://www.reactbits.dev/components/pixel-card"
+    }
+  }
+}

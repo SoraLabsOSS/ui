@@ -285,6 +285,10 @@ function TestimonialItem({
           ? "opacity 0.3s ease"
           : "filter 0.3s ease, opacity 0.3s ease",
         cursor: "default",
+        // Bleeds the hoverable area into the inter-line gap so moving the
+        // cursor between wrapped lines doesn't pass through a dead zone
+        // that belongs to no item and drops the hover state.
+        paddingBlock: 4,
       }}
       tabIndex={allowFocus ? 0 : undefined}
     >
