@@ -390,6 +390,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-text-loop": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/texts/text-loop/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-text-morph": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/texts/text-morph/index.tsx"
@@ -927,6 +943,22 @@ export const previewComponents: Record<string, any> = {
   "text-effect": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/texts/text-effect/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "text-loop": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/texts/text-loop/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)

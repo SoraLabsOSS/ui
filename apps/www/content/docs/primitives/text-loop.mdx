@@ -1,0 +1,111 @@
+---
+title: Text Loop
+description: Cycles through a list of items with an enter/exit animation, powered by Motion.
+author:
+  name: Sora UI
+  url: https://sora.dev
+---
+
+<ComponentPreview name="demo-text-loop" description="Headline that cycles through a set of phrases on an interval." />
+
+## Installation
+
+<ComponentInstallation name="text-loop" />
+
+## Usage
+
+```tsx
+import { TextLoop } from '@/components/sora-ui/texts/text-loop';
+
+export function RotatingHeadline() {
+  return (
+    <TextLoop className="text-2xl font-medium">
+      <span>Design fast.</span>
+      <span>Ship faster.</span>
+      <span>Iterate forever.</span>
+    </TextLoop>
+  );
+}
+```
+
+Pause cycling and drive the index manually:
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { TextLoop } from '@/components/sora-ui/texts/text-loop';
+
+export function ManualTextLoop() {
+  const [paused, setPaused] = useState(false);
+
+  return (
+    <button onClick={() => setPaused((current) => !current)} type="button">
+      <TextLoop trigger={!paused}>
+        <span>Hover to pause</span>
+        <span>Click to resume</span>
+      </TextLoop>
+    </button>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Items to cycle through. Each child is shown for `interval` seconds.',
+      type: 'ReactNode[]',
+      required: true,
+    },
+    interval: {
+      description: 'Seconds each item stays visible before advancing.',
+      type: 'number',
+      default: '2',
+    },
+    trigger: {
+      description: 'Set to false to pause cycling.',
+      type: 'boolean',
+      default: 'true',
+    },
+    mode: {
+      description: '`AnimatePresence` transition mode.',
+      type: '"sync" | "wait" | "popLayout"',
+      default: '"popLayout"',
+    },
+    live: {
+      description: 'ARIA live region politeness for the cycling text.',
+      type: '"off" | "polite" | "assertive"',
+      default: '"off"',
+    },
+    variants: {
+      description: 'Custom Motion variants for enter, animate, and exit.',
+      type: 'Variants',
+    },
+    transition: {
+      description: 'Motion transition applied to each item.',
+      type: 'Transition',
+    },
+    onIndexChange: {
+      description: 'Called with the new index whenever the loop advances.',
+      type: '(index: number) => void',
+    },
+    className: {
+      description: 'Class names on the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `TextLoop` for short rotating copy where a hard cut would feel abrupt: hero headlines, rotating value props, or status text that changes over time. Keep items short and similar in width, since the container does not reserve space for the widest item.
+
+## Accessibility
+
+Set `live="polite"` if the cycling text conveys information users should be notified of; leave it `"off"` (default) for purely decorative rotating copy, since a live region firing every `interval` seconds is disruptive for screen reader users. When `prefers-reduced-motion: reduce` is set, the component still swaps the active item on each interval but skips the enter/exit motion via `useReducedMotion()` — no extra configuration needed.
+
+## Credits
+
+<ComponentCredits name="text-loop" />

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-loop",
+  "title": "Text Loop",
+  "description": "Cycles through a list of items with an enter/exit animation, powered by Motion.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-loop/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  AnimatePresence,\n  type AnimatePresenceProps,\n  motion,\n  type Transition,\n  useReducedMotion,\n  type Variants,\n} from \"motion/react\";\nimport {\n  Children,\n  type ComponentPropsWithoutRef,\n  type Ref,\n  useEffect,\n  useState,\n} from \"react\";\n\nconst DEFAULT_VARIANTS: Variants = {\n  initial: { y: 20, opacity: 0 },\n  animate: { y: 0, opacity: 1 },\n  exit: { y: -20, opacity: 0 },\n};\n\nconst DEFAULT_TRANSITION: Transition = { duration: 0.3 };\n\nexport type TextLoopProps = {\n  /** Items to cycle through. Each child is shown for `interval` seconds. */\n  children: React.ReactNode[];\n  className?: string;\n  /**\n   * Seconds each item stays visible before advancing.\n   * @default 2\n   */\n  interval?: number;\n  transition?: Transition;\n  variants?: Variants;\n  onIndexChange?: (index: number) => void;\n  /**\n   * Set to false to pause cycling.\n   * @default true\n   */\n  trigger?: boolean;\n  /**\n   * `AnimatePresence` transition mode.\n   * @default \"popLayout\"\n   */\n  mode?: AnimatePresenceProps[\"mode\"];\n  /**\n   * ARIA live region politeness for the cycling text.\n   * @default \"off\"\n   */\n  live?: \"assertive\" | \"off\" | \"polite\";\n  ref?: Ref<HTMLDivElement>;\n} & Omit<ComponentPropsWithoutRef<\"div\">, \"children\" | \"className\">;\n\nexport function TextLoop({\n  children,\n  className,\n  interval = 2,\n  transition = DEFAULT_TRANSITION,\n  variants,\n  onIndexChange,\n  trigger = true,\n  mode = \"popLayout\",\n  live = \"off\",\n  ref,\n  ...props\n}: TextLoopProps) {\n  const items = Children.toArray(children);\n  const [currentIndex, setCurrentIndex] = useState(0);\n  const prefersReducedMotion = useReducedMotion();\n\n  useEffect(() => {\n    if (currentIndex >= items.length) {\n      setCurrentIndex(0);\n    }\n  }, [items.length, currentIndex]);\n\n  useEffect(() => {\n    if (!trigger || items.length < 2) {\n      return;\n    }\n\n    const intervalMs = interval * 1000;\n    const timer = setInterval(() => {\n      setCurrentIndex((current) => {\n        const next = (current + 1) % items.length;\n        onIndexChange?.(next);\n        return next;\n      });\n    }, intervalMs);\n    return () => clearInterval(timer);\n  }, [items.length, interval, onIndexChange, trigger]);\n\n  const activeItem = items[currentIndex];\n\n  if (prefersReducedMotion) {\n    return (\n      <div\n        aria-live={live === \"off\" ? undefined : live}\n        className={cn(\"relative inline-block whitespace-nowrap\", className)}\n        ref={ref}\n        {...props}\n      >\n        {activeItem}\n      </div>\n    );\n  }\n\n  return (\n    <div\n      aria-live={live === \"off\" ? undefined : live}\n      className={cn(\"relative inline-block whitespace-nowrap\", className)}\n      ref={ref}\n      {...props}\n    >\n      <AnimatePresence initial={false} mode={mode}>\n        <motion.div\n          animate=\"animate\"\n          exit=\"exit\"\n          initial=\"initial\"\n          key={currentIndex}\n          transition={transition}\n          variants={variants || DEFAULT_VARIANTS}\n        >\n          {activeItem}\n        </motion.div>\n      </AnimatePresence>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-loop.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/text-loop"
+    }
+  },
+  "type": "registry:ui"
+}

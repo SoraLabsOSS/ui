@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-loop",
+  "type": "registry:ui",
+  "title": "Text Loop",
+  "description": "Cycles through a list of items with an enter/exit animation, powered by Motion.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-loop/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-loop.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/text-loop"
+    }
+  }
+}

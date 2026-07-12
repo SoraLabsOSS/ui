@@ -49,7 +49,10 @@ export default async function Page(props: {
   const tree = source.getPageTree();
   const { previous, next: nextPage } = findNeighbour(tree, page.url);
 
-  type GuideLink = { text: string; url: string };
+  interface GuideLink {
+    text: string;
+    url: string;
+  }
   const isGuideLink = (l: unknown): l is GuideLink => {
     if (typeof l !== "object" || l === null) {
       return false;
@@ -88,8 +91,8 @@ export default async function Page(props: {
       page.url === DOCS_COMPONENTS_SECTION_URL || isPrimitivesRoot;
 
     if (isSectionRoot && guideItems.length > 0) {
-      const last = guideItems[guideItems.length - 1];
-      return { url: last.url, name: last.text } as const;
+      const last = guideItems.at(-1);
+      return { url: last?.url, name: last?.text } as const;
     }
 
     if (page.url.startsWith("/docs/primitives/")) {

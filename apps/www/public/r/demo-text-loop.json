@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-loop",
+  "title": "Text Loop Demo",
+  "description": "Cycling headline built with TextLoop.",
+  "registryDependencies": ["@soralabs/text-loop"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-loop/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  TextLoop,\n  type TextLoopProps,\n} from \"@/components/sora-ui/texts/text-loop\";\n\nconst PHRASES = [\"Design fast.\", \"Ship faster.\", \"Iterate forever.\"];\n\nexport default function TextLoopExample({\n  interval = 2,\n  className = \"font-medium text-2xl text-foreground\",\n}: Pick<TextLoopProps, \"interval\" | \"className\">) {\n  return (\n    <div className=\"relative inline-grid\">\n      {PHRASES.map((phrase) => (\n        <span\n          aria-hidden\n          className={cn(\n            className,\n            \"invisible whitespace-nowrap [grid-area:1/1]\"\n          )}\n          key={phrase}\n        >\n          {phrase}\n        </span>\n      ))}\n      <TextLoop\n        className={cn(className, \"[grid-area:1/1]\")}\n        interval={interval}\n      >\n        {PHRASES.map((phrase) => (\n          <span key={phrase}>{phrase}</span>\n        ))}\n      </TextLoop>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-loop.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TextLoopExample": {
+        "interval": {
+          "value": 2,
+          "min": 0.5,
+          "max": 5,
+          "step": 0.1
+        },
+        "className": {
+          "value": "font-medium text-2xl text-foreground"
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}
