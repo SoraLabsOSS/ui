@@ -1,0 +1,176 @@
+---
+title: "Magnetic Cards in React: the fling isn't magnetism, it's a stopwatch"
+description: How MagneticCards tracks raw mousemove deltas per card and hands them to GSAP's InertiaPlugin as a starting velocity — plus why the name undersells what's actually happening, and the one frame-rate gotcha baked into "speed" itself.
+ogSubtitle: There's no attraction force anywhere in this component. Just a delta, a direction, and one call to InertiaPlugin.
+author: Axyl
+date: 2026-07-13
+hashtags: ["#gsap", "#react", "#animation", "#inertiaplugin"]
+---
+
+<video autoPlay className="w-full rounded-md border border-border/60" loop muted playsInline src="https://sora.axyl.io.vn/media/demo/magnetic-cards/magetic-card.webm" />
+
+`MagneticCards` is the wrong name for what this component does, and I wrote it.
+
+"Magnetic" implies attraction — cards pulled toward the cursor, held there by some invisible force, released when it lets go. That's [Truus.co](https://www.truus.co/)'s effect, the one this reimplements, and it's the vocabulary everyone reaches for to describe it. But there's no attraction anywhere in the code. No spring pulling the card toward the pointer. What's actually there is a stopwatch: track how fast the cursor moved while it was over the card, and when the cursor leaves, fling the card away using that speed as a starting velocity, eased back to rest by GSAP's `InertiaPlugin`. The card never chases your cursor. It just remembers how fast you were going and throws itself accordingly.
+
+Once that distinction clicked, the whole implementation stopped being mysterious and started being a fairly small state machine: three DOM listeners per card, two numbers, one plugin call.
+
+---
+
+## What it looks like
+
+A fan of 3-6 cards, each resting at its own tilt and offset — a symmetric spread computed once from `items.length`. Wave the cursor across one, and nothing happens *while* it's over the card (this is the first surprising thing — no hover-follow, no attraction, no visual feedback mid-hover). Pull the cursor off and the card flings in the direction you were moving, rotates a little based on how fast, then eases back to exactly where it started. Move slowly across it and the release is barely a nudge. Flick across it and the card visibly recoils before settling.
+
+That asymmetry — quiet during the hover, expressive only at the moment of release — is the whole design.
+
+---
+
+## The load-bearing idea: velocity is just a delta, not a rate
+
+```ts
+const onMove = (event: MouseEvent) => {
+  speedX = event.clientX - lastX;
+  speedY = event.clientY - lastY;
+  lastX = event.clientX;
+  lastY = event.clientY;
+};
+```
+
+This is the entire "speed" calculation. Not distance over time — just distance. `speedX`/`speedY` get overwritten on every `mousemove`, and each new value is "how far did the cursor move since the *previous* `mousemove` event," full stop. There's no `Date.now()`, no `dt`, no division anywhere in this function.
+
+That's a deliberate simplification, and it happens to work because `mousemove` fires at a roughly consistent cadence on a given device — call it "pixels per tick" instead of "pixels per second," and as long as ticks are roughly evenly spaced, pixels-per-tick is a fine enough proxy for velocity. But it's not actually velocity, and the gap between those two things is exactly the kind of thing that's invisible in every demo recording and only shows up on hardware you didn't test on. A high-polling-rate gaming mouse firing `mousemove` twice as often as a typical trackpad will report roughly half the `speedX` for the *same* physical flick, because each tick captures a smaller slice of the same motion. The fling on that mouse would read as gentler than the identical gesture on a laptop trackpad, not because the person moved slower, but because their input device happened to sample more often. It's not wrong so much as it's quietly rate-dependent in a way the code doesn't admit to.
+
+I haven't fixed this because I haven't felt it — every device I've tested this on lands in a similar-enough polling range that the multiplier constants absorb the difference. But it's the first thing I'd instrument if someone filed "the fling feels weak on my machine."
+
+---
+
+## Three listeners, one very short state machine
+
+```ts
+function attachCardInertia(
+  el: HTMLDivElement,
+  rest: MagneticCardsLayout,
+  velocityMultiplier: number,
+  rotationVelocityMultiplier: number
+): () => void {
+  let lastX = 0;
+  let lastY = 0;
+  let speedX = 0;
+  let speedY = 0;
+
+  const onMove = (event: MouseEvent) => { /* ...updates speedX/speedY... */ };
+  const onEnter = (event: MouseEvent) => {
+    speedX = 0;
+    speedY = 0;
+    lastX = event.clientX;
+    lastY = event.clientY;
+  };
+  const onLeave = () => {
+    gsap.to(el, {
+      inertia: {
+        rotation: { end: rest.rotation, velocity: speedX * rotationVelocityMultiplier },
+        x: { end: rest.x, velocity: speedX * velocityMultiplier },
+        y: { end: rest.y, velocity: speedY * velocityMultiplier },
+      },
+    });
+  };
+
+  el.addEventListener("mousemove", onMove);
+  el.addEventListener("mouseenter", onEnter);
+  el.addEventListener("mouseleave", onLeave);
+
+  return () => { /* remove all three */ };
+}
+```
+
+`onEnter` resetting `speedX`/`speedY` to `0` is the detail that keeps this honest. Without it, the very first `mousemove` inside a card would compute its delta against wherever the cursor happened to be the *last* time it moved anywhere on the page — including moves that happened outside the card entirely, or during a previous hover of a *different* card sharing the same closure shape. Resetting on enter means every hover starts its speed tracking from zero, so the eventual `onLeave` velocity is purely "what happened during this hover," not contaminated by whatever the cursor was doing five seconds and two other cards ago.
+
+`onLeave` is where `InertiaPlugin` actually gets used, and the shape is worth spelling out because it's not obvious from the property names alone. `end` is where the value should land — the card's own rest `x`/`y`/`rotation`, captured in the `rest` closure variable, not a global origin. `velocity` is the starting speed InertiaPlugin uses to *compute* the tween's duration and easing curve — a bigger `velocity` means more overshoot and a longer settle, a smaller one is barely a wobble. Notice `rotation`'s velocity comes from `speedX`, not some separate rotational input — spinning is entirely derived from how fast you were moving horizontally, scaled by its own `rotationVelocityMultiplier`. There's no independent "how much did you rotate the cursor" signal, because a mouse doesn't have one; horizontal fling speed is standing in for "how hard was this card flicked," and it does double duty for both the throw and the spin.
+
+Three per-card closures like this, one for each card in the fan, all created inside a single `useGSAP` that also runs `gsap.set` to place the card at its rest position before ever attaching the listeners:
+
+```ts
+gsap.set(el, {
+  rotation: rest.rotation,
+  x: rest.x,
+  xPercent: -50,
+  y: rest.y,
+  yPercent: -50,
+  zIndex: index,
+});
+```
+
+`xPercent`/`yPercent: -50` centers the card on its own `x`/`y` coordinate rather than its top-left corner — necessary because every card's absolute position is `top-1/2 left-1/2`, and without the percent-based centering, `rest.x`/`rest.y` would be offsets from the corner instead of offsets from the true center, throwing off every fan position and every fling target by half a card's dimensions.
+
+---
+
+## The fan is math, not a lookup table
+
+```ts
+function createDefaultLayout(count: number): MagneticCardsLayout[] {
+  const mid = (count - 1) / 2;
+  return Array.from({ length: count }, (_, index) => {
+    const offset = index - mid;
+    const sign = index % 2 === 0 ? 1 : -1;
+    return {
+      rotation: offset * LAYOUT_ROTATION_STEP + sign * 2.5,
+      x: offset * LAYOUT_SPACING,
+      y: sign * 10,
+    };
+  });
+}
+```
+
+`mid` is the center index, allowed to be fractional — for 4 cards it's `1.5`, sitting between the two middle cards, which is exactly what you want for a symmetric fan with no dead-center card. `offset` is then "how far is this card from the middle," negative on the left, positive on the right, and it drives both the horizontal spacing (`offset * LAYOUT_SPACING`) and the base rotation (`offset * LAYOUT_ROTATION_STEP`) — cards further from center sit further out and tilt more, which is what actually reads as "a fan" instead of "a row."
+
+The `sign` term is the smaller, easier-to-miss part: alternating `+1`/`-1` by index parity nudges every other card up or down by `10px` and adds or subtracts an extra `2.5deg` of rotation. Pure fan math from `offset` alone would put every card on a dead-flat horizontal line, tilted but not staggered — technically a fan, visually a filed stack of cards someone forgot to shuffle. The parity alternation is what makes it read as a loose, slightly messy pile instead of a diagram. It's a small function, but every constant in it is doing a specific, legible job — nothing here is a magic number, they're all "how far," "how much tilt," "how much vertical stagger," picked once and then reused per card.
+
+A `layout` prop lets you override this entirely with your own array of `{ rotation, x, y }` — the default only exists so the common case (drop in 3-6 images, get a reasonable fan) needs zero configuration.
+
+---
+
+## Reduced motion: no listeners, not `duration: 0`
+
+```tsx
+style={prefersReducedMotion ? staticCardStyle(rest, index) : undefined}
+```
+
+```ts
+function staticCardStyle(rest: MagneticCardsLayout, index: number) {
+  return {
+    transform: `translate(-50%, -50%) translate(${rest.x}px, ${rest.y}px) rotate(${rest.rotation}deg)`,
+    zIndex: index,
+  };
+}
+```
+
+When `usePrefersReducedMotion()` is true, the entire `useGSAP` effect bails before it ever calls `attachCardInertia` — no `mousemove`/`mouseenter`/`mouseleave` listeners get attached to any card, not "attached but neutered," just never wired up at all. The rest position gets rendered instead as a plain inline `style` with a CSS `transform` string baked from the same `rest` values GSAP would have used as its `end` target. Same destination either way; the only thing that disappears is the cursor-tracking and the fling itself, because there's no honest "reduced" version of a physics-driven throw — the throw *is* the effect, so for someone who's asked for less motion, the fling doesn't happen at a shorter duration, it just doesn't happen. Cards sit in their fan, unrotated by any interaction, indistinguishable at rest from the animated version's opening frame.
+
+Worth noting this is a strictly cheaper code path too — no event listeners, no `gsap.set` calls, just a computed string handed straight to `style`. Reduced motion isn't only the accessible choice here, it's also the one with less to go wrong.
+
+---
+
+## The tuning knobs, and why the defaults are what they are
+
+```ts
+const DEFAULTS = {
+  rotationVelocityMultiplier: 1.5,
+  velocityMultiplier: 20,
+} as const;
+```
+
+`velocityMultiplier: 20` scales raw per-tick pixel deltas (typically single digits to low tens for a normal mouse flick) up into a range where `InertiaPlugin` produces a fling that reads as physical rather than a barely-visible twitch. `rotationVelocityMultiplier: 1.5` is deliberately much smaller — rotation degrees and position pixels aren't the same unit, and a rotation velocity scaled by 20 the same way position is would spin the card several full turns on a moderately fast flick, which reads as broken rather than playful. The two constants aren't derived from anything principled — they're the values that felt right at the multiplier's own scale, tuned by moving the mouse across the demo until "playful" stopped tipping into "chaotic." Both are exposed as props precisely because "felt right to me" is not the same claim as "will feel right at your card size, image weight, or intended use," and the difference between "toy" and "obviously broken" for this kind of effect is genuinely a feel question, not a computable one.
+
+---
+
+## What I'd change
+
+**Derive an actual velocity, not a per-tick delta.** The frame-rate dependence above is the real gap — dividing by elapsed time between `mousemove` events (a cheap `performance.now()` diff) would make the fling feel consistent across polling rates instead of implicitly tuned to whatever device I was holding when I picked the multipliers. Small change, and I'd want to re-tune both multipliers afterward since the units would shift.
+
+**Debounce or ignore near-zero flicks.** Right now a cursor that barely grazes a card on its way somewhere else can still register a small `speedX`/`speedY` and trigger a barely-perceptible wobble on release. Not wrong, exactly, but a small dead zone below some minimum speed would make "I was just passing through" and "I actually interacted with this card" read as visibly different states instead of a continuum with no floor.
+
+**Keyboard/touch parity has no equivalent gesture.** This is a pointer-driven effect through and through — there's no keyboard-focus analog for "flick," and touch doesn't fire the same `mousemove`/`mouseenter`/`mouseleave` sequence at all, so on a touchscreen these cards are just static images at their rest position (arguably the correct degrade, since there's no touch gesture that maps cleanly to "velocity," but worth being explicit that it's a degrade and not a gap I've closed).
+
+---
+
+Full source is at [/components/magnetic-cards](/components/magnetic-cards) — `npx shadcn add` it, it's a plain file in your repo. If the fling feels too aggressive or too tame for your images, `velocityMultiplier` and `rotationVelocityMultiplier` are two number props, not a rebuild.
