@@ -102,6 +102,27 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html className="sf-pro-display" lang="en" suppressHydrationWarning>
       <head>
+        <link
+          as="font"
+          crossOrigin="anonymous"
+          href="/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYREGULAR.woff2"
+          rel="preload"
+          type="font/woff2"
+        />
+        <link
+          as="font"
+          crossOrigin="anonymous"
+          href="/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYMEDIUM.woff2"
+          rel="preload"
+          type="font/woff2"
+        />
+        <link
+          as="font"
+          crossOrigin="anonymous"
+          href="/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYBOLD.woff2"
+          rel="preload"
+          type="font/woff2"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: bannerLayoutScript,
