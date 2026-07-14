@@ -662,6 +662,7 @@ function AccordionContent({
       className={cn(accordionContentVariants(), className)}
       data-anm-accordion-content=""
       id={contentId}
+      inert={!isOpen}
       ref={contentPanelRef}
       style={{ ...style, height: 0 }}
     >
