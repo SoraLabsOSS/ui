@@ -24,6 +24,9 @@ export const ThemeSwitcher = ({ className }: { className?: string }) => {
   return (
     isClient && (
       <Switch
+        aria-label={
+          theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+        }
         checked={theme === "dark"}
         className={className}
         leftIcon={<Sun />}
