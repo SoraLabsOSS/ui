@@ -62,7 +62,7 @@ export default function BlogPage() {
                     <p className="font-medium text-base text-foreground leading-snug tracking-tight md:text-lg">
                       {post.data.title}
                     </p>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
+                    <p className="line-clamp-4 text-muted-foreground text-sm leading-relaxed">
                       {post.data.description}
                     </p>
                   </div>

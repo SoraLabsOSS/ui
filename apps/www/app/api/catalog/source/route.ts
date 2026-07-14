@@ -60,10 +60,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Payload too large" }, { status: 413 });
     }
 
-    const payload = JSON.parse(rawBody) as {
-      component?: string;
-      lang?: string;
-    };
+    let payload: { component?: string; lang?: string };
+    try {
+      payload = JSON.parse(rawBody);
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
     const requestedLang = (payload.lang || "tsx") as BundledLanguage;
     const lang = LANGUAGE_WHITELIST.has(requestedLang) ? requestedLang : "tsx";
 
