@@ -216,6 +216,11 @@ export function UserButton({
       <DropdownMenuTrigger asChild>
         {size === "icon" ? (
           <Button
+            aria-label={
+              showAuthenticatedTrigger
+                ? localization.auth.account
+                : localization.auth.signIn
+            }
             className={cn(
               className,
               showAuthenticatedTrigger && "rounded-full",

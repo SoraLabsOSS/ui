@@ -8,8 +8,8 @@
   font-style: italic;
   font-weight: 100;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYTHINITALIC.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYTHINITALIC.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -17,8 +17,8 @@
   font-style: italic;
   font-weight: 200;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYULTRALIGHTITALIC.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYULTRALIGHTITALIC.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -26,8 +26,8 @@
   font-style: italic;
   font-weight: 300;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYLIGHTITALIC.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYLIGHTITALIC.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -35,8 +35,8 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYREGULAR.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYREGULAR.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -44,8 +44,8 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYMEDIUM.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYMEDIUM.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -53,8 +53,8 @@
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYSEMIBOLDITALIC.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYSEMIBOLDITALIC.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -62,8 +62,8 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYBOLD.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYBOLD.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -71,8 +71,8 @@
   font-style: italic;
   font-weight: 800;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYHEAVYITALIC.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYHEAVYITALIC.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -80,8 +80,8 @@
   font-style: italic;
   font-weight: 900;
   font-display: swap;
-  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYBLACKITALIC.OTF")
-    format("opentype");
+  src: url("/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYBLACKITALIC.woff2")
+    format("woff2");
 }
 
 .sf-pro-display {

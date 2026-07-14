@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,7 +10,6 @@ import { Header } from "@/components/header";
 import { HomeFaq } from "@/components/home/home-faq";
 import { HomeFooter } from "@/components/home/home-footer";
 import { HomeHeroFeatures } from "@/components/home/home-hero-features";
-import { HomeLenis } from "@/components/home/home-lenis";
 import { HomeTwoWays } from "@/components/home/home-two-ways";
 import { WhoItsFor } from "@/components/home/who-its-for";
 import {
@@ -18,6 +17,10 @@ import {
   HOME_SCROLL_READY_EVENT,
 } from "@/lib/home/home-scroll-ready";
 import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-registry-item";
+
+const HOME_PAGE_ID = "home-page";
+const HOME_SCROLL_CLASS =
+  "relative z-0 h-[calc(100dvh-var(--fd-banner-height))] overflow-x-hidden overflow-y-auto";
 
 interface HomePageClientProps {
   blocksCount: number;
@@ -32,6 +35,10 @@ export function HomePageClient({
   latestShipped,
   primitivesUrl,
 }: HomePageClientProps) {
+  useLayoutEffect(() => {
+    dispatchHomeScrollReady();
+  }, []);
+
   useEffect(() => {
     const refresh = () => {
       ScrollTrigger.refresh();
@@ -60,7 +67,7 @@ export function HomePageClient({
   return (
     <>
       <Header />
-      <HomeLenis>
+      <main className={HOME_SCROLL_CLASS} id={HOME_PAGE_ID}>
         <div className="flex min-h-full w-full flex-col justify-between">
           <div>
             <HomeHeroFeatures />
@@ -74,7 +81,7 @@ export function HomePageClient({
           </div>
           <HomeFooter latestShipped={latestShipped} />
         </div>
-      </HomeLenis>
+      </main>
     </>
   );
 }
