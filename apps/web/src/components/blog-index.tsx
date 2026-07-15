@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BlogBanner } from "@/components/blog/blog-banner";
 import { PageHeader } from "@/components/page-header";
 import { WorkFooter } from "@/components/work/work-footer";
 import { formatPostDate, getAllPosts } from "@/lib/blog";
@@ -10,12 +11,7 @@ export async function BlogIndex() {
     <div className="flex min-h-svh flex-col bg-black text-white">
       <PageHeader crumb="Blog" />
       <main className="flex-1 p-3.5">
-        <div className="mb-3.5 flex animate-fade-in-up flex-col justify-end border border-[#1a1a1a] bg-[#0a0a0a] p-8 sm:aspect-[3.2] sm:p-12">
-          <h1 className="font-normal text-2xl text-white sm:text-3xl">Blog</h1>
-          <p className="mt-2 text-[#999] text-[13px]">
-            Notes on this site, its stack, and what changes.
-          </p>
-        </div>
+        <BlogBanner />
 
         {posts.length === 0 ? (
           <p className="px-1 text-[#555] text-[13px]">No posts yet.</p>
