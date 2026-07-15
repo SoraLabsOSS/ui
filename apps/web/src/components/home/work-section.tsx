@@ -69,7 +69,7 @@ export function WorkSection() {
       </div>
 
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-8 border-[#1a1a1a] border-t px-6 py-15 text-center lg:min-h-svh">
-        <span className="font-normal text-[clamp(64px,10vw,140px)] text-white leading-[0.95] tracking-[-0.04em]">
+        <span className="font-normal text-[clamp(64px,10vw,140px)] text-white leading-[0.95] tracking-[-0.04em] md:text-[clamp(56px,7vw,100px)] xl:text-[clamp(64px,10vw,140px)]">
           Let&apos;s work
           <br />
           together.
