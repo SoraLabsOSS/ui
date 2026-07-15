@@ -68,7 +68,7 @@ export function BlogPost({
           </Link>
         </div>
 
-        <article className="prose prose-invert mt-8 max-w-none animate-fade-in-up prose-headings:font-normal prose-a:text-white prose-code:text-[13px] prose-p:text-[#ccc] text-[13px] [animation-delay:100ms]">
+        <article className="prose prose-invert mt-8 max-w-none animate-fade-in-up prose-headings:font-normal prose-a:text-white prose-code:text-[13px] prose-p:text-[#ccc] text-[13px] [animation-delay:100ms] prose-code:before:content-none prose-code:after:content-none">
           <InlineToc items={toc} />
           <Content components={useMDXComponents({})} />
         </article>
