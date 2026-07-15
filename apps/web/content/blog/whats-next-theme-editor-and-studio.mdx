@@ -1,0 +1,31 @@
+export const metadata = {
+  title: "What's next: sora-lattice, and Sora Studio",
+  description:
+    "Two things I'm building next — sora-lattice, a design-system token generator, and Sora Studio, a paid landing page template line built on top of it.",
+  date: "2026-07-15",
+  tags: ["roadmap", "sora-ui"],
+};
+
+Most posts here so far have been about this site. This one's about what's next — two projects I'm starting work on, and why they exist.
+
+## sora-lattice: design-system foundations from a few brand choices
+
+Right now, customizing a Sora UI primitive means opening the file and editing Tailwind classes by hand. That's the whole point of the registry model — you own the source — but it also means there's no fast path to "just show me what this looks like in my brand colors" before you commit to editing anything.
+
+**sora-lattice** is what I'm building for that gap. Feed it a handful of brand choices — primary, secondary, and accent colors, neutrals, status hues, fonts, density, and surface style — and it generates a full set of semantic tokens tuned for WCAG AA contrast. Not a single palette, but the whole foundation a design system sits on.
+
+It's a pnpm workspace orchestrated by Turborepo, split into two pieces: a reusable token-generation library that does the actual color and contrast math, and an Astro web app that wraps it in a marketing site, an interactive Configurator, live component previews, and one-click exports.
+
+It doesn't change how you install Sora UI primitives — you still `npx shadcn add @soralabs/...` and get real source in your repo. sora-lattice is just a faster way to land on a coherent, accessible token set before you start hand-editing files.
+
+## Sora Studio: landing pages, pro tier
+
+The primitives and blocks in the docs stay free and open — that's not changing. Sora Studio is a separate thing: a paid line of complete landing page templates, built entirely on Sora UI primitives, for people who want a finished, polished page rather than a component catalog to assemble themselves.
+
+The target is teams and freelancers shipping client landing pages who don't have time to compose a hero, pricing section, and scroll-driven feature showcase from scratch — but still want the motion quality Sora UI is built around, not a generic template that looks like every other one.
+
+## Where things stand
+
+Both are early — I don't have a ship date for either yet, and the scope of both will probably shift as I actually build them. What I do know: sora-lattice comes first, since Sora Studio's templates will be styled through the tokens it generates. I'll post implementation notes here as pieces land, the same way the primitives get written up.
+
+If you're using Sora UI and have a specific theming pain point — or a landing page section you keep rebuilding by hand — that's useful signal for what to prioritize first.

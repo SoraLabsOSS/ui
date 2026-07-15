@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { slug } = await params;
   const pageSlug = slug.slice(0, -1);
-  const content = resolveOgPage(pageSlug);
+  const content = await resolveOgPage(pageSlug);
 
   if (!content) {
     notFound();

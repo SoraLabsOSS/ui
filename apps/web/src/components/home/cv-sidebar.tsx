@@ -21,7 +21,7 @@ function CvBlock({ children, label }: { children: ReactNode; label: string }) {
 
 export function CvSidebar() {
   return (
-    <div className="no-scrollbar flex min-h-full animate-fade-in-up flex-col px-[26px] pb-15 [animation-delay:150ms] lg:h-full lg:overflow-y-auto">
+    <div className="no-scrollbar flex min-h-full animate-fade-in-up flex-col border-[#1a1a1a] border-t px-[26px] pt-7 pb-15 [animation-delay:150ms] lg:h-full lg:overflow-y-auto lg:border-t-0 lg:border-l lg:pt-0">
       <CvBlock label="Work Experience">
         <div className="flex flex-col gap-3 text-[11px] leading-[1.8]">
           {WORK_EXPERIENCE.map((entry) => (
