@@ -57,5 +57,12 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  return <BlogPost Content={post.default} metadata={post.metadata} />;
+  return (
+    <BlogPost
+      Content={post.default}
+      metadata={post.metadata}
+      slug={slug}
+      toc={post.toc}
+    />
+  );
 }

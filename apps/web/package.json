@@ -14,10 +14,12 @@
     "@next/mdx": "^16.2.10",
     "@t3-oss/env-nextjs": "^0.13.11",
     "@vercel/analytics": "^2.0.1",
+    "github-slugger": "^2.0.0",
     "gsap": "^3.15.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "rehype-slug": "^6.0.0",
     "sugar-high": "^1.2.1",
     "zod": "^4.1.12"
   },

@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 };
 
-const withMDX = createMDX({});
+const withMDX = createMDX({
+  options: {
+    // Turbopack's MDX loader requires plugins as serializable import
+    // specifiers rather than function references.
+    rehypePlugins: [["rehype-slug"]],
+  },
+});
 
 export default withMDX(nextConfig);

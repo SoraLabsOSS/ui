@@ -8,11 +8,15 @@ export const metadata = {
 
 `apps/www` runs on Fumadocs because it's a real documentation site — search, a generated sidebar, a typed content source, the works. This site isn't that. It's a handful of pages and, now, a blog, so pulling in a docs framework for it would mean carrying machinery nobody here uses.
 
-Instead this blog is just [`@next/mdx`](https://nextjs.org/docs/app/building-your-application/configuring/mdx) wired directly into the App Router:
+Instead this blog is just [`@next/mdx`](https://nextjs.org/docs/app/building-your-application/configuring/mdx) wired directly into the App Router.
+
+## How it's put together
 
 - Posts live in `content/blog/*.mdx`, each exporting a `metadata` object instead of YAML frontmatter.
 - `src/lib/blog.ts` lists posts with `fs.readdirSync` and loads one with a dynamic `import()`.
 - `src/app/blog/[slug]/page.tsx` renders the MDX module directly and derives `generateMetadata` from the same `metadata` export.
+
+### The metadata export
 
 ```ts
 export const metadata = {
@@ -20,5 +24,7 @@ export const metadata = {
   date: "2026-07-15",
 };
 ```
+
+## What's deliberately missing
 
 No search index, no sidebar generator, no content-source config — just files, `fs`, and `import()`. For three or four posts a year, that's the whole feature set this site needs.
