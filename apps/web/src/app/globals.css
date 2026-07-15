@@ -13,7 +13,7 @@
 @layer base {
   html,
   body {
-    @apply h-full overflow-hidden bg-background text-foreground;
+    @apply min-h-full bg-background text-foreground;
   }
 
   body {
@@ -32,5 +32,20 @@
   }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Staggered fade-up entrance for the home columns. */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease both;
   }
 }

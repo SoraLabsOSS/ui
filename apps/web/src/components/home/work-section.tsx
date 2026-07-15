@@ -3,14 +3,14 @@ import { CONTACT_EMAIL, PROJECTS } from "@/lib/home/content";
 
 export function WorkSection() {
   return (
-    <div className="no-scrollbar flex flex-col lg:h-full lg:overflow-y-auto">
+    <div className="no-scrollbar flex animate-fade-in-up flex-col [animation-delay:100ms] lg:h-full lg:overflow-y-auto">
       <div className="flex-1">
         {PROJECTS.map((project, index) => (
           <div className="border-[#1a1a1a] border-b" key={project.num}>
             <a
               className="group relative block aspect-video w-full overflow-hidden bg-[#080808] no-underline"
               data-cursor-hover
-              href={project.href}
+              href={project.liveUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -33,7 +33,7 @@ export function WorkSection() {
                   <a
                     className="relative text-white no-underline"
                     data-cursor-hover
-                    href={project.href}
+                    href={project.liveUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -53,7 +53,7 @@ export function WorkSection() {
                 <a
                   className="mb-2.5 block w-fit text-[11px] text-white no-underline"
                   data-cursor-hover
-                  href={project.href}
+                  href={project.liveUrl}
                   rel="noopener noreferrer"
                   target="_blank"
                 >

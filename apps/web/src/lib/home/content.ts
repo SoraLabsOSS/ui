@@ -6,17 +6,17 @@ export interface NavItem {
   label: string;
 }
 
-/** Blog and About aren't live yet — rendered dimmed and inert until they exist. */
+/** Blog isn't live yet — rendered dimmed and inert until it exists. */
 export const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Work" },
+  { href: "/work", label: "Work" },
   { disabled: true, href: "/blog", label: "Blog" },
-  { disabled: true, href: "/about", label: "About" },
+  { href: "/about", label: "About" },
 ];
 
 export interface Project {
   description: string;
-  href: string;
   image: string;
+  liveUrl: string;
   num: string;
   /** Rendered as separate lines, matching the original's <br /> breaks. */
   tagLines: string[];
@@ -27,8 +27,8 @@ export const PROJECTS: Project[] = [
   {
     description:
       "Sora UI — a component-driven interface project focused on clean, modern design and motion-ready UI building blocks.",
-    href: "https://ui.soralabs.io.vn/",
     image: "/projects/sora-ui.png",
+    liveUrl: "https://ui.soralabs.io.vn/",
     num: "01",
     tagLines: ["Frontend, UI Design,", "Component System"],
     title: "Sora UI",
@@ -36,8 +36,8 @@ export const PROJECTS: Project[] = [
   {
     description:
       "A browser-based font inspector — drag and drop OpenType or TrueType files to explore what's inside.",
-    href: "https://type.soralabs.io.vn/",
     image: "/projects/sora-type.png",
+    liveUrl: "https://type.soralabs.io.vn/",
     num: "02",
     tagLines: ["Frontend, Tooling,", "Typography"],
     title: "Sora Type",
