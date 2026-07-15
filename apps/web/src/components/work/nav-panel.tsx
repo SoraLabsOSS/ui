@@ -92,16 +92,30 @@ export function NavPanel({
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    // Locks background scroll so the underlying page (and its footer) can't
+    // shift under the panel while it's open — that shift is what let the
+    // footer peek through below the panel on mobile.
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, [open]);
+
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-black/45 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[60] bg-black/45 transition-opacity duration-300 ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
       />
       <div
-        className={`fixed top-0 right-0 bottom-0 z-50 flex w-full max-w-[460px] flex-col border-[#1a1a1a] border-l bg-[#0a0a0a] p-6 py-6 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-10 ${
+        className={`fixed top-0 right-0 bottom-0 z-[70] flex w-full max-w-[460px] flex-col border-[#1a1a1a] border-l bg-[#0a0a0a] p-6 py-6 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-10 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
