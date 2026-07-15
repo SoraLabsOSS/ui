@@ -6,6 +6,7 @@ import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
+import { SignInSplitShell } from "@/components/auth/sign-in-split-shell";
 import { auth } from "@/lib/auth";
 import AuthLoading from "./loading";
 
@@ -52,20 +53,24 @@ async function AuthPageContent({
 
   const isSignIn = path === "sign-in";
 
+  if (isSignIn) {
+    return (
+      <SignInSplitShell>
+        <GoogleOneTap />
+        <Auth
+          description="Sign in below to access your account and saved components."
+          path={path}
+          socialPosition="top"
+          title="Welcome to Sora UI"
+          variant="page"
+        />
+      </SignInSplitShell>
+    );
+  }
+
   return (
     <AuthPageShell>
-      {isSignIn ? <GoogleOneTap /> : null}
-      <Auth
-        description={
-          isSignIn
-            ? "Sign in below to access your account and saved components."
-            : undefined
-        }
-        path={path}
-        socialPosition={isSignIn ? "top" : undefined}
-        title={isSignIn ? "Welcome to Sora UI" : undefined}
-        variant={isSignIn ? "page" : "card"}
-      />
+      <Auth path={path} variant="card" />
     </AuthPageShell>
   );
 }

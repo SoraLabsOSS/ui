@@ -29,7 +29,13 @@ import { Label } from "@workspace/ui/components/ui/label";
 import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
-import { type ReactNode, type SyntheticEvent, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import {
+  type ReactNode,
+  type SyntheticEvent,
+  useCallback,
+  useState,
+} from "react";
 import { ProviderButtons, type SocialLayout } from "./provider-buttons";
 
 export type SignInVariant = "card" | "page";
@@ -44,7 +50,49 @@ export interface SignInProps {
 }
 
 const PAGE_PROVIDER_BUTTON_CLASS =
-  "h-10 w-full rounded-md px-6 text-base sm:text-base";
+  "relative h-11 w-full min-w-0 items-center justify-center gap-2 rounded-lg border border-black/15 bg-white px-4 font-medium text-black text-sm shadow-none transition-colors hover:bg-black/[0.02] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10";
+const PAGE_PROVIDER_CONTAINER_CLASS =
+  "grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4";
+const PAGE_DIVIDER_LINE_CLASS = "h-px flex-1 bg-black/10 dark:bg-white/10";
+
+function resolveSocialLayout(
+  socialLayout: SocialLayout | undefined,
+  isPageVariant: boolean
+): SocialLayout | undefined {
+  return socialLayout ?? (isPageVariant ? "grid" : undefined);
+}
+
+function SignInSeparator({
+  extraClassName,
+  isPageVariant,
+  orText,
+}: {
+  extraClassName?: string;
+  isPageVariant: boolean;
+  orText: ReactNode;
+}) {
+  if (isPageVariant) {
+    return (
+      <div className="my-6 flex items-center gap-4 font-medium text-black/40 text-xs dark:text-white/30">
+        <div className={PAGE_DIVIDER_LINE_CLASS} />
+        {orText}
+        <div className={PAGE_DIVIDER_LINE_CLASS} />
+      </div>
+    );
+  }
+
+  return (
+    <FieldSeparator
+      className={cn(
+        "flex items-center text-xs",
+        "*:data-[slot=field-separator-content]:bg-card",
+        extraClassName
+      )}
+    >
+      {orText}
+    </FieldSeparator>
+  );
+}
 
 function SignInPageLayout({
   children,
@@ -60,8 +108,8 @@ function SignInPageLayout({
   title: ReactNode;
 }) {
   return (
-    <div className={cn("w-full max-w-md space-y-8", className)}>
-      <div className="text-center">
+    <div className={cn("w-full", className)}>
+      <div>
         <h1 className="font-medium text-3xl text-foreground tracking-tight sm:text-4xl">
           {title}
         </h1>
@@ -259,6 +307,187 @@ function SignInEmailForm({
 }
 
 /**
+ * Email/password fields styled 1:1 after the Sora Studio sign-up form
+ * (hardcoded black/white surface, boxed inputs, blue glow submit button)
+ * instead of the shared card-variant field styling.
+ */
+function SignInEmailFormPage({
+  Captcha,
+  emailAndPassword,
+  fieldErrors,
+  isPending,
+  localization,
+  onSubmit,
+  password,
+  plugins,
+  setFieldErrors,
+  setPassword,
+  signInEmailPending,
+}: SignInEmailFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
+  const labelClass = "font-semibold text-black/60 text-xs dark:text-white/60";
+  const inputBoxClass =
+    "relative flex h-11 items-center rounded-lg border border-black/15 bg-black/[0.02] px-3.5 dark:border-white/10 dark:bg-white/[0.03]";
+  const inputClass =
+    "w-full bg-transparent text-black text-sm outline-none placeholder:text-black/30 disabled:text-black/50 dark:text-white dark:disabled:text-white/50 dark:placeholder:text-white/30";
+
+  return (
+    <form className="space-y-4" onSubmit={onSubmit}>
+      <div
+        className="w-full space-y-1.5 text-left"
+        data-invalid={!!fieldErrors.email}
+      >
+        <Label className={labelClass} htmlFor="email">
+          {localization.auth.email}
+        </Label>
+
+        <div className={inputBoxClass}>
+          <Input
+            aria-invalid={!!fieldErrors.email}
+            autoComplete="email"
+            className={cn(
+              inputClass,
+              "h-auto border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+            )}
+            disabled={isPending}
+            id="email"
+            name="email"
+            onChange={() => {
+              setFieldErrors((prev) => ({
+                ...prev,
+                email: undefined,
+              }));
+            }}
+            onInvalid={(e) => {
+              e.preventDefault();
+              const el = e.target as HTMLInputElement;
+              const msg = el.validity.valueMissing
+                ? localization.auth.fieldRequired
+                : localization.auth.invalidEmail;
+
+              setFieldErrors((prev) => ({
+                ...prev,
+                email: msg,
+              }));
+            }}
+            placeholder={localization.auth.emailPlaceholder}
+            required
+            type="email"
+          />
+        </div>
+
+        <FieldError>{fieldErrors.email}</FieldError>
+      </div>
+
+      <div
+        className="w-full space-y-1.5 text-left"
+        data-invalid={!!fieldErrors.password}
+      >
+        <Label className={labelClass} htmlFor="password">
+          {localization.auth.password}
+        </Label>
+
+        <div className={inputBoxClass}>
+          <Input
+            aria-invalid={!!fieldErrors.password}
+            autoComplete="current-password"
+            className={cn(
+              inputClass,
+              "h-auto border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+            )}
+            disabled={isPending}
+            id="password"
+            maxLength={emailAndPassword.maxPasswordLength}
+            minLength={emailAndPassword.minPasswordLength}
+            name="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+
+              setFieldErrors((prev) => ({
+                ...prev,
+                password: undefined,
+              }));
+            }}
+            onInvalid={(e) => {
+              e.preventDefault();
+              const el = e.target as HTMLInputElement;
+              const min = emailAndPassword.minPasswordLength;
+              const max = emailAndPassword.maxPasswordLength;
+              let msg = localization.auth.fieldRequired;
+
+              if (!el.validity.valueMissing) {
+                msg = el.validity.tooShort
+                  ? localization.auth.tooShort.replace("{{min}}", String(min))
+                  : localization.auth.tooLong.replace("{{max}}", String(max));
+              }
+
+              setFieldErrors((prev) => ({
+                ...prev,
+                password: msg,
+              }));
+            }}
+            placeholder={localization.auth.passwordPlaceholder}
+            required
+            type={showPassword ? "text" : "password"}
+            value={password}
+          />
+
+          <button
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="cursor-pointer text-black/40 hover:text-black dark:text-white/40 dark:hover:text-white"
+            onClick={toggleShowPassword}
+            type="button"
+          >
+            {showPassword ? (
+              <EyeOff className="size-4" />
+            ) : (
+              <Eye className="size-4" />
+            )}
+          </button>
+        </div>
+
+        <FieldError>{fieldErrors.password}</FieldError>
+      </div>
+
+      {emailAndPassword.rememberMe ? (
+        <div className="flex items-center gap-3">
+          <Checkbox disabled={isPending} id="rememberMe" name="rememberMe" />
+
+          <Label
+            className="cursor-pointer font-normal text-black/60 text-sm dark:text-white/60"
+            htmlFor="rememberMe"
+          >
+            {localization.auth.rememberMe}
+          </Label>
+        </div>
+      ) : null}
+
+      {Captcha ? <div className="flex justify-center">{Captcha}</div> : null}
+
+      <button
+        className="mt-8 flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-(--color-primary)/40 bg-(--color-primary) font-medium text-sm text-white shadow-(--color-primary)/30 shadow-lg transition-opacity [--color-primary:#003AF9] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={isPending}
+        type="submit"
+      >
+        {signInEmailPending ? <Spinner /> : null}
+        {localization.auth.signIn}
+      </button>
+
+      {plugins.flatMap((plugin) =>
+        (plugin.authButtons ?? []).map((AuthButton, index) => (
+          <AuthButton key={`${plugin.id}-${index.toString()}`} view="signIn" />
+        ))
+      )}
+    </form>
+  );
+}
+
+/**
  * Render the sign-in form UI with email/password, magic link, and social provider options.
  */
 export function SignIn({
@@ -361,8 +590,13 @@ export function SignIn({
     <ProviderButtons
       buttonClassName={isPageVariant ? PAGE_PROVIDER_BUTTON_CLASS : undefined}
       buttonVariant={isPageVariant ? "secondary" : undefined}
+      containerClassName={
+        isPageVariant ? PAGE_PROVIDER_CONTAINER_CLASS : undefined
+      }
+      display={isPageVariant ? "full" : undefined}
+      showLastUsedBadge={isPageVariant}
       showProviderLogo={isPageVariant}
-      socialLayout={socialLayout}
+      socialLayout={resolveSocialLayout(socialLayout, isPageVariant)}
     />
   );
 
@@ -371,17 +605,11 @@ export function SignIn({
       {providerButtons}
 
       {showSeparator && (
-        <FieldSeparator
-          className={cn(
-            "flex items-center text-xs",
-            isPageVariant
-              ? "*:data-[slot=field-separator-content]:bg-background"
-              : "*:data-[slot=field-separator-content]:bg-card",
-            socialPosition === "top" && "m-0"
-          )}
-        >
-          {localization.auth.or}
-        </FieldSeparator>
+        <SignInSeparator
+          extraClassName="m-0"
+          isPageVariant={isPageVariant}
+          orText={localization.auth.or}
+        />
       )}
     </>
   );
@@ -389,24 +617,20 @@ export function SignIn({
   const socialBottom = socialPosition === "bottom" && (
     <>
       {showSeparator && (
-        <FieldSeparator
-          className={cn(
-            "flex items-center text-xs",
-            isPageVariant
-              ? "*:data-[slot=field-separator-content]:bg-background"
-              : "*:data-[slot=field-separator-content]:bg-card"
-          )}
-        >
-          {localization.auth.or}
-        </FieldSeparator>
+        <SignInSeparator
+          isPageVariant={isPageVariant}
+          orText={localization.auth.or}
+        />
       )}
 
       {providerButtons}
     </>
   );
 
+  const EmailForm = isPageVariant ? SignInEmailFormPage : SignInEmailForm;
+
   const emailForm = emailAndPassword?.enabled ? (
-    <SignInEmailForm
+    <EmailForm
       Captcha={Captcha}
       emailAndPassword={emailAndPassword}
       fieldErrors={fieldErrors}

@@ -43,6 +43,7 @@ const nextConfig: NextConfig = {
       { hostname: "images.unsplash.com" },
       { hostname: "plus.unsplash.com" },
       { hostname: "sora.axyl.io.vn", pathname: "/**", protocol: "https" },
+      { hostname: "avatars.githubusercontent.com" },
     ],
   },
   reactStrictMode: false,

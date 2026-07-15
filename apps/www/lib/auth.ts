@@ -2,7 +2,7 @@ import { dash, sentinel } from "@better-auth/infra";
 import { db } from "@workspace/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
-import { oneTap, openAPI } from "better-auth/plugins";
+import { lastLoginMethod, oneTap, openAPI } from "better-auth/plugins";
 import { env } from "@/env";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
 
@@ -59,6 +59,7 @@ export const auth = betterAuth({
     ...(env.NODE_ENV === "production" ? [] : [openAPI()]),
     dash(),
     oneTap(),
+    lastLoginMethod(),
     sentinel({
       apiKey: env.BETTER_AUTH_API_KEY,
       kvUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
