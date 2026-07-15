@@ -48,14 +48,14 @@ function NavRow({
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <span className={`${textClass} h-[1em] overflow-hidden text-white`}>
+      <span className={`${textClass} h-[1.2em] overflow-hidden text-white`}>
         <span
           className={`flex flex-col transition-transform duration-[420ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
             hovered ? "-translate-y-1/2" : "translate-y-0"
           }`}
         >
-          <span>{label}</span>
-          <span>{label}</span>
+          <span className="block leading-[1.2]">{label}</span>
+          <span className="block leading-[1.2]">{label}</span>
         </span>
       </span>
     </Link>
