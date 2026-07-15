@@ -6,6 +6,7 @@
   --color-muted-foreground: oklch(0.708 0 0);
   --color-accent-brand: #fb460d;
   --color-ascii-char: rgba(255, 255, 255, 0.68);
+  --color-border: #1a1a1a;
   --font-instrument: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -21,5 +22,15 @@
 
   a {
     @apply underline underline-offset-2;
+  }
+}
+
+@layer utilities {
+  /* Scrollable, but the scrollbar itself stays invisible. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
