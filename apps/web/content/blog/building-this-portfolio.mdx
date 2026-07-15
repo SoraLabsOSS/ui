@@ -1,0 +1,19 @@
+export const metadata = {
+  title: "Notes on building this portfolio",
+  description:
+    "A quick look at the stack behind this site — Next.js 16, GSAP, and a deliberately small component surface.",
+  date: "2026-06-20",
+  tags: ["portfolio", "next.js", "gsap"],
+};
+
+This site is intentionally small: a home page, a work index, an about page, and now a blog. No CMS, no design system to maintain — just a few routes and components that earn their place.
+
+## Stack
+
+- **Next.js 16** with the App Router and React Compiler enabled.
+- **GSAP** for the scroll-driven and preloader animations on the home page — Motion lives in `apps/www` for component work, but this site's animations are simple enough that GSAP alone covers it.
+- **Tailwind v4**, config-in-CSS, no `tailwind.config.ts`.
+
+## Why so little
+
+Every page here is content someone will actually read once and move on from. Adding a full design system or a headless CMS would mean maintaining infrastructure for content that doesn't change often enough to justify it. The blog you're reading now is the same philosophy applied to writing: plain MDX files, no database, no editor UI — just commit a file and push.
