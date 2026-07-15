@@ -6,10 +6,9 @@ export interface NavItem {
   label: string;
 }
 
-/** Blog isn't live yet — rendered dimmed and inert until it exists. */
 export const NAV_ITEMS: NavItem[] = [
   { href: "/work", label: "Work" },
-  { disabled: true, href: "/blog", label: "Blog" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
 ];
 
