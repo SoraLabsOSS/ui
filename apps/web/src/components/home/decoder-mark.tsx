@@ -117,8 +117,7 @@ function ensureAmbientLoop() {
   const prefersReduced = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
-  const hoverCapable = window.matchMedia("(hover: hover)").matches;
-  if (hoverCapable && !prefersReduced) {
+  if (!prefersReduced) {
     setTimeout(ambientTick, 3000 + Math.random() * 3000);
   }
 }
