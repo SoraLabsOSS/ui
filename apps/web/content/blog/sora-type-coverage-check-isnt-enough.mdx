@@ -1,0 +1,79 @@
+export const metadata = {
+  title: "Sora Type: why font coverage checks aren't enough",
+  description:
+    "Why I built a client-side font inspector, and the three-tier check underneath its language-support feature — cmap coverage, NFD decomposition, and real HarfBuzz shaping — that caught 12 silent positioning failures in the font this site ships.",
+  date: "2026-07-17",
+  tags: ["sora-type", "typography", "fonts"],
+};
+
+I kept seeing beautiful type on the web and having no idea what the font actually was. Sites rename the CSS family — a self-hosted or bundler-optimized font often shows up in DevTools as something like `font-a3f9c1` or `__Inter_Fallback`, not the typeface's real name — so the one clue you have tells you nothing. Getting the real metadata means hunting the network tab, downloading the file, then uploading it to yet another inspector. Too many steps for a simple question.
+
+So I built [Sora Type](https://type.soralabs.io.vn): drop a font, or load one from your machine, and inspect it fully in the browser — glyphs, OpenType features, variable axes, side-by-side comparison — without the file ever leaving your device. Even the language-support check, which needs a real shaping engine rather than a table lookup, runs HarfBuzz itself compiled to WebAssembly, in the browser tab, on your machine.
+
+That part was the easy problem. The harder one showed up once I started building the language-support check: it's not enough to know *whether a font supports a language*. You have to know whether you can trust the tool telling you that — and most of them, including the popular ones, can't be trusted past the first tier.
+
+## The tier everyone else stops at
+
+Ask most font inspectors "does this font support Bengali?" and what they're really doing is reading the font's `cmap` table and checking whether a glyph exists for every codepoint that language needs. Glyph exists for U+0995 (ক)? Check. U+09BE (া)? Check. Every codepoint accounted for — report "supported."
+
+That's a real signal. It's also not the whole story, and treating it as the whole story is where a tool like FontDrop stops.
+
+## Three tiers, not one
+
+`checkOrthography()` (`font-language-detection.ts:70`) runs three checks, each one existing because the one before it can be fooled.
+
+**Tier 1 — cmap coverage.** Every codepoint in the orthography's character set exists in the font's `characterSet`. This is the FontDrop tier.
+
+**Tier 2 — decomposition fallback.** Some precomposed characters aren't in `cmap` directly. Vietnamese "ế" might not have its own codepoint entry, but its NFD decomposition — `e` plus a combining acute plus a combining circumflex — might. If the base and every combining mark are individually present, the character still counts as supported. This catches fonts that only shipped the atomic building blocks instead of the precomposed form.
+
+**Tier 3 — HarfBuzz shaping verification.** This is the one that actually matters, and it's `checkMarkAttachment()` (`font-shaping.ts:44`). Any character made of more than one codepoint — whether it needed tier 2's decomposition or was always an unencoded base-plus-mark sequence — gets shaped for real, through HarfBuzz, with the `mark`, `mkmk`, `abvm`, and `blwm` features enabled. Just as deliberately, `liga`, `rlig`, `calt`, `salt`, and `rclt` get *disabled* — so a substitution can't quietly swap in a precomposed glyph and hide a positioning gap that would otherwise be there.
+
+Then it looks at where HarfBuzz actually placed each mark glyph. If a mark's `xOffset` and `yOffset` both come back `0`, GPOS never moved it. The glyph exists — tier 1 was right about that — but nothing in the font's positioning rules knows how to attach it to its base. It's sitting at the origin, unattached.
+
+## Two failure modes
+
+That distinction matters enough that Sora Type tracks it as two separate outcomes. A glyph that genuinely doesn't exist — `.notdef`, codepoint `0` — is `missingFromFont`. A glyph that exists but never got positioned is `missingPositioning`. Coverage check only ever detects `missingFromFont`; from `cmap`'s point of view a mark sitting unattached at the origin still counts as present, so `missingPositioning` never shows up in a `cmap`-only report at all.
+
+## The case that fired — and it wasn't where I expected
+
+I wanted a concrete example for this post instead of a hypothetical, so I ran the benchmark script against a font I didn't pick for drama — the actual font this site currently serves, a file named `8894d4fc112b8f24-s.p.woff2`, which fontkit identifies as Helvetica Neue Medium.
+
+The script takes ISO 639-3 language codes as arguments — three-letter codes that identify a specific language, distinct from the two-letter ISO 639-1 codes you'd see in an `hreflang` attribute. `byn` is Blin, `cmn` is Mandarin, `mkd` is Macedonian, and so on. For each code, it compares the cmap-only verdict against the shaping-verified one and reports every case where they disagree.
+
+```
+$ bun run scripts/benchmark-accuracy.ts <fonts-dir> byn cmn cnr gug hak mah mkd nav pnt tli zap
+
+8894d4fc112b8f24-s.p.woff2: 12 discrepancy(ies)
+  - Blin (byn, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Mandarin Chinese (cmn, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Montenegrin (cnr, Cyrillic): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Paraguayan Guaraní (gug, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Hakka Chinese (hak, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Marshallese (mah, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Macedonian (mkd, Cyrillic): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Navajo (nav, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Pontic Greek (pnt, Greek): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Pontic Greek (pnt, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Tlingit (tli, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+  - Zapotec (zap, Latin): cmap-only says supported, shaping-verified says "positioning-failed"
+
+Total: 12 discrepancy(ies) across 1 font(s).
+```
+
+Twelve orthographies, every one flagged `positioning-failed` — and the surprise is which script family they belong to. Mark attachment bugs are the thing everyone expects from Indic scripts. These twelve are all Latin or Cyrillic, and the pattern across all of them is the same: **stacked diacritics** — a combining mark that has to land on top of *another* combining mark, not on the base letter.
+
+Take Mandarin and Hakka pinyin romanization. A tone-marked vowel like ê̄ isn't a single precomposed codepoint — Unicode doesn't have one — so it's always encoded as three codepoints: `e` (U+0065), combining circumflex (U+0302), combining macron (U+0304). Tier 1 sees all three present in the font and reports "supported." Shape it through HarfBuzz with `mkmk` (mark-to-mark) enabled, and the second mark — the macron, which needs to stack *on top of the circumflex*, not on the base letter — never gets an `xOffset`/`yOffset`. It renders at `(0, 0)`: sitting directly on top of the circumflex instead of above it.
+
+Same failure, different diacritics, for Macedonian and Pontic Greek (a grave or caron landing on a letter that already carries an accent) and for Navajo, Guaraní, and Zapotec (an ogonek or tilde stacking with an acute). Twelve languages, one shared shape of bug: the font's GPOS table was built assuming a mark always lands on a base letter, and stops working the moment a second mark has to land on the first one instead.
+
+For scale: `reportAllLanguages()` on the same font reported 450 orthographies as `full` and 426 as `none` — and these 12 as `positioning-failed`. Zero of the 12 needed tier 2's decomposition fallback at all; this is tier 1 and tier 3 disagreeing directly on the same codepoints.
+
+So a font that's about as "this obviously just works" as fonts get silently fails to correctly stack a second combining mark for a dozen language orthographies. A coverage-only checker would say all twelve are fine. It would be wrong about all twelve.
+
+## Where this leaves the check
+
+I didn't know any of that about this font until I ran the benchmark to write this post — which is its own small argument for why the check exists in the first place. If I'd trusted my own coverage numbers, I'd have shipped believing this font supported languages it actually renders broken for.
+
+A glyph existing in the font and a glyph the font knows how to position are two different claims. That's the gap Sora Type's language-support check is built to close — and it's a gap coverage-only tools can't see, because they only ever test the first claim.
+
+Try it at [type.soralabs.io.vn](https://type.soralabs.io.vn) — drop a font in and see what it actually supports. If you work with type, or ship fonts on Vercel, I'd like to hear what's missing.
