@@ -3,6 +3,7 @@ import { DOCS_BASE_URL } from "../docs/sora-docs-source.js";
 import { registryCache } from "./registry-cache.js";
 
 export interface RegistryFile {
+  content?: string;
   path: string;
   target?: string;
   type: string;
@@ -90,4 +91,33 @@ export async function getItemByName(
 ): Promise<RegistryItem | null> {
   const items = await listInstallableItems();
   return items.find((item) => item.name === name) ?? null;
+}
+
+/**
+ * Fetches the per-item registry JSON, which embeds full file `content` —
+ * unlike the merged registry.json used by `listInstallableItems`/`getItemByName`.
+ */
+export async function getItemSource(
+  name: string
+): Promise<RegistryItem | null> {
+  const cacheKey = `registry:item:${name}`;
+  const cached = await registryCache.get<RegistryItem>(cacheKey);
+  if (cached !== null) {
+    return cached;
+  }
+
+  const url = `${DOCS_BASE_URL}/r/${name}.json`;
+  const response = await fetch(url);
+  if (response.status === 404) {
+    return null;
+  }
+  if (!response.ok) {
+    throw new RegistryFetchError(
+      `Registry item fetch returned ${response.status} ${response.statusText} for "${name}"`
+    );
+  }
+
+  const item = (await response.json()) as RegistryItem;
+  await registryCache.set(cacheKey, item);
+  return item;
 }

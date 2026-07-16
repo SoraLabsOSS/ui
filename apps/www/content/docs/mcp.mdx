@@ -29,9 +29,10 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | `list_sections` | Browse the doc structure. Valid `section` filters: `documentation`, `components` |
 | `list_components` | List installable Sora UI components and hooks with short descriptions — no need to configure a second MCP server just to browse |
 | `get_component_info` | Get the install command, dependencies, and file targets for a component or hook by name |
+| `get_component_code` | Get the full source code for a component or hook by name, ready to paste in without running the install CLI |
 
 <Callout>
-  `list_components` and `get_component_info` let you browse and inspect the registry directly from **Sora UI docs MCP** — handy if you just want to look something up. To actually **install** `@soralabs/*` components with natural language, still configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
+  `list_components`, `get_component_info`, and `get_component_code` let you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — handy if you just want to look something up or copy code by hand. To actually **install** `@soralabs/*` components with natural language, still configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
 ## How it works in practice
@@ -42,7 +43,7 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 
 | Server | Role |
 | --- | --- |
-| **`sora-ui`** | Read docs and browse the catalog — `search_docs`, `get_page`, `list_components`, `get_component_info` |
+| **`sora-ui`** | Read docs and browse the catalog — `search_docs`, `get_page`, `list_components`, `get_component_info`, `get_component_code` |
 | **`shadcn`** | Install `@soralabs/*` into your project via the shadcn CLI |
 
 Use **both** when you want the agent to look up usage *and* run `shadcn add` for a registry item. Register `@soralabs` in `components.json` first — see [Installation](/docs/installation).
@@ -53,7 +54,7 @@ Use **both** when you want the agent to look up usage *and* run `shadcn add` for
 
 2. **During Agent chat (semi-automatic)** — The agent may call MCP when it decides it needs live docs — for example, you ask for a scroll-pinned hero and it searches for `scroll-gallery`. This depends on your prompt, mode (Agent vs Ask), and model; **it will not happen on every request**.
 
-3. **Explicit prompts (most reliable)** — Name Sora UI or the task directly: *“List installable Sora UI components”*, *“Get install info for scroll-gallery”*, *“Add scroll-gallery from @soralabs and use variant=studio”*.
+3. **Explicit prompts (most reliable)** — Name Sora UI or the task directly: *“List installable Sora UI components”*, *“Get install info for scroll-gallery”*, *“Get the source code for scroll-gallery”*, *“Add scroll-gallery from @soralabs and use variant=studio”*.
 
 ### What MCP is not
 
@@ -212,6 +213,7 @@ Add the `sora-ui` entry under `mcpServers` (create the file with the content abo
 - List installable Sora UI components
 - Get install info for char-stagger-button
 - What dependencies does the scroll-gallery component need?
+- Get the full source code for char-stagger-button
 - Add scroll-gallery from @soralabs and wire it into my page with variant=studio
 
 ## Registry MCP (shadcn)
