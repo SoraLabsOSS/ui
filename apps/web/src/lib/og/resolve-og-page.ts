@@ -1,4 +1,8 @@
-import { getPostBySlug } from "@/lib/blog";
+import {
+  BLOG_INDEX_DESCRIPTION,
+  BLOG_INDEX_TITLE,
+  getPostBySlug,
+} from "@/lib/blog";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 
 export interface OgPageContent {
@@ -19,7 +23,11 @@ export async function resolveOgPage(
     return SITE_DEFAULT;
   }
 
-  if (slug[0] === "blog" && slug[1]) {
+  if (slug[0] === "blog") {
+    if (!slug[1]) {
+      return { title: BLOG_INDEX_TITLE, description: BLOG_INDEX_DESCRIPTION };
+    }
+
     const post = await getPostBySlug(slug[1]);
     if (!post) {
       return null;

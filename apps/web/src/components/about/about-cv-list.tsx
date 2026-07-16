@@ -1,12 +1,6 @@
 import type { ReactNode } from "react";
 import { EmailCopy } from "@/components/home/email-copy";
-import {
-  CONTACT_EMAIL,
-  SKILLS,
-  SOCIAL_LINKS,
-  TOOLS,
-  WORK_EXPERIENCE,
-} from "@/lib/home/content";
+import { CONTACT_EMAIL, SOCIAL_LINKS } from "@/lib/home/content";
 
 function CvRow({ children, label }: { children: ReactNode; label: string }) {
   return (
@@ -22,44 +16,6 @@ function CvRow({ children, label }: { children: ReactNode; label: string }) {
 export function AboutCvList() {
   return (
     <div className="flex flex-col">
-      <CvRow label="Work Experience">
-        {WORK_EXPERIENCE.map((entry) => (
-          <div className="mb-1.5 last:mb-0" key={entry.label}>
-            {entry.href ? (
-              <a
-                className="inline-block text-white no-underline"
-                href={entry.href}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {entry.label}
-              </a>
-            ) : (
-              <span className="inline-block">{entry.label}</span>
-            )}
-            {entry.sub ? (
-              <span className="block text-[#555] text-[11px]">{entry.sub}</span>
-            ) : null}
-          </div>
-        ))}
-      </CvRow>
-
-      <CvRow label="Skills">
-        <div className="flex flex-col gap-1">
-          {SKILLS.map((skill) => (
-            <span key={skill}>{skill}</span>
-          ))}
-        </div>
-      </CvRow>
-
-      <CvRow label="Tools">
-        <div className="flex flex-col gap-1">
-          {TOOLS.map((tool) => (
-            <span key={tool}>{tool}</span>
-          ))}
-        </div>
-      </CvRow>
-
       <CvRow label="Contact">
         <EmailCopy email={CONTACT_EMAIL} />
         <div className="mt-4.5 flex gap-2.5">

@@ -5,7 +5,7 @@ import { WorkGrid } from "@/components/work/work-grid";
 export function WorkIndex() {
   return (
     <div className="flex min-h-svh flex-col bg-black text-white">
-      <PageHeader />
+      <PageHeader crumb="Work" />
       <WorkGrid />
       <WorkFooter />
     </div>

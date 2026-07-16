@@ -5,6 +5,10 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentType } from "react";
 
 const CONTENT_DIR = path.join(process.cwd(), "content/blog");
+
+export const BLOG_INDEX_TITLE = "Blog";
+export const BLOG_INDEX_DESCRIPTION =
+  "Notes on building Sora UI — animation techniques, component design decisions, and the tools we use to ship polished interfaces.";
 const MDX_EXTENSION = /\.mdx$/;
 const HEADING_LINE = /^(#{2,3})\s+(.+)$/;
 const CODE_FENCE = /^```/;
