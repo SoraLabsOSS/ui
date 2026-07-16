@@ -1,11 +1,11 @@
 ---
-title: Other animated distributions
-description: Other animated distributions that are not part of Sora UI.
+title: Other Animated Component Libraries (shadcn-Style Alternatives)
+description: A comparison of open-source, copy-paste animated component libraries for React and Vue — Magic UI, Aceternity UI, React Bits, Inspira UI, and more — for teams evaluating alternatives to Sora UI.
 ---
 
 **Sora UI is not the only distribution of animated components.**
 
-Our mission is to help you build animated UIs quickly and effortlessly. That’s why we also want to highlight other complementary distributions that can help you animate your interfaces with the same simplicity and flexibility.
+If you're comparing copy-paste, shadcn-style component registries — the kind you install via a CLI and own the source for, rather than pull from `node_modules` — this page rounds up the other animated distributions worth knowing about, for both React and Vue. Each one below leans on a different animation engine (Motion, GSAP, or Framer Motion) and targets a different niche, from marketing-site hero effects to accessible unstyled primitives.
 
 ## React Distributions
 
@@ -65,6 +65,7 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     href="https://magicui.design"
     title="Magic UI"
+    description="50+ Framer Motion + Tailwind components built for marketing sites and landing pages."
   />
   <Card
     icon={
@@ -80,6 +81,7 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     href="https://reactbits.dev"
     title="React Bits"
+    description="A large, actively-updated catalog of animated backgrounds, text effects, and UI snippets."
   />
   <Card
     icon={
@@ -162,6 +164,7 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     href="https://www.hover.dev/"
     title="Hover"
+    description="Micro-interaction and hover-effect components for buttons, cards, and links."
   />
   <Card
     icon={
@@ -188,21 +191,25 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     title="Motion Examples"
     href="https://examples.motion.dev/react"
+    description="The official example gallery from the Motion (formerly Framer Motion) team."
   />
   <Card
     icon={<img width={40} height={40} src="https://ui.aceternity.com/logo.png" alt="Aceternity UI" />}
     href="https://ui.aceternity.com"
     title="Aceternity UI"
+    description="Bold, animated marketing blocks — hero sections, bento grids, and scroll effects."
 />
   <Card
     icon={<img width={40} height={40} src="https://ui.paceui.com/images/logo.png" alt="Pace UI" />}
     href="https://ui.paceui.com/"
     title="Pace UI"
+    description="shadcn-compatible animated primitives with a focus on clean, minimal motion."
 />
   <Card
     icon={<img width={40} height={40} src="https://ph-files.imgix.net/30d3d429-dc76-4af5-b2ee-8e4464acd59e.png" alt="Eldora UI" />}
     href="https://www.eldoraui.site/"
     title="Eldora UI"
+    description="Creative, animated components aimed at portfolio and creative-agency sites."
   />
   <Card
     icon={
@@ -215,6 +222,7 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     href="https://headlessui.com/"
     title="Headless UI"
+    description="Unstyled, fully accessible primitives from the Tailwind Labs team — no animation focus, but a common base for building your own."
   />
 
 </Cards>
@@ -236,6 +244,7 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     href="https://vue-bits.dev"
     title="Vue Bits"
+    description="A Vue port of React Bits — the same animated backgrounds and text effects for Vue."
   />
   <Card
     icon={
@@ -383,8 +392,19 @@ Our mission is to help you build animated UIs quickly and effortlessly. That’s
     }
     href="https://inspira-ui.com/"
     title="Inspira UI"
+    description="A shadcn-vue-style registry of animated components, the closest Vue equivalent to Sora UI."
   />
 </Cards>
+
+## How Sora UI compares
+
+Most of the libraries above are built for one thing — marketing pages, hover effects, or a specific framework. Sora UI focuses on three things that are less common together in one registry:
+
+- **Two animation engines, one API** — primitives are built on both [Motion](https://motion.dev) and GSAP, so you're not locked into a single engine's tradeoffs.
+- **`prefers-reduced-motion` by default** — every primitive ships a reduced-motion fallback, not bolted on later.
+- **An MCP server** ([mcp.soralabs.io.vn](https://mcp.soralabs.io.vn)) — AI coding assistants can look up install commands, props, and usage docs directly, instead of guessing from training data.
+
+If you're evaluating shadcn-style animated registries, it's worth trying more than one — see the [installation guide](/docs/installation) to get started with Sora UI, or browse the [component catalog](/components).
 
 ## Add your distribution
 
