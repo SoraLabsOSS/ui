@@ -88,7 +88,7 @@ export function SignInMarketingPanel() {
             </div>
             <Image
               alt="Sora Studio landing page preview"
-              className="h-auto w-full object-cover object-top opacity-95 [filter:invert(1)_hue-rotate(180deg)_brightness(0.68)_contrast(1.16)] dark:[filter:none]"
+              className="h-auto w-full object-cover object-top opacity-95 dark:[filter:invert(1)_hue-rotate(180deg)_brightness(0.68)_contrast(1.16)]"
               draggable={false}
               height={1080}
               loading="eager"
