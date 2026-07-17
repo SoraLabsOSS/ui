@@ -1,0 +1,43 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-tilt-card",
+  "title": "Tilt Card Demo",
+  "description": "Card tilting toward the cursor with layered depth content.",
+  "registryDependencies": ["@soralabs/tilt-card"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/tilt-card/index.tsx",
+      "content": "\"use client\";\n\nimport { TiltCard } from \"@/components/sora-ui/effects/tilt-card\";\n\nexport interface TiltCardDemoProps {\n  isReverse?: boolean;\n  perspective?: number;\n  rotationFactor?: number;\n  scaleOnHover?: number;\n}\n\nexport function TiltCardDemo({\n  isReverse = false,\n  perspective = 1000,\n  rotationFactor = 8,\n  scaleOnHover = 1,\n}: TiltCardDemoProps) {\n  return (\n    <TiltCard\n      className=\"w-[280px] rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900\"\n      isReverse={isReverse}\n      perspective={perspective}\n      rotationFactor={rotationFactor}\n      scaleOnHover={scaleOnHover}\n    >\n      <div\n        className=\"flex flex-col gap-3\"\n        style={{ transform: \"translateZ(40px)\" }}\n      >\n        <div className=\"h-10 w-10 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500\" />\n        <p className=\"font-medium text-sm text-zinc-900 dark:text-zinc-50\">\n          Sora UI\n        </p>\n        <p className=\"text-sm text-zinc-500 dark:text-zinc-400\">\n          Move your cursor around — the card tilts toward it on a spring, and\n          this content floats above the surface.\n        </p>\n      </div>\n    </TiltCard>\n  );\n}\n\nexport default TiltCardDemo;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/tilt-card.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TiltCardDemo": {
+        "rotationFactor": {
+          "value": 8,
+          "min": 0,
+          "max": 45,
+          "step": 1
+        },
+        "perspective": {
+          "value": 1000,
+          "min": 400,
+          "max": 2000,
+          "step": 50
+        },
+        "scaleOnHover": {
+          "value": 1,
+          "min": 1,
+          "max": 1.15,
+          "step": 0.01
+        },
+        "isReverse": {
+          "value": false
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

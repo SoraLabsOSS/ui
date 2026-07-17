@@ -1,0 +1,117 @@
+---
+title: Tilt Card
+description: 3D tilt card that rotates toward the cursor on spring physics, with an optional glare reflection.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="tilt-card" description="Move your cursor over the card — it tilts toward the pointer in 3D while the content floats above the surface." />
+
+`TiltCard` maps the cursor position inside the card to rotation angles: the offset from the card's center is normalized to `[-0.5, 0.5]` and multiplied by `rotationFactor` degrees, then smoothed through a spring so the card chases the cursor with inertia instead of sticking to it. The wrapper provides CSS `perspective`, and the card preserves 3D for its children — give a child `transform: translateZ(...)` to make it float above the surface.
+
+## Examples
+
+### Image Card
+
+A subtle `rotationFactor` with `isReverse` gives an image card a heavy, physical feel — the hovered corner dips down as if pressed.
+
+<ComponentPreview name="demo-tilt-card-image" description="Image card with a subtle reversed tilt." />
+
+### Glare
+
+Enable `glare` to sweep a light reflection across the card as it tilts — the highlight tracks the cursor like light bouncing off a glossy surface.
+
+<ComponentPreview name="demo-tilt-card-glare" description="Tilt card with a light reflection following the tilt angle." />
+
+## Installation
+
+<ComponentInstallation name="tilt-card" />
+
+## Usage
+
+```tsx
+import { TiltCard } from '@/components/sora-ui/effects/tilt-card';
+
+export function Card() {
+  return (
+    <TiltCard className="w-[280px] rounded-xl border bg-zinc-50 p-6 dark:bg-zinc-900">
+      <div style={{ transform: 'translateZ(40px)' }}>
+        This content floats above the tilting surface.
+      </div>
+    </TiltCard>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    rotationFactor: {
+      description: 'Maximum tilt angle in degrees.',
+      type: 'number',
+      default: '15',
+    },
+    perspective: {
+      description:
+        'Virtual camera distance in pixels — smaller values exaggerate the 3D effect.',
+      type: 'number',
+      default: '1000',
+    },
+    scaleOnHover: {
+      description: 'Scale applied to the card while hovered (1 = no scale).',
+      type: 'number',
+      default: '1',
+    },
+    isReverse: {
+      description:
+        'Reverse the tilt direction: the hovered corner dips down (pressed) instead of lifting toward the cursor.',
+      type: 'boolean',
+      default: 'false',
+    },
+    springOptions: {
+      description:
+        'Spring options for the tilt/scale motion. Raise stiffness for a snappier card, raise mass and lower stiffness for a heavier one.',
+      type: 'SpringOptions',
+      default: '{ stiffness: 150, damping: 20, mass: 1 }',
+    },
+    glare: {
+      description:
+        'Render a light reflection that sweeps across the card as it tilts.',
+      type: 'boolean',
+      default: 'false',
+    },
+    glareMaxOpacity: {
+      description: 'Peak opacity of the glare reflection while hovered.',
+      type: 'number',
+      default: '0.05',
+    },
+    className: {
+      description: 'Additional class names merged onto the tilting card element.',
+      type: 'string',
+    },
+    style: {
+      description: 'Inline motion styles merged onto the tilting card element.',
+      type: 'MotionStyle',
+    },
+    ref: {
+      description: 'Ref forwarded to the tilting card element.',
+      type: 'Ref<HTMLDivElement>',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `TiltCard` for feature cards, product shots, pricing tiers, or gallery items that deserve a tactile, physical feel — it reads best on a handful of highlighted cards, not a whole grid tilting at once. Pair `glare` with dark or image-backed cards where the reflection has contrast, and add `overflow-hidden` plus a border radius on the card so the glare clips to its shape.
+
+On touch devices mouse events don't fire, so the card simply renders static — no fallback needed.
+
+## Accessibility
+
+The tilt is purely decorative: content stays in the normal document flow and keyboard focus is unaffected. When `prefers-reduced-motion: reduce` is set, the card ignores cursor movement entirely and renders static — 3D rotation is more vestibularly triggering than flat motion, so it is disabled rather than reduced. See [Accessibility](/docs/accessibility).
+
+## Credits
+
+<ComponentCredits name="tilt-card" />

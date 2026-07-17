@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-tilt-card-image",
+  "type": "registry:ui",
+  "title": "Tilt Card Image Demo",
+  "description": "Image card with a subtle reversed tilt.",
+  "registryDependencies": ["tilt-card"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/tilt-card-image.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TiltCardImageDemo": {
+        "rotationFactor": {
+          "value": 8,
+          "min": 0,
+          "max": 30,
+          "step": 1
+        },
+        "isReverse": {
+          "value": true
+        }
+      }
+    }
+  }
+}

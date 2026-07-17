@@ -1118,6 +1118,179 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-sticky-scroll-cards",
   },
+  "demo-tilt-card": {
+    name: "demo-tilt-card",
+    description: "Card tilting toward the cursor with layered depth content.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["tilt-card"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/tilt-card/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/tilt-card.tsx",
+        content:
+          '"use client";\n\nimport { TiltCard } from "@/components/sora-ui/effects/tilt-card";\n\nexport interface TiltCardDemoProps {\n  isReverse?: boolean;\n  perspective?: number;\n  rotationFactor?: number;\n  scaleOnHover?: number;\n}\n\nexport function TiltCardDemo({\n  isReverse = false,\n  perspective = 1000,\n  rotationFactor = 8,\n  scaleOnHover = 1,\n}: TiltCardDemoProps) {\n  return (\n    <TiltCard\n      className="w-[280px] rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900"\n      isReverse={isReverse}\n      perspective={perspective}\n      rotationFactor={rotationFactor}\n      scaleOnHover={scaleOnHover}\n    >\n      <div\n        className="flex flex-col gap-3"\n        style={{ transform: "translateZ(40px)" }}\n      >\n        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500" />\n        <p className="font-medium text-sm text-zinc-900 dark:text-zinc-50">\n          Sora UI\n        </p>\n        <p className="text-sm text-zinc-500 dark:text-zinc-400">\n          Move your cursor around — the card tilts toward it on a spring, and\n          this content floats above the surface.\n        </p>\n      </div>\n    </TiltCard>\n  );\n}\n\nexport default TiltCardDemo;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/tilt-card/index.tsx"
+        );
+        const demoProps = {
+          TiltCardDemo: {
+            rotationFactor: { value: 8, min: 0, max: 45, step: 1 },
+            perspective: { value: 1000, min: 400, max: 2000, step: 50 },
+            scaleOnHover: { value: 1, min: 1, max: 1.15, step: 0.01 },
+            isReverse: { value: false },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TiltCardDemo: {
+          rotationFactor: { value: 8, min: 0, max: 45, step: 1 },
+          perspective: { value: 1000, min: 400, max: 2000, step: 50 },
+          scaleOnHover: { value: 1, min: 1, max: 1.15, step: 0.01 },
+          isReverse: { value: false },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-tilt-card",
+  },
+  "demo-tilt-card-glare": {
+    name: "demo-tilt-card-glare",
+    description:
+      "Tilt card with a moving light reflection following the tilt angle.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["tilt-card"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/tilt-card-glare/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/tilt-card-glare.tsx",
+        content:
+          '"use client";\n\nimport { TiltCard } from "@/components/sora-ui/effects/tilt-card";\n\nexport interface TiltCardGlareDemoProps {\n  glareMaxOpacity?: number;\n  rotationFactor?: number;\n}\n\nexport function TiltCardGlareDemo({\n  glareMaxOpacity = 0.05,\n  rotationFactor = 15,\n}: TiltCardGlareDemoProps) {\n  return (\n    <TiltCard\n      className="w-[280px] overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-950 p-6"\n      glare\n      glareMaxOpacity={glareMaxOpacity}\n      rotationFactor={rotationFactor}\n    >\n      <div\n        className="flex flex-col gap-3"\n        style={{ transform: "translateZ(40px)" }}\n      >\n        <p className="font-medium text-sm text-zinc-50">Glare</p>\n        <p className="text-sm text-zinc-400">\n          A light reflection sweeps across the surface as the card tilts,\n          selling the material.\n        </p>\n      </div>\n    </TiltCard>\n  );\n}\n\nexport default TiltCardGlareDemo;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/tilt-card-glare/index.tsx"
+        );
+        const demoProps = {
+          TiltCardGlareDemo: {
+            rotationFactor: { value: 15, min: 0, max: 45, step: 1 },
+            glareMaxOpacity: { value: 0.05, min: 0, max: 1, step: 0.05 },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TiltCardGlareDemo: {
+          rotationFactor: { value: 15, min: 0, max: 45, step: 1 },
+          glareMaxOpacity: { value: 0.05, min: 0, max: 1, step: 0.05 },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-tilt-card-glare",
+  },
+  "demo-tilt-card-image": {
+    name: "demo-tilt-card-image",
+    description: "Image card with a subtle reversed tilt.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["tilt-card"],
+    files: [
+      {
+        path: "registry/demo/primitives/effects/tilt-card-image/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/effects/tilt-card-image.tsx",
+        content:
+          '"use client";\n\nimport Image from "next/image";\nimport { TiltCard } from "@/components/sora-ui/effects/tilt-card";\n\nexport interface TiltCardImageDemoProps {\n  isReverse?: boolean;\n  rotationFactor?: number;\n}\n\n/** motion-primitives `tilt-card-1` */\nexport function TiltCardImageDemo({\n  isReverse = true,\n  rotationFactor = 8,\n}: TiltCardImageDemoProps) {\n  return (\n    <TiltCard isReverse={isReverse} rotationFactor={rotationFactor}>\n      <div className="flex max-w-[270px] flex-col overflow-hidden rounded-xl border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900">\n        <Image\n          alt="Shibuya crossing at night, Tokyo"\n          className="h-48 w-full object-cover"\n          height={192}\n          src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=540&h=384&fit=crop"\n          width={270}\n        />\n        <div className="p-2">\n          <h1 className="font-mono text-zinc-950 leading-snug dark:text-zinc-50">\n            Tokyo\n          </h1>\n          <p className="text-zinc-700 dark:text-zinc-400">Shibuya at night</p>\n        </div>\n      </div>\n    </TiltCard>\n  );\n}\n\nexport default TiltCardImageDemo;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/tilt-card-image/index.tsx"
+        );
+        const demoProps = {
+          TiltCardImageDemo: {
+            rotationFactor: { value: 8, min: 0, max: 30, step: 1 },
+            isReverse: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TiltCardImageDemo: {
+          rotationFactor: { value: 8, min: 0, max: 30, step: 1 },
+          isReverse: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-tilt-card-image",
+  },
   "demo-bottom-sheet": {
     name: "demo-bottom-sheet",
     description:
@@ -3230,6 +3403,71 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/sticky-scroll-cards",
+  },
+  "tilt-card": {
+    name: "tilt-card",
+    description:
+      "3D tilt card that rotates toward the cursor on spring physics, with an optional glare reflection.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/effects/tilt-card/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/effects/tilt-card.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  type MotionStyle,\n  motion,\n  type SpringOptions,\n  useMotionTemplate,\n  useMotionValue,\n  useReducedMotion,\n  useSpring,\n  useTransform,\n} from "motion/react";\nimport type { MouseEvent, ReactNode, Ref } from "react";\n\nconst DEFAULT_ROTATION_FACTOR = 15;\nconst DEFAULT_PERSPECTIVE = 1000;\nconst DEFAULT_SCALE_ON_HOVER = 1;\nconst DEFAULT_GLARE_MAX_OPACITY = 0.05;\nconst DEFAULT_SPRING_OPTIONS: SpringOptions = {\n  stiffness: 150,\n  damping: 20,\n  mass: 1,\n};\n\nexport interface TiltCardProps {\n  children?: ReactNode;\n  /** Additional class names merged onto the tilting card element. */\n  className?: string;\n  /** Render a light reflection that sweeps across the card as it tilts. @default false */\n  glare?: boolean;\n  /** Peak opacity of the glare reflection while hovered. @default 0.05 */\n  glareMaxOpacity?: number;\n  /** Reverse the tilt direction: the hovered corner dips down (pressed) instead of lifting toward the cursor. @default false */\n  isReverse?: boolean;\n  /** Virtual camera distance in pixels — smaller values exaggerate the 3D effect. @default 1000 */\n  perspective?: number;\n  ref?: Ref<HTMLDivElement>;\n  /** Maximum tilt angle in degrees. @default 15 */\n  rotationFactor?: number;\n  /** Scale applied to the card while hovered. @default 1 (no scale) */\n  scaleOnHover?: number;\n  /** Spring options for the tilt/scale motion. @default { stiffness: 150, damping: 20, mass: 1 } */\n  springOptions?: SpringOptions;\n  /** Inline motion styles merged onto the tilting card element. */\n  style?: MotionStyle;\n}\n\nexport function TiltCard({\n  children,\n  className,\n  glare = false,\n  glareMaxOpacity = DEFAULT_GLARE_MAX_OPACITY,\n  isReverse = false,\n  perspective = DEFAULT_PERSPECTIVE,\n  ref,\n  rotationFactor = DEFAULT_ROTATION_FACTOR,\n  scaleOnHover = DEFAULT_SCALE_ON_HOVER,\n  springOptions = DEFAULT_SPRING_OPTIONS,\n  style,\n}: TiltCardProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  // Normalized mouse position within the card, [-0.5, 0.5] on both axes.\n  const x = useMotionValue(0);\n  const y = useMotionValue(0);\n\n  // Default direction faces the card toward the cursor (hovered corner\n  // lifts up); isReverse makes it dip down instead, like being pressed.\n  const rotateX = useSpring(\n    useTransform(\n      y,\n      [-0.5, 0.5],\n      isReverse\n        ? [rotationFactor, -rotationFactor]\n        : [-rotationFactor, rotationFactor]\n    ),\n    springOptions\n  );\n  const rotateY = useSpring(\n    useTransform(\n      x,\n      [-0.5, 0.5],\n      isReverse\n        ? [-rotationFactor, rotationFactor]\n        : [rotationFactor, -rotationFactor]\n    ),\n    springOptions\n  );\n  const scale = useSpring(1, springOptions);\n  const glareOpacity = useSpring(0, springOptions);\n\n  const glareX = useTransform(x, [-0.5, 0.5], [0, 100]);\n  const glareY = useTransform(y, [-0.5, 0.5], [0, 100]);\n  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgb(255 255 255), transparent 65%)`;\n\n  const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {\n    if (prefersReducedMotion) {\n      return;\n    }\n    const rect = event.currentTarget.getBoundingClientRect();\n    x.set((event.clientX - rect.left) / rect.width - 0.5);\n    y.set((event.clientY - rect.top) / rect.height - 0.5);\n  };\n\n  const handleMouseEnter = () => {\n    if (prefersReducedMotion) {\n      return;\n    }\n    scale.set(scaleOnHover);\n    glareOpacity.set(glareMaxOpacity);\n  };\n\n  const handleMouseLeave = () => {\n    x.set(0);\n    y.set(0);\n    scale.set(1);\n    glareOpacity.set(0);\n  };\n\n  return (\n    <div style={{ perspective }}>\n      <motion.div\n        className={cn("relative", className)}\n        data-slot="tilt-card"\n        onMouseEnter={handleMouseEnter}\n        onMouseLeave={handleMouseLeave}\n        onMouseMove={handleMouseMove}\n        ref={ref}\n        style={{\n          transformStyle: "preserve-3d",\n          ...style,\n          rotateX,\n          rotateY,\n          scale,\n          willChange: "transform",\n        }}\n      >\n        {children}\n        {/* Always rendered when enabled (never gated on reduced motion, which\n            is unknown during SSR and would mismatch on hydration) — the\n            handlers keep its opacity at 0 when reduced motion is preferred. */}\n        {glare ? (\n          <motion.div\n            aria-hidden\n            className="pointer-events-none absolute inset-0 rounded-[inherit]"\n            data-slot="tilt-card-glare"\n            style={{\n              backgroundImage: glareBackground,\n              opacity: glareOpacity,\n            }}\n          />\n        ) : null}\n      </motion.div>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    inspiration: {
+      type: "inspired",
+      label: "motion-primitives",
+      url: "https://motion-primitives.com/docs/tilt",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/effects/tilt-card/index.tsx"
+        );
+        const demoProps = {
+          TiltCardDemo: {
+            rotationFactor: { value: 8, min: 0, max: 45, step: 1 },
+            perspective: { value: 1000, min: 400, max: 2000, step: 50 },
+            scaleOnHover: { value: 1, min: 1, max: 1.15, step: 0.01 },
+            isReverse: { value: false },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TiltCardDemo: {
+          rotationFactor: { value: 8, min: 0, max: 45, step: 1 },
+          perspective: { value: 1000, min: 400, max: 2000, step: 50 },
+          scaleOnHover: { value: 1, min: 1, max: 1.15, step: 0.01 },
+          isReverse: { value: false },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/tilt-card",
   },
   "bottom-sheet": {
     name: "bottom-sheet",

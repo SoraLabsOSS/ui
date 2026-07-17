@@ -372,6 +372,108 @@
       ]
     },
     {
+      "name": "demo-tilt-card",
+      "type": "registry:ui",
+      "title": "Tilt Card Demo",
+      "description": "Card tilting toward the cursor with layered depth content.",
+      "registryDependencies": ["@soralabs/tilt-card"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/tilt-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/tilt-card.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "TiltCardDemo": {
+            "rotationFactor": {
+              "value": 8,
+              "min": 0,
+              "max": 45,
+              "step": 1
+            },
+            "perspective": {
+              "value": 1000,
+              "min": 400,
+              "max": 2000,
+              "step": 50
+            },
+            "scaleOnHover": {
+              "value": 1,
+              "min": 1,
+              "max": 1.15,
+              "step": 0.01
+            },
+            "isReverse": {
+              "value": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-tilt-card-glare",
+      "type": "registry:ui",
+      "title": "Tilt Card Glare Demo",
+      "description": "Tilt card with a moving light reflection following the tilt angle.",
+      "registryDependencies": ["@soralabs/tilt-card"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/tilt-card-glare/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/tilt-card-glare.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "TiltCardGlareDemo": {
+            "rotationFactor": {
+              "value": 15,
+              "min": 0,
+              "max": 45,
+              "step": 1
+            },
+            "glareMaxOpacity": {
+              "value": 0.05,
+              "min": 0,
+              "max": 1,
+              "step": 0.05
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-tilt-card-image",
+      "type": "registry:ui",
+      "title": "Tilt Card Image Demo",
+      "description": "Image card with a subtle reversed tilt.",
+      "registryDependencies": ["@soralabs/tilt-card"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/tilt-card-image.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "TiltCardImageDemo": {
+            "rotationFactor": {
+              "value": 8,
+              "min": 0,
+              "max": 30,
+              "step": 1
+            },
+            "isReverse": {
+              "value": true
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "demo-bottom-sheet",
       "type": "registry:ui",
       "title": "Bottom Sheet Demo",
@@ -1290,6 +1392,28 @@
           "type": "reimplemented",
           "label": "Codegrid",
           "stack": "GSAP and vanilla JS"
+        }
+      }
+    },
+    {
+      "name": "tilt-card",
+      "type": "registry:ui",
+      "title": "Tilt Card",
+      "description": "3D tilt card that rotates toward the cursor on spring physics, with an optional glare reflection.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/tilt-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/tilt-card.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "inspired",
+          "label": "motion-primitives",
+          "url": "https://motion-primitives.com/docs/tilt"
         }
       }
     },

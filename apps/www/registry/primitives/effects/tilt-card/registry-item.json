@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tilt-card",
+  "type": "registry:ui",
+  "title": "Tilt Card",
+  "description": "3D tilt card that rotates toward the cursor on spring physics, with an optional glare reflection.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/tilt-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/tilt-card.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "inspired",
+      "label": "motion-primitives",
+      "url": "https://motion-primitives.com/docs/tilt"
+    }
+  }
+}

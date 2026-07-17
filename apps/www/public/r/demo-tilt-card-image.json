@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-tilt-card-image",
+  "title": "Tilt Card Image Demo",
+  "description": "Image card with a subtle reversed tilt.",
+  "registryDependencies": ["@soralabs/tilt-card"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",
+      "content": "\"use client\";\n\nimport Image from \"next/image\";\nimport { TiltCard } from \"@/components/sora-ui/effects/tilt-card\";\n\nexport interface TiltCardImageDemoProps {\n  isReverse?: boolean;\n  rotationFactor?: number;\n}\n\n/** motion-primitives `tilt-card-1` */\nexport function TiltCardImageDemo({\n  isReverse = true,\n  rotationFactor = 8,\n}: TiltCardImageDemoProps) {\n  return (\n    <TiltCard isReverse={isReverse} rotationFactor={rotationFactor}>\n      <div className=\"flex max-w-[270px] flex-col overflow-hidden rounded-xl border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900\">\n        <Image\n          alt=\"Shibuya crossing at night, Tokyo\"\n          className=\"h-48 w-full object-cover\"\n          height={192}\n          src=\"https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=540&h=384&fit=crop\"\n          width={270}\n        />\n        <div className=\"p-2\">\n          <h1 className=\"font-mono text-zinc-950 leading-snug dark:text-zinc-50\">\n            Tokyo\n          </h1>\n          <p className=\"text-zinc-700 dark:text-zinc-400\">Shibuya at night</p>\n        </div>\n      </div>\n    </TiltCard>\n  );\n}\n\nexport default TiltCardImageDemo;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/tilt-card-image.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TiltCardImageDemo": {
+        "rotationFactor": {
+          "value": 8,
+          "min": 0,
+          "max": 30,
+          "step": 1
+        },
+        "isReverse": {
+          "value": true
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}
