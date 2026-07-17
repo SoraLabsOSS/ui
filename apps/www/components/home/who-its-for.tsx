@@ -28,12 +28,7 @@ interface AudienceColumnProps {
 
 function AudienceColumn({ title, items, delay }: AudienceColumnProps) {
   return (
-    <MotionEffect
-      delay={delay}
-      fade
-      inView
-      slide={{ direction: "up", offset: 24 }}
-    >
+    <MotionEffect delay={delay} fade inView>
       <div>
         <p className="mb-10 font-mono text-muted-foreground text-xs uppercase tracking-widest">
           {title}
@@ -74,12 +69,7 @@ export function WhoItsFor({ primitivesUrl }: { primitivesUrl: string }) {
                 React code, real refs, no bloat—built for teams who ship.
               </HomeSectionIntro>
 
-              <MotionEffect
-                delay={0.2}
-                fade
-                inView
-                slide={{ direction: "up", offset: 24 }}
-              >
+              <MotionEffect delay={0.2} fade inView>
                 <div className="mt-8">
                   <SectionCtaScramble
                     href={primitivesUrl}

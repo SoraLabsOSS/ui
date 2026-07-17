@@ -26,7 +26,6 @@ function ProductCard({ children, className, delay = 0 }: ProductCardProps) {
       delay={delay}
       fade
       inView
-      slide={{ direction: "up", offset: 24 }}
     >
       {children}
     </MotionEffect>
@@ -51,7 +50,7 @@ export function HomeTwoWays({
     <section className="relative bg-background py-24 text-foreground lg:py-32">
       <HomeShell>
         <header className="mb-16 max-w-[60ch] lg:mb-24">
-          <MotionEffect fade inView slide={{ direction: "up", offset: 32 }}>
+          <MotionEffect fade inView>
             <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
               What you get
             </p>

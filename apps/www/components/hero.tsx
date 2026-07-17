@@ -14,9 +14,9 @@ export const Hero = () => {
   return (
     <header className="flex flex-col items-center text-center">
       <motion.p
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1 }}
         className="my-4 font-mono text-muted-foreground text-sm tracking-widest md:text-base"
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+        initial={prefersReducedMotion ? false : { opacity: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         SORA UI
@@ -28,18 +28,18 @@ export const Hero = () => {
       </h1>
 
       <motion.p
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1 }}
         className="my-4 font-mono text-muted-foreground text-sm tracking-widest md:text-base"
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+        initial={prefersReducedMotion ? false : { opacity: 0 }}
         transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
       >
         FOR SHADCN/UI
       </motion.p>
 
       <motion.div
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1 }}
         className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row lg:mt-16"
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+        initial={prefersReducedMotion ? false : { opacity: 0 }}
         transition={{ delay: 0.25, duration: 0.55, ease: "easeOut" }}
       >
         <Link

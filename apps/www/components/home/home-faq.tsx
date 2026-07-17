@@ -101,12 +101,7 @@ export function HomeFaq() {
           </div>
 
           <div className="col-span-12 lg:col-span-7 lg:col-start-6">
-            <MotionEffect
-              delay={0.15}
-              fade
-              inView
-              slide={{ direction: "up", offset: 24 }}
-            >
+            <MotionEffect delay={0.15} fade inView>
               <Accordion className="w-full">
                 {FAQ_ITEMS.map((item, index) => (
                   <AccordionItem defaultOpen={index === 0} key={item.title}>

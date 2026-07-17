@@ -30,6 +30,8 @@ const nextConfig: NextConfig = {
       "date-fns",
       "@workspace/ui",
     ],
+    turbopackFileSystemCacheForBuild: true,
+    turbopackRustReactCompiler: true,
   },
   cacheComponents: true,
   reactCompiler: true,
