@@ -72,6 +72,24 @@ const nextConfig: NextConfig = {
   async redirects() {
     return buildDocRedirects(appRoot);
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            // RFC 8288 Link headers so agents can discover the machine-
+            // readable surface (llms.txt, sitemap) without parsing HTML.
+            key: "Link",
+            value: [
+              '</llms.txt>; rel="describedby"; type="text/plain"',
+              '</sitemap.xml>; rel="sitemap"; type="application/xml"',
+            ].join(", "),
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(withBundleAnalyzer(withMDX(nextConfig)), {
