@@ -16,8 +16,9 @@ const COMPONENT_NAME_PATTERN = /^[a-z0-9-]+$/i;
 
 // Shiki tokenization is CPU-intensive; cap the source we'll highlight to keep
 // worst-case cost bounded for this unauthenticated endpoint. Largest current
-// registry file (scroll-gallery) is ~28.7KB, so this leaves headroom.
-const MAX_CODE_LENGTH = 40_000;
+// registry file (video-player, a self-contained single-file component with
+// its full stylesheet inlined) is ~63KB, so this leaves headroom.
+const MAX_CODE_LENGTH = 100_000;
 
 // Reject oversized request bodies before they're parsed as JSON. The only
 // valid body is `{ component, lang }`, which is always tiny.
