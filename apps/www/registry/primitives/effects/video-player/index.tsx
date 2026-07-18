@@ -1566,7 +1566,7 @@ function VideoPlayer({
           showTouchChrome();
         }
 
-        togglePlay()
+        togglePlay({ showFeedback: true })
           .catch(syncPlayState)
           .finally(() => {
             if (shouldUseTouchChrome) {
