@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "video-player",
+  "type": "registry:ui",
+  "title": "Video Player",
+  "description": "Dependency-free custom video player: modal overlay, chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, fullscreen, keyboard shortcuts, and focus trapping.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/video-player/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/video-player.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "video",
+      "player",
+      "modal",
+      "chapters",
+      "scrub",
+      "preview",
+      "picture-in-picture",
+      "fullscreen"
+    ]
+  }
+}

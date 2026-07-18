@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-video-player",
+  "type": "registry:ui",
+  "title": "Video Player Demo",
+  "description": "Trigger button that opens the modal video player with a sample chaptered video.",
+  "registryDependencies": ["video-player"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/video-player/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/video-player.tsx"
+    }
+  ]
+}

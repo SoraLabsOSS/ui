@@ -474,6 +474,20 @@
       }
     },
     {
+      "name": "demo-video-player",
+      "type": "registry:ui",
+      "title": "Video Player Demo",
+      "description": "Trigger button that opens the modal video player with a sample chaptered video.",
+      "registryDependencies": ["@soralabs/video-player"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/video-player/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/video-player.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-bottom-sheet",
       "type": "registry:ui",
       "title": "Bottom Sheet Demo",
@@ -1415,6 +1429,33 @@
           "label": "motion-primitives",
           "url": "https://motion-primitives.com/docs/tilt"
         }
+      }
+    },
+    {
+      "name": "video-player",
+      "type": "registry:ui",
+      "title": "Video Player",
+      "description": "Dependency-free custom video player: modal overlay, chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, fullscreen, keyboard shortcuts, and focus trapping.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/video-player/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/video-player.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "video",
+          "player",
+          "modal",
+          "chapters",
+          "scrub",
+          "preview",
+          "picture-in-picture",
+          "fullscreen"
+        ]
       }
     },
     {

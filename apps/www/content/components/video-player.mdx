@@ -1,0 +1,167 @@
+---
+title: Video Player
+description: Dependency-free modal video player with a chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, and fullscreen.
+category: effects
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: video-player
+---
+
+## Installation
+
+<ComponentInstallation name="video-player" />
+
+## Usage
+
+```tsx
+import { VideoPlayer } from "@/components/sora-ui/effects/video-player";
+
+const chapters = [
+  { start: 0, title: "Intro" },
+  { start: 15, title: "The orchard" },
+  { start: 60, title: "Trouble arrives" },
+];
+
+export default function Demo() {
+  return (
+    <VideoPlayer
+      chapters={chapters}
+      defaultSpeed={1}
+      src="https://example.com/video.mp4"
+    />
+  );
+}
+```
+
+The trigger button and the modal are the same component instance — render
+`<VideoPlayer />` wherever you want the "Open video player" button to appear,
+and the modal overlay portals itself to a fixed position automatically. Pass
+`children` to replace the default icon + label:
+
+```tsx
+<VideoPlayer src="https://example.com/video.mp4">Watch the demo</VideoPlayer>
+```
+
+## Sources
+
+`src` is used for both the main video and, unless `previewSrc` is set, the
+muted hover-scrub preview video. Only normal hosted MP4 files are supported —
+this is not an HLS/`.m3u8` player. If a target device needs an
+iOS-optimized encode, pass `iosSrc` (and `previewIosSrc` if it differs from
+`previewSrc`); the player swaps to it automatically on iPad, iPhone, and
+touch-enabled Macs.
+
+The video is lazy-loaded: nothing downloads until the trigger is hovered,
+focused, touched, or the player is opened.
+
+## Styling
+
+Styling ships as a single injected stylesheet rather than Tailwind classes,
+so the component stays a self-contained, dependency-free file — inject-once
+guarded, so mounting multiple players on a page is safe. Override the look via
+the `className` (trigger wrapper), `triggerClassName`, and `playerClassName`
+props, or target the `.media-01` / `[data-media-01-open]` selectors directly.
+
+## Props
+
+<TypeTable
+  type={{
+    src: {
+      description:
+        "Hosted MP4 URL for the main video. Also used for the hover-scrub preview unless previewSrc is set.",
+      type: "string",
+    },
+    previewSrc: {
+      description: "Hosted MP4 URL for the muted hover-scrub preview video.",
+      type: "string",
+      default: "src",
+    },
+    iosSrc: {
+      description:
+        "iOS-optimized fallback source for the main video (iPad/iPhone/touch Mac).",
+      type: "string",
+    },
+    previewIosSrc: {
+      description: "iOS-optimized fallback source for the preview video.",
+      type: "string",
+    },
+    defaultSpeed: {
+      description: "Initial playback speed.",
+      type: "number",
+      default: "1",
+    },
+    speedOptions: {
+      description: "Playback speed choices shown in the speed menu.",
+      type: "number[]",
+      default: "[1, 1.25, 1.5, 1.75, 2]",
+    },
+    chapters: {
+      description: "Chapter markers segmenting the seek timeline.",
+      type: "VideoPlayerChapter[]",
+    },
+    children: {
+      description: "Content rendered inside the trigger button.",
+      type: "ReactNode",
+      default: 'Video icon + "Open video player"',
+    },
+    dialogLabel: {
+      description: "aria-label for the player dialog.",
+      type: "string",
+      default: '"Custom video player"',
+    },
+    className: {
+      description: "Class name merged onto the outer wrapper.",
+      type: "string",
+    },
+    triggerClassName: {
+      description: "Class name merged onto the trigger button.",
+      type: "string",
+    },
+    playerClassName: {
+      description: 'Class name merged onto the `.media-01` player root.',
+      type: "string",
+    },
+  }}
+/>
+
+### VideoPlayerChapter
+
+<TypeTable
+  type={{
+    start: { description: "Chapter start time, in seconds.", type: "number" },
+    title: {
+      description: "Chapter label shown in the hover-scrub preview pill.",
+      type: "string",
+    },
+  }}
+/>
+
+## Keyboard shortcuts
+
+- <kbd>Space</kbd> — play/pause
+- <kbd>M</kbd> — mute/unmute
+- <kbd>←</kbd> / <kbd>→</kbd> — seek 5s
+- <kbd>↑</kbd> / <kbd>↓</kbd> — seek 15s
+- <kbd>Home</kbd> / <kbd>End</kbd> — jump to start/end
+- <kbd>Escape</kbd> — close the speed menu, or the player
+- <kbd>Tab</kbd> — cycles focus inside the player while it's open (focus trap)
+
+## Accessibility
+
+The player renders as a `role="dialog"` overlay with `aria-modal`, traps
+focus while open, restores focus to the trigger (or the element that had
+focus before opening) on close, and returns focus into the dialog on open.
+The seek timeline is a `role="slider"` with live `aria-valuenow` /
+`aria-valuetext`. When `prefers-reduced-motion: reduce` is set, transitions
+and the pulse/play-pause icon morph collapse to instant state changes instead
+of animating.
+
+## When to Use
+
+Use `VideoPlayer` for a hosted MP4 walkthrough, product demo, or trailer that
+deserves a focused, chrome-rich viewing experience — chapters for longer
+recordings, hover-scrub preview for quick navigation, and PiP/fullscreen for
+viewers who want to keep watching while doing something else. For streaming
+playlists (`.m3u8`/HLS), this player is not a fit — it only handles normal
+hosted video files.
