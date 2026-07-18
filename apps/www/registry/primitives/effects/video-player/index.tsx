@@ -1363,7 +1363,7 @@ function VideoPlayer({
       if (!(isEditable || isInteractive) && event.key === " ") {
         event.preventDefault();
         event.stopImmediatePropagation();
-        togglePlay()
+        togglePlay({ showFeedback: true })
           .catch(syncPlayState)
           .finally(() => {
             if (isTouchInteraction()) {
