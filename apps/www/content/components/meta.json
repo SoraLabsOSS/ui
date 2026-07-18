@@ -5,6 +5,7 @@
     "text-reveal-box",
     "infinite-scrolling-images",
     "sticky-scroll-cards",
-    "video-player"
+    "video-player",
+    "scroll-gallery"
   ]
 }
