@@ -545,6 +545,18 @@ export function TextRevealBox({
           return;
         }
 
+        // usePrefersReducedMotion() defaults to `true` on first mount, so this
+        // effect's first run may have already locked the words fully visible
+        // above. Reset to the progress=0 (hidden) state synchronously so
+        // there's no stuck "fully revealed" flash while ScrollTrigger mounts.
+        updateWords(
+          0,
+          cachedWords,
+          resolvedHighlight,
+          resolvedAlpha,
+          resolvedTiming
+        );
+
         const scroller = scrollerProp ?? window;
         await waitForScrollerReady(scroller);
 
