@@ -1,0 +1,107 @@
+---
+title: "The Sora UI MCP server doesn't install anything — and that's the point"
+description: Sora UI ships an MCP server with six tools for AI agents — search_docs, get_page, list_components, get_component_code, and more. None of them run the install CLI. Here's why that's a deliberate boundary, not a missing feature.
+ogSubtitle: Six MCP tools that read and browse Sora UI. Zero of them write to your project.
+author: Axyl
+date: 2026-07-19
+hashtags: ["#mcp", "#ai", "#react", "#shadcn"]
+---
+
+The first question people ask about `mcp.soralabs.io.vn` is some version of *"so it installs components for me?"*
+
+No. Point an agent at it and ask for `scroll-gallery`, and it will search the docs, tell you the dependencies, and hand back the full source of every file — but it will not touch your project. Not one write. That's not a gap I'm planning to close. It's the actual design.
+
+## Six tools, none of them write
+
+`create-server.ts` registers exactly six tools:
+
+```ts
+server.addTool(SoraSearchDocsTool);
+server.addTool(SoraGetPageTool);
+server.addTool(SoraListSectionsTool);
+server.addTool(SoraListComponentsTool);
+server.addTool(SoraGetComponentInfoTool);
+server.addTool(SoraGetComponentCodeTool);
+```
+
+They split cleanly into two groups. `search_docs`, `get_page`, `list_sections` browse the docs site — they wrap `@mcpframework/docs`'s `FumadocsRemoteSource` against `ui.soralabs.io.vn`, the same content the docs site itself renders. `list_components`, `get_component_info`, `get_component_code` browse the registry — `registry.json`, dependencies, file targets, and (for the last one) full file contents.
+
+Every single one of them is a `GET`-shaped operation wearing a tool schema. There is no `install_component`, no `write_file`, no `run_shadcn_add`. An agent calling this server can look at everything and change nothing.
+
+## The other MCP server does the writing
+
+That's not an oversight — it's a boundary drawn on purpose, because a different, official MCP server already owns that job. [shadcn ships its own MCP server](https://ui.shadcn.com/docs/mcp) that runs `shadcn add` and actually writes files into your project. The docs page spells out the split plainly:
+
+| Server | Role |
+| --- | --- |
+| `sora-ui` | Read docs and browse the catalog |
+| `shadcn` | Install `@soralabs/*` into your project via the CLI |
+
+Reimplementing `shadcn add` inside `sora-mcp` would mean shipping a second, subtly-different installer to keep in sync with the real one forever. Instead the docs MCP stays read-only, and pairing it with `shadcn`'s server in the same client config gives an agent both halves: look something up, then actually install it.
+
+## Why `get_component_code` exists anyway
+
+If installing means pairing two servers, why does `sora-mcp` also expose full file source through `get_component_code`? Because pairing two MCP servers is real setup friction, and not everyone wants it. Sometimes you just want to read a component, paste it somewhere yourself, or let an agent quote it back to you without touching your filesystem at all.
+
+```ts
+protected async execute(input: GetComponentCodeInput): Promise<string> {
+  const item = await getItemSource(input.name);
+  const files = item.files
+    .map((file) =>
+      [`File: ${file.path} → ${file.target ?? "(default target)"}`,
+       "```tsx", file.content ?? "(no content available for this file)", "```"
+      ].join("\n")
+    ).join("\n\n");
+  return [`# ${item.title ?? item.name}`, "", files].join("\n");
+}
+```
+
+`get_component_code` is the escape hatch: full source, correctly labeled with its install target, formatted as Markdown a chat client renders naturally — with zero dependency on the `shadcn` server being configured at all.
+
+## One registry, two different fetches
+
+That escape hatch is also why the registry lookups aren't a single fetch. `list_components` and `get_component_info` read from `registry.json` — the *merged* file, one entry per item, no file contents. `get_component_code` reads from `/r/<name>.json` instead — the per-item file, which does embed content:
+
+```ts
+/**
+ * Fetches the per-item registry JSON, which embeds full file `content` —
+ * unlike the merged registry.json used by `listInstallableItems`/`getItemByName`.
+ */
+export async function getItemSource(name: string): Promise<RegistryItem | null> {
+  const url = `${DOCS_BASE_URL}/r/${name}.json`;
+  // ...
+}
+```
+
+If `list_components` pulled from the per-item files, every listing call would drag the full source of every published primitive across the wire just to print a one-line description. Splitting the fetch means `list_components` stays cheap for browsing, and the payload of `get_component_code` only shows up when someone actually asked for source.
+
+## Stateless because there's nothing to hold open
+
+The server itself runs in `handleRequest` mode — JSON batch per request, no SSE stream, no session kept alive between calls:
+
+```ts
+/**
+ * Stateless MCP server for serverless (`handleRequest`) deployments.
+ * Framework uses JSON batch mode per request — no SSE, no sessions.
+ */
+export function createMcpServer() { /* ... */ }
+
+let cachedServer: MCPServer | null = null;
+export function getMcpServer() {
+  if (!cachedServer) cachedServer = createMcpServer();
+  return cachedServer;
+}
+```
+
+That fits the tool set: every call is read-only and idempotent, so there's no session state worth keeping between requests — just an `MCPServer` instance reused across warm Vercel invocations. Two in-memory caches, tuned separately, sit in front of the actual fetches:
+
+```ts
+export const registryCache = new MemoryCache({ maxEntries: 50, ttlMs: 86_400_000 });
+export const docsCache = new MemoryCache({ maxEntries: 500, ttlMs: 86_400_000 });
+```
+
+Docs and registry data only change on deploy, not on request, so a 24-hour TTL is aggressive on purpose — most calls in a warm invocation hit memory, not `ui.soralabs.io.vn`.
+
+## Try it
+
+Add `https://mcp.soralabs.io.vn` as an HTTP MCP server in Cursor, Claude Code, or Claude Desktop — the [MCP docs page](/docs/mcp) has copy-paste config for all three. Ask it to search for a primitive, list what's installable, or pull the full source of one by name. If you also want it to write that source into your project, pair it with [shadcn's MCP server](https://ui.shadcn.com/docs/mcp) — that half was never `sora-mcp`'s job to begin with.
