@@ -1,0 +1,57 @@
+export const metadata = {
+  title: "A Reddit ban sent me digging through my own response headers",
+  description:
+    "I posted a Sora UI link on Reddit trying to get some organic traffic, got banned within the hour, and — half out of paranoia, half out of not knowing what else to check — ran a security scan on the domain. It came back with real findings buried under a pile of noise.",
+  date: "2026-07-19",
+  tags: ["security", "seo", "nextjs"],
+};
+
+SEO for a side project is slow in a way that's hard to sit with. You ship something you're proud of, nobody finds it, so you go looking for a shortcut — and the obvious one is "post it where people already are." So I dropped a link to Sora UI in a relevant subreddit. Within the hour, banned.
+
+No warning, no specific reason given beyond the generic auto-mod boilerplate. I don't actually know why — could've been a karma threshold, could've been the domain looking unfamiliar to whatever heuristic decides "is this spam," could've been nothing to do with the site at all. But not knowing is its own kind of itch, and the one thing I could actually check was whether the site itself looked untrustworthy to something automated. So I ran it through a security scanner.
+
+## A report full of noise, and three things that weren't
+
+The scan came back long. Most of it was the kind of output these tools produce by default — generic "couldn't fully verify X," stale signature-matching that flags half the internet, warnings that don't mean anything specific once you read past the headline. Noise.
+
+Under the noise, three things were real and had nothing to do with malware: `ui.soralabs.io.vn` wasn't sending `X-Frame-Options`, `X-Content-Type-Options`, or any `Content-Security-Policy` header at all. Not broken, not misconfigured — just never added. Next.js doesn't set these for you; if you don't call `headers()` in `next.config.ts`, the response goes out with none of them.
+
+Whether that's the kind of thing that reads as "untrustworthy" to a spam filter, I still don't know. But it's the kind of thing that's just worth fixing regardless of what caused the ban, so I did.
+
+## What actually went in
+
+```ts
+async headers() {
+  return [
+    {
+      source: "/:path*",
+      headers: [
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        {
+          key: "Permissions-Policy",
+          value: "camera=(), microphone=(), geolocation=()",
+        },
+      ],
+    },
+  ];
+}
+```
+
+Four headers, same block, both `apps/www` and this site:
+
+- **`X-Content-Type-Options: nosniff`** — stops the browser from guessing a response's MIME type and executing something as script that was served as, say, an image.
+- **`X-Frame-Options: SAMEORIGIN`** — blocks the site from being loaded inside someone else's `<iframe>`, which kills basic clickjacking setups where a transparent frame of your site sits on top of a fake UI.
+- **`Referrer-Policy: strict-origin-when-cross-origin`** — trims the `Referer` header down to just the origin on cross-site navigations instead of leaking the full path someone was on.
+- **`Permissions-Policy: camera=(), microphone=(), geolocation=()`** — explicitly disclaims three APIs neither site has any reason to touch, so nothing embedded in a page ever gets to ask.
+
+All four are what I'd call zero-risk: none of them change behavior for a real visitor, none of them needed testing against auth flows, they were just missing.
+
+## The one I didn't add
+
+No `Content-Security-Policy` in that diff, and that's deliberate, not an oversight I'm hiding. A CSP has to enumerate every origin the page is actually allowed to load from — the OAuth provider, Sentry, whatever analytics script is running — and getting that list wrong doesn't fail loud, it fails as "login silently stops working" or "a script gets blocked and nobody notices until support tickets show up." I'd rather ship it once, correctly, after auditing every real dependency, than ship a guess and find the gaps in production.
+
+## Where this leaves things
+
+The scan report is quieter now — the three real findings are gone, the noise is still noise, same as before. Whether it does anything at all for the next time I post somewhere and hold my breath, I genuinely can't tell you. But "does this look neglected to an automated checker" turned out to be a fair question to ask about a site I want people to trust enough to install code from, ban or no ban. CSP is next, once I've mapped every origin the page actually needs.
