@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-scroll-chapters",
+  "type": "registry:ui",
+  "title": "Scroll Chapters Demo",
+  "description": "Five chapters with a draggable, chaptered progress-bar nav — two of them opt out of showing a panel.",
+  "registryDependencies": ["scroll-chapters"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/scroll-chapters/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/scroll-chapters.tsx"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
-import { HeroSlotLine } from "@/components/home/hero-slot-text";
+import { HeroRollingText } from "@/components/home/hero-rolling-text";
 
 const CLI_COMMAND = "npx shadcn@latest add @soralabs";
 
@@ -23,8 +23,8 @@ export const Hero = () => {
       </motion.p>
 
       <h1 className="flex flex-col items-center">
-        <HeroSlotLine text="MOTION-FIRST" />
-        <HeroSlotLine text="FOR REACT" />
+        <HeroRollingText text="MOTION-FIRST" />
+        <HeroRollingText text="FOR REACT" />
       </h1>
 
       <motion.p

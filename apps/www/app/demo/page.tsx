@@ -1,17 +1,10 @@
-import { CursorTrailDemoPage } from "./cursor-trail-demo";
-import { MagneticDemoPage } from "./magnetic-demo";
-import { ScrollDemoPage } from "./scroll-demo";
-import { ScrollGalleryDemoPage } from "./scroll-gallery-demo";
-import { StickyScrollCardsDemoPage } from "./sticky-scroll-cards-demo";
+import { Skiper27 } from "./rolling-text";
 
 export default function DemoPage() {
   return (
     <>
-      <CursorTrailDemoPage />
-      <ScrollGalleryDemoPage />
-      <ScrollDemoPage />
-      <StickyScrollCardsDemoPage />
-      <MagneticDemoPage />
+      <Skiper27 />
+      {/* <GsapScrollbarDemoPage /> */}
     </>
   );
 }
