@@ -197,7 +197,7 @@ export default function ScrollChaptersExample() {
       {scroller ? (
         <ScrollChapters
           chapters={CHAPTERS}
-          className="bg-secondary text-black!"
+          className="bg-secondary text-primary!"
           classNames={{
             cursor: "bg-[#ff4433]",
             cursorGhost: "bg-[#ff4433]",
@@ -208,6 +208,8 @@ export default function ScrollChaptersExample() {
           }}
           containerQuery
           embedded
+          hideCardAtEnd={false}
+          hideCardAtStart={false}
           scroller={scroller}
         />
       ) : null}

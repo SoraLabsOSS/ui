@@ -16,7 +16,7 @@ import {
 gsap.registerPlugin(Draggable, ScrollTrigger);
 
 const GHOST_OPACITY = 0.45;
-const PANEL_BREAKPOINT = "(min-width: 768px)";
+const PANEL_BREAKPOINT = "(min-width: 900px)";
 
 /**
  * Minimal layout defaults — structural only, plus a `bg-foreground`
@@ -32,7 +32,7 @@ const LAYOUT = {
   cursor:
     "bg-foreground absolute top-[-0.125rem] z-[5] h-4 w-[3px] cursor-grab rounded-[3px] [will-change:transform]",
   cursorGhost: "pointer-events-none z-[4] opacity-0",
-  nav: "pointer-events-none fixed right-16 bottom-16 z-20 h-64 w-84 max-w-[calc(100%-2rem)] overflow-hidden",
+  nav: "pointer-events-none fixed right-4 bottom-4 left-4 z-20 h-40 overflow-hidden min-[900px]:left-auto min-[900px]:right-16 min-[900px]:bottom-16 min-[900px]:h-64 min-[900px]:w-[min(21rem,calc(100%-2rem))] min-[1500px]:right-[calc((100vw-1500px+8rem)/2)] min-[900px]:[@media(min-height:64rem)]:bottom-[calc((100lvh-64rem+8rem)/2)]",
   panel:
     "pointer-events-none absolute inset-x-0 bottom-12 z-[1] w-full opacity-0 [will-change:transform,opacity]",
   // z-[2]: must stay above the panel (z-[1]) so the track/cursor never
