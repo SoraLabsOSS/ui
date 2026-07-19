@@ -1,6 +1,6 @@
 ---
-title: "The Sora UI MCP server doesn't install anything — and that's the point"
-description: sora-mcp shipped with five read-only tools and one implicit assumption — that handing an agent a shell command was the same as installing a component. Three days later I went back and added a sixth tool because it wasn't.
+title: "The Sora UI MCP server won't install components"
+description: "sora-mcp gives AI agents six read-only tools to search Sora UI docs and fetch component source. None of them write to your project, and here is why."
 ogSubtitle: sora-mcp shipped assuming agents would run the install command it handed back. Three days later I stopped assuming that.
 author: Axyl
 date: 2026-07-19
@@ -32,7 +32,7 @@ protected async execute(input: GetComponentCodeInput): Promise<string> {
 }
 ```
 
-That's the whole fix. Not "run the install for the user" — just "stop handing back a command and start handing back the thing the command would have produced." An agent with `get_component_code` can quote the full source of `char-stagger-button` into a reply, or you can read it and paste it in yourself, with zero dependency on a second MCP server, a terminal, or the agent being trusted to run shell commands at all.
+Nothing about that requires trusting an agent to run shell commands, or even having `shadcn`'s server configured at all. It can quote the full source of `char-stagger-button` straight into a reply, or you read the output yourself and paste it in by hand. The fix wasn't giving the server a new power. It was giving up on the idea that a command string counts as done.
 
 ## Six tools, still nothing writes
 
@@ -95,7 +95,7 @@ Docs and registry data change on deploy, not on request, so a 24-hour TTL isn't 
 
 ## Why a server and not a Skill
 
-This repo already leans on Skills for itself — `.agents/skills/nextjs`, `.agents/skills/design-taste-frontend`, packaged instructions that steer an agent while it works *inside* this codebase. So the question comes up: why not package Sora UI's docs and registry the same way, as a Skill, instead of standing up a whole HTTP server for it?
+This repo already leans on Skills for itself — `.agents/skills/nextjs`, `.agents/skills/design-taste-frontend`, packaged instructions that steer an agent while it works *inside* this codebase. Sora UI's own docs and registry could have shipped the same way, as a Skill, instead of a whole HTTP server. I looked at that option and went with the server anyway.
 
 Because a Skill is a bundle. It ships with a specific assistant's setup, gets loaded into context, and stays exactly as fresh as the last time someone re-packaged and re-published it. Sora UI doesn't sit still — `registry:build` runs on every deploy, regenerating `public/r/registry.json` and every per-item file the moment a primitive is added or changed. `sora-mcp` doesn't hold a copy of any of that. `get_component_info` and `get_component_code` `fetch()` `ui.soralabs.io.vn` directly, through a cache with a 24-hour TTL, not a bundle with no TTL at all. Ship a new primitive today, and every already-connected agent can `list_components` its way to it the next time that cache entry expires — nobody has to touch a Skill package for that to be true.
 
