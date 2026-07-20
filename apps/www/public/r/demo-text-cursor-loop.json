@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-cursor-loop",
+  "title": "Text Cursor Loop Demo",
+  "description": "The anime.js hero line, with the cursor flashing red only while collapsing/revealing.",
+  "registryDependencies": ["@soralabs/text-cursor-loop"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-cursor-loop/index.tsx",
+      "content": "\"use client\";\n\nimport { TextCursorLoop } from \"@/components/sora-ui/texts/text-cursor-loop\";\n\n// Same hero line as the anime.js reference this primitive reimplements —\n// \"A fast and flexible JavaScript library to animate [the web].\" — the\n// cursor flashes the anime.js red only while collapsing/revealing, driven\n// by the `data-phase` attribute the primitive exposes for exactly this.\nconst WORDS = [\n  \"the web\",\n  \"HTML\",\n  \"WebGL\",\n  \"CSS\",\n  \"Canvas 2D\",\n  \"SVG\",\n  \"anything\",\n];\n\nexport default function TextCursorLoopExample() {\n  return (\n    <p className=\"m-0 max-w-md text-balance text-lg leading-snug\">\n      A fast and flexible JavaScript library to animate{\" \"}\n      <TextCursorLoop\n        className=\"font-medium\"\n        classNames={{\n          cursor: \"data-[phase=collapsing]:text-[#ff4b4b]\",\n        }}\n        words={WORDS}\n      />\n    </p>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-cursor-loop.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

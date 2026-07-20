@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-particle-hover-button",
+  "type": "registry:ui",
+  "title": "Particle Hover Button Demo",
+  "description": "A heart-particle sponsor link, styled after the anime.js navbar Sponsor button.",
+  "registryDependencies": ["particle-hover-button"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/buttons/particle-hover-button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/buttons/particle-hover-button.tsx"
+    }
+  ]
+}

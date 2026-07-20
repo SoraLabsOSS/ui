@@ -1,0 +1,98 @@
+---
+title: Text Cursor Loop
+description: Cycles through a list of words with a per-character collapse/reveal transition and a trailing cursor glyph that wipes across the text between words.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-text-cursor-loop" description="The anime.js hero line — words collapse/reveal one character at a time while the cursor wipes across the text." />
+
+## Installation
+
+<ComponentInstallation name="text-cursor-loop" />
+
+## Usage
+
+```tsx
+import { TextCursorLoop } from "@/components/sora-ui/texts/text-cursor-loop";
+
+export default function Page() {
+  return (
+    <p>
+      A fast and flexible JavaScript library to animate{" "}
+      <TextCursorLoop words={["the web", "HTML", "WebGL", "CSS", "SVG"]} />
+    </p>
+  );
+}
+```
+
+Unlike `TextLoop` (which swaps whole blocks) or `TextScramble` (random-character reveal), `TextCursorLoop` collapses each character out from the end of the word, swaps in the next word, then reveals it character-by-character from the start — with a trailing cursor glyph that stretches and slides between the two states.
+
+## Styling
+
+<Callout title="No default colors">
+  Like every primitive in this registry, `TextCursorLoop` ships structural classes only. The root and the cursor both carry a `data-phase="idle" | "collapsing" | "revealing"` attribute — hook it with `data-[phase=collapsing]:text-red-500`-style classes (see this page's own preview) to recolor the cursor during the transition.
+</Callout>
+
+## Props
+
+<TypeTable
+  type={{
+    words: {
+      description: "Words cycled in order.",
+      type: "string[]",
+    },
+    as: {
+      description: "Root tag.",
+      type: "ElementType",
+      default: '"span"',
+    },
+    cursor: {
+      description: "The trailing glyph that wipes across the text between words.",
+      type: "ReactNode",
+      default: '"."',
+    },
+    holdDuration: {
+      description: "Milliseconds a word stays fully visible before collapsing.",
+      type: "number",
+      default: "1750",
+    },
+    charDelay: {
+      description: "Milliseconds between each character's stagger start.",
+      type: "number",
+      default: "25",
+    },
+    loop: {
+      description: "Wrap back to the first word after the last one.",
+      type: "boolean",
+      default: "true",
+    },
+    trigger: {
+      description: "Set false to pause cycling.",
+      type: "boolean",
+      default: "true",
+    },
+    onIndexChange: {
+      description: "Called with the new word index whenever the cycle advances.",
+      type: "(index: number) => void",
+    },
+    className: { description: "Root classes.", type: "string" },
+    classNames: {
+      description: "Per-slot class overrides: `cursor`.",
+      type: "TextCursorLoopClassNames",
+    },
+  }}
+/>
+
+## When to Use
+
+A hero subheading where one word in a sentence should keep changing — "animate ___", "build for ___", "designed for ___". Best with short, similar-length words; very long or mixed-width words make the collapse/reveal stagger less readable.
+
+## Accessibility
+
+Character spans are `aria-hidden="true"`; the root element carries `aria-label={currentWord}` so screen readers announce the plain word, not per-character noise. Under `prefers-reduced-motion: reduce`, cycling never starts — the first word renders statically.
+
+## Credits
+
+<ComponentCredits name="text-cursor-loop" />

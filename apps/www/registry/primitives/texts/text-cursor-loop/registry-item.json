@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-cursor-loop",
+  "type": "registry:ui",
+  "title": "Text Cursor Loop",
+  "description": "Cycles through a list of words with a per-character collapse/reveal transition and a trailing cursor glyph that wipes across the text between words.",
+  "dependencies": ["motion"],
+  "meta": {
+    "keywords": [
+      "text",
+      "loop",
+      "cycle",
+      "cursor",
+      "typewriter",
+      "hero",
+      "motion"
+    ],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Anime.js",
+      "stack": "Motion and vanilla JS"
+    }
+  },
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-cursor-loop/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-cursor-loop.tsx"
+    }
+  ]
+}

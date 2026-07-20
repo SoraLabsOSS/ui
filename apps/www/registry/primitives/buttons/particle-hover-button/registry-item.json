@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "particle-hover-button",
+  "type": "registry:ui",
+  "title": "Particle Hover Button",
+  "description": "A wrapper that emits glowing, pooled particles from the cursor while hovering any button or link.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "files": [
+    {
+      "path": "registry/primitives/buttons/particle-hover-button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/buttons/particle-hover-button.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "button",
+      "hover",
+      "particles",
+      "sponsor",
+      "cta",
+      "motion",
+      "glow"
+    ],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Anime.js",
+      "stack": "Motion and vanilla JS"
+    }
+  }
+}
