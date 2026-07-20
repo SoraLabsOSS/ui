@@ -9,6 +9,7 @@
     "text-morph",
     "text-roll",
     "text-loop",
+    "rolling-text",
     "text-cursor-loop",
     "text-effect",
     "text-reveal-mask",

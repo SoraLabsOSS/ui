@@ -4069,6 +4069,69 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/number-flow",
   },
+  "rolling-text": {
+    name: "rolling-text",
+    description:
+      "Per-character slot-machine reveal that rolls each letter into place once it scrolls into view, powered by Motion.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/rolling-text/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/rolling-text.tsx",
+        content:
+          '"use client";\n\nimport {\n  type MotionProps,\n  motion,\n  useInView,\n  useReducedMotion,\n} from "motion/react";\nimport {\n  type ComponentType,\n  type ElementType,\n  type ReactNode,\n  type Ref,\n  useMemo,\n  useRef,\n} from "react";\n\nconst NBSP = " ";\n\ntype MarginValue = `${number}${"px" | "%"}`;\ntype InViewMargin =\n  | MarginValue\n  | `${MarginValue} ${MarginValue}`\n  | `${MarginValue} ${MarginValue} ${MarginValue}`\n  | `${MarginValue} ${MarginValue} ${MarginValue} ${MarginValue}`;\n\nexport interface RollingTextProps {\n  /** Render as a different element/component instead of `span`. @default "span" */\n  as?: ElementType;\n  className?: string;\n  /** Direction letters roll in when they enter the viewport. @default "up" */\n  direction?: "down" | "up";\n  /** Total settle duration per letter, in seconds. @default 4 */\n  duration?: number;\n  /** Margin passed to the in-view observer (same format as CSS `margin`). @default "-10%" */\n  inViewMargin?: InViewMargin;\n  /** Only trigger the roll once, the first time it scrolls into view. @default true */\n  once?: boolean;\n  ref?: Ref<HTMLElement>;\n  /**\n   * Extra per-letter delay added per character of distance from the center,\n   * in seconds.\n   * @default 0.05\n   */\n  speed?: number;\n  /** Text to reveal. */\n  text: string;\n}\n\nexport function RollingText({\n  text,\n  speed = 0.05,\n  duration = 4,\n  direction = "up",\n  once = true,\n  inViewMargin = "-10%",\n  as: Component = "span",\n  className,\n  ref: forwardedRef,\n}: RollingTextProps) {\n  const containerRef = useRef<HTMLElement>(null);\n  const isInView = useInView(containerRef, { once, margin: inViewMargin });\n  const prefersReducedMotion = useReducedMotion();\n  const centerIndex = Math.floor(text.length / 2);\n\n  const MotionComponent = useMemo(\n    () =>\n      motion.create(Component as never) as ComponentType<\n        MotionProps & {\n          children?: ReactNode;\n          className?: string;\n          ref?: Ref<HTMLElement>;\n        }\n      >,\n    [Component]\n  );\n\n  const mergedRef = (node: HTMLElement | null) => {\n    containerRef.current = node;\n    if (typeof forwardedRef === "function") {\n      forwardedRef(node);\n    } else if (forwardedRef) {\n      forwardedRef.current = node;\n    }\n  };\n\n  if (prefersReducedMotion) {\n    return (\n      <Component className={className} ref={forwardedRef}>\n        {text}\n      </Component>\n    );\n  }\n\n  return (\n    <MotionComponent aria-label={text} className={className} ref={mergedRef}>\n      {text.split("").map((letter, index) => {\n        const glyph = letter === " " ? NBSP : letter;\n        const distanceFromCenter = Math.abs(index - centerIndex);\n        const delay = distanceFromCenter * speed;\n        const rollDuration = 0.2 + distanceFromCenter * 0.15;\n        const numberOfRolls = Math.floor(duration / rollDuration);\n        const totalMovement = numberOfRolls * 1.2;\n        const restY = direction === "down" ? `-${totalMovement}em` : "0em";\n        const settledY = direction === "down" ? "0em" : `-${totalMovement}em`;\n\n        return (\n          <span\n            aria-hidden="true"\n            className="relative inline-block overflow-hidden"\n            // biome-ignore lint/suspicious/noArrayIndexKey: static per-render character list, order never changes\n            key={`${letter}-${index}`}\n            style={{ height: "1em" }}\n          >\n            <motion.span\n              animate={isInView ? { y: settledY } : undefined}\n              className="flex flex-col"\n              initial={{ y: restY }}\n              transition={{\n                duration,\n                ease: [0.15, 1, 0.1, 1],\n                delay,\n              }}\n            >\n              {new Array(numberOfRolls + 2).fill(null).map((_, copyIndex) => (\n                <span\n                  className="flex shrink-0 items-center justify-center"\n                  // biome-ignore lint/suspicious/noArrayIndexKey: static per-render roll-copy list, order never changes\n                  key={copyIndex}\n                  style={{ height: "1.2em" }}\n                >\n                  {glyph}\n                </span>\n              ))}\n            </motion.span>\n          </span>\n        );\n      })}\n    </MotionComponent>\n  );\n}\n\nexport default RollingText;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/texts/rolling-text/index.tsx"
+        );
+        const demoProps = {
+          RollingText: {
+            text: { value: "MOTION FIRST" },
+            direction: { value: "up", options: { up: "up", down: "down" } },
+            speed: { value: 0.05, min: 0, max: 0.2, step: 0.01 },
+            duration: { value: 4, min: 1, max: 8, step: 0.5 },
+            className: { value: "font-bold text-4xl uppercase tracking-tight" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        RollingText: {
+          text: { value: "MOTION FIRST" },
+          direction: { value: "up", options: { up: "up", down: "down" } },
+          speed: { value: 0.05, min: 0, max: 0.2, step: 0.01 },
+          duration: { value: 4, min: 1, max: 8, step: 0.5 },
+          className: { value: "font-bold text-4xl uppercase tracking-tight" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/rolling-text",
+  },
   "text-cursor-loop": {
     name: "text-cursor-loop",
     description:
@@ -5195,6 +5258,27 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: null,
     command: "@soralabs/demo-pixelated-image-reveal",
+  },
+  "demo-rolling-text": {
+    name: "demo-rolling-text",
+    description: "Usage example for rolling-text.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["rolling-text"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/rolling-text/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/rolling-text.tsx",
+        content:
+          '"use client";\n\nimport { RollingText } from "@/components/sora-ui/texts/rolling-text";\n\nexport default function RollingTextExample() {\n  return (\n    <RollingText\n      text={"MOTION FIRST"}\n      direction={"up"}\n      speed={0.05}\n      duration={4}\n      className={"font-bold text-4xl uppercase tracking-tight"}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-rolling-text",
   },
   "demo-text-reveal-block": {
     name: "demo-text-reveal-block",
