@@ -16,7 +16,7 @@
 | `search_docs` | Full-text search across Sora UI documentation. Returns ranked pages with excerpts; supports an optional `section` filter and result `limit` (max 25). |
 | `list_sections` | Lists the documentation's top-level sections, for browsing when a search query isn't obvious. |
 | `get_page` | Fetches the full content of a specific documentation page. |
-| `get_component_info` | Without `name`: lists installable registry items (components and hooks), optionally filtered by `type` (`registry:ui` \| `registry:hook`). With `name`: returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, registry dependencies, file targets, and the full source for reference. |
+| `get_component_info` | Without `name`: lists installable registry items (components and hooks), optionally filtered by `type` (`registry:ui` \| `registry:hook`). With `name`: returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, registry dependencies, and file targets — full source is only included if `includeSource: true` is passed, since installing via `sora-cli` already puts the real file on disk to read directly. |
 
 All tools are registered in `src/create-server.ts` and return plain-text/Markdown responses (`useStringify = false`) rather than raw JSON, so they read naturally in a chat transcript.
 

@@ -27,7 +27,7 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | `search_docs` | Search docs and components by keyword or phrase. Capped at 25 results per call — the response notes when results may be truncated, so narrow the query or raise `limit` |
 | `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `primitives/draw-underline-link`) |
 | `list_sections` | Browse the doc structure. Valid `section` filters: `documentation`, `components` |
-| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks with short descriptions. With a `name`, returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, file targets, and the full source for reference |
+| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks with short descriptions. With a `name`, returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, and file targets — add `includeSource: true` to also get the full source (usually unnecessary, since installing already puts the real file on disk) |
 
 <Callout>
   `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the [`sora-cli`](https://www.npmjs.com/package/@soralabsoss/sora-cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
