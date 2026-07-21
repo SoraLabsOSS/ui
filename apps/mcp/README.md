@@ -1,6 +1,6 @@
 # Sora MCP Server
 
-`sora-mcp` exposes the [Sora UI](../../README.md) docs and component registry to AI coding assistants over the [Model Context Protocol](https://modelcontextprotocol.io). It lets an LLM search documentation, browse the registry, and pull install-ready component/hook source directly into a conversation — no copy-pasting from the docs site required.
+`sora-mcp` exposes the [Sora UI](../../README.md) docs and component registry to AI coding assistants over the [Model Context Protocol](https://modelcontextprotocol.io). It lets an LLM search documentation, browse the registry, and get install guidance for a component/hook — steering the agent toward running [`sora-cli`](https://www.npmjs.com/package/@soralabsoss/sora-cli) locally (correct import aliases, dependencies installed) rather than hand-pasting source, since this server has no access to the caller's project to install anything itself.
 
 ## Overview
 
@@ -16,9 +16,7 @@
 | `search_docs` | Full-text search across Sora UI documentation. Returns ranked pages with excerpts; supports an optional `section` filter and result `limit` (max 25). |
 | `list_sections` | Lists the documentation's top-level sections, for browsing when a search query isn't obvious. |
 | `get_page` | Fetches the full content of a specific documentation page. |
-| `list_components` | Lists installable registry items (components and hooks), optionally filtered by `type` (`registry:ui` \| `registry:hook`). |
-| `get_component_info` | Returns the install command, dependencies, registry dependencies, and file targets for a named component/hook. |
-| `get_component_code` | Returns the full source of a component/hook's files, ready to paste in without running the install CLI. |
+| `get_component_info` | Without `name`: lists installable registry items (components and hooks), optionally filtered by `type` (`registry:ui` \| `registry:hook`). With `name`: returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, registry dependencies, file targets, and the full source for reference. |
 
 All tools are registered in `src/create-server.ts` and return plain-text/Markdown responses (`useStringify = false`) rather than raw JSON, so they read naturally in a chat transcript.
 
@@ -44,7 +42,7 @@ apps/mcp/
 ```
 
 - `docs/sora-docs-source.ts` and `registry/sora-registry-source.ts` are the only places that know how to reach the live docs site / registry — tools call into these rather than fetching directly.
-- Errors from either source (`DocSourceError`, `RegistryFetchError`) are caught in each tool and turned into a helpful text message (e.g. "not found, try `list_components`") instead of a raw stack trace.
+- Errors from either source (`DocSourceError`, `RegistryFetchError`) are caught in each tool and turned into a helpful text message (e.g. "not found, call `get_component_info` without a name to browse") instead of a raw stack trace.
 
 ## Running locally
 
