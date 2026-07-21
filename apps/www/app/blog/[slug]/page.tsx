@@ -13,6 +13,7 @@ import {
 } from "@/lib/blog/metadata";
 import { getReadingTimeMinutes } from "@/lib/blog/reading-time";
 import { blog } from "@/lib/blog/source";
+import { pageContentCacheLife } from "@/lib/cache/page-content-cache-life";
 import { getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 import { BlogPostHeader } from "./post-header";
@@ -24,10 +25,25 @@ export default async function BlogPostPage(props: {
   params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
-  const page = blog.getPage([params.slug]);
 
-  if (!page) {
+  if (!blog.getPage([params.slug])) {
     notFound();
+  }
+
+  return <CachedBlogPostBody slug={params.slug} />;
+}
+
+/**
+ * Renders the actual post body. `notFound` stays in the caller — dynamic
+ * APIs like that can't be called from inside a `"use cache"` boundary.
+ */
+async function CachedBlogPostBody({ slug }: { slug: string }) {
+  "use cache";
+  pageContentCacheLife();
+
+  const page = blog.getPage([slug]);
+  if (!page) {
+    return null;
   }
 
   const MDXContent = page.data.body;
