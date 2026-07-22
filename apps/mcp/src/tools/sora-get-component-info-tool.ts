@@ -70,7 +70,7 @@ function formatSource(item: RegistryItem): string {
   ].join("\n");
 }
 
-const UNSAFE_CWD_CHARS = /[`;$&|<>(){}\n\r]/;
+const UNSAFE_CWD_CHARS = /[`;$&|<>(){}"'\n\r]/;
 
 function formatDetail(
   item: RegistryItem,
@@ -88,7 +88,7 @@ function formatDetail(
     trimmedCwd && UNSAFE_CWD_CHARS.test(trimmedCwd)
       ? `**Warning:** the provided \`cwd\` ("${trimmedCwd}") contains characters that shouldn't appear in a path — do not interpolate it into a shell command as-is; ask the user to confirm the workspace path first.`
       : "";
-  const cwdFlag = trimmedCwd && !cwdWarning ? ` --cwd ${trimmedCwd}` : "";
+  const cwdFlag = trimmedCwd && !cwdWarning ? ` --cwd "${trimmedCwd}"` : "";
 
   const lines = [
     `# ${item.title ?? item.name}`,
