@@ -18,7 +18,7 @@ const DEFAULT_PARTICLE = (
 );
 
 const PARTICLE_CLASS =
-  "-translate-x-1/2 -translate-y-1/2 absolute top-0 left-0 opacity-0 [filter:drop-shadow(0_0_3px_currentColor)] [mix-blend-mode:plus-lighter]";
+  "-translate-x-1/2 -translate-y-1/2 absolute top-0 left-0 opacity-0 [filter:drop-shadow(0_0_3px_currentColor)] dark:[mix-blend-mode:plus-lighter]";
 
 export interface ParticleHoverButtonClassNames {
   /** The wrapper around `children` that pulses on hover. */
