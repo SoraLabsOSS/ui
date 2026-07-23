@@ -15,7 +15,7 @@ export const baseOptions: BaseLayoutProps = {
       type: "separator",
       name: "Guide",
       icon: <BookOpen fill="currentColor" strokeWidth={2.5} />,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     } as any,
     {
       text: "Introduction",
@@ -25,6 +25,11 @@ export const baseOptions: BaseLayoutProps = {
     {
       text: "Installation",
       url: "/docs/installation",
+      secondary: false,
+    },
+    {
+      text: "Sora CLI",
+      url: "/docs/cli",
       secondary: false,
     },
     {
