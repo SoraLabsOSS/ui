@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { EmailCopy } from "@/components/home/email-copy";
+import { SocialIcon } from "@/components/shared/social-icon";
 import {
   CONTACT_EMAIL,
   SKILLS,
@@ -76,7 +77,7 @@ export function CvSidebar() {
               rel="noopener noreferrer"
               target="_blank"
             >
-              {social.label}
+              <SocialIcon label={social.label} />
             </a>
           ))}
         </div>

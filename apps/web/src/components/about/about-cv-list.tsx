@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { EmailCopy } from "@/components/home/email-copy";
+import { SocialIcon } from "@/components/shared/social-icon";
 import { CONTACT_EMAIL, SOCIAL_LINKS } from "@/lib/home/content";
 
 function CvRow({ children, label }: { children: ReactNode; label: string }) {
@@ -28,7 +29,7 @@ export function AboutCvList() {
               rel="noopener noreferrer"
               target="_blank"
             >
-              {social.label}
+              <SocialIcon label={social.label} />
             </a>
           ))}
         </div>
