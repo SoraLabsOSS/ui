@@ -1,6 +1,10 @@
 import { Button } from "@workspace/ui/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import {
+  Highlight,
+  HighlightItem,
+} from "@/registry/primitives/effects/highlight";
 
 interface Suggestion {
   description: string;
@@ -32,10 +36,10 @@ export default function NotFound() {
             have moved, or it may have never existed.
           </p>
           <div className="flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" variant="default">
+            <Button asChild variant="default">
               <Link href="/">Go home</Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild variant="outline">
               <Link href="/docs">Browse docs</Link>
             </Button>
           </div>
@@ -44,26 +48,28 @@ export default function NotFound() {
             <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
               Try one of these
             </span>
-            <ul className="mt-3 flex flex-col">
-              {SUGGESTIONS.map((s) => (
-                <li key={s.route}>
-                  <Link
-                    className="group flex items-center justify-between gap-4 border-border border-b p-3 transition-colors last:border-b-0 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    href={s.route}
-                  >
-                    <div className="flex items-baseline gap-4">
-                      <span className="font-mono text-foreground text-sm">
-                        {s.route}
-                      </span>
-                      <span className="text-muted-foreground text-sm">
-                        {s.description}
-                      </span>
-                    </div>
-                    <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-all duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <Highlight className="rounded-md bg-foreground/8" trigger="hover">
+              <div className="mt-3 flex flex-col divide-y divide-border">
+                {SUGGESTIONS.map((s) => (
+                  <HighlightItem key={s.route} value={s.route}>
+                    <Link
+                      className="group flex items-center justify-between gap-4 p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      href={s.route}
+                    >
+                      <div className="flex items-baseline gap-4">
+                        <span className="font-mono text-foreground text-sm">
+                          {s.route}
+                        </span>
+                        <span className="text-muted-foreground text-sm">
+                          {s.description}
+                        </span>
+                      </div>
+                      <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-all duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" />
+                    </Link>
+                  </HighlightItem>
+                ))}
+              </div>
+            </Highlight>
           </div>
         </div>
       </div>
