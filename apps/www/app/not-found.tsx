@@ -1,20 +1,72 @@
+import { Button } from "@workspace/ui/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+
+interface Suggestion {
+  description: string;
+  route: string;
+}
+
+const SUGGESTIONS: readonly Suggestion[] = [
+  { description: "Browse every shipped component", route: "/components" },
+  {
+    description: "Get up and running in a minute",
+    route: "/docs/installation",
+  },
+  { description: "Read the docs from the start", route: "/docs" },
+];
 
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center space-y-4 bg-white px-6 text-center text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50">
-      <h1 className="font-light font-mono text-7xl">404</h1>
-      <p className="font-mono text-base text-zinc-500 dark:text-zinc-400">
-        This page could not be found.
-      </p>
-      <div className="pt-4">
-        <Link
-          className="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 py-2 font-medium text-sm text-zinc-50 shadow-sm outline-none transition-all hover:bg-zinc-800 focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 dark:bg-zinc-50 dark:text-zinc-900 dark:focus-visible:ring-zinc-300 dark:hover:bg-zinc-200"
-          href="/"
-        >
-          Back to Home
-        </Link>
+    <section className="flex min-h-screen items-center justify-center bg-background py-20">
+      <div className="mx-auto w-full max-w-2xl px-6 md:px-10">
+        <div className="flex flex-col items-start gap-6">
+          <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
+            404
+          </span>
+          <h1 className="font-medium text-6xl leading-none tracking-tight sm:text-7xl">
+            Page not found.
+          </h1>
+          <p className="max-w-md text-base text-muted-foreground sm:text-lg">
+            The route you tried doesn&apos;t resolve to anything we ship. It may
+            have moved, or it may have never existed.
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button asChild size="lg" variant="default">
+              <Link href="/">Go home</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/docs">Browse docs</Link>
+            </Button>
+          </div>
+
+          <div className="mt-6 w-full border-border border-t pt-6">
+            <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
+              Try one of these
+            </span>
+            <ul className="mt-3 flex flex-col">
+              {SUGGESTIONS.map((s) => (
+                <li key={s.route}>
+                  <Link
+                    className="group flex items-center justify-between gap-4 border-border border-b p-3 transition-colors last:border-b-0 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    href={s.route}
+                  >
+                    <div className="flex items-baseline gap-4">
+                      <span className="font-mono text-foreground text-sm">
+                        {s.route}
+                      </span>
+                      <span className="text-muted-foreground text-sm">
+                        {s.description}
+                      </span>
+                    </div>
+                    <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-all duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
