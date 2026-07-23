@@ -56,7 +56,7 @@ export default function NotFound() {
                       className="group flex items-center justify-between gap-4 p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       href={s.route}
                     >
-                      <div className="flex items-baseline gap-4">
+                      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
                         <span className="font-mono text-foreground text-sm">
                           {s.route}
                         </span>
