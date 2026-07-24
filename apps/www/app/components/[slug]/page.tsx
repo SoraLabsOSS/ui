@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ComponentPageDocs } from "@/components/catalog/component-page-docs";
 import { ComponentPageLayout } from "@/components/catalog/component-page-layout";
 import { ComponentPageJsonLd } from "@/components/docs/component-page-json-ld";
+import { pageContentCacheLife } from "@/lib/cache/page-content-cache-life";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
@@ -26,10 +27,25 @@ interface PageProps {
 
 export default async function ComponentDetailPage(props: PageProps) {
   const { slug } = await props.params;
-  const data = getComponentPageData(slug);
 
-  if (!data) {
+  if (!getComponentPageData(slug)) {
     notFound();
+  }
+
+  return <CachedComponentPageBody slug={slug} />;
+}
+
+/**
+ * Renders the actual catalog page body. `notFound` stays in the caller —
+ * dynamic APIs like that can't be called from inside a `"use cache"` boundary.
+ */
+async function CachedComponentPageBody({ slug }: { slug: string }) {
+  "use cache";
+  pageContentCacheLife();
+
+  const data = getComponentPageData(slug);
+  if (!data) {
+    return null;
   }
 
   const MDXContent = data.page.data.body;
