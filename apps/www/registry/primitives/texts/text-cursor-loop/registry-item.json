@@ -14,12 +14,7 @@
       "typewriter",
       "hero",
       "motion"
-    ],
-    "inspiration": {
-      "type": "reimplemented",
-      "label": "Anime.js",
-      "stack": "Motion and vanilla JS"
-    }
+    ]
   },
   "files": [
     {

@@ -42,6 +42,11 @@
           "value": "font-bold text-4xl uppercase tracking-tight"
         }
       }
+    },
+    "inspiration": {
+      "type": "adapted",
+      "label": "Skiper UI",
+      "url": "https://skiper-ui.com/v1/skiper27"
     }
   }
 }

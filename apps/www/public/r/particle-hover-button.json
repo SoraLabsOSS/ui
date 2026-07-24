@@ -22,12 +22,7 @@
       "cta",
       "motion",
       "glow"
-    ],
-    "inspiration": {
-      "type": "reimplemented",
-      "label": "Anime.js",
-      "stack": "Motion and vanilla JS"
-    }
+    ]
   },
   "type": "registry:ui"
 }

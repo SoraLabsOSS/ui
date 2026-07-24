@@ -907,12 +907,7 @@
           "cta",
           "motion",
           "glow"
-        ],
-        "inspiration": {
-          "type": "reimplemented",
-          "label": "Anime.js",
-          "stack": "Motion and vanilla JS"
-        }
+        ]
       }
     },
     {
@@ -1731,6 +1726,11 @@
               "value": "font-bold text-4xl uppercase tracking-tight"
             }
           }
+        },
+        "inspiration": {
+          "type": "adapted",
+          "label": "Skiper UI",
+          "url": "https://skiper-ui.com/v1/skiper27"
         }
       }
     },
@@ -1749,12 +1749,7 @@
           "typewriter",
           "hero",
           "motion"
-        ],
-        "inspiration": {
-          "type": "reimplemented",
-          "label": "Anime.js",
-          "stack": "Motion and vanilla JS"
-        }
+        ]
       },
       "files": [
         {
