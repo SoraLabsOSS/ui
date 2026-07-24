@@ -1,0 +1,106 @@
+---
+title: "Sora CLI, and an MCP server that finally hands off"
+description: "A standalone install CLI just shipped, and sora-mcp's registry tools got cut from three down to one that points straight at it."
+ogSubtitle: sora-cli installs. sora-mcp reads. Neither one pretends to be the other anymore.
+author: Axyl
+date: 2026-07-24
+hashtags: ["#cli", "#mcp", "#ai", "#react"]
+---
+
+Two things shipped this week, and they're really one change told from two sides. `sora-cli` — a standalone install command, `@soralabsoss/sora-cli` on npm — went from "mentioned in passing on the installation page" to a full reference at [`/docs/cli`](/docs/cli). And `sora-mcp`'s registry tools, which used to be three separate calls, got merged into one that stops trying to be an installer and just tells you — or your agent — exactly what to run.
+
+## What `sora-cli` actually does
+
+It's a copy-paste installer for shadcn-compatible registries, defaulting to Sora UI's own:
+
+```bash
+npx @soralabsoss/sora-cli add text-effect
+npx @soralabsoss/sora-cli add text-effect draw-underline-link   # multiple at once
+npx @soralabsoss/sora-cli add                                    # interactive picker
+npx @soralabsoss/sora-cli list
+npx @soralabsoss/sora-cli diff text-effect
+npx @soralabsoss/sora-cli doctor
+```
+
+`add` resolves the dependency tree, writes files into your project with the right import aliases, and installs whatever npm packages the component needs, using whichever package manager it detects. `diff` is the read-only counterpart — it never writes anything, it just tells you whether the registry has moved since you installed. `doctor` checks the things that usually break an install before you find out the hard way: Node version, lockfile conflicts, `components.json`, path aliases, Tailwind/React versions, registry reachability.
+
+The one flag worth committing to memory if anything other than you, sitting at a keyboard, is going to run this: `--yes`. Skip it in a non-interactive shell and `add` prints a confirmation prompt, gets no TTY to answer it, and exits 0 having installed nothing — silently, which is the worst way for a command to fail.
+
+```bash
+npx @soralabsoss/sora-cli add text-effect --cwd packages/ui --yes
+```
+
+`--cwd` matters the same way in monorepos — it makes the CLI resolve `tsconfig.json`/`components.json` from the target workspace instead of the repo root, which is usually the wrong place to write files anyway.
+
+## Where `sora-mcp` used to overreach
+
+Before this, `sora-mcp` had three separate registry tools: `list_components` to browse, `get_component_info` for details, and `get_component_code` to dump full source. That third one existed because the server can't install anything — it's a stateless HTTP endpoint with no filesystem access to your project, so the only thing it can hand back is text. For a while, the answer to "how does an agent actually get this component into the repo" was: paste the whole thing back as Markdown and hope the agent copies it in correctly.
+
+That's a worse install than just running a CLI. No dependency resolution, no import-alias correction, no dedup against files already on disk — just source in a chat window, on faith.
+
+## The merge
+
+`get_component_info` now does the job of all three, and it does it by pointing at `sora-cli` instead of standing in for it:
+
+```ts
+server.addTool(SoraSearchDocsTool);
+server.addTool(SoraGetPageTool);
+server.addTool(SoraListSectionsTool);
+server.addTool(SoraGetComponentInfoTool);
+```
+
+Call it with no `name` and it lists every installable component and hook. Call it with a `name` and, instead of source, it hands back the actual install line:
+
+```
+Run this in the user's project (not this MCP server, which has no
+access to their files): `npx @soralabsoss/sora-cli add text-effect --yes`
+— fetches this component with the correct import aliases for their
+project and installs its dependencies.
+```
+
+Raw source didn't disappear — it's still there behind `includeSource: true` — but it's opt-in now, because once `sora-cli add` has actually run, the real file is sitting on disk. Re-fetching it into the chat is a wasted round trip; reading the file the CLI just wrote is not.
+
+```ts
+includeSource: z
+  .boolean()
+  .optional()
+  .describe(
+    "Only used when `name` is given. Defaults to false — the response " +
+    "is just install guidance + dependencies, since running the " +
+    "recommended sora-cli command already puts the real file on disk " +
+    "for you to read directly."
+  ),
+```
+
+Monorepos get the same treatment `sora-cli` gives them directly — pass `cwd` to the tool and it comes back baked into the command as `--cwd`:
+
+```ts
+cwd: z
+  .string()
+  .optional()
+  .describe(
+    'Monorepo workspace to install into, e.g. "packages/ui" — passed ' +
+    "through as sora-cli's --cwd flag so the correct workspace " +
+    "tsconfig/alias is used."
+  ),
+```
+
+One detail that's easy to skip past: `cwd` gets checked against a small denylist of shell-unsafe characters before it's interpolated into the returned command string. It's not the MCP server executing anything — it never does — but the string it hands back might get pasted straight into a shell by whatever's on the other end, so it doesn't get to be careless about what lands inside those backticks.
+
+## How the two are supposed to work together
+
+`sora-mcp` still can't write to your project. That was true with three tools and it's true with one. What changed is that it stopped pretending otherwise, and started being explicit about the tool that can:
+
+```text
+1. Enable the sora-ui MCP server
+2. Ask naturally: "Install scroll-gallery and show usage with variant=studio"
+3. Agent calls get_component_info → gets back the sora-cli command
+4. Agent runs `npx @soralabsoss/sora-cli add scroll-gallery --yes`
+   in a real shell → files land in your project
+```
+
+The MCP server's job is narrow now: search docs, browse the catalog, and — for any given component — say exactly what to run and with what flags. `sora-cli`'s job is the part MCP was never going to be good at: resolving dependencies, correcting import paths, and actually writing files. Neither one is doing the other's job anymore, which is most of why this ended up being fewer tools instead of more.
+
+If you'd rather the agent call an MCP tool to install instead of running a shell command, the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) still pairs alongside `sora-ui` for that — `get_component_info`'s output works either way, since the shadcn-scoped install line ships right next to the `sora-cli` one. But for anything with real shell access, running the command `get_component_info` already handed you is the shorter path.
+
+Full command reference: [`/docs/cli`](/docs/cli). MCP setup for Cursor, Claude Code, and Claude Desktop: [`/docs/mcp`](/docs/mcp).

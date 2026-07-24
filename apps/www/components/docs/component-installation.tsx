@@ -25,11 +25,18 @@ export function ComponentInstallation({
 }: ComponentInstallationProps) {
   const component = index[name];
 
-  const commands = {
+  const shadcnCommands = {
     npm: `npx shadcn@latest add ${component.command}`,
     pnpm: `pnpm dlx shadcn@latest add ${component.command}`,
     yarn: `npx shadcn@latest add ${component.command}`,
     bun: `bun x --bun shadcn@latest add ${component.command}`,
+  };
+
+  const soraCliCommands = {
+    npm: `npx @soralabsoss/sora-cli@latest add ${name}`,
+    pnpm: `pnpm dlx @soralabsoss/sora-cli@latest add ${name}`,
+    yarn: `npx @soralabsoss/sora-cli@latest add ${name}`,
+    bun: `bun x --bun @soralabsoss/sora-cli@latest add ${name}`,
   };
 
   return (
@@ -40,15 +47,19 @@ export function ComponentInstallation({
       )}
       {...props}
     >
-      <Tabs className="relative mr-auto w-full" defaultValue="cli">
+      <Tabs className="relative mr-auto w-full" defaultValue="sora-cli">
         <TabsList>
-          <TabsTrigger value="cli">CLI</TabsTrigger>
+          <TabsTrigger value="sora-cli">sora-cli</TabsTrigger>
+          <TabsTrigger value="shadcn">shadcn</TabsTrigger>
           <TabsTrigger value="manual">Manual</TabsTrigger>
         </TabsList>
 
         <TabsContents>
-          <TabsContent value="cli">
-            <CodeTabs codes={commands} />
+          <TabsContent value="sora-cli">
+            <CodeTabs codes={soraCliCommands} />
+          </TabsContent>
+          <TabsContent value="shadcn">
+            <CodeTabs codes={shadcnCommands} />
           </TabsContent>
           <TabsContent value="manual">
             <ComponentManualInstallation

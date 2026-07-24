@@ -16,6 +16,20 @@
       "files": []
     },
     {
+      "name": "demo-particle-hover-button",
+      "type": "registry:ui",
+      "title": "Particle Hover Button Demo",
+      "description": "A heart-particle sponsor link, styled after the anime.js navbar Sponsor button.",
+      "registryDependencies": ["@soralabs/particle-hover-button"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/buttons/particle-hover-button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/buttons/particle-hover-button.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-accordion",
       "type": "registry:ui",
       "title": "Accordion Demo",
@@ -330,6 +344,20 @@
       ]
     },
     {
+      "name": "demo-scroll-chapters",
+      "type": "registry:ui",
+      "title": "Scroll Chapters Demo",
+      "description": "Five chapters with a draggable, chaptered progress-bar nav — two of them opt out of showing a panel.",
+      "registryDependencies": ["@soralabs/scroll-chapters"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/scroll-chapters/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/scroll-chapters.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-scroll-gallery",
       "type": "registry:ui",
       "title": "Scroll Gallery Demo",
@@ -540,6 +568,20 @@
           "path": "registry/demo/primitives/texts/number-flow/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/texts/number-flow.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-text-cursor-loop",
+      "type": "registry:ui",
+      "title": "Text Cursor Loop Demo",
+      "description": "The anime.js hero line, with the cursor flashing red only while collapsing/revealing.",
+      "registryDependencies": ["@soralabs/text-cursor-loop"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/text-cursor-loop/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/text-cursor-loop.tsx"
         }
       ]
     },
@@ -840,6 +882,32 @@
             }
           }
         }
+      }
+    },
+    {
+      "name": "particle-hover-button",
+      "type": "registry:ui",
+      "title": "Particle Hover Button",
+      "description": "A wrapper that emits glowing, pooled particles from the cursor while hovering any button or link.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+      "files": [
+        {
+          "path": "registry/primitives/buttons/particle-hover-button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/buttons/particle-hover-button.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "button",
+          "hover",
+          "particles",
+          "sponsor",
+          "cta",
+          "motion",
+          "glow"
+        ]
       }
     },
     {
@@ -1294,6 +1362,41 @@
       }
     },
     {
+      "name": "scroll-chapters",
+      "type": "registry:ui",
+      "title": "Scroll Chapters",
+      "description": "A draggable, chaptered progress-bar nav — two-way cursor/scroll sync, ghost-cursor hover preview, snap-to-step seeking, and a per-chapter panel that can opt in or out of showing.",
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-prefers-reduced-motion",
+        "@soralabs/lib-scroll-trigger-utils"
+      ],
+      "files": [
+        {
+          "path": "registry/primitives/effects/scroll-chapters/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/scroll-chapters.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "scrollbar",
+          "scroll",
+          "chapters",
+          "draggable",
+          "progress",
+          "nav",
+          "gsap",
+          "scrolltrigger"
+        ],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Anime.js",
+          "stack": "GSAP and vanilla JS"
+        }
+      }
+    },
+    {
       "name": "scroll-gallery",
       "type": "registry:ui",
       "title": "Scroll Gallery",
@@ -1579,6 +1682,82 @@
           "stack": "Motion and React"
         }
       }
+    },
+    {
+      "name": "rolling-text",
+      "type": "registry:ui",
+      "title": "Rolling Text",
+      "description": "Per-character slot-machine reveal that rolls each letter into place once it scrolls into view, powered by Motion.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/rolling-text/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/rolling-text.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "RollingText": {
+            "text": {
+              "value": "MOTION FIRST"
+            },
+            "direction": {
+              "value": "up",
+              "options": {
+                "up": "up",
+                "down": "down"
+              }
+            },
+            "speed": {
+              "value": 0.05,
+              "min": 0,
+              "max": 0.2,
+              "step": 0.01
+            },
+            "duration": {
+              "value": 4,
+              "min": 1,
+              "max": 8,
+              "step": 0.5
+            },
+            "className": {
+              "value": "font-bold text-4xl uppercase tracking-tight"
+            }
+          }
+        },
+        "inspiration": {
+          "type": "adapted",
+          "label": "Skiper UI",
+          "url": "https://skiper-ui.com/v1/skiper27"
+        }
+      }
+    },
+    {
+      "name": "text-cursor-loop",
+      "type": "registry:ui",
+      "title": "Text Cursor Loop",
+      "description": "Cycles through a list of words with a per-character collapse/reveal transition and a trailing cursor glyph that wipes across the text between words.",
+      "dependencies": ["motion"],
+      "meta": {
+        "keywords": [
+          "text",
+          "loop",
+          "cycle",
+          "cursor",
+          "typewriter",
+          "hero",
+          "motion"
+        ]
+      },
+      "files": [
+        {
+          "path": "registry/primitives/texts/text-cursor-loop/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/text-cursor-loop.tsx"
+        }
+      ]
     },
     {
       "name": "text-effect",

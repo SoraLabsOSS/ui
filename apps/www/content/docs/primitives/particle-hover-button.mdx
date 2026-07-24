@@ -1,0 +1,80 @@
+---
+title: Particle Hover Button
+description: A wrapper that emits glowing, pooled particles from the cursor while hovering any button or link.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-particle-hover-button" description="Hover to emit glowing heart particles from the cursor, styled after the anime.js navbar Sponsor link." />
+
+## Installation
+
+<ComponentInstallation name="particle-hover-button" />
+
+## Usage
+
+```tsx
+import { ParticleHoverButton } from "@/components/sora-ui/buttons/particle-hover-button";
+
+export default function Page() {
+  return (
+    <ParticleHoverButton className="text-[#ff4b4b]">
+      <a href="https://github.com/sponsors/Axyl1410" target="_blank" rel="noreferrer">
+        Become a sponsor
+      </a>
+    </ParticleHoverButton>
+  );
+}
+```
+
+`ParticleHoverButton` is a **wrapper**, not a button component — it renders whatever you pass as `children` untouched (a real `<a>`, `<button>`, or plain text) and layers the particle emitter and hover pulse around it. Particle color always follows `currentColor`, so set text color on the wrapper (or on `children`) to recolor the effect.
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: "The interactive element (or plain label) this wraps — its own attributes/behavior are untouched.",
+      type: "ReactNode",
+    },
+    particle: {
+      description: "The node cloned for each emitted particle.",
+      type: "ReactNode",
+      default: "a small filled dot",
+    },
+    poolSize: {
+      description: "Number of pooled particle nodes reused across emissions — caps how many can be on screen at once, regardless of how long the pointer lingers.",
+      type: "number",
+      default: "24",
+    },
+    interval: {
+      description: "Milliseconds between each particle emission while hovering.",
+      type: "number",
+      default: "100",
+    },
+    duration: {
+      description: "Particle lifetime, in milliseconds.",
+      type: "number",
+      default: "1200",
+    },
+    spread: {
+      description: "Horizontal drift jitter per particle, in pixels.",
+      type: "number",
+      default: "16",
+    },
+    className: { description: "Root wrapper classes.", type: "string" },
+    classNames: {
+      description: "Per-slot class overrides: `content` (the pulsing wrapper around `children`), `particle` (each cloned particle node).",
+      type: "ParticleHoverButtonClassNames",
+    },
+  }}
+/>
+
+## When to Use
+
+A small flourish for a single high-emphasis action — a sponsor/donate link, a "like" button, a newsletter signup — where a bit of playfulness rewards hovering. Not meant for repeated use across a list of buttons; the pooled particles are cheap, but the effect loses its impact if every button on a page does it.
+
+## Accessibility
+
+The wrapped `children` element keeps all of its own semantics (a real `<a>`/`<button>` stays focusable and operable exactly as authored — this component only adds a decorative, `aria-hidden`, `pointer-events-none` overlay next to it). Under `prefers-reduced-motion: reduce`, the particle layer isn't rendered at all and the hover pulse never starts.

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EmailCopy } from "@/components/home/email-copy";
+import { SocialIcon } from "@/components/shared/social-icon";
 import { CONTACT_EMAIL, NAV_ITEMS, SOCIAL_LINKS } from "@/lib/home/content";
 
 const PANEL_NAV_ITEMS = [{ href: "/", label: "Home" }, ...NAV_ITEMS];
@@ -162,7 +163,7 @@ export function NavPanel({
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                {social.label}
+                <SocialIcon label={social.label} />
               </a>
             ))}
           </div>

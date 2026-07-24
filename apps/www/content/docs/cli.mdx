@@ -1,0 +1,144 @@
+---
+title: sora-cli
+description: Full command reference for the sora-cli tool — add, list, diff, and doctor.
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { CodeTabs } from '@/components/docs/code-tabs';
+
+**[sora-cli](https://www.npmjs.com/package/@soralabsoss/sora-cli)** is a standalone CLI for installing components from any [shadcn](https://ui.shadcn.com)-compatible registry into your project. It defaults to the Sora UI registry, so it skips the extra step of registering the `@soralabs` scope that the [shadcn CLI](/docs/installation) needs — but it also works against any other registry via `--registry <url>`.
+
+<Callout>
+  You still need `shadcn@latest init` first — see [Installation](/docs/installation) — since that sets up Tailwind, CSS variables, and the `@/` import alias every component depends on.
+</Callout>
+
+## Commands
+
+<CodeTabs
+  codes={{
+    pnpm: `pnpm dlx @soralabsoss/sora-cli@latest add text-effect`,
+    npm: `npx @soralabsoss/sora-cli@latest add text-effect`,
+    yarn: `npx @soralabsoss/sora-cli@latest add text-effect`,
+    bun: `bunx --bun @soralabsoss/sora-cli@latest add text-effect`,
+  }}
+/>
+
+```bash
+# multiple components in one call
+npx @soralabsoss/sora-cli add text-effect draw-underline-link
+
+# interactive picker — no component names, browse and multi-select
+npx @soralabsoss/sora-cli add
+
+# list every component available in the registry
+npx @soralabsoss/sora-cli list
+
+# compare installed files against the current registry version
+npx @soralabsoss/sora-cli diff text-effect
+
+# diagnose common project setup issues
+npx @soralabsoss/sora-cli doctor
+```
+
+### `add`
+
+Resolves the dependency tree for the requested component(s), writes files into your project, and installs npm dependencies with your detected package manager (bun/pnpm/yarn/npm).
+
+```bash
+npx @soralabsoss/sora-cli add text-effect --path src/components/ui
+npx @soralabsoss/sora-cli add card --cwd packages/ui       # run as if started in packages/ui (monorepos)
+npx @soralabsoss/sora-cli add text-effect --force           # overwrite existing files without asking
+npx @soralabsoss/sora-cli add text-effect --yes              # skip the install confirmation, for scripts/CI
+npx @soralabsoss/sora-cli add text-effect --dry-run          # preview what would change, write nothing
+npx @soralabsoss/sora-cli add text-effect --silent            # only print summary lines, not per-file output
+npx @soralabsoss/sora-cli add text-effect --view              # print file contents instead of writing them
+```
+
+<Callout type="warn">
+  `--yes` matters most when an agent or script runs the CLI non-interactively: without it, `add` prints a confirmation prompt and — since there's no TTY — silently exits successfully without installing anything. Pair with `--force` to also skip per-file overwrite prompts.
+</Callout>
+
+### `list`
+
+Lists every component the target registry exposes. Add `--json` for machine-readable output (safe to pipe — errors and status messages go to stderr, never mixed into the JSON on stdout).
+
+```bash
+npx @soralabsoss/sora-cli list
+npx @soralabsoss/sora-cli list --json
+```
+
+### `diff`
+
+Read-only comparison of installed component files against the current registry content — reports drift without writing anything.
+
+```bash
+npx @soralabsoss/sora-cli diff text-effect
+```
+
+If files differ, re-run `add <component> --force --yes` to apply the update.
+
+### `doctor`
+
+Diagnoses common project setup issues before you install anything: Node version, package manager/lockfile conflicts, `components.json` validity, path alias configuration, Tailwind/React versions, `cn()` util dependencies, registry reachability, and whether a newer `sora-cli` version is available.
+
+```bash
+npx @soralabsoss/sora-cli doctor
+npx @soralabsoss/sora-cli doctor --json
+```
+
+## Options reference
+
+| Flag | Description |
+| --- | --- |
+| `--cwd, -c <path>` | Run as if started in `<path>` — for monorepos, e.g. `packages/ui`. Picks up that workspace's own `tsconfig.json`/`components.json` aliases. |
+| `--path <path>` | Custom component install path. Only changes where files are written, without affecting which config gets detected (unlike `--cwd`). |
+| `--registry <name\|url>` | Product registry key (default: `ui`) or a full registry URL. Must be HTTPS unless targeting `localhost`/`127.0.0.1`. |
+| `--force` | Overwrite existing files without asking. |
+| `--yes, -y` | Skip the install confirmation prompt — for scripts/CI. |
+| `--dry-run` | Preview changes without writing files or installing packages. |
+| `--silent, -s` | Suppress per-file output, keep summary lines. |
+| `--view` | Print resolved file contents instead of writing them. |
+| `--json` | Output as JSON (`list`, `doctor`). |
+| `--version, -v` | Show the CLI version. |
+| `--help, -h` | Show the help message. |
+
+### Environment
+
+`SORA_NO_UPDATE_CHECK` — set to disable the npm update check that runs on every invocation (printed to stderr, never mixed into `--json` output). Useful in CI.
+
+## How it works
+
+The CLI fetches a shadcn-compatible registry (`<product-url>/r/registry.json`, `<product-url>/r/<name>.json`), resolves the dependency tree, writes files into your project, and installs npm dependencies with your detected package manager.
+
+Since components are copied into your project rather than installed as a package, `diff` is the way to check whether the registry has changed a component since you installed it, and `add <component> --force --yes` is how you apply that update.
+
+Registry content isn't cryptographically signed, so only point `--registry` at a source you trust — it's written into your project and its dependency list is fed straight into your package manager.
+
+## Monorepos
+
+<Steps>
+<Step>
+
+Use `--cwd <path>` (or `-c`) to run `add`/`diff`/`doctor` as if the CLI had been started inside `<path>` — it picks up that workspace's own `tsconfig.json`/`components.json` aliases.
+
+</Step>
+<Step>
+
+```bash
+npx @soralabsoss/sora-cli add card --cwd packages/ui
+```
+
+</Step>
+<Step>
+
+If you only need to change where files land without changing which config is read, use `--path` instead of `--cwd`.
+
+</Step>
+</Steps>
+
+## See also
+
+- [Installation](/docs/installation) — initial project setup with shadcn/ui
+- [MCP](/docs/mcp) — the `get_component_info` MCP tool returns the exact `sora-cli` command to run for a given component
+- [Troubleshooting](/docs/troubleshooting) — common registry/CLI issues
+- [GitHub repository](https://github.com/SoraLabsOSS/sora-cli)

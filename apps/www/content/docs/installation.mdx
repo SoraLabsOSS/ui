@@ -16,7 +16,7 @@ import { CodeTabs } from '@/components/docs/code-tabs';
 
 ### Initialize shadcn/ui
 
-Run the `init` command to create a new project with shadcn/ui or setup an existing one.
+Run the `init` command to create a new project with shadcn/ui or setup an existing one. This sets up Tailwind, CSS variables, and the `@/` import alias that every Sora UI component (and both install methods below) depends on — it's required either way.
 
 <CodeTabs
   codes={{
@@ -30,9 +30,28 @@ Run the `init` command to create a new project with shadcn/ui or setup an existi
 </Step>
 <Step>
 
-### Add the @soralabs registry
+### Add components
 
-Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json). Register the namespace once in your project:
+Two ways to pull components in from here — pick whichever fits your workflow.
+
+<Callout>
+  **[sora-cli](https://www.npmjs.com/package/@soralabsoss/sora-cli)** —
+  skips registering the `@soralabs` scope, defaults straight to the Sora UI
+  registry:
+
+  <CodeTabs
+    codes={{
+      pnpm: `pnpm dlx @soralabsoss/sora-cli@latest add text-effect`,
+      npm: `npx @soralabsoss/sora-cli@latest add text-effect`,
+      yarn: `npx @soralabsoss/sora-cli@latest add text-effect`,
+      bun: `bunx --bun @soralabsoss/sora-cli@latest add text-effect`,
+    }}
+  />
+
+  Or browse components interactively: `npx @soralabsoss/sora-cli@latest add`
+</Callout>
+
+**Or, using the shadcn CLI directly** — register the `@soralabs` scope once (Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json)):
 
 <CodeTabs
   codes={{
@@ -43,12 +62,7 @@ Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/
   }}
 />
 
-</Step>
-<Step>
-
-### Add components
-
-Install primitives with the `@soralabs` scope. Browse the catalog in [Primitives](/docs/primitives/text-scramble) or list every item:
+Then install primitives with the `@soralabs` scope. Browse the catalog in [Primitives](/docs/primitives/text-scramble) or list every item:
 
 ```bash
 npx shadcn@latest list @soralabs
@@ -64,8 +78,9 @@ npx shadcn@latest list @soralabs
 />
 
 <Callout type="warn">
-  **Only if the CLI errors** — for example `unknown registry`, cannot resolve
-  `@soralabs`, or fetch timeout — add the scope manually to `components.json`:
+  **Only if the shadcn CLI errors** — for example `unknown registry`, cannot
+  resolve `@soralabs`, or fetch timeout — add the scope manually to
+  `components.json`:
 
   ```json
   {

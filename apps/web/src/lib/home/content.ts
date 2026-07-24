@@ -13,6 +13,8 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 export interface Project {
+  /** No live URL yet — renders without an outbound link and shows a "Coming Soon" badge instead. */
+  comingSoon?: boolean;
   description: string;
   image: string;
   liveUrl: string;
@@ -40,6 +42,16 @@ export const PROJECTS: Project[] = [
     num: "02",
     tagLines: ["Frontend, Tooling,", "Typography"],
     title: "Sora Type",
+  },
+  {
+    comingSoon: true,
+    description:
+      "Sora Lattice — a new Sora Labs product, currently in development.",
+    image: "/projects/sora-lattice.jpg",
+    liveUrl: "",
+    num: "03",
+    tagLines: ["Coming Soon"],
+    title: "Sora Lattice",
   },
 ];
 

@@ -1,0 +1,200 @@
+---
+title: Scroll Chapters
+description: A draggable, chaptered progress-bar nav — two-way cursor/scroll sync, ghost-cursor hover preview, snap-to-step seeking, and a per-chapter panel that can opt in or out of showing.
+category: effects
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: scroll-chapters
+---
+
+## Installation
+
+<ComponentInstallation name="scroll-chapters" />
+
+## Usage
+
+### Basic
+
+```tsx
+import { ScrollChapters } from "@/components/sora-ui/effects/scroll-chapters";
+
+const chapters = [
+  {
+    id: "intro",
+    content: (
+      <section className="flex h-svh flex-col justify-center px-16">
+        <h3>Grab the cursor</h3>
+        <p>The pill on the track is a real Draggable instance.</p>
+      </section>
+    ),
+    preview: <pre><code>{`Draggable.create(cursor, { ... })`}</code></pre>,
+  },
+  {
+    id: "outro",
+    content: (
+      <section className="flex h-svh flex-col justify-center px-16">
+        <h3>No panel here</h3>
+        <p>Omit `preview` to opt a chapter out of the panel entirely.</p>
+      </section>
+    ),
+    // no `preview` — this chapter never shows a panel
+  },
+];
+
+export default function Page() {
+  return <ScrollChapters chapters={chapters} />;
+}
+```
+
+Each chapter's `content` is fully your own markup — `ScrollChapters` only
+owns the track/cursor/panel widget, not typography or layout. Give every
+chapter's `content` the same height (e.g. `h-svh`) so the per-chapter
+active window stays evenly spaced.
+
+### Hiding the widget near the edges
+
+The whole nav (track + cursor + panel) fades out near the very start/end of
+the content by default — `hideCardAtStart`/`hideCardAtEnd` (and their
+`startThreshold`/`endThreshold` progress values) control that independently:
+
+```tsx
+<ScrollChapters
+  chapters={chapters}
+  hideCardAtEnd={false}
+  hideCardAtStart={false}
+/>
+```
+
+### Docs / catalog preview
+
+`embedded` + `containerQuery` switch chapter sizing from `100svh` to a
+`100cqh` calc so the widget fits a bounded preview panel instead of the
+full viewport — pass `scroller` (the panel's own scroll container) when
+using it this way, same contract as `StickyScrollCards`/`ScrollGallery`:
+
+```tsx
+<ScrollChapters
+  chapters={chapters}
+  containerQuery
+  embedded
+  scroller={viewport}
+/>
+```
+
+## Styling
+
+<Callout title="No default colors">
+  `ScrollChapters` ships **structural** Tailwind classes only (position,
+  sizing, flex layout) — no background/text colors. Everything visible
+  (track background, cursor color, panel background) comes from the
+  `classNames` prop, same as this page's own preview.
+</Callout>
+
+<Callout type="warn" title="Track ruler">
+  The fine tick-mark ruler on the track is an inline `background-image`
+  (not expressible as a single Tailwind utility) — override it entirely via
+  `classNames.track` if you want a different pattern.
+</Callout>
+
+### Class slots
+
+`className` styles the root section. Pass any of these to `classNames` to
+override an inner layer:
+
+- `chapter` — each chapter's `<article>` wrapper
+- `nav` — the fixed widget container (track + panel)
+- `progressCard` — the rounded background behind the track
+- `track` — the draggable track itself
+- `tick` — one decorative divider per chapter, inside the track
+- `cursor` / `cursorGhost` — the real and hover-preview cursor pills
+- `panel` — the per-chapter preview panel
+
+## Props
+
+<TypeTable
+  type={{
+    chapters: {
+      description: "Chapters — content plus an optional per-chapter panel.",
+      type: "ScrollChaptersChapter[]",
+    },
+    hideCardAtStart: {
+      description: "Hide the whole widget near the very start of the content.",
+      type: "boolean",
+      default: "true",
+    },
+    hideCardAtEnd: {
+      description: "Hide the whole widget near the very end of the content.",
+      type: "boolean",
+      default: "true",
+    },
+    startThreshold: {
+      description: "Progress (0-1) below which the widget hides, when `hideCardAtStart` is true.",
+      type: "number",
+      default: "0.02",
+    },
+    endThreshold: {
+      description: "Progress (0-1) above which the widget hides, when `hideCardAtEnd` is true.",
+      type: "number",
+      default: "0.98",
+    },
+    embedded: {
+      description: "Size chapters against `scroller` instead of the viewport, for catalog/docs previews.",
+      type: "boolean",
+      default: "false",
+    },
+    containerQuery: {
+      description: "Use `cqh` instead of `svh` for chapter height — pair with `embedded`.",
+      type: "boolean",
+      default: "false",
+    },
+    scroller: {
+      description: "ScrollTrigger root (`window` or `Element`).",
+      type: "Element | Window",
+    },
+    refreshPriority: {
+      description:
+        "GSAP ScrollTrigger refresh priority. Lower numbers refresh later.",
+      type: "number",
+      default: "-1",
+    },
+    className: { description: "Root section classes.", type: "string" },
+    classNames: {
+      description:
+        "Per-slot class overrides: `chapter`, `nav`, `progressCard`, `track`, `tick`, `cursor`, `cursorGhost`, `panel`.",
+      type: "ScrollChaptersClassNames",
+    },
+  }}
+/>
+
+### ScrollChaptersChapter
+
+<TypeTable
+  type={{
+    id: { description: "Unique chapter id.", type: "string" },
+    content: { description: "In-flow section content.", type: "ReactNode" },
+    preview: {
+      description: "Panel content. Omit to opt this chapter out of the panel entirely.",
+      type: "ReactNode",
+    },
+  }}
+/>
+
+## When to Use
+
+`ScrollChapters` is a companion, not a hero — it's a quiet navigation aid
+for a page that already has its own big scroll-driven moments (text
+reveals, pinned sections, SVG morphs), letting a visitor see where they
+are and jump around without pulling focus. It doesn't carry a strong
+visual "wow" on its own; pair it with heavier primitives for that.
+
+## Accessibility
+
+The drag handle and track are pointer-only (matching the original design
+this reimplements). When `prefers-reduced-motion: reduce` is set, GSAP
+skips creating the `Draggable`/`ScrollTrigger` instances entirely and the
+nav stays hidden — chapter `content` remains fully readable either way.
+
+## Credits
+
+<ComponentCredits name="scroll-chapters" />

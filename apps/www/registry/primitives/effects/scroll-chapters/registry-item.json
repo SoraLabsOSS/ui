@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-chapters",
+  "type": "registry:ui",
+  "title": "Scroll Chapters",
+  "description": "A draggable, chaptered progress-bar nav — two-way cursor/scroll sync, ghost-cursor hover preview, snap-to-step seeking, and a per-chapter panel that can opt in or out of showing.",
+  "dependencies": ["gsap", "@gsap/react"],
+  "registryDependencies": [
+    "@soralabs/hooks-use-prefers-reduced-motion",
+    "@soralabs/lib-scroll-trigger-utils"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/effects/scroll-chapters/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/scroll-chapters.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "scrollbar",
+      "scroll",
+      "chapters",
+      "draggable",
+      "progress",
+      "nav",
+      "gsap",
+      "scrolltrigger"
+    ],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Anime.js",
+      "stack": "GSAP and vanilla JS"
+    }
+  }
+}

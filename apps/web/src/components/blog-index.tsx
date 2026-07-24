@@ -31,7 +31,7 @@ export async function BlogIndex() {
                 <h2 className="text-[14px] text-white">
                   {post.metadata.title}
                 </h2>
-                <p className="mt-1.5 text-[#999] text-[12px] leading-[1.7]">
+                <p className="mt-1.5 line-clamp-4 text-[#999] text-[12px] leading-[1.7]">
                   {post.metadata.description}
                 </p>
                 <time

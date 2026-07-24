@@ -71,7 +71,7 @@ function CommandList({
   return (
     <CommandPrimitive.List
       className={cn(
-        "scroll-py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        "scroll-py-1 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         "max-h-[calc(85dvh-5.5rem)] sm:max-h-[min(350px,calc(70dvh-5.5rem))] md:max-h-[350px]",
         scrollLocked ? "overflow-hidden" : "overflow-y-auto overflow-x-hidden",
         className

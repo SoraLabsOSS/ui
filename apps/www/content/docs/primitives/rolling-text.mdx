@@ -1,0 +1,99 @@
+---
+title: Rolling Text
+description: Per-character slot-machine reveal that rolls each letter into place once it scrolls into view, powered by Motion.
+---
+
+<ComponentPreview name="rolling-text" description="Headline that rolls each letter into place the first time it scrolls into view." />
+
+## Installation
+
+<ComponentInstallation name="rolling-text" />
+
+## Usage
+
+```tsx
+import { RollingText } from '@/components/sora-ui/texts/rolling-text';
+
+export default function Page() {
+  return (
+    <RollingText
+      className="font-bold text-4xl uppercase tracking-tight"
+      text="MOTION FIRST"
+    />
+  );
+}
+```
+
+Roll downward instead of up, and render as a heading:
+
+```tsx
+<RollingText as="h1" direction="down" text="FOR REACT" />
+```
+
+Trigger every time it re-enters the viewport, with a wider margin:
+
+```tsx
+<RollingText once={false} inViewMargin="-25%" text="ALWAYS ROLLING" />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: 'Text to reveal.',
+      type: 'string',
+      required: true,
+    },
+    direction: {
+      description: 'Direction letters roll in when they enter the viewport.',
+      type: '"up" | "down"',
+      default: '"up"',
+    },
+    speed: {
+      description: 'Extra per-letter delay added per character of distance from the center, in seconds.',
+      type: 'number',
+      default: '0.05',
+    },
+    duration: {
+      description: 'Total settle duration per letter, in seconds.',
+      type: 'number',
+      default: '4',
+    },
+    once: {
+      description: 'Only trigger the roll once, the first time it scrolls into view.',
+      type: 'boolean',
+      default: 'true',
+    },
+    inViewMargin: {
+      description: 'Margin passed to the in-view observer (same format as CSS margin).',
+      type: 'string',
+      default: '"-10%"',
+    },
+    as: {
+      description: 'Render as a different element or component instead of `span`.',
+      type: 'React.ElementType',
+      default: '"span"',
+    },
+    ref: {
+      description: 'Forwarded ref to the root element.',
+      type: 'Ref<HTMLElement>',
+    },
+    className: {
+      description: 'Class names on the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `RollingText` for a one-time reveal of a fixed string — hero headlines, section titles, anything that should roll into place once as the page or section is scrolled into view. It differs from [Text Roll](/docs/primitives/text-roll), which rolls between *changing* text values, and [Text Loop](/docs/primitives/text-loop), which cycles through a list of items on an interval.
+
+## Accessibility
+
+The full string is exposed via `aria-label` on the root element; the individual rolling letter spans are `aria-hidden`, so screen readers announce the plain text rather than each animated glyph. When `prefers-reduced-motion: reduce` is set, the roll is skipped entirely and the text renders statically — no extra configuration needed.
+
+## Credits
+
+<ComponentCredits name="rolling-text" />

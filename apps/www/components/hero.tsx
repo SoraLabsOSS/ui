@@ -4,9 +4,11 @@ import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
-import { HeroSlotLine } from "@/components/home/hero-slot-text";
+import { RollingText } from "@/registry/primitives/texts/rolling-text";
 
 const CLI_COMMAND = "npx shadcn@latest add @soralabs";
+const HERO_LINE_CLASS =
+  "flex font-bold font-hero-display text-5xl uppercase tracking-tight max-[375px]:text-4xl sm:text-6xl md:text-7xl lg:text-8xl";
 
 export const Hero = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -23,8 +25,8 @@ export const Hero = () => {
       </motion.p>
 
       <h1 className="flex flex-col items-center">
-        <HeroSlotLine text="MOTION-FIRST" />
-        <HeroSlotLine text="FOR REACT" />
+        <RollingText className={HERO_LINE_CLASS} text="MOTION-FIRST" />
+        <RollingText className={HERO_LINE_CLASS} text="FOR REACT" />
       </h1>
 
       <motion.p

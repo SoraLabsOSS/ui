@@ -27,12 +27,10 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | `search_docs` | Search docs and components by keyword or phrase. Capped at 25 results per call — the response notes when results may be truncated, so narrow the query or raise `limit` |
 | `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `primitives/draw-underline-link`) |
 | `list_sections` | Browse the doc structure. Valid `section` filters: `documentation`, `components` |
-| `list_components` | List installable Sora UI components and hooks with short descriptions — no need to configure a second MCP server just to browse |
-| `get_component_info` | Get the install command, dependencies, and file targets for a component or hook by name |
-| `get_component_code` | Get the full source code for a component or hook by name, ready to paste in without running the install CLI |
+| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks with short descriptions. With a `name`, returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, and file targets — add `includeSource: true` to also get the full source (usually unnecessary, since installing already puts the real file on disk) |
 
 <Callout>
-  `list_components`, `get_component_info`, and `get_component_code` let you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — handy if you just want to look something up or copy code by hand. To actually **install** `@soralabs/*` components with natural language, still configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) in the same project (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
+  `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the [`sora-cli`](https://www.npmjs.com/package/@soralabsoss/sora-cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
 ## How it works in practice
@@ -43,10 +41,10 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 
 | Server | Role |
 | --- | --- |
-| **`sora-ui`** | Read docs and browse the catalog — `search_docs`, `get_page`, `list_components`, `get_component_info`, `get_component_code` |
-| **`shadcn`** | Install `@soralabs/*` into your project via the shadcn CLI |
+| **`sora-ui`** | Read docs and browse the catalog — `search_docs`, `get_page`, `list_sections`, `get_component_info` (also returns a `sora-cli` install command) |
+| **`shadcn`** | Install `@soralabs/*` into your project via the shadcn CLI, as an agent-callable tool instead of a shell command |
 
-Use **both** when you want the agent to look up usage *and* run `shadcn add` for a registry item. Register `@soralabs` in `components.json` first — see [Installation](/docs/installation).
+Use **both** if you'd rather the agent call an MCP tool to install than run `sora-cli`/`shadcn` itself — register `@soralabs` in `components.json` first, see [Installation](/docs/installation). Most agents with shell access can just run the command `get_component_info` returns.
 
 ### What is automatic vs manual
 
@@ -65,13 +63,18 @@ Use **both** when you want the agent to look up usage *and* run `shadcn add` for
 ### Typical workflow
 
 ```text
-1. Enable sora-ui MCP (+ shadcn MCP if installing)
-2. Register @soralabs in components.json
-3. In Agent chat, ask naturally or explicitly:
+1. Enable sora-ui MCP (+ shadcn MCP too, only if you want tool-call installs)
+2. In Agent chat, ask naturally or explicitly:
    - "What Sora component fits a pinned scroll text reveal?"
    - "Install scroll-gallery and show usage with variant=studio"
-4. Agent calls MCP → reads docs → (optionally) runs shadcn add → writes code in your repo
+3. Agent calls sora-ui MCP → reads docs / gets component info → runs
+   `npx @soralabsoss/sora-cli add scroll-gallery --yes` (or `shadcn add`, if
+   configured) → writes code in your repo
 ```
+
+<Callout type="warn">
+  The `--yes` flag matters when an agent runs `sora-cli` itself: without it, `add` prints a confirmation prompt and — since the agent's shell has no TTY — silently exits successfully without installing anything. `get_component_info` always includes `--yes` in the command it returns.
+</Callout>
 
 ## Add to Cursor
 
@@ -337,7 +340,7 @@ MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in
 ### Tools return no results
 
 - Use `list_sections` first to see available `documentation` and `components` sections
-- For component pages, try slugs like `cursor-trail-reveal` or paths like `primitives/accordion`
+- For component pages, try slugs like `text-effect` or paths like `primitives/accordion`
 
 ### Install link does nothing
 
