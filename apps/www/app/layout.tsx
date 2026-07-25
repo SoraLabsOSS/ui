@@ -1,21 +1,18 @@
-import { prefetchSession } from "@better-auth-ui/react/server";
-import { dehydrate } from "@tanstack/react-query";
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 
 import "./globals.css";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionConfig } from "motion/react";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
+import { AuthSessionProviders } from "@/components/auth-session-providers";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { Providers } from "@/components/providers";
 import { SiteBanner } from "@/components/site-banner";
-import { auth } from "@/lib/auth";
 import {
   getBannerLayoutScript,
   SITE_BANNER_ENABLED,
@@ -26,7 +23,6 @@ import {
   getOgMetadataImages,
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
-import { getQueryClient } from "@/lib/query-client";
 import {
   getMetadataBaseUrl,
   getPageAlternates,
@@ -100,13 +96,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Layout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   const commandGroups = getCommandPaletteGroups();
   const bannerLayoutScript = getBannerLayoutScript();
 
-  const queryClient = getQueryClient();
-  await prefetchSession(queryClient, auth, { headers: await headers() });
-  const dehydratedState = dehydrate(queryClient);
+  const app = (
+    <RootProvider search={{ SearchDialog: CommandPaletteSearchDialog }}>
+      {SITE_BANNER_ENABLED ? <SiteBanner /> : null}
+      {children}
+    </RootProvider>
+  );
 
   return (
     <html className="sf-pro-display" lang="en" suppressHydrationWarning>
@@ -154,14 +153,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>
             <NuqsAdapter>
-              <Providers dehydratedState={dehydratedState}>
-                <RootProvider
-                  search={{ SearchDialog: CommandPaletteSearchDialog }}
-                >
-                  {SITE_BANNER_ENABLED ? <SiteBanner /> : null}
-                  {children}
-                </RootProvider>
-              </Providers>
+              <Suspense fallback={<Providers>{app}</Providers>}>
+                <AuthSessionProviders>{app}</AuthSessionProviders>
+              </Suspense>
             </NuqsAdapter>
           </CommandPaletteGroupsProvider>
         </MotionConfig>
