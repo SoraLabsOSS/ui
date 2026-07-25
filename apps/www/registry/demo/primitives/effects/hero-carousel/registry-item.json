@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-hero-carousel",
+  "type": "registry:ui",
+  "title": "Hero Carousel Demo",
+  "description": "Hero image slideshow cycling through a set of project preview screenshots.",
+  "registryDependencies": ["hero-carousel"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/hero-carousel/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/hero-carousel.tsx"
+    }
+  ]
+}

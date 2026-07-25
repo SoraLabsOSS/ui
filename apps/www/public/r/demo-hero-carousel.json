@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-hero-carousel",
+  "title": "Hero Carousel Demo",
+  "description": "Hero image slideshow cycling through a set of project preview screenshots.",
+  "registryDependencies": ["@soralabs/hero-carousel"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/hero-carousel/index.tsx",
+      "content": "\"use client\";\n\nimport { heroCarouselDemoImages } from \"@/lib/demo/hero-carousel-demo-images\";\nimport { HeroCarousel } from \"@/components/sora-ui/effects/hero-carousel\";\n\nexport function HeroCarouselExample() {\n  return (\n    <div className=\"w-full max-w-xl px-2 sm:px-4\">\n      <HeroCarousel\n        images={heroCarouselDemoImages}\n        initialIndex={0}\n        intervalMs={4500}\n      />\n    </div>\n  );\n}\n\nexport default HeroCarouselExample;\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/hero-carousel.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

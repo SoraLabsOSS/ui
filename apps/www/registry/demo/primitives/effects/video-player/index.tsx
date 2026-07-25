@@ -2,7 +2,7 @@
 
 import { VideoPlayer } from "@/registry/primitives/effects/video-player";
 
-const DEMO_VIDEO_SRC = "https://cdn.rauno.me/testimonials.mp4#t=0.01";
+const DEMO_VIDEO_SRC = "https://sora.axyl.io.vn/media/demo/testimonials.webm";
 
 const CHAPTERS = [
   { start: 0, title: "Intro" },
@@ -15,7 +15,7 @@ const CHAPTERS = [
 
 export default function VideoPlayerDemo() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex items-center justify-center">
       <VideoPlayer chapters={CHAPTERS} defaultSpeed={1} src={DEMO_VIDEO_SRC} />
     </div>
   );

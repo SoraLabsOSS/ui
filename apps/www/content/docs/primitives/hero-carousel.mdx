@@ -1,0 +1,103 @@
+---
+title: Hero Carousel
+description: Crossfading hero image slideshow with a progress pill, play/pause, and prev/next controls.
+---
+
+<ComponentPreview name="demo-hero-carousel" description="Hero image slideshow cycling through a set of project preview screenshots." />
+
+## Installation
+
+<ComponentInstallation name="hero-carousel" />
+
+## Usage
+
+```tsx
+import { HeroCarousel } from "@/components/sora-ui/effects/hero-carousel";
+
+const images = [
+  { src: "/work/project-1.webp", alt: "Project 1 preview" },
+  { src: "/work/project-2.webp", alt: "Project 2 preview" },
+  { src: "/work/project-3.webp", alt: "Project 3 preview" },
+];
+
+export default function Page() {
+  return <HeroCarousel images={images} intervalMs={4500} />;
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    images: {
+      description:
+        "Images cycled through, in order. Fewer than 2 renders a single static image with no controls.",
+      type: "HeroCarouselImage[]",
+    },
+    intervalMs: {
+      description: "Milliseconds each image is held before auto-advancing.",
+      type: "number",
+      default: "4500",
+    },
+    initialIndex: {
+      description: "Index to start on. Clamped into range.",
+      type: "number",
+      default: "0",
+    },
+    className: {
+      description: "Additional class names on the root element.",
+      type: "string",
+    },
+    classNames: {
+      description: "Per-slot class overrides: `pill`, `chevron`.",
+      type: "HeroCarouselClassNames",
+    },
+  }}
+/>
+
+### HeroCarouselImage
+
+<TypeTable
+  type={{
+    src: {
+      description: "Image URL.",
+      type: "string",
+    },
+    alt: {
+      description: "Accessible label for the image.",
+      type: "string",
+    },
+  }}
+/>
+
+### HeroCarouselClassNames
+
+<TypeTable
+  type={{
+    pill: {
+      description: "Play/pause pill button classes, layered on top of the defaults.",
+      type: "string",
+    },
+    chevron: {
+      description: "Prev/next button classes, layered on top of the defaults.",
+      type: "string",
+    },
+  }}
+/>
+
+## When to Use
+
+Use `HeroCarousel` for a portfolio or landing-page hero that cycles through project
+screenshots without stealing focus — the crossfade is slow and blurred, the
+progress pill doubles as a pause/resume toggle, and clicking the image itself
+advances to the next slide.
+
+## Accessibility
+
+The current slide's `alt` text is applied to the visible image; the buffered
+layer underneath is `aria-hidden`. The play/pause pill exposes `aria-pressed`
+and swaps its `aria-label` between "Pause slideshow" and "Play slideshow".
+Left/Right arrow keys step through slides when focus isn't in a text input.
+When `prefers-reduced-motion: reduce` is set, slides swap instantly (no blur,
+scale, or crossfade) and the progress pill still advances slides on the same
+interval, just without a visible countdown fill.

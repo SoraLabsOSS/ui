@@ -2335,7 +2335,7 @@ const VIDEO_PLAYER_STYLES = /* css */ `
 
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 9999;
   display: grid;
   place-items: center;
   padding: 24px;

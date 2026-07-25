@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hero-carousel",
+  "type": "registry:ui",
+  "title": "Hero Carousel",
+  "description": "Crossfading hero image slideshow with a progress pill, play/pause, and prev/next controls.",
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
+  "files": [
+    {
+      "path": "registry/primitives/effects/hero-carousel/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/hero-carousel.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "carousel",
+      "hero",
+      "slideshow",
+      "crossfade",
+      "images",
+      "gallery"
+    ]
+  }
+}
