@@ -32,6 +32,10 @@ export const auth = betterAuth({
   secondaryStorage: redisSecondaryStorage,
   session: {
     storeSessionInDatabase: true, // Required when using oauth-provider with secondaryStorage
+    cookieCache: {
+      enabled: true,
+      maxAge: 60, // Serve session reads from the signed cookie instead of hitting Redis
+    },
   },
   verification: {
     storeInDatabase: true,
@@ -51,6 +55,10 @@ export const auth = betterAuth({
   rateLimit: {
     storage: "secondary-storage",
     enabled: true,
+    customRules: {
+      // Cookie cache covers repeated reads; no need to also hit Redis for rate-limiting.
+      "/get-session": false,
+    },
   },
   plugins: [
     // Interactive API reference and raw OpenAPI schema expose exact
