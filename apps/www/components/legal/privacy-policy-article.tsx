@@ -13,10 +13,10 @@ export function PrivacyPolicyArticle() {
         </small>
       </p>
       <p>
-        Sora UI (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is an
-        open-source component registry and documentation site. This Privacy
-        Policy explains how we collect, use, and protect information when you
-        visit the site, sign in, save bookmarks, or use account features.
+        Sora UI (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is a
+        free component registry and documentation site. This Privacy Policy
+        explains how we collect, use, and protect information when you visit the
+        site, sign in, save bookmarks, or use account features.
       </p>
       <p>
         Component licensing is separate from this policy. See the{" "}

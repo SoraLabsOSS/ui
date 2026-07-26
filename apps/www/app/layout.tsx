@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getMetadataBaseUrl()),
   title: {
     template: "%s - Sora UI",
-    default: "Sora UI - Motion-first UI for React",
+    default: "Sora UI – Animated React Components for shadcn/ui",
   },
   description: SITE_DESCRIPTION,
   keywords: [

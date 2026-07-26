@@ -45,7 +45,7 @@ export const COMMUNITY_DISCUSSIONS_URL =
   "https://github.com/SoraLabsOSS/sora-ui-community/discussions/1" as const;
 
 export const SITE_DESCRIPTION =
-  "Motion-first React component registry with GSAP scroll primitives. Preview animated Next.js components in docs and install with shadcn CLI.";
+  "Copy-paste animated React components built with Motion, Tailwind CSS & GSAP. Free, shadcn/ui-compatible — install any primitive via the CLI in seconds.";
 
 /** Default OG image headline — matches home hero (`MOTION-FIRST` / `FOR REACT`). */
 export const SITE_OG_HERO_TITLE = "Motion-first for React";

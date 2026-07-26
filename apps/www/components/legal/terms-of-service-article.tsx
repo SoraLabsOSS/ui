@@ -21,9 +21,9 @@ export function TermsOfServiceArticle() {
 
       <h2 id="use-of-services">1. Use of the Services</h2>
       <p>
-        Sora UI provides open-source UI components and documentation for
-        developers. You may browse the site without an account. Some features,
-        such as bookmarks, require signing in with Google or GitHub.
+        Sora UI provides free UI components and documentation for developers.
+        You may browse the site without an account. Some features, such as
+        bookmarks, require signing in with Google or GitHub.
       </p>
       <p>You agree not to:</p>
       <ul>
