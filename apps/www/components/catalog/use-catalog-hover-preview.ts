@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   getPreferredCardPreviewVideoSrc,
   resolveCardPreviewMedia,
@@ -12,6 +12,14 @@ import {
   getCatalogNavHoverPreviewPosition,
 } from "./catalog-nav-hover-preview";
 
+// Grace period before actually hiding the preview after the pointer leaves
+// an item. List rows have gaps between them, so the pointer is briefly over
+// nothing while travelling from one row to the next — without this delay,
+// the panel unmounts and remounts (fade out then snap back in) on every
+// gap crossing, which reads as jank rather than a panel that chases the
+// cursor smoothly.
+const HOVER_LEAVE_GRACE_MS = 120;
+
 export function useCatalogHoverPreview(
   items: ComponentGalleryItem[],
   { warmCount = 5 }: { warmCount?: number } = {}
@@ -22,6 +30,14 @@ export function useCatalogHoverPreview(
     x: number;
     y: number;
   } | null>(null);
+  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cancelPendingLeave = useCallback(() => {
+    if (leaveTimeoutRef.current !== null) {
+      clearTimeout(leaveTimeoutRef.current);
+      leaveTimeoutRef.current = null;
+    }
+  }, []);
 
   const previewBySlug = useMemo(() => {
     const map = new Map<string, ReturnType<typeof resolveCardPreviewMedia>>();
@@ -40,12 +56,24 @@ export function useCatalogHoverPreview(
   }, [items]);
 
   const clearHoverPreview = useCallback(() => {
+    cancelPendingLeave();
     setHoverPreview(null);
     setHoverPosition(null);
-  }, []);
+  }, [cancelPendingLeave]);
+
+  const scheduleClearHoverPreview = useCallback(() => {
+    cancelPendingLeave();
+    leaveTimeoutRef.current = setTimeout(() => {
+      leaveTimeoutRef.current = null;
+      setHoverPreview(null);
+      setHoverPosition(null);
+    }, HOVER_LEAVE_GRACE_MS);
+  }, [cancelPendingLeave]);
 
   const onItemPointerEnter = useCallback(
     (item: ComponentGalleryItem, event: React.MouseEvent<HTMLElement>) => {
+      cancelPendingLeave();
+
       const media = previewBySlug.get(item.slug);
       if (!media) {
         clearHoverPreview();
@@ -64,7 +92,7 @@ export function useCatalogHoverPreview(
         videoSrc,
       });
     },
-    [clearHoverPreview, previewBySlug]
+    [cancelPendingLeave, clearHoverPreview, previewBySlug]
   );
 
   const onItemPointerMove = useCallback(
@@ -88,12 +116,14 @@ export function useCatalogHoverPreview(
     }
   }, [items, previewBySlug, warmCount]);
 
+  useEffect(() => cancelPendingLeave, [cancelPendingLeave]);
+
   return {
     clearHoverPreview,
     hoverPosition,
     hoverPreview,
     onItemPointerEnter,
     onItemPointerMove,
-    onItemPointerLeave: clearHoverPreview,
+    onItemPointerLeave: scheduleClearHoverPreview,
   };
 }
