@@ -988,6 +988,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "pixel-image-loader": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/primitives/effects/pixel-image-loader/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "pixelated-image-reveal": React.lazy(async () => {
     const mod = await import(
       "@/registry/primitives/effects/pixelated-image-reveal/index.tsx"

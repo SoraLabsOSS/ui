@@ -1,0 +1,136 @@
+---
+title: Pixel Image Loader
+description: A canvas-based image that resolves from a blocky, pixelated placeholder up to full sharpness as it loads.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="pixel-image-loader" description="Scroll the panel into view to watch the image resolve from a coarse pixel grid to full sharpness." />
+
+## Installation
+
+<ComponentInstallation name="pixel-image-loader" />
+
+## Usage
+
+```tsx
+import { PixelImageLoader } from '@/components/sora-ui/effects/pixel-image-loader';
+
+export default function Gallery() {
+  return (
+    <PixelImageLoader
+      alt="Mountain range at sunrise"
+      className="w-72 rounded-lg"
+      src="/images/mountains.jpg"
+    />
+  );
+}
+```
+
+Start the reveal as soon as the image finishes loading, instead of waiting for it to scroll into view:
+
+```tsx
+<PixelImageLoader alt="..." src="/images/mountains.jpg" trigger="immediate" />
+```
+
+Customize how coarse the placeholder starts and how fast it steps toward full resolution — each number is a percent of full resolution, and the sequence always lands on a sharp `100`:
+
+```tsx
+<PixelImageLoader
+  alt="..."
+  initialDelay={150}
+  src="/images/mountains.jpg"
+  stepDuration={60}
+  steps={[3, 10, 25, 100]}
+/>
+```
+
+On a slow connection, `src` can take a while to arrive — until it does, the canvas is empty. If `src` points at an image CDN that exposes resizing through the URL (Unsplash, imgix, Cloudinary, Contentful, Shopify, and similar), `autoPlaceholder` is on by default and fetches a tiny, cheap variant automatically to draw as the first pixelated frame — no setup needed:
+
+```tsx
+<PixelImageLoader
+  alt="Mountain range at sunrise"
+  src="https://images.unsplash.com/photo-.......?q=80&w=1600"
+/>
+// requests a w=20&q=10 variant of the same URL first, in parallel
+```
+
+For static assets that aren't resizable this way (a plain `/images/mountains.jpg`), auto-detection has nothing to rewrite — pass a tiny base64 `placeholder` instead (a 16px-wide downscale of the same image works well). It's drawn, pixelated, the instant the component mounts, since a data URI needs no network round trip, and takes priority over `autoPlaceholder`:
+
+```tsx
+<PixelImageLoader
+  alt="Mountain range at sunrise"
+  placeholder="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAA..."
+  src="/images/mountains.jpg"
+/>
+```
+
+Either way, the reveal continues from that placeholder frame once `src` finishes loading. Turn auto-detection off entirely with `autoPlaceholder={false}`.
+
+## Props
+
+<TypeTable
+  type={{
+    src: {
+      description: 'Image source.',
+      type: 'string',
+    },
+    alt: {
+      description: 'Accessible label for the image.',
+      type: 'string',
+    },
+    placeholder: {
+      description:
+        'A tiny low-resolution image (typically a base64 data URI) drawn, pixelated, the instant this mounts — no network round trip needed. Replaces the empty background while `src` is still loading, so slow connections show a coarse preview instead of a blank box. Once `src` finishes loading, the reveal continues from this frame. Takes priority over `autoPlaceholder`.',
+      type: 'string',
+    },
+    autoPlaceholder: {
+      description:
+        "When `placeholder` isn't set, tries to derive a cheap low-res preview from `src` itself for CDNs that expose resizing via query params or path segments (Unsplash, imgix, Cloudinary, Contentful, Shopify, and similar). Has no effect on static assets that aren't resizable this way.",
+      type: 'boolean',
+      default: 'true',
+    },
+    steps: {
+      description:
+        'Resolution steps (1-100, percent of full resolution) the reveal walks through before landing on the sharp image. Ending on 100 is required to land on a fully sharp frame.',
+      type: 'number[]',
+      default: '[2, 5, 6, 8, 100]',
+    },
+    initialDelay: {
+      description: 'Delay before the first pixelation step fires, in ms.',
+      type: 'number',
+      default: '300',
+    },
+    stepDuration: {
+      description: 'Delay between each step after the first, in ms.',
+      type: 'number',
+      default: '80',
+    },
+    trigger: {
+      description:
+        '"inView" starts the reveal once the element scrolls into the viewport. "immediate" starts as soon as the image has loaded.',
+      type: '"immediate" | "inView"',
+      default: '"inView"',
+    },
+    aspect: {
+      description: 'Aspect ratio applied to the root element: `square`, `video`, or `auto`.',
+      type: '"square" | "video" | "auto"',
+      default: '"square"',
+    },
+    className: {
+      description: 'Class names on the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use `PixelImageLoader` for hero images, gallery grids, or cards where you want the loading state itself to feel intentional instead of a generic skeleton or blur-up placeholder. It works well over slow connections or with large source images, since the blocky steps read as progress rather than a stall — pair it with `placeholder` so there's something on screen from the first frame, not just a gray box while `src` is in flight.
+
+For small thumbnails or above-the-fold images that load near-instantly, the effect has little room to play out — a plain image or `Skeleton` is simpler.
+
+## Accessibility
+
+The canvas carries `role="img"` and `aria-label` set from the `alt` prop, so screen readers announce the image the same way an `<img>` would, regardless of which pixelation step is currently drawn. When `prefers-reduced-motion: reduce` is set, no intermediate steps are drawn at all — the component jumps straight to the final sharp frame once the image loads.

@@ -33,6 +33,7 @@
     "hero-carousel",
     "video-player",
     "cursor-bubble",
-    "tilt-card"
+    "tilt-card",
+    "pixel-image-loader"
   ]
 }

@@ -1321,6 +1321,62 @@
       }
     },
     {
+      "name": "pixel-image-loader",
+      "type": "registry:ui",
+      "title": "Pixel Image Loader",
+      "description": "A canvas-based image that resolves from a blocky, pixelated placeholder up to full sharpness as it loads.",
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/pixel-image-loader/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/pixel-image-loader.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "PixelImageLoader": {
+            "src": {
+              "value": "https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=764&auto=format&fit=crop"
+            },
+            "alt": {
+              "value": "Pixel image loader demo"
+            },
+            "aspect": {
+              "value": "square",
+              "options": {
+                "Square": "square",
+                "Video": "video",
+                "Auto": "auto"
+              }
+            },
+            "initialDelay": {
+              "value": 0,
+              "min": 0,
+              "max": 1000,
+              "step": 50
+            },
+            "stepDuration": {
+              "value": 80,
+              "min": 20,
+              "max": 300,
+              "step": 10
+            },
+            "trigger": {
+              "value": "inView",
+              "options": {
+                "In View": "inView",
+                "Immediate": "immediate"
+              }
+            },
+            "className": {
+              "value": "mx-auto w-72 rounded-lg"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "pixelated-image-reveal",
       "type": "registry:ui",
       "title": "Pixelated Image Reveal",
