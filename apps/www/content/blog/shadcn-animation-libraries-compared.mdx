@@ -1,0 +1,78 @@
+---
+title: "Shadcn/ui Animation Libraries Compared: Aceternity, Magic UI, Kibo UI, and Sora UI"
+description: A practical, no-hype comparison of shadcn/ui-compatible animation libraries — stack, pricing, component depth, and which one actually fits your project.
+ogSubtitle: Aceternity, Magic UI, Kibo UI, and Sora UI — compared by stack, pricing, and depth, not vibes.
+author: Axyl
+date: 2026-07-26
+hashtags: ["#shadcnui", "#react", "#animation"]
+---
+
+Search "shadcn animation library" and you'll get four or five names that all look roughly the same at a glance: a registry, a `shadcn add` command, a grid of hover-triggered demos. They're not actually the same, and the differences — free vs. paid tiers, Motion vs. GSAP vs. plain CSS, solo-maintainer vs. team-backed — matter more than the marketing pages let on.
+
+I maintain [Sora UI](https://ui.soralabs.io.vn), so treat this with the skepticism that deserves. I'm not claiming Sora UI is the best of these — it's the smallest and newest one here, full stop. What I can do is lay out what each library actually is, sourced from their own sites, so you can pick based on your stack instead of whichever one showed up first in search.
+
+## The quick comparison
+
+| | Aceternity UI | Magic UI | Kibo UI | Sora UI |
+|---|---|---|---|---|
+| Animation engine | Framer Motion | Framer Motion | Radix + Tailwind (varies) | Motion + GSAP |
+| Install model | shadcn-compatible CLI | shadcn-compatible CLI | shadcn-compatible CLI | shadcn-compatible CLI |
+| Free tier | Components free, templates/blocks paid ("All-Access Pass") | 150+ components free, Pro blocks/templates paid | Free | Free (no paid tier) |
+| Maintainer | Small team | Solo (dillion) + backers | shadcnblocks.com team | Solo/small team |
+| Notable backing | 120,000+ users claimed, YouTuber features | 21.7k GitHub stars, YC-startup adopters | Backed by an established sister site | New — no star count worth citing yet |
+| Best for | Landing pages, marketing sites, fast prototyping | Design-engineer-heavy teams wanting a large free set | Teams already in the shadcn/ui ecosystem wanting composable patterns | Teams wanting GSAP-grade scroll/timeline control without leaving the shadcn workflow |
+
+Everything below is what's actually on each site as of writing — not secondhand claims.
+
+## Aceternity UI
+
+Aceternity is Framer Motion plus Tailwind, and it's upfront about optimizing for one thing: landing pages, fast. The free tier is a real, usable set of components (hero sections, bento grids, parallax blocks), but the templates and full block library sit behind a paid "All-Access Pass." If you've watched Fireship, JavaScript Mastery, or Hitesh Choudhary cover a slick landing-page effect, there's a decent chance it came from here — the YouTuber pipeline is a real distribution channel for them, not just a testimonial widget.
+
+Pick Aceternity if you want landing-page polish today and don't mind paying once you outgrow the free set.
+
+## Magic UI
+
+Magic UI is the largest free set in this list — 150+ open, no-paywall components, which is genuinely more generous than most "free tier" marketing implies. It's also the one with the clearest adoption story: several Y Combinator-backed startups use it for their marketing sites, and 21.7k GitHub stars is real signal, not a vanity number. Pro blocks and templates are a separate paid product (Magic UI Pro), same shape as Aceternity's split.
+
+Pick Magic UI if you want the biggest free component count and don't need anything beyond Framer Motion's animation model.
+
+## Kibo UI
+
+Kibo UI is the odd one out in a good way — it's built by the team behind shadcnblocks.com, so it inherited distribution and credibility instead of building it from zero. It's also less about hero-section flash and more about composable interaction patterns: color pickers, image zoom, Kanban boards, Gantt charts. Entirely free, no paid tier as of writing.
+
+Pick Kibo UI if what you need is functional, composable UI patterns rather than marketing-page animation.
+
+## Sora UI
+
+Disclosure: I built this one, so read this section with that in mind. Sora UI is free, with no paid tier — the whole set installs the same way. It's also the smallest here (34 primitives vs. Magic UI's 150+) and the newest, with none of the star count or production track record the other three can point to.
+
+The one structural difference: most primitives use [Motion](https://motion.dev) for springs and layout, but scroll-driven effects — scrubbing, pinning, sequenced reveals — use GSAP instead, since Motion's scroll APIs don't cover that as thoroughly. In practice that means a component like [Text Reveal Block](/docs/primitives/text-reveal-block) (built on GSAP's SplitText) sits in the same install flow as a Motion-based one like [Hero Carousel](/docs/primitives/hero-carousel) — installed the same shadcn-CLI way, covered in the [installation guide](/docs/installation).
+
+Whether that combination matters to you depends entirely on whether you've already reached for GSAP alongside Framer Motion in a past project. If you haven't needed to, the size and track record of Magic UI or Kibo UI are the more defensible choice today.
+
+## How to actually choose
+
+Ignore the marketing copy and ask three questions:
+
+1. **Do you need anything beyond Framer Motion's scroll model?** If yes — scrubbing, pinning, timeline sequencing — Sora UI's GSAP primitives are the only ones in this list built for that natively.
+2. **Do you need a huge free component count right now, with no engine preference?** Magic UI's 150+ free components is hard to beat on raw volume.
+3. **Do you want an established, team-backed project with the least new-dependency risk?** Kibo UI (backed by shadcnblocks.com) or Aceternity (backed by user volume and YouTuber distribution) carry that safety margin that a newer project like Sora UI can't yet claim honestly.
+
+There's no wrong answer here that isn't "picked without reading past the hero section."
+
+## FAQ
+
+**Is Sora UI a replacement for shadcn/ui?**
+No — it's a registry that installs through the same `shadcn` CLI, meant to sit alongside your existing shadcn/ui components, not replace them.
+
+**Which of these libraries is completely free with no paid tier?**
+Kibo UI and Sora UI have no paid tier at all. Aceternity and Magic UI are free for their base component set, with templates/blocks sold separately.
+
+**Do any of these use GSAP instead of just Framer Motion / Motion?**
+Sora UI is the one in this list that combines Motion with GSAP specifically for scroll-driven effects (scrubbing, pinning). The other three are Framer Motion-based or vary by component.
+
+**Can I use more than one of these in the same project?**
+Yes — they all install as source files via the shadcn CLI pattern, so there's no runtime conflict from mixing libraries, only a maintenance cost of tracking more copied-in code.
+
+**Is Sora UI open-source?**
+It's free to use, but not released under an open-source license — see the [license page](/docs/license) for the exact terms before using it commercially.

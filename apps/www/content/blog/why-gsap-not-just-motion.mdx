@@ -1,0 +1,60 @@
+---
+title: "Why Sora UI Reaches for GSAP Instead of Just Motion"
+description: Most Sora UI primitives use Motion. Seven don't. Here's the actual technical ceiling that made GSAP the right tool for those seven, not a preference.
+ogSubtitle: Motion handles almost everything. Pin-and-scrub scroll sequences are the one place it doesn't, and that's the whole reason GSAP is here at all.
+author: Axyl
+date: 2026-08-02
+hashtags: ["#gsap", "#motion", "#react"]
+---
+
+If you've browsed Sora UI's primitives, you've probably noticed most of them import from `motion/react` and a handful import from `gsap`. The obvious question is why not pick one and stick with it — one dependency, one mental model, less to maintain. Fair question. The honest answer is that seven components in the registry hit a specific gap in Motion's scroll API, and GSAP was the shorter path to closing it. Not "GSAP is better." Narrower than that.
+
+## What Motion handles without any argument
+
+The overwhelming majority of the registry — springs, layout animation, drag, hover/tap states, simple in-view reveals — is Motion, and there's no debate to have there. `useScroll` plus `useTransform` covers straightforward scroll-linked effects fine: fade something in as it enters the viewport, parallax an image a few pixels, that kind of thing. If a primitive needed only that, it's built in Motion, full stop.
+
+## Where it stops being straightforward: pinning
+
+The gap shows up with **pin-and-scrub** sequences — an element that gets frozen in the viewport (`position: sticky`-adjacent, but scroll-progress-driven) while the user keeps scrolling past it, moving through multiple distinct phases as they do.
+
+[Sticky Scroll Cards](/components/sticky-scroll-cards) is the clearest example: a front card flips to reveal a stack of back cards, dismissed one at a time as the user keeps scrolling — all inside a single pinned region. That's not one animation, it's three phases (enter, flip, dismiss) computed from one continuous scroll-progress value, each phase needing its own mapped sub-range of that progress. Motion's `useScroll` will give you the raw progress number. What it won't give you is the pin itself, or a clean way to say "phase two runs between progress 0.3 and 0.6, phase three runs after that" — you'd end up hand-rolling the position-freezing logic and the phase math yourself. GSAP's `ScrollTrigger` already solved exactly that problem, down to `gsap.utils.mapRange()` for the sub-range math:
+
+```ts
+const enterProgress = gsap.utils.clamp(
+  0,
+  1,
+  gsap.utils.mapRange(0, enterEndProgress, 0, 1, progress)
+);
+```
+
+[Scroll Gallery](/components/scroll-gallery) — a full-viewport sticky slider with strip-mask image transitions — is built the same way, for the same reason.
+
+## The other kind of gap: splitting text
+
+[Text Reveal Block](/docs/primitives/text-reveal-block) needed something different: split a block of text into individual lines, then reveal them with a scroll-scrubbed stagger. Motion has stagger support for direct children, but no built-in way to split a text node into per-line elements first — you'd need a separate text-splitting utility, then wire the stagger yourself. GSAP's `SplitText` plugin does the splitting and hands you elements Motion (or GSAP itself) can animate directly. Shorter path, same reveal.
+
+## The physics gap
+
+[Magnetic Cards](/blog/magnetic-cards-inertia-fling) is a third, unrelated gap: converting a raw cursor-velocity delta into a decaying fling uses GSAP's `InertiaPlugin`, which is solving a different problem than spring physics — velocity-to-decay, not target-to-rest. [Cursor Bubble](/docs/primitives/cursor-bubble) uses plain GSAP timelines for its elastic pop-in, no ScrollTrigger involved — that one's closer to a stylistic choice than a hard requirement, worth being honest about.
+
+## The thing that made this an easy call
+
+Up through 2024, several GSAP plugins — `SplitText` and `InertiaPlugin` among them — sat behind a paid "Club GreenSock" membership. Shipping components that depended on them in a free, copy-paste registry would have meant either requiring users to hold a Club GreenSock seat or building degraded fallbacks. After Webflow acquired GreenSock, GSAP made every plugin free in 2025 — `ScrollTrigger` was already free, but `SplitText` and `InertiaPlugin` becoming free removed the last real objection to depending on them in something meant to be free end-to-end.
+
+## The actual count, not a vibe
+
+Of the 34 published primitives, three use GSAP: `cursor-bubble`, `magnetic-cards`, `text-reveal-block`. The components catalog — fully-assembled examples rather than single primitives — adds four more that lean on `ScrollTrigger` even harder: `sticky-scroll-cards`, `scroll-gallery`, `scroll-chapters`, `text-reveal-box`. Everything else in the registry is Motion. This isn't "GSAP vs. Motion" as a philosophy — it's Motion by default, GSAP specifically where scroll orchestration needs it.
+
+## FAQ
+
+**Does shipping two animation libraries bloat bundle size?**
+Only for the specific components that use GSAP, and only in projects that actually install them. Sora UI is copy-paste, not an npm package — a project that never installs `sticky-scroll-cards` never ships GSAP's runtime at all. That's one real advantage of the install-the-source model here.
+
+**Could Motion eventually replace GSAP for these cases?**
+Possibly — Motion's scroll API surface has been expanding. If it adds native pin support and multi-phase progress mapping, that's worth revisiting. No commitment on timing; it hasn't happened yet as of this post.
+
+**Is GSAP worth learning if Motion covers most of what I need?**
+If you're doing simple scroll-linked effects, no — Motion's `useScroll`/`useTransform` is enough. If you're building pinned, multi-phase, or scrubbed sequences, `ScrollTrigger` specifically is worth learning regardless of which registry you use.
+
+**Are GSAP's plugins actually free now, no catch?**
+Yes — since GSAP's 2025 licensing change following the Webflow acquisition, all plugins including `SplitText` and `InertiaPlugin` are free for both commercial and non-commercial use.
