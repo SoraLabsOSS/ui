@@ -15,7 +15,7 @@ export function TiltCardImageDemo({
 }: TiltCardImageDemoProps) {
   return (
     <TiltCard isReverse={isReverse} rotationFactor={rotationFactor}>
-      <div className="flex max-w-[270px] flex-col overflow-hidden rounded-xl border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900">
+      <div className="flex w-67.5 flex-col overflow-hidden rounded-xl border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900">
         <div className="relative h-48 w-full">
           <Image
             alt="Shibuya crossing at night, Tokyo"
