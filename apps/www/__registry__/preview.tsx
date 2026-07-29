@@ -716,22 +716,6 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
-  "char-stagger-button": React.lazy(async () => {
-    const mod = await import(
-      "@/registry/primitives/buttons/char-stagger-button/index.tsx"
-    );
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
   "particle-hover-button": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/buttons/particle-hover-button/index.tsx"
@@ -748,9 +732,25 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
-  "section-cta": React.lazy(async () => {
+  "sliding-chip-button": React.lazy(async () => {
     const mod = await import(
-      "@/registry/primitives/buttons/section-cta/index.tsx"
+      "@/registry/primitives/buttons/sliding-chip-button/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "stagger-button": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/primitives/buttons/stagger-button/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)

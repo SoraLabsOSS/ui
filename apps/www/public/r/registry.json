@@ -862,43 +862,6 @@
       ]
     },
     {
-      "name": "char-stagger-button",
-      "type": "registry:ui",
-      "title": "Char Stagger Button",
-      "description": "A button with per-character stagger animation on hover.",
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/buttons/char-stagger-button/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/buttons/char-stagger-button.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "CharStaggerButton": {
-            "label": {
-              "value": "Staggering Button"
-            },
-            "variant": {
-              "value": "default",
-              "options": {
-                "Default": "default",
-                "Link": "link"
-              }
-            },
-            "staggerDelay": {
-              "value": 0.01,
-              "min": 0,
-              "max": 0.1,
-              "step": 0.005
-            }
-          }
-        }
-      }
-    },
-    {
       "name": "particle-hover-button",
       "type": "registry:ui",
       "title": "Particle Hover Button",
@@ -925,17 +888,17 @@
       }
     },
     {
-      "name": "section-cta",
+      "name": "sliding-chip-button",
       "type": "registry:ui",
-      "title": "Section CTA",
+      "title": "Sliding Chip Button",
       "description": "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
       "dependencies": ["motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
         {
-          "path": "registry/primitives/buttons/section-cta/index.tsx",
+          "path": "registry/primitives/buttons/sliding-chip-button/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/buttons/section-cta.tsx"
+          "target": "components/sora-ui/buttons/sliding-chip-button.tsx"
         }
       ],
       "meta": {
@@ -945,7 +908,7 @@
           "url": "https://www.annnimate.com"
         },
         "demoProps": {
-          "SectionCta": {
+          "SlidingChipButton": {
             "label": {
               "value": "Explore components"
             },
@@ -971,6 +934,59 @@
               "min": 0.2,
               "max": 2,
               "step": 0.1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "stagger-button",
+      "type": "registry:ui",
+      "title": "Stagger Button",
+      "description": "A shadcn button that staggers per character or slides the whole label on hover, with a scaling background layer.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/primitives/buttons/stagger-button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/buttons/stagger-button.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "StaggerButton": {
+            "label": {
+              "value": "Staggering Button"
+            },
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Accent": "accent",
+                "Neutral": "neutral",
+                "Destructive": "destructive",
+                "Outline": "outline",
+                "Secondary": "secondary",
+                "Ghost": "ghost",
+                "Link": "link"
+              }
+            },
+            "size": {
+              "value": "default",
+              "options": {
+                "Small": "sm",
+                "Default": "default",
+                "Medium": "md",
+                "Large": "lg"
+              }
+            },
+            "stagger": {
+              "value": "char",
+              "options": {
+                "Char": "char",
+                "Text": "text"
+              }
             }
           }
         }

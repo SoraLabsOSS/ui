@@ -1,16 +1,16 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "section-cta",
+  "name": "sliding-chip-button",
   "type": "registry:ui",
-  "title": "Section CTA",
+  "title": "Sliding Chip Button",
   "description": "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
   "dependencies": ["motion", "class-variance-authority"],
   "registryDependencies": ["utils"],
   "files": [
     {
-      "path": "registry/primitives/buttons/section-cta/index.tsx",
+      "path": "registry/primitives/buttons/sliding-chip-button/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/buttons/section-cta.tsx"
+      "target": "components/sora-ui/buttons/sliding-chip-button.tsx"
     }
   ],
   "meta": {
@@ -20,7 +20,7 @@
       "url": "https://www.annnimate.com"
     },
     "demoProps": {
-      "SectionCta": {
+      "SlidingChipButton": {
         "label": {
           "value": "Explore components"
         },

@@ -12,7 +12,7 @@ const schema = z.object({
     .string()
     .optional()
     .describe(
-      'Component or hook name, e.g. "char-stagger-button" or "hooks-use-auto-height". Omit to list all installable components/hooks instead.'
+      'Component or hook name, e.g. "stagger-button" or "hooks-use-auto-height". Omit to list all installable components/hooks instead.'
     ),
   type: z
     .enum(["registry:ui", "registry:hook"])

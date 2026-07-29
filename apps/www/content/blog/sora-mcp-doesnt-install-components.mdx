@@ -9,10 +9,10 @@ hashtags: ["#mcp", "#ai", "#react", "#shadcn"]
 
 `sora-mcp` shipped with five tools. Three days later I added a sixth, and the reason I added it is a better explanation of what this server actually is than anything I could write from scratch.
 
-The first five were straightforward: `search_docs`, `get_page`, `list_sections` for browsing the documentation, plus `list_components` and `get_component_info` for browsing the registry. That last one, `get_component_info`, was supposed to be the payoff — ask it about `char-stagger-button` and it hands back dependencies, file targets, and an install line:
+The first five were straightforward: `search_docs`, `get_page`, `list_sections` for browsing the documentation, plus `list_components` and `get_component_info` for browsing the registry. That last one, `get_component_info`, was supposed to be the payoff — ask it about `stagger-button` and it hands back dependencies, file targets, and an install line:
 
 ```
-Install: npx shadcn@latest add @soralabs/char-stagger-button
+Install: npx shadcn@latest add @soralabs/stagger-button
 ```
 
 I shipped that and moved on, on the assumption that a string like that is basically the same as installing the thing. It isn't. `get_component_info` returns text. Whether anything happens with that text depends entirely on what's on the other end of the conversation — a terminal the agent can actually run commands in, or [shadcn's own MCP server](https://ui.shadcn.com/docs/mcp) configured alongside mine so an agent can call `shadcn add` itself. Neither of those is guaranteed. Plenty of setups have only `sora-ui` registered, no shell access, no second server — just a chat client and a string it can't do anything with except read back to you.
@@ -32,7 +32,7 @@ protected async execute(input: GetComponentCodeInput): Promise<string> {
 }
 ```
 
-Nothing about that requires trusting an agent to run shell commands, or even having `shadcn`'s server configured at all. It can quote the full source of `char-stagger-button` straight into a reply, or you read the output yourself and paste it in by hand. The fix wasn't giving the server a new power. It was giving up on the idea that a command string counts as done.
+Nothing about that requires trusting an agent to run shell commands, or even having `shadcn`'s server configured at all. It can quote the full source of `stagger-button` straight into a reply, or you read the output yourself and paste it in by hand. The fix wasn't giving the server a new power. It was giving up on the idea that a command string counts as done.
 
 ## Six tools, still nothing writes
 

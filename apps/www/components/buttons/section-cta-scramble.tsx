@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  SectionCta,
-  type SectionCtaProps,
-  type SectionCtaVariant,
-} from "@workspace/ui/components/sora-ui/buttons/section-cta";
+  SlidingChipButton,
+  type SlidingChipButtonProps,
+  type SlidingChipButtonVariant,
+} from "@workspace/ui/components/sora-ui/buttons/sliding-chip-button";
 import { TextScramble } from "@workspace/ui/components/sora-ui/texts/text-scramble";
 import {
   type ComponentPropsWithoutRef,
@@ -41,7 +41,7 @@ const SCRAMBLE_VARIANT_THEME = {
     scrambleColor: "#fb460d",
   },
 } satisfies Record<
-  SectionCtaVariant,
+  SlidingChipButtonVariant,
   { textClassName: string; scrambleColor: string }
 >;
 
@@ -59,14 +59,14 @@ interface ScrambleTimingProps {
 }
 
 function resolveVariant(
-  variant: SectionCtaVariant | null | undefined
-): SectionCtaVariant {
+  variant: SlidingChipButtonVariant | null | undefined
+): SlidingChipButtonVariant {
   return variant ?? "accent";
 }
 
 type SectionCtaScrambleBaseProps = ScrambleTimingProps & {
   label: string;
-  variant?: SectionCtaVariant | null;
+  variant?: SlidingChipButtonVariant | null;
 };
 
 function useScrambleInteraction({
@@ -129,12 +129,12 @@ function useScrambleInteraction({
 }
 
 export type SectionCtaScrambleProps = Omit<
-  SectionCtaProps,
+  SlidingChipButtonProps,
   "asChild" | "children" | "labelSlot" | "variant"
 > &
   ScrambleTimingProps & {
     label: string;
-    variant?: SectionCtaVariant;
+    variant?: SlidingChipButtonVariant;
   };
 
 export function SectionCtaScramble({
@@ -166,7 +166,7 @@ export function SectionCtaScramble({
   });
 
   return (
-    <SectionCta
+    <SlidingChipButton
       label={label}
       labelSlot={labelSlot}
       variant={variant}
@@ -177,13 +177,13 @@ export function SectionCtaScramble({
 }
 
 export type SectionCtaScrambleButtonProps = Omit<
-  SectionCtaProps,
+  SlidingChipButtonProps,
   "asChild" | "children" | "href" | "labelSlot" | "variant"
 > &
   ScrambleTimingProps &
   ComponentPropsWithoutRef<"button"> & {
     label: string;
-    variant?: SectionCtaVariant;
+    variant?: SlidingChipButtonVariant;
   };
 
 export function SectionCtaScrambleButton({
@@ -216,7 +216,7 @@ export function SectionCtaScrambleButton({
   });
 
   return (
-    <SectionCta
+    <SlidingChipButton
       asChild
       label={label}
       labelSlot={labelSlot}
@@ -224,6 +224,6 @@ export function SectionCtaScrambleButton({
       {...interactionHandlers}
     >
       <button type={type} {...props} />
-    </SectionCta>
+    </SlidingChipButton>
   );
 }

@@ -42,7 +42,7 @@ const FOOTER_NAV: FooterNavSection[] = [
     links: [
       { href: "/components", label: "Components" },
       { href: "/docs/primitives", label: "All primitives" },
-      // { href: "/docs/primitives/char-stagger-button", label: "Buttons" },
+      // { href: "/docs/primitives/stagger-button", label: "Buttons" },
       // { href: "/docs/primitives/draw-underline-link", label: "Texts" },
       // { href: "/docs/primitives/pixelated-image-reveal", label: "Effects" },
       // { href: "/docs/primitives/accordion", label: "Disclosure" },

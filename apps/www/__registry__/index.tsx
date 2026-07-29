@@ -2430,70 +2430,6 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/lib-scroll-trigger-utils",
   },
-  "char-stagger-button": {
-    name: "char-stagger-button",
-    description: "A button with per-character stagger animation on hover.",
-    type: "registry:ui",
-    dependencies: ["class-variance-authority"],
-    devDependencies: undefined,
-    registryDependencies: ["utils"],
-    files: [
-      {
-        path: "registry/primitives/buttons/char-stagger-button/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/buttons/char-stagger-button.tsx",
-        content:
-          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: Character order is stable for static button labels. */\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  type ComponentPropsWithoutRef,\n  cloneElement,\n  isValidElement,\n  type ReactElement,\n  type Ref,\n  type RefCallback,\n  type RefObject,\n} from "react";\n\nconst charStaggerButtonVariants = cva("group cursor-pointer no-underline", {\n  variants: {\n    variant: {\n      default:\n        "relative flex max-w-[12em] flex-grow items-center justify-center rounded-[0.25em] p-[1em] text-[#131313] text-[1em] leading-none",\n      link: "relative inline-block text-[1em] text-current leading-none",\n    },\n  },\n  defaultVariants: {\n    variant: "default",\n  },\n});\n\nconst charStaggerButtonBgVariants = cva(\n  "absolute inset-0 rounded-[0.25em] bg-[#efeeec] transition-[inset] duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:inset-[0.125em] motion-reduce:transition-none motion-reduce:group-hover:inset-0"\n);\n\nconst charStaggerButtonTextVariants = cva("whitespace-nowrap leading-[1.3]");\n\nconst charStaggerButtonCharsVariants = cva(\n  "relative inline-block overflow-hidden"\n);\n\nconst charStaggerButtonCharVariants = cva(\n  "relative inline-block translate-y-0 rotate-[0.001deg] transition-transform duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] [text-shadow:0px_1.3em_currentColor] group-hover:-translate-y-[1.3em] group-hover:rotate-[0.001deg] motion-reduce:translate-y-0 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:rotate-[0.001deg]"\n);\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: ReactElement })\n  | (Base & { asChild?: false | undefined; children?: string });\n\ntype CharStaggerButtonBaseProps = Omit<\n  ComponentPropsWithoutRef<"a">,\n  "children"\n> &\n  VariantProps<typeof charStaggerButtonVariants> & {\n    /** Override the background layer (`default` variant only). */\n    bgClassName?: string;\n    /** Override each animated character span. */\n    charClassName?: string;\n    /** Override the animated characters container. */\n    charsClassName?: string;\n    /** Alternative to string `children` — required when `asChild` child has no string content. */\n    label?: string;\n    /**\n     * Per-character transition delay increment in seconds.\n     * @default 0.01\n     */\n    staggerDelay?: number;\n    /** Override the text wrapper. */\n    textClassName?: string;\n  };\n\nexport type CharStaggerButtonProps = WithAsChild<CharStaggerButtonBaseProps>;\n\ninterface CharStaggerAnimatedLabelProps {\n  bgClassName?: string;\n  charClassName?: string;\n  charsClassName?: string;\n  staggerDelay: number;\n  text: string;\n  textClassName?: string;\n  variant: NonNullable<CharStaggerButtonProps["variant"]>;\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as RefObject<T | null>).current = node;\n      }\n    }\n  };\n}\n\nfunction getButtonLabel(\n  asChild: boolean,\n  children: string | ReactElement | undefined,\n  label: string | undefined\n): string {\n  if (asChild && isValidElement(children)) {\n    const childText = (children.props as { children?: unknown }).children;\n\n    if (typeof childText === "string") {\n      return childText;\n    }\n\n    return label ?? "";\n  }\n\n  if (typeof children === "string") {\n    return children;\n  }\n\n  return label ?? "";\n}\n\nfunction CharStaggerAnimatedLabel({\n  variant,\n  text,\n  staggerDelay,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n}: CharStaggerAnimatedLabelProps) {\n  const characters = [...text];\n\n  return (\n    <>\n      {variant === "default" ? (\n        <div\n          aria-hidden="true"\n          className={cn(charStaggerButtonBgVariants(), bgClassName)}\n        />\n      ) : null}\n      <span className={cn(charStaggerButtonTextVariants(), textClassName)}>\n        <span\n          aria-hidden={text ? true : undefined}\n          className={cn(charStaggerButtonCharsVariants(), charsClassName)}\n          data-button-animate-chars=""\n        >\n          {characters.map((char, index) => (\n            <span\n              className={cn(charStaggerButtonCharVariants(), charClassName)}\n              key={`${char}-${index}`}\n              style={{\n                transitionDelay: `${index * staggerDelay}s`,\n                ...(char === " " ? { whiteSpace: "pre" } : undefined),\n              }}\n            >\n              {char}\n            </span>\n          ))}\n        </span>\n      </span>\n    </>\n  );\n}\n\nfunction CharStaggerButton({\n  asChild = false,\n  variant = "default",\n  staggerDelay = 0.01,\n  label,\n  children,\n  className,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n  href,\n  ref,\n  "aria-label": ariaLabel,\n  ...props\n}: CharStaggerButtonProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = getButtonLabel(asChild, children, label);\n  const rootClassName = cn(charStaggerButtonVariants({ variant, className }));\n  const animatedLabel = (\n    <CharStaggerAnimatedLabel\n      bgClassName={bgClassName}\n      charClassName={charClassName}\n      charsClassName={charsClassName}\n      staggerDelay={staggerDelay}\n      text={text}\n      textClassName={textClassName}\n      variant={variant ?? "default"}\n    />\n  );\n\n  if (asChild) {\n    if (!isValidElement(children)) {\n      return null;\n    }\n\n    const {\n      ref: childRef,\n      className: childClassName,\n      "aria-label": childAriaLabel,\n      ...childProps\n    } = children.props as {\n      ref?: Ref<HTMLElement>;\n      className?: string;\n      "aria-label"?: string;\n    };\n\n    return cloneElement(\n      children,\n      {\n        ...childProps,\n        ...props,\n        "aria-label": ariaLabel ?? childAriaLabel ?? (text || undefined),\n        className: cn(childClassName, rootClassName),\n        ref: mergeRefs(childRef, ref),\n      } as Record<string, unknown>,\n      animatedLabel\n    );\n  }\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={rootClassName}\n      href={href}\n      ref={ref}\n      {...props}\n    >\n      {animatedLabel}\n    </a>\n  );\n}\n\nexport {\n  CharStaggerButton,\n  charStaggerButtonBgVariants,\n  charStaggerButtonCharsVariants,\n  charStaggerButtonCharVariants,\n  charStaggerButtonTextVariants,\n  charStaggerButtonVariants,\n};\n\nexport type CharStaggerButtonVariant = NonNullable<\n  CharStaggerButtonProps["variant"]\n>;',
-      },
-    ],
-    keywords: [],
-    inspiration: null,
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/primitives/buttons/char-stagger-button/index.tsx"
-        );
-        const demoProps = {
-          CharStaggerButton: {
-            label: { value: "Staggering Button" },
-            variant: {
-              value: "default",
-              options: { Default: "default", Link: "link" },
-            },
-            staggerDelay: { value: 0.01, min: 0, max: 0.1, step: 0.005 },
-          },
-        };
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {
-        CharStaggerButton: {
-          label: { value: "Staggering Button" },
-          variant: {
-            value: "default",
-            options: { Default: "default", Link: "link" },
-          },
-          staggerDelay: { value: 0.01, min: 0, max: 0.1, step: 0.005 },
-        },
-      };
-      return LazyComp;
-    })(),
-    command: "@soralabs/char-stagger-button",
-  },
   "particle-hover-button": {
     name: "particle-hover-button",
     description:
@@ -2549,8 +2485,8 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/particle-hover-button",
   },
-  "section-cta": {
-    name: "section-cta",
+  "sliding-chip-button": {
+    name: "sliding-chip-button",
     description:
       "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
     type: "registry:ui",
@@ -2559,11 +2495,11 @@ export const index: Record<string, any> = {
     registryDependencies: ["utils"],
     files: [
       {
-        path: "registry/primitives/buttons/section-cta/index.tsx",
+        path: "registry/primitives/buttons/sliding-chip-button/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/buttons/section-cta.tsx",
+        target: "components/sora-ui/buttons/sliding-chip-button.tsx",
         content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  motion,\n  type Transition,\n  useReducedMotion,\n  type Variants,\n} from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  cloneElement,\n  type FocusEvent,\n  isValidElement,\n  type MouseEvent,\n  type ReactElement,\n  type ReactNode,\n  type Ref,\n  type RefCallback,\n  type RefObject,\n  useEffect,\n  useState,\n} from "react";\n\nconst DEFAULT_EASE = [0.77, 0, 0.175, 1] as const;\nconst DEFAULT_DURATION = 0.7;\n\nconst LABEL_OFFSET_BY_SIZE = {\n  sm: { default: -30, lg: -36 },\n  default: { default: -38, lg: -46 },\n  lg: { default: -44, lg: -52 },\n} as const;\n\nconst sectionCtaVariants = cva(\n  "inline-flex min-w-0 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap font-mono uppercase outline-none focus-visible:ring-2 focus-visible:ring-offset-2",\n  {\n    variants: {\n      variant: {\n        accent: "focus-visible:ring-accent-pro/50",\n        inverted: "focus-visible:ring-foreground/30",\n        outline: "focus-visible:ring-border",\n        ghost: "focus-visible:ring-muted-foreground/30",\n      },\n      size: {\n        sm: "text-xs",\n        default: "text-sm",\n        lg: "text-base",\n      },\n    },\n    defaultVariants: {\n      variant: "accent",\n      size: "default",\n    },\n  }\n);\n\nconst sectionCtaChipVariants = cva(\n  "pointer-events-none flex items-center justify-center will-change-transform",\n  {\n    variants: {\n      variant: {\n        accent: "bg-[rgba(251,70,13)] text-neutral-950",\n        inverted: "bg-foreground text-background",\n        outline: "border border-foreground bg-transparent text-foreground",\n        ghost: "bg-muted text-foreground",\n      },\n      size: {\n        sm: "size-7",\n        default: "size-8 lg:size-10",\n        lg: "size-10 lg:size-12",\n      },\n    },\n    defaultVariants: {\n      variant: "accent",\n      size: "default",\n    },\n  }\n);\n\nconst sectionCtaLabelVariants = cva(\n  "pointer-events-none flex items-center justify-center will-change-transform",\n  {\n    variants: {\n      variant: {\n        accent: "bg-[rgba(251,70,13)] text-neutral-950",\n        inverted: "bg-foreground text-background",\n        outline: "border border-foreground bg-transparent text-foreground",\n        ghost: "bg-muted text-foreground",\n      },\n      size: {\n        sm: "h-7 px-2",\n        default: "h-8 flex-1 px-2 lg:h-10 lg:px-3",\n        lg: "h-10 flex-1 px-3 lg:h-12 lg:px-4",\n      },\n    },\n    defaultVariants: {\n      variant: "accent",\n      size: "default",\n    },\n  }\n);\n\nconst sectionCtaGroupVariants = cva(\n  "pointer-events-none relative flex w-full items-center",\n  {\n    variants: {\n      size: {\n        sm: "gap-1",\n        default: "gap-1.5",\n        lg: "gap-2",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: ReactElement })\n  | (Base & { asChild?: false | undefined; children?: string });\n\ntype SectionCtaSize = NonNullable<\n  VariantProps<typeof sectionCtaVariants>["size"]\n>;\n\nfunction SectionCtaPlusIcon({ className }: { className?: string }) {\n  return (\n    <svg\n      aria-hidden="true"\n      className={className}\n      fill="none"\n      viewBox="0 0 12 12"\n    >\n      <path\n        d="M6 1v10M1 6h10"\n        stroke="currentColor"\n        strokeLinecap="square"\n        strokeWidth="1.5"\n      />\n    </svg>\n  );\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as RefObject<T | null>).current = node;\n      }\n    }\n  };\n}\n\nfunction getLinkLabel(\n  asChild: boolean,\n  children: string | ReactElement | undefined,\n  label: string | undefined\n): string {\n  if (asChild && isValidElement(children)) {\n    const childText = (children.props as { children?: unknown }).children;\n\n    if (typeof childText === "string") {\n      return childText;\n    }\n\n    return label ?? "";\n  }\n\n  if (typeof children === "string") {\n    return children;\n  }\n\n  return label ?? "";\n}\n\nfunction useResponsiveLabelOffset(\n  size: SectionCtaSize,\n  labelOffset?: number,\n  labelOffsetLg?: number\n): number {\n  const offsets = LABEL_OFFSET_BY_SIZE[size ?? "default"];\n  const baseOffset = labelOffset ?? offsets.default;\n  const largeOffset = labelOffsetLg ?? offsets.lg;\n  const [offset, setOffset] = useState(baseOffset);\n\n  useEffect(() => {\n    if (labelOffsetLg === undefined && labelOffset !== undefined) {\n      setOffset(labelOffset);\n      return;\n    }\n\n    const mediaQuery = window.matchMedia("(min-width: 1024px)");\n    const update = () => {\n      setOffset(mediaQuery.matches ? largeOffset : baseOffset);\n    };\n\n    update();\n    mediaQuery.addEventListener("change", update);\n    return () => {\n      mediaQuery.removeEventListener("change", update);\n    };\n  }, [baseOffset, largeOffset, labelOffset, labelOffsetLg]);\n\n  return offset;\n}\n\nfunction resolveMotionTransition(\n  shouldReduceMotion: boolean | null,\n  duration: number,\n  ease: readonly [number, number, number, number]\n): Transition {\n  if (shouldReduceMotion) {\n    return { duration: 0 };\n  }\n\n  return { duration, ease };\n}\n\ntype SectionCtaBaseProps = Omit<ComponentPropsWithoutRef<"a">, "children"> &\n  VariantProps<typeof sectionCtaVariants> & {\n    /** Alternative to string `children` for demos and controlled previews. */\n    label?: string;\n    /**\n     * Animation duration in seconds.\n     * @default 0.7\n     */\n    duration?: number;\n    /**\n     * Cubic-bezier easing values.\n     * @default [0.77, 0, 0.175, 1]\n     */\n    ease?: readonly [number, number, number, number];\n    /** Label x-offset at rest (mobile / default breakpoint). */\n    labelOffset?: number;\n    /** Label x-offset at rest on `lg` breakpoint and up. */\n    labelOffsetLg?: number;\n    /** Rest rotation for the leading chip (degrees). @default -45 */\n    startChipRestRotate?: number;\n    /** Active rotation for the leading chip (degrees). @default 0 */\n    startChipActiveRotate?: number;\n    /** Rest rotation for the trailing chip (degrees). @default 0 */\n    endChipRestRotate?: number;\n    /** Active rotation for the trailing chip (degrees). @default -45 */\n    endChipActiveRotate?: number;\n    /** Rest scale for both chips. @default 0 for start, 1 for end */\n    startChipRestScale?: number;\n    startChipActiveScale?: number;\n    endChipRestScale?: number;\n    endChipActiveScale?: number;\n    /** Custom icon for both chips. */\n    icon?: ReactNode;\n    /** Override the leading chip icon. */\n    startIcon?: ReactNode;\n    /** Override the trailing chip icon. */\n    endIcon?: ReactNode;\n    /** Class names merged onto the motion group wrapper. */\n    groupClassName?: string;\n    /** Class names merged onto both chips and the label chip. */\n    chipClassName?: string;\n    /** Class names merged onto the label chip only. */\n    labelClassName?: string;\n    /** Class names merged onto the leading chip only. */\n    startChipClassName?: string;\n    /** Class names merged onto the trailing chip only. */\n    endChipClassName?: string;\n    /** Class names merged onto chip icons. */\n    iconClassName?: string;\n  };\n\nexport type SectionCtaProps = WithAsChild<SectionCtaBaseProps>;\n\ninterface SectionCtaAnimatedContentProps {\n  chipClassName?: string;\n  duration: number;\n  ease: readonly [number, number, number, number];\n  endChipActiveRotate: number;\n  endChipActiveScale: number;\n  endChipClassName?: string;\n  endChipRestRotate: number;\n  endChipRestScale: number;\n  endIcon?: ReactNode;\n  groupClassName?: string;\n  icon?: ReactNode;\n  iconClassName?: string;\n  isActive: boolean;\n  label: string;\n  labelClassName?: string;\n  labelOffset: number;\n  size: SectionCtaSize;\n  startChipActiveRotate: number;\n  startChipActiveScale: number;\n  startChipClassName?: string;\n  startChipRestRotate: number;\n  startChipRestScale: number;\n  startIcon?: ReactNode;\n  variant: NonNullable<SectionCtaProps["variant"]>;\n}\n\nfunction SectionCtaAnimatedContent({\n  variant = "accent",\n  size = "default",\n  label,\n  labelOffset,\n  isActive,\n  duration,\n  ease,\n  icon,\n  startIcon,\n  endIcon,\n  groupClassName,\n  chipClassName,\n  labelClassName,\n  startChipClassName,\n  endChipClassName,\n  iconClassName,\n  startChipRestRotate,\n  startChipActiveRotate,\n  startChipRestScale,\n  startChipActiveScale,\n  endChipRestRotate,\n  endChipActiveRotate,\n  endChipRestScale,\n  endChipActiveScale,\n}: SectionCtaAnimatedContentProps) {\n  const shouldReduceMotion = useReducedMotion();\n  const motionTransition = resolveMotionTransition(\n    shouldReduceMotion,\n    duration,\n    ease\n  );\n\n  const resolvedStartIcon = startIcon ?? icon ?? (\n    <SectionCtaPlusIcon className={cn("size-[0.75em]", iconClassName)} />\n  );\n  const resolvedEndIcon = endIcon ?? icon ?? (\n    <SectionCtaPlusIcon className={cn("size-[0.75em]", iconClassName)} />\n  );\n\n  const startChipVariants: Variants = {\n    rest: { rotate: startChipRestRotate, scale: startChipRestScale },\n    hover: { rotate: startChipActiveRotate, scale: startChipActiveScale },\n  };\n\n  const endChipVariants: Variants = {\n    rest: { rotate: endChipRestRotate, scale: endChipRestScale },\n    hover: { rotate: endChipActiveRotate, scale: endChipActiveScale },\n  };\n\n  return (\n    <motion.span\n      animate={isActive ? "hover" : "rest"}\n      className={cn(sectionCtaGroupVariants({ size }), groupClassName)}\n      initial={false}\n    >\n      <motion.span\n        className={cn(\n          sectionCtaChipVariants({ variant, size }),\n          chipClassName,\n          startChipClassName\n        )}\n        style={{ transformOrigin: "left center" }}\n        transition={motionTransition}\n        variants={startChipVariants}\n      >\n        {resolvedStartIcon}\n      </motion.span>\n\n      <motion.span\n        animate={isActive ? { x: 0 } : { x: labelOffset }}\n        className={cn(\n          sectionCtaLabelVariants({ variant, size }),\n          chipClassName,\n          labelClassName\n        )}\n        initial={false}\n        transition={motionTransition}\n      >\n        {label}\n      </motion.span>\n\n      <motion.span\n        className={cn(\n          sectionCtaChipVariants({ variant, size }),\n          "absolute right-0 z-10",\n          chipClassName,\n          endChipClassName\n        )}\n        style={{ transformOrigin: "right center" }}\n        transition={motionTransition}\n        variants={endChipVariants}\n      >\n        {resolvedEndIcon}\n      </motion.span>\n    </motion.span>\n  );\n}\n\nfunction SectionCta({\n  asChild = false,\n  variant = "accent",\n  size = "default",\n  duration = DEFAULT_DURATION,\n  ease = DEFAULT_EASE,\n  label,\n  children,\n  className,\n  groupClassName,\n  chipClassName,\n  labelClassName,\n  startChipClassName,\n  endChipClassName,\n  iconClassName,\n  labelOffset,\n  labelOffsetLg,\n  startChipRestRotate = -45,\n  startChipActiveRotate = 0,\n  startChipRestScale = 0,\n  startChipActiveScale = 1,\n  endChipRestRotate = 0,\n  endChipActiveRotate = -45,\n  endChipRestScale = 1,\n  endChipActiveScale = 0,\n  icon,\n  startIcon,\n  endIcon,\n  href,\n  ref,\n  "aria-label": ariaLabel,\n  onBlur,\n  onFocus,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: SectionCtaProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = getLinkLabel(asChild, children, label);\n  const resolvedSize = size ?? "default";\n  const resolvedLabelOffset = useResponsiveLabelOffset(\n    resolvedSize,\n    labelOffset,\n    labelOffsetLg\n  );\n  const [isActive, setIsActive] = useState(false);\n  const rootClassName = cn(sectionCtaVariants({ variant, size, className }));\n\n  const animatedContent = (\n    <SectionCtaAnimatedContent\n      chipClassName={chipClassName}\n      duration={duration}\n      ease={ease}\n      endChipActiveRotate={endChipActiveRotate}\n      endChipActiveScale={endChipActiveScale}\n      endChipClassName={endChipClassName}\n      endChipRestRotate={endChipRestRotate}\n      endChipRestScale={endChipRestScale}\n      endIcon={endIcon}\n      groupClassName={groupClassName}\n      icon={icon}\n      iconClassName={iconClassName}\n      isActive={isActive}\n      label={text}\n      labelClassName={labelClassName}\n      labelOffset={resolvedLabelOffset}\n      size={resolvedSize}\n      startChipActiveRotate={startChipActiveRotate}\n      startChipActiveScale={startChipActiveScale}\n      startChipClassName={startChipClassName}\n      startChipRestRotate={startChipRestRotate}\n      startChipRestScale={startChipRestScale}\n      startIcon={startIcon}\n      variant={variant ?? "accent"}\n    />\n  );\n\n  const interactionHandlers = {\n    onBlur: (event: FocusEvent<HTMLElement>) => {\n      onBlur?.(event as FocusEvent<HTMLAnchorElement>);\n      setIsActive(false);\n    },\n    onFocus: (event: FocusEvent<HTMLElement>) => {\n      onFocus?.(event as FocusEvent<HTMLAnchorElement>);\n      setIsActive(true);\n    },\n    onMouseEnter: (event: MouseEvent<HTMLElement>) => {\n      onMouseEnter?.(event as MouseEvent<HTMLAnchorElement>);\n      setIsActive(true);\n    },\n    onMouseLeave: (event: MouseEvent<HTMLElement>) => {\n      onMouseLeave?.(event as MouseEvent<HTMLAnchorElement>);\n      setIsActive(false);\n    },\n  };\n\n  if (asChild) {\n    if (!isValidElement(children)) {\n      return null;\n    }\n\n    const {\n      ref: childRef,\n      className: childClassName,\n      "aria-label": childAriaLabel,\n      onBlur: childOnBlur,\n      onFocus: childOnFocus,\n      onMouseEnter: childOnMouseEnter,\n      onMouseLeave: childOnMouseLeave,\n      ...childProps\n    } = children.props as {\n      ref?: Ref<HTMLElement>;\n      className?: string;\n      "aria-label"?: string;\n      onBlur?: (event: FocusEvent<HTMLElement>) => void;\n      onFocus?: (event: FocusEvent<HTMLElement>) => void;\n      onMouseEnter?: (event: MouseEvent<HTMLElement>) => void;\n      onMouseLeave?: (event: MouseEvent<HTMLElement>) => void;\n    };\n\n    return cloneElement(\n      children,\n      {\n        ...childProps,\n        ...props,\n        ...interactionHandlers,\n        "aria-label": ariaLabel ?? childAriaLabel ?? (text || undefined),\n        className: cn(childClassName, rootClassName),\n        onBlur: (event: FocusEvent<HTMLElement>) => {\n          childOnBlur?.(event);\n          interactionHandlers.onBlur(event);\n        },\n        onFocus: (event: FocusEvent<HTMLElement>) => {\n          childOnFocus?.(event);\n          interactionHandlers.onFocus(event);\n        },\n        onMouseEnter: (event: MouseEvent<HTMLElement>) => {\n          childOnMouseEnter?.(event);\n          interactionHandlers.onMouseEnter(event);\n        },\n        onMouseLeave: (event: MouseEvent<HTMLElement>) => {\n          childOnMouseLeave?.(event);\n          interactionHandlers.onMouseLeave(event);\n        },\n        ref: mergeRefs(childRef, ref),\n      } as Record<string, unknown>,\n      animatedContent\n    );\n  }\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={rootClassName}\n      href={href}\n      ref={ref}\n      {...interactionHandlers}\n      {...props}\n    >\n      {animatedContent}\n    </a>\n  );\n}\n\nexport {\n  SectionCta,\n  SectionCtaPlusIcon,\n  sectionCtaChipVariants,\n  sectionCtaGroupVariants,\n  sectionCtaLabelVariants,\n  sectionCtaVariants,\n};\n\nexport type SectionCtaVariant = NonNullable<SectionCtaProps["variant"]>;',
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  motion,\n  type Transition,\n  useReducedMotion,\n  type Variants,\n} from "motion/react";\nimport {\n  type ComponentPropsWithoutRef,\n  cloneElement,\n  type FocusEvent,\n  isValidElement,\n  type MouseEvent,\n  type ReactElement,\n  type ReactNode,\n  type Ref,\n  type RefCallback,\n  type RefObject,\n  useEffect,\n  useState,\n} from "react";\n\nconst DEFAULT_EASE = [0.77, 0, 0.175, 1] as const;\nconst DEFAULT_DURATION = 0.7;\n\nconst LABEL_OFFSET_BY_SIZE = {\n  sm: { default: -30, lg: -36 },\n  default: { default: -38, lg: -46 },\n  lg: { default: -44, lg: -52 },\n} as const;\n\nconst slidingChipButtonVariants = cva(\n  "inline-flex min-w-0 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap font-mono uppercase outline-none focus-visible:ring-2 focus-visible:ring-offset-2",\n  {\n    variants: {\n      variant: {\n        accent: "focus-visible:ring-accent-pro/50",\n        inverted: "focus-visible:ring-foreground/30",\n        outline: "focus-visible:ring-border",\n        ghost: "focus-visible:ring-muted-foreground/30",\n      },\n      size: {\n        sm: "text-xs",\n        default: "text-sm",\n        lg: "text-base",\n      },\n    },\n    defaultVariants: {\n      variant: "accent",\n      size: "default",\n    },\n  }\n);\n\nconst slidingChipButtonChipVariants = cva(\n  "pointer-events-none flex items-center justify-center will-change-transform",\n  {\n    variants: {\n      variant: {\n        accent: "bg-[rgba(251,70,13)] text-neutral-950",\n        inverted: "bg-foreground text-background",\n        outline: "border border-foreground bg-transparent text-foreground",\n        ghost: "bg-muted text-foreground",\n      },\n      size: {\n        sm: "size-7",\n        default: "size-8 lg:size-10",\n        lg: "size-10 lg:size-12",\n      },\n    },\n    defaultVariants: {\n      variant: "accent",\n      size: "default",\n    },\n  }\n);\n\nconst slidingChipButtonLabelVariants = cva(\n  "pointer-events-none flex items-center justify-center will-change-transform",\n  {\n    variants: {\n      variant: {\n        accent: "bg-[rgba(251,70,13)] text-neutral-950",\n        inverted: "bg-foreground text-background",\n        outline: "border border-foreground bg-transparent text-foreground",\n        ghost: "bg-muted text-foreground",\n      },\n      size: {\n        sm: "h-7 px-2",\n        default: "h-8 flex-1 px-2 lg:h-10 lg:px-3",\n        lg: "h-10 flex-1 px-3 lg:h-12 lg:px-4",\n      },\n    },\n    defaultVariants: {\n      variant: "accent",\n      size: "default",\n    },\n  }\n);\n\nconst slidingChipButtonGroupVariants = cva(\n  "pointer-events-none relative flex w-full items-center",\n  {\n    variants: {\n      size: {\n        sm: "gap-1",\n        default: "gap-1.5",\n        lg: "gap-2",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: ReactElement })\n  | (Base & { asChild?: false | undefined; children?: string });\n\ntype SlidingChipButtonSize = NonNullable<\n  VariantProps<typeof slidingChipButtonVariants>["size"]\n>;\n\nfunction SlidingChipButtonPlusIcon({ className }: { className?: string }) {\n  return (\n    <svg\n      aria-hidden="true"\n      className={className}\n      fill="none"\n      viewBox="0 0 12 12"\n    >\n      <path\n        d="M6 1v10M1 6h10"\n        stroke="currentColor"\n        strokeLinecap="square"\n        strokeWidth="1.5"\n      />\n    </svg>\n  );\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as RefObject<T | null>).current = node;\n      }\n    }\n  };\n}\n\nfunction getLinkLabel(\n  asChild: boolean,\n  children: string | ReactElement | undefined,\n  label: string | undefined\n): string {\n  if (asChild && isValidElement(children)) {\n    const childText = (children.props as { children?: unknown }).children;\n\n    if (typeof childText === "string") {\n      return childText;\n    }\n\n    return label ?? "";\n  }\n\n  if (typeof children === "string") {\n    return children;\n  }\n\n  return label ?? "";\n}\n\nfunction useResponsiveLabelOffset(\n  size: SlidingChipButtonSize,\n  labelOffset?: number,\n  labelOffsetLg?: number\n): number {\n  const offsets = LABEL_OFFSET_BY_SIZE[size ?? "default"];\n  const baseOffset = labelOffset ?? offsets.default;\n  const largeOffset = labelOffsetLg ?? offsets.lg;\n  const [offset, setOffset] = useState(baseOffset);\n\n  useEffect(() => {\n    if (labelOffsetLg === undefined && labelOffset !== undefined) {\n      setOffset(labelOffset);\n      return;\n    }\n\n    const mediaQuery = window.matchMedia("(min-width: 1024px)");\n    const update = () => {\n      setOffset(mediaQuery.matches ? largeOffset : baseOffset);\n    };\n\n    update();\n    mediaQuery.addEventListener("change", update);\n    return () => {\n      mediaQuery.removeEventListener("change", update);\n    };\n  }, [baseOffset, largeOffset, labelOffset, labelOffsetLg]);\n\n  return offset;\n}\n\nfunction resolveMotionTransition(\n  shouldReduceMotion: boolean | null,\n  duration: number,\n  ease: readonly [number, number, number, number]\n): Transition {\n  if (shouldReduceMotion) {\n    return { duration: 0 };\n  }\n\n  return { duration, ease };\n}\n\ntype SlidingChipButtonBaseProps = Omit<\n  ComponentPropsWithoutRef<"a">,\n  "children"\n> &\n  VariantProps<typeof slidingChipButtonVariants> & {\n    /** Alternative to string `children` for demos and controlled previews. */\n    label?: string;\n    /**\n     * Animation duration in seconds.\n     * @default 0.7\n     */\n    duration?: number;\n    /**\n     * Cubic-bezier easing values.\n     * @default [0.77, 0, 0.175, 1]\n     */\n    ease?: readonly [number, number, number, number];\n    /** Label x-offset at rest (mobile / default breakpoint). */\n    labelOffset?: number;\n    /** Label x-offset at rest on `lg` breakpoint and up. */\n    labelOffsetLg?: number;\n    /** Rest rotation for the leading chip (degrees). @default -45 */\n    startChipRestRotate?: number;\n    /** Active rotation for the leading chip (degrees). @default 0 */\n    startChipActiveRotate?: number;\n    /** Rest rotation for the trailing chip (degrees). @default 0 */\n    endChipRestRotate?: number;\n    /** Active rotation for the trailing chip (degrees). @default -45 */\n    endChipActiveRotate?: number;\n    /** Rest scale for both chips. @default 0 for start, 1 for end */\n    startChipRestScale?: number;\n    startChipActiveScale?: number;\n    endChipRestScale?: number;\n    endChipActiveScale?: number;\n    /** Custom icon for both chips. */\n    icon?: ReactNode;\n    /** Override the leading chip icon. */\n    startIcon?: ReactNode;\n    /** Override the trailing chip icon. */\n    endIcon?: ReactNode;\n    /** Class names merged onto the motion group wrapper. */\n    groupClassName?: string;\n    /** Class names merged onto both chips and the label chip. */\n    chipClassName?: string;\n    /** Class names merged onto the label chip only. */\n    labelClassName?: string;\n    /** Class names merged onto the leading chip only. */\n    startChipClassName?: string;\n    /** Class names merged onto the trailing chip only. */\n    endChipClassName?: string;\n    /** Class names merged onto chip icons. */\n    iconClassName?: string;\n  };\n\nexport type SlidingChipButtonProps = WithAsChild<SlidingChipButtonBaseProps>;\n\ninterface SlidingChipButtonAnimatedContentProps {\n  chipClassName?: string;\n  duration: number;\n  ease: readonly [number, number, number, number];\n  endChipActiveRotate: number;\n  endChipActiveScale: number;\n  endChipClassName?: string;\n  endChipRestRotate: number;\n  endChipRestScale: number;\n  endIcon?: ReactNode;\n  groupClassName?: string;\n  icon?: ReactNode;\n  iconClassName?: string;\n  isActive: boolean;\n  label: string;\n  labelClassName?: string;\n  labelOffset: number;\n  size: SlidingChipButtonSize;\n  startChipActiveRotate: number;\n  startChipActiveScale: number;\n  startChipClassName?: string;\n  startChipRestRotate: number;\n  startChipRestScale: number;\n  startIcon?: ReactNode;\n  variant: NonNullable<SlidingChipButtonProps["variant"]>;\n}\n\nfunction SlidingChipButtonAnimatedContent({\n  variant = "accent",\n  size = "default",\n  label,\n  labelOffset,\n  isActive,\n  duration,\n  ease,\n  icon,\n  startIcon,\n  endIcon,\n  groupClassName,\n  chipClassName,\n  labelClassName,\n  startChipClassName,\n  endChipClassName,\n  iconClassName,\n  startChipRestRotate,\n  startChipActiveRotate,\n  startChipRestScale,\n  startChipActiveScale,\n  endChipRestRotate,\n  endChipActiveRotate,\n  endChipRestScale,\n  endChipActiveScale,\n}: SlidingChipButtonAnimatedContentProps) {\n  const shouldReduceMotion = useReducedMotion();\n  const motionTransition = resolveMotionTransition(\n    shouldReduceMotion,\n    duration,\n    ease\n  );\n\n  const resolvedStartIcon = startIcon ?? icon ?? (\n    <SlidingChipButtonPlusIcon className={cn("size-[0.75em]", iconClassName)} />\n  );\n  const resolvedEndIcon = endIcon ?? icon ?? (\n    <SlidingChipButtonPlusIcon className={cn("size-[0.75em]", iconClassName)} />\n  );\n\n  const startChipVariants: Variants = {\n    rest: { rotate: startChipRestRotate, scale: startChipRestScale },\n    hover: { rotate: startChipActiveRotate, scale: startChipActiveScale },\n  };\n\n  const endChipVariants: Variants = {\n    rest: { rotate: endChipRestRotate, scale: endChipRestScale },\n    hover: { rotate: endChipActiveRotate, scale: endChipActiveScale },\n  };\n\n  return (\n    <motion.span\n      animate={isActive ? "hover" : "rest"}\n      className={cn(slidingChipButtonGroupVariants({ size }), groupClassName)}\n      initial={false}\n    >\n      <motion.span\n        className={cn(\n          slidingChipButtonChipVariants({ variant, size }),\n          chipClassName,\n          startChipClassName\n        )}\n        style={{ transformOrigin: "left center" }}\n        transition={motionTransition}\n        variants={startChipVariants}\n      >\n        {resolvedStartIcon}\n      </motion.span>\n\n      <motion.span\n        animate={isActive ? { x: 0 } : { x: labelOffset }}\n        className={cn(\n          slidingChipButtonLabelVariants({ variant, size }),\n          chipClassName,\n          labelClassName\n        )}\n        initial={false}\n        transition={motionTransition}\n      >\n        {label}\n      </motion.span>\n\n      <motion.span\n        className={cn(\n          slidingChipButtonChipVariants({ variant, size }),\n          "absolute right-0 z-10",\n          chipClassName,\n          endChipClassName\n        )}\n        style={{ transformOrigin: "right center" }}\n        transition={motionTransition}\n        variants={endChipVariants}\n      >\n        {resolvedEndIcon}\n      </motion.span>\n    </motion.span>\n  );\n}\n\nfunction SlidingChipButton({\n  asChild = false,\n  variant = "accent",\n  size = "default",\n  duration = DEFAULT_DURATION,\n  ease = DEFAULT_EASE,\n  label,\n  children,\n  className,\n  groupClassName,\n  chipClassName,\n  labelClassName,\n  startChipClassName,\n  endChipClassName,\n  iconClassName,\n  labelOffset,\n  labelOffsetLg,\n  startChipRestRotate = -45,\n  startChipActiveRotate = 0,\n  startChipRestScale = 0,\n  startChipActiveScale = 1,\n  endChipRestRotate = 0,\n  endChipActiveRotate = -45,\n  endChipRestScale = 1,\n  endChipActiveScale = 0,\n  icon,\n  startIcon,\n  endIcon,\n  href,\n  ref,\n  "aria-label": ariaLabel,\n  onBlur,\n  onFocus,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: SlidingChipButtonProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = getLinkLabel(asChild, children, label);\n  const resolvedSize = size ?? "default";\n  const resolvedLabelOffset = useResponsiveLabelOffset(\n    resolvedSize,\n    labelOffset,\n    labelOffsetLg\n  );\n  const [isActive, setIsActive] = useState(false);\n  const rootClassName = cn(\n    slidingChipButtonVariants({ variant, size, className })\n  );\n\n  const animatedContent = (\n    <SlidingChipButtonAnimatedContent\n      chipClassName={chipClassName}\n      duration={duration}\n      ease={ease}\n      endChipActiveRotate={endChipActiveRotate}\n      endChipActiveScale={endChipActiveScale}\n      endChipClassName={endChipClassName}\n      endChipRestRotate={endChipRestRotate}\n      endChipRestScale={endChipRestScale}\n      endIcon={endIcon}\n      groupClassName={groupClassName}\n      icon={icon}\n      iconClassName={iconClassName}\n      isActive={isActive}\n      label={text}\n      labelClassName={labelClassName}\n      labelOffset={resolvedLabelOffset}\n      size={resolvedSize}\n      startChipActiveRotate={startChipActiveRotate}\n      startChipActiveScale={startChipActiveScale}\n      startChipClassName={startChipClassName}\n      startChipRestRotate={startChipRestRotate}\n      startChipRestScale={startChipRestScale}\n      startIcon={startIcon}\n      variant={variant ?? "accent"}\n    />\n  );\n\n  const interactionHandlers = {\n    onBlur: (event: FocusEvent<HTMLElement>) => {\n      onBlur?.(event as FocusEvent<HTMLAnchorElement>);\n      setIsActive(false);\n    },\n    onFocus: (event: FocusEvent<HTMLElement>) => {\n      onFocus?.(event as FocusEvent<HTMLAnchorElement>);\n      setIsActive(true);\n    },\n    onMouseEnter: (event: MouseEvent<HTMLElement>) => {\n      onMouseEnter?.(event as MouseEvent<HTMLAnchorElement>);\n      setIsActive(true);\n    },\n    onMouseLeave: (event: MouseEvent<HTMLElement>) => {\n      onMouseLeave?.(event as MouseEvent<HTMLAnchorElement>);\n      setIsActive(false);\n    },\n  };\n\n  if (asChild) {\n    if (!isValidElement(children)) {\n      return null;\n    }\n\n    const {\n      ref: childRef,\n      className: childClassName,\n      "aria-label": childAriaLabel,\n      onBlur: childOnBlur,\n      onFocus: childOnFocus,\n      onMouseEnter: childOnMouseEnter,\n      onMouseLeave: childOnMouseLeave,\n      ...childProps\n    } = children.props as {\n      ref?: Ref<HTMLElement>;\n      className?: string;\n      "aria-label"?: string;\n      onBlur?: (event: FocusEvent<HTMLElement>) => void;\n      onFocus?: (event: FocusEvent<HTMLElement>) => void;\n      onMouseEnter?: (event: MouseEvent<HTMLElement>) => void;\n      onMouseLeave?: (event: MouseEvent<HTMLElement>) => void;\n    };\n\n    return cloneElement(\n      children,\n      {\n        ...childProps,\n        ...props,\n        ...interactionHandlers,\n        "aria-label": ariaLabel ?? childAriaLabel ?? (text || undefined),\n        className: cn(childClassName, rootClassName),\n        onBlur: (event: FocusEvent<HTMLElement>) => {\n          childOnBlur?.(event);\n          interactionHandlers.onBlur(event);\n        },\n        onFocus: (event: FocusEvent<HTMLElement>) => {\n          childOnFocus?.(event);\n          interactionHandlers.onFocus(event);\n        },\n        onMouseEnter: (event: MouseEvent<HTMLElement>) => {\n          childOnMouseEnter?.(event);\n          interactionHandlers.onMouseEnter(event);\n        },\n        onMouseLeave: (event: MouseEvent<HTMLElement>) => {\n          childOnMouseLeave?.(event);\n          interactionHandlers.onMouseLeave(event);\n        },\n        ref: mergeRefs(childRef, ref),\n      } as Record<string, unknown>,\n      animatedContent\n    );\n  }\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={rootClassName}\n      href={href}\n      ref={ref}\n      {...interactionHandlers}\n      {...props}\n    >\n      {animatedContent}\n    </a>\n  );\n}\n\nexport {\n  SlidingChipButton,\n  SlidingChipButtonPlusIcon,\n  slidingChipButtonChipVariants,\n  slidingChipButtonGroupVariants,\n  slidingChipButtonLabelVariants,\n  slidingChipButtonVariants,\n};\n\nexport type SlidingChipButtonVariant = NonNullable<\n  SlidingChipButtonProps["variant"]\n>;',
       },
     ],
     keywords: [],
@@ -2575,10 +2511,10 @@ export const index: Record<string, any> = {
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(
-          "@/registry/primitives/buttons/section-cta/index.tsx"
+          "@/registry/primitives/buttons/sliding-chip-button/index.tsx"
         );
         const demoProps = {
-          SectionCta: {
+          SlidingChipButton: {
             label: { value: "Explore components" },
             variant: {
               value: "accent",
@@ -2614,7 +2550,7 @@ export const index: Record<string, any> = {
         return { default: Comp };
       });
       LazyComp.demoProps = {
-        SectionCta: {
+        SlidingChipButton: {
           label: { value: "Explore components" },
           variant: {
             value: "accent",
@@ -2634,7 +2570,108 @@ export const index: Record<string, any> = {
       };
       return LazyComp;
     })(),
-    command: "@soralabs/section-cta",
+    command: "@soralabs/sliding-chip-button",
+  },
+  "stagger-button": {
+    name: "stagger-button",
+    description:
+      "A shadcn button that staggers per character or slides the whole label on hover, with a scaling background layer.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["utils", "button"],
+    files: [
+      {
+        path: "registry/primitives/buttons/stagger-button/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/buttons/stagger-button.tsx",
+        content:
+          '/** biome-ignore-all lint/suspicious/noArrayIndexKey: Character order is stable for static button labels. */\n\nimport { buttonVariants } from "@/components/ui/button";\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport {\n  type ComponentPropsWithoutRef,\n  cloneElement,\n  Fragment,\n  isValidElement,\n  type ReactElement,\n  type Ref,\n  type RefCallback,\n  type RefObject,\n} from "react";\n\nconst staggerButtonVariants = cva(\n  "group relative bg-transparent! no-underline",\n  {\n    variants: {\n      withBg: {\n        true: "z-[1] transition-[scale,color] duration-500 ease-[cubic-bezier(0.165,0.84,0.44,1)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100",\n        false: "",\n      },\n    },\n    defaultVariants: {\n      withBg: true,\n    },\n  }\n);\n\nconst staggerButtonBgVariants = cva(\n  "pointer-events-none absolute inset-0 rounded-[inherit] transition-[scale] duration-500 ease-[cubic-bezier(0.165,0.84,0.44,1)] group-hover:scale-[0.97] motion-reduce:transition-none motion-reduce:group-hover:scale-100",\n  {\n    variants: {\n      variant: {\n        default: "bg-primary",\n        accent: "bg-accent",\n        neutral: "bg-neutral-100 dark:bg-neutral-900",\n        destructive: "bg-destructive dark:bg-destructive/60",\n        outline: "bg-background dark:bg-input/30",\n        secondary: "bg-secondary",\n        ghost: "bg-transparent",\n        link: "bg-transparent",\n      },\n    },\n    defaultVariants: {\n      variant: "default",\n    },\n  }\n);\n\nconst staggerButtonTextVariants = cva("flex items-center whitespace-nowrap");\n\nconst staggerButtonCharsVariants = cva(\n  "relative inline-block overflow-hidden whitespace-nowrap"\n);\n\nconst staggerButtonCharVariants = cva(\n  "relative inline-block transition-transform duration-500 ease-[cubic-bezier(0.165,0.84,0.44,1)] [text-shadow:0_2em_0_currentColor] group-hover:-translate-y-[2em] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0"\n);\n\nconst WHITESPACE_SPLIT_REGEX = /\\s+/;\n\n/** Variants rendered without the scaling background layer. */\nconst FLAT_VARIANTS = new Set<string>(["ghost", "link"]);\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: ReactElement })\n  | (Base & { asChild?: false | undefined; children?: string });\n\ntype StaggerButtonBaseProps = Omit<ComponentPropsWithoutRef<"a">, "children"> &\n  VariantProps<typeof buttonVariants> & {\n    /** Override the scaling background layer (solid variants only). */\n    bgClassName?: string;\n    /** Override each animated character span. */\n    charClassName?: string;\n    /** Override each per-word overflow wrapper. */\n    charsClassName?: string;\n    /** Alternative to string `children` — required when `asChild` child has no string content. */\n    label?: string;\n    /**\n     * Animate per character with stagger, or slide the whole label as one block.\n     * @default "char"\n     */\n    stagger?: "char" | "text";\n    /**\n     * Per-character transition delay increment in seconds. Ignored when `stagger` is `"text"`.\n     * @default 0.01\n     */\n    staggerDelay?: number;\n    /** Override the text wrapper. */\n    textClassName?: string;\n  };\n\nexport type StaggerButtonProps = WithAsChild<StaggerButtonBaseProps>;\n\ninterface StaggerAnimatedLabelProps {\n  bgClassName?: string;\n  charClassName?: string;\n  charsClassName?: string;\n  stagger: NonNullable<StaggerButtonProps["stagger"]>;\n  staggerDelay: number;\n  text: string;\n  textClassName?: string;\n  variant: NonNullable<StaggerButtonProps["variant"]>;\n}\n\nfunction mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {\n  return (node) => {\n    for (const ref of refs) {\n      if (!ref) {\n        continue;\n      }\n\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as RefObject<T | null>).current = node;\n      }\n    }\n  };\n}\n\nfunction getButtonLabel(\n  asChild: boolean,\n  children: string | ReactElement | undefined,\n  label: string | undefined\n): string {\n  if (asChild && isValidElement(children)) {\n    const childText = (children.props as { children?: unknown }).children;\n\n    if (typeof childText === "string") {\n      return childText;\n    }\n\n    return label ?? "";\n  }\n\n  if (typeof children === "string") {\n    return children;\n  }\n\n  return label ?? "";\n}\n\nfunction StaggerAnimatedLabel({\n  variant,\n  text,\n  stagger,\n  staggerDelay,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n}: StaggerAnimatedLabelProps) {\n  const words =\n    stagger === "text"\n      ? [text]\n      : text.trim().split(WHITESPACE_SPLIT_REGEX).filter(Boolean);\n  let charIndex = 0;\n\n  return (\n    <>\n      {FLAT_VARIANTS.has(variant) ? null : (\n        <div\n          aria-hidden="true"\n          className={cn(staggerButtonBgVariants({ variant }), bgClassName)}\n        />\n      )}\n      <span\n        aria-hidden={text ? true : undefined}\n        className={cn(staggerButtonTextVariants(), textClassName)}\n      >\n        {words.map((word, wordIndex) => (\n          <Fragment key={`${word}-${wordIndex}`}>\n            {wordIndex > 0 ? (\n              <span className="shrink-0 whitespace-pre"> </span>\n            ) : null}\n            <span\n              className={cn(staggerButtonCharsVariants(), charsClassName)}\n              data-button-animate-chars=""\n            >\n              {stagger === "text" ? (\n                <span\n                  className={cn(staggerButtonCharVariants(), charClassName)}\n                >\n                  {word}\n                </span>\n              ) : (\n                [...word].map((char, index) => (\n                  <span\n                    className={cn(staggerButtonCharVariants(), charClassName)}\n                    key={`${char}-${index}`}\n                    style={{\n                      transitionDelay: `${charIndex++ * staggerDelay}s`,\n                    }}\n                  >\n                    {char}\n                  </span>\n                ))\n              )}\n            </span>\n          </Fragment>\n        ))}\n      </span>\n    </>\n  );\n}\n\nfunction StaggerButton({\n  asChild = false,\n  variant = "default",\n  size = "default",\n  stagger = "char",\n  staggerDelay = 0.01,\n  label,\n  children,\n  className,\n  bgClassName,\n  textClassName,\n  charsClassName,\n  charClassName,\n  href,\n  ref,\n  "aria-label": ariaLabel,\n  ...props\n}: StaggerButtonProps & {\n  ref?: Ref<HTMLAnchorElement>;\n}) {\n  const text = getButtonLabel(asChild, children, label);\n  const resolvedVariant = variant ?? "default";\n  const rootClassName = cn(\n    buttonVariants({ variant, size }),\n    staggerButtonVariants({ withBg: !FLAT_VARIANTS.has(resolvedVariant) }),\n    className\n  );\n  const animatedLabel = (\n    <StaggerAnimatedLabel\n      bgClassName={bgClassName}\n      charClassName={charClassName}\n      charsClassName={charsClassName}\n      stagger={stagger}\n      staggerDelay={staggerDelay}\n      text={text}\n      textClassName={textClassName}\n      variant={resolvedVariant}\n    />\n  );\n\n  if (asChild) {\n    if (!isValidElement(children)) {\n      return null;\n    }\n\n    const {\n      ref: childRef,\n      className: childClassName,\n      "aria-label": childAriaLabel,\n      ...childProps\n    } = children.props as {\n      ref?: Ref<HTMLElement>;\n      className?: string;\n      "aria-label"?: string;\n    };\n\n    return cloneElement(\n      children,\n      {\n        ...childProps,\n        ...props,\n        "aria-label": ariaLabel ?? childAriaLabel ?? (text || undefined),\n        className: cn(childClassName, rootClassName),\n        ref: mergeRefs(childRef, ref),\n      } as Record<string, unknown>,\n      animatedLabel\n    );\n  }\n\n  return (\n    <a\n      aria-label={ariaLabel ?? (text || undefined)}\n      className={rootClassName}\n      href={href}\n      ref={ref}\n      {...props}\n    >\n      {animatedLabel}\n    </a>\n  );\n}\n\nexport {\n  StaggerButton,\n  staggerButtonBgVariants,\n  staggerButtonCharsVariants,\n  staggerButtonCharVariants,\n  staggerButtonTextVariants,\n  staggerButtonVariants,\n};\n\nexport type StaggerButtonVariant = NonNullable<StaggerButtonProps["variant"]>;\nexport type StaggerButtonSize = NonNullable<StaggerButtonProps["size"]>;',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/buttons/stagger-button/index.tsx"
+        );
+        const demoProps = {
+          StaggerButton: {
+            label: { value: "Staggering Button" },
+            variant: {
+              value: "default",
+              options: {
+                Default: "default",
+                Accent: "accent",
+                Neutral: "neutral",
+                Destructive: "destructive",
+                Outline: "outline",
+                Secondary: "secondary",
+                Ghost: "ghost",
+                Link: "link",
+              },
+            },
+            size: {
+              value: "default",
+              options: {
+                Small: "sm",
+                Default: "default",
+                Medium: "md",
+                Large: "lg",
+              },
+            },
+            stagger: { value: "char", options: { Char: "char", Text: "text" } },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        StaggerButton: {
+          label: { value: "Staggering Button" },
+          variant: {
+            value: "default",
+            options: {
+              Default: "default",
+              Accent: "accent",
+              Neutral: "neutral",
+              Destructive: "destructive",
+              Outline: "outline",
+              Secondary: "secondary",
+              Ghost: "ghost",
+              Link: "link",
+            },
+          },
+          size: {
+            value: "default",
+            options: {
+              Small: "sm",
+              Default: "default",
+              Medium: "md",
+              Large: "lg",
+            },
+          },
+          stagger: { value: "char", options: { Char: "char", Text: "text" } },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/stagger-button",
   },
   accordion: {
     name: "accordion",
@@ -5377,41 +5414,20 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/primitives-radix-tabs",
   },
-  "demo-char-stagger-button": {
-    name: "demo-char-stagger-button",
-    description: "Usage example for char-stagger-button.",
-    type: "registry:ui",
-    dependencies: ["class-variance-authority"],
-    devDependencies: undefined,
-    registryDependencies: ["char-stagger-button"],
-    files: [
-      {
-        path: "registry/demo/primitives/buttons/char-stagger-button/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/demo/buttons/char-stagger-button.tsx",
-        content:
-          '"use client";\n\nimport { CharStaggerButton } from "@/components/sora-ui/buttons/char-stagger-button";\n\nexport default function CharStaggerButtonExample() {\n  return (\n    <CharStaggerButton\n      label={"Staggering Button"}\n      variant={"default"}\n      staggerDelay={0.01}\n    />\n  );\n}\n',
-      },
-    ],
-    keywords: [],
-    inspiration: null,
-    component: null,
-    command: "@soralabs/demo-char-stagger-button",
-  },
-  "demo-section-cta": {
-    name: "demo-section-cta",
-    description: "Usage example for section-cta.",
+  "demo-sliding-chip-button": {
+    name: "demo-sliding-chip-button",
+    description: "Usage example for sliding-chip-button.",
     type: "registry:ui",
     dependencies: ["motion", "class-variance-authority"],
     devDependencies: undefined,
-    registryDependencies: ["section-cta"],
+    registryDependencies: ["sliding-chip-button"],
     files: [
       {
-        path: "registry/demo/primitives/buttons/section-cta/index.tsx",
+        path: "registry/demo/primitives/buttons/sliding-chip-button/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/buttons/section-cta.tsx",
+        target: "components/sora-ui/demo/buttons/sliding-chip-button.tsx",
         content:
-          '"use client";\n\nimport { SectionCta } from "@/components/sora-ui/buttons/section-cta";\n\nexport default function SectionCtaExample() {\n  return (\n    <SectionCta\n      label={"Explore components"}\n      variant={"accent"}\n      size={"default"}\n      duration={0.7}\n    />\n  );\n}\n',
+          '"use client";\n\nimport { SlidingChipButton } from "@/components/sora-ui/buttons/sliding-chip-button";\n\nexport default function SlidingChipButtonExample() {\n  return (\n    <SlidingChipButton\n      label={"Explore components"}\n      variant={"accent"}\n      size={"default"}\n      duration={0.7}\n    />\n  );\n}\n',
       },
     ],
     keywords: [],
@@ -5421,7 +5437,28 @@ export const index: Record<string, any> = {
       url: "https://www.annnimate.com",
     },
     component: null,
-    command: "@soralabs/demo-section-cta",
+    command: "@soralabs/demo-sliding-chip-button",
+  },
+  "demo-stagger-button": {
+    name: "demo-stagger-button",
+    description: "Usage example for stagger-button.",
+    type: "registry:ui",
+    dependencies: ["class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["stagger-button"],
+    files: [
+      {
+        path: "registry/demo/primitives/buttons/stagger-button/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/buttons/stagger-button.tsx",
+        content:
+          '"use client";\n\nimport { StaggerButton } from "@/components/sora-ui/buttons/stagger-button";\n\nexport default function StaggerButtonExample() {\n  return (\n    <StaggerButton\n      label={"Staggering Button"}\n      variant={"default"}\n      size={"default"}\n      stagger={"char"}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-stagger-button",
   },
   "demo-pixel-image-loader": {
     name: "demo-pixel-image-loader",

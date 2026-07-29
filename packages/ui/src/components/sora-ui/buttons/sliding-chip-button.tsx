@@ -32,7 +32,7 @@ const LABEL_OFFSET_BY_SIZE = {
   lg: { default: -44, lg: -52 },
 } as const;
 
-const sectionCtaVariants = cva(
+const slidingChipButtonVariants = cva(
   "inline-flex min-w-0 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap font-mono uppercase outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
   {
     variants: {
@@ -55,7 +55,7 @@ const sectionCtaVariants = cva(
   }
 );
 
-const sectionCtaChipVariants = cva(
+const slidingChipButtonChipVariants = cva(
   "pointer-events-none flex items-center justify-center will-change-transform",
   {
     variants: {
@@ -78,7 +78,7 @@ const sectionCtaChipVariants = cva(
   }
 );
 
-const sectionCtaLabelVariants = cva(
+const slidingChipButtonLabelVariants = cva(
   "pointer-events-none flex items-center justify-center will-change-transform",
   {
     variants: {
@@ -101,7 +101,7 @@ const sectionCtaLabelVariants = cva(
   }
 );
 
-const sectionCtaGroupVariants = cva(
+const slidingChipButtonGroupVariants = cva(
   "pointer-events-none relative flex w-full items-center",
   {
     variants: {
@@ -121,11 +121,11 @@ type WithAsChild<Base extends object> =
   | (Base & { asChild: true; children: ReactElement })
   | (Base & { asChild?: false | undefined; children?: string });
 
-type SectionCtaSize = NonNullable<
-  VariantProps<typeof sectionCtaVariants>["size"]
+type SlidingChipButtonSize = NonNullable<
+  VariantProps<typeof slidingChipButtonVariants>["size"]
 >;
 
-function SectionCtaPlusIcon({ className }: { className?: string }) {
+function SlidingChipButtonPlusIcon({ className }: { className?: string }) {
   return (
     <svg
       aria-hidden="true"
@@ -182,7 +182,7 @@ function getLinkLabel(
 }
 
 function useResponsiveLabelOffset(
-  size: SectionCtaSize,
+  size: SlidingChipButtonSize,
   labelOffset?: number,
   labelOffsetLg?: number
 ): number {
@@ -224,10 +224,15 @@ function resolveMotionTransition(
   return { duration, ease };
 }
 
-type SectionCtaBaseProps = Omit<ComponentPropsWithoutRef<"a">, "children"> &
-  VariantProps<typeof sectionCtaVariants> & {
+type SlidingChipButtonBaseProps = Omit<
+  ComponentPropsWithoutRef<"a">,
+  "children"
+> &
+  VariantProps<typeof slidingChipButtonVariants> & {
     /** Alternative to string `children` for demos and controlled previews. */
     label?: string;
+    /** Custom label content inside the center chip. `label` is still used for aria-label. */
+    labelSlot?: ReactNode;
     /**
      * Animation duration in seconds.
      * @default 0.7
@@ -275,9 +280,9 @@ type SectionCtaBaseProps = Omit<ComponentPropsWithoutRef<"a">, "children"> &
     iconClassName?: string;
   };
 
-export type SectionCtaProps = WithAsChild<SectionCtaBaseProps>;
+export type SlidingChipButtonProps = WithAsChild<SlidingChipButtonBaseProps>;
 
-interface SectionCtaAnimatedContentProps {
+interface SlidingChipButtonAnimatedContentProps {
   chipClassName?: string;
   duration: number;
   ease: readonly [number, number, number, number];
@@ -294,20 +299,23 @@ interface SectionCtaAnimatedContentProps {
   label: string;
   labelClassName?: string;
   labelOffset: number;
-  size: SectionCtaSize;
+  /** Custom label content. Falls back to `label` when omitted. */
+  labelSlot?: ReactNode;
+  size: SlidingChipButtonSize;
   startChipActiveRotate: number;
   startChipActiveScale: number;
   startChipClassName?: string;
   startChipRestRotate: number;
   startChipRestScale: number;
   startIcon?: ReactNode;
-  variant: NonNullable<SectionCtaProps["variant"]>;
+  variant: NonNullable<SlidingChipButtonProps["variant"]>;
 }
 
-function SectionCtaAnimatedContent({
+function SlidingChipButtonAnimatedContent({
   variant = "accent",
   size = "default",
   label,
+  labelSlot,
   labelOffset,
   isActive,
   duration,
@@ -329,7 +337,7 @@ function SectionCtaAnimatedContent({
   endChipActiveRotate,
   endChipRestScale,
   endChipActiveScale,
-}: SectionCtaAnimatedContentProps) {
+}: SlidingChipButtonAnimatedContentProps) {
   const shouldReduceMotion = useReducedMotion();
   const motionTransition = resolveMotionTransition(
     shouldReduceMotion,
@@ -338,10 +346,10 @@ function SectionCtaAnimatedContent({
   );
 
   const resolvedStartIcon = startIcon ?? icon ?? (
-    <SectionCtaPlusIcon className={cn("size-[0.75em]", iconClassName)} />
+    <SlidingChipButtonPlusIcon className={cn("size-[0.75em]", iconClassName)} />
   );
   const resolvedEndIcon = endIcon ?? icon ?? (
-    <SectionCtaPlusIcon className={cn("size-[0.75em]", iconClassName)} />
+    <SlidingChipButtonPlusIcon className={cn("size-[0.75em]", iconClassName)} />
   );
 
   const startChipVariants: Variants = {
@@ -357,12 +365,12 @@ function SectionCtaAnimatedContent({
   return (
     <motion.span
       animate={isActive ? "hover" : "rest"}
-      className={cn(sectionCtaGroupVariants({ size }), groupClassName)}
+      className={cn(slidingChipButtonGroupVariants({ size }), groupClassName)}
       initial={false}
     >
       <motion.span
         className={cn(
-          sectionCtaChipVariants({ variant, size }),
+          slidingChipButtonChipVariants({ variant, size }),
           chipClassName,
           startChipClassName
         )}
@@ -376,19 +384,19 @@ function SectionCtaAnimatedContent({
       <motion.span
         animate={isActive ? { x: 0 } : { x: labelOffset }}
         className={cn(
-          sectionCtaLabelVariants({ variant, size }),
+          slidingChipButtonLabelVariants({ variant, size }),
           chipClassName,
           labelClassName
         )}
         initial={false}
         transition={motionTransition}
       >
-        {label}
+        {labelSlot ?? label}
       </motion.span>
 
       <motion.span
         className={cn(
-          sectionCtaChipVariants({ variant, size }),
+          slidingChipButtonChipVariants({ variant, size }),
           "absolute right-0 z-10",
           chipClassName,
           endChipClassName
@@ -403,13 +411,14 @@ function SectionCtaAnimatedContent({
   );
 }
 
-function SectionCta({
+function SlidingChipButton({
   asChild = false,
   variant = "accent",
   size = "default",
   duration = DEFAULT_DURATION,
   ease = DEFAULT_EASE,
   label,
+  labelSlot,
   children,
   className,
   groupClassName,
@@ -439,7 +448,7 @@ function SectionCta({
   onMouseEnter,
   onMouseLeave,
   ...props
-}: SectionCtaProps & {
+}: SlidingChipButtonProps & {
   ref?: Ref<HTMLAnchorElement>;
 }) {
   const text = getLinkLabel(asChild, children, label);
@@ -450,10 +459,12 @@ function SectionCta({
     labelOffsetLg
   );
   const [isActive, setIsActive] = useState(false);
-  const rootClassName = cn(sectionCtaVariants({ variant, size, className }));
+  const rootClassName = cn(
+    slidingChipButtonVariants({ variant, size, className })
+  );
 
   const animatedContent = (
-    <SectionCtaAnimatedContent
+    <SlidingChipButtonAnimatedContent
       chipClassName={chipClassName}
       duration={duration}
       ease={ease}
@@ -470,6 +481,7 @@ function SectionCta({
       label={text}
       labelClassName={labelClassName}
       labelOffset={resolvedLabelOffset}
+      labelSlot={labelSlot}
       size={resolvedSize}
       startChipActiveRotate={startChipActiveRotate}
       startChipActiveScale={startChipActiveScale}
@@ -569,12 +581,14 @@ function SectionCta({
 }
 
 export {
-  SectionCta,
-  SectionCtaPlusIcon,
-  sectionCtaChipVariants,
-  sectionCtaGroupVariants,
-  sectionCtaLabelVariants,
-  sectionCtaVariants,
+  SlidingChipButton,
+  SlidingChipButtonPlusIcon,
+  slidingChipButtonChipVariants,
+  slidingChipButtonGroupVariants,
+  slidingChipButtonLabelVariants,
+  slidingChipButtonVariants,
 };
 
-export type SectionCtaVariant = NonNullable<SectionCtaProps["variant"]>;
+export type SlidingChipButtonVariant = NonNullable<
+  SlidingChipButtonProps["variant"]
+>;

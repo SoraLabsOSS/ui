@@ -1,30 +1,30 @@
 ---
-title: Section CTA
+title: Sliding Chip Button
 description: A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover. React.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="section-cta" description="Chip-style CTA link with sliding label and rotating icon chips — hover to trigger the animation." />
+<ComponentPreview name="sliding-chip-button" description="Chip-style CTA link with sliding label and rotating icon chips — hover to trigger the animation." />
 
 ## Installation
 
-<ComponentInstallation name="section-cta" />
+<ComponentInstallation name="sliding-chip-button" />
 
 ## Usage
 
 ```tsx
-import { SectionCta } from '@/components/sora-ui/buttons/section-cta';
+import { SlidingChipButton } from '@/components/sora-ui/buttons/sliding-chip-button';
 
 export default function Page() {
   return (
     <>
-      <SectionCta href="/docs" label="Explore components" />
+      <SlidingChipButton href="/docs" label="Explore components" />
 
-      <SectionCta variant="inverted" href="/docs" label="View docs" />
+      <SlidingChipButton variant="inverted" href="/docs" label="View docs" />
 
-      <SectionCta
+      <SlidingChipButton
         asChild
         variant="outline"
         duration={0.5}
@@ -32,7 +32,7 @@ export default function Page() {
         labelOffsetLg={-40}
       >
         <a href="/pricing">Custom anchor</a>
-      </SectionCta>
+      </SlidingChipButton>
     </>
   );
 }
@@ -173,14 +173,14 @@ export default function Page() {
 
 ## When to Use
 
-Use `SectionCta` as a single primary call to action in hero sections, feature highlights, or pricing pages. The animated chips signal interactivity and direct the eye to the most important next step.
+Use `SlidingChipButton` as a single primary call to action in hero sections, feature highlights, or pricing pages. The animated chips signal interactivity and direct the eye to the most important next step.
 
-Pair it with a clear, short label (2–5 words). Avoid using more than one `SectionCta` per visible viewport section — multiple animated CTAs compete for attention and dilute the effect.
+Pair it with a clear, short label (2–5 words). Avoid using more than one `SlidingChipButton` per visible viewport section — multiple animated CTAs compete for attention and dilute the effect.
 
 ## Accessibility
 
-`SectionCta` renders as an `<a>` by default and forwards `href` directly. Use `asChild` to wrap a `<button>` for in-page actions that do not navigate. The sliding label and rotating chips are purely decorative; the link text is always in the DOM and read by screen readers. Focus state uses the standard visible outline. When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` collapses the hover transition to `duration: 0` — the end state still applies instantly, just without the animated motion.
+`SlidingChipButton` renders as an `<a>` by default and forwards `href` directly. Use `asChild` to wrap a `<button>` for in-page actions that do not navigate. The sliding label and rotating chips are purely decorative; the link text is always in the DOM and read by screen readers. Focus state uses the standard visible outline. When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` collapses the hover transition to `duration: 0` — the end state still applies instantly, just without the animated motion.
 
 ## Credits
 
-<ComponentCredits name="section-cta" />
+<ComponentCredits name="sliding-chip-button" />

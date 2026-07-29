@@ -1,34 +1,38 @@
 ---
-title: Char Stagger Button
-description: A button with per-character stagger animation on hover. A React component.
+title: Stagger Button
+description: A shadcn button that staggers per character or slides the whole label on hover. A React component.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="char-stagger-button" description="Button with per-character stagger animation — hover to trigger the character wave." />
+<ComponentPreview name="stagger-button" description="Button that staggers per character or slides the whole label — hover to trigger the animation." />
 
 ## Installation
 
-<ComponentInstallation name="char-stagger-button" />
+<ComponentInstallation name="stagger-button" />
 
 ## Usage
 
 ```tsx
-import { CharStaggerButton } from '@/components/sora-ui/buttons/char-stagger-button';
+import { StaggerButton } from '@/components/sora-ui/buttons/stagger-button';
 
 export default function Page() {
   return (
     <>
-      <CharStaggerButton href="#">Staggering Button</CharStaggerButton>
+      <StaggerButton href="#">Staggering Button</StaggerButton>
 
-      <CharStaggerButton variant="link" href="#" className="text-white">
+      <StaggerButton variant="link" href="#" className="text-white">
         or use on links
-      </CharStaggerButton>
+      </StaggerButton>
 
-      <CharStaggerButton asChild>
+      <StaggerButton stagger="text" href="#">
+        Slide the whole label
+      </StaggerButton>
+
+      <StaggerButton asChild>
         <button type="button">Submit</button>
-      </CharStaggerButton>
+      </StaggerButton>
     </>
   );
 }
@@ -55,12 +59,25 @@ export default function Page() {
       type: 'string',
     },
     variant: {
-      description: 'Visual style preset. `default` includes a background; `link` is text-only.',
-      type: '"default" | "link"',
+      description:
+        'Any shadcn button variant. Solid variants render a background layer that scales down on hover; `ghost` and `link` are text-only.',
+      type: '"default" | "accent" | "neutral" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
       default: '"default"',
     },
+    size: {
+      description: 'Any shadcn button size.',
+      type: '"sm" | "default" | "md" | "lg" | "icon" | "icon-sm" | "icon-xs"',
+      default: '"default"',
+    },
+    stagger: {
+      description:
+        'Animate per character with stagger, or slide the whole label as one block.',
+      type: '"char" | "text"',
+      default: '"char"',
+    },
     staggerDelay: {
-      description: 'Per-character transition delay increment, in seconds.',
+      description:
+        'Per-character transition delay increment, in seconds. Ignored when `stagger` is `"text"`.',
       type: 'number',
       default: '0.01',
     },
@@ -70,7 +87,8 @@ export default function Page() {
       type: 'string',
     },
     bgClassName: {
-      description: 'Override the background layer. Only rendered for the `default` variant.',
+      description:
+        'Override the scaling background layer. Rendered for all variants except `ghost` and `link`.',
       type: 'string',
     },
     textClassName: {
@@ -78,7 +96,7 @@ export default function Page() {
       type: 'string',
     },
     charsClassName: {
-      description: 'Override the animated characters container.',
+      description: 'Override each per-word overflow wrapper around the animated spans.',
       type: 'string',
     },
     charClassName: {
@@ -90,7 +108,7 @@ export default function Page() {
 
 ## When to Use
 
-Use `CharStaggerButton` for one or two high-emphasis CTAs — a hero primary action, a pricing "Get started" button, or a key navigation link where the animation rewards attention. The per-character stagger signals premium quality and invites hovering.
+Use `StaggerButton` for one or two high-emphasis CTAs — a hero primary action, a pricing "Get started" button, or a key navigation link where the animation rewards attention. The per-character stagger signals premium quality and invites hovering.
 
 Avoid it for buttons used repeatedly in lists, destructive actions (the playful animation clashes with the gravity of deleting), or small utility actions like "Close" or "Cancel".
 
