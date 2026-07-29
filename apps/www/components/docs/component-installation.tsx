@@ -47,19 +47,19 @@ export function ComponentInstallation({
       )}
       {...props}
     >
-      <Tabs className="relative mr-auto w-full" defaultValue="sora-cli">
+      <Tabs className="relative mr-auto w-full" defaultValue="shadcn">
         <TabsList>
-          <TabsTrigger value="sora-cli">sora-cli</TabsTrigger>
           <TabsTrigger value="shadcn">shadcn</TabsTrigger>
+          <TabsTrigger value="sora-cli">sora-cli</TabsTrigger>
           <TabsTrigger value="manual">Manual</TabsTrigger>
         </TabsList>
 
         <TabsContents>
-          <TabsContent value="sora-cli">
-            <CodeTabs codes={soraCliCommands} />
-          </TabsContent>
           <TabsContent value="shadcn">
             <CodeTabs codes={shadcnCommands} />
+          </TabsContent>
+          <TabsContent value="sora-cli">
+            <CodeTabs codes={soraCliCommands} />
           </TabsContent>
           <TabsContent value="manual">
             <ComponentManualInstallation
