@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
 import { ComponentGalleryExplorer } from "@/components/catalog/component-gallery-explorer";
 import { ComponentsGalleryHero } from "@/components/catalog/components-gallery-hero";
-import { pageContentCacheLife } from "@/lib/cache/page-content-cache-life";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
@@ -34,13 +33,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ComponentsPage() {
-  return <CachedComponentsGallery />;
+  return <ComponentsGallery />;
 }
 
-async function CachedComponentsGallery() {
-  "use cache";
-  pageContentCacheLife();
-
+async function ComponentsGallery() {
   const items = getComponentGalleryItems();
 
   return (

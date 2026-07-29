@@ -7,7 +7,6 @@ const nextConfig = {
   reactCompiler: true,
   experimental: {
     turbopackFileSystemCacheForBuild: true,
-    turbopackRustReactCompiler: true,
   },
   async headers() {
     return [

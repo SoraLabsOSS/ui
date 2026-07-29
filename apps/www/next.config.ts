@@ -31,7 +31,6 @@ const nextConfig: NextConfig = {
       "@workspace/ui",
     ],
     turbopackFileSystemCacheForBuild: true,
-    turbopackRustReactCompiler: true,
   },
   cacheComponents: true,
   reactCompiler: true,

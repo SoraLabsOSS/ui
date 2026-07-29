@@ -16,7 +16,6 @@ import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
 import { PageActionButtons } from "@/components/docs/page-actions";
-import { pageContentCacheLife } from "@/lib/cache/page-content-cache-life";
 import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
@@ -44,17 +43,10 @@ export default async function Page(props: {
     notFound();
   }
 
-  return <CachedDocsPageBody slug={params.slug} />;
+  return <DocsPageBody slug={params.slug} />;
 }
 
-/**
- * Renders the actual page body. `notFound`/`redirect` stay in the caller —
- * dynamic APIs like those can't be called from inside a `"use cache"` boundary.
- */
-async function CachedDocsPageBody({ slug }: { slug?: string[] }) {
-  "use cache";
-  pageContentCacheLife();
-
+async function DocsPageBody({ slug }: { slug?: string[] }) {
   const page = source.getPage(slug);
   if (!page) {
     return null;
