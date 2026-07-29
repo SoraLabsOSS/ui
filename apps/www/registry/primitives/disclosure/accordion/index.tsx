@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   type AnimationSequence,
+  stagger,
   useAnimate,
   useReducedMotion,
 } from "motion/react";
@@ -23,6 +24,7 @@ import {
 import { useAutoHeight } from "@/registry/hooks/use-auto-height";
 
 const EXPO_IN_OUT = [0.87, 0, 0.13, 1] as const;
+const EXPO_OUT = [0.16, 1, 0.3, 1] as const;
 const POWER2_IN_OUT = [0.45, 0, 0.55, 1] as const;
 
 type IconMode = "rotate" | "fade" | "both";
@@ -143,6 +145,8 @@ const accordionTextVariants = cva(
 export interface AccordionItemData {
   content: ReactNode;
   defaultOpen?: boolean;
+  /** Reveal panel text line by line when this item opens. */
+  enableStagger?: boolean;
   id?: string;
   title: string;
 }
@@ -172,9 +176,39 @@ export interface AccordionItemProps
   disabledOn?: DisabledBreakpoint[];
   duration?: number;
   ease?: AccordionEase;
+  /**
+   * Reveal panel text line by line when the item opens.
+   * @default false
+   */
+  enableStagger?: boolean;
   iconRotation?: number;
   onClose?: () => void;
   onOpen?: () => void;
+  /**
+   * Delay between each staggered line, in seconds.
+   * @default 0.15
+   */
+  staggerDelay?: number;
+  /**
+   * Duration of each line reveal, in seconds.
+   * @default 0.6
+   */
+  staggerDuration?: number;
+  /**
+   * Easing curve for the line reveal.
+   * @default expo.out
+   */
+  staggerEase?: AccordionEase;
+  /**
+   * Wait before the line reveal starts after opening, in milliseconds.
+   * @default 200
+   */
+  staggerStartDelay?: number;
+  /**
+   * Initial vertical offset of each line, as a percentage of its height.
+   * @default 110
+   */
+  staggerYPercent?: number;
 }
 
 export interface AccordionTriggerProps
@@ -199,6 +233,70 @@ function renderAccordionItemContent(content: ReactNode) {
   }
 
   return content;
+}
+
+interface SplitLinesResult {
+  lines: HTMLElement[];
+  revert: () => void;
+}
+
+const WHITESPACE_REGEX = /\s+/;
+
+/**
+ * Lightweight SplitText alternative: wraps each word to measure natural line
+ * breaks, then rebuilds the element as masked line blocks ready to animate.
+ * Nested markup is flattened to plain text while the split is active.
+ */
+function splitElementIntoLines(element: HTMLElement): SplitLinesResult {
+  const originalNodes = Array.from(element.childNodes);
+  const words = (element.textContent ?? "")
+    .split(WHITESPACE_REGEX)
+    .filter(Boolean);
+
+  element.replaceChildren();
+  const wordSpans: HTMLSpanElement[] = [];
+  for (const word of words) {
+    const span = document.createElement("span");
+    span.style.display = "inline-block";
+    span.textContent = word;
+    element.append(span, document.createTextNode(" "));
+    wordSpans.push(span);
+  }
+
+  const lineGroups: string[][] = [];
+  let lastTop: number | null = null;
+  for (const span of wordSpans) {
+    const top = span.offsetTop;
+    if (lastTop === null || Math.abs(top - lastTop) > 1) {
+      lineGroups.push([]);
+      lastTop = top;
+    }
+    lineGroups.at(-1)?.push(span.textContent ?? "");
+  }
+
+  element.replaceChildren();
+  const lines: HTMLElement[] = [];
+  for (const group of lineGroups) {
+    const mask = document.createElement("div");
+    mask.style.display = "block";
+    mask.style.overflow = "hidden";
+
+    const line = document.createElement("div");
+    line.style.display = "block";
+    line.style.willChange = "transform";
+    line.textContent = group.join(" ");
+
+    mask.appendChild(line);
+    element.appendChild(mask);
+    lines.push(line);
+  }
+
+  return {
+    lines,
+    revert: () => {
+      element.replaceChildren(...originalNodes);
+    },
+  };
 }
 
 function Accordion({
@@ -274,6 +372,7 @@ function Accordion({
         {items?.map((item, index) => (
           <AccordionItem
             defaultOpen={item.defaultOpen}
+            enableStagger={item.enableStagger}
             key={item.id ?? item.title ?? index}
           >
             <AccordionTrigger>{item.title}</AccordionTrigger>
@@ -296,9 +395,15 @@ function AccordionItem({
   disabledOn: itemDisabledOn,
   duration: itemDuration,
   ease: itemEase,
+  enableStagger = false,
   iconRotation: itemIconRotation,
   onClose,
   onOpen,
+  staggerDelay = 0.15,
+  staggerDuration = 0.6,
+  staggerEase = EXPO_OUT,
+  staggerStartDelay = 200,
+  staggerYPercent = 110,
   ...props
 }: AccordionItemProps) {
   const {
@@ -324,6 +429,9 @@ function AccordionItem({
   const animationRef = useRef<{ stop: () => void } | null>(null);
   const hasAppliedInitialOpen = useRef(false);
   const shouldReduceMotion = useReducedMotion();
+  const splitRevertsRef = useRef<(() => void)[]>([]);
+  const staggerAnimationRef = useRef<{ stop: () => void } | null>(null);
+  const staggerTimeoutRef = useRef<number | null>(null);
 
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [panelHeight, setPanelHeight] = useState(0);
@@ -545,6 +653,89 @@ function AccordionItem({
     shouldReduceMotion,
     toInstantSequence,
   ]);
+
+  const resetTextStagger = useCallback(() => {
+    if (staggerTimeoutRef.current !== null) {
+      window.clearTimeout(staggerTimeoutRef.current);
+      staggerTimeoutRef.current = null;
+    }
+    staggerAnimationRef.current?.stop();
+    staggerAnimationRef.current = null;
+    for (const revert of splitRevertsRef.current) {
+      revert();
+    }
+    splitRevertsRef.current = [];
+  }, []);
+
+  const animateTextStagger = useCallback(() => {
+    const panel = contentPanelRef.current;
+    if (!panel || splitRevertsRef.current.length > 0) {
+      return;
+    }
+
+    const targets = panel.querySelectorAll<HTMLElement>("p, .accordion_text");
+    const lines: HTMLElement[] = [];
+    for (const target of targets) {
+      const split = splitElementIntoLines(target);
+      splitRevertsRef.current.push(split.revert);
+      lines.push(...split.lines);
+    }
+
+    if (lines.length === 0) {
+      return;
+    }
+
+    for (const line of lines) {
+      line.style.transform = `translateY(${staggerYPercent}%)`;
+    }
+
+    staggerAnimationRef.current = animate(
+      lines,
+      { transform: "translateY(0%)" },
+      {
+        delay: stagger(staggerDelay),
+        duration: staggerDuration,
+        ease: staggerEase,
+      }
+    );
+  }, [animate, staggerDelay, staggerDuration, staggerEase, staggerYPercent]);
+
+  useEffect(() => {
+    if (!enableStagger) {
+      return;
+    }
+
+    if (!isOpen || animationsDisabled || shouldReduceMotion) {
+      resetTextStagger();
+      return;
+    }
+
+    staggerTimeoutRef.current = window.setTimeout(() => {
+      staggerTimeoutRef.current = null;
+      document.fonts.ready.then(() => {
+        if (isOpenRef.current) {
+          animateTextStagger();
+        }
+      });
+    }, staggerStartDelay);
+
+    return () => {
+      if (staggerTimeoutRef.current !== null) {
+        window.clearTimeout(staggerTimeoutRef.current);
+        staggerTimeoutRef.current = null;
+      }
+    };
+  }, [
+    animateTextStagger,
+    animationsDisabled,
+    enableStagger,
+    isOpen,
+    resetTextStagger,
+    shouldReduceMotion,
+    staggerStartDelay,
+  ]);
+
+  useEffect(() => resetTextStagger, [resetTextStagger]);
 
   return (
     <AccordionItemContext.Provider

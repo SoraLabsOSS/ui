@@ -98,7 +98,7 @@ export default function Page() {
     items: {
       description:
         'Data-driven accordion items. Each entry needs title and content (string or React node).',
-      type: '{ id?: string; title: string; content: React.ReactNode; defaultOpen?: boolean }[]',
+      type: '{ id?: string; title: string; content: React.ReactNode; defaultOpen?: boolean; enableStagger?: boolean }[]',
     },
     className: {
       description: 'Additional class names for the root container.',
@@ -137,6 +137,39 @@ export default function Page() {
       description:
         'Skip animations for this item on matching breakpoints. The trigger stays clickable.',
       type: '("mobile" | "tablet" | "desktop")[]',
+    },
+    enableStagger: {
+      description:
+        'Reveal panel text line by line when the item opens. Paragraphs are split into masked lines that slide up in sequence.',
+      type: 'boolean',
+      default: 'false',
+    },
+    staggerDuration: {
+      description: 'Duration of each line reveal, in seconds.',
+      type: 'number',
+      default: '0.6',
+    },
+    staggerDelay: {
+      description: 'Delay between each staggered line, in seconds.',
+      type: 'number',
+      default: '0.15',
+    },
+    staggerEase: {
+      description: 'Easing curve for the line reveal.',
+      type: '[number, number, number, number]',
+      default: 'expo.out',
+    },
+    staggerYPercent: {
+      description:
+        'Initial vertical offset of each line, as a percentage of its height.',
+      type: 'number',
+      default: '110',
+    },
+    staggerStartDelay: {
+      description:
+        'Wait before the line reveal starts after opening, in milliseconds.',
+      type: 'number',
+      default: '200',
     },
     onOpen: {
       description: 'Callback fired when this item opens.',

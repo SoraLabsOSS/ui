@@ -21,11 +21,13 @@ const FAQ_ITEMS: AccordionItemData[] = [
     title: "Can I customize the styles?",
     content:
       "Yes. Components are added as source files in your codebase, not as an opaque npm package. Tweak Tailwind classes, variants, and tokens to match your design system. Primitives also expose CVA variant helpers you can extend.",
+    enableStagger: true,
   },
   {
     title: "What animation library does Sora UI use?",
     content:
       "Most primitives use Motion (motion/react)—timelines, springs, and layout animations composed with Motion APIs. Scroll-driven text like Text Reveal Block uses GSAP SplitText and ScrollTrigger. Wrap your app in MotionConfig with reducedMotion set to user for accessible defaults.",
+    enableStagger: true,
   },
 ];
 
