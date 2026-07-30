@@ -12,6 +12,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { connection } from "next/server";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
@@ -40,6 +41,10 @@ export default async function Page(props: {
   }
 
   if (!source.getPage(params.slug)) {
+    // Unknown slugs must render dynamically: notFound() inside a blocking
+    // PPR fallback yields a revalidate:0 cache entry and a 500 in production
+    // (vercel/next.js#95883).
+    await connection();
     notFound();
   }
 
@@ -211,7 +216,8 @@ export async function generateMetadata(props: {
 
   const page = source.getPage(slug);
   if (!page) {
-    notFound();
+    // Page component 404s; avoid notFound() in cached metadata (see above).
+    return {};
   }
 
   const ogPath = slug;

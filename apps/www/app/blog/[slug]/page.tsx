@@ -3,6 +3,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { BlogPostJsonLd } from "@/components/blog/blog-post-json-ld";
 import { InlineTOC } from "@/components/blog/inline-toc";
@@ -26,6 +27,10 @@ export default async function BlogPostPage(props: {
   const params = await props.params;
 
   if (!blog.getPage([params.slug])) {
+    // Unknown slugs must render dynamically: notFound() inside a blocking
+    // PPR fallback yields a revalidate:0 cache entry and a 500 in production
+    // (vercel/next.js#95883).
+    await connection();
     notFound();
   }
 
@@ -138,7 +143,8 @@ export async function generateMetadata(props: {
   const page = blog.getPage([params.slug]);
 
   if (!page) {
-    notFound();
+    // Page component 404s; avoid notFound() in cached metadata (see above).
+    return {};
   }
 
   const image = getBlogPostOgMetadataImage(page);

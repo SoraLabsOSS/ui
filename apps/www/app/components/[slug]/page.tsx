@@ -1,6 +1,7 @@
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { ComponentPageDocs } from "@/components/catalog/component-page-docs";
 import { ComponentPageLayout } from "@/components/catalog/component-page-layout";
 import { ComponentPageJsonLd } from "@/components/docs/component-page-json-ld";
@@ -28,6 +29,10 @@ export default async function ComponentDetailPage(props: PageProps) {
   const { slug } = await props.params;
 
   if (!getComponentPageData(slug)) {
+    // Unknown slugs must render dynamically: notFound() inside a blocking
+    // PPR fallback yields a revalidate:0 cache entry and a 500 in production
+    // (vercel/next.js#95883).
+    await connection();
     notFound();
   }
 
