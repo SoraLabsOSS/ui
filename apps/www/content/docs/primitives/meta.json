@@ -37,6 +37,8 @@
     "video-player",
     "cursor-bubble",
     "tilt-card",
-    "pixel-image-loader"
+    "pixel-image-loader",
+    "---Animate---",
+    "slot"
   ]
 }

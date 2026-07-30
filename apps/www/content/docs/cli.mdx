@@ -9,6 +9,10 @@ import { CodeTabs } from '@/components/docs/code-tabs';
 **[sora-cli](https://www.npmjs.com/package/@soralabsoss/sora-cli)** is a standalone CLI for installing components from any [shadcn](https://ui.shadcn.com)-compatible registry into your project. It defaults to the Sora UI registry, so it skips the extra step of registering the `@soralabs` scope that the [shadcn CLI](/docs/installation) needs — but it also works against any other registry via `--registry <url>`.
 
 <Callout>
+  sora-cli is in early development — installation may fail in the current release. If something breaks, fall back to the [shadcn CLI](/docs/installation) install commands and [report an issue](https://github.com/SoraLabsOSS/sora-cli/issues).
+</Callout>
+
+<Callout>
   You still need `shadcn@latest init` first — see [Installation](/docs/installation) — since that sets up Tailwind, CSS variables, and the `@/` import alias every component depends on.
 </Callout>
 

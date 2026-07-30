@@ -110,7 +110,7 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     defaultValue,
     onValueChange,
     className,
-    transition = { type: "spring", stiffness: 350, damping: 35 },
+    transition = { type: "spring", stiffness: 1250, damping: 40, mass: 0.5 },
     hover = false,
     enabled = true,
     controlledItems,
@@ -137,56 +137,45 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
   const [activeClassNameState, setActiveClassNameState] =
     React.useState<string>("");
 
-  const safeSetActiveValue = React.useCallback(
-    (id: T | null) => {
-      setActiveValue((prev) => {
-        if (prev !== id) {
-          onValueChange?.(id as T);
-        }
-        return prev === id ? prev : id;
-      });
-    },
-    [onValueChange]
-  );
-
-  const safeSetBounds = React.useCallback(
-    (bounds: DOMRect) => {
-      if (!localRef.current) {
-        return;
+  function safeSetActiveValue(id: T | null) {
+    setActiveValue((prev) => {
+      if (prev !== id) {
+        onValueChange?.(id as T);
       }
+      return prev === id ? prev : id;
+    });
+  }
 
-      const containerRect = localRef.current.getBoundingClientRect();
-      const newBounds: Bounds = {
-        top: bounds.top - containerRect.top + (boundsOffset.top ?? 0),
-        left: bounds.left - containerRect.left + (boundsOffset.left ?? 0),
-        width: bounds.width + (boundsOffset.width ?? 0),
-        height: bounds.height + (boundsOffset.height ?? 0),
-      };
+  function safeSetBounds(bounds: DOMRect) {
+    if (!localRef.current) {
+      return;
+    }
 
-      setBoundsState((prev) => {
-        if (
-          prev &&
-          prev.top === newBounds.top &&
-          prev.left === newBounds.left &&
-          prev.width === newBounds.width &&
-          prev.height === newBounds.height
-        ) {
-          return prev;
-        }
-        return newBounds;
-      });
-    },
-    [
-      boundsOffset.top,
-      boundsOffset.left,
-      boundsOffset.width,
-      boundsOffset.height,
-    ]
-  );
+    const containerRect = localRef.current.getBoundingClientRect();
+    const newBounds: Bounds = {
+      top: bounds.top - containerRect.top + (boundsOffset.top ?? 0),
+      left: bounds.left - containerRect.left + (boundsOffset.left ?? 0),
+      width: bounds.width + (boundsOffset.width ?? 0),
+      height: bounds.height + (boundsOffset.height ?? 0),
+    };
 
-  const clearBounds = React.useCallback(() => {
+    setBoundsState((prev) => {
+      if (
+        prev &&
+        prev.top === newBounds.top &&
+        prev.left === newBounds.left &&
+        prev.width === newBounds.width &&
+        prev.height === newBounds.height
+      ) {
+        return prev;
+      }
+      return newBounds;
+    });
+  }
+
+  function clearBounds() {
     setBoundsState((prev) => (prev === null ? prev : null));
-  }, []);
+  }
 
   React.useEffect(() => {
     if (value !== undefined) {
@@ -273,44 +262,26 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     return children;
   }
 
-  const contextValue = React.useMemo(
-    () => ({
-      mode,
-      activeValue,
-      setActiveValue: safeSetActiveValue,
-      id,
-      hover,
-      className,
-      transition,
-      disabled,
-      enabled,
-      exitDelay,
-      setBounds: safeSetBounds,
-      clearBounds,
-      activeClassName: activeClassNameState,
-      setActiveClassName: setActiveClassNameState,
-      forceUpdateBounds,
-    }),
-    [
-      mode,
-      activeValue,
-      safeSetActiveValue,
-      id,
-      hover,
-      className,
-      transition,
-      disabled,
-      enabled,
-      exitDelay,
-      safeSetBounds,
-      clearBounds,
-      activeClassNameState,
-      forceUpdateBounds,
-    ]
-  );
-
   return (
-    <HighlightContext.Provider value={contextValue}>
+    <HighlightContext.Provider
+      value={{
+        mode,
+        activeValue,
+        setActiveValue: safeSetActiveValue,
+        id,
+        hover,
+        className,
+        transition,
+        disabled,
+        enabled,
+        exitDelay,
+        setBounds: safeSetBounds,
+        clearBounds,
+        activeClassName: activeClassNameState,
+        setActiveClassName: setActiveClassNameState,
+        forceUpdateBounds,
+      }}
+    >
       {enabled
         ? controlledItems
           ? render(children)
@@ -516,11 +487,6 @@ function HighlightItem({
     "data-highlight": true,
   };
 
-  const clearHoverHighlight = () => {
-    setActiveValue(null);
-    clearBounds();
-  };
-
   const commonHandlers = hover
     ? {
         onMouseEnter: (e: React.MouseEvent<HTMLDivElement>) => {
@@ -528,12 +494,8 @@ function HighlightItem({
           element.props.onMouseEnter?.(e);
         },
         onMouseLeave: (e: React.MouseEvent<HTMLDivElement>) => {
-          clearHoverHighlight();
+          setActiveValue(null);
           element.props.onMouseLeave?.(e);
-        },
-        onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-          clearHoverHighlight();
-          element.props.onClick?.(e);
         },
       }
     : {

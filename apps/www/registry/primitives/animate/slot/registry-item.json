@@ -12,5 +12,12 @@
       "type": "registry:ui",
       "target": "components/sora-ui/animate/slot.tsx"
     }
-  ]
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "adapted",
+      "label": "Animate UI",
+      "url": "https://animate-ui.com/docs/primitives/animate/slot"
+    }
+  }
 }

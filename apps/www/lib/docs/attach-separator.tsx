@@ -12,6 +12,7 @@ import {
   ListCollapse,
   MousePointerClick,
   Navigation,
+  PlayIcon,
   RectangleHorizontalIcon,
   SparklesIcon,
   SquareMenu,
@@ -62,6 +63,14 @@ export const attachSeparator: BuildPageTreeOptions["attachSeparator"] = (
       break;
     case "Headless UI":
       node.name = <Separator icon={<HeadlessUIIcon />} name="Headless UI" />;
+      break;
+    case "Animate":
+      node.name = (
+        <Separator
+          icon={<PlayIcon fill="currentColor" strokeWidth={2.5} />}
+          name="Animate"
+        />
+      );
       break;
     case "Effects":
       node.name = (

@@ -2,22 +2,21 @@
 
 import { useSession } from "@better-auth-ui/react";
 import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
-import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import {
-  MotionNavigationMenu,
-  MotionNavigationMenuItem,
-  MotionNavigationMenuLink,
-  MotionNavigationMenuList,
-} from "@workspace/ui/components/unlumen-ui/motion-navigation-menu";
-import { useHighlight } from "@workspace/ui/components/unlumen-ui/primitives/effects/highlight";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@workspace/ui/components/ui/navigation-menu";
+import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
 import { useSidebar } from "fumadocs-ui/provider";
-import { Bookmark, Menu } from "lucide-react";
+import { ArrowUpRight, Bookmark, Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 import {
   AUTH_MENU_LINKS,
   AuthNavMenuSkeleton,
@@ -41,67 +40,128 @@ interface NavItem {
   url: string;
 }
 
-const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
-  { title: "Docs", url: DOCS_GUIDE_URL },
-  { title: "Primitives", url: primitivesUrl },
-  { title: "Components", url: "/components" },
-  { title: "Icons", url: "/docs/icons" },
-  { title: "Blog", url: "/blog" },
+const BASE_NAV_ITEMS: NavItem[] = [{ title: "Docs", url: DOCS_GUIDE_URL }];
+
+const RESOURCE_NAV_ITEMS: NavItem[] = [{ title: "Blog", url: "/blog" }];
+
+interface LibraryNavItem extends NavItem {
+  description: string;
+}
+
+const LIBRARY_NAV_ITEMS = (primitivesUrl: string): LibraryNavItem[] => [
+  {
+    title: "Primitives",
+    url: primitivesUrl,
+    description: "Unstyled, animated building blocks powered by Motion.",
+  },
+  {
+    title: "Components",
+    url: "/components",
+    description: "Fully-assembled examples built from primitives.",
+  },
+  {
+    title: "Icons",
+    url: "/docs/icons",
+    description: "Animated icons with hover, tap, and view triggers.",
+  },
 ];
+
+const NAV_LINK_CLASS = cn(
+  "h-8 justify-center rounded-md bg-transparent px-3 py-0 font-normal text-neutral-700 text-sm transition-colors duration-200 ease-in-out hover:bg-accent hover:text-black focus:bg-accent dark:text-neutral-200 dark:hover:text-white",
+  "data-[active=true]:text-black dark:data-[active=true]:text-white"
+);
 
 const HEADER_AUTH_NAV_ITEMS = AUTH_MENU_LINKS.filter(
   (item) => item.title !== "Settings"
 );
 
+function LibraryMenuContent({
+  libraryItems,
+}: {
+  libraryItems: LibraryNavItem[];
+}) {
+  return (
+    <div className="flex w-[480px] gap-2">
+      <NavigationMenuLink
+        asChild
+        className="w-[180px] shrink-0 bg-muted/60 p-3 hover:bg-muted focus:bg-muted"
+      >
+        <Link href={DOCS_GUIDE_URL}>
+          <span className="flex size-9 items-center justify-center rounded-md border bg-background">
+            <IconLogo size="sm" />
+          </span>
+          <span className="mt-8 font-medium text-sm">Sora UI</span>
+          <span className="mt-1 text-muted-foreground text-xs leading-relaxed">
+            Fully animated, open-source component distribution.
+          </span>
+        </Link>
+      </NavigationMenuLink>
+      <div className="grid flex-1 grid-cols-2 content-start gap-1">
+        {libraryItems.map((item) => (
+          <NavigationMenuLink asChild className="gap-1 p-3" key={item.title}>
+            <Link href={item.url}>
+              <span className="flex items-center justify-between font-medium text-sm">
+                {item.title}
+                <ArrowUpRight className="size-3.5 text-muted-foreground" />
+              </span>
+              <span className="text-muted-foreground text-xs leading-relaxed">
+                {item.description}
+              </span>
+            </Link>
+          </NavigationMenuLink>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function NavMenuItems({
   hasSession,
-  navItems,
+  libraryItems,
   onRequireLogin,
   sessionPending,
 }: {
   hasSession: boolean;
-  navItems: NavItem[];
+  libraryItems: LibraryNavItem[];
   onRequireLogin: (redirectUrl: string) => void;
   sessionPending: boolean;
 }) {
-  const pathname = usePathname();
-  const { setActiveValue, clearBounds } = useHighlight<string>();
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset only on route/auth change
-  useEffect(() => {
-    setActiveValue(null);
-    clearBounds();
-  }, [pathname, sessionPending]);
-
   return (
     <>
-      {navItems.map((item) => (
-        <MotionNavigationMenuItem key={item.title} value={item.title}>
-          <MotionNavigationMenuLink
-            asChild
-            className={cn(
-              "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
-              "data-[active=true]:text-black dark:data-[active=true]:text-white"
-            )}
-            highlightValue={item.title}
-          >
+      {BASE_NAV_ITEMS.map((item) => (
+        <NavigationMenuItem key={item.title}>
+          <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
             <Link href={item.url}>{item.title}</Link>
-          </MotionNavigationMenuLink>
-        </MotionNavigationMenuItem>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      ))}
+      <NavigationMenuItem>
+        <NavigationMenuTrigger
+          className={cn(
+            NAV_LINK_CLASS,
+            "data-[state=open]:bg-accent data-[state=open]:text-black dark:data-[state=open]:text-white"
+          )}
+        >
+          Library
+        </NavigationMenuTrigger>
+        <NavigationMenuContent>
+          <LibraryMenuContent libraryItems={libraryItems} />
+        </NavigationMenuContent>
+      </NavigationMenuItem>
+      {RESOURCE_NAV_ITEMS.map((item) => (
+        <NavigationMenuItem key={item.title}>
+          <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
+            <Link href={item.url}>{item.title}</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       ))}
       {HEADER_AUTH_NAV_ITEMS.map((item) => (
-        <MotionNavigationMenuItem key={item.title} value={item.title}>
+        <NavigationMenuItem key={item.title}>
           <SkeletonTransition
             loading={sessionPending}
             skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
           >
-            <MotionNavigationMenuLink
-              asChild
-              className={cn(
-                "h-8! justify-center px-3! py-0! font-normal! text-neutral-700 text-sm! transition-colors duration-200 ease-in-out hover:text-black dark:text-neutral-200 dark:hover:text-white",
-                "data-[active=true]:text-black dark:data-[active=true]:text-white"
-              )}
-              highlightValue={item.title}
-            >
+            <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
               <Link
                 href={item.url}
                 onClick={(event) => {
@@ -113,9 +173,9 @@ function NavMenuItems({
               >
                 {item.title}
               </Link>
-            </MotionNavigationMenuLink>
+            </NavigationMenuLink>
           </SkeletonTransition>
-        </MotionNavigationMenuItem>
+        </NavigationMenuItem>
       ))}
     </>
   );
@@ -126,7 +186,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
   const { data: session } = useSession(authClient);
   const authNavPending = useAuthNavPending();
   const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
-  const navItems = BASE_NAV_ITEMS(primitivesUrl);
+  const libraryItems = LIBRARY_NAV_ITEMS(primitivesUrl);
 
   return (
     <Navbar className="!bg-transparent !shadow-none !backdrop-blur-none z-30 h-14 overflow-visible border-b-0 px-(--fd-layout-offset) transition-none md:h-17">
@@ -151,16 +211,16 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
         </Link>
         <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
           <div className="hidden items-center gap-1 md:flex">
-            <MotionNavigationMenu viewport={false}>
-              <MotionNavigationMenuList className="gap-0 bg-transparent">
+            <NavigationMenu viewport={false}>
+              <NavigationMenuList className="gap-0 bg-transparent">
                 <NavMenuItems
                   hasSession={Boolean(session)}
-                  navItems={navItems}
+                  libraryItems={libraryItems}
                   onRequireLogin={openLoginDialog}
                   sessionPending={authNavPending}
                 />
-              </MotionNavigationMenuList>
-            </MotionNavigationMenu>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           <div className="relative z-10 flex shrink-0 items-center gap-2 md:gap-3">

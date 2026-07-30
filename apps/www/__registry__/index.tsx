@@ -1586,7 +1586,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/draw-underline-link.tsx",
         content:
-          '"use client";\nimport {\n  DrawUnderlineLink,\n  type DrawUnderlineLinkProps,\n} from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkCatalogDemo({\n  label = "Hover me",\n  variant = "default",\n  duration = 0.5,\n  underlineColor = "#ff4c24",\n  ...props\n}: DrawUnderlineLinkProps) {\n  return (\n    <section>\n      <DrawUnderlineLink\n        duration={duration}\n        href="#"\n        label={label}\n        underlineColor={underlineColor}\n        variant={variant}\n        {...props}\n      />\n    </section>\n  );\n}',
+          '"use client";\r\nimport {\r\n  DrawUnderlineLink,\r\n  type DrawUnderlineLinkProps,\r\n} from "@/components/sora-ui/texts/draw-underline-link";\r\n\r\nexport default function DrawUnderlineLinkCatalogDemo({\r\n  label = "Hover me",\r\n  variant = "default",\r\n  duration = 0.5,\r\n  underlineColor = "#ff4c24",\r\n  ...props\r\n}: DrawUnderlineLinkProps) {\r\n  return (\r\n    <section>\r\n      <DrawUnderlineLink\r\n        duration={duration}\r\n        href="#"\r\n        label={label}\r\n        underlineColor={underlineColor}\r\n        variant={variant}\r\n        {...props}\r\n      />\r\n    </section>\r\n  );\r\n}',
       },
     ],
     keywords: [],
@@ -2583,7 +2583,11 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
-    inspiration: null,
+    inspiration: {
+      type: "adapted",
+      label: "Animate UI",
+      url: "https://animate-ui.com/docs/primitives/animate/slot",
+    },
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import(

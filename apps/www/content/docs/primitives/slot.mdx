@@ -1,0 +1,72 @@
+---
+title: Slot
+description: A slot component that merges motion props into any child element, turning it into a Motion component. A primitive from Animate UI.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+`Slot` is a primitive from [Animate UI](https://animate-ui.com/docs/primitives/animate/slot). It works like Radix's `Slot`, but for Motion: it wraps a single child element, converts it into a `motion` component (via `motion.create`), and merges class names, styles, refs, and all motion props onto it.
+
+## Installation
+
+<ComponentInstallation name="primitives-animate-slot" />
+
+## Usage
+
+```tsx
+import { Slot } from '@/components/sora-ui/animate/slot';
+
+<Slot whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+  <button type="button">Hover me</button>
+</Slot>;
+```
+
+The child is rendered as a Motion component — if it already is one, it's reused as-is. Props defined on `Slot` win over the child's props, except `className` and `style`, which are merged.
+
+### Building `asChild` components
+
+Use the exported `WithAsChild` helper type to add a Radix-style `asChild` prop to your own animated components:
+
+```tsx
+import {
+  Slot,
+  type WithAsChild,
+} from '@/components/sora-ui/animate/slot';
+import { type HTMLMotionProps, motion } from 'motion/react';
+
+type ButtonProps = WithAsChild<HTMLMotionProps<'button'>>;
+
+function Button({ asChild = false, ...props }: ButtonProps) {
+  if (asChild) {
+    return <Slot {...props} />;
+  }
+  return <motion.button {...props} />;
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description:
+        'A single React element to render. It gets converted into a Motion component and receives the merged props.',
+      type: 'React.ReactElement',
+    },
+    ref: {
+      description:
+        'Ref for the rendered element — merged with the child element’s own ref.',
+      type: 'React.Ref<HTMLElement>',
+    },
+    '...props': {
+      description:
+        'Any Motion props (animate, transition, whileHover, …) and DOM props. Merged onto the child; className and style are combined instead of overwritten.',
+      type: 'HTMLMotionProps',
+    },
+  }}
+/>
+
+## Credits
+
+<ComponentCredits name="primitives-animate-slot" />
