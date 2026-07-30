@@ -110,7 +110,7 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     defaultValue,
     onValueChange,
     className,
-    transition = { type: "spring", stiffness: 1250, damping: 40, mass: 0.5 },
+    transition = { type: "spring", stiffness: 350, damping: 35 },
     hover = false,
     enabled = true,
     controlledItems,

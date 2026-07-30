@@ -11,12 +11,19 @@ import {
   NavigationMenuTrigger,
 } from "@workspace/ui/components/ui/navigation-menu";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
+import {
+  Highlight,
+  HighlightItem,
+  useHighlight,
+} from "@workspace/ui/components/unlumen-ui/primitives/effects/highlight";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
 import { useSidebar } from "fumadocs-ui/provider";
 import { ArrowUpRight, Bookmark, Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import {
   AUTH_MENU_LINKS,
   AuthNavMenuSkeleton,
@@ -67,8 +74,8 @@ const LIBRARY_NAV_ITEMS = (primitivesUrl: string): LibraryNavItem[] => [
 ];
 
 const NAV_LINK_CLASS = cn(
-  "h-8 justify-center rounded-md bg-transparent px-3 py-0 font-normal text-neutral-700 text-sm transition-colors duration-200 ease-in-out hover:bg-accent hover:text-black focus:bg-accent dark:text-neutral-200 dark:hover:text-white",
-  "data-[active=true]:text-black dark:data-[active=true]:text-white"
+  "h-8 justify-center rounded-md bg-transparent px-3 py-0 font-normal text-neutral-700 text-sm transition-colors duration-200 ease-in-out hover:bg-transparent hover:text-black focus:bg-transparent focus:text-black dark:text-neutral-200 dark:focus:text-white dark:hover:text-white",
+  "data-[active=true]:bg-transparent data-[active=true]:text-black data-[active=true]:focus:bg-transparent data-[active=true]:hover:bg-transparent dark:data-[active=true]:text-white"
 );
 
 const HEADER_AUTH_NAV_ITEMS = AUTH_MENU_LINKS.filter(
@@ -81,14 +88,14 @@ function LibraryMenuContent({
   libraryItems: LibraryNavItem[];
 }) {
   return (
-    <div className="flex w-[480px] gap-2">
+    <div className="flex w-120 gap-2">
       <NavigationMenuLink
         asChild
-        className="w-[180px] shrink-0 bg-muted/60 p-3 hover:bg-muted focus:bg-muted"
+        className="w-45 shrink-0 bg-muted/60 p-3 hover:bg-muted focus:bg-muted"
       >
         <Link href={DOCS_GUIDE_URL}>
           <span className="flex size-9 items-center justify-center rounded-md border bg-background">
-            <IconLogo size="sm" />
+            <IconLogo className="text-foreground" size="sm" />
           </span>
           <span className="mt-8 font-medium text-sm">Sora UI</span>
           <span className="mt-1 text-muted-foreground text-xs leading-relaxed">
@@ -126,33 +133,47 @@ function NavMenuItems({
   onRequireLogin: (redirectUrl: string) => void;
   sessionPending: boolean;
 }) {
+  const pathname = usePathname();
+  const { setActiveValue, clearBounds } = useHighlight<string>();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset only on route/auth change
+  useEffect(() => {
+    setActiveValue(null);
+    clearBounds();
+  }, [pathname, sessionPending]);
+
   return (
     <>
       {BASE_NAV_ITEMS.map((item) => (
         <NavigationMenuItem key={item.title}>
-          <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
-            <Link href={item.url}>{item.title}</Link>
-          </NavigationMenuLink>
+          <HighlightItem asChild value={item.title}>
+            <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
+              <Link href={item.url}>{item.title}</Link>
+            </NavigationMenuLink>
+          </HighlightItem>
         </NavigationMenuItem>
       ))}
       <NavigationMenuItem>
-        <NavigationMenuTrigger
-          className={cn(
-            NAV_LINK_CLASS,
-            "data-[state=open]:bg-accent data-[state=open]:text-black dark:data-[state=open]:text-white"
-          )}
-        >
-          Library
-        </NavigationMenuTrigger>
+        <HighlightItem asChild value="Library">
+          <NavigationMenuTrigger
+            className={cn(
+              NAV_LINK_CLASS,
+              "data-[state=open]:bg-transparent data-[state=open]:text-black data-[state=open]:focus:bg-transparent data-[state=open]:hover:bg-transparent dark:data-[state=open]:text-white"
+            )}
+          >
+            Library
+          </NavigationMenuTrigger>
+        </HighlightItem>
         <NavigationMenuContent>
           <LibraryMenuContent libraryItems={libraryItems} />
         </NavigationMenuContent>
       </NavigationMenuItem>
       {RESOURCE_NAV_ITEMS.map((item) => (
         <NavigationMenuItem key={item.title}>
-          <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
-            <Link href={item.url}>{item.title}</Link>
-          </NavigationMenuLink>
+          <HighlightItem asChild value={item.title}>
+            <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
+              <Link href={item.url}>{item.title}</Link>
+            </NavigationMenuLink>
+          </HighlightItem>
         </NavigationMenuItem>
       ))}
       {HEADER_AUTH_NAV_ITEMS.map((item) => (
@@ -161,19 +182,21 @@ function NavMenuItems({
             loading={sessionPending}
             skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
           >
-            <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
-              <Link
-                href={item.url}
-                onClick={(event) => {
-                  if (!hasSession) {
-                    event.preventDefault();
-                    onRequireLogin(item.url);
-                  }
-                }}
-              >
-                {item.title}
-              </Link>
-            </NavigationMenuLink>
+            <HighlightItem asChild value={item.title}>
+              <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
+                <Link
+                  href={item.url}
+                  onClick={(event) => {
+                    if (!hasSession) {
+                      event.preventDefault();
+                      onRequireLogin(item.url);
+                    }
+                  }}
+                >
+                  {item.title}
+                </Link>
+              </NavigationMenuLink>
+            </HighlightItem>
           </SkeletonTransition>
         </NavigationMenuItem>
       ))}
@@ -189,7 +212,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
   const libraryItems = LIBRARY_NAV_ITEMS(primitivesUrl);
 
   return (
-    <Navbar className="!bg-transparent !shadow-none !backdrop-blur-none z-30 h-14 overflow-visible border-b-0 px-(--fd-layout-offset) transition-none md:h-17">
+    <Navbar className="z-30 h-14 overflow-visible border-b-0 bg-transparent! px-(--fd-layout-offset) shadow-none! backdrop-blur-none! transition-none md:h-17">
       <ProgressiveBlur
         backgroundColor="var(--background)"
         blurAmount="12px"
@@ -212,14 +235,22 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
         <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
           <div className="hidden items-center gap-1 md:flex">
             <NavigationMenu viewport={false}>
-              <NavigationMenuList className="gap-0 bg-transparent">
-                <NavMenuItems
-                  hasSession={Boolean(session)}
-                  libraryItems={libraryItems}
-                  onRequireLogin={openLoginDialog}
-                  sessionPending={authNavPending}
-                />
-              </NavigationMenuList>
+              <Highlight
+                className="pointer-events-none rounded-md bg-accent"
+                containerClassName="relative"
+                controlledItems
+                hover
+                mode="parent"
+              >
+                <NavigationMenuList className="relative z-10 gap-0 bg-transparent">
+                  <NavMenuItems
+                    hasSession={Boolean(session)}
+                    libraryItems={libraryItems}
+                    onRequireLogin={openLoginDialog}
+                    sessionPending={authNavPending}
+                  />
+                </NavigationMenuList>
+              </Highlight>
             </NavigationMenu>
           </div>
 
@@ -230,10 +261,10 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
               align="end"
               className={cn(
                 "text-fd-muted-foreground",
-                "max-md:!size-7 max-md:rounded-full max-md:p-0",
-                "max-md:[&_[data-slot=avatar]]:!size-7",
-                "max-md:[&_.rounded-full]:!size-7",
-                "max-md:[&_svg]:!size-4"
+                "max-md:size-7! max-md:rounded-full max-md:p-0",
+                "max-md:**:data-[slot=avatar]:size-7!",
+                "max-md:[&_.rounded-full]:size-7!",
+                "max-md:[&_svg]:size-4!"
               )}
               links={[
                 {
