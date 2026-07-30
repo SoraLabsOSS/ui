@@ -79,6 +79,11 @@ function getRegistryInstallTargets(name: string): string[] {
         continue;
       }
 
+      if (dep in index) {
+        queue.push(dep);
+        continue;
+      }
+
       const shadcnTarget = getShadcnDepTarget(dep);
       if (shadcnTarget && !targets.includes(shadcnTarget)) {
         targets.push(shadcnTarget);
