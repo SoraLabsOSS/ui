@@ -46,6 +46,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       sidebar={{
         component: (
           <DocsSidebar
+            primitivesUrl={primitivesUrl}
             releaseDatesByUrl={releaseDatesByUrl}
             {...DOCS_LAYOUT_PROPS}
           />

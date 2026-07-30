@@ -110,13 +110,19 @@ function getPrimitiveRootFolders(treeRoot: PageTree.Root): PageTree.Folder[] {
 }
 
 /** Renders a bottom "Menu" section on guide pages with Primitives + Components links. */
-function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
+function GuideBottomMenu({
+  onNavigate,
+  primitivesUrl: primitivesUrlProp,
+}: {
+  onNavigate?: () => void;
+  primitivesUrl?: string;
+}) {
   const { root } = useTreeContext();
   const pathname = usePathname();
   const componentRoots = getPrimitiveRootFolders(root);
 
   // Derive the Primitives index URL from the first root folder in the tree.
-  const primitivesUrl = useMemo(() => {
+  const derivedPrimitivesUrl = useMemo(() => {
     for (const folder of componentRoots) {
       const url =
         folder.index?.url ??
@@ -131,6 +137,8 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
     }
     return "/docs";
   }, [componentRoots]);
+
+  const primitivesUrl = primitivesUrlProp ?? derivedPrimitivesUrl;
 
   const { data: session } = useSession(authClient);
   const authNavPending = useAuthNavPending();
@@ -160,6 +168,13 @@ function GuideBottomMenu({ onNavigate }: { onNavigate?: () => void }) {
           pathname === "/components" || pathname.startsWith("/components/")
         }
         label="Components"
+        onClick={onNavigate}
+      />
+      <DocsShellNavItem
+        href="/docs/icons"
+        isActive={false}
+        itemKey="menu-icons"
+        label="Icons"
         onClick={onNavigate}
       />
       <DocsShellNavItem
@@ -335,18 +350,16 @@ export function SidebarPageTree(props: {
         return null;
       }
 
+      const activeRoot = treePath.findLast(isRootFolder) ?? primitiveRoots[0];
+
       return (
-        <>
-          {primitiveRoots.map((folder) => (
-            <Fragment key={folder.$id ?? String(folder.name)}>
-              {renderSidebarList(
-                folder.children,
-                1,
-                String(folder.$id ?? folder.name)
-              )}
-            </Fragment>
-          ))}
-        </>
+        <Fragment key={activeRoot.$id ?? String(activeRoot.name)}>
+          {renderSidebarList(
+            activeRoot.children,
+            1,
+            String(activeRoot.$id ?? activeRoot.name)
+          )}
+        </Fragment>
       );
     }
 
@@ -437,7 +450,10 @@ export function SidebarLinkItem({
 }
 
 export const DocsSidebar = (
-  all: DocsLayoutProps & { releaseDatesByUrl?: Record<string, string> }
+  all: DocsLayoutProps & {
+    releaseDatesByUrl?: Record<string, string>;
+    primitivesUrl?: string;
+  }
 ) => {
   const {
     footer: sidebarFooter,
@@ -531,7 +547,10 @@ export const DocsSidebar = (
                 );
               })}
 
-            <GuideBottomMenu onNavigate={closeMobile} />
+            <GuideBottomMenu
+              onNavigate={closeMobile}
+              primitivesUrl={all.primitivesUrl}
+            />
 
             <div className="mt-4">
               <SidebarPageTree

@@ -810,6 +810,20 @@
       ]
     },
     {
+      "name": "hooks-use-is-in-view",
+      "type": "registry:hook",
+      "title": "useIsInView",
+      "description": "A Motion-powered hook that allows you to check if an element is in view.",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "registry/hooks/use-is-in-view/index.tsx",
+          "type": "registry:hook",
+          "target": "hooks/use-is-in-view.tsx"
+        }
+      ]
+    },
+    {
       "name": "hooks-use-prefers-reduced-motion",
       "type": "registry:hook",
       "title": "usePrefersReducedMotion",
@@ -819,6 +833,50 @@
           "path": "registry/hooks/use-prefers-reduced-motion/index.tsx",
           "type": "registry:hook",
           "target": "hooks/use-prefers-reduced-motion.tsx"
+        }
+      ]
+    },
+    {
+      "name": "icons-chevrons",
+      "type": "registry:ui",
+      "title": "Chevrons",
+      "description": "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["@soralabs/icons-icon"],
+      "files": [
+        {
+          "path": "registry/icons/chevrons/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/icons/chevrons.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "chevron",
+          "chevrons",
+          "up",
+          "arrow",
+          "expand",
+          "caret",
+          "new"
+        ]
+      }
+    },
+    {
+      "name": "icons-icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "AnimateIcon engine that powers Sora's animated icons — provides animate, animateOnHover, animateOnTap, animateOnView, loop, and per/static path animations via a shared context.",
+      "dependencies": ["motion"],
+      "registryDependencies": [
+        "@soralabs/hooks-use-is-in-view",
+        "@soralabs/primitives-animate-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/icons/icon/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/icons/icon.tsx"
         }
       ]
     },
@@ -858,6 +916,21 @@
           "path": "registry/lib/scroll-trigger-utils/index.tsx",
           "type": "registry:lib",
           "target": "lib/scroll-trigger-utils.tsx"
+        }
+      ]
+    },
+    {
+      "name": "primitives-animate-slot",
+      "type": "registry:ui",
+      "title": "Animate Slot",
+      "description": "A slot component that allows you to use motion components with any element.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/animate/slot/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/animate/slot.tsx"
         }
       ]
     },

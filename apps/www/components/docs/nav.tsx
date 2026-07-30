@@ -45,6 +45,7 @@ const BASE_NAV_ITEMS = (primitivesUrl: string): NavItem[] => [
   { title: "Docs", url: DOCS_GUIDE_URL },
   { title: "Primitives", url: primitivesUrl },
   { title: "Components", url: "/components" },
+  { title: "Icons", url: "/docs/icons" },
   { title: "Blog", url: "/blog" },
 ];
 

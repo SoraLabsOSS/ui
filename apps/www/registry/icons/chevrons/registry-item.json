@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-chevrons",
+  "type": "registry:ui",
+  "title": "Chevrons",
+  "description": "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["icons-icon"],
+  "files": [
+    {
+      "path": "registry/icons/chevrons/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/chevrons.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": ["chevron", "chevrons", "up", "arrow", "expand", "caret", "new"]
+  }
+}

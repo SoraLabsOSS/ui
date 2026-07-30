@@ -252,19 +252,30 @@ async function buildRegistryFile() {
     return documentedNames.has(item.name);
   });
 
+  // Icons live under registry/icons/* and are surfaced through the /icons
+  // gallery rather than MDX docs, so seed them (the icons-icon engine is
+  // pulled in transitively) to keep them in the published registry.
+  const iconSeedNames = new Set(documentedItems.map((item) => item.name));
+  for (const item of newItems) {
+    if (item.name.startsWith("icons-")) {
+      iconSeedNames.add(item.name);
+    }
+  }
+
   const publishedNames = collectTransitiveRegistryDependencyNames(
     newItems,
-    new Set(documentedItems.map((item) => item.name))
+    iconSeedNames
   );
 
   const filteredItems = newItems.filter((item) => {
-    // Always exclude internal primitives from the public registry
-    if (item.name.startsWith("primitives-")) {
-      return false;
-    }
-
+    // Publish internal primitives (primitives-*) only when they're a required
+    // transitive dependency of a documented/icon item (present in
+    // publishedNames) — e.g. icons-icon → primitives-animate-slot. Otherwise
+    // they stay internal and out of the public registry.
     if (!publishedNames.has(item.name)) {
-      console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
+      if (!item.name.startsWith("primitives-")) {
+        console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
+      }
       return false;
     }
 
@@ -353,9 +364,17 @@ async function buildRegistryIndex() {
   // manual install tab) can look them up in `index` too — not just the item
   // that's directly referenced in an .mdx page.
   const documentedNames = await collectDocumentedNames();
+  // Seed icons-* so the /icons gallery can read them from the index
+  // (they're not referenced in MDX). Transitive deps pull in icons-icon.
+  const includedSeedNames = new Set(documentedNames);
+  for (const item of allItemsFromFolder) {
+    if (item.name.startsWith("icons-")) {
+      includedSeedNames.add(item.name);
+    }
+  }
   const includedNames = collectTransitiveRegistryDependencyNames(
     allItemsFromFolder,
-    documentedNames
+    includedSeedNames
   );
 
   let index = `/* eslint-disable @typescript-eslint/ban-ts-comment */

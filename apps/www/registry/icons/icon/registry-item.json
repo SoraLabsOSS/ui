@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-icon",
+  "type": "registry:ui",
+  "title": "Icon",
+  "description": "AnimateIcon engine that powers Sora's animated icons — provides animate, animateOnHover, animateOnTap, animateOnView, loop, and per/static path animations via a shared context.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["hooks-use-is-in-view", "primitives-animate-slot"],
+  "files": [
+    {
+      "path": "registry/icons/icon/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/icon.tsx"
+    }
+  ]
+}
