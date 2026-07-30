@@ -40,8 +40,17 @@ export default function GlobalError({
           <p className="font-mono text-base text-zinc-500 dark:text-zinc-400">
             Something went wrong!
           </p>
-          <div className="pt-4">
+          <div className="flex items-center gap-3 pt-4">
             <Button onClick={() => unstable_retry()}>Try again</Button>
+            <Button asChild variant="outline">
+              <a
+                href="https://github.com/SoraLabsOSS/sora-ui-community/issues/new"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Report issue
+              </a>
+            </Button>
           </div>
         </div>
       </body>
