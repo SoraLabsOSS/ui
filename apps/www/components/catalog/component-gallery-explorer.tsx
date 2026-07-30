@@ -11,6 +11,7 @@ import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 import {
   COMPONENT_GALLERY_SECTIONS,
   groupGalleryItemsByCategory,
@@ -44,6 +45,70 @@ const FILTER_TRANSITION = {
   duration: 0.48,
   ease: [0.19, 1, 0.22, 1] as const,
 };
+
+// New badge chevron animation — top/bottom stroke fade cross-fading in a loop.
+const NEW_BADGE_TOP = [0, 0, 0.15, 1, 1, 0.85, 0];
+const NEW_BADGE_BOTTOM = [0, 1, 1, 0.85, 0, 0, 0];
+const NEW_BADGE_TIMES = [0, 0.22, 0.3, 0.5, 0.72, 0.8, 1];
+
+const newBadgeStrokeTransition = {
+  duration: 0.75,
+  ease: "easeInOut" as const,
+  repeat: Number.POSITIVE_INFINITY,
+  times: NEW_BADGE_TIMES,
+};
+
+function NewBadge({
+  prefersReducedMotion,
+}: {
+  prefersReducedMotion: boolean | null;
+}) {
+  return (
+    <span
+      className="flex items-center rounded-lg font-medium text-sm capitalize"
+      style={{ color: "var(--accent-pro)" }}
+    >
+      new
+      <svg
+        fill="none"
+        height="20"
+        viewBox="0 0 16 16"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>New</title>
+        <motion.path
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1 }
+              : { opacity: NEW_BADGE_BOTTOM }
+          }
+          d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.25"
+          transition={
+            prefersReducedMotion ? undefined : newBadgeStrokeTransition
+          }
+        />
+        <motion.path
+          animate={
+            prefersReducedMotion ? { opacity: 1 } : { opacity: NEW_BADGE_TOP }
+          }
+          d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.25"
+          transition={
+            prefersReducedMotion ? undefined : newBadgeStrokeTransition
+          }
+        />
+      </svg>
+    </span>
+  );
+}
 
 const filterItemVariants = {
   initial: {
@@ -186,13 +251,22 @@ function GalleryAnimatedItem({
 
 function GalleryCard({
   item,
+  prefersReducedMotion,
   priority = false,
 }: {
   item: ComponentGalleryItem;
+  prefersReducedMotion: boolean | null;
   priority?: boolean;
 }) {
   const category = resolveGalleryCategory(item);
   const [isPreviewActive, setIsPreviewActive] = useState(false);
+  // Computed after mount — isRecentlyReleased() reads Date.now(), which is not
+  // allowed during a client render without a Suspense boundary.
+  const [isNew, setIsNew] = useState(false);
+
+  useEffect(() => {
+    setIsNew(isRecentlyReleased(item.releaseDate));
+  }, [item.releaseDate]);
 
   return (
     <div>
@@ -226,10 +300,13 @@ function GalleryCard({
             />
           </div>
 
-          <div className="flex items-center px-4 py-2.5">
+          <div className="flex items-center justify-between gap-2 px-4 py-2.5">
             <span className="truncate font-medium text-base text-foreground">
               {item.title}
             </span>
+            {isNew ? (
+              <NewBadge prefersReducedMotion={prefersReducedMotion} />
+            ) : null}
           </div>
         </div>
       </Link>
@@ -412,7 +489,11 @@ function GallerySectionItems({
               key={item.slug}
               prefersReducedMotion={prefersReducedMotion}
             >
-              <GalleryCard item={item} priority={isFirstSection && index < 3} />
+              <GalleryCard
+                item={item}
+                prefersReducedMotion={prefersReducedMotion}
+                priority={isFirstSection && index < 3}
+              />
             </GalleryAnimatedItem>
           ))}
         </AnimatePresence>

@@ -682,39 +682,4 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
     -webkit-user-drag: none;
     user-drag: none;
   }
-
-  /* Cloudflare AI Search chat bubble — docs RAG assistant */
-  chat-bubble-snippet.docs-ai-search-chat {
-    --search-snippet-primary-color: var(--accent-pro);
-    --search-snippet-primary-hover: color-mix(
-      in oklch,
-      var(--accent-pro) 88%,
-      black
-    );
-    --search-snippet-background: var(--background);
-    --search-snippet-surface: var(--muted);
-    --search-snippet-hover-background: var(--accent);
-    --search-snippet-text-color: var(--foreground);
-    --search-snippet-text-secondary: var(--muted-foreground);
-    --search-snippet-border-color: var(--border);
-    --search-snippet-user-message-bg: var(--accent-pro);
-    --search-snippet-user-message-text: #ffffff;
-    --search-snippet-assistant-message-bg: var(--muted);
-    --search-snippet-assistant-message-text: var(--foreground);
-    --search-snippet-border-radius: calc(var(--radius) + 2px);
-    --search-snippet-font-size-base: 13px;
-    --search-snippet-font-size-lg: 15px;
-    --search-snippet-spacing-md: 10px;
-    --search-snippet-input-height: 40px;
-    --search-snippet-button-height: 32px;
-    /* FAB — default 60px / 28px icon feels oversized on docs */
-    --chat-bubble-button-size: 52px;
-    --chat-bubble-button-icon-size: 24px;
-    --chat-bubble-button-shadow: 0 4px 14px
-      color-mix(in oklch, var(--accent-pro) 35%, transparent);
-    --chat-bubble-window-shadow: 0 8px 28px rgb(0 0 0 / 0.18);
-    --chat-bubble-button-bottom: 1rem;
-    --chat-bubble-button-right: 1rem;
-    --chat-bubble-button-z-index: 40;
-  }
 }

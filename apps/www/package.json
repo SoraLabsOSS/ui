@@ -20,7 +20,6 @@
     "@better-auth-ui/core": "^1.6.17",
     "@better-auth-ui/react": "^1.6.17",
     "@better-auth/infra": "0.3.2",
-    "@cloudflare/ai-search-snippet": "^0.0.40",
     "@floating-ui/react": "^0.27.15",
     "@gsap/react": "^2.1.2",
     "@paper-design/shaders-react": "^0.0.66",
