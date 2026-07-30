@@ -283,7 +283,7 @@ export function Icons() {
                       <div>
                         <AnimateIcon animateOnHover asChild>
                           <button
-                            className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-[box-shadow] duration-200 hover:ring-2"
+                            className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
                             data-value={item.name}
                             onClick={() =>
                               setActiveIconWithoutPrefix(
@@ -303,7 +303,7 @@ export function Icons() {
                             />
 
                             {newIconNames.includes(item.name) && (
-                              <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-[var(--accent-pro)]" />
+                              <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
                             )}
 
                             <div className="absolute -right-2.5 -bottom-2.5 z-10 flex size-5 items-center justify-center rounded-full border bg-background font-medium text-muted-foreground transition-colors duration-200 group-hover:border-foreground group-hover:ring group-hover:ring-foreground">
@@ -324,7 +324,7 @@ export function Icons() {
             </TooltipProvider>
           </div>
         ) : (
-          <div className="flex h-[200px] items-center justify-center">
+          <div className="flex h-50 items-center justify-center">
             <p className="text-muted-foreground text-sm">No icons found</p>
           </div>
         )}
@@ -334,7 +334,7 @@ export function Icons() {
         {isPanelOpen && (
           <motion.div
             animate={{ opacity: 1, x: 0 }}
-            className="fixed inset-y-12 right-0 z-50 w-[325px] rounded-l-2xl border-y border-l bg-background p-4 shadow-sm"
+            className="fixed inset-y-12 right-0 z-50 w-81.25 rounded-l-2xl border-y border-l bg-background p-4 shadow-sm"
             exit={{ opacity: 0, x: "100%" }}
             initial={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 150, damping: 25 }}
@@ -353,7 +353,81 @@ export function Icons() {
             </AnimateIcon>
 
             <div className="h-[calc(100%-3.25rem)] overflow-y-auto">
-              <div className="flex h-full flex-col justify-between gap-y-4">
+              <div className="flex flex-col gap-y-4">
+                <div className="space-y-4">
+                  {activeIcon && (
+                    <>
+                      <div className="relative mx-auto flex aspect-square h-37.5 w-full items-center justify-center rounded-2xl border bg-muted/50">
+                        {icon?.component && (
+                          <icon.component
+                            animate
+                            animation={activeAnimation}
+                            className="size-25 text-current"
+                            key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
+                            loop={isLoop}
+                          />
+                        )}
+
+                        <Button
+                          className={cn(
+                            "absolute top-2 left-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
+                            isLoop &&
+                              "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
+                          )}
+                          onClick={() => setIsLoop(!isLoop)}
+                          size="icon-sm"
+                          variant="ghost"
+                        >
+                          <InfinityIcon className="size-3.5" />
+                        </Button>
+
+                        <AnimateIcon animateOnHover asChild>
+                          <Button
+                            className="absolute top-2 right-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
+                            onClick={() => setAnimationKey((prev) => prev + 1)}
+                            size="icon-sm"
+                            variant="ghost"
+                          >
+                            <RotateCcw className="size-3.5" />
+                          </Button>
+                        </AnimateIcon>
+                      </div>
+
+                      <Select
+                        onValueChange={(value) => setActiveAnimation(value)}
+                        value={activeAnimation}
+                      >
+                        <SelectTrigger className="h-11! w-full rounded-lg px-1.5">
+                          <SelectValue placeholder="Select an animation" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <div className="space-y-1.5 p-0.5">
+                            {Object.keys({
+                              ...staticAnimations,
+                              ...(icon?.component?.animations ?? {}),
+                            }).map((animation) => (
+                              <SelectItem
+                                className="h-8! rounded-md px-0 focus:bg-muted"
+                                key={animation}
+                                value={animation}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <div className="size-8 rounded-md bg-muted p-1.5">
+                                    {icon?.component && (
+                                      <icon.component className="size-full text-current" />
+                                    )}
+                                  </div>
+                                  <span>{animation}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </div>
+                        </SelectContent>
+                      </Select>
+                    </>
+                  )}
+                </div>
+
                 <div>
                   <Tabs
                     className="gap-0"
@@ -365,10 +439,10 @@ export function Icons() {
                         Installation
                       </h3>
                       <TabsList>
-                        <TabsTrigger className="w-[70px]" value="cli">
+                        <TabsTrigger className="w-17.5" value="cli">
                           CLI
                         </TabsTrigger>
-                        <TabsTrigger className="w-[70px]" value="manual">
+                        <TabsTrigger className="w-17.5" value="manual">
                           Manual
                         </TabsTrigger>
                       </TabsList>
@@ -381,7 +455,7 @@ export function Icons() {
                       <TabsContent value="manual">
                         {activeIcon && (
                           <DynamicCodeBlock
-                            className="[&_[data-slot='codeblock-viewport']]:max-h-[250px]"
+                            className="**:data-[slot='codeblock-viewport']:max-h-62.5"
                             code={icon?.files?.[0]?.content}
                             lang="tsx"
                             title={`${icon?.name.replace("icons-", "")}.tsx`}
@@ -405,80 +479,6 @@ export function Icons() {
 
                   <h3 className="mt-4 mb-2 font-medium text-base">Props</h3>
                   <SoraTypeTable type={ICON_PROPS} />
-                </div>
-
-                <div className="space-y-4">
-                  {activeIcon && (
-                    <>
-                      <div className="relative mx-auto flex aspect-square h-[150px] w-full items-center justify-center rounded-2xl border bg-muted/50">
-                        {icon?.component && (
-                          <icon.component
-                            animate
-                            animation={activeAnimation}
-                            className="size-[100px] text-current"
-                            key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
-                            loop={isLoop}
-                          />
-                        )}
-
-                        <Button
-                          className={cn(
-                            "absolute top-2 left-2 z-[2] size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
-                            isLoop &&
-                              "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
-                          )}
-                          onClick={() => setIsLoop(!isLoop)}
-                          size="icon-sm"
-                          variant="ghost"
-                        >
-                          <InfinityIcon className="size-3.5" />
-                        </Button>
-
-                        <AnimateIcon animateOnHover asChild>
-                          <Button
-                            className="absolute top-2 right-2 z-[2] size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
-                            onClick={() => setAnimationKey((prev) => prev + 1)}
-                            size="icon-sm"
-                            variant="ghost"
-                          >
-                            <RotateCcw className="size-3.5" />
-                          </Button>
-                        </AnimateIcon>
-                      </div>
-
-                      <Select
-                        onValueChange={(value) => setActiveAnimation(value)}
-                        value={activeAnimation}
-                      >
-                        <SelectTrigger className="!h-11 w-full rounded-lg px-1.5">
-                          <SelectValue placeholder="Select an animation" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <div className="space-y-1.5 p-0.5">
-                            {Object.keys({
-                              ...staticAnimations,
-                              ...(icon?.component?.animations ?? {}),
-                            }).map((animation) => (
-                              <SelectItem
-                                className="!h-8 rounded-md px-0 focus:bg-muted"
-                                key={animation}
-                                value={animation}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <div className="size-8 rounded-md bg-muted p-1.5">
-                                    {icon?.component && (
-                                      <icon.component className="size-full text-current" />
-                                    )}
-                                  </div>
-                                  <span>{animation}</span>
-                                </div>
-                              </SelectItem>
-                            ))}
-                          </div>
-                        </SelectContent>
-                      </Select>
-                    </>
-                  )}
                 </div>
               </div>
             </div>
