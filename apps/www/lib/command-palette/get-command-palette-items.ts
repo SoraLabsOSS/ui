@@ -88,6 +88,10 @@ function getDocumentationItems(): CommandPaletteItem[] {
       continue;
     }
 
+    if (page.url.startsWith("/docs/icons")) {
+      continue;
+    }
+
     if (!GUIDE_DOC_URLS.has(page.url) && page.url !== "/docs") {
       continue;
     }
@@ -162,6 +166,30 @@ function getComponentItems(): CommandPaletteItem[] {
     });
 }
 
+function getIconItems(): CommandPaletteItem[] {
+  const icons: CommandPaletteItem[] = [];
+
+  for (const page of source.getPages()) {
+    if (!page.url.startsWith("/docs/icons")) {
+      continue;
+    }
+
+    icons.push(
+      item({
+        id: `icon-${page.url}`,
+        label: page.data.title,
+        hint: "Icons",
+        href: page.url,
+        icon: "box",
+        path: page.url,
+        keywords: page.data.description ? [page.data.description] : undefined,
+      })
+    );
+  }
+
+  return icons;
+}
+
 function getBlogItems(): CommandPaletteItem[] {
   const posts: CommandPaletteItem[] = [];
 
@@ -222,6 +250,13 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       path: "/components",
     }),
     item({
+      id: "page-icons",
+      label: "Icons",
+      href: "/docs/icons",
+      icon: "box",
+      path: "/docs/icons",
+    }),
+    item({
       id: "page-blog",
       label: "Blog",
       href: "/blog",
@@ -240,6 +275,7 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
   const documentation = getDocumentationItems();
   const primitives = getPrimitiveItems();
   const components = getComponentItems();
+  const iconPages = getIconItems();
   const blogPosts = getBlogItems();
 
   const groups: CommandPaletteGroup[] = [
@@ -260,6 +296,10 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
 
   if (components.length > 0) {
     groups.push({ id: "components", label: "Components", items: components });
+  }
+
+  if (iconPages.length > 0) {
+    groups.push({ id: "icons", label: "Icons", items: iconPages });
   }
 
   if (blogPosts.length > 0) {

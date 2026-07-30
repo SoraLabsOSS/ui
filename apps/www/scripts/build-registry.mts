@@ -66,6 +66,7 @@ interface RegistryItem {
   meta?: {
     demoProps?: Record<string, Record<string, unknown>>;
     keywords?: string[];
+    releaseDate?: string;
     inspiration?: {
       type: "inspired" | "reimplemented";
       label: string;
@@ -468,6 +469,7 @@ export const previewComponents: Record<string, any> = {`;
     registryDependencies: ${JSON.stringify(item.registryDependencies)},
     files: ${JSON.stringify(filesWithContent, null, 2)},
     keywords: ${JSON.stringify(item.meta?.keywords ?? [])},
+    releaseDate: ${JSON.stringify(item.meta?.releaseDate ?? null)},
     inspiration: ${JSON.stringify(item.meta?.inspiration ?? null)},
     component: ${
       options?.codeOnly || !componentPath

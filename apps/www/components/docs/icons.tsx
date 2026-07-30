@@ -19,28 +19,26 @@ import { index } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 import { SoraTypeTable } from "@/components/docs/sora-type-table";
-import { AnimateIcon, staticAnimations } from "@/registry/icons/icon";
 import {
   Tabs,
   TabsContent,
   TabsContents,
   TabsList,
   TabsTrigger,
-} from "@/registry/primitives/animate/tabs";
+} from "@/components/docs/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/registry/primitives/animate/tooltip";
+} from "@/components/docs/tooltip";
+import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
+import { AnimateIcon, staticAnimations } from "@/registry/icons/icon";
 
 const FILTERS = {
   all: "All",
   new: "New",
 } as const;
-
-/** Icons released within the last 10 days — mirrors the docs "new" window. */
-const NEW_ICONS = ["icons-chevrons"];
 
 const staticAnimationsLength = Object.keys(staticAnimations).length;
 
@@ -112,7 +110,6 @@ function CheckBadge({
 export function Icons() {
   const [animationKey, setAnimationKey] = useState(0);
   const [activeTab, setActiveTab] = useState<string>("cli");
-  const [isCopied, setIsCopied] = useState(false);
   const [activeAnimation, setActiveAnimation] = useState<string>("default");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
@@ -159,12 +156,20 @@ export function Icons() {
     []
   );
 
+  const newIconNames = useMemo(
+    () =>
+      icons
+        .filter((item) => isRecentlyReleased(item.releaseDate))
+        .map((item) => item.name),
+    [icons]
+  );
+
   const filteredIcons = useMemo(() => {
     if (filter === "all") {
       return icons;
     }
-    return icons.filter((item) => NEW_ICONS.includes(item.name));
-  }, [icons, filter]);
+    return icons.filter((item) => newIconNames.includes(item.name));
+  }, [icons, filter, newIconNames]);
 
   const fuse = useMemo(
     () =>
@@ -185,15 +190,15 @@ export function Icons() {
     if (filter === "all") {
       return results;
     }
-    return results.filter((item) => NEW_ICONS.includes(item.name));
-  }, [search, fuse, filteredIcons, filter]);
+    return results.filter((item) => newIconNames.includes(item.name));
+  }, [search, fuse, filteredIcons, filter, newIconNames]);
 
   const searchedNewIcons = useMemo(() => {
     if (!search?.trim()) {
-      return NEW_ICONS;
+      return newIconNames;
     }
-    return searchedIcons.filter((item) => NEW_ICONS.includes(item.name));
-  }, [search, searchedIcons]);
+    return searchedIcons.filter((item) => newIconNames.includes(item.name));
+  }, [search, searchedIcons, newIconNames]);
 
   const icon = useMemo(
     () => icons.find((item) => item.name === activeIcon),
@@ -297,7 +302,7 @@ export function Icons() {
                               )}
                             />
 
-                            {NEW_ICONS.includes(item.name) && (
+                            {newIconNames.includes(item.name) && (
                               <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-[var(--accent-pro)]" />
                             )}
 
@@ -373,31 +378,15 @@ export function Icons() {
                       <TabsContent value="cli">
                         <CodeTabs codes={shadcnCommands} />
                       </TabsContent>
-                      <TabsContent className="group relative" value="manual">
+                      <TabsContent value="manual">
                         {activeIcon && (
                           <DynamicCodeBlock
-                            className="max-h-[98px] [&_[data-slot='codeblock-viewport']]:max-h-[52px]"
+                            className="[&_[data-slot='codeblock-viewport']]:max-h-[250px]"
                             code={icon?.files?.[0]?.content}
                             lang="tsx"
                             title={`${icon?.name.replace("icons-", "")}.tsx`}
                           />
                         )}
-
-                        <button
-                          className="absolute inset-px top-[41px] flex cursor-pointer items-center justify-center rounded-b-[13px] bg-black/20 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100"
-                          onClick={() => {
-                            navigator.clipboard.writeText(
-                              icon?.files?.[0]?.content ?? ""
-                            );
-                            setIsCopied(true);
-                            setTimeout(() => setIsCopied(false), 2000);
-                          }}
-                          type="button"
-                        >
-                          <p className="font-medium text-sm text-white">
-                            {isCopied ? "Copied" : "Copy"}
-                          </p>
-                        </button>
                       </TabsContent>
                     </TabsContents>
                   </Tabs>

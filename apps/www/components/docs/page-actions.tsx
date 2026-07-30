@@ -224,16 +224,6 @@ export function PageActionButtons({
           layout="position"
           transition={activeTransition}
         >
-          {/* <EditOnGitHub
-            className="shrink-0 whitespace-nowrap border-0 [&_svg]:text-fd-muted-foreground"
-            href={githubUrl}
-          /> */}
-        </motion.div>
-        <motion.div
-          className="shrink-0"
-          layout="position"
-          transition={activeTransition}
-        >
           <LLMCopyButton markdownUrl={markdownUrl} />
         </motion.div>
         <BookmarkButton transition={activeTransition} url={url} />

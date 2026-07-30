@@ -19,6 +19,7 @@ export const index: Record<string, any> = {
     registryDependencies: ["utils"],
     files: [],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/index",
@@ -41,6 +42,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -87,6 +89,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -134,6 +137,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -181,6 +185,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -227,6 +232,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -283,6 +289,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -337,6 +344,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -394,6 +402,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -445,6 +454,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -533,6 +543,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -593,6 +604,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -640,6 +652,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -687,6 +700,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -734,6 +748,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -780,6 +795,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -827,6 +843,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -878,6 +895,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -925,6 +943,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1020,6 +1039,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1067,6 +1087,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1114,6 +1135,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1183,6 +1205,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1230,6 +1253,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1276,6 +1300,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1337,6 +1362,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1393,6 +1419,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1450,6 +1477,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1497,6 +1525,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1544,6 +1573,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1586,10 +1616,11 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/demo/texts/draw-underline-link.tsx",
         content:
-          '"use client";\r\nimport {\r\n  DrawUnderlineLink,\r\n  type DrawUnderlineLinkProps,\r\n} from "@/components/sora-ui/texts/draw-underline-link";\r\n\r\nexport default function DrawUnderlineLinkCatalogDemo({\r\n  label = "Hover me",\r\n  variant = "default",\r\n  duration = 0.5,\r\n  underlineColor = "#ff4c24",\r\n  ...props\r\n}: DrawUnderlineLinkProps) {\r\n  return (\r\n    <section>\r\n      <DrawUnderlineLink\r\n        duration={duration}\r\n        href="#"\r\n        label={label}\r\n        underlineColor={underlineColor}\r\n        variant={variant}\r\n        {...props}\r\n      />\r\n    </section>\r\n  );\r\n}',
+          '"use client";\nimport {\n  DrawUnderlineLink,\n  type DrawUnderlineLinkProps,\n} from "@/components/sora-ui/texts/draw-underline-link";\n\nexport default function DrawUnderlineLinkCatalogDemo({\n  label = "Hover me",\n  variant = "default",\n  duration = 0.5,\n  underlineColor = "#ff4c24",\n  ...props\n}: DrawUnderlineLinkProps) {\n  return (\n    <section>\n      <DrawUnderlineLink\n        duration={duration}\n        href="#"\n        label={label}\n        underlineColor={underlineColor}\n        variant={variant}\n        {...props}\n      />\n    </section>\n  );\n}',
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1657,6 +1688,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1704,6 +1736,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1751,6 +1784,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1845,6 +1879,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1902,6 +1937,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1948,6 +1984,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -1995,6 +2032,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2041,6 +2079,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2111,6 +2150,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2174,6 +2214,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2218,6 +2259,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2265,6 +2307,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2310,6 +2353,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2356,7 +2400,8 @@ export const index: Record<string, any> = {
           '"use client";\n\nimport { motion, useReducedMotion, type Variants } from "motion/react";\nimport {\n  type IconProps,\n  IconWrapper,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n} from "@/components/sora-ui/icons/icon";\n\ntype ChevronsProps = IconProps<keyof typeof animations>;\n\nconst TOP = [0, 0, 0.15, 1, 1, 0.85, 0];\nconst BOTTOM = [0, 1, 1, 0.85, 0, 0, 0];\nconst TIMES = [0, 0.22, 0.3, 0.5, 0.72, 0.8, 1];\n\nconst animations = {\n  default: {\n    top: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: TOP,\n        transition: { duration: 0.75, ease: "easeInOut", times: TIMES },\n      },\n    },\n    bottom: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: BOTTOM,\n        transition: { duration: 0.75, ease: "easeInOut", times: TIMES },\n      },\n    },\n  } satisfies Record<string, Variants>,\n  "default-loop": {\n    top: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: TOP,\n        transition: {\n          duration: 0.75,\n          ease: "easeInOut",\n          times: TIMES,\n          repeat: Number.POSITIVE_INFINITY,\n        },\n      },\n    },\n    bottom: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: BOTTOM,\n        transition: {\n          duration: 0.75,\n          ease: "easeInOut",\n          times: TIMES,\n          repeat: Number.POSITIVE_INFINITY,\n        },\n      },\n    },\n  } satisfies Record<string, Variants>,\n} as const;\n\nfunction IconComponent({\n  size,\n  color = "currentColor",\n  ...props\n}: ChevronsProps) {\n  const { controls } = useAnimateIconContext();\n  const variants = useAnimateIconVariants(animations);\n  const reducedMotion = useReducedMotion();\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={1.25}\n        viewBox="0 0 16 16"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        <path d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625" />\n        <path d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      fill="none"\n      height={size}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={1.25}\n      viewBox="0 0 16 16"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.path\n        animate={controls}\n        d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625"\n        initial="initial"\n        variants={variants.top}\n      />\n      <motion.path\n        animate={controls}\n        d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812"\n        initial="initial"\n        variants={variants.bottom}\n      />\n    </motion.svg>\n  );\n}\n\nfunction Chevrons(props: ChevronsProps) {\n  return <IconWrapper icon={IconComponent} {...props} />;\n}\n\nexport {\n  animations,\n  Chevrons,\n  Chevrons as ChevronsIcon,\n  type ChevronsProps,\n  type ChevronsProps as ChevronsIconProps,\n};',
       },
     ],
-    keywords: ["chevron", "chevrons", "up", "arrow", "expand", "caret", "new"],
+    keywords: ["chevron", "chevrons", "up", "arrow", "expand", "caret"],
+    releaseDate: "2026-07-30",
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2402,6 +2447,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2447,6 +2493,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2491,6 +2538,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2536,6 +2584,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2583,6 +2632,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "adapted",
       label: "Animate UI",
@@ -2642,6 +2692,7 @@ export const index: Record<string, any> = {
       "motion",
       "glow",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2689,6 +2740,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "Annnimate",
@@ -2776,6 +2828,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -2877,6 +2930,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Annnimate",
@@ -2929,6 +2983,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "beui.dev's Expandable Tabs",
@@ -2981,6 +3036,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3028,6 +3084,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "motion-primitives",
@@ -3089,6 +3146,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: ["cursor", "bubble", "hover", "label", "gsap"],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Truus.co",
@@ -3144,6 +3202,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3191,6 +3250,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3252,6 +3312,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3309,6 +3370,7 @@ export const index: Record<string, any> = {
       "images",
       "gallery",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3356,6 +3418,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3411,6 +3474,7 @@ export const index: Record<string, any> = {
       "wheel",
       "touch",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3466,6 +3530,7 @@ export const index: Record<string, any> = {
       "brands",
       "swap",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3517,6 +3582,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: ["magnetic", "cards", "cursor", "inertia", "gsap"],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Truus.co",
@@ -3572,6 +3638,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "React Bits",
@@ -3671,6 +3738,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3756,6 +3824,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -3837,6 +3906,7 @@ export const index: Record<string, any> = {
       "backdrop-filter",
       "gradient-blur",
     ],
+    releaseDate: null,
     inspiration: {
       type: "adapted",
       label: "gxuri (Skiper UI)",
@@ -3900,6 +3970,7 @@ export const index: Record<string, any> = {
       "gsap",
       "scrolltrigger",
     ],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Anime.js",
@@ -3955,6 +4026,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -4030,6 +4102,7 @@ export const index: Record<string, any> = {
       "shimmer",
       "shimmer-effect",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -4089,6 +4162,7 @@ export const index: Record<string, any> = {
       "gsap",
       "scrolltrigger",
     ],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Codegrid",
@@ -4140,6 +4214,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "motion-primitives",
@@ -4214,6 +4289,7 @@ export const index: Record<string, any> = {
       "picture-in-picture",
       "fullscreen",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -4267,6 +4343,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "Vaul",
@@ -4319,6 +4396,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Dia Text",
@@ -4371,6 +4449,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Osmo",
@@ -4443,6 +4522,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Number Flow",
@@ -4495,6 +4575,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "adapted",
       label: "Skiper UI",
@@ -4570,6 +4651,7 @@ export const index: Record<string, any> = {
       "hero",
       "motion",
     ],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -4617,6 +4699,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "motion-primitives",
@@ -4716,6 +4799,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "motion-primitives",
@@ -4777,6 +4861,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "motion-primitives",
@@ -4831,6 +4916,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -4923,6 +5009,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: ["scroll", "text", "reveal", "gsap", "scrolltrigger", "pin"],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Deadlock Studios",
@@ -4975,6 +5062,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "reimplemented",
       label: "Annnimate",
@@ -5069,6 +5157,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "slot-text",
@@ -5136,6 +5225,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5212,6 +5302,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5327,6 +5418,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5377,6 +5469,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5424,6 +5517,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5474,6 +5568,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5526,6 +5621,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
@@ -5570,6 +5666,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "inspired",
       label: "Annnimate",
@@ -5595,6 +5692,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/demo-stagger-button",
@@ -5616,6 +5714,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/demo-pixel-image-loader",
@@ -5637,6 +5736,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/demo-pixelated-image-reveal",
@@ -5658,6 +5758,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: {
       type: "adapted",
       label: "Skiper UI",
@@ -5683,6 +5784,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/demo-text-reveal-block",
@@ -5704,6 +5806,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/demo-text-scramble",
@@ -5725,6 +5828,7 @@ export const index: Record<string, any> = {
       },
     ],
     keywords: [],
+    releaseDate: null,
     inspiration: null,
     component: null,
     command: "@soralabs/demo-text-underline",
