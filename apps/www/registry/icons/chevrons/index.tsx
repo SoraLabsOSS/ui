@@ -14,20 +14,24 @@ const TOP = [0, 0, 0.15, 1, 1, 0.85, 0];
 const BOTTOM = [0, 1, 1, 0.85, 0, 0, 0];
 const TIMES = [0, 0.22, 0.3, 0.5, 0.72, 0.8, 1];
 
+const TOP_END = [...TOP, 0.15, 1];
+const BOTTOM_END = [...BOTTOM, 1, 1];
+const TIMES_END = [0, 0.16, 0.21, 0.36, 0.51, 0.57, 0.71, 0.85, 1];
+
 const animations = {
   default: {
     top: {
       initial: { opacity: 1 },
       animate: {
-        opacity: TOP,
-        transition: { duration: 0.75, ease: "easeInOut", times: TIMES },
+        opacity: TOP_END,
+        transition: { duration: 1.05, ease: "easeInOut", times: TIMES_END },
       },
     },
     bottom: {
       initial: { opacity: 1 },
       animate: {
-        opacity: BOTTOM,
-        transition: { duration: 0.75, ease: "easeInOut", times: TIMES },
+        opacity: BOTTOM_END,
+        transition: { duration: 1.05, ease: "easeInOut", times: TIMES_END },
       },
     },
   } satisfies Record<string, Variants>,
