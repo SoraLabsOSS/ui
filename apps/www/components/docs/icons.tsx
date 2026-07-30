@@ -3,6 +3,10 @@
 import { Button } from "@workspace/ui/components/ui/button";
 import { Input } from "@workspace/ui/components/ui/input";
 import {
+  ScrollArea,
+  ScrollViewport,
+} from "@workspace/ui/components/ui/scroll-area";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -352,136 +356,140 @@ export function Icons() {
               </button>
             </AnimateIcon>
 
-            <div className="h-[calc(100%-3.25rem)] overflow-y-auto">
-              <div className="flex flex-col gap-y-4">
-                <div className="space-y-4">
-                  {activeIcon && (
-                    <>
-                      <div className="relative mx-auto flex aspect-square h-37.5 w-full items-center justify-center rounded-2xl border bg-muted/50">
-                        {icon?.component && (
-                          <icon.component
-                            animate
-                            animation={activeAnimation}
-                            className="size-25 text-current"
-                            key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
-                            loop={isLoop}
-                          />
-                        )}
-
-                        <Button
-                          className={cn(
-                            "absolute top-2 left-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
-                            isLoop &&
-                              "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
+            <ScrollArea className="h-[calc(100%-3.25rem)]" type="scroll">
+              <ScrollViewport className="[&>div]:!block [&>div]:!min-w-0 [&>div]:w-full">
+                <div className="flex flex-col gap-y-4">
+                  <div className="space-y-4">
+                    {activeIcon && (
+                      <>
+                        <div className="relative mx-auto flex aspect-square h-37.5 w-full items-center justify-center rounded-2xl border bg-muted/50">
+                          {icon?.component && (
+                            <icon.component
+                              animate
+                              animation={activeAnimation}
+                              className="size-25 text-current"
+                              key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
+                              loop={isLoop}
+                            />
                           )}
-                          onClick={() => setIsLoop(!isLoop)}
-                          size="icon-sm"
-                          variant="ghost"
-                        >
-                          <InfinityIcon className="size-3.5" />
-                        </Button>
 
-                        <AnimateIcon animateOnHover asChild>
                           <Button
-                            className="absolute top-2 right-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
-                            onClick={() => setAnimationKey((prev) => prev + 1)}
+                            className={cn(
+                              "absolute top-2 left-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
+                              isLoop &&
+                                "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
+                            )}
+                            onClick={() => setIsLoop(!isLoop)}
                             size="icon-sm"
                             variant="ghost"
                           >
-                            <RotateCcw className="size-3.5" />
+                            <InfinityIcon className="size-3.5" />
                           </Button>
-                        </AnimateIcon>
+
+                          <AnimateIcon animateOnHover asChild>
+                            <Button
+                              className="absolute top-2 right-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
+                              onClick={() =>
+                                setAnimationKey((prev) => prev + 1)
+                              }
+                              size="icon-sm"
+                              variant="ghost"
+                            >
+                              <RotateCcw className="size-3.5" />
+                            </Button>
+                          </AnimateIcon>
+                        </div>
+
+                        <Select
+                          onValueChange={(value) => setActiveAnimation(value)}
+                          value={activeAnimation}
+                        >
+                          <SelectTrigger className="h-11! w-full rounded-lg px-1.5">
+                            <SelectValue placeholder="Select an animation" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <div className="space-y-1.5 p-0.5">
+                              {Object.keys({
+                                ...staticAnimations,
+                                ...(icon?.component?.animations ?? {}),
+                              }).map((animation) => (
+                                <SelectItem
+                                  className="h-8! rounded-md px-0 focus:bg-muted"
+                                  key={animation}
+                                  value={animation}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <div className="size-8 rounded-md bg-muted p-1.5">
+                                      {icon?.component && (
+                                        <icon.component className="size-full text-current" />
+                                      )}
+                                    </div>
+                                    <span>{animation}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </div>
+                          </SelectContent>
+                        </Select>
+                      </>
+                    )}
+                  </div>
+
+                  <div>
+                    <Tabs
+                      className="gap-0"
+                      onValueChange={(value) => setActiveTab(value)}
+                      value={activeTab}
+                    >
+                      <div className="mb-3 flex w-full items-center justify-between">
+                        <h3 className="mt-0 mb-0 pt-0 pb-0 font-medium text-base">
+                          Installation
+                        </h3>
+                        <TabsList>
+                          <TabsTrigger className="w-17.5" value="cli">
+                            CLI
+                          </TabsTrigger>
+                          <TabsTrigger className="w-17.5" value="manual">
+                            Manual
+                          </TabsTrigger>
+                        </TabsList>
                       </div>
 
-                      <Select
-                        onValueChange={(value) => setActiveAnimation(value)}
-                        value={activeAnimation}
-                      >
-                        <SelectTrigger className="h-11! w-full rounded-lg px-1.5">
-                          <SelectValue placeholder="Select an animation" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <div className="space-y-1.5 p-0.5">
-                            {Object.keys({
-                              ...staticAnimations,
-                              ...(icon?.component?.animations ?? {}),
-                            }).map((animation) => (
-                              <SelectItem
-                                className="h-8! rounded-md px-0 focus:bg-muted"
-                                key={animation}
-                                value={animation}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <div className="size-8 rounded-md bg-muted p-1.5">
-                                    {icon?.component && (
-                                      <icon.component className="size-full text-current" />
-                                    )}
-                                  </div>
-                                  <span>{animation}</span>
-                                </div>
-                              </SelectItem>
-                            ))}
-                          </div>
-                        </SelectContent>
-                      </Select>
-                    </>
-                  )}
-                </div>
+                      <TabsContents>
+                        <TabsContent value="cli">
+                          <CodeTabs codes={shadcnCommands} />
+                        </TabsContent>
+                        <TabsContent value="manual">
+                          {activeIcon && (
+                            <DynamicCodeBlock
+                              className="**:data-[slot='codeblock-viewport']:max-h-62.5"
+                              code={icon?.files?.[0]?.content}
+                              lang="tsx"
+                              title={`${icon?.name.replace("icons-", "")}.tsx`}
+                            />
+                          )}
+                        </TabsContent>
+                      </TabsContents>
+                    </Tabs>
 
-                <div>
-                  <Tabs
-                    className="gap-0"
-                    onValueChange={(value) => setActiveTab(value)}
-                    value={activeTab}
-                  >
-                    <div className="mb-3 flex w-full items-center justify-between">
-                      <h3 className="mt-0 mb-0 pt-0 pb-0 font-medium text-base">
-                        Installation
-                      </h3>
-                      <TabsList>
-                        <TabsTrigger className="w-17.5" value="cli">
-                          CLI
-                        </TabsTrigger>
-                        <TabsTrigger className="w-17.5" value="manual">
-                          Manual
-                        </TabsTrigger>
-                      </TabsList>
-                    </div>
-
-                    <TabsContents>
-                      <TabsContent value="cli">
-                        <CodeTabs codes={shadcnCommands} />
-                      </TabsContent>
-                      <TabsContent value="manual">
-                        {activeIcon && (
-                          <DynamicCodeBlock
-                            className="**:data-[slot='codeblock-viewport']:max-h-62.5"
-                            code={icon?.files?.[0]?.content}
-                            lang="tsx"
-                            title={`${icon?.name.replace("icons-", "")}.tsx`}
-                          />
-                        )}
-                      </TabsContent>
-                    </TabsContents>
-                  </Tabs>
-
-                  <h3 className="mt-4 font-medium text-base">Usage</h3>
-                  {activeIcon && (
-                    <DynamicCodeBlock
-                      code={`<${iconName} animateOnHover />
+                    <h3 className="mt-4 font-medium text-base">Usage</h3>
+                    {activeIcon && (
+                      <DynamicCodeBlock
+                        code={`<${iconName} animateOnHover />
 // Or use with the AnimateIcon component
 <AnimateIcon animateOnHover>
   <${iconName} />
 </AnimateIcon>`}
-                      lang="tsx"
-                    />
-                  )}
+                        lang="tsx"
+                      />
+                    )}
 
-                  <h3 className="mt-4 mb-2 font-medium text-base">Props</h3>
-                  <SoraTypeTable type={ICON_PROPS} />
+                    <h3 className="mt-4 mb-2 font-medium text-base">Props</h3>
+                    <SoraTypeTable type={ICON_PROPS} />
+                  </div>
                 </div>
-              </div>
-            </div>
+              </ScrollViewport>
+            </ScrollArea>
           </motion.div>
         )}
       </AnimatePresence>
