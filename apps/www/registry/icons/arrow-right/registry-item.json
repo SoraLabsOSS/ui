@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-arrow-right",
+  "type": "registry:ui",
+  "title": "Arrow Right",
+  "description": "Animated right arrow that nudges forward and redraws its stroke on hover using a pure CSS stroke-dash animation.",
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/icons/arrow-right/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/arrow-right.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": ["arrow", "right", "next", "forward", "direction", "cta"],
+    "releaseDate": "2026-07-31"
+  }
+}
