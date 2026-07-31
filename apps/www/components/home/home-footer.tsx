@@ -10,7 +10,6 @@ import { FooterCopyright } from "./footer/footer-copyright";
 import { FooterDivider } from "./footer/footer-divider";
 import { FooterNav } from "./footer/footer-nav";
 import { FooterNewsletter } from "./footer/footer-newsletter";
-import { FooterProductHunt } from "./footer/footer-product-hunt";
 import { FooterSocial } from "./footer/footer-social";
 import { FooterSystemStatus } from "./footer/footer-system-status";
 
@@ -82,7 +81,7 @@ export function HomeFooter({
 
               <FooterNewsletter />
               <FooterSocial />
-              <FooterProductHunt />
+              {/* <FooterProductHunt /> */}
             </div>
 
             <FooterNav />

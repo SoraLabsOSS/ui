@@ -1,5 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 export function FooterCopyright() {
-  return <span>© {new Date().getFullYear()} Sora UI</span>;
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
+  return <span>© {year ?? ""} Sora UI</span>;
 }
