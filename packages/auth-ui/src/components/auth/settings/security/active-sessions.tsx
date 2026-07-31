@@ -7,9 +7,9 @@ import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { ActiveSession } from "./active-session";
 
-export type ActiveSessionsProps = {
+export interface ActiveSessionsProps {
   className?: string;
-};
+}
 
 /**
  * Render a card listing all active sessions for the current user with revoke controls.

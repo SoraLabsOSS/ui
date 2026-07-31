@@ -67,7 +67,7 @@ function Switch({
             data-slot="switch-left-icon"
             transition={{ type: "spring", bounce: 0 }}
           >
-            <>{leftIcon}</>
+            {leftIcon}
           </motion.div>
         )}
 
@@ -80,7 +80,7 @@ function Switch({
             data-slot="switch-right-icon"
             transition={{ type: "spring", bounce: 0 }}
           >
-            <>{rightIcon}</>
+            {rightIcon}
           </motion.div>
         )}
 
@@ -103,7 +103,7 @@ function Switch({
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             whileTap="tab"
           >
-            <>{thumbIcon}</>
+            {thumbIcon}
           </motion.div>
         </SwitchPrimitives.Thumb>
       </motion.button>

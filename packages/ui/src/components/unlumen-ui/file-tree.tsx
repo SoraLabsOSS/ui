@@ -16,40 +16,40 @@ import * as React from "react";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
-export type FileTreeElement = {
+export interface FileTreeElement {
+  children?: FileTreeElement[];
+  /** Whether this folder starts expanded. */
+  defaultOpen?: boolean;
+  /** Pink-tints the item to mark it as newly added / relevant. */
+  highlight?: boolean;
+  /** Custom icon component (receives a `className` prop). */
+  icon?: React.ComponentType<{ className?: string }>;
   id: string;
   name: string;
   /** Omit or set to "file" for a leaf node; "folder" renders a collapsible branch. */
   type?: "folder" | "file";
-  children?: FileTreeElement[];
-  /** Custom icon component (receives a `className` prop). */
-  icon?: React.ComponentType<{ className?: string }>;
-  /** Pink-tints the item to mark it as newly added / relevant. */
-  highlight?: boolean;
-  /** Whether this folder starts expanded. */
-  defaultOpen?: boolean;
-};
+}
 
 // ─── Context ───────────────────────────────────────────────────────────────────
 
-type FileTreeCtx = {
+interface FileTreeCtx {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  defaultOpenIds: Set<string>;
+  highlightBounds: HighlightBounds | null;
   highlightColor: string;
   indentSize: number;
-  showIcons: boolean;
-  defaultOpenIds: Set<string>;
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  highlightBounds: HighlightBounds | null;
   setHighlightBounds: React.Dispatch<
     React.SetStateAction<HighlightBounds | null>
   >;
-};
+  showIcons: boolean;
+}
 
-type HighlightBounds = {
-  top: number;
-  left: number;
-  width: number;
+interface HighlightBounds {
   height: number;
-};
+  left: number;
+  top: number;
+  width: number;
+}
 
 const FileTreeContext = React.createContext<FileTreeCtx | null>(null);
 
@@ -61,10 +61,10 @@ function useFileTree() {
   return context;
 }
 
-type FolderCtx = {
+interface FolderCtx {
   isOpen: boolean;
   toggle: () => void;
-};
+}
 
 const FolderContext = React.createContext<FolderCtx | null>(null);
 
@@ -299,18 +299,18 @@ function FileTreeNode({ node }: { node: FileTreeElement }) {
 
 // ─── Public API ────────────────────────────────────────────────────────────────
 
-export type FileTreeProps = {
-  elements: FileTreeElement[];
+export interface FileTreeProps {
   className?: string;
+  /** Folder ids that should be open on first render. */
+  defaultOpenIds?: string[];
+  elements: FileTreeElement[];
   /** Highlight color for items with `highlight: true`. Defaults to pink (#f472b6). */
   highlightColor?: string;
   /** Horizontal indent per nesting level in px. Defaults to 24. */
   indentSize?: number;
   /** Whether to show file/folder icons. Defaults to true. */
   showIcons?: boolean;
-  /** Folder ids that should be open on first render. */
-  defaultOpenIds?: string[];
-};
+}
 
 export function FileTree({
   elements,

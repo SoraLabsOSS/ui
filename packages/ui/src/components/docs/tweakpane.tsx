@@ -14,7 +14,9 @@ import { Switch } from "@workspace/ui/components/ui/switch";
 import { cn } from "@workspace/ui/lib/utils";
 import * as React from "react";
 
-type BaseBindNumber = { value: number };
+interface BaseBindNumber {
+  value: number;
+}
 type BindNumberSlider = BaseBindNumber & {
   min: number;
   max: number;
@@ -22,15 +24,17 @@ type BindNumberSlider = BaseBindNumber & {
 };
 type BindNumberOptions = BaseBindNumber & { options: Record<string, number> };
 type BindNumber = BindNumberSlider | BindNumberOptions | BaseBindNumber;
-type BindString = {
-  value: string;
+interface BindString {
   options?: Record<string, string>;
-};
-type BindOptions = {
-  value: string | number | boolean;
+  value: string;
+}
+interface BindOptions {
   options: Record<string, string | number | boolean>;
-};
-type BindBoolean = { value: boolean };
+  value: string | number | boolean;
+}
+interface BindBoolean {
+  value: boolean;
+}
 type Bind = BindNumber | BindString | BindBoolean | BindOptions;
 
 type FlatBinds = Record<string, Bind>;
@@ -77,7 +81,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
       setDisplay(v);
       if (v !== "") {
         let n = Number(v);
-        if (!isNaN(n)) {
+        if (!Number.isNaN(n)) {
           if (min !== undefined && n < min) {
             n = min;
           }

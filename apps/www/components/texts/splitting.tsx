@@ -145,7 +145,7 @@ export const SplittingText = ({
                 }}
                 variants={disableAnimation ? undefined : itemVariants}
               >
-                <>{item}</>
+                {item}
               </motion.span>
               {type === "words" && " "}
             </React.Fragment>

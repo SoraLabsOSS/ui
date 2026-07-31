@@ -30,9 +30,9 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 import { type SyntheticEvent, useState } from "react";
 
-export type ChangePasswordProps = {
+export interface ChangePasswordProps {
   className?: string;
-};
+}
 
 /**
  * Render a card form for changing the authenticated user's password.

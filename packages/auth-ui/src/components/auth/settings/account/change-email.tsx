@@ -16,9 +16,9 @@ import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
 import { type SyntheticEvent, useState } from "react";
 
-export type ChangeEmailProps = {
+export interface ChangeEmailProps {
   className?: string;
-};
+}
 
 /**
  * Render a card containing a form to view and update the authenticated user's email.

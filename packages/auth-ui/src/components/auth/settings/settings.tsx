@@ -14,13 +14,13 @@ import { useMemo } from "react";
 import { AccountSettings } from "./account/account-settings";
 import { SecuritySettings } from "./security/security-settings";
 
-export type SettingsProps = {
+export interface SettingsProps {
   className?: string;
+  hideNav?: boolean;
   path?: string;
   /** @remarks `SettingsView` */
   view?: SettingsView;
-  hideNav?: boolean;
-};
+}
 
 /**
  * Renders the settings UI and activates the appropriate settings view based on `view` or `path`.

@@ -22,10 +22,10 @@ import {
   type HighlightProps,
 } from "@/registry/primitives/effects/highlight";
 
-type TabsContextType = {
-  value: string | undefined;
+interface TabsContextType {
   setValue: TabsProps["onValueChange"];
-};
+  value: string | undefined;
+}
 
 const [TabsProvider, useTabs] =
   getStrictContext<TabsContextType>("TabsContext");

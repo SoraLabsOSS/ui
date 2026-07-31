@@ -6,9 +6,9 @@ import type { ComponentProps } from "react";
 import { ChangeEmail } from "./change-email";
 import { UserProfile } from "./user-profile";
 
-export type AccountSettingsProps = {
+export interface AccountSettingsProps {
   className?: string;
-};
+}
 
 /**
  * Renders the account settings layout.

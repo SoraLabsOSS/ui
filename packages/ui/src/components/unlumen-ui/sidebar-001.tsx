@@ -381,7 +381,7 @@ export function Sidebar001Group({
   useEffect(() => {
     setIsOpen(defaultOpen);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [defaultOpen]);
 
   const handleMouseEnter = useCallback(() => {
     const el = buttonRef.current;

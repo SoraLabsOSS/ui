@@ -51,11 +51,11 @@ import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronDownIcon, Copy } from "lucide-react";
 import { useRef, useState } from "react";
 
-export type AdditionalFieldProps = {
-  name: string;
+export interface AdditionalFieldProps {
   field: AdditionalFieldConfig;
   isPending?: boolean;
-};
+  name: string;
+}
 
 /** Convert a `defaultValue` into a `Date` for the calendar. */
 function toDate(value: unknown): Date | undefined {

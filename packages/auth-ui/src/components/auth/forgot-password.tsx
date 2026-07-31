@@ -25,9 +25,9 @@ import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
 import { type SyntheticEvent, useState } from "react";
 
-export type ForgotPasswordProps = {
+export interface ForgotPasswordProps {
   className?: string;
-};
+}
 
 /**
  * Render a card-based "Forgot Password" form that sends a password-reset email.

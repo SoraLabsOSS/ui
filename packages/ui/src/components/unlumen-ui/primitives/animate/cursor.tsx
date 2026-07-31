@@ -15,21 +15,21 @@ import {
 } from "motion/react";
 import * as React from "react";
 
-type CursorContextType = {
-  cursorPos: { x: number; y: number };
+interface CursorContextType {
   active: boolean;
-  global: boolean;
   containerRef: React.RefObject<HTMLDivElement | null>;
+  cursorPos: { x: number; y: number };
   cursorRef: React.RefObject<HTMLDivElement | null>;
-};
+  global: boolean;
+}
 
 const [LocalCursorProvider, useCursor] =
   getStrictContext<CursorContextType>("CursorContext");
 
-type CursorProviderProps = {
+interface CursorProviderProps {
   children: React.ReactNode;
   global?: boolean;
-};
+}
 
 function CursorProvider({ children, global = false }: CursorProviderProps) {
   const [cursorPos, setCursorPos] = React.useState({ x: 0, y: 0 });

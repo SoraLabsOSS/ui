@@ -7,9 +7,9 @@ import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { LinkedAccount } from "./linked-account";
 
-export type LinkedAccountsProps = {
+export interface LinkedAccountsProps {
   className?: string;
-};
+}
 
 /**
  * Render a card showing linked social accounts and available social providers to link.

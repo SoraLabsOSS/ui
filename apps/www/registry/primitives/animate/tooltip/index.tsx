@@ -26,48 +26,51 @@ import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
 
-type TooltipData = {
-  contentProps: HTMLMotionProps<"div">;
+interface TooltipData {
+  align: Align;
+  alignOffset: number;
   contentAsChild: boolean;
+  contentProps: HTMLMotionProps<"div">;
+  id: string;
   rect: DOMRect;
   side: Side;
   sideOffset: number;
-  align: Align;
-  alignOffset: number;
-  id: string;
-};
+}
 
-type GlobalTooltipContextType = {
-  showTooltip: (data: TooltipData) => void;
-  hideTooltip: () => void;
-  hideImmediate: () => void;
+interface GlobalTooltipContextType {
   currentTooltip: TooltipData | null;
-  transition: Transition;
   globalId: string;
-  setReferenceEl: (el: HTMLElement | null) => void;
+  hideImmediate: () => void;
+  hideTooltip: () => void;
   referenceElRef: React.RefObject<HTMLElement | null>;
-};
+  setReferenceEl: (el: HTMLElement | null) => void;
+  showTooltip: (data: TooltipData) => void;
+  transition: Transition;
+}
 
 const [GlobalTooltipProvider, useGlobalTooltip] =
   getStrictContext<GlobalTooltipContextType>("GlobalTooltipProvider");
 
-type TooltipContextType = {
-  props: HTMLMotionProps<"div">;
-  setProps: React.Dispatch<React.SetStateAction<HTMLMotionProps<"div">>>;
-  asChild: boolean;
-  setAsChild: React.Dispatch<React.SetStateAction<boolean>>;
-  side: Side;
-  sideOffset: number;
+interface TooltipContextType {
   align: Align;
   alignOffset: number;
+  asChild: boolean;
   id: string;
-};
+  props: HTMLMotionProps<"div">;
+  setAsChild: React.Dispatch<React.SetStateAction<boolean>>;
+  setProps: React.Dispatch<React.SetStateAction<HTMLMotionProps<"div">>>;
+  side: Side;
+  sideOffset: number;
+}
 
 const [LocalTooltipProvider, useTooltip] = getStrictContext<TooltipContextType>(
   "LocalTooltipProvider"
 );
 
-type TooltipPosition = { x: number; y: number };
+interface TooltipPosition {
+  x: number;
+  y: number;
+}
 
 function getResolvedSide(placement: Side | `${Side}-${Align}`) {
   if (placement.includes("-")) {
@@ -89,13 +92,13 @@ function initialFromSide(side: Side): Partial<Record<"x" | "y", number>> {
   return { x: -15 };
 }
 
-type TooltipProviderProps = {
+interface TooltipProviderProps {
   children: React.ReactNode;
+  closeDelay?: number;
   id?: string;
   openDelay?: number;
-  closeDelay?: number;
   transition?: Transition;
-};
+}
 
 function TooltipProvider({
   children,
@@ -187,19 +190,19 @@ function TooltipProvider({
   );
 }
 
-type RenderedTooltipContextType = {
-  side: Side;
+interface RenderedTooltipContextType {
   align: Align;
   open: boolean;
-};
+  side: Side;
+}
 
 const [RenderedTooltipProvider, useRenderedTooltip] =
   getStrictContext<RenderedTooltipContextType>("RenderedTooltipContext");
 
-type FloatingContextType = {
-  context: UseFloatingReturn["context"];
+interface FloatingContextType {
   arrowRef: React.RefObject<SVGSVGElement | null>;
-};
+  context: UseFloatingReturn["context"];
+}
 
 const [FloatingProvider, useFloatingContext] =
   getStrictContext<FloatingContextType>("FloatingContext");
@@ -288,7 +291,7 @@ function TooltipOverlay() {
       refs.setReference(referenceElRef.current);
       update();
     }
-  }, [referenceElRef, refs, update, rendered.data]);
+  }, [referenceElRef, refs, update]);
 
   const ready = x != null && y != null;
   const Component = rendered.data?.contentAsChild ? Slot : motion.div;
@@ -366,13 +369,13 @@ function TooltipOverlay() {
   );
 }
 
-type TooltipProps = {
+interface TooltipProps {
+  align?: Align;
+  alignOffset?: number;
   children: React.ReactNode;
   side?: Side;
   sideOffset?: number;
-  align?: Align;
-  alignOffset?: number;
-};
+}
 
 function Tooltip({
   children,

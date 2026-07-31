@@ -268,7 +268,7 @@ export function DecoderMark({ children }: { children: string }) {
       }
     };
     // biome-ignore lint/correctness/useExhaustiveDependencies: `children` must stay static for a given mark instance
-  }, []);
+  }, [children]);
 
   return (
     <mark className="rounded-sm bg-transparent px-0.5 text-white/55" ref={ref}>

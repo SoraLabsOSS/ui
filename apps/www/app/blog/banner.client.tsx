@@ -147,8 +147,8 @@ export function BlogHeaderBanner() {
   };
 
   return (
-    <section className="w-full">
-      <div className="blog-inner relative min-h-[300px] overflow-hidden rounded-xl">
+    <section className="blog-inner px-3 sm:px-4 md:px-0">
+      <div className="relative min-h-[300px] w-full overflow-hidden rounded-xl">
         <div aria-hidden className="h-[300px] w-full" />
 
         <PlusSeparator

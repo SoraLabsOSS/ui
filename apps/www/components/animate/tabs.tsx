@@ -8,11 +8,11 @@ import {
   MotionHighlightItem,
 } from "@/components/effects/motion-highlight";
 
-type TabsContextType<T extends string> = {
+interface TabsContextType<T extends string> {
   activeValue: T;
   handleValueChange: (value: T) => void;
   registerTrigger: (value: T, node: HTMLElement | null) => void;
-};
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TabsContext = React.createContext<TabsContextType<any> | undefined>(
@@ -233,7 +233,7 @@ function TabsContents({
       {...props}
     >
       <motion.div
-        animate={{ x: activeIndex * -100 + "%" }}
+        animate={{ x: `${activeIndex * -100}%` }}
         className="-mx-2 flex"
         transition={transition}
       >

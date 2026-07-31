@@ -6,30 +6,30 @@ import * as React from "react";
 
 type MotionHighlightMode = "children" | "parent";
 
-type Bounds = {
-  top: number;
-  left: number;
-  width: number;
+interface Bounds {
   height: number;
-};
+  left: number;
+  top: number;
+  width: number;
+}
 
-type MotionHighlightContextType<T extends string> = {
-  mode: MotionHighlightMode;
-  activeValue: T | null;
-  setActiveValue: (value: T | null) => void;
-  setBounds: (bounds: DOMRect) => void;
-  clearBounds: () => void;
-  id: string;
-  hover: boolean;
-  className?: string;
+interface MotionHighlightContextType<T extends string> {
   activeClassName?: string;
-  setActiveClassName: (className: string) => void;
-  transition?: Transition;
+  activeValue: T | null;
+  className?: string;
+  clearBounds: () => void;
   disabled?: boolean;
   enabled?: boolean;
   exitDelay?: number;
   forceUpdateBounds?: boolean;
-};
+  hover: boolean;
+  id: string;
+  mode: MotionHighlightMode;
+  setActiveClassName: (className: string) => void;
+  setActiveValue: (value: T | null) => void;
+  setBounds: (bounds: DOMRect) => void;
+  transition?: Transition;
+}
 
 const MotionHighlightContext = React.createContext<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,24 +46,24 @@ function useMotionHighlight<T extends string>(): MotionHighlightContextType<T> {
   return context as unknown as MotionHighlightContextType<T>;
 }
 
-type BaseMotionHighlightProps<T extends string> = {
-  mode?: MotionHighlightMode;
-  value?: T | null;
-  defaultValue?: T | null;
-  onValueChange?: (value: T | null) => void;
+interface BaseMotionHighlightProps<T extends string> {
   className?: string;
-  transition?: Transition;
-  hover?: boolean;
+  defaultValue?: T | null;
   disabled?: boolean;
   enabled?: boolean;
   exitDelay?: number;
-};
+  hover?: boolean;
+  mode?: MotionHighlightMode;
+  onValueChange?: (value: T | null) => void;
+  transition?: Transition;
+  value?: T | null;
+}
 
-type ParentModeMotionHighlightProps = {
+interface ParentModeMotionHighlightProps {
   boundsOffset?: Partial<Bounds>;
   containerClassName?: string;
   forceUpdateBounds?: boolean;
-};
+}
 
 type ControlledParentModeMotionHighlightProps<T extends string> =
   BaseMotionHighlightProps<T> &

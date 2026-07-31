@@ -17,10 +17,10 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { Account, SocialProvider } from "better-auth";
 import { Link2, Link2Off, Plug } from "lucide-react";
 
-export type LinkedAccountProps = {
+export interface LinkedAccountProps {
   account?: Account;
   provider: SocialProvider;
-};
+}
 
 /**
  * Render a single linked social account row with provider info and link/unlink control.

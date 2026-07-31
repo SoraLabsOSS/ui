@@ -112,7 +112,7 @@ export function ComponentPageLayoutClient({
     setIsBreakpointTransition(true);
     const id = requestAnimationFrame(() => setIsBreakpointTransition(false));
     return () => cancelAnimationFrame(id);
-  }, [isLargeScreen]);
+  }, []);
 
   useEffect(() => {
     if (!isExpanded) {

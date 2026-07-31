@@ -335,7 +335,7 @@ async function getRegistryItemsFromFolder(dir: string) {
         const item = JSON.parse(content);
         // Remove the $schema property if it exists
         if (item.$schema) {
-          delete item.$schema;
+          item.$schema = undefined;
         }
         items.push(item);
       } catch {

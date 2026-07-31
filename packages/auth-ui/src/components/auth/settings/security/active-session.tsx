@@ -32,9 +32,9 @@ function timeAgo(date: Date) {
   return rtf.format(0, "second");
 }
 
-export type ActiveSessionProps = {
+export interface ActiveSessionProps {
   activeSession: Session;
-};
+}
 
 /**
  * Render a single active session row with device info and revoke control.

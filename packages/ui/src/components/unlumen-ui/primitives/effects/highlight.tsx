@@ -6,30 +6,30 @@ import * as React from "react";
 
 type HighlightMode = "children" | "parent";
 
-type Bounds = {
-  top: number;
-  left: number;
-  width: number;
+interface Bounds {
   height: number;
-};
+  left: number;
+  top: number;
+  width: number;
+}
 
-type HighlightContextType<T extends string> = {
-  mode: HighlightMode;
-  activeValue: T | null;
-  setActiveValue: (value: T | null) => void;
-  setBounds: (bounds: DOMRect) => void;
-  clearBounds: () => void;
-  id: string;
-  hover: boolean;
-  className?: string;
+interface HighlightContextType<T extends string> {
   activeClassName?: string;
-  setActiveClassName: (className: string) => void;
-  transition?: Transition;
+  activeValue: T | null;
+  className?: string;
+  clearBounds: () => void;
   disabled?: boolean;
   enabled?: boolean;
   exitDelay?: number;
   forceUpdateBounds?: boolean;
-};
+  hover: boolean;
+  id: string;
+  mode: HighlightMode;
+  setActiveClassName: (className: string) => void;
+  setActiveValue: (value: T | null) => void;
+  setBounds: (bounds: DOMRect) => void;
+  transition?: Transition;
+}
 
 const HighlightContext = React.createContext<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,24 +44,24 @@ function useHighlight<T extends string>(): HighlightContextType<T> {
   return context as unknown as HighlightContextType<T>;
 }
 
-type BaseHighlightProps<T extends string> = {
-  mode?: HighlightMode;
-  value?: T | null;
-  defaultValue?: T | null;
-  onValueChange?: (value: T | null) => void;
+interface BaseHighlightProps<T extends string> {
   className?: string;
-  transition?: Transition;
-  hover?: boolean;
+  defaultValue?: T | null;
   disabled?: boolean;
   enabled?: boolean;
   exitDelay?: number;
-};
+  hover?: boolean;
+  mode?: HighlightMode;
+  onValueChange?: (value: T | null) => void;
+  transition?: Transition;
+  value?: T | null;
+}
 
-type ParentModeHighlightProps = {
+interface ParentModeHighlightProps {
   boundsOffset?: Partial<Bounds>;
   containerClassName?: string;
   forceUpdateBounds?: boolean;
-};
+}
 
 type ControlledParentModeHighlightProps<T extends string> =
   BaseHighlightProps<T> &

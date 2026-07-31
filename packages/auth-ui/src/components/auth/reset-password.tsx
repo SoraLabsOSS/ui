@@ -27,9 +27,9 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 import { type SyntheticEvent, useEffect, useState } from "react";
 
-export type ResetPasswordProps = {
+export interface ResetPasswordProps {
   className?: string;
-};
+}
 
 /**
  * Render a password reset form that validates the reset token from the URL, accepts a new password (and optional confirmation), and submits it to the auth client.

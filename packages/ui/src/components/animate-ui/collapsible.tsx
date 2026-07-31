@@ -9,9 +9,9 @@ import {
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
 
-type CollapsibleContextType = {
+interface CollapsibleContextType {
   isOpen: boolean;
-};
+}
 
 const CollapsibleContext = React.createContext<
   CollapsibleContextType | undefined

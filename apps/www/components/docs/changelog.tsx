@@ -5,9 +5,9 @@ import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { getStrictContext } from "@/registry/lib/get-strict-context";
 
-type ChangelogItemContextType = {
+interface ChangelogItemContextType {
   major: boolean;
-};
+}
 
 const [ChangelogItemProvider, useChangelogItem] =
   getStrictContext<ChangelogItemContextType>("ChangelogItemContext");

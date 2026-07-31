@@ -17,9 +17,9 @@ import { Trash2, Upload } from "lucide-react";
 import { type ChangeEvent, useRef, useState } from "react";
 import { UserAvatar } from "../../user/user-avatar";
 
-export type ChangeAvatarProps = {
+export interface ChangeAvatarProps {
   className?: string;
-};
+}
 
 export function ChangeAvatar({ className }: ChangeAvatarProps) {
   const { authClient, localization, avatar } = useAuth();

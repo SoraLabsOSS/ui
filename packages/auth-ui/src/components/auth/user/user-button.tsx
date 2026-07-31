@@ -44,13 +44,13 @@ export type UserButtonLinkVisibility =
   | "always";
 
 /** A simple link entry rendered as a `DropdownMenuItem` in the `UserButton` menu. */
-export type UserButtonLink = {
-  /** Visible label. */
-  label: ReactNode;
+export interface UserButtonLink {
   /** Destination URL. */
   href: string;
   /** Optional leading icon. Sized/coloured to match built-in items. */
   icon?: ReactNode;
+  /** Visible label. */
+  label: ReactNode;
   /** Forwarded to the underlying `DropdownMenuItem`. */
   variant?: "default" | "destructive";
   /**
@@ -58,11 +58,15 @@ export type UserButtonLink = {
    * @default "always"
    */
   visibility?: UserButtonLinkVisibility;
-};
+}
 
-export type UserButtonProps = {
-  className?: string;
+export interface UserButtonProps {
   align?: "center" | "end" | "start" | undefined;
+  className?: string;
+  /** Hide the built-in "Settings" link. Useful when replacing it via `links`. */
+  hideSettings?: boolean;
+  /** Additional menu entries rendered above the built-in items. */
+  links?: (UserButtonLink | ReactElement)[];
   sideOffset?: number;
   size?: "default" | "icon";
   /** Icon trigger footprint. `icon-xs` is 32px; `icon-sm` is 36px. */
@@ -74,11 +78,7 @@ export type UserButtonProps = {
     | "link"
     | "outline"
     | "secondary";
-  /** Additional menu entries rendered above the built-in items. */
-  links?: (UserButtonLink | ReactElement)[];
-  /** Hide the built-in "Settings" link. Useful when replacing it via `links`. */
-  hideSettings?: boolean;
-};
+}
 
 function renderUserLink(
   link: UserButtonLink | ReactElement,

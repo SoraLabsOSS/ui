@@ -16,11 +16,11 @@ import {
   type HighlightProps,
 } from "@/registry/primitives/effects/highlight";
 
-type TabsContextType = {
+interface TabsContextType {
   activeValue: string;
   handleValueChange: (value: string) => void;
   registerTrigger: (value: string, node: HTMLElement | null) => void;
-};
+}
 
 const [TabsProvider, useTabs] =
   getStrictContext<TabsContextType>("TabsContext");
@@ -287,7 +287,7 @@ function TabsContents({
         rafRef.current = null;
       }
     };
-  }, [activeIndex, childrenArray.length, measure, scheduleHeight]);
+  }, [activeIndex, measure, scheduleHeight]);
 
   React.useLayoutEffect(() => {
     if (height === 0 && activeIndex >= 0) {
@@ -312,7 +312,7 @@ function TabsContents({
       {...props}
     >
       <motion.div
-        animate={{ x: activeIndex * -100 + "%" }}
+        animate={{ x: `${activeIndex * -100}%` }}
         className="-mx-2 flex"
         transition={contentsTransition}
       >

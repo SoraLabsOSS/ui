@@ -12,7 +12,6 @@ import {
 import {
   type ComponentPropsWithoutRef,
   type CSSProperties,
-  forwardRef,
   useCallback,
   useEffect,
   useMemo,
@@ -102,267 +101,259 @@ function measureWidths(element: HTMLElement, texts: string[]) {
   return widths;
 }
 
-const DiaTextReveal = forwardRef<HTMLSpanElement, DiaTextRevealProps>(
-  (
-    {
-      text,
-      colors = DEFAULT_COLORS,
-      textColor = "var(--ic-foreground)",
-      duration = 1.5,
-      delay = 0,
-      repeat = false,
-      repeatDelay = 0.5,
-      triggerOnView = true,
-      once = true,
-      className,
-      fixedWidth = false,
-      ...props
-    },
-    ref
-  ) => {
-    const spanRef = useRef<HTMLSpanElement | null>(null);
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [measuredWidths, setMeasuredWidths] = useState<number[]>([]);
+const DiaTextReveal = ({
+  text,
+  colors = DEFAULT_COLORS,
+  textColor = "var(--ic-foreground)",
+  duration = 1.5,
+  delay = 0,
+  repeat = false,
+  repeatDelay = 0.5,
+  triggerOnView = true,
+  once = true,
+  className,
+  fixedWidth = false,
+  ref,
+  ...props
+}: DiaTextRevealProps & { ref?: RefObject<HTMLSpanElement | null> }) => {
+  const spanRef = useRef<HTMLSpanElement | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [measuredWidths, setMeasuredWidths] = useState<number[]>([]);
 
-    const indexRef = useRef(0);
-    const hasPlayedRef = useRef(false);
-    const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-      undefined
-    );
-    const controlsRef = useRef<AnimationPlaybackControls | undefined>(
-      undefined
-    );
-    const previousTextKeyRef = useRef("");
+  const indexRef = useRef(0);
+  const hasPlayedRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const controlsRef = useRef<AnimationPlaybackControls | undefined>(undefined);
+  const previousTextKeyRef = useRef("");
 
-    const sweepPos = useMotionValue(SWEEP_START);
-    const textOpacity = useMotionValue(1);
-    const textBlur = useMotionValue(0);
-    const textShift = useMotionValue(0);
-    const inView = useInView(spanRef, { once, amount: 0.1 });
-    const previousActiveIndexRef = useRef(0);
+  const sweepPos = useMotionValue(SWEEP_START);
+  const textOpacity = useMotionValue(1);
+  const textBlur = useMotionValue(0);
+  const textShift = useMotionValue(0);
+  const inView = useInView(spanRef, { once, amount: 0.1 });
+  const previousActiveIndexRef = useRef(0);
 
-    const texts = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
-    const textKey = useMemo(() => texts.join("\0"), [texts]);
-    const isMulti = texts.length > 1;
-    const isVisible = triggerOnView ? inView : true;
+  const texts = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
+  const textKey = useMemo(() => texts.join("\0"), [texts]);
+  const isMulti = texts.length > 1;
+  const isVisible = triggerOnView ? inView : true;
 
-    const backgroundImage = useTransform(sweepPos, (pos) =>
-      buildGradient(pos, colors, textColor)
-    );
-    const contentFilter = useTransform(
-      textBlur,
-      (blur) => `blur(${blur.toFixed(2)}px)`
-    );
-    const contentTransform = useTransform(
-      textShift,
-      (shift) => `translateY(${(-2 + shift).toFixed(2)}px)`
-    );
+  const backgroundImage = useTransform(sweepPos, (pos) =>
+    buildGradient(pos, colors, textColor)
+  );
+  const contentFilter = useTransform(
+    textBlur,
+    (blur) => `blur(${blur.toFixed(2)}px)`
+  );
+  const contentTransform = useTransform(
+    textShift,
+    (shift) => `translateY(${(-2 + shift).toFixed(2)}px)`
+  );
 
-    const fixedW = useMemo(
-      () =>
-        isMulti && fixedWidth && measuredWidths.length > 0
-          ? Math.max(...measuredWidths)
-          : undefined,
-      [fixedWidth, isMulti, measuredWidths]
-    );
+  const fixedW = useMemo(
+    () =>
+      isMulti && fixedWidth && measuredWidths.length > 0
+        ? Math.max(...measuredWidths)
+        : undefined,
+    [fixedWidth, isMulti, measuredWidths]
+  );
 
-    const animatedW = useMemo(
-      () =>
-        isMulti && !fixedWidth && measuredWidths[activeIndex] != null
-          ? measuredWidths[activeIndex]
-          : undefined,
-      [activeIndex, fixedWidth, isMulti, measuredWidths]
-    );
+  const animatedW = useMemo(
+    () =>
+      isMulti && !fixedWidth && measuredWidths[activeIndex] != null
+        ? measuredWidths[activeIndex]
+        : undefined,
+    [activeIndex, fixedWidth, isMulti, measuredWidths]
+  );
 
-    const containerStyle = useMemo(
-      (): NonNullable<DiaTextMotionProps["style"]> => ({
-        ...(isMulti && {
-          display: "inline-block",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          verticalAlign: "text-center" as CSSProperties["verticalAlign"],
-          ...(fixedW != null && { width: fixedW }),
-        }),
-      }),
-      [fixedW, isMulti]
-    );
-
-    const contentStyle = useMemo(
-      (): NonNullable<DiaTextMotionProps["style"]> => ({
+  const containerStyle = useMemo(
+    (): NonNullable<DiaTextMotionProps["style"]> => ({
+      ...(isMulti && {
         display: "inline-block",
-        color: "transparent",
-        backgroundClip: "text",
-        WebkitBackgroundClip: "text",
-        backgroundSize: "100% 100%",
-        backgroundImage,
-        opacity: textOpacity,
-        filter: contentFilter,
-        transform: contentTransform,
-        willChange: "filter, opacity, transform",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        verticalAlign: "text-center" as CSSProperties["verticalAlign"],
+        ...(fixedW != null && { width: fixedW }),
       }),
-      [backgroundImage, contentFilter, contentTransform, textOpacity]
-    );
+    }),
+    [fixedW, isMulti]
+  );
 
-    const clearCycle = useCallback(() => {
-      controlsRef.current?.stop();
-      controlsRef.current = undefined;
+  const contentStyle = useMemo(
+    (): NonNullable<DiaTextMotionProps["style"]> => ({
+      display: "inline-block",
+      color: "transparent",
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      backgroundSize: "100% 100%",
+      backgroundImage,
+      opacity: textOpacity,
+      filter: contentFilter,
+      transform: contentTransform,
+      willChange: "filter, opacity, transform",
+    }),
+    [backgroundImage, contentFilter, contentTransform, textOpacity]
+  );
 
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+  const clearCycle = useCallback(() => {
+    controlsRef.current?.stop();
+    controlsRef.current = undefined;
 
-      timerRef.current = undefined;
-    }, []);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
 
-    const playRef = useRef<() => void>(() => undefined);
+    timerRef.current = undefined;
+  }, []);
 
-    playRef.current = () => {
-      clearCycle();
-      sweepPos.set(SWEEP_START);
+  const playRef = useRef<() => void>(() => undefined);
 
-      controlsRef.current = animate(sweepPos, SWEEP_END, {
-        duration,
-        delay,
-        ease: sweepEase,
-        onComplete() {
-          if (!repeat || texts.length === 0) {
-            return;
-          }
+  playRef.current = () => {
+    clearCycle();
+    sweepPos.set(SWEEP_START);
 
-          timerRef.current = setTimeout(() => {
-            const next = (indexRef.current + 1) % texts.length;
-
-            indexRef.current = next;
-            setActiveIndex(next);
-            playRef.current();
-          }, repeatDelay * 1000);
-        },
-      });
-    };
-
-    useEffect(() => {
-      if (textKey === previousTextKeyRef.current) {
-        return;
-      }
-
-      previousTextKeyRef.current = textKey;
-      indexRef.current = 0;
-      setActiveIndex(0);
-      hasPlayedRef.current = false;
-      clearCycle();
-
-      sweepPos.set(SWEEP_START);
-
-      if (isVisible) {
-        hasPlayedRef.current = true;
-        playRef.current();
-      }
-    }, [clearCycle, isVisible, sweepPos, textKey]);
-
-    useEffect(() => {
-      const element = spanRef.current;
-
-      if (!(element && isMulti)) {
-        setMeasuredWidths([]);
-        return;
-      }
-
-      setMeasuredWidths(measureWidths(element, texts));
-    }, [isMulti, texts]);
-
-    useEffect(() => {
-      if (!isVisible) {
-        if (!once) {
-          hasPlayedRef.current = false;
+    controlsRef.current = animate(sweepPos, SWEEP_END, {
+      duration,
+      delay,
+      ease: sweepEase,
+      onComplete() {
+        if (!repeat || texts.length === 0) {
+          return;
         }
-        return;
-      }
 
-      if (once && hasPlayedRef.current) {
-        return;
-      }
+        timerRef.current = setTimeout(() => {
+          const next = (indexRef.current + 1) % texts.length;
 
+          indexRef.current = next;
+          setActiveIndex(next);
+          playRef.current();
+        }, repeatDelay * 1000);
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (textKey === previousTextKeyRef.current) {
+      return;
+    }
+
+    previousTextKeyRef.current = textKey;
+    indexRef.current = 0;
+    setActiveIndex(0);
+    hasPlayedRef.current = false;
+    clearCycle();
+
+    sweepPos.set(SWEEP_START);
+
+    if (isVisible) {
       hasPlayedRef.current = true;
       playRef.current();
+    }
+  }, [clearCycle, isVisible, sweepPos, textKey]);
 
-      return clearCycle;
-    }, [clearCycle, isVisible, once]);
+  useEffect(() => {
+    const element = spanRef.current;
 
-    useEffect(() => {
-      if (!isMulti) {
-        textOpacity.set(1);
-        textBlur.set(0);
-        textShift.set(0);
-        previousActiveIndexRef.current = activeIndex;
-        return;
+    if (!(element && isMulti)) {
+      setMeasuredWidths([]);
+      return;
+    }
+
+    setMeasuredWidths(measureWidths(element, texts));
+  }, [isMulti, texts]);
+
+  useEffect(() => {
+    if (!isVisible) {
+      if (!once) {
+        hasPlayedRef.current = false;
       }
+      return;
+    }
 
-      if (previousActiveIndexRef.current === activeIndex) {
-        return;
-      }
+    if (once && hasPlayedRef.current) {
+      return;
+    }
 
+    hasPlayedRef.current = true;
+    playRef.current();
+
+    return clearCycle;
+  }, [clearCycle, isVisible, once]);
+
+  useEffect(() => {
+    if (!isMulti) {
+      textOpacity.set(1);
+      textBlur.set(0);
+      textShift.set(0);
       previousActiveIndexRef.current = activeIndex;
-      textOpacity.set(0.58);
-      textBlur.set(8);
-      textShift.set(5.5);
+      return;
+    }
 
-      const opacityControls = animate(textOpacity, 1, {
-        duration: 0.26,
-        ease: TEXT_SWAP_EASE,
-      });
-      const blurControls = animate(textBlur, 0, {
-        duration: 0.34,
-        ease: TEXT_SWAP_EASE,
-      });
-      const shiftControls = animate(textShift, 0, {
-        duration: 0.34,
-        ease: TEXT_SWAP_EASE,
-      });
+    if (previousActiveIndexRef.current === activeIndex) {
+      return;
+    }
 
-      return () => {
-        opacityControls.stop();
-        blurControls.stop();
-        shiftControls.stop();
-      };
-    }, [activeIndex, isMulti, textBlur, textOpacity, textShift]);
+    previousActiveIndexRef.current = activeIndex;
+    textOpacity.set(0.58);
+    textBlur.set(8);
+    textShift.set(5.5);
 
-    useEffect(() => clearCycle, [clearCycle]);
+    const opacityControls = animate(textOpacity, 1, {
+      duration: 0.26,
+      ease: TEXT_SWAP_EASE,
+    });
+    const blurControls = animate(textBlur, 0, {
+      duration: 0.34,
+      ease: TEXT_SWAP_EASE,
+    });
+    const shiftControls = animate(textShift, 0, {
+      duration: 0.34,
+      ease: TEXT_SWAP_EASE,
+    });
 
-    const setRefs = (node: HTMLSpanElement | null) => {
-      spanRef.current = node;
-
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
+    return () => {
+      opacityControls.stop();
+      blurControls.stop();
+      shiftControls.stop();
     };
+  }, [activeIndex, isMulti, textBlur, textOpacity, textShift]);
 
-    return (
+  useEffect(() => clearCycle, [clearCycle]);
+
+  const setRefs = (node: HTMLSpanElement | null) => {
+    spanRef.current = node;
+
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
+
+  return (
+    <motion.span
+      animate={animatedW == null ? undefined : { width: animatedW }}
+      className={cn(
+        componentThemeClassName,
+        "align-bottom text-inherit leading-[100%]",
+        className
+      )}
+      ref={setRefs}
+      style={containerStyle}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      {...props}
+    >
       <motion.span
-        animate={animatedW == null ? undefined : { width: animatedW }}
-        className={cn(
-          componentThemeClassName,
-          "align-bottom text-inherit leading-[100%]",
-          className
-        )}
-        ref={setRefs}
-        style={containerStyle}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-        {...props}
+        aria-hidden
+        className="inline-block text-inherit leading-[100%]"
+        style={contentStyle}
       >
-        <motion.span
-          aria-hidden
-          className="inline-block text-inherit leading-[100%]"
-          style={contentStyle}
-        >
-          {texts[activeIndex]}
-        </motion.span>
-        <span className="sr-only">{texts[activeIndex]}</span>
+        {texts[activeIndex]}
       </motion.span>
-    );
-  }
-);
+      <span className="sr-only">{texts[activeIndex]}</span>
+    </motion.span>
+  );
+};
 
 DiaTextReveal.displayName = "DiaTextReveal";
 

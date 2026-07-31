@@ -40,11 +40,11 @@ import { type SyntheticEvent, useState } from "react";
 import { AdditionalField } from "./additional-field";
 import { ProviderButtons, type SocialLayout } from "./provider-buttons";
 
-export type SignUpProps = {
+export interface SignUpProps {
   className?: string;
   socialLayout?: SocialLayout;
   socialPosition?: "top" | "bottom";
-};
+}
 
 /**
  * Renders a sign-up form with name, email, and password fields, optional social provider buttons, and submission handling.

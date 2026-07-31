@@ -27,9 +27,9 @@ import { type SyntheticEvent, useState } from "react";
 import { AdditionalField } from "../../additional-field";
 import { ChangeAvatar } from "./change-avatar";
 
-export type UserProfileProps = {
+export interface UserProfileProps {
   className?: string;
-};
+}
 
 /**
  * Render a profile card that lets the authenticated user view and update their display name, username, and avatar.

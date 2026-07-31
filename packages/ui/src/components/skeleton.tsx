@@ -3,7 +3,6 @@
 import { cn } from "@workspace/ui/lib/utils";
 import {
   type CSSProperties,
-  forwardRef,
   type HTMLAttributes,
   type ReactNode,
   useEffect,
@@ -120,20 +119,18 @@ interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   variant?: SkeletonVariant;
 }
 
-const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skeleton(
-  {
-    animate = true,
-    className,
-    decorative = true,
-    duration,
-    label,
-    rounded = "md",
-    style,
-    variant = "shimmer",
-    ...props
-  },
-  ref
-) {
+const Skeleton = function Skeleton({
+  animate = true,
+  className,
+  decorative = true,
+  duration,
+  label,
+  rounded = "md",
+  style,
+  variant = "shimmer",
+  ref,
+  ...props
+}: SkeletonProps & { ref?: RefObject<HTMLDivElement | null> }) {
   const variantDuration = getSkeletonVariantDuration(variant, duration);
   const showShimmer = animate && variant === "shimmer";
   const showFade = animate && variant === "fade";
@@ -176,7 +173,7 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skeleton(
       ) : null}
     </div>
   );
-});
+};
 
 Skeleton.displayName = "Skeleton";
 

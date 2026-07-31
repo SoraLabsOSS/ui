@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fog-text-reveal",
+  "type": "registry:ui",
+  "title": "Fog Text Reveal",
+  "description": "A WebGL card that materializes corner text through a soft, turbulent fog mask, then clears and cycles through an array of messages.",
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/effects/fog-text-reveal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/effects/fog-text-reveal.tsx"
+    }
+  ]
+}

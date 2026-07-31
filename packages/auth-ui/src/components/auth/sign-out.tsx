@@ -5,9 +5,9 @@ import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useRef } from "react";
 
-export type SignOutProps = {
+export interface SignOutProps {
   className?: string;
-};
+}
 
 /**
  * Signs the current user out on mount and renders a centered spinner while the operation completes.

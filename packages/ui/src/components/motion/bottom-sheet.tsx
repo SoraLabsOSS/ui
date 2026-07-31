@@ -101,7 +101,7 @@ export function BottomSheet({
     if (velocity > 600 || offset > dismissThreshold) {
       const smaller = snapPoints.map((_, i) => i).filter((i) => i < snap);
       if (smaller.length && velocity < 800 && offset < dismissThreshold * 1.6) {
-        setSnap(smaller[smaller.length - 1]);
+        setSnap(smaller.at(-1));
       } else {
         onOpenChange(false);
       }

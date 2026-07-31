@@ -6,9 +6,9 @@ import { ActiveSessions } from "./active-sessions";
 import { ChangePassword } from "./change-password";
 import { LinkedAccounts } from "./linked-accounts";
 
-export type SecuritySettingsProps = {
+export interface SecuritySettingsProps {
   className?: string;
-};
+}
 
 /**
  * Renders the security settings layout including password management, linked accounts, and active sessions.

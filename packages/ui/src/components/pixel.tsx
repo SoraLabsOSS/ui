@@ -180,7 +180,6 @@ function calculateDelay(
     }
     case "random":
       return Math.random() * Math.sqrt(width * width + height * height) * 0.5;
-    case "center":
     default: {
       const dx = x - width / 2;
       const dy = y - height / 2;
@@ -189,16 +188,16 @@ function calculateDelay(
   }
 }
 
-type PixelBackgroundProps = {
-  gap?: number;
-  speed?: number;
-  pattern?: AnimationPattern;
-  darkColors?: string;
-  lightColors?: string;
-  pixelOpacity?: number;
-  className?: string;
+interface PixelBackgroundProps {
   children?: React.ReactNode;
-};
+  className?: string;
+  darkColors?: string;
+  gap?: number;
+  lightColors?: string;
+  pattern?: AnimationPattern;
+  pixelOpacity?: number;
+  speed?: number;
+}
 
 const DEFAULT_DARK_COLORS = "#2a2a2a,#3b3b3b,#525252";
 const DEFAULT_LIGHT_COLORS = "#d4d4d4,#bdbdbd,#a3a3a3";

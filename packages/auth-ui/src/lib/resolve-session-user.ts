@@ -1,11 +1,11 @@
 /** User fields used when resolving avatar / profile display. */
-export type SessionDisplayUser = {
-  username?: string | null;
+export interface SessionDisplayUser {
   displayUsername?: string | null;
-  name?: string | null;
   email?: string | null;
   image?: string | null;
-};
+  name?: string | null;
+  username?: string | null;
+}
 
 /**
  * Resolve the user to display without reading session data during SSR
