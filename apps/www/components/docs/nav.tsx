@@ -88,37 +88,50 @@ function LibraryMenuContent({
   libraryItems: LibraryNavItem[];
 }) {
   return (
-    <div className="flex w-120 gap-2">
-      <NavigationMenuLink
-        asChild
-        className="w-45 shrink-0 bg-muted/60 p-3 hover:bg-muted focus:bg-muted"
-      >
-        <Link href={DOCS_GUIDE_URL}>
-          <span className="flex size-9 items-center justify-center rounded-md border bg-background">
-            <IconLogo className="text-foreground" size="sm" />
-          </span>
-          <span className="mt-8 font-medium text-sm">Sora UI</span>
-          <span className="mt-1 text-muted-foreground text-xs leading-relaxed">
-            Fully animated, open-source component distribution.
-          </span>
-        </Link>
-      </NavigationMenuLink>
+    <Highlight
+      className="pointer-events-none rounded-sm bg-accent"
+      containerClassName="flex w-120 gap-2"
+      controlledItems
+      hover
+      mode="parent"
+    >
+      <HighlightItem asChild value="sora-ui">
+        <NavigationMenuLink
+          asChild
+          className="relative z-10 w-45 shrink-0 bg-muted/60 p-3 hover:bg-muted/60 focus:bg-muted data-[active=true]:bg-muted/60 data-[active=true]:hover:bg-muted/60"
+        >
+          <Link href={DOCS_GUIDE_URL}>
+            <span className="flex size-9 items-center justify-center rounded-md border bg-background">
+              <IconLogo className="text-foreground" size="sm" />
+            </span>
+            <span className="mt-8 font-medium text-sm">Sora UI</span>
+            <span className="mt-1 text-muted-foreground text-xs leading-relaxed">
+              Fully animated, copy-paste component distribution.
+            </span>
+          </Link>
+        </NavigationMenuLink>
+      </HighlightItem>
       <div className="grid flex-1 grid-cols-2 content-start gap-1">
         {libraryItems.map((item) => (
-          <NavigationMenuLink asChild className="gap-1 p-3" key={item.title}>
-            <Link href={item.url}>
-              <span className="flex items-center justify-between font-medium text-sm">
-                {item.title}
-                <ArrowUpRight className="size-3.5 text-muted-foreground" />
-              </span>
-              <span className="text-muted-foreground text-xs leading-relaxed">
-                {item.description}
-              </span>
-            </Link>
-          </NavigationMenuLink>
+          <HighlightItem asChild key={item.title} value={item.title}>
+            <NavigationMenuLink
+              asChild
+              className="relative z-10 gap-1 p-3 hover:bg-transparent data-[active=true]:bg-transparent data-[active=true]:hover:bg-transparent"
+            >
+              <Link href={item.url}>
+                <span className="flex items-center justify-between font-medium text-sm">
+                  {item.title}
+                  <ArrowUpRight className="size-3.5 text-muted-foreground" />
+                </span>
+                <span className="text-muted-foreground text-xs leading-relaxed">
+                  {item.description}
+                </span>
+              </Link>
+            </NavigationMenuLink>
+          </HighlightItem>
         ))}
       </div>
-    </div>
+    </Highlight>
   );
 }
 
