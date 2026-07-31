@@ -286,12 +286,13 @@ function TooltipOverlay() {
     }
   }, [currentTooltip]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: rendered.data must re-run this so the shared tooltip re-anchors to each new trigger as the cursor moves between elements
   React.useLayoutEffect(() => {
     if (referenceElRef.current) {
       refs.setReference(referenceElRef.current);
       update();
     }
-  }, [referenceElRef, refs, update]);
+  }, [referenceElRef, refs, update, rendered.data]);
 
   const ready = x != null && y != null;
   const Component = rendered.data?.contentAsChild ? Slot : motion.div;
