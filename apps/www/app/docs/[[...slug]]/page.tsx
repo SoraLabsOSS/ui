@@ -176,7 +176,7 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
       )}
 
       <PageActionButtons
-        githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${page.path}`}
+        // githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${page.path}`}
         key={page.url}
         markdownUrl={`${page.url}.mdx`}
         url={page.url}
