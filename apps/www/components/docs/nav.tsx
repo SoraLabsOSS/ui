@@ -52,6 +52,8 @@ const BASE_NAV_ITEMS: NavItem[] = [{ title: "Docs", url: DOCS_GUIDE_URL }];
 const RESOURCE_NAV_ITEMS: NavItem[] = [{ title: "Blog", url: "/blog" }];
 
 interface LibraryNavItem extends NavItem {
+  /** Renders the item dimmed, non-interactive, with a "Soon" badge. */
+  comingSoon?: boolean;
   description: string;
 }
 
@@ -70,6 +72,12 @@ const LIBRARY_NAV_ITEMS = (primitivesUrl: string): LibraryNavItem[] => [
     title: "Icons",
     url: "/docs/icons",
     description: "Animated icons with hover, tap, and view triggers.",
+  },
+  {
+    title: "Studio",
+    url: "#",
+    description: "Premium, ready-made landing page templates — in development.",
+    comingSoon: true,
   },
 ];
 
@@ -112,24 +120,45 @@ function LibraryMenuContent({
         </NavigationMenuLink>
       </HighlightItem>
       <div className="grid flex-1 grid-cols-2 content-start gap-1">
-        {libraryItems.map((item) => (
-          <HighlightItem asChild key={item.title} value={item.title}>
-            <NavigationMenuLink
-              asChild
-              className="relative z-10 gap-1 p-3 hover:bg-transparent data-[active=true]:bg-transparent data-[active=true]:hover:bg-transparent"
-            >
-              <Link href={item.url}>
+        {libraryItems.map((item) => {
+          if (item.comingSoon) {
+            return (
+              <div
+                aria-disabled="true"
+                className="relative z-10 flex cursor-default flex-col gap-1 p-3 opacity-50"
+                key={item.title}
+              >
                 <span className="flex items-center justify-between font-medium text-sm">
                   {item.title}
-                  <ArrowUpRight className="size-3.5 text-muted-foreground" />
+                  <span className="rounded-full border px-1.5 py-0.5 font-normal text-[10px] text-muted-foreground leading-none">
+                    Soon
+                  </span>
                 </span>
                 <span className="text-muted-foreground text-xs leading-relaxed">
                   {item.description}
                 </span>
-              </Link>
-            </NavigationMenuLink>
-          </HighlightItem>
-        ))}
+              </div>
+            );
+          }
+          return (
+            <HighlightItem asChild key={item.title} value={item.title}>
+              <NavigationMenuLink
+                asChild
+                className="relative z-10 gap-1 p-3 hover:bg-transparent data-[active=true]:bg-transparent data-[active=true]:hover:bg-transparent"
+              >
+                <Link href={item.url}>
+                  <span className="flex items-center justify-between font-medium text-sm">
+                    {item.title}
+                    <ArrowUpRight className="size-3.5 text-muted-foreground" />
+                  </span>
+                  <span className="text-muted-foreground text-xs leading-relaxed">
+                    {item.description}
+                  </span>
+                </Link>
+              </NavigationMenuLink>
+            </HighlightItem>
+          );
+        })}
       </div>
     </Highlight>
   );
