@@ -1,7 +1,7 @@
 export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => (
   <div className="-mt-2 mb-7 flex w-full flex-col-reverse justify-between lg:flex-row lg:items-center lg:gap-2">
     <div className="prose prose-sm flex size-full items-center justify-start text-muted-foreground text-sm">
-      <div className="flex items-end">
+      <div className="flex items-center">
         <p className="m-0! truncate whitespace-normal text-start">
           Built by{" "}
           <a
@@ -15,6 +15,7 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => (
         </p>
         <svg
           aria-hidden="true"
+          className="mb-2"
           fill="none"
           height="32"
           style={{ overflow: "visible" }}
