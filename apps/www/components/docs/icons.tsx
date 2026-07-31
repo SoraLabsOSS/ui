@@ -134,9 +134,9 @@ export function Icons() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   useEffect(() => {
-    if (activeIcon) {
-      setIsPanelOpen(true);
-    }
+    // Also closes a stale open panel when the icon query param is gone
+    // (e.g. navigating away and back restores state without the URL).
+    setIsPanelOpen(Boolean(activeIcon));
   }, [activeIcon]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: clear query only when the panel closes
