@@ -1,0 +1,148 @@
+---
+title: Typer
+description: A character-by-character reveal where each glyph ripples through randomized pill, accent, and outline states before settling into plain text. A React component.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-typer" description="A stacked headline that cascades in line by line — scroll into view or refresh to replay." />
+
+## Installation
+
+<ComponentInstallation name="typer" />
+
+## Usage
+
+```tsx
+import { Typer } from '@/components/sora-ui/texts/typer';
+
+export default function Page() {
+  return (
+    <Typer
+      className="font-semibold text-4xl tracking-tight"
+      text="Type that assembles itself."
+    />
+  );
+}
+```
+
+Cascade a stacked block, one line per string:
+
+```tsx
+<Typer
+  text={['Type that', 'assembles itself,', 'one glyph at a time.']}
+  stagger={0.15}
+/>
+```
+
+Narrow the pool of visual states each character rolls through:
+
+```tsx
+<Typer
+  text="Only pills and accents."
+  variations={['charFill', 'charAccentInverse', 'charBorder']}
+/>
+```
+
+Recolor the fills, accent, and borders through the CSS variables:
+
+```tsx
+<Typer
+  text="Themed reveal."
+  fg="#0b0b0c"
+  bg="#ffffff"
+  accent="#6d28d9"
+  accentInk="#ffffff"
+  radius="8px"
+/>
+```
+
+Render as a different element and control it imperatively:
+
+```tsx
+const handle = useRef<TyperHandle>(null);
+
+<Typer ref={handle} as="h1" text="Controlled headline." startOnView={false} />
+<button onClick={() => handle.current?.replay()}>Replay</button>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: 'Text to reveal. Pass an array to render one cascading line per string.',
+      type: 'string | string[]',
+    },
+    variations: {
+      description: 'Which visual states each character rolls through before settling. Shuffled per run.',
+      type: 'TyperVariation[]',
+      default: 'all six variations',
+    },
+    fps: {
+      description: 'Frames per second of the reveal loop.',
+      type: 'number',
+      default: '20',
+    },
+    cycles: {
+      description: 'How many random states each character rolls through before settling.',
+      type: 'number',
+      default: '3',
+    },
+    stagger: {
+      description: 'Seconds between consecutive lines cascading in.',
+      type: 'number',
+      default: '0.15',
+    },
+    startOnView: {
+      description: 'Wait until the element scrolls into view before revealing.',
+      type: 'boolean',
+      default: 'true',
+    },
+    fg: {
+      description: 'Base ink color (plain letters and ink pills). Maps to --typer-fg.',
+      type: 'string',
+      default: 'theme --foreground',
+    },
+    bg: {
+      description: 'Knockout / page color inside filled pills. Maps to --typer-bg.',
+      type: 'string',
+      default: 'theme --background',
+    },
+    accent: {
+      description: 'Accent surface color for accent pills and borders. Maps to --typer-accent.',
+      type: 'string',
+      default: '"#12a150"',
+    },
+    accentInk: {
+      description: 'Text color sitting on an accent fill. Maps to --typer-accent-ink.',
+      type: 'string',
+      default: '"#fcfcfc"',
+    },
+    radius: {
+      description: 'Corner radius of merged pills. Maps to --typer-radius.',
+      type: 'string',
+      default: '"5px"',
+    },
+    as: {
+      description: 'Render as a different element instead of `div`.',
+      type: 'React.ElementType',
+      default: '"div"',
+    },
+    ref: {
+      description: 'Imperative handle exposing play(), replay(), and out().',
+      type: 'Ref<TyperHandle>',
+    },
+    className: {
+      description: 'Additional class names merged onto the root element.',
+      type: 'string',
+    },
+  }}
+/>
+
+## Accessibility
+
+The full text is exposed as an `aria-label` on the root element, and every animated line span is `aria-hidden` — screen readers announce the plain text, never the per-character state churn.
+
+When `prefers-reduced-motion: reduce` is set, the reveal loop is skipped entirely: each line mounts fully visible as plain text with no state ripple, matching the CSS reduced-motion fallback. Imperative `play()` / `replay()` / `out()` still resolve but there is no animation to drive.

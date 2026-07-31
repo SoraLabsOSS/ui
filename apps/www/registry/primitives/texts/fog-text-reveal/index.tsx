@@ -1,11 +1,15 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+import { useReducedMotion } from "motion/react";
 import {
   type ComponentPropsWithoutRef,
+  type ElementType,
   type Ref,
   useEffect,
+  useMemo,
   useRef,
+  useState,
 } from "react";
 
 const VERT = `
@@ -334,19 +338,35 @@ class RevealGL {
   }
 }
 
-interface CornerText {
-  bottom: string[];
-  cardH: number;
-  cardW: number;
+type TextAlign = "left" | "center" | "right";
+
+function normalizeAlign(value: string): TextAlign {
+  if (value === "right" || value === "end") {
+    return "right";
+  }
+  if (value === "center") {
+    return "center";
+  }
+  return "left";
+}
+
+interface TextTexture {
+  align: TextAlign;
+  boxH: number;
+  boxW: number;
   dpr: number;
   fill: string;
   font: string;
-  top: string[];
+  /** Line height in px, or 0 to derive from the font's natural metrics. */
+  lineHeight: number;
+  padX: number;
+  padY: number;
+  text: string;
 }
 
-function renderCornerText(o: CornerText): HTMLCanvasElement | null {
-  const cssW = Math.max(1, Math.round(o.cardW));
-  const cssH = Math.max(1, Math.round(o.cardH));
+function renderTextTexture(o: TextTexture): HTMLCanvasElement | null {
+  const cssW = Math.max(1, Math.round(o.boxW + o.padX * 2));
+  const cssH = Math.max(1, Math.round(o.boxH + o.padY * 2));
 
   const canvas = document.createElement("canvas");
   canvas.width = Math.round(cssW * o.dpr);
@@ -356,65 +376,54 @@ function renderCornerText(o: CornerText): HTMLCanvasElement | null {
     return null;
   }
   ctx.scale(o.dpr, o.dpr);
+  ctx.font = o.font;
   ctx.fillStyle = o.fill;
-  ctx.textBaseline = "top";
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = o.align;
 
-  const pad = Math.round(cssW * 0.035);
-  const maxLineW = cssW * 0.52;
-  const allLines = [...o.top, ...o.bottom];
-  let fontSize = Math.max(24, Math.min(40, cssW * 0.03));
-  for (let i = 0; i < 24; i++) {
-    ctx.font = `500 ${fontSize}px ${o.font}`;
-    const widest = Math.max(
-      ...allLines.map((l) => ctx.measureText(l).width),
-      0
-    );
-    if (widest <= maxLineW || fontSize <= 15) {
-      break;
-    }
-    fontSize -= 1;
+  const m = ctx.measureText("Ag");
+  const ascent = m.fontBoundingBoxAscent;
+  const descent = m.fontBoundingBoxDescent;
+  const lineH = o.lineHeight > 0 ? o.lineHeight : ascent + descent;
+
+  const lines = o.text.split("\n");
+  const blockH = lines.length * lineH;
+  const startY = (o.boxH - blockH) / 2;
+  let x = o.padX;
+  if (o.align === "right") {
+    x = o.padX + o.boxW;
+  } else if (o.align === "center") {
+    x = o.padX + o.boxW / 2;
   }
-  const lineH = fontSize * 1.42;
-  ctx.font = `500 ${fontSize}px ${o.font}`;
 
-  ctx.textAlign = "left";
-  o.top.forEach((line, i) => {
-    ctx.fillText(line, pad, pad + i * lineH);
-  });
-
-  ctx.textAlign = "right";
-  const bottomBlockH = o.bottom.length * lineH;
-  const startY = cssH - pad - bottomBlockH;
-  o.bottom.forEach((line, i) => {
-    ctx.fillText(line, cssW - pad, startY + i * lineH);
+  lines.forEach((line, i) => {
+    // Half-leading model so GL glyphs land where the in-flow sizer glyphs sit.
+    const baseline =
+      o.padY + startY + i * lineH + (lineH + ascent - descent) / 2;
+    ctx.fillText(line, x, baseline);
   });
 
   return canvas;
 }
 
-function hexToRgb(hex: string): [number, number, number] {
-  let h = hex.replace("#", "");
-  if (h.length === 3) {
-    h = h
-      .split("")
-      .map((c) => c + c)
-      .join("");
-  }
-  const r = Number.parseInt(h.slice(0, 2), 16) / 255;
-  const g = Number.parseInt(h.slice(2, 4), 16) / 255;
-  const b = Number.parseInt(h.slice(4, 6), 16) / 255;
-  return [r, g, b];
-}
+let colorProbe: CanvasRenderingContext2D | null = null;
 
-function resolveFamily(cssFamily: string): string {
-  const probe = document.createElement("span");
-  probe.style.cssText = "position:absolute;visibility:hidden";
-  probe.style.fontFamily = cssFamily;
-  probe.textContent = "Ag";
-  document.body.appendChild(probe);
-  const fam = getComputedStyle(probe).fontFamily || "serif";
-  document.body.removeChild(probe);
-  return fam;
+function cssColorToRgb(css: string): [number, number, number] {
+  if (!colorProbe) {
+    const c = document.createElement("canvas");
+    c.width = 1;
+    c.height = 1;
+    colorProbe = c.getContext("2d", { willReadFrequently: true });
+  }
+  const ctx = colorProbe;
+  if (!ctx) {
+    return [1, 1, 1];
+  }
+  ctx.clearRect(0, 0, 1, 1);
+  ctx.fillStyle = css;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+  return [r / 255, g / 255, b / 255];
 }
 
 function springStep(
@@ -441,46 +450,13 @@ const PARALLAX_AMP = 0.006;
 const TL_ANCHOR: [number, number] = [0.16, 0.18];
 const BR_ANCHOR: [number, number] = [0.84, 0.82];
 
-const WHITE_WASH = [
-  "radial-gradient(55% 75% at 18% 12%, rgba(255,255,255,0.95), transparent 60%)",
-  "radial-gradient(48% 66% at 82% 22%, rgba(255,255,255,0.80), transparent 62%)",
-  "radial-gradient(65% 55% at 50% 0%,  rgba(255,255,255,0.70), transparent 55%)",
-  "radial-gradient(42% 52% at 8% 85%,  rgba(255,255,255,0.75), transparent 60%)",
-  "radial-gradient(52% 60% at 92% 88%, rgba(255,255,255,0.65), transparent 62%)",
-  "radial-gradient(38% 38% at 65% 55%, rgba(255,255,255,0.55), transparent 70%)",
-  "radial-gradient(85% 46% at 50% 100%,rgba(255,255,255,0.55), transparent 55%)",
-  "radial-gradient(28% 28% at 30% 45%, rgba(255,255,255,0.45), transparent 72%)",
-].join(", ");
-
-const GRAIN_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(
-  "<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(#n)' opacity='0.7'/></svg>"
-)}`;
-
-/** A single message: lines anchored to the top-left and bottom-right corners. */
-export interface FogTextRevealMessage {
-  /** Lines rendered in the bottom-right corner. */
-  bottom: string[];
-  /** Lines rendered in the top-left corner. */
-  top: string[];
-}
-
 export interface FogTextRevealProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+  extends Omit<ComponentPropsWithoutRef<"span">, "children"> {
   /**
-   * Card background color.
-   * @default "#fdfdfb"
+   * Render as a different element instead of `span`.
+   * @default "span"
    */
-  backgroundColor?: string;
-  /**
-   * Border and edge-glow color.
-   * @default "#f2f1ec"
-   */
-  edgeColor?: string;
-  /**
-   * CSS `font-family` stack used to render the canvas text.
-   * @default "Georgia, serif"
-   */
-  fontFamily?: string;
+  as?: ElementType;
   /**
    * How long each message stays fully revealed before clearing, in ms.
    * @default 320
@@ -497,82 +473,137 @@ export interface FogTextRevealProps
    * @default 16
    */
   maxBlur?: number;
-  /** Messages cycled through; each renders as top-left + bottom-right corner text. */
-  messages: FogTextRevealMessage[];
   /** Forwarded ref to the root element. */
-  ref?: Ref<HTMLDivElement>;
+  ref?: Ref<HTMLElement>;
   /**
-   * Wait until the card scrolls into view before animating.
+   * Wait until the text scrolls into view before animating.
    * @default true
    */
   startOnView?: boolean;
   /**
-   * Text color.
-   * @default "#242320"
+   * Text to reveal. Pass an array to cycle through messages; the element
+   * reserves a stable width sized to the widest one so cycling never shifts
+   * surrounding layout. Font and color are inherited from CSS.
    */
-  textColor?: string;
+  text: string | string[];
 }
 
 function FogTextReveal({
-  messages,
+  text,
+  as: Component = "span",
   loop = true,
   startOnView = true,
   holdDuration = 320,
   maxBlur = 16,
-  backgroundColor = "#fdfdfb",
-  textColor = "#242320",
-  edgeColor = "#f2f1ec",
-  fontFamily = "Georgia, serif",
   className,
-  style,
   ref,
   ...props
 }: FogTextRevealProps) {
-  const hostRef = useRef<HTMLDivElement>(null);
+  const hostRef = useRef<HTMLElement | null>(null);
+  const sizerRef = useRef<HTMLSpanElement>(null);
+  const [fallback, setFallback] = useState(false);
+  const reduced = useReducedMotion();
+  const texts = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
   useEffect(() => {
     const host = hostRef.current;
-    if (!host || messages.length === 0) {
+    const sizer = sizerRef.current;
+    if (!(host && sizer) || texts.length === 0 || reduced) {
       return;
     }
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
 
-    let W = host.clientWidth || 1;
-    let H = host.clientHeight || 1;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let resolvedFamily = resolveFamily(fontFamily);
-    const edge = hexToRgb(edgeColor);
 
     const gl = new RevealGL();
-    const useGL = gl.available;
-    if (useGL) {
-      gl.resize(W, H, dpr);
-      host.appendChild(gl.canvas);
+    if (!gl.available) {
+      setFallback(true);
+      return;
     }
+    gl.canvas.style.pointerEvents = "none";
+    gl.canvas.setAttribute("aria-hidden", "true");
+    host.appendChild(gl.canvas);
+
+    const measureCanvas = document.createElement("canvas");
+    const mctx = measureCanvas.getContext("2d");
+
+    let font = "16px serif";
+    let fill = "#000";
+    let edge: [number, number, number] = [1, 1, 1];
+    let align: TextAlign = "left";
+    let lineH = 0;
+    let W = 1;
+    let H = 1;
+    let padX = 0;
+    let padY = 0;
+    let quadW = 1;
+    let quadH = 1;
+    let disposed = false;
+
+    const measure = () => {
+      const cs = getComputedStyle(host);
+      font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      fill = cs.color;
+      edge = cssColorToRgb(fill);
+      const fontSize = Number.parseFloat(cs.fontSize) || 16;
+
+      const ta = cs.textAlign;
+      align = normalizeAlign(ta);
+
+      const lh = cs.lineHeight;
+      if (lh === "normal") {
+        lineH = 0;
+      } else {
+        const v = Number.parseFloat(lh);
+        lineH = lh.includes("px") ? v : v * fontSize;
+      }
+
+      if (mctx) {
+        mctx.font = font;
+        let widest = 0;
+        for (const t of texts) {
+          for (const line of t.split("\n")) {
+            widest = Math.max(widest, mctx.measureText(line).width);
+          }
+        }
+        sizer.style.minWidth = `${Math.ceil(widest)}px`;
+      }
+
+      W = host.clientWidth || 1;
+      H = host.clientHeight || 1;
+      padY = Math.ceil((2.6 * maxBlur) / dpr + fontSize * 0.35 + H * 0.02);
+      padX = Math.ceil((2.6 * maxBlur) / dpr + fontSize * 0.35 + W * 0.03);
+      quadW = W + padX * 2;
+      quadH = H + padY * 2;
+      Object.assign(gl.canvas.style, {
+        left: `${-padX}px`,
+        top: `${-padY}px`,
+        width: `${quadW}px`,
+        height: `${quadH}px`,
+      });
+      gl.resize(quadW, quadH, dpr);
+    };
 
     let index = 0;
     let seed = 1.7;
 
     const mount = () => {
-      if (!useGL) {
-        return;
-      }
-      const pair = messages[index];
-      const art = renderCornerText({
-        top: pair.top,
-        bottom: pair.bottom,
-        font: resolvedFamily,
-        fill: textColor,
-        cardW: W,
-        cardH: H,
+      const art = renderTextTexture({
+        text: texts[index],
+        font,
+        fill,
+        align,
+        lineHeight: lineH,
+        boxW: W,
+        boxH: H,
+        padX,
+        padY,
         dpr,
       });
       if (art) {
         gl.setTexture(art);
       }
     };
+    measure();
     mount();
 
     let pTgtX = 0.5;
@@ -584,8 +615,8 @@ function FogTextReveal({
     let hoverCur = 0;
     const onMove = (e: PointerEvent) => {
       const b = host.getBoundingClientRect();
-      const ux = (e.clientX - b.left) / b.width;
-      const uy = (e.clientY - b.top) / b.height;
+      const ux = (e.clientX - (b.left - padX)) / (b.width + padX * 2);
+      const uy = (e.clientY - (b.top - padY)) / (b.height + padY * 2);
       pTgtX = ux;
       pTgtY = uy;
       cursorUV = [ux, uy];
@@ -610,7 +641,7 @@ function FogTextReveal({
     let running = false;
     let held = 0;
 
-    const isLast = () => !loop && index >= messages.length - 1;
+    const isLast = () => !loop && index >= texts.length - 1;
 
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: single rAF frame that advances the spring, phase machine, parallax and per-frame draw of the ported reveal shader.
     const loopFrame = () => {
@@ -637,7 +668,7 @@ function FogTextReveal({
           target = 0;
         }
       } else if (progress <= GONE_AT && now - phaseStart >= OUT_HOLD_MS) {
-        index = (index + 1) % messages.length;
+        index = (index + 1) % texts.length;
         seed = ((seed * 1.618) % 7) + 0.3;
         mount();
         phase = "in";
@@ -664,28 +695,26 @@ function FogTextReveal({
 
       const p = Math.max(0, Math.min(1, progress));
       const reverse = phase === "out" ? 1 : 0;
-      if (useGL) {
-        gl.draw(
-          p,
-          maxBlur,
-          edge,
-          clock,
-          W / Math.max(1, H),
-          seed,
-          parTL,
-          parBR,
-          cursorUV,
-          hoverCur,
-          reverse
-        );
+      gl.draw(
+        p,
+        maxBlur,
+        edge,
+        clock,
+        quadW / Math.max(1, quadH),
+        seed,
+        parTL,
+        parBR,
+        cursorUV,
+        hoverCur,
+        reverse
+      );
 
-        held += ((phase === "hold" ? 1 : 0) - held) * (1 - 0.02 ** dt);
-        const breathe = Math.sin(clock * 0.45) * 0.5 + 0.5;
-        const s = 1 + held * breathe * 0.0015;
-        const b = 1 + held * (breathe - 0.5) * 0.012;
-        gl.canvas.style.transform = `scale(${s.toFixed(4)})`;
-        gl.canvas.style.filter = `brightness(${b.toFixed(3)})`;
-      }
+      held += ((phase === "hold" ? 1 : 0) - held) * (1 - 0.02 ** dt);
+      const breathe = Math.sin(clock * 0.45) * 0.5 + 0.5;
+      const s = 1 + held * breathe * 0.0015;
+      const b = 1 + held * (breathe - 0.5) * 0.012;
+      gl.canvas.style.transform = `scale(${s.toFixed(4)})`;
+      gl.canvas.style.filter = `brightness(${b.toFixed(3)})`;
 
       raf = requestAnimationFrame(loopFrame);
     };
@@ -712,30 +741,9 @@ function FogTextReveal({
       last = 0;
     };
 
-    const renderStill = () => {
-      if (useGL) {
-        gl.draw(
-          1,
-          0,
-          edge,
-          0,
-          W / Math.max(1, H),
-          seed,
-          [0, 0],
-          [0, 0],
-          [-1, -1],
-          0,
-          0
-        );
-      }
-    };
-
     let onScreen = !startOnView;
     let hidden = false;
     const sync = () => {
-      if (reduced) {
-        return;
-      }
       if (onScreen && !hidden) {
         start();
       } else {
@@ -767,92 +775,108 @@ function FogTextReveal({
     const ro = new ResizeObserver(() => {
       window.clearTimeout(resizeT);
       resizeT = window.setTimeout(() => {
-        W = host.clientWidth || 1;
-        H = host.clientHeight || 1;
-        if (W < 2 || H < 2) {
+        if (disposed || host.clientWidth < 2) {
           return;
         }
-        gl.resize(W, H, dpr);
+        measure();
         mount();
       }, 120);
     });
     ro.observe(host);
 
-    if (document.fonts?.load) {
-      document.fonts.load(`500 1em "${resolvedFamily}"`).then(
-        () => {
-          resolvedFamily = resolveFamily(fontFamily);
-          mount();
-        },
-        () => {
-          // font load rejected — keep the fallback family
-        }
-      );
-    }
+    document.fonts?.ready.then(() => {
+      if (disposed) {
+        return;
+      }
+      measure();
+      mount();
+    });
 
-    if (reduced) {
-      renderStill();
+    const themeObs = new MutationObserver(() => {
+      if (disposed) {
+        return;
+      }
+      if (getComputedStyle(host).color !== fill) {
+        measure();
+        mount();
+      }
+    });
+    const themeOpts = {
+      attributes: true,
+      attributeFilter: ["class", "style", "data-theme"],
+    };
+    themeObs.observe(document.documentElement, themeOpts);
+    if (document.body) {
+      themeObs.observe(document.body, themeOpts);
     }
 
     return () => {
+      disposed = true;
       stop();
       io?.disconnect();
       ro.disconnect();
+      themeObs.disconnect();
       window.clearTimeout(resizeT);
       document.removeEventListener("visibilitychange", onVis);
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);
+      gl.canvas.remove();
       gl.destroy();
     };
-  }, [
-    messages,
-    loop,
-    startOnView,
-    holdDuration,
-    maxBlur,
-    textColor,
-    edgeColor,
-    fontFamily,
-  ]);
+  }, [texts, loop, startOnView, holdDuration, maxBlur, reduced]);
 
-  const srText = messages
-    .map((m) => [...m.top, ...m.bottom].join(" "))
-    .join(". ");
+  const sizerText = useMemo(() => {
+    let best = texts[0] ?? "";
+    let bestLines = best.split("\n").length;
+    for (const t of texts) {
+      const n = t.split("\n").length;
+      if (n > bestLines) {
+        best = t;
+        bestLines = n;
+      }
+    }
+    return best;
+  }, [texts]);
+
+  const setRef = (node: HTMLElement | null) => {
+    hostRef.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
+
+  if (reduced || fallback) {
+    return (
+      <Component
+        className={cn("inline-block whitespace-pre", className)}
+        ref={setRef}
+        {...props}
+      >
+        {texts[0]}
+      </Component>
+    );
+  }
 
   return (
-    <div
+    <Component
       className={cn(
-        "relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border shadow-sm",
+        "relative inline-block select-none whitespace-pre align-baseline",
         className
       )}
-      ref={(node) => {
-        hostRef.current = node;
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      }}
-      style={{ backgroundColor, borderColor: edgeColor, ...style }}
+      ref={setRef}
       {...props}
     >
-      <span className="sr-only">{srText}</span>
-      <div
+      <span
         aria-hidden="true"
-        className="pointer-events-none absolute"
-        style={{ inset: "-8%", backgroundImage: WHITE_WASH }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: `url("${GRAIN_SVG}")`,
-          backgroundSize: "140px 140px",
-          opacity: 0.05,
-          mixBlendMode: "multiply",
-        }}
-      />
-    </div>
+        className="invisible inline-block whitespace-pre"
+        ref={sizerRef}
+      >
+        {sizerText}
+      </span>
+      <span className="sr-only">{texts.join(". ")}</span>
+    </Component>
   );
 }
 

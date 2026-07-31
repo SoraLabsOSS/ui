@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-fog-text-reveal",
+  "type": "registry:ui",
+  "title": "Fog Text Reveal Demo",
+  "description": "Inline text that materializes through a WebGL fog mask and cycles through messages, inheriting the surrounding font and color.",
+  "registryDependencies": ["fog-text-reveal"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/fog-text-reveal.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "FogTextRevealExample": {
+        "loop": { "value": true },
+        "startOnView": { "value": true },
+        "holdDuration": { "value": 320, "min": 0, "max": 2000, "step": 20 },
+        "maxBlur": { "value": 16, "min": 0, "max": 40, "step": 1 }
+      }
+    }
+  }
+}

@@ -1,12 +1,12 @@
 ---
 title: Fog Text Reveal
-description: A WebGL card that materializes corner text through a soft, turbulent fog mask, then clears and cycles through an array of messages. A React component.
+description: Inline text that materializes through a soft, turbulent WebGL fog mask, then clears and cycles through an array of messages. A React component.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-fog-text-reveal" description="Corner text materializes through a fog mask, holds, clears the same way, then advances to the next message. Move the pointer over the card to part the fog." />
+<ComponentPreview name="demo-fog-text-reveal" description="Inline text materializes through a fog mask, holds, clears the same way, then advances to the next message. Move the pointer over the text to part the fog." />
 
 ## Installation
 
@@ -14,34 +14,30 @@ author:
 
 ## Usage
 
+Drop it into any text flow — it renders as an inline element and inherits the surrounding `font-family`, `font-size`, `font-weight`, and `color` from CSS.
+
 ```tsx
-import { FogTextReveal } from '@/components/sora-ui/effects/fog-text-reveal';
+import { FogTextReveal } from '@/components/sora-ui/texts/fog-text-reveal';
 
 export default function Page() {
   return (
-    <FogTextReveal
-      messages={[
-        {
-          top: ['The text fades in on its own,', 'one corner at a time.'],
-          bottom: ['Then it clears the same way,', 'and quietly starts over.'],
-        },
-        {
-          top: ['Type can move like weather,', 'rolling in from an edge.'],
-          bottom: ['It gathers, holds for a beat,', 'then rolls back out again.'],
-        },
-      ]}
-    />
+    <h1 className="font-serif text-5xl">
+      Type can move like{' '}
+      <FogTextReveal text={['weather.', 'fog.', 'breath.']} />
+    </h1>
   );
 }
 ```
+
+Pass a single string for a one-shot reveal, or an array to cycle through messages. The element is sized to the widest message so the surrounding layout never shifts while cycling.
 
 ## Props
 
 <TypeTable
   type={{
-    messages: {
-      description: 'Messages cycled through. Each has `top` (top-left corner lines) and `bottom` (bottom-right corner lines) string arrays.',
-      type: 'FogTextRevealMessage[]',
+    text: {
+      description: 'Text to reveal. Pass an array to cycle through messages; the element is sized to the widest one.',
+      type: 'string | string[]',
     },
     loop: {
       description: 'Cycle back to the first message after the last. When false, the final message reveals once and stays.',
@@ -49,7 +45,7 @@ export default function Page() {
       default: 'true',
     },
     startOnView: {
-      description: 'Wait until the card scrolls into view before animating.',
+      description: 'Wait until the text scrolls into view before animating.',
       type: 'boolean',
       default: 'true',
     },
@@ -63,39 +59,28 @@ export default function Page() {
       type: 'number',
       default: '16',
     },
-    backgroundColor: {
-      description: 'Card background color.',
-      type: 'string',
-      default: '"#fdfdfb"',
-    },
-    textColor: {
-      description: 'Text color.',
-      type: 'string',
-      default: '"#242320"',
-    },
-    edgeColor: {
-      description: 'Border and edge-glow color.',
-      type: 'string',
-      default: '"#f2f1ec"',
-    },
-    fontFamily: {
-      description: 'CSS font-family stack used to render the canvas text.',
-      type: 'string',
-      default: '"Georgia, serif"',
+    as: {
+      description: 'Render as a different element instead of span.',
+      type: 'ElementType',
+      default: '"span"',
     },
     className: {
-      description: 'Additional class names applied to the card. Override the default aspect ratio and radius here.',
+      description: 'Additional class names applied to the root element. Set the font and color here — the canvas text inherits them.',
       type: 'string',
+    },
+    ref: {
+      description: 'Forwarded ref to the root element.',
+      type: 'Ref<HTMLElement>',
     },
   }}
 />
 
 ## When to Use
 
-Use `FogTextReveal` for atmospheric hero cards, quote rotators, or feature callouts where a single self-contained surface should slowly breathe through a set of short messages. Pass one entry in `messages` with `loop={false}` for a one-shot reveal that settles and stays; pass several with `loop` for an ambient carousel of text.
+Use `FogTextReveal` inside headings, hero copy, or sentences where one word or phrase should slowly breathe through a set of short messages. Pass a single string (or `loop={false}`) for a one-shot reveal that settles and stays; pass several messages with `loop` for an ambient text carousel.
 
-Because the text is painted to a WebGL texture rather than laid out as flowing DOM, keep each line short and pre-wrapped — split copy into the `top` and `bottom` string arrays yourself rather than relying on automatic wrapping.
+Because the text is painted to a WebGL texture rather than laid out as flowing DOM, it renders a single line — keep each message short and avoid strings that need to wrap.
 
 ## Accessibility
 
-The visible text lives on a `<canvas>`, so it is mirrored into a visually hidden `sr-only` element for screen readers and search engines. When `prefers-reduced-motion: reduce` is active, the animation loop never starts — the first message is drawn once, fully revealed and unblurred, and the card stays static. On devices without WebGL the canvas is skipped entirely and only the accessible text remains.
+The visible text lives on a `<canvas>`, so every message is mirrored into a visually hidden `sr-only` element for screen readers and search engines. When `prefers-reduced-motion: reduce` is active, no canvas is created at all — the first message renders as plain static text. On devices without WebGL the component falls back to plain text the same way.

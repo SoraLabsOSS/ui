@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-typer",
+  "title": "Typer Demo",
+  "description": "A stacked headline that cascades in line by line, each character rippling through pill and accent states before settling into plain text.",
+  "registryDependencies": ["@soralabs/typer"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/typer/index.tsx",
+      "content": "\"use client\";\n\nimport { Typer, type TyperProps } from \"@/components/sora-ui/texts/typer\";\n\nexport default function TyperExample({\n  fps = 20,\n  cycles = 3,\n  stagger = 0.15,\n  startOnView = true,\n  accent = \"#12a150\",\n}: Partial<TyperProps>) {\n  return (\n    <div className=\"flex w-full items-center justify-center px-6 py-16\">\n      <Typer\n        accent={accent}\n        className=\"font-semibold text-xl leading-[1.15] tracking-tight sm:text-2xl\"\n        cycles={cycles}\n        fps={fps}\n        stagger={stagger}\n        startOnView={startOnView}\n        text={\"Type that assembles itself, one glyph at a time.\"}\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/typer.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TyperExample": {
+        "fps": {
+          "value": 20,
+          "min": 5,
+          "max": 40,
+          "step": 1
+        },
+        "cycles": {
+          "value": 3,
+          "min": 1,
+          "max": 6,
+          "step": 1
+        },
+        "stagger": {
+          "value": 0.15,
+          "min": 0,
+          "max": 0.6,
+          "step": 0.05
+        },
+        "startOnView": {
+          "value": true
+        },
+        "accent": {
+          "value": "#12a150"
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typer",
+  "type": "registry:ui",
+  "title": "Typer",
+  "description": "A character-by-character reveal where each glyph ripples through randomized pill, accent, and outline states before settling into plain text. Adjacent same-state chars merge into rounded bars, and it's themed entirely through CSS variables.",
+  "dependencies": [],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/typer/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/typer.tsx"
+    }
+  ]
+}

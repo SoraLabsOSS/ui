@@ -2,14 +2,14 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "demo-fog-text-reveal",
   "title": "Fog Text Reveal Demo",
-  "description": "WebGL corner text that materializes through a fog mask and cycles through messages.",
+  "description": "Inline text that materializes through a WebGL fog mask and cycles through messages, inheriting the surrounding font and color.",
   "registryDependencies": ["@soralabs/fog-text-reveal"],
   "files": [
     {
-      "path": "registry/demo/primitives/effects/fog-text-reveal/index.tsx",
-      "content": "\"use client\";\n\nimport {\n  FogTextReveal,\n  type FogTextRevealProps,\n} from \"@/components/sora-ui/effects/fog-text-reveal\";\n\nconst MESSAGES = [\n  {\n    top: [\"The text fades in on its own,\", \"one corner at a time.\"],\n    bottom: [\"Then it clears the same way,\", \"and quietly starts over.\"],\n  },\n  {\n    top: [\"Type can move like weather,\", \"rolling in from an edge.\"],\n    bottom: [\"It gathers, holds for a beat,\", \"then rolls back out again.\"],\n  },\n  {\n    top: [\"Small things, done really well,\", \"read as calm, not loud.\"],\n    bottom: [\"Motion with a clear direction\", \"always feels intentional.\"],\n  },\n];\n\nexport default function FogTextRevealExample({\n  loop = true,\n  startOnView = true,\n  holdDuration = 320,\n  maxBlur = 16,\n  backgroundColor = \"#fdfdfb\",\n  textColor = \"#242320\",\n  edgeColor = \"#f2f1ec\",\n}: Partial<FogTextRevealProps>) {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <FogTextReveal\n        backgroundColor={backgroundColor}\n        edgeColor={edgeColor}\n        holdDuration={holdDuration}\n        loop={loop}\n        maxBlur={maxBlur}\n        messages={MESSAGES}\n        startOnView={startOnView}\n        textColor={textColor}\n      />\n    </div>\n  );\n}\n",
+      "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  FogTextReveal,\n  type FogTextRevealProps,\n} from \"@/components/sora-ui/texts/fog-text-reveal\";\n\nexport default function FogTextRevealExample({\n  loop = true,\n  startOnView = true,\n  holdDuration = 320,\n  maxBlur = 16,\n}: Partial<FogTextRevealProps>) {\n  return (\n    <div className=\"flex w-full items-center justify-center px-6 py-16\">\n      <p className=\"max-w-xl text-left font-serif text-4xl leading-tight tracking-tight\">\n        Type can move like{\" \"}\n        <FogTextReveal\n          holdDuration={holdDuration}\n          loop={loop}\n          maxBlur={maxBlur}\n          startOnView={startOnView}\n          text={[\"weather.\", \"fog.\", \"breath.\"]}\n        />\n      </p>\n    </div>\n  );\n}\n",
       "type": "registry:ui",
-      "target": "components/sora-ui/demo/effects/fog-text-reveal.tsx"
+      "target": "components/sora-ui/demo/texts/fog-text-reveal.tsx"
     }
   ],
   "meta": {
@@ -32,15 +32,6 @@
           "min": 0,
           "max": 40,
           "step": 1
-        },
-        "backgroundColor": {
-          "value": "#fdfdfb"
-        },
-        "textColor": {
-          "value": "#242320"
-        },
-        "edgeColor": {
-          "value": "#f2f1ec"
         }
       }
     }

@@ -246,53 +246,6 @@
       ]
     },
     {
-      "name": "demo-fog-text-reveal",
-      "type": "registry:ui",
-      "title": "Fog Text Reveal Demo",
-      "description": "WebGL corner text that materializes through a fog mask and cycles through messages.",
-      "registryDependencies": ["@soralabs/fog-text-reveal"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/fog-text-reveal/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/fog-text-reveal.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "FogTextRevealExample": {
-            "loop": {
-              "value": true
-            },
-            "startOnView": {
-              "value": true
-            },
-            "holdDuration": {
-              "value": 320,
-              "min": 0,
-              "max": 2000,
-              "step": 20
-            },
-            "maxBlur": {
-              "value": 16,
-              "min": 0,
-              "max": 40,
-              "step": 1
-            },
-            "backgroundColor": {
-              "value": "#fdfdfb"
-            },
-            "textColor": {
-              "value": "#242320"
-            },
-            "edgeColor": {
-              "value": "#f2f1ec"
-            }
-          }
-        }
-      }
-    },
-    {
       "name": "demo-hero-carousel",
       "type": "registry:ui",
       "title": "Hero Carousel Demo",
@@ -619,6 +572,44 @@
       ]
     },
     {
+      "name": "demo-fog-text-reveal",
+      "type": "registry:ui",
+      "title": "Fog Text Reveal Demo",
+      "description": "Inline text that materializes through a WebGL fog mask and cycles through messages, inheriting the surrounding font and color.",
+      "registryDependencies": ["@soralabs/fog-text-reveal"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/fog-text-reveal.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "FogTextRevealExample": {
+            "loop": {
+              "value": true
+            },
+            "startOnView": {
+              "value": true
+            },
+            "holdDuration": {
+              "value": 320,
+              "min": 0,
+              "max": 2000,
+              "step": 20
+            },
+            "maxBlur": {
+              "value": 16,
+              "min": 0,
+              "max": 40,
+              "step": 1
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "demo-number-flow",
       "type": "registry:ui",
       "title": "Number Flow Demo",
@@ -825,6 +816,50 @@
             },
             "chromatic": {
               "value": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-typer",
+      "type": "registry:ui",
+      "title": "Typer Demo",
+      "description": "A stacked headline that cascades in line by line, each character rippling through pill and accent states before settling into plain text.",
+      "registryDependencies": ["@soralabs/typer"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/texts/typer/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/texts/typer.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "TyperExample": {
+            "fps": {
+              "value": 20,
+              "min": 5,
+              "max": 40,
+              "step": 1
+            },
+            "cycles": {
+              "value": 3,
+              "min": 1,
+              "max": 6,
+              "step": 1
+            },
+            "stagger": {
+              "value": 0.15,
+              "min": 0,
+              "max": 0.6,
+              "step": 0.05
+            },
+            "startOnView": {
+              "value": true
+            },
+            "accent": {
+              "value": "#12a150"
             }
           }
         }
@@ -1264,20 +1299,6 @@
           "path": "registry/primitives/effects/dock-nav/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/effects/dock-nav.tsx"
-        }
-      ]
-    },
-    {
-      "name": "fog-text-reveal",
-      "type": "registry:ui",
-      "title": "Fog Text Reveal",
-      "description": "A WebGL card that materializes corner text through a soft, turbulent fog mask, then clears and cycles through an array of messages.",
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/effects/fog-text-reveal/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/effects/fog-text-reveal.tsx"
         }
       ]
     },
@@ -1908,6 +1929,21 @@
       }
     },
     {
+      "name": "fog-text-reveal",
+      "type": "registry:ui",
+      "title": "Fog Text Reveal",
+      "description": "Inline text that materializes through a soft, turbulent WebGL fog mask, inherits font and color from CSS, and cycles through an array of messages.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/fog-text-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/fog-text-reveal.tsx"
+        }
+      ]
+    },
+    {
       "name": "number-flow",
       "type": "registry:ui",
       "title": "Number Flow",
@@ -2457,6 +2493,21 @@
           }
         }
       }
+    },
+    {
+      "name": "typer",
+      "type": "registry:ui",
+      "title": "Typer",
+      "description": "A character-by-character reveal where each glyph ripples through randomized pill, accent, and outline states before settling into plain text. Adjacent same-state chars merge into rounded bars, and it's themed entirely through CSS variables.",
+      "dependencies": [],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/typer/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/typer.tsx"
+        }
+      ]
     }
   ]
 }
