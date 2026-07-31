@@ -11,7 +11,7 @@ import {
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
@@ -27,18 +27,10 @@ import {
 import { getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
-function isPrimitivesSectionRoot(slug: string[] | undefined): boolean {
-  return slug?.length === 1 && slug[0] === "primitives";
-}
-
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
   const params = await props.params;
-
-  if (isPrimitivesSectionRoot(params.slug)) {
-    redirect(getFirstPrimitiveDocUrl());
-  }
 
   if (!source.getPage(params.slug)) {
     // Unknown slugs must render dynamically: notFound() inside a blocking
@@ -209,10 +201,6 @@ export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
   const { slug = [] } = await props.params;
-
-  if (isPrimitivesSectionRoot(slug)) {
-    redirect(getFirstPrimitiveDocUrl());
-  }
 
   const page = source.getPage(slug);
   if (!page) {

@@ -5,6 +5,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
 import { ExternalLink } from "@/components/docs/external-link";
+import { PrimitivesIndex } from "@/components/docs/primitives-index";
 import { SoraTypeTable } from "@/components/docs/sora-type-table";
 import { Callout } from "./components/docs/callout";
 import {
@@ -57,6 +58,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ComponentInstallation,
     InstallationFileStructure,
     ComponentCredits,
+    PrimitivesIndex,
     TypeTable: SoraTypeTable,
     ExternalLink,
     Steps,

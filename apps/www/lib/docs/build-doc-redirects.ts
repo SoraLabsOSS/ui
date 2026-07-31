@@ -29,7 +29,9 @@ function readMetaPages(metaPath: string): string[] {
     pages?: string[];
   };
 
-  return (meta.pages ?? []).filter((page) => !page.startsWith("---"));
+  return (meta.pages ?? []).filter(
+    (page) => !page.startsWith("---") && page !== "index"
+  );
 }
 
 const MDX_EXTENSION = /\.mdx$/;
@@ -56,15 +58,6 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
   const guideSlugs = readGuideSlugs(docsRoot);
 
   const redirects: DocRedirect[] = [];
-  const firstPrimitiveSlug = primitivePageList[0];
-
-  if (firstPrimitiveSlug) {
-    redirects.push({
-      source: "/docs/primitives",
-      destination: `/docs/primitives/${firstPrimitiveSlug}`,
-      permanent: true,
-    });
-  }
 
   for (const [from, to] of Object.entries(LEGACY_PRIMITIVE_SLUG_RENAMES)) {
     redirects.push({
