@@ -1,5 +1,6 @@
 "use client";
 
+import { Footer } from "@workspace/ui/components/docs/footer";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
@@ -160,6 +161,8 @@ export function ComponentPageLayoutClient({
         <div className="min-w-0">{children}</div>
 
         <ComponentPageToc className="lg:hidden" items={toc} />
+
+        <Footer />
       </div>
     </div>
   );
