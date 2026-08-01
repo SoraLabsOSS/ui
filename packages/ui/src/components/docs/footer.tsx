@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FooterBunny } from "./footer-bunny";
+import { Bunny } from "./bunny";
 
 export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
   const [isNightTime, setIsNightTime] = useState<boolean>(true);
@@ -37,7 +37,7 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
             . A motion-first component registry for React.
           </p>
 
-          <FooterBunny className="mb-2" sleeping={isNightTime} />
+          <Bunny className="mb-2" sleeping={isNightTime} />
         </div>
       </div>
 

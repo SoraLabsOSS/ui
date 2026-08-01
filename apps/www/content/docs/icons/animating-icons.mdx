@@ -1,0 +1,87 @@
+---
+title: Animating Icons
+description: A bonus authoring skill for icons that do something — outside the Sora UI icon catalog.
+---
+
+import { CodeTabs } from "@/components/docs/code-tabs";
+
+<Callout>
+  **Bonus — not part of the Sora UI icon set.** The [Icons](/docs/icons) catalog
+  ships ready-made animated glyphs you install into a project. This page is
+  about something else: an agent skill for **authoring** new icon gestures when
+  a ready-made one isn't enough.
+</Callout>
+
+[**animating-icons**](https://animating-icons.soralabs.io.vn) is a Claude Code /
+Cursor / Codex skill from SoraLabs. The idea is simple: an icon is not a picture
+you move — it is an object that **does something**, and the animation is that
+thing happening once. A bell rings. A plug comes out of its socket. The motion
+has to be something only *that* object could do.
+
+Whole-`<svg>` shakes that would look identical on any glyph are decoration. The
+skill is the discipline to avoid that — and hold the line across many icons.
+
+## How it differs from Sora Icons
+
+| | Sora Icons | animating-icons skill |
+| --- | --- | --- |
+| What you get | Installable animated Lucide icons (via Reicon + Motion) | Guidance + verify harness for writing new gestures |
+| When to use | Browse and add a shipped icon | Custom glyph, new hover gesture, icon↔icon morph |
+| Lives in | This registry (`@soralabs/icons-*`) | Your agent's skills folder |
+
+Use the [catalog](/docs/icons) when an icon already exists. Reach for the skill
+when you need to invent a gesture — or when an existing animation fails the
+**swap test** (could these keyframes sit on a different icon and still look
+fine?).
+
+## The four gates
+
+Every icon the skill authors should pass all four, verified by rendering — not
+by reasoning:
+
+1. **Swap test** — gesture unique to this icon's meaning
+2. **Rest test** — frame 0 and the final frame match the source glyph
+3. **Strip test** — every intermediate frame still reads as the icon
+4. **Motion test** — peak speed under the aliasing ceiling; holds actually stop
+
+Full families, failure catalog, morph method, and verify scripts live on the
+skill site — this page is only the pointer.
+
+## Install
+
+Drop it into any coding agent:
+
+<CodeTabs
+  codes={{
+    "skills.sh": `npx skills add SoraLabsOSS/skills`,
+    "Claude Code": `/plugin marketplace add SoraLabsOSS/skills
+/plugin install animating-icons@soralabs`,
+  }}
+/>
+
+Or copy `skills/animating-icons/` into your `.claude/skills/` (or Cursor skills
+dir) from the [SoraLabsOSS/skills](https://github.com/SoraLabsOSS/skills) repo.
+
+## Prompts that hold the line
+
+The skill wakes on icon-motion work, but wording still decides gesture vs
+decoration:
+
+> Here's the icon. Find the verb it already stands for, and animate that verb
+> happening exactly once. Pick the mechanism the shape actually calls for —
+> transform if the part is rigid, morph if the material bends, mask if something
+> passes behind another part, stroke-dashoffset if a line is meant to be drawn.
+> Pull every number from the path itself. When done, settle back into exactly
+> what it started as.
+
+> Before touching a keyframe: name the verb, the one part responsible, and the
+> mechanism that verb demands. State what stays untouched, and why.
+
+> Run the swap test: could these exact keyframes sit on a different icon and
+> still look fine? If yes, throw it out and start from this icon's own verb.
+
+## Links
+
+- [Skill site](https://animating-icons.soralabs.io.vn) — full write-up and demos
+- [GitHub](https://github.com/SoraLabsOSS/skills) — source, references, verify harness
+- [Get Started](/docs/icons/get-started) — install shipped Sora Icons instead
