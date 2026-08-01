@@ -1,10 +1,12 @@
 "use client";
 
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { useEffect, useState } from "react";
 import { Bunny } from "./bunny";
 
 export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
   const [isNightTime, setIsNightTime] = useState<boolean>(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const getVietnamHour = () => {
@@ -37,7 +39,7 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
             . A motion-first component registry for React.
           </p>
 
-          <Bunny className="mb-2" sleeping={isNightTime} />
+          {!isMobile && <Bunny className="mb-2" sleeping={isNightTime} />}
         </div>
       </div>
 
@@ -47,6 +49,7 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
           <span className="rounded-sm bg-accent px-1.5 py-0.75 font-medium text-[13px] text-foreground">
             {lastUpdate?.toLocaleDateString()}
           </span>
+          {isMobile && <Bunny sleeping={isNightTime} />}
         </p>
       )}
     </div>

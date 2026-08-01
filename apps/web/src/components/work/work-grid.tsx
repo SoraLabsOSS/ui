@@ -72,7 +72,7 @@ export function WorkGrid() {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Open project →
+                {project.linkLabel ?? "Open project →"}
               </a>
             </div>
           </div>

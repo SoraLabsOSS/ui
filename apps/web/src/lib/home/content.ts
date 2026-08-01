@@ -17,6 +17,8 @@ export interface Project {
   comingSoon?: boolean;
   description: string;
   image: string;
+  /** Outbound link label in the project meta row. Defaults to "Full case study." */
+  linkLabel?: string;
   liveUrl: string;
   num: string;
   /** Rendered as separate lines, matching the original's <br /> breaks. */
@@ -44,13 +46,13 @@ export const PROJECTS: Project[] = [
     title: "Sora Type",
   },
   {
-    comingSoon: true,
     description:
-      "Sora Lattice — a new Sora Labs product, currently in development.",
+      "Generate design-system foundations from your brand — color ramps, semantic tokens, CSS, and Tailwind/shadcn configs. Early beta.",
     image: "/projects/sora-lattice.jpg",
-    liveUrl: "",
+    linkLabel: "Early beta →",
+    liveUrl: "https://lattice.soralabs.io.vn/",
     num: "03",
-    tagLines: ["Coming Soon"],
+    tagLines: ["Design System,", "Token Generator"],
     title: "Sora Lattice",
   },
 ];

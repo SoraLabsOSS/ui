@@ -98,7 +98,7 @@ export function WorkSection() {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Full case study.
+                    {project.linkLabel ?? "Full case study."}
                   </a>
                   <p className="text-[#555] text-[11px] leading-[1.7]">
                     {project.description}
