@@ -1,6 +1,6 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { CircleCheck, CircleX, Info, TriangleAlert } from "lucide-react";
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode, Ref } from "react";
 
 type CalloutProps = Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -21,7 +21,7 @@ export const Callout = ({
   icon,
   ref,
   ...props
-}: CalloutProps & { ref?: RefObject<HTMLDivElement | null> }) => {
+}: CalloutProps & { ref?: Ref<HTMLDivElement> }) => {
   if (type === "warn") {
     type = "warning";
   }

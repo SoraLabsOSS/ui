@@ -10,6 +10,7 @@ import type { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
 import {
   type HTMLAttributes,
   type ReactNode,
+  type Ref,
   useCallback,
   useRef,
   useState,
@@ -28,7 +29,7 @@ export const Pre = ({
   ref,
   ...props
 }: HTMLAttributes<HTMLPreElement> & {
-  ref?: RefObject<HTMLPreElement | null>;
+  ref?: Ref<HTMLPreElement>;
 }) => (
   <pre
     className={cn("p-4 focus-visible:outline-none", className)}
@@ -49,7 +50,7 @@ export const CodeBlock = ({
   onCopy: onCopyEvent,
   ref,
   ...props
-}: CodeBlockProps & { ref?: RefObject<HTMLElement | null> }) => {
+}: CodeBlockProps & { ref?: Ref<HTMLElement> }) => {
   const [isCopied, setIsCopied] = useState(false);
   const areaRef = useRef<HTMLDivElement>(null);
 
