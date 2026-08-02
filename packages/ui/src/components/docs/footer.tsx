@@ -52,6 +52,7 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
           {isMobile && <Bunny sleeping={isNightTime} />}
         </p>
       )}
+      {!lastUpdate && isMobile && <Bunny sleeping={isNightTime} />}
     </div>
   );
 };
