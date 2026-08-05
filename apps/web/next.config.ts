@@ -7,6 +7,8 @@ const nextConfig = {
   reactCompiler: true,
   experimental: {
     turbopackFileSystemCacheForBuild: true,
+    // Experimental native React Compiler path (Next 16.3+).
+    turbopackRustReactCompiler: true,
   },
   async headers() {
     return [
