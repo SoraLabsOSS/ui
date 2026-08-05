@@ -54,14 +54,17 @@ interface AnimateIconContextValue {
   persistOnAnimateEnd?: boolean;
 }
 
-interface DefaultIconProps<T = string> {
+interface DefaultIconProps<
+  T = string,
+  S extends StaticAnimations = StaticAnimations,
+> {
   animate?: TriggerProp<T>;
   animateOnHover?: TriggerProp<T>;
   animateOnTap?: TriggerProp<T>;
   animateOnView?: TriggerProp<T>;
   animateOnViewMargin?: UseInViewOptions["margin"];
   animateOnViewOnce?: boolean;
-  animation?: T | StaticAnimations;
+  animation?: T | S;
   completeOnStop?: boolean;
   delay?: number;
   initialOnAnimateEnd?: boolean;
@@ -78,7 +81,10 @@ type AnimateIconProps<T = string> = WithAsChild<
     }
 >;
 
-type IconProps<T> = DefaultIconProps<T> &
+type IconProps<
+  T,
+  S extends StaticAnimations = StaticAnimations,
+> = DefaultIconProps<T, S> &
   Omit<SVGMotionProps<SVGSVGElement>, "animate"> & {
     /**
      * Icon size in pixels (applied to both width and height).
@@ -92,8 +98,11 @@ type IconProps<T> = DefaultIconProps<T> &
     color?: string;
   };
 
-type IconWrapperProps<T> = IconProps<T> & {
-  icon: React.ComponentType<IconProps<T>>;
+type IconWrapperProps<
+  T,
+  S extends StaticAnimations = StaticAnimations,
+> = IconProps<T, S> & {
+  icon: React.ComponentType<IconProps<T, S>>;
 };
 
 const AnimateIconContext = React.createContext<AnimateIconContextValue | null>(
@@ -481,7 +490,10 @@ function AnimateIcon({
   );
 }
 
-function IconWrapper<T extends string>({
+function IconWrapper<
+  T extends string,
+  S extends StaticAnimations = StaticAnimations,
+>({
   size = 24,
   animation: animationProp,
   animate,
@@ -499,7 +511,7 @@ function IconWrapper<T extends string>({
   completeOnStop,
   className,
   ...props
-}: IconWrapperProps<T>) {
+}: IconWrapperProps<T, S>) {
   const context = React.useContext(AnimateIconContext);
 
   if (context) {

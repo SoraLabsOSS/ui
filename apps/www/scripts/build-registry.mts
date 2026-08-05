@@ -493,6 +493,10 @@ export const previewComponents: Record<string, any> = {`;
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = ${demoPropsJson};

@@ -65,6 +65,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -111,6 +115,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -160,6 +168,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -207,6 +219,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -259,6 +275,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -316,6 +336,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -372,6 +396,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -424,6 +452,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -497,6 +529,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -573,6 +609,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -627,6 +667,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -674,6 +718,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -723,6 +771,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -771,6 +823,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -817,6 +873,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -868,6 +928,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -917,6 +981,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -990,6 +1058,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -1062,6 +1134,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -1109,6 +1185,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1169,6 +1249,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -1228,6 +1312,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -1275,6 +1363,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1329,6 +1421,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1390,6 +1486,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -1447,6 +1547,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -1500,6 +1604,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -1548,6 +1656,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -1595,6 +1707,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1652,6 +1768,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1718,6 +1838,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -1773,6 +1897,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -1820,6 +1948,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1892,6 +2024,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -1969,6 +2105,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -2022,6 +2162,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -2068,6 +2212,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2116,6 +2264,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2175,6 +2327,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2243,6 +2399,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -2307,6 +2467,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -2361,6 +2525,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -2408,6 +2576,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -2453,6 +2625,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2502,6 +2678,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -2523,7 +2703,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/icons/arrow-right.tsx",
         content:
-          '"use client";\n\nimport { useEffect } from "react";\n\nconst STYLE_ID = "sora-arrow-right-styles";\n\nconst ARROW_RIGHT_CSS = `\nsvg[data-arrow-right] { transition: transform 0.3s ease; }\nsvg[data-arrow-right][data-hover]:hover,\n.group:hover svg[data-arrow-right][data-group-hover],\nsvg[data-arrow-right][data-animate] {\n  transform: translateX(var(--sora-arrow-nudge, 2px));\n}\nsvg[data-arrow-right][data-hover]:hover path,\n.group:hover svg[data-arrow-right][data-group-hover] path,\nsvg[data-arrow-right][data-animate] path {\n  animation: sora-arrow-right-dash var(--sora-arrow-duration, 0.8s) linear forwards;\n}\nsvg[data-arrow-right][data-loop] path { animation-iteration-count: infinite; }\n@keyframes sora-arrow-right-dash {\n  0% { stroke-dasharray: 0, 20; stroke-dashoffset: 0; }\n  50% { stroke-dasharray: 10, 10; stroke-dashoffset: -5; }\n  100% { stroke-dasharray: 20, 0; stroke-dashoffset: -10; }\n}\n@media (prefers-reduced-motion: reduce) {\n  svg[data-arrow-right],\n  svg[data-arrow-right][data-hover]:hover,\n  .group:hover svg[data-arrow-right][data-group-hover],\n  svg[data-arrow-right][data-animate] {\n    transform: none;\n    transition: none;\n  }\n  svg[data-arrow-right][data-hover]:hover path,\n  .group:hover svg[data-arrow-right][data-group-hover] path,\n  svg[data-arrow-right][data-animate] path {\n    animation: none;\n  }\n}\n`;\n\nfunction ensureArrowRightStyles() {\n  if (typeof document === "undefined") {\n    return;\n  }\n  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;\n  if (!style) {\n    style = document.createElement("style");\n    style.id = STYLE_ID;\n    document.head.appendChild(style);\n  }\n  style.textContent = ARROW_RIGHT_CSS;\n}\n\ninterface ArrowRightProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {\n  /**\n   * Play the stroke-draw animation immediately on mount. Remount (change the\n   * `key`) to replay — this is what the /icons preview panel drives.\n   * @default false\n   */\n  animate?: boolean | string;\n  /**\n   * Play the animation while an ancestor with the `group` class is hovered.\n   * Add `group` to the enclosing button (like the source CTA) to trigger it.\n   * @default true\n   */\n  animateOnGroupHover?: boolean;\n  /**\n   * Play the animation while the icon itself is hovered.\n   * @default true\n   */\n  animateOnHover?: boolean;\n  /** Ignored — accepted for parity with the /icons gallery controls. */\n  animation?: string;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default "currentColor"\n   */\n  color?: string;\n  /**\n   * Duration of the stroke-draw animation, in seconds.\n   * @default 0.8\n   */\n  duration?: number;\n  /**\n   * Repeat the stroke-draw animation indefinitely.\n   * @default false\n   */\n  loop?: boolean;\n  /**\n   * Horizontal shift of the arrow while animating, in pixels.\n   * @default 2\n   */\n  nudge?: number;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n}\n\nfunction ArrowRight({\n  size = 24,\n  color = "currentColor",\n  animate,\n  animateOnHover = true,\n  animateOnGroupHover = true,\n  loop,\n  duration,\n  nudge,\n  animation: _animation,\n  strokeWidth = 1.5,\n  className,\n  style,\n  ...props\n}: ArrowRightProps) {\n  useEffect(() => {\n    ensureArrowRightStyles();\n  }, []);\n\n  const styleVars = {\n    ...(duration !== undefined && { "--sora-arrow-duration": `${duration}s` }),\n    ...(nudge !== undefined && { "--sora-arrow-nudge": `${nudge}px` }),\n    ...style,\n  } as React.CSSProperties;\n\n  return (\n    <svg\n      aria-hidden="true"\n      className={className}\n      data-animate={animate ? "" : undefined}\n      data-arrow-right=""\n      data-group-hover={animateOnGroupHover ? "" : undefined}\n      data-hover={animateOnHover ? "" : undefined}\n      data-loop={loop ? "" : undefined}\n      fill="none"\n      height={size}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={strokeWidth}\n      style={styleVars}\n      viewBox="0 0 24 24"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <path d="M5 12h14" />\n      <path d="m12 5 7 7-7 7" />\n    </svg>\n  );\n}\n\nexport {\n  ArrowRight,\n  ArrowRight as ArrowRightIcon,\n  type ArrowRightProps,\n  type ArrowRightProps as ArrowRightIconProps,\n};',
+          '"use client";\n\nimport { useEffect } from "react";\n\nconst STYLE_ID = "sora-arrow-right-styles";\n\nconst animations = {\n  default: {},\n} as const;\n\nconst supportedStaticAnimations = [] as const;\n\nconst ARROW_RIGHT_CSS = `\nsvg[data-arrow-right] { transition: transform 0.3s ease; }\nsvg[data-arrow-right][data-hover]:hover,\n.group:hover svg[data-arrow-right][data-group-hover],\nsvg[data-arrow-right][data-animate] {\n  transform: translateX(var(--sora-arrow-nudge, 2px));\n}\nsvg[data-arrow-right][data-hover]:hover path,\n.group:hover svg[data-arrow-right][data-group-hover] path,\nsvg[data-arrow-right][data-animate] path {\n  animation: sora-arrow-right-dash var(--sora-arrow-duration, 0.8s) linear forwards;\n}\nsvg[data-arrow-right][data-loop] path { animation-iteration-count: infinite; }\n@keyframes sora-arrow-right-dash {\n  0% { stroke-dasharray: 0, 20; stroke-dashoffset: 0; }\n  50% { stroke-dasharray: 10, 10; stroke-dashoffset: -5; }\n  100% { stroke-dasharray: 20, 0; stroke-dashoffset: -10; }\n}\n@media (prefers-reduced-motion: reduce) {\n  svg[data-arrow-right],\n  svg[data-arrow-right][data-hover]:hover,\n  .group:hover svg[data-arrow-right][data-group-hover],\n  svg[data-arrow-right][data-animate] {\n    transform: none;\n    transition: none;\n  }\n  svg[data-arrow-right][data-hover]:hover path,\n  .group:hover svg[data-arrow-right][data-group-hover] path,\n  svg[data-arrow-right][data-animate] path {\n    animation: none;\n  }\n}\n`;\n\nfunction ensureArrowRightStyles() {\n  if (typeof document === "undefined") {\n    return;\n  }\n  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;\n  if (!style) {\n    style = document.createElement("style");\n    style.id = STYLE_ID;\n    document.head.appendChild(style);\n  }\n  style.textContent = ARROW_RIGHT_CSS;\n}\n\ninterface ArrowRightProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {\n  /**\n   * Play the stroke-draw animation immediately on mount. Remount (change the\n   * `key`) to replay — this is what the /icons preview panel drives.\n   * @default false\n   */\n  animate?: boolean | "default";\n  /**\n   * Play the animation while an ancestor with the `group` class is hovered.\n   * Add `group` to the enclosing button (like the source CTA) to trigger it.\n   * @default true\n   */\n  animateOnGroupHover?: boolean;\n  /**\n   * Play the animation while the icon itself is hovered.\n   * @default true\n   */\n  animateOnHover?: boolean;\n  /** Animation preset. Arrow Right currently provides only `default`. */\n  animation?: keyof typeof animations;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default "currentColor"\n   */\n  color?: string;\n  /**\n   * Duration of the stroke-draw animation, in seconds.\n   * @default 0.8\n   */\n  duration?: number;\n  /**\n   * Repeat the stroke-draw animation indefinitely.\n   * @default false\n   */\n  loop?: boolean;\n  /**\n   * Horizontal shift of the arrow while animating, in pixels.\n   * @default 2\n   */\n  nudge?: number;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n}\n\nfunction ArrowRight({\n  size = 24,\n  color = "currentColor",\n  animate,\n  animateOnHover = true,\n  animateOnGroupHover = true,\n  loop,\n  duration,\n  nudge,\n  animation: _animation,\n  strokeWidth = 1.5,\n  className,\n  style,\n  ...props\n}: ArrowRightProps) {\n  useEffect(() => {\n    ensureArrowRightStyles();\n  }, []);\n\n  const styleVars = {\n    ...(duration !== undefined && { "--sora-arrow-duration": `${duration}s` }),\n    ...(nudge !== undefined && { "--sora-arrow-nudge": `${nudge}px` }),\n    ...style,\n  } as React.CSSProperties;\n\n  return (\n    <svg\n      aria-hidden="true"\n      className={className}\n      data-animate={animate ? "" : undefined}\n      data-arrow-right=""\n      data-group-hover={animateOnGroupHover ? "" : undefined}\n      data-hover={animateOnHover ? "" : undefined}\n      data-loop={loop ? "" : undefined}\n      fill="none"\n      height={size}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={strokeWidth}\n      style={styleVars}\n      viewBox="0 0 24 24"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <path d="M5 12h14" />\n      <path d="m12 5 7 7-7 7" />\n    </svg>\n  );\n}\n\nexport {\n  ArrowRight,\n  ArrowRight as ArrowRightIcon,\n  type ArrowRightProps,\n  type ArrowRightProps as ArrowRightIconProps,\n  animations,\n  supportedStaticAnimations,\n};',
       },
     ],
     keywords: ["arrow", "right", "next", "forward", "direction", "cta"],
@@ -2548,12 +2728,66 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: "@soralabs/icons-arrow-right",
+  },
+  "icons-bell": {
+    name: "icons-bell",
+    description:
+      "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot, powered by the AnimateIcon engine.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["icons-icon"],
+    files: [
+      {
+        path: "registry/icons/bell/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/icons/bell.tsx",
+        content:
+          '"use client";\n\nimport { motion, useReducedMotion, type Variants } from "motion/react";\nimport {\n  type IconProps,\n  IconWrapper,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n} from "@/components/sora-ui/icons/icon";\n\ntype BellProps = IconProps<keyof typeof animations, never>;\n\nconst RATTLE = [0, -8, 4, -2, 1, -0.5, 0.25, 0];\nconst RATTLE_DURATION = 0.6;\n\nconst animations = {\n  default: {\n    group: {\n      initial: { rotate: 0 },\n      animate: {\n        rotate: RATTLE,\n        transition: { duration: RATTLE_DURATION, ease: "easeInOut" },\n      },\n    },\n  } satisfies Record<string, Variants>,\n} as const;\n\nconst supportedStaticAnimations = [] as const;\n\nconst BELL_BODY =\n  "M20 16.191C20 16.6378 19.6378 17 19.191 17H4.80902C4.36221 17 4 16.6378 4 16.191C4 16.0654 4.02924 15.9415 4.08541 15.8292L5.21846 13.5631C5.40413 13.1917 5.51071 12.7859 5.53144 12.3712L5.70037 8.99251C5.86822 5.63561 8.6389 3 12 3C15.3611 3 18.1318 5.63561 18.2996 8.99251L18.4686 12.3712C18.4893 12.7859 18.5959 13.1917 18.7815 13.5631L19.9146 15.8292C19.9708 15.9415 20 16.0654 20 16.191Z";\nconst BELL_CLAPPER =\n  "M16 17C16 19.2091 14.2091 21 12 21C9.79086 21 8 19.2091 8 17";\n\nfunction IconComponent({ size, color = "currentColor", ...props }: BellProps) {\n  const { controls } = useAnimateIconContext();\n  const variants = useAnimateIconVariants(animations);\n  const reducedMotion = useReducedMotion();\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={2}\n        viewBox="0 0 24 24"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap="square" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      fill="none"\n      height={size}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={2}\n      viewBox="0 0 24 24"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.g\n        animate={controls}\n        initial="initial"\n        style={{ transformOrigin: "50% 24%" }}\n        variants={variants.group}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap="square" />\n      </motion.g>\n    </motion.svg>\n  );\n}\n\nfunction Bell(props: BellProps) {\n  return (\n    <IconWrapper<keyof typeof animations, never>\n      icon={IconComponent}\n      {...props}\n    />\n  );\n}\n\nexport {\n  animations,\n  Bell,\n  Bell as BellIcon,\n  type BellProps,\n  type BellProps as BellIconProps,\n  supportedStaticAnimations,\n};',
+      },
+    ],
+    keywords: ["bell", "notification", "alert", "ring", "rattle", "inbox"],
+    releaseDate: "2026-08-05",
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/icons/bell/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/icons-bell",
   },
   "icons-chevrons": {
     name: "icons-chevrons",
@@ -2594,6 +2828,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -2615,7 +2853,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/icons/icon.tsx",
         content:
-          '"use client";\n\nimport {\n  type HTMLMotionProps,\n  type LegacyAnimationControls,\n  motion,\n  type SVGMotionProps,\n  type UseInViewOptions,\n  useAnimation,\n  type Variants,\n} from "motion/react";\n// biome-ignore lint/performance/noNamespaceImport: React namespace matches the shared registry primitive convention (see animate/slot)\nimport * as React from "react";\nimport { useIsInView } from "@/hooks/use-is-in-view";\nimport { Slot, type WithAsChild } from "@/components/sora-ui/animate/slot";\n\nconst staticAnimations = {\n  path: {\n    initial: { pathLength: 1 },\n    animate: {\n      pathLength: [0.05, 1],\n      transition: {\n        duration: 0.8,\n        ease: "easeInOut",\n      },\n    },\n  } as Variants,\n  "path-loop": {\n    initial: { pathLength: 1 },\n    animate: {\n      pathLength: [1, 0.05, 1],\n      transition: {\n        duration: 1.6,\n        ease: "easeInOut",\n      },\n    },\n  } as Variants,\n} as const;\n\ntype StaticAnimations = keyof typeof staticAnimations;\ntype TriggerProp<T = string> = boolean | StaticAnimations | T;\ntype Trigger = TriggerProp<string>;\n\ninterface AnimateIconContextValue {\n  active: boolean;\n  animate?: Trigger;\n  animation: StaticAnimations | string;\n  completeOnStop?: boolean;\n  controls: LegacyAnimationControls | undefined;\n  delay?: number;\n  initialOnAnimateEnd?: boolean;\n  loop: boolean;\n  loopDelay: number;\n  persistOnAnimateEnd?: boolean;\n}\n\ninterface DefaultIconProps<T = string> {\n  animate?: TriggerProp<T>;\n  animateOnHover?: TriggerProp<T>;\n  animateOnTap?: TriggerProp<T>;\n  animateOnView?: TriggerProp<T>;\n  animateOnViewMargin?: UseInViewOptions["margin"];\n  animateOnViewOnce?: boolean;\n  animation?: T | StaticAnimations;\n  completeOnStop?: boolean;\n  delay?: number;\n  initialOnAnimateEnd?: boolean;\n  loop?: boolean;\n  loopDelay?: number;\n  persistOnAnimateEnd?: boolean;\n}\n\ntype AnimateIconProps<T = string> = WithAsChild<\n  HTMLMotionProps<"span"> &\n    DefaultIconProps<T> & {\n      children: React.ReactNode;\n      asChild?: boolean;\n    }\n>;\n\ntype IconProps<T> = DefaultIconProps<T> &\n  Omit<SVGMotionProps<SVGSVGElement>, "animate"> & {\n    /**\n     * Icon size in pixels (applied to both width and height).\n     * @default 24\n     */\n    size?: number | string;\n    /**\n     * Any valid CSS color, mapped to the SVG `stroke`.\n     * @default "currentColor"\n     */\n    color?: string;\n  };\n\ntype IconWrapperProps<T> = IconProps<T> & {\n  icon: React.ComponentType<IconProps<T>>;\n};\n\nconst AnimateIconContext = React.createContext<AnimateIconContextValue | null>(\n  null\n);\n\nfunction useAnimateIconContext() {\n  const context = React.useContext(AnimateIconContext);\n  if (!context) {\n    return {\n      controls: undefined,\n      animation: "default",\n      loop: undefined,\n      loopDelay: undefined,\n      active: undefined,\n      animate: undefined,\n      initialOnAnimateEnd: undefined,\n      completeOnStop: undefined,\n      persistOnAnimateEnd: undefined,\n      delay: undefined,\n    };\n  }\n  return context;\n}\n\nfunction composeEventHandlers<E extends React.SyntheticEvent<unknown>>(\n  theirs?: (event: E) => void,\n  ours?: (event: E) => void\n) {\n  return (event: E) => {\n    theirs?.(event);\n    ours?.(event);\n  };\n}\n\n// biome-ignore lint/suspicious/noExplicitAny: child props are structurally unknown\ntype AnyProps = Record<string, any>;\n\nfunction AnimateIcon({\n  asChild = false,\n  animate = false,\n  animateOnHover = false,\n  animateOnTap = false,\n  animateOnView = false,\n  animateOnViewMargin = "0px",\n  animateOnViewOnce = true,\n  animation = "default",\n  loop = false,\n  loopDelay = 0,\n  initialOnAnimateEnd = false,\n  completeOnStop = false,\n  persistOnAnimateEnd = false,\n  delay = 0,\n  children,\n  ...props\n}: AnimateIconProps) {\n  const controls = useAnimation();\n\n  const [localAnimate, setLocalAnimate] = React.useState<boolean>(() => {\n    if (animate === undefined || animate === false) {\n      return false;\n    }\n    return delay <= 0;\n  });\n  const [currentAnimation, setCurrentAnimation] = React.useState<\n    string | StaticAnimations\n  >(typeof animate === "string" ? animate : animation);\n  const [status, setStatus] = React.useState<"initial" | "animate">("initial");\n\n  const delayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);\n  const loopDelayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);\n  const isAnimateInProgressRef = React.useRef<boolean>(false);\n  const animateEndPromiseRef = React.useRef<Promise<void> | null>(null);\n  const resolveAnimateEndRef = React.useRef<(() => void) | null>(null);\n  const activeRef = React.useRef<boolean>(localAnimate);\n\n  const runGenRef = React.useRef(0);\n  const cancelledRef = React.useRef(false);\n\n  const bumpGeneration = React.useCallback(() => {\n    runGenRef.current++;\n  }, []);\n\n  const startAnimation = React.useCallback(\n    (trigger: TriggerProp) => {\n      const next = typeof trigger === "string" ? trigger : animation;\n      bumpGeneration();\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n        delayRef.current = null;\n      }\n      setCurrentAnimation(next);\n      if (delay > 0) {\n        setLocalAnimate(false);\n        delayRef.current = setTimeout(() => {\n          setLocalAnimate(true);\n        }, delay);\n      } else {\n        setLocalAnimate(true);\n      }\n    },\n    [animation, delay, bumpGeneration]\n  );\n\n  const stopAnimation = React.useCallback(() => {\n    bumpGeneration();\n    if (delayRef.current) {\n      clearTimeout(delayRef.current);\n      delayRef.current = null;\n    }\n    if (loopDelayRef.current) {\n      clearTimeout(loopDelayRef.current);\n      loopDelayRef.current = null;\n    }\n    setLocalAnimate(false);\n  }, [bumpGeneration]);\n\n  React.useEffect(() => {\n    activeRef.current = localAnimate;\n  }, [localAnimate]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: only re-run when the animate trigger changes\n  React.useEffect(() => {\n    if (animate === undefined) {\n      return;\n    }\n    setCurrentAnimation(typeof animate === "string" ? animate : animation);\n    if (animate) {\n      startAnimation(animate as TriggerProp);\n    } else {\n      stopAnimation();\n    }\n  }, [animate]);\n\n  React.useEffect(\n    () => () => {\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n      }\n      if (loopDelayRef.current) {\n        clearTimeout(loopDelayRef.current);\n      }\n    },\n    []\n  );\n\n  const viewOuterRef = React.useRef<HTMLElement>(null);\n  const { ref: inViewRef, isInView } = useIsInView(viewOuterRef, {\n    inView: !!animateOnView,\n    inViewOnce: animateOnViewOnce,\n    inViewMargin: animateOnViewMargin,\n  });\n\n  const startAnim = React.useCallback(\n    async (anim: "initial" | "animate", method: "start" | "set" = "start") => {\n      try {\n        await controls[method](anim);\n        setStatus(anim);\n      } catch {\n        return;\n      }\n    },\n    [controls]\n  );\n\n  React.useEffect(() => {\n    if (!animateOnView) {\n      return;\n    }\n    if (isInView) {\n      startAnimation(animateOnView);\n    } else {\n      stopAnimation();\n    }\n  }, [isInView, animateOnView, startAnimation, stopAnimation]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: async run loop is intentionally keyed to localAnimate/controls\n  React.useEffect(() => {\n    const gen = ++runGenRef.current;\n    cancelledRef.current = false;\n\n    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: verbatim port of the AnimateIcon run loop with generation/cancel guards\n    async function run() {\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        await startAnim("initial");\n        return;\n      }\n\n      if (!localAnimate) {\n        if (\n          completeOnStop &&\n          isAnimateInProgressRef.current &&\n          animateEndPromiseRef.current\n        ) {\n          try {\n            await animateEndPromiseRef.current;\n          } catch {\n            // noop\n          }\n        }\n        if (!persistOnAnimateEnd) {\n          if (cancelledRef.current || gen !== runGenRef.current) {\n            await startAnim("initial");\n            return;\n          }\n          await startAnim("initial");\n        }\n        return;\n      }\n\n      if (loop) {\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await startAnim("initial", "set");\n      }\n\n      isAnimateInProgressRef.current = true;\n      animateEndPromiseRef.current = new Promise<void>((resolve) => {\n        resolveAnimateEndRef.current = resolve;\n      });\n\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        isAnimateInProgressRef.current = false;\n        resolveAnimateEndRef.current?.();\n        resolveAnimateEndRef.current = null;\n        animateEndPromiseRef.current = null;\n        await startAnim("initial");\n        return;\n      }\n\n      await startAnim("animate");\n\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        isAnimateInProgressRef.current = false;\n        resolveAnimateEndRef.current?.();\n        resolveAnimateEndRef.current = null;\n        animateEndPromiseRef.current = null;\n        await startAnim("initial");\n        return;\n      }\n\n      isAnimateInProgressRef.current = false;\n      resolveAnimateEndRef.current?.();\n      resolveAnimateEndRef.current = null;\n      animateEndPromiseRef.current = null;\n\n      if (initialOnAnimateEnd) {\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await startAnim("initial", "set");\n      }\n\n      if (loop) {\n        if (loopDelay > 0) {\n          await new Promise<void>((resolve) => {\n            loopDelayRef.current = setTimeout(() => {\n              loopDelayRef.current = null;\n              resolve();\n            }, loopDelay);\n          });\n\n          if (cancelledRef.current || gen !== runGenRef.current) {\n            await startAnim("initial");\n            return;\n          }\n          if (!activeRef.current) {\n            if (status !== "initial" && !persistOnAnimateEnd) {\n              await startAnim("initial");\n            }\n            return;\n          }\n        } else if (!activeRef.current) {\n          if (status !== "initial" && !persistOnAnimateEnd) {\n            await startAnim("initial");\n          }\n          return;\n        }\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await run();\n      }\n    }\n\n    // biome-ignore lint/complexity/noVoid: explicitly mark the fire-and-forget run loop promise as ignored\n    void run();\n\n    return () => {\n      cancelledRef.current = true;\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n        delayRef.current = null;\n      }\n      if (loopDelayRef.current) {\n        clearTimeout(loopDelayRef.current);\n        loopDelayRef.current = null;\n      }\n    };\n  }, [localAnimate, controls]);\n\n  const childProps = (\n    React.isValidElement(children) ? (children as React.ReactElement).props : {}\n  ) as AnyProps;\n\n  const handleMouseEnter = composeEventHandlers<React.MouseEvent<HTMLElement>>(\n    childProps.onMouseEnter,\n    () => {\n      if (animateOnHover) {\n        startAnimation(animateOnHover);\n      }\n    }\n  );\n\n  const handleMouseLeave = composeEventHandlers<React.MouseEvent<HTMLElement>>(\n    childProps.onMouseLeave,\n    () => {\n      if (animateOnHover || animateOnTap) {\n        stopAnimation();\n      }\n    }\n  );\n\n  const handlePointerDown = composeEventHandlers<\n    React.PointerEvent<HTMLElement>\n  >(childProps.onPointerDown, () => {\n    if (animateOnTap) {\n      startAnimation(animateOnTap);\n    }\n  });\n\n  const handlePointerUp = composeEventHandlers<React.PointerEvent<HTMLElement>>(\n    childProps.onPointerUp,\n    () => {\n      if (animateOnTap) {\n        stopAnimation();\n      }\n    }\n  );\n\n  const content = asChild ? (\n    <Slot\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      onPointerUp={handlePointerUp}\n      ref={inViewRef}\n      {...props}\n    >\n      {children}\n    </Slot>\n  ) : (\n    <motion.span\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      onPointerUp={handlePointerUp}\n      ref={inViewRef}\n      {...props}\n    >\n      {children}\n    </motion.span>\n  );\n\n  return (\n    <AnimateIconContext.Provider\n      value={{\n        controls,\n        animation: currentAnimation,\n        loop,\n        loopDelay,\n        active: localAnimate,\n        animate,\n        initialOnAnimateEnd,\n        completeOnStop,\n        delay,\n      }}\n    >\n      {content}\n    </AnimateIconContext.Provider>\n  );\n}\n\nfunction IconWrapper<T extends string>({\n  size = 24,\n  animation: animationProp,\n  animate,\n  animateOnHover,\n  animateOnTap,\n  animateOnView,\n  animateOnViewMargin,\n  animateOnViewOnce,\n  icon: IconComponent,\n  loop,\n  loopDelay,\n  persistOnAnimateEnd,\n  initialOnAnimateEnd,\n  delay,\n  completeOnStop,\n  className,\n  ...props\n}: IconWrapperProps<T>) {\n  const context = React.useContext(AnimateIconContext);\n\n  if (context) {\n    const {\n      controls,\n      animation: parentAnimation,\n      loop: parentLoop,\n      loopDelay: parentLoopDelay,\n      active: parentActive,\n      animate: parentAnimate,\n      persistOnAnimateEnd: parentPersistOnAnimateEnd,\n      initialOnAnimateEnd: parentInitialOnAnimateEnd,\n      delay: parentDelay,\n      completeOnStop: parentCompleteOnStop,\n    } = context;\n\n    const hasOverrides =\n      animate !== undefined ||\n      animateOnHover !== undefined ||\n      animateOnTap !== undefined ||\n      animateOnView !== undefined ||\n      loop !== undefined ||\n      loopDelay !== undefined ||\n      initialOnAnimateEnd !== undefined ||\n      persistOnAnimateEnd !== undefined ||\n      delay !== undefined ||\n      completeOnStop !== undefined;\n\n    if (hasOverrides) {\n      const inheritedAnimate: Trigger = parentActive\n        ? (animationProp ?? parentAnimation ?? "default")\n        : false;\n\n      const finalAnimate: Trigger = (animate ??\n        parentAnimate ??\n        inheritedAnimate) as Trigger;\n\n      return (\n        <AnimateIcon\n          animate={finalAnimate}\n          animateOnHover={animateOnHover}\n          animateOnTap={animateOnTap}\n          animateOnView={animateOnView}\n          animateOnViewMargin={animateOnViewMargin}\n          animateOnViewOnce={animateOnViewOnce}\n          animation={animationProp ?? parentAnimation}\n          asChild\n          completeOnStop={completeOnStop ?? parentCompleteOnStop}\n          delay={delay ?? parentDelay}\n          initialOnAnimateEnd={initialOnAnimateEnd ?? parentInitialOnAnimateEnd}\n          loop={loop ?? parentLoop}\n          loopDelay={loopDelay ?? parentLoopDelay}\n          persistOnAnimateEnd={persistOnAnimateEnd ?? parentPersistOnAnimateEnd}\n        >\n          <IconComponent className={className} size={size} {...props} />\n        </AnimateIcon>\n      );\n    }\n\n    const animationToUse = animationProp ?? parentAnimation;\n    const loopToUse = parentLoop;\n    const loopDelayToUse = parentLoopDelay;\n\n    return (\n      <AnimateIconContext.Provider\n        value={{\n          controls,\n          animation: animationToUse,\n          loop: loopToUse,\n          loopDelay: loopDelayToUse,\n          active: parentActive,\n          animate: parentAnimate,\n          initialOnAnimateEnd: parentInitialOnAnimateEnd,\n          delay: parentDelay,\n          completeOnStop: parentCompleteOnStop,\n        }}\n      >\n        <IconComponent className={className} size={size} {...props} />\n      </AnimateIconContext.Provider>\n    );\n  }\n\n  if (\n    animate !== undefined ||\n    animateOnHover !== undefined ||\n    animateOnTap !== undefined ||\n    animateOnView !== undefined ||\n    animationProp !== undefined\n  ) {\n    return (\n      <AnimateIcon\n        animate={animate}\n        animateOnHover={animateOnHover}\n        animateOnTap={animateOnTap}\n        animateOnView={animateOnView}\n        animateOnViewMargin={animateOnViewMargin}\n        animateOnViewOnce={animateOnViewOnce}\n        animation={animationProp}\n        asChild\n        completeOnStop={completeOnStop}\n        delay={delay}\n        loop={loop}\n        loopDelay={loopDelay}\n      >\n        <IconComponent className={className} size={size} {...props} />\n      </AnimateIcon>\n    );\n  }\n\n  return <IconComponent className={className} size={size} {...props} />;\n}\n\nfunction useAnimateIconVariants<\n  V extends { default: T; [key: string]: T },\n  T extends Record<string, Variants>,\n>(animations: V): T {\n  const { animation: animationType } = useAnimateIconContext();\n\n  let result: T;\n\n  if (animationType in staticAnimations) {\n    const variant = staticAnimations[animationType as StaticAnimations];\n    result = {} as T;\n    for (const key in animations.default) {\n      if (\n        (animationType === "path" || animationType === "path-loop") &&\n        key.includes("group")\n      ) {\n        continue;\n      }\n      result[key] = variant as T[Extract<keyof T, string>];\n    }\n  } else {\n    result = (animations[animationType as keyof V] as T) ?? animations.default;\n  }\n\n  return result;\n}\n\nexport {\n  AnimateIcon,\n  type AnimateIconContextValue,\n  type AnimateIconProps,\n  type IconProps,\n  IconWrapper,\n  type IconWrapperProps,\n  staticAnimations,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n};',
+          '"use client";\n\nimport {\n  type HTMLMotionProps,\n  type LegacyAnimationControls,\n  motion,\n  type SVGMotionProps,\n  type UseInViewOptions,\n  useAnimation,\n  type Variants,\n} from "motion/react";\n// biome-ignore lint/performance/noNamespaceImport: React namespace matches the shared registry primitive convention (see animate/slot)\nimport * as React from "react";\nimport { useIsInView } from "@/hooks/use-is-in-view";\nimport { Slot, type WithAsChild } from "@/components/sora-ui/animate/slot";\n\nconst staticAnimations = {\n  path: {\n    initial: { pathLength: 1 },\n    animate: {\n      pathLength: [0.05, 1],\n      transition: {\n        duration: 0.8,\n        ease: "easeInOut",\n      },\n    },\n  } as Variants,\n  "path-loop": {\n    initial: { pathLength: 1 },\n    animate: {\n      pathLength: [1, 0.05, 1],\n      transition: {\n        duration: 1.6,\n        ease: "easeInOut",\n      },\n    },\n  } as Variants,\n} as const;\n\ntype StaticAnimations = keyof typeof staticAnimations;\ntype TriggerProp<T = string> = boolean | StaticAnimations | T;\ntype Trigger = TriggerProp<string>;\n\ninterface AnimateIconContextValue {\n  active: boolean;\n  animate?: Trigger;\n  animation: StaticAnimations | string;\n  completeOnStop?: boolean;\n  controls: LegacyAnimationControls | undefined;\n  delay?: number;\n  initialOnAnimateEnd?: boolean;\n  loop: boolean;\n  loopDelay: number;\n  persistOnAnimateEnd?: boolean;\n}\n\ninterface DefaultIconProps<\n  T = string,\n  S extends StaticAnimations = StaticAnimations,\n> {\n  animate?: TriggerProp<T>;\n  animateOnHover?: TriggerProp<T>;\n  animateOnTap?: TriggerProp<T>;\n  animateOnView?: TriggerProp<T>;\n  animateOnViewMargin?: UseInViewOptions["margin"];\n  animateOnViewOnce?: boolean;\n  animation?: T | S;\n  completeOnStop?: boolean;\n  delay?: number;\n  initialOnAnimateEnd?: boolean;\n  loop?: boolean;\n  loopDelay?: number;\n  persistOnAnimateEnd?: boolean;\n}\n\ntype AnimateIconProps<T = string> = WithAsChild<\n  HTMLMotionProps<"span"> &\n    DefaultIconProps<T> & {\n      children: React.ReactNode;\n      asChild?: boolean;\n    }\n>;\n\ntype IconProps<\n  T,\n  S extends StaticAnimations = StaticAnimations,\n> = DefaultIconProps<T, S> &\n  Omit<SVGMotionProps<SVGSVGElement>, "animate"> & {\n    /**\n     * Icon size in pixels (applied to both width and height).\n     * @default 24\n     */\n    size?: number | string;\n    /**\n     * Any valid CSS color, mapped to the SVG `stroke`.\n     * @default "currentColor"\n     */\n    color?: string;\n  };\n\ntype IconWrapperProps<\n  T,\n  S extends StaticAnimations = StaticAnimations,\n> = IconProps<T, S> & {\n  icon: React.ComponentType<IconProps<T, S>>;\n};\n\nconst AnimateIconContext = React.createContext<AnimateIconContextValue | null>(\n  null\n);\n\nfunction useAnimateIconContext() {\n  const context = React.useContext(AnimateIconContext);\n  if (!context) {\n    return {\n      controls: undefined,\n      animation: "default",\n      loop: undefined,\n      loopDelay: undefined,\n      active: undefined,\n      animate: undefined,\n      initialOnAnimateEnd: undefined,\n      completeOnStop: undefined,\n      persistOnAnimateEnd: undefined,\n      delay: undefined,\n    };\n  }\n  return context;\n}\n\nfunction composeEventHandlers<E extends React.SyntheticEvent<unknown>>(\n  theirs?: (event: E) => void,\n  ours?: (event: E) => void\n) {\n  return (event: E) => {\n    theirs?.(event);\n    ours?.(event);\n  };\n}\n\n// biome-ignore lint/suspicious/noExplicitAny: child props are structurally unknown\ntype AnyProps = Record<string, any>;\n\nfunction AnimateIcon({\n  asChild = false,\n  animate = false,\n  animateOnHover = false,\n  animateOnTap = false,\n  animateOnView = false,\n  animateOnViewMargin = "0px",\n  animateOnViewOnce = true,\n  animation = "default",\n  loop = false,\n  loopDelay = 0,\n  initialOnAnimateEnd = false,\n  completeOnStop = false,\n  persistOnAnimateEnd = false,\n  delay = 0,\n  children,\n  ...props\n}: AnimateIconProps) {\n  const controls = useAnimation();\n\n  const [localAnimate, setLocalAnimate] = React.useState<boolean>(() => {\n    if (animate === undefined || animate === false) {\n      return false;\n    }\n    return delay <= 0;\n  });\n  const [currentAnimation, setCurrentAnimation] = React.useState<\n    string | StaticAnimations\n  >(typeof animate === "string" ? animate : animation);\n  const [status, setStatus] = React.useState<"initial" | "animate">("initial");\n\n  const delayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);\n  const loopDelayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);\n  const isAnimateInProgressRef = React.useRef<boolean>(false);\n  const animateEndPromiseRef = React.useRef<Promise<void> | null>(null);\n  const resolveAnimateEndRef = React.useRef<(() => void) | null>(null);\n  const activeRef = React.useRef<boolean>(localAnimate);\n\n  const runGenRef = React.useRef(0);\n  const cancelledRef = React.useRef(false);\n\n  const bumpGeneration = React.useCallback(() => {\n    runGenRef.current++;\n  }, []);\n\n  const startAnimation = React.useCallback(\n    (trigger: TriggerProp) => {\n      const next = typeof trigger === "string" ? trigger : animation;\n      bumpGeneration();\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n        delayRef.current = null;\n      }\n      setCurrentAnimation(next);\n      if (delay > 0) {\n        setLocalAnimate(false);\n        delayRef.current = setTimeout(() => {\n          setLocalAnimate(true);\n        }, delay);\n      } else {\n        setLocalAnimate(true);\n      }\n    },\n    [animation, delay, bumpGeneration]\n  );\n\n  const stopAnimation = React.useCallback(() => {\n    bumpGeneration();\n    if (delayRef.current) {\n      clearTimeout(delayRef.current);\n      delayRef.current = null;\n    }\n    if (loopDelayRef.current) {\n      clearTimeout(loopDelayRef.current);\n      loopDelayRef.current = null;\n    }\n    setLocalAnimate(false);\n  }, [bumpGeneration]);\n\n  React.useEffect(() => {\n    activeRef.current = localAnimate;\n  }, [localAnimate]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: only re-run when the animate trigger changes\n  React.useEffect(() => {\n    if (animate === undefined) {\n      return;\n    }\n    setCurrentAnimation(typeof animate === "string" ? animate : animation);\n    if (animate) {\n      startAnimation(animate as TriggerProp);\n    } else {\n      stopAnimation();\n    }\n  }, [animate]);\n\n  React.useEffect(\n    () => () => {\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n      }\n      if (loopDelayRef.current) {\n        clearTimeout(loopDelayRef.current);\n      }\n    },\n    []\n  );\n\n  const viewOuterRef = React.useRef<HTMLElement>(null);\n  const { ref: inViewRef, isInView } = useIsInView(viewOuterRef, {\n    inView: !!animateOnView,\n    inViewOnce: animateOnViewOnce,\n    inViewMargin: animateOnViewMargin,\n  });\n\n  const startAnim = React.useCallback(\n    async (anim: "initial" | "animate", method: "start" | "set" = "start") => {\n      try {\n        await controls[method](anim);\n        setStatus(anim);\n      } catch {\n        return;\n      }\n    },\n    [controls]\n  );\n\n  React.useEffect(() => {\n    if (!animateOnView) {\n      return;\n    }\n    if (isInView) {\n      startAnimation(animateOnView);\n    } else {\n      stopAnimation();\n    }\n  }, [isInView, animateOnView, startAnimation, stopAnimation]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: async run loop is intentionally keyed to localAnimate/controls\n  React.useEffect(() => {\n    const gen = ++runGenRef.current;\n    cancelledRef.current = false;\n\n    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: verbatim port of the AnimateIcon run loop with generation/cancel guards\n    async function run() {\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        await startAnim("initial");\n        return;\n      }\n\n      if (!localAnimate) {\n        if (\n          completeOnStop &&\n          isAnimateInProgressRef.current &&\n          animateEndPromiseRef.current\n        ) {\n          try {\n            await animateEndPromiseRef.current;\n          } catch {\n            // noop\n          }\n        }\n        if (!persistOnAnimateEnd) {\n          if (cancelledRef.current || gen !== runGenRef.current) {\n            await startAnim("initial");\n            return;\n          }\n          await startAnim("initial");\n        }\n        return;\n      }\n\n      if (loop) {\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await startAnim("initial", "set");\n      }\n\n      isAnimateInProgressRef.current = true;\n      animateEndPromiseRef.current = new Promise<void>((resolve) => {\n        resolveAnimateEndRef.current = resolve;\n      });\n\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        isAnimateInProgressRef.current = false;\n        resolveAnimateEndRef.current?.();\n        resolveAnimateEndRef.current = null;\n        animateEndPromiseRef.current = null;\n        await startAnim("initial");\n        return;\n      }\n\n      await startAnim("animate");\n\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        isAnimateInProgressRef.current = false;\n        resolveAnimateEndRef.current?.();\n        resolveAnimateEndRef.current = null;\n        animateEndPromiseRef.current = null;\n        await startAnim("initial");\n        return;\n      }\n\n      isAnimateInProgressRef.current = false;\n      resolveAnimateEndRef.current?.();\n      resolveAnimateEndRef.current = null;\n      animateEndPromiseRef.current = null;\n\n      if (initialOnAnimateEnd) {\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await startAnim("initial", "set");\n      }\n\n      if (loop) {\n        if (loopDelay > 0) {\n          await new Promise<void>((resolve) => {\n            loopDelayRef.current = setTimeout(() => {\n              loopDelayRef.current = null;\n              resolve();\n            }, loopDelay);\n          });\n\n          if (cancelledRef.current || gen !== runGenRef.current) {\n            await startAnim("initial");\n            return;\n          }\n          if (!activeRef.current) {\n            if (status !== "initial" && !persistOnAnimateEnd) {\n              await startAnim("initial");\n            }\n            return;\n          }\n        } else if (!activeRef.current) {\n          if (status !== "initial" && !persistOnAnimateEnd) {\n            await startAnim("initial");\n          }\n          return;\n        }\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await run();\n      }\n    }\n\n    // biome-ignore lint/complexity/noVoid: explicitly mark the fire-and-forget run loop promise as ignored\n    void run();\n\n    return () => {\n      cancelledRef.current = true;\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n        delayRef.current = null;\n      }\n      if (loopDelayRef.current) {\n        clearTimeout(loopDelayRef.current);\n        loopDelayRef.current = null;\n      }\n    };\n  }, [localAnimate, controls]);\n\n  const childProps = (\n    React.isValidElement(children) ? (children as React.ReactElement).props : {}\n  ) as AnyProps;\n\n  const handleMouseEnter = composeEventHandlers<React.MouseEvent<HTMLElement>>(\n    childProps.onMouseEnter,\n    () => {\n      if (animateOnHover) {\n        startAnimation(animateOnHover);\n      }\n    }\n  );\n\n  const handleMouseLeave = composeEventHandlers<React.MouseEvent<HTMLElement>>(\n    childProps.onMouseLeave,\n    () => {\n      if (animateOnHover || animateOnTap) {\n        stopAnimation();\n      }\n    }\n  );\n\n  const handlePointerDown = composeEventHandlers<\n    React.PointerEvent<HTMLElement>\n  >(childProps.onPointerDown, () => {\n    if (animateOnTap) {\n      startAnimation(animateOnTap);\n    }\n  });\n\n  const handlePointerUp = composeEventHandlers<React.PointerEvent<HTMLElement>>(\n    childProps.onPointerUp,\n    () => {\n      if (animateOnTap) {\n        stopAnimation();\n      }\n    }\n  );\n\n  const content = asChild ? (\n    <Slot\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      onPointerUp={handlePointerUp}\n      ref={inViewRef}\n      {...props}\n    >\n      {children}\n    </Slot>\n  ) : (\n    <motion.span\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      onPointerUp={handlePointerUp}\n      ref={inViewRef}\n      {...props}\n    >\n      {children}\n    </motion.span>\n  );\n\n  return (\n    <AnimateIconContext.Provider\n      value={{\n        controls,\n        animation: currentAnimation,\n        loop,\n        loopDelay,\n        active: localAnimate,\n        animate,\n        initialOnAnimateEnd,\n        completeOnStop,\n        delay,\n      }}\n    >\n      {content}\n    </AnimateIconContext.Provider>\n  );\n}\n\nfunction IconWrapper<\n  T extends string,\n  S extends StaticAnimations = StaticAnimations,\n>({\n  size = 24,\n  animation: animationProp,\n  animate,\n  animateOnHover,\n  animateOnTap,\n  animateOnView,\n  animateOnViewMargin,\n  animateOnViewOnce,\n  icon: IconComponent,\n  loop,\n  loopDelay,\n  persistOnAnimateEnd,\n  initialOnAnimateEnd,\n  delay,\n  completeOnStop,\n  className,\n  ...props\n}: IconWrapperProps<T, S>) {\n  const context = React.useContext(AnimateIconContext);\n\n  if (context) {\n    const {\n      controls,\n      animation: parentAnimation,\n      loop: parentLoop,\n      loopDelay: parentLoopDelay,\n      active: parentActive,\n      animate: parentAnimate,\n      persistOnAnimateEnd: parentPersistOnAnimateEnd,\n      initialOnAnimateEnd: parentInitialOnAnimateEnd,\n      delay: parentDelay,\n      completeOnStop: parentCompleteOnStop,\n    } = context;\n\n    const hasOverrides =\n      animate !== undefined ||\n      animateOnHover !== undefined ||\n      animateOnTap !== undefined ||\n      animateOnView !== undefined ||\n      loop !== undefined ||\n      loopDelay !== undefined ||\n      initialOnAnimateEnd !== undefined ||\n      persistOnAnimateEnd !== undefined ||\n      delay !== undefined ||\n      completeOnStop !== undefined;\n\n    if (hasOverrides) {\n      const inheritedAnimate: Trigger = parentActive\n        ? (animationProp ?? parentAnimation ?? "default")\n        : false;\n\n      const finalAnimate: Trigger = (animate ??\n        parentAnimate ??\n        inheritedAnimate) as Trigger;\n\n      return (\n        <AnimateIcon\n          animate={finalAnimate}\n          animateOnHover={animateOnHover}\n          animateOnTap={animateOnTap}\n          animateOnView={animateOnView}\n          animateOnViewMargin={animateOnViewMargin}\n          animateOnViewOnce={animateOnViewOnce}\n          animation={animationProp ?? parentAnimation}\n          asChild\n          completeOnStop={completeOnStop ?? parentCompleteOnStop}\n          delay={delay ?? parentDelay}\n          initialOnAnimateEnd={initialOnAnimateEnd ?? parentInitialOnAnimateEnd}\n          loop={loop ?? parentLoop}\n          loopDelay={loopDelay ?? parentLoopDelay}\n          persistOnAnimateEnd={persistOnAnimateEnd ?? parentPersistOnAnimateEnd}\n        >\n          <IconComponent className={className} size={size} {...props} />\n        </AnimateIcon>\n      );\n    }\n\n    const animationToUse = animationProp ?? parentAnimation;\n    const loopToUse = parentLoop;\n    const loopDelayToUse = parentLoopDelay;\n\n    return (\n      <AnimateIconContext.Provider\n        value={{\n          controls,\n          animation: animationToUse,\n          loop: loopToUse,\n          loopDelay: loopDelayToUse,\n          active: parentActive,\n          animate: parentAnimate,\n          initialOnAnimateEnd: parentInitialOnAnimateEnd,\n          delay: parentDelay,\n          completeOnStop: parentCompleteOnStop,\n        }}\n      >\n        <IconComponent className={className} size={size} {...props} />\n      </AnimateIconContext.Provider>\n    );\n  }\n\n  if (\n    animate !== undefined ||\n    animateOnHover !== undefined ||\n    animateOnTap !== undefined ||\n    animateOnView !== undefined ||\n    animationProp !== undefined\n  ) {\n    return (\n      <AnimateIcon\n        animate={animate}\n        animateOnHover={animateOnHover}\n        animateOnTap={animateOnTap}\n        animateOnView={animateOnView}\n        animateOnViewMargin={animateOnViewMargin}\n        animateOnViewOnce={animateOnViewOnce}\n        animation={animationProp}\n        asChild\n        completeOnStop={completeOnStop}\n        delay={delay}\n        loop={loop}\n        loopDelay={loopDelay}\n      >\n        <IconComponent className={className} size={size} {...props} />\n      </AnimateIcon>\n    );\n  }\n\n  return <IconComponent className={className} size={size} {...props} />;\n}\n\nfunction useAnimateIconVariants<\n  V extends { default: T; [key: string]: T },\n  T extends Record<string, Variants>,\n>(animations: V): T {\n  const { animation: animationType } = useAnimateIconContext();\n\n  let result: T;\n\n  if (animationType in staticAnimations) {\n    const variant = staticAnimations[animationType as StaticAnimations];\n    result = {} as T;\n    for (const key in animations.default) {\n      if (\n        (animationType === "path" || animationType === "path-loop") &&\n        key.includes("group")\n      ) {\n        continue;\n      }\n      result[key] = variant as T[Extract<keyof T, string>];\n    }\n  } else {\n    result = (animations[animationType as keyof V] as T) ?? animations.default;\n  }\n\n  return result;\n}\n\nexport {\n  AnimateIcon,\n  type AnimateIconContextValue,\n  type AnimateIconProps,\n  type IconProps,\n  IconWrapper,\n  type IconWrapperProps,\n  staticAnimations,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n};',
       },
     ],
     keywords: [],
@@ -2639,6 +2877,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2686,6 +2928,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -2730,6 +2976,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2778,6 +3028,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2830,6 +3084,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2886,6 +3144,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -2956,6 +3218,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3050,6 +3316,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -3130,6 +3400,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -3183,6 +3457,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -3230,6 +3508,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3287,6 +3569,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3346,6 +3632,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -3396,6 +3686,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3452,6 +3746,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -3506,6 +3804,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3565,6 +3867,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -3612,6 +3918,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3668,6 +3978,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3727,6 +4041,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -3781,6 +4099,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3860,6 +4182,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -3952,6 +4278,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -4031,6 +4361,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -4105,6 +4439,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4169,6 +4507,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4231,6 +4573,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -4297,6 +4643,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4361,6 +4711,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4419,6 +4773,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -4484,6 +4842,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4543,6 +4905,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4595,6 +4961,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -4658,6 +5028,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -4724,6 +5098,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -4784,6 +5162,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -4843,6 +5225,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -4907,6 +5293,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -4983,6 +5373,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5065,6 +5459,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -5121,6 +5519,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5193,6 +5595,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5271,6 +5677,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -5344,6 +5754,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5426,6 +5840,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -5496,6 +5914,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5591,6 +6013,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -5679,6 +6105,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {
@@ -5739,6 +6169,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -5763,7 +6197,7 @@ export const index: Record<string, any> = {
         type: "registry:ui",
         target: "components/sora-ui/primitives/animate/tooltip.tsx",
         content:
-          '"use client";\n\nimport {\n  autoUpdate,\n  FloatingArrow,\n  FloatingPortal,\n  flip,\n  arrow as floatingArrow,\n  offset as floatingOffset,\n  shift,\n  type UseFloatingReturn,\n  useFloating,\n} from "@floating-ui/react";\nimport {\n  AnimatePresence,\n  type HTMLMotionProps,\n  LayoutGroup,\n  motion,\n  type Transition,\n} from "motion/react";\nimport * as React from "react";\n\nimport { getStrictContext } from "@/lib/get-strict-context";\nimport { Slot, type WithAsChild } from "@/components/sora-ui/animate/slot";\n\ntype Side = "top" | "bottom" | "left" | "right";\ntype Align = "start" | "center" | "end";\n\ninterface TooltipData {\n  align: Align;\n  alignOffset: number;\n  contentAsChild: boolean;\n  contentProps: HTMLMotionProps<"div">;\n  id: string;\n  rect: DOMRect;\n  side: Side;\n  sideOffset: number;\n}\n\ninterface GlobalTooltipContextType {\n  currentTooltip: TooltipData | null;\n  globalId: string;\n  hideImmediate: () => void;\n  hideTooltip: () => void;\n  referenceElRef: React.RefObject<HTMLElement | null>;\n  setReferenceEl: (el: HTMLElement | null) => void;\n  showTooltip: (data: TooltipData) => void;\n  transition: Transition;\n}\n\nconst [GlobalTooltipProvider, useGlobalTooltip] =\n  getStrictContext<GlobalTooltipContextType>("GlobalTooltipProvider");\n\ninterface TooltipContextType {\n  align: Align;\n  alignOffset: number;\n  asChild: boolean;\n  id: string;\n  props: HTMLMotionProps<"div">;\n  setAsChild: React.Dispatch<React.SetStateAction<boolean>>;\n  setProps: React.Dispatch<React.SetStateAction<HTMLMotionProps<"div">>>;\n  side: Side;\n  sideOffset: number;\n}\n\nconst [LocalTooltipProvider, useTooltip] = getStrictContext<TooltipContextType>(\n  "LocalTooltipProvider"\n);\n\ninterface TooltipPosition {\n  x: number;\n  y: number;\n}\n\nfunction getResolvedSide(placement: Side | `${Side}-${Align}`) {\n  if (placement.includes("-")) {\n    return placement.split("-")[0] as Side;\n  }\n  return placement as Side;\n}\n\nfunction initialFromSide(side: Side): Partial<Record<"x" | "y", number>> {\n  if (side === "top") {\n    return { y: 15 };\n  }\n  if (side === "bottom") {\n    return { y: -15 };\n  }\n  if (side === "left") {\n    return { x: 15 };\n  }\n  return { x: -15 };\n}\n\ninterface TooltipProviderProps {\n  children: React.ReactNode;\n  closeDelay?: number;\n  id?: string;\n  openDelay?: number;\n  transition?: Transition;\n}\n\nfunction TooltipProvider({\n  children,\n  id,\n  openDelay = 700,\n  closeDelay = 300,\n  transition = { type: "spring", stiffness: 300, damping: 35 },\n}: TooltipProviderProps) {\n  const globalId = React.useId();\n  const [currentTooltip, setCurrentTooltip] =\n    React.useState<TooltipData | null>(null);\n  const timeoutRef = React.useRef<number | null>(null);\n  const lastCloseTimeRef = React.useRef<number>(0);\n  const referenceElRef = React.useRef<HTMLElement | null>(null);\n\n  const showTooltip = React.useCallback(\n    (data: TooltipData) => {\n      if (timeoutRef.current) {\n        clearTimeout(timeoutRef.current);\n      }\n      if (currentTooltip !== null) {\n        setCurrentTooltip(data);\n        return;\n      }\n      const now = Date.now();\n      const delay = now - lastCloseTimeRef.current < closeDelay ? 0 : openDelay;\n      timeoutRef.current = window.setTimeout(\n        () => setCurrentTooltip(data),\n        delay\n      );\n    },\n    [openDelay, closeDelay, currentTooltip]\n  );\n\n  const hideTooltip = React.useCallback(() => {\n    if (timeoutRef.current) {\n      clearTimeout(timeoutRef.current);\n    }\n    timeoutRef.current = window.setTimeout(() => {\n      setCurrentTooltip(null);\n      lastCloseTimeRef.current = Date.now();\n    }, closeDelay);\n  }, [closeDelay]);\n\n  const hideImmediate = React.useCallback(() => {\n    if (timeoutRef.current) {\n      clearTimeout(timeoutRef.current);\n    }\n    setCurrentTooltip(null);\n    lastCloseTimeRef.current = Date.now();\n  }, []);\n\n  const setReferenceEl = React.useCallback((el: HTMLElement | null) => {\n    referenceElRef.current = el;\n  }, []);\n\n  React.useEffect(() => {\n    const onKeyDown = (e: KeyboardEvent) => {\n      if (e.key === "Escape") {\n        hideImmediate();\n      }\n    };\n    window.addEventListener("keydown", onKeyDown, true);\n    window.addEventListener("scroll", hideImmediate, true);\n    window.addEventListener("resize", hideImmediate, true);\n    return () => {\n      window.removeEventListener("keydown", onKeyDown, true);\n      window.removeEventListener("scroll", hideImmediate, true);\n      window.removeEventListener("resize", hideImmediate, true);\n    };\n  }, [hideImmediate]);\n\n  return (\n    <GlobalTooltipProvider\n      value={{\n        showTooltip,\n        hideTooltip,\n        hideImmediate,\n        currentTooltip,\n        transition,\n        globalId: id ?? globalId,\n        setReferenceEl,\n        referenceElRef,\n      }}\n    >\n      <LayoutGroup>{children}</LayoutGroup>\n      <TooltipOverlay />\n    </GlobalTooltipProvider>\n  );\n}\n\ninterface RenderedTooltipContextType {\n  align: Align;\n  open: boolean;\n  side: Side;\n}\n\nconst [RenderedTooltipProvider, useRenderedTooltip] =\n  getStrictContext<RenderedTooltipContextType>("RenderedTooltipContext");\n\ninterface FloatingContextType {\n  arrowRef: React.RefObject<SVGSVGElement | null>;\n  context: UseFloatingReturn["context"];\n}\n\nconst [FloatingProvider, useFloatingContext] =\n  getStrictContext<FloatingContextType>("FloatingContext");\n\nconst MotionTooltipArrow = motion.create(FloatingArrow);\n\ntype TooltipArrowProps = Omit<\n  React.ComponentProps<typeof MotionTooltipArrow>,\n  "context"\n> & {\n  withTransition?: boolean;\n};\n\nfunction TooltipArrow({\n  ref,\n  withTransition = true,\n  ...props\n}: TooltipArrowProps) {\n  const { side, align, open } = useRenderedTooltip();\n  const { context, arrowRef } = useFloatingContext();\n  const { transition, globalId } = useGlobalTooltip();\n  React.useImperativeHandle(ref, () => arrowRef.current as SVGSVGElement);\n\n  const deg = { top: 0, right: 90, bottom: 180, left: -90 }[side];\n\n  return (\n    <MotionTooltipArrow\n      context={context}\n      data-align={align}\n      data-side={side}\n      data-slot="tooltip-arrow"\n      data-state={open ? "open" : "closed"}\n      layoutId={withTransition ? `tooltip-arrow-${globalId}` : undefined}\n      ref={arrowRef}\n      style={{ rotate: deg }}\n      transition={withTransition ? transition : undefined}\n      {...props}\n    />\n  );\n}\n\ntype TooltipPortalProps = React.ComponentProps<typeof FloatingPortal>;\n\nfunction TooltipPortal(props: TooltipPortalProps) {\n  return <FloatingPortal {...props} />;\n}\n\nfunction TooltipOverlay() {\n  const { currentTooltip, transition, globalId, referenceElRef } =\n    useGlobalTooltip();\n\n  const [rendered, setRendered] = React.useState<{\n    data: TooltipData | null;\n    open: boolean;\n  }>({ data: null, open: false });\n\n  const arrowRef = React.useRef<SVGSVGElement | null>(null);\n\n  const side = rendered.data?.side ?? "top";\n  const align = rendered.data?.align ?? "center";\n\n  const { refs, x, y, strategy, context, update } = useFloating({\n    placement: align === "center" ? side : `${side}-${align}`,\n    whileElementsMounted: autoUpdate,\n    middleware: [\n      floatingOffset({\n        mainAxis: rendered.data?.sideOffset ?? 0,\n        crossAxis: rendered.data?.alignOffset ?? 0,\n      }),\n      flip(),\n      shift({ padding: 8 }),\n      floatingArrow({ element: arrowRef }),\n    ],\n  });\n\n  React.useEffect(() => {\n    if (currentTooltip) {\n      setRendered({ data: currentTooltip, open: true });\n    } else {\n      setRendered((p) => (p.data ? { ...p, open: false } : p));\n    }\n  }, [currentTooltip]);\n\n  React.useLayoutEffect(() => {\n    if (referenceElRef.current) {\n      refs.setReference(referenceElRef.current);\n      update();\n    }\n  }, [referenceElRef, refs, update]);\n\n  const ready = x != null && y != null;\n  const Component = rendered.data?.contentAsChild ? Slot : motion.div;\n  const resolvedSide = getResolvedSide(context.placement);\n\n  return (\n    <AnimatePresence mode="wait">\n      {rendered.data && ready && (\n        <TooltipPortal>\n          <div\n            data-align={rendered.data.align}\n            data-side={resolvedSide}\n            data-slot="tooltip-overlay"\n            data-state={rendered.open ? "open" : "closed"}\n            ref={refs.setFloating}\n            style={{\n              position: strategy,\n              top: 0,\n              left: 0,\n              zIndex: 50,\n              transform: `translate3d(${x!}px, ${y!}px, 0)`,\n            }}\n          >\n            <FloatingProvider value={{ context, arrowRef }}>\n              <RenderedTooltipProvider\n                value={{\n                  side: resolvedSide,\n                  align: rendered.data.align,\n                  open: rendered.open,\n                }}\n              >\n                <Component\n                  animate={\n                    rendered.open\n                      ? { opacity: 1, scale: 1, x: 0, y: 0 }\n                      : {\n                          opacity: 0,\n                          scale: 0,\n                          ...initialFromSide(rendered.data.side),\n                        }\n                  }\n                  data-align={rendered.data.align}\n                  data-side={resolvedSide}\n                  data-slot="tooltip-content"\n                  data-state={rendered.open ? "open" : "closed"}\n                  exit={{\n                    opacity: 0,\n                    scale: 0,\n                    ...initialFromSide(rendered.data.side),\n                  }}\n                  initial={{\n                    opacity: 0,\n                    scale: 0,\n                    ...initialFromSide(rendered.data.side),\n                  }}\n                  layoutId={`tooltip-content-${globalId}`}\n                  onAnimationComplete={() => {\n                    if (!rendered.open) {\n                      setRendered({ data: null, open: false });\n                    }\n                  }}\n                  transition={transition}\n                  {...rendered.data.contentProps}\n                  style={{\n                    position: "relative",\n                    ...(rendered.data.contentProps?.style || {}),\n                  }}\n                />\n              </RenderedTooltipProvider>\n            </FloatingProvider>\n          </div>\n        </TooltipPortal>\n      )}\n    </AnimatePresence>\n  );\n}\n\ninterface TooltipProps {\n  align?: Align;\n  alignOffset?: number;\n  children: React.ReactNode;\n  side?: Side;\n  sideOffset?: number;\n}\n\nfunction Tooltip({\n  children,\n  side = "top",\n  sideOffset = 0,\n  align = "center",\n  alignOffset = 0,\n}: TooltipProps) {\n  const id = React.useId();\n  const [props, setProps] = React.useState<HTMLMotionProps<"div">>({});\n  const [asChild, setAsChild] = React.useState(false);\n\n  return (\n    <LocalTooltipProvider\n      value={{\n        props,\n        setProps,\n        asChild,\n        setAsChild,\n        side,\n        sideOffset,\n        align,\n        alignOffset,\n        id,\n      }}\n    >\n      {children}\n    </LocalTooltipProvider>\n  );\n}\n\ntype TooltipContentProps = WithAsChild<HTMLMotionProps<"div">>;\n\nfunction shallowEqualWithoutChildren(\n  a?: HTMLMotionProps<"div">,\n  b?: HTMLMotionProps<"div">\n) {\n  if (a === b) {\n    return true;\n  }\n  if (!(a && b)) {\n    return false;\n  }\n  const keysA = Object.keys(a).filter((k) => k !== "children");\n  const keysB = Object.keys(b).filter((k) => k !== "children");\n  if (keysA.length !== keysB.length) {\n    return false;\n  }\n  for (const k of keysA) {\n    // @ts-expect-error index\n    if (a[k] !== b[k]) {\n      return false;\n    }\n  }\n  return true;\n}\n\nfunction TooltipContent({ asChild = false, ...props }: TooltipContentProps) {\n  const { setProps, setAsChild } = useTooltip();\n  const lastPropsRef = React.useRef<HTMLMotionProps<"div"> | undefined>(\n    undefined\n  );\n\n  React.useEffect(() => {\n    if (!shallowEqualWithoutChildren(lastPropsRef.current, props)) {\n      lastPropsRef.current = props;\n      setProps(props);\n    }\n  }, [props, setProps]);\n\n  React.useEffect(() => {\n    setAsChild(asChild);\n  }, [asChild, setAsChild]);\n\n  return null;\n}\n\ntype TooltipTriggerProps = WithAsChild<HTMLMotionProps<"div">>;\n\nfunction TooltipTrigger({\n  ref,\n  onMouseEnter,\n  onMouseLeave,\n  onFocus,\n  onBlur,\n  onPointerDown,\n  asChild = false,\n  ...props\n}: TooltipTriggerProps) {\n  const {\n    props: contentProps,\n    asChild: contentAsChild,\n    side,\n    sideOffset,\n    align,\n    alignOffset,\n    id,\n  } = useTooltip();\n  const {\n    showTooltip,\n    hideTooltip,\n    hideImmediate,\n    currentTooltip,\n    setReferenceEl,\n  } = useGlobalTooltip();\n\n  const triggerRef = React.useRef<HTMLDivElement>(null);\n  React.useImperativeHandle(ref, () => triggerRef.current as HTMLDivElement);\n\n  const suppressNextFocusRef = React.useRef(false);\n\n  const handleOpen = React.useCallback(() => {\n    if (!triggerRef.current) {\n      return;\n    }\n    setReferenceEl(triggerRef.current);\n    const rect = triggerRef.current.getBoundingClientRect();\n    showTooltip({\n      contentProps,\n      contentAsChild,\n      rect,\n      side,\n      sideOffset,\n      align,\n      alignOffset,\n      id,\n    });\n  }, [\n    showTooltip,\n    setReferenceEl,\n    contentProps,\n    contentAsChild,\n    side,\n    sideOffset,\n    align,\n    alignOffset,\n    id,\n  ]);\n\n  const handlePointerDown = React.useCallback(\n    (e: React.PointerEvent<HTMLDivElement>) => {\n      onPointerDown?.(e);\n      if (currentTooltip?.id === id) {\n        suppressNextFocusRef.current = true;\n        hideImmediate();\n        Promise.resolve().then(() => {\n          suppressNextFocusRef.current = false;\n        });\n      }\n    },\n    [onPointerDown, currentTooltip?.id, id, hideImmediate]\n  );\n\n  const handleMouseEnter = React.useCallback(\n    (e: React.MouseEvent<HTMLDivElement>) => {\n      onMouseEnter?.(e);\n      handleOpen();\n    },\n    [handleOpen, onMouseEnter]\n  );\n\n  const handleMouseLeave = React.useCallback(\n    (e: React.MouseEvent<HTMLDivElement>) => {\n      onMouseLeave?.(e);\n      hideTooltip();\n    },\n    [hideTooltip, onMouseLeave]\n  );\n\n  const handleFocus = React.useCallback(\n    (e: React.FocusEvent<HTMLDivElement>) => {\n      onFocus?.(e);\n      if (suppressNextFocusRef.current) {\n        return;\n      }\n      handleOpen();\n    },\n    [handleOpen, onFocus]\n  );\n\n  const handleBlur = React.useCallback(\n    (e: React.FocusEvent<HTMLDivElement>) => {\n      onBlur?.(e);\n      hideTooltip();\n    },\n    [hideTooltip, onBlur]\n  );\n\n  const Component = asChild ? Slot : motion.div;\n\n  return (\n    <Component\n      data-align={align}\n      data-side={side}\n      data-slot="tooltip-trigger"\n      data-state={currentTooltip?.id === id ? "open" : "closed"}\n      onBlur={handleBlur}\n      onFocus={handleFocus}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      ref={triggerRef}\n      {...props}\n    />\n  );\n}\n\nexport {\n  type GlobalTooltipContextType,\n  Tooltip,\n  TooltipArrow,\n  type TooltipArrowProps,\n  TooltipContent,\n  type TooltipContentProps,\n  type TooltipContextType,\n  type TooltipPosition,\n  type TooltipProps,\n  TooltipProvider,\n  type TooltipProviderProps,\n  TooltipTrigger,\n  type TooltipTriggerProps,\n  useGlobalTooltip,\n  useTooltip,\n};',
+          '"use client";\n\nimport {\n  autoUpdate,\n  FloatingArrow,\n  FloatingPortal,\n  flip,\n  arrow as floatingArrow,\n  offset as floatingOffset,\n  shift,\n  type UseFloatingReturn,\n  useFloating,\n} from "@floating-ui/react";\nimport {\n  AnimatePresence,\n  type HTMLMotionProps,\n  LayoutGroup,\n  motion,\n  type Transition,\n} from "motion/react";\nimport * as React from "react";\n\nimport { getStrictContext } from "@/lib/get-strict-context";\nimport { Slot, type WithAsChild } from "@/components/sora-ui/animate/slot";\n\ntype Side = "top" | "bottom" | "left" | "right";\ntype Align = "start" | "center" | "end";\n\ninterface TooltipData {\n  align: Align;\n  alignOffset: number;\n  contentAsChild: boolean;\n  contentProps: HTMLMotionProps<"div">;\n  id: string;\n  rect: DOMRect;\n  side: Side;\n  sideOffset: number;\n}\n\ninterface GlobalTooltipContextType {\n  currentTooltip: TooltipData | null;\n  globalId: string;\n  hideImmediate: () => void;\n  hideTooltip: () => void;\n  referenceElRef: React.RefObject<HTMLElement | null>;\n  setReferenceEl: (el: HTMLElement | null) => void;\n  showTooltip: (data: TooltipData) => void;\n  transition: Transition;\n}\n\nconst [GlobalTooltipProvider, useGlobalTooltip] =\n  getStrictContext<GlobalTooltipContextType>("GlobalTooltipProvider");\n\ninterface TooltipContextType {\n  align: Align;\n  alignOffset: number;\n  asChild: boolean;\n  id: string;\n  props: HTMLMotionProps<"div">;\n  setAsChild: React.Dispatch<React.SetStateAction<boolean>>;\n  setProps: React.Dispatch<React.SetStateAction<HTMLMotionProps<"div">>>;\n  side: Side;\n  sideOffset: number;\n}\n\nconst [LocalTooltipProvider, useTooltip] = getStrictContext<TooltipContextType>(\n  "LocalTooltipProvider"\n);\n\ninterface TooltipPosition {\n  x: number;\n  y: number;\n}\n\nfunction getResolvedSide(placement: Side | `${Side}-${Align}`) {\n  if (placement.includes("-")) {\n    return placement.split("-")[0] as Side;\n  }\n  return placement as Side;\n}\n\nfunction initialFromSide(side: Side): Partial<Record<"x" | "y", number>> {\n  if (side === "top") {\n    return { y: 15 };\n  }\n  if (side === "bottom") {\n    return { y: -15 };\n  }\n  if (side === "left") {\n    return { x: 15 };\n  }\n  return { x: -15 };\n}\n\ninterface TooltipProviderProps {\n  children: React.ReactNode;\n  closeDelay?: number;\n  id?: string;\n  openDelay?: number;\n  transition?: Transition;\n}\n\nfunction TooltipProvider({\n  children,\n  id,\n  openDelay = 700,\n  closeDelay = 300,\n  transition = { type: "spring", stiffness: 300, damping: 35 },\n}: TooltipProviderProps) {\n  const globalId = React.useId();\n  const [currentTooltip, setCurrentTooltip] =\n    React.useState<TooltipData | null>(null);\n  const timeoutRef = React.useRef<number | null>(null);\n  const lastCloseTimeRef = React.useRef<number>(0);\n  const referenceElRef = React.useRef<HTMLElement | null>(null);\n\n  const showTooltip = React.useCallback(\n    (data: TooltipData) => {\n      if (timeoutRef.current) {\n        clearTimeout(timeoutRef.current);\n      }\n      if (currentTooltip !== null) {\n        setCurrentTooltip(data);\n        return;\n      }\n      const now = Date.now();\n      const delay = now - lastCloseTimeRef.current < closeDelay ? 0 : openDelay;\n      timeoutRef.current = window.setTimeout(\n        () => setCurrentTooltip(data),\n        delay\n      );\n    },\n    [openDelay, closeDelay, currentTooltip]\n  );\n\n  const hideTooltip = React.useCallback(() => {\n    if (timeoutRef.current) {\n      clearTimeout(timeoutRef.current);\n    }\n    timeoutRef.current = window.setTimeout(() => {\n      setCurrentTooltip(null);\n      lastCloseTimeRef.current = Date.now();\n    }, closeDelay);\n  }, [closeDelay]);\n\n  const hideImmediate = React.useCallback(() => {\n    if (timeoutRef.current) {\n      clearTimeout(timeoutRef.current);\n    }\n    setCurrentTooltip(null);\n    lastCloseTimeRef.current = Date.now();\n  }, []);\n\n  const setReferenceEl = React.useCallback((el: HTMLElement | null) => {\n    referenceElRef.current = el;\n  }, []);\n\n  React.useEffect(() => {\n    const onKeyDown = (e: KeyboardEvent) => {\n      if (e.key === "Escape") {\n        hideImmediate();\n      }\n    };\n    window.addEventListener("keydown", onKeyDown, true);\n    window.addEventListener("scroll", hideImmediate, true);\n    window.addEventListener("resize", hideImmediate, true);\n    return () => {\n      window.removeEventListener("keydown", onKeyDown, true);\n      window.removeEventListener("scroll", hideImmediate, true);\n      window.removeEventListener("resize", hideImmediate, true);\n    };\n  }, [hideImmediate]);\n\n  return (\n    <GlobalTooltipProvider\n      value={{\n        showTooltip,\n        hideTooltip,\n        hideImmediate,\n        currentTooltip,\n        transition,\n        globalId: id ?? globalId,\n        setReferenceEl,\n        referenceElRef,\n      }}\n    >\n      <LayoutGroup>{children}</LayoutGroup>\n      <TooltipOverlay />\n    </GlobalTooltipProvider>\n  );\n}\n\ninterface RenderedTooltipContextType {\n  align: Align;\n  open: boolean;\n  side: Side;\n}\n\nconst [RenderedTooltipProvider, useRenderedTooltip] =\n  getStrictContext<RenderedTooltipContextType>("RenderedTooltipContext");\n\ninterface FloatingContextType {\n  arrowRef: React.RefObject<SVGSVGElement | null>;\n  context: UseFloatingReturn["context"];\n}\n\nconst [FloatingProvider, useFloatingContext] =\n  getStrictContext<FloatingContextType>("FloatingContext");\n\nconst MotionTooltipArrow = motion.create(FloatingArrow);\n\ntype TooltipArrowProps = Omit<\n  React.ComponentProps<typeof MotionTooltipArrow>,\n  "context"\n> & {\n  withTransition?: boolean;\n};\n\nfunction TooltipArrow({\n  ref,\n  withTransition = true,\n  ...props\n}: TooltipArrowProps) {\n  const { side, align, open } = useRenderedTooltip();\n  const { context, arrowRef } = useFloatingContext();\n  const { transition, globalId } = useGlobalTooltip();\n  React.useImperativeHandle(ref, () => arrowRef.current as SVGSVGElement);\n\n  const deg = { top: 0, right: 90, bottom: 180, left: -90 }[side];\n\n  return (\n    <MotionTooltipArrow\n      context={context}\n      data-align={align}\n      data-side={side}\n      data-slot="tooltip-arrow"\n      data-state={open ? "open" : "closed"}\n      layoutId={withTransition ? `tooltip-arrow-${globalId}` : undefined}\n      ref={arrowRef}\n      style={{ rotate: deg }}\n      transition={withTransition ? transition : undefined}\n      {...props}\n    />\n  );\n}\n\ntype TooltipPortalProps = React.ComponentProps<typeof FloatingPortal>;\n\nfunction TooltipPortal(props: TooltipPortalProps) {\n  return <FloatingPortal {...props} />;\n}\n\nfunction TooltipOverlay() {\n  const { currentTooltip, transition, globalId, referenceElRef } =\n    useGlobalTooltip();\n\n  const [rendered, setRendered] = React.useState<{\n    data: TooltipData | null;\n    open: boolean;\n  }>({ data: null, open: false });\n\n  const arrowRef = React.useRef<SVGSVGElement | null>(null);\n\n  const side = rendered.data?.side ?? "top";\n  const align = rendered.data?.align ?? "center";\n\n  const { refs, x, y, strategy, context, update } = useFloating({\n    placement: align === "center" ? side : `${side}-${align}`,\n    whileElementsMounted: autoUpdate,\n    middleware: [\n      floatingOffset({\n        mainAxis: rendered.data?.sideOffset ?? 0,\n        crossAxis: rendered.data?.alignOffset ?? 0,\n      }),\n      flip(),\n      shift({ padding: 8 }),\n      floatingArrow({ element: arrowRef }),\n    ],\n  });\n\n  React.useEffect(() => {\n    if (currentTooltip) {\n      setRendered({ data: currentTooltip, open: true });\n    } else {\n      setRendered((p) => (p.data ? { ...p, open: false } : p));\n    }\n  }, [currentTooltip]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: rendered.data must re-run this so the shared tooltip re-anchors to each new trigger as the cursor moves between elements\n  React.useLayoutEffect(() => {\n    if (referenceElRef.current) {\n      refs.setReference(referenceElRef.current);\n      update();\n    }\n  }, [referenceElRef, refs, update, rendered.data]);\n\n  const ready = x != null && y != null;\n  const Component = rendered.data?.contentAsChild ? Slot : motion.div;\n  const resolvedSide = getResolvedSide(context.placement);\n\n  return (\n    <AnimatePresence mode="wait">\n      {rendered.data && ready && (\n        <TooltipPortal>\n          <div\n            data-align={rendered.data.align}\n            data-side={resolvedSide}\n            data-slot="tooltip-overlay"\n            data-state={rendered.open ? "open" : "closed"}\n            ref={refs.setFloating}\n            style={{\n              position: strategy,\n              top: 0,\n              left: 0,\n              zIndex: 50,\n              transform: `translate3d(${x!}px, ${y!}px, 0)`,\n            }}\n          >\n            <FloatingProvider value={{ context, arrowRef }}>\n              <RenderedTooltipProvider\n                value={{\n                  side: resolvedSide,\n                  align: rendered.data.align,\n                  open: rendered.open,\n                }}\n              >\n                <Component\n                  animate={\n                    rendered.open\n                      ? { opacity: 1, scale: 1, x: 0, y: 0 }\n                      : {\n                          opacity: 0,\n                          scale: 0,\n                          ...initialFromSide(rendered.data.side),\n                        }\n                  }\n                  data-align={rendered.data.align}\n                  data-side={resolvedSide}\n                  data-slot="tooltip-content"\n                  data-state={rendered.open ? "open" : "closed"}\n                  exit={{\n                    opacity: 0,\n                    scale: 0,\n                    ...initialFromSide(rendered.data.side),\n                  }}\n                  initial={{\n                    opacity: 0,\n                    scale: 0,\n                    ...initialFromSide(rendered.data.side),\n                  }}\n                  layoutId={`tooltip-content-${globalId}`}\n                  onAnimationComplete={() => {\n                    if (!rendered.open) {\n                      setRendered({ data: null, open: false });\n                    }\n                  }}\n                  transition={transition}\n                  {...rendered.data.contentProps}\n                  style={{\n                    position: "relative",\n                    ...(rendered.data.contentProps?.style || {}),\n                  }}\n                />\n              </RenderedTooltipProvider>\n            </FloatingProvider>\n          </div>\n        </TooltipPortal>\n      )}\n    </AnimatePresence>\n  );\n}\n\ninterface TooltipProps {\n  align?: Align;\n  alignOffset?: number;\n  children: React.ReactNode;\n  side?: Side;\n  sideOffset?: number;\n}\n\nfunction Tooltip({\n  children,\n  side = "top",\n  sideOffset = 0,\n  align = "center",\n  alignOffset = 0,\n}: TooltipProps) {\n  const id = React.useId();\n  const [props, setProps] = React.useState<HTMLMotionProps<"div">>({});\n  const [asChild, setAsChild] = React.useState(false);\n\n  return (\n    <LocalTooltipProvider\n      value={{\n        props,\n        setProps,\n        asChild,\n        setAsChild,\n        side,\n        sideOffset,\n        align,\n        alignOffset,\n        id,\n      }}\n    >\n      {children}\n    </LocalTooltipProvider>\n  );\n}\n\ntype TooltipContentProps = WithAsChild<HTMLMotionProps<"div">>;\n\nfunction shallowEqualWithoutChildren(\n  a?: HTMLMotionProps<"div">,\n  b?: HTMLMotionProps<"div">\n) {\n  if (a === b) {\n    return true;\n  }\n  if (!(a && b)) {\n    return false;\n  }\n  const keysA = Object.keys(a).filter((k) => k !== "children");\n  const keysB = Object.keys(b).filter((k) => k !== "children");\n  if (keysA.length !== keysB.length) {\n    return false;\n  }\n  for (const k of keysA) {\n    // @ts-expect-error index\n    if (a[k] !== b[k]) {\n      return false;\n    }\n  }\n  return true;\n}\n\nfunction TooltipContent({ asChild = false, ...props }: TooltipContentProps) {\n  const { setProps, setAsChild } = useTooltip();\n  const lastPropsRef = React.useRef<HTMLMotionProps<"div"> | undefined>(\n    undefined\n  );\n\n  React.useEffect(() => {\n    if (!shallowEqualWithoutChildren(lastPropsRef.current, props)) {\n      lastPropsRef.current = props;\n      setProps(props);\n    }\n  }, [props, setProps]);\n\n  React.useEffect(() => {\n    setAsChild(asChild);\n  }, [asChild, setAsChild]);\n\n  return null;\n}\n\ntype TooltipTriggerProps = WithAsChild<HTMLMotionProps<"div">>;\n\nfunction TooltipTrigger({\n  ref,\n  onMouseEnter,\n  onMouseLeave,\n  onFocus,\n  onBlur,\n  onPointerDown,\n  asChild = false,\n  ...props\n}: TooltipTriggerProps) {\n  const {\n    props: contentProps,\n    asChild: contentAsChild,\n    side,\n    sideOffset,\n    align,\n    alignOffset,\n    id,\n  } = useTooltip();\n  const {\n    showTooltip,\n    hideTooltip,\n    hideImmediate,\n    currentTooltip,\n    setReferenceEl,\n  } = useGlobalTooltip();\n\n  const triggerRef = React.useRef<HTMLDivElement>(null);\n  React.useImperativeHandle(ref, () => triggerRef.current as HTMLDivElement);\n\n  const suppressNextFocusRef = React.useRef(false);\n\n  const handleOpen = React.useCallback(() => {\n    if (!triggerRef.current) {\n      return;\n    }\n    setReferenceEl(triggerRef.current);\n    const rect = triggerRef.current.getBoundingClientRect();\n    showTooltip({\n      contentProps,\n      contentAsChild,\n      rect,\n      side,\n      sideOffset,\n      align,\n      alignOffset,\n      id,\n    });\n  }, [\n    showTooltip,\n    setReferenceEl,\n    contentProps,\n    contentAsChild,\n    side,\n    sideOffset,\n    align,\n    alignOffset,\n    id,\n  ]);\n\n  const handlePointerDown = React.useCallback(\n    (e: React.PointerEvent<HTMLDivElement>) => {\n      onPointerDown?.(e);\n      if (currentTooltip?.id === id) {\n        suppressNextFocusRef.current = true;\n        hideImmediate();\n        Promise.resolve().then(() => {\n          suppressNextFocusRef.current = false;\n        });\n      }\n    },\n    [onPointerDown, currentTooltip?.id, id, hideImmediate]\n  );\n\n  const handleMouseEnter = React.useCallback(\n    (e: React.MouseEvent<HTMLDivElement>) => {\n      onMouseEnter?.(e);\n      handleOpen();\n    },\n    [handleOpen, onMouseEnter]\n  );\n\n  const handleMouseLeave = React.useCallback(\n    (e: React.MouseEvent<HTMLDivElement>) => {\n      onMouseLeave?.(e);\n      hideTooltip();\n    },\n    [hideTooltip, onMouseLeave]\n  );\n\n  const handleFocus = React.useCallback(\n    (e: React.FocusEvent<HTMLDivElement>) => {\n      onFocus?.(e);\n      if (suppressNextFocusRef.current) {\n        return;\n      }\n      handleOpen();\n    },\n    [handleOpen, onFocus]\n  );\n\n  const handleBlur = React.useCallback(\n    (e: React.FocusEvent<HTMLDivElement>) => {\n      onBlur?.(e);\n      hideTooltip();\n    },\n    [hideTooltip, onBlur]\n  );\n\n  const Component = asChild ? Slot : motion.div;\n\n  return (\n    <Component\n      data-align={align}\n      data-side={side}\n      data-slot="tooltip-trigger"\n      data-state={currentTooltip?.id === id ? "open" : "closed"}\n      onBlur={handleBlur}\n      onFocus={handleFocus}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      ref={triggerRef}\n      {...props}\n    />\n  );\n}\n\nexport {\n  type GlobalTooltipContextType,\n  Tooltip,\n  TooltipArrow,\n  type TooltipArrowProps,\n  TooltipContent,\n  type TooltipContentProps,\n  type TooltipContextType,\n  type TooltipPosition,\n  type TooltipProps,\n  TooltipProvider,\n  type TooltipProviderProps,\n  TooltipTrigger,\n  type TooltipTriggerProps,\n  useGlobalTooltip,\n  useTooltip,\n};',
       },
     ],
     keywords: [],
@@ -5789,6 +6223,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5837,6 +6275,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });
@@ -5889,6 +6331,10 @@ export const index: Record<string, any> = {
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
         }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
         return { default: Comp };
       });
       LazyComp.demoProps = {};
@@ -5939,6 +6385,10 @@ export const index: Record<string, any> = {
           (functionExportName ? mod[functionExportName] : undefined);
         if (mod.animations) {
           (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
         }
         return { default: Comp };
       });

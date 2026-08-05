@@ -44,8 +44,6 @@ const FILTERS = {
   new: "New",
 } as const;
 
-const staticAnimationsLength = Object.keys(staticAnimations).length;
-
 const ICON_PROPS = {
   size: {
     type: "number | string",
@@ -229,10 +227,6 @@ export function Icons() {
   }, [icon]);
 
   useEffect(() => {
-    setActiveAnimation("default");
-  }, []);
-
-  useEffect(() => {
     setIsMounted(true);
   }, []);
 
@@ -278,8 +272,11 @@ export function Icons() {
           <div className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
             <TooltipProvider>
               {searchedIcons.map((item) => {
+                const supportedStaticAnimations =
+                  item?.component?.supportedStaticAnimations ??
+                  Object.keys(staticAnimations);
                 const totalAnimationsLength =
-                  staticAnimationsLength +
+                  supportedStaticAnimations.length +
                   Object.keys(item?.component?.animations ?? {}).length;
                 return (
                   <Tooltip key={item.name} side="bottom" sideOffset={14}>
@@ -289,11 +286,12 @@ export function Icons() {
                           <button
                             className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
                             data-value={item.name}
-                            onClick={() =>
+                            onClick={() => {
+                              setActiveAnimation("default");
                               setActiveIconWithoutPrefix(
                                 item.name.replace("icons-", "")
-                              )
-                            }
+                              );
+                            }}
                             type="button"
                           >
                             {item?.component && (
@@ -409,10 +407,14 @@ export function Icons() {
                           </SelectTrigger>
                           <SelectContent>
                             <div className="space-y-1.5 p-0.5">
-                              {Object.keys({
-                                ...staticAnimations,
-                                ...(icon?.component?.animations ?? {}),
-                              }).map((animation) => (
+                              {[
+                                ...(icon?.component
+                                  ?.supportedStaticAnimations ??
+                                  Object.keys(staticAnimations)),
+                                ...Object.keys(
+                                  icon?.component?.animations ?? {}
+                                ),
+                              ].map((animation) => (
                                 <SelectItem
                                   className="h-8! rounded-md px-0 focus:bg-muted"
                                   key={animation}

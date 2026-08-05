@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-bell",
+  "title": "Bell",
+  "description": "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot, powered by the AnimateIcon engine.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["@soralabs/icons-icon"],
+  "files": [
+    {
+      "path": "registry/icons/bell/index.tsx",
+      "content": "\"use client\";\n\nimport { motion, useReducedMotion, type Variants } from \"motion/react\";\nimport {\n  type IconProps,\n  IconWrapper,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n} from \"@/components/sora-ui/icons/icon\";\n\ntype BellProps = IconProps<keyof typeof animations, never>;\n\nconst RATTLE = [0, -8, 4, -2, 1, -0.5, 0.25, 0];\nconst RATTLE_DURATION = 0.6;\n\nconst animations = {\n  default: {\n    group: {\n      initial: { rotate: 0 },\n      animate: {\n        rotate: RATTLE,\n        transition: { duration: RATTLE_DURATION, ease: \"easeInOut\" },\n      },\n    },\n  } satisfies Record<string, Variants>,\n} as const;\n\nconst supportedStaticAnimations = [] as const;\n\nconst BELL_BODY =\n  \"M20 16.191C20 16.6378 19.6378 17 19.191 17H4.80902C4.36221 17 4 16.6378 4 16.191C4 16.0654 4.02924 15.9415 4.08541 15.8292L5.21846 13.5631C5.40413 13.1917 5.51071 12.7859 5.53144 12.3712L5.70037 8.99251C5.86822 5.63561 8.6389 3 12 3C15.3611 3 18.1318 5.63561 18.2996 8.99251L18.4686 12.3712C18.4893 12.7859 18.5959 13.1917 18.7815 13.5631L19.9146 15.8292C19.9708 15.9415 20 16.0654 20 16.191Z\";\nconst BELL_CLAPPER =\n  \"M16 17C16 19.2091 14.2091 21 12 21C9.79086 21 8 19.2091 8 17\";\n\nfunction IconComponent({ size, color = \"currentColor\", ...props }: BellProps) {\n  const { controls } = useAnimateIconContext();\n  const variants = useAnimateIconVariants(animations);\n  const reducedMotion = useReducedMotion();\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden=\"true\"\n        fill=\"none\"\n        height={size}\n        stroke={color}\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n        strokeWidth={2}\n        viewBox=\"0 0 24 24\"\n        width={size}\n        xmlns=\"http://www.w3.org/2000/svg\"\n        {...props}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap=\"square\" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      fill=\"none\"\n      height={size}\n      stroke={color}\n      strokeLinecap=\"round\"\n      strokeLinejoin=\"round\"\n      strokeWidth={2}\n      viewBox=\"0 0 24 24\"\n      width={size}\n      xmlns=\"http://www.w3.org/2000/svg\"\n      {...props}\n    >\n      <motion.g\n        animate={controls}\n        initial=\"initial\"\n        style={{ transformOrigin: \"50% 24%\" }}\n        variants={variants.group}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap=\"square\" />\n      </motion.g>\n    </motion.svg>\n  );\n}\n\nfunction Bell(props: BellProps) {\n  return (\n    <IconWrapper<keyof typeof animations, never>\n      icon={IconComponent}\n      {...props}\n    />\n  );\n}\n\nexport {\n  animations,\n  Bell,\n  Bell as BellIcon,\n  type BellProps,\n  type BellProps as BellIconProps,\n  supportedStaticAnimations,\n};\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/bell.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": ["bell", "notification", "alert", "ring", "rattle", "inbox"],
+    "releaseDate": "2026-08-05"
+  },
+  "type": "registry:ui"
+}

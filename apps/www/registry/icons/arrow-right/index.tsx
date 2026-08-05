@@ -4,6 +4,12 @@ import { useEffect } from "react";
 
 const STYLE_ID = "sora-arrow-right-styles";
 
+const animations = {
+  default: {},
+} as const;
+
+const supportedStaticAnimations = [] as const;
+
 const ARROW_RIGHT_CSS = `
 svg[data-arrow-right] { transition: transform 0.3s ease; }
 svg[data-arrow-right][data-hover]:hover,
@@ -57,7 +63,7 @@ interface ArrowRightProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {
    * `key`) to replay — this is what the /icons preview panel drives.
    * @default false
    */
-  animate?: boolean | string;
+  animate?: boolean | "default";
   /**
    * Play the animation while an ancestor with the `group` class is hovered.
    * Add `group` to the enclosing button (like the source CTA) to trigger it.
@@ -69,8 +75,8 @@ interface ArrowRightProps extends Omit<React.SVGProps<SVGSVGElement>, "color"> {
    * @default true
    */
   animateOnHover?: boolean;
-  /** Ignored — accepted for parity with the /icons gallery controls. */
-  animation?: string;
+  /** Animation preset. Arrow Right currently provides only `default`. */
+  animation?: keyof typeof animations;
   /**
    * Any valid CSS color, mapped to the SVG `stroke`.
    * @default "currentColor"
@@ -155,4 +161,6 @@ export {
   ArrowRight as ArrowRightIcon,
   type ArrowRightProps,
   type ArrowRightProps as ArrowRightIconProps,
+  animations,
+  supportedStaticAnimations,
 };
