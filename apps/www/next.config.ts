@@ -31,6 +31,9 @@ const nextConfig: NextConfig = {
       "@workspace/ui",
     ],
     turbopackFileSystemCacheForBuild: true,
+    // Experimental native React Compiler path (Next 16.3+). Falls back to
+    // babel-plugin-react-compiler if disabled; safe to try on Preview.
+    turbopackRustReactCompiler: true,
   },
   cacheComponents: true,
   reactCompiler: true,
