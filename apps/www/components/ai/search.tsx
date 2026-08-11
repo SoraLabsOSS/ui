@@ -1,20 +1,18 @@
 "use client";
 import { type UseChatHelpers, useChat } from "@ai-sdk/react";
 import { cn } from "@workspace/ui/lib/utils";
+import { DefaultChatTransport, type SourceUrlUIPart, type UIMessage } from "ai";
 import {
-  DefaultChatTransport,
-  type Tool,
-  type UIMessage,
-  type UIToolInvocation,
-} from "ai";
-import {
-  Loader2,
+  FileText,
+  Loader,
   MessageCircleIcon,
   RefreshCw,
   SearchIcon,
   Send,
   X,
 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
 import {
   type ComponentProps,
   createContext,
@@ -40,19 +38,239 @@ export type ChatUIMessage = UIMessage<
   }
 >;
 
-export type SearchTool = Tool<{ query: string; limit: number }>;
-
 const Context = createContext<{
   open: boolean;
   setOpen: (open: boolean) => void;
   chat: UseChatHelpers<ChatUIMessage>;
 } | null>(null);
 
+const LOADING_MESSAGES = [
+  "Searching...",
+  "Digging through results...",
+  "Scanning the knowledge base...",
+  "Finding the best matches...",
+  "Sifting through the data...",
+  "Almost there...",
+  "Looking far and wide...",
+  "Connecting the dots...",
+  "Rummaging through pages...",
+  "Hunting down answers...",
+] as const;
+
+const LOADING_MESSAGE_INTERVAL_MS = 2500;
+
+const SUGGESTED_PROMPTS = [
+  "How do I install Sora UI?",
+  "What is stagger button?",
+  "How do I add icons?",
+] as const;
+
+const PENDING_ASSISTANT: ChatUIMessage = {
+  id: "pending-assistant",
+  role: "assistant",
+  parts: [],
+};
+
+const TOOL_CALL_XML = /<tool_call>[\s\S]*?<\/tool_call>/gi;
+
+const roleName: Record<string, string> = {
+  user: "you",
+  assistant: "Sora AI",
+};
+
+function stripLeakedToolCall(text: string) {
+  TOOL_CALL_XML.lastIndex = 0;
+  return text.replace(TOOL_CALL_XML, "").trim();
+}
+
+function isBusyStatus(status: UseChatHelpers<ChatUIMessage>["status"]) {
+  return status === "streaming" || status === "submitted";
+}
+
+function messageContent(message: ChatUIMessage) {
+  let markdown = "";
+  const sources: SourceUrlUIPart[] = [];
+  const seen = new Set<string>();
+
+  for (const part of message.parts ?? []) {
+    if (part.type === "text") {
+      markdown += part.text;
+      continue;
+    }
+
+    if (part.type !== "source-url" || seen.has(part.url)) {
+      continue;
+    }
+
+    seen.add(part.url);
+    sources.push(part);
+  }
+
+  return { markdown: stripLeakedToolCall(markdown), sources };
+}
+
+function sourceTitle(source: SourceUrlUIPart) {
+  if (source.title?.trim()) {
+    return source.title;
+  }
+
+  try {
+    const path = new URL(source.url, "https://ui.soralabs.io.vn").pathname;
+    const last = path.split("/").filter(Boolean).at(-1) ?? path;
+    return last.replaceAll("-", " ");
+  } catch {
+    return source.url;
+  }
+}
+
+function sendUserText(
+  sendMessage: UseChatHelpers<ChatUIMessage>["sendMessage"],
+  text: string
+) {
+  return sendMessage({
+    role: "user",
+    parts: [
+      {
+        type: "data-client",
+        data: {
+          location: location.href,
+        },
+      },
+      {
+        type: "text",
+        text,
+      },
+    ],
+  });
+}
+
+function inputPlaceholder(status: UseChatHelpers<ChatUIMessage>["status"]) {
+  if (status === "submitted") {
+    return "Searching docs...";
+  }
+
+  if (status === "streaming") {
+    return "AI is answering...";
+  }
+
+  return "Ask a question";
+}
+
+function useRotatingLoadingMessage(active: boolean) {
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      setIndex(0);
+      return;
+    }
+
+    setIndex(Math.floor(Math.random() * LOADING_MESSAGES.length));
+
+    if (reduceMotion) {
+      return;
+    }
+
+    const id = window.setInterval(() => {
+      setIndex((current) => (current + 1) % LOADING_MESSAGES.length);
+    }, LOADING_MESSAGE_INTERVAL_MS);
+
+    return () => window.clearInterval(id);
+  }, [active, reduceMotion]);
+
+  return LOADING_MESSAGES[index] ?? LOADING_MESSAGES[0];
+}
+
+function StreamingDots() {
+  return (
+    <span aria-hidden className="inline-flex items-center gap-0.5">
+      <span className="size-1 animate-bounce rounded-full bg-current [animation-delay:0ms] motion-reduce:animate-none" />
+      <span className="size-1 animate-bounce rounded-full bg-current [animation-delay:150ms] motion-reduce:animate-none" />
+      <span className="size-1 animate-bounce rounded-full bg-current [animation-delay:300ms] motion-reduce:animate-none" />
+    </span>
+  );
+}
+
+function SearchSources({ sources }: { sources: SourceUrlUIPart[] }) {
+  const reduceMotion = useReducedMotion();
+
+  if (sources.length === 0) {
+    return null;
+  }
+
+  return (
+    <motion.div
+      animate={{ opacity: 1 }}
+      className="mt-3"
+      initial={reduceMotion ? false : { opacity: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+    >
+      <p className="mb-1.5 font-medium text-fd-muted-foreground text-xs">
+        {sources.length === 1 ? "1 source" : `${sources.length} sources`}
+      </p>
+      <ul className="flex flex-wrap gap-1.5">
+        {sources.map((source) => (
+          <li key={source.sourceId}>
+            <Link
+              className="inline-flex max-w-full items-center gap-1.5 rounded-full border bg-fd-secondary px-2 py-0.5 text-fd-secondary-foreground text-xs transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+              href={source.url}
+            >
+              <FileText className="size-3 shrink-0" />
+              <span className="truncate">{sourceTitle(source)}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
+  );
+}
+
+function StreamingStatus() {
+  const label = useRotatingLoadingMessage(true);
+
+  return (
+    <div
+      aria-live="polite"
+      className="mt-2 flex items-center gap-2 text-fd-muted-foreground text-xs"
+      role="status"
+    >
+      <SearchIcon className="size-3.5 shrink-0" />
+      <span>{label}</span>
+      <StreamingDots />
+    </div>
+  );
+}
+
+function chatStatusCopy(
+  status: UseChatHelpers<ChatUIMessage>["status"],
+  hasText: boolean
+) {
+  if (status === "error") {
+    return "Something went wrong. Try again.";
+  }
+
+  if (status === "submitted" || (status === "streaming" && !hasText)) {
+    return "Searching the docs…";
+  }
+
+  if (status === "streaming") {
+    return "Writing an answer…";
+  }
+
+  return "AI can be inaccurate, please verify the answers.";
+}
+
 export function AISearchPanelHeader({
   className,
   ...props
 }: ComponentProps<"div">) {
   const { setOpen } = useAISearchContext();
+  const { status, messages } = useChatContext();
+  const last = messages.at(-1);
+  const hasText =
+    last?.role === "assistant" ? Boolean(messageContent(last).markdown) : false;
+  const busy = isBusyStatus(status);
 
   return (
     <div
@@ -63,9 +281,17 @@ export function AISearchPanelHeader({
       {...props}
     >
       <div className="flex-1 px-3 py-2">
-        <p className="mb-2 font-medium text-sm">AI Chat</p>
-        <p className="text-fd-muted-foreground text-xs">
-          AI can be inaccurate, please verify the answers.
+        <p className="mb-2 flex items-center gap-2 font-medium text-sm">
+          AI Chat
+          {busy ? (
+            <span className="inline-flex items-center gap-1.5 font-normal text-fd-muted-foreground text-xs">
+              <span className="size-1.5 animate-pulse rounded-full bg-fd-primary motion-reduce:animate-none" />
+              {status === "submitted" || !hasText ? "Searching" : "Answering"}
+            </span>
+          ) : null}
+        </p>
+        <p aria-live="polite" className="text-fd-muted-foreground text-xs">
+          {chatStatusCopy(status, hasText)}
         </p>
       </div>
 
@@ -90,7 +316,7 @@ export function AISearchPanelHeader({
 
 export function AISearchInputActions() {
   const { messages, status, setMessages, regenerate } = useChatContext();
-  const isLoading = status === "streaming";
+  const isLoading = isBusyStatus(status);
 
   if (messages.length === 0) {
     return null;
@@ -137,7 +363,7 @@ export function AISearchInput(props: ComponentProps<"form">) {
   const [input, setInput] = useState(
     () => localStorage.getItem(StorageKeyInput) ?? ""
   );
-  const isLoading = status === "streaming" || status === "submitted";
+  const isLoading = isBusyStatus(status);
   const onStart = (e?: SyntheticEvent) => {
     e?.preventDefault();
     const message = input.trim();
@@ -145,21 +371,7 @@ export function AISearchInput(props: ComponentProps<"form">) {
       return;
     }
 
-    void sendMessage({
-      role: "user",
-      parts: [
-        {
-          type: "data-client",
-          data: {
-            location: location.href,
-          },
-        },
-        {
-          type: "text",
-          text: message,
-        },
-      ],
-    });
+    sendUserText(sendMessage, message);
     setInput("");
     localStorage.removeItem(StorageKeyInput);
   };
@@ -179,7 +391,7 @@ export function AISearchInput(props: ComponentProps<"form">) {
       <Input
         autoFocus
         className="p-3"
-        disabled={status === "streaming" || status === "submitted"}
+        disabled={isLoading}
         onChange={(e) => {
           setInput(e.target.value);
           localStorage.setItem(StorageKeyInput, e.target.value);
@@ -189,7 +401,7 @@ export function AISearchInput(props: ComponentProps<"form">) {
             onStart(event);
           }
         }}
-        placeholder={isLoading ? "AI is answering..." : "Ask a question"}
+        placeholder={inputPlaceholder(status)}
         value={input}
       />
       {isLoading ? (
@@ -204,7 +416,7 @@ export function AISearchInput(props: ComponentProps<"form">) {
           onClick={stop}
           type="button"
         >
-          <Loader2 className="size-4 animate-spin text-fd-muted-foreground" />
+          <Loader className="size-4 animate-spin text-fd-muted-foreground" />
           Abort Answer
         </button>
       ) : (
@@ -226,38 +438,59 @@ export function AISearchInput(props: ComponentProps<"form">) {
   );
 }
 
-function List(props: Omit<ComponentProps<"div">, "dir">) {
-  const containerRef = useRef<HTMLDivElement>(null);
+const BOTTOM_FOLLOW_THRESHOLD_PX = 64;
 
-  useEffect(() => {
-    if (!containerRef.current) {
+function List({
+  scrollToken,
+  ...props
+}: Omit<ComponentProps<"div">, "dir"> & { scrollToken?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = useEffectEvent(() => {
+    const container = containerRef.current;
+    if (!container) {
       return;
     }
-    function callback() {
-      const container = containerRef.current;
-      if (!container) {
-        return;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "instant",
+    });
+  });
+
+  useEffect(() => {
+    const content = contentRef.current;
+    const container = containerRef.current;
+    if (!(content && container)) {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      const distance =
+        container.scrollHeight - container.scrollTop - container.clientHeight;
+      if (distance < BOTTOM_FOLLOW_THRESHOLD_PX) {
+        scrollToBottom();
       }
-
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: "instant",
-      });
-    }
-
-    const observer = new ResizeObserver(callback);
-    callback();
-
-    const element = containerRef.current?.firstElementChild;
-
-    if (element) {
-      observer.observe(element);
-    }
+    });
+    observer.observe(content);
 
     return () => {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (scrollToken == null) {
+      return;
+    }
+
+    scrollToBottom();
+    const id = requestAnimationFrame(() => {
+      scrollToBottom();
+    });
+    return () => cancelAnimationFrame(id);
+  }, [scrollToken]);
 
   return (
     <div
@@ -268,7 +501,9 @@ function List(props: Omit<ComponentProps<"div">, "dir">) {
         props.className
       )}
     >
-      {props.children}
+      <div className="flex min-h-full flex-col" ref={contentRef}>
+        {props.children}
+      </div>
     </div>
   );
 }
@@ -294,45 +529,21 @@ function Input(props: ComponentProps<"textarea">) {
   );
 }
 
-const roleName: Record<string, string> = {
-  user: "you",
-  assistant: "Sora AI",
-};
-
-const TOOL_CALL_XML = /<tool_call>[\s\S]*?<\/tool_call>/gi;
-
-function stripLeakedToolCall(text: string) {
-  TOOL_CALL_XML.lastIndex = 0;
-  return text.replace(TOOL_CALL_XML, "").trim();
-}
-
 function Message({
+  isStreaming = false,
   message,
   ...props
-}: { message: ChatUIMessage } & ComponentProps<"div">) {
-  let rawMarkdown = "";
-  const searchCalls: UIToolInvocation<SearchTool>[] = [];
-
-  for (const part of message.parts ?? []) {
-    if (part.type === "text") {
-      rawMarkdown += part.text;
-      continue;
-    }
-
-    if (part.type.startsWith("tool-")) {
-      const toolName = part.type.slice("tool-".length);
-      const p = part as UIToolInvocation<Tool>;
-
-      if (toolName !== "search" || !p.toolCallId) {
-        continue;
-      }
-      searchCalls.push(p);
-    }
-  }
-
-  const markdown = stripLeakedToolCall(rawMarkdown);
+}: {
+  isStreaming?: boolean;
+  message: ChatUIMessage;
+} & ComponentProps<"div">) {
+  const { markdown, sources } = messageContent(message);
+  const waitingForText = isStreaming && !markdown;
 
   return (
+    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: Clicks stop at the bubble so the panel overlay does not steal them.
+    // biome-ignore lint/a11y/noStaticElementInteractions: Same as above — the wrapper is not a control.
+    // biome-ignore lint/a11y/useKeyWithClickEvents: stopPropagation only; no action to keyboard-map.
     <div onClick={(e) => e.stopPropagation()} {...props}>
       <p
         className={cn(
@@ -345,28 +556,54 @@ function Message({
       {markdown ? (
         <div className="prose text-sm">
           <Markdown text={markdown} />
+          {isStreaming ? (
+            <span className="ms-1 inline-flex align-middle text-fd-muted-foreground">
+              <StreamingDots />
+            </span>
+          ) : null}
         </div>
       ) : null}
 
-      {searchCalls.map((call) => (
-        <div
-          className="mt-3 flex flex-row items-center gap-2 rounded-lg border bg-fd-secondary p-2 text-fd-muted-foreground text-xs"
-          key={call.toolCallId}
-        >
-          <SearchIcon className="size-4" />
-          {call.state === "output-error" || call.state === "output-denied" ? (
-            <p className="text-fd-error">
-              {call.errorText ?? "Failed to search"}
-            </p>
-          ) : (
-            <p>
-              {call.output
-                ? `${call.output.length} search results`
-                : "Searching…"}
-            </p>
-          )}
-        </div>
-      ))}
+      {isStreaming ? null : <SearchSources sources={sources} />}
+
+      {waitingForText ? <StreamingStatus /> : null}
+    </div>
+  );
+}
+
+function EmptyState() {
+  const { sendMessage, status } = useChatContext();
+  const disabled = isBusyStatus(status);
+
+  return (
+    <div className="flex size-full flex-col items-center justify-center gap-3 px-4 text-center text-fd-muted-foreground/80 text-sm">
+      <MessageCircleIcon fill="currentColor" stroke="none" />
+      <div className="space-y-1">
+        <p className="font-medium text-fd-foreground">Start a conversation</p>
+        <p>Ask about a primitive, install steps, or how something animates.</p>
+      </div>
+      <ul className="flex flex-wrap justify-center gap-1.5">
+        {SUGGESTED_PROMPTS.map((prompt) => (
+          <li key={prompt}>
+            <button
+              className={cn(
+                buttonVariants({
+                  color: "secondary",
+                  size: "sm",
+                  className: "rounded-full",
+                })
+              )}
+              disabled={disabled}
+              onClick={() => {
+                sendUserText(sendMessage, prompt);
+              }}
+              type="button"
+            >
+              {prompt}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -506,7 +743,7 @@ export function AISearchPanel() {
         )}
         role="dialog"
       >
-        <div className="flex size-full min-h-0 flex-col p-2 lg:p-3">
+        <div className="flex size-full min-h-0 flex-col gap-3 p-2 lg:p-3">
           <AISearchPanelHeader />
           <AISearchPanelList className="min-h-0 flex-1" />
           <div className="rounded-xl border bg-fd-secondary text-fd-secondary-foreground shadow-sm has-focus-visible:shadow-md">
@@ -529,22 +766,23 @@ export function AISearchPanelList({
 }: ComponentProps<"div">) {
   const chat = useChatContext();
   const messages = chat.messages.filter((msg) => msg.role !== "system");
+  const last = messages.at(-1);
+  const showPending = isBusyStatus(chat.status) && last?.role === "user";
 
   return (
     <List
+      aria-busy={isBusyStatus(chat.status)}
       className={cn("overscroll-contain py-4", className)}
+      scrollToken={`${messages.length}:${last?.id ?? ""}:${showPending ? "1" : "0"}`}
       style={{
         maskImage:
-          "linear-gradient(to bottom, transparent, white 1rem, white calc(100% - 1rem), transparent 100%)",
+          "linear-gradient(to bottom, transparent, white 1rem, white 100%)",
         ...style,
       }}
       {...props}
     >
       {messages.length === 0 ? (
-        <div className="flex size-full flex-col items-center justify-center gap-2 text-center text-fd-muted-foreground/80 text-sm">
-          <MessageCircleIcon fill="currentColor" stroke="none" />
-          <p onClick={(e) => e.stopPropagation()}>Start a new chat below.</p>
-        </div>
+        <EmptyState />
       ) : (
         <div className="flex flex-col gap-4 px-3">
           {chat.error && (
@@ -556,8 +794,19 @@ export function AISearchPanelList({
             </div>
           )}
           {messages.map((item) => (
-            <Message key={item.id} message={item} />
+            <Message
+              isStreaming={
+                isBusyStatus(chat.status) &&
+                item.role === "assistant" &&
+                item.id === last?.id
+              }
+              key={item.id}
+              message={item}
+            />
           ))}
+          {showPending ? (
+            <Message isStreaming message={PENDING_ASSISTANT} />
+          ) : null}
         </div>
       )}
     </List>
@@ -586,9 +835,13 @@ export function useHotKey() {
 }
 
 export function useAISearchContext() {
-  return use(Context)!;
+  const value = use(Context);
+  if (!value) {
+    throw new Error("AISearch context is missing");
+  }
+  return value;
 }
 
 function useChatContext() {
-  return use(Context)!.chat;
+  return useAISearchContext().chat;
 }

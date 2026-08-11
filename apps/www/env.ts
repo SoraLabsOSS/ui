@@ -26,6 +26,8 @@ export const env = createEnv({
      * Create at https://vercel.com/account/ai
      */
     AI_GATEWAY_API_KEY: z.string().min(1).optional(),
+    /** Cloudflare AI Search OpenAI-compatible chat endpoint */
+    AI_SEARCH_CHAT_URL: z.url(),
   },
 
   client: {
