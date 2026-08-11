@@ -1,0 +1,68 @@
+---
+title: "The Sora UI repo is public. The docs can answer back."
+description: "The full source is on GitHub under SoraLabsOSS/ui. Docs Ask AI searches the same Flexsearch index as the site, then answers from those excerpts — no tool-calling, no guessing."
+ogSubtitle: Source on GitHub. Ask AI on /docs searches first, then answers from the hits.
+author: Axyl
+date: 2026-08-12
+hashtags: ["#soraui", "#opensource", "#ai", "#react"]
+---
+
+Two things that should have been true a while ago, and now are.
+
+The Sora UI source is on GitHub: [`github.com/SoraLabsOSS/ui`](https://github.com/SoraLabsOSS/ui). MIT + Commons Clause, same terms that already applied to anything you installed from the registry. And the docs have an **Ask AI** button that actually reads the docs before it talks — Flexsearch first, then a short answer grounded in those excerpts.
+
+Neither of these is a new product. They're the two doors that were missing: one for people who want to fork the thing, one for people who don't want to hunt through the sidebar for a prop name.
+
+## The repo, not just the copy-paste
+
+Sora UI has always been a registry. You run `npx shadcn add @soralabs/...` (or `sora-cli`) and the source lands in *your* tree. That part didn't change. What changed is you can now see the tree *we* ship from.
+
+The site, the registry items, the MCP server, the CLI docs — it's one Turborepo. If a primitive's reduced-motion fallback looks wrong, you don't have to reverse-engineer the installed file and guess how we meant it. You open the same `index.tsx` in [`apps/www/registry`](https://github.com/SoraLabsOSS/ui/tree/main/apps/www/registry), patch it, send a PR. [CONTRIBUTING.md](https://github.com/SoraLabsOSS/ui/blob/main/CONTRIBUTING.md) is the actual map, not a placeholder.
+
+A few things worth being precise about, because "open source" gets used as wallpaper:
+
+- **Use it in client work.** That's the point. Commons Clause only blocks reselling the components *as* a kit.
+- **Bugs and "how do I" still go to the [community repo](https://github.com/SoraLabsOSS/sora-ui-community).** The source repo is for code. Mixing those two is how issue trackers die.
+- **Starring it helps more than a screenshot of the catalog.** Registries don't show up in npm weekly downloads the way a package does. GitHub is the public number.
+
+If you already have components installed, you don't need to reinstall anything. The files in your project were always yours. The missing piece was being able to see — and change — the upstream they came from.
+
+## Ask AI is search, then a sentence. Not a tool loop.
+
+There's an **Ask AI** control on every [docs](/docs) page. It looks like the Fumadocs chat, because it is — we didn't invent a new panel. What we did change is how the answer gets made.
+
+The first version let the model call a `search` tool, the way the Fumadocs template does. That works when the model actually speaks function-calling. The one we're using on the free Gateway tier, Ling 3.0 Tiny, does not. It dumps XML that looks like `<tool_call>` into the transcript and then... stops. Five steps of "searching," zero sentences.
+
+So we stopped asking it to search. The route does it.
+
+```ts
+const hits = await searchDocs(lastUserQuery(uiMessages), 8);
+
+const result = streamText({
+  model: "inclusionai/ling-3.0-tiny-free",
+  instructions: `${systemPrompt}\n\n## Documentation\n${formatDocsContext(hits)}`,
+  messages: await convertToModelMessages(uiMessages),
+});
+```
+
+`searchDocs` is the same Flexsearch index behind `/api/search` — title, description, processed markdown. The last user message gets queried, a handful of snippets get stuffed into `instructions`, and the model is told to answer from that or say it couldn't find it. No tools. No second round trip. One generation.
+
+That's RAG in the boring sense: retrieve, then generate. Not a vector database, not embeddings, not a knowledge graph. The docs are small enough that keyword search is the honest tool, and stuffing eight snippets into the system prompt is cheaper than teaching a tiny model to use tools it doesn't have.
+
+It will still be wrong sometimes. It's a small model, on a free Gateway quota that will 503 if you mash Retry. Treat it like a faster table of contents — follow the markdown links it cites, don't paste the answer into production because it sounded confident.
+
+## This is not the MCP server
+
+We already ship a docs MCP for agents: `search_docs`, `get_page`, `list_sections`, `get_component_info`. That's for Cursor / Claude Code / anything that speaks MCP. Ask AI is the version for a human who is already on the page and doesn't want to leave it.
+
+They share the same content. They don't share a pipeline. MCP returns structured results and install lines. Ask AI returns a paragraph. If you're wiring an agent, use [the MCP docs](/docs/mcp). If you're reading installation at 1am, use the button.
+
+There's also [`llms.txt`](/llms.txt) and per-page `.md` for anything that would rather fetch than chat. Ask AI doesn't replace that. It's the path that doesn't require you to be an agent.
+
+## What to do with this
+
+1. [Star / fork the repo](https://github.com/SoraLabsOSS/ui) if you've been installing from the registry and wanted the other half.
+2. Open [the docs](/docs), hit **Ask AI**, ask something you'd actually type into the search box — `text-effect scrollTrigger`, `how do I add the registry`, `prefers-reduced-motion`.
+3. If the answer cites the wrong page, that's useful. File it on the [community repo](https://github.com/SoraLabsOSS/sora-ui-community). The index is only as good as the pages in it.
+
+The catalog didn't get a new primitive this week. The project got a public root, and the docs got a way to talk without hallucinating a prop we never shipped. That's enough for a Wednesday.

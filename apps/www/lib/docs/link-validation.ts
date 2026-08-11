@@ -90,6 +90,8 @@ function registerContentPages(scanned: ScannedUrls): void {
 export function augmentScannedUrls(scanned: ScannedUrls): void {
   registerContentPages(scanned);
   scanned.urls.set("/blog/rss.xml", {});
+  scanned.urls.set("/llms.txt", {});
+  scanned.urls.set("/llms-full.txt", {});
 
   for (const redirect of buildDocRedirects(appRoot)) {
     if (!redirect.source.includes(":path")) {
