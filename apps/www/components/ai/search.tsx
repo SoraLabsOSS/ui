@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   type ComponentProps,
   createContext,
@@ -43,6 +44,18 @@ const Context = createContext<{
   setOpen: (open: boolean) => void;
   chat: UseChatHelpers<ChatUIMessage>;
 } | null>(null);
+
+const HIDE_ASK_AI_PREFIXES = ["/settings", "/auth"] as const;
+
+export function isAskAiPath(pathname: string) {
+  if (pathname === "/") {
+    return false;
+  }
+
+  return !HIDE_ASK_AI_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
+}
 
 const LOADING_MESSAGES = [
   "Searching...",
@@ -815,6 +828,7 @@ export function AISearchPanelList({
 
 export function useHotKey() {
   const { open, setOpen } = useAISearchContext();
+  const pathname = usePathname();
 
   const onKeyPress = useEffectEvent((e: KeyboardEvent) => {
     if (e.key === "Escape" && open) {
@@ -822,7 +836,12 @@ export function useHotKey() {
       e.preventDefault();
     }
 
-    if (e.key === "/" && (e.metaKey || e.ctrlKey) && !open) {
+    if (
+      e.key === "/" &&
+      (e.metaKey || e.ctrlKey) &&
+      !open &&
+      isAskAiPath(pathname)
+    ) {
       setOpen(true);
       e.preventDefault();
     }

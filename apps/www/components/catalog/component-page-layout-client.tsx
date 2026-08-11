@@ -146,7 +146,7 @@ export function ComponentPageLayoutClient({
     <div className="flex w-full min-w-0 justify-center">
       <div
         className={cn(
-          "flex w-full min-w-0 max-w-4xl flex-col gap-6 py-8 pb-24 md:gap-10 md:py-14",
+          "flex w-full min-w-0 max-w-4xl flex-col gap-6 py-8 pb-4 md:gap-10 md:py-14",
           catalogContentGutterClassName
         )}
       >

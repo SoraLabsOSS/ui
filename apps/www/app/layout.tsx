@@ -6,6 +6,7 @@ import { type ReactNode, Suspense } from "react";
 import "./globals.css";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionConfig } from "motion/react";
+import { AISearchRoot } from "@/components/ai/shell";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { AuthSessionProviders } from "@/components/auth-session-providers";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
@@ -156,6 +157,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Suspense fallback={<Providers>{app}</Providers>}>
                 <AuthSessionProviders>{app}</AuthSessionProviders>
               </Suspense>
+              <AISearchRoot />
             </NuqsAdapter>
           </CommandPaletteGroupsProvider>
         </MotionConfig>

@@ -1,18 +1,10 @@
 import XIcon from "@workspace/ui/components/icons/x-icon";
-import { cn } from "@workspace/ui/lib/utils";
 import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import { MessageCircleIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
-import {
-  AISearch,
-  AISearchPanel,
-  AISearchTrigger,
-} from "@/components/ai/search";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
 import { DocsSidebar } from "@/components/docs/sidebar";
-import { buttonVariants } from "@/components/ui/button";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
@@ -61,21 +53,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         ),
       }}
     >
-      <AISearch>
-        <AISearchPanel />
-        <AISearchTrigger
-          className={cn(
-            buttonVariants({
-              variant: "secondary",
-              className: "rounded-2xl text-fd-muted-foreground",
-            })
-          )}
-          position="float"
-        >
-          <MessageCircleIcon className="size-4.5" />
-          Ask AI
-        </AISearchTrigger>
-      </AISearch>
       {children}
     </DocsLayout>
   );
