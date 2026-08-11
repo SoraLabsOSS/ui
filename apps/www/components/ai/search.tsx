@@ -299,16 +299,23 @@ const roleName: Record<string, string> = {
   assistant: "Sora AI",
 };
 
+const TOOL_CALL_XML = /<tool_call>[\s\S]*?<\/tool_call>/gi;
+
+function stripLeakedToolCall(text: string) {
+  TOOL_CALL_XML.lastIndex = 0;
+  return text.replace(TOOL_CALL_XML, "").trim();
+}
+
 function Message({
   message,
   ...props
 }: { message: ChatUIMessage } & ComponentProps<"div">) {
-  let markdown = "";
+  let rawMarkdown = "";
   const searchCalls: UIToolInvocation<SearchTool>[] = [];
 
   for (const part of message.parts ?? []) {
     if (part.type === "text") {
-      markdown += part.text;
+      rawMarkdown += part.text;
       continue;
     }
 
@@ -323,6 +330,8 @@ function Message({
     }
   }
 
+  const markdown = stripLeakedToolCall(rawMarkdown);
+
   return (
     <div onClick={(e) => e.stopPropagation()} {...props}>
       <p
@@ -333,9 +342,11 @@ function Message({
       >
         {roleName[message.role] ?? "unknown"}
       </p>
-      <div className="prose text-sm">
-        <Markdown text={markdown} />
-      </div>
+      {markdown ? (
+        <div className="prose text-sm">
+          <Markdown text={markdown} />
+        </div>
+      ) : null}
 
       {searchCalls.map((call) => (
         <div

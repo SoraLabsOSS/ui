@@ -1,15 +1,12 @@
 import {
   convertToModelMessages,
   createUIMessageStreamResponse,
-  stepCountIs,
   streamText,
-  tool,
   toUIMessageStream,
 } from "ai";
 import { Document, type DocumentData } from "flexsearch";
-import { z } from "zod";
 import { source } from "@/lib/docs/source";
-import type { ChatUIMessage, SearchTool } from "../../../components/ai/search";
+import type { ChatUIMessage } from "../../../components/ai/search";
 
 interface CustomDocument extends DocumentData {
   content: string;
@@ -149,55 +146,61 @@ const CHAT_MODEL = "inclusionai/ling-3.0-tiny-free";
 const systemPrompt = [
   "You are the Sora UI documentation assistant.",
   "Reply in the same language as the user.",
-  "Call the `search` tool once to load relevant docs, then write a complete answer.",
-  "Do not call search more than once. After tool results arrive, always respond with markdown — never stop on a tool call.",
-  "Ground the answer in search results. Cite pages as markdown links using the `url` field.",
-  "If results are empty, say you could not find it and suggest a better English keyword (for example `icons`, `installation`).",
+  "Answer only from the documentation excerpts provided below.",
+  "Cite pages as markdown links using each excerpt's url.",
+  "Never output tool XML, <tool_call>, function calls, or JSON tool syntax — write a normal markdown answer.",
+  "If the excerpts are empty or irrelevant, say you could not find it and suggest a better English keyword (for example `icons`, `installation`).",
 ].join("\n");
 
-const searchTool = tool({
-  description:
-    "Search Sora UI docs. Returns title, url, description, and a short snippet for each page.",
-  inputSchema: z.object({
-    query: z.string().describe("Search keywords. Prefer English doc terms."),
-    limit: z.number().int().min(1).max(20).default(8),
-  }),
-  async execute({ query, limit }) {
-    return await searchDocs(query, limit);
-  },
-}) satisfies SearchTool;
+function lastUserQuery(messages: ChatUIMessage[]): string {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const message = messages[i];
+    if (message?.role !== "user") {
+      continue;
+    }
+
+    return (message.parts ?? [])
+      .flatMap((part) => (part.type === "text" ? [part.text] : []))
+      .join(" ")
+      .trim();
+  }
+
+  return "";
+}
+
+function formatDocsContext(hits: SearchHit[]): string {
+  if (hits.length === 0) {
+    return "No matching documentation pages were found.";
+  }
+
+  return hits
+    .map(
+      (hit) =>
+        `- [${hit.title}](${hit.url}): ${hit.description}\n  ${hit.snippet}`
+    )
+    .join("\n");
+}
 
 export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
   const reqJson = await req.json();
+  const uiMessages = (reqJson.messages ?? []) as ChatUIMessage[];
+  const hits = await searchDocs(lastUserQuery(uiMessages), 8);
 
   const result = streamText({
     model: CHAT_MODEL,
-    instructions: systemPrompt,
+    instructions: `${systemPrompt}\n\n## Documentation\n${formatDocsContext(hits)}`,
     reasoning: "none",
     maxOutputTokens: 2048,
-    stopWhen: stepCountIs(5),
-    prepareStep: ({ stepNumber }) => {
-      if (stepNumber > 0) {
-        return { toolChoice: "none" };
-      }
-    },
-    tools: {
-      search: searchTool,
-    },
-    messages: await convertToModelMessages<ChatUIMessage>(
-      reqJson.messages ?? [],
-      {
-        convertDataPart(part) {
-          if (part.type === "data-client") {
-            return {
-              type: "text",
-              text: `[Client Context: ${JSON.stringify(part.data)}]`,
-            };
-          }
-        },
-      }
-    ),
-    toolChoice: "auto",
+    messages: await convertToModelMessages<ChatUIMessage>(uiMessages, {
+      convertDataPart(part) {
+        if (part.type === "data-client") {
+          return {
+            type: "text",
+            text: `[Client Context: ${JSON.stringify(part.data)}]`,
+          };
+        }
+      },
+    }),
     onError({ error }) {
       console.error("[/api/chat]", error);
     },
@@ -206,7 +209,6 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
   return createUIMessageStreamResponse({
     stream: toUIMessageStream({
       stream: result.stream,
-      tools: { search: searchTool },
       onError(error) {
         return error instanceof Error ? error.message : "Chat failed";
       },
