@@ -1,5 +1,6 @@
 "use client";
 import { type UseChatHelpers, useChat } from "@ai-sdk/react";
+import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { cn } from "@workspace/ui/lib/utils";
 import { DefaultChatTransport, type SourceUrlUIPart, type UIMessage } from "ai";
 import {
@@ -27,6 +28,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { plainSourceTitle } from "@/lib/plain-text";
 import { Markdown } from "../markdown";
 import { buttonVariants } from "../ui/button";
 
@@ -124,7 +126,7 @@ function messageContent(message: ChatUIMessage) {
 
 function sourceTitle(source: SourceUrlUIPart) {
   if (source.title?.trim()) {
-    return source.title;
+    return plainSourceTitle(source.title);
   }
 
   try {
@@ -241,6 +243,7 @@ function SearchSources({ sources }: { sources: SourceUrlUIPart[] }) {
 
 function StreamingStatus() {
   const label = useRotatingLoadingMessage(true);
+  const reduceMotion = useReducedMotion();
 
   return (
     <div
@@ -249,8 +252,13 @@ function StreamingStatus() {
       role="status"
     >
       <SearchIcon className="size-3.5 shrink-0" />
-      <span>{label}</span>
-      <StreamingDots />
+      {reduceMotion ? (
+        <span>{label}</span>
+      ) : (
+        <TextShimmer as="span" className="text-xs" duration={1.5}>
+          {label}
+        </TextShimmer>
+      )}
     </div>
   );
 }

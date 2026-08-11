@@ -69,7 +69,7 @@ export interface UserButtonProps {
   links?: (UserButtonLink | ReactElement)[];
   sideOffset?: number;
   size?: "default" | "icon";
-  /** Icon trigger footprint. `icon-xs` is 32px; `icon-sm` is 36px. */
+  /** Icon trigger footprint. `icon-xs` is 32px with a 20px avatar; `icon-sm` is 36px. */
   triggerSize?: "icon-xs" | "icon-sm";
   variant?:
     | "default"
@@ -204,7 +204,7 @@ export function UserButton({
   const showAuthenticatedTrigger = mounted && Boolean(session);
   const triggerIconSizes =
     triggerSize === "icon-xs"
-      ? { avatar: "size-8", guest: "size-5", fillTrigger: true }
+      ? { avatar: "size-5", guest: "size-5", fillTrigger: false }
       : { avatar: "size-7", guest: "size-6", fillTrigger: false };
   const triggerIconClass =
     showIconTriggerLoading || showAuthenticatedTrigger

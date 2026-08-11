@@ -2,6 +2,7 @@
 
 import { useSession } from "@better-auth-ui/react";
 import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
+import GithubIcon from "@workspace/ui/components/icons/github-icon";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -32,6 +33,7 @@ import { CommandPaletteTrigger } from "@/components/command-palette/command-pale
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
+import { GITHUB_REPO_URL } from "@/lib/site";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
@@ -296,18 +298,22 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
             </NavigationMenu>
           </div>
 
-          <div className="relative z-10 flex shrink-0 items-center gap-2 md:gap-3">
+          <div className="relative z-10 flex shrink-0 items-center gap-2">
             <CommandPaletteTrigger />
+
+            <a
+              aria-label="GitHub repository"
+              className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-5"
+              href={GITHUB_REPO_URL}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              <GithubIcon className="size-5" />
+            </a>
 
             <UserButton
               align="end"
-              className={cn(
-                "text-fd-muted-foreground",
-                "max-md:size-7! max-md:rounded-full max-md:p-0",
-                "max-md:**:data-[slot=avatar]:size-7!",
-                "max-md:[&_.rounded-full]:size-7!",
-                "max-md:[&_svg]:size-4!"
-              )}
+              className="size-8 text-fd-muted-foreground"
               links={[
                 {
                   label: "Bookmark",

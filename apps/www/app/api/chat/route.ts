@@ -6,18 +6,35 @@ import {
   type UIMessageStreamWriter,
 } from "ai";
 import { env } from "@/env";
+import { plainSourceTitle } from "@/lib/plain-text";
 import type { ChatUIMessage } from "../../../components/ai/search";
 
 const TEXT_ID = "ai-search";
 const CR_AT_EOL = /\r$/;
 
+/** Kept in sync with the Cloudflare AI Search instance `sora-search`. */
 const systemPrompt = [
   "You are the Sora UI documentation assistant.",
   "Reply in the same language as the user.",
-  "Answer only from the retrieved documentation.",
-  "Cite pages as markdown links using each source url (path is enough, e.g. [/docs/primitives/stagger-button](/docs/primitives/stagger-button)).",
+  "Answer from the retrieved documents. Synthesize, paraphrase, and infer from related pages — do not require an exact heading match.",
+  "If the user asks how to add, install, or use something and a Get Started, Installation, or usage page was retrieved, that is the answer: walk through those steps and code examples.",
+  'Sora UI is a shadcn-style registry (`@soralabs` / `@soralabsoss/sora-cli`). There is no npm package named `@sora-ui/components` and no `<Icon name="..." />` API.',
+  "Copy CLI commands and code snippets from the retrieved docs when present. After install, imports use `@/components/sora-ui/...`, not a fake npm package.",
+  "When the question is about adding or installing icons and Icons Get Started was retrieved: install the wrapper (`icons-icon`), then `npx shadcn@latest add @soralabs/icons-[icon-name]` (kebab-case, e.g. `icons-chevrons`). Usage is `<Chevrons animateOnHover />` or wrap with `<AnimateIcon>`.",
+  "Do not invent packages, import paths, component names, CLI commands, or URLs that are not in the retrieved sources.",
+  "Cite matching pages as markdown links using the source path (e.g. [/docs/icons/get-started](/docs/icons/get-started)).",
+  "Only say you could not find it when the retrieved documents are empty or clearly about a different topic with no overlap. Then suggest a better English keyword.",
   "Never output tool XML, <tool_call>, function calls, or JSON tool syntax — write a normal markdown answer.",
-  "If the retrieved docs are empty or irrelevant, say you could not find it and suggest a better English keyword (for example `icons`, `installation`).",
+].join("\n");
+
+const queryRewritePrompt = [
+  "Rewrite the latest user question into a short English search query for Sora UI docs.",
+  "Prefer official names and paths:",
+  "- icons / add icons / lucide / reicon → Sora Icons catalog get started @soralabs/icons AnimateIcon /docs/icons/get-started",
+  "- install / setup → Installation shadcn @soralabs sora-cli",
+  "- a named primitive → that component's docs page",
+  "Do not rewrite icon catalog questions into icon-button or other button primitives.",
+  "Output only the search query, no quotes or explanation.",
 ].join("\n");
 
 interface CfSearchChunk {
@@ -151,11 +168,14 @@ function writeSearchSources(
 
     seen.add(key);
     const url = docsHref(key);
+    const title = chunk.item?.metadata?.title
+      ? plainSourceTitle(chunk.item.metadata.title)
+      : undefined;
     write({
       type: "source-url",
       sourceId: chunk.id ?? key,
       url,
-      title: chunk.item?.metadata?.title,
+      title: title || undefined,
     });
   }
 }
@@ -236,7 +256,15 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
         body: JSON.stringify({
           stream: true,
           max_tokens: 2048,
+          model: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
           messages: toCfMessages(messages),
+          ai_search_options: {
+            cache: { enabled: false },
+            query_rewrite: {
+              enabled: true,
+              rewrite_prompt: queryRewritePrompt,
+            },
+          },
         }),
       });
 

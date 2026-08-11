@@ -11,6 +11,7 @@ import {
   COMMUNITY_DISCUSSIONS_URL,
   COMMUNITY_ISSUES_URL,
   COMMUNITY_REPO_URL,
+  GITHUB_REPO_URL,
 } from "@/lib/site";
 import { FooterArrowLink } from "./footer-arrow-link";
 
@@ -53,6 +54,11 @@ const FOOTER_NAV: FooterNavSection[] = [
   {
     title: "Resources",
     links: [
+      {
+        href: GITHUB_REPO_URL,
+        label: "GitHub",
+        external: true,
+      },
       {
         href: COMMUNITY_REPO_URL,
         label: "Community repo",
