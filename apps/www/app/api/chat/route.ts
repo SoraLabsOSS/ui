@@ -192,9 +192,8 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
       gateway: {
         models: [
           "inclusionai/ling-3.0-tiny-free",
+          "poolside/laguna-s-2.1-free",
           "nvidia/nemotron-3-nano-30b-a3b",
-          "meta/llama-3.1-8b",
-          "alibaba/qwen3.7-flash",
         ],
       },
     },
