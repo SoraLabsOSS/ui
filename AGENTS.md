@@ -45,7 +45,6 @@ Git hooks (lefthook): pre-commit runs `ultracite fix` on staged JS/TS/JSON/CSS a
 ```
 apps/
   www/   — docs site + component registry (Next.js, Fumadocs). Primary work surface.
-  web/   — separate marketing/landing Next.js app, mostly stock create-next-app boilerplate.
   mcp/   — MCP server (mcp-framework) exposing Sora docs/registry as tools (search docs, list components, get component info) for AI assistants.
 packages/
   ui/                 — @workspace/ui: shared primitives-adjacent utilities (cn, get-strict-context, get-motion-component), globals.css, base hooks.

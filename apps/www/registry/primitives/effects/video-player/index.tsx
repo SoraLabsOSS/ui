@@ -976,20 +976,19 @@ function VideoPlayer({
     }: {
       showFeedback?: boolean;
     } = {}) {
-      if (video.paused || video.ended) {
-        if (showFeedback) {
-          showPulse("play");
-        }
+      const willPlay = video.paused || video.ended;
 
+      if (showFeedback) {
+        showPulse(willPlay ? "pause" : "play");
+      }
+
+      if (willPlay) {
         try {
           await video.play();
         } catch {
           syncPlayState();
         }
       } else {
-        if (showFeedback) {
-          showPulse("pause");
-        }
         video.pause();
       }
     }

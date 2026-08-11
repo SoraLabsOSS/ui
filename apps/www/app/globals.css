@@ -323,17 +323,17 @@
 
 @layer base {
   html {
-    scrollbar-gutter: stable;
+    /* scrollbar-gutter: stable; */
   }
 
   * {
-    scrollbar-color: oklch(0.5 0 0 / 35%) transparent;
-    scrollbar-width: thin;
+    /* scrollbar-color: oklch(0.5 0 0 / 35%) transparent;
+    scrollbar-width: thin; */
     @apply border-border outline-ring/50;
   }
 
   /* Custom Webkit scrollbar for premium/sleek look */
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
@@ -351,7 +351,7 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background-color: oklch(0.5 0 0 / 55%);
-  }
+  } */
 
   /* Radix ScrollArea: hide OS scrollbar; fumadocs custom thumb is used instead */
   [data-radix-scroll-area-viewport] {
