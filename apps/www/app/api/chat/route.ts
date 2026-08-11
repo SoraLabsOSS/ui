@@ -188,6 +188,16 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
 
   const result = streamText({
     model: CHAT_MODEL,
+    providerOptions: {
+      gateway: {
+        models: [
+          "inclusionai/ling-3.0-tiny-free",
+          "nvidia/nemotron-3-nano-30b-a3b",
+          "meta/llama-3.1-8b",
+          "alibaba/qwen3.7-flash",
+        ],
+      },
+    },
     instructions: `${systemPrompt}\n\n## Documentation\n${formatDocsContext(hits)}`,
     reasoning: "none",
     maxOutputTokens: 2048,
