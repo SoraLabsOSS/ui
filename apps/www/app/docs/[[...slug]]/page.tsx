@@ -23,7 +23,7 @@ import {
   getOgMetadataImages,
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
-import { getPageAlternates, SITE_URL } from "@/lib/site";
+import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
 export default async function Page(props: {
@@ -171,7 +171,7 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
       )}
 
       <PageActionButtons
-        // githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/content/docs/${page.path}`}
+        githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/content/docs/${page.path}`}
         key={page.url}
         markdownUrl={`${page.url}.mdx`}
         url={page.url}

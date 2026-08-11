@@ -1,6 +1,11 @@
 {
   "name": "sora-ui",
   "version": "1.0.27",
+  "homepage": "https://ui.soralabs.io.vn",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SoraLabsOSS/ui.git"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
     "@tailwindcss/postcss": "^4.1.13",

@@ -54,18 +54,18 @@ packages
 
 #### 1. Fork the Repository
 
-Click [here](https://github.com/imskyleen/animate-ui/fork) to fork the repository.
+Click [here](https://github.com/SoraLabsOSS/ui/fork) to fork the repository.
 
 #### 2. Clone your Fork to Your Local Machine
 
 ```bash
-  git clone https://github.com/<YOUR_USERNAME>/animate-ui.git
+  git clone https://github.com/<YOUR_USERNAME>/ui.git
 ```
 
 #### 3. Navigate to the Project Directory
 
 ```bash
-cd animate-ui
+cd ui
 ```
 
 #### 4. Create a New Branch for Your Changes
@@ -342,6 +342,6 @@ releaseDate: 2025-XX-XX
 
 ## Ask for Help
 
-If you need any assistance or have questions, please feel free to open a [GitHub issue](https://github.com/imskyleen/animate-ui/issues/new). We are here to help!
+If you need any assistance or have questions, please feel free to open a [GitHub issue](https://github.com/SoraLabsOSS/ui/issues/new). We are here to help!
 
 Thank you again for your contribution to Sora UI! We look forward to seeing your improvements and new components.

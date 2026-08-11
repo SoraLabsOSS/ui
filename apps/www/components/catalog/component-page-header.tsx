@@ -11,6 +11,7 @@ import {
 } from "@/components/docs/neighbor-nav-buttons";
 import { LLMCopyButton, ViewOptions } from "@/components/docs/page-actions";
 import type { ComponentPageHeaderData } from "@/lib/registry/types";
+import { GITHUB_REPO_URL } from "@/lib/site";
 
 interface ComponentPageHeaderProps {
   className?: string;
@@ -68,7 +69,7 @@ export function ComponentPageHeader({
         <BookmarkButton url={data.componentUrl} />
         <LLMCopyButton markdownUrl={`${data.docsUrl}.mdx`} />
         <ViewOptions
-          githubUrl={`https://github.com/axyl1410/sora/blob/main/apps/www/${githubPath}`}
+          githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/${githubPath}`}
           markdownUrl={`${data.docsUrl}.mdx`}
         />
       </div>

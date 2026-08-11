@@ -20,6 +20,12 @@ export const env = createEnv({
     BETTER_AUTH_API_KEY: z.string().min(1),
     GITHUB_CLIENT_ID: z.string().min(1),
     GITHUB_CLIENT_SECRET: z.string().min(1),
+    /**
+     * Vercel AI Gateway key for /api/chat (local + non-Vercel).
+     * On Vercel production, OIDC can authenticate without this.
+     * Create at https://vercel.com/account/ai
+     */
+    AI_GATEWAY_API_KEY: z.string().min(1).optional(),
   },
 
   client: {
