@@ -42,8 +42,27 @@ export function getBannerLayoutScript(): string {
   return getBannerEnabledInitScript();
 }
 
+function escapeCssLength(value: string): string {
+  // Keep this value strictly in the form we expect for CSS lengths so the
+  // generated inline script can't be abused by injecting unexpected content.
+  // This is intentionally conservative: if it doesn't match, fall back to `0px`.
+  const trimmed = value.trim();
+  if (
+    !/^[0-9]+(\.[0-9]+)?(rem|px|em|vh|vw|vmin|vmax|%|dvh|svh|lvh)$/.test(
+      trimmed
+    )
+  ) {
+    return "0px";
+  }
+  return trimmed;
+}
+
 function getBannerEnabledInitScript(): string {
-  return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)||/^\\/demo\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}document.documentElement.style.setProperty("--fd-banner-height",${JSON.stringify(BANNER_HEIGHT)});})();`;
+  const bannerHeight = escapeCssLength(BANNER_HEIGHT);
+
+  return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)||/^\\/demo\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}document.documentElement.style.setProperty("--fd-banner-height",${JSON.stringify(
+    bannerHeight
+  )});})();`;
 }
 
 export function getBannerDismissClass(id: string) {

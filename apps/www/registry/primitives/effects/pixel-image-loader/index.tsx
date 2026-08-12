@@ -50,8 +50,9 @@ function getAutoPlaceholderSrc(src: string): string | null {
     return null;
   }
 
+  const hostname = url.hostname.toLowerCase();
   if (
-    url.hostname.includes("cloudinary.com") &&
+    (hostname === "cloudinary.com" || hostname.endsWith(".cloudinary.com")) &&
     url.pathname.includes("/upload/")
   ) {
     return src.replace(

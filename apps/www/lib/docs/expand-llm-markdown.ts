@@ -106,7 +106,10 @@ function expandComponentCredits(name: string): string {
 }
 
 function escapeTableCell(value: string): string {
-  return value.replace(/\|/g, "\\|");
+  // Escape characters that would otherwise be interpreted by Markdown table parsing.
+  // - `|` breaks the table cell boundaries
+  // - `\` is used as an escape character in Markdown, so we must escape it too
+  return value.replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
 }
 
 function readQuotedValue(raw: string): string {
