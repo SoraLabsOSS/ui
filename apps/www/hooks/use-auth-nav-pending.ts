@@ -4,10 +4,25 @@ import { useSession } from "@better-auth-ui/react";
 import { useClientMounted } from "@workspace/auth-ui/hooks/use-client-mounted";
 import { authClient } from "@/lib/auth-client";
 
-/** True until client mount and session resolution — keeps auth nav markup stable for SSR. */
+/** Persists across Nav remounts (docs ↔ blog layouts) so auth links don't re-skeleton. */
+let authNavSessionKnown = false;
+
+/** True only until the session query resolves for the first time this page load. */
 export function useAuthNavPending() {
   const mounted = useClientMounted();
-  const { isPending: sessionPending } = useSession(authClient);
+  const {
+    data: session,
+    isPending: sessionPending,
+    isFetched,
+  } = useSession(authClient, { refetchOnMount: false });
+
+  if (isFetched || session !== undefined) {
+    authNavSessionKnown = true;
+  }
+
+  if (authNavSessionKnown) {
+    return false;
+  }
 
   return !mounted || sessionPending;
 }

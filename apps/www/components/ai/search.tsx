@@ -47,7 +47,7 @@ const Context = createContext<{
   chat: UseChatHelpers<ChatUIMessage>;
 } | null>(null);
 
-const HIDE_ASK_AI_PREFIXES = ["/settings", "/auth"] as const;
+const HIDE_ASK_AI_PREFIXES = ["/auth"] as const;
 
 export function isAskAiPath(pathname: string) {
   if (pathname === "/") {

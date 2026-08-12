@@ -9,7 +9,7 @@
   "dependencies": {
     "@base-ui/react": "^1.5.0",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
+    "cnfast": "^0.1.0",
     "date-fns": "^4.1.0",
     "lucide-react": "^1.17.0",
     "motion": "^12.40.0",

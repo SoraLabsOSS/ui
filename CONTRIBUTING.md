@@ -1,317 +1,249 @@
 # Contributing to Sora UI
 
-Thank you for your interest in **contributing to Sora UI**! Your support is highly appreciated, and we look forward to your contributions. This guide will help you understand the project structure and provide detailed instructions for adding a new component to Sora UI.
+Thank you for contributing to **Sora UI** — an open-source, Motion-first React component distribution in the shadcn/ui registry style.
+
+- **Source repo:** [github.com/SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui)
+- **Bugs, questions, ideas:** [github.com/SoraLabsOSS/sora-ui-community](https://github.com/SoraLabsOSS/sora-ui-community) (not this repo’s issue tracker)
+- **Site:** [ui.soralabs.io.vn](https://ui.soralabs.io.vn)
 
 ## Introduction
 
-This repository is a monorepo.
+This is a **Turborepo** monorepo. We use **[Bun](https://bun.sh)** (`bun@1.3.5`, pinned in `packageManager`) for installs and scripts, and **Ultracite (Biome)** for lint/format.
 
-- We use [Bun](https://bun.sh) as the package manager and runtime for development (npm workspaces in `package.json`).
-- We use [Turborepo](https://turbo.build/repo) as our build system.
+Almost all component work happens in **`apps/www`** (Next.js docs site + registry).
 
-## Structure
+## Repository structure
 
-This repository is structured as follows:
-
-```
-apps
-└── www
-    ├── app
-    ├── components
-    ├── content
-    ├── lib
-    └── registry
-        ├── components
-        │   ├── animate (Sora UI Components)
-        │   ├── backgrounds
-        │   ├── base (Base UI Components)
-        │   ├── buttons
-        │   ├── community (Community Components)
-        │   ├── headless (Headless UI Components)
-        │   └── radix (Radix UI Components)
-        ├── demo
-        │   ├── components
-        │   └── primitives
-        ├── hooks
-        ├── icons
-        ├── lib
-        └── primitives
-            ├── animate (Sora UI Primitives)
-            ├── base (Base UI Primitives)
-            ├── buttons
-            ├── effects
-            ├── headless (Headless UI Primitives)
-            ├── radix (Radix UI Primitives)
-            └── texts
-packages
-├── typescript-config
-└── ui (Internal UI components)
+```text
+apps/
+  www/          Docs site + component registry (primary work surface)
+  mcp/          MCP server — exposes docs/registry to AI assistants
+packages/
+  ui/                 @workspace/ui — shared utilities, globals.css, base hooks
+  auth-ui/            @workspace/auth-ui — Better Auth UI
+  db/                 @workspace/db — Drizzle schema/client
+  typescript-config/  Shared tsconfig bases
 ```
 
-## Getting Started
+### Registry (`apps/www/registry`)
 
-### Fork and Clone the Repository
+```text
+registry/
+  primitives/{category}/{name}/   index.tsx + registry-item.json  ← main shipped items
+  icons/{name}/                   Animated Lucide icons (@soralabs/icons-*)
+  demo/primitives/{category}/{name}/   Optional manual demos (overrides auto Code tab)
+  hooks/, lib/
+```
 
-#### 1. Fork the Repository
+**Primitive categories today:** `animate`, `buttons`, `disclosure`, `effects`, `radix`, `texts`.
 
-Click [here](https://github.com/SoraLabsOSS/ui/fork) to fork the repository.
+There is **no** `registry/components/` tree yet — catalog “component pages” showcase existing primitives (see below).
 
-#### 2. Clone your Fork to Your Local Machine
+### Content (`apps/www/content`)
+
+Three separate trees — do not conflate them:
+
+| Tree | Route | Purpose |
+|------|-------|---------|
+| `content/docs/` | `/docs` | Guides + flat primitive docs at `docs/primitives/<name>.mdx` |
+| `content/docs/icons/` | `/docs/icons` | Icons get-started, animating icons, catalog |
+| `content/components/` | `/components` | Catalog showcase pages (layout examples for a primitive) |
+| `content/blog/` | `/blog` | Blog posts |
+
+Primitive docs are **flat** (`content/docs/primitives/stagger-button.mdx`), not nested by category. Sidebar order lives in `content/docs/primitives/meta.json` (`---Section---` separators group items).
+
+## Getting started
+
+### 1. Fork and clone
+
+Fork [SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui/fork), then:
 
 ```bash
-  git clone https://github.com/<YOUR_USERNAME>/ui.git
-```
-
-#### 3. Navigate to the Project Directory
-
-```bash
+git clone https://github.com/<YOUR_USERNAME>/ui.git
 cd ui
-```
-
-#### 4. Create a New Branch for Your Changes
-
-```bash
 git checkout -b my-branch
 ```
 
-#### 5. Install Dependencies
+### 2. Install and run
+
+From the repo root:
 
 ```bash
 bun install
+bun run dev:www    # docs site only → http://localhost:3000
+# or
+bun dev            # all apps (turbo)
 ```
 
-#### 6. Run the Project
+### 3. Verify before opening a PR
 
 ```bash
-bun dev
+bun run check-types
+bun run lint
+cd apps/www && bun run registry:build   # after any registry/ or demoProps change
+cd apps/www && bun run lint:links       # internal doc links under content/
 ```
 
-## Components
+There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
-We use the shadcn/ui registry system for developing components. You can find the source code for the components under `apps/www/registry`. The components are organized by categories.
+**Git hooks (lefthook):** pre-commit runs Ultracite fix on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
 
-Each component is in a folder organized as follows:
+**Windows:** do not use bare `npx biome` / `npx tsc` in this repo (unrelated decoy packages). Use `node_modules/.bin/biome.exe` and `node_modules/.bin/tsc.exe` instead.
 
+## Adding or changing a primitive
+
+Minimal flow (details in [apps/www/registry/README.md](apps/www/registry/README.md)):
+
+1. Edit **`registry/primitives/<category>/<name>/index.tsx`** and **`registry-item.json`**.
+2. Set **`meta.demoProps`** on `registry-item.json` for Tweakpane + auto-generated Code tab. Add **`registry/demo/primitives/...`** only when the example cannot be expressed as simple props (e.g. `ReactNode[]` children, multi-component layout).
+3. Edit **`content/docs/primitives/<name>.mdx`** with:
+   - `<ComponentPreview name="<name>" />` (or `name="demo-<name>"` if a manual demo exists)
+   - `<ComponentInstallation name="<name>" />`
+   - Props via `<TypeTable>` (JSDoc on the component is the source of truth)
+   - `<ComponentCredits name="<name>" />` when `meta.inspiration` is set
+4. Add **`"<name>"`** to **`content/docs/primitives/meta.json`** under the right `---Section---`.
+5. Run **`bun run registry:build`** from `apps/www`.
+
+`registry:build` only publishes items referenced from MDX under **`content/docs`** or **`content/components`** via `<ComponentPreview />` / `<ComponentInstallation />`. An orphaned registry folder with no MDX reference will not appear on the site.
+
+Users install with:
+
+```bash
+npx shadcn@latest add @soralabs/<name>
 ```
-my-component
-├── index.tsx (the component code)
-└── registry-item.json (information for the shadcn registry)
-```
 
-### Primitives
+Files land under `@/components/sora-ui/...` after install.
 
-Primitives are unstyled components to which we add animations.
+### Primitive conventions
 
-When adding or modifying primitive, please ensure that:
+- `"use client";` and import `cn` from **`@workspace/ui/lib/utils`** (not `@/lib/utils`) inside `registry/` files.
+- Respect **`prefers-reduced-motion`** via `useReducedMotion()` from `motion/react` — static fallback or skip animation while still updating state.
+- JSDoc every prop (`/** ... */`, `@default` where relevant) for docs `TypeTable` entries.
+- Expose a **`ref`** on the root element where practical (React 19 style: `ref` as a normal prop).
+- External inspiration: set **`meta.inspiration`** on `registry-item.json` and add **`## Credits`** with `<ComponentCredits name="..." />` in the doc.
 
-1. You have modified or created the associated component.
-2. You have modified or created the associated documentation.
-3. You have set `meta.demoProps` on the primitive's `registry-item.json` (optional: a manual demo under `registry/demo/` only if the usage example is complex).
-4. You run `bun run registry:build` to update the registry.
+## Catalog pages (`content/components/`)
 
-See [apps/www/registry/README.md](apps/www/registry/README.md) for the full docs preview flow.
+Catalog MDX files are **not** registry items. They are full-layout showcases for an existing primitive (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`).
 
-### Components
+- Add/edit **`content/components/<slug>.mdx`** and list the slug in **`content/components/meta.json`**.
+- The showcased primitive still lives under **`registry/primitives/...`** with its own `registry-item.json`.
+- Reference the primitive in catalog MDX with `<ComponentInstallation name="<registry-name>" />` (and preview components as needed).
 
-The components use animated primitives (except for certain components such as backgrounds) and are styled with Tailwind.
+## Icons
 
-When adding or modifying a component, please ensure that:
+Animated icons live under **`registry/icons/`** (from [Reicon](https://reicon.dev/) / Lucide). Docs under **`content/docs/icons/`**.
 
-1. You have modified or created the associated primitive.
-2. You have modified or created the associated documentation.
-3. You have set `meta.demoProps` on the primitive's `registry-item.json` (optional: manual demo under `registry/demo/` if needed).
-4. You run `bun run registry:build` to update the registry.
+When adding an icon:
 
-See [apps/www/registry/README.md](apps/www/registry/README.md) for the full docs preview flow.
+1. Add **`registry/icons/<name>/index.tsx`** + **`registry-item.json`** (`registryDependencies`: `["icons-icon"]` for the wrapper).
+2. Fill **`meta.keywords`** (and categories aligned with Lucide where applicable).
+3. Run **`bun run registry:build`**.
 
-### Icons
+Install path: `npx shadcn@latest add @soralabs/icons-<name>` (kebab-case, e.g. `icons-chevrons`). See [Get Started](/docs/icons/get-started) on the site.
 
-We exclusively animate icons from [Lucide Icons](https://lucide.dev/icons/).
+Per-icon MDX pages are not required — the icons catalog is generated from the registry.
 
-When adding or modifying an icon, please ensure that:
+## Registry item (`registry-item.json`)
 
-1. You animated an icon Lucide Icons.
-2. You have correctly filled in the same categories as Lucide Icons in the `registry-item.json` file.
-3. You run `bun run registry:build` to update the registry.
+Required for every registry entry. Example for a primitive:
 
-**Note: You don't need to create documentation or make a demo for the icons.**
-
-### Registry Item
-
-The registry-item.json file is required to make the component available in the registry.
-
-This is what it should look like:
-
-```json title="my-component/registry-item.json"
+```json
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "my-component",
+  "name": "stagger-button",
   "type": "registry:ui",
-  "title": "My Component",
-  "description": "My Component Description",
-  "dependencies": [...],
-  "registryDependencies": [...],
-  "devDependencies": [...],
+  "title": "Stagger Button",
+  "description": "A button that staggers per character on hover.",
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["utils", "button"],
   "files": [
     {
-      "path": "registry/[primitives/components/icons]/[category]/my-component/index.tsx",
+      "path": "registry/primitives/buttons/stagger-button/index.tsx",
       "type": "registry:ui",
-      "target": "components/animate-ui/[primitives/components/icons]/[category]/my-component.tsx"
+      "target": "components/sora-ui/buttons/stagger-button.tsx"
     }
-  ]
-}
-```
-
-[Click here](https://ui.shadcn.com/docs/registry/registry-item-json) to see the `registry-item.json` documentation.
-
-### Demo & docs preview
-
-Documented components use `<ComponentPreview name="my-component" />` in MDX. **Preview** and **Tweakpane** come from the primitive's `registry-item.json`. The **Code** tab usage snippet is **auto-generated** from `meta.demoProps` on build (`bun run registry:build`) — you do not need a `registry/demo/` folder unless the example is non-trivial.
-
-Full flow: [apps/www/registry/README.md](apps/www/registry/README.md).
-
-#### Manual demo (optional)
-
-Only when the usage example cannot be expressed via `demoProps` alone:
-
-```
-demo
-└── [primitives/components]
-    └── [category]
-        └── my-component
-            ├── index.tsx (import from @/registry/... in the monorepo)
-            └── registry-item.json (registryDependencies: ["my-component"])
-```
-
-A folder on disk overrides the auto-generated Code tab snippet.
-
-#### Add a Tweakpane
-
-Put `demoProps` on the **primitive** `registry-item.json` (not only on a manual demo):
-
-```json title="my-component/registry-item.json"
-{
-  ...
+  ],
   "meta": {
     "demoProps": {
-      "MyComponent": {
-        "props1": { "value": 700, "min": 0, "max": 2000, "step": 100 },
-        "props2": { "value": 0 },
-        "props3": { "value": "foo" },
-        "props4": {
-          "value": "center",
-          "options": {
-            "start": "start",
-            "center": "center",
-            "end": "end"
-          }
-        },
-        "props5": { "value": true }
+      "StaggerButton": {
+        "label": { "value": "Staggering Button" },
+        "stagger": {
+          "value": "char",
+          "options": { "Char": "char", "Text": "text" }
+        }
       }
     }
-  },
- ...
-}
-```
-
-**Run `bun run registry:build` after changing `demoProps` or registry files.**
-
-So, how to use `demoProps`?
-
-##### Number
-
-Simple number input:
-
-```json
-"myNumber": { "value": 10 }
-```
-
-Slider:
-
-```json
-"myNumber": { "value": 10, "min": 0, "max": 100, "step": 1 }
-```
-
-Select:
-
-```json
-"myNumber": {
-  "value": 10,
-  "options": {
-    "Big": 30,
-    "Medium": 20,
-    "Small": 10
   }
 }
 ```
 
-##### String
+Schema reference: [ui.shadcn.com/docs/registry/registry-item-json](https://ui.shadcn.com/docs/registry/registry-item-json).
 
-Simple text input:
-
-```json
-"myString": { "value": "Hello World" }
-```
-
-Select:
+### Inspiration metadata
 
 ```json
-"myNumber": {
-  "value": "small",
-  "options": {
-    "Big": "big",
-    "Medium": "medium",
-    "Small": "small"
+"meta": {
+  "inspiration": {
+    "type": "inspired",
+    "label": "Example Library",
+    "url": "https://example.com"
   }
 }
 ```
 
-##### Boolean
+Use `"reimplemented"` when the implementation was rewritten for Motion/React. Pair with `<ComponentCredits name="..." />` in the MDX doc.
 
-```json
-"myBoolean": { "value": true }
+## Demo, preview, and Tweakpane
+
+| Docs UI | Source |
+|---------|--------|
+| **Preview** | `<ComponentPreview name="..." />` → primitive + `meta.demoProps` |
+| **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` (top-level key = React export name) |
+| **Code tab** | Auto-generated `demo-<name>` at build time; updates live with Tweakpane |
+| **Install tab** | `<ComponentInstallation name="..." />` |
+
+Run **`bun run registry:build`** after changing `demoProps` or any registry file.
+
+### Manual demo (optional)
+
+Only when `demoProps` cannot express the example:
+
+```text
+registry/demo/primitives/<category>/<name>/
+  index.tsx              ← import from @/registry/... in the monorepo
+  registry-item.json     ← registryDependencies: ["<name>"]
 ```
 
-### Documentation
+Use `<ComponentPreview name="demo-<name>" />` in MDX. A folder on disk **overrides** the auto-generated Code snippet.
 
-The documentation is located in the `apps/www/content` folder and follows a structure similar to the registry folder.
+### `demoProps` field types
 
-```
-apps
-└── www
-    └── content
-        ├── components
-        │   ├── animate
-        │   ├── backgrounds
-        │   ├── base
-        │   ├── buttons
-        │   ├── community
-        │   ├── headless
-        │   └── radix
-        ├── icons
-        └── primitives
-            ├── animate
-            ├── base
-            ├── buttons
-            ├── effects
-            ├── headless
-            ├── radix
-            └── texts
-```
+**Number** — plain input: `{ "value": 10 }`  
+**Number** — slider: `{ "value": 10, "min": 0, "max": 100, "step": 1 }`  
+**Number** — select: `{ "value": 10, "options": { "Big": 30, "Small": 10 } }`
 
-Voici un exemple:
+**String** — plain: `{ "value": "Hello" }`  
+**String** — select: `{ "value": "small", "options": { "Big": "big", "Small": "small" } }`
+
+**Boolean:** `{ "value": true }`
+
+## Documentation
+
+### Primitive doc example
+
+File: **`content/docs/primitives/my-component.mdx`**
 
 ```mdx
 ---
 title: My Component
-description: Description for the new component
+description: Short description for SEO and search.
 author:
-  name: your name
-  url: https://link-to-your-profile.com
-releaseDate: 2025-XX-XX
+  name: Your Name
+  url: https://github.com/you
 ---
 
-<ComponentPreview name="demo-my-component" />
+<ComponentPreview name="my-component" />
 
 ## Installation
 
@@ -319,29 +251,48 @@ releaseDate: 2025-XX-XX
 
 ## Usage
 
-[Basic usage of the component]
+Brief usage notes and one or more code blocks.
 
-## API Reference
-
-### MyComponent
+## Props
 
 <TypeTable
   type={{
-    myProps: {
-      description: 'Description for my props',
-      type: 'string',
-      required: true,
+    myProp: {
+      description: "What this prop does.",
+      type: "string",
+      default: '"default"',
     },
   }}
 />
 
 ## Credits
 
-- Credits to [you](https://link-to-your-profile.com) for creating the component
+<ComponentCredits name="my-component" />
 ```
 
-## Ask for Help
+Omit **Credits** when there is no `meta.inspiration`.
 
-If you need any assistance or have questions, please feel free to open a [GitHub issue](https://github.com/SoraLabsOSS/ui/issues/new). We are here to help!
+Register the page in **`content/docs/primitives/meta.json`**:
 
-Thank you again for your contribution to Sora UI! We look forward to seeing your improvements and new components.
+```json
+{
+  "pages": [
+    "---Effects---",
+    "my-component"
+  ]
+}
+```
+
+## Pull requests
+
+- Target **`main`** on [SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui).
+- Keep PRs focused; run lint, typecheck, and `registry:build` when touching registry or content.
+- For user-facing bugs and support threads, point people to the **[community repo](https://github.com/SoraLabsOSS/sora-ui-community)** — keep this repo’s issues for source/contributor workflow.
+
+## Need help?
+
+- **Usage / bugs / ideas:** [Community hub](https://github.com/SoraLabsOSS/sora-ui-community) — [new issue](https://github.com/SoraLabsOSS/sora-ui-community/issues/new) or [Discussions](https://github.com/SoraLabsOSS/sora-ui-community/discussions/1)
+- **Registry mechanics:** [apps/www/registry/README.md](apps/www/registry/README.md)
+- **Agent-oriented repo map:** [AGENTS.md](AGENTS.md)
+
+Thank you for helping improve Sora UI.
