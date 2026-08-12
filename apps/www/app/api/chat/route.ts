@@ -249,6 +249,11 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
       return error instanceof Error ? error.message : "Chat failed";
     },
     async execute({ writer }) {
+      if (!env.AI_SEARCH_CHAT_URL) {
+        throw new Error(
+          "Ask AI is not configured. Please set AI_SEARCH_CHAT_URL."
+        );
+      }
       const response = await fetch(env.AI_SEARCH_CHAT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -1,9 +1,6 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
-/** Public Cloudflare AI Search endpoint — Ask AI works without a local .env. */
-const DEFAULT_AI_SEARCH_CHAT_URL = "https://search.axyl.io.vn/chat/completions";
-
 export const env = createEnv({
   shared: {
     NODE_ENV: z
@@ -25,9 +22,9 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
     /**
      * Cloudflare AI Search OpenAI-compatible chat endpoint.
-     * Defaults to the public Sora docs search instance when unset.
+     * Optional: when unset, Ask AI UI should still render but will fail gracefully.
      */
-    AI_SEARCH_CHAT_URL: z.url().default(DEFAULT_AI_SEARCH_CHAT_URL),
+    AI_SEARCH_CHAT_URL: z.url().optional(),
   },
 
   client: {
