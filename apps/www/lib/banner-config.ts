@@ -58,15 +58,11 @@ function escapeCssLength(value: string): string {
 }
 
 function getBannerEnabledInitScript(): string {
-  // `js/bad-code-sanitization` treats template injection into executable
-  // strings as unsafe unless it can prove it is a known sanitizer.
-  // `SITE_BANNER_ENABLED` is currently `false`, but we still keep this script
-  // correct when enabled by inlining the expected CSS value literal.
-  //
-  // If `BANNER_HEIGHT` changes, update the literal below accordingly.
-  const bannerHeightLiteral = '"3rem"';
-
-  return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)||/^\\/demo\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}document.documentElement.style.setProperty("--fd-banner-height",${bannerHeightLiteral});})();`;
+  // This repo currently ships with `SITE_BANNER_ENABLED = false`, but the
+  // code-scanning rule still inspects this script construction. To make it
+  // obviously safe, we inline the exact expected CSS literal directly into
+  // the generated executable string (no variable interpolation).
+  return `(function(){var p=location.pathname;if(/^\\/components\\/[^/]+\\/?$/.test(p)||/^\\/demo\\/?$/.test(p)){document.documentElement.style.setProperty("--fd-banner-height","0px");return;}document.documentElement.style.setProperty("--fd-banner-height","3rem");})();`;
 }
 
 export function getBannerDismissClass(id: string) {
