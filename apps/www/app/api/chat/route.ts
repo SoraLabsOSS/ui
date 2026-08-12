@@ -261,10 +261,10 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
         body: JSON.stringify({
           stream: true,
           max_tokens: 2048,
-          model: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          model: "@cf/meta/llama-3.1-8b-instruct-fast",
           messages: toCfMessages(messages),
           ai_search_options: {
-            cache: { enabled: false },
+            cache: { enabled: true },
             query_rewrite: {
               enabled: true,
               rewrite_prompt: queryRewritePrompt,

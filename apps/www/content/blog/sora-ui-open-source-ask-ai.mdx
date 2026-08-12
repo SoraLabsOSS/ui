@@ -41,16 +41,17 @@ const response = await fetch(env.AI_SEARCH_CHAT_URL, {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     stream: true,
-    model: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    model: "@cf/meta/llama-3.1-8b-instruct-fast",
     messages: toCfMessages(messages),
     ai_search_options: {
+      cache: { enabled: true },
       query_rewrite: { enabled: true },
     },
   }),
 });
 ```
 
-That's [Cloudflare AI Search](https://developers.cloudflare.com/ai-search/) against a crawler index of the live site — not the Flexsearch box behind `⌘K`. The query gets rewritten into an English lookup with the real paths (`/docs/icons/get-started`, not a primitive that happens to have "icon" in the name), matching pages come back on the SSE `chunks` event, and Llama 3.3 70B answers from those pages. When the stream finishes, the retrieved URLs show up as source pills under the reply. No tools. No second round trip. One generation.
+That's [Cloudflare AI Search](https://developers.cloudflare.com/ai-search/) against a crawler index of the live site — not the Flexsearch box behind `⌘K`. The query gets rewritten into an English lookup with the real paths (`/docs/icons/get-started`, not a primitive that happens to have "icon" in the name), matching pages come back on the SSE `chunks` event, and Llama 3.1 8B answers from those pages. When the stream finishes, the retrieved URLs show up as source pills under the reply. No tools. No second round trip. One generation.
 
 That's RAG in the boring sense: retrieve, then generate. The docs are a website, so the honest index is the website. Keyword search on the client is still what `⌘K` does. Ask AI is a different door.
 
