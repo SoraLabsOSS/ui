@@ -1,15 +1,23 @@
 "use client";
 import { type UseChatHelpers, useChat } from "@ai-sdk/react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@workspace/ui/components/ui/input-group";
 import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { cn } from "@workspace/ui/lib/utils";
 import { DefaultChatTransport, type SourceUrlUIPart, type UIMessage } from "ai";
 import {
+  ChevronDown,
   FileText,
   Loader,
   MessageCircleIcon,
   RefreshCw,
   SearchIcon,
   Send,
+  Trash2,
   X,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
@@ -217,7 +225,7 @@ function SearchSources({ sources }: { sources: SourceUrlUIPart[] }) {
   return (
     <motion.div
       animate={{ opacity: 1 }}
-      className="mt-3"
+      className="mt-3 min-w-0"
       initial={reduceMotion ? false : { opacity: 0 }}
       transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
     >
@@ -225,17 +233,22 @@ function SearchSources({ sources }: { sources: SourceUrlUIPart[] }) {
         {sources.length === 1 ? "1 source" : `${sources.length} sources`}
       </p>
       <ul className="flex flex-wrap gap-1.5">
-        {sources.map((source) => (
-          <li key={source.sourceId}>
-            <Link
-              className="inline-flex max-w-full items-center gap-1.5 rounded-full border bg-fd-secondary px-2 py-0.5 text-fd-secondary-foreground text-xs transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-              href={source.url}
-            >
-              <FileText className="size-3 shrink-0" />
-              <span className="truncate">{sourceTitle(source)}</span>
-            </Link>
-          </li>
-        ))}
+        {sources.map((source) => {
+          const title = sourceTitle(source);
+
+          return (
+            <li className="min-w-0 max-w-full" key={source.sourceId}>
+              <Link
+                className="flex min-w-0 max-w-full items-center gap-1.5 overflow-hidden rounded-full border bg-fd-secondary px-2 py-0.5 text-fd-secondary-foreground text-xs transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+                href={source.url}
+                title={title}
+              >
+                <FileText className="size-3 shrink-0" />
+                <span className="truncate">{title}</span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </motion.div>
   );
@@ -335,56 +348,26 @@ export function AISearchPanelHeader({
   );
 }
 
-export function AISearchInputActions() {
-  const { messages, status, setMessages, regenerate } = useChatContext();
-  const isLoading = isBusyStatus(status);
-
-  if (messages.length === 0) {
-    return null;
-  }
-
-  return (
-    <>
-      {!isLoading && messages.at(-1)?.role === "assistant" && (
-        <button
-          className={cn(
-            buttonVariants({
-              color: "secondary",
-              size: "sm",
-              className: "gap-1.5 rounded-full",
-            })
-          )}
-          onClick={() => regenerate()}
-          type="button"
-        >
-          <RefreshCw className="size-4" />
-          Retry
-        </button>
-      )}
-      <button
-        className={cn(
-          buttonVariants({
-            color: "secondary",
-            size: "sm",
-            className: "rounded-full",
-          })
-        )}
-        onClick={() => setMessages([])}
-        type="button"
-      >
-        Clear Chat
-      </button>
-    </>
-  );
-}
-
 const StorageKeyInput = "__ai_search_input";
+
 export function AISearchInput(props: ComponentProps<"form">) {
-  const { status, sendMessage, stop } = useChatContext();
+  const {
+    messages: allMessages,
+    status,
+    sendMessage,
+    stop,
+    setMessages,
+    regenerate,
+  } = useChatContext();
+  const messages = allMessages.filter((msg) => msg.role !== "system");
   const [input, setInput] = useState(
     () => localStorage.getItem(StorageKeyInput) ?? ""
   );
   const isLoading = isBusyStatus(status);
+  const hasMessages = messages.length > 0;
+  const canRetry =
+    !isLoading && messages.at(-1)?.role === "assistant" && hasMessages;
+
   const onStart = (e?: SyntheticEvent) => {
     e?.preventDefault();
     const message = input.trim();
@@ -403,82 +386,181 @@ export function AISearchInput(props: ComponentProps<"form">) {
     }
   }, [isLoading]);
 
+  const isEmpty = input.trim().length === 0;
+
   return (
     <form
       {...props}
-      className={cn("flex items-start pe-2", props.className)}
+      className={cn("shrink-0", props.className)}
       onSubmit={onStart}
     >
-      <Input
-        autoFocus
-        className="p-3"
-        disabled={isLoading}
-        onChange={(e) => {
-          setInput(e.target.value);
-          localStorage.setItem(StorageKeyInput, e.target.value);
-        }}
-        onKeyDown={(event) => {
-          if (!event.shiftKey && event.key === "Enter") {
-            onStart(event);
-          }
-        }}
-        placeholder={inputPlaceholder(status)}
-        value={input}
-      />
-      {isLoading ? (
-        <button
-          className={cn(
-            buttonVariants({
-              color: "secondary",
-              className: "mt-2 gap-2 rounded-full transition-all",
-            })
-          )}
-          key="bn"
-          onClick={stop}
-          type="button"
+      <InputGroup
+        className={cn(
+          "min-h-11 rounded-2xl border-fd-border/80 bg-fd-background/80 shadow-xs backdrop-blur-xl supports-backdrop-filter:bg-fd-background/55",
+          "has-[>textarea]:h-auto",
+          "has-disabled:!bg-fd-background/80 supports-backdrop-filter:has-disabled:!bg-fd-background/55 has-disabled:opacity-100",
+          "has-[[data-slot=input-group-control]:focus-visible]:!ring-1 has-[[data-slot=input-group-control]:focus-visible]:border-fd-ring has-[[data-slot=input-group-control]:focus-visible]:ring-fd-ring/50",
+          "dark:!bg-fd-background/80 dark:has-disabled:!bg-fd-background/80 supports-backdrop-filter:dark:!bg-fd-background/55"
+        )}
+      >
+        <InputGroupTextarea
+          autoFocus
+          className="max-h-32 min-h-11 min-w-0 px-3 py-3 text-sm placeholder:text-fd-muted-foreground focus-visible:ring-0 disabled:opacity-60"
+          disabled={isLoading}
+          id="nd-ai-input"
+          onChange={(e) => {
+            setInput(e.target.value);
+            localStorage.setItem(StorageKeyInput, e.target.value);
+          }}
+          onKeyDown={(event) => {
+            if (!event.shiftKey && event.key === "Enter") {
+              onStart(event);
+            }
+          }}
+          placeholder={inputPlaceholder(status)}
+          rows={1}
+          value={input}
+        />
+        <InputGroupAddon
+          align="block-end"
+          className="!opacity-100 justify-between px-3 pb-3"
         >
-          <Loader className="size-4 animate-spin text-fd-muted-foreground" />
-          Abort Answer
-        </button>
-      ) : (
-        <button
-          className={cn(
-            buttonVariants({
-              color: "primary",
-              className: "mt-2 rounded-full transition-all",
-            })
+          <div className="flex items-center gap-1">
+            {hasMessages ? (
+              <>
+                <InputGroupButton
+                  aria-label="Clear chat"
+                  className="rounded-full"
+                  disabled={isLoading}
+                  onClick={() => setMessages([])}
+                  size="icon-sm"
+                  type="button"
+                  variant="outline"
+                >
+                  <Trash2 className="size-4" />
+                </InputGroupButton>
+                {canRetry ? (
+                  <InputGroupButton
+                    aria-label="Retry last answer"
+                    className="rounded-full"
+                    onClick={() => regenerate()}
+                    size="icon-sm"
+                    type="button"
+                    variant="outline"
+                  >
+                    <RefreshCw className="size-4" />
+                  </InputGroupButton>
+                ) : null}
+              </>
+            ) : null}
+          </div>
+          {isLoading ? (
+            <InputGroupButton
+              aria-label="Stop generating"
+              className="rounded-full"
+              onClick={stop}
+              size="icon-sm"
+              type="button"
+              variant="outline"
+            >
+              <Loader className="size-4 animate-spin" />
+            </InputGroupButton>
+          ) : (
+            <InputGroupButton
+              aria-disabled={isEmpty}
+              aria-label="Send message"
+              className={cn(
+                "rounded-lg shadow-none",
+                isEmpty &&
+                  "pointer-events-none border-fd-border text-fd-foreground opacity-70"
+              )}
+              size="icon-sm"
+              type="submit"
+              variant={isEmpty ? "outline" : "default"}
+            >
+              <Send className="size-4" />
+            </InputGroupButton>
           )}
-          disabled={input.length === 0}
-          key="bn"
-          type="submit"
-        >
-          <Send className="size-4" />
-        </button>
-      )}
+        </InputGroupAddon>
+      </InputGroup>
     </form>
   );
 }
 
 const BOTTOM_FOLLOW_THRESHOLD_PX = 64;
 
+function ScrollToBottomButton({
+  active,
+  onClick,
+}: {
+  active: boolean;
+  onClick: () => void;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex justify-center">
+      <button
+        aria-label="Scroll to bottom"
+        className={cn(
+          "pointer-events-auto inline-flex size-8 items-center justify-center rounded-full border border-fd-border bg-fd-background text-fd-foreground shadow-md",
+          "hover:bg-fd-muted",
+          reduceMotion
+            ? active
+              ? "opacity-100"
+              : "pointer-events-none opacity-0"
+            : [
+                "transition-[translate,scale,opacity] duration-200",
+                "data-[active=false]:pointer-events-none data-[active=false]:translate-y-full data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)]",
+                "data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)]",
+              ]
+        )}
+        data-active={active ? "true" : "false"}
+        inert={active ? undefined : true}
+        onClick={onClick}
+        tabIndex={active ? 0 : -1}
+        type="button"
+      >
+        <ChevronDown className="size-4 shrink-0" />
+      </button>
+    </div>
+  );
+}
+
 function List({
   scrollToken,
+  children,
+  className,
   ...props
 }: Omit<ComponentProps<"div">, "dir"> & { scrollToken?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
-  const scrollToBottom = useEffectEvent(() => {
+  const updateScrollPosition = useEffectEvent(() => {
     const container = containerRef.current;
     if (!container) {
       return;
     }
 
-    container.scrollTo({
-      top: container.scrollHeight,
-      behavior: "instant",
-    });
+    const distance =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+    setShowScrollButton(distance > BOTTOM_FOLLOW_THRESHOLD_PX);
   });
+
+  const scrollToBottom = useEffectEvent(
+    (behavior: ScrollBehavior = "instant") => {
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior,
+      });
+    }
+  );
 
   useEffect(() => {
     const content = contentRef.current;
@@ -493,6 +575,7 @@ function List({
       if (distance < BOTTOM_FOLLOW_THRESHOLD_PX) {
         scrollToBottom();
       }
+      updateScrollPosition();
     });
     observer.observe(content);
 
@@ -509,50 +592,72 @@ function List({
     scrollToBottom();
     const id = requestAnimationFrame(() => {
       scrollToBottom();
+      updateScrollPosition();
     });
     return () => cancelAnimationFrame(id);
   }, [scrollToken]);
 
   return (
-    <div
-      ref={containerRef}
-      {...props}
-      className={cn(
-        "fd-scroll-container flex min-w-0 flex-col overflow-y-auto",
-        props.className
-      )}
-    >
-      <div className="flex min-h-full flex-col" ref={contentRef}>
-        {props.children}
-      </div>
-    </div>
-  );
-}
-
-function Input(props: ComponentProps<"textarea">) {
-  const ref = useRef<HTMLDivElement>(null);
-  const shared = cn("col-start-1 row-start-1", props.className);
-
-  return (
-    <div className="grid flex-1">
-      <textarea
-        id="nd-ai-input"
+    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+      <div
+        ref={containerRef}
         {...props}
         className={cn(
-          "resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none",
-          shared
+          "fd-scroll-container flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto py-0!",
+          className
         )}
+        onScroll={updateScrollPosition}
+      >
+        <div className="flex min-h-full flex-col" ref={contentRef}>
+          {children}
+        </div>
+      </div>
+      <ScrollToBottomButton
+        active={showScrollButton}
+        onClick={() => scrollToBottom("smooth")}
       />
-      <div className={cn(shared, "invisible break-all")} ref={ref}>
-        {`${props.value?.toString() ?? ""}\n`}
+    </div>
+  );
+}
+
+function userMessageText(message: ChatUIMessage) {
+  return (message.parts ?? [])
+    .filter((part) => part.type === "text")
+    .map((part) => part.text)
+    .join("")
+    .trim();
+}
+
+function UserMessage({
+  message,
+  ...props
+}: { message: ChatUIMessage } & ComponentProps<"div">) {
+  const text = userMessageText(message);
+
+  if (!text) {
+    return null;
+  }
+
+  return (
+    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: Clicks stop at the bubble so the panel overlay does not steal them.
+    // biome-ignore lint/a11y/noStaticElementInteractions: Same as above — the wrapper is not a control.
+    // biome-ignore lint/a11y/useKeyWithClickEvents: stopPropagation only; no action to keyboard-map.
+    <div
+      className="flex justify-end"
+      onClick={(e) => e.stopPropagation()}
+      {...props}
+    >
+      <div className="max-w-[85%] rounded-3xl bg-fd-secondary px-4 py-2.5 text-fd-secondary-foreground text-sm">
+        <p className="whitespace-pre-wrap break-words">{text}</p>
       </div>
     </div>
   );
 }
 
-function Message({
+function AssistantMessage({
   isStreaming = false,
   message,
+  className,
   ...props
 }: {
   isStreaming?: boolean;
@@ -565,13 +670,12 @@ function Message({
     // biome-ignore lint/a11y/noNoninteractiveElementInteractions: Clicks stop at the bubble so the panel overlay does not steal them.
     // biome-ignore lint/a11y/noStaticElementInteractions: Same as above — the wrapper is not a control.
     // biome-ignore lint/a11y/useKeyWithClickEvents: stopPropagation only; no action to keyboard-map.
-    <div onClick={(e) => e.stopPropagation()} {...props}>
-      <p
-        className={cn(
-          "mb-1 font-medium text-fd-muted-foreground text-sm",
-          message.role === "assistant" && "text-fd-primary"
-        )}
-      >
+    <div
+      className={cn("min-w-0", className)}
+      onClick={(e) => e.stopPropagation()}
+      {...props}
+    >
+      <p className="mb-1 font-medium text-fd-primary text-sm">
         {roleName[message.role] ?? "unknown"}
       </p>
       {markdown ? (
@@ -767,12 +871,7 @@ export function AISearchPanel() {
         <div className="flex size-full min-h-0 flex-col gap-3 p-2 lg:p-3">
           <AISearchPanelHeader />
           <AISearchPanelList className="min-h-0 flex-1" />
-          <div className="rounded-xl border bg-fd-secondary text-fd-secondary-foreground shadow-sm has-focus-visible:shadow-md">
-            <AISearchInput />
-            <div className="flex items-center gap-1.5 p-1 empty:hidden">
-              <AISearchInputActions />
-            </div>
-          </div>
+          <AISearchInput />
         </div>
       </aside>
     </>,
@@ -805,7 +904,7 @@ export function AISearchPanelList({
       {messages.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="flex flex-col gap-4 px-3">
+        <div className="flex min-w-0 flex-col gap-4 px-3 py-4">
           {chat.error && (
             <div className="rounded-lg border bg-fd-secondary p-2 text-fd-secondary-foreground">
               <p className="mb-1 text-fd-muted-foreground text-xs">
@@ -814,19 +913,23 @@ export function AISearchPanelList({
               <p className="text-sm">{chat.error.message}</p>
             </div>
           )}
-          {messages.map((item) => (
-            <Message
-              isStreaming={
-                isBusyStatus(chat.status) &&
-                item.role === "assistant" &&
-                item.id === last?.id
-              }
-              key={item.id}
-              message={item}
-            />
-          ))}
+          {messages.map((item) =>
+            item.role === "user" ? (
+              <UserMessage key={item.id} message={item} />
+            ) : (
+              <AssistantMessage
+                isStreaming={
+                  isBusyStatus(chat.status) &&
+                  item.role === "assistant" &&
+                  item.id === last?.id
+                }
+                key={item.id}
+                message={item}
+              />
+            )
+          )}
           {showPending ? (
-            <Message isStreaming message={PENDING_ASSISTANT} />
+            <AssistantMessage isStreaming message={PENDING_ASSISTANT} />
           ) : null}
         </div>
       )}
