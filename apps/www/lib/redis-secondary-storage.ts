@@ -1,6 +1,7 @@
 import { captureException, captureMessage } from "@sentry/nextjs";
 import type { SecondaryStorage } from "better-auth";
-import redis from "./redis";
+import { isRedisConfigured } from "@/env";
+import { getRedis } from "./redis";
 
 const REDIS_STORAGE_COMPONENT = "redis-secondary-storage";
 const SENTRY_REPORT_WINDOW_MS = 60_000;
@@ -172,8 +173,12 @@ function normalizeStoredValue(value: unknown): string | null {
 
 export const redisSecondaryStorage: SecondaryStorage = {
   async get(key: string) {
+    if (!isRedisConfigured()) {
+      return null;
+    }
+
     try {
-      return normalizeStoredValue(await redis.get(key));
+      return normalizeStoredValue(await getRedis().get(key));
     } catch (error) {
       captureRedisFailOpen("get", error);
       return null;
@@ -181,8 +186,12 @@ export const redisSecondaryStorage: SecondaryStorage = {
   },
 
   async getAndDelete(key: string) {
+    if (!isRedisConfigured()) {
+      return null;
+    }
+
     try {
-      return normalizeStoredValue(await redis.getdel(key));
+      return normalizeStoredValue(await getRedis().getdel(key));
     } catch (error) {
       captureRedisFailOpen("getAndDelete", error);
       return null;
@@ -190,16 +199,20 @@ export const redisSecondaryStorage: SecondaryStorage = {
   },
 
   async set(key: string, value: string, ttl?: number) {
+    if (!isRedisConfigured()) {
+      return;
+    }
+
     try {
       const stringValue =
         typeof value === "string" ? value : JSON.stringify(value);
 
       if (typeof ttl === "number" && ttl > 0) {
-        await redis.set(key, stringValue, { ex: ttl });
+        await getRedis().set(key, stringValue, { ex: ttl });
       } else {
         // Intentional bounded cache TTL.
         // Durable auth records are stored in Postgres via storeSessionInDatabase/storeInDatabase.
-        await redis.set(key, stringValue, { ex: 7 * 24 * 60 * 60 });
+        await getRedis().set(key, stringValue, { ex: 7 * 24 * 60 * 60 });
       }
     } catch (error) {
       captureRedisFailOpen("set", error);
@@ -207,16 +220,24 @@ export const redisSecondaryStorage: SecondaryStorage = {
   },
 
   async delete(key: string) {
+    if (!isRedisConfigured()) {
+      return;
+    }
+
     try {
-      await redis.del(key);
+      await getRedis().del(key);
     } catch (error) {
       captureRedisFailOpen("delete", error);
     }
   },
 
   async increment(key: string, ttl: number) {
+    if (!isRedisConfigured()) {
+      return incrementWithLocalFallback(key, ttl);
+    }
+
     try {
-      const result = await redis.eval(
+      const result = await getRedis().eval(
         INCREMENT_WITH_TTL_SCRIPT,
         [key],
         [String(ttl)]

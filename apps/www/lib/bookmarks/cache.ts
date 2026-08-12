@@ -1,5 +1,6 @@
 import type { BookmarkRecord } from "@workspace/db/bookmarks";
-import redis from "@/lib/redis";
+import { isRedisConfigured } from "@/env";
+import { getRedis } from "@/lib/redis";
 
 const BOOKMARKS_CACHE_TTL_SECONDS = 24 * 60 * 60;
 
@@ -25,8 +26,14 @@ function isBookmarkRecordArray(value: unknown): value is BookmarkRecord[] {
 export async function getCachedBookmarks(
   userId: string
 ): Promise<BookmarkRecord[] | null> {
+  if (!isRedisConfigured()) {
+    return null;
+  }
+
   try {
-    const value = await redis.get<BookmarkRecord[]>(bookmarksCacheKey(userId));
+    const value = await getRedis().get<BookmarkRecord[]>(
+      bookmarksCacheKey(userId)
+    );
 
     if (value === null || value === undefined) {
       return null;
@@ -46,8 +53,12 @@ export async function setCachedBookmarks(
   userId: string,
   bookmarks: BookmarkRecord[]
 ): Promise<void> {
+  if (!isRedisConfigured()) {
+    return;
+  }
+
   try {
-    await redis.set(bookmarksCacheKey(userId), bookmarks, {
+    await getRedis().set(bookmarksCacheKey(userId), bookmarks, {
       ex: BOOKMARKS_CACHE_TTL_SECONDS,
     });
   } catch {
@@ -56,8 +67,12 @@ export async function setCachedBookmarks(
 }
 
 export async function invalidateBookmarksCache(userId: string): Promise<void> {
+  if (!isRedisConfigured()) {
+    return;
+  }
+
   try {
-    await redis.del(bookmarksCacheKey(userId));
+    await getRedis().del(bookmarksCacheKey(userId));
   } catch {
     // Cache invalidation failure falls back to TTL expiry.
   }

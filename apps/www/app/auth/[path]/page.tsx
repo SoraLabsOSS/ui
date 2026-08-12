@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
 import { SignInSplitShell } from "@/components/auth/sign-in-split-shell";
+import { isDatabaseConfigured } from "@/env";
 import { auth } from "@/lib/auth";
 import AuthLoading from "./loading";
 
@@ -42,7 +43,7 @@ async function AuthPageContent({
     notFound();
   }
 
-  if (path === "sign-in") {
+  if (path === "sign-in" && isDatabaseConfigured()) {
     const requestHeaders = await headers();
     const session = await auth.api.getSession({ headers: requestHeaders });
 

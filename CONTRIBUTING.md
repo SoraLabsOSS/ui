@@ -75,6 +75,10 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # all apps (turbo)
 ```
 
+**Environment variables are optional for local UI work.** You can browse docs, blog, the components catalog, and Ask AI without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need auth, bookmarks, Redis, or a custom Ask AI endpoint. See the [Local development](./README.md#local-development) table in the root README for which vars map to which features.
+
+Auth and bookmark API routes return errors when `DATABASE_URL` is unset; the rest of the site keeps working.
+
 ### 3. Verify before opening a PR
 
 ```bash

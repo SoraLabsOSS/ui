@@ -1,6 +1,9 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
+/** Public Cloudflare AI Search endpoint — Ask AI works without a local .env. */
+const DEFAULT_AI_SEARCH_CHAT_URL = "https://search.axyl.io.vn/chat/completions";
+
 export const env = createEnv({
   shared: {
     NODE_ENV: z
@@ -9,32 +12,29 @@ export const env = createEnv({
   },
 
   server: {
-    BETTER_AUTH_SECRET: z.string().min(1),
+    BETTER_AUTH_SECRET: z.string().min(1).optional(),
     /** Transaction pooler (port 6543) — used by @workspace/db at runtime */
-    DATABASE_URL: z.url(),
+    DATABASE_URL: z.url().optional(),
     /** Direct connection (port 5432) — drizzle-kit migrations only */
     DATABASE_URL_DIRECT: z.url().optional(),
-    GOOGLE_CLIENT_SECRET: z.string().min(1),
-    UPSTASH_REDIS_REST_URL: z.url(),
-    UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
-    BETTER_AUTH_API_KEY: z.string().min(1),
-    GITHUB_CLIENT_ID: z.string().min(1),
-    GITHUB_CLIENT_SECRET: z.string().min(1),
+    GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+    UPSTASH_REDIS_REST_URL: z.url().optional(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
+    BETTER_AUTH_API_KEY: z.string().min(1).optional(),
+    GITHUB_CLIENT_ID: z.string().min(1).optional(),
+    GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
     /**
-     * Vercel AI Gateway key for /api/chat (local + non-Vercel).
-     * On Vercel production, OIDC can authenticate without this.
-     * Create at https://vercel.com/account/ai
+     * Cloudflare AI Search OpenAI-compatible chat endpoint.
+     * Defaults to the public Sora docs search instance when unset.
      */
-    AI_GATEWAY_API_KEY: z.string().min(1).optional(),
-    /** Cloudflare AI Search OpenAI-compatible chat endpoint */
-    AI_SEARCH_CHAT_URL: z.url(),
+    AI_SEARCH_CHAT_URL: z.url().default(DEFAULT_AI_SEARCH_CHAT_URL),
   },
 
   client: {
     NEXT_PUBLIC_BETTER_AUTH_URL: z.url().default("http://localhost:3000"),
-    NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().min(1),
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().min(1).optional(),
     NEXT_PUBLIC_SENTRY_DSN: z.url().optional(),
-    /** Sentinel KV identify endpoint — Better Auth Cloud dashboard project URL. Used by both the server (kvUrl) and the browser client (identifyUrl); not a secret. */
+    /** Better Auth Cloud identify endpoint — not a secret. */
     NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL: z.url().optional(),
   },
 
@@ -49,3 +49,53 @@ export const env = createEnv({
 
   emptyStringAsUndefined: true,
 });
+
+/** Server-only — do not import from client components or auth-client. */
+export function isDatabaseConfigured() {
+  return Boolean(env.DATABASE_URL);
+}
+
+/** Server-only — do not import from client components. */
+export function isRedisConfigured() {
+  return Boolean(env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN);
+}
+
+/** Server-only — full Google OAuth (client id + secret). */
+export function isGoogleAuthConfigured() {
+  return Boolean(env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
+}
+
+/** Client-safe — One Tap / GIS only needs the public client id. */
+export function isGoogleOneTapConfigured() {
+  return Boolean(env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
+}
+
+/** Server-only — full GitHub OAuth (client id + secret). */
+export function isGithubAuthConfigured() {
+  return Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET);
+}
+
+/** Server-only — Sentinel plugin (api key + identify URL). */
+export function isSentinelConfigured() {
+  return Boolean(
+    env.BETTER_AUTH_API_KEY && env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL
+  );
+}
+
+/** Client-safe — sentinelClient only needs the public identify URL. */
+export function isSentinelClientConfigured() {
+  return Boolean(env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL);
+}
+
+/** Dev-only fallback so `next dev` can boot without a .env file. */
+export function getBetterAuthSecret() {
+  if (env.BETTER_AUTH_SECRET) {
+    return env.BETTER_AUTH_SECRET;
+  }
+
+  if (env.NODE_ENV === "production") {
+    return;
+  }
+
+  return "local-dev-only-insecure-better-auth-secret";
+}

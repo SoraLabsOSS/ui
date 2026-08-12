@@ -3,14 +3,23 @@ import { db } from "@workspace/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
 import { lastLoginMethod, oneTap, openAPI } from "better-auth/plugins";
-import { env } from "@/env";
+import {
+  env,
+  getBetterAuthSecret,
+  isGithubAuthConfigured,
+  isGoogleAuthConfigured,
+  isRedisConfigured,
+  isSentinelConfigured,
+} from "@/env";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
+
+const authSecret = getBetterAuthSecret();
 
 export const auth = betterAuth({
   appName: "Sora UI",
   experimental: { joins: true },
   baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,
-  secret: env.BETTER_AUTH_SECRET,
+  secret: authSecret ?? "build-time-auth-secret-placeholder",
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
@@ -20,16 +29,24 @@ export const auth = betterAuth({
     },
   },
   socialProviders: {
-    google: {
-      clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    },
-    github: {
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    },
+    ...(isGoogleAuthConfigured()
+      ? {
+          google: {
+            clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+            clientSecret: env.GOOGLE_CLIENT_SECRET!,
+          },
+        }
+      : {}),
+    ...(isGithubAuthConfigured()
+      ? {
+          github: {
+            clientId: env.GITHUB_CLIENT_ID!,
+            clientSecret: env.GITHUB_CLIENT_SECRET!,
+          },
+        }
+      : {}),
   },
-  secondaryStorage: redisSecondaryStorage,
+  ...(isRedisConfigured() ? { secondaryStorage: redisSecondaryStorage } : {}),
   session: {
     storeSessionInDatabase: true, // Required when using oauth-provider with secondaryStorage
     cookieCache: {
@@ -53,7 +70,7 @@ export const auth = betterAuth({
     },
   },
   rateLimit: {
-    storage: "secondary-storage",
+    storage: isRedisConfigured() ? "secondary-storage" : "memory",
     enabled: true,
     customRules: {
       // Cookie cache covers repeated reads; no need to also hit Redis for rate-limiting.
@@ -66,44 +83,48 @@ export const auth = betterAuth({
     // only serve them outside production.
     ...(env.NODE_ENV === "production" ? [] : [openAPI()]),
     dash(),
-    oneTap(),
+    ...(isGoogleAuthConfigured() ? [oneTap()] : []),
     lastLoginMethod(),
-    sentinel({
-      apiKey: env.BETTER_AUTH_API_KEY,
-      kvUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
-      security: {
-        // Safe to hard-block regardless of traffic — no legitimate case for
-        // a leaked password or disposable signup email.
-        compromisedPassword: {
-          enabled: true,
-          action: "block",
-        },
-        emailValidation: {
-          enabled: true,
-          strictness: "medium",
-          action: "block",
-        },
-        emailNormalization: { enabled: true },
+    ...(isSentinelConfigured()
+      ? [
+          sentinel({
+            apiKey: env.BETTER_AUTH_API_KEY!,
+            kvUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
+            security: {
+              // Safe to hard-block regardless of traffic — no legitimate case for
+              // a leaked password or disposable signup email.
+              compromisedPassword: {
+                enabled: true,
+                action: "block",
+              },
+              emailValidation: {
+                enabled: true,
+                strictness: "medium",
+                action: "block",
+              },
+              emailNormalization: { enabled: true },
 
-        // Everything below starts in "log" mode — this is a brand-new,
-        // low-traffic site with no baseline yet. Flip to "challenge"/"block"
-        // once Sentinel's dashboard shows these aren't firing on real users.
-        credentialStuffing: {
-          enabled: true,
-          thresholds: { challenge: 3, block: 5 },
-        },
-        impossibleTravel: {
-          enabled: true,
-          action: "log",
-        },
-        velocity: {
-          enabled: true,
-          maxSignupsPerVisitor: 5,
-          action: "log",
-        },
-        botBlocking: { action: "log" },
-        suspiciousIpBlocking: { action: "log" },
-      },
-    }),
+              // Everything below starts in "log" mode — this is a brand-new,
+              // low-traffic site with no baseline yet. Flip to "challenge"/"block"
+              // once Sentinel's dashboard shows these aren't firing on real users.
+              credentialStuffing: {
+                enabled: true,
+                thresholds: { challenge: 3, block: 5 },
+              },
+              impossibleTravel: {
+                enabled: true,
+                action: "log",
+              },
+              velocity: {
+                enabled: true,
+                maxSignupsPerVisitor: 5,
+                action: "log",
+              },
+              botBlocking: { action: "log" },
+              suspiciousIpBlocking: { action: "log" },
+            },
+          }),
+        ]
+      : []),
   ],
 });

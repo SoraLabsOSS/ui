@@ -5,6 +5,7 @@ import { Settings } from "@workspace/auth-ui/components/auth/settings/settings";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
+import { isDatabaseConfigured } from "@/env";
 import { auth } from "@/lib/auth";
 import { getQueryClient } from "@/lib/query-client";
 import { Skeleton } from "@/registry/primitives/effects/skeleton";
@@ -22,6 +23,12 @@ function SettingsPageSkeleton() {
 }
 
 async function ProtectedSettingsContent({ path }: { path: string }) {
+  if (!isDatabaseConfigured()) {
+    redirect(
+      `/auth/sign-in?redirectTo=${encodeURIComponent(`/settings/${path}`)}`
+    );
+  }
+
   const requestHeaders = await headers();
   const queryClient = getQueryClient();
 

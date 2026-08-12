@@ -4,7 +4,11 @@ import {
   oneTapClient,
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import { env } from "@/env";
+import {
+  env,
+  isGoogleOneTapConfigured,
+  isSentinelClientConfigured,
+} from "@/env";
 
 /** Mutated before `oneTap()` so GIS uses the active light/dark scheme. */
 export const oneTapGisOptions = {
@@ -12,17 +16,25 @@ export const oneTapGisOptions = {
 };
 
 export const authClient = createAuthClient({
-  baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL, // ... your existing config
+  baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,
   plugins: [
-    sentinelClient({
-      identifyUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
-      autoSolveChallenge: true,
-    }),
-    oneTapClient({
-      clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      cancelOnTapOutside: false,
-      additionalOptions: oneTapGisOptions,
-    }),
+    ...(isSentinelClientConfigured()
+      ? [
+          sentinelClient({
+            identifyUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
+            autoSolveChallenge: true,
+          }),
+        ]
+      : []),
+    ...(isGoogleOneTapConfigured()
+      ? [
+          oneTapClient({
+            clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+            cancelOnTapOutside: false,
+            additionalOptions: oneTapGisOptions,
+          }),
+        ]
+      : []),
     lastLoginMethodClient(),
   ],
 });

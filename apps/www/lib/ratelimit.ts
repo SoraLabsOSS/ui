@@ -1,5 +1,6 @@
 import { type Duration, Ratelimit } from "@upstash/ratelimit";
-import redis from "./redis";
+import { isRedisConfigured } from "@/env";
+import { getRedis } from "./redis";
 
 const DEFAULT_LIMIT = 100;
 const DEFAULT_WINDOW: Duration = "60 s";
@@ -34,7 +35,7 @@ function getRatelimit(limit: number, window: Duration): Ratelimit {
   if (!instance) {
     const isDefault = limit === DEFAULT_LIMIT && window === DEFAULT_WINDOW;
     instance = new Ratelimit({
-      redis,
+      redis: getRedis(),
       limiter: Ratelimit.slidingWindow(limit, window),
       prefix: isDefault ? "@sora/ratelimit" : `@sora/ratelimit:${key}`,
       // Same Map reused for this config across requests on a warm Vercel serverless instance.
@@ -45,17 +46,33 @@ function getRatelimit(limit: number, window: Duration): Ratelimit {
   return instance;
 }
 
-/** Default instance (same as `checkRateLimit` with no options). */
-export const ratelimit = getRatelimit(DEFAULT_LIMIT, DEFAULT_WINDOW);
-
 export interface RateLimitOptions {
   limit?: number;
   /** Upstash format, e.g. `"60 s"`, `"1 m"`. */
   window?: Duration;
 }
 
+const ALLOW_ALL = {
+  success: true,
+  limit: DEFAULT_LIMIT,
+  remaining: DEFAULT_LIMIT,
+  reset: Date.now(),
+  pending: Promise.resolve(),
+};
+
 export function checkRateLimit(identifier: string, options?: RateLimitOptions) {
+  if (!isRedisConfigured()) {
+    return Promise.resolve(ALLOW_ALL);
+  }
+
   const limit = options?.limit ?? DEFAULT_LIMIT;
   const window = options?.window ?? DEFAULT_WINDOW;
   return getRatelimit(limit, window).limit(identifier);
 }
+
+/** Default instance (same as `checkRateLimit` with no options). */
+export const ratelimit = {
+  limit(identifier: string) {
+    return checkRateLimit(identifier);
+  },
+};
