@@ -390,14 +390,39 @@ export function ScrollChapters({
           }
         };
 
+        // `fixed` nav sticks to the viewport (or a transformed ancestor). On
+        // stacked catalog mobile the demo sits above the docs column — without
+        // leave/enter handlers, `hideCardAtEnd={false}` leaves the widget
+        // painted over Installation/Usage after the chapters scroll away, and
+        // the preview's `max-lg:z-0` stacking context lets that docs content
+        // cover it ("sunken" ticks). Hide whenever the trigger is inactive;
+        // re-enter restores via the same threshold logic as `onUpdate`.
+        // Gate reveal on `isActive` so a trailing `onUpdate` at progress=1
+        // cannot resurrect the nav after `onLeave` when `hideCardAtEnd` is false.
         masterTrigger = ScrollTrigger.create({
           end: "bottom bottom",
+          onEnter: (self) => {
+            toggleNav(self.progress);
+          },
+          onEnterBack: (self) => {
+            toggleNav(self.progress);
+          },
+          onLeave: () => {
+            hideNav();
+          },
+          onLeaveBack: () => {
+            hideNav();
+          },
           onUpdate: (self) => {
             if (!draggable?.isDragging) {
               setCursorProgress(self.progress);
             }
             updateActiveChapter(self.progress);
-            toggleNav(self.progress);
+            if (self.isActive) {
+              toggleNav(self.progress);
+            } else {
+              hideNav();
+            }
           },
           refreshPriority,
           scroller,
