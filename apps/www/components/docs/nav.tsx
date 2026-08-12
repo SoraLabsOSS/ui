@@ -296,22 +296,22 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
             </NavigationMenu>
           </div>
 
-          <div className="relative z-10 flex shrink-0 items-center gap-2">
+          <div className="relative z-10 flex shrink-0 items-center gap-2 md:gap-3">
             <CommandPaletteTrigger />
 
             <a
               aria-label="GitHub repository"
-              className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-5"
+              className="hidden size-6 shrink-0 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground md:inline-flex [&_svg]:size-6"
               href={GITHUB_REPO_URL}
               rel="noreferrer noopener"
               target="_blank"
             >
-              <GithubIcon className="size-5" />
+              <GithubIcon className="size-6" />
             </a>
 
             <UserButton
               align="end"
-              className="size-8 text-fd-muted-foreground"
+              className="size-6! p-0! text-fd-muted-foreground"
               links={[
                 {
                   label: "Bookmark",
@@ -321,7 +321,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
                 },
               ]}
               size="icon"
-              triggerSize="icon-xs"
+              triggerSize="icon-sm"
             />
 
             <ThemeSwitcher className="max-md:hidden" />
@@ -333,7 +333,7 @@ export const Nav = ({ primitivesUrl }: NavProps) => {
                   color: "ghost",
                   size: "icon-sm",
                   className:
-                    "relative z-10 size-8! shrink-0 text-fd-muted-foreground md:hidden [&_svg]:size-5!",
+                    "relative z-10 size-6! shrink-0 p-0! text-fd-muted-foreground md:hidden [&_svg]:size-6!",
                 })
               )}
               onClick={() => setOpen((prev) => !prev)}
