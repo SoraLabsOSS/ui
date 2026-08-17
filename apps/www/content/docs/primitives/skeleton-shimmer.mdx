@@ -1,0 +1,209 @@
+---
+title: Skeleton Shimmer
+description: GPU-accelerated shimmer placeholder primitives with zero-layout-shift sizing and optional View Transitions API wipe reveals.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-skeleton-shimmer-basic" description="Standard card skeleton loading with Motion shimmer blocks and zero-layout-shift overlays." />
+
+## Installation
+
+<ComponentInstallation name="skeleton-shimmer" />
+
+## Overview
+
+`skeleton-shimmer` provides two flexible, GPU-accelerated primitives:
+
+1. **`SkeletonShimmer`**: A standalone shimmer block for fixed or fluid layout placeholders (avatars, image banners, simple text bars).
+2. **`SkeletonOverlay`**: A zero-layout-shift wrapper that sizes itself using invisible children (`visibility: hidden`). This eliminates Cumulative Layout Shift (CLS) by matching the exact line heights, margins, and typography of the incoming content.
+
+## Customizing colors
+
+The shimmer surface reads two CSS variables: `--sk-shimmer-from` (block fill) and `--sk-shimmer-to` (moving highlight). Both default to mixes of your app's `--muted` / `--foreground` tokens, so the sweep stays visible in light and dark themes. Override either to retint:
+
+```tsx
+<SkeletonShimmer
+  className="h-4 w-32 [--sk-shimmer-from:theme(colors.zinc.200)] [--sk-shimmer-to:theme(colors.zinc.50)] dark:[--sk-shimmer-from:theme(colors.zinc.800)] dark:[--sk-shimmer-to:theme(colors.zinc.600)]"
+/>
+```
+
+## Usage
+
+### Basic Shimmer Blocks
+
+Use `SkeletonShimmer` directly for simple placeholder shapes:
+
+```tsx
+import { SkeletonShimmer } from '@/components/sora-ui/effects/skeleton-shimmer';
+
+export function AvatarSkeleton() {
+  return (
+    <div className="flex items-center gap-3">
+      {/* Circle avatar */}
+      <SkeletonShimmer
+        borderRadius="50%"
+        className="h-12 w-12"
+        duration={1.5}
+      />
+      {/* Text lines */}
+      <div className="flex flex-col gap-2">
+        <SkeletonShimmer
+          borderRadius="4px"
+          className="h-4 w-32"
+          duration={1.5}
+        />
+        <SkeletonShimmer
+          borderRadius="4px"
+          className="h-3 w-20"
+          duration={1.5}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+### Zero-Layout-Shift Pattern (`SkeletonOverlay`)
+
+Instead of guessing widths and heights, wrap your actual content structure in `SkeletonOverlay`. The inner elements determine the exact dimensions while remaining hidden:
+
+```tsx
+import { SkeletonOverlay } from '@/components/sora-ui/effects/skeleton-shimmer';
+
+export function CardSkeleton() {
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border p-4">
+      {/* Skeleton matches title typography and line-height automatically */}
+      <SkeletonOverlay borderRadius="6px">
+        <h3 className="font-semibold text-lg">Article Headline Title</h3>
+      </SkeletonOverlay>
+
+      {/* Skeleton matches multi-line paragraph flow */}
+      <SkeletonOverlay borderRadius="6px">
+        <p className="text-muted-foreground text-sm">
+          This is a placeholder description that determines the exact bounding
+          box of the skeleton placeholder.
+        </p>
+      </SkeletonOverlay>
+    </div>
+  );
+}
+```
+
+### Native View Transitions Wipe Reveal
+
+Pair `SkeletonShimmer` and `SkeletonOverlay` with the browser's [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API) for a right-to-left mask wipe transition:
+
+<ComponentPreview name="demo-skeleton-shimmer" description="A complete profile card skeleton transitioning into revealed content via native View Transitions API wipe animation." />
+
+```tsx
+import {
+  SkeletonShimmer,
+  SkeletonOverlay,
+  useViewTransitionWipeStyles,
+} from '@/components/sora-ui/effects/skeleton-shimmer';
+import { startTransition, useState } from 'react';
+import { flushSync } from 'react-dom';
+
+export function TransitionCard() {
+  const [loaded, setLoaded] = useState(false);
+  useViewTransitionWipeStyles();
+
+  function triggerReveal() {
+    if (!document.startViewTransition) {
+      startTransition(() => setLoaded(true));
+      return;
+    }
+    document.startViewTransition(() => {
+      flushSync(() => setLoaded(true));
+    });
+  }
+
+  return (
+    <div style={{ viewTransitionName: 'skeleton-card' }}>
+      {loaded ? (
+        <RealCard />
+      ) : (
+        <SkeletonCard onReveal={triggerReveal} />
+      )}
+    </div>
+  );
+}
+```
+
+## Props
+
+### SkeletonShimmer
+
+<TypeTable
+  type={{
+    duration: {
+      description: 'Shimmer sweep cycle duration in seconds.',
+      type: 'number',
+      default: '1.5',
+    },
+    borderRadius: {
+      description: 'CSS border radius for the shimmer container.',
+      type: 'number | string',
+    },
+    animate: {
+      description: 'Whether the shimmer animation is active.',
+      type: 'boolean',
+      default: 'true',
+    },
+    className: {
+      description:
+        'Additional CSS class names. Override `--sk-shimmer-from` / `--sk-shimmer-to` to retint the block fill and highlight.',
+      type: 'string',
+    },
+    ref: {
+      description: 'Forwarded ref to the root motion div.',
+      type: 'Ref<HTMLDivElement>',
+    },
+  }}
+/>
+
+### SkeletonOverlay
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Child elements that define the dimension and layout box of the overlay.',
+      type: 'ReactNode',
+    },
+    duration: {
+      description: 'Shimmer sweep cycle duration in seconds.',
+      type: 'number',
+      default: '1.5',
+    },
+    borderRadius: {
+      description: 'CSS border radius for the shimmer container.',
+      type: 'number | string',
+      default: '"6px"',
+    },
+    animate: {
+      description: 'Whether the shimmer animation is active.',
+      type: 'boolean',
+      default: 'true',
+    },
+    className: {
+      description:
+        'Additional CSS class names. Override `--sk-shimmer-from` / `--sk-shimmer-to` to retint the block fill and highlight.',
+      type: 'string',
+    },
+    ref: {
+      description: 'Forwarded ref to the root motion div.',
+      type: 'Ref<HTMLDivElement>',
+    },
+  }}
+/>
+
+## Accessibility
+
+All primitives respect `prefers-reduced-motion: reduce` via `useReducedMotion()` from `motion/react`. When reduced motion is requested, the continuous shimmer animation is disabled while still rendering the styled placeholder surface, and view transitions degrade gracefully to an instantaneous swap.
+
+## Credits
+
+<ComponentCredits name="skeleton-shimmer" />

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-skeleton-shimmer",
+  "type": "registry:ui",
+  "title": "Skeleton Shimmer Demo",
+  "description": "Skeleton loading card that wipes away to reveal a profile card once content is ready.",
+  "registryDependencies": ["skeleton-shimmer"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/skeleton-shimmer/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/skeleton-shimmer.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "SkeletonShimmerDemo": {
+        "shimmerDuration": {
+          "value": 1.5,
+          "min": 0.5,
+          "max": 4,
+          "step": 0.1
+        },
+        "loadDelay": {
+          "value": 2500,
+          "min": 500,
+          "max": 6000,
+          "step": 100
+        }
+      }
+    }
+  }
+}

@@ -40,6 +40,7 @@
     "cursor-bubble",
     "tilt-card",
     "pixel-image-loader",
+    "skeleton-shimmer",
     "---Animate---",
     "slot"
   ]

@@ -358,6 +358,38 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-skeleton-shimmer": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/effects/skeleton-shimmer/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-skeleton-shimmer-basic": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/effects/skeleton-shimmer-basic/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-sticky-scroll-cards": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/sticky-scroll-cards/index.tsx"
@@ -1187,6 +1219,22 @@ export const previewComponents: Record<string, any> = {
   skeleton: React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/skeleton/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "skeleton-shimmer": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/effects/skeleton-shimmer/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)

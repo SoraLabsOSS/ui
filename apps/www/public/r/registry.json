@@ -400,6 +400,64 @@
       ]
     },
     {
+      "name": "demo-skeleton-shimmer",
+      "type": "registry:ui",
+      "title": "Skeleton Shimmer Demo",
+      "description": "Skeleton loading card that wipes away to reveal a profile card once content is ready.",
+      "registryDependencies": ["@soralabs/skeleton-shimmer"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/skeleton-shimmer/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/skeleton-shimmer.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "SkeletonShimmerDemo": {
+            "shimmerDuration": {
+              "value": 1.5,
+              "min": 0.5,
+              "max": 4,
+              "step": 0.1
+            },
+            "loadDelay": {
+              "value": 2500,
+              "min": 500,
+              "max": 6000,
+              "step": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-skeleton-shimmer-basic",
+      "type": "registry:ui",
+      "title": "Skeleton Shimmer Basic Demo",
+      "description": "Standard skeleton shimmer loading state with blocks and overlay without View Transitions API.",
+      "registryDependencies": ["@soralabs/skeleton-shimmer"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/effects/skeleton-shimmer-basic/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/effects/skeleton-shimmer-basic.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "SkeletonShimmerBasicDemo": {
+            "shimmerDuration": {
+              "value": 1.5,
+              "min": 0.5,
+              "max": 4,
+              "step": 0.1
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "demo-sticky-scroll-cards",
       "type": "registry:ui",
       "title": "Sticky Scroll Cards Demo",
@@ -1787,6 +1845,36 @@
           "shimmer",
           "shimmer-effect"
         ]
+      }
+    },
+    {
+      "name": "skeleton-shimmer",
+      "type": "registry:ui",
+      "title": "Skeleton Shimmer",
+      "description": "Skeleton loading placeholders with a shimmer effect that transitions to revealed content via a CSS view-transition wipe animation. Skeletons are sized using placeholder data to reduce layout shifts.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/effects/skeleton-shimmer/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/effects/skeleton-shimmer.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "skeleton",
+          "shimmer",
+          "loading",
+          "placeholder",
+          "view-transition",
+          "wipe"
+        ],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "motion.dev skeleton-shimmer",
+          "url": "https://examples.motion.dev/react/skeleton-shimmer"
+        }
       }
     },
     {
