@@ -3,8 +3,12 @@
   "name": "text-underline",
   "title": "Text Underline",
   "description": "A CSS-only link underline that slides through on hover.",
-  "dependencies": ["class-variance-authority"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/text-underline/index.tsx",

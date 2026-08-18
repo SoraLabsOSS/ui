@@ -3,8 +3,12 @@
   "name": "particle-hover-button",
   "title": "Particle Hover Button",
   "description": "A wrapper that emits glowing, pooled particles from the cursor while hovering any button or link.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
   "files": [
     {
       "path": "registry/primitives/buttons/particle-hover-button/index.tsx",

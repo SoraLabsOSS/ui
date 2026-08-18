@@ -3,8 +3,13 @@
   "name": "magnetic-cards",
   "title": "Magnetic Cards",
   "description": "A fanned stack of cards that fling away from the cursor on release, with GSAP InertiaPlugin easing each one back to rest.",
-  "dependencies": ["gsap", "@gsap/react"],
-  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "dependencies": [
+    "gsap",
+    "@gsap/react"
+  ],
+  "registryDependencies": [
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/magnetic-cards/index.tsx",
@@ -14,7 +19,13 @@
     }
   ],
   "meta": {
-    "keywords": ["magnetic", "cards", "cursor", "inertia", "gsap"],
+    "keywords": [
+      "magnetic",
+      "cards",
+      "cursor",
+      "inertia",
+      "gsap"
+    ],
     "inspiration": {
       "type": "reimplemented",
       "label": "Truus.co",

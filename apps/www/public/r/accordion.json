@@ -3,8 +3,14 @@
   "name": "accordion",
   "title": "Accordion",
   "description": "An animated FAQ accordion with expandable panels, powered by Motion.",
-  "dependencies": ["motion", "class-variance-authority"],
-  "registryDependencies": ["utils", "@soralabs/hooks-use-auto-height"],
+  "dependencies": [
+    "motion",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-auto-height"
+  ],
   "files": [
     {
       "path": "registry/primitives/disclosure/accordion/index.tsx",

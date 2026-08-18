@@ -3,7 +3,9 @@
   "name": "demo-tilt-card-image",
   "title": "Tilt Card Image Demo",
   "description": "Image card with a subtle reversed tilt.",
-  "registryDependencies": ["@soralabs/tilt-card"],
+  "registryDependencies": [
+    "@soralabs/tilt-card"
+  ],
   "files": [
     {
       "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",

@@ -3,7 +3,9 @@
   "name": "pixel-image-loader",
   "title": "Pixel Image Loader",
   "description": "A canvas-based image that resolves from a blocky, pixelated placeholder up to full sharpness as it loads.",
-  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "registryDependencies": [
+    "@soralabs/hooks-use-prefers-reduced-motion"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/pixel-image-loader/index.tsx",

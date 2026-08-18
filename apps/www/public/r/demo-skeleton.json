@@ -3,7 +3,9 @@
   "name": "demo-skeleton",
   "title": "Skeleton Demo",
   "description": "A profile card loading, then crossfading into content once ready.",
-  "registryDependencies": ["@soralabs/skeleton"],
+  "registryDependencies": [
+    "@soralabs/skeleton"
+  ],
   "files": [
     {
       "path": "registry/demo/primitives/effects/skeleton/index.tsx",

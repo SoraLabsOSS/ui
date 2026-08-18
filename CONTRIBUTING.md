@@ -90,7 +90,7 @@ cd apps/www && bun run lint:links       # internal doc links under content/
 
 There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
-**Git hooks (lefthook):** pre-commit runs Ultracite fix on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
+**Git hooks (lefthook):** pre-commit runs `registry:build` (when registry/MDX that feeds it is staged) then Ultracite fix on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
 
 **Windows:** do not use bare `npx biome` / `npx tsc` in this repo (unrelated decoy packages). Use `node_modules/.bin/biome.exe` and `node_modules/.bin/tsc.exe` instead.
 

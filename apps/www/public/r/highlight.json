@@ -3,8 +3,12 @@
   "name": "highlight",
   "title": "Highlight",
   "description": "A Motion-powered highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/highlight/index.tsx",

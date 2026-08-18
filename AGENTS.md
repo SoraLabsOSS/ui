@@ -36,7 +36,7 @@ bun run registry:build        # merges registry-item.json files, builds public/r
 
 There is no test runner configured in this repo — verification is via `check-types`, `lint`, and `registry:build`.
 
-Git hooks (lefthook): pre-commit runs `ultracite fix` on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
+Git hooks (lefthook): pre-commit runs `registry:build` (when registry/MDX that feeds it is staged) then `ultracite fix` on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
 
 ## Architecture
 

@@ -3,7 +3,9 @@
   "name": "demo-dia-text-reveal",
   "title": "Dia Text Reveal Demo",
   "description": "Gradient sweep revealing a headline with a looping chromatic wash.",
-  "registryDependencies": ["@soralabs/dia-text-reveal"],
+  "registryDependencies": [
+    "@soralabs/dia-text-reveal"
+  ],
   "files": [
     {
       "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",

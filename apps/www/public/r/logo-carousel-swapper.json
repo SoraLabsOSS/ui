@@ -3,8 +3,13 @@
   "name": "logo-carousel-swapper",
   "title": "Logo Carousel Swapper",
   "description": "Staggered logo column swapper with fade, vertical shift, and motion blur powered by Motion.",
-  "dependencies": ["motion", "class-variance-authority"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/logo-carousel-swapper/index.tsx",

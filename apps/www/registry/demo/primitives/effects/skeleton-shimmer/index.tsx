@@ -3,7 +3,6 @@
 import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
-import Image from "next/image";
 import {
   type CSSProperties,
   startTransition,
@@ -25,18 +24,35 @@ import {
 const BANNER_HEIGHT = 120;
 const AVATAR_SIZE = 56;
 
-const BANNER_IMAGE_URL = "https://sora.axyl.io.vn/media/axyl-banner.jpg";
-const AVATAR_IMAGE_URL = "https://sora.axyl.io.vn/media/axyl-avt.jpg";
-
-const PROFILE_NAME = "Axyl";
-const PROFILE_HANDLE = "@axyl1410";
+const PROFILE_NAME = "Motion";
+const PROFILE_HANDLE = "@motiondotdev";
 const PROFILE_BIO =
-  "Building Sora UI, an open-source, fully animated React component distribution.";
+  "Free and open source. Create stunning web animations for React, JavaScript and Vue.";
 const PROFILE_STATS = [
-  { value: "14", label: "Posts" },
-  { value: "10K", label: "Followers" },
+  { value: "127", label: "Posts" },
+  { value: "11K", label: "Followers" },
   { value: "5", label: "Following" },
 ] as const;
+
+// ---------------------------------------------------------------------------
+// Motion Logo SVG (used as avatar in the content card)
+// ---------------------------------------------------------------------------
+
+function MotionLogo() {
+  return (
+    <svg
+      fill="currentColor"
+      style={{ width: "65%", height: "65%" }}
+      viewBox="0 0 1260 454"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M475.753 0L226.8 453.6L0 453.6L194.392 99.4116C224.526 44.5081 299.724 0 362.353 0L475.753 0Z" />
+      <path d="M1031.93 113.4C1031.93 50.7709 1082.7 0 1145.33 0C1207.96 0 1258.73 50.7709 1258.73 113.4C1258.73 176.029 1207.96 226.8 1145.33 226.8C1082.7 226.8 1031.93 176.029 1031.93 113.4Z" />
+      <path d="M518.278 0L745.078 0L496.125 453.6L269.325 453.6L518.278 0Z" />
+      <path d="M786.147 0L1012.95 0L818.555 354.188C788.422 409.092 713.223 453.6 650.594 453.6L537.194 453.6L786.147 0Z" />
+    </svg>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Skeleton Card (composed from SkeletonShimmer & SkeletonOverlay)
@@ -55,7 +71,7 @@ function ProfileSkeletonCard({ shimmerDuration }: { shimmerDuration: number }) {
       <div style={sBody}>
         {/* Avatar ring with shimmer circle */}
         <div style={sAvatarRow}>
-          <div style={sAvatarRing}>
+          <div style={sAvatarSkeleton}>
             <SkeletonShimmer
               borderRadius="50%"
               duration={shimmerDuration}
@@ -114,34 +130,14 @@ function ProfileSkeletonCard({ shimmerDuration }: { shimmerDuration: number }) {
 function ProfileContentCard() {
   return (
     <div style={sCard}>
-      {/* Banner image */}
-      <div style={sBannerContainer}>
-        <Image
-          alt="Profile Banner"
-          className="size-full object-cover"
-          draggable={false}
-          height={BANNER_HEIGHT}
-          referrerPolicy="no-referrer"
-          src={BANNER_IMAGE_URL}
-          unoptimized
-          width={360}
-        />
-      </div>
+      {/* Banner — CSS gradient, same as sandbox original */}
+      <div style={sBannerContainer} />
 
       <div style={sBody}>
-        {/* Avatar */}
+        {/* Avatar — Motion SVG logo */}
         <div style={sAvatarRow}>
           <div style={sAvatarRing}>
-            <Image
-              alt={PROFILE_NAME}
-              className="size-full rounded-full object-cover"
-              draggable={false}
-              height={AVATAR_SIZE}
-              referrerPolicy="no-referrer"
-              src={AVATAR_IMAGE_URL}
-              unoptimized
-              width={AVATAR_SIZE}
-            />
+            <MotionLogo />
           </div>
         </div>
 
@@ -274,8 +270,8 @@ const sCard: CSSProperties = {
 const sBannerContainer: CSSProperties = {
   width: "100%",
   height: BANNER_HEIGHT,
-  overflow: "hidden",
-  position: "relative",
+  background:
+    "linear-gradient(135deg, var(--primary) 0%, color-mix(in oklab, var(--primary) 60%, var(--accent)) 100%)",
 };
 
 const sBody: CSSProperties = {
@@ -289,7 +285,8 @@ const sAvatarRow: CSSProperties = {
   marginTop: -28,
 };
 
-const sAvatarRing: CSSProperties = {
+/** Skeleton avatar: card-colored disc, no brand fill. */
+const sAvatarSkeleton: CSSProperties = {
   width: AVATAR_SIZE,
   height: AVATAR_SIZE,
   borderRadius: "50%",
@@ -297,10 +294,20 @@ const sAvatarRing: CSSProperties = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  overflow: "hidden",
+};
+
+/** Revealed avatar: Motion yellow logo disc with a card-colored ring. */
+const sAvatarRing: CSSProperties = {
+  width: AVATAR_SIZE,
+  height: AVATAR_SIZE,
+  borderRadius: "50%",
+  backgroundColor: "#f5e725",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   border: "3px solid var(--card)",
   boxSizing: "border-box",
-  position: "relative",
+  color: "#000",
 };
 
 const sNameBlock: CSSProperties = {

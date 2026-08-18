@@ -3,8 +3,12 @@
   "name": "text-morph",
   "title": "Text Morph",
   "description": "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/text-morph/index.tsx",

@@ -3,8 +3,12 @@
   "name": "number-flow",
   "title": "Number Flow",
   "description": "An animated, digit-by-digit number counter with a smooth rolling odometer effect, powered by Motion.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/number-flow/index.tsx",

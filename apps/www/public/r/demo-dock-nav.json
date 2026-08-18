@@ -3,7 +3,9 @@
   "name": "demo-dock-nav",
   "title": "Dock Nav Demo",
   "description": "Apple-style dock navigation demo with app icons.",
-  "registryDependencies": ["@soralabs/dock-nav"],
+  "registryDependencies": [
+    "@soralabs/dock-nav"
+  ],
   "files": [
     {
       "path": "registry/demo/primitives/effects/dock-nav/index.tsx",

@@ -3,7 +3,10 @@
   "name": "text-reveal-box",
   "title": "Text Reveal Box",
   "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
-  "dependencies": ["gsap", "@gsap/react"],
+  "dependencies": [
+    "gsap",
+    "@gsap/react"
+  ],
   "registryDependencies": [
     "@soralabs/hooks-use-prefers-reduced-motion",
     "@soralabs/lib-scroll-trigger-utils"
@@ -17,7 +20,14 @@
     }
   ],
   "meta": {
-    "keywords": ["scroll", "text", "reveal", "gsap", "scrolltrigger", "pin"],
+    "keywords": [
+      "scroll",
+      "text",
+      "reveal",
+      "gsap",
+      "scrolltrigger",
+      "pin"
+    ],
     "inspiration": {
       "type": "reimplemented",
       "label": "Deadlock Studios",

@@ -3,8 +3,12 @@
   "name": "dia-text-reveal",
   "title": "Dia Text Reveal",
   "description": "A gradient sweep that reveals text with a chromatic wash, powered by Motion.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/dia-text-reveal/index.tsx",

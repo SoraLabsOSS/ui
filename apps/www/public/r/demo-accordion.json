@@ -3,7 +3,9 @@
   "name": "demo-accordion",
   "title": "Accordion Demo",
   "description": "FAQ accordion with animated panels.",
-  "registryDependencies": ["@soralabs/accordion"],
+  "registryDependencies": [
+    "@soralabs/accordion"
+  ],
   "files": [
     {
       "path": "registry/demo/primitives/disclosure/accordion/index.tsx",

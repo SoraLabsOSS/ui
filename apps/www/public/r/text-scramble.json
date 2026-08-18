@@ -3,7 +3,9 @@
   "name": "text-scramble",
   "title": "Text Scramble",
   "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered, powered by Motion.",
-  "dependencies": ["motion"],
+  "dependencies": [
+    "motion"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/text-scramble/index.tsx",

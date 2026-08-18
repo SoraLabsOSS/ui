@@ -3,7 +3,9 @@
   "name": "demo-typer",
   "title": "Typer Demo",
   "description": "A stacked headline that cascades in line by line, each character rippling through pill and accent states before settling into plain text.",
-  "registryDependencies": ["@soralabs/typer"],
+  "registryDependencies": [
+    "@soralabs/typer"
+  ],
   "files": [
     {
       "path": "registry/demo/primitives/texts/typer/index.tsx",

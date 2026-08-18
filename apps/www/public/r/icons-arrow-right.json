@@ -3,7 +3,9 @@
   "name": "icons-arrow-right",
   "title": "Arrow Right",
   "description": "Animated right arrow that nudges forward and redraws its stroke on hover using a pure CSS stroke-dash animation.",
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/icons/arrow-right/index.tsx",
@@ -13,7 +15,14 @@
     }
   ],
   "meta": {
-    "keywords": ["arrow", "right", "next", "forward", "direction", "cta"],
+    "keywords": [
+      "arrow",
+      "right",
+      "next",
+      "forward",
+      "direction",
+      "cta"
+    ],
     "releaseDate": "2026-07-31"
   },
   "type": "registry:ui"

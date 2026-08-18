@@ -3,8 +3,12 @@
   "name": "icons-bell",
   "title": "Bell",
   "description": "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot, powered by the AnimateIcon engine.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["@soralabs/icons-icon"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@soralabs/icons-icon"
+  ],
   "files": [
     {
       "path": "registry/icons/bell/index.tsx",
@@ -14,7 +18,14 @@
     }
   ],
   "meta": {
-    "keywords": ["bell", "notification", "alert", "ring", "rattle", "inbox"],
+    "keywords": [
+      "bell",
+      "notification",
+      "alert",
+      "ring",
+      "rattle",
+      "inbox"
+    ],
     "releaseDate": "2026-08-05"
   },
   "type": "registry:ui"

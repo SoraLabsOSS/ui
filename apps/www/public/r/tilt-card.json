@@ -3,8 +3,12 @@
   "name": "tilt-card",
   "title": "Tilt Card",
   "description": "3D tilt card that rotates toward the cursor on spring physics, with an optional glare reflection.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/tilt-card/index.tsx",

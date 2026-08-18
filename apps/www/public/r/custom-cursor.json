@@ -3,8 +3,13 @@
   "name": "custom-cursor",
   "title": "Custom Cursor",
   "description": "A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.",
-  "dependencies": ["motion", "class-variance-authority"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/custom-cursor/index.tsx",

@@ -3,8 +3,12 @@
   "name": "skeleton-shimmer",
   "title": "Skeleton Shimmer",
   "description": "Skeleton loading placeholders with a shimmer effect that transitions to revealed content via a CSS view-transition wipe animation. Skeletons are sized using placeholder data to reduce layout shifts.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/skeleton-shimmer/index.tsx",

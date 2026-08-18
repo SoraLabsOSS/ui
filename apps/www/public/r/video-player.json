@@ -3,8 +3,12 @@
   "name": "video-player",
   "title": "Video Player",
   "description": "Dependency-free custom video player: modal overlay, chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, fullscreen, keyboard shortcuts, and focus trapping.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/effects/video-player/index.tsx",

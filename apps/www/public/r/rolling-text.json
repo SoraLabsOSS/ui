@@ -3,8 +3,12 @@
   "name": "rolling-text",
   "title": "Rolling Text",
   "description": "Per-character slot-machine reveal that rolls each letter into place once it scrolls into view, powered by Motion.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
   "files": [
     {
       "path": "registry/primitives/texts/rolling-text/index.tsx",
