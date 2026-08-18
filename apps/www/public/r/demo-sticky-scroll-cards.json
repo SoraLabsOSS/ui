@@ -3,9 +3,7 @@
   "name": "demo-sticky-scroll-cards",
   "title": "Sticky Scroll Cards Demo",
   "description": "Front card flips to reveal 4 stacked back cards that dismiss one at a time as you scroll.",
-  "registryDependencies": [
-    "@soralabs/sticky-scroll-cards"
-  ],
+  "registryDependencies": ["@soralabs/sticky-scroll-cards"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",

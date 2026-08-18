@@ -3,12 +3,8 @@
   "name": "inline-testimonials",
   "title": "Inline Testimonials",
   "description": "A flowing quote stream where each avatar reveals its author on hover, with Motion fading and blurring the rest.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/disclosure/inline-testimonials/index.tsx",

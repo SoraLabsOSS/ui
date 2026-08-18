@@ -3,9 +3,7 @@
   "name": "demo-logo-carousel-swapper",
   "title": "Logo Carousel Swapper Demo",
   "description": "Staggered four-column logo swapper with blur and vertical motion.",
-  "registryDependencies": [
-    "@soralabs/logo-carousel-swapper"
-  ],
+  "registryDependencies": ["@soralabs/logo-carousel-swapper"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",

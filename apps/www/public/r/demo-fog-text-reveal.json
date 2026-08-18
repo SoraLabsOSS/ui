@@ -3,9 +3,7 @@
   "name": "demo-fog-text-reveal",
   "title": "Fog Text Reveal Demo",
   "description": "Inline text that materializes through a WebGL fog mask and cycles through messages, inheriting the surrounding font and color.",
-  "registryDependencies": [
-    "@soralabs/fog-text-reveal"
-  ],
+  "registryDependencies": ["@soralabs/fog-text-reveal"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",

@@ -3,13 +3,8 @@
   "name": "pixelated-image-reveal",
   "title": "Pixelated Image Reveal",
   "description": "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
-  "dependencies": [
-    "motion",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/effects/pixelated-image-reveal/index.tsx",

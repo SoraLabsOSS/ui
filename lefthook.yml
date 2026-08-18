@@ -1,23 +1,6 @@
-# gobwas treats `**` as 1+ directories (skips files sitting in the glob root).
-# doublestar matches at any depth, which we need for registry/ and content/.
-glob_matcher: doublestar
-
 pre-commit:
-  piped: true
   jobs:
-    - name: registry:build
-      run: bun run --cwd apps/www registry:build && git add -- apps/www/__registry__ apps/www/public/r
-      glob:
-        - "apps/www/registry/**"
-        - "apps/www/content/docs/**"
-        - "apps/www/content/components/**"
-        - "apps/www/scripts/build-registry.mts"
-        - "apps/www/lib/docs/generate-usage-example-code.ts"
-    - name: ultracite
-      run: bun x ultracite fix || true
-      # Re-read the index after registry:build so generated index.tsx,
-      # preview.tsx, and public/r/*.json get staged again if Ultracite rewrites them.
-      files: git diff --name-only --cached
+    - run: bun x ultracite fix || true
       glob:
         - "**/*.js"
         - "**/*.jsx"
@@ -27,8 +10,7 @@ pre-commit:
         - "**/*.jsonc"
         - "**/*.css"
       stage_fixed: true
-    - name: lint:links
-      run: bun run --cwd apps/www lint:links
+    - run: bun run --cwd apps/www lint:links
       glob:
         - "apps/www/content/**"
 

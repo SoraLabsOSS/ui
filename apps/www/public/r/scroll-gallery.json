@@ -3,10 +3,7 @@
   "name": "scroll-gallery",
   "title": "Scroll Gallery",
   "description": "A full-viewport sticky scroll slider with strip-mask image transitions and animated title swaps, driven by GSAP ScrollTrigger.",
-  "dependencies": [
-    "gsap",
-    "@gsap/react"
-  ],
+  "dependencies": ["gsap", "@gsap/react"],
   "registryDependencies": [
     "utils",
     "@soralabs/hooks-use-prefers-reduced-motion",

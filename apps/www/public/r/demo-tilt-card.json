@@ -3,9 +3,7 @@
   "name": "demo-tilt-card",
   "title": "Tilt Card Demo",
   "description": "Card tilting toward the cursor with layered depth content.",
-  "registryDependencies": [
-    "@soralabs/tilt-card"
-  ],
+  "registryDependencies": ["@soralabs/tilt-card"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/tilt-card/index.tsx",

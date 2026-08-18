@@ -3,12 +3,8 @@
   "name": "icons-chevrons",
   "title": "Chevrons",
   "description": "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "@soralabs/icons-icon"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["@soralabs/icons-icon"],
   "files": [
     {
       "path": "registry/icons/chevrons/index.tsx",
@@ -18,14 +14,7 @@
     }
   ],
   "meta": {
-    "keywords": [
-      "chevron",
-      "chevrons",
-      "up",
-      "arrow",
-      "expand",
-      "caret"
-    ],
+    "keywords": ["chevron", "chevrons", "up", "arrow", "expand", "caret"],
     "releaseDate": "2026-07-30"
   },
   "type": "registry:ui"

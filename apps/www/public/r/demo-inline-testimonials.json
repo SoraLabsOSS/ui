@@ -3,9 +3,7 @@
   "name": "demo-inline-testimonials",
   "title": "Inline Testimonials Demo",
   "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
-  "registryDependencies": [
-    "@soralabs/inline-testimonials"
-  ],
+  "registryDependencies": ["@soralabs/inline-testimonials"],
   "files": [
     {
       "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",

@@ -3,9 +3,7 @@
   "name": "cursor-trail-reveal",
   "title": "Cursor Trail Reveal",
   "description": "Desktop cursor trail that reveals staggered image strips with clip-path wipes as the pointer moves.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "registryDependencies": [
     "utils",
     "@soralabs/hooks-use-prefers-reduced-motion"

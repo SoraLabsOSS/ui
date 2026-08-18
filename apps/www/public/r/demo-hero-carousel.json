@@ -3,9 +3,7 @@
   "name": "demo-hero-carousel",
   "title": "Hero Carousel Demo",
   "description": "Hero image slideshow cycling through a set of project preview screenshots.",
-  "registryDependencies": [
-    "@soralabs/hero-carousel"
-  ],
+  "registryDependencies": ["@soralabs/hero-carousel"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/hero-carousel/index.tsx",

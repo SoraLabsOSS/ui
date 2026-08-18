@@ -3,9 +3,7 @@
   "name": "demo-scroll-gallery",
   "title": "Scroll Gallery Demo",
   "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
-  "registryDependencies": [
-    "@soralabs/scroll-gallery"
-  ],
+  "registryDependencies": ["@soralabs/scroll-gallery"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",

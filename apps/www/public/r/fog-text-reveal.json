@@ -3,12 +3,8 @@
   "name": "fog-text-reveal",
   "title": "Fog Text Reveal",
   "description": "Inline text that materializes through a soft, turbulent WebGL fog mask, inherits font and color from CSS, and cycles through an array of messages.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/fog-text-reveal/index.tsx",

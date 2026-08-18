@@ -3,9 +3,7 @@
   "name": "icons-icon",
   "title": "Icon",
   "description": "AnimateIcon engine that powers Sora's animated icons — provides animate, animateOnHover, animateOnTap, animateOnView, loop, and per/static path animations via a shared context.",
-  "dependencies": [
-    "motion"
-  ],
+  "dependencies": ["motion"],
   "registryDependencies": [
     "@soralabs/hooks-use-is-in-view",
     "@soralabs/primitives-animate-slot"

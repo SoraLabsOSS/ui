@@ -3,9 +3,7 @@
   "name": "demo-border-trail-loading",
   "title": "Border Trail Loading Card Demo",
   "description": "Submit-triggered border trail that loops twice then fades.",
-  "registryDependencies": [
-    "@soralabs/border-trail"
-  ],
+  "registryDependencies": ["@soralabs/border-trail"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/border-trail-loading/index.tsx",

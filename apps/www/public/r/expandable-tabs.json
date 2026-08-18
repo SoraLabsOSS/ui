@@ -3,14 +3,8 @@
   "name": "expandable-tabs",
   "title": "Expandable Tabs",
   "description": "A pill-shaped tab bar that expands into a floating panel, with Motion driving the shell, label, and content transitions.",
-  "dependencies": [
-    "motion",
-    "lucide-react",
-    "react-use-measure"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion", "lucide-react", "react-use-measure"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/disclosure/expandable-tabs/index.tsx",

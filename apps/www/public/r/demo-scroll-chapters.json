@@ -3,9 +3,7 @@
   "name": "demo-scroll-chapters",
   "title": "Scroll Chapters Demo",
   "description": "Five chapters with a draggable, chaptered progress-bar nav — two of them opt out of showing a panel.",
-  "registryDependencies": [
-    "@soralabs/scroll-chapters"
-  ],
+  "registryDependencies": ["@soralabs/scroll-chapters"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/scroll-chapters/index.tsx",

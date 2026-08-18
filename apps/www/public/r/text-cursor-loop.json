@@ -3,9 +3,7 @@
   "name": "text-cursor-loop",
   "title": "Text Cursor Loop",
   "description": "Cycles through a list of words with a per-character collapse/reveal transition and a trailing cursor glyph that wipes across the text between words.",
-  "dependencies": [
-    "motion"
-  ],
+  "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/primitives/texts/text-cursor-loop/index.tsx",

@@ -3,9 +3,7 @@
   "name": "demo-text-effect",
   "title": "Text Effect Demo",
   "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
-  "registryDependencies": [
-    "@soralabs/text-effect"
-  ],
+  "registryDependencies": ["@soralabs/text-effect"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-effect/index.tsx",

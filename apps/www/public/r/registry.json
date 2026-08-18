@@ -11,9 +11,7 @@
         "class-variance-authority",
         "lucide-react"
       ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "cssVars": {},
       "files": []
     },
@@ -22,9 +20,7 @@
       "type": "registry:ui",
       "title": "Particle Hover Button Demo",
       "description": "A heart-particle sponsor link, styled after the anime.js navbar Sponsor button.",
-      "registryDependencies": [
-        "@soralabs/particle-hover-button"
-      ],
+      "registryDependencies": ["@soralabs/particle-hover-button"],
       "files": [
         {
           "path": "registry/demo/primitives/buttons/particle-hover-button/index.tsx",
@@ -38,9 +34,7 @@
       "type": "registry:ui",
       "title": "Accordion Demo",
       "description": "FAQ accordion with animated panels.",
-      "registryDependencies": [
-        "@soralabs/accordion"
-      ],
+      "registryDependencies": ["@soralabs/accordion"],
       "files": [
         {
           "path": "registry/demo/primitives/disclosure/accordion/index.tsx",
@@ -54,9 +48,7 @@
       "type": "registry:ui",
       "title": "Expandable Tabs Demo",
       "description": "Pill tab bar expanding into a floating profile/notifications/settings panel.",
-      "registryDependencies": [
-        "@soralabs/expandable-tabs"
-      ],
+      "registryDependencies": ["@soralabs/expandable-tabs"],
       "files": [
         {
           "path": "registry/demo/primitives/disclosure/expandable-tabs/index.tsx",
@@ -70,9 +62,7 @@
       "type": "registry:ui",
       "title": "Inline Testimonials Demo",
       "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
-      "registryDependencies": [
-        "@soralabs/inline-testimonials"
-      ],
+      "registryDependencies": ["@soralabs/inline-testimonials"],
       "files": [
         {
           "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
@@ -86,9 +76,7 @@
       "type": "registry:ui",
       "title": "Border Trail Demo",
       "description": "Card with animated border spotlight.",
-      "registryDependencies": [
-        "@soralabs/border-trail"
-      ],
+      "registryDependencies": ["@soralabs/border-trail"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/border-trail/index.tsx",
@@ -120,9 +108,7 @@
       "type": "registry:ui",
       "title": "Border Trail Loading Card Demo",
       "description": "Submit-triggered border trail that loops twice then fades.",
-      "registryDependencies": [
-        "@soralabs/border-trail"
-      ],
+      "registryDependencies": ["@soralabs/border-trail"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/border-trail-loading/index.tsx",
@@ -148,9 +134,7 @@
       "type": "registry:ui",
       "title": "Border Trail Textarea Demo",
       "description": "Textarea with a continuous gradient border trail.",
-      "registryDependencies": [
-        "@soralabs/border-trail"
-      ],
+      "registryDependencies": ["@soralabs/border-trail"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/border-trail-textarea/index.tsx",
@@ -182,9 +166,7 @@
       "type": "registry:ui",
       "title": "Cursor Bubble Demo",
       "description": "A floating cursor label that elastic-pops into view over interactive links.",
-      "registryDependencies": [
-        "@soralabs/cursor-bubble"
-      ],
+      "registryDependencies": ["@soralabs/cursor-bubble"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/cursor-bubble/index.tsx",
@@ -216,9 +198,7 @@
       "type": "registry:ui",
       "title": "Custom Cursor Demo",
       "description": "Custom cursor demo with Sora icons and shape variants.",
-      "registryDependencies": [
-        "@soralabs/custom-cursor"
-      ],
+      "registryDependencies": ["@soralabs/custom-cursor"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",
@@ -256,9 +236,7 @@
       "type": "registry:ui",
       "title": "Dock Nav Demo",
       "description": "Apple-style dock navigation demo with app icons.",
-      "registryDependencies": [
-        "@soralabs/dock-nav"
-      ],
+      "registryDependencies": ["@soralabs/dock-nav"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
@@ -272,9 +250,7 @@
       "type": "registry:ui",
       "title": "Hero Carousel Demo",
       "description": "Hero image slideshow cycling through a set of project preview screenshots.",
-      "registryDependencies": [
-        "@soralabs/hero-carousel"
-      ],
+      "registryDependencies": ["@soralabs/hero-carousel"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/hero-carousel/index.tsx",
@@ -288,9 +264,7 @@
       "type": "registry:ui",
       "title": "Highlight Demo",
       "description": "Shared sliding highlight pill moving between nav items on hover.",
-      "registryDependencies": [
-        "@soralabs/highlight"
-      ],
+      "registryDependencies": ["@soralabs/highlight"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/highlight/index.tsx",
@@ -304,9 +278,7 @@
       "type": "registry:ui",
       "title": "Highlight Click Demo",
       "description": "Per-item fade background activated on click — menu list style.",
-      "registryDependencies": [
-        "@soralabs/highlight"
-      ],
+      "registryDependencies": ["@soralabs/highlight"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/highlight-click/index.tsx",
@@ -320,9 +292,7 @@
       "type": "registry:ui",
       "title": "Infinite Scrolling Images Demo",
       "description": "Preview for the infinite stacked image scroll effect.",
-      "registryDependencies": [
-        "@soralabs/infinite-scrolling-images"
-      ],
+      "registryDependencies": ["@soralabs/infinite-scrolling-images"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/infinite-scrolling-images/index.tsx",
@@ -336,9 +306,7 @@
       "type": "registry:ui",
       "title": "Logo Carousel Swapper Demo",
       "description": "Staggered four-column logo swapper with blur and vertical motion.",
-      "registryDependencies": [
-        "@soralabs/logo-carousel-swapper"
-      ],
+      "registryDependencies": ["@soralabs/logo-carousel-swapper"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
@@ -352,9 +320,7 @@
       "type": "registry:ui",
       "title": "Magnetic Cards Demo",
       "description": "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
-      "registryDependencies": [
-        "@soralabs/magnetic-cards"
-      ],
+      "registryDependencies": ["@soralabs/magnetic-cards"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
@@ -368,9 +334,7 @@
       "type": "registry:ui",
       "title": "Pixel Background Demo",
       "description": "A hoverable panel revealing a grid of pixels staggered by the selected pattern.",
-      "registryDependencies": [
-        "@soralabs/pixel-background"
-      ],
+      "registryDependencies": ["@soralabs/pixel-background"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/pixel-background/index.tsx",
@@ -384,9 +348,7 @@
       "type": "registry:ui",
       "title": "Progressive Blur Demo",
       "description": "A scrollable panel with progressive blur fading content under the top and bottom edges.",
-      "registryDependencies": [
-        "@soralabs/progressive-blur"
-      ],
+      "registryDependencies": ["@soralabs/progressive-blur"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",
@@ -400,9 +362,7 @@
       "type": "registry:ui",
       "title": "Scroll Chapters Demo",
       "description": "Five chapters with a draggable, chaptered progress-bar nav — two of them opt out of showing a panel.",
-      "registryDependencies": [
-        "@soralabs/scroll-chapters"
-      ],
+      "registryDependencies": ["@soralabs/scroll-chapters"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/scroll-chapters/index.tsx",
@@ -416,9 +376,7 @@
       "type": "registry:ui",
       "title": "Scroll Gallery Demo",
       "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
-      "registryDependencies": [
-        "@soralabs/scroll-gallery"
-      ],
+      "registryDependencies": ["@soralabs/scroll-gallery"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",
@@ -432,9 +390,7 @@
       "type": "registry:ui",
       "title": "Skeleton Demo",
       "description": "A profile card loading, then crossfading into content once ready.",
-      "registryDependencies": [
-        "@soralabs/skeleton"
-      ],
+      "registryDependencies": ["@soralabs/skeleton"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/skeleton/index.tsx",
@@ -448,9 +404,7 @@
       "type": "registry:ui",
       "title": "Skeleton Shimmer Demo",
       "description": "Skeleton loading card that wipes away to reveal a profile card once content is ready.",
-      "registryDependencies": [
-        "@soralabs/skeleton-shimmer"
-      ],
+      "registryDependencies": ["@soralabs/skeleton-shimmer"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/skeleton-shimmer/index.tsx",
@@ -482,9 +436,7 @@
       "type": "registry:ui",
       "title": "Skeleton Shimmer Basic Demo",
       "description": "Standard skeleton shimmer loading state with blocks and overlay without View Transitions API.",
-      "registryDependencies": [
-        "@soralabs/skeleton-shimmer"
-      ],
+      "registryDependencies": ["@soralabs/skeleton-shimmer"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/skeleton-shimmer-basic/index.tsx",
@@ -510,9 +462,7 @@
       "type": "registry:ui",
       "title": "Sticky Scroll Cards Demo",
       "description": "Front card flips to reveal 4 stacked back cards that dismiss one at a time as you scroll.",
-      "registryDependencies": [
-        "@soralabs/sticky-scroll-cards"
-      ],
+      "registryDependencies": ["@soralabs/sticky-scroll-cards"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",
@@ -526,9 +476,7 @@
       "type": "registry:ui",
       "title": "Tilt Card Demo",
       "description": "Card tilting toward the cursor with layered depth content.",
-      "registryDependencies": [
-        "@soralabs/tilt-card"
-      ],
+      "registryDependencies": ["@soralabs/tilt-card"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/tilt-card/index.tsx",
@@ -569,9 +517,7 @@
       "type": "registry:ui",
       "title": "Tilt Card Glare Demo",
       "description": "Tilt card with a moving light reflection following the tilt angle.",
-      "registryDependencies": [
-        "@soralabs/tilt-card"
-      ],
+      "registryDependencies": ["@soralabs/tilt-card"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/tilt-card-glare/index.tsx",
@@ -603,9 +549,7 @@
       "type": "registry:ui",
       "title": "Tilt Card Image Demo",
       "description": "Image card with a subtle reversed tilt.",
-      "registryDependencies": [
-        "@soralabs/tilt-card"
-      ],
+      "registryDependencies": ["@soralabs/tilt-card"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",
@@ -634,9 +578,7 @@
       "type": "registry:ui",
       "title": "Video Player Demo",
       "description": "Trigger button that opens the modal video player with a sample chaptered video.",
-      "registryDependencies": [
-        "@soralabs/video-player"
-      ],
+      "registryDependencies": ["@soralabs/video-player"],
       "files": [
         {
           "path": "registry/demo/primitives/effects/video-player/index.tsx",
@@ -650,9 +592,7 @@
       "type": "registry:ui",
       "title": "Bottom Sheet Demo",
       "description": "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
-      "registryDependencies": [
-        "@soralabs/bottom-sheet"
-      ],
+      "registryDependencies": ["@soralabs/bottom-sheet"],
       "files": [
         {
           "path": "registry/demo/primitives/radix/bottom-sheet/index.tsx",
@@ -666,9 +606,7 @@
       "type": "registry:ui",
       "title": "Dia Text Reveal Demo",
       "description": "Gradient sweep revealing a headline with a looping chromatic wash.",
-      "registryDependencies": [
-        "@soralabs/dia-text-reveal"
-      ],
+      "registryDependencies": ["@soralabs/dia-text-reveal"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
@@ -682,9 +620,7 @@
       "type": "registry:ui",
       "title": "Draw Underline Link Demo",
       "description": "Scrollable catalog preview with two centered link instances.",
-      "registryDependencies": [
-        "@soralabs/draw-underline-link"
-      ],
+      "registryDependencies": ["@soralabs/draw-underline-link"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/draw-underline-link/index.tsx",
@@ -698,9 +634,7 @@
       "type": "registry:ui",
       "title": "Fog Text Reveal Demo",
       "description": "Inline text that materializes through a WebGL fog mask and cycles through messages, inheriting the surrounding font and color.",
-      "registryDependencies": [
-        "@soralabs/fog-text-reveal"
-      ],
+      "registryDependencies": ["@soralabs/fog-text-reveal"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",
@@ -738,9 +672,7 @@
       "type": "registry:ui",
       "title": "Number Flow Demo",
       "description": "Number Flow demo with currency, input overlay, and countdown examples.",
-      "registryDependencies": [
-        "@soralabs/number-flow"
-      ],
+      "registryDependencies": ["@soralabs/number-flow"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/number-flow/index.tsx",
@@ -754,9 +686,7 @@
       "type": "registry:ui",
       "title": "Text Cursor Loop Demo",
       "description": "The anime.js hero line, with the cursor flashing red only while collapsing/revealing.",
-      "registryDependencies": [
-        "@soralabs/text-cursor-loop"
-      ],
+      "registryDependencies": ["@soralabs/text-cursor-loop"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-cursor-loop/index.tsx",
@@ -770,9 +700,7 @@
       "type": "registry:ui",
       "title": "Text Effect Demo",
       "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
-      "registryDependencies": [
-        "@soralabs/text-effect"
-      ],
+      "registryDependencies": ["@soralabs/text-effect"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-effect/index.tsx",
@@ -786,9 +714,7 @@
       "type": "registry:ui",
       "title": "Text Loop Demo",
       "description": "Cycling headline built with TextLoop.",
-      "registryDependencies": [
-        "@soralabs/text-loop"
-      ],
+      "registryDependencies": ["@soralabs/text-loop"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-loop/index.tsx",
@@ -817,9 +743,7 @@
       "type": "registry:ui",
       "title": "Text Morph Demo",
       "description": "Continue / Confirm pill button with per-character layout morph.",
-      "registryDependencies": [
-        "@soralabs/text-morph"
-      ],
+      "registryDependencies": ["@soralabs/text-morph"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-morph/index.tsx",
@@ -833,9 +757,7 @@
       "type": "registry:ui",
       "title": "Text Morph Input Demo",
       "description": "Live text morph driven by a controlled input.",
-      "registryDependencies": [
-        "@soralabs/text-morph"
-      ],
+      "registryDependencies": ["@soralabs/text-morph"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
@@ -849,9 +771,7 @@
       "type": "registry:ui",
       "title": "Text Reveal Box Demo",
       "description": "Scroll-pinned manifesto copy with word-by-word highlight reveal.",
-      "registryDependencies": [
-        "@soralabs/text-reveal-box"
-      ],
+      "registryDependencies": ["@soralabs/text-reveal-box"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-reveal-box/index.tsx",
@@ -865,9 +785,7 @@
       "type": "registry:ui",
       "title": "Text Reveal (Mask) Demo",
       "description": "Scroll-triggered masked text reveal with rich text emphasis.",
-      "registryDependencies": [
-        "@soralabs/text-reveal-mask"
-      ],
+      "registryDependencies": ["@soralabs/text-reveal-mask"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",
@@ -922,9 +840,7 @@
       "type": "registry:ui",
       "title": "Text Roll Demo",
       "description": "Interactive copy button with chromatic text roll feedback.",
-      "registryDependencies": [
-        "@soralabs/text-roll"
-      ],
+      "registryDependencies": ["@soralabs/text-roll"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/text-roll/index.tsx",
@@ -968,9 +884,7 @@
       "type": "registry:ui",
       "title": "Typer Demo",
       "description": "A stacked headline that cascades in line by line, each character rippling through pill and accent states before settling into plain text.",
-      "registryDependencies": [
-        "@soralabs/typer"
-      ],
+      "registryDependencies": ["@soralabs/typer"],
       "files": [
         {
           "path": "registry/demo/primitives/texts/typer/index.tsx",
@@ -1040,9 +954,7 @@
       "type": "registry:hook",
       "title": "useIsInView",
       "description": "A Motion-powered hook that allows you to check if an element is in view.",
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": ["motion"],
       "files": [
         {
           "path": "registry/hooks/use-is-in-view/index.tsx",
@@ -1069,9 +981,7 @@
       "type": "registry:ui",
       "title": "Arrow Right",
       "description": "Animated right arrow that nudges forward and redraws its stroke on hover using a pure CSS stroke-dash animation.",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/icons/arrow-right/index.tsx",
@@ -1080,14 +990,7 @@
         }
       ],
       "meta": {
-        "keywords": [
-          "arrow",
-          "right",
-          "next",
-          "forward",
-          "direction",
-          "cta"
-        ],
+        "keywords": ["arrow", "right", "next", "forward", "direction", "cta"],
         "releaseDate": "2026-07-31"
       }
     },
@@ -1096,12 +999,8 @@
       "type": "registry:ui",
       "title": "Bell",
       "description": "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot, powered by the AnimateIcon engine.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "@soralabs/icons-icon"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["@soralabs/icons-icon"],
       "files": [
         {
           "path": "registry/icons/bell/index.tsx",
@@ -1126,12 +1025,8 @@
       "type": "registry:ui",
       "title": "Chevrons",
       "description": "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "@soralabs/icons-icon"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["@soralabs/icons-icon"],
       "files": [
         {
           "path": "registry/icons/chevrons/index.tsx",
@@ -1140,14 +1035,7 @@
         }
       ],
       "meta": {
-        "keywords": [
-          "chevron",
-          "chevrons",
-          "up",
-          "arrow",
-          "expand",
-          "caret"
-        ],
+        "keywords": ["chevron", "chevrons", "up", "arrow", "expand", "caret"],
         "releaseDate": "2026-07-30"
       }
     },
@@ -1156,9 +1044,7 @@
       "type": "registry:ui",
       "title": "Icon",
       "description": "AnimateIcon engine that powers Sora's animated icons — provides animate, animateOnHover, animateOnTap, animateOnView, loop, and per/static path animations via a shared context.",
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": ["motion"],
       "registryDependencies": [
         "@soralabs/hooks-use-is-in-view",
         "@soralabs/primitives-animate-slot"
@@ -1215,12 +1101,8 @@
       "type": "registry:ui",
       "title": "Animate Slot",
       "description": "A slot component that allows you to use motion components with any element.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/animate/slot/index.tsx",
@@ -1241,12 +1123,8 @@
       "type": "registry:ui",
       "title": "Particle Hover Button",
       "description": "A wrapper that emits glowing, pooled particles from the cursor while hovering any button or link.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "@soralabs/hooks-use-prefers-reduced-motion"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/buttons/particle-hover-button/index.tsx",
@@ -1271,13 +1149,8 @@
       "type": "registry:ui",
       "title": "Sliding Chip Button",
       "description": "A chip-style call-to-action link with a Motion-powered sliding label and rotating icon chips on hover.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/buttons/sliding-chip-button/index.tsx",
@@ -1328,13 +1201,8 @@
       "type": "registry:ui",
       "title": "Stagger Button",
       "description": "A shadcn button that staggers per character or slides the whole label on hover, with a scaling background layer.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils",
-        "button"
-      ],
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "button"],
       "files": [
         {
           "path": "registry/primitives/buttons/stagger-button/index.tsx",
@@ -1386,14 +1254,8 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "An animated FAQ accordion with expandable panels, powered by Motion.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils",
-        "@soralabs/hooks-use-auto-height"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-auto-height"],
       "files": [
         {
           "path": "registry/primitives/disclosure/accordion/index.tsx",
@@ -1415,14 +1277,8 @@
       "type": "registry:ui",
       "title": "Expandable Tabs",
       "description": "A pill-shaped tab bar that expands into a floating panel, with Motion driving the shell, label, and content transitions.",
-      "dependencies": [
-        "motion",
-        "lucide-react",
-        "react-use-measure"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "lucide-react", "react-use-measure"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/disclosure/expandable-tabs/index.tsx",
@@ -1444,12 +1300,8 @@
       "type": "registry:ui",
       "title": "Inline Testimonials",
       "description": "A flowing quote stream where each avatar reveals its author on hover, with Motion fading and blurring the rest.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/disclosure/inline-testimonials/index.tsx",
@@ -1463,12 +1315,8 @@
       "type": "registry:ui",
       "title": "Border Trail",
       "description": "Animated border spotlight that travels around a rounded container, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/border-trail/index.tsx",
@@ -1489,13 +1337,8 @@
       "type": "registry:ui",
       "title": "Cursor Bubble",
       "description": "A floating label that follows the cursor and elastic-pops into view over interactive targets, powered by GSAP.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
-      "registryDependencies": [
-        "@soralabs/hooks-use-prefers-reduced-motion"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/effects/cursor-bubble/index.tsx",
@@ -1504,13 +1347,7 @@
         }
       ],
       "meta": {
-        "keywords": [
-          "cursor",
-          "bubble",
-          "hover",
-          "label",
-          "gsap"
-        ],
+        "keywords": ["cursor", "bubble", "hover", "label", "gsap"],
         "inspiration": {
           "type": "reimplemented",
           "label": "Truus.co",
@@ -1524,9 +1361,7 @@
       "type": "registry:ui",
       "title": "Cursor Trail Reveal",
       "description": "Desktop cursor trail that reveals staggered image strips with clip-path wipes as the pointer moves.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "utils",
         "@soralabs/hooks-use-prefers-reduced-motion"
@@ -1544,13 +1379,8 @@
       "type": "registry:ui",
       "title": "Custom Cursor",
       "description": "A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/custom-cursor/index.tsx",
@@ -1564,13 +1394,8 @@
       "type": "registry:ui",
       "title": "Dock Nav",
       "description": "An Apple-style dock navigation bar with Motion-powered expanding icons and tooltips on hover.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/dock-nav/index.tsx",
@@ -1611,12 +1436,8 @@
       "type": "registry:ui",
       "title": "Highlight",
       "description": "A Motion-powered highlight effect that allows you to highlight elements on hover, click or with a controlled value.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/highlight/index.tsx",
@@ -1630,12 +1451,8 @@
       "type": "registry:ui",
       "title": "Infinite Scrolling Images",
       "description": "An infinite card stack that advances with wheel, touch, or keyboard input using spring-based Motion transitions.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "@soralabs/hooks-use-prefers-reduced-motion"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/effects/infinite-scrolling-images/index.tsx",
@@ -1660,13 +1477,8 @@
       "type": "registry:ui",
       "title": "Logo Carousel Swapper",
       "description": "Staggered logo column swapper with fade, vertical shift, and motion blur powered by Motion.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/logo-carousel-swapper/index.tsx",
@@ -1698,13 +1510,8 @@
       "type": "registry:ui",
       "title": "Magnetic Cards",
       "description": "A fanned stack of cards that fling away from the cursor on release, with GSAP InertiaPlugin easing each one back to rest.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
-      "registryDependencies": [
-        "@soralabs/hooks-use-prefers-reduced-motion"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/effects/magnetic-cards/index.tsx",
@@ -1713,13 +1520,7 @@
         }
       ],
       "meta": {
-        "keywords": [
-          "magnetic",
-          "cards",
-          "cursor",
-          "inertia",
-          "gsap"
-        ],
+        "keywords": ["magnetic", "cards", "cursor", "inertia", "gsap"],
         "inspiration": {
           "type": "reimplemented",
           "label": "Truus.co",
@@ -1797,9 +1598,7 @@
       "type": "registry:ui",
       "title": "Pixel Image Loader",
       "description": "A canvas-based image that resolves from a blocky, pixelated placeholder up to full sharpness as it loads.",
-      "registryDependencies": [
-        "@soralabs/hooks-use-prefers-reduced-motion"
-      ],
+      "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
       "files": [
         {
           "path": "registry/primitives/effects/pixel-image-loader/index.tsx",
@@ -1855,13 +1654,8 @@
       "type": "registry:ui",
       "title": "Pixelated Image Reveal",
       "description": "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/pixelated-image-reveal/index.tsx",
@@ -1942,10 +1736,7 @@
       "type": "registry:ui",
       "title": "Scroll Chapters",
       "description": "A draggable, chaptered progress-bar nav — two-way cursor/scroll sync, ghost-cursor hover preview, snap-to-step seeking, and a per-chapter panel that can opt in or out of showing.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": [
         "@soralabs/hooks-use-prefers-reduced-motion",
         "@soralabs/lib-scroll-trigger-utils"
@@ -1980,10 +1771,7 @@
       "type": "registry:ui",
       "title": "Scroll Gallery",
       "description": "A full-viewport sticky scroll slider with strip-mask image transitions and animated title swaps, driven by GSAP ScrollTrigger.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": [
         "utils",
         "@soralabs/hooks-use-prefers-reduced-motion",
@@ -2041,9 +1829,7 @@
       "type": "registry:ui",
       "title": "Skeleton",
       "description": "A loading placeholder with shimmer or fade variants, plus a transition that crossfades into real content once loading finishes.",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/skeleton/index.tsx",
@@ -2066,12 +1852,8 @@
       "type": "registry:ui",
       "title": "Skeleton Shimmer",
       "description": "Skeleton loading placeholders with a shimmer effect that transitions to revealed content via a CSS view-transition wipe animation. Skeletons are sized using placeholder data to reduce layout shifts.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/skeleton-shimmer/index.tsx",
@@ -2100,10 +1882,7 @@
       "type": "registry:ui",
       "title": "Sticky Scroll Cards",
       "description": "Scroll-pinned hero where a front card flips to reveal a stack of back cards, dismissed one at a time as you keep scrolling.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": [
         "@soralabs/hooks-use-prefers-reduced-motion",
         "@soralabs/lib-scroll-trigger-utils"
@@ -2138,12 +1917,8 @@
       "type": "registry:ui",
       "title": "Tilt Card",
       "description": "3D tilt card that rotates toward the cursor on spring physics, with an optional glare reflection.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/tilt-card/index.tsx",
@@ -2164,12 +1939,8 @@
       "type": "registry:ui",
       "title": "Video Player",
       "description": "Dependency-free custom video player: modal overlay, chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, fullscreen, keyboard shortcuts, and focus trapping.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/effects/video-player/index.tsx",
@@ -2195,10 +1966,7 @@
       "type": "registry:ui",
       "title": "Bottom Sheet",
       "description": "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
-      "dependencies": [
-        "motion",
-        "radix-ui"
-      ],
+      "dependencies": ["motion", "radix-ui"],
       "registryDependencies": [
         "utils",
         "@soralabs/hooks-use-controlled-state",
@@ -2227,12 +1995,8 @@
       "type": "registry:ui",
       "title": "Dia Text Reveal",
       "description": "A gradient sweep that reveals text with a chromatic wash, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/dia-text-reveal/index.tsx",
@@ -2254,13 +2018,8 @@
       "type": "registry:ui",
       "title": "Draw Underline Link",
       "description": "A link with a hand-drawn SVG underline that animates on hover, powered by Motion.",
-      "dependencies": [
-        "motion",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/draw-underline-link/index.tsx",
@@ -2306,12 +2065,8 @@
       "type": "registry:ui",
       "title": "Fog Text Reveal",
       "description": "Inline text that materializes through a soft, turbulent WebGL fog mask, inherits font and color from CSS, and cycles through an array of messages.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/fog-text-reveal/index.tsx",
@@ -2325,12 +2080,8 @@
       "type": "registry:ui",
       "title": "Number Flow",
       "description": "An animated, digit-by-digit number counter with a smooth rolling odometer effect, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/number-flow/index.tsx",
@@ -2352,12 +2103,8 @@
       "type": "registry:ui",
       "title": "Rolling Text",
       "description": "Per-character slot-machine reveal that rolls each letter into place once it scrolls into view, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/rolling-text/index.tsx",
@@ -2407,9 +2154,7 @@
       "type": "registry:ui",
       "title": "Text Cursor Loop",
       "description": "Cycles through a list of words with a per-character collapse/reveal transition and a trailing cursor glyph that wipes across the text between words.",
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": ["motion"],
       "meta": {
         "keywords": [
           "text",
@@ -2434,12 +2179,8 @@
       "type": "registry:ui",
       "title": "Text Effect",
       "description": "Preset-driven staggered text reveals with blur, fade, slide, and scale animations, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-effect/index.tsx",
@@ -2517,12 +2258,8 @@
       "type": "registry:ui",
       "title": "Text Loop",
       "description": "Cycles through a list of items with an enter/exit animation, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-loop/index.tsx",
@@ -2543,12 +2280,8 @@
       "type": "registry:ui",
       "title": "Text Morph",
       "description": "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-morph/index.tsx",
@@ -2569,10 +2302,7 @@
       "type": "registry:ui",
       "title": "Text Reveal (Block)",
       "description": "Line-by-line text reveal with a colored block wipe, powered by GSAP SplitText.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": [
         "@soralabs/hooks-use-prefers-reduced-motion",
         "@soralabs/lib-scroll-trigger-utils"
@@ -2643,10 +2373,7 @@
       "type": "registry:ui",
       "title": "Text Reveal Box",
       "description": "Scroll-pinned word-by-word text reveal with a highlight flash, powered by GSAP ScrollTrigger.",
-      "dependencies": [
-        "gsap",
-        "@gsap/react"
-      ],
+      "dependencies": ["gsap", "@gsap/react"],
       "registryDependencies": [
         "@soralabs/hooks-use-prefers-reduced-motion",
         "@soralabs/lib-scroll-trigger-utils"
@@ -2680,12 +2407,8 @@
       "type": "registry:ui",
       "title": "Text Reveal (Mask)",
       "description": "A scroll-triggered masked slide-up text reveal animation, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-reveal-mask/index.tsx",
@@ -2760,12 +2483,8 @@
       "type": "registry:ui",
       "title": "Text Roll",
       "description": "A per-character vertical text roll animation for label swaps and micro-interactions, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-roll/index.tsx",
@@ -2786,9 +2505,7 @@
       "type": "registry:ui",
       "title": "Text Scramble",
       "description": "A text scramble reveal animation that decodes characters on mount or when re-triggered, powered by Motion.",
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": ["motion"],
       "files": [
         {
           "path": "registry/primitives/texts/text-scramble/index.tsx",
@@ -2849,12 +2566,8 @@
       "type": "registry:ui",
       "title": "Text Underline",
       "description": "A CSS-only link underline that slides through on hover.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/text-underline/index.tsx",
@@ -2919,9 +2632,7 @@
       "title": "Typer",
       "description": "A character-by-character reveal where each glyph ripples through randomized pill, accent, and outline states before settling into plain text. Adjacent same-state chars merge into rounded bars, and it's themed entirely through CSS variables.",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/texts/typer/index.tsx",

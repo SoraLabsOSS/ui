@@ -3,13 +3,8 @@
   "name": "stagger-button",
   "title": "Stagger Button",
   "description": "A shadcn button that staggers per character or slides the whole label on hover, with a scaling background layer.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "utils",
-    "button"
-  ],
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["utils", "button"],
   "files": [
     {
       "path": "registry/primitives/buttons/stagger-button/index.tsx",

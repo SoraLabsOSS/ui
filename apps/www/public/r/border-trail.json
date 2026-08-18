@@ -3,12 +3,8 @@
   "name": "border-trail",
   "title": "Border Trail",
   "description": "Animated border spotlight that travels around a rounded container, powered by Motion.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/effects/border-trail/index.tsx",

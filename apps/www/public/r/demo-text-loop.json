@@ -3,9 +3,7 @@
   "name": "demo-text-loop",
   "title": "Text Loop Demo",
   "description": "Cycling headline built with TextLoop.",
-  "registryDependencies": [
-    "@soralabs/text-loop"
-  ],
+  "registryDependencies": ["@soralabs/text-loop"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-loop/index.tsx",

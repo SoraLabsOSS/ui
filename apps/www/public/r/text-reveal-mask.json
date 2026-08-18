@@ -3,12 +3,8 @@
   "name": "text-reveal-mask",
   "title": "Text Reveal (Mask)",
   "description": "A scroll-triggered masked slide-up text reveal animation, powered by Motion.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/text-reveal-mask/index.tsx",

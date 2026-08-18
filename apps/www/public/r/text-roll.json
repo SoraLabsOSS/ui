@@ -3,12 +3,8 @@
   "name": "text-roll",
   "title": "Text Roll",
   "description": "A per-character vertical text roll animation for label swaps and micro-interactions, powered by Motion.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/text-roll/index.tsx",

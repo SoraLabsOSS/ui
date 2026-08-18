@@ -3,9 +3,7 @@
   "name": "demo-number-flow",
   "title": "Number Flow Demo",
   "description": "Number Flow demo with currency, input overlay, and countdown examples.",
-  "registryDependencies": [
-    "@soralabs/number-flow"
-  ],
+  "registryDependencies": ["@soralabs/number-flow"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/number-flow/index.tsx",

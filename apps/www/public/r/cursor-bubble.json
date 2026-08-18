@@ -3,13 +3,8 @@
   "name": "cursor-bubble",
   "title": "Cursor Bubble",
   "description": "A floating label that follows the cursor and elastic-pops into view over interactive targets, powered by GSAP.",
-  "dependencies": [
-    "gsap",
-    "@gsap/react"
-  ],
-  "registryDependencies": [
-    "@soralabs/hooks-use-prefers-reduced-motion"
-  ],
+  "dependencies": ["gsap", "@gsap/react"],
+  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
   "files": [
     {
       "path": "registry/primitives/effects/cursor-bubble/index.tsx",
@@ -19,13 +14,7 @@
     }
   ],
   "meta": {
-    "keywords": [
-      "cursor",
-      "bubble",
-      "hover",
-      "label",
-      "gsap"
-    ],
+    "keywords": ["cursor", "bubble", "hover", "label", "gsap"],
     "inspiration": {
       "type": "reimplemented",
       "label": "Truus.co",

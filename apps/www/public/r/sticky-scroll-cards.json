@@ -3,10 +3,7 @@
   "name": "sticky-scroll-cards",
   "title": "Sticky Scroll Cards",
   "description": "Scroll-pinned hero where a front card flips to reveal a stack of back cards, dismissed one at a time as you keep scrolling.",
-  "dependencies": [
-    "gsap",
-    "@gsap/react"
-  ],
+  "dependencies": ["gsap", "@gsap/react"],
   "registryDependencies": [
     "@soralabs/hooks-use-prefers-reduced-motion",
     "@soralabs/lib-scroll-trigger-utils"

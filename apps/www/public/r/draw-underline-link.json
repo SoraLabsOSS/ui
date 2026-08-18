@@ -3,13 +3,8 @@
   "name": "draw-underline-link",
   "title": "Draw Underline Link",
   "description": "A link with a hand-drawn SVG underline that animates on hover, powered by Motion.",
-  "dependencies": [
-    "motion",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/draw-underline-link/index.tsx",

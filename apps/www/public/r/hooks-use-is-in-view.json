@@ -3,9 +3,7 @@
   "name": "hooks-use-is-in-view",
   "title": "useIsInView",
   "description": "A Motion-powered hook that allows you to check if an element is in view.",
-  "dependencies": [
-    "motion"
-  ],
+  "dependencies": ["motion"],
   "files": [
     {
       "path": "registry/hooks/use-is-in-view/index.tsx",

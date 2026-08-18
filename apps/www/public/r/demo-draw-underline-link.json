@@ -3,9 +3,7 @@
   "name": "demo-draw-underline-link",
   "title": "Draw Underline Link Demo",
   "description": "Scrollable catalog preview with two centered link instances.",
-  "registryDependencies": [
-    "@soralabs/draw-underline-link"
-  ],
+  "registryDependencies": ["@soralabs/draw-underline-link"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/draw-underline-link/index.tsx",

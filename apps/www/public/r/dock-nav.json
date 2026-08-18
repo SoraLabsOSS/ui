@@ -3,13 +3,8 @@
   "name": "dock-nav",
   "title": "Dock Nav",
   "description": "An Apple-style dock navigation bar with Motion-powered expanding icons and tooltips on hover.",
-  "dependencies": [
-    "motion",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/effects/dock-nav/index.tsx",

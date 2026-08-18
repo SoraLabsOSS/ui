@@ -3,9 +3,7 @@
   "name": "demo-tilt-card-glare",
   "title": "Tilt Card Glare Demo",
   "description": "Tilt card with a moving light reflection following the tilt angle.",
-  "registryDependencies": [
-    "@soralabs/tilt-card"
-  ],
+  "registryDependencies": ["@soralabs/tilt-card"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/tilt-card-glare/index.tsx",

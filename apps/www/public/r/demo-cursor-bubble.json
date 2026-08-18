@@ -3,9 +3,7 @@
   "name": "demo-cursor-bubble",
   "title": "Cursor Bubble Demo",
   "description": "A floating cursor label that elastic-pops into view over interactive links.",
-  "registryDependencies": [
-    "@soralabs/cursor-bubble"
-  ],
+  "registryDependencies": ["@soralabs/cursor-bubble"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/cursor-bubble/index.tsx",

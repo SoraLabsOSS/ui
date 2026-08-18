@@ -3,12 +3,8 @@
   "name": "text-loop",
   "title": "Text Loop",
   "description": "Cycles through a list of items with an enter/exit animation, powered by Motion.",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/texts/text-loop/index.tsx",

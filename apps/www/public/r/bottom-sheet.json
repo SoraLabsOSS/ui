@@ -3,10 +3,7 @@
   "name": "bottom-sheet",
   "title": "Bottom Sheet",
   "description": "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
-  "dependencies": [
-    "motion",
-    "radix-ui"
-  ],
+  "dependencies": ["motion", "radix-ui"],
   "registryDependencies": [
     "utils",
     "@soralabs/hooks-use-controlled-state",
