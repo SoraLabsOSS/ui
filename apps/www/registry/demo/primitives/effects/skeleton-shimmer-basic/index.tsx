@@ -35,8 +35,8 @@ export function SkeletonShimmerBasicDemo({
   };
 
   return (
-    <div className="flex min-h-[420px] w-full flex-col items-center justify-center gap-4 p-6">
-      <div className="w-full max-w-sm overflow-hidden rounded-2xl border bg-card p-5 shadow-sm transition-colors">
+    <div className="flex min-h-[420px] w-full flex-col items-center justify-center gap-4 px-0 py-3 sm:p-6">
+      <div className="w-full max-w-none overflow-hidden rounded-2xl border bg-card p-4 shadow-sm transition-colors sm:max-w-sm sm:p-5">
         {loading ? (
           /* Skeleton Loading State without View Transitions */
           <div className="flex flex-col gap-4">

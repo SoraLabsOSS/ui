@@ -227,7 +227,7 @@ export function SkeletonShimmerDemo({
   return (
     <div
       className={cn(
-        "flex min-h-120 w-full flex-col items-center justify-center gap-4 p-5"
+        "flex min-h-120 w-full flex-col items-center justify-center gap-4 px-0 py-3 sm:p-5"
       )}
     >
       <div style={sCardTransition}>
