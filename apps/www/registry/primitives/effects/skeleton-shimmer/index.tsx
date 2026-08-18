@@ -168,7 +168,7 @@ export function SkeletonOverlay({
   return (
     <motion.div
       animate={isAnimated ? SHIMMER_KEYFRAMES : undefined}
-      className={cn("overflow-hidden", className)}
+      className={cn("min-h-min overflow-hidden", className)}
       ref={ref}
       style={getShimmerSurfaceStyle(borderRadius, style)}
       transition={{
