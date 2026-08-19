@@ -3,13 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@workspace/ui/*": ["./src/*"]
-    },
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "declaration": false,
-    "declarationMap": false,
-    "strictNullChecks": true
+    }
   },
   "include": ["."],
   "exclude": ["node_modules", "dist"]

@@ -1,9 +1,10 @@
 {
   "extends": "@workspace/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "strictNullChecks": true
+    "paths": {
+      "@workspace/ui/*": ["./src/*"]
+    }
   },
-  "include": ["src", "turbo"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
