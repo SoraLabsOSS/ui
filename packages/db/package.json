@@ -27,7 +27,6 @@
     "@types/node": "^24.0.7",
     "@workspace/typescript-config": "workspace:*",
     "drizzle-kit": "^0.30.6",
-    "tsx": "^4.19.3",
     "typescript": "^6.0.0"
   }
 }
