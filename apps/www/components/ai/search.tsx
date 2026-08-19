@@ -9,6 +9,7 @@ import {
 import { TextShimmer } from "@workspace/ui/components/ui/text-shimmer";
 import { cn } from "@workspace/ui/lib/utils";
 import { DefaultChatTransport, type SourceUrlUIPart, type UIMessage } from "ai";
+import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import {
   ChevronDown,
   FileText,
@@ -38,7 +39,6 @@ import {
 import { createPortal } from "react-dom";
 import { plainSourceTitle } from "@/lib/plain-text";
 import { Markdown } from "../markdown";
-import { buttonVariants } from "../ui/button";
 
 export type ChatUIMessage = UIMessage<
   never,

@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
-      "content": "\"use client\";\n\nimport { magneticCardsDemoItems } from \"@/lib/demo/magnetic-cards-demo-items\";\nimport { MagneticCards } from \"@/components/sora-ui/effects/magnetic-cards\";\n\nexport function MagneticCardsExample() {\n  return (\n    <div className=\"h-[min(420px,60dvh)] w-full min-w-0 sm:h-[460px]\">\n      <MagneticCards className=\"h-full w-full\" items={magneticCardsDemoItems} />\n    </div>\n  );\n}\n\nexport default MagneticCardsExample;\n",
+      "content": "\"use client\";\n\nimport {\n  MagneticCards,\n  type MagneticCardsItem,\n} from \"@/components/sora-ui/effects/magnetic-cards\";\n\nconst MAGNETIC_CARDS_MEDIA =\n  \"https://sora.axyl.io.vn/media/demo/magnetic-cards\" as const;\n\nconst DEMO_ITEMS: MagneticCardsItem[] = [\n  { alt: \"Magnetic cards demo 1\", src: `${MAGNETIC_CARDS_MEDIA}/item1.avif` },\n  { alt: \"Magnetic cards demo 2\", src: `${MAGNETIC_CARDS_MEDIA}/item2.avif` },\n  { alt: \"Magnetic cards demo 3\", src: `${MAGNETIC_CARDS_MEDIA}/item3.avif` },\n  { alt: \"Magnetic cards demo 4\", src: `${MAGNETIC_CARDS_MEDIA}/item4.avif` },\n];\n\nexport function MagneticCardsExample() {\n  return (\n    <div className=\"h-[min(420px,60dvh)] w-full min-w-0 sm:h-[460px]\">\n      <MagneticCards className=\"h-full w-full\" items={DEMO_ITEMS} />\n    </div>\n  );\n}\n\nexport default MagneticCardsExample;\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/effects/magnetic-cards.tsx"
     }

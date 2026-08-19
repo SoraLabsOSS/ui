@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
-import { scrollGalleryDemoSlides } from "@/lib/demo/scroll-gallery-demo-slides";
 import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
+import { scrollGalleryDemoSlides } from "@/registry/demo/primitives/effects/scroll-gallery";
 import { ScrollGallery } from "@/registry/primitives/effects/scroll-gallery";
 
 export default function ScrollGalleryCatalogPreview() {

@@ -1,5 +1,6 @@
-import { DEMO_SCROLL_READY_EVENT } from "@/lib/demo/demo-scroll-ready";
 import { HOME_SCROLL_READY_EVENT } from "@/lib/home/home-scroll-ready";
+
+export const DEMO_SCROLL_READY_EVENT = "sora:demo-scroll-ready";
 
 export function isWindowScroller(scroller: Element | Window): boolean {
   return (

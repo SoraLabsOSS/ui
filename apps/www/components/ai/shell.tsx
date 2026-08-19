@@ -1,5 +1,6 @@
 "use client";
 
+import { buttonVariants } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { MessageCircleIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -9,7 +10,6 @@ import {
   AISearchTrigger,
   isAskAiPath,
 } from "@/components/ai/search";
-import { buttonVariants } from "@/components/ui/button";
 
 function AISearchSiteTrigger() {
   const pathname = usePathname();

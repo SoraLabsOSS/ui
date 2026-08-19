@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { X } from "lucide-react";
 import { type HTMLAttributes, useEffect, useState } from "react";
 import { getBannerDismissClass } from "@/lib/banner-config";
-import { buttonVariants } from "./ui/button";
 
 type BannerVariant = "rainbow" | "normal";
 
