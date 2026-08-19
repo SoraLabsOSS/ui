@@ -1,6 +1,5 @@
 "use client";
 
-import { type Binds, Tweakpane } from "@workspace/ui/components/docs/tweakpane";
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
@@ -8,6 +7,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { index } from "@/__registry__";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
+import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
 import {
   Tabs,
   TabsContent,

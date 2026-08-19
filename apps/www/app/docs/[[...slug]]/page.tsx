@@ -1,4 +1,3 @@
-import { Footer } from "@workspace/ui/components/docs/footer";
 import { Button } from "@workspace/ui/components/ui/button";
 import { findNeighbour } from "fumadocs-core/server";
 import { createRelativeLink } from "fumadocs-ui/mdx";
@@ -15,6 +14,7 @@ import { notFound } from "next/navigation";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
+import { Footer } from "@/components/docs/footer";
 import { PageActionButtons } from "@/components/docs/page-actions";
 import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";

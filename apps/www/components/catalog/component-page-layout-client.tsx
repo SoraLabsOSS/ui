@@ -1,6 +1,5 @@
 "use client";
 
-import { Footer } from "@workspace/ui/components/docs/footer";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
@@ -11,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Footer } from "@/components/docs/footer";
 import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
 import type {
   ComponentGalleryItem,

@@ -1,7 +1,7 @@
-import { Bunny } from "@workspace/ui/components/docs/bunny";
 import { Button } from "@workspace/ui/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Bunny } from "@/components/docs/bunny";
 import {
   Highlight,
   HighlightItem,
