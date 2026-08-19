@@ -51,7 +51,8 @@ export const auth = betterAuth({
     storeSessionInDatabase: true, // Required when using oauth-provider with secondaryStorage
     cookieCache: {
       enabled: true,
-      maxAge: 300, // Serve session reads from the signed cookie instead of hitting DB/Redis
+      maxAge: 300, // Serve session reads from the encrypted cookie instead of hitting DB/Redis
+      strategy: "jwe",
     },
   },
   verification: {
