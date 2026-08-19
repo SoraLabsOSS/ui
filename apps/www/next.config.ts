@@ -72,7 +72,14 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
-    return buildDocRedirects(appRoot);
+    return [
+      {
+        source: "/privacy",
+        destination: "/legal/privacy",
+        permanent: true,
+      },
+      ...buildDocRedirects(appRoot),
+    ];
   },
   async headers() {
     return [

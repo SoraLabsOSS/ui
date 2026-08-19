@@ -229,7 +229,7 @@ async function pipeCfChatStream(
   writer.write({ type: "finish" });
 }
 
-export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
+export async function POST(req: Request) {
   const reqJson = await req.json();
   const uiMessages = (reqJson.messages ?? []) as ChatUIMessage[];
   const messages = await convertToModelMessages<ChatUIMessage>(uiMessages, {
