@@ -45,11 +45,13 @@ export function accountInfoOptions<TAuthClient extends AuthClient>(
   const options = queryOptions<TData, BetterFetchError, TData, typeof queryKey>(
     {
       queryKey,
-      queryFn: ({ signal }) =>
-        authClient.accountInfo({
-          ...params,
-          fetchOptions: { ...params?.fetchOptions, signal, throw: true },
-        }) as Promise<TData>,
+      queryFn: params?.query
+        ? ({ signal }) =>
+            authClient.accountInfo({
+              ...params,
+              fetchOptions: { ...params?.fetchOptions, signal, throw: true },
+            }) as Promise<TData>
+        : skipToken,
     }
   );
 
@@ -133,7 +135,7 @@ export type UseAccountInfoOptions<TAuthClient extends AuthClient> =
  */
 export function useAccountInfo<TAuthClient extends AuthClient>(
   authClient: TAuthClient,
-  options: UseAccountInfoOptions<TAuthClient> = {},
+  options: UseAccountInfoOptions<TAuthClient>,
   queryClient?: QueryClient
 ) {
   const { data: session } = useSession(authClient, undefined, queryClient);
@@ -146,7 +148,9 @@ export function useAccountInfo<TAuthClient extends AuthClient>(
     fetchOptions,
   });
 
-  const canFetch = Boolean(userId && query?.accountId);
+  const canFetch = Boolean(
+    userId && query && "accountId" in query && query.accountId
+  );
 
   return useQuery(
     {
