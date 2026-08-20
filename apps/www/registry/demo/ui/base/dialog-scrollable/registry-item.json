@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dialog-scrollable",
+  "type": "registry:ui",
+  "title": "Dialog Scrollable Demo",
+  "registryDependencies": ["dialog", "button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dialog-scrollable.tsx"
+    }
+  ]
+}

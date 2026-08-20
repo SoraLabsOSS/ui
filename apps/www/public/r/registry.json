@@ -910,6 +910,153 @@
       }
     },
     {
+      "name": "demo-button",
+      "type": "registry:ui",
+      "title": "Button Demo",
+      "description": "Interactive showcase of Base UI Button variants, sizes, icon combinations, and Motion scaling.",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-destructive",
+      "type": "registry:ui",
+      "title": "Button Destructive Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-destructive/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-destructive.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-ghost",
+      "type": "registry:ui",
+      "title": "Button Ghost Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-ghost/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-ghost.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-icon",
+      "type": "registry:ui",
+      "title": "Button Icon Demo",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-icon/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-icon.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-link",
+      "type": "registry:ui",
+      "title": "Button Link Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-link/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-link.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-loading",
+      "type": "registry:ui",
+      "title": "Button Loading Demo",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-loading/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-loading.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-motion",
+      "type": "registry:ui",
+      "title": "Button Motion Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-motion/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-motion.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-outline",
+      "type": "registry:ui",
+      "title": "Button Outline Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-outline/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-outline.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-secondary",
+      "type": "registry:ui",
+      "title": "Button Secondary Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-secondary/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-secondary.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-sizes",
+      "type": "registry:ui",
+      "title": "Button Sizes Demo",
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-sizes/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-sizes.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-with-icon",
+      "type": "registry:ui",
+      "title": "Button With Icon Demo",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-with-icon/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-with-icon.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-checkbox",
       "type": "registry:ui",
       "title": "Checkbox Demo",
@@ -924,6 +1071,71 @@
       ]
     },
     {
+      "name": "demo-checkbox-card",
+      "type": "registry:ui",
+      "title": "Checkbox Card Demo",
+      "registryDependencies": ["@soralabs/checkbox"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/checkbox-card/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/checkbox-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-checkbox-custom",
+      "type": "registry:ui",
+      "title": "Checkbox Custom Demo",
+      "registryDependencies": ["@soralabs/checkbox"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/checkbox-custom/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/checkbox-custom.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-checkbox-disabled",
+      "type": "registry:ui",
+      "title": "Checkbox Disabled Demo",
+      "registryDependencies": ["@soralabs/checkbox"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/checkbox-disabled/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/checkbox-disabled.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-checkbox-indeterminate",
+      "type": "registry:ui",
+      "title": "Checkbox Indeterminate Demo",
+      "registryDependencies": ["@soralabs/checkbox"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/checkbox-indeterminate/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/checkbox-indeterminate.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-checkbox-with-text",
+      "type": "registry:ui",
+      "title": "Checkbox With Text Demo",
+      "registryDependencies": ["@soralabs/checkbox"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/checkbox-with-text/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/checkbox-with-text.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-dialog",
       "type": "registry:ui",
       "title": "Dialog Demo",
@@ -934,6 +1146,47 @@
           "path": "registry/demo/ui/base/dialog/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/base/dialog.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-dialog-destructive",
+      "type": "registry:ui",
+      "title": "Dialog Destructive Demo",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/dialog-destructive/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/dialog-destructive.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-dialog-scrollable",
+      "type": "registry:ui",
+      "title": "Dialog Scrollable Demo",
+      "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/dialog-scrollable.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-dialog-share",
+      "type": "registry:ui",
+      "title": "Dialog Share Link Demo",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/dialog-share/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/dialog-share.tsx"
         }
       ]
     },
@@ -1228,9 +1481,9 @@
       "name": "stagger-button",
       "type": "registry:ui",
       "title": "Stagger Button",
-      "description": "A shadcn button that staggers per character or slides the whole label on hover, with a scaling background layer.",
+      "description": "A button that staggers per character or slides the whole label on hover, with a scaling background layer.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils", "button"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/primitives/buttons/stagger-button/index.tsx",
@@ -2641,6 +2894,21 @@
       ]
     },
     {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "An interactive button component built on Base UI with Motion hover/tap scaling and shadcn/ui variants.",
+      "dependencies": ["@base-ui/react", "motion", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/base/button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/button.tsx"
+        }
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
@@ -2653,19 +2921,7 @@
           "type": "registry:ui",
           "target": "components/sora-ui/base/checkbox.tsx"
         }
-      ],
-      "meta": {
-        "demoProps": {
-          "Checkbox": {
-            "label": {
-              "value": "Enable notifications"
-            },
-            "defaultChecked": {
-              "value": true
-            }
-          }
-        }
-      }
+      ]
     },
     {
       "name": "dialog",
@@ -2673,22 +2929,18 @@
       "title": "Dialog",
       "description": "An accessible modal dialog built on Base UI with smooth Motion spring entrance and exit animations.",
       "dependencies": ["@base-ui/react", "motion", "lucide-react"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-controlled-state",
+        "@soralabs/button"
+      ],
       "files": [
         {
           "path": "registry/ui/base/dialog/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/base/dialog.tsx"
         }
-      ],
-      "meta": {
-        "inspiration": {
-          "type": "reimplemented",
-          "label": "Base UI: Dialog (Motion Examples)",
-          "url": "https://examples.motion.dev/react/base-dialog",
-          "stack": "Base UI and Motion"
-        }
-      }
+      ]
     },
     {
       "name": "bottom-sheet",

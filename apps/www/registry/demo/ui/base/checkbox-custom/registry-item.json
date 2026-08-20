@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-custom",
+  "type": "registry:ui",
+  "title": "Checkbox Custom Demo",
+  "registryDependencies": ["checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-custom/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-custom.tsx"
+    }
+  ]
+}

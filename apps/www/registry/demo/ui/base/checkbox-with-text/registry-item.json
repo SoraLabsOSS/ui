@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-with-text",
+  "type": "registry:ui",
+  "title": "Checkbox With Text Demo",
+  "registryDependencies": ["checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-with-text/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-with-text.tsx"
+    }
+  ]
+}

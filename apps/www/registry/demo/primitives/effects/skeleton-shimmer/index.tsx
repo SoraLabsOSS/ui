@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
 import {
@@ -16,6 +15,7 @@ import {
   SkeletonShimmer,
   useViewTransitionWipeStyles,
 } from "@/registry/primitives/effects/skeleton-shimmer";
+import { Button } from "@/registry/ui/base/button";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -41,6 +41,7 @@ const PROFILE_STATS = [
 function MotionLogo() {
   return (
     <svg
+      aria-hidden="true"
       fill="currentColor"
       style={{ width: "65%", height: "65%" }}
       viewBox="0 0 1260 454"

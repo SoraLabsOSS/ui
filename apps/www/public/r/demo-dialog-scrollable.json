@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dialog-scrollable",
+  "title": "Dialog Scrollable Demo",
+  "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/base/button\";\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/sora-ui/base/dialog\";\n\nexport default function DialogScrollableDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Dialog>\n        <DialogTrigger\n          render={<Button variant=\"secondary\">View Terms</Button>}\n        />\n        <DialogContent className=\"sm:max-w-[540px]\">\n          <DialogHeader>\n            <DialogTitle>Terms of Service</DialogTitle>\n            <DialogDescription>\n              Please review our service agreement and terms of use.\n            </DialogDescription>\n          </DialogHeader>\n          <div className=\"flex max-h-[260px] flex-col gap-3 overflow-y-auto pr-2 text-muted-foreground text-xs leading-relaxed\">\n            <p>\n              Welcome to Sora UI. By accessing or using our websites and\n              component registry, you agree to be bound by these Terms of\n              Service.\n            </p>\n            <p>\n              1. License: You are granted a personal, non-exclusive license to\n              install, copy, and modify components for software applications.\n            </p>\n            <p>\n              2. Restrictions: You may not redistribute the source registry as a\n              competing registry service without prior written consent.\n            </p>\n            <p>\n              3. Warranty Disclaimer: The software components are provided\n              &quot;as is&quot;, without warranty of any kind, express or\n              implied.\n            </p>\n            <p>\n              4. Privacy & Cookies: We respect your privacy and do not collect\n              tracking analytics on your consumer apps.\n            </p>\n          </div>\n          <DialogFooter showCloseButton>\n            <DialogClose render={<Button>I Understand</Button>} />\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dialog-scrollable.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

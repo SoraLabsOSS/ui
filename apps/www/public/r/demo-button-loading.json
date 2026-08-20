@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-loading",
+  "title": "Button Loading Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-loading/index.tsx",
+      "content": "\"use client\";\n\nimport { Loader2 } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonLoadingDemo() {\n  return (\n    <Button disabled>\n      <Loader2 className=\"size-4 animate-spin\" />\n      Please wait\n    </Button>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-loading.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

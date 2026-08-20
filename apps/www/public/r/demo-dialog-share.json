@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dialog-share",
+  "title": "Dialog Share Link Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dialog-share/index.tsx",
+      "content": "\"use client\";\n\nimport { Check, Copy, Share2 } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Button } from \"@/components/sora-ui/base/button\";\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/sora-ui/base/dialog\";\n\nexport default function DialogShareDemo() {\n  const [copied, setCopied] = useState(false);\n\n  const copyShareLink = () => {\n    navigator.clipboard.writeText(\"https://sora-ui.com/ui/dialog\");\n    setCopied(true);\n    setTimeout(() => setCopied(false), 2000);\n  };\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Dialog>\n        <DialogTrigger\n          render={\n            <Button variant=\"outline\">\n              <Share2 className=\"size-4\" />\n              Share Link\n            </Button>\n          }\n        />\n        <DialogContent className=\"sm:max-w-md\">\n          <DialogHeader>\n            <DialogTitle>Share link</DialogTitle>\n            <DialogDescription>\n              Anyone who has this link will be able to view this project.\n            </DialogDescription>\n          </DialogHeader>\n          <div className=\"flex items-center gap-2 py-2\">\n            <div className=\"grid flex-1 gap-2\">\n              <label className=\"sr-only\" htmlFor=\"share-link-input\">\n                Link\n              </label>\n              <input\n                className=\"h-9 w-full rounded-md border border-input bg-muted/50 px-3 py-1 font-mono text-xs shadow-xs outline-none\"\n                id=\"share-link-input\"\n                readOnly\n                value=\"https://sora-ui.com/ui/dialog\"\n              />\n            </div>\n            <Button\n              onClick={copyShareLink}\n              size=\"sm\"\n              type=\"button\"\n              variant=\"secondary\"\n            >\n              {copied ? (\n                <Check className=\"size-4 text-emerald-500\" />\n              ) : (\n                <Copy className=\"size-4\" />\n              )}\n              <span className=\"sr-only\">Copy</span>\n            </Button>\n          </div>\n          <DialogFooter>\n            <DialogClose render={<Button variant=\"outline\">Done</Button>} />\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dialog-share.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

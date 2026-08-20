@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-indeterminate",
+  "title": "Checkbox Indeterminate Demo",
+  "registryDependencies": ["@soralabs/checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-indeterminate/index.tsx",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Checkbox } from \"@/components/sora-ui/base/checkbox\";\n\nconst items = [\n  { id: \"comments\", label: \"Comments\" },\n  { id: \"mentions\", label: \"Mentions\" },\n  { id: \"offers\", label: \"Promotions\" },\n];\n\nexport default function CheckboxIndeterminateDemo() {\n  const [selected, setSelected] = useState<string[]>([\"comments\", \"mentions\"]);\n  const allSelected = selected.length === items.length;\n  const isIndeterminate = selected.length > 0 && !allSelected;\n\n  const toggleAll = () => {\n    setSelected(allSelected ? [] : items.map((i) => i.id));\n  };\n\n  const toggleItem = (id: string) => {\n    setSelected((prev) =>\n      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]\n    );\n  };\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex w-full max-w-sm flex-col gap-3 rounded-lg border border-border p-4\">\n        <div className=\"flex items-center gap-3 border-border border-b pb-3\">\n          <Checkbox\n            checked={allSelected}\n            id=\"select-all\"\n            indeterminate={isIndeterminate}\n            onCheckedChange={toggleAll}\n          />\n          <label\n            className=\"cursor-pointer select-none font-semibold text-foreground text-sm\"\n            htmlFor=\"select-all\"\n          >\n            Select all notifications\n          </label>\n        </div>\n        <div className=\"flex flex-col gap-2.5 pt-1 pl-6\">\n          {items.map((item) => (\n            <div className=\"flex items-center gap-2.5\" key={item.id}>\n              <Checkbox\n                checked={selected.includes(item.id)}\n                id={item.id}\n                onCheckedChange={() => toggleItem(item.id)}\n              />\n              <label\n                className=\"cursor-pointer select-none font-medium text-foreground text-sm\"\n                htmlFor={item.id}\n              >\n                {item.label}\n              </label>\n            </div>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-indeterminate.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-disabled",
+  "type": "registry:ui",
+  "title": "Checkbox Disabled Demo",
+  "registryDependencies": ["checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-disabled/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-disabled.tsx"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-ghost",
+  "type": "registry:ui",
+  "title": "Button Ghost Demo",
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-ghost/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-ghost.tsx"
+    }
+  ]
+}

@@ -13,17 +13,5 @@
       "target": "components/sora-ui/base/checkbox.tsx"
     }
   ],
-  "meta": {
-    "demoProps": {
-      "Checkbox": {
-        "label": {
-          "value": "Enable notifications"
-        },
-        "defaultChecked": {
-          "value": true
-        }
-      }
-    }
-  },
   "type": "registry:ui"
 }

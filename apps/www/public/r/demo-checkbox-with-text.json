@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-with-text",
+  "title": "Checkbox With Text Demo",
+  "registryDependencies": ["@soralabs/checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-with-text/index.tsx",
+      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxWithTextDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex max-w-sm items-start gap-3\">\n        <Checkbox defaultChecked id=\"terms-with-text\" />\n        <div className=\"grid gap-1.5 leading-none\">\n          <label\n            className=\"cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n            htmlFor=\"terms-with-text\"\n          >\n            Accept terms and conditions\n          </label>\n          <p className=\"text-muted-foreground text-xs\">\n            By clicking this checkbox, you agree to our Terms of Service and\n            Privacy Policy.\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-with-text.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

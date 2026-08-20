@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/registry/ui/base/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -13,22 +13,18 @@ import {
 } from "@/registry/ui/base/dialog";
 
 export default function DialogDemo() {
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-4 p-4">
-      {/* 1. Edit Profile Dialog */}
-      <Dialog onOpenChange={setProfileOpen} open={profileOpen}>
-        <DialogTrigger className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground text-sm shadow-xs transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-          Edit Profile
-        </DialogTrigger>
+    <div className="flex items-center justify-center p-4">
+      <Dialog onOpenChange={setOpen} open={open}>
+        <DialogTrigger render={<Button>Edit Profile</Button>} />
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
-              Make changes to your profile information here. Click save when
-              you&apos;re done.
+              Make changes to your profile here. Click save when you&apos;re
+              done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-2">
@@ -60,41 +56,9 @@ export default function DialogDemo() {
             </div>
           </div>
           <DialogFooter showCloseButton>
-            <button
-              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground text-sm shadow-xs transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => setProfileOpen(false)}
-              type="button"
-            >
+            <Button onClick={() => setOpen(false)} type="button">
               Save changes
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* 2. Destructive Alert Dialog */}
-      <Dialog onOpenChange={setDeleteOpen} open={deleteOpen}>
-        <DialogTrigger className="inline-flex h-9 items-center justify-center rounded-lg border border-input bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-          Delete Project
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[400px]">
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              project repository and remove all deployed services.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted">
-              Cancel
-            </DialogClose>
-            <button
-              className="inline-flex h-9 items-center justify-center rounded-md bg-destructive px-4 py-2 font-medium text-destructive-foreground text-sm shadow-xs transition-colors hover:bg-destructive/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onClick={() => setDeleteOpen(false)}
-              type="button"
-            >
-              Confirm Delete
-            </button>
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

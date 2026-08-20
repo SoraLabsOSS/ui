@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dialog-destructive",
+  "type": "registry:ui",
+  "title": "Dialog Destructive Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["dialog", "button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dialog-destructive/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dialog-destructive.tsx"
+    }
+  ]
+}

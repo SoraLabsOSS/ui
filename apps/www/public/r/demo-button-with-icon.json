@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-with-icon",
+  "title": "Button With Icon Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-with-icon/index.tsx",
+      "content": "\"use client\";\n\nimport { ChevronRight, Mail } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonWithIconDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button>\n        <Mail className=\"size-4\" />\n        Login with Email\n      </Button>\n      <Button variant=\"secondary\">\n        Next Step\n        <ChevronRight className=\"size-4\" />\n      </Button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-with-icon.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

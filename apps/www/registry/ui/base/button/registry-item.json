@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "An interactive button component built on Base UI with Motion hover/tap scaling and shadcn/ui variants.",
+  "dependencies": ["@base-ui/react", "motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/ui/base/button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/base/button.tsx"
+    }
+  ]
+}

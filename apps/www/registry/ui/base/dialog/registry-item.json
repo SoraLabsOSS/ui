@@ -5,20 +5,12 @@
   "title": "Dialog",
   "description": "An accessible modal dialog built on Base UI with smooth Motion spring entrance and exit animations.",
   "dependencies": ["@base-ui/react", "motion", "lucide-react"],
-  "registryDependencies": ["utils"],
+  "registryDependencies": ["utils", "hooks-use-controlled-state", "button"],
   "files": [
     {
       "path": "registry/ui/base/dialog/index.tsx",
       "type": "registry:ui",
       "target": "components/sora-ui/base/dialog.tsx"
     }
-  ],
-  "meta": {
-    "inspiration": {
-      "type": "reimplemented",
-      "label": "Base UI: Dialog (Motion Examples)",
-      "url": "https://examples.motion.dev/react/base-dialog",
-      "stack": "Base UI and Motion"
-    }
-  }
+  ]
 }

@@ -3,5 +3,5 @@
   "description": "Animated app components",
   "icon": "Component",
   "root": true,
-  "pages": ["---Base UI---", "checkbox", "dialog"]
+  "pages": ["---Base UI---", "button", "checkbox", "dialog"]
 }

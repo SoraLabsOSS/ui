@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-link",
+  "type": "registry:ui",
+  "title": "Button Link Demo",
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-link/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-link.tsx"
+    }
+  ]
+}

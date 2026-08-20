@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dialog-share",
+  "type": "registry:ui",
+  "title": "Dialog Share Link Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["dialog", "button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dialog-share/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dialog-share.tsx"
+    }
+  ]
+}

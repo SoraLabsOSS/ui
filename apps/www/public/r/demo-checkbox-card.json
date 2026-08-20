@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-card",
+  "title": "Checkbox Card Demo",
+  "registryDependencies": ["@soralabs/checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-card/index.tsx",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Checkbox } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxCardDemo() {\n  const [enabled, setEnabled] = useState(true);\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <label\n        className=\"flex max-w-md cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5\"\n        htmlFor=\"security-card-input\"\n      >\n        <Checkbox\n          checked={enabled}\n          id=\"security-card-input\"\n          onCheckedChange={setEnabled}\n        />\n        <div className=\"grid gap-1\">\n          <span className=\"font-medium text-foreground text-sm leading-none\">\n            Two-factor Authentication\n          </span>\n          <span className=\"text-muted-foreground text-xs leading-normal\">\n            Protect your account with an extra layer of security on login.\n          </span>\n        </div>\n      </label>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-card.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

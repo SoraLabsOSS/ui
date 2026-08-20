@@ -1,0 +1,101 @@
+---
+title: Button
+description: An accessible button component built on Base UI and Motion for React with shadcn/ui variants, comprehensive sizes, and physics-based hover/tap scaling.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-button" description="Default primary button with Motion spring scaling on hover and tap." />
+
+## Installation
+
+<ComponentInstallation name="button" />
+
+## Usage
+
+```tsx
+import { Button } from "@/components/sora-ui/base/button";
+
+export default function Page() {
+  return <Button>Button</Button>;
+}
+```
+
+## Examples
+
+### Secondary
+
+<ComponentPreview name="demo-button-secondary" description="Secondary button with soft background styling." />
+
+### Destructive
+
+<ComponentPreview name="demo-button-destructive" description="Destructive button for high-risk or irreversible user actions." />
+
+### Outline
+
+<ComponentPreview name="demo-button-outline" description="Outlined bordered button for secondary actions." />
+
+### Ghost
+
+<ComponentPreview name="demo-button-ghost" description="Ghost button with hover-only background highlight." />
+
+### Link
+
+<ComponentPreview name="demo-button-link" description="Link-styled button with underline interaction." />
+
+### With Icon
+
+<ComponentPreview name="demo-button-with-icon" description="Button combined with leading or trailing Lucide icons." />
+
+### Icon Only
+
+<ComponentPreview name="demo-button-icon" description="Icon-only square button with accessible sr-only label." />
+
+### Loading State
+
+<ComponentPreview name="demo-button-loading" description="Disabled button showing an animated spinner." />
+
+### Sizes
+
+<ComponentPreview name="demo-button-sizes" description="Button size presets from extra small (xs) to large (lg)." />
+
+### Custom Motion Scaling
+
+<ComponentPreview name="demo-button-motion" description="Customizable hoverScale and tapScale multipliers, with option to disable scaling." />
+
+## Props
+
+<TypeTable
+  type={{
+    variant: {
+      description: "Visual variant of the button.",
+      type: "\"default\" | \"outline\" | \"secondary\" | \"ghost\" | \"destructive\" | \"link\"",
+      default: "\"default\"",
+    },
+    size: {
+      description: "Size preset of the button.",
+      type: "\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"",
+      default: "\"default\"",
+    },
+    hoverScale: {
+      description: "Motion scale multiplier on pointer hover.",
+      type: "number",
+      default: "1.05",
+    },
+    tapScale: {
+      description: "Motion scale multiplier on pointer tap/click.",
+      type: "number",
+      default: "0.95",
+    },
+    disableAnimation: {
+      description: "Whether to disable hover and tap scaling animation.",
+      type: "boolean",
+      default: "false",
+    },
+    className: {
+      description: "Additional CSS classes merged onto the button element.",
+      type: "string",
+    },
+  }}
+/>

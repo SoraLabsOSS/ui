@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@workspace/ui/components/ui/button";
 import Image from "next/image";
 import { type ReactNode, useEffect, useState } from "react";
 import { SkeletonOverlay } from "@/registry/primitives/effects/skeleton-shimmer";
+import { Button } from "@/registry/ui/base/button";
 
 const BANNER_IMAGE_URL = "https://sora.axyl.io.vn/media/axyl-banner.jpg";
 const AVATAR_IMAGE_URL = "https://sora.axyl.io.vn/media/axyl-avt.jpg";

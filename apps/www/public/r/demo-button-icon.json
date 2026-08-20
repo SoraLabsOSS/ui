@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-icon",
+  "title": "Button Icon Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-icon/index.tsx",
+      "content": "\"use client\";\n\nimport { ChevronRight } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonIconDemo() {\n  return (\n    <Button aria-label=\"Next\" size=\"icon\" variant=\"outline\">\n      <ChevronRight className=\"size-4\" />\n    </Button>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-icon.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

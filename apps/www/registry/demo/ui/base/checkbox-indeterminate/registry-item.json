@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-checkbox-indeterminate",
+  "type": "registry:ui",
+  "title": "Checkbox Indeterminate Demo",
+  "registryDependencies": ["checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox-indeterminate/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox-indeterminate.tsx"
+    }
+  ]
+}

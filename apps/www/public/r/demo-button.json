@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button",
+  "title": "Button Demo",
+  "description": "Interactive showcase of Base UI Button variants, sizes, icon combinations, and Motion scaling.",
+  "registryDependencies": ["@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonDemo() {\n  return <Button>Button</Button>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

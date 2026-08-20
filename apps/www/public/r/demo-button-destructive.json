@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-destructive",
+  "title": "Button Destructive Demo",
+  "registryDependencies": ["@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-destructive/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonDestructiveDemo() {\n  return <Button variant=\"destructive\">Destructive</Button>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-destructive.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

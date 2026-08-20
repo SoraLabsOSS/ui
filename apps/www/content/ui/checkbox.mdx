@@ -6,7 +6,7 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="checkbox" description="Interactive checkbox showcasing multiple form patterns, descriptions, card variants, and custom class overrides." />
+<ComponentPreview name="demo-checkbox" description="Interactive checkbox with animated SVG path checkmark drawing." />
 
 ## Installation
 
@@ -14,130 +14,35 @@ author:
 
 ## Usage
 
-### Basic Usage
-
-Use the high-level `Checkbox` component with an optional built-in `label`:
-
 ```tsx
 import { Checkbox } from "@/components/sora-ui/base/checkbox";
 
 export default function Page() {
-  return (
-    <Checkbox defaultChecked label="Accept terms and conditions" />
-  );
+  return <Checkbox label="Accept terms and conditions" />;
 }
 ```
 
-### With Description (Form Field)
+## Examples
 
-```tsx
-import { Checkbox } from "@/components/sora-ui/base/checkbox";
+### With Text & Description
 
-export function TermsField() {
-  return (
-    <div className="flex items-start gap-3">
-      <Checkbox id="terms" defaultChecked />
-      <div className="grid gap-1.5 leading-none">
-        <label
-          htmlFor="terms"
-          className="cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Accept terms and conditions
-        </label>
-        <p className="text-muted-foreground text-xs">
-          By clicking this checkbox, you agree to our Terms of Service and Privacy Policy.
-        </p>
-      </div>
-    </div>
-  );
-}
-```
+<ComponentPreview name="demo-checkbox-with-text" description="Checkbox accompanied by title and secondary helper description." />
 
-### Interactive Card Pattern
+### Disabled States
 
-```tsx
-import { Checkbox } from "@/components/sora-ui/base/checkbox";
-import { useState } from "react";
+<ComponentPreview name="demo-checkbox-disabled" description="Disabled checkbox in both checked and unchecked states." />
 
-export function SecurityCard() {
-  const [enabled, setEnabled] = useState(true);
+### Interactive Card
 
-  return (
-    <label
-      htmlFor="security"
-      className="flex cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5"
-    >
-      <Checkbox id="security" checked={enabled} onCheckedChange={setEnabled} />
-      <div className="grid gap-1">
-        <span className="font-medium text-sm leading-none">
-          Two-factor Authentication
-        </span>
-        <span className="text-muted-foreground text-xs leading-normal">
-          Protect your account with an extra layer of security on login.
-        </span>
-      </div>
-    </label>
-  );
-}
-```
+<ComponentPreview name="demo-checkbox-card" description="Card container acting as an interactive checkbox toggle." />
 
-### Custom Class Overrides
+### Indeterminate Group
 
-Customize sizes, colors, and border radius via standard Tailwind CSS utility classes:
+<ComponentPreview name="demo-checkbox-indeterminate" description="Master checkbox with indeterminate state controlling a nested list of checkboxes." />
 
-```tsx
-import { Checkbox } from "@/components/sora-ui/base/checkbox";
+### Custom Colors & Sizes
 
-export function CustomCheckboxes() {
-  return (
-    <div className="flex flex-wrap gap-6">
-      {/* Emerald Custom Color */}
-      <Checkbox
-        className="size-5 rounded-md data-checked:border-emerald-600 data-checked:bg-emerald-600"
-        defaultChecked
-        label="Emerald"
-      />
-
-      {/* Circular Pill */}
-      <Checkbox
-        className="size-5 rounded-full data-checked:border-violet-600 data-checked:bg-violet-600"
-        defaultChecked
-        label="Pill"
-      />
-
-      {/* Hero Size */}
-      <Checkbox
-        className="size-7 rounded-lg"
-        indicatorClassName="size-5"
-        defaultChecked
-        label="Large"
-      />
-    </div>
-  );
-}
-```
-
-### Low-Level Anatomy
-
-For full composition control, compose `CheckboxRoot` and `CheckboxIndicator`:
-
-```tsx
-import {
-  CheckboxIndicator,
-  CheckboxRoot,
-} from "@/components/sora-ui/base/checkbox";
-
-export function CustomField() {
-  return (
-    <label className="flex items-center gap-2 text-sm">
-      <CheckboxRoot defaultChecked>
-        <CheckboxIndicator />
-      </CheckboxRoot>
-      Accept terms and conditions
-    </label>
-  );
-}
-```
+<ComponentPreview name="demo-checkbox-custom" description="Tailwind class overrides demonstrating custom brand colors, circular pill shapes, and size scaling." />
 
 ## Props
 
@@ -200,7 +105,3 @@ export function CustomField() {
     },
   }}
 />
-
-## Credits
-
-<ComponentCredits name="checkbox" />

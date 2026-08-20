@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-icon",
+  "type": "registry:ui",
+  "title": "Button Icon Demo",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-icon/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-icon.tsx"
+    }
+  ]
+}

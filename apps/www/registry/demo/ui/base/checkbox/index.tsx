@@ -1,156 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { Checkbox } from "@/registry/ui/base/checkbox";
 
 export default function CheckboxDemo() {
-  const [agree, setAgree] = useState(true);
-  const [securityAlerts, setSecurityAlerts] = useState(true);
-
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-col gap-8 p-4 sm:p-6">
-      {/* 1. Form & Field Patterns */}
-      <div className="flex flex-col gap-3.5">
-        <h4 className="font-semibold text-foreground text-sm tracking-tight">
-          Form & Field Patterns
-        </h4>
-        <div className="flex flex-col gap-4">
-          {/* Simple */}
-          <div className="flex items-center gap-3">
-            <Checkbox id="terms-simple" name="terms-simple" />
-            <label
-              className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              htmlFor="terms-simple"
-            >
-              Accept terms and conditions
-            </label>
-          </div>
-
-          {/* With Description */}
-          <div className="flex items-start gap-3">
-            <Checkbox
-              checked={agree}
-              id="terms-desc"
-              name="terms-desc"
-              onCheckedChange={setAgree}
-            />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                htmlFor="terms-desc"
-              >
-                Accept terms and conditions
-              </label>
-              <p className="text-muted-foreground text-xs">
-                By clicking this checkbox, you agree to our Terms of Service.
-              </p>
-            </div>
-          </div>
-
-          {/* Disabled states */}
-          <div className="flex items-center gap-3">
-            <Checkbox disabled id="disabled-unchecked" />
-            <label
-              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"
-              htmlFor="disabled-unchecked"
-            >
-              Disabled option (unchecked)
-            </label>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Checkbox defaultChecked disabled id="disabled-checked" />
-            <label
-              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"
-              htmlFor="disabled-checked"
-            >
-              Disabled option (checked)
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Interactive Card Variant */}
-      <div className="flex flex-col gap-3.5">
-        <h4 className="font-semibold text-foreground text-sm tracking-tight">
-          Interactive Card
-        </h4>
+    <div className="flex items-center justify-center p-4">
+      <div className="flex items-center gap-2">
+        <Checkbox id="terms-default" />
         <label
-          className="flex cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5"
-          htmlFor="security-alerts"
+          className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          htmlFor="terms-default"
         >
-          <Checkbox
-            checked={securityAlerts}
-            id="security-alerts"
-            name="security-alerts"
-            onCheckedChange={setSecurityAlerts}
-          />
-          <div className="grid gap-1">
-            <span className="font-medium text-foreground text-sm leading-none">
-              Security alerts & notifications
-            </span>
-            <span className="text-muted-foreground text-xs leading-normal">
-              Receive instant alerts on suspicious login attempts and sensitive
-              account actions.
-            </span>
-          </div>
+          Accept terms and conditions
         </label>
-      </div>
-
-      {/* 3. Custom Sizes & Colors (Class Overrides) */}
-      <div className="flex flex-col gap-3.5">
-        <h4 className="font-semibold text-foreground text-sm tracking-tight">
-          Custom Class Overrides
-        </h4>
-        <div className="flex flex-wrap items-center gap-6">
-          {/* Emerald Medium */}
-          <div className="flex items-center gap-2.5">
-            <Checkbox
-              className="size-5 rounded-md data-checked:border-emerald-600 data-checked:bg-emerald-600 dark:data-checked:border-emerald-500 dark:data-checked:bg-emerald-500"
-              defaultChecked
-              id="custom-emerald"
-              indicatorClassName="size-4"
-            />
-            <label
-              className="cursor-pointer select-none font-medium text-sm"
-              htmlFor="custom-emerald"
-            >
-              Emerald Medium
-            </label>
-          </div>
-
-          {/* Rounded Pill / Circular */}
-          <div className="flex items-center gap-2.5">
-            <Checkbox
-              className="size-5 rounded-full data-checked:border-violet-600 data-checked:bg-violet-600 dark:data-checked:border-violet-500 dark:data-checked:bg-violet-500"
-              defaultChecked
-              id="custom-pill"
-              indicatorClassName="size-3.5"
-            />
-            <label
-              className="cursor-pointer select-none font-medium text-sm"
-              htmlFor="custom-pill"
-            >
-              Circular Pill
-            </label>
-          </div>
-
-          {/* Large Hero Checkbox */}
-          <div className="flex items-center gap-3">
-            <Checkbox
-              className="size-7 rounded-lg"
-              defaultChecked
-              id="custom-large"
-              indicatorClassName="size-5"
-            />
-            <label
-              className="cursor-pointer select-none font-medium text-sm"
-              htmlFor="custom-large"
-            >
-              Large (size-7)
-            </label>
-          </div>
-        </div>
       </div>
     </div>
   );

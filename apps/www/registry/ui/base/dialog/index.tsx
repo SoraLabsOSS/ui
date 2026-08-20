@@ -1,30 +1,97 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
 import { XIcon } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
-import type * as React from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { type ComponentProps, createContext, useContext, useMemo } from "react";
+import { Button } from "@/registry/ui/base/button";
 
-type DialogProps = React.ComponentProps<typeof DialogPrimitive.Root>;
-
-/**
- * Root container for the Dialog component powered by Base UI.
- */
-function Dialog({ ...props }: DialogProps) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />;
+interface DialogContextValue {
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
-type DialogTriggerProps = React.ComponentProps<typeof DialogPrimitive.Trigger>;
+const DialogContext = createContext<DialogContextValue | null>(null);
+
+function useDialogContext() {
+  return useContext(DialogContext);
+}
+
+type DialogProps = ComponentProps<typeof DialogPrimitive.Root>;
+
+/**
+ * Root container for the Dialog component powered by Base UI and Motion.
+ */
+function Dialog({
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
+  children,
+  ...props
+}: DialogProps) {
+  const [open, setOpen] = useControlledState({
+    defaultValue: defaultOpen,
+    onChange: (nextOpen: boolean) => {
+      onOpenChange?.(
+        nextOpen,
+        undefined as unknown as DialogPrimitive.Root.ChangeEventDetails
+      );
+    },
+    value: controlledOpen,
+  });
+
+  const contextValue = useMemo(
+    () => ({ open: Boolean(open), setOpen }),
+    [open, setOpen]
+  );
+
+  return (
+    <DialogContext.Provider value={contextValue}>
+      <DialogPrimitive.Root
+        onOpenChange={(nextOpen, eventDetails) => {
+          setOpen(nextOpen);
+          onOpenChange?.(nextOpen, eventDetails);
+        }}
+        open={open}
+        {...props}
+      >
+        {children}
+      </DialogPrimitive.Root>
+    </DialogContext.Provider>
+  );
+}
+
+type DialogTriggerProps = ComponentProps<typeof DialogPrimitive.Trigger>;
 
 /**
  * Button or trigger element that opens the dialog.
+ * Features Motion hover and tap scaling.
  */
-function DialogTrigger({ ...props }: DialogTriggerProps) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
+function DialogTrigger({ className, render, ...props }: DialogTriggerProps) {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <DialogPrimitive.Trigger
+      className={className}
+      data-slot="dialog-trigger"
+      render={
+        render ?? (
+          <motion.button
+            data-primary-action
+            type="button"
+            whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+          />
+        )
+      }
+      {...props}
+    />
+  );
 }
 
-type DialogPortalProps = React.ComponentProps<typeof DialogPrimitive.Portal>;
+type DialogPortalProps = ComponentProps<typeof DialogPrimitive.Portal>;
 
 /**
  * Portals dialog overlay and content to the document body.
@@ -33,19 +100,36 @@ function DialogPortal({ ...props }: DialogPortalProps) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
-type DialogCloseProps = React.ComponentProps<typeof DialogPrimitive.Close>;
+type DialogCloseProps = ComponentProps<typeof DialogPrimitive.Close>;
 
 /**
  * Action button that dismisses the dialog.
  */
-function DialogClose({ ...props }: DialogCloseProps) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
+function DialogClose({ className, render, ...props }: DialogCloseProps) {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <DialogPrimitive.Close
+      className={className}
+      data-slot="dialog-close"
+      render={
+        render ?? (
+          <motion.button
+            type="button"
+            whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+          />
+        )
+      }
+      {...props}
+    />
+  );
 }
 
-type DialogOverlayProps = React.ComponentProps<typeof DialogPrimitive.Backdrop>;
+type DialogOverlayProps = ComponentProps<typeof DialogPrimitive.Backdrop>;
 
 /**
- * Semi-transparent backdrop overlay behind the dialog.
+ * Semi-transparent backdrop overlay behind the dialog with blur and fade transition.
  */
 function DialogOverlay({ className, render, ...props }: DialogOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -53,7 +137,7 @@ function DialogOverlay({ className, render, ...props }: DialogOverlayProps) {
   return (
     <DialogPrimitive.Backdrop
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/40 backdrop-blur-xs transition-opacity data-closed:opacity-0 data-open:opacity-100 dark:bg-black/60",
+        "fixed inset-0 isolate z-50 bg-black/50 backdrop-blur-xs transition-opacity data-closed:opacity-0 data-open:opacity-100 dark:bg-black/70",
         className
       )}
       data-slot="dialog-overlay"
@@ -66,7 +150,7 @@ function DialogOverlay({ className, render, ...props }: DialogOverlayProps) {
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
-                : { duration: 0.15, ease: "easeOut" }
+                : { duration: 0.2, ease: "easeOut" }
             }
           />
         )
@@ -76,9 +160,7 @@ function DialogOverlay({ className, render, ...props }: DialogOverlayProps) {
   );
 }
 
-type DialogViewportProps = React.ComponentProps<
-  typeof DialogPrimitive.Viewport
->;
+type DialogViewportProps = ComponentProps<typeof DialogPrimitive.Viewport>;
 
 /**
  * Optional scroll viewport wrapper for large or overflowing dialog popups.
@@ -97,7 +179,11 @@ function DialogViewport({ className, ...props }: DialogViewportProps) {
 }
 
 interface DialogContentProps
-  extends React.ComponentProps<typeof DialogPrimitive.Popup> {
+  extends ComponentProps<typeof DialogPrimitive.Popup> {
+  /**
+   * Additional CSS class name for the fixed container wrapper.
+   */
+  containerClassName?: string;
   /**
    * Additional CSS class name for the backdrop overlay.
    */
@@ -110,63 +196,135 @@ interface DialogContentProps
 }
 
 /**
- * Modal dialog content container with animated entrance and exit.
+ * Modal dialog content container with 1:1 Motion 3D perspective rotation and blur entrance/exit.
  */
 function DialogContent({
   className,
   children,
   showCloseButton = true,
   overlayClassName,
+  containerClassName,
   render,
+  style,
   ...props
 }: DialogContentProps) {
+  const context = useDialogContext();
   const prefersReducedMotion = useReducedMotion();
+  const isOpen = context ? context.open : true;
 
   return (
-    <DialogPortal>
-      <DialogOverlay className={overlayClassName} />
-      <DialogPrimitive.Popup
-        className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl border border-border bg-background p-6 text-foreground text-sm shadow-xl outline-none duration-150 sm:max-w-lg",
-          className
-        )}
-        data-slot="dialog-content"
-        render={
-          render ?? (
-            <motion.div
-              animate={{ opacity: 1, scale: 1, y: "-50%", x: "-50%" }}
-              exit={{ opacity: 0, scale: 0.95, y: "-50%", x: "-50%" }}
-              initial={{ opacity: 0, scale: 0.95, y: "-50%", x: "-50%" }}
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0 }
-                  : { type: "spring", bounce: 0, duration: 0.25 }
-              }
-            />
-          )
-        }
-        {...props}
-      >
-        {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close
-            aria-label="Close"
-            className="absolute top-4 right-4 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground opacity-70 transition-opacity hover:bg-muted hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none"
-            data-slot="dialog-close-button"
+    <AnimatePresence>
+      {isOpen && (
+        <DialogPrimitive.Portal keepMounted>
+          <DialogOverlay className={overlayClassName} />
+          <div
+            className={cn(
+              "pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4",
+              containerClassName
+            )}
           >
-            <XIcon className="size-4" />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        )}
-      </DialogPrimitive.Popup>
-    </DialogPortal>
+            <DialogPrimitive.Popup
+              className={cn(
+                "pointer-events-auto relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-xl border border-border bg-background p-6 text-foreground text-sm shadow-2xl outline-none sm:max-w-lg",
+                className
+              )}
+              data-slot="dialog-content"
+              render={
+                render ?? (
+                  <motion.div
+                    animate={
+                      prefersReducedMotion
+                        ? { opacity: 1 }
+                        : {
+                            opacity: 1,
+                            filter: "blur(0px)",
+                            rotateX: 0,
+                            rotateY: 0,
+                            z: 0,
+                            transition: {
+                              delay: 0.2,
+                              duration: 0.5,
+                              ease: [0.17, 0.67, 0.51, 1],
+                              opacity: {
+                                delay: 0.2,
+                                duration: 0.5,
+                                ease: "easeOut",
+                              },
+                            },
+                          }
+                    }
+                    exit={
+                      prefersReducedMotion
+                        ? { opacity: 0 }
+                        : {
+                            opacity: 0,
+                            filter: "blur(10px)",
+                            z: -100,
+                            rotateY: 25,
+                            rotateX: 5,
+                            transformPerspective: 500,
+                            transition: {
+                              duration: 0.3,
+                              ease: [0.67, 0.17, 0.62, 0.64],
+                            },
+                          }
+                    }
+                    initial={
+                      prefersReducedMotion
+                        ? { opacity: 0 }
+                        : {
+                            opacity: 0,
+                            filter: "blur(10px)",
+                            z: -100,
+                            rotateY: 25,
+                            rotateX: 5,
+                            transformPerspective: 500,
+                          }
+                    }
+                    style={{
+                      transformPerspective: 500,
+                      transformStyle: "preserve-3d",
+                      ...style,
+                    }}
+                  />
+                )
+              }
+              {...props}
+            >
+              {children}
+              {showCloseButton && (
+                <DialogPrimitive.Close
+                  aria-label="Close"
+                  className="absolute top-4 right-4 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground opacity-70 transition-opacity hover:bg-muted hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none"
+                  data-slot="dialog-close-button"
+                  render={
+                    <motion.button
+                      type="button"
+                      whileHover={
+                        prefersReducedMotion ? undefined : { scale: 1.1 }
+                      }
+                      whileTap={
+                        prefersReducedMotion ? undefined : { scale: 0.95 }
+                      }
+                    />
+                  }
+                >
+                  <XIcon className="size-4" />
+                  <span className="sr-only">Close</span>
+                </DialogPrimitive.Close>
+              )}
+            </DialogPrimitive.Popup>
+          </div>
+        </DialogPrimitive.Portal>
+      )}
+    </AnimatePresence>
   );
 }
 
 /**
  * Header section containing dialog title and description.
  */
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DialogHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
@@ -179,7 +337,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-interface DialogFooterProps extends React.ComponentProps<"div"> {
+interface DialogFooterProps extends ComponentProps<"div"> {
   /**
    * Whether to render a secondary close button inside the footer.
    * @default false
@@ -208,17 +366,15 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close
-          className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
           data-slot="dialog-footer-close"
-        >
-          Close
-        </DialogPrimitive.Close>
+          render={<Button variant="outline">Close</Button>}
+        />
       )}
     </div>
   );
 }
 
-type DialogTitleProps = React.ComponentProps<typeof DialogPrimitive.Title>;
+type DialogTitleProps = ComponentProps<typeof DialogPrimitive.Title>;
 
 /**
  * Accessible title heading for the dialog.
@@ -236,7 +392,7 @@ function DialogTitle({ className, ...props }: DialogTitleProps) {
   );
 }
 
-type DialogDescriptionProps = React.ComponentProps<
+type DialogDescriptionProps = ComponentProps<
   typeof DialogPrimitive.Description
 >;
 

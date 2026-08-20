@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-button-link",
+  "title": "Button Link Demo",
+  "registryDependencies": ["@soralabs/button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button-link/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonLinkDemo() {\n  return <Button variant=\"link\">Link</Button>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button-link.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
