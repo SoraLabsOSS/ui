@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  type UsernameAuthClient,
-  useAuth,
-  useSession,
-} from "@workspace/auth-ui/lib/auth-react";
+import { useAuth, useSession } from "@workspace/auth-ui/lib/auth-react";
 import {
   Avatar,
   AvatarFallback,
@@ -18,6 +14,7 @@ import type { ReactNode } from "react";
 import { useClientMounted } from "../../../hooks/use-client-mounted";
 import {
   resolveSessionUser,
+  type SessionDisplayUser,
   shouldShowSessionSkeleton,
 } from "../../../lib/resolve-session-user";
 
@@ -48,10 +45,9 @@ export function UserAvatar({
 }: UserAvatarProps) {
   const mounted = useClientMounted();
   const { authClient } = useAuth();
-  const { data: session, isPending: sessionPending } = useSession(
-    authClient as UsernameAuthClient,
-    { enabled: !(user || isPending) }
-  );
+  const { data: session, isPending: sessionPending } = useSession(authClient, {
+    enabled: !(user || isPending),
+  });
 
   if (
     shouldShowSessionSkeleton({
@@ -64,7 +60,7 @@ export function UserAvatar({
     return <Skeleton className={cn("size-8 rounded-full", className)} />;
   }
 
-  const resolvedUser = resolveSessionUser({
+  const resolvedUser = resolveSessionUser<SessionDisplayUser>({
     user,
     sessionUser: session?.user,
     mounted,
@@ -91,7 +87,8 @@ export function UserAvatar({
         alt={
           resolvedUser?.displayUsername ||
           resolvedUser?.name ||
-          resolvedUser?.email
+          resolvedUser?.email ||
+          undefined
         }
         src={resolvedUser?.image ?? undefined}
       />

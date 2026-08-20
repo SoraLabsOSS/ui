@@ -15,6 +15,13 @@
       "when": 1780919295054,
       "tag": "0001_add_bookmark",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781000000000,
+      "tag": "0002_better_auth_1_7_account_issuer",
+      "breakpoints": true
     }
   ]
 }

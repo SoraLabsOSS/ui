@@ -17,7 +17,6 @@ const authSecret = getBetterAuthSecret();
 
 export const auth = betterAuth({
   appName: "Sora UI",
-  experimental: { joins: true },
   baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,
   secret: authSecret ?? "build-time-auth-secret-placeholder",
   database: drizzleAdapter(db, {
@@ -59,6 +58,9 @@ export const auth = betterAuth({
     storeInDatabase: true,
   },
   advanced: {
+    database: {
+      joins: true,
+    },
     ipAddress: {
       // For Cloudflare
       // ipAddressHeaders: ["cf-connecting-ip", "x-forwarded-for"],
