@@ -6,6 +6,7 @@ import {
   useAccountInfo,
   useAuth,
   useLinkSocial,
+  useSession,
   useUnlinkAccount,
 } from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
@@ -34,10 +35,17 @@ export interface LinkedAccountProps {
  */
 export function LinkedAccount({ account, provider }: LinkedAccountProps) {
   const { authClient, baseURL, localization } = useAuth();
+  const { data: session } = useSession(authClient);
 
+  // Provider profile (e.g. GitHub login) when an OAuth access token exists.
+  // Google One Tap only stores an id_token — accountInfo then returns
+  // ACCESS_TOKEN_NOT_FOUND; session email is the correct fallback.
   const { data: accountInfo, isPending: isLoadingInfo } = useAccountInfo(
     authClient,
-    { query: { accountId: account?.id ?? "" } }
+    {
+      query: { accountId: account?.id ?? "" },
+      retry: false,
+    }
   );
 
   const { mutate: linkSocial, isPending: isLinking } =
@@ -62,6 +70,7 @@ export function LinkedAccount({ account, provider }: LinkedAccountProps) {
     accountData?.username ||
     accountInfo?.user?.email ||
     accountInfo?.user?.name ||
+    session?.user.email ||
     account?.accountId;
 
   return (

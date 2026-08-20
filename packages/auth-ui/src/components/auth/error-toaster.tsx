@@ -28,7 +28,10 @@ export function ErrorToaster() {
       }
 
       const err = error as BetterFetchError;
-      if (err?.error?.code === "EMAIL_NOT_VERIFIED") {
+      if (
+        err?.error?.code === "EMAIL_NOT_VERIFIED" ||
+        err?.error?.code === "ACCESS_TOKEN_NOT_FOUND"
+      ) {
         return;
       }
       if (err?.error) {
