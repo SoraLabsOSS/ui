@@ -9,6 +9,8 @@ import { BookmarkLoginDialog } from "@/components/docs/bookmark-login-dialog";
 import { setPendingBookmark } from "@/lib/bookmarks/pending-intent";
 import { useBookmarks } from "@/lib/bookmarks/use-bookmarks";
 
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/validate-url";
+
 const layoutTransition = {
   type: "spring",
   bounce: 0,
@@ -32,7 +34,10 @@ export function BookmarkButton({
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [localPending, setLocalPending] = useState(false);
 
-  const isBookmarked = bookmarks.some((bookmark) => bookmark.url === url);
+  const normalizedUrl = normalizeBookmarkUrl(url);
+  const isBookmarked = bookmarks.some(
+    (bookmark) => normalizeBookmarkUrl(bookmark.url) === normalizedUrl
+  );
   const isBusy = localPending && togglingUrl === url;
   const showLoadingState = isBusy;
 

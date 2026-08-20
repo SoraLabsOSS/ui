@@ -1,0 +1,95 @@
+---
+title: "Changelog: Evolving Sora UI into Motion, Catalog, and UI"
+description: "Why we restructured Sora UI into three clear product pillars, added Base UI + Radix UI multi-foundation support, and how Next.js rewrites keep your links working."
+ogSubtitle: "Three distinct pillars: unstyled Motion, full layout Catalog, and accessible UI with Base UI & Radix UI."
+author: Axyl
+date: 2026-08-21
+hashtags: ["#changelog", "#soraui", "#motion", "#radix", "#baseui"]
+---
+
+Sora UI started with a simple promise: copy-paste animation primitives built on Motion and GSAP that you install with shadcn, own in your repository, and ship without fighting opaque npm packages.
+
+As the library expanded, we introduced accessible application controls powered by modern headless libraries, along with full-page layout showcases. However, generic terms like "Primitives" and "Components" began to blur:
+- Was an unstyled text animation a primitive or a component?
+- Was an assembled, multi-component layout template a component or a catalog showcase?
+- Where did accessible form controls (like checkboxes, dialogs, and popovers) fit in?
+
+Today, we are formalizing the architecture with a crystal-clear taxonomy: **Motion**, **Catalog**, and **UI**.
+
+---
+
+## The Three Product Pillars
+
+```text
+Sora UI
+├── Motion    (/docs/motion & /motion) — Unstyled animation building blocks & micro-interactions
+├── Catalog   (/catalog)               — Ready-to-use animated layout showcases & example pages
+└── UI        (/ui)                    — Base UI + Radix UI foundation infused with Sora Motion
+```
+
+### 1. Motion (`/docs/motion` or `/motion`)
+
+**Motion** contains pure, unstyled animation building blocks. These are micro-interactions designed to plug into any React component or existing design system without bringing unwanted styling baggage.
+
+- **Examples:** [`border-trail`](/docs/motion/border-trail), [`text-effect`](/docs/motion/text-effect), [`magnetic-cards`](/docs/motion/magnetic-cards), [`highlight`](/docs/motion/highlight), [`rolling-text`](/docs/motion/rolling-text), [`expandable-tabs`](/docs/motion/expandable-tabs).
+- **Features:** Tweakpane interactive prop controls, live-updating code previews, and strict `prefers-reduced-motion` compliance.
+
+### 2. Catalog (`/catalog`)
+
+**Catalog** contains ready-to-use, assembled layout showcases and interactive full-page templates. These demonstrate how to combine multiple motion primitives and layout techniques into cohesive production experiences.
+
+- **Examples:** [`sticky-scroll-cards`](/catalog/sticky-scroll-cards), [`cursor-trail-reveal`](/catalog/cursor-trail-reveal), [`scroll-chapters`](/catalog/scroll-chapters), [`scroll-gallery`](/catalog/scroll-gallery), [`infinite-scrolling-images`](/catalog/infinite-scrolling-images).
+- **Features:** Fullscreen live preview mode, responsive viewport testing, and instant copy/CLI installation commands.
+
+### 3. UI (`/ui`)
+
+**UI** is our accessible application foundation, infusing `@base-ui/react` and `radix-ui` primitives with Sora spring physics, fluid micro-interactions, and full Tailwind CSS class overrides (`cn(...)`).
+
+- **Multi-Foundation Choice:** Choose between `@base-ui/react` and `radix-ui` implementations to match your team's preferred headless stack.
+- **Examples:** [`base/button`](/ui/base/button), [`radix/dialog`](/ui/radix/dialog), [`radix/bottom-sheet`](/ui/radix/bottom-sheet), [`base/checkbox`](/ui/base/checkbox).
+
+---
+
+## Multi-Foundation Architecture: Base UI + Radix UI
+
+We've unified the registry build system so you can pull components from your preferred headless foundation without lock-in:
+
+```bash
+# Install a Base UI component
+npx @soralabsoss/sora-cli add base-button
+
+# Install a Radix UI component
+npx @soralabsoss/sora-cli add radix-dialog
+```
+
+Every component includes comprehensive manual demos covering varied real-world use cases (forms, dialogs with drawers, custom styling variants) and full TypeScript typings.
+
+---
+
+## Zero Broken Links: Next.js Rewrites & 308 Redirects
+
+A major taxonomy change shouldn't break existing bookmarks, inbound search results, or blog articles. We implemented comprehensive URL rewrite and permanent redirect rules in `next.config.ts` and `build-doc-redirects.ts`:
+
+* `/components` and `/components/:path*` $\rightarrow$ automatically redirected to `/catalog` and `/catalog/:path*`.
+* `/docs/primitives` and `/docs/primitives/:path*` $\rightarrow$ automatically redirected to `/docs/motion` and `/docs/motion/:path*`.
+* `/motion` and `/motion/:path*` $\rightarrow$ transparently rewritten to `/docs/motion/:path*` for concise public URLs.
+* LLM exports (`/llms.mdx/*`, `/llms-catalog.mdx/*`, `/llms-ui.mdx/*`) and MCP tools (`search_docs`, `get_page`) updated to support both old and new paths seamlessly.
+
+---
+
+## Smarter Bookmarks & State Sync
+
+We also upgraded the user bookmarking engine:
+- **Automatic URL Canonicalization:** If you previously bookmarked `/components/sticky-scroll-cards` or `/docs/primitives/border-trail`, your saved list automatically normalizes the entry to `/catalog/sticky-scroll-cards` and `/docs/motion/border-trail`.
+- **Live Search Index Resolution:** Bookmarked items resolve real-time titles, descriptions, and tag gradients from our cached search index.
+
+---
+
+## What's Coming Next
+
+With the taxonomy clear and the multi-foundation registry in place, we're expanding each pillar:
+1. **More Motion Primitives:** New particle shaders, 3D text deformations, and SVG path morphing effects.
+2. **More Catalog Showcases:** Full marketing landing layouts, interactive pricing calculators, and onboarding flows.
+3. **Expanded UI Tier:** Additional Base UI and Radix UI components with animated state transitions.
+
+Browse the new [Motion Primitives](/docs/motion), explore the [Catalog](/catalog), or check out the [UI Kit](/ui).

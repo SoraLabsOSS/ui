@@ -28,6 +28,22 @@ function getCachedBookmarkUrls(): Set<string> {
   return validBookmarkUrls;
 }
 
+export function normalizeBookmarkUrl(url: string): string {
+  if (url === "/components" || url.startsWith("/components/")) {
+    return url.replace(/^\/components/, "/catalog");
+  }
+  if (url === "/docs/primitives" || url.startsWith("/docs/primitives/")) {
+    return url.replace(/^\/docs\/primitives/, "/docs/motion");
+  }
+  if (url === "/primitives" || url.startsWith("/primitives/")) {
+    return url.replace(/^\/primitives/, "/docs/motion");
+  }
+  if (url === "/motion" || url.startsWith("/motion/")) {
+    return url.replace(/^\/motion/, "/docs/motion");
+  }
+  return url;
+}
+
 export function isValidBookmarkUrl(url: string): boolean {
   let urls = getCachedBookmarkUrls();
 
@@ -39,15 +55,6 @@ export function isValidBookmarkUrl(url: string): boolean {
     return true;
   }
 
-  // Support legacy URLs
-  if (url.startsWith("/components/")) {
-    const catalogUrl = url.replace(/^\/components\//, "/catalog/");
-    return urls.has(catalogUrl);
-  }
-  if (url.startsWith("/docs/primitives/")) {
-    const motionUrl = url.replace(/^\/docs\/primitives\//, "/docs/motion/");
-    return urls.has(motionUrl);
-  }
-
-  return false;
+  const normalized = normalizeBookmarkUrl(url);
+  return urls.has(normalized);
 }

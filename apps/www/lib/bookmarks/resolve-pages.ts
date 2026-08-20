@@ -1,4 +1,5 @@
 import type { BookmarkRecord } from "@/lib/bookmarks/client";
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/validate-url";
 
 const TRAILING_SLASH_REGEX = /\/$/;
 
@@ -21,7 +22,8 @@ export async function fetchStaticSearchIndex(): Promise<BookmarkPageData[]> {
 }
 
 function fallbackPageFromUrl(url: string, id: string): BookmarkPageData {
-  const segments = url
+  const normalizedUrl = normalizeBookmarkUrl(url);
+  const segments = normalizedUrl
     .replace(TRAILING_SLASH_REGEX, "")
     .split("/")
     .filter(Boolean);
@@ -33,7 +35,7 @@ function fallbackPageFromUrl(url: string, id: string): BookmarkPageData {
 
   return {
     id,
-    url,
+    url: normalizedUrl,
     title,
     tag: segments[0],
   };
@@ -50,9 +52,14 @@ export function resolveBookmarkPages(
   const indexByUrl = new Map(index?.map((page) => [page.url, page]) ?? []);
 
   return bookmarks.map((bookmark) => {
-    const matched = indexByUrl.get(bookmark.url);
+    const normalizedUrl = normalizeBookmarkUrl(bookmark.url);
+    const matched =
+      indexByUrl.get(bookmark.url) ?? indexByUrl.get(normalizedUrl);
     if (matched) {
-      return matched;
+      return {
+        ...matched,
+        url: normalizedUrl,
+      };
     }
 
     return fallbackPageFromUrl(bookmark.url, bookmark.id);

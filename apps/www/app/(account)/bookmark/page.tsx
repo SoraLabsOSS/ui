@@ -30,7 +30,9 @@ import { useBookmarkPages } from "@/lib/bookmarks/use-bookmark-pages";
 type ViewMode = "cards" | "compact" | "list";
 
 const TAG_GRADIENTS: Record<string, string> = {
+  catalog: "from-violet-500/15 via-blue-500/8 to-transparent",
   components: "from-violet-500/15 via-blue-500/8 to-transparent",
+  motion: "from-emerald-500/15 via-teal-500/8 to-transparent",
   primitives: "from-emerald-500/15 via-teal-500/8 to-transparent",
   texts: "from-amber-500/15 via-orange-500/8 to-transparent",
   buttons: "from-pink-500/15 via-rose-500/8 to-transparent",

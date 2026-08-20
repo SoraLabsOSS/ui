@@ -18,6 +18,7 @@ import {
   clearPendingBookmark,
   finishPendingBookmarkAutoSave,
 } from "@/lib/bookmarks/pending-intent";
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/validate-url";
 
 const BOOKMARKS_STALE_TIME_MS = 5 * 60 * 1000;
 const BOOKMARKS_GC_TIME_MS = 30 * 60 * 1000;
@@ -74,12 +75,13 @@ export function useBookmarks() {
       url: string;
       isBookmarked: boolean;
     }): Promise<ToggleBookmarkResult> => {
+      const canonicalUrl = normalizeBookmarkUrl(url);
       if (isBookmarked) {
-        await removeBookmark(url);
+        await removeBookmark(canonicalUrl);
         return { action: "removed" };
       }
 
-      const bookmark = await createBookmark(url);
+      const bookmark = await createBookmark(canonicalUrl);
       if (!bookmark) {
         return { action: "conflict" };
       }
@@ -90,23 +92,30 @@ export function useBookmarks() {
       queryClient.cancelQueries({ queryKey: listQueryKey });
 
       const previous = queryClient.getQueryData<BookmarkRecord[]>(listQueryKey);
+      const canonicalUrl = normalizeBookmarkUrl(url);
 
       if (isBookmarked) {
         queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) =>
-          (old ?? EMPTY_BOOKMARKS).filter((bookmark) => bookmark.url !== url)
+          (old ?? EMPTY_BOOKMARKS).filter(
+            (bookmark) => normalizeBookmarkUrl(bookmark.url) !== canonicalUrl
+          )
         );
       } else {
         queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) => {
           const bookmarks = old ?? EMPTY_BOOKMARKS;
 
-          if (bookmarks.some((bookmark) => bookmark.url === url)) {
+          if (
+            bookmarks.some(
+              (bookmark) => normalizeBookmarkUrl(bookmark.url) === canonicalUrl
+            )
+          ) {
             return bookmarks;
           }
 
           return [
             {
-              id: `optimistic-${url}`,
-              url,
+              id: `optimistic-${canonicalUrl}`,
+              url: canonicalUrl,
               createdAt: new Date().toISOString(),
             },
             ...bookmarks,
@@ -117,9 +126,12 @@ export function useBookmarks() {
       return { previous };
     },
     onSuccess: (result, { url }) => {
+      const canonicalUrl = normalizeBookmarkUrl(url);
       if (result.action === "removed") {
         queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) =>
-          (old ?? EMPTY_BOOKMARKS).filter((item) => item.url !== url)
+          (old ?? EMPTY_BOOKMARKS).filter(
+            (item) => normalizeBookmarkUrl(item.url) !== canonicalUrl
+          )
         );
         return;
       }
@@ -131,7 +143,7 @@ export function useBookmarks() {
 
       queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) => {
         const withoutUrl = (old ?? EMPTY_BOOKMARKS).filter(
-          (item) => item.url !== url
+          (item) => normalizeBookmarkUrl(item.url) !== canonicalUrl
         );
 
         return [result.bookmark, ...withoutUrl];

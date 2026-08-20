@@ -15,7 +15,10 @@ import {
 } from "@/lib/bookmarks/ratelimit";
 import { requireSession } from "@/lib/bookmarks/require-session";
 import { bookmarkUrlSchema } from "@/lib/bookmarks/schemas";
-import { isValidBookmarkUrl } from "@/lib/bookmarks/validate-url";
+import {
+  isValidBookmarkUrl,
+  normalizeBookmarkUrl,
+} from "@/lib/bookmarks/validate-url";
 
 function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -26,7 +29,7 @@ function invalidUrl() {
 }
 
 type ParseBookmarkUrlResult =
-  | { ok: true; url: string }
+  | { ok: true; rawUrl: string; url: string }
   | { ok: false; response: Response };
 
 async function parseBookmarkUrl(
@@ -61,7 +64,11 @@ async function parseBookmarkUrl(
     return { ok: false, response: invalidUrl() };
   }
 
-  return { ok: true, url: parsed.data.url };
+  return {
+    ok: true,
+    url: normalizeBookmarkUrl(parsed.data.url),
+    rawUrl: parsed.data.url,
+  };
 }
 
 export async function GET(): Promise<Response> {
@@ -143,7 +150,10 @@ export async function DELETE(request: Request): Promise<Response> {
     );
   }
 
-  const deleted = await deleteBookmark(session.user.id, parsed.url);
+  let deleted = await deleteBookmark(session.user.id, parsed.url);
+  if (!deleted && parsed.rawUrl !== parsed.url) {
+    deleted = await deleteBookmark(session.user.id, parsed.rawUrl);
+  }
 
   if (!deleted) {
     return NextResponse.json({ error: "Bookmark not found" }, { status: 404 });
