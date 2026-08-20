@@ -189,6 +189,8 @@ export class SoraDocsSource extends FumadocsRemoteSource {
         section: undefined,
       });
       return filterByLlmsSection(results, section as LlmsSection, limit);
+    }
+
     return super.search(query, options);
   }
 
