@@ -5,7 +5,7 @@
 A fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, and Motion.
 
 [![GitHub stars](https://img.shields.io/github/stars/SoraLabsOSS/ui?style=flat-square)](https://github.com/SoraLabsOSS/ui/stargazers)
-[![License: MIT](https://img.shields.io/github/license/SoraLabsOSS/ui?style=flat-square)](./LICENSE.md)
+![BlockDex](https://img.shields.io/endpoint?url=https%3A%2F%2Ftoolproof.kynth.studio%2Fapi%2Fv1%2Fbadge%2Fblockdex%2Fsora-ui)
 
 </div>
 
