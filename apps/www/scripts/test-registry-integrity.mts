@@ -151,11 +151,13 @@ async function setupConsumerFiles(sandboxDir: string): Promise<void> {
   );
 
   const itemsToTest = [
-    "checkbox.json",
+    "base-checkbox.json",
+    "radix-checkbox.json",
     "bottom-sheet.json",
     "border-trail.json",
     "text-effect.json",
     "demo-checkbox.json",
+    "demo-radix-checkbox.json",
     "demo-bottom-sheet.json",
     "hooks-use-controlled-state.json",
     "hooks-use-prefers-reduced-motion.json",
@@ -182,21 +184,25 @@ async function setupConsumerFiles(sandboxDir: string): Promise<void> {
   await fs.writeFile(
     path.join(sandboxDir, "app.tsx"),
     `import React from "react";
-import { Checkbox } from "@/components/sora-ui/base/checkbox";
+import { Checkbox as BaseCheckbox } from "@/components/sora-ui/base/checkbox";
+import { Checkbox as RadixCheckbox } from "@/components/sora-ui/radix/checkbox";
 import { BottomSheet } from "@/components/sora-ui/radix/bottom-sheet";
 import { BorderTrail } from "@/components/sora-ui/effects/border-trail";
 import { TextEffect } from "@/components/sora-ui/texts/text-effect";
-import CheckboxDemo from "@/components/sora-ui/demo/base/checkbox";
+import BaseCheckboxDemo from "@/components/sora-ui/demo/base/checkbox";
+import RadixCheckboxDemo from "@/components/sora-ui/demo/radix/checkbox";
 import BottomSheetDemo from "@/components/sora-ui/demo/radix/bottom-sheet";
 
 export default function App() {
   return (
     <div>
-      <Checkbox label="Test Checkbox" />
+      <BaseCheckbox label="Test Base Checkbox" />
+      <RadixCheckbox label="Test Radix Checkbox" />
       <BottomSheet open={false} />
       <BorderTrail />
       <TextEffect>Testing text effect</TextEffect>
-      <CheckboxDemo />
+      <BaseCheckboxDemo />
+      <RadixCheckboxDemo />
       <BottomSheetDemo />
     </div>
   );
