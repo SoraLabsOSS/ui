@@ -3,7 +3,6 @@
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentProps } from "react";
-import { ChangeEmail } from "./change-email";
 import { UserProfile } from "./user-profile";
 
 export interface AccountSettingsProps {
@@ -11,23 +10,13 @@ export interface AccountSettingsProps {
 }
 
 /**
- * Renders the account settings layout.
- *
- * Uses `emailAndPassword` and `plugins` from `useAuth()` to conditionally
- * show sections:
- * - `UserProfile` always renders.
- * - `ChangeEmail` renders when `emailAndPassword?.enabled` is truthy or the
- *   `magicLink` plugin is registered.
- * - Plugin-contributed account cards are rendered via the plugins array
- *   (e.g. `Appearance` from the theme plugin, multi-session accounts).
+ * Account settings: display name and plugin-contributed cards.
  */
 export function AccountSettings({
   className,
   ...props
 }: AccountSettingsProps & ComponentProps<"div">) {
-  const { emailAndPassword, plugins } = useAuth();
-
-  const hasMagicLink = plugins.some((plugin) => plugin.id === "magicLink");
+  const { plugins } = useAuth();
 
   return (
     <div
@@ -35,7 +24,6 @@ export function AccountSettings({
       {...props}
     >
       <UserProfile />
-      {(emailAndPassword?.enabled || hasMagicLink) && <ChangeEmail />}
       {plugins.flatMap(
         (plugin) =>
           plugin.accountCards?.map((Card, index) => (

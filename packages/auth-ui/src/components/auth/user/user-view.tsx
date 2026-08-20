@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  type UsernameAuthClient,
-  useAuth,
-  useSession,
-} from "@workspace/auth-ui/lib/auth-react";
+import { useAuth, useSession } from "@workspace/auth-ui/lib/auth-react";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";
@@ -47,10 +43,9 @@ export function UserView({
 }: UserViewProps) {
   const mounted = useClientMounted();
   const { authClient } = useAuth();
-  const { data: session, isPending: sessionPending } = useSession(
-    authClient as UsernameAuthClient,
-    { enabled: !(user || isPending) }
-  );
+  const { data: session, isPending: sessionPending } = useSession(authClient, {
+    enabled: !(user || isPending),
+  });
 
   if (
     shouldShowSessionSkeleton({

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  type MultiSessionAuthClient,
-  useAuth,
-  useSession,
-  useSetActiveSession,
-} from "@workspace/auth-ui/lib/auth-react";
+import { useAuth, useSession } from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   DropdownMenu,
@@ -19,14 +14,7 @@ import {
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";
-import {
-  ChevronsUpDown,
-  LogIn,
-  LogOut,
-  Settings,
-  User2,
-  UserPlus2,
-} from "lucide-react";
+import { ChevronsUpDown, LogIn, LogOut, Settings, User2 } from "lucide-react";
 import {
   type ComponentType,
   isValidElement,
@@ -124,17 +112,15 @@ function renderIconTriggerContent({
 
 function renderDefaultTriggerContent({
   accountLabel,
-  settingActiveSession,
   showAuthenticated,
   showLoading,
 }: {
   accountLabel: ReactNode;
-  settingActiveSession: boolean;
   showAuthenticated: boolean;
   showLoading: boolean;
 }) {
-  if (showLoading || settingActiveSession) {
-    return <UserView isPending={settingActiveSession} />;
+  if (showLoading) {
+    return <UserView isPending />;
   }
 
   if (showAuthenticated) {
@@ -155,8 +141,7 @@ function renderDefaultTriggerContent({
 /**
  * Render a user dropdown button that shows user info, settings, theme controls, and authentication actions.
  *
- * Includes user profile, settings link, optional multi-session account switching, theme picker,
- * and sign-in/sign-up/sign-out actions depending on authentication state.
+ * Includes user profile, settings link, and sign-in/sign-out actions.
  *
  * @param className - Additional CSS classes applied to the button trigger
  * @param align - Alignment of the dropdown menu relative to the trigger
@@ -180,9 +165,6 @@ export function UserButton({
   const { authClient, basePaths, viewPaths, localization, plugins, Link } =
     useAuth();
 
-  const { isPending: settingActiveSession } = useSetActiveSession(
-    authClient as MultiSessionAuthClient
-  );
   const { data: session, isPending: sessionPending } = useSession(authClient);
 
   const userLinks = links?.flatMap((link, index) => {
@@ -199,8 +181,7 @@ export function UserButton({
   });
 
   const mounted = useClientMounted();
-  const showIconTriggerLoading =
-    !mounted || sessionPending || settingActiveSession;
+  const showIconTriggerLoading = !mounted || sessionPending;
   const showAuthenticatedTrigger = mounted && Boolean(session);
   const triggerIconSizes =
     triggerSize === "icon-xs"
@@ -244,7 +225,6 @@ export function UserButton({
           >
             {renderDefaultTriggerContent({
               accountLabel: localization.auth.account,
-              settingActiveSession,
               showAuthenticated: showAuthenticatedTrigger,
               showLoading: showIconTriggerLoading,
             })}
@@ -313,14 +293,6 @@ export function UserButton({
                 <LogIn className="text-muted-foreground" />
 
                 {localization.auth.signIn}
-              </Link>
-            </DropdownMenuItem>
-
-            <DropdownMenuItem asChild>
-              <Link href={`${basePaths.auth}/${viewPaths.auth.signUp}`}>
-                <UserPlus2 className="text-muted-foreground" />
-
-                {localization.auth.signUp}
               </Link>
             </DropdownMenuItem>
 

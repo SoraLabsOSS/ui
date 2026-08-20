@@ -17,6 +17,7 @@ import { Button } from "@workspace/ui/components/ui/button";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
 import type { SocialProvider } from "better-auth/social-providers";
+import { Plug } from "lucide-react";
 import Image from "next/image";
 import { type ComponentProps, useEffect, useState } from "react";
 
@@ -85,10 +86,7 @@ export function ProviderButton({
   const signInMutating = useIsMutating({
     mutationKey: authMutationKeys.signIn.all,
   });
-  const signUpMutating = useIsMutating({
-    mutationKey: authMutationKeys.signUp.all,
-  });
-  const isPending = signInMutating + signUpMutating > 0 || isOneTapPending;
+  const isPending = signInMutating > 0 || isOneTapPending;
 
   const renderIcon = () => {
     if (signInSocialPending || isOneTapPending) {
@@ -108,7 +106,11 @@ export function ProviderButton({
       );
     }
 
-    return <ProviderIcon />;
+    if (ProviderIcon) {
+      return <ProviderIcon />;
+    }
+
+    return <Plug className="size-4 shrink-0" />;
   };
 
   let label: string | null = null;

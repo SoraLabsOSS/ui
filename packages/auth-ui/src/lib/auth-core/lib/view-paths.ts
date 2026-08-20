@@ -3,16 +3,6 @@
  */
 export interface AuthViewPaths {
   /**
-   * Path segment for the forgot password view
-   * @default "forgot-password"
-   */
-  forgotPassword: string;
-  /**
-   * Path segment for the reset password view
-   * @default "reset-password"
-   */
-  resetPassword: string;
-  /**
    * Path segment for the sign-in view
    * @default "sign-in"
    */
@@ -22,11 +12,6 @@ export interface AuthViewPaths {
    * @default "sign-out"
    */
   signOut: string;
-  /**
-   * Path segment for the sign-up view
-   * @default "sign-up"
-   */
-  signUp: string;
 }
 
 /**
@@ -58,9 +43,6 @@ export type ViewPaths = {
 export const viewPaths: ViewPaths = {
   auth: {
     signIn: "sign-in",
-    signUp: "sign-up",
-    forgotPassword: "forgot-password",
-    resetPassword: "reset-password",
     signOut: "sign-out",
   },
   settings: {
