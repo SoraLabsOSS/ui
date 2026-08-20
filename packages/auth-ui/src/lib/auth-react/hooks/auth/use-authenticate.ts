@@ -21,7 +21,7 @@ export function useAuthenticate<TAuthClient extends AuthClient>(
   const session = useSession(authClient, options);
 
   useEffect(() => {
-    if (session.data || session.isPending) {
+    if (session.data || session.isPending || session.isFetching) {
       return;
     }
 
@@ -33,6 +33,7 @@ export function useAuthenticate<TAuthClient extends AuthClient>(
   }, [
     basePaths.auth,
     session.data,
+    session.isFetching,
     session.isPending,
     viewPaths.auth.signIn,
     navigate,

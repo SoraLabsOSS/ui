@@ -2,7 +2,9 @@
 
 import { useGoogleOneTapPendingControls } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
+import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
+import { toast } from "@workspace/ui/components/ui/sonner";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
@@ -51,7 +53,7 @@ function syncOneTapPickerChrome(isDark: boolean) {
  */
 export function GoogleOneTap() {
   const router = useRouter();
-  const { baseURL, navigate } = useAuth();
+  const { baseURL, basePaths, navigate } = useAuth();
   const redirectTo = useAuthRedirectTo();
   const { setIsPending } = useGoogleOneTapPendingControls();
   const { resolvedTheme } = useTheme();
@@ -109,7 +111,13 @@ export function GoogleOneTap() {
     hasPromptedRef.current = true;
     oneTapGisOptions.color_scheme = isDark ? "dark" : "light";
 
-    const callbackURL = `${baseURL}${redirectTo}`;
+    const { callbackURL } = buildOAuthCallbackURLs({
+      baseURL,
+      successPath: redirectTo,
+      errorPath: `${basePaths.auth}/error`,
+      redirectTo,
+      context: "sign-in",
+    });
 
     authClient
       .oneTap({
@@ -125,8 +133,22 @@ export function GoogleOneTap() {
             navigate({ to: redirectTo, replace: true });
             router.refresh();
           },
-          onError: () => {
+          onError: (ctx) => {
             setIsPending(false);
+
+            const errorCode =
+              typeof ctx.error === "object" &&
+              ctx.error &&
+              "code" in ctx.error &&
+              typeof ctx.error.code === "string"
+                ? ctx.error.code
+                : undefined;
+
+            if (errorCode === "access_denied") {
+              return;
+            }
+
+            toast.error("We couldn't complete sign-in. Please try again.");
           },
         },
       })
@@ -134,6 +156,7 @@ export function GoogleOneTap() {
         setIsPending(false);
       });
   }, [
+    basePaths.auth,
     baseURL,
     isDark,
     navigate,

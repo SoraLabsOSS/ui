@@ -3,6 +3,7 @@
 import { useIsMutating } from "@tanstack/react-query";
 import { useGoogleOneTapPending } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
+import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import {
   authMutationKeys,
   getProviderName,
@@ -55,11 +56,17 @@ export function ProviderButton({
   variant = "outline",
   ...props
 }: ProviderButtonProps) {
-  const { authClient, baseURL, localization } = useAuth();
+  const { authClient, baseURL, basePaths, localization } = useAuth();
   const redirectTo = useAuthRedirectTo();
   const isOneTapPending = useGoogleOneTapPending();
 
-  const callbackURL = `${baseURL}${redirectTo}`;
+  const { callbackURL, errorCallbackURL } = buildOAuthCallbackURLs({
+    baseURL,
+    successPath: redirectTo,
+    errorPath: `${basePaths.auth}/error`,
+    redirectTo,
+    context: "sign-in",
+  });
 
   const { mutate: signInSocial, isPending: signInSocialPending } =
     useSignInSocial(authClient);
@@ -134,7 +141,7 @@ export function ProviderButton({
   return (
     <Button
       disabled={isPending}
-      onClick={() => signInSocial({ provider, callbackURL })}
+      onClick={() => signInSocial({ provider, callbackURL, errorCallbackURL })}
       type="button"
       variant={variant}
       {...props}

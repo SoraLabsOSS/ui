@@ -4,15 +4,12 @@ import { viewPaths } from "@workspace/auth-ui/lib/auth-core";
 import { ensureSession } from "@workspace/auth-ui/lib/auth-react/server";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { isDatabaseConfigured } from "@/env";
 import { auth } from "@/lib/auth";
 import { getQueryClient } from "@/lib/query-client";
 import { Skeleton } from "@/registry/primitives/effects/skeleton";
-
-export function generateStaticParams() {
-  return Object.values(viewPaths.settings).map((path) => ({ path }));
-}
 
 function SettingsPageSkeleton() {
   return (
@@ -23,6 +20,11 @@ function SettingsPageSkeleton() {
 }
 
 async function ProtectedSettingsContent({ path }: { path: string }) {
+  // Request-time only: Cache Components + generateStaticParams was prerendering
+  // this guard without cookies, so logged-in client navigations hit a cached
+  // redirect to /auth/sign-in.
+  await connection();
+
   if (!isDatabaseConfigured()) {
     redirect(
       `/auth/sign-in?redirectTo=${encodeURIComponent(`/settings/${path}`)}`

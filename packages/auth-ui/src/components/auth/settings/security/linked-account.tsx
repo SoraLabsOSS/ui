@@ -1,5 +1,6 @@
 "use client";
 
+import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { getProviderName } from "@workspace/auth-ui/lib/auth-core";
 import {
   providerIcons,
@@ -34,7 +35,7 @@ export interface LinkedAccountProps {
  * @returns A JSX element containing the linked account row
  */
 export function LinkedAccount({ account, provider }: LinkedAccountProps) {
-  const { authClient, baseURL, localization } = useAuth();
+  const { authClient, baseURL, basePaths, localization } = useAuth();
   const { data: session } = useSession(authClient);
 
   // Provider profile (e.g. GitHub login) when an OAuth access token exists.
@@ -130,12 +131,18 @@ export function LinkedAccount({ account, provider }: LinkedAccountProps) {
             )}
             className="ml-auto shrink-0"
             disabled={isLinking}
-            onClick={() =>
-              linkSocial({
-                provider,
-                callbackURL: `${baseURL}${window.location.pathname}`,
-              })
-            }
+            onClick={() => {
+              const settingsPath = window.location.pathname;
+              const { callbackURL, errorCallbackURL } = buildOAuthCallbackURLs({
+                baseURL,
+                successPath: settingsPath,
+                errorPath: `${basePaths.auth}/error`,
+                redirectTo: settingsPath,
+                context: "link",
+              });
+
+              linkSocial({ provider, callbackURL, errorCallbackURL });
+            }}
             size="sm"
             variant="outline"
           >

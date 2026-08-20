@@ -11,6 +11,7 @@ import {
   isRedisConfigured,
   isSentinelConfigured,
 } from "@/env";
+import { logAuthApiError } from "./log-auth-api-error";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
 
 const authSecret = getBetterAuthSecret();
@@ -22,9 +23,57 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "github"],
+      // Settings → Link GitHub/Google while signed in. Sign-in still only
+      // auto-links when emails match.
+      allowDifferentEmails: true,
+    },
+  },
   user: {
     deleteUser: {
       enabled: true,
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        before: (user) => {
+          const name = typeof user.name === "string" ? user.name.trim() : "";
+          const email = typeof user.email === "string" ? user.email : "";
+          const fallbackName = email.split("@")[0] || "User";
+
+          return Promise.resolve({
+            data: {
+              ...user,
+              // OAuth-only app: IdP already proved the mailbox. Future Better
+              // Auth minors always require `emailVerified` for implicit linking.
+              emailVerified: true,
+              name: name || fallbackName,
+            },
+          });
+        },
+      },
+    },
+    session: {
+      create: {
+        before: async (session, ctx) => {
+          if (!ctx) {
+            return;
+          }
+
+          const existing = await ctx.context.internalAdapter.findUserById(
+            session.userId
+          );
+          if (existing && !existing.emailVerified) {
+            await ctx.context.internalAdapter.updateUser(existing.id, {
+              emailVerified: true,
+            });
+          }
+        },
+      },
     },
   },
   socialProviders: {
@@ -80,6 +129,12 @@ export const auth = betterAuth({
       "/get-session": false,
     },
   },
+  onAPIError: {
+    errorURL: "/auth/error",
+    onError: (error) => {
+      logAuthApiError(error);
+    },
+  },
   plugins: [
     // Interactive API reference and raw OpenAPI schema expose exact
     // endpoint paths/payloads (including dash() admin routes) to anyone;
@@ -105,7 +160,9 @@ export const auth = betterAuth({
                 strictness: "medium",
                 action: "block",
               },
-              emailNormalization: { enabled: true },
+              // Off: Better Auth links by exact email. Gmail dot-stripping
+              // stored `truonggiangaxyl@gmail.com` and blocked Google linking.
+              emailNormalization: { enabled: false },
 
               // Everything below starts in "log" mode — this is a brand-new,
               // low-traffic site with no baseline yet. Flip to "challenge"/"block"
