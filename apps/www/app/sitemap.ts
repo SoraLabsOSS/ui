@@ -103,7 +103,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   const blogEntries = visibleBlogPages.map(blogPageToEntry);
   const latestBlogDate = getLatestBlogDate(visibleBlogPages);
 
-  return await Promise.resolve([
+  const rawEntries: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
       changeFrequency: "weekly",
@@ -135,7 +135,18 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...componentEntries,
     ...uiEntries,
     ...LEGAL_ENTRIES,
-  ]);
+  ];
+
+  // Deduplicate by URL while preserving the highest priority entry
+  const entryMap = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const entry of rawEntries) {
+    const existing = entryMap.get(entry.url);
+    if (!existing || (entry.priority ?? 0) > (existing.priority ?? 0)) {
+      entryMap.set(entry.url, entry);
+    }
+  }
+
+  return await Promise.resolve(Array.from(entryMap.values()));
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
