@@ -111,7 +111,12 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...docEntries,
     {
-      url: `${SITE_URL}/components`,
+      url: `${SITE_URL}/motion`,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/catalog`,
       changeFrequency: "weekly",
       priority: 0.85,
     },

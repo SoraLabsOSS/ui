@@ -33,14 +33,20 @@ export function generateStaticParams(): {
       slug: [...page.slug, "image.png"],
     }));
 
+  const catalogParams = getComponentSlugs().map((componentSlug) => ({
+    slug: ["catalog", componentSlug, "image.png"],
+  }));
+
   const componentParams = getComponentSlugs().map((componentSlug) => ({
     slug: ["components", componentSlug, "image.png"],
   }));
 
   return [
     { slug: ["image.png"] },
+    { slug: ["catalog", "image.png"] },
     { slug: ["components", "image.png"] },
     ...docParams,
+    ...catalogParams,
     ...componentParams,
   ];
 }
