@@ -29,7 +29,7 @@ Sora UI
 | Tier | Registry Path | Docs Route | Purpose |
 |------|---------------|------------|---------|
 | **Motion** | `registry/primitives/{category}/{name}/` | `/docs/motion/<name>` (alias `/motion/<name>`) | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
-| **Catalog** | `content/catalog/<slug>.mdx` (showcased) | `/catalog/<slug>` (alias `/components/<slug>`) | Ready-to-use assembled animated components, cards, and complex layout templates (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
+| **Catalog** | `content/catalog/<slug>.mdx` (showcased) | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
 | **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `bottom-sheet`). |
 
 ## Repository structure
