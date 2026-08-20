@@ -127,7 +127,7 @@ Avoid it when tab content needs to stay visible alongside other content, or when
 
 ## Accessibility
 
-Each trigger button gets a stable `id`, `aria-expanded`, and `aria-controls` pointing at its panel's id; the open panel has a matching `id`, `role="region"`, and `aria-labelledby` pointing back at its trigger — the same disclosure pattern used by [Accordion](/docs/primitives/accordion), since Expandable Tabs can have zero panels open at once (unlike classic ARIA tabs, which always keep exactly one panel visible). Only the active tab's panel is mounted at a time, so `aria-controls` references an id that doesn't exist in the DOM while collapsed — accepted practice for this pattern, since `aria-expanded="false"` already communicates the state.
+Each trigger button gets a stable `id`, `aria-expanded`, and `aria-controls` pointing at its panel's id; the open panel has a matching `id`, `role="region"`, and `aria-labelledby` pointing back at its trigger — the same disclosure pattern used by [Accordion](/docs/motion/accordion), since Expandable Tabs can have zero panels open at once (unlike classic ARIA tabs, which always keep exactly one panel visible). Only the active tab's panel is mounted at a time, so `aria-controls` references an id that doesn't exist in the DOM while collapsed — accepted practice for this pattern, since `aria-expanded="false"` already communicates the state.
 
 Pressing <kbd>Escape</kbd> while a panel is open closes it and returns focus to its trigger button. Clicking outside the root also closes the open panel.
 

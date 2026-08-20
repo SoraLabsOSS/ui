@@ -65,14 +65,14 @@ const LIBRARY_NAV_ITEMS = (
   uiUrl: string
 ): LibraryNavItem[] => [
   {
-    title: "Primitives",
+    title: "Motion",
     url: primitivesUrl,
     description: "Unstyled, animated building blocks powered by Motion.",
   },
   {
-    title: "Components",
-    url: "/components",
-    description: "Fully-assembled examples built from primitives.",
+    title: "Catalog",
+    url: "/catalog",
+    description: "Fully-assembled layout showcases built from primitives.",
   },
   {
     title: "Icons",
@@ -82,7 +82,8 @@ const LIBRARY_NAV_ITEMS = (
   {
     title: "UI",
     url: uiUrl,
-    description: "Styled app components built with Base UI and Motion.",
+    description:
+      "Styled app components built with Base UI, Radix UI and Motion.",
   },
 ];
 

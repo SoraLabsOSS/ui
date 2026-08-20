@@ -35,5 +35,19 @@ export function isValidBookmarkUrl(url: string): boolean {
     urls = refreshBookmarkUrlCache();
   }
 
-  return urls.has(url);
+  if (urls.has(url)) {
+    return true;
+  }
+
+  // Support legacy URLs
+  if (url.startsWith("/components/")) {
+    const catalogUrl = url.replace(/^\/components\//, "/catalog/");
+    return urls.has(catalogUrl);
+  }
+  if (url.startsWith("/docs/primitives/")) {
+    const motionUrl = url.replace(/^\/docs\/primitives\//, "/docs/motion/");
+    return urls.has(motionUrl);
+  }
+
+  return false;
 }

@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <HomePageClient
       blocksCount={blocksCount}
-      blocksUrl="/components"
+      blocksUrl="/catalog"
       latestShipped={latestShipped}
       primitivesUrl={primitivesUrl}
     />

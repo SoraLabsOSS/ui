@@ -65,7 +65,7 @@ export const getComponentPageData = cache(
       page,
       registryName,
       previewName,
-      componentUrl: `/components/${slug}`,
+      componentUrl: `/catalog/${slug}`,
       docsUrl: page.url,
       toc,
     };
@@ -110,7 +110,7 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
       slug,
       title: page.data.title,
       description: page.data.description ?? "",
-      href: `/components/${slug}`,
+      href: `/catalog/${slug}`,
       collection: "component",
       releaseDate,
       category: pageMeta.category,

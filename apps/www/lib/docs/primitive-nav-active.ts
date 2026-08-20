@@ -1,14 +1,18 @@
 /** Sidebar hover key for Menu → Primitives (href may equal first primitive doc). */
 export const MENU_PRIMITIVES_ITEM_KEY = "menu-primitives";
 
+const MOTION_DOCS_PREFIX = "/docs/motion";
 const PRIMITIVES_DOCS_PREFIX = "/docs/primitives";
 
-/** Leaf primitive doc (e.g. `/docs/primitives/text-scramble` or nested paths). */
+/** Leaf motion / primitive doc (e.g. `/docs/motion/text-scramble` or nested paths). */
 export function isPrimitiveDocPath(pathname: string): boolean {
   return (
-    pathname !== PRIMITIVES_DOCS_PREFIX &&
-    pathname !== `${PRIMITIVES_DOCS_PREFIX}/` &&
-    pathname.startsWith(`${PRIMITIVES_DOCS_PREFIX}/`)
+    (pathname !== MOTION_DOCS_PREFIX &&
+      pathname !== `${MOTION_DOCS_PREFIX}/` &&
+      pathname.startsWith(`${MOTION_DOCS_PREFIX}/`)) ||
+    (pathname !== PRIMITIVES_DOCS_PREFIX &&
+      pathname !== `${PRIMITIVES_DOCS_PREFIX}/` &&
+      pathname.startsWith(`${PRIMITIVES_DOCS_PREFIX}/`))
   );
 }
 

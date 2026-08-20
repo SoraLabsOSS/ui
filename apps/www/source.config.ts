@@ -67,9 +67,9 @@ export const ui = defineDocs({
   },
 });
 
-/** Catalog component pages — served at `/components/*`, not under `/docs`. */
-export const components = defineDocs({
-  dir: "content/components",
+/** Catalog pages — served at `/catalog/*`, not under `/docs`. */
+export const catalog = defineDocs({
+  dir: "content/catalog",
   docs: {
     schema: catalogDocSchema,
     postprocess: catalogDocPostprocess,
@@ -78,6 +78,9 @@ export const components = defineDocs({
     schema: metaSchema,
   },
 });
+
+/** @deprecated Alias for backwards compatibility with legacy imports. */
+export const components = catalog;
 
 /** Blog posts — served at `/blog/*`. */
 export const blog = defineCollections({

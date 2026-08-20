@@ -53,6 +53,35 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   async rewrites() {
     return [
+      // Rewrites for top-level /motion and legacy /primitives to /docs/motion
+      {
+        source: "/motion",
+        destination: "/docs/motion",
+      },
+      {
+        source: "/motion/:path*",
+        destination: "/docs/motion/:path*",
+      },
+      {
+        source: "/primitives",
+        destination: "/docs/motion",
+      },
+      {
+        source: "/primitives/:path*",
+        destination: "/docs/motion/:path*",
+      },
+
+      // Rewrites for legacy /components to /catalog
+      {
+        source: "/components",
+        destination: "/catalog",
+      },
+      {
+        source: "/components/:path*",
+        destination: "/catalog/:path*",
+      },
+
+      // LLMs MDX / MD rewrites
       {
         source: "/docs/:path*.mdx",
         destination: "/llms.mdx/:path*",
@@ -62,12 +91,36 @@ const nextConfig: NextConfig = {
         destination: "/llms.mdx/:path*",
       },
       {
+        source: "/motion/:path*.mdx",
+        destination: "/llms.mdx/motion/:path*",
+      },
+      {
+        source: "/motion/:path*.md",
+        destination: "/llms.mdx/motion/:path*",
+      },
+      {
+        source: "/primitives/:path*.mdx",
+        destination: "/llms.mdx/motion/:path*",
+      },
+      {
+        source: "/primitives/:path*.md",
+        destination: "/llms.mdx/motion/:path*",
+      },
+      {
+        source: "/catalog/:path*.mdx",
+        destination: "/llms-catalog.mdx/:path*",
+      },
+      {
+        source: "/catalog/:path*.md",
+        destination: "/llms-catalog.mdx/:path*",
+      },
+      {
         source: "/components/:path*.mdx",
-        destination: "/llms-components.mdx/:path*",
+        destination: "/llms-catalog.mdx/:path*",
       },
       {
         source: "/components/:path*.md",
-        destination: "/llms-components.mdx/:path*",
+        destination: "/llms-catalog.mdx/:path*",
       },
       {
         source: "/ui/:path*.mdx",

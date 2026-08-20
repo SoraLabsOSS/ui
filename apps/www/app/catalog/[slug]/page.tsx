@@ -60,7 +60,7 @@ async function ComponentPageBody({ slug }: { slug: string }) {
       <ComponentPageJsonLd componentUrl={data.componentUrl} page={data.page} />
       <ComponentPageLayout
         data={data}
-        githubPath={`content/components/${slug}.mdx`}
+        githubPath={`content/catalog/${slug}.mdx`}
         header={getComponentPageHeaderData(data)}
         navItems={getComponentGalleryItems()}
         nextNav={nextNav}
@@ -93,7 +93,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 
   const url = `${SITE_URL}${data.componentUrl}`;
-  const ogPath = ["components", slug];
+  const ogPath = ["catalog", slug];
   const title = data.page.data.title;
 
   return {

@@ -165,15 +165,13 @@ function GuideBottomMenu({
         href={primitivesUrl}
         isActive={isPrimitivesNavItemActive(pathname, primitivesUrl)}
         itemKey={MENU_PRIMITIVES_ITEM_KEY}
-        label="Primitives"
+        label="Motion"
         onClick={onNavigate}
       />
       <DocsShellNavItem
-        href="/components"
-        isActive={
-          pathname === "/components" || pathname.startsWith("/components/")
-        }
-        label="Components"
+        href="/catalog"
+        isActive={pathname === "/catalog" || pathname.startsWith("/catalog/")}
+        label="Catalog"
         onClick={onNavigate}
       />
       <DocsShellNavItem

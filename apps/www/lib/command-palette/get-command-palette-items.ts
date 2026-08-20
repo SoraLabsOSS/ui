@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { baseOptions } from "@/app/layout.config";
-import primitivesMeta from "@/content/docs/primitives/meta.json";
+import motionMeta from "@/content/docs/motion/meta.json";
 import { blog } from "@/lib/blog/source";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
@@ -17,7 +17,7 @@ import type { CommandPaletteGroup, CommandPaletteItem } from "./types";
 function sectionTitle(category: ComponentGalleryCategory): string {
   return (
     COMPONENT_GALLERY_SECTIONS.find((section) => section.id === category)
-      ?.title ?? "Components"
+      ?.title ?? "Catalog"
   );
 }
 
@@ -48,9 +48,9 @@ function item(
 
 function buildPrimitiveSectionBySlug(): Map<string, string> {
   const sections = new Map<string, string>();
-  let section = "Primitives";
+  let section = "Motion";
 
-  for (const entry of primitivesMeta.pages) {
+  for (const entry of motionMeta.pages) {
     if (entry.startsWith("---") && entry.endsWith("---")) {
       section = entry.slice(3, -3);
       continue;
@@ -85,7 +85,10 @@ function getDocumentationItems(): CommandPaletteItem[] {
       continue;
     }
 
-    if (page.url.startsWith("/docs/primitives/")) {
+    if (
+      page.url.startsWith("/docs/motion/") ||
+      page.url.startsWith("/docs/primitives/")
+    ) {
       continue;
     }
 
@@ -117,13 +120,17 @@ function getPrimitiveItems(): CommandPaletteItem[] {
   const primitivePagesBySlug = new Map(
     source
       .getPages()
-      .filter((page) => page.url.startsWith("/docs/primitives/"))
+      .filter(
+        (page) =>
+          page.url.startsWith("/docs/motion/") ||
+          page.url.startsWith("/docs/primitives/")
+      )
       .map((page) => [page.slugs.at(-1) ?? "", page] as const)
   );
 
   const primitives: CommandPaletteItem[] = [];
 
-  for (const entry of primitivesMeta.pages) {
+  for (const entry of motionMeta.pages) {
     if (entry.startsWith("---")) {
       continue;
     }
@@ -137,7 +144,7 @@ function getPrimitiveItems(): CommandPaletteItem[] {
       item({
         id: `primitive-${page.url}`,
         label: page.data.title,
-        hint: PRIMITIVE_SECTION_BY_SLUG.get(entry) ?? "Primitives",
+        hint: PRIMITIVE_SECTION_BY_SLUG.get(entry) ?? "Motion",
         href: page.url,
         icon: "box",
         path: page.url,
@@ -238,18 +245,18 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       path: "/docs",
     }),
     item({
-      id: "page-primitives",
-      label: "Primitives",
+      id: "page-motion",
+      label: "Motion",
       href: primitivesUrl,
       icon: "box",
       path: primitivesUrl,
     }),
     item({
-      id: "page-components",
-      label: "Components",
-      href: "/components",
+      id: "page-catalog",
+      label: "Catalog",
+      href: "/catalog",
       icon: "box",
-      path: "/components",
+      path: "/catalog",
     }),
     item({
       id: "page-icons",
@@ -300,11 +307,11 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
   }
 
   if (primitives.length > 0) {
-    groups.push({ id: "primitives", label: "Primitives", items: primitives });
+    groups.push({ id: "motion", label: "Motion", items: primitives });
   }
 
   if (components.length > 0) {
-    groups.push({ id: "components", label: "Components", items: components });
+    groups.push({ id: "catalog", label: "Catalog", items: components });
   }
 
   if (iconPages.length > 0) {

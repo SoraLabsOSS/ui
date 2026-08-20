@@ -22,7 +22,7 @@ interface ComponentPageCatalogNavProps {
 }
 
 function isCatalogItemActive(pathname: string, slug: string) {
-  return pathname === `/components/${slug}`;
+  return pathname === `/catalog/${slug}` || pathname === `/components/${slug}`;
 }
 
 export function ComponentPageCatalogNav({
@@ -50,7 +50,8 @@ export function ComponentPageCatalogNav({
     clearHoverPreview();
   }, [pathname]);
 
-  const isAllComponentsActive = pathname === "/components";
+  const isAllComponentsActive =
+    pathname === "/catalog" || pathname === "/components";
 
   return (
     <>
@@ -69,10 +70,10 @@ export function ComponentPageCatalogNav({
         >
           <Sidebar001Section>
             <Sidebar001Item
-              href="/components"
+              href="/catalog"
               isActive={isAllComponentsActive}
               itemKey="all-components"
-              label="All Components"
+              label="All Catalog"
               onClick={onNavigate}
               onItemPointerLeave={onItemPointerLeave}
             />

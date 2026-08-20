@@ -41,14 +41,10 @@ const FOOTER_NAV: FooterNavSection[] = [
   {
     title: "Library",
     links: [
-      { href: "/components", label: "Components" },
-      { href: "/docs/primitives", label: "All primitives" },
-      // { href: "/docs/primitives/stagger-button", label: "Buttons" },
-      // { href: "/docs/primitives/draw-underline-link", label: "Texts" },
-      // { href: "/docs/primitives/pixelated-image-reveal", label: "Effects" },
-      // { href: "/docs/primitives/accordion", label: "Disclosure" },
-      // { href: "/docs/primitives/custom-cursor", label: "Cursor" },
-      // { href: "/docs/primitives/dock-nav", label: "Navigation" },
+      { href: "/ui", label: "UI Kit" },
+      { href: "/docs/motion", label: "Motion" },
+      { href: "/catalog", label: "Catalog" },
+      { href: "/docs/icons", label: "Icons" },
     ],
   },
   {

@@ -31,15 +31,15 @@ export function buildLlmsIndex(
     "## UI",
     ...uiPages.map(formatPageLine),
     "",
-    "## Components",
+    "## Catalog",
     ...componentPages.map(formatPageLine),
     "",
     "## Registry",
     `- [registry.json](${SITE_URL}/r/registry.json): shadcn-compatible registry manifest`,
     "",
     "## LLM exports",
-    `- [llms-full.txt](${SITE_URL}/llms-full.txt): full docs + UI + components for AI`,
-    `- Append \`.mdx\` to any docs, UI, or component URL for markdown (e.g. \`${SITE_URL}/docs/primitives/draw-underline-link.mdx\`, \`${SITE_URL}/ui.mdx\`, \`${SITE_URL}/components/cursor-trail-reveal.mdx\`)`,
+    `- [llms-full.txt](${SITE_URL}/llms-full.txt): full docs + UI + catalog for AI`,
+    `- Append \`.mdx\` to any docs, UI, or catalog URL for markdown (e.g. \`${SITE_URL}/docs/motion/draw-underline-link.mdx\`, \`${SITE_URL}/ui.mdx\`, \`${SITE_URL}/catalog/cursor-trail-reveal.mdx\`)`,
   ];
 
   return lines.join("\n");

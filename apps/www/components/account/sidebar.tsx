@@ -94,14 +94,14 @@ const ACCOUNT_MENU_ITEMS = [
     getHref: (primitivesUrl: string) => primitivesUrl,
     getIsActive: (pathname: string, href: string) =>
       isPrimitivesNavItemActive(pathname, href),
-    label: "Primitives",
+    label: "Motion",
     requiresAuth: false,
   },
   {
-    getHref: () => "/components",
+    getHref: () => "/catalog",
     getIsActive: (pathname: string, href: string) =>
       pathname === href || pathname.startsWith(`${href}/`),
-    label: "Components",
+    label: "Catalog",
     requiresAuth: false,
   },
   {
@@ -169,7 +169,7 @@ function AccountMenuSection({
             href={href}
             isActive={item.getIsActive(pathname, href)}
             itemKey={
-              item.label === "Primitives" ? MENU_PRIMITIVES_ITEM_KEY : undefined
+              item.label === "Motion" ? MENU_PRIMITIVES_ITEM_KEY : undefined
             }
             key={item.label}
             label={item.label}

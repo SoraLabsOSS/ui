@@ -26,7 +26,7 @@ export function ComponentPageDocsBreadcrumb({
               asChild
               className="text-inherit hover:text-zinc-900 dark:hover:text-zinc-100"
             >
-              <Link href="/components">Components</Link>
+              <Link href="/catalog">Catalog</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="opacity-50" />

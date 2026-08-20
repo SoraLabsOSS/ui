@@ -26,9 +26,10 @@ function firstDocPageUrl(nodes: PageTree.Node[]): string | undefined {
   }
 }
 
-/** Primitives landing page when present, else first doc page under Fumadocs root folders. Server-only. */
+/** Motion landing page when present, else first doc page under Fumadocs root folders. Server-only. */
 export function getFirstPrimitiveDocUrl(): string {
-  const landingPage = source.getPage(["primitives"]);
+  const landingPage =
+    source.getPage(["motion"]) ?? source.getPage(["primitives"]);
   if (landingPage) {
     return landingPage.url;
   }

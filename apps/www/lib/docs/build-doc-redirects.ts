@@ -45,98 +45,127 @@ function readGuideSlugs(docsRoot: string): Set<string> {
   );
 }
 
-/** Redirects inferred from docs/component meta — fills missing `primitives` or `components` segments. */
+/** Redirects inferred from docs/component meta — fills missing `motion`, `primitives` or `catalog` segments. */
 export function buildDocRedirects(appRoot: string): DocRedirect[] {
   const docsRoot = path.join(appRoot, "content/docs");
-  const primitivePageList = readMetaPages(
-    path.join(docsRoot, "primitives/meta.json")
-  );
-  const primitiveSlugs = new Set(primitivePageList);
-  const componentSlugs = new Set(
-    readMetaPages(path.join(appRoot, "content/components/meta.json"))
-  );
+  const motionMetaPath = fs.existsSync(path.join(docsRoot, "motion/meta.json"))
+    ? path.join(docsRoot, "motion/meta.json")
+    : path.join(docsRoot, "primitives/meta.json");
+  const catalogMetaPath = fs.existsSync(
+    path.join(appRoot, "content/catalog/meta.json")
+  )
+    ? path.join(appRoot, "content/catalog/meta.json")
+    : path.join(appRoot, "content/components/meta.json");
+
+  const motionPageList = readMetaPages(motionMetaPath);
+  const motionSlugs = new Set(motionPageList);
+  const catalogSlugs = new Set(readMetaPages(catalogMetaPath));
   const guideSlugs = readGuideSlugs(docsRoot);
 
   const redirects: DocRedirect[] = [];
 
+  // Legacy primitive slug renames
   for (const [from, to] of Object.entries(LEGACY_PRIMITIVE_SLUG_RENAMES)) {
     redirects.push({
+      source: `/docs/motion/${from}`,
+      destination: `/docs/motion/${to}`,
+      permanent: true,
+    });
+    redirects.push({
       source: `/docs/primitives/${from}`,
-      destination: `/docs/primitives/${to}`,
+      destination: `/docs/motion/${to}`,
       permanent: true,
     });
     redirects.push({
       source: `/docs/${from}`,
-      destination: `/docs/primitives/${to}`,
+      destination: `/docs/motion/${to}`,
       permanent: true,
     });
   }
 
+  // Redirect legacy /docs/primitives and /primitives to /docs/motion
   redirects.push({
-    source: "/docs/components/texts/text-reveal",
-    destination: "/docs/primitives/text-effect",
+    source: "/docs/primitives",
+    destination: "/docs/motion",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/docs/primitives/:path*",
+    destination: "/docs/motion/:path*",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/primitives",
+    destination: "/docs/motion",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/primitives/:path*",
+    destination: "/docs/motion/:path*",
+    permanent: true,
+  });
+
+  // Redirect legacy /components to /catalog
+  redirects.push({
+    source: "/components",
+    destination: "/catalog",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/components/:path*",
+    destination: "/catalog/:path*",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/docs/components",
+    destination: "/catalog",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/docs/components/:path*",
+    destination: "/catalog/:path*",
     permanent: true,
   });
 
   for (const category of TOP_LEVEL_PRIMITIVE_PREFIXES) {
     redirects.push({
       source: `/docs/${category}/:path*`,
-      destination: "/docs/primitives/:path*",
+      destination: "/docs/motion/:path*",
       permanent: true,
     });
   }
 
   for (const category of PRIMITIVE_CATEGORY_PREFIXES) {
     redirects.push({
-      source: `/docs/primitives/${category}/:path*`,
-      destination: "/docs/primitives/:path*",
+      source: `/docs/motion/${category}/:path*`,
+      destination: "/docs/motion/:path*",
       permanent: true,
     });
   }
 
-  for (const slug of primitiveSlugs) {
+  for (const slug of motionSlugs) {
     if (guideSlugs.has(slug)) {
       continue;
     }
 
     redirects.push({
       source: `/docs/${slug}`,
-      destination: `/docs/primitives/${slug}`,
+      destination: `/docs/motion/${slug}`,
       permanent: true,
     });
-
-    if (!componentSlugs.has(slug)) {
-      redirects.push({
-        source: `/components/${slug}`,
-        destination: `/docs/primitives/${slug}`,
-        permanent: true,
-      });
-    }
   }
 
-  for (const slug of componentSlugs) {
-    if (primitiveSlugs.has(slug)) {
+  for (const slug of catalogSlugs) {
+    if (motionSlugs.has(slug)) {
       continue;
     }
 
     redirects.push({
       source: `/docs/${slug}`,
-      destination: `/components/${slug}`,
-      permanent: true,
-    });
-
-    redirects.push({
-      source: `/docs/primitives/${slug}`,
-      destination: `/components/${slug}`,
+      destination: `/catalog/${slug}`,
       permanent: true,
     });
   }
-
-  redirects.push({
-    source: "/docs/components/:path*",
-    destination: "/components/:path*",
-    permanent: true,
-  });
 
   return redirects;
 }

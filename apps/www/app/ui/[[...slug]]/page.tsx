@@ -58,7 +58,7 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
     }
 
     if (page.url === uiUrl) {
-      return { url: primitivesUrl, name: "Primitives" } as const;
+      return { url: primitivesUrl, name: "Motion" } as const;
     }
 
     if (page.url.startsWith("/ui/")) {
@@ -68,12 +68,15 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
     return;
   })();
 
-  const nextNav =
-    nextPage == null
-      ? page.url === uiUrl
-        ? { url: "/components", name: "Components" }
-        : undefined
-      : { url: nextPage.url, name: String(nextPage.name ?? "Next") };
+  const nextNav = (() => {
+    if (nextPage) {
+      return { url: nextPage.url, name: String(nextPage.name ?? "Next") };
+    }
+    if (page.url === uiUrl) {
+      return { url: "/catalog", name: "Catalog" } as const;
+    }
+    return;
+  })();
 
   return (
     <DocsPage

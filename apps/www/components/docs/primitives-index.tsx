@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PrimitivesIndexNewDot } from "@/components/docs/primitives-index-new-dot";
-import primitivesMeta from "@/content/docs/primitives/meta.json";
+import motionMeta from "@/content/docs/motion/meta.json";
 import {
   getPageReleaseDateString,
   type PageReleaseDateFields,
@@ -24,14 +24,16 @@ function getSections(): Section[] {
   const sections: Section[] = [];
   let current: Section | undefined;
 
-  for (const entry of primitivesMeta.pages) {
+  for (const entry of motionMeta.pages) {
     const match = entry.match(SECTION_PATTERN);
     if (match) {
       current = { name: match[1], pages: [] };
       sections.push(current);
       continue;
     }
-    const page = source.getPage(["primitives", entry]);
+    const page =
+      source.getPage(["motion", entry]) ??
+      source.getPage(["primitives", entry]);
     if (!(page && current)) {
       continue;
     }

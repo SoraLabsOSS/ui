@@ -9,18 +9,18 @@ import {
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
 import { getPageAlternates } from "@/lib/site";
 
-const title = "Components";
+const title = "Catalog";
 const description =
-  "Preview-first component pages with live demos, install commands, and full API reference.";
+  "Preview-first layout showcases and interactive components with live demos, install commands, and full API reference.";
 
 export const metadata: Metadata = {
   title,
   description,
-  alternates: getPageAlternates("/components"),
+  alternates: getPageAlternates("/catalog"),
   openGraph: {
     title,
     description,
-    images: getOgMetadataImages(["components"], title),
+    images: getOgMetadataImages(["catalog"], title),
     locale: "en_US",
     type: "website",
   },
@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: getTwitterMetadataImages(["components"]),
+    images: getTwitterMetadataImages(["catalog"]),
   },
 };
 
-export default async function ComponentsPage() {
+export default async function CatalogPage() {
   return <ComponentsGallery />;
 }
 

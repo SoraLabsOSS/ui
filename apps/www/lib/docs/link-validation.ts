@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { type InferPageType, loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import type { FileObject } from "next-validate-link";
-import { blog, components, docs, ui } from "@/.source";
+import { blog, catalog, docs, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
 
 export const docSource = loader({
@@ -12,9 +12,11 @@ export const docSource = loader({
 });
 
 export const componentSource = loader({
-  baseUrl: "/components",
-  source: components.toFumadocsSource(),
+  baseUrl: "/catalog",
+  source: catalog.toFumadocsSource(),
 });
+
+export const catalogSource = componentSource;
 
 export const uiSourceForLinks = loader({
   baseUrl: "/ui",
@@ -71,7 +73,7 @@ export function buildPopulate() {
       value: { slug: page.slugs[0] },
       hashes: getHeadings(page),
     })),
-    "components/[slug]": componentSource.getPages().map((page) => ({
+    "catalog/[slug]": componentSource.getPages().map((page) => ({
       value: { slug: page.slugs[0] },
       hashes: getHeadings(page),
     })),
@@ -104,6 +106,28 @@ export function augmentScannedUrls(scanned: ScannedUrls): void {
   scanned.urls.set("/blog/rss.xml", {});
   scanned.urls.set("/llms.txt", {});
   scanned.urls.set("/llms-full.txt", {});
+  scanned.urls.set("/components", {});
+  scanned.urls.set("/docs/primitives", {});
+  scanned.urls.set("/motion", {});
+  scanned.urls.set("/primitives", {});
+
+  for (const page of docSource.getPages()) {
+    if (page.url.startsWith("/docs/motion/")) {
+      const slug = page.url.slice("/docs/motion/".length);
+      scanned.urls.set(`/docs/primitives/${slug}`, {
+        hashes: getHeadings(page),
+      });
+      scanned.urls.set(`/motion/${slug}`, { hashes: getHeadings(page) });
+      scanned.urls.set(`/primitives/${slug}`, { hashes: getHeadings(page) });
+    }
+  }
+
+  for (const page of componentSource.getPages()) {
+    if (page.url.startsWith("/catalog/")) {
+      const slug = page.url.slice("/catalog/".length);
+      scanned.urls.set(`/components/${slug}`, { hashes: getHeadings(page) });
+    }
+  }
 
   for (const redirect of buildDocRedirects(appRoot)) {
     if (!redirect.source.includes(":path")) {

@@ -10,9 +10,9 @@ Sora UI — an open-source, fully animated React component distribution (shadcn/
 
 ```text
 Sora UI
-├── Primitives   (Animation building blocks: unstyled motion/effects)
-├── Components   (Ready-to-use animated components & layout showcases)
-└── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS)
+├── Motion       (Animation building blocks: unstyled motion/effects at /docs/motion or /motion)
+├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
+└── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
 ```
 
 ## Commands
@@ -81,9 +81,9 @@ registry/
 
 ### content/ — four separate trees, don't conflate them
 
-- `content/docs/` — the core documentation site (routed at `/docs`). Top-level guide pages plus `docs/primitives/<name>.mdx` (flat, one per registry primitive).
+- `content/docs/` — the core documentation site (routed at `/docs`). Top-level guide pages plus `docs/motion/<name>.mdx` (flat, one per registry motion primitive, aliased to `/motion/<name>`).
 - `content/ui/` — Base UI & Radix UI + Motion app components (routed at `/ui`). Flat MDX pages referenced by `content/ui/meta.json`; registry source lives under `registry/ui/base/` or `registry/ui/radix/`.
-- `content/components/` — flat catalog of fully-assembled example layout pages (routed at `/components`), listed in `content/components/meta.json`. Showcases existing registry primitives.
+- `content/catalog/` — flat catalog of fully-assembled example layout pages (routed at `/catalog`, backwards-compatible with `/components`), listed in `content/catalog/meta.json`.
 - `content/blog/` — blog posts (routed at `/blog`).
 
 ### Primitive conventions (apply to every animated component)

@@ -95,8 +95,11 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
       return { url: last?.url, name: last?.text } as const;
     }
 
-    if (page.url.startsWith("/docs/primitives/")) {
-      return { url: primitivesUrl, name: "Primitives" } as const;
+    if (
+      page.url.startsWith("/docs/motion/") ||
+      page.url.startsWith("/docs/primitives/")
+    ) {
+      return { url: primitivesUrl, name: "Motion" } as const;
     }
 
     return;
@@ -109,7 +112,7 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
             url: guideItems[guideIndex + 1].url,
             name: guideItems[guideIndex + 1].text,
           }
-        : { url: primitivesUrl, name: "Primitives" }
+        : { url: primitivesUrl, name: "Motion" }
       : nextPage
         ? { url: nextPage.url, name: String(nextPage.name ?? "Suivant") }
         : undefined;

@@ -70,7 +70,12 @@ function collectShippedItems(): ShippedItem[] {
   const items: ShippedItem[] = [];
 
   for (const page of source.getPages()) {
-    if (!page.url.startsWith("/docs/primitives/")) {
+    if (
+      !(
+        page.url.startsWith("/docs/motion/") ||
+        page.url.startsWith("/docs/primitives/")
+      )
+    ) {
       continue;
     }
 
