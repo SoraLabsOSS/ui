@@ -4,7 +4,16 @@ Guidance for AI coding agents (Claude Code and others) working in this repositor
 
 ## What this is
 
-Sora UI — an open-source, fully animated React component distribution (shadcn/ui-style registry) built with TypeScript, Tailwind CSS v4, and Motion. It's a Turborepo/Bun monorepo. `apps/www` (the docs + registry site) is where almost all component work happens.
+Sora UI — an open-source, fully animated React component distribution (shadcn/ui-style registry) built with TypeScript, Tailwind CSS v4, Base UI, Radix UI, and Motion. It's a Turborepo/Bun monorepo. `apps/www` (the docs + registry site) is where almost all component work happens.
+
+## Sora UI Taxonomy
+
+```text
+Sora UI
+├── Primitives   (Animation building blocks: unstyled motion/effects)
+├── Components   (Ready-to-use animated components & layout showcases)
+└── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS)
+```
 
 ## Commands
 
@@ -55,42 +64,36 @@ packages/
 
 ### The registry system (apps/www/registry) — the core of this repo
 
-Everything under `apps/www/registry` follows the shadcn/ui registry-item.json convention and is described in detail in `apps/www/registry/README.md` and `CONTRIBUTING.md`. Actual tree today (no `components/` or `icons/` subtree exist yet — everything currently shipped is a primitive):
+Everything under `apps/www/registry` follows the shadcn/ui registry-item.json convention and is described in detail in `apps/www/registry/README.md` and `CONTRIBUTING.md`.
 
 ```
 registry/
-  primitives/{category}/{name}/index.tsx + registry-item.json   — unstyled, animated building blocks. All current work lives here.
-  demo/primitives/{category}/{name}/                             — OPTIONAL manual demo, only when usage can't be expressed via demoProps (e.g. array/ReactNode children, multi-component layouts)
+  ui/
+    base/{name}/                                                 — Base UI + Motion components (UI tier)
+    radix/{name}/                                                — Radix UI + Motion components (UI tier)
+  primitives/
+    {animate|buttons|disclosure|effects|texts}/{name}/           — Unstyled animation primitives
+  demo/
+    ui/{base|radix}/{name}/                                      — Manual demos for UI tier
+    primitives/{category}/{name}/                                — Manual demos for Primitives tier
   hooks/, lib/
 ```
 
-Categories under `primitives/`: `animate`, `buttons`, `disclosure`, `effects`, `radix`, `texts`.
+### content/ — four separate trees, don't conflate them
 
-Docs for primitives are **flat**, not nested by category: `apps/www/content/docs/primitives/<name>.mdx`, registered in `content/docs/primitives/meta.json`'s `pages` array (which uses `"---Section---"` separators, e.g. `---Texts---`, `---Interaction---`, `---Effects---`, for sidebar grouping — the category only matters for the registry file path, not the docs path).
-
-**Minimal flow to add/modify a primitive:**
-1. Write/edit `registry/primitives/<category>/<name>/index.tsx` + `registry-item.json`.
-2. Set `meta.demoProps` on the registry-item.json for the Tweakpane controls and the auto-generated "Code" tab snippet — only add a manual `registry/demo/primitives/<category>/<name>/` folder when the example genuinely can't be expressed as simple value props (e.g. `children` is `ReactNode[]`, needs multiple sub-components, or has fixed layout).
-3. Write/edit `content/docs/primitives/<name>.mdx` with `<ComponentPreview name="<name>" />` (or `"demo-<name>"` if a manual demo exists), `<ComponentInstallation name="<name>" />`, a `<TypeTable>` for props, and `<ComponentCredits name="<name>" />` if `meta.inspiration` is set.
-4. Add `"<name>"` to `content/docs/primitives/meta.json`'s `pages` array, under the right `---Section---`.
-5. Run `bun run registry:build` (from `apps/www`) — this merges `registry-item.json` files into `public/r/registry.json`, generates `__registry__/index.tsx`, synthesizes `demo-<name>` entries from `demoProps` when no manual demo folder exists, and runs `shadcn build`.
-
-`registry:build` only picks up items actually referenced (via `<ComponentPreview name="..." />` / `<ComponentInstallation name="..." />`) from MDX under `content/docs`, `content/ui`, **or** `content/components` — an orphaned registry folder with no MDX reference in any of those trees won't appear on the site. (E.g. `sticky-scroll-cards` has no page under `content/docs/primitives/`, only a catalog page in `content/components/` — that alone is enough to get it published.)
-
-### content/ — three separate trees, don't conflate them
-
-- `content/docs/` — the actual documentation site (routed at `/docs`). Top-level guide pages (`index`, `installation`, `accessibility`, `community`, `license`, `mcp`, `other-animated-distributions`, `troubleshooting`) plus `docs/primitives/<name>.mdx` (flat, one per registry primitive — see flow above).
-- `content/ui/` — Base UI + Motion app components (routed at `/ui`). Flat MDX pages referenced by `content/ui/meta.json`; registry source lives under `registry/primitives/base/` (or similar) when added.
-- `content/components/` — a small flat "Catalog" of fully-assembled example pages (routed at `/components`), listed in `content/components/meta.json`. Each page documents an existing `registry/primitives/<category>/<name>/` primitive (e.g. `cursor-trail-reveal`, `sticky-scroll-cards`) through a real-layout showcase — the MDX file itself is not a registry item and needs no `registry-item.json`, but the primitive it showcases still lives in and is defined by `registry/primitives/`.
-- `content/blog/` — blog posts (routed at `/blog`), unrelated to the registry/docs flow.
+- `content/docs/` — the core documentation site (routed at `/docs`). Top-level guide pages plus `docs/primitives/<name>.mdx` (flat, one per registry primitive).
+- `content/ui/` — Base UI & Radix UI + Motion app components (routed at `/ui`). Flat MDX pages referenced by `content/ui/meta.json`; registry source lives under `registry/ui/base/` or `registry/ui/radix/`.
+- `content/components/` — flat catalog of fully-assembled example layout pages (routed at `/components`), listed in `content/components/meta.json`. Showcases existing registry primitives.
+- `content/blog/` — blog posts (routed at `/blog`).
 
 ### Primitive conventions (apply to every animated component)
 
 - `"use client";` + import `cn` from `@workspace/ui/lib/utils` (not `@/lib/utils`) inside `registry/` files.
 - Double-quoted strings, biome/ultracite-formatted (`ultracite/biome/core`, `react`, `next` presets extended in `biome.jsonc`).
-- **`prefers-reduced-motion` must be respected** via `useReducedMotion()` from `motion/react` — either render a static/no-animation fallback branch, or skip the animated transition while still updating state. This was retrofitted across primitives (see git history) and is expected on all new animated components.
-- Props are individually JSDoc-commented (`/** ... */`, with `@default` tags) — these comments are the source for docs `TypeTable` entries and are read by contributors, not auto-extracted.
+- **`prefers-reduced-motion` must be respected** via `useReducedMotion()` from `motion/react` — either render a static/no-animation fallback branch, or skip the animated transition while still updating state.
+- Props are individually JSDoc-commented (`/** ... */`, with `@default` tags) — these comments are the source for docs `TypeTable` entries.
 - Expose a forwarded `ref` prop (React 19 style: `ref` as a normal prop, not `forwardRef`) on the root element where practical.
+- Full Tailwind CSS class override support via `cn(...)` so consumers can override sizes, borders, and colors seamlessly.
 - When borrowing UX/animation ideas or a full implementation from an external library/site, set `meta.inspiration` (`type: "inspired"` or `"reimplemented"`) on the registry-item.json and add a `## Credits` section with `<ComponentCredits name="..." />` in the doc.
 
 ### apps/www app structure
@@ -103,6 +106,4 @@ Exposes the Sora docs and component registry to AI tools/assistants over MCP. To
 
 ## Code Standards (Ultracite)
 
-Format/lint via Ultracite (Biome): `bun x ultracite fix` (check: `bun x ultracite check`). Run it before committing — lefthook's pre-commit hook does this automatically for staged files anyway.
-
-Don't fight the linter — prefer clarity, accessibility, and type safety over cleverness. Biome catches most style/correctness issues automatically; use your own judgment for business logic, naming, and architecture, which it can't check. Rule details live in `biome.jsonc` and the `ultracite/biome/*` presets it extends.
+Format/lint via Ultracite (Biome): `bun x ultracite fix` (check: `bun x ultracite check`). Run it before committing.

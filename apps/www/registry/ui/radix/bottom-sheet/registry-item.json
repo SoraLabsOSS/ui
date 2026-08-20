@@ -14,7 +14,7 @@
   ],
   "files": [
     {
-      "path": "registry/primitives/radix/bottom-sheet/index.tsx",
+      "path": "registry/ui/radix/bottom-sheet/index.tsx",
       "type": "registry:ui",
       "target": "components/sora-ui/radix/bottom-sheet.tsx"
     }

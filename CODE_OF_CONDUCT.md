@@ -29,7 +29,7 @@ This Code applies within all community spaces—GitHub repositories, issues, pul
 
 ## Reporting
 
-If you experience or witness a violation, please contact the maintainers at **contact@animate-ui.com**. Provide as much detail as possible, including links, screenshots, dates, and context. Reports will be reviewed in good faith and handled as confidentially as possible.
+If you experience or witness a violation, please contact the maintainers or open a confidential discussion at [github.com/SoraLabsOSS/sora-ui-community](https://github.com/SoraLabsOSS/sora-ui-community). Provide as much detail as possible, including links, screenshots, dates, and context. Reports will be reviewed in good faith and handled as confidentially as possible.
 
 We aim to acknowledge every report within **72 hours** and to follow up with next steps or a resolution timeline.
 
@@ -59,7 +59,7 @@ When addressing violations, maintainers may use the following graduated response
 
 ## Appeals
 
-If you believe an action was taken in error or was unfair, you may reply to the original decision email with any additional context for reconsideration. A different maintainer (or a small subgroup) will review appeals when possible.
+If you believe an action was taken in error or was unfair, you may reply to the original decision with any additional context for reconsideration. A different maintainer (or a small subgroup) will review appeals when possible.
 
 ## Attribution
 

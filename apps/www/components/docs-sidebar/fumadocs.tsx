@@ -26,6 +26,10 @@ import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 import {
+  isIconsNavItemActive,
+  MENU_ICONS_ITEM_KEY,
+} from "@/lib/docs/icons-nav-active";
+import {
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
 } from "@/lib/docs/primitive-nav-active";
@@ -174,8 +178,8 @@ function GuideBottomMenu({
       />
       <DocsShellNavItem
         href="/docs/icons"
-        isActive={pathname.startsWith("/docs/icons")}
-        itemKey="menu-icons"
+        isActive={isIconsNavItemActive(pathname)}
+        itemKey={MENU_ICONS_ITEM_KEY}
         label="Icons"
         onClick={onNavigate}
       />

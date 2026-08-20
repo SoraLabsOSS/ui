@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "An accessible, stylable checkbox built on Base UI with a Motion-friendly animated indicator.",
+  "dependencies": ["@base-ui/react", "motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/ui/base/checkbox/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/base/checkbox.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "Checkbox": {
+        "label": {
+          "value": "Enable notifications"
+        },
+        "defaultChecked": {
+          "value": true
+        }
+      }
+    },
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Base UI: Checkbox (Motion Examples)",
+      "url": "https://examples.motion.dev/react/base-checkbox",
+      "stack": "Base UI and Motion"
+    }
+  }
+}

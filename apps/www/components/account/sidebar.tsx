@@ -39,6 +39,7 @@ import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
+import { isIconsNavItemActive } from "@/lib/docs/icons-nav-active";
 import {
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
@@ -106,7 +107,7 @@ const ACCOUNT_MENU_ITEMS = [
   {
     getHref: () => "/docs/icons",
     getIsActive: (pathname: string, href: string) =>
-      pathname === href || pathname.startsWith(`${href}/`),
+      isIconsNavItemActive(pathname, href),
     label: "Icons",
     requiresAuth: false,
   },

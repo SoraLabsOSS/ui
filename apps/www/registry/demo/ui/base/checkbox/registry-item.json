@@ -7,7 +7,7 @@
   "registryDependencies": ["checkbox"],
   "files": [
     {
-      "path": "registry/demo/primitives/base/checkbox/index.tsx",
+      "path": "registry/demo/ui/base/checkbox/index.tsx",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/base/checkbox.tsx"
     }

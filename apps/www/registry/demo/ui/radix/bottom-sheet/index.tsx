@@ -10,7 +10,7 @@ import {
   BottomSheetRow,
   BottomSheetTitle,
   BottomSheetTrigger,
-} from "@/registry/primitives/radix/bottom-sheet";
+} from "@/registry/ui/radix/bottom-sheet";
 
 interface SettingsState {
   preloader: boolean;

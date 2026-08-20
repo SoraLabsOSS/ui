@@ -10,6 +10,7 @@
     "start": "next start -p 3000",
     "postinstall": "bun ./scripts/ensure-git-history.mts && fumadocs-mdx",
     "registry:build": "bun ./scripts/build-registry.mts",
+    "test:registry": "bun ./scripts/test-registry-integrity.mts",
     "lint": "ultracite check",
     "lint:links": "bun ./scripts/lint-links.ts",
     "lint:fix": "ultracite fix",

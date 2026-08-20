@@ -91,6 +91,9 @@ function inferSyntheticDemoTarget(item: RegistryItem): string {
 
 function inferSyntheticDemoPath(item: RegistryItem): string {
   const sourcePath = item.files?.[0]?.path ?? "";
+  if (sourcePath.includes("/ui/")) {
+    return sourcePath.replace("/ui/", "/demo/ui/");
+  }
   if (sourcePath.includes("/primitives/")) {
     return sourcePath.replace("/primitives/", "/demo/primitives/");
   }
@@ -120,6 +123,29 @@ function resolveCatalogPreviewPath(
   return CATALOG_PREVIEW_IMPORT_OVERRIDES[itemName] ?? defaultPath;
 }
 
+function rewriteRegistryModulePath(content: string): string {
+  const rest = content.slice("@/registry/".length);
+  if (rest.startsWith("lib/") || rest.startsWith("hooks/")) {
+    return `@/${rest}`;
+  }
+
+  const demoPrefixes = ["demo/ui/", "demo/primitives/", "demo/components/"];
+  for (const prefix of demoPrefixes) {
+    if (rest.startsWith(prefix)) {
+      return `@/components/sora-ui/demo/${rest.slice(prefix.length)}`;
+    }
+  }
+
+  const standardPrefixes = ["ui/", "primitives/", "components/"];
+  for (const prefix of standardPrefixes) {
+    if (rest.startsWith(prefix)) {
+      return `@/components/sora-ui/${rest.slice(prefix.length)}`;
+    }
+  }
+
+  return `@/components/sora-ui/${rest}`;
+}
+
 /**
  * Replace registry paths with component paths.
  * @param inputStr - The input string to process.
@@ -128,27 +154,7 @@ function resolveCatalogPreviewPath(
 function replaceRegistryPaths(inputStr: string): string {
   return inputStr.replace(/(['"])([\s\S]*?)\1/g, (match, quote, content) => {
     if (content.startsWith("@/registry/")) {
-      const rest = content.slice("@/registry/".length);
-      if (rest.startsWith("lib/")) {
-        return `${quote}@/${rest}${quote}`;
-      }
-      if (rest.startsWith("hooks/")) {
-        return `${quote}@/${rest}${quote}`;
-      }
-      // Match install targets: drop registry folder segments (components/, primitives/, demo/…)
-      // registry/primitives/texts/x → @/components/sora-ui/texts/x
-      // registry/demo/primitives/texts/x → @/components/sora-ui/demo/texts/x
-      let suffix = rest;
-      if (suffix.startsWith("demo/primitives/")) {
-        suffix = `demo/${suffix.slice("demo/primitives/".length)}`;
-      } else if (suffix.startsWith("demo/components/")) {
-        suffix = `demo/${suffix.slice("demo/components/".length)}`;
-      } else if (suffix.startsWith("primitives/")) {
-        suffix = suffix.slice("primitives/".length);
-      } else if (suffix.startsWith("components/")) {
-        suffix = suffix.slice("components/".length);
-      }
-      return `${quote}@/components/sora-ui/${suffix}${quote}`;
+      return `${quote}${rewriteRegistryModulePath(content)}${quote}`;
     }
     if (content.startsWith("@workspace/ui/")) {
       const rest = content.slice("@workspace/ui/".length);

@@ -13,9 +13,9 @@
   ],
   "files": [
     {
-      "path": "registry/primitives/radix/tabs/index.tsx",
+      "path": "registry/ui/radix/tabs/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/primitives/radix/tabs.tsx"
+      "target": "components/sora-ui/radix/tabs.tsx"
     }
   ]
 }

@@ -24,57 +24,6 @@ export const index: Record<string, any> = {
     component: null,
     command: "@soralabs/index",
   },
-  "demo-checkbox": {
-    name: "demo-checkbox",
-    description: "Base UI checkbox with Motion path-draw checkmark.",
-    type: "registry:ui",
-    dependencies: undefined,
-    devDependencies: undefined,
-    registryDependencies: ["checkbox"],
-    files: [
-      {
-        path: "registry/demo/primitives/base/checkbox/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/demo/base/checkbox.tsx",
-        content:
-          '"use client";\n\nimport { useState } from "react";\nimport { Checkbox } from "@/components/sora-ui/base/checkbox";\n\nexport default function CheckboxDemo() {\n  const [agree, setAgree] = useState(true);\n  const [securityAlerts, setSecurityAlerts] = useState(true);\n\n  return (\n    <div className="mx-auto flex w-full max-w-lg flex-col gap-8 p-4 sm:p-6">\n      {/* 1. Form & Field Patterns */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Form & Field Patterns\n        </h4>\n        <div className="flex flex-col gap-4">\n          {/* Simple */}\n          <div className="flex items-center gap-3">\n            <Checkbox id="terms-simple" name="terms-simple" />\n            <label\n              className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"\n              htmlFor="terms-simple"\n            >\n              Accept terms and conditions\n            </label>\n          </div>\n\n          {/* With Description */}\n          <div className="flex items-start gap-3">\n            <Checkbox\n              checked={agree}\n              id="terms-desc"\n              name="terms-desc"\n              onCheckedChange={setAgree}\n            />\n            <div className="grid gap-1.5 leading-none">\n              <label\n                className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"\n                htmlFor="terms-desc"\n              >\n                Accept terms and conditions\n              </label>\n              <p className="text-muted-foreground text-xs">\n                By clicking this checkbox, you agree to our Terms of Service.\n              </p>\n            </div>\n          </div>\n\n          {/* Disabled states */}\n          <div className="flex items-center gap-3">\n            <Checkbox disabled id="disabled-unchecked" />\n            <label\n              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"\n              htmlFor="disabled-unchecked"\n            >\n              Disabled option (unchecked)\n            </label>\n          </div>\n\n          <div className="flex items-center gap-3">\n            <Checkbox defaultChecked disabled id="disabled-checked" />\n            <label\n              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"\n              htmlFor="disabled-checked"\n            >\n              Disabled option (checked)\n            </label>\n          </div>\n        </div>\n      </div>\n\n      {/* 2. Interactive Card Variant */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Interactive Card\n        </h4>\n        <label\n          className="flex cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5"\n          htmlFor="security-alerts"\n        >\n          <Checkbox\n            checked={securityAlerts}\n            id="security-alerts"\n            name="security-alerts"\n            onCheckedChange={setSecurityAlerts}\n          />\n          <div className="grid gap-1">\n            <span className="font-medium text-foreground text-sm leading-none">\n              Security alerts & notifications\n            </span>\n            <span className="text-muted-foreground text-xs leading-normal">\n              Receive instant alerts on suspicious login attempts and sensitive\n              account actions.\n            </span>\n          </div>\n        </label>\n      </div>\n\n      {/* 3. Custom Sizes & Colors (Class Overrides) */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Custom Class Overrides\n        </h4>\n        <div className="flex flex-wrap items-center gap-6">\n          {/* Emerald Medium */}\n          <div className="flex items-center gap-2.5">\n            <Checkbox\n              className="size-5 rounded-md data-checked:border-emerald-600 data-checked:bg-emerald-600 dark:data-checked:border-emerald-500 dark:data-checked:bg-emerald-500"\n              defaultChecked\n              id="custom-emerald"\n              indicatorClassName="size-4"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-emerald"\n            >\n              Emerald Medium\n            </label>\n          </div>\n\n          {/* Rounded Pill / Circular */}\n          <div className="flex items-center gap-2.5">\n            <Checkbox\n              className="size-5 rounded-full data-checked:border-violet-600 data-checked:bg-violet-600 dark:data-checked:border-violet-500 dark:data-checked:bg-violet-500"\n              defaultChecked\n              id="custom-pill"\n              indicatorClassName="size-3.5"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-pill"\n            >\n              Circular Pill\n            </label>\n          </div>\n\n          {/* Large Hero Checkbox */}\n          <div className="flex items-center gap-3">\n            <Checkbox\n              className="size-7 rounded-lg"\n              defaultChecked\n              id="custom-large"\n              indicatorClassName="size-5"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-large"\n            >\n              Large (size-7)\n            </label>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}',
-      },
-    ],
-    keywords: [],
-    releaseDate: null,
-    inspiration: null,
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/demo/primitives/base/checkbox/index.tsx"
-        );
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        if (mod.supportedStaticAnimations) {
-          (LazyComp as any).supportedStaticAnimations =
-            mod.supportedStaticAnimations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/demo-checkbox",
-  },
   "demo-particle-hover-button": {
     name: "demo-particle-hover-button",
     description:
@@ -1788,58 +1737,6 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-video-player",
   },
-  "demo-bottom-sheet": {
-    name: "demo-bottom-sheet",
-    description:
-      "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
-    type: "registry:ui",
-    dependencies: undefined,
-    devDependencies: undefined,
-    registryDependencies: ["bottom-sheet"],
-    files: [
-      {
-        path: "registry/demo/primitives/radix/bottom-sheet/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/demo/radix/bottom-sheet.tsx",
-        content:
-          '"use client";\n\nimport { useState } from "react";\nimport {\n  BottomSheet,\n  BottomSheetContent,\n  BottomSheetDescription,\n  BottomSheetList,\n  BottomSheetPanel,\n  BottomSheetRow,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n} from "@/components/sora-ui/radix/bottom-sheet";\n\ninterface SettingsState {\n  preloader: boolean;\n  showLabels: boolean;\n  sound: boolean;\n  systemTheme: boolean;\n  theme: "dark" | "light";\n}\n\nconst initialSettings: SettingsState = {\n  preloader: true,\n  showLabels: false,\n  theme: "dark",\n  systemTheme: true,\n  sound: false,\n};\n\nexport default function BottomSheetDemo() {\n  const [open, setOpen] = useState(false);\n  const [settings, setSettings] = useState(initialSettings);\n\n  return (\n    <BottomSheet onOpenChange={setOpen} open={open}>\n      <BottomSheetTrigger className="rounded-lg border border-border bg-card px-4 py-2 font-medium text-sm">\n        Open settings\n      </BottomSheetTrigger>\n      <BottomSheetContent\n        className="max-w-[361px]"\n        defaultSnap={0}\n        showHandle={false}\n        snapPoints={["auto"]}\n      >\n        <BottomSheetTitle>Settings</BottomSheetTitle>\n        <BottomSheetDescription>\n          Toggle preloader, labels, theme, and sound.\n        </BottomSheetDescription>\n        <BottomSheetPanel>\n          <BottomSheetList>\n            <BottomSheetRow\n              label="preloader"\n              onClick={() =>\n                setSettings((s) => ({ ...s, preloader: !s.preloader }))\n              }\n              value={String(settings.preloader)}\n            />\n            <BottomSheetRow\n              label="show labels"\n              onClick={() =>\n                setSettings((s) => ({ ...s, showLabels: !s.showLabels }))\n              }\n              value={String(settings.showLabels)}\n            />\n            <BottomSheetRow\n              label="theme"\n              onClick={() =>\n                setSettings((s) => ({\n                  ...s,\n                  theme: s.theme === "dark" ? "light" : "dark",\n                }))\n              }\n              value={settings.theme}\n            />\n            <BottomSheetRow\n              label="system theme"\n              onClick={() =>\n                setSettings((s) => ({ ...s, systemTheme: !s.systemTheme }))\n              }\n              value={settings.systemTheme ? "on" : "off"}\n            />\n            <BottomSheetRow\n              label="sound"\n              onClick={() => setSettings((s) => ({ ...s, sound: !s.sound }))}\n              value={settings.sound ? "enabled" : "disabled"}\n            />\n          </BottomSheetList>\n        </BottomSheetPanel>\n      </BottomSheetContent>\n    </BottomSheet>\n  );\n}',
-      },
-    ],
-    keywords: [],
-    releaseDate: null,
-    inspiration: null,
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/demo/primitives/radix/bottom-sheet/index.tsx"
-        );
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        if (mod.supportedStaticAnimations) {
-          (LazyComp as any).supportedStaticAnimations =
-            mod.supportedStaticAnimations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/demo-bottom-sheet",
-  },
   "demo-dia-text-reveal": {
     name: "demo-dia-text-reveal",
     description:
@@ -2659,6 +2556,117 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-typer",
   },
+  "demo-checkbox": {
+    name: "demo-checkbox",
+    description: "Base UI checkbox with Motion path-draw checkmark.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["checkbox"],
+    files: [
+      {
+        path: "registry/demo/ui/base/checkbox/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/checkbox.tsx",
+        content:
+          '"use client";\n\nimport { useState } from "react";\nimport { Checkbox } from "@/components/sora-ui/base/checkbox";\n\nexport default function CheckboxDemo() {\n  const [agree, setAgree] = useState(true);\n  const [securityAlerts, setSecurityAlerts] = useState(true);\n\n  return (\n    <div className="mx-auto flex w-full max-w-lg flex-col gap-8 p-4 sm:p-6">\n      {/* 1. Form & Field Patterns */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Form & Field Patterns\n        </h4>\n        <div className="flex flex-col gap-4">\n          {/* Simple */}\n          <div className="flex items-center gap-3">\n            <Checkbox id="terms-simple" name="terms-simple" />\n            <label\n              className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"\n              htmlFor="terms-simple"\n            >\n              Accept terms and conditions\n            </label>\n          </div>\n\n          {/* With Description */}\n          <div className="flex items-start gap-3">\n            <Checkbox\n              checked={agree}\n              id="terms-desc"\n              name="terms-desc"\n              onCheckedChange={setAgree}\n            />\n            <div className="grid gap-1.5 leading-none">\n              <label\n                className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"\n                htmlFor="terms-desc"\n              >\n                Accept terms and conditions\n              </label>\n              <p className="text-muted-foreground text-xs">\n                By clicking this checkbox, you agree to our Terms of Service.\n              </p>\n            </div>\n          </div>\n\n          {/* Disabled states */}\n          <div className="flex items-center gap-3">\n            <Checkbox disabled id="disabled-unchecked" />\n            <label\n              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"\n              htmlFor="disabled-unchecked"\n            >\n              Disabled option (unchecked)\n            </label>\n          </div>\n\n          <div className="flex items-center gap-3">\n            <Checkbox defaultChecked disabled id="disabled-checked" />\n            <label\n              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"\n              htmlFor="disabled-checked"\n            >\n              Disabled option (checked)\n            </label>\n          </div>\n        </div>\n      </div>\n\n      {/* 2. Interactive Card Variant */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Interactive Card\n        </h4>\n        <label\n          className="flex cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5"\n          htmlFor="security-alerts"\n        >\n          <Checkbox\n            checked={securityAlerts}\n            id="security-alerts"\n            name="security-alerts"\n            onCheckedChange={setSecurityAlerts}\n          />\n          <div className="grid gap-1">\n            <span className="font-medium text-foreground text-sm leading-none">\n              Security alerts & notifications\n            </span>\n            <span className="text-muted-foreground text-xs leading-normal">\n              Receive instant alerts on suspicious login attempts and sensitive\n              account actions.\n            </span>\n          </div>\n        </label>\n      </div>\n\n      {/* 3. Custom Sizes & Colors (Class Overrides) */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Custom Class Overrides\n        </h4>\n        <div className="flex flex-wrap items-center gap-6">\n          {/* Emerald Medium */}\n          <div className="flex items-center gap-2.5">\n            <Checkbox\n              className="size-5 rounded-md data-checked:border-emerald-600 data-checked:bg-emerald-600 dark:data-checked:border-emerald-500 dark:data-checked:bg-emerald-500"\n              defaultChecked\n              id="custom-emerald"\n              indicatorClassName="size-4"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-emerald"\n            >\n              Emerald Medium\n            </label>\n          </div>\n\n          {/* Rounded Pill / Circular */}\n          <div className="flex items-center gap-2.5">\n            <Checkbox\n              className="size-5 rounded-full data-checked:border-violet-600 data-checked:bg-violet-600 dark:data-checked:border-violet-500 dark:data-checked:bg-violet-500"\n              defaultChecked\n              id="custom-pill"\n              indicatorClassName="size-3.5"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-pill"\n            >\n              Circular Pill\n            </label>\n          </div>\n\n          {/* Large Hero Checkbox */}\n          <div className="flex items-center gap-3">\n            <Checkbox\n              className="size-7 rounded-lg"\n              defaultChecked\n              id="custom-large"\n              indicatorClassName="size-5"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-large"\n            >\n              Large (size-7)\n            </label>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/base/checkbox/index.tsx");
+        const demoProps = {
+          Checkbox: {
+            label: { value: "Enable notifications" },
+            defaultChecked: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        Checkbox: {
+          label: { value: "Enable notifications" },
+          defaultChecked: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-checkbox",
+  },
+  "demo-bottom-sheet": {
+    name: "demo-bottom-sheet",
+    description:
+      "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["bottom-sheet"],
+    files: [
+      {
+        path: "registry/demo/ui/radix/bottom-sheet/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/radix/bottom-sheet.tsx",
+        content:
+          '"use client";\n\nimport { useState } from "react";\nimport {\n  BottomSheet,\n  BottomSheetContent,\n  BottomSheetDescription,\n  BottomSheetList,\n  BottomSheetPanel,\n  BottomSheetRow,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n} from "@/components/sora-ui/radix/bottom-sheet";\n\ninterface SettingsState {\n  preloader: boolean;\n  showLabels: boolean;\n  sound: boolean;\n  systemTheme: boolean;\n  theme: "dark" | "light";\n}\n\nconst initialSettings: SettingsState = {\n  preloader: true,\n  showLabels: false,\n  theme: "dark",\n  systemTheme: true,\n  sound: false,\n};\n\nexport default function BottomSheetDemo() {\n  const [open, setOpen] = useState(false);\n  const [settings, setSettings] = useState(initialSettings);\n\n  return (\n    <BottomSheet onOpenChange={setOpen} open={open}>\n      <BottomSheetTrigger className="rounded-lg border border-border bg-card px-4 py-2 font-medium text-sm">\n        Open settings\n      </BottomSheetTrigger>\n      <BottomSheetContent\n        className="max-w-[361px]"\n        defaultSnap={0}\n        showHandle={false}\n        snapPoints={["auto"]}\n      >\n        <BottomSheetTitle>Settings</BottomSheetTitle>\n        <BottomSheetDescription>\n          Toggle preloader, labels, theme, and sound.\n        </BottomSheetDescription>\n        <BottomSheetPanel>\n          <BottomSheetList>\n            <BottomSheetRow\n              label="preloader"\n              onClick={() =>\n                setSettings((s) => ({ ...s, preloader: !s.preloader }))\n              }\n              value={String(settings.preloader)}\n            />\n            <BottomSheetRow\n              label="show labels"\n              onClick={() =>\n                setSettings((s) => ({ ...s, showLabels: !s.showLabels }))\n              }\n              value={String(settings.showLabels)}\n            />\n            <BottomSheetRow\n              label="theme"\n              onClick={() =>\n                setSettings((s) => ({\n                  ...s,\n                  theme: s.theme === "dark" ? "light" : "dark",\n                }))\n              }\n              value={settings.theme}\n            />\n            <BottomSheetRow\n              label="system theme"\n              onClick={() =>\n                setSettings((s) => ({ ...s, systemTheme: !s.systemTheme }))\n              }\n              value={settings.systemTheme ? "on" : "off"}\n            />\n            <BottomSheetRow\n              label="sound"\n              onClick={() => setSettings((s) => ({ ...s, sound: !s.sound }))}\n              value={settings.sound ? "enabled" : "disabled"}\n            />\n          </BottomSheetList>\n        </BottomSheetPanel>\n      </BottomSheetContent>\n    </BottomSheet>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/ui/radix/bottom-sheet/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-bottom-sheet",
+  },
   "hooks-use-auto-height": {
     name: "hooks-use-auto-height",
     description:
@@ -3268,58 +3276,6 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/primitives-animate-slot",
-  },
-  checkbox: {
-    name: "checkbox",
-    description:
-      "Base UI checkbox primitives with a Motion path-draw checkmark indicator.",
-    type: "registry:ui",
-    dependencies: ["@base-ui/react", "motion"],
-    devDependencies: undefined,
-    registryDependencies: ["utils"],
-    files: [
-      {
-        path: "registry/primitives/base/checkbox/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/base/checkbox.tsx",
-        content:
-          '"use client";\n\nimport { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";\nimport { cn } from "@/lib/utils";\nimport {\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useTransform,\n} from "motion/react";\nimport type * as React from "react";\nimport { useCallback, useEffect, useId, useState } from "react";\n\nfunction useControlledState<T, Rest extends unknown[] = []>(props: {\n  defaultValue?: T;\n  onChange?: (value: T, ...args: Rest) => void;\n  value?: T;\n}): readonly [T, (next: T, ...args: Rest) => void] {\n  const { value, defaultValue, onChange } = props;\n  const [state, setInternalState] = useState<T>(\n    value === undefined ? (defaultValue as T) : value\n  );\n\n  useEffect(() => {\n    if (value !== undefined) {\n      setInternalState(value);\n    }\n  }, [value]);\n\n  const setState = useCallback(\n    (next: T, ...args: Rest) => {\n      setInternalState(next);\n      onChange?.(next, ...args);\n    },\n    [onChange]\n  );\n\n  return [state, setState] as const;\n}\n\ninterface CheckboxCheckIconProps\n  extends Omit<React.ComponentProps<"svg">, "children"> {\n  /** Whether the checkbox checkmark is active. */\n  checked: boolean;\n  /** Whether reduced motion is enabled. */\n  prefersReducedMotion?: boolean | null;\n}\n\n/**\n * Checkmark SVG icon featuring animated path length draw with dynamic round cap transform.\n */\nfunction CheckboxCheckIcon({\n  checked,\n  className,\n  prefersReducedMotion,\n  ...props\n}: CheckboxCheckIconProps) {\n  const pathLength = useMotionValue(checked ? 1 : 0);\n  const strokeLinecap = useTransform(() =>\n    pathLength.get() === 0 ? "none" : "round"\n  );\n\n  return (\n    <svg\n      aria-hidden="true"\n      className={cn("size-3.5 stroke-current", className)}\n      fill="none"\n      stroke="currentColor"\n      strokeWidth="3"\n      viewBox="0 0 24 24"\n      {...props}\n    >\n      <motion.path\n        animate={{ pathLength: checked ? 1 : 0 }}\n        d="M4 12L10 18L20 6"\n        style={\n          {\n            pathLength,\n            strokeLinecap,\n          } as React.ComponentProps<typeof motion.path>["style"]\n        }\n        transition={\n          prefersReducedMotion\n            ? { duration: 0 }\n            : {\n                type: "spring",\n                bounce: 0,\n                duration: checked ? 0.3 : 0.1,\n              }\n        }\n      />\n    </svg>\n  );\n}\n\ntype CheckboxRootProps = React.ComponentProps<typeof CheckboxPrimitive.Root>;\n\n/**\n * Primitive root button for the checkbox component, wrapping Base UI\'s Checkbox.Root with Motion interaction states.\n * Supports full Tailwind CSS class overriding via `cn(...)`.\n */\nfunction CheckboxRoot({ className, render, ...props }: CheckboxRootProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Root\n      className={cn(\n        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-checked:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n        className\n      )}\n      data-slot="checkbox"\n      render={\n        render ?? (\n          <motion.button\n            data-primary-action\n            type="button"\n            whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n            whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n          />\n        )\n      }\n      {...props}\n    />\n  );\n}\n\ntype CheckboxIndicatorProps = React.ComponentProps<\n  typeof CheckboxPrimitive.Indicator\n> & {\n  /** Additional CSS classes for the indicator SVG */\n  className?: string;\n};\n\n/**\n * Animated checkmark indicator for the checkbox using Motion path length animation.\n */\nfunction CheckboxIndicator({ className, ...props }: CheckboxIndicatorProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Indicator\n      className={cn(\n        "grid place-content-center text-current transition-none [&>svg]:size-3.5",\n        className\n      )}\n      data-slot="checkbox-indicator"\n      keepMounted\n      render={(indicatorProps, state) => (\n        <CheckboxCheckIcon\n          checked={Boolean(state.checked)}\n          className={className}\n          prefersReducedMotion={prefersReducedMotion}\n          {...indicatorProps}\n        />\n      )}\n      {...props}\n    />\n  );\n}\n\ninterface CheckboxProps extends Omit<CheckboxRootProps, "render"> {\n  /**\n   * Optional class name for the animated checkmark SVG indicator.\n   */\n  indicatorClassName?: string;\n  /**\n   * Optional label rendered beside the checkbox (wraps both in a `<label>`).\n   */\n  label?: React.ReactNode;\n  /**\n   * Optional class name for the outer label wrapper.\n   */\n  labelClassName?: string;\n}\n\n/**\n * An accessible, stylable animated Checkbox component built with Base UI and Motion for React.\n * Supports full Tailwind CSS class overrides just like shadcn/ui.\n */\nfunction Checkbox({\n  checked: controlledChecked,\n  defaultChecked = false,\n  onCheckedChange,\n  label,\n  labelClassName,\n  indicatorClassName,\n  className,\n  id,\n  ref,\n  disabled,\n  ...props\n}: CheckboxProps & { ref?: React.Ref<HTMLButtonElement> }) {\n  const generatedId = useId();\n  const inputId = id ?? generatedId;\n\n  const [isChecked, setIsChecked] = useControlledState({\n    defaultValue: defaultChecked,\n    onChange: onCheckedChange,\n    value: controlledChecked,\n  });\n\n  const prefersReducedMotion = useReducedMotion();\n\n  const control = (\n    <CheckboxPrimitive.Root\n      checked={isChecked}\n      className={cn(\n        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-checked:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n        className\n      )}\n      data-slot="checkbox"\n      disabled={disabled}\n      id={inputId}\n      onCheckedChange={setIsChecked}\n      ref={ref}\n      render={\n        <motion.button\n          data-primary-action\n          type="button"\n          whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n          whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n        >\n          <CheckboxCheckIcon\n            checked={isChecked}\n            className={indicatorClassName}\n            prefersReducedMotion={prefersReducedMotion}\n          />\n        </motion.button>\n      }\n      {...props}\n    />\n  );\n\n  if (label == null) {\n    return control;\n  }\n\n  return (\n    <div className="inline-flex items-center gap-2.5">\n      {control}\n      <label\n        className={cn(\n          "cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",\n          disabled && "cursor-not-allowed opacity-50",\n          labelClassName\n        )}\n        htmlFor={inputId}\n      >\n        {label}\n      </label>\n    </div>\n  );\n}\n\nexport type {\n  CheckboxCheckIconProps,\n  CheckboxIndicatorProps,\n  CheckboxProps,\n  CheckboxRootProps,\n};\nexport {\n  Checkbox,\n  Checkbox as BaseCheckbox,\n  Checkbox as default,\n  CheckboxCheckIcon,\n  CheckboxIndicator,\n  CheckboxRoot,\n};',
-      },
-    ],
-    keywords: [],
-    releaseDate: null,
-    inspiration: null,
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/demo/primitives/base/checkbox/index.tsx"
-        );
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        if (mod.supportedStaticAnimations) {
-          (LazyComp as any).supportedStaticAnimations =
-            mod.supportedStaticAnimations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/checkbox",
   },
   "particle-hover-button": {
     name: "particle-hover-button",
@@ -5151,69 +5107,6 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/video-player",
   },
-  "bottom-sheet": {
-    name: "bottom-sheet",
-    description:
-      "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
-    type: "registry:ui",
-    dependencies: ["motion", "radix-ui"],
-    devDependencies: undefined,
-    registryDependencies: [
-      "utils",
-      "@soralabs/hooks-use-controlled-state",
-      "@soralabs/hooks-use-prefers-reduced-motion",
-      "@soralabs/lib-get-strict-context",
-      "@soralabs/lib-ease",
-    ],
-    files: [
-      {
-        path: "registry/primitives/radix/bottom-sheet/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/radix/bottom-sheet.tsx",
-        content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  type HTMLMotionProps,\n  motion,\n  type PanInfo,\n  useDragControls,\n} from "motion/react";\nimport { Dialog as SheetPrimitive } from "radix-ui";\nimport {\n  type ComponentProps,\n  type ReactNode,\n  useCallback,\n  useEffect,\n  useState,\n} from "react";\nimport { useControlledState } from "@/hooks/use-controlled-state";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\nimport { EASE_DRAWER } from "@/lib/ease";\nimport { getStrictContext } from "@/lib/get-strict-context";\n\n// Vaul-style glide: a long, fully-damped tween reads smoother than a spring on\n// open — no settle/overshoot, just one clean decel. Same curve drives the\n// backdrop fade so the surface and scrim move as one.\nconst DRAWER_TRANSITION = { duration: 0.5, ease: EASE_DRAWER } as const;\n\ninterface BottomSheetContextType {\n  open: boolean;\n  setOpen: (open: boolean) => void;\n}\n\nconst [BottomSheetProvider, useBottomSheet] =\n  getStrictContext<BottomSheetContextType>("BottomSheetContext");\n\ntype BottomSheetProps = ComponentProps<typeof SheetPrimitive.Root>;\n\nfunction BottomSheet({\n  open,\n  defaultOpen,\n  onOpenChange,\n  ...props\n}: BottomSheetProps) {\n  const [isOpen, setIsOpen] = useControlledState({\n    value: open,\n    defaultValue: defaultOpen ?? false,\n    onChange: onOpenChange,\n  });\n\n  return (\n    <BottomSheetProvider value={{ open: isOpen, setOpen: setIsOpen }}>\n      <SheetPrimitive.Root\n        data-slot="bottom-sheet"\n        onOpenChange={setIsOpen}\n        open={isOpen}\n        {...props}\n      />\n    </BottomSheetProvider>\n  );\n}\n\ntype BottomSheetTriggerProps = ComponentProps<typeof SheetPrimitive.Trigger>;\n\nfunction BottomSheetTrigger(props: BottomSheetTriggerProps) {\n  return <SheetPrimitive.Trigger data-slot="bottom-sheet-trigger" {...props} />;\n}\n\ntype BottomSheetCloseProps = ComponentProps<typeof SheetPrimitive.Close>;\n\nfunction BottomSheetClose(props: BottomSheetCloseProps) {\n  return <SheetPrimitive.Close data-slot="bottom-sheet-close" {...props} />;\n}\n\ntype BottomSheetOverlayProps = HTMLMotionProps<"div">;\n\nfunction BottomSheetOverlay({ className, ...props }: BottomSheetOverlayProps) {\n  return (\n    <SheetPrimitive.Overlay asChild forceMount>\n      <motion.div\n        animate={{ opacity: 1 }}\n        className={cn(\n          "fixed inset-0 z-50 bg-background/40 backdrop-blur-sm",\n          className\n        )}\n        data-slot="bottom-sheet-overlay"\n        exit={{ opacity: 0 }}\n        initial={{ opacity: 0 }}\n        transition={DRAWER_TRANSITION}\n        {...props}\n      />\n    </SheetPrimitive.Overlay>\n  );\n}\n\ninterface BottomSheetContentProps\n  extends Omit<\n    ComponentProps<typeof SheetPrimitive.Content>,\n    "asChild" | "forceMount" | "children" | keyof HTMLMotionProps<"div">\n  > {\n  children?: ReactNode;\n  className?: string;\n  defaultSnap?: number;\n  /** Min drag distance (px) past the current snap point before it dismisses. */\n  dismissThreshold?: number;\n  handleClassName?: string;\n  /** Renders the dimmed, blurred scrim behind the sheet. */\n  overlay?: boolean;\n  overlayClassName?: string;\n  /** Renders the draggable grab handle above `children`. */\n  showHandle?: boolean;\n  /** Heights (0-1 = fraction of viewport, or "auto"). First entry is the default. */\n  snapPoints?: (number | "auto")[];\n  style?: HTMLMotionProps<"div">["style"];\n}\n\nfunction BottomSheetContent({\n  className,\n  children,\n  snapPoints = [0.5, 0.92],\n  defaultSnap = 0,\n  dismissThreshold = 120,\n  overlay = true,\n  overlayClassName,\n  showHandle = true,\n  handleClassName,\n  style,\n  ...props\n}: BottomSheetContentProps) {\n  const { open, setOpen } = useBottomSheet();\n  const [snap, setSnap] = useState(defaultSnap);\n  const dragControls = useDragControls();\n  const reduceMotion = usePrefersReducedMotion();\n\n  useEffect(() => {\n    if (open) {\n      setSnap(defaultSnap);\n    }\n  }, [open, defaultSnap]);\n\n  // Lock background scroll while open. overflow:hidden alone is ignored by\n  // iOS Safari — boundary scrolls inside the sheet chain to the page, which\n  // scrolls underneath and ends up somewhere else on close. position:fixed\n  // is the lock that actually holds; restore the scroll position after.\n  useEffect(() => {\n    if (!open) {\n      return;\n    }\n    const body = document.body;\n    const scrollY = window.scrollY;\n    const prev = {\n      position: body.style.position,\n      top: body.style.top,\n      left: body.style.left,\n      right: body.style.right,\n      overflow: body.style.overflow,\n    };\n    body.style.position = "fixed";\n    body.style.top = `-${scrollY}px`;\n    body.style.left = "0";\n    body.style.right = "0";\n    body.style.overflow = "hidden";\n    return () => {\n      body.style.position = prev.position;\n      body.style.top = prev.top;\n      body.style.left = prev.left;\n      body.style.right = prev.right;\n      body.style.overflow = prev.overflow;\n      window.scrollTo(0, scrollY);\n    };\n  }, [open]);\n\n  const onDragEnd = useCallback(\n    (_: unknown, info: PanInfo) => {\n      const velocity = info.velocity.y;\n      const offset = info.offset.y;\n\n      // Strong downward fling or large drag → dismiss (or drop one snap).\n      if (velocity > 600 || offset > dismissThreshold) {\n        const smaller = snapPoints.map((_, i) => i).filter((i) => i < snap);\n        if (\n          smaller.length &&\n          velocity < 800 &&\n          offset < dismissThreshold * 1.6\n        ) {\n          setSnap(smaller.at(-1) as number);\n        } else {\n          setOpen(false);\n        }\n        return;\n      }\n\n      // Strong upward fling → next snap.\n      if (velocity < -500) {\n        setSnap(Math.min(snapPoints.length - 1, snap + 1));\n        return;\n      }\n\n      // Otherwise snap to nearest by current offset.\n      if (offset > 80 && snap > 0) {\n        setSnap(snap - 1);\n      } else if (offset < -80 && snap < snapPoints.length - 1) {\n        setSnap(snap + 1);\n      }\n    },\n    [dismissThreshold, setOpen, snap, snapPoints]\n  );\n\n  const snapValue = snapPoints[snap];\n  const heightStyle =\n    snapValue === "auto"\n      ? { maxHeight: "92vh" }\n      : { height: `${(snapValue ?? 1) * 100}vh` };\n\n  return (\n    <AnimatePresence>\n      {open ? (\n        <SheetPrimitive.Portal forceMount>\n          {overlay ? <BottomSheetOverlay className={overlayClassName} /> : null}\n          <SheetPrimitive.Content asChild forceMount>\n            <motion.div\n              animate={reduceMotion ? { y: 0, opacity: 1 } : { y: 0 }}\n              className={cn(\n                "fixed inset-x-4 bottom-0 z-50 mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl bg-transparent pb-4 outline-none will-change-transform md:mx-auto md:w-full",\n                className\n              )}\n              data-slot="bottom-sheet-content"\n              drag="y"\n              dragConstraints={{ top: 0, bottom: 0 }}\n              dragControls={dragControls}\n              dragElastic={{ top: 0.02, bottom: 0.4 }}\n              dragListener={false}\n              dragMomentum={false}\n              exit={reduceMotion ? { y: 0, opacity: 0 } : { y: "100%" }}\n              initial={reduceMotion ? { y: 0, opacity: 0 } : { y: "100%" }}\n              onDragEnd={onDragEnd}\n              style={{ ...heightStyle, ...style }}\n              transition={\n                reduceMotion\n                  ? { duration: 0.18, ease: EASE_DRAWER }\n                  : DRAWER_TRANSITION\n              }\n              {...props}\n            >\n              {showHandle ? (\n                <BottomSheetHandle\n                  className={handleClassName}\n                  dragControls={dragControls}\n                />\n              ) : null}\n              {children}\n            </motion.div>\n          </SheetPrimitive.Content>\n        </SheetPrimitive.Portal>\n      ) : null}\n    </AnimatePresence>\n  );\n}\n\ninterface BottomSheetHandleProps extends ComponentProps<"div"> {\n  dragControls: ReturnType<typeof useDragControls>;\n}\n\nfunction BottomSheetHandle({\n  className,\n  dragControls,\n  ...props\n}: BottomSheetHandleProps) {\n  return (\n    <div\n      className={cn(\n        "flex shrink-0 cursor-grab touch-none flex-col items-center px-4 pt-3 pb-2 active:cursor-grabbing",\n        className\n      )}\n      data-slot="bottom-sheet-handle"\n      onPointerDown={(event) => dragControls.start(event)}\n      {...props}\n    >\n      <div className="h-1.5 w-10 rounded-full bg-muted-foreground/40" />\n    </div>\n  );\n}\n\ntype BottomSheetTitleProps = ComponentProps<typeof SheetPrimitive.Title>;\n\nfunction BottomSheetTitle({ className, ...props }: BottomSheetTitleProps) {\n  return (\n    <SheetPrimitive.Title\n      className={cn("sr-only", className)}\n      data-slot="bottom-sheet-title"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetDescriptionProps = ComponentProps<\n  typeof SheetPrimitive.Description\n>;\n\nfunction BottomSheetDescription({\n  className,\n  ...props\n}: BottomSheetDescriptionProps) {\n  return (\n    <SheetPrimitive.Description\n      className={cn("sr-only", className)}\n      data-slot="bottom-sheet-description"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetPanelProps = ComponentProps<"div">;\n\n/** The rounded surface that sits inside `BottomSheetContent` — swap `bg-*` to restyle. */\nfunction BottomSheetPanel({ className, ...props }: BottomSheetPanelProps) {\n  return (\n    <div\n      className={cn(\n        "relative z-[2] min-h-0 grow space-y-2 overflow-y-auto overscroll-contain rounded-2xl bg-muted p-2",\n        className\n      )}\n      data-slot="bottom-sheet-panel"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetListProps = ComponentProps<"ul">;\n\nfunction BottomSheetList({ className, ...props }: BottomSheetListProps) {\n  return (\n    <ul\n      className={cn("grid w-full space-y-1.5 text-sm", className)}\n      data-slot="bottom-sheet-list"\n      {...props}\n    />\n  );\n}\n\ninterface BottomSheetRowProps\n  extends Omit<ComponentProps<"button">, "children" | "value"> {\n  /** Overrides `label`/`value` entirely when you need a fully custom row layout. */\n  children?: ReactNode;\n  label: ReactNode;\n  labelClassName?: string;\n  lineClassName?: string;\n  value?: ReactNode;\n  valueClassName?: string;\n}\n\n/** One selectable row: `label ---- value`, with a hover surface and a bottom-edge reveal bar. */\nfunction BottomSheetRow({\n  className,\n  label,\n  value,\n  children,\n  labelClassName,\n  valueClassName,\n  lineClassName,\n  type = "button",\n  ...props\n}: BottomSheetRowProps) {\n  return (\n    <li data-slot="bottom-sheet-row-item">\n      <button\n        className={cn(\n          "relative w-full rounded-lg px-2.5 py-1.5 text-left transition-colors hover:bg-accent",\n          className\n        )}\n        data-slot="bottom-sheet-row"\n        type={type}\n        {...props}\n      >\n        {children ?? (\n          <div className="flex flex-1 items-center justify-between gap-2 text-sm">\n            <div\n              className={cn(\n                "flex items-center justify-center gap-2 font-medium uppercase tracking-wide",\n                labelClassName\n              )}\n            >\n              {label}\n            </div>\n            <span\n              className={cn(\n                "relative h-px flex-1 rounded-2xl bg-current/20",\n                lineClassName\n              )}\n            />\n            <span\n              className={cn("font-sans text-foreground/50", valueClassName)}\n            >\n              {value}\n            </span>\n          </div>\n        )}\n      </button>\n    </li>\n  );\n}\n\nexport {\n  BottomSheet,\n  BottomSheetClose,\n  BottomSheetContent,\n  type BottomSheetContentProps,\n  BottomSheetDescription,\n  BottomSheetHandle,\n  BottomSheetList,\n  BottomSheetOverlay,\n  BottomSheetPanel,\n  type BottomSheetProps,\n  BottomSheetRow,\n  type BottomSheetRowProps,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n  useBottomSheet,\n};',
-      },
-    ],
-    keywords: [],
-    releaseDate: null,
-    inspiration: {
-      type: "inspired",
-      label: "Vaul",
-      url: "https://vaul.emilkowal.ski",
-      stack: "Radix Dialog and Motion",
-    },
-    component: (() => {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/demo/primitives/radix/bottom-sheet/index.tsx"
-        );
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        if (mod.supportedStaticAnimations) {
-          (LazyComp as any).supportedStaticAnimations =
-            mod.supportedStaticAnimations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/bottom-sheet",
-  },
   "dia-text-reveal": {
     name: "dia-text-reveal",
     description:
@@ -6422,6 +6315,134 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/typer",
   },
+  checkbox: {
+    name: "checkbox",
+    description:
+      "An accessible, stylable checkbox built on Base UI with a Motion-friendly animated indicator.",
+    type: "registry:ui",
+    dependencies: ["@base-ui/react", "motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/ui/base/checkbox/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/base/checkbox.tsx",
+        content:
+          '"use client";\n\nimport { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";\nimport { cn } from "@/lib/utils";\nimport {\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useTransform,\n} from "motion/react";\nimport type * as React from "react";\nimport { useCallback, useEffect, useId, useState } from "react";\n\nfunction useControlledState<T, Rest extends unknown[] = []>(props: {\n  defaultValue?: T;\n  onChange?: (value: T, ...args: Rest) => void;\n  value?: T;\n}): readonly [T, (next: T, ...args: Rest) => void] {\n  const { value, defaultValue, onChange } = props;\n  const [state, setInternalState] = useState<T>(\n    value === undefined ? (defaultValue as T) : value\n  );\n\n  useEffect(() => {\n    if (value !== undefined) {\n      setInternalState(value);\n    }\n  }, [value]);\n\n  const setState = useCallback(\n    (next: T, ...args: Rest) => {\n      setInternalState(next);\n      onChange?.(next, ...args);\n    },\n    [onChange]\n  );\n\n  return [state, setState] as const;\n}\n\ninterface CheckboxCheckIconProps\n  extends Omit<React.ComponentProps<"svg">, "children"> {\n  /** Whether the checkbox checkmark is active. */\n  checked: boolean;\n  /** Whether reduced motion is enabled. */\n  prefersReducedMotion?: boolean | null;\n}\n\n/**\n * Checkmark SVG icon featuring animated path length draw with dynamic round cap transform.\n */\nfunction CheckboxCheckIcon({\n  checked,\n  className,\n  prefersReducedMotion,\n  ...props\n}: CheckboxCheckIconProps) {\n  const pathLength = useMotionValue(checked ? 1 : 0);\n  const strokeLinecap = useTransform(() =>\n    pathLength.get() === 0 ? "none" : "round"\n  );\n\n  return (\n    <svg\n      aria-hidden="true"\n      className={cn("size-3.5 stroke-current", className)}\n      fill="none"\n      stroke="currentColor"\n      strokeWidth="3"\n      viewBox="0 0 24 24"\n      {...props}\n    >\n      <motion.path\n        animate={{ pathLength: checked ? 1 : 0 }}\n        d="M4 12L10 18L20 6"\n        style={\n          {\n            pathLength,\n            strokeLinecap,\n          } as React.ComponentProps<typeof motion.path>["style"]\n        }\n        transition={\n          prefersReducedMotion\n            ? { duration: 0 }\n            : {\n                type: "spring",\n                bounce: 0,\n                duration: checked ? 0.3 : 0.1,\n              }\n        }\n      />\n    </svg>\n  );\n}\n\ntype CheckboxRootProps = React.ComponentProps<typeof CheckboxPrimitive.Root>;\n\n/**\n * Primitive root button for the checkbox component, wrapping Base UI\'s Checkbox.Root with Motion interaction states.\n * Supports full Tailwind CSS class overriding via `cn(...)`.\n */\nfunction CheckboxRoot({ className, render, ...props }: CheckboxRootProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Root\n      className={cn(\n        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-checked:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n        className\n      )}\n      data-slot="checkbox"\n      render={\n        render ?? (\n          <motion.button\n            data-primary-action\n            type="button"\n            whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n            whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n          />\n        )\n      }\n      {...props}\n    />\n  );\n}\n\ntype CheckboxIndicatorProps = React.ComponentProps<\n  typeof CheckboxPrimitive.Indicator\n> & {\n  /** Additional CSS classes for the indicator SVG */\n  className?: string;\n};\n\n/**\n * Animated checkmark indicator for the checkbox using Motion path length animation.\n */\nfunction CheckboxIndicator({ className, ...props }: CheckboxIndicatorProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Indicator\n      className={cn(\n        "grid place-content-center text-current transition-none [&>svg]:size-3.5",\n        className\n      )}\n      data-slot="checkbox-indicator"\n      keepMounted\n      render={(indicatorProps, state) => (\n        <CheckboxCheckIcon\n          checked={Boolean(state.checked)}\n          className={className}\n          prefersReducedMotion={prefersReducedMotion}\n          {...indicatorProps}\n        />\n      )}\n      {...props}\n    />\n  );\n}\n\ninterface CheckboxProps extends Omit<CheckboxRootProps, "render"> {\n  /**\n   * Optional class name for the animated checkmark SVG indicator.\n   */\n  indicatorClassName?: string;\n  /**\n   * Optional label rendered beside the checkbox (wraps both in a `<label>`).\n   */\n  label?: React.ReactNode;\n  /**\n   * Optional class name for the outer label wrapper.\n   */\n  labelClassName?: string;\n}\n\n/**\n * An accessible, stylable animated Checkbox component built with Base UI and Motion for React.\n * Supports full Tailwind CSS class overrides just like shadcn/ui.\n */\nfunction Checkbox({\n  checked: controlledChecked,\n  defaultChecked = false,\n  onCheckedChange,\n  label,\n  labelClassName,\n  indicatorClassName,\n  className,\n  id,\n  ref,\n  disabled,\n  ...props\n}: CheckboxProps & { ref?: React.Ref<HTMLButtonElement> }) {\n  const generatedId = useId();\n  const inputId = id ?? generatedId;\n\n  const [isChecked, setIsChecked] = useControlledState({\n    defaultValue: defaultChecked,\n    onChange: onCheckedChange,\n    value: controlledChecked,\n  });\n\n  const prefersReducedMotion = useReducedMotion();\n\n  const control = (\n    <CheckboxPrimitive.Root\n      checked={isChecked}\n      className={cn(\n        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-checked:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n        className\n      )}\n      data-slot="checkbox"\n      disabled={disabled}\n      id={inputId}\n      onCheckedChange={setIsChecked}\n      ref={ref}\n      render={\n        <motion.button\n          data-primary-action\n          type="button"\n          whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n          whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n        >\n          <CheckboxCheckIcon\n            checked={isChecked}\n            className={indicatorClassName}\n            prefersReducedMotion={prefersReducedMotion}\n          />\n        </motion.button>\n      }\n      {...props}\n    />\n  );\n\n  if (label == null) {\n    return control;\n  }\n\n  return (\n    <div className="inline-flex items-center gap-2.5">\n      {control}\n      <label\n        className={cn(\n          "cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",\n          disabled && "cursor-not-allowed opacity-50",\n          labelClassName\n        )}\n        htmlFor={inputId}\n      >\n        {label}\n      </label>\n    </div>\n  );\n}\n\nexport type {\n  CheckboxCheckIconProps,\n  CheckboxIndicatorProps,\n  CheckboxProps,\n  CheckboxRootProps,\n};\nexport {\n  Checkbox,\n  Checkbox as BaseCheckbox,\n  Checkbox as default,\n  CheckboxCheckIcon,\n  CheckboxIndicator,\n  CheckboxRoot,\n};',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: {
+      type: "reimplemented",
+      label: "Base UI: Checkbox (Motion Examples)",
+      url: "https://examples.motion.dev/react/base-checkbox",
+      stack: "Base UI and Motion",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/base/checkbox/index.tsx");
+        const demoProps = {
+          Checkbox: {
+            label: { value: "Enable notifications" },
+            defaultChecked: { value: true },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        Checkbox: {
+          label: { value: "Enable notifications" },
+          defaultChecked: { value: true },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/checkbox",
+  },
+  "bottom-sheet": {
+    name: "bottom-sheet",
+    description:
+      "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
+    type: "registry:ui",
+    dependencies: ["motion", "radix-ui"],
+    devDependencies: undefined,
+    registryDependencies: [
+      "utils",
+      "@soralabs/hooks-use-controlled-state",
+      "@soralabs/hooks-use-prefers-reduced-motion",
+      "@soralabs/lib-get-strict-context",
+      "@soralabs/lib-ease",
+    ],
+    files: [
+      {
+        path: "registry/ui/radix/bottom-sheet/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/radix/bottom-sheet.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport {\n  AnimatePresence,\n  type HTMLMotionProps,\n  motion,\n  type PanInfo,\n  useDragControls,\n} from "motion/react";\nimport { Dialog as SheetPrimitive } from "radix-ui";\nimport {\n  type ComponentProps,\n  type ReactNode,\n  useCallback,\n  useEffect,\n  useState,\n} from "react";\nimport { useControlledState } from "@/hooks/use-controlled-state";\nimport { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";\nimport { EASE_DRAWER } from "@/lib/ease";\nimport { getStrictContext } from "@/lib/get-strict-context";\n\n// Vaul-style glide: a long, fully-damped tween reads smoother than a spring on\n// open — no settle/overshoot, just one clean decel. Same curve drives the\n// backdrop fade so the surface and scrim move as one.\nconst DRAWER_TRANSITION = { duration: 0.5, ease: EASE_DRAWER } as const;\n\ninterface BottomSheetContextType {\n  open: boolean;\n  setOpen: (open: boolean) => void;\n}\n\nconst [BottomSheetProvider, useBottomSheet] =\n  getStrictContext<BottomSheetContextType>("BottomSheetContext");\n\ntype BottomSheetProps = ComponentProps<typeof SheetPrimitive.Root>;\n\nfunction BottomSheet({\n  open,\n  defaultOpen,\n  onOpenChange,\n  ...props\n}: BottomSheetProps) {\n  const [isOpen, setIsOpen] = useControlledState({\n    value: open,\n    defaultValue: defaultOpen ?? false,\n    onChange: onOpenChange,\n  });\n\n  return (\n    <BottomSheetProvider value={{ open: isOpen, setOpen: setIsOpen }}>\n      <SheetPrimitive.Root\n        data-slot="bottom-sheet"\n        onOpenChange={setIsOpen}\n        open={isOpen}\n        {...props}\n      />\n    </BottomSheetProvider>\n  );\n}\n\ntype BottomSheetTriggerProps = ComponentProps<typeof SheetPrimitive.Trigger>;\n\nfunction BottomSheetTrigger(props: BottomSheetTriggerProps) {\n  return <SheetPrimitive.Trigger data-slot="bottom-sheet-trigger" {...props} />;\n}\n\ntype BottomSheetCloseProps = ComponentProps<typeof SheetPrimitive.Close>;\n\nfunction BottomSheetClose(props: BottomSheetCloseProps) {\n  return <SheetPrimitive.Close data-slot="bottom-sheet-close" {...props} />;\n}\n\ntype BottomSheetOverlayProps = HTMLMotionProps<"div">;\n\nfunction BottomSheetOverlay({ className, ...props }: BottomSheetOverlayProps) {\n  return (\n    <SheetPrimitive.Overlay asChild forceMount>\n      <motion.div\n        animate={{ opacity: 1 }}\n        className={cn(\n          "fixed inset-0 z-50 bg-background/40 backdrop-blur-sm",\n          className\n        )}\n        data-slot="bottom-sheet-overlay"\n        exit={{ opacity: 0 }}\n        initial={{ opacity: 0 }}\n        transition={DRAWER_TRANSITION}\n        {...props}\n      />\n    </SheetPrimitive.Overlay>\n  );\n}\n\ninterface BottomSheetContentProps\n  extends Omit<\n    ComponentProps<typeof SheetPrimitive.Content>,\n    "asChild" | "forceMount" | "children" | keyof HTMLMotionProps<"div">\n  > {\n  children?: ReactNode;\n  className?: string;\n  defaultSnap?: number;\n  /** Min drag distance (px) past the current snap point before it dismisses. */\n  dismissThreshold?: number;\n  handleClassName?: string;\n  /** Renders the dimmed, blurred scrim behind the sheet. */\n  overlay?: boolean;\n  overlayClassName?: string;\n  /** Renders the draggable grab handle above `children`. */\n  showHandle?: boolean;\n  /** Heights (0-1 = fraction of viewport, or "auto"). First entry is the default. */\n  snapPoints?: (number | "auto")[];\n  style?: HTMLMotionProps<"div">["style"];\n}\n\nfunction BottomSheetContent({\n  className,\n  children,\n  snapPoints = [0.5, 0.92],\n  defaultSnap = 0,\n  dismissThreshold = 120,\n  overlay = true,\n  overlayClassName,\n  showHandle = true,\n  handleClassName,\n  style,\n  ...props\n}: BottomSheetContentProps) {\n  const { open, setOpen } = useBottomSheet();\n  const [snap, setSnap] = useState(defaultSnap);\n  const dragControls = useDragControls();\n  const reduceMotion = usePrefersReducedMotion();\n\n  useEffect(() => {\n    if (open) {\n      setSnap(defaultSnap);\n    }\n  }, [open, defaultSnap]);\n\n  // Lock background scroll while open. overflow:hidden alone is ignored by\n  // iOS Safari — boundary scrolls inside the sheet chain to the page, which\n  // scrolls underneath and ends up somewhere else on close. position:fixed\n  // is the lock that actually holds; restore the scroll position after.\n  useEffect(() => {\n    if (!open) {\n      return;\n    }\n    const body = document.body;\n    const scrollY = window.scrollY;\n    const prev = {\n      position: body.style.position,\n      top: body.style.top,\n      left: body.style.left,\n      right: body.style.right,\n      overflow: body.style.overflow,\n    };\n    body.style.position = "fixed";\n    body.style.top = `-${scrollY}px`;\n    body.style.left = "0";\n    body.style.right = "0";\n    body.style.overflow = "hidden";\n    return () => {\n      body.style.position = prev.position;\n      body.style.top = prev.top;\n      body.style.left = prev.left;\n      body.style.right = prev.right;\n      body.style.overflow = prev.overflow;\n      window.scrollTo(0, scrollY);\n    };\n  }, [open]);\n\n  const onDragEnd = useCallback(\n    (_: unknown, info: PanInfo) => {\n      const velocity = info.velocity.y;\n      const offset = info.offset.y;\n\n      // Strong downward fling or large drag → dismiss (or drop one snap).\n      if (velocity > 600 || offset > dismissThreshold) {\n        const smaller = snapPoints.map((_, i) => i).filter((i) => i < snap);\n        if (\n          smaller.length &&\n          velocity < 800 &&\n          offset < dismissThreshold * 1.6\n        ) {\n          setSnap(smaller.at(-1) as number);\n        } else {\n          setOpen(false);\n        }\n        return;\n      }\n\n      // Strong upward fling → next snap.\n      if (velocity < -500) {\n        setSnap(Math.min(snapPoints.length - 1, snap + 1));\n        return;\n      }\n\n      // Otherwise snap to nearest by current offset.\n      if (offset > 80 && snap > 0) {\n        setSnap(snap - 1);\n      } else if (offset < -80 && snap < snapPoints.length - 1) {\n        setSnap(snap + 1);\n      }\n    },\n    [dismissThreshold, setOpen, snap, snapPoints]\n  );\n\n  const snapValue = snapPoints[snap];\n  const heightStyle =\n    snapValue === "auto"\n      ? { maxHeight: "92vh" }\n      : { height: `${(snapValue ?? 1) * 100}vh` };\n\n  return (\n    <AnimatePresence>\n      {open ? (\n        <SheetPrimitive.Portal forceMount>\n          {overlay ? <BottomSheetOverlay className={overlayClassName} /> : null}\n          <SheetPrimitive.Content asChild forceMount>\n            <motion.div\n              animate={reduceMotion ? { y: 0, opacity: 1 } : { y: 0 }}\n              className={cn(\n                "fixed inset-x-4 bottom-0 z-50 mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl bg-transparent pb-4 outline-none will-change-transform md:mx-auto md:w-full",\n                className\n              )}\n              data-slot="bottom-sheet-content"\n              drag="y"\n              dragConstraints={{ top: 0, bottom: 0 }}\n              dragControls={dragControls}\n              dragElastic={{ top: 0.02, bottom: 0.4 }}\n              dragListener={false}\n              dragMomentum={false}\n              exit={reduceMotion ? { y: 0, opacity: 0 } : { y: "100%" }}\n              initial={reduceMotion ? { y: 0, opacity: 0 } : { y: "100%" }}\n              onDragEnd={onDragEnd}\n              style={{ ...heightStyle, ...style }}\n              transition={\n                reduceMotion\n                  ? { duration: 0.18, ease: EASE_DRAWER }\n                  : DRAWER_TRANSITION\n              }\n              {...props}\n            >\n              {showHandle ? (\n                <BottomSheetHandle\n                  className={handleClassName}\n                  dragControls={dragControls}\n                />\n              ) : null}\n              {children}\n            </motion.div>\n          </SheetPrimitive.Content>\n        </SheetPrimitive.Portal>\n      ) : null}\n    </AnimatePresence>\n  );\n}\n\ninterface BottomSheetHandleProps extends ComponentProps<"div"> {\n  dragControls: ReturnType<typeof useDragControls>;\n}\n\nfunction BottomSheetHandle({\n  className,\n  dragControls,\n  ...props\n}: BottomSheetHandleProps) {\n  return (\n    <div\n      className={cn(\n        "flex shrink-0 cursor-grab touch-none flex-col items-center px-4 pt-3 pb-2 active:cursor-grabbing",\n        className\n      )}\n      data-slot="bottom-sheet-handle"\n      onPointerDown={(event) => dragControls.start(event)}\n      {...props}\n    >\n      <div className="h-1.5 w-10 rounded-full bg-muted-foreground/40" />\n    </div>\n  );\n}\n\ntype BottomSheetTitleProps = ComponentProps<typeof SheetPrimitive.Title>;\n\nfunction BottomSheetTitle({ className, ...props }: BottomSheetTitleProps) {\n  return (\n    <SheetPrimitive.Title\n      className={cn("sr-only", className)}\n      data-slot="bottom-sheet-title"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetDescriptionProps = ComponentProps<\n  typeof SheetPrimitive.Description\n>;\n\nfunction BottomSheetDescription({\n  className,\n  ...props\n}: BottomSheetDescriptionProps) {\n  return (\n    <SheetPrimitive.Description\n      className={cn("sr-only", className)}\n      data-slot="bottom-sheet-description"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetPanelProps = ComponentProps<"div">;\n\n/** The rounded surface that sits inside `BottomSheetContent` — swap `bg-*` to restyle. */\nfunction BottomSheetPanel({ className, ...props }: BottomSheetPanelProps) {\n  return (\n    <div\n      className={cn(\n        "relative z-[2] min-h-0 grow space-y-2 overflow-y-auto overscroll-contain rounded-2xl bg-muted p-2",\n        className\n      )}\n      data-slot="bottom-sheet-panel"\n      {...props}\n    />\n  );\n}\n\ntype BottomSheetListProps = ComponentProps<"ul">;\n\nfunction BottomSheetList({ className, ...props }: BottomSheetListProps) {\n  return (\n    <ul\n      className={cn("grid w-full space-y-1.5 text-sm", className)}\n      data-slot="bottom-sheet-list"\n      {...props}\n    />\n  );\n}\n\ninterface BottomSheetRowProps\n  extends Omit<ComponentProps<"button">, "children" | "value"> {\n  /** Overrides `label`/`value` entirely when you need a fully custom row layout. */\n  children?: ReactNode;\n  label: ReactNode;\n  labelClassName?: string;\n  lineClassName?: string;\n  value?: ReactNode;\n  valueClassName?: string;\n}\n\n/** One selectable row: `label ---- value`, with a hover surface and a bottom-edge reveal bar. */\nfunction BottomSheetRow({\n  className,\n  label,\n  value,\n  children,\n  labelClassName,\n  valueClassName,\n  lineClassName,\n  type = "button",\n  ...props\n}: BottomSheetRowProps) {\n  return (\n    <li data-slot="bottom-sheet-row-item">\n      <button\n        className={cn(\n          "relative w-full rounded-lg px-2.5 py-1.5 text-left transition-colors hover:bg-accent",\n          className\n        )}\n        data-slot="bottom-sheet-row"\n        type={type}\n        {...props}\n      >\n        {children ?? (\n          <div className="flex flex-1 items-center justify-between gap-2 text-sm">\n            <div\n              className={cn(\n                "flex items-center justify-center gap-2 font-medium uppercase tracking-wide",\n                labelClassName\n              )}\n            >\n              {label}\n            </div>\n            <span\n              className={cn(\n                "relative h-px flex-1 rounded-2xl bg-current/20",\n                lineClassName\n              )}\n            />\n            <span\n              className={cn("font-sans text-foreground/50", valueClassName)}\n            >\n              {value}\n            </span>\n          </div>\n        )}\n      </button>\n    </li>\n  );\n}\n\nexport {\n  BottomSheet,\n  BottomSheetClose,\n  BottomSheetContent,\n  type BottomSheetContentProps,\n  BottomSheetDescription,\n  BottomSheetHandle,\n  BottomSheetList,\n  BottomSheetOverlay,\n  BottomSheetPanel,\n  type BottomSheetProps,\n  BottomSheetRow,\n  type BottomSheetRowProps,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n  useBottomSheet,\n};',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: {
+      type: "inspired",
+      label: "Vaul",
+      url: "https://vaul.emilkowal.ski",
+      stack: "Radix Dialog and Motion",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/ui/radix/bottom-sheet/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/bottom-sheet",
+  },
   "primitives-animate-tabs": {
     name: "primitives-animate-tabs",
     description:
@@ -6655,9 +6676,9 @@ export const index: Record<string, any> = {
     ],
     files: [
       {
-        path: "registry/primitives/radix/tabs/index.tsx",
+        path: "registry/ui/radix/tabs/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/primitives/radix/tabs.tsx",
+        target: "components/sora-ui/radix/tabs.tsx",
         content:
           '"use client";\n\nimport {\n  AnimatePresence,\n  type HTMLMotionProps,\n  motion,\n  type Transition,\n  useReducedMotion,\n} from "motion/react";\nimport { Tabs as TabsPrimitive } from "radix-ui";\nimport type * as React from "react";\nimport { useControlledState } from "@/hooks/use-controlled-state";\nimport { getStrictContext } from "@/lib/get-strict-context";\nimport {\n  AutoHeight,\n  type AutoHeightProps,\n} from "@/components/sora-ui/effects/auto-height";\nimport {\n  Highlight,\n  HighlightItem,\n  type HighlightItemProps,\n  type HighlightProps,\n} from "@/components/sora-ui/effects/highlight";\n\ninterface TabsContextType {\n  setValue: TabsProps["onValueChange"];\n  value: string | undefined;\n}\n\nconst [TabsProvider, useTabs] =\n  getStrictContext<TabsContextType>("TabsContext");\n\ntype TabsProps = React.ComponentProps<typeof TabsPrimitive.Root>;\n\nfunction Tabs(props: TabsProps) {\n  const [value, setValue] = useControlledState({\n    value: props.value,\n    defaultValue: props.defaultValue,\n    onChange: props.onValueChange,\n  });\n\n  return (\n    <TabsProvider value={{ value, setValue }}>\n      <TabsPrimitive.Root\n        data-slot="tabs"\n        {...props}\n        onValueChange={setValue}\n      />\n    </TabsProvider>\n  );\n}\n\ntype TabsHighlightProps = Omit<HighlightProps, "value">;\n\nfunction TabsHighlight({\n  transition = { type: "spring", stiffness: 200, damping: 25 },\n  ...props\n}: TabsHighlightProps) {\n  const { value } = useTabs();\n\n  return (\n    <Highlight\n      data-slot="tabs-highlight"\n      transition={transition}\n      value={value}\n      {...props}\n    />\n  );\n}\n\ntype TabsListProps = React.ComponentProps<typeof TabsPrimitive.List>;\n\nfunction TabsList(props: TabsListProps) {\n  return <TabsPrimitive.List data-slot="tabs-list" {...props} />;\n}\n\ntype TabsHighlightItemProps = HighlightItemProps & {\n  value: string;\n};\n\nfunction TabsHighlightItem(props: TabsHighlightItemProps) {\n  return <HighlightItem data-slot="tabs-highlight-item" {...props} />;\n}\n\ntype TabsTriggerProps = React.ComponentProps<typeof TabsPrimitive.Trigger>;\n\nfunction TabsTrigger(props: TabsTriggerProps) {\n  return <TabsPrimitive.Trigger data-slot="tabs-trigger" {...props} />;\n}\n\ntype TabsContentProps = React.ComponentProps<typeof TabsPrimitive.Content> &\n  HTMLMotionProps<"div">;\n\nfunction TabsContent({\n  value,\n  forceMount,\n  transition = { duration: 0.5, ease: "easeInOut" },\n  ...props\n}: TabsContentProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const resolvedTransition = prefersReducedMotion\n    ? { duration: 0 }\n    : transition;\n\n  return (\n    <AnimatePresence mode="wait">\n      <TabsPrimitive.Content asChild forceMount={forceMount} value={value}>\n        <motion.div\n          animate={{ opacity: 1, filter: "blur(0px)" }}\n          data-slot="tabs-content"\n          exit={{ opacity: 0, filter: "blur(0px)" }}\n          initial={{ opacity: 0, filter: "blur(0px)" }}\n          layout={!prefersReducedMotion}\n          layoutDependency={value}\n          transition={resolvedTransition}\n          {...props}\n        />\n      </TabsPrimitive.Content>\n    </AnimatePresence>\n  );\n}\n\ntype TabsContentsAutoProps = AutoHeightProps & {\n  mode?: "auto-height";\n  children: React.ReactNode;\n  transition?: Transition;\n};\n\ntype TabsContentsLayoutProps = Omit<HTMLMotionProps<"div">, "transition"> & {\n  mode: "layout";\n  children: React.ReactNode;\n  transition?: Transition;\n};\n\ntype TabsContentsProps = TabsContentsAutoProps | TabsContentsLayoutProps;\n\nconst defaultTransition: Transition = {\n  type: "spring",\n  stiffness: 200,\n  damping: 30,\n};\n\nfunction isAutoMode(props: TabsContentsProps): props is TabsContentsAutoProps {\n  return !("mode" in props) || props.mode === "auto-height";\n}\n\nfunction TabsContents(props: TabsContentsProps) {\n  const { value } = useTabs();\n  const prefersReducedMotion = useReducedMotion();\n\n  if (isAutoMode(props)) {\n    const { transition = defaultTransition, ...autoProps } = props;\n    const resolvedTransition = prefersReducedMotion\n      ? { duration: 0 }\n      : transition;\n\n    return (\n      <AutoHeight\n        data-slot="tabs-contents"\n        deps={[value]}\n        transition={resolvedTransition}\n        {...autoProps}\n      />\n    );\n  }\n\n  const { transition = defaultTransition, style, ...layoutProps } = props;\n  const resolvedTransition = prefersReducedMotion\n    ? { duration: 0 }\n    : { layout: transition };\n\n  return (\n    <motion.div\n      data-slot="tabs-contents"\n      layout={prefersReducedMotion ? false : "size"}\n      layoutDependency={value}\n      style={{ overflow: "hidden", ...style }}\n      transition={resolvedTransition}\n      {...layoutProps}\n    />\n  );\n}\n\nexport {\n  Tabs,\n  TabsContent,\n  type TabsContentProps,\n  TabsContents,\n  type TabsContentsProps,\n  TabsHighlight,\n  TabsHighlightItem,\n  type TabsHighlightItemProps,\n  type TabsHighlightProps,\n  TabsList,\n  type TabsListProps,\n  type TabsProps,\n  TabsTrigger,\n  type TabsTriggerProps,\n};',
       },
@@ -6667,7 +6688,7 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/primitives/radix/tabs/index.tsx");
+        const mod = await import("@/registry/ui/radix/tabs/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(

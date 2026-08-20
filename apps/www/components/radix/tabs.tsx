@@ -12,7 +12,7 @@ import {
   type TabsProps as TabsPrimitiveProps,
   TabsTrigger as TabsTriggerPrimitive,
   type TabsTriggerProps as TabsTriggerPrimitiveProps,
-} from "@/registry/primitives/radix/tabs";
+} from "@/registry/ui/radix/tabs";
 
 type TabsProps = TabsPrimitiveProps;
 
