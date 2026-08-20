@@ -11,6 +11,10 @@ import { auth } from "@/lib/auth";
 import { getQueryClient } from "@/lib/query-client";
 import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
+export function generateStaticParams() {
+  return Object.values(viewPaths.settings).map((path) => ({ path }));
+}
+
 function SettingsPageSkeleton() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-24 pb-6 md:px-6 md:pt-28 md:pb-8">
@@ -20,8 +24,8 @@ function SettingsPageSkeleton() {
 }
 
 async function ProtectedSettingsContent({ path }: { path: string }) {
-  // Request-time only: Cache Components + generateStaticParams was prerendering
-  // this guard without cookies, so logged-in client navigations hit a cached
+  // Request-time only: Cache Components still prerenders generateStaticParams
+  // shells; without this, the auth guard runs with no cookies and caches a
   // redirect to /auth/sign-in.
   await connection();
 
