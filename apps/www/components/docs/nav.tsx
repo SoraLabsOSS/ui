@@ -199,7 +199,7 @@ function NavMenuItems({
           </HighlightItem>
         </NavigationMenuItem>
       ))}
-      <NavigationMenuItem>
+      <NavigationMenuItem className="lg:hidden">
         <HighlightItem asChild value="Library">
           <NavigationMenuTrigger
             className={cn(
@@ -214,6 +214,15 @@ function NavMenuItems({
           <LibraryMenuContent libraryItems={libraryItems} />
         </NavigationMenuContent>
       </NavigationMenuItem>
+      {libraryItems.map((item) => (
+        <NavigationMenuItem className="hidden lg:block" key={item.title}>
+          <HighlightItem asChild value={item.title}>
+            <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
+              <Link href={item.url}>{item.title}</Link>
+            </NavigationMenuLink>
+          </HighlightItem>
+        </NavigationMenuItem>
+      ))}
       {RESOURCE_NAV_ITEMS.map((item) => (
         <NavigationMenuItem key={item.title}>
           <HighlightItem asChild value={item.title}>
