@@ -3,7 +3,7 @@
   "name": "demo-button-icon",
   "title": "Button Icon Demo",
   "dependencies": ["lucide-react"],
-  "registryDependencies": ["@soralabs/button"],
+  "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-icon/index.tsx",

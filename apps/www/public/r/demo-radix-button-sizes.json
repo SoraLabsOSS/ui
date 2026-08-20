@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-sizes",
+  "title": "Radix Button Sizes Demo",
+  "description": "Radix UI button size presets from extra small to large.",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-sizes/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonSizesDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button size=\"xs\">Extra Small (xs)</Button>\n      <Button size=\"sm\">Small (sm)</Button>\n      <Button size=\"default\">Default</Button>\n      <Button size=\"lg\">Large (lg)</Button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-sizes.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

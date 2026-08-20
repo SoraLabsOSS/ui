@@ -3,7 +3,7 @@
   "name": "demo-checkbox-disabled",
   "type": "registry:ui",
   "title": "Checkbox Disabled Demo",
-  "registryDependencies": ["checkbox"],
+  "registryDependencies": ["base-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/base/checkbox-disabled/index.tsx",

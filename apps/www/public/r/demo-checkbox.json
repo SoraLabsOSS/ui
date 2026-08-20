@@ -3,7 +3,7 @@
   "name": "demo-checkbox",
   "title": "Checkbox Demo",
   "description": "Base UI checkbox with Motion path-draw checkmark.",
-  "registryDependencies": ["@soralabs/checkbox"],
+  "registryDependencies": ["@soralabs/base-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/base/checkbox/index.tsx",

@@ -3,7 +3,7 @@
   "name": "demo-dialog-destructive",
   "title": "Dialog Destructive Demo",
   "dependencies": ["lucide-react"],
-  "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+  "registryDependencies": ["@soralabs/base-dialog", "@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/dialog-destructive/index.tsx",

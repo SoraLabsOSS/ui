@@ -1,0 +1,121 @@
+---
+title: Button
+description: An accessible button component built on Radix UI Slot and Motion for React with shadcn/ui variants, comprehensive sizes, and physics-based hover/tap scaling.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-radix-button" description="Default primary Radix UI button with Motion spring scaling on hover and tap." />
+
+## Installation
+
+<ComponentInstallation name="radix-button" />
+
+## Usage
+
+```tsx
+import { Button } from "@/components/sora-ui/radix/button";
+
+export default function Page() {
+  return <Button>Button</Button>;
+}
+```
+
+### With asChild (Slot Pattern)
+
+```tsx
+import { Button } from "@/components/sora-ui/radix/button";
+import Link from "next/link";
+
+export default function Page() {
+  return (
+    <Button asChild>
+      <Link href="/dashboard">Dashboard</Link>
+    </Button>
+  );
+}
+```
+
+## Examples
+
+### Secondary
+
+<ComponentPreview name="demo-radix-button-secondary" description="Secondary button with soft background styling." />
+
+### Destructive
+
+<ComponentPreview name="demo-radix-button-destructive" description="Destructive button for high-risk or irreversible user actions." />
+
+### Outline
+
+<ComponentPreview name="demo-radix-button-outline" description="Outlined bordered button for secondary actions." />
+
+### Ghost
+
+<ComponentPreview name="demo-radix-button-ghost" description="Ghost button with hover-only background highlight." />
+
+### Link
+
+<ComponentPreview name="demo-radix-button-link" description="Link-styled button with underline interaction." />
+
+### With Icon
+
+<ComponentPreview name="demo-radix-button-with-icon" description="Button combined with leading or trailing Lucide icons." />
+
+### Icon Only
+
+<ComponentPreview name="demo-radix-button-icon" description="Icon-only square button with accessible sr-only label." />
+
+### Loading State
+
+<ComponentPreview name="demo-radix-button-loading" description="Disabled button showing an animated spinner." />
+
+### Sizes
+
+<ComponentPreview name="demo-radix-button-sizes" description="Button size presets from extra small (xs) to large (lg)." />
+
+### Custom Motion Scaling
+
+<ComponentPreview name="demo-radix-button-motion" description="Customizable hoverScale and tapScale multipliers, with option to disable scaling." />
+
+## Props
+
+<TypeTable
+  type={{
+    asChild: {
+      description: "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+      type: "boolean",
+      default: "false",
+    },
+    variant: {
+      description: "Visual variant of the button.",
+      type: "\"default\" | \"outline\" | \"secondary\" | \"ghost\" | \"destructive\" | \"link\"",
+      default: "\"default\"",
+    },
+    size: {
+      description: "Size preset of the button.",
+      type: "\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"",
+      default: "\"default\"",
+    },
+    hoverScale: {
+      description: "Motion scale multiplier on pointer hover.",
+      type: "number",
+      default: "1.05",
+    },
+    tapScale: {
+      description: "Motion scale multiplier on pointer tap/click.",
+      type: "number",
+      default: "0.95",
+    },
+    disableAnimation: {
+      description: "Whether to disable hover and tap scaling animation.",
+      type: "boolean",
+      default: "false",
+    },
+    className: {
+      description: "Additional CSS classes merged onto the button element.",
+      type: "string",
+    },
+  }}
+/>

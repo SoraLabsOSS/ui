@@ -1,8 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "checkbox",
+  "name": "base-checkbox",
   "type": "registry:ui",
-  "title": "Checkbox",
+  "title": "Base Checkbox",
   "description": "An accessible, stylable checkbox built on Base UI with a Motion-friendly animated indicator.",
   "dependencies": ["@base-ui/react", "motion"],
   "registryDependencies": ["utils"],

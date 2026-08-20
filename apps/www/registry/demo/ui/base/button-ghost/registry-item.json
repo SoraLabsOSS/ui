@@ -3,7 +3,7 @@
   "name": "demo-button-ghost",
   "type": "registry:ui",
   "title": "Button Ghost Demo",
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-ghost/index.tsx",

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-checkbox-indeterminate",
+  "type": "registry:ui",
+  "title": "Radix Checkbox Indeterminate Demo",
+  "description": "Radix UI checkbox in a partially checked indeterminate state.",
+  "registryDependencies": ["radix-checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/checkbox-indeterminate/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/checkbox-indeterminate.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radix-button",
+  "type": "registry:ui",
+  "title": "Radix Button",
+  "description": "An interactive button component built on Radix UI Slot with Motion hover/tap scaling and shadcn/ui variants.",
+  "dependencies": ["radix-ui", "motion", "class-variance-authority"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/ui/radix/button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/button.tsx"
+    }
+  ]
+}

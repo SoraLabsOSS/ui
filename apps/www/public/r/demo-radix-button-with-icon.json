@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-with-icon",
+  "title": "Radix Button with Icon Demo",
+  "description": "Radix UI button combined with leading and trailing Lucide icons.",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-with-icon/index.tsx",
+      "content": "\"use client\";\n\nimport { ChevronRight, Mail } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonWithIconDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button>\n        <Mail className=\"size-4\" />\n        Login with Email\n      </Button>\n      <Button variant=\"secondary\">\n        Next Step\n        <ChevronRight className=\"size-4\" />\n      </Button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-with-icon.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radix-checkbox",
+  "type": "registry:ui",
+  "title": "Radix Checkbox",
+  "description": "An accessible, stylable checkbox built on Radix UI with a Motion-friendly animated indicator.",
+  "dependencies": ["radix-ui", "motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/ui/radix/checkbox/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/checkbox.tsx"
+    }
+  ]
+}

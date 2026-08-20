@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Checkbox Demo",
   "description": "Base UI checkbox with Motion path-draw checkmark.",
-  "registryDependencies": ["checkbox"],
+  "registryDependencies": ["base-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/base/checkbox/index.tsx",

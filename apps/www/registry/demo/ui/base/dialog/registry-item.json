@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Dialog Demo",
   "description": "Base UI dialog with Motion spring transitions and form editing.",
-  "registryDependencies": ["dialog"],
+  "registryDependencies": ["base-dialog"],
   "files": [
     {
       "path": "registry/demo/ui/base/dialog/index.tsx",

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-motion",
+  "type": "registry:ui",
+  "title": "Radix Button Motion Scaling Demo",
+  "description": "Customizable hover and tap Motion spring scaling on Radix UI button.",
+  "registryDependencies": ["radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-motion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-motion.tsx"
+    }
+  ]
+}

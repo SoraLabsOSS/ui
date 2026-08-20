@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-dialog-share",
+  "type": "registry:ui",
+  "title": "Radix Dialog Share Demo",
+  "description": "Interactive Radix UI dialog with link copying and sharing.",
+  "registryDependencies": ["radix-dialog", "radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/dialog-share/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/dialog-share.tsx"
+    }
+  ]
+}

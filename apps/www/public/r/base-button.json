@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "button",
-  "title": "Button",
+  "name": "base-button",
+  "title": "Base Button",
   "description": "An interactive button component built on Base UI with Motion hover/tap scaling and shadcn/ui variants.",
   "dependencies": ["@base-ui/react", "motion", "class-variance-authority"],
   "registryDependencies": ["utils"],

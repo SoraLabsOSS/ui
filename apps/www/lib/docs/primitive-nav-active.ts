@@ -1,11 +1,15 @@
-const PRIMITIVE_DOC_PATH = /^\/docs\/primitives\/[^/]+\/?$/;
-
 /** Sidebar hover key for Menu → Primitives (href may equal first primitive doc). */
 export const MENU_PRIMITIVES_ITEM_KEY = "menu-primitives";
 
-/** Leaf primitive doc (e.g. `/docs/primitives/text-scramble`). */
+const PRIMITIVES_DOCS_PREFIX = "/docs/primitives";
+
+/** Leaf primitive doc (e.g. `/docs/primitives/text-scramble` or nested paths). */
 export function isPrimitiveDocPath(pathname: string): boolean {
-  return PRIMITIVE_DOC_PATH.test(pathname);
+  return (
+    pathname !== PRIMITIVES_DOCS_PREFIX &&
+    pathname !== `${PRIMITIVES_DOCS_PREFIX}/` &&
+    pathname.startsWith(`${PRIMITIVES_DOCS_PREFIX}/`)
+  );
 }
 
 /**

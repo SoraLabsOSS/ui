@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "demo-button-ghost",
   "title": "Button Ghost Demo",
-  "registryDependencies": ["@soralabs/button"],
+  "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-ghost/index.tsx",

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-dialog-scrollable",
+  "type": "registry:ui",
+  "title": "Radix Dialog Scrollable Demo",
+  "description": "Radix UI dialog with scrollable content area.",
+  "registryDependencies": ["radix-dialog", "radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/dialog-scrollable/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/dialog-scrollable.tsx"
+    }
+  ]
+}

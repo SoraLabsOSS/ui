@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-secondary",
+  "type": "registry:ui",
+  "title": "Radix Button Secondary Demo",
+  "description": "Secondary variant Radix UI button with soft background styling.",
+  "registryDependencies": ["radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-secondary/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-secondary.tsx"
+    }
+  ]
+}

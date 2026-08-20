@@ -3,7 +3,7 @@
   "name": "demo-button-link",
   "type": "registry:ui",
   "title": "Button Link Demo",
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-link/index.tsx",

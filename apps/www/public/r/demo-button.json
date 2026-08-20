@@ -3,7 +3,7 @@
   "name": "demo-button",
   "title": "Button Demo",
   "description": "Interactive showcase of Base UI Button variants, sizes, icon combinations, and Motion scaling.",
-  "registryDependencies": ["@soralabs/button"],
+  "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button/index.tsx",

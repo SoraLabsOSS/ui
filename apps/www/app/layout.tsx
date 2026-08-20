@@ -1,5 +1,6 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type ReactNode, Suspense } from "react";
 
@@ -132,15 +133,12 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="preload"
           type="font/woff2"
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: bannerLayoutScript,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          type="application/ld+json"
-        />
+        <Script id="banner-layout-script" strategy="beforeInteractive">
+          {bannerLayoutScript}
+        </Script>
+        <script suppressHydrationWarning type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       </head>
 
       <body

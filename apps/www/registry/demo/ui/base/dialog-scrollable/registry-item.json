@@ -3,7 +3,7 @@
   "name": "demo-dialog-scrollable",
   "type": "registry:ui",
   "title": "Dialog Scrollable Demo",
-  "registryDependencies": ["dialog", "button"],
+  "registryDependencies": ["base-dialog", "base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",

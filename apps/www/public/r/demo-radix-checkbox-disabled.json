@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-checkbox-disabled",
+  "title": "Radix Checkbox Disabled Demo",
+  "description": "Non-interactive disabled Radix UI checkbox variants.",
+  "registryDependencies": ["@soralabs/radix-checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/checkbox-disabled/index.tsx",
+      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxDisabledDemo() {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-3 p-4\">\n      <div className=\"flex items-center gap-2\">\n        <Checkbox disabled id=\"radix-disabled-unchecked\" />\n        <label\n          className=\"cursor-not-allowed select-none text-muted-foreground text-sm leading-none opacity-50\"\n          htmlFor=\"radix-disabled-unchecked\"\n        >\n          Disabled option (unchecked)\n        </label>\n      </div>\n      <div className=\"flex items-center gap-2\">\n        <Checkbox defaultChecked disabled id=\"radix-disabled-checked\" />\n        <label\n          className=\"cursor-not-allowed select-none text-muted-foreground text-sm leading-none opacity-50\"\n          htmlFor=\"radix-disabled-checked\"\n        >\n          Disabled option (checked)\n        </label>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/checkbox-disabled.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

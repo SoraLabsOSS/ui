@@ -15,5 +15,5 @@
     ".next/dev/types/**/*.ts",
     "../../packages/auth-ui/src/better-auth-ui.d.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "sandbox"]
 }

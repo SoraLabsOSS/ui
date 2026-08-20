@@ -36,6 +36,7 @@ const TAG_GRADIENTS: Record<string, string> = {
   buttons: "from-pink-500/15 via-rose-500/8 to-transparent",
   backgrounds: "from-cyan-500/15 via-sky-500/8 to-transparent",
   docs: "from-slate-500/15 via-gray-500/8 to-transparent",
+  ui: "from-indigo-500/15 via-sky-500/8 to-transparent",
 };
 
 function getTagGradient(tag: string | undefined): string {

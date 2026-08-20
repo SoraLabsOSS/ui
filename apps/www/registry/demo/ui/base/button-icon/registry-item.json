@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Button Icon Demo",
   "dependencies": ["lucide-react"],
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-icon/index.tsx",

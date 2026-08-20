@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button",
+  "title": "Radix Button Demo",
+  "description": "Interactive showcase of Radix UI Slot Button variants, sizes, icon combinations, and Motion scaling.",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonDemo() {\n  return <Button>Button</Button>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

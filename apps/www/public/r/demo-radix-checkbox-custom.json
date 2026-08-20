@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-checkbox-custom",
+  "title": "Radix Checkbox Custom Styling Demo",
+  "description": "Radix UI checkbox with customized colors, shapes, and sizes.",
+  "registryDependencies": ["@soralabs/radix-checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/checkbox-custom/index.tsx",
+      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxCustomDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex flex-wrap items-center gap-6\">\n        {/* Emerald Medium */}\n        <div className=\"flex items-center gap-2.5\">\n          <Checkbox\n            className=\"size-5 rounded-md data-[state=checked]:border-emerald-600 data-[state=checked]:bg-emerald-600 dark:data-[state=checked]:border-emerald-500 dark:data-[state=checked]:bg-emerald-500\"\n            defaultChecked\n            id=\"radix-custom-emerald-box\"\n            indicatorClassName=\"size-4\"\n          />\n          <label\n            className=\"cursor-pointer select-none font-medium text-sm\"\n            htmlFor=\"radix-custom-emerald-box\"\n          >\n            Emerald Medium\n          </label>\n        </div>\n\n        {/* Circular Pill */}\n        <div className=\"flex items-center gap-2.5\">\n          <Checkbox\n            className=\"size-5 rounded-full data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600 dark:data-[state=checked]:border-violet-500 dark:data-[state=checked]:bg-violet-500\"\n            defaultChecked\n            id=\"radix-custom-pill-box\"\n            indicatorClassName=\"size-3.5\"\n          />\n          <label\n            className=\"cursor-pointer select-none font-medium text-sm\"\n            htmlFor=\"radix-custom-pill-box\"\n          >\n            Circular Pill\n          </label>\n        </div>\n\n        {/* Large Hero Checkbox */}\n        <div className=\"flex items-center gap-3\">\n          <Checkbox\n            className=\"size-7 rounded-lg\"\n            defaultChecked\n            id=\"radix-custom-large-box\"\n            indicatorClassName=\"size-5\"\n          />\n          <label\n            className=\"cursor-pointer select-none font-medium text-sm\"\n            htmlFor=\"radix-custom-large-box\"\n          >\n            Large (size-7)\n          </label>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/checkbox-custom.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

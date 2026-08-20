@@ -1,12 +1,20 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Card } from "fumadocs-ui/components/card";
 import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab } from "fumadocs-ui/components/tabs";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
 import { ExternalLink } from "@/components/docs/external-link";
 import { PrimitivesIndex } from "@/components/docs/primitives-index";
 import { SoraTypeTable } from "@/components/docs/sora-type-table";
+import {
+  Tabs,
+  TabsContent,
+  TabsContents,
+  TabsList,
+  TabsTrigger,
+} from "@/components/radix/tabs";
 import { UiIndex } from "@/components/ui/ui-index";
 import { Callout } from "./components/docs/callout";
 import {
@@ -66,6 +74,12 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Steps,
     Step,
     Callout,
+    Tabs,
+    TabsList,
+    TabsTrigger,
+    TabsContents,
+    TabsContent,
+    Tab,
     pre: (props: CodeBlockProps) => (
       <CodeBlock {...props}>
         <Pre>{props.children}</Pre>

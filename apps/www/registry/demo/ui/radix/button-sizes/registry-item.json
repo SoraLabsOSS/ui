@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-sizes",
+  "type": "registry:ui",
+  "title": "Radix Button Sizes Demo",
+  "description": "Radix UI button size presets from extra small to large.",
+  "registryDependencies": ["radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-sizes/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-sizes.tsx"
+    }
+  ]
+}

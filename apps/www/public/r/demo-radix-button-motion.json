@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-motion",
+  "title": "Radix Button Motion Scaling Demo",
+  "description": "Customizable hover and tap Motion spring scaling on Radix UI button.",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-motion/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonMotionDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button hoverScale={1.12} tapScale={0.88}>\n        Spring Bouncy (1.12 / 0.88)\n      </Button>\n      <Button hoverScale={1.02} tapScale={0.98} variant=\"outline\">\n        Subtle (1.02 / 0.98)\n      </Button>\n      <Button disableAnimation variant=\"secondary\">\n        No Scale (Static)\n      </Button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-motion.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

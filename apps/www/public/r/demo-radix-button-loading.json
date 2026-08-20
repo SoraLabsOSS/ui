@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-loading",
+  "title": "Radix Button Loading Demo",
+  "description": "Disabled Radix UI button displaying an animated spinner.",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-loading/index.tsx",
+      "content": "\"use client\";\n\nimport { Loader2 } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonLoadingDemo() {\n  return (\n    <Button disabled>\n      <Loader2 className=\"size-4 animate-spin\" />\n      Please wait\n    </Button>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-loading.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

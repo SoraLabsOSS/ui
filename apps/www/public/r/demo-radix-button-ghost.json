@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-ghost",
+  "title": "Radix Button Ghost Demo",
+  "description": "Ghost variant Radix UI button with hover-only highlight.",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-ghost/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonGhostDemo() {\n  return <Button variant=\"ghost\">Ghost</Button>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-ghost.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

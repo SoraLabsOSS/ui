@@ -1,0 +1,120 @@
+---
+title: Dialog
+description: An accessible modal dialog component built with Radix UI and Motion for React with 3D perspective spring flip entrances and backdrop blurs.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-radix-dialog" description="Default animated Radix UI modal dialog featuring 3D spring entrance and smooth backdrop blur." />
+
+## Installation
+
+<ComponentInstallation name="radix-dialog" />
+
+## Usage
+
+```tsx
+import { Button } from "@/components/sora-ui/radix/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/sora-ui/radix/dialog";
+
+export default function Page() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="text-muted-foreground text-sm">Modal body content here.</p>
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+## Examples
+
+### Scrollable Content
+
+<ComponentPreview name="demo-radix-dialog-scrollable" description="Dialog with scrollable body area for lengthy terms or policies." />
+
+### Destructive Confirmation
+
+<ComponentPreview name="demo-radix-dialog-destructive" description="Alert-style dialog for critical confirmations like deleting a repository." />
+
+### Share Link
+
+<ComponentPreview name="demo-radix-dialog-share" description="Dialog with input link copying and success toast states." />
+
+## Props
+
+### Dialog
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the dialog.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The default open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+    children: {
+      description: "The content elements of the dialog hierarchy.",
+      type: "ReactNode",
+    },
+  }}
+/>
+
+### DialogContent
+
+<TypeTable
+  type={{
+    showCloseButton: {
+      description: "Whether to render the default top-right X close icon button.",
+      type: "boolean",
+      default: "true",
+    },
+    containerClassName: {
+      description: "Additional CSS classes for the fixed centering container wrapper.",
+      type: "string",
+    },
+    overlayClassName: {
+      description: "Additional CSS classes for the backdrop blur overlay.",
+      type: "string",
+    },
+    className: {
+      description: "Additional CSS classes merged onto the popup dialog box element.",
+      type: "string",
+    },
+  }}
+/>

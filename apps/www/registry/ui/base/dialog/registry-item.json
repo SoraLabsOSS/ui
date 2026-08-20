@@ -1,11 +1,15 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "dialog",
+  "name": "base-dialog",
   "type": "registry:ui",
-  "title": "Dialog",
+  "title": "Base Dialog",
   "description": "An accessible modal dialog built on Base UI with smooth Motion spring entrance and exit animations.",
   "dependencies": ["@base-ui/react", "motion", "lucide-react"],
-  "registryDependencies": ["utils", "hooks-use-controlled-state", "button"],
+  "registryDependencies": [
+    "utils",
+    "hooks-use-controlled-state",
+    "base-button"
+  ],
   "files": [
     {
       "path": "registry/ui/base/dialog/index.tsx",

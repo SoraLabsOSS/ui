@@ -3,7 +3,7 @@
   "name": "demo-button-destructive",
   "type": "registry:ui",
   "title": "Button Destructive Demo",
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-destructive/index.tsx",

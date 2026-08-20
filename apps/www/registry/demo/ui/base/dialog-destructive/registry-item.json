@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Dialog Destructive Demo",
   "dependencies": ["lucide-react"],
-  "registryDependencies": ["dialog", "button"],
+  "registryDependencies": ["base-dialog", "base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/dialog-destructive/index.tsx",

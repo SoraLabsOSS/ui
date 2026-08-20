@@ -1,0 +1,86 @@
+---
+title: Checkbox
+description: An accessible checkbox component built on Base UI with a Motion spring checkmark draw animation.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-checkbox" description="Default animated checkbox with interactive label and spring checkmark draw animation." />
+
+## Installation
+
+<ComponentInstallation name="base-checkbox" />
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/sora-ui/base/checkbox";
+
+export default function Page() {
+  return <Checkbox label="Accept terms and conditions" />;
+}
+```
+
+## Examples
+
+### With Helper Text
+
+<ComponentPreview name="demo-checkbox-with-text" description="Checkbox with supplementary title and description text." />
+
+### Card Selector
+
+<ComponentPreview name="demo-checkbox-card" description="Selectable card container with embedded animated checkbox." />
+
+### Custom Icon
+
+<ComponentPreview name="demo-checkbox-custom" description="Checkbox rendering a customized checkmark icon." />
+
+### Indeterminate State
+
+<ComponentPreview name="demo-checkbox-indeterminate" description="Checkbox in a partially checked indeterminate state." />
+
+### Disabled
+
+<ComponentPreview name="demo-checkbox-disabled" description="Non-interactive disabled checkbox variants." />
+
+## Props
+
+<TypeTable
+  type={{
+    checked: {
+      description: "The controlled checked state of the checkbox.",
+      type: "boolean | \"indeterminate\"",
+    },
+    defaultChecked: {
+      description: "The initial checked state when uncontrolled.",
+      type: "boolean | \"indeterminate\"",
+      default: "false",
+    },
+    onCheckedChange: {
+      description: "Event handler called when the checked state changes.",
+      type: "(checked: boolean | \"indeterminate\") => void",
+    },
+    label: {
+      description: "Optional label rendered beside the checkbox.",
+      type: "ReactNode",
+    },
+    labelClassName: {
+      description: "Additional CSS classes for the label text.",
+      type: "string",
+    },
+    indicatorClassName: {
+      description: "Additional CSS classes for the animated SVG checkmark indicator.",
+      type: "string",
+    },
+    disabled: {
+      description: "Whether the checkbox is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    className: {
+      description: "Additional CSS classes merged onto the checkbox box element.",
+      type: "string",
+    },
+  }}
+/>

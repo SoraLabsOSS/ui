@@ -3,7 +3,7 @@
   "name": "demo-button-motion",
   "type": "registry:ui",
   "title": "Button Motion Demo",
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-motion/index.tsx",

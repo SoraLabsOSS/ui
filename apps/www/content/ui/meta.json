@@ -3,5 +3,14 @@
   "description": "Animated app components",
   "icon": "Component",
   "root": true,
-  "pages": ["---Base UI---", "button", "checkbox", "dialog"]
+  "pages": [
+    "---Base UI---",
+    "base/button",
+    "base/checkbox",
+    "base/dialog",
+    "---Radix UI---",
+    "radix/button",
+    "radix/checkbox",
+    "radix/dialog"
+  ]
 }

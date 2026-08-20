@@ -2042,7 +2042,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button/index.tsx",
@@ -2090,7 +2090,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-destructive/index.tsx",
@@ -2138,7 +2138,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-ghost/index.tsx",
@@ -2186,7 +2186,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-icon/index.tsx",
@@ -2234,7 +2234,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-link/index.tsx",
@@ -2282,7 +2282,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-loading/index.tsx",
@@ -2330,7 +2330,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-motion/index.tsx",
@@ -2378,7 +2378,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-outline/index.tsx",
@@ -2426,7 +2426,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-secondary/index.tsx",
@@ -2474,7 +2474,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-sizes/index.tsx",
@@ -2522,7 +2522,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["button"],
+    registryDependencies: ["base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-with-icon/index.tsx",
@@ -2570,7 +2570,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["checkbox"],
+    registryDependencies: ["base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox/index.tsx",
@@ -2618,7 +2618,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["checkbox"],
+    registryDependencies: ["base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-card/index.tsx",
@@ -2666,7 +2666,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["checkbox"],
+    registryDependencies: ["base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-custom/index.tsx",
@@ -2714,7 +2714,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["checkbox"],
+    registryDependencies: ["base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-disabled/index.tsx",
@@ -2762,7 +2762,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["checkbox"],
+    registryDependencies: ["base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-indeterminate/index.tsx",
@@ -2810,7 +2810,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["checkbox"],
+    registryDependencies: ["base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-with-text/index.tsx",
@@ -2858,7 +2858,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["dialog"],
+    registryDependencies: ["base-dialog"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog/index.tsx",
@@ -2906,7 +2906,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["dialog","button"],
+    registryDependencies: ["base-dialog","base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog-destructive/index.tsx",
@@ -2954,7 +2954,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["dialog","button"],
+    registryDependencies: ["base-dialog","base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",
@@ -3002,7 +3002,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["dialog","button"],
+    registryDependencies: ["base-dialog","base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog-share/index.tsx",
@@ -3091,6 +3091,1014 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: '@soralabs/demo-bottom-sheet',
+  },
+  "demo-radix-button": {
+    name: "demo-radix-button",
+    description: "Interactive showcase of Radix UI Slot Button variants, sizes, icon combinations, and Motion scaling.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonDemo() {\n  return <Button>Button</Button>;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button',
+  },
+  "demo-radix-button-destructive": {
+    name: "demo-radix-button-destructive",
+    description: "Destructive variant Radix UI button for high-risk user actions.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-destructive/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-destructive.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonDestructiveDemo() {\n  return <Button variant=\"destructive\">Destructive</Button>;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-destructive/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-destructive',
+  },
+  "demo-radix-button-ghost": {
+    name: "demo-radix-button-ghost",
+    description: "Ghost variant Radix UI button with hover-only highlight.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-ghost/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-ghost.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonGhostDemo() {\n  return <Button variant=\"ghost\">Ghost</Button>;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-ghost/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-ghost',
+  },
+  "demo-radix-button-icon": {
+    name: "demo-radix-button-icon",
+    description: "Icon-only square Radix UI button with accessible screen-reader label.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-icon/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-icon.tsx",
+    "content": "\"use client\";\n\nimport { ChevronRight } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonIconDemo() {\n  return (\n    <Button aria-label=\"Next\" size=\"icon\" variant=\"outline\">\n      <ChevronRight className=\"size-4\" />\n    </Button>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-icon/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-icon',
+  },
+  "demo-radix-button-link": {
+    name: "demo-radix-button-link",
+    description: "Link-styled Radix UI button with underline interaction.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-link/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-link.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonLinkDemo() {\n  return <Button variant=\"link\">Link</Button>;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-link/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-link',
+  },
+  "demo-radix-button-loading": {
+    name: "demo-radix-button-loading",
+    description: "Disabled Radix UI button displaying an animated spinner.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-loading/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-loading.tsx",
+    "content": "\"use client\";\n\nimport { Loader2 } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonLoadingDemo() {\n  return (\n    <Button disabled>\n      <Loader2 className=\"size-4 animate-spin\" />\n      Please wait\n    </Button>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-loading/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-loading',
+  },
+  "demo-radix-button-motion": {
+    name: "demo-radix-button-motion",
+    description: "Customizable hover and tap Motion spring scaling on Radix UI button.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-motion/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-motion.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonMotionDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button hoverScale={1.12} tapScale={0.88}>\n        Spring Bouncy (1.12 / 0.88)\n      </Button>\n      <Button hoverScale={1.02} tapScale={0.98} variant=\"outline\">\n        Subtle (1.02 / 0.98)\n      </Button>\n      <Button disableAnimation variant=\"secondary\">\n        No Scale (Static)\n      </Button>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-motion/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-motion',
+  },
+  "demo-radix-button-outline": {
+    name: "demo-radix-button-outline",
+    description: "Outlined variant Radix UI button with clean border styling.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-outline/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-outline.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonOutlineDemo() {\n  return <Button variant=\"outline\">Outline</Button>;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-outline/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-outline',
+  },
+  "demo-radix-button-secondary": {
+    name: "demo-radix-button-secondary",
+    description: "Secondary variant Radix UI button with soft background styling.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-secondary/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-secondary.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonSecondaryDemo() {\n  return <Button variant=\"secondary\">Secondary</Button>;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-secondary/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-secondary',
+  },
+  "demo-radix-button-sizes": {
+    name: "demo-radix-button-sizes",
+    description: "Radix UI button size presets from extra small to large.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-sizes/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-sizes.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonSizesDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button size=\"xs\">Extra Small (xs)</Button>\n      <Button size=\"sm\">Small (sm)</Button>\n      <Button size=\"default\">Default</Button>\n      <Button size=\"lg\">Large (lg)</Button>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-sizes/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-sizes',
+  },
+  "demo-radix-button-with-icon": {
+    name: "demo-radix-button-with-icon",
+    description: "Radix UI button combined with leading and trailing Lucide icons.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/button-with-icon/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/button-with-icon.tsx",
+    "content": "\"use client\";\n\nimport { ChevronRight, Mail } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonWithIconDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button>\n        <Mail className=\"size-4\" />\n        Login with Email\n      </Button>\n      <Button variant=\"secondary\">\n        Next Step\n        <ChevronRight className=\"size-4\" />\n      </Button>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button-with-icon/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-button-with-icon',
+  },
+  "demo-radix-checkbox": {
+    name: "demo-radix-checkbox",
+    description: "Interactive showcase of Radix UI animated Checkbox with SVG stroke draw animation.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-checkbox"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/checkbox/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/checkbox.tsx",
+    "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxDemo() {\n  return <Checkbox label=\"Accept terms and conditions\" />;\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-checkbox',
+  },
+  "demo-radix-checkbox-card": {
+    name: "demo-radix-checkbox-card",
+    description: "Selectable card container with embedded animated Radix UI checkbox.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-checkbox"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/checkbox-card/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/checkbox-card.tsx",
+    "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxCardDemo() {\n  const [enabled, setEnabled] = useState(true);\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <label\n        className=\"flex max-w-md cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5\"\n        htmlFor=\"radix-security-card-input\"\n      >\n        <Checkbox\n          checked={enabled}\n          id=\"radix-security-card-input\"\n          onCheckedChange={(val) => setEnabled(Boolean(val))}\n        />\n        <div className=\"grid gap-1\">\n          <span className=\"font-medium text-foreground text-sm leading-none\">\n            Two-factor Authentication\n          </span>\n          <span className=\"text-muted-foreground text-xs leading-normal\">\n            Protect your account with an extra layer of security on login.\n          </span>\n        </div>\n      </label>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox-card/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-checkbox-card',
+  },
+  "demo-radix-checkbox-custom": {
+    name: "demo-radix-checkbox-custom",
+    description: "Radix UI checkbox with customized colors, shapes, and sizes.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-checkbox"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/checkbox-custom/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/checkbox-custom.tsx",
+    "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxCustomDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex flex-wrap items-center gap-6\">\n        {/* Emerald Medium */}\n        <div className=\"flex items-center gap-2.5\">\n          <Checkbox\n            className=\"size-5 rounded-md data-[state=checked]:border-emerald-600 data-[state=checked]:bg-emerald-600 dark:data-[state=checked]:border-emerald-500 dark:data-[state=checked]:bg-emerald-500\"\n            defaultChecked\n            id=\"radix-custom-emerald-box\"\n            indicatorClassName=\"size-4\"\n          />\n          <label\n            className=\"cursor-pointer select-none font-medium text-sm\"\n            htmlFor=\"radix-custom-emerald-box\"\n          >\n            Emerald Medium\n          </label>\n        </div>\n\n        {/* Circular Pill */}\n        <div className=\"flex items-center gap-2.5\">\n          <Checkbox\n            className=\"size-5 rounded-full data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600 dark:data-[state=checked]:border-violet-500 dark:data-[state=checked]:bg-violet-500\"\n            defaultChecked\n            id=\"radix-custom-pill-box\"\n            indicatorClassName=\"size-3.5\"\n          />\n          <label\n            className=\"cursor-pointer select-none font-medium text-sm\"\n            htmlFor=\"radix-custom-pill-box\"\n          >\n            Circular Pill\n          </label>\n        </div>\n\n        {/* Large Hero Checkbox */}\n        <div className=\"flex items-center gap-3\">\n          <Checkbox\n            className=\"size-7 rounded-lg\"\n            defaultChecked\n            id=\"radix-custom-large-box\"\n            indicatorClassName=\"size-5\"\n          />\n          <label\n            className=\"cursor-pointer select-none font-medium text-sm\"\n            htmlFor=\"radix-custom-large-box\"\n          >\n            Large (size-7)\n          </label>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox-custom/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-checkbox-custom',
+  },
+  "demo-radix-checkbox-disabled": {
+    name: "demo-radix-checkbox-disabled",
+    description: "Non-interactive disabled Radix UI checkbox variants.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-checkbox"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/checkbox-disabled/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/checkbox-disabled.tsx",
+    "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxDisabledDemo() {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-3 p-4\">\n      <div className=\"flex items-center gap-2\">\n        <Checkbox disabled id=\"radix-disabled-unchecked\" />\n        <label\n          className=\"cursor-not-allowed select-none text-muted-foreground text-sm leading-none opacity-50\"\n          htmlFor=\"radix-disabled-unchecked\"\n        >\n          Disabled option (unchecked)\n        </label>\n      </div>\n      <div className=\"flex items-center gap-2\">\n        <Checkbox defaultChecked disabled id=\"radix-disabled-checked\" />\n        <label\n          className=\"cursor-not-allowed select-none text-muted-foreground text-sm leading-none opacity-50\"\n          htmlFor=\"radix-disabled-checked\"\n        >\n          Disabled option (checked)\n        </label>\n      </div>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox-disabled/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-checkbox-disabled',
+  },
+  "demo-radix-checkbox-indeterminate": {
+    name: "demo-radix-checkbox-indeterminate",
+    description: "Radix UI checkbox in a partially checked indeterminate state.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-checkbox"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/checkbox-indeterminate/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/checkbox-indeterminate.tsx",
+    "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nconst items = [\n  { id: \"comments\", label: \"Comments\" },\n  { id: \"mentions\", label: \"Mentions\" },\n  { id: \"offers\", label: \"Promotions\" },\n];\n\nexport default function RadixCheckboxIndeterminateDemo() {\n  const [selected, setSelected] = useState<string[]>([\"comments\", \"mentions\"]);\n  const allSelected = selected.length === items.length;\n  const isIndeterminate = selected.length > 0 && !allSelected;\n\n  const toggleAll = () => {\n    setSelected(allSelected ? [] : items.map((i) => i.id));\n  };\n\n  const toggleItem = (id: string) => {\n    setSelected((prev) =>\n      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]\n    );\n  };\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex w-full max-w-sm flex-col gap-3 rounded-lg border border-border p-4\">\n        <div className=\"flex items-center gap-3 border-border border-b pb-3\">\n          <Checkbox\n            checked={isIndeterminate ? \"indeterminate\" : allSelected}\n            id=\"radix-select-all\"\n            onCheckedChange={toggleAll}\n          />\n          <label\n            className=\"cursor-pointer select-none font-semibold text-foreground text-sm\"\n            htmlFor=\"radix-select-all\"\n          >\n            Select all notifications\n          </label>\n        </div>\n        <div className=\"flex flex-col gap-2.5 pt-1 pl-6\">\n          {items.map((item) => (\n            <div className=\"flex items-center gap-2.5\" key={item.id}>\n              <Checkbox\n                checked={selected.includes(item.id)}\n                id={`radix-${item.id}`}\n                onCheckedChange={() => toggleItem(item.id)}\n              />\n              <label\n                className=\"cursor-pointer select-none font-medium text-foreground text-sm\"\n                htmlFor={`radix-${item.id}`}\n              >\n                {item.label}\n              </label>\n            </div>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox-indeterminate/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-checkbox-indeterminate',
+  },
+  "demo-radix-checkbox-with-text": {
+    name: "demo-radix-checkbox-with-text",
+    description: "Radix UI checkbox with supplementary title and description text.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-checkbox"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/checkbox-with-text/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/checkbox-with-text.tsx",
+    "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxWithTextDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex max-w-sm items-start gap-3\">\n        <Checkbox defaultChecked id=\"radix-terms-with-text\" />\n        <div className=\"grid gap-1.5 leading-none\">\n          <label\n            className=\"cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n            htmlFor=\"radix-terms-with-text\"\n          >\n            Accept terms and conditions\n          </label>\n          <p className=\"text-muted-foreground text-xs\">\n            By clicking this checkbox, you agree to our Terms of Service and\n            Privacy Policy.\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox-with-text/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-checkbox-with-text',
+  },
+  "demo-radix-dialog": {
+    name: "demo-radix-dialog",
+    description: "Interactive showcase of Radix UI modal Dialog with 3D perspective spring entrance and exit animations.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-dialog","radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/dialog/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/dialog.tsx",
+    "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\nimport {\n  Dialog,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/sora-ui/radix/dialog\";\n\nexport default function RadixDialogDemo() {\n  const [open, setOpen] = useState(false);\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Dialog onOpenChange={setOpen} open={open}>\n        <DialogTrigger asChild>\n          <Button>Edit Profile</Button>\n        </DialogTrigger>\n        <DialogContent className=\"sm:max-w-[425px]\">\n          <DialogHeader>\n            <DialogTitle>Edit profile</DialogTitle>\n            <DialogDescription>\n              Make changes to your profile here. Click save when you&apos;re\n              done.\n            </DialogDescription>\n          </DialogHeader>\n          <div className=\"grid gap-4 py-2\">\n            <div className=\"grid grid-cols-4 items-center gap-4\">\n              <label\n                className=\"text-right font-medium text-sm\"\n                htmlFor=\"radix-profile-name\"\n              >\n                Name\n              </label>\n              <input\n                className=\"col-span-3 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50\"\n                defaultValue=\"Alex Rivera\"\n                id=\"radix-profile-name\"\n              />\n            </div>\n            <div className=\"grid grid-cols-4 items-center gap-4\">\n              <label\n                className=\"text-right font-medium text-sm\"\n                htmlFor=\"radix-profile-username\"\n              >\n                Username\n              </label>\n              <input\n                className=\"col-span-3 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50\"\n                defaultValue=\"@alexrivera\"\n                id=\"radix-profile-username\"\n              />\n            </div>\n          </div>\n          <DialogFooter showCloseButton>\n            <Button onClick={() => setOpen(false)} type=\"button\">\n              Save changes\n            </Button>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/dialog/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-dialog',
+  },
+  "demo-radix-dialog-destructive": {
+    name: "demo-radix-dialog-destructive",
+    description: "Alert-style destructive Radix UI dialog for critical confirmations.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-dialog","radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/dialog-destructive/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/dialog-destructive.tsx",
+    "content": "\"use client\";\n\nimport { Trash2 } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/sora-ui/radix/dialog\";\n\nexport default function RadixDialogDestructiveDemo() {\n  const [open, setOpen] = useState(false);\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Dialog onOpenChange={setOpen} open={open}>\n        <DialogTrigger asChild>\n          <Button variant=\"destructive\">\n            <Trash2 className=\"size-4\" />\n            Delete Repository\n          </Button>\n        </DialogTrigger>\n        <DialogContent className=\"sm:max-w-[400px]\">\n          <DialogHeader>\n            <DialogTitle>Are you absolutely sure?</DialogTitle>\n            <DialogDescription>\n              This action cannot be undone. This will permanently delete your\n              repository and remove all associated collaborators.\n            </DialogDescription>\n          </DialogHeader>\n          <DialogFooter>\n            <DialogClose asChild>\n              <Button variant=\"outline\">Cancel</Button>\n            </DialogClose>\n            <Button\n              onClick={() => setOpen(false)}\n              type=\"button\"\n              variant=\"destructive\"\n            >\n              Confirm Delete\n            </Button>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/dialog-destructive/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-dialog-destructive',
+  },
+  "demo-radix-dialog-scrollable": {
+    name: "demo-radix-dialog-scrollable",
+    description: "Radix UI dialog with scrollable content area.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-dialog","radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/dialog-scrollable/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/dialog-scrollable.tsx",
+    "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/sora-ui/radix/dialog\";\n\nexport default function RadixDialogScrollableDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Dialog>\n        <DialogTrigger asChild>\n          <Button variant=\"secondary\">View Terms</Button>\n        </DialogTrigger>\n        <DialogContent className=\"sm:max-w-[540px]\">\n          <DialogHeader>\n            <DialogTitle>Terms of Service</DialogTitle>\n            <DialogDescription>\n              Please review our service agreement and terms of use.\n            </DialogDescription>\n          </DialogHeader>\n          <div className=\"flex max-h-[260px] flex-col gap-3 overflow-y-auto pr-2 text-muted-foreground text-xs leading-relaxed\">\n            <p>\n              Welcome to Sora UI. By accessing or using our websites and\n              component registry, you agree to be bound by these Terms of\n              Service.\n            </p>\n            <p>\n              1. License: You are granted a personal, non-exclusive license to\n              install, copy, and modify components for software applications.\n            </p>\n            <p>\n              2. Restrictions: You may not redistribute the source registry as a\n              competing registry service without prior written consent.\n            </p>\n            <p>\n              3. Warranty Disclaimer: The software components are provided\n              &quot;as is&quot;, without warranty of any kind, express or\n              implied.\n            </p>\n            <p>\n              4. Privacy & Cookies: We respect your privacy and do not collect\n              tracking analytics on your consumer apps.\n            </p>\n          </div>\n          <DialogFooter showCloseButton>\n            <DialogClose asChild>\n              <Button>I Understand</Button>\n            </DialogClose>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/dialog-scrollable/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-dialog-scrollable',
+  },
+  "demo-radix-dialog-share": {
+    name: "demo-radix-dialog-share",
+    description: "Interactive Radix UI dialog with link copying and sharing.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["radix-dialog","radix-button"],
+    files: [
+  {
+    "path": "registry/demo/ui/radix/dialog-share/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/demo/radix/dialog-share.tsx",
+    "content": "\"use client\";\n\nimport { Check, Copy, Share2 } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/sora-ui/radix/dialog\";\n\nexport default function RadixDialogShareDemo() {\n  const [copied, setCopied] = useState(false);\n\n  const copyShareLink = () => {\n    navigator.clipboard.writeText(\"https://sora-ui.com/ui/radix/dialog\");\n    setCopied(true);\n    setTimeout(() => setCopied(false), 2000);\n  };\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Dialog>\n        <DialogTrigger asChild>\n          <Button variant=\"outline\">\n            <Share2 className=\"size-4\" />\n            Share Link\n          </Button>\n        </DialogTrigger>\n        <DialogContent className=\"sm:max-w-md\">\n          <DialogHeader>\n            <DialogTitle>Share link</DialogTitle>\n            <DialogDescription>\n              Anyone who has this link will be able to view this project.\n            </DialogDescription>\n          </DialogHeader>\n          <div className=\"flex items-center gap-2 py-2\">\n            <div className=\"grid flex-1 gap-2\">\n              <label className=\"sr-only\" htmlFor=\"radix-share-link-input\">\n                Link\n              </label>\n              <input\n                className=\"h-9 w-full rounded-md border border-input bg-muted/50 px-3 py-1 font-mono text-xs shadow-xs outline-none\"\n                id=\"radix-share-link-input\"\n                readOnly\n                value=\"https://sora-ui.com/ui/radix/dialog\"\n              />\n            </div>\n            <Button\n              onClick={copyShareLink}\n              size=\"sm\"\n              type=\"button\"\n              variant=\"secondary\"\n            >\n              {copied ? (\n                <Check className=\"size-4 text-emerald-500\" />\n              ) : (\n                <Copy className=\"size-4\" />\n              )}\n              <span className=\"sr-only\">Copy</span>\n            </Button>\n          </div>\n          <DialogFooter>\n            <DialogClose asChild>\n              <Button variant=\"outline\">Done</Button>\n            </DialogClose>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/dialog-share/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/demo-radix-dialog-share',
   },
   "hooks-use-auto-height": {
     name: "hooks-use-auto-height",
@@ -5732,8 +6740,8 @@ export const index: Record<string, any> = {
     })(),
     command: '@soralabs/typer',
   },
-  "button": {
-    name: "button",
+  "base-button": {
+    name: "base-button",
     description: "An interactive button component built on Base UI with Motion hover/tap scaling and shadcn/ui variants.",
     type: "registry:ui",
     dependencies: ["@base-ui/react","motion","class-variance-authority"],
@@ -5752,7 +6760,7 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: (function() {
       const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/demo/ui/base/button/index.tsx");
+        const mod = await import("@/registry/ui/base/button/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -5778,10 +6786,10 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: '@soralabs/button',
+    command: '@soralabs/base-button',
   },
-  "checkbox": {
-    name: "checkbox",
+  "base-checkbox": {
+    name: "base-checkbox",
     description: "An accessible, stylable checkbox built on Base UI with a Motion-friendly animated indicator.",
     type: "registry:ui",
     dependencies: ["@base-ui/react","motion"],
@@ -5800,7 +6808,7 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: (function() {
       const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/demo/ui/base/checkbox/index.tsx");
+        const mod = await import("@/registry/ui/base/checkbox/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -5826,15 +6834,15 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: '@soralabs/checkbox',
+    command: '@soralabs/base-checkbox',
   },
-  "dialog": {
-    name: "dialog",
+  "base-dialog": {
+    name: "base-dialog",
     description: "An accessible modal dialog built on Base UI with smooth Motion spring entrance and exit animations.",
     type: "registry:ui",
     dependencies: ["@base-ui/react","motion","lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["utils","hooks-use-controlled-state","button"],
+    registryDependencies: ["utils","hooks-use-controlled-state","base-button"],
     files: [
   {
     "path": "registry/ui/base/dialog/index.tsx",
@@ -5848,7 +6856,7 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: (function() {
       const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/demo/ui/base/dialog/index.tsx");
+        const mod = await import("@/registry/ui/base/dialog/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -5874,7 +6882,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: '@soralabs/dialog',
+    command: '@soralabs/base-dialog',
   },
   "bottom-sheet": {
     name: "bottom-sheet",
@@ -5923,6 +6931,150 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: '@soralabs/bottom-sheet',
+  },
+  "radix-button": {
+    name: "radix-button",
+    description: "An interactive button component built on Radix UI Slot with Motion hover/tap scaling and shadcn/ui variants.",
+    type: "registry:ui",
+    dependencies: ["radix-ui","motion","class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+  {
+    "path": "registry/ui/radix/button/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/radix/button.tsx",
+    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { motion, useReducedMotion } from \"motion/react\";\nimport { Slot } from \"radix-ui\";\nimport type { ButtonHTMLAttributes, ComponentPropsWithRef } from \"react\";\n\nconst buttonVariants = cva(\n  \"group/button inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap rounded-lg border border-transparent bg-clip-padding font-medium text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-primary text-primary-foreground hover:bg-primary/80\",\n        outline:\n          \"border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50\",\n        secondary:\n          \"bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground\",\n        ghost:\n          \"hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50\",\n        destructive:\n          \"bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 dark:hover:bg-destructive/30\",\n        link: \"text-primary underline-offset-4 hover:underline\",\n      },\n      size: {\n        default:\n          \"h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2\",\n        xs: \"h-6 gap-1 in-data-[slot=button-group]:rounded-lg rounded-[min(var(--radius-md),10px)] px-2 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3\",\n        sm: \"h-7 gap-1 in-data-[slot=button-group]:rounded-lg rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5\",\n        lg: \"h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2\",\n        icon: \"size-8\",\n        \"icon-xs\":\n          \"size-6 in-data-[slot=button-group]:rounded-lg rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-3\",\n        \"icon-sm\":\n          \"size-7 in-data-[slot=button-group]:rounded-lg rounded-[min(var(--radius-md),12px)]\",\n        \"icon-lg\": \"size-9\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n);\n\ninterface ButtonProps\n  extends ButtonHTMLAttributes<HTMLButtonElement>,\n    VariantProps<typeof buttonVariants> {\n  /**\n   * Change the default rendered element for the one passed as a child, merging their props and behavior.\n   * @default false\n   */\n  asChild?: boolean;\n  /**\n   * Whether to disable Motion physics scale animation.\n   * @default false\n   */\n  disableAnimation?: boolean;\n  /**\n   * Scale factor applied on pointer hover.\n   * @default 1.05\n   */\n  hoverScale?: number;\n  /**\n   * Scale factor applied on pointer click/tap.\n   * @default 0.95\n   */\n  tapScale?: number;\n}\n\n/**\n * Animated Button component based on Radix UI Slot and Motion for React with shadcn/ui variants.\n */\nfunction Button({\n  className,\n  variant,\n  size,\n  asChild = false,\n  hoverScale = 1.05,\n  tapScale = 0.95,\n  disableAnimation = false,\n  ...props\n}: ButtonProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const shouldAnimate = !(disableAnimation || prefersReducedMotion);\n\n  if (asChild) {\n    return (\n      <Slot.Root\n        className={cn(buttonVariants({ variant, size, className }))}\n        data-slot=\"button\"\n        {...props}\n      />\n    );\n  }\n\n  return (\n    <motion.button\n      className={cn(buttonVariants({ variant, size, className }))}\n      data-primary-action\n      data-slot=\"button\"\n      type=\"button\"\n      whileHover={shouldAnimate ? { scale: hoverScale } : undefined}\n      whileTap={shouldAnimate ? { scale: tapScale } : undefined}\n      {...(props as ComponentPropsWithRef<typeof motion.button>)}\n    />\n  );\n}\n\nexport type { ButtonProps };\nexport { Button, Button as RadixButton, Button as default, buttonVariants };"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/button/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/radix-button',
+  },
+  "radix-checkbox": {
+    name: "radix-checkbox",
+    description: "An accessible, stylable checkbox built on Radix UI with a Motion-friendly animated indicator.",
+    type: "registry:ui",
+    dependencies: ["radix-ui","motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+  {
+    "path": "registry/ui/radix/checkbox/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/radix/checkbox.tsx",
+    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useTransform,\n} from \"motion/react\";\nimport { Checkbox as CheckboxPrimitive } from \"radix-ui\";\nimport {\n  type ComponentProps,\n  type ReactNode,\n  useCallback,\n  useEffect,\n  useId,\n  useState,\n} from \"react\";\n\nfunction useControlledState<T, Rest extends unknown[] = []>(props: {\n  defaultValue?: T;\n  onChange?: (value: T, ...args: Rest) => void;\n  value?: T;\n}): readonly [T, (next: T, ...args: Rest) => void] {\n  const { value, defaultValue, onChange } = props;\n  const [state, setInternalState] = useState<T>(\n    value === undefined ? (defaultValue as T) : value\n  );\n\n  useEffect(() => {\n    if (value !== undefined) {\n      setInternalState(value);\n    }\n  }, [value]);\n\n  const setState = useCallback(\n    (next: T, ...args: Rest) => {\n      setInternalState(next);\n      onChange?.(next, ...args);\n    },\n    [onChange]\n  );\n\n  return [state, setState] as const;\n}\n\ninterface CheckboxCheckIconProps\n  extends Omit<ComponentProps<\"svg\">, \"children\"> {\n  /** Whether the checkbox checkmark is active. */\n  checked: boolean;\n  /** Whether reduced motion is enabled. */\n  prefersReducedMotion?: boolean | null;\n}\n\n/**\n * Checkmark SVG icon featuring animated path length draw with dynamic round cap transform.\n */\nfunction CheckboxCheckIcon({\n  checked,\n  className,\n  prefersReducedMotion,\n  ...props\n}: CheckboxCheckIconProps) {\n  const pathLength = useMotionValue(checked ? 1 : 0);\n  const strokeLinecap = useTransform(() =>\n    pathLength.get() === 0 ? \"none\" : \"round\"\n  );\n\n  return (\n    <svg\n      aria-hidden=\"true\"\n      className={cn(\"size-3.5 stroke-current\", className)}\n      fill=\"none\"\n      stroke=\"currentColor\"\n      strokeWidth=\"3\"\n      viewBox=\"0 0 24 24\"\n      {...props}\n    >\n      <motion.path\n        animate={{ pathLength: checked ? 1 : 0 }}\n        d=\"M4 12L10 18L20 6\"\n        style={\n          {\n            pathLength,\n            strokeLinecap,\n          } as ComponentProps<typeof motion.path>[\"style\"]\n        }\n        transition={\n          prefersReducedMotion\n            ? { duration: 0 }\n            : {\n                type: \"spring\",\n                bounce: 0,\n                duration: checked ? 0.3 : 0.1,\n              }\n        }\n      />\n    </svg>\n  );\n}\n\ntype CheckboxRootProps = ComponentProps<typeof CheckboxPrimitive.Root>;\n\n/**\n * Primitive root button for the checkbox component, wrapping Radix UI's Checkbox.Root with Motion interaction states.\n * Supports full Tailwind CSS class overriding via `cn(...)`.\n */\nfunction CheckboxRoot({ className, ...props }: CheckboxRootProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Root\n      asChild\n      className={cn(\n        \"peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground aria-invalid:data-[state=checked]:border-primary group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40\",\n        className\n      )}\n      data-slot=\"checkbox\"\n      {...props}\n    >\n      <motion.button\n        data-primary-action\n        type=\"button\"\n        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n      />\n    </CheckboxPrimitive.Root>\n  );\n}\n\ntype CheckboxIndicatorProps = ComponentProps<\n  typeof CheckboxPrimitive.Indicator\n> & {\n  /** Whether the checkbox is currently checked */\n  checked?: boolean;\n};\n\n/**\n * Animated checkmark indicator for the checkbox using Motion path length animation.\n */\nfunction CheckboxIndicator({\n  className,\n  checked = false,\n  ...props\n}: CheckboxIndicatorProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Indicator\n      className={cn(\n        \"grid place-content-center text-current transition-none [&>svg]:size-3.5\",\n        className\n      )}\n      data-slot=\"checkbox-indicator\"\n      forceMount\n      {...props}\n    >\n      <CheckboxCheckIcon\n        checked={checked}\n        className={className}\n        prefersReducedMotion={prefersReducedMotion}\n      />\n    </CheckboxPrimitive.Indicator>\n  );\n}\n\ninterface CheckboxProps extends CheckboxRootProps {\n  /**\n   * Optional class name for the animated checkmark SVG indicator.\n   */\n  indicatorClassName?: string;\n  /**\n   * Optional label rendered beside the checkbox (wraps both in a `<label>`).\n   */\n  label?: ReactNode;\n  /**\n   * Optional class name for the outer label wrapper.\n   */\n  labelClassName?: string;\n}\n\n/**\n * An accessible, stylable animated Checkbox component built with Radix UI and Motion for React.\n * Supports full Tailwind CSS class overrides just like shadcn/ui.\n */\nfunction Checkbox({\n  checked: controlledChecked,\n  defaultChecked = false,\n  onCheckedChange,\n  label,\n  labelClassName,\n  indicatorClassName,\n  className,\n  id,\n  disabled,\n  ...props\n}: CheckboxProps) {\n  const generatedId = useId();\n  const inputId = id ?? generatedId;\n\n  const [isChecked, setIsChecked] = useControlledState({\n    defaultValue: defaultChecked,\n    onChange: onCheckedChange,\n    value: controlledChecked,\n  });\n\n  const prefersReducedMotion = useReducedMotion();\n  const isCheckedBool = Boolean(isChecked && isChecked !== \"indeterminate\");\n\n  const control = (\n    <CheckboxPrimitive.Root\n      asChild\n      checked={isChecked}\n      className={cn(\n        \"peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground aria-invalid:data-[state=checked]:border-primary group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40\",\n        className\n      )}\n      data-slot=\"checkbox\"\n      disabled={disabled}\n      id={inputId}\n      onCheckedChange={setIsChecked}\n      {...props}\n    >\n      <motion.button\n        data-primary-action\n        type=\"button\"\n        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n      >\n        <CheckboxPrimitive.Indicator forceMount>\n          <CheckboxCheckIcon\n            checked={isCheckedBool}\n            className={indicatorClassName}\n            prefersReducedMotion={prefersReducedMotion}\n          />\n        </CheckboxPrimitive.Indicator>\n      </motion.button>\n    </CheckboxPrimitive.Root>\n  );\n\n  if (label == null) {\n    return control;\n  }\n\n  return (\n    <div className=\"inline-flex items-center gap-2.5\">\n      {control}\n      <label\n        className={cn(\n          \"cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\",\n          disabled && \"cursor-not-allowed opacity-50\",\n          labelClassName\n        )}\n        htmlFor={inputId}\n      >\n        {label}\n      </label>\n    </div>\n  );\n}\n\nexport type {\n  CheckboxCheckIconProps,\n  CheckboxIndicatorProps,\n  CheckboxProps,\n  CheckboxRootProps,\n};\nexport {\n  Checkbox,\n  Checkbox as RadixCheckbox,\n  Checkbox as default,\n  CheckboxCheckIcon,\n  CheckboxIndicator,\n  CheckboxRoot,\n};"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/checkbox/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/radix-checkbox',
+  },
+  "radix-dialog": {
+    name: "radix-dialog",
+    description: "An accessible modal dialog built on Radix UI with smooth Motion spring entrance and exit animations.",
+    type: "registry:ui",
+    dependencies: ["radix-ui","motion","lucide-react"],
+    devDependencies: undefined,
+    registryDependencies: ["utils","hooks-use-controlled-state","radix-button"],
+    files: [
+  {
+    "path": "registry/ui/radix/dialog/index.tsx",
+    "type": "registry:ui",
+    "target": "components/sora-ui/radix/dialog.tsx",
+    "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { XIcon } from \"lucide-react\";\nimport { AnimatePresence, motion, useReducedMotion } from \"motion/react\";\nimport { Dialog as DialogPrimitive } from \"radix-ui\";\nimport {\n  type ComponentProps,\n  createContext,\n  useCallback,\n  useContext,\n  useEffect,\n  useMemo,\n  useState,\n} from \"react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nfunction useControlledState<T, Rest extends unknown[] = []>(props: {\n  defaultValue?: T;\n  onChange?: (value: T, ...args: Rest) => void;\n  value?: T;\n}): readonly [T, (next: T, ...args: Rest) => void] {\n  const { value, defaultValue, onChange } = props;\n  const [state, setInternalState] = useState<T>(\n    value === undefined ? (defaultValue as T) : value\n  );\n\n  useEffect(() => {\n    if (value !== undefined) {\n      setInternalState(value);\n    }\n  }, [value]);\n\n  const setState = useCallback(\n    (next: T, ...args: Rest) => {\n      setInternalState(next);\n      onChange?.(next, ...args);\n    },\n    [onChange]\n  );\n\n  return [state, setState] as const;\n}\n\ninterface DialogContextValue {\n  open: boolean;\n  setOpen: (open: boolean) => void;\n}\n\nconst DialogContext = createContext<DialogContextValue | null>(null);\n\nfunction useDialogContext() {\n  return useContext(DialogContext);\n}\n\ntype DialogProps = ComponentProps<typeof DialogPrimitive.Root>;\n\n/**\n * Root container for the Dialog component powered by Radix UI and Motion.\n */\nfunction Dialog({\n  open: controlledOpen,\n  defaultOpen = false,\n  onOpenChange,\n  children,\n  ...props\n}: DialogProps) {\n  const [open, setOpen] = useControlledState({\n    defaultValue: defaultOpen,\n    onChange: onOpenChange,\n    value: controlledOpen,\n  });\n\n  const contextValue = useMemo(\n    () => ({ open: Boolean(open), setOpen }),\n    [open, setOpen]\n  );\n\n  return (\n    <DialogContext.Provider value={contextValue}>\n      <DialogPrimitive.Root\n        onOpenChange={(nextOpen) => {\n          setOpen(nextOpen);\n        }}\n        open={open}\n        {...props}\n      >\n        {children}\n      </DialogPrimitive.Root>\n    </DialogContext.Provider>\n  );\n}\n\ntype DialogTriggerProps = ComponentProps<typeof DialogPrimitive.Trigger>;\n\n/**\n * Button or trigger element that opens the dialog.\n * Features Motion hover and tap scaling.\n */\nfunction DialogTrigger({\n  className,\n  asChild,\n  children,\n  ...props\n}: DialogTriggerProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  if (asChild) {\n    return (\n      <DialogPrimitive.Trigger\n        asChild\n        className={className}\n        data-slot=\"dialog-trigger\"\n        {...props}\n      >\n        {children}\n      </DialogPrimitive.Trigger>\n    );\n  }\n\n  return (\n    <DialogPrimitive.Trigger\n      asChild\n      className={className}\n      data-slot=\"dialog-trigger\"\n      {...props}\n    >\n      <motion.button\n        data-primary-action\n        type=\"button\"\n        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n      >\n        {children}\n      </motion.button>\n    </DialogPrimitive.Trigger>\n  );\n}\n\ntype DialogPortalProps = ComponentProps<typeof DialogPrimitive.Portal>;\n\n/**\n * Portals dialog overlay and content to the document body.\n */\nfunction DialogPortal({ ...props }: DialogPortalProps) {\n  return <DialogPrimitive.Portal data-slot=\"dialog-portal\" {...props} />;\n}\n\ntype DialogCloseProps = ComponentProps<typeof DialogPrimitive.Close>;\n\n/**\n * Action button that dismisses the dialog.\n */\nfunction DialogClose({\n  className,\n  asChild,\n  children,\n  ...props\n}: DialogCloseProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  if (asChild) {\n    return (\n      <DialogPrimitive.Close\n        asChild\n        className={className}\n        data-slot=\"dialog-close\"\n        {...props}\n      >\n        {children}\n      </DialogPrimitive.Close>\n    );\n  }\n\n  return (\n    <DialogPrimitive.Close\n      asChild\n      className={className}\n      data-slot=\"dialog-close\"\n      {...props}\n    >\n      <motion.button\n        type=\"button\"\n        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n      >\n        {children}\n      </motion.button>\n    </DialogPrimitive.Close>\n  );\n}\n\ntype DialogOverlayProps = ComponentProps<typeof DialogPrimitive.Overlay>;\n\n/**\n * Semi-transparent backdrop overlay behind the dialog with blur and fade transition.\n */\nfunction DialogOverlay({ className, ...props }: DialogOverlayProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <DialogPrimitive.Overlay\n      asChild\n      className={cn(\n        \"fixed inset-0 isolate z-50 bg-black/50 backdrop-blur-xs dark:bg-black/70\",\n        className\n      )}\n      data-slot=\"dialog-overlay\"\n      {...props}\n    >\n      <motion.div\n        animate={{ opacity: 1 }}\n        exit={{ opacity: 0 }}\n        initial={{ opacity: 0 }}\n        transition={\n          prefersReducedMotion\n            ? { duration: 0 }\n            : { duration: 0.2, ease: \"easeOut\" }\n        }\n      />\n    </DialogPrimitive.Overlay>\n  );\n}\n\ninterface DialogContentProps\n  extends ComponentProps<typeof DialogPrimitive.Content> {\n  /**\n   * Additional CSS class name for the fixed container wrapper.\n   */\n  containerClassName?: string;\n  /**\n   * Additional CSS class name for the backdrop overlay.\n   */\n  overlayClassName?: string;\n  /**\n   * Whether to render the standard top-right close icon button.\n   * @default true\n   */\n  showCloseButton?: boolean;\n}\n\n/**\n * Modal dialog content container with 1:1 Motion 3D perspective rotation and blur entrance/exit.\n */\nfunction DialogContent({\n  className,\n  children,\n  showCloseButton = true,\n  overlayClassName,\n  containerClassName,\n  style,\n  ...props\n}: DialogContentProps) {\n  const context = useDialogContext();\n  const prefersReducedMotion = useReducedMotion();\n  const isOpen = context ? context.open : true;\n\n  return (\n    <AnimatePresence>\n      {isOpen && (\n        <DialogPrimitive.Portal forceMount>\n          <DialogOverlay className={overlayClassName} />\n          <div\n            className={cn(\n              \"pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4\",\n              containerClassName\n            )}\n          >\n            <DialogPrimitive.Content\n              asChild\n              className={cn(\n                \"pointer-events-auto relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-xl border border-border bg-background p-6 text-foreground text-sm shadow-2xl outline-none sm:max-w-lg\",\n                className\n              )}\n              data-slot=\"dialog-content\"\n              forceMount\n              {...props}\n            >\n              <motion.div\n                animate={\n                  prefersReducedMotion\n                    ? { opacity: 1 }\n                    : {\n                        opacity: 1,\n                        filter: \"blur(0px)\",\n                        rotateX: 0,\n                        rotateY: 0,\n                        z: 0,\n                        transition: {\n                          delay: 0.2,\n                          duration: 0.5,\n                          ease: [0.17, 0.67, 0.51, 1],\n                          opacity: {\n                            delay: 0.2,\n                            duration: 0.5,\n                            ease: \"easeOut\",\n                          },\n                        },\n                      }\n                }\n                exit={\n                  prefersReducedMotion\n                    ? { opacity: 0 }\n                    : {\n                        opacity: 0,\n                        filter: \"blur(10px)\",\n                        z: -100,\n                        rotateY: 25,\n                        rotateX: 5,\n                        transformPerspective: 500,\n                        transition: {\n                          duration: 0.3,\n                          ease: [0.67, 0.17, 0.62, 0.64],\n                        },\n                      }\n                }\n                initial={\n                  prefersReducedMotion\n                    ? { opacity: 0 }\n                    : {\n                        opacity: 0,\n                        filter: \"blur(10px)\",\n                        z: -100,\n                        rotateY: 25,\n                        rotateX: 5,\n                        transformPerspective: 500,\n                      }\n                }\n                style={{\n                  transformPerspective: 500,\n                  transformStyle: \"preserve-3d\",\n                  ...style,\n                }}\n              >\n                {children}\n                {showCloseButton && (\n                  <DialogPrimitive.Close\n                    aria-label=\"Close\"\n                    asChild\n                    className=\"absolute top-4 right-4 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground opacity-70 transition-opacity hover:bg-muted hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none\"\n                    data-slot=\"dialog-close-button\"\n                  >\n                    <motion.button\n                      type=\"button\"\n                      whileHover={\n                        prefersReducedMotion ? undefined : { scale: 1.1 }\n                      }\n                      whileTap={\n                        prefersReducedMotion ? undefined : { scale: 0.95 }\n                      }\n                    >\n                      <XIcon className=\"size-4\" />\n                      <span className=\"sr-only\">Close</span>\n                    </motion.button>\n                  </DialogPrimitive.Close>\n                )}\n              </motion.div>\n            </DialogPrimitive.Content>\n          </div>\n        </DialogPrimitive.Portal>\n      )}\n    </AnimatePresence>\n  );\n}\n\n/**\n * Header section containing dialog title and description.\n */\nfunction DialogHeader({ className, ...props }: ComponentProps<\"div\">) {\n  return (\n    <div\n      className={cn(\n        \"flex flex-col gap-1.5 text-center sm:text-left\",\n        className\n      )}\n      data-slot=\"dialog-header\"\n      {...props}\n    />\n  );\n}\n\ninterface DialogFooterProps extends ComponentProps<\"div\"> {\n  /**\n   * Whether to render a secondary close button inside the footer.\n   * @default false\n   */\n  showCloseButton?: boolean;\n}\n\n/**\n * Footer section for dialog action buttons.\n */\nfunction DialogFooter({\n  className,\n  showCloseButton = false,\n  children,\n  ...props\n}: DialogFooterProps) {\n  return (\n    <div\n      className={cn(\n        \"-mx-6 mt-2 -mb-6 flex flex-col-reverse gap-2 rounded-b-xl border-border border-t bg-muted/40 p-4 sm:flex-row sm:justify-end\",\n        className\n      )}\n      data-slot=\"dialog-footer\"\n      {...props}\n    >\n      {children}\n      {showCloseButton && (\n        <DialogPrimitive.Close asChild data-slot=\"dialog-footer-close\">\n          <Button variant=\"outline\">Close</Button>\n        </DialogPrimitive.Close>\n      )}\n    </div>\n  );\n}\n\ntype DialogTitleProps = ComponentProps<typeof DialogPrimitive.Title>;\n\n/**\n * Accessible title heading for the dialog.\n */\nfunction DialogTitle({ className, ...props }: DialogTitleProps) {\n  return (\n    <DialogPrimitive.Title\n      className={cn(\n        \"font-semibold text-foreground text-lg leading-none tracking-tight\",\n        className\n      )}\n      data-slot=\"dialog-title\"\n      {...props}\n    />\n  );\n}\n\ntype DialogDescriptionProps = ComponentProps<\n  typeof DialogPrimitive.Description\n>;\n\n/**\n * Accessible description explaining the purpose of the dialog.\n */\nfunction DialogDescription({ className, ...props }: DialogDescriptionProps) {\n  return (\n    <DialogPrimitive.Description\n      className={cn(\"text-muted-foreground text-sm\", className)}\n      data-slot=\"dialog-description\"\n      {...props}\n    />\n  );\n}\n\nexport type {\n  DialogCloseProps,\n  DialogContentProps,\n  DialogDescriptionProps,\n  DialogFooterProps,\n  DialogOverlayProps,\n  DialogPortalProps,\n  DialogProps,\n  DialogTitleProps,\n  DialogTriggerProps,\n};\nexport {\n  Dialog,\n  Dialog as RadixDialog,\n  Dialog as default,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogOverlay,\n  DialogPortal,\n  DialogTitle,\n  DialogTrigger,\n};"
+  }
+],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function() {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/dialog/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: '@soralabs/radix-dialog',
   },
   "primitives-animate-tabs": {
     name: "primitives-animate-tabs",

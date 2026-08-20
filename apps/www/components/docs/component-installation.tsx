@@ -25,6 +25,10 @@ export function ComponentInstallation({
 }: ComponentInstallationProps) {
   const component = index[name];
 
+  if (!component) {
+    return null;
+  }
+
   const shadcnCommands = {
     npm: `npx shadcn@latest add ${component.command}`,
     pnpm: `pnpm dlx shadcn@latest add ${component.command}`,
@@ -63,10 +67,10 @@ export function ComponentInstallation({
           </TabsContent>
           <TabsContent value="manual">
             <ComponentManualInstallation
-              code={component.files[0].content}
+              code={component.files?.[0]?.content}
               dependencies={component.dependencies}
               devDependencies={component.devDependencies}
-              path={component.files[0].target}
+              path={component.files?.[0]?.target}
               registryDependencies={component.registryDependencies}
             />
           </TabsContent>

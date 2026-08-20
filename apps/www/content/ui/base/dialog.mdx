@@ -1,0 +1,107 @@
+---
+title: Dialog
+description: An accessible modal dialog component built on Base UI with smooth 3D perspective spring entrance and exit animations.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-dialog" description="Default animated dialog with 3D perspective transition and backdrop blur." />
+
+## Installation
+
+<ComponentInstallation name="base-dialog" />
+
+## Usage
+
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/sora-ui/base/dialog";
+import { Button } from "@/components/sora-ui/base/button";
+
+export default function Page() {
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button>Open Dialog</Button>} />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your account.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter showCloseButton>
+          <Button variant="destructive">Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+## Examples
+
+### Scrollable Body
+
+<ComponentPreview name="demo-dialog-scrollable" description="Dialog with scrollable content area." />
+
+### Destructive Action
+
+<ComponentPreview name="demo-dialog-destructive" description="Alert-style destructive dialog for critical user confirmations." />
+
+### Share Modal
+
+<ComponentPreview name="demo-dialog-share" description="Interactive dialog with link copying and social sharing buttons." />
+
+## Props
+
+### Dialog
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the dialog.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### DialogContent
+
+<TypeTable
+  type={{
+    showCloseButton: {
+      description: "Whether to render the standard top-right close icon button.",
+      type: "boolean",
+      default: "true",
+    },
+    overlayClassName: {
+      description: "Additional CSS classes for the backdrop overlay.",
+      type: "string",
+    },
+    containerClassName: {
+      description: "Additional CSS classes for the fixed centering container.",
+      type: "string",
+    },
+    className: {
+      description: "Additional CSS classes for the dialog content box.",
+      type: "string",
+    },
+  }}
+/>

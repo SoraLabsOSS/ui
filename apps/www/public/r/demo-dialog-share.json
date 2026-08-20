@@ -3,7 +3,7 @@
   "name": "demo-dialog-share",
   "title": "Dialog Share Link Demo",
   "dependencies": ["lucide-react"],
-  "registryDependencies": ["@soralabs/dialog", "@soralabs/button"],
+  "registryDependencies": ["@soralabs/base-dialog", "@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/dialog-share/index.tsx",

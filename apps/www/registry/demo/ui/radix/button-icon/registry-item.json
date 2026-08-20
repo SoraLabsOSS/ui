@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-icon",
+  "type": "registry:ui",
+  "title": "Radix Button Icon Demo",
+  "description": "Icon-only square Radix UI button with accessible screen-reader label.",
+  "registryDependencies": ["radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-icon/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-icon.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-checkbox-with-text",
+  "title": "Radix Checkbox with Text Demo",
+  "description": "Radix UI checkbox with supplementary title and description text.",
+  "registryDependencies": ["@soralabs/radix-checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/checkbox-with-text/index.tsx",
+      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxWithTextDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex max-w-sm items-start gap-3\">\n        <Checkbox defaultChecked id=\"radix-terms-with-text\" />\n        <div className=\"grid gap-1.5 leading-none\">\n          <label\n            className=\"cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n            htmlFor=\"radix-terms-with-text\"\n          >\n            Accept terms and conditions\n          </label>\n          <p className=\"text-muted-foreground text-xs\">\n            By clicking this checkbox, you agree to our Terms of Service and\n            Privacy Policy.\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/checkbox-with-text.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

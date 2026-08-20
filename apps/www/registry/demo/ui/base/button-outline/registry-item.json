@@ -3,7 +3,7 @@
   "name": "demo-button-outline",
   "type": "registry:ui",
   "title": "Button Outline Demo",
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-outline/index.tsx",

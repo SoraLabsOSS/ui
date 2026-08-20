@@ -3,7 +3,7 @@
   "name": "demo-dialog",
   "title": "Dialog Demo",
   "description": "Base UI dialog with Motion spring transitions and form editing.",
-  "registryDependencies": ["@soralabs/dialog"],
+  "registryDependencies": ["@soralabs/base-dialog"],
   "files": [
     {
       "path": "registry/demo/ui/base/dialog/index.tsx",

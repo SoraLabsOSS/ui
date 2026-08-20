@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-checkbox-custom",
+  "type": "registry:ui",
+  "title": "Radix Checkbox Custom Styling Demo",
+  "description": "Radix UI checkbox with customized colors, shapes, and sizes.",
+  "registryDependencies": ["radix-checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/checkbox-custom/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/checkbox-custom.tsx"
+    }
+  ]
+}

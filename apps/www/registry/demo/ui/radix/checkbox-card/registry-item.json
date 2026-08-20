@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-checkbox-card",
+  "type": "registry:ui",
+  "title": "Radix Checkbox Card Demo",
+  "description": "Selectable card container with embedded animated Radix UI checkbox.",
+  "registryDependencies": ["radix-checkbox"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/checkbox-card/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/checkbox-card.tsx"
+    }
+  ]
+}

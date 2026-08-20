@@ -3,7 +3,7 @@
   "name": "demo-checkbox-custom",
   "type": "registry:ui",
   "title": "Checkbox Custom Demo",
-  "registryDependencies": ["checkbox"],
+  "registryDependencies": ["base-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/base/checkbox-custom/index.tsx",

@@ -3,7 +3,7 @@
   "name": "demo-button-secondary",
   "type": "registry:ui",
   "title": "Button Secondary Demo",
-  "registryDependencies": ["button"],
+  "registryDependencies": ["base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-secondary/index.tsx",

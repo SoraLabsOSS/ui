@@ -48,6 +48,10 @@ async function collectDocumentedNames(): Promise<Set<string>> {
 
   for (const name of [...allowedNames]) {
     allowedNames.add(`demo-${name}`);
+    allowedNames.add(`radix-${name}`);
+    allowedNames.add(`demo-radix-${name}`);
+    allowedNames.add(`base-${name}`);
+    allowedNames.add(`demo-base-${name}`);
   }
 
   return allowedNames;
@@ -174,10 +178,14 @@ function normalizeRegistryDependencyName(dependency: string): string {
   return dependency;
 }
 
+const BASE_PREFIX_RE = /^base-/;
+const RADIX_PREFIX_RE = /^radix-/;
+
 /** Scope Sora registry deps so the CLI resolves them from @soralabs, not ui.shadcn.com. */
 function scopeRegistryDependency(
   dependency: string,
-  soraRegistryNames: Set<string>
+  soraRegistryNames: Set<string>,
+  sourceItem?: RegistryItem
 ): string {
   if (dependency.startsWith("@soralabs/")) {
     return dependency;
@@ -186,6 +194,36 @@ function scopeRegistryDependency(
     return dependency;
   }
   const normalized = normalizeRegistryDependencyName(dependency);
+
+  // If source item is Radix, prefer Radix dependency if available
+  const isSourceRadix =
+    sourceItem?.name?.startsWith("radix-") ||
+    sourceItem?.files?.some((f) => f.path?.includes("/ui/radix/"));
+
+  if (isSourceRadix) {
+    const cleanDep = normalized.replace(RADIX_PREFIX_RE, "");
+    const radixVariant = `radix-${cleanDep}`;
+    if (soraRegistryNames.has(radixVariant)) {
+      return `@soralabs/${radixVariant}`;
+    }
+  }
+
+  // If source item is Base UI, prefer Base dependency if available
+  const isSourceBase =
+    sourceItem?.name?.startsWith("base-") ||
+    sourceItem?.files?.some((f) => f.path?.includes("/ui/base/"));
+
+  if (isSourceBase) {
+    const cleanDep = normalized.replace(BASE_PREFIX_RE, "");
+    const baseVariant = `base-${cleanDep}`;
+    if (soraRegistryNames.has(baseVariant)) {
+      return `@soralabs/${baseVariant}`;
+    }
+    if (soraRegistryNames.has(cleanDep)) {
+      return `@soralabs/${cleanDep}`;
+    }
+  }
+
   if (soraRegistryNames.has(normalized)) {
     return `@soralabs/${normalized}`;
   }
@@ -203,7 +241,7 @@ function scopeRegistryDependencies(
   return {
     ...item,
     registryDependencies: item.registryDependencies.map((dependency) =>
-      scopeRegistryDependency(dependency, soraRegistryNames)
+      scopeRegistryDependency(dependency, soraRegistryNames, item)
     ),
   };
 }
