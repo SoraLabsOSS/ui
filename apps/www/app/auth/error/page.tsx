@@ -5,6 +5,8 @@ import {
 import { Button } from "@workspace/ui/components/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
+import AuthLoading from "@/app/auth/[path]/loading";
 import { SignInSplitShell } from "@/components/auth/sign-in-split-shell";
 import {
   getAuthErrorContent,
@@ -28,7 +30,7 @@ function buildSignInRetryHref(redirectTo: string): string {
   return `/auth/sign-in?${params.toString()}`;
 }
 
-export default async function AuthErrorPage({
+async function AuthErrorContent({
   searchParams,
 }: {
   searchParams: Promise<{
@@ -87,5 +89,21 @@ export default async function AuthErrorPage({
         </div>
       </div>
     </SignInSplitShell>
+  );
+}
+
+export default function AuthErrorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    context?: string | string[];
+    error?: string | string[];
+    redirectTo?: string | string[];
+  }>;
+}) {
+  return (
+    <Suspense fallback={<AuthLoading />}>
+      <AuthErrorContent searchParams={searchParams} />
+    </Suspense>
   );
 }
