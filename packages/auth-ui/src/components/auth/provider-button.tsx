@@ -1,10 +1,17 @@
 "use client";
 
-import { authMutationKeys, getProviderName } from "@better-auth-ui/core";
-import { providerIcons, useAuth, useSignInSocial } from "@better-auth-ui/react";
 import { useIsMutating } from "@tanstack/react-query";
 import { useGoogleOneTapPending } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
+import {
+  authMutationKeys,
+  getProviderName,
+} from "@workspace/auth-ui/lib/auth-core";
+import {
+  providerIcons,
+  useAuth,
+  useSignInSocial,
+} from "@workspace/auth-ui/lib/auth-react";
 import { Badge } from "@workspace/ui/components/ui/badge";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Spinner } from "@workspace/ui/components/ui/spinner";

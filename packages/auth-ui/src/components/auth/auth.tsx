@@ -1,7 +1,7 @@
 "use client";
 
-import type { AuthView } from "@better-auth-ui/core";
-import { useAuth } from "@better-auth-ui/react";
+import type { AuthView } from "@workspace/auth-ui/lib/auth-core";
+import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { type ComponentType, type ReactNode, useEffect } from "react";
 
 import { ForgotPassword } from "./forgot-password";

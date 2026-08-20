@@ -1,7 +1,7 @@
 "use client";
 
-import type { SettingsView } from "@better-auth-ui/core";
-import { useAuth, useAuthenticate } from "@better-auth-ui/react";
+import type { SettingsView } from "@workspace/auth-ui/lib/auth-core";
+import { useAuth, useAuthenticate } from "@workspace/auth-ui/lib/auth-react";
 import {
   Tabs,
   TabsContent,

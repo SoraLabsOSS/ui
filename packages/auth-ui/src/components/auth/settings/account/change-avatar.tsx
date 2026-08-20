@@ -1,7 +1,11 @@
 "use client";
 
-import { fileToBase64 } from "@better-auth-ui/core";
-import { useAuth, useSession, useUpdateUser } from "@better-auth-ui/react";
+import { fileToBase64 } from "@workspace/auth-ui/lib/auth-core";
+import {
+  useAuth,
+  useSession,
+  useUpdateUser,
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   DropdownMenu,

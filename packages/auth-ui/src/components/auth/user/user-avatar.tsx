@@ -4,7 +4,7 @@ import {
   type UsernameAuthClient,
   useAuth,
   useSession,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 import {
   Avatar,
   AvatarFallback,

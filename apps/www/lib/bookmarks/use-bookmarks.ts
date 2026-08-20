@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "@better-auth-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";

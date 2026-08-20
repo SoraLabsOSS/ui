@@ -4,7 +4,7 @@ import {
   type UsernameAuthClient,
   useAuth,
   useSession,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";

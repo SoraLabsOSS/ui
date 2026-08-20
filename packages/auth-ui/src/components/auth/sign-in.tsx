@@ -1,14 +1,14 @@
 "use client";
 
-import { authMutationKeys } from "@better-auth-ui/core";
+import { useIsMutating } from "@tanstack/react-query";
+import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
+import { authMutationKeys } from "@workspace/auth-ui/lib/auth-core";
 import {
   useAuth,
   useFetchOptions,
   useSendVerificationEmail,
   useSignInEmail,
-} from "@better-auth-ui/react";
-import { useIsMutating } from "@tanstack/react-query";
-import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,

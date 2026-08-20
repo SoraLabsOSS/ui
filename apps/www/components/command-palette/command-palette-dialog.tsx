@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "@better-auth-ui/react";
+import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import {
   Dialog,
   DialogContent,

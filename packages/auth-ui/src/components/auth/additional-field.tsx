@@ -3,8 +3,8 @@
 import {
   type AdditionalField as AdditionalFieldConfig,
   resolveInputType,
-} from "@better-auth-ui/core";
-import { useAuth } from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-core";
+import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Calendar } from "@workspace/ui/components/ui/calendar";
 import { Checkbox } from "@workspace/ui/components/ui/checkbox";

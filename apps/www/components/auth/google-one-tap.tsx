@@ -1,8 +1,8 @@
 "use client";
 
-import { useAuth } from "@better-auth-ui/react";
 import { useGoogleOneTapPendingControls } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
+import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";

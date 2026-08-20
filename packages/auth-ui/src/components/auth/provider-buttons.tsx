@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@better-auth-ui/react";
+import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import type { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentProps } from "react";

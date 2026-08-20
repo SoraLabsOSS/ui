@@ -1,15 +1,15 @@
 "use client";
 
+import { useIsMutating } from "@tanstack/react-query";
 import {
   authMutationKeys,
   parseAdditionalFieldValue,
-} from "@better-auth-ui/core";
+} from "@workspace/auth-ui/lib/auth-core";
 import {
   useAuth,
   useFetchOptions,
   useSignUpEmail,
-} from "@better-auth-ui/react";
-import { useIsMutating } from "@tanstack/react-query";
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,

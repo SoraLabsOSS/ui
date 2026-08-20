@@ -7,8 +7,6 @@
     "lint": "ultracite check"
   },
   "dependencies": {
-    "@better-auth-ui/core": "^1.6.17",
-    "@better-auth-ui/react": "^1.6.17",
     "@tanstack/react-query": "^5.101.0",
     "better-auth": "^1.6.14",
     "bowser": "^2.14.1",
@@ -30,6 +28,10 @@
     "react-dom": "^19.1.2"
   },
   "exports": {
+    "./lib/auth-core/plugins": "./src/lib/auth-core/plugins.ts",
+    "./lib/auth-core": "./src/lib/auth-core/index.ts",
+    "./lib/auth-react": "./src/lib/auth-react/index.ts",
+    "./lib/auth-react/server": "./src/lib/auth-react/server.ts",
     "./lib/auth/*": "./src/lib/auth/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./context/*": "./src/context/*.tsx",

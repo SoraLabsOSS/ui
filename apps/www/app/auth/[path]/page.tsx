@@ -1,6 +1,6 @@
-import { viewPaths } from "@better-auth-ui/core";
 import { Auth } from "@workspace/auth-ui/components/auth/auth";
 import { resolveAuthRedirectTo } from "@workspace/auth-ui/lib/auth/redirect-to";
+import { viewPaths } from "@workspace/auth-ui/lib/auth-core";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";

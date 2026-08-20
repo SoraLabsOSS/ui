@@ -3,13 +3,13 @@
 import {
   type AdditionalFieldValue,
   parseAdditionalFieldValue,
-} from "@better-auth-ui/core";
+} from "@workspace/auth-ui/lib/auth-core";
 import {
   type UsernameAuthClient,
   useAuth,
   useSession,
   useUpdateUser,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,
