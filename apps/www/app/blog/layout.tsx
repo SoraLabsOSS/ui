@@ -12,6 +12,7 @@ import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
 import { getLatestShippedRegistryItem } from "@/lib/registry/get-latest-shipped-registry-item";
 import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
+import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 
 const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
@@ -33,6 +34,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
   const primitivesUrl = getFirstPrimitiveDocUrl();
+  const uiUrl = getFirstUiDocUrl();
   const releaseDatesByUrl = getReleaseDatesByUrl();
   const latestShipped = getLatestShippedRegistryItem();
 
@@ -44,7 +46,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
           "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:260px]",
       }}
       nav={{
-        component: <Nav primitivesUrl={primitivesUrl} />,
+        component: <Nav primitivesUrl={primitivesUrl} uiUrl={uiUrl} />,
       }}
       sidebar={{
         component: (

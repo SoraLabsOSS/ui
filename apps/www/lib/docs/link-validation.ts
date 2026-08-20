@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { type InferPageType, loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import type { FileObject } from "next-validate-link";
-import { blog, components, docs } from "@/.source";
+import { blog, components, docs, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
 
 export const docSource = loader({
@@ -16,6 +16,11 @@ export const componentSource = loader({
   source: components.toFumadocsSource(),
 });
 
+export const uiSourceForLinks = loader({
+  baseUrl: "/ui",
+  source: ui.toFumadocsSource(),
+});
+
 export const blogSource = loader({
   baseUrl: "/blog",
   source: toFumadocsSource(blog, []),
@@ -23,8 +28,9 @@ export const blogSource = loader({
 
 type DocPage = InferPageType<typeof docSource>;
 type ComponentPage = InferPageType<typeof componentSource>;
+type UiPage = InferPageType<typeof uiSourceForLinks>;
 type BlogPage = InferPageType<typeof blogSource>;
-type ContentPage = DocPage | ComponentPage | BlogPage;
+type ContentPage = DocPage | ComponentPage | UiPage | BlogPage;
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -48,6 +54,7 @@ export function getAllContentFiles(): Promise<FileObject[]> {
   const pages: ContentPage[] = [
     ...docSource.getPages(),
     ...componentSource.getPages(),
+    ...uiSourceForLinks.getPages(),
     ...blogSource.getPages(),
   ];
 
@@ -68,6 +75,10 @@ export function buildPopulate() {
       value: { slug: page.slugs[0] },
       hashes: getHeadings(page),
     })),
+    "ui/[[...slug]]": uiSourceForLinks.getPages().map((page) => ({
+      value: { slug: page.slugs },
+      hashes: getHeadings(page),
+    })),
   };
 }
 
@@ -79,6 +90,7 @@ function registerContentPages(scanned: ScannedUrls): void {
   const pages: ContentPage[] = [
     ...docSource.getPages(),
     ...componentSource.getPages(),
+    ...uiSourceForLinks.getPages(),
     ...blogSource.getPages(),
   ];
 

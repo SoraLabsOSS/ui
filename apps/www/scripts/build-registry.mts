@@ -12,6 +12,7 @@ import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-examp
 const CONTENT_MDX_PATHS = [
   path.join(process.cwd(), "content", "docs"),
   path.join(process.cwd(), "content", "components"),
+  path.join(process.cwd(), "content", "ui"),
 ];
 
 /**

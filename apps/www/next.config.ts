@@ -69,6 +69,22 @@ const nextConfig: NextConfig = {
         source: "/components/:path*.md",
         destination: "/llms-components.mdx/:path*",
       },
+      {
+        source: "/ui/:path*.mdx",
+        destination: "/llms-ui.mdx/:path*",
+      },
+      {
+        source: "/ui/:path*.md",
+        destination: "/llms-ui.mdx/:path*",
+      },
+      {
+        source: "/ui.mdx",
+        destination: "/llms-ui.mdx",
+      },
+      {
+        source: "/ui.md",
+        destination: "/llms-ui.mdx",
+      },
     ];
   },
   async redirects() {

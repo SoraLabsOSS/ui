@@ -1,5 +1,6 @@
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
+import { uiSource } from "@/lib/ui/source";
 
 export function getBookmarkableUrls(): Set<string> {
   const docsUrls = source
@@ -7,8 +8,9 @@ export function getBookmarkableUrls(): Set<string> {
     .filter((page) => page.slugs[0] !== "openapi")
     .map((page) => page.url);
   const componentUrls = componentSource.getPages().map((page) => page.url);
+  const uiUrls = uiSource.getPages().map((page) => page.url);
 
-  return new Set([...docsUrls, ...componentUrls]);
+  return new Set([...docsUrls, ...componentUrls, ...uiUrls]);
 }
 
 let validBookmarkUrls: Set<string> | undefined;

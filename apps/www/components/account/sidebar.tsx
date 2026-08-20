@@ -43,6 +43,7 @@ import {
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
 } from "@/lib/docs/primitive-nav-active";
+import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 
 type GuideLinkItem = MainItemType;
@@ -100,6 +101,20 @@ const ACCOUNT_MENU_ITEMS = [
     getIsActive: (pathname: string, href: string) =>
       pathname === href || pathname.startsWith(`${href}/`),
     label: "Components",
+    requiresAuth: false,
+  },
+  {
+    getHref: () => "/docs/icons",
+    getIsActive: (pathname: string, href: string) =>
+      pathname === href || pathname.startsWith(`${href}/`),
+    label: "Icons",
+    requiresAuth: false,
+  },
+  {
+    getHref: () => "/ui",
+    getIsActive: (pathname: string, href: string) =>
+      isUiNavItemActive(pathname, href),
+    label: "UI",
     requiresAuth: false,
   },
   {

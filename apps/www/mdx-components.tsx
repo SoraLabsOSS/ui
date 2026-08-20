@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { ExternalLink } from "@/components/docs/external-link";
 import { PrimitivesIndex } from "@/components/docs/primitives-index";
 import { SoraTypeTable } from "@/components/docs/sora-type-table";
+import { UiIndex } from "@/components/ui/ui-index";
 import { Callout } from "./components/docs/callout";
 import {
   CodeBlock,
@@ -59,6 +60,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     InstallationFileStructure,
     ComponentCredits,
     PrimitivesIndex,
+    UiIndex,
     TypeTable: SoraTypeTable,
     ExternalLink,
     Steps,

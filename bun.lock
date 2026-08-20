@@ -40,6 +40,7 @@
       "version": "1.0.27",
       "dependencies": {
         "@ai-sdk/react": "^4.0.54",
+        "@base-ui/react": "^1.5.0",
         "@better-auth/infra": "0.4.0",
         "@better-auth/scim": "1.7.1",
         "@better-auth/sso": "1.7.1",

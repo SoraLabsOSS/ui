@@ -55,6 +55,18 @@ export const docs = defineDocs({
   },
 });
 
+/** Base UI + Motion kit — served at `/ui/*`. */
+export const ui = defineDocs({
+  dir: "content/ui",
+  docs: {
+    schema: catalogDocSchema,
+    postprocess: catalogDocPostprocess,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 /** Catalog component pages — served at `/components/*`, not under `/docs`. */
 export const components = defineDocs({
   dir: "content/components",

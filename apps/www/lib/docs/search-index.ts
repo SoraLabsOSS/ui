@@ -4,15 +4,21 @@ import type { InferPageType } from "fumadocs-core/source";
 import { blog } from "@/lib/blog/source";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
+import { uiSource } from "@/lib/ui/source";
 
 type SearchablePage =
   | InferPageType<typeof source>
   | InferPageType<typeof componentSource>
+  | InferPageType<typeof uiSource>
   | InferPageType<typeof blog>;
 
 function getSearchTag(page: SearchablePage): string {
   if (page.url === "/blog" || page.url.startsWith("/blog/")) {
     return "blog";
+  }
+
+  if (page.url === "/ui" || page.url.startsWith("/ui/")) {
+    return "ui";
   }
 
   return page.slugs[0];
@@ -42,11 +48,12 @@ export function getSearchablePages(): SearchablePage[] {
     .getPages()
     .filter((page) => page.slugs[0] !== "openapi");
   const componentPages = componentSource.getPages();
+  const uiPages = uiSource.getPages();
   const blogPages = blog
     .getPages()
     .filter((page) => !(page.data.hidden || page.data.subpage));
 
-  return [...docPages, ...componentPages, ...blogPages];
+  return [...docPages, ...uiPages, ...componentPages, ...blogPages];
 }
 
 export function getSearchIndexes(): AdvancedIndex[] {

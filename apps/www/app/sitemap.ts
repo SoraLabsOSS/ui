@@ -5,10 +5,12 @@ import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
 import { SITE_URL } from "@/lib/site";
+import { uiSource } from "@/lib/ui/source";
 
 type ContentPage =
   | InferPageType<typeof source>
-  | InferPageType<typeof componentSource>;
+  | InferPageType<typeof componentSource>
+  | InferPageType<typeof uiSource>;
 
 type BlogPage = InferPageType<typeof blog>;
 
@@ -93,6 +95,10 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .getPages()
     .map((page) => contentPageToEntry(page, 0.75));
 
+  const uiEntries = uiSource
+    .getPages()
+    .map((page) => contentPageToEntry(page, page.url === "/ui" ? 0.85 : 0.75));
+
   const visibleBlogPages = getVisibleBlogPages();
   const blogEntries = visibleBlogPages.map(blogPageToEntry);
   const latestBlogDate = getLatestBlogDate(visibleBlogPages);
@@ -122,6 +128,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     ...componentEntries,
+    ...uiEntries,
     ...LEGAL_ENTRIES,
   ]);
 }

@@ -10,6 +10,7 @@ import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url"
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
 import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
+import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 
 export const metadata: Metadata = {
   robots: {
@@ -40,6 +41,7 @@ const DOCS_LAYOUT_PROPS: DocsLayoutProps = {
 export default function Layout({ children }: { children: ReactNode }) {
   const releaseDatesByUrl = getReleaseDatesByUrl();
   const primitivesUrl = getFirstPrimitiveDocUrl();
+  const uiUrl = getFirstUiDocUrl();
 
   return (
     <DocsLayout
@@ -49,7 +51,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:0px]",
       }}
       nav={{
-        component: <Nav primitivesUrl={primitivesUrl} />,
+        component: <Nav primitivesUrl={primitivesUrl} uiUrl={uiUrl} />,
       }}
       sidebar={{
         component: (

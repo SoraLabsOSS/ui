@@ -23,7 +23,10 @@ const LEADING_SLASHES = /^\/+/;
 const TRAILING_SLASHES = /\/+$/;
 const DOCS_PREFIX = /^docs\//;
 const COMPONENTS_PREFIX = "components/";
+const UI_PREFIX = "ui/";
 const FIRST_HEADING = /^#\s+(.+)$/m;
+
+type LlmsSection = "documentation" | "components" | "ui";
 
 interface MdxCandidate {
   fetchPath: string;
@@ -40,7 +43,7 @@ function cacheKeyForSlug(trimmedSlug: string): string {
 
 /**
  * Resolve fetch URLs for Sora www:
- * - Public `.mdx` URLs rewrite to `llms.mdx` / `llms-components.mdx` (next.config.ts)
+ * - Public `.mdx` URLs rewrite to `llms.mdx` / `llms-components.mdx` / `llms-ui.mdx` (next.config.ts)
  * - Direct `llms*.mdx/{slug}` routes are a fallback without the `.mdx` suffix
  */
 function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
@@ -54,6 +57,15 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
     seen.add(fetchPath);
     candidates.push({ fetchPath, pagePath });
   };
+
+  if (trimmedSlug === "ui" || trimmedSlug.startsWith(UI_PREFIX)) {
+    const rest =
+      trimmedSlug === "ui" ? "" : trimmedSlug.slice(UI_PREFIX.length);
+    const pagePath = rest ? `/ui/${rest}` : "/ui";
+    add(`${pagePath}.mdx`, pagePath);
+    add(rest ? `/llms-ui.mdx/${rest}` : "/llms-ui.mdx", pagePath);
+    return candidates;
+  }
 
   if (trimmedSlug.startsWith(COMPONENTS_PREFIX)) {
     const rest = trimmedSlug.slice(COMPONENTS_PREFIX.length);
@@ -85,21 +97,31 @@ function pagePathname(url: string): string {
   }
 }
 
+function matchesLlmsSection(pathname: string, section: LlmsSection): boolean {
+  if (section === "components") {
+    return pathname === "/components" || pathname.startsWith("/components/");
+  }
+
+  if (section === "ui") {
+    return pathname === "/ui" || pathname.startsWith("/ui/");
+  }
+
+  return pathname === "/docs" || pathname.startsWith("/docs/");
+}
+
 function filterByLlmsSection(
   results: DocSearchResult[],
-  section: "documentation" | "components",
+  section: LlmsSection,
   limit: number
 ): DocSearchResult[] {
-  const prefix = section === "components" ? "/components/" : "/docs/";
-
   return results
-    .filter((result) => pagePathname(result.url).startsWith(prefix))
+    .filter((result) => matchesLlmsSection(pagePathname(result.url), section))
     .slice(0, limit);
 }
 
 /**
- * Sora UI docs: Fumadocs `/docs/*`, component catalog `/components/*`,
- * LLM exports via `llms.mdx` / `llms-components.mdx`.
+ * Sora UI docs: Fumadocs `/docs/*`, UI kit `/ui/*`, component catalog `/components/*`,
+ * LLM exports via `llms.mdx` / `llms-components.mdx` / `llms-ui.mdx`.
  */
 export class SoraDocsSource extends FumadocsRemoteSource {
   constructor(config: Partial<FumadocsRemoteSourceConfig> = {}) {
@@ -119,8 +141,12 @@ export class SoraDocsSource extends FumadocsRemoteSource {
     const limit = Math.min(options?.limit ?? 10, 25);
     const section = options?.section?.trim().toLowerCase();
 
-    // `list_sections` uses "Documentation" / "Components"; Orama `tag` uses page slugs.
-    if (section === "documentation" || section === "components") {
+    // `list_sections` uses "Documentation" / "UI" / "Components"; Orama `tag` uses page slugs.
+    if (
+      section === "documentation" ||
+      section === "components" ||
+      section === "ui"
+    ) {
       const results = await super.search(query, {
         ...options,
         section: undefined,

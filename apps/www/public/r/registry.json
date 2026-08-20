@@ -16,6 +16,20 @@
       "files": []
     },
     {
+      "name": "demo-checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox Demo",
+      "description": "Base UI checkbox with Motion path-draw checkmark.",
+      "registryDependencies": ["@soralabs/checkbox"],
+      "files": [
+        {
+          "path": "registry/demo/primitives/base/checkbox/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/checkbox.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-particle-hover-button",
       "type": "registry:ui",
       "title": "Particle Hover Button Demo",
@@ -1117,6 +1131,21 @@
           "url": "https://animate-ui.com/docs/primitives/animate/slot"
         }
       }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Base UI checkbox primitives with a Motion path-draw checkmark indicator.",
+      "dependencies": ["@base-ui/react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/base/checkbox/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/checkbox.tsx"
+        }
+      ]
     },
     {
       "name": "particle-hover-button",

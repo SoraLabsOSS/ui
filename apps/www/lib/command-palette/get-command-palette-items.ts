@@ -11,6 +11,7 @@ import {
 } from "@/lib/registry/component-gallery-sections";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
 import type { ComponentGalleryCategory } from "@/lib/registry/types";
+import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 import type { CommandPaletteGroup, CommandPaletteItem } from "./types";
 
 function sectionTitle(category: ComponentGalleryCategory): string {
@@ -219,6 +220,7 @@ function getBlogItems(): CommandPaletteItem[] {
 
 export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
   const primitivesUrl = getFirstPrimitiveDocUrl();
+  const uiUrl = getFirstUiDocUrl();
 
   const navigation: CommandPaletteItem[] = [
     item({
@@ -255,6 +257,13 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       href: "/docs/icons",
       icon: "box",
       path: "/docs/icons",
+    }),
+    item({
+      id: "page-ui",
+      label: "UI",
+      href: uiUrl,
+      icon: "box",
+      path: uiUrl,
     }),
     item({
       id: "page-blog",

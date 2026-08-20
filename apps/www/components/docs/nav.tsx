@@ -41,6 +41,8 @@ const DOCS_GUIDE_URL = "/docs";
 export interface NavProps {
   /** First primitive doc from Fumadocs root folders (meta.json root flag). */
   primitivesUrl: string;
+  /** UI kit landing page (`/ui`). */
+  uiUrl: string;
 }
 
 interface NavItem {
@@ -58,7 +60,10 @@ interface LibraryNavItem extends NavItem {
   description: string;
 }
 
-const LIBRARY_NAV_ITEMS = (primitivesUrl: string): LibraryNavItem[] => [
+const LIBRARY_NAV_ITEMS = (
+  primitivesUrl: string,
+  uiUrl: string
+): LibraryNavItem[] => [
   {
     title: "Primitives",
     url: primitivesUrl,
@@ -75,10 +80,9 @@ const LIBRARY_NAV_ITEMS = (primitivesUrl: string): LibraryNavItem[] => [
     description: "Animated icons with hover, tap, and view triggers.",
   },
   {
-    title: "Studio",
-    url: "#",
-    description: "Premium, ready-made landing page templates — in development.",
-    comingSoon: true,
+    title: "UI",
+    url: uiUrl,
+    description: "Styled app components built with Base UI and Motion.",
   },
 ];
 
@@ -246,12 +250,12 @@ function NavMenuItems({
   );
 }
 
-export const Nav = ({ primitivesUrl }: NavProps) => {
+export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
   const { setOpen } = useSidebar();
   const { data: session } = useSession(authClient);
   const authNavPending = useAuthNavPending();
   const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
-  const libraryItems = LIBRARY_NAV_ITEMS(primitivesUrl);
+  const libraryItems = LIBRARY_NAV_ITEMS(primitivesUrl, uiUrl);
 
   return (
     <Navbar className="z-30 h-14 overflow-visible border-b-0 bg-transparent! px-(--fd-layout-offset) shadow-none! backdrop-blur-none! transition-none md:h-17">

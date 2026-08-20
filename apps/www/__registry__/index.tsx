@@ -24,6 +24,57 @@ export const index: Record<string, any> = {
     component: null,
     command: "@soralabs/index",
   },
+  "demo-checkbox": {
+    name: "demo-checkbox",
+    description: "Base UI checkbox with Motion path-draw checkmark.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["checkbox"],
+    files: [
+      {
+        path: "registry/demo/primitives/base/checkbox/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/checkbox.tsx",
+        content:
+          '"use client";\n\nimport { useState } from "react";\nimport { Checkbox } from "@/components/sora-ui/base/checkbox";\n\nexport default function CheckboxDemo() {\n  const [agree, setAgree] = useState(true);\n  const [securityAlerts, setSecurityAlerts] = useState(true);\n\n  return (\n    <div className="mx-auto flex w-full max-w-lg flex-col gap-8 p-4 sm:p-6">\n      {/* 1. Form & Field Patterns */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Form & Field Patterns\n        </h4>\n        <div className="flex flex-col gap-4">\n          {/* Simple */}\n          <div className="flex items-center gap-3">\n            <Checkbox id="terms-simple" name="terms-simple" />\n            <label\n              className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"\n              htmlFor="terms-simple"\n            >\n              Accept terms and conditions\n            </label>\n          </div>\n\n          {/* With Description */}\n          <div className="flex items-start gap-3">\n            <Checkbox\n              checked={agree}\n              id="terms-desc"\n              name="terms-desc"\n              onCheckedChange={setAgree}\n            />\n            <div className="grid gap-1.5 leading-none">\n              <label\n                className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"\n                htmlFor="terms-desc"\n              >\n                Accept terms and conditions\n              </label>\n              <p className="text-muted-foreground text-xs">\n                By clicking this checkbox, you agree to our Terms of Service.\n              </p>\n            </div>\n          </div>\n\n          {/* Disabled states */}\n          <div className="flex items-center gap-3">\n            <Checkbox disabled id="disabled-unchecked" />\n            <label\n              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"\n              htmlFor="disabled-unchecked"\n            >\n              Disabled option (unchecked)\n            </label>\n          </div>\n\n          <div className="flex items-center gap-3">\n            <Checkbox defaultChecked disabled id="disabled-checked" />\n            <label\n              className="cursor-not-allowed select-none font-medium text-muted-foreground text-sm leading-none opacity-50"\n              htmlFor="disabled-checked"\n            >\n              Disabled option (checked)\n            </label>\n          </div>\n        </div>\n      </div>\n\n      {/* 2. Interactive Card Variant */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Interactive Card\n        </h4>\n        <label\n          className="flex cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5"\n          htmlFor="security-alerts"\n        >\n          <Checkbox\n            checked={securityAlerts}\n            id="security-alerts"\n            name="security-alerts"\n            onCheckedChange={setSecurityAlerts}\n          />\n          <div className="grid gap-1">\n            <span className="font-medium text-foreground text-sm leading-none">\n              Security alerts & notifications\n            </span>\n            <span className="text-muted-foreground text-xs leading-normal">\n              Receive instant alerts on suspicious login attempts and sensitive\n              account actions.\n            </span>\n          </div>\n        </label>\n      </div>\n\n      {/* 3. Custom Sizes & Colors (Class Overrides) */}\n      <div className="flex flex-col gap-3.5">\n        <h4 className="font-semibold text-foreground text-sm tracking-tight">\n          Custom Class Overrides\n        </h4>\n        <div className="flex flex-wrap items-center gap-6">\n          {/* Emerald Medium */}\n          <div className="flex items-center gap-2.5">\n            <Checkbox\n              className="size-5 rounded-md data-checked:border-emerald-600 data-checked:bg-emerald-600 dark:data-checked:border-emerald-500 dark:data-checked:bg-emerald-500"\n              defaultChecked\n              id="custom-emerald"\n              indicatorClassName="size-4"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-emerald"\n            >\n              Emerald Medium\n            </label>\n          </div>\n\n          {/* Rounded Pill / Circular */}\n          <div className="flex items-center gap-2.5">\n            <Checkbox\n              className="size-5 rounded-full data-checked:border-violet-600 data-checked:bg-violet-600 dark:data-checked:border-violet-500 dark:data-checked:bg-violet-500"\n              defaultChecked\n              id="custom-pill"\n              indicatorClassName="size-3.5"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-pill"\n            >\n              Circular Pill\n            </label>\n          </div>\n\n          {/* Large Hero Checkbox */}\n          <div className="flex items-center gap-3">\n            <Checkbox\n              className="size-7 rounded-lg"\n              defaultChecked\n              id="custom-large"\n              indicatorClassName="size-5"\n            />\n            <label\n              className="cursor-pointer select-none font-medium text-sm"\n              htmlFor="custom-large"\n            >\n              Large (size-7)\n            </label>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/base/checkbox/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-checkbox",
+  },
   "demo-particle-hover-button": {
     name: "demo-particle-hover-button",
     description:
@@ -3217,6 +3268,58 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/primitives-animate-slot",
+  },
+  checkbox: {
+    name: "checkbox",
+    description:
+      "Base UI checkbox primitives with a Motion path-draw checkmark indicator.",
+    type: "registry:ui",
+    dependencies: ["@base-ui/react", "motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/base/checkbox/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/base/checkbox.tsx",
+        content:
+          '"use client";\n\nimport { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";\nimport { cn } from "@/lib/utils";\nimport {\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useTransform,\n} from "motion/react";\nimport type * as React from "react";\nimport { useCallback, useEffect, useId, useState } from "react";\n\nfunction useControlledState<T, Rest extends unknown[] = []>(props: {\n  defaultValue?: T;\n  onChange?: (value: T, ...args: Rest) => void;\n  value?: T;\n}): readonly [T, (next: T, ...args: Rest) => void] {\n  const { value, defaultValue, onChange } = props;\n  const [state, setInternalState] = useState<T>(\n    value === undefined ? (defaultValue as T) : value\n  );\n\n  useEffect(() => {\n    if (value !== undefined) {\n      setInternalState(value);\n    }\n  }, [value]);\n\n  const setState = useCallback(\n    (next: T, ...args: Rest) => {\n      setInternalState(next);\n      onChange?.(next, ...args);\n    },\n    [onChange]\n  );\n\n  return [state, setState] as const;\n}\n\ninterface CheckboxCheckIconProps\n  extends Omit<React.ComponentProps<"svg">, "children"> {\n  /** Whether the checkbox checkmark is active. */\n  checked: boolean;\n  /** Whether reduced motion is enabled. */\n  prefersReducedMotion?: boolean | null;\n}\n\n/**\n * Checkmark SVG icon featuring animated path length draw with dynamic round cap transform.\n */\nfunction CheckboxCheckIcon({\n  checked,\n  className,\n  prefersReducedMotion,\n  ...props\n}: CheckboxCheckIconProps) {\n  const pathLength = useMotionValue(checked ? 1 : 0);\n  const strokeLinecap = useTransform(() =>\n    pathLength.get() === 0 ? "none" : "round"\n  );\n\n  return (\n    <svg\n      aria-hidden="true"\n      className={cn("size-3.5 stroke-current", className)}\n      fill="none"\n      stroke="currentColor"\n      strokeWidth="3"\n      viewBox="0 0 24 24"\n      {...props}\n    >\n      <motion.path\n        animate={{ pathLength: checked ? 1 : 0 }}\n        d="M4 12L10 18L20 6"\n        style={\n          {\n            pathLength,\n            strokeLinecap,\n          } as React.ComponentProps<typeof motion.path>["style"]\n        }\n        transition={\n          prefersReducedMotion\n            ? { duration: 0 }\n            : {\n                type: "spring",\n                bounce: 0,\n                duration: checked ? 0.3 : 0.1,\n              }\n        }\n      />\n    </svg>\n  );\n}\n\ntype CheckboxRootProps = React.ComponentProps<typeof CheckboxPrimitive.Root>;\n\n/**\n * Primitive root button for the checkbox component, wrapping Base UI\'s Checkbox.Root with Motion interaction states.\n * Supports full Tailwind CSS class overriding via `cn(...)`.\n */\nfunction CheckboxRoot({ className, render, ...props }: CheckboxRootProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Root\n      className={cn(\n        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-checked:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n        className\n      )}\n      data-slot="checkbox"\n      render={\n        render ?? (\n          <motion.button\n            data-primary-action\n            type="button"\n            whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n            whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n          />\n        )\n      }\n      {...props}\n    />\n  );\n}\n\ntype CheckboxIndicatorProps = React.ComponentProps<\n  typeof CheckboxPrimitive.Indicator\n> & {\n  /** Additional CSS classes for the indicator SVG */\n  className?: string;\n};\n\n/**\n * Animated checkmark indicator for the checkbox using Motion path length animation.\n */\nfunction CheckboxIndicator({ className, ...props }: CheckboxIndicatorProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <CheckboxPrimitive.Indicator\n      className={cn(\n        "grid place-content-center text-current transition-none [&>svg]:size-3.5",\n        className\n      )}\n      data-slot="checkbox-indicator"\n      keepMounted\n      render={(indicatorProps, state) => (\n        <CheckboxCheckIcon\n          checked={Boolean(state.checked)}\n          className={className}\n          prefersReducedMotion={prefersReducedMotion}\n          {...indicatorProps}\n        />\n      )}\n      {...props}\n    />\n  );\n}\n\ninterface CheckboxProps extends Omit<CheckboxRootProps, "render"> {\n  /**\n   * Optional class name for the animated checkmark SVG indicator.\n   */\n  indicatorClassName?: string;\n  /**\n   * Optional label rendered beside the checkbox (wraps both in a `<label>`).\n   */\n  label?: React.ReactNode;\n  /**\n   * Optional class name for the outer label wrapper.\n   */\n  labelClassName?: string;\n}\n\n/**\n * An accessible, stylable animated Checkbox component built with Base UI and Motion for React.\n * Supports full Tailwind CSS class overrides just like shadcn/ui.\n */\nfunction Checkbox({\n  checked: controlledChecked,\n  defaultChecked = false,\n  onCheckedChange,\n  label,\n  labelClassName,\n  indicatorClassName,\n  className,\n  id,\n  ref,\n  disabled,\n  ...props\n}: CheckboxProps & { ref?: React.Ref<HTMLButtonElement> }) {\n  const generatedId = useId();\n  const inputId = id ?? generatedId;\n\n  const [isChecked, setIsChecked] = useControlledState({\n    defaultValue: defaultChecked,\n    onChange: onCheckedChange,\n    value: controlledChecked,\n  });\n\n  const prefersReducedMotion = useReducedMotion();\n\n  const control = (\n    <CheckboxPrimitive.Root\n      checked={isChecked}\n      className={cn(\n        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-checked:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n        className\n      )}\n      data-slot="checkbox"\n      disabled={disabled}\n      id={inputId}\n      onCheckedChange={setIsChecked}\n      ref={ref}\n      render={\n        <motion.button\n          data-primary-action\n          type="button"\n          whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}\n          whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}\n        >\n          <CheckboxCheckIcon\n            checked={isChecked}\n            className={indicatorClassName}\n            prefersReducedMotion={prefersReducedMotion}\n          />\n        </motion.button>\n      }\n      {...props}\n    />\n  );\n\n  if (label == null) {\n    return control;\n  }\n\n  return (\n    <div className="inline-flex items-center gap-2.5">\n      {control}\n      <label\n        className={cn(\n          "cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",\n          disabled && "cursor-not-allowed opacity-50",\n          labelClassName\n        )}\n        htmlFor={inputId}\n      >\n        {label}\n      </label>\n    </div>\n  );\n}\n\nexport type {\n  CheckboxCheckIconProps,\n  CheckboxIndicatorProps,\n  CheckboxProps,\n  CheckboxRootProps,\n};\nexport {\n  Checkbox,\n  Checkbox as BaseCheckbox,\n  Checkbox as default,\n  CheckboxCheckIcon,\n  CheckboxIndicator,\n  CheckboxRoot,\n};',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/base/checkbox/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/checkbox",
   },
   "particle-hover-button": {
     name: "particle-hover-button",

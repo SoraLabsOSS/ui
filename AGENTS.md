@@ -75,11 +75,12 @@ Docs for primitives are **flat**, not nested by category: `apps/www/content/docs
 4. Add `"<name>"` to `content/docs/primitives/meta.json`'s `pages` array, under the right `---Section---`.
 5. Run `bun run registry:build` (from `apps/www`) — this merges `registry-item.json` files into `public/r/registry.json`, generates `__registry__/index.tsx`, synthesizes `demo-<name>` entries from `demoProps` when no manual demo folder exists, and runs `shadcn build`.
 
-`registry:build` only picks up items actually referenced (via `<ComponentPreview name="..." />` / `<ComponentInstallation name="..." />`) from MDX under `content/docs` **or** `content/components` — an orphaned registry folder with no MDX reference in either tree won't appear on the site. (E.g. `sticky-scroll-cards` has no page under `content/docs/primitives/`, only a catalog page in `content/components/` — that alone is enough to get it published.)
+`registry:build` only picks up items actually referenced (via `<ComponentPreview name="..." />` / `<ComponentInstallation name="..." />`) from MDX under `content/docs`, `content/ui`, **or** `content/components` — an orphaned registry folder with no MDX reference in any of those trees won't appear on the site. (E.g. `sticky-scroll-cards` has no page under `content/docs/primitives/`, only a catalog page in `content/components/` — that alone is enough to get it published.)
 
 ### content/ — three separate trees, don't conflate them
 
 - `content/docs/` — the actual documentation site (routed at `/docs`). Top-level guide pages (`index`, `installation`, `accessibility`, `community`, `license`, `mcp`, `other-animated-distributions`, `troubleshooting`) plus `docs/primitives/<name>.mdx` (flat, one per registry primitive — see flow above).
+- `content/ui/` — Base UI + Motion app components (routed at `/ui`). Flat MDX pages referenced by `content/ui/meta.json`; registry source lives under `registry/primitives/base/` (or similar) when added.
 - `content/components/` — a small flat "Catalog" of fully-assembled example pages (routed at `/components`), listed in `content/components/meta.json`. Each page documents an existing `registry/primitives/<category>/<name>/` primitive (e.g. `cursor-trail-reveal`, `sticky-scroll-cards`) through a real-layout showcase — the MDX file itself is not a registry item and needs no `registry-item.json`, but the primitive it showcases still lives in and is defined by `registry/primitives/`.
 - `content/blog/` — blog posts (routed at `/blog`), unrelated to the registry/docs flow.
 
@@ -94,7 +95,7 @@ Docs for primitives are **flat**, not nested by category: `apps/www/content/docs
 
 ### apps/www app structure
 
-Route groups under `apps/www/app`: `(home)`, `(account)`, `(llms)`, plus `docs`, `docs-og`, `blog`, `blog-og`, `components`, `demo`, `examples`, `pricing`, `privacy`, `legal`, `auth`, `api`. Docs content is Fumadocs-powered MDX under `apps/www/content`.
+Route groups under `apps/www/app`: `(home)`, `(account)`, `(llms)`, plus `docs`, `docs-og`, `blog`, `blog-og`, `components`, `ui`, `demo`, `examples`, `pricing`, `privacy`, `legal`, `auth`, `api`. Docs content is Fumadocs-powered MDX under `apps/www/content`.
 
 ### apps/mcp
 

@@ -1,0 +1,7 @@
+{
+  "title": "UI",
+  "description": "Animated app components",
+  "icon": "Component",
+  "root": true,
+  "pages": ["---Base UI---", "checkbox"]
+}

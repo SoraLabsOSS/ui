@@ -29,6 +29,7 @@ import {
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
 } from "@/lib/docs/primitive-nav-active";
+import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
@@ -113,9 +114,11 @@ function getPrimitiveRootFolders(treeRoot: PageTree.Root): PageTree.Folder[] {
 function GuideBottomMenu({
   onNavigate,
   primitivesUrl: primitivesUrlProp,
+  uiUrl = "/ui",
 }: {
   onNavigate?: () => void;
   primitivesUrl?: string;
+  uiUrl?: string;
 }) {
   const { root } = useTreeContext();
   const pathname = usePathname();
@@ -146,9 +149,8 @@ function GuideBottomMenu({
   const { setHovered } = useDocsShellHover();
 
   useEffect(() => {
-    void authNavPending;
     setHovered(null);
-  }, [authNavPending, setHovered]);
+  }, [setHovered]);
 
   return (
     <DocsShellSection
@@ -172,9 +174,16 @@ function GuideBottomMenu({
       />
       <DocsShellNavItem
         href="/docs/icons"
-        isActive={false}
+        isActive={pathname.startsWith("/docs/icons")}
         itemKey="menu-icons"
         label="Icons"
+        onClick={onNavigate}
+      />
+      <DocsShellNavItem
+        href={uiUrl}
+        isActive={isUiNavItemActive(pathname, uiUrl)}
+        itemKey="menu-ui"
+        label="UI"
         onClick={onNavigate}
       />
       <DocsShellNavItem
@@ -453,6 +462,7 @@ export const DocsSidebar = (
   all: DocsLayoutProps & {
     releaseDatesByUrl?: Record<string, string>;
     primitivesUrl?: string;
+    uiUrl?: string;
   }
 ) => {
   const {
@@ -462,6 +472,8 @@ export const DocsSidebar = (
   } = all.sidebar ?? {};
   const links = getLinks(all.links ?? [], all.githubUrl);
   const isMobile = useIsMobile();
+  const pathname = usePathname();
+  const uiUrl = all.uiUrl ?? "/ui";
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();
 
@@ -550,13 +562,14 @@ export const DocsSidebar = (
             <GuideBottomMenu
               onNavigate={closeMobile}
               primitivesUrl={all.primitivesUrl}
+              uiUrl={all.uiUrl}
             />
 
             <div className="mt-4">
               <SidebarPageTree
                 components={sidebarComponents}
                 onNavigate={closeMobile}
-                showPrimitiveSections
+                showPrimitiveSections={!pathname.startsWith(uiUrl)}
               />
             </div>
           </DocsShellContent>

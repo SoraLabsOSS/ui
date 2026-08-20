@@ -18,6 +18,17 @@ How to add and maintain components on the docs site (`apps/www`). Build script: 
 4. bun run registry:build
 ```
 
+### UI kit (`/ui`)
+
+Same registry + preview flow, but docs live under `content/ui/` (flat MDX + `content/ui/meta.json`) instead of `content/docs/primitives/`:
+
+```text
+1. registry/primitives/base/<name>/index.tsx + registry-item.json
+2. content/ui/<name>.mdx  ← ComponentPreview / ComponentInstallation
+3. content/ui/meta.json   ← sidebar pages
+4. bun run registry:build
+```
+
 You do **not** need `registry/demo/...` unless the usage example is complex (see [Manual demo](#manual-demo-optional)).
 
 ## On the docs site
@@ -71,7 +82,7 @@ registry/demo/primitives/texts/text-reveal-mask/
 
 ## What `registry:build` does
 
-1. Merges `registry-item.json` files into `public/r/registry.json` (only items referenced in docs MDX).
+1. Merges `registry-item.json` files into `public/r/registry.json` (only items referenced in docs, UI, or catalog MDX).
 2. Generates `__registry__/index.tsx` (preview + code for the docs app).
 3. For each documented primitive with `demoProps` and **no** `demo-*` folder on disk → synthesizes a `demo-<name>` entry (`component: null`, `files[].content` only).
 4. Runs `shadcn build` → JSON artifacts under `public/r/*.json`.

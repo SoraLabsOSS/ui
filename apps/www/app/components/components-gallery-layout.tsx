@@ -9,6 +9,7 @@ import { Nav } from "@/components/docs/nav";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
 import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
+import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 
 const COMPONENTS_GALLERY_LAYOUT_PROPS: DocsLayoutProps = {
   tree: source.pageTree,
@@ -39,6 +40,7 @@ export function ComponentsGalleryLayout({
   primitivesUrl,
 }: ComponentsGalleryLayoutProps) {
   const releaseDatesByUrl = getReleaseDatesByUrl();
+  const uiUrl = getFirstUiDocUrl();
 
   return (
     <DocsLayout
@@ -48,7 +50,7 @@ export function ComponentsGalleryLayout({
           "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px]",
       }}
       nav={{
-        component: <Nav primitivesUrl={primitivesUrl} />,
+        component: <Nav primitivesUrl={primitivesUrl} uiUrl={uiUrl} />,
       }}
       sidebar={{
         component: (

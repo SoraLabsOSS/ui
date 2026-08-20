@@ -2,12 +2,17 @@ import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
 import { buildLlmsIndex } from "@/lib/docs/llms-index";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
+import { uiSource } from "@/lib/ui/source";
 
 async function getLlmsIndexContent() {
   "use cache";
   staticContentCacheLife();
   return await Promise.resolve(
-    buildLlmsIndex(source.getPages(), componentSource.getPages())
+    buildLlmsIndex(
+      source.getPages(),
+      componentSource.getPages(),
+      uiSource.getPages()
+    )
   );
 }
 
