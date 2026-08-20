@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth, useSignOut } from "@better-auth-ui/react";
+import { useAuth, useSignOut } from "@workspace/auth-ui/lib/auth-react";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useRef } from "react";

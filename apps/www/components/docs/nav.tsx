@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "@better-auth-ui/react";
 import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
+import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import GithubIcon from "@workspace/ui/components/icons/github-icon";
 import {
   NavigationMenu,

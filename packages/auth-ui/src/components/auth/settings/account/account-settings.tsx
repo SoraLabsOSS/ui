@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@better-auth-ui/react";
+import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentProps } from "react";
 import { ChangeEmail } from "./change-email";

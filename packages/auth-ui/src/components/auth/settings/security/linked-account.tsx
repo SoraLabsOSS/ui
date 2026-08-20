@@ -1,13 +1,13 @@
 "use client";
 
-import { getProviderName } from "@better-auth-ui/core";
+import { getProviderName } from "@workspace/auth-ui/lib/auth-core";
 import {
   providerIcons,
   useAccountInfo,
   useAuth,
   useLinkSocial,
   useUnlinkAccount,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";

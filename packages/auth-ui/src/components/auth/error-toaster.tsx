@@ -1,11 +1,14 @@
 "use client";
 
-import { authMutationKeys, authQueryKeys } from "@better-auth-ui/core";
 import {
   matchMutation,
   matchQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import {
+  authMutationKeys,
+  authQueryKeys,
+} from "@workspace/auth-ui/lib/auth-core";
 import { toast } from "@workspace/ui/components/ui/sonner";
 import type { BetterFetchError } from "better-auth/react";
 import { useEffect } from "react";

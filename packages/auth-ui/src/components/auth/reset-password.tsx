@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth, useResetPassword } from "@better-auth-ui/react";
+import { useAuth, useResetPassword } from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,

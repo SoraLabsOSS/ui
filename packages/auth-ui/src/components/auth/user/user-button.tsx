@@ -5,7 +5,7 @@ import {
   useAuth,
   useSession,
   useSetActiveSession,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   DropdownMenu,

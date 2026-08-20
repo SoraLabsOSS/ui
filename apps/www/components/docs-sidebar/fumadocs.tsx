@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "@better-auth-ui/react";
+import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
 import type { PageTree } from "fumadocs-core/server";

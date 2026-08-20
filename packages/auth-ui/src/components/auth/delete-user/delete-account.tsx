@@ -1,14 +1,14 @@
 "use client";
 
-import { authQueryKeys } from "@better-auth-ui/core";
+import { useQueryClient } from "@tanstack/react-query";
+import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
+import { authQueryKeys } from "@workspace/auth-ui/lib/auth-core";
 import {
   useAuth,
   useAuthPlugin,
   useDeleteUser,
   useListAccounts,
-} from "@better-auth-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
+} from "@workspace/auth-ui/lib/auth-react";
 import {
   AlertDialog,
   AlertDialogCancel,

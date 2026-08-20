@@ -1,5 +1,5 @@
-import { prefetchSession } from "@better-auth-ui/react/server";
 import { dehydrate } from "@tanstack/react-query";
+import { prefetchSession } from "@workspace/auth-ui/lib/auth-react/server";
 import { getSessionCookie } from "better-auth/cookies";
 import { headers } from "next/headers";
 import type { ReactNode } from "react";

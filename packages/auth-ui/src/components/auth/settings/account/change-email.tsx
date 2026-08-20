@@ -1,6 +1,10 @@
 "use client";
 
-import { useAuth, useChangeEmail, useSession } from "@better-auth-ui/react";
+import {
+  useAuth,
+  useChangeEmail,
+  useSession,
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,

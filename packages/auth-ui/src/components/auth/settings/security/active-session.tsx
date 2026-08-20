@@ -1,6 +1,10 @@
 "use client";
 
-import { useAuth, useRevokeSession, useSession } from "@better-auth-ui/react";
+import {
+  useAuth,
+  useRevokeSession,
+  useSession,
+} from "@workspace/auth-ui/lib/auth-react";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { toast } from "@workspace/ui/components/ui/sonner";

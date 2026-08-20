@@ -3,12 +3,12 @@
 import {
   AuthProvider as AuthProviderPrimitive,
   type AuthProviderProps,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 import type { ComponentType, PropsWithChildren, ReactNode } from "react";
 
 import { ErrorToaster } from "./error-toaster";
 
-declare module "@better-auth-ui/core" {
+declare module "@workspace/auth-ui/lib/auth-core" {
   interface AuthConfig {
     /**
      * React component used to render internal navigation links.

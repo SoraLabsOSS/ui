@@ -1,6 +1,10 @@
 "use client";
 
-import { useAuth, useListSessions, useSession } from "@better-auth-ui/react";
+import {
+  useAuth,
+  useListSessions,
+  useSession,
+} from "@workspace/auth-ui/lib/auth-react";
 import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { Separator } from "@workspace/ui/components/ui/separator";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";

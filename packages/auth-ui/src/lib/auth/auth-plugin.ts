@@ -1,9 +1,9 @@
 import type {
   AuthPluginComponents,
   AuthPlugin as AuthPluginPrimitive,
-} from "@better-auth-ui/react";
+} from "@workspace/auth-ui/lib/auth-react";
 
-declare module "@better-auth-ui/core" {
+declare module "@workspace/auth-ui/lib/auth-core" {
   /** Widens `useAuth().plugins` to the shadcn-typed `AuthPlugin`. */
   interface AuthPluginRegister {
     shadcn: AuthPlugin;
