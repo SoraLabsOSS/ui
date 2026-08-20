@@ -18,19 +18,19 @@ Sora UI is organized into three distinct product tiers:
 
 ```text
 Sora UI
-├── Primitives
+├── Motion
 │   └── Animation building blocks (unstyled Motion/GSAP primitives)
-├── Components
-│   └── Ready-to-use animated components & layout showcases
+├── Catalog
+│   └── Ready-to-use animated layout showcases & full example pages
 └── UI
     └── Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS
 ```
 
 | Tier | Registry Path | Docs Route | Purpose |
 |------|---------------|------------|---------|
-| **Primitives** | `registry/primitives/{category}/{name}/` | `/docs/primitives/<name>` | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
-| **Components** | `registry/primitives/...` (showcased) | `/components/<name>` | Ready-to-use assembled animated components, cards, and complex layout templates (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
-| **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `checkbox`, `bottom-sheet`, `tabs`). |
+| **Motion** | `registry/primitives/{category}/{name}/` | `/docs/motion/<name>` (alias `/motion/<name>`) | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
+| **Catalog** | `content/catalog/<slug>.mdx` (showcased) | `/catalog/<slug>` (alias `/components/<slug>`) | Ready-to-use assembled animated components, cards, and complex layout templates (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
+| **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `bottom-sheet`). |
 
 ## Repository structure
 
@@ -53,11 +53,11 @@ registry/
     base/{name}/                  Base UI + Motion components (UI tier)
     radix/{name}/                 Radix UI + Motion components (UI tier)
   primitives/
-    {animate|buttons|disclosure|effects|texts}/{name}/  Primitives tier
+    {animate|buttons|disclosure|effects|texts}/{name}/  Motion primitives tier
   icons/{name}/                   Animated Lucide icons (@soralabs/icons-*)
   demo/
     ui/{base|radix}/{name}/       Manual demos for UI tier
-    primitives/{category}/{name}/ Manual demos for Primitives tier
+    primitives/{category}/{name}/ Manual demos for Motion tier
   hooks/, lib/
 ```
 
@@ -67,9 +67,9 @@ Four separate trees — do not conflate them:
 
 | Tree | Route | Purpose |
 |------|-------|---------|
-| `content/docs/` | `/docs` | Guides + flat primitive docs at `docs/primitives/<name>.mdx` |
+| `content/docs/` | `/docs` | Guides + flat motion primitive docs at `docs/motion/<name>.mdx` (aliased to `/motion/<name>`) |
 | `content/ui/` | `/ui` | Base UI / Radix UI + Motion app components (`/ui/<name>`) |
-| `content/components/` | `/components` | Ready-to-use catalog showcase pages |
+| `content/catalog/` | `/catalog` | Ready-to-use catalog showcase pages (aliased from `/components`) |
 | `content/docs/icons/` | `/docs/icons` | Animated icons guide and catalog |
 | `content/blog/` | `/blog` | Blog posts |
 
@@ -96,7 +96,7 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # all apps (turbo)
 ```
 
-**Environment variables are optional for local UI work.** You can browse docs, blog, the components catalog, and Ask AI without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need optional features (auth, bookmarks, Redis, Sentry).
+**Environment variables are optional for local UI work.** You can browse docs, blog, the catalog, and Ask AI without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need optional features (auth, bookmarks, Redis, Sentry).
 
 ### 3. Verify before opening a PR
 
@@ -115,25 +115,25 @@ There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
 ## Adding or changing a component
 
-### Flow 1: Adding a UI component (`/ui` — Base UI + Motion)
+### Flow 1: Adding a UI component (`/ui` — Base UI / Radix UI + Motion)
 
-1. Write/edit **`registry/ui/base/<name>/index.tsx`** and **`registry-item.json`**.
-2. Add manual demo under **`registry/demo/ui/base/<name>/index.tsx`** to demonstrate diverse usage patterns (forms, descriptions, cards, custom class overrides).
+1. Write/edit **`registry/ui/base/<name>/index.tsx`** (or `registry/ui/radix/<name>/index.tsx`) and **`registry-item.json`**.
+2. Add manual demo under **`registry/demo/ui/base/<name>/index.tsx`** (or `radix`) to demonstrate diverse usage patterns (forms, descriptions, cards, custom class overrides).
 3. Create/edit **`content/ui/<name>.mdx`** with `<ComponentPreview name="<name>" />`, `<ComponentInstallation name="<name>" />`, `<TypeTable>`, and `<ComponentCredits name="<name>" />`.
 4. Register `"<name>"` in **`content/ui/meta.json`** under the appropriate section.
 5. Run **`bun run registry:build`**.
 
-### Flow 2: Adding a Primitive (`/docs/primitives` — Animation building blocks)
+### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
 
 1. Edit **`registry/primitives/<category>/<name>/index.tsx`** and **`registry-item.json`**.
 2. Set **`meta.demoProps`** on `registry-item.json` for Tweakpane controls and auto Code tab snippet (or add manual demo in `registry/demo/primitives/...` for multi-component layouts).
-3. Edit **`content/docs/primitives/<name>.mdx`** with `<ComponentPreview />`, `<ComponentInstallation />`, `<TypeTable>`, and `<ComponentCredits />`.
-4. Add `"<name>"` to **`content/docs/primitives/meta.json`** under the right `---Section---`.
+3. Edit **`content/docs/motion/<name>.mdx`** with `<ComponentPreview />`, `<ComponentInstallation />`, `<TypeTable>`, and `<ComponentCredits />`.
+4. Add `"<name>"` to **`content/docs/motion/meta.json`** under the right `---Section---`.
 5. Run **`bun run registry:build`**.
 
-### Flow 3: Adding a Catalog Component Page (`/components` — Ready-to-use components)
+### Flow 3: Adding a Catalog Page (`/catalog` — Ready-to-use layout showcases)
 
-1. Catalog MDX files are layout showcases for existing primitives. Add/edit **`content/components/<slug>.mdx`** and list the slug in **`content/components/meta.json`**.
+1. Catalog MDX files are layout showcases for existing primitives. Add/edit **`content/catalog/<slug>.mdx`** and list the slug in **`content/catalog/meta.json`**.
 2. Reference the underlying primitive with `<ComponentInstallation name="<registry-name>" />`.
 
 ### Component conventions

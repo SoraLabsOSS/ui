@@ -20,7 +20,7 @@ bun install
 bun run dev:www    # http://localhost:3000
 ```
 
-**No `.env` file is required** to browse docs, blog, the components catalog, or use Ask AI locally. Copy [`apps/www/.env.example`](./apps/www/.env.example) only when you need optional features:
+**No `.env` file is required** to browse docs, blog, the catalog, or use Ask AI locally. Copy [`apps/www/.env.example`](./apps/www/.env.example) only when you need optional features:
 
 | Feature | Variables |
 |---------|-----------|

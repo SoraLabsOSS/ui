@@ -8,8 +8,8 @@ Sora UI is organized into three distinct product tiers:
 
 ```text
 Sora UI
-├── Primitives   (Animation building blocks: border-trail, highlight, text-effect, auto-height)
-├── Components   (Ready-to-use animated components & layouts: sticky-scroll-cards, cursor-trail-reveal)
+├── Motion       (Animation building blocks: border-trail, highlight, text-effect, auto-height)
+├── Catalog      (Ready-to-use animated showcases & layouts: sticky-scroll-cards, cursor-trail-reveal)
 └── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS)
 ```
 
@@ -37,7 +37,7 @@ For accessible app & form primitives powered by `@base-ui/react` or `radix-ui` +
 5. bun run registry:build
 ```
 
-### 2. Primitives (`/docs/primitives` — Animation building blocks)
+### 2. Motion Primitives (`/docs/motion` — Animation building blocks)
 
 For unstyled animation primitives (effects, text reveals, buttons, disclosure):
 
@@ -46,22 +46,22 @@ For unstyled animation primitives (effects, text reveals, buttons, disclosure):
       index.tsx
       registry-item.json    ← meta.demoProps (Tweakpane + auto Code tab)
 
-2. content/docs/primitives/<name>.mdx
+2. content/docs/motion/<name>.mdx
       <ComponentPreview name="<name>" />
       <ComponentInstallation name="<name>" />
 
-3. content/docs/primitives/meta.json   ← add to docs sidebar under section
+3. content/docs/motion/meta.json   ← add to docs sidebar under section
 
 4. bun run registry:build
 ```
 
-### 3. Components Catalog (`/components` — Ready-to-use layouts)
+### 3. Catalog (`/catalog` — Ready-to-use layout showcases)
 
 For full-page layout showcases documenting existing primitives:
 
 ```text
-1. content/components/<slug>.mdx   ← showcases underlying registry primitive
-2. content/components/meta.json    ← catalog navigation
+1. content/catalog/<slug>.mdx   ← showcases underlying registry primitive
+2. content/catalog/meta.json    ← catalog navigation
 3. bun run registry:build
 ```
 

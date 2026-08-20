@@ -23,10 +23,12 @@ const LEADING_SLASHES = /^\/+/;
 const TRAILING_SLASHES = /\/+$/;
 const DOCS_PREFIX = /^docs\//;
 const COMPONENTS_PREFIX = "components/";
+const CATALOG_PREFIX = "catalog/";
+const MOTION_PREFIX = "motion/";
 const UI_PREFIX = "ui/";
 const FIRST_HEADING = /^#\s+(.+)$/m;
 
-type LlmsSection = "documentation" | "components" | "ui";
+type LlmsSection = "documentation" | "components" | "catalog" | "motion" | "ui";
 
 interface MdxCandidate {
   fetchPath: string;
@@ -43,7 +45,7 @@ function cacheKeyForSlug(trimmedSlug: string): string {
 
 /**
  * Resolve fetch URLs for Sora www:
- * - Public `.mdx` URLs rewrite to `llms.mdx` / `llms-components.mdx` / `llms-ui.mdx` (next.config.ts)
+ * - Public `.mdx` URLs rewrite to `llms.mdx` / `llms-catalog.mdx` / `llms-ui.mdx` (next.config.ts)
  * - Direct `llms*.mdx/{slug}` routes are a fallback without the `.mdx` suffix
  */
 function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
@@ -67,10 +69,26 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
     return candidates;
   }
 
+  if (trimmedSlug.startsWith(CATALOG_PREFIX)) {
+    const rest = trimmedSlug.slice(CATALOG_PREFIX.length);
+    add(`/catalog/${rest}.mdx`, `/catalog/${rest}`);
+    add(`/llms-catalog.mdx/${rest}`, `/catalog/${rest}`);
+    return candidates;
+  }
+
   if (trimmedSlug.startsWith(COMPONENTS_PREFIX)) {
     const rest = trimmedSlug.slice(COMPONENTS_PREFIX.length);
+    add(`/catalog/${rest}.mdx`, `/catalog/${rest}`);
     add(`/components/${rest}.mdx`, `/components/${rest}`);
+    add(`/llms-catalog.mdx/${rest}`, `/catalog/${rest}`);
     add(`/llms-components.mdx/${rest}`, `/components/${rest}`);
+    return candidates;
+  }
+
+  if (trimmedSlug.startsWith(MOTION_PREFIX)) {
+    const rest = trimmedSlug.slice(MOTION_PREFIX.length);
+    add(`/docs/motion/${rest}.mdx`, `/docs/motion/${rest}`);
+    add(`/llms.mdx/motion/${rest}`, `/docs/motion/${rest}`);
     return candidates;
   }
 
@@ -82,8 +100,9 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
   add(`/llms.mdx/${docPath}`, `/docs/${docPath}`);
 
   if (!trimmedSlug.startsWith("docs/")) {
+    add(`/catalog/${trimmedSlug}.mdx`, `/catalog/${trimmedSlug}`);
     add(`/components/${trimmedSlug}.mdx`, `/components/${trimmedSlug}`);
-    add(`/llms-components.mdx/${trimmedSlug}`, `/components/${trimmedSlug}`);
+    add(`/llms-catalog.mdx/${trimmedSlug}`, `/catalog/${trimmedSlug}`);
   }
 
   return candidates;
@@ -98,8 +117,24 @@ function pagePathname(url: string): string {
 }
 
 function matchesLlmsSection(pathname: string, section: LlmsSection): boolean {
-  if (section === "components") {
-    return pathname === "/components" || pathname.startsWith("/components/");
+  if (section === "catalog" || section === "components") {
+    return (
+      pathname === "/catalog" ||
+      pathname.startsWith("/catalog/") ||
+      pathname === "/components" ||
+      pathname.startsWith("/components/")
+    );
+  }
+
+  if (section === "motion") {
+    return (
+      pathname === "/docs/motion" ||
+      pathname.startsWith("/docs/motion/") ||
+      pathname === "/motion" ||
+      pathname.startsWith("/motion/") ||
+      pathname === "/docs/primitives" ||
+      pathname.startsWith("/docs/primitives/")
+    );
   }
 
   if (section === "ui") {
@@ -120,8 +155,8 @@ function filterByLlmsSection(
 }
 
 /**
- * Sora UI docs: Fumadocs `/docs/*`, UI kit `/ui/*`, component catalog `/components/*`,
- * LLM exports via `llms.mdx` / `llms-components.mdx` / `llms-ui.mdx`.
+ * Sora UI docs: Fumadocs `/docs/*`, UI kit `/ui/*`, component catalog `/catalog/*`,
+ * LLM exports via `llms.mdx` / `llms-catalog.mdx` / `llms-ui.mdx`.
  */
 export class SoraDocsSource extends FumadocsRemoteSource {
   constructor(config: Partial<FumadocsRemoteSourceConfig> = {}) {
@@ -141,19 +176,19 @@ export class SoraDocsSource extends FumadocsRemoteSource {
     const limit = Math.min(options?.limit ?? 10, 25);
     const section = options?.section?.trim().toLowerCase();
 
-    // `list_sections` uses "Documentation" / "UI" / "Components"; Orama `tag` uses page slugs.
+    // `list_sections` uses "Documentation" / "UI" / "Catalog" / "Motion"; Orama `tag` uses page slugs.
     if (
       section === "documentation" ||
       section === "components" ||
+      section === "catalog" ||
+      section === "motion" ||
       section === "ui"
     ) {
       const results = await super.search(query, {
         ...options,
         section: undefined,
       });
-      return filterByLlmsSection(results, section, limit);
-    }
-
+      return filterByLlmsSection(results, section as LlmsSection, limit);
     return super.search(query, options);
   }
 

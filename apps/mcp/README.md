@@ -13,7 +13,7 @@
 
 | Tool | Description |
 |---|---|
-| `search_docs` | Full-text search across Sora UI documentation (guide, primitives, UI kit, and catalog). Returns ranked pages with excerpts; supports an optional `section` filter (`documentation`, `ui`, `components`) and result `limit` (max 25). |
+| `search_docs` | Full-text search across Sora UI documentation (guide, motion, catalog, and UI). Returns ranked pages with excerpts; supports an optional `section` filter (`documentation`, `motion`, `catalog`, `ui`, `components`) and result `limit` (max 25). |
 | `list_sections` | Lists the documentation's top-level sections, for browsing when a search query isn't obvious. |
 | `get_page` | Fetches the full content of a specific documentation page. |
 | `get_component_info` | Without `name`: lists installable registry items (components and hooks), optionally filtered by `type` (`registry:ui` \| `registry:hook`). With `name`: returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, registry dependencies, and file targets — full source is only included if `includeSource: true` is passed, since installing via `sora-cli` already puts the real file on disk to read directly. |
