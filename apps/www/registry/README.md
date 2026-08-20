@@ -147,8 +147,8 @@ Use one of two `type` values — copy is generated automatically:
 "meta": {
   "inspiration": {
     "type": "reimplemented",
-    "label": "Base UI: Checkbox (Motion Examples)",
-    "url": "https://examples.motion.dev/react/base-checkbox"
+    "label": "Base UI",
+    "url": "https://base-ui.com/react/components/checkbox"
   }
 }
 ```

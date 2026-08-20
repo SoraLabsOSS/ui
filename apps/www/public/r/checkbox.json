@@ -23,12 +23,6 @@
           "value": true
         }
       }
-    },
-    "inspiration": {
-      "type": "reimplemented",
-      "label": "Base UI: Checkbox (Motion Examples)",
-      "url": "https://examples.motion.dev/react/base-checkbox",
-      "stack": "Base UI and Motion"
     }
   },
   "type": "registry:ui"

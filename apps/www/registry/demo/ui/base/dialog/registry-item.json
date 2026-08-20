@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dialog",
+  "type": "registry:ui",
+  "title": "Dialog Demo",
+  "description": "Base UI dialog with Motion spring transitions and form editing.",
+  "registryDependencies": ["dialog"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dialog/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dialog.tsx"
+    }
+  ]
+}

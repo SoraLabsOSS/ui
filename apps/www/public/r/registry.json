@@ -924,6 +924,20 @@
       ]
     },
     {
+      "name": "demo-dialog",
+      "type": "registry:ui",
+      "title": "Dialog Demo",
+      "description": "Base UI dialog with Motion spring transitions and form editing.",
+      "registryDependencies": ["@soralabs/dialog"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/dialog/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/dialog.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-bottom-sheet",
       "type": "registry:ui",
       "title": "Bottom Sheet Demo",
@@ -2650,11 +2664,28 @@
               "value": true
             }
           }
-        },
+        }
+      }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "An accessible modal dialog built on Base UI with smooth Motion spring entrance and exit animations.",
+      "dependencies": ["@base-ui/react", "motion", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/base/dialog/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/dialog.tsx"
+        }
+      ],
+      "meta": {
         "inspiration": {
           "type": "reimplemented",
-          "label": "Base UI: Checkbox (Motion Examples)",
-          "url": "https://examples.motion.dev/react/base-checkbox",
+          "label": "Base UI: Dialog (Motion Examples)",
+          "url": "https://examples.motion.dev/react/base-dialog",
           "stack": "Base UI and Motion"
         }
       }

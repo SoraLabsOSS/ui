@@ -2615,6 +2615,56 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-checkbox",
   },
+  "demo-dialog": {
+    name: "demo-dialog",
+    description:
+      "Base UI dialog with Motion spring transitions and form editing.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["dialog"],
+    files: [
+      {
+        path: "registry/demo/ui/base/dialog/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/dialog.tsx",
+        content:
+          '"use client";\n\nimport { useState } from "react";\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from "@/components/sora-ui/base/dialog";\n\nexport default function DialogDemo() {\n  const [profileOpen, setProfileOpen] = useState(false);\n  const [deleteOpen, setDeleteOpen] = useState(false);\n\n  return (\n    <div className="flex flex-wrap items-center justify-center gap-4 p-4">\n      {/* 1. Edit Profile Dialog */}\n      <Dialog onOpenChange={setProfileOpen} open={profileOpen}>\n        <DialogTrigger className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground text-sm shadow-xs transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">\n          Edit Profile\n        </DialogTrigger>\n        <DialogContent className="sm:max-w-[425px]">\n          <DialogHeader>\n            <DialogTitle>Edit Profile</DialogTitle>\n            <DialogDescription>\n              Make changes to your profile information here. Click save when\n              you&apos;re done.\n            </DialogDescription>\n          </DialogHeader>\n          <div className="grid gap-4 py-2">\n            <div className="grid grid-cols-4 items-center gap-4">\n              <label\n                className="text-right font-medium text-sm"\n                htmlFor="profile-name"\n              >\n                Name\n              </label>\n              <input\n                className="col-span-3 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"\n                defaultValue="Alex Rivera"\n                id="profile-name"\n              />\n            </div>\n            <div className="grid grid-cols-4 items-center gap-4">\n              <label\n                className="text-right font-medium text-sm"\n                htmlFor="profile-username"\n              >\n                Username\n              </label>\n              <input\n                className="col-span-3 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"\n                defaultValue="@alexrivera"\n                id="profile-username"\n              />\n            </div>\n          </div>\n          <DialogFooter showCloseButton>\n            <button\n              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground text-sm shadow-xs transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"\n              onClick={() => setProfileOpen(false)}\n              type="button"\n            >\n              Save changes\n            </button>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n\n      {/* 2. Destructive Alert Dialog */}\n      <Dialog onOpenChange={setDeleteOpen} open={deleteOpen}>\n        <DialogTrigger className="inline-flex h-9 items-center justify-center rounded-lg border border-input bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">\n          Delete Project\n        </DialogTrigger>\n        <DialogContent className="sm:max-w-[400px]">\n          <DialogHeader>\n            <DialogTitle>Are you absolutely sure?</DialogTitle>\n            <DialogDescription>\n              This action cannot be undone. This will permanently delete your\n              project repository and remove all deployed services.\n            </DialogDescription>\n          </DialogHeader>\n          <DialogFooter>\n            <DialogClose className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted">\n              Cancel\n            </DialogClose>\n            <button\n              className="inline-flex h-9 items-center justify-center rounded-md bg-destructive px-4 py-2 font-medium text-destructive-foreground text-sm shadow-xs transition-colors hover:bg-destructive/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"\n              onClick={() => setDeleteOpen(false)}\n              type="button"\n            >\n              Confirm Delete\n            </button>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/base/dialog/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-dialog",
+  },
   "demo-bottom-sheet": {
     name: "demo-bottom-sheet",
     description:
@@ -6334,12 +6384,7 @@ export const index: Record<string, any> = {
     ],
     keywords: [],
     releaseDate: null,
-    inspiration: {
-      type: "reimplemented",
-      label: "Base UI: Checkbox (Motion Examples)",
-      url: "https://examples.motion.dev/react/base-checkbox",
-      stack: "Base UI and Motion",
-    },
+    inspiration: null,
     component: (() => {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/base/checkbox/index.tsx");
@@ -6379,6 +6424,61 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/checkbox",
+  },
+  dialog: {
+    name: "dialog",
+    description:
+      "An accessible modal dialog built on Base UI with smooth Motion spring entrance and exit animations.",
+    type: "registry:ui",
+    dependencies: ["@base-ui/react", "motion", "lucide-react"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/ui/base/dialog/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/base/dialog.tsx",
+        content:
+          '"use client";\n\nimport { Dialog as DialogPrimitive } from "@base-ui/react/dialog";\nimport { cn } from "@/lib/utils";\nimport { XIcon } from "lucide-react";\nimport { motion, useReducedMotion } from "motion/react";\nimport type * as React from "react";\n\ntype DialogProps = React.ComponentProps<typeof DialogPrimitive.Root>;\n\n/**\n * Root container for the Dialog component powered by Base UI.\n */\nfunction Dialog({ ...props }: DialogProps) {\n  return <DialogPrimitive.Root data-slot="dialog" {...props} />;\n}\n\ntype DialogTriggerProps = React.ComponentProps<typeof DialogPrimitive.Trigger>;\n\n/**\n * Button or trigger element that opens the dialog.\n */\nfunction DialogTrigger({ ...props }: DialogTriggerProps) {\n  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;\n}\n\ntype DialogPortalProps = React.ComponentProps<typeof DialogPrimitive.Portal>;\n\n/**\n * Portals dialog overlay and content to the document body.\n */\nfunction DialogPortal({ ...props }: DialogPortalProps) {\n  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;\n}\n\ntype DialogCloseProps = React.ComponentProps<typeof DialogPrimitive.Close>;\n\n/**\n * Action button that dismisses the dialog.\n */\nfunction DialogClose({ ...props }: DialogCloseProps) {\n  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;\n}\n\ntype DialogOverlayProps = React.ComponentProps<typeof DialogPrimitive.Backdrop>;\n\n/**\n * Semi-transparent backdrop overlay behind the dialog.\n */\nfunction DialogOverlay({ className, render, ...props }: DialogOverlayProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <DialogPrimitive.Backdrop\n      className={cn(\n        "fixed inset-0 isolate z-50 bg-black/40 backdrop-blur-xs transition-opacity data-closed:opacity-0 data-open:opacity-100 dark:bg-black/60",\n        className\n      )}\n      data-slot="dialog-overlay"\n      render={\n        render ?? (\n          <motion.div\n            animate={{ opacity: 1 }}\n            exit={{ opacity: 0 }}\n            initial={{ opacity: 0 }}\n            transition={\n              prefersReducedMotion\n                ? { duration: 0 }\n                : { duration: 0.15, ease: "easeOut" }\n            }\n          />\n        )\n      }\n      {...props}\n    />\n  );\n}\n\ntype DialogViewportProps = React.ComponentProps<\n  typeof DialogPrimitive.Viewport\n>;\n\n/**\n * Optional scroll viewport wrapper for large or overflowing dialog popups.\n */\nfunction DialogViewport({ className, ...props }: DialogViewportProps) {\n  return (\n    <DialogPrimitive.Viewport\n      className={cn(\n        "fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4",\n        className\n      )}\n      data-slot="dialog-viewport"\n      {...props}\n    />\n  );\n}\n\ninterface DialogContentProps\n  extends React.ComponentProps<typeof DialogPrimitive.Popup> {\n  /**\n   * Additional CSS class name for the backdrop overlay.\n   */\n  overlayClassName?: string;\n  /**\n   * Whether to render the standard top-right close icon button.\n   * @default true\n   */\n  showCloseButton?: boolean;\n}\n\n/**\n * Modal dialog content container with animated entrance and exit.\n */\nfunction DialogContent({\n  className,\n  children,\n  showCloseButton = true,\n  overlayClassName,\n  render,\n  ...props\n}: DialogContentProps) {\n  const prefersReducedMotion = useReducedMotion();\n\n  return (\n    <DialogPortal>\n      <DialogOverlay className={overlayClassName} />\n      <DialogPrimitive.Popup\n        className={cn(\n          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl border border-border bg-background p-6 text-foreground text-sm shadow-xl outline-none duration-150 sm:max-w-lg",\n          className\n        )}\n        data-slot="dialog-content"\n        render={\n          render ?? (\n            <motion.div\n              animate={{ opacity: 1, scale: 1, y: "-50%", x: "-50%" }}\n              exit={{ opacity: 0, scale: 0.95, y: "-50%", x: "-50%" }}\n              initial={{ opacity: 0, scale: 0.95, y: "-50%", x: "-50%" }}\n              transition={\n                prefersReducedMotion\n                  ? { duration: 0 }\n                  : { type: "spring", bounce: 0, duration: 0.25 }\n              }\n            />\n          )\n        }\n        {...props}\n      >\n        {children}\n        {showCloseButton && (\n          <DialogPrimitive.Close\n            aria-label="Close"\n            className="absolute top-4 right-4 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground opacity-70 transition-opacity hover:bg-muted hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none"\n            data-slot="dialog-close-button"\n          >\n            <XIcon className="size-4" />\n            <span className="sr-only">Close</span>\n          </DialogPrimitive.Close>\n        )}\n      </DialogPrimitive.Popup>\n    </DialogPortal>\n  );\n}\n\n/**\n * Header section containing dialog title and description.\n */\nfunction DialogHeader({ className, ...props }: React.ComponentProps<"div">) {\n  return (\n    <div\n      className={cn(\n        "flex flex-col gap-1.5 text-center sm:text-left",\n        className\n      )}\n      data-slot="dialog-header"\n      {...props}\n    />\n  );\n}\n\ninterface DialogFooterProps extends React.ComponentProps<"div"> {\n  /**\n   * Whether to render a secondary close button inside the footer.\n   * @default false\n   */\n  showCloseButton?: boolean;\n}\n\n/**\n * Footer section for dialog action buttons.\n */\nfunction DialogFooter({\n  className,\n  showCloseButton = false,\n  children,\n  ...props\n}: DialogFooterProps) {\n  return (\n    <div\n      className={cn(\n        "-mx-6 mt-2 -mb-6 flex flex-col-reverse gap-2 rounded-b-xl border-border border-t bg-muted/40 p-4 sm:flex-row sm:justify-end",\n        className\n      )}\n      data-slot="dialog-footer"\n      {...props}\n    >\n      {children}\n      {showCloseButton && (\n        <DialogPrimitive.Close\n          className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"\n          data-slot="dialog-footer-close"\n        >\n          Close\n        </DialogPrimitive.Close>\n      )}\n    </div>\n  );\n}\n\ntype DialogTitleProps = React.ComponentProps<typeof DialogPrimitive.Title>;\n\n/**\n * Accessible title heading for the dialog.\n */\nfunction DialogTitle({ className, ...props }: DialogTitleProps) {\n  return (\n    <DialogPrimitive.Title\n      className={cn(\n        "font-semibold text-foreground text-lg leading-none tracking-tight",\n        className\n      )}\n      data-slot="dialog-title"\n      {...props}\n    />\n  );\n}\n\ntype DialogDescriptionProps = React.ComponentProps<\n  typeof DialogPrimitive.Description\n>;\n\n/**\n * Accessible description explaining the purpose of the dialog.\n */\nfunction DialogDescription({ className, ...props }: DialogDescriptionProps) {\n  return (\n    <DialogPrimitive.Description\n      className={cn("text-muted-foreground text-sm", className)}\n      data-slot="dialog-description"\n      {...props}\n    />\n  );\n}\n\nexport type {\n  DialogCloseProps,\n  DialogContentProps,\n  DialogDescriptionProps,\n  DialogFooterProps,\n  DialogOverlayProps,\n  DialogPortalProps,\n  DialogProps,\n  DialogTitleProps,\n  DialogTriggerProps,\n  DialogViewportProps,\n};\nexport {\n  Dialog,\n  Dialog as BaseDialog,\n  Dialog as default,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogOverlay,\n  DialogPortal,\n  DialogTitle,\n  DialogTrigger,\n  DialogViewport,\n};',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: {
+      type: "reimplemented",
+      label: "Base UI: Dialog (Motion Examples)",
+      url: "https://examples.motion.dev/react/base-dialog",
+      stack: "Base UI and Motion",
+    },
+    component: (() => {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/base/dialog/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && /^[A-Z]/.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/dialog",
   },
   "bottom-sheet": {
     name: "bottom-sheet",
