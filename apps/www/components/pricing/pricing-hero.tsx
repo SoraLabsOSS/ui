@@ -66,9 +66,9 @@ export function PricingHero() {
             />
             <Link
               className="group inline-flex items-center gap-1 font-medium text-muted-foreground text-sm transition-opacity hover:opacity-70"
-              href="/components"
+              href="/catalog"
             >
-              Browse components
+              Browse catalog
               <ArrowRight
                 aria-hidden
                 className="size-3.5 transition-transform group-hover:translate-x-0.5"

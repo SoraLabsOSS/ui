@@ -26,7 +26,7 @@ export function ComponentsRouteLayout({
   primitivesUrl,
 }: ComponentsRouteLayoutProps) {
   const pathname = usePathname();
-  const isGalleryIndex = pathname === "/components";
+  const isGalleryIndex = pathname === "/catalog" || pathname === "/components";
   const { setOpen: setSidebarOpen } = useSidebar();
 
   useEffect(
