@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -226,10 +226,17 @@ async function testConsumerInstallation(): Promise<void> {
     console.log(
       "\n📦 [3/4] Typechecking installed components with TypeScript in consumer sandbox..."
     );
-    const tscPath = path.resolve(WWW_ROOT, "../../node_modules/.bin/tsc.exe");
-    execSync(`"${tscPath}" --noEmit -p "${sandboxDir}/tsconfig.json"`, {
-      stdio: "pipe",
-    });
+    const tscScript = path.resolve(
+      WWW_ROOT,
+      "../../node_modules/typescript/bin/tsc"
+    );
+    execFileSync(
+      process.execPath,
+      [tscScript, "--noEmit", "-p", path.join(sandboxDir, "tsconfig.json")],
+      {
+        stdio: "pipe",
+      }
+    );
     console.log("✅ Consumer TypeScript check PASSED with 0 errors!");
   } finally {
     await fs.rm(sandboxDir, { recursive: true, force: true });
@@ -239,7 +246,7 @@ async function testConsumerInstallation(): Promise<void> {
 
 function verifyMonorepoBuild(): void {
   console.log("\n🌐 [4/4] Verifying monorepo typecheck...");
-  execSync("bun.cmd run check-types", {
+  execFileSync(process.execPath, ["run", "check-types"], {
     cwd: path.resolve(WWW_ROOT, "../.."),
     stdio: "inherit",
   });
