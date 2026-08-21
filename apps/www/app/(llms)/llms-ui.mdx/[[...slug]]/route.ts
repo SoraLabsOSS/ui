@@ -7,7 +7,12 @@ import { uiSource } from "@/lib/ui/source";
 async function getLLMContentForSlug(slug?: string[]) {
   "use cache";
   staticContentCacheLife();
-  const page = uiSource.getPage(slug);
+  let page = uiSource.getPage(slug);
+  if (!page && slug && slug.length === 1) {
+    page =
+      uiSource.getPage(["base", slug[0]]) ??
+      uiSource.getPage(["radix", slug[0]]);
+  }
   if (!page) {
     return null;
   }

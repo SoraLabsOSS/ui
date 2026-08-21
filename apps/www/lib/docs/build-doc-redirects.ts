@@ -14,8 +14,21 @@ const PRIMITIVE_CATEGORY_PREFIXES = [
   "disclosure",
 ] as const;
 
-/** Old top-level doc paths before primitives were grouped under `/docs/primitives`. */
-const TOP_LEVEL_PRIMITIVE_PREFIXES = ["texts", "buttons", "effects"] as const;
+/** Old top-level doc paths before primitives were grouped under `/docs/primitives` or `/docs/motion`. */
+const TOP_LEVEL_PRIMITIVE_PREFIXES = [
+  "texts",
+  "buttons",
+  "effects",
+  "disclosure",
+] as const;
+
+/** Old flat UI paths before multi-foundation (Base UI / Radix UI) split. */
+const LEGACY_UI_SLUG_REDIRECTS: Record<string, string> = {
+  button: "/ui/base/button",
+  checkbox: "/ui/base/checkbox",
+  dialog: "/ui/base/dialog",
+  "bottom-sheet": "/ui/radix/bottom-sheet",
+};
 
 /** Renamed primitive slugs — keeps old bookmarks working. */
 const LEGACY_PRIMITIVE_SLUG_RENAMES: Record<string, string> = {
@@ -126,6 +139,25 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
     destination: "/catalog/:path*",
     permanent: true,
   });
+  redirects.push({
+    source: "/docs/catalog",
+    destination: "/catalog",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/docs/catalog/:path*",
+    destination: "/catalog/:path*",
+    permanent: true,
+  });
+
+  // Redirect legacy flat /ui/:slug paths to /ui/base/:slug or /ui/radix/:slug
+  for (const [slug, destination] of Object.entries(LEGACY_UI_SLUG_REDIRECTS)) {
+    redirects.push({
+      source: `/ui/${slug}`,
+      destination,
+      permanent: true,
+    });
+  }
 
   for (const category of TOP_LEVEL_PRIMITIVE_PREFIXES) {
     redirects.push({
