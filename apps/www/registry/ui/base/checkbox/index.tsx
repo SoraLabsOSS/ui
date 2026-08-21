@@ -189,7 +189,7 @@ function Checkbox({
   ref,
   disabled,
   ...props
-}: CheckboxProps & { ref?: React.Ref<HTMLButtonElement> }) {
+}: CheckboxProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
 
