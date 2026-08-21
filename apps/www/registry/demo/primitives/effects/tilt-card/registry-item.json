@@ -35,6 +35,9 @@
         },
         "isReverse": {
           "value": false
+        },
+        "glare": {
+          "value": true
         }
       }
     }
