@@ -3,6 +3,7 @@
 import { TiltCard } from "@/registry/primitives/effects/tilt-card";
 
 export interface TiltCardDemoProps {
+  glare?: boolean;
   isReverse?: boolean;
   perspective?: number;
   rotationFactor?: number;
@@ -10,14 +11,16 @@ export interface TiltCardDemoProps {
 }
 
 export function TiltCardDemo({
+  glare = true,
   isReverse = false,
   perspective = 1000,
-  rotationFactor = 8,
-  scaleOnHover = 1,
+  rotationFactor = 15,
+  scaleOnHover = 1.02,
 }: TiltCardDemoProps) {
   return (
     <TiltCard
-      className="w-[280px] rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900"
+      className="w-[280px] overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900"
+      glare={glare}
       isReverse={isReverse}
       perspective={perspective}
       rotationFactor={rotationFactor}

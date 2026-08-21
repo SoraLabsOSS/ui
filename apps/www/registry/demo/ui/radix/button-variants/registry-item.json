@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-variants",
+  "type": "registry:ui",
+  "title": "Radix Button Variants Demo",
+  "description": "Showcase of all visual Radix button variants: default, secondary, destructive, outline, ghost, and link.",
+  "registryDependencies": ["radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-variants/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-variants.tsx"
+    }
+  ]
+}
