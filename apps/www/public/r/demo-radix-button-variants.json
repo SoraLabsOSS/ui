@@ -1,0 +1,15 @@
+﻿{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-button-variants",
+  "title": "Radix Button Variants Demo",
+  "registryDependencies": ["@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-variants/index.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonVariantsDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <Button variant=\"default\">Default</Button>\n      <Button variant=\"secondary\">Secondary</Button>\n      <Button variant=\"destructive\">Destructive</Button>\n      <Button variant=\"outline\">Outline</Button>\n      <Button variant=\"ghost\">Ghost</Button>\n      <Button variant=\"link\">Link</Button>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-variants.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
