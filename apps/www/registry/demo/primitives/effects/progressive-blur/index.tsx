@@ -1,3 +1,5 @@
+"use client";
+
 import { ProgressiveBlur } from "@/registry/primitives/effects/progressive-blur";
 
 const PARAGRAPHS = [
