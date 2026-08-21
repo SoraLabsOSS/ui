@@ -29,11 +29,12 @@ const systemPrompt = [
 
 const queryRewritePrompt = [
   "Rewrite the latest user question into a short English search query for Sora UI docs.",
-  "Prefer official names and paths:",
-  "- icons / add icons / lucide / reicon → Sora Icons catalog get started @soralabs/icons AnimateIcon /docs/icons/get-started",
+  "Prefer official names and paths across the three pillars (Motion, Catalog, and UI):",
+  "- motion / animation primitives → Motion building blocks /docs/motion",
+  "- layout showcases / pre-styled components → Catalog /catalog",
+  "- Base UI / Radix UI accessible components → UI kit /ui",
   "- install / setup → Installation shadcn @soralabs sora-cli",
-  "- a named primitive → that component's docs page",
-  "Do not rewrite icon catalog questions into icon-button or other button primitives.",
+  "- a named component or primitive → that component's docs page",
   "Output only the search query, no quotes or explanation.",
 ].join("\n");
 
