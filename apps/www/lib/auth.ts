@@ -96,6 +96,7 @@ export const auth = betterAuth({
   },
   ...(isRedisConfigured() ? { secondaryStorage: redisSecondaryStorage } : {}),
   session: {
+    freshAge: 0, // Disable freshAge check so listSessions and sensitive actions do not 403 on older sessions
     storeSessionInDatabase: true, // Required when using oauth-provider with secondaryStorage
     cookieCache: {
       enabled: true,
