@@ -1,8 +1,0 @@
-node_modules
-dist
-api/**/*.js
-.env
-logs
-.DS_Store
-.idea
-.vscode
