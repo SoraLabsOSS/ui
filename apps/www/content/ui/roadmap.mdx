@@ -7,6 +7,9 @@ author:
   url: https://github.com/Axyl1410
 ---
 
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { CodeTabs } from '@/components/docs/code-tabs';
+
 The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Radix UI**, and expanding into other headless libraries and multi-framework ecosystems.
 
 <RoadmapTimeline />
@@ -15,26 +18,30 @@ The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation 
 
 Our component development follows a structured roadmap designed to provide complete, production-ready animated primitives:
 
+<Steps>
+<Step>
+
 ### Phase 1: Base UI First (Current Focus)
 
 [Base UI](https://base-ui.com) provides an unstyled, highly accessible component foundation designed for modern React. We are systematically building Motion-powered animated variants for all **13 core Base UI components**:
 
-1. **Button** (`/ui/base/button`) — Physics spring hover/tap scaling and comprehensive CVA variants. *(Completed)*
-2. **Checkbox** (`/ui/base/checkbox`) — Animated checkmark path morphing and elastic pop feedback. *(Completed)*
-3. **Dialog** (`/ui/base/dialog`) — Smooth backdrop blur with scale-in spring physics. *(Completed)*
-4. **Accordion** — Smooth layout-height morphing and spring chevron rotation. *(In Progress)*
-5. **Context Menu** — Origin-aware transform scaling with cascaded submenu transitions. *(Planned)*
-6. **Dropdown Menu** — Collision-aware floating popovers with item stagger. *(Planned)*
-7. **Progress** — Elastic bar fill with indeterminate shimmer and animated numeric ticker. *(Planned)*
-8. **Radio / Radio Group** — Shared `layoutId` gliding active indicator. *(Planned)*
-9. **Select** — Floating dropdown with active pill glide and keyboard navigation. *(Planned)*
-10. **Switch** — Inertia stretch toggle with rubber-band physics. *(Planned)*
-11. **Tabs** — Sliding background indicator pill and cross-fading tab panels. *(Planned)*
-12. **Toast** — Stacked notification queue with swipe-to-dismiss gesture physics. *(Planned)*
-13. **Toggle Group** — Multi-select animated bounding boxes. *(Planned)*
-14. **Tooltip** — Micro scale-fade tooltip with dynamic arrow position tracking. *(Planned)*
+- **Button** (`/ui/base/button`) — Physics spring hover/tap scaling and comprehensive CVA variants. *(Completed)*
+- **Checkbox** (`/ui/base/checkbox`) — Animated checkmark path morphing and elastic pop feedback. *(Completed)*
+- **Dialog** (`/ui/base/dialog`) — Smooth backdrop blur with scale-in spring physics. *(Completed)*
+- **Accordion** — Smooth layout-height morphing and spring chevron rotation. *(In Progress)*
+- **Context Menu** — Origin-aware transform scaling with cascaded submenu transitions. *(Planned)*
+- **Dropdown Menu** — Collision-aware floating popovers with item stagger. *(Planned)*
+- **Progress** — Elastic bar fill with indeterminate shimmer and animated numeric ticker. *(Planned)*
+- **Radio / Radio Group** — Shared `layoutId` gliding active indicator. *(Planned)*
+- **Select** — Floating dropdown with active pill glide and keyboard navigation. *(Planned)*
+- **Switch** — Inertia stretch toggle with rubber-band physics. *(Planned)*
+- **Tabs** — Sliding background indicator pill and cross-fading tab panels. *(Planned)*
+- **Toast** — Stacked notification queue with swipe-to-dismiss gesture physics. *(Planned)*
+- **Toggle Group** — Multi-select animated bounding boxes. *(Planned)*
+- **Tooltip** — Micro scale-fade tooltip with dynamic arrow position tracking. *(Planned)*
 
----
+</Step>
+<Step>
 
 ### Phase 2: Radix UI Suite (Next Priority)
 
@@ -43,7 +50,8 @@ Our Radix UI tier infuses [Radix Primitives](https://www.radix-ui.com/primitives
 - **Completed**: Button, Checkbox, Dialog, Bottom Sheet.
 - **Upcoming**: Accordion, Alert Dialog, Context Menu, Dropdown Menu, Hover Card, Menubar, Navigation Menu, Popover, Select, Separator, Slider, Switch, Tabs, Toast, Tooltip.
 
----
+</Step>
+<Step>
 
 ### Phase 3: Other Headless UI Libraries (Future Planning)
 
@@ -53,12 +61,16 @@ To provide universal flexibility across different architecture requirements:
 - **Ark UI**: Zag.js state-machine driven components with universal animation presets.
 - **Headless UI & Ariakit**: Clean adapters for Tailwind Headless UI and Ariakit.
 
----
+</Step>
+<Step>
 
 ### Phase 4: Cross-Platform & Ecosystem Expansion
 
 - **Vue 3**: Official component ports using Motion for Vue.
 - **Vanilla JavaScript**: Web components and framework-agnostic wrappers.
+
+</Step>
+</Steps>
 
 ---
 
@@ -80,15 +92,27 @@ Every component in the Sora UI registry is engineered for 60/120 FPS performance
 
 You can audit any component or page locally in your development environment for free using the [MotionScore CLI](https://score.motion.dev/docs/cli). The `--no-upload` flag runs a headless Chromium browser locally on your machine with **unlimited, unmetered audits**:
 
-```bash
-# Run unlimited local audit without uploading or consuming quota
-bun run audit:motion
+<Steps>
+<Step>
 
-# Or run directly via npx
-npx motionscore http://localhost:3000/ui/base/button --no-upload
-```
+### Start Dev Server & Run Audit
 
-#### CLI Options for Component Testing
+Run an unmetered local audit on your active development server without consuming cloud credits:
+
+<CodeTabs
+  codes={{
+    bun: `bun run audit:motion`,
+    npx: `npx motionscore http://localhost:3000/ui/base/button --no-upload`,
+    pnpm: `pnpm dlx motionscore http://localhost:3000/ui/base/button --no-upload`,
+  }}
+/>
+
+</Step>
+<Step>
+
+### Test Viewport Formats
+
+Audit specific viewport layouts to catch responsive animation regressions:
 
 - **Mobile Viewport Only**:
   ```bash
@@ -98,16 +122,32 @@ npx motionscore http://localhost:3000/ui/base/button --no-upload
   ```bash
   npx motionscore http://localhost:3000/ui/base/dialog --desktop-only --no-upload
   ```
-- **Save JSON Report Summary**:
-  ```bash
-  npx motionscore http://localhost:3000/ui --summary audit-report.json --no-upload
-  ```
 
-#### What Gets Audited:
+</Step>
+<Step>
+
+### Export Report Summary
+
+Export compact JSON findings for automated assertions or CI/CD pipelines:
+
+```bash
+npx motionscore http://localhost:3000/ui --summary audit-report.json --no-upload
+```
+
+</Step>
+<Step>
+
+### Review the 4 Audit Pillars
+
+The audit evaluates your component across four core render pipeline signals:
+
 1. **Animation Properties**: Identifies properties triggering layout reflows (`width`, `height`, `top`, `left`) vs GPU-accelerated transforms.
 2. **Scroll Performance**: Evaluates scroll-linked transforms and trigger synchronization.
 3. **DOM & Style Thrashing**: Detects interleaved reads and writes causing forced reflows.
 4. **GPU Texture & Memory**: Measures VRAM consumption and compositor layer count.
+
+</Step>
+</Steps>
 
 ---
 
