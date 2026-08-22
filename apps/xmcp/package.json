@@ -1,0 +1,25 @@
+{
+  "name": "xmcp",
+  "version": "0.1.0",
+  "description": "Official Sora UI MCP server built with xmcp",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "xmcp build",
+    "dev": "xmcp dev",
+    "start": "node dist/http.js",
+    "check-types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "xmcp": "1.1.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.2",
+    "@xmcp-dev/compiler": "1.1.0",
+    "typescript": "^5.9.3"
+  }
+}
