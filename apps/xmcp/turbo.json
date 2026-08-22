@@ -1,0 +1,32 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["$TURBO_EXTENDS$"],
+      "env": [
+        "DOCS_BASE_URL",
+        "DOCS_CACHE_TTL_MS",
+        "DOCS_CACHE_MAX_ENTRIES",
+        "REGISTRY_CACHE_TTL_MS",
+        "REGISTRY_CACHE_MAX_ENTRIES",
+        "PORT",
+        "MCP_PORT",
+        "NODE_ENV"
+      ],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "env": [
+        "DOCS_BASE_URL",
+        "DOCS_CACHE_TTL_MS",
+        "DOCS_CACHE_MAX_ENTRIES",
+        "REGISTRY_CACHE_TTL_MS",
+        "REGISTRY_CACHE_MAX_ENTRIES",
+        "PORT",
+        "MCP_PORT",
+        "NODE_ENV"
+      ]
+    }
+  }
+}
