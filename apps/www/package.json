@@ -15,7 +15,8 @@
     "lint:links": "bun ./scripts/lint-links.ts",
     "lint:fix": "ultracite fix",
     "format:write": "ultracite fix",
-    "format:check": "ultracite check"
+    "format:check": "ultracite check",
+    "audit:motion": "motionscore http://localhost:3000 --no-upload"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

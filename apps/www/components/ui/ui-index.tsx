@@ -1,3 +1,4 @@
+import { icons } from "lucide-react";
 import Link from "next/link";
 import { PrimitivesIndexNewDot } from "@/components/docs/primitives-index-new-dot";
 import uiMeta from "@/content/ui/meta.json";
@@ -10,6 +11,7 @@ import { uiSource } from "@/lib/ui/source";
 const SECTION_PATTERN = /^---(.+)---$/;
 
 interface SectionEntry {
+  icon?: string;
   releaseDate?: string;
   title: string;
   url: string;
@@ -38,6 +40,7 @@ function getSections(): Section[] {
     current.pages.push({
       title: page.data.title,
       url: page.url,
+      icon: page.data.icon,
       releaseDate: getPageReleaseDateString(page.data as PageReleaseDateFields),
     });
   }
@@ -58,16 +61,24 @@ export function UiIndex() {
         <section key={section.name}>
           <h2>{section.name}</h2>
           <div className="not-prose grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {section.pages.map((page) => (
-              <Link
-                className="relative flex items-center justify-center rounded-lg border bg-accent/40 px-3 py-2.5 text-center font-medium text-foreground text-sm no-underline transition-colors duration-200 hover:bg-accent"
-                href={page.url}
-                key={page.url}
-              >
-                {page.title}
-                <PrimitivesIndexNewDot releaseDate={page.releaseDate} />
-              </Link>
-            ))}
+            {section.pages.map((page) => {
+              const Icon =
+                page.icon && page.icon in icons
+                  ? icons[page.icon as keyof typeof icons]
+                  : null;
+
+              return (
+                <Link
+                  className="relative flex items-center justify-center rounded-lg border bg-accent/40 px-3 py-2.5 text-center font-medium text-foreground text-sm no-underline transition-colors duration-200 hover:bg-accent"
+                  href={page.url}
+                  key={page.url}
+                >
+                  {Icon && <Icon className="mr-2 size-4 shrink-0 opacity-70" />}
+                  {page.title}
+                  <PrimitivesIndexNewDot releaseDate={page.releaseDate} />
+                </Link>
+              );
+            })}
           </div>
         </section>
       ))}

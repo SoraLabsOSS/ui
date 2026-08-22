@@ -23,6 +23,12 @@ import {
   Pre,
 } from "./components/docs/codeblock";
 
+const RoadmapTimeline = dynamic(() =>
+  import("@/components/ui/roadmap-timeline").then((m) => ({
+    default: m.RoadmapTimeline,
+  }))
+);
+
 const ComponentCredits = dynamic(() =>
   import("@/components/docs/component-credits").then((m) => ({
     default: m.ComponentCredits,
@@ -69,6 +75,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ComponentCredits,
     PrimitivesIndex,
     UiIndex,
+    RoadmapTimeline,
     TypeTable: SoraTypeTable,
     ExternalLink,
     Steps,

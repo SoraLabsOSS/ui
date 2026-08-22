@@ -1,0 +1,116 @@
+---
+title: Roadmap
+description: Upcoming development schedule, milestones, and release strategy for Sora UI animated components, Base UI foundations, Radix UI suite, and Headless UI adapters.
+icon: Milestone
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Radix UI**, and expanding into other headless libraries and multi-framework ecosystems.
+
+<RoadmapTimeline />
+
+## Prioritization Strategy
+
+Our component development follows a structured roadmap designed to provide complete, production-ready animated primitives:
+
+### Phase 1: Base UI First (Current Focus)
+
+[Base UI](https://base-ui.com) provides an unstyled, highly accessible component foundation designed for modern React. We are systematically building Motion-powered animated variants for all **13 core Base UI components**:
+
+1. **Button** (`/ui/base/button`) — Physics spring hover/tap scaling and comprehensive CVA variants. *(Completed)*
+2. **Checkbox** (`/ui/base/checkbox`) — Animated checkmark path morphing and elastic pop feedback. *(Completed)*
+3. **Dialog** (`/ui/base/dialog`) — Smooth backdrop blur with scale-in spring physics. *(Completed)*
+4. **Accordion** — Smooth layout-height morphing and spring chevron rotation. *(In Progress)*
+5. **Context Menu** — Origin-aware transform scaling with cascaded submenu transitions. *(Planned)*
+6. **Dropdown Menu** — Collision-aware floating popovers with item stagger. *(Planned)*
+7. **Progress** — Elastic bar fill with indeterminate shimmer and animated numeric ticker. *(Planned)*
+8. **Radio / Radio Group** — Shared `layoutId` gliding active indicator. *(Planned)*
+9. **Select** — Floating dropdown with active pill glide and keyboard navigation. *(Planned)*
+10. **Switch** — Inertia stretch toggle with rubber-band physics. *(Planned)*
+11. **Tabs** — Sliding background indicator pill and cross-fading tab panels. *(Planned)*
+12. **Toast** — Stacked notification queue with swipe-to-dismiss gesture physics. *(Planned)*
+13. **Toggle Group** — Multi-select animated bounding boxes. *(Planned)*
+14. **Tooltip** — Micro scale-fade tooltip with dynamic arrow position tracking. *(Planned)*
+
+---
+
+### Phase 2: Radix UI Suite (Next Priority)
+
+Our Radix UI tier infuses [Radix Primitives](https://www.radix-ui.com/primitives) with Sora Motion spring dynamics and layout orchestration:
+
+- **Completed**: Button, Checkbox, Dialog, Bottom Sheet.
+- **Upcoming**: Accordion, Alert Dialog, Context Menu, Dropdown Menu, Hover Card, Menubar, Navigation Menu, Popover, Select, Separator, Slider, Switch, Tabs, Toast, Tooltip.
+
+---
+
+### Phase 3: Other Headless UI Libraries (Future Planning)
+
+To provide universal flexibility across different architecture requirements:
+
+- **React Aria Components**: Adobe's accessibility primitives combined with Sora Motion spring physics.
+- **Ark UI**: Zag.js state-machine driven components with universal animation presets.
+- **Headless UI & Ariakit**: Clean adapters for Tailwind Headless UI and Ariakit.
+
+---
+
+### Phase 4: Cross-Platform & Ecosystem Expansion
+
+- **Vue 3**: Official component ports using Motion for Vue.
+- **Vanilla JavaScript**: Web components and framework-agnostic wrappers.
+
+---
+
+## MotionScore™ Performance Auditing
+
+Every component in the Sora UI registry is engineered for 60/120 FPS performance and benchmarked across four key animation categories:
+
+| Tier | Render Pipeline Work | Animation Characteristics | Performance Standard |
+| :--- | :--- | :--- | :--- |
+| **Tier S** | **Compositor Only** | Runs entirely on the GPU compositor thread (`transform`, `opacity`). | Zero main-thread interruption, 120 FPS capable, full reduced-motion branch. |
+| **Tier A** | **Main-Thread Composited** | Changes composited values from the main thread with micro-orchestrations. | Zero layout shifts, keyboard and focus synchronized. |
+| **Tier B** | **Measured Animation** | Requires upfront DOM measurements (e.g. FLIP layout morphing, bounds calculation). | Smooth FLIP transitions without layout thrashing. |
+| **Tier C** | **Paint Triggering** | Triggers paint operations (colors, shadows, SVG paths, background transitions). | Non-intrusive, isolated repaints. |
+| **Tier D / F** | **Layout & Thrashing** | Interleaved DOM reads/writes or layout recalculations (`width`, `height`, `top/left`). | **0% Zero-Tolerance**: Strictly eliminated in Sora UI. |
+
+---
+
+### Running Local Audits with MotionScore CLI
+
+You can audit any component or page locally in your development environment for free using the [MotionScore CLI](https://score.motion.dev/docs/cli). The `--no-upload` flag runs a headless Chromium browser locally on your machine with **unlimited, unmetered audits**:
+
+```bash
+# Run unlimited local audit without uploading or consuming quota
+bun run audit:motion
+
+# Or run directly via npx
+npx motionscore http://localhost:3000/ui/base/button --no-upload
+```
+
+#### CLI Options for Component Testing
+
+- **Mobile Viewport Only**:
+  ```bash
+  npx motionscore http://localhost:3000/ui/radix/bottom-sheet --mobile-only --no-upload
+  ```
+- **Desktop Viewport Only**:
+  ```bash
+  npx motionscore http://localhost:3000/ui/base/dialog --desktop-only --no-upload
+  ```
+- **Save JSON Report Summary**:
+  ```bash
+  npx motionscore http://localhost:3000/ui --summary audit-report.json --no-upload
+  ```
+
+#### What Gets Audited:
+1. **Animation Properties**: Identifies properties triggering layout reflows (`width`, `height`, `top`, `left`) vs GPU-accelerated transforms.
+2. **Scroll Performance**: Evaluates scroll-linked transforms and trigger synchronization.
+3. **DOM & Style Thrashing**: Detects interleaved reads and writes causing forced reflows.
+4. **GPU Texture & Memory**: Measures VRAM consumption and compositor layer count.
+
+---
+
+## Requesting a Component
+
+Have an animation idea or a specific headless UI component you'd like to see prioritized? Open an issue or join our community discussions on [GitHub](https://github.com/Axyl1410).

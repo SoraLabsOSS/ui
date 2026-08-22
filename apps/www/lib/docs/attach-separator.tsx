@@ -7,6 +7,7 @@ import RadixIcon from "@workspace/ui/components/icons/radix-icon";
 import type { BuildPageTreeOptions } from "fumadocs-core/source";
 import {
   Code,
+  Compass,
   Layers,
   LayoutTemplate,
   ListCollapse,
@@ -45,6 +46,11 @@ export const attachSeparator: BuildPageTreeOptions["attachSeparator"] = (
   node
 ) => {
   switch (node.name) {
+    case "Overview":
+      node.name = (
+        <Separator icon={<Compass strokeWidth={2.5} />} name="Overview" />
+      );
+      break;
     case "Sora UI":
       node.name = (
         <Separator

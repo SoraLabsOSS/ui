@@ -4,6 +4,8 @@
   "icon": "Component",
   "root": true,
   "pages": [
+    "---Overview---",
+    "roadmap",
     "---Base UI---",
     "base/button",
     "base/checkbox",
