@@ -29,7 +29,7 @@ This Code applies within all community spaces—GitHub repositories, issues, pul
 
 ## Reporting
 
-If you experience or witness a violation, please contact the maintainers or open a confidential discussion at [github.com/SoraLabsOSS/sora-ui-community](https://github.com/SoraLabsOSS/sora-ui-community). Provide as much detail as possible, including links, screenshots, dates, and context. Reports will be reviewed in good faith and handled as confidentially as possible.
+If you experience or witness a violation, please contact the maintainers at [hello@soralabs.io.vn](mailto:hello@soralabs.io.vn) or open a confidential discussion at [github.com/SoraLabsOSS/sora-ui-community](https://github.com/SoraLabsOSS/sora-ui-community). Provide as much detail as possible, including links, screenshots, dates, and context. Reports will be reviewed in good faith and handled as confidentially as possible.
 
 We aim to acknowledge every report within **72 hours** and to follow up with next steps or a resolution timeline.
 

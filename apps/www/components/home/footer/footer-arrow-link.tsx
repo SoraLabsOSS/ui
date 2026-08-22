@@ -63,6 +63,14 @@ export function FooterArrowLink({
     },
   };
 
+  if (href.startsWith("mailto:")) {
+    return (
+      <a className={linkClassName} href={href} {...handlers} {...props}>
+        {content}
+      </a>
+    );
+  }
+
   if (external || href.startsWith("http")) {
     return (
       <a

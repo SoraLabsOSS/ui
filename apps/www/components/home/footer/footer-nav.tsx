@@ -11,6 +11,7 @@ import {
   COMMUNITY_DISCUSSIONS_URL,
   COMMUNITY_ISSUES_URL,
   COMMUNITY_REPO_URL,
+  CONTACT_EMAIL,
   GITHUB_REPO_URL,
 } from "@/lib/site";
 import { FooterArrowLink } from "./footer-arrow-link";
@@ -68,6 +69,11 @@ const FOOTER_NAV: FooterNavSection[] = [
       {
         href: COMMUNITY_DISCUSSIONS_URL,
         label: "Discussions",
+        external: true,
+      },
+      {
+        href: `mailto:${CONTACT_EMAIL}`,
+        label: "Contact",
         external: true,
       },
       { href: "/docs/license", label: "License" },

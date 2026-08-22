@@ -1,3 +1,5 @@
+import { CONTACT_EMAIL } from "@/lib/site";
+
 export const GITHUB_SPONSORS_URL =
   "https://github.com/sponsors/axyl1410" as const;
 
@@ -64,16 +66,12 @@ export const PRICING_FAQ_ITEMS: PricingFaqItem[] = [
   },
 ];
 
-export function getSupportEmail(): string | undefined {
+export function getSupportEmail(): string {
   const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim();
-  return email && email.length > 0 ? email : undefined;
+  return email && email.length > 0 ? email : CONTACT_EMAIL;
 }
 
-export function getSupportMailtoUrl(): string | undefined {
+export function getSupportMailtoUrl(): string {
   const email = getSupportEmail();
-  if (!email) {
-    return;
-  }
-
   return `mailto:${email}?subject=${encodeURIComponent("Sora UI component request")}`;
 }

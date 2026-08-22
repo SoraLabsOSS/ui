@@ -1,10 +1,11 @@
-import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+import { CONTACT_EMAIL, SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 export const SORA_UI_PUBLISHER_JSON_LD = {
   "@type": "Organization",
   "@id": `${SITE_URL}/#organization`,
   name: "Sora UI",
   url: SITE_URL,
+  email: CONTACT_EMAIL,
   logo: {
     "@type": "ImageObject",
     url: `${SITE_URL}/android-chrome-192x192.png`,
@@ -30,6 +31,7 @@ export const jsonLd = {
       "@id": `${SITE_URL}/#organization`,
       name: "Sora UI",
       url: SITE_URL,
+      email: CONTACT_EMAIL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/android-chrome-192x192.png`,

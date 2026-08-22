@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { COMMUNITY_DISCUSSIONS_URL, COMMUNITY_ISSUES_URL } from "@/lib/site";
+import {
+  COMMUNITY_DISCUSSIONS_URL,
+  COMMUNITY_ISSUES_URL,
+  CONTACT_EMAIL,
+} from "@/lib/site";
 
 const LAST_UPDATED = "June 24, 2026";
 
@@ -30,7 +34,7 @@ export function PrivacyPolicyArticle() {
       <ul>
         <li>Name, email address, and profile picture from Google or GitHub</li>
         <li>Bookmarked components and documentation pages</li>
-        <li>Communications you send to us through GitHub</li>
+        <li>Communications you send to us through GitHub or email</li>
       </ul>
       <p>
         We never store your Google or GitHub password. Authentication is handled
@@ -61,7 +65,7 @@ export function PrivacyPolicyArticle() {
         <li>Save your bookmarks across devices</li>
         <li>Improve components and documentation experience</li>
         <li>Monitor errors and protect against abuse</li>
-        <li>Respond to support requests on GitHub</li>
+        <li>Respond to support requests and inquiries</li>
       </ul>
       <p>We do not sell your data.</p>
       <p>We do not use account data for advertising profiling.</p>
@@ -106,7 +110,7 @@ export function PrivacyPolicyArticle() {
         >
           GitHub
         </a>{" "}
-        and we will investigate.
+        or email us and we will investigate.
       </p>
 
       <h2 id="data-retention">5. Data retention</h2>
@@ -152,13 +156,14 @@ export function PrivacyPolicyArticle() {
 
       <h2 id="contact">9. Contact</h2>
       <p>
-        Questions about this policy?{" "}
+        Questions about this policy? Contact us at{" "}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>,{" "}
         <a
           href={COMMUNITY_ISSUES_URL}
           rel="noopener noreferrer"
           target="_blank"
         >
-          Open an issue
+          open an issue
         </a>{" "}
         or join the{" "}
         <a

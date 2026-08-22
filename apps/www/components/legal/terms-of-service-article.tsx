@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { COMMUNITY_ISSUES_URL } from "@/lib/site";
+import { COMMUNITY_ISSUES_URL, CONTACT_EMAIL } from "@/lib/site";
 
 const LAST_UPDATED = "June 24, 2026";
 
@@ -78,13 +78,14 @@ export function TermsOfServiceArticle() {
 
       <h2 id="contact">8. Contact</h2>
       <p>
-        Questions about these Terms?{" "}
+        Questions about these Terms? Reach out to us at{" "}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> or{" "}
         <a
           href={COMMUNITY_ISSUES_URL}
           rel="noopener noreferrer"
           target="_blank"
         >
-          Open an issue
+          open an issue
         </a>{" "}
         on GitHub.
       </p>
