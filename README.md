@@ -17,7 +17,9 @@ Visit [ui.soralabs.io.vn](https://ui.soralabs.io.vn/docs) to view the documentat
 
 ```bash
 bun install
-bun run dev:www    # http://localhost:3000
+bun run dev:www    # docs site only → http://localhost:3000
+# or
+bun dev            # run all apps (Next.js docs + xmcp)
 ```
 
 **No `.env` file is required** to browse docs, blog, the catalog, or use Ask AI locally. Copy [`apps/www/.env.example`](./apps/www/.env.example) only when you need optional features:
@@ -32,6 +34,20 @@ bun run dev:www    # http://localhost:3000
 | Sentry | `NEXT_PUBLIC_SENTRY_DSN` |
 
 Production deployments must set `BETTER_AUTH_SECRET` and `DATABASE_URL` at minimum.
+
+## MCP Server
+
+Sora UI includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server built with [xmcp](https://xmcp.dev) under [`apps/xmcp`](./apps/xmcp). It enables AI assistants (Cursor, Claude Desktop, Claude Code, etc.) to search documentation, browse sections, and install components:
+
+```bash
+# Run MCP server in development mode
+cd apps/xmcp && bun run dev
+
+# Build HTTP and STDIO bundles
+cd apps/xmcp && bun run build
+```
+
+See the [MCP Documentation](https://ui.soralabs.io.vn/docs/mcp) or [`apps/xmcp/README.md`](./apps/xmcp/README.md) for full configuration details.
 
 ## Contributing
 

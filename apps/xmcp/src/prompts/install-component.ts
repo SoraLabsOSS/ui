@@ -28,6 +28,6 @@ export default function installComponentPrompt({
   const cwdClause = cwd ? ` into the workspace \`${cwd}\`` : "";
   return `Please help me install the Sora UI component \`${component}\`${cwdClause}. 
 First, fetch its info using the \`get_component_info\` tool.
-Then run the recommended non-interactive install command \`npx @soralabsoss/sora-cli add ${component}${cwd ? ` --cwd "${cwd}"` : ""} --yes\`.
+Then run the recommended non-interactive install command \`npx shadcn@latest add @soralabs/${component}${cwd ? ` --cwd "${cwd}"` : ""} --yes\` (or \`npx @soralabsoss/sora-cli add ${component}${cwd ? ` --cwd "${cwd}"` : ""} --yes\`).
 Finally, verify the installed component file and explain how to import and use it in my application.`;
 }

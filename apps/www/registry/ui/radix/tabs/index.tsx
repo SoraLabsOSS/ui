@@ -110,8 +110,6 @@ function TabsContent({
           data-slot="tabs-content"
           exit={{ opacity: 0, filter: "blur(0px)" }}
           initial={{ opacity: 0, filter: "blur(0px)" }}
-          layout={!prefersReducedMotion}
-          layoutDependency={value}
           transition={resolvedTransition}
           {...props}
         />

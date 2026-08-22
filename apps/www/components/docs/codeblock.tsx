@@ -125,7 +125,7 @@ export const CodeBlock = ({
           <ScrollViewport
             {...viewportProps}
             className={cn(
-              "[&_code]:!text-[13px] [&_code_.line]:!px-0 max-h-[600px] rounded-md bg-background",
+              "[&_code]:!text-[13px] [&_code_.line]:!px-0 h-auto max-h-[600px] w-full rounded-md bg-background",
               viewportProps?.className
             )}
             data-slot="codeblock-viewport"

@@ -9,7 +9,10 @@
       "args": ["shadcn@latest", "mcp"]
     },
     "sora-ui": {
-      "url": "https://mcp.soralabs.io.vn"
+      "url": "https://mcp.soralabs.io.vn/mcp"
+    },
+    "sora-ui-mcp": {
+      "url": "https://ui-xmcp.vercel.app/mcp"
     }
   }
 }

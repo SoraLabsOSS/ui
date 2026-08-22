@@ -54,7 +54,7 @@ Git hooks (lefthook): pre-commit runs `ultracite fix` on staged JS/TS/JSON/CSS a
 ```
 apps/
   www/   — docs site + component registry (Next.js, Fumadocs). Primary work surface.
-  mcp/   — MCP server (mcp-framework) exposing Sora docs/registry as tools (search docs, list components, get component info) for AI assistants.
+  xmcp/  — MCP server (xmcp) exposing Sora docs/registry as tools (search docs, list components, get component info) for AI assistants.
 packages/
   ui/                 — @workspace/ui: shared primitives-adjacent utilities (cn, get-strict-context, get-motion-component), globals.css, base hooks.
   auth-ui/            — @workspace/auth-ui: better-auth UI wiring.
@@ -100,9 +100,9 @@ registry/
 
 Route groups under `apps/www/app`: `(home)`, `(account)`, `(llms)`, plus `docs`, `docs-og`, `blog`, `blog-og`, `components`, `ui`, `demo`, `examples`, `pricing`, `privacy`, `legal`, `auth`, `api`. Docs content is Fumadocs-powered MDX under `apps/www/content`.
 
-### apps/mcp
+### apps/xmcp
 
-Exposes the Sora docs and component registry to AI tools/assistants over MCP. Tools live in `apps/mcp/src/tools/` (e.g. `sora-search-docs-tool.ts`, `sora-list-components-tool.ts`, `sora-get-component-info-tool.ts`); sources/caching for docs and registry data are in `apps/mcp/src/docs/` and `apps/mcp/src/registry/`.
+Exposes the Sora docs and component registry to AI tools/assistants over MCP, built with the `xmcp` framework. Tools live in `apps/xmcp/src/tools/` (`search-docs.ts`, `get-page.ts`, `list-sections.ts`, `get-component-info.ts`), prompts in `apps/xmcp/src/prompts/` (`install-component.ts`), and resources in `apps/xmcp/src/resources/` (`registry.ts`). Sources and caching for docs and registry data are under `apps/xmcp/src/docs/` and `apps/xmcp/src/registry/`.
 
 ## Code Standards (Ultracite)
 

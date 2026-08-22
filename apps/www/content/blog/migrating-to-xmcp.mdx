@@ -1,0 +1,159 @@
+---
+title: "Changelog: Migrating Sora MCP to xmcp — Dual HTTP/STDIO, Prompts, and Resources"
+description: "Why we rebuilt our Model Context Protocol server from the ground up using xmcp: native STDIO + Streamable HTTP dual bundling, official MCP Prompts and Resources, and a cleaner /mcp endpoint."
+ogSubtitle: "From legacy serverless glue to a unified xmcp architecture: native STDIO, /mcp streaming, Prompts, and live Resources."
+author: Axyl
+date: 2026-08-23
+hashtags: ["#changelog", "#mcp", "#xmcp", "#ai", "#dx"]
+---
+
+The Model Context Protocol (MCP) has become a cornerstone of how AI assistants (Cursor, Claude Desktop, Claude Code, Zed, Windsurf) discover, read, and install Sora UI components.
+
+When we first built `apps/mcp`, the MCP ecosystem was young. We leaned on `mcp-framework`, wrapping it with custom Vercel serverless adapters, middleware path rewrites, and bespoke build scripts. While it served us well initially, maintaining that glue code became friction: local STDIO development required manual setups, adding new MCP primitives (like Prompts and Resources) wasn't seamless, and bundle outputs were tied to complex serverless configurations.
+
+Today, we have completely rebuilt and migrated our MCP server into **`apps/xmcp`**, powered by the modern [xmcp](https://xmcp.dev) framework and `@xmcp-dev/compiler`.
+
+Here is a full breakdown of why we migrated, what changed under the hood, and how the old and new architectures compare.
+
+---
+
+## Old (`apps/mcp`) vs New (`apps/xmcp`)
+
+| Feature | Legacy `apps/mcp` | Modern `apps/xmcp` |
+| --- | --- | --- |
+| **Framework** | `mcp-framework` (0.2.x) + `@mcpframework/docs` | [xmcp](https://xmcp.dev) (1.1.x) + `@xmcp-dev/compiler` |
+| **Transports** | HTTP-first with complex Vercel serverless adapters | **Dual Target Out-of-the-Box**: `dist/http.js` + `dist/stdio.js` |
+| **MCP Capabilities** | Tools only | **Tools**, **Prompts**, and **Resources** |
+| **Remote Endpoint** | Root `/` with custom middleware rewrites | Standardized **`/mcp`** Streamable HTTP (Root `/` serves info landing) |
+| **Local STDIO Mode** | Clunky manual `tsc` & direct node index execution | Dedicated compiled `dist/stdio.js` for one-line local integration |
+| **Developer Experience** | Multiple `tsconfig.*.json` files & custom watch scripts | Single `xmcp.config.ts`, instant HMR (`bun run dev`), `xmcp build` |
+| **CLI Guidance** | Mixed commands | Unified non-interactive `shadcn add` / `sora-cli add` with `--yes` & `--cwd` |
+
+---
+
+## Why We Chose `xmcp`
+
+### 1. First-Class Dual Bundling (HTTP + STDIO)
+
+AI clients connect to MCP servers in different ways:
+- **Remote clients & team setups** connect over Streamable HTTP / Server-Sent Events (SSE).
+- **Local desktop tools** (like Claude Desktop or local Cursor instances) perform best over STDIO without network overhead.
+
+With the old `apps/mcp`, supporting both meant maintaining separate entry points and fighting serverless bundling quirks. 
+
+`xmcp` solves this natively. Running `bun run build` in `apps/xmcp` compiles two optimized standalone bundles:
+- `dist/http.js`: Streamable HTTP server with built-in CORS, health checks, and route handling.
+- `dist/stdio.js`: Zero-dependency STDIO bridge that streams JSON-RPC directly to stdin/stdout.
+
+```bash
+cd apps/xmcp
+bun install
+bun run build    # produces dist/http.js and dist/stdio.js
+```
+
+### 2. Standardized `/mcp` Streaming Endpoint
+
+In the previous version, JSON-RPC requests hit the root path `/`, causing conflicts when trying to host a human-readable landing page or discovery metadata on the same domain.
+
+With `apps/xmcp`, the live MCP streaming endpoint is cleanly located at:
+
+```
+https://mcp.soralabs.io.vn/mcp
+```
+
+Visiting the root domain (`https://mcp.soralabs.io.vn`) now serves a clean visual dashboard, while AI clients connect directly to `/mcp`.
+
+---
+
+## Expanding MCP Capabilities: Prompts & Resources
+
+In addition to tools, the new server takes full advantage of the Model Context Protocol specification:
+
+```text
+apps/xmcp/src/
+├── tools/        — search_docs, get_page, list_sections, get_component_info
+├── prompts/      — install-component
+└── resources/    — registry-catalog
+```
+
+### 1. Prompts (`src/prompts/install-component.ts`)
+
+Instead of requiring users to remember the exact syntax for component installation, `apps/xmcp` exposes the **`install-component`** prompt template. When invoked, it orchestrates the entire agent flow:
+1. Fetches component metadata via `get_component_info`.
+2. Emits the safe, non-interactive install command (`npx shadcn@latest add @soralabs/<name> --yes`).
+3. Handles workspace resolution via `--cwd` if working in a monorepo.
+4. Verifies the installed files and explains how to integrate the component.
+
+### 2. Resources (`src/resources/registry.ts`)
+
+AI assistants can now attach the **`registry-catalog`** resource directly into their context window. It provides a real-time, machine-readable JSON snapshot of all installable UI components, animation primitives, and hooks without multiple iterative search queries.
+
+### 3. Refined Tools Suite (`src/tools/`)
+
+All four core tools have been upgraded with tighter schemas and smarter token management:
+- **`search_docs`**: Fast Orama search with fallback parsing, section filtering (`documentation`, `components`, `catalog`, `motion`, `ui`), capped at 25 results.
+- **`get_page`**: Fetches clean markdown documentation with a strict 8,000-token budget and automatic truncation notices.
+- **`list_sections`**: Visual tree outline of all available documentation sections and page counts parsed from `llms.txt`.
+- **`get_component_info`**: Intelligently returns non-interactive installation lines (`npx shadcn@latest add @soralabs/<name> --yes` and `sora-cli`), dependency lists, and opt-in source code (`includeSource: true`).
+
+---
+
+## How to Connect to the New Server
+
+Updating your configuration is straightforward.
+
+### Cursor (`.cursor/mcp.json`)
+
+**Remote HTTP (Recommended):**
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "url": "https://mcp.soralabs.io.vn/mcp"
+    }
+  }
+}
+```
+
+**Local STDIO (from source):**
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+# Connect via remote HTTP
+claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn/mcp
+
+# Or connect via local STDIO
+claude mcp add sora-ui node /ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js
+```
+
+### Claude Desktop (`claude_desktop_config.json`)
+
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.soralabs.io.vn/mcp"]
+    }
+  }
+}
+```
+
+---
+
+## Next Steps
+
+With `apps/xmcp` in place and deployed, we will be deprecating and removing the legacy `apps/mcp` directory. All documentation pages, client configurations, and links have been updated to point to the new `/mcp` endpoint.
+
+For full setup guides and interactive install links, visit the updated [MCP Documentation](/docs/mcp).

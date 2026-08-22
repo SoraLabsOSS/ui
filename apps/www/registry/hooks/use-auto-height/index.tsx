@@ -35,7 +35,10 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
       return 0;
     }
 
-    const base = el.getBoundingClientRect().height || 0;
+    const base = Math.max(
+      el.getBoundingClientRect().height || 0,
+      el.scrollHeight || 0
+    );
 
     let extra = 0;
 

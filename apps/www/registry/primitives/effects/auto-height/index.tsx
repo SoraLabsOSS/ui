@@ -42,7 +42,7 @@ function AutoHeight({
 
   return (
     <Comp
-      animate={{ height, ...animate }}
+      animate={{ height: height || "auto", ...animate }}
       style={{ overflow: "hidden", ...style }}
       transition={transition}
       {...props}

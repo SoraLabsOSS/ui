@@ -10,7 +10,6 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
-  TabsContents,
   TabsContent,
 } from '@/components/radix/tabs';
 import {
@@ -20,17 +19,31 @@ import {
 
 The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component catalog. It runs as a remote HTTP server at <code>{SORA_UI_MCP_URL}</code> (no local CLI required).
 
-## Tools
+## Capabilities
+
+### Tools
 
 | Tool | Description |
 | --- | --- |
-| `search_docs` | Search docs and components by keyword or phrase. Capped at 25 results per call — the response notes when results may be truncated, so narrow the query or raise `limit` |
-| `get_page` | Fetch a page as markdown by slug (e.g. `primitives/accordion`, `primitives/draw-underline-link`) |
-| `list_sections` | Browse the doc structure. Valid `section` filters: `documentation`, `ui`, `components` |
-| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks with short descriptions. With a `name`, returns install guidance (the `sora-cli add`/`diff` commands to run), dependencies, and file targets — add `includeSource: true` to also get the full source (usually unnecessary, since installing already puts the real file on disk) |
+| `search_docs` | Search docs and components by keyword or phrase. Supports filtering by section (`documentation`, `components`, `catalog`, `motion`, `ui`). Capped at 25 results per call (default 10) with relevant excerpts |
+| `get_page` | Fetch a page as markdown by slug or URL path (e.g. `getting-started`, `ui/button`, `primitives/accordion`). Enforces an 8,000-token budget with automatic truncation notice |
+| `list_sections` | Browse the documentation structure and page counts from `llms.txt`. Supports filtering to a specific section's children |
+| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks (`registry:ui`, `registry:hook`). With a `name`, returns install guidance (`npx shadcn@latest add @soralabs/<name> --yes` or `sora-cli add`), dependency trees, and file targets — pass `includeSource: true` to also get the full source, and `cwd` for monorepos |
+
+### Prompts
+
+| Prompt | Description |
+| --- | --- |
+| `install-component` | Structured prompt template to guide an AI assistant in inspecting, installing (with `--yes`), and configuring a Sora component |
+
+### Resources
+
+| Resource | Description |
+| --- | --- |
+| `registry-catalog` | Complete live JSON snapshot of all installable Sora UI registry items (`type: "registry:ui"` and `type: "registry:hook"`) |
 
 <Callout>
-  `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the [`sora-cli`](https://www.npmjs.com/package/@soralabsoss/sora-cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
+  `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the standard `shadcn add` or [`sora-cli`](https://www.npmjs.com/package/@soralabsoss/sora-cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
 ## How it works in practice
@@ -41,10 +54,10 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 
 | Server | Role |
 | --- | --- |
-| **`sora-ui`** | Read docs and browse the catalog — `search_docs`, `get_page`, `list_sections`, `get_component_info` (also returns a `sora-cli` install command) |
+| **`sora-ui`** | Read docs, browse sections/resources, and inspect component info — `search_docs`, `get_page`, `list_sections`, `get_component_info`, `install-component` prompt (also returns `shadcn add` / `sora-cli` install commands) |
 | **`shadcn`** | Install `@soralabs/*` into your project via the shadcn CLI, as an agent-callable tool instead of a shell command |
 
-Use **both** if you'd rather the agent call an MCP tool to install than run `sora-cli`/`shadcn` itself — register `@soralabs` in `components.json` first, see [Installation](/docs/installation). Most agents with shell access can just run the command `get_component_info` returns.
+Use **both** if you'd rather the agent call an MCP tool to install than run `shadcn`/`sora-cli` itself — register `@soralabs` in `components.json` first, see [Installation](/docs/installation). Most agents with shell access can just run the command `get_component_info` returns.
 
 ### What is automatic vs manual
 
@@ -68,17 +81,16 @@ Use **both** if you'd rather the agent call an MCP tool to install than run `sor
    - "What Sora component fits a pinned scroll text reveal?"
    - "Install scroll-gallery and show usage with variant=studio"
 3. Agent calls sora-ui MCP → reads docs / gets component info → runs
-   `npx @soralabsoss/sora-cli add scroll-gallery --yes` (or `shadcn add`, if
-   configured) → writes code in your repo
+   `npx shadcn@latest add @soralabs/scroll-gallery --yes` (or `sora-cli add`) → writes code in your repo
 ```
 
 <Callout type="warn">
-  The `--yes` flag matters when an agent runs `sora-cli` itself: without it, `add` prints a confirmation prompt and — since the agent's shell has no TTY — silently exits successfully without installing anything. `get_component_info` always includes `--yes` in the command it returns.
+  The `--yes` (or `-y`) flag matters when an agent runs `shadcn` or `sora-cli` itself: without it, `add` prints a confirmation prompt and — since the agent's shell has no TTY — silently exits successfully without installing anything. `get_component_info` always includes `--yes` in the command it returns.
 </Callout>
 
 ## Add to Cursor
 
-Cursor supports [one-click MCP install links](https://cursor.com/docs/mcp/install-links). Click below — Cursor opens a prompt to add the server, then enable it under **Settings → Tools & MCP**.
+Cursor supports [one-click MCP install links](https://cursor.com/docs/mcp/install-links). Click below — Cursor opens a prompt to add the remote server, then enable it under **Settings → Tools & MCP**.
 
 <div className="not-prose my-6 flex flex-wrap items-center gap-3">
   <AddToCursorButton />
@@ -102,34 +114,49 @@ Restart Cursor if tools do not appear, then try a prompt like *“Search Sora UI
 </Step>
 </Steps>
 
-## Manual configuration (Cursor)
+### Manual configuration (Cursor)
 
 Add this to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all projects):
 
-```json
-{
+<CodeTabs
+  lang="json"
+  codes={{
+    'Remote HTTP': `{
   "mcpServers": {
     "sora-ui": {
-      "url": "https://mcp.soralabs.io.vn"
+      "url": "${SORA_UI_MCP_URL}"
     }
   }
-}
-```
+}`,
+    'Local STDIO': `{
+  "mcpServers": {
+    "sora-ui": {
+      "command": "node",
+      "args": ["<path-to-repo>/apps/xmcp/dist/stdio.js"]
+    }
+  }
+}`,
+  }}
+/>
 
 After saving, enable the server in **Settings → Tools & MCP** and restart Cursor.
 
 ## Add to Claude Code
 
-[Claude Code](https://claude.ai/code) is Anthropic's official CLI. Add the server with one command:
+[Claude Code](https://claude.ai/code) is Anthropic's official CLI. You can connect via remote HTTP or local STDIO:
 
-```bash
-claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn
-```
+<CodeTabs
+  lang="bash"
+  codes={{
+    'Remote HTTP': `claude mcp add --transport http sora-ui ${SORA_UI_MCP_URL}`,
+    'Local STDIO': `claude mcp add sora-ui node <path-to-repo>/apps/xmcp/dist/stdio.js`,
+  }}
+/>
 
 <Steps>
 <Step>
 
-Run the command above in your terminal (inside or outside a project).
+Run the command above in your terminal.
 
 </Step>
 <Step>
@@ -148,16 +175,27 @@ Start a new Claude Code session and try a prompt like *"Search Sora UI docs for 
 
 Add to `~/.claude/settings.json` (global) or `.claude/settings.json` (project):
 
-```json
-{
+<CodeTabs
+  lang="json"
+  codes={{
+    'Remote HTTP': `{
   "mcpServers": {
     "sora-ui": {
       "type": "http",
-      "url": "https://mcp.soralabs.io.vn"
+      "url": "${SORA_UI_MCP_URL}"
     }
   }
-}
-```
+}`,
+    'Local STDIO': `{
+  "mcpServers": {
+    "sora-ui": {
+      "command": "node",
+      "args": ["<path-to-repo>/apps/xmcp/dist/stdio.js"]
+    }
+  }
+}`,
+  }}
+/>
 
 ## Add to Claude Desktop
 
@@ -166,18 +204,37 @@ Open the Claude Desktop config file:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the server under `mcpServers`:
+Add the server under `mcpServers`. Claude Desktop connects via `mcp-remote` (recommended for remote endpoints) or local compiled script:
 
-```json
-{
+<CodeTabs
+  lang="json"
+  codes={{
+    'Remote (mcp-remote)': `{
+  "mcpServers": {
+    "sora-ui": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "${SORA_UI_MCP_URL}"]
+    }
+  }
+}`,
+    'Native HTTP': `{
   "mcpServers": {
     "sora-ui": {
       "type": "http",
-      "url": "https://mcp.soralabs.io.vn"
+      "url": "${SORA_UI_MCP_URL}"
     }
   }
-}
-```
+}`,
+    'Local STDIO': `{
+  "mcpServers": {
+    "sora-ui": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js"]
+    }
+  }
+}`,
+  }}
+/>
 
 <Steps>
 <Step>
@@ -196,6 +253,20 @@ Add the `sora-ui` entry under `mcpServers` (create the file with the content abo
 
 </Step>
 </Steps>
+
+## Local Development (STDIO & HTTP)
+
+If you are developing inside the Sora UI monorepo or running a custom self-hosted instance, `apps/xmcp` compiles both **STDIO** (`dist/stdio.js`) and **HTTP** (`dist/http.js`) bundles:
+
+```bash
+cd apps/xmcp
+bun install
+bun run build       # compiles dist/stdio.js and dist/http.js
+```
+
+- **Run STDIO locally**: `node apps/xmcp/dist/stdio.js`
+- **Run HTTP server locally**: `bun run start` (serves at `http://localhost:1337/mcp`)
+- **Development with hot reload**: `bun run dev`
 
 ## Example prompts
 
@@ -237,41 +308,39 @@ To add `@soralabs/*` components from the registry with natural language, configu
     <TabsTrigger value="cursor">Cursor</TabsTrigger>
     <TabsTrigger value="vscode">VS Code</TabsTrigger>
   </TabsList>
-  <TabsContents>
-    <TabsContent value="claude" className="h-[100px]">
-      <CodeTabs
-        lang="bash"
-        codes={{
-          pnpm: `pnpm dlx shadcn@latest mcp init --client claude`,
-          npm: `npx shadcn@latest mcp init --client claude`,
-          yarn: `yarn shadcn@latest mcp init --client claude`,
-          bun: `bunx --bun shadcn@latest mcp init --client claude`,
-        }}
-      />
-    </TabsContent>
-    <TabsContent value="cursor" className="h-[100px]">
-      <CodeTabs
-        lang="bash"
-        codes={{
-          pnpm: `pnpm dlx shadcn@latest mcp init --client cursor`,
-          npm: `npx shadcn@latest mcp init --client cursor`,
-          yarn: `yarn shadcn@latest mcp init --client cursor`,
-          bun: `bunx --bun shadcn@latest mcp init --client cursor`,
-        }}
-      />
-    </TabsContent>
-    <TabsContent value="vscode" className="h-[100px]">
-      <CodeTabs
-        lang="bash"
-        codes={{
-          pnpm: `pnpm dlx shadcn@latest mcp init --client vscode`,
-          npm: `npx shadcn@latest mcp init --client vscode`,
-          yarn: `yarn shadcn@latest mcp init --client vscode`,
-          bun: `bunx --bun shadcn@latest mcp init --client vscode`,
-        }}
-      />
-    </TabsContent>
-  </TabsContents>
+  <TabsContent value="claude">
+    <CodeTabs
+      lang="bash"
+      codes={{
+        pnpm: `pnpm dlx shadcn@latest mcp init --client claude`,
+        npm: `npx shadcn@latest mcp init --client claude`,
+        yarn: `yarn shadcn@latest mcp init --client claude`,
+        bun: `bunx --bun shadcn@latest mcp init --client claude`,
+      }}
+    />
+  </TabsContent>
+  <TabsContent value="cursor">
+    <CodeTabs
+      lang="bash"
+      codes={{
+        pnpm: `pnpm dlx shadcn@latest mcp init --client cursor`,
+        npm: `npx shadcn@latest mcp init --client cursor`,
+        yarn: `yarn shadcn@latest mcp init --client cursor`,
+        bun: `bunx --bun shadcn@latest mcp init --client cursor`,
+      }}
+    />
+  </TabsContent>
+  <TabsContent value="vscode">
+    <CodeTabs
+      lang="bash"
+      codes={{
+        pnpm: `pnpm dlx shadcn@latest mcp init --client vscode`,
+        npm: `npx shadcn@latest mcp init --client vscode`,
+        yarn: `yarn shadcn@latest mcp init --client vscode`,
+        bun: `bunx --bun shadcn@latest mcp init --client vscode`,
+      }}
+    />
+  </TabsContent>
 </Tabs>
 
 ### Manual configuration
@@ -296,7 +365,7 @@ Merge the shadcn entry into your MCP config (example for Cursor):
     Cursor: `{
   "mcpServers": {
     "sora-ui": {
-      "url": "https://mcp.soralabs.io.vn"
+      "url": "https://mcp.soralabs.io.vn/mcp"
     },
     "shadcn": {
       "command": "npx",
@@ -308,7 +377,7 @@ Merge the shadcn entry into your MCP config (example for Cursor):
   "mcpServers": {
     "sora-ui": {
       "type": "http",
-      "url": "https://mcp.soralabs.io.vn"
+      "url": "https://mcp.soralabs.io.vn/mcp"
     },
     "shadcn": {
       "command": "npx",
@@ -339,7 +408,7 @@ MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in
 
 **Cursor**: Confirm **{SORA_UI_MCP_SERVER_NAME}** is enabled in **Settings → Tools & MCP**, restart Cursor after changing `.cursor/mcp.json`, and check **View → Output → MCP** for errors.
 
-**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn`. Use `claude mcp get sora-ui` to inspect the saved config.
+**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn/mcp`. Use `claude mcp get sora-ui` to inspect the saved config.
 
 **Claude Desktop**: Confirm the JSON in `claude_desktop_config.json` is valid (no trailing commas), then fully quit and reopen the app.
 

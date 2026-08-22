@@ -304,7 +304,7 @@ function TabsContents({
 
   return (
     <motion.div
-      animate={{ height }}
+      animate={{ height: height || "auto" }}
       data-slot="tabs-contents"
       ref={containerRef}
       style={{ overflow: "hidden" }}
@@ -313,12 +313,12 @@ function TabsContents({
     >
       <motion.div
         animate={{ x: `${activeIndex * -100}%` }}
-        className="-mx-2 flex"
+        className="-mx-2 flex items-start"
         transition={contentsTransition}
       >
         {childrenArray.map((child, index) => (
           <div
-            className="h-full w-full shrink-0 px-2"
+            className="w-full shrink-0 px-2"
             key={index}
             ref={(el) => {
               itemRefs.current[index] = el;

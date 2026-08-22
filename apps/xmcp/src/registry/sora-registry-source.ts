@@ -146,7 +146,7 @@ export function formatSource(item: RegistryItem): string {
   return [
     "",
     "## Source",
-    "For reference — installing via sora-cli above already writes these with the right import aliases.",
+    "For reference — installing via shadcn CLI above already writes these with the right import aliases.",
     "",
     files,
   ].join("\n");
@@ -178,13 +178,12 @@ export function formatDetail(
     "",
     "## Install",
     ...(cwdWarning ? [cwdWarning, ""] : []),
-    `Run this in the user's project (not this MCP server, which has no access to their files): \`npx @soralabsoss/sora-cli add ${item.name}${cwdFlag} --yes\` — fetches this component with the correct import aliases for their project and installs its dependencies. Once installed, read the actual file on disk if you need to see the code — don't re-fetch it here.`,
-    "**Always include `--yes`** when running this yourself (non-interactively): without it, `sora-cli` prints a confirmation prompt and — since your shell has no TTY — silently exits 0 without installing anything. `--yes` skips that prompt so the install actually runs. Only omit `--yes` if you're relaying the command for a human to run themselves in their own interactive terminal.",
+    `Run this in the user's project (not this MCP server, which has no access to their files): \`npx shadcn@latest add @soralabs/${item.name}${cwdFlag} --yes\` (or \`npx shadcn@latest add ${DOCS_BASE_URL}/r/${item.name}.json${cwdFlag} --yes\`) — fetches this component with the correct import aliases for their project and installs its dependencies. Once installed, read the actual file on disk if you need to see the code — don't re-fetch it here.`,
+    "**Always include `--yes`** (or `-y`) when running this yourself (non-interactively): without it, the CLI prompts for confirmation and will fail or exit silently in non-interactive shells. Only omit `--yes` if you're relaying the command for a human to run themselves in their own interactive terminal.",
     cwdFlag
-      ? "In a monorepo, `--cwd` points sora-cli at the target workspace (e.g. `packages/ui`) so it resolves that workspace's tsconfig paths/aliases instead of the repo root's."
-      : "In a monorepo, if you know which workspace the user wants (e.g. `packages/ui`), pass `cwd` to this tool or add `--cwd <workspace>` to the command yourself — otherwise sora-cli installs relative to the repo root, which is usually wrong for a nested package.",
-    `Already installed and want to check for upstream changes? \`npx @soralabsoss/sora-cli diff ${item.name}${cwdFlag}\` (safe to run without \`--yes\` — it never prompts or writes anything).`,
-    `(Already using the shadcn registry scope instead? \`npx shadcn@latest add @soralabs/${item.name}\` works too — run \`npx shadcn@latest registry add @soralabs\` once first if it isn't configured yet.)`,
+      ? "In a monorepo, `--cwd` points shadcn CLI at the target workspace (e.g. `packages/ui`) so it resolves that workspace's tsconfig paths/aliases instead of the repo root's."
+      : "In a monorepo, if you know which workspace the user wants (e.g. `packages/ui`), pass `cwd` to this tool or add `--cwd <workspace>` to the command yourself — otherwise shadcn installs relative to the repo root, which is usually wrong for a nested package.",
+    `(Prefer using sora-cli instead? \`npx @soralabsoss/sora-cli add ${item.name}${cwdFlag} --yes\` works too. To check upstream changes: \`npx @soralabsoss/sora-cli diff ${item.name}${cwdFlag}\`.)`,
     "",
     "## Details",
     `Dependencies: ${dependencies}`,

@@ -6,7 +6,7 @@ The official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) se
 
 This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Windsurf, and custom AI agents) with structured access to:
 - **Documentation & Guides**: Search, browse sections, and read full MDX docs.
-- **Component Registry**: Discover animated UI components, motion primitives, dependencies, and automated installation commands via `@soralabsoss/sora-cli`.
+- **Component Registry**: Discover animated UI components, motion primitives, dependencies, and automated installation commands via `npx shadcn@latest add @soralabs/<name>`.
 
 ---
 
@@ -23,7 +23,7 @@ This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Win
 3. **`list_sections`** (`src/tools/list-sections.ts`):
    - Outlines the complete documentation structure and page count from `llms.txt`.
 4. **`get_component_info`** (`src/tools/get-component-info.ts`):
-   - Lists installable components/hooks or provides detailed install instructions (`npx @soralabsoss/sora-cli add <name> --yes`), dependency trees, and optional raw source code.
+   - Lists installable components/hooks or provides detailed install instructions (`npx shadcn@latest add @soralabs/<name> --yes`), dependency trees, and optional raw source code.
 
 ### Prompts (`src/prompts/`)
 - **`install-component`** (`src/prompts/install-component.ts`):
@@ -101,36 +101,50 @@ export default config;
 
 ### Claude Desktop (`claude_desktop_config.json`)
 
-#### STDIO Mode
+#### Remote HTTP Mode (via mcp-remote bridge)
 ```json
 {
   "mcpServers": {
     "sora-ui": {
-      "command": "node",
-      "args": ["E:/sora/apps/xmcp/dist/stdio.js"]
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.soralabs.io.vn/mcp"]
     }
   }
 }
 ```
 
-#### HTTP Mode (Server running on port 1337)
+#### Local STDIO Mode (Built from source)
 ```json
 {
   "mcpServers": {
     "sora-ui": {
-      "url": "http://localhost:1337"
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js"]
     }
   }
 }
 ```
 
 ### Cursor (`.cursor/mcp.json`)
+
+#### Remote HTTP Mode
+```json
+{
+  "mcpServers": {
+    "sora-ui": {
+      "url": "https://mcp.soralabs.io.vn/mcp"
+    }
+  }
+}
+```
+
+#### Local STDIO Mode
 ```json
 {
   "mcpServers": {
     "sora-ui": {
       "command": "node",
-      "args": ["E:/sora/apps/xmcp/dist/stdio.js"]
+      "args": ["/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js"]
     }
   }
 }

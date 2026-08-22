@@ -140,7 +140,7 @@ function CodeTabs({
                 value={code}
               >
                 <div
-                  className="[&_code]:!text-[13px] [&_code_.line]:!px-0 [&>pre,_&_code]:!bg-transparent flex w-full items-center overflow-auto p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
+                  className="[&_code]:!text-[13px] [&_code_.line]:!px-0 [&>pre,_&_code]:!bg-transparent w-full overflow-auto p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important] [&_code]:grid [&_code]:whitespace-pre [&_code_.line]:block [&_pre]:m-0 [&_pre]:w-full [&_pre]:whitespace-pre"
                   dangerouslySetInnerHTML={{ __html: val }}
                 />
               </TabsContent>

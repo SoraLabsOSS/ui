@@ -25,20 +25,20 @@ export const schema = {
     .boolean()
     .optional()
     .describe(
-      "Only used when `name` is given. Defaults to false — the response is just install guidance + dependencies, since running the recommended sora-cli command already puts the real file on disk for you to read directly. Set true only if you want the source without installing (e.g. to inspect before deciding)."
+      "Only used when `name` is given. Defaults to false — the response is just install guidance + dependencies, since running the recommended shadcn CLI command already puts the real file on disk for you to read directly. Set true only if you want the source without installing (e.g. to inspect before deciding)."
     ),
   cwd: z
     .string()
     .optional()
     .describe(
-      'Monorepo workspace to install into, e.g. "packages/ui" — passed through as sora-cli\'s --cwd flag so the correct workspace tsconfig/alias is used. Omit for a single-package project or the repo root.'
+      'Monorepo workspace to install into, e.g. "packages/ui" — passed through as shadcn CLI\'s --cwd flag so the correct workspace tsconfig/alias is used. Omit for a single-package project or the repo root.'
     ),
 };
 
 export const metadata: ToolMetadata = {
   name: "get_component_info",
   description:
-    'Get Sora UI component/hook info: with `name`, returns install guidance (recommending the sora-cli command) and dependencies — pass `includeSource: true` to also get the full source (skip this by default and just install, then read the installed file directly if you need the code), and `cwd` (e.g. "packages/ui") when installing into a specific workspace of a monorepo so the suggested command includes sora-cli\'s `--cwd` flag; without `name`, lists all installable components and hooks.',
+    'Get Sora UI component/hook info: with `name`, returns install guidance (recommending the shadcn CLI command) and dependencies — pass `includeSource: true` to also get the full source (skip this by default and just install, then read the installed file directly if you need the code), and `cwd` (e.g. "packages/ui") when installing into a specific workspace of a monorepo so the suggested command includes shadcn CLI\'s `--cwd` flag; without `name`, lists all installable components and hooks.',
   annotations: {
     title: "Get Component Information",
     readOnlyHint: true,

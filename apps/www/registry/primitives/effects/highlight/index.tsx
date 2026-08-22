@@ -539,7 +539,7 @@ export function HighlightItem({
   // Default: wrapper div
   return (
     <div
-      className={cn(mode === "children" && "relative")}
+      className={cn(mode === "children" && "relative flex")}
       data-slot="highlight-item"
       ref={refCallback as RefCallback<HTMLDivElement>}
       {...dataAttrs}

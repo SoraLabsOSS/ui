@@ -37,7 +37,7 @@ Sora UI
 ```text
 apps/
   www/          Docs site + component registry (primary work surface)
-  mcp/          MCP server — exposes docs/registry to AI assistants
+  xmcp/         MCP server (built with xmcp) — exposes docs/registry to AI assistants
 packages/
   ui/                 @workspace/ui — shared utilities, globals.css, base hooks
   auth-ui/            @workspace/auth-ui — Better Auth UI
