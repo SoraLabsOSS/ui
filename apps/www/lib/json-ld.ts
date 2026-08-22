@@ -7,7 +7,7 @@ export const SORA_UI_PUBLISHER_JSON_LD = {
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
-    url: `${SITE_URL}/icon-logo.png`,
+    url: `${SITE_URL}/android-chrome-192x192.png`,
   },
 } as const;
 
@@ -32,9 +32,9 @@ export const jsonLd = {
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/icon-logo.png`,
-        width: 512,
-        height: 512,
+        url: `${SITE_URL}/android-chrome-192x192.png`,
+        width: 192,
+        height: 192,
       },
     },
   ],
