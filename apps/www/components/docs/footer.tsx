@@ -46,8 +46,15 @@ export const Footer = ({ lastUpdate }: { lastUpdate?: Date }) => {
       {lastUpdate && (
         <p className="flex items-center gap-1 text-nowrap text-muted-foreground text-sm">
           Last updated:{" "}
-          <span className="rounded-sm bg-accent px-1.5 py-0.75 font-medium text-[13px] text-foreground">
-            {lastUpdate?.toLocaleDateString()}
+          <span
+            className="rounded-sm bg-accent px-1.5 py-0.75 font-medium text-[13px] text-foreground"
+            suppressHydrationWarning
+          >
+            {lastUpdate.toLocaleDateString("en-US", {
+              month: "numeric",
+              day: "numeric",
+              year: "numeric",
+            })}
           </span>
           {isMobile && <Bunny sleeping={isNightTime} />}
         </p>

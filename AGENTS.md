@@ -107,3 +107,7 @@ Exposes the Sora docs and component registry to AI tools/assistants over MCP. To
 ## Code Standards (Ultracite)
 
 Format/lint via Ultracite (Biome): `bun x ultracite fix` (check: `bun x ultracite check`). Run it before committing.
+
+## Git & Workflow Rules (Strict Requirement)
+
+- **NEVER automatically commit or push code**: AI agents MUST NOT run `git commit` or `git push` unless the user explicitly requests to commit or push in their prompt. Always leave changes in the working directory for user review and preview.
