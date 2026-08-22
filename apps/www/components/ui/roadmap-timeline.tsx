@@ -536,32 +536,32 @@ function RoadmapCard({
   return (
     <motion.div
       animate={{ opacity: 1, y: 0 }}
-      className="relative flex flex-col gap-3 rounded-xl border bg-background p-5 shadow-sm transition-all duration-200 hover:border-foreground/30 hover:shadow-md"
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 15 }}
+      className="group relative flex w-full min-w-0 flex-col gap-3 rounded-xl border bg-card/60 p-4 transition-all duration-200 hover:border-foreground/30 hover:bg-card md:p-5"
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
       key={item.id}
-      transition={{ duration: 0.25, delay: index * 0.03 }}
+      transition={{ duration: 0.2, delay: Math.min(index * 0.02, 0.3) }}
     >
-      <div
-        className={cn(
-          "absolute top-6 -left-7 flex size-5 -translate-x-1/2 items-center justify-center rounded-full border md:-left-11 md:size-6",
-          isCompleted && "border-emerald-500 bg-emerald-500 text-white",
-          isInProgress &&
-            "animate-pulse border-primary bg-primary text-primary-foreground",
-          !(isCompleted || isInProgress) &&
-            "border-muted-foreground/40 bg-background text-muted-foreground"
-        )}
-      >
-        <StatusNodeIcon status={item.status} />
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="font-semibold text-base text-foreground tracking-tight">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <span
+            className={cn(
+              "flex size-5 shrink-0 items-center justify-center rounded-full border",
+              isCompleted &&
+                "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+              isInProgress &&
+                "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+              !(isCompleted || isInProgress) &&
+                "border-border bg-muted/50 text-muted-foreground"
+            )}
+          >
+            <StatusNodeIcon status={item.status} />
+          </span>
+          <span className="font-semibold text-foreground text-sm tracking-tight sm:text-base">
             {item.name}
           </span>
           <span
             className={cn(
-              "rounded-full px-2.5 py-0.5 font-medium text-[11px]",
+              "rounded-md px-2 py-0.5 font-medium text-[11px]",
               isCompleted &&
                 "border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
               isInProgress &&
@@ -571,12 +571,9 @@ function RoadmapCard({
           >
             {getStatusLabel(item.status)}
           </span>
-          <span className="rounded border bg-accent/40 px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
-            Phase {item.phase} • {item.categoryLabel}
-          </span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5 self-start sm:self-auto">
           {item.motionScore && (
             <span
               className={cn(
@@ -598,7 +595,7 @@ function RoadmapCard({
 
           {item.frameworks.map((fw) => (
             <span
-              className="rounded bg-accent px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground uppercase"
+              className="rounded border bg-accent/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground uppercase"
               key={fw}
             >
               {fw}
@@ -611,11 +608,14 @@ function RoadmapCard({
         {item.description}
       </p>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
+          <span className="rounded border bg-accent/30 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+            Phase {item.phase} • {item.categoryLabel}
+          </span>
           {item.tags?.map((tag) => (
             <span
-              className="rounded-md bg-accent/50 px-2 py-0.5 text-[11px] text-muted-foreground"
+              className="rounded bg-accent/40 px-1.5 py-0.5 text-[10px] text-muted-foreground"
               key={tag}
             >
               #{tag}
@@ -938,8 +938,8 @@ export function RoadmapTimeline() {
         </div>
       </div>
 
-      {/* Timeline Stream */}
-      <div className="relative flex flex-col gap-6 pl-4 before:absolute before:top-2 before:bottom-2 before:left-1.5 before:w-0.5 before:bg-border md:pl-8 md:before:left-3">
+      {/* Components List */}
+      <div className="flex w-full min-w-0 flex-col gap-3">
         {filteredItems.length === 0 ? (
           <div className="rounded-xl border border-dashed py-12 text-center text-muted-foreground text-sm">
             No components match your search and filter criteria. Try resetting
