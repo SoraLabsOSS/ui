@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { source } from "@/lib/docs/source";
 import { getCachedOgImageBuffer } from "@/lib/og/get-cached-og-image";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
+import { uiSource } from "@/lib/ui/source";
 
 export async function GET(
   _req: Request,
@@ -33,6 +34,13 @@ export function generateStaticParams(): {
       slug: [...page.slug, "image.png"],
     }));
 
+  const uiParams = uiSource
+    .generateParams()
+    .filter((page) => page.slug && page.slug.length > 0)
+    .map((page) => ({
+      slug: ["ui", ...page.slug, "image.png"],
+    }));
+
   const catalogParams = getComponentSlugs().map((componentSlug) => ({
     slug: ["catalog", componentSlug, "image.png"],
   }));
@@ -43,9 +51,11 @@ export function generateStaticParams(): {
 
   return [
     { slug: ["image.png"] },
+    { slug: ["ui", "image.png"] },
     { slug: ["catalog", "image.png"] },
     { slug: ["components", "image.png"] },
     ...docParams,
+    ...uiParams,
     ...catalogParams,
     ...componentParams,
   ];

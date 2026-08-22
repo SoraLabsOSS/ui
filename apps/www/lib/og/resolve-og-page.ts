@@ -5,6 +5,7 @@ import {
   SITE_OG_HERO_SUBLINE,
   SITE_OG_HERO_TITLE,
 } from "@/lib/site";
+import { uiSource } from "@/lib/ui/source";
 
 export interface OgPageContent {
   description?: string;
@@ -15,6 +16,12 @@ const COMPONENTS_CATALOG: OgPageContent = {
   title: "Components",
   description:
     "Browse Sora UI components with live previews, installation commands, and API reference.",
+};
+
+const UI_CATALOG: OgPageContent = {
+  title: "UI Components",
+  description:
+    "Base UI and Radix UI primitives infused with Sora Motion spring dynamics and Tailwind CSS.",
 };
 
 const SITE_DEFAULT: OgPageContent = {
@@ -31,7 +38,30 @@ export function resolveOgPage(slug: string[]): OgPageContent | null {
     return SITE_DEFAULT;
   }
 
-  if (slug[0] === "components") {
+  if (slug[0] === "ui") {
+    if (slug.length === 1) {
+      const page = uiSource.getPage([]);
+      if (page) {
+        return {
+          title: page.data.title,
+          description: page.data.description,
+        };
+      }
+      return UI_CATALOG;
+    }
+
+    const page = uiSource.getPage(slug.slice(1));
+    if (!page) {
+      return null;
+    }
+
+    return {
+      title: page.data.title,
+      description: page.data.description,
+    };
+  }
+
+  if (slug[0] === "components" || slug[0] === "catalog") {
     if (slug.length === 1) {
       return COMPONENTS_CATALOG;
     }
