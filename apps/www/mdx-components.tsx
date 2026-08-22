@@ -15,6 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/radix/tabs";
+import { RoadmapTimeline } from "@/components/ui/roadmap-timeline";
 import { UiIndex } from "@/components/ui/ui-index";
 import { Callout } from "./components/docs/callout";
 import {
@@ -22,12 +23,6 @@ import {
   type CodeBlockProps,
   Pre,
 } from "./components/docs/codeblock";
-
-const RoadmapTimeline = dynamic(() =>
-  import("@/components/ui/roadmap-timeline").then((m) => ({
-    default: m.RoadmapTimeline,
-  }))
-);
 
 const ComponentCredits = dynamic(() =>
   import("@/components/docs/component-credits").then((m) => ({
