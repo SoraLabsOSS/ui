@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/demo/ui/radix/checkbox/index.tsx",
-      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxDemo() {\n  return <Checkbox label=\"Accept terms and conditions\" />;\n}\n",
+      "content": "\"use client\";\n\nimport { Checkbox, type CheckboxProps } from \"@/components/sora-ui/radix/checkbox\";\n\nexport default function RadixCheckboxDemo({\n  label = \"Accept terms and conditions\",\n  ...props\n}: CheckboxProps) {\n  return <Checkbox label={label} {...props} />;\n}\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/radix/checkbox.tsx"
     }

@@ -6,7 +6,7 @@ import {
 } from "@/registry/primitives/effects/infinite-scrolling-images";
 
 const INFINITE_SCROLLING_IMAGES_MEDIA =
-  "https://sora.axyl.io.vn/media/demo/infinite-scrolling-images" as const;
+  "https://cdn.soralabs.io.vn/media/demo/infinite-scrolling-images" as const;
 
 const DEMO_ITEMS: InfiniteScrollingImagesItem[] = [
   {

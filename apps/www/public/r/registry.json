@@ -507,38 +507,9 @@
             },
             "isReverse": {
               "value": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-tilt-card-glare",
-      "type": "registry:ui",
-      "title": "Tilt Card Glare Demo",
-      "description": "Tilt card with a moving light reflection following the tilt angle.",
-      "registryDependencies": ["@soralabs/tilt-card"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/tilt-card-glare/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/tilt-card-glare.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TiltCardGlareDemo": {
-            "rotationFactor": {
-              "value": 15,
-              "min": 0,
-              "max": 45,
-              "step": 1
             },
-            "glareMaxOpacity": {
-              "value": 0.05,
-              "min": 0,
-              "max": 1,
-              "step": 0.05
+            "glare": {
+              "value": true
             }
           }
         }
@@ -598,20 +569,6 @@
           "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/texts/dia-text-reveal.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-draw-underline-link",
-      "type": "registry:ui",
-      "title": "Draw Underline Link Demo",
-      "description": "Scrollable catalog preview with two centered link instances.",
-      "registryDependencies": ["@soralabs/draw-underline-link"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/draw-underline-link/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/draw-underline-link.tsx"
         }
       ]
     },
@@ -924,59 +881,6 @@
       ]
     },
     {
-      "name": "demo-button-destructive",
-      "type": "registry:ui",
-      "title": "Button Destructive Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-destructive/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-destructive.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-ghost",
-      "type": "registry:ui",
-      "title": "Button Ghost Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-ghost/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-ghost.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-icon",
-      "type": "registry:ui",
-      "title": "Button Icon Demo",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-icon/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-icon.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-link",
-      "type": "registry:ui",
-      "title": "Button Link Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-link/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-link.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-button-loading",
       "type": "registry:ui",
       "title": "Button Loading Demo",
@@ -1004,32 +908,6 @@
       ]
     },
     {
-      "name": "demo-button-outline",
-      "type": "registry:ui",
-      "title": "Button Outline Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-outline/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-outline.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-secondary",
-      "type": "registry:ui",
-      "title": "Button Secondary Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-secondary/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-secondary.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-button-sizes",
       "type": "registry:ui",
       "title": "Button Sizes Demo",
@@ -1039,6 +917,20 @@
           "path": "registry/demo/ui/base/button-sizes/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/base/button-sizes.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-button-variants",
+      "type": "registry:ui",
+      "title": "Button Variants Demo",
+      "description": "Showcase of all visual button variants: default, secondary, destructive, outline, ghost, and link.",
+      "registryDependencies": ["@soralabs/base-button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/button-variants/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/button-variants.tsx"
         }
       ]
     },
@@ -1084,32 +976,6 @@
       ]
     },
     {
-      "name": "demo-checkbox-custom",
-      "type": "registry:ui",
-      "title": "Checkbox Custom Demo",
-      "registryDependencies": ["@soralabs/base-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/checkbox-custom/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/checkbox-custom.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-checkbox-disabled",
-      "type": "registry:ui",
-      "title": "Checkbox Disabled Demo",
-      "registryDependencies": ["@soralabs/base-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/checkbox-disabled/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/checkbox-disabled.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-checkbox-indeterminate",
       "type": "registry:ui",
       "title": "Checkbox Indeterminate Demo",
@@ -1146,23 +1012,6 @@
           "path": "registry/demo/ui/base/dialog/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/base/dialog.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dialog-destructive",
-      "type": "registry:ui",
-      "title": "Dialog Destructive Demo",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": [
-        "@soralabs/base-dialog",
-        "@soralabs/base-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/dialog-destructive/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/dialog-destructive.tsx"
         }
       ]
     },
@@ -1228,62 +1077,6 @@
       ]
     },
     {
-      "name": "demo-radix-button-destructive",
-      "type": "registry:ui",
-      "title": "Radix Button Destructive Demo",
-      "description": "Destructive variant Radix UI button for high-risk user actions.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-destructive/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-destructive.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-ghost",
-      "type": "registry:ui",
-      "title": "Radix Button Ghost Demo",
-      "description": "Ghost variant Radix UI button with hover-only highlight.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-ghost/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-ghost.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-icon",
-      "type": "registry:ui",
-      "title": "Radix Button Icon Demo",
-      "description": "Icon-only square Radix UI button with accessible screen-reader label.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-icon/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-icon.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-link",
-      "type": "registry:ui",
-      "title": "Radix Button Link Demo",
-      "description": "Link-styled Radix UI button with underline interaction.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-link/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-link.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-radix-button-loading",
       "type": "registry:ui",
       "title": "Radix Button Loading Demo",
@@ -1312,34 +1105,6 @@
       ]
     },
     {
-      "name": "demo-radix-button-outline",
-      "type": "registry:ui",
-      "title": "Radix Button Outline Demo",
-      "description": "Outlined variant Radix UI button with clean border styling.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-outline/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-outline.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-secondary",
-      "type": "registry:ui",
-      "title": "Radix Button Secondary Demo",
-      "description": "Secondary variant Radix UI button with soft background styling.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-secondary/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-secondary.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-radix-button-sizes",
       "type": "registry:ui",
       "title": "Radix Button Sizes Demo",
@@ -1350,6 +1115,20 @@
           "path": "registry/demo/ui/radix/button-sizes/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/radix/button-sizes.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-radix-button-variants",
+      "type": "registry:ui",
+      "title": "Radix Button Variants Demo",
+      "description": "Showcase of all visual Radix button variants: default, secondary, destructive, outline, ghost, and link.",
+      "registryDependencies": ["@soralabs/radix-button"],
+      "files": [
+        {
+          "path": "registry/demo/ui/radix/button-variants/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/radix/button-variants.tsx"
         }
       ]
     },
@@ -1396,34 +1175,6 @@
       ]
     },
     {
-      "name": "demo-radix-checkbox-custom",
-      "type": "registry:ui",
-      "title": "Radix Checkbox Custom Styling Demo",
-      "description": "Radix UI checkbox with customized colors, shapes, and sizes.",
-      "registryDependencies": ["@soralabs/radix-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/checkbox-custom/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/checkbox-custom.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-checkbox-disabled",
-      "type": "registry:ui",
-      "title": "Radix Checkbox Disabled Demo",
-      "description": "Non-interactive disabled Radix UI checkbox variants.",
-      "registryDependencies": ["@soralabs/radix-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/checkbox-disabled/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/checkbox-disabled.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-radix-checkbox-indeterminate",
       "type": "registry:ui",
       "title": "Radix Checkbox Indeterminate Demo",
@@ -1465,23 +1216,6 @@
           "path": "registry/demo/ui/radix/dialog/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/radix/dialog.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-dialog-destructive",
-      "type": "registry:ui",
-      "title": "Radix Dialog Destructive Demo",
-      "description": "Alert-style destructive Radix UI dialog for critical confirmations.",
-      "registryDependencies": [
-        "@soralabs/radix-dialog",
-        "@soralabs/radix-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/dialog-destructive/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/dialog-destructive.tsx"
         }
       ]
     },
@@ -2527,6 +2261,28 @@
           "type": "inspired",
           "label": "motion-primitives",
           "url": "https://motion-primitives.com/docs/tilt"
+        },
+        "demoProps": {
+          "TiltCard": {
+            "rotationFactor": {
+              "value": 15,
+              "min": 5,
+              "max": 30,
+              "step": 1
+            },
+            "glare": {
+              "value": true
+            },
+            "isReverse": {
+              "value": false
+            },
+            "scaleOnHover": {
+              "value": 1.02,
+              "min": 1,
+              "max": 1.15,
+              "step": 0.01
+            }
+          }
         }
       }
     },
@@ -3221,7 +2977,51 @@
           "type": "registry:ui",
           "target": "components/sora-ui/base/button.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "demoProps": {
+          "Button": {
+            "children": {
+              "value": "Button"
+            },
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Secondary": "secondary",
+                "Destructive": "destructive",
+                "Outline": "outline",
+                "Ghost": "ghost",
+                "Link": "link"
+              }
+            },
+            "size": {
+              "value": "default",
+              "options": {
+                "Extra Small": "xs",
+                "Small": "sm",
+                "Default": "default",
+                "Large": "lg"
+              }
+            },
+            "hoverScale": {
+              "value": 1.05,
+              "min": 1,
+              "max": 1.3,
+              "step": 0.01
+            },
+            "tapScale": {
+              "value": 0.95,
+              "min": 0.7,
+              "max": 1,
+              "step": 0.01
+            },
+            "disableAnimation": {
+              "value": false
+            }
+          }
+        }
+      }
     },
     {
       "name": "base-checkbox",
@@ -3236,7 +3036,19 @@
           "type": "registry:ui",
           "target": "components/sora-ui/base/checkbox.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "demoProps": {
+          "Checkbox": {
+            "label": {
+              "value": "Accept terms and conditions"
+            },
+            "disabled": {
+              "value": false
+            }
+          }
+        }
+      }
     },
     {
       "name": "base-dialog",
@@ -3299,7 +3111,51 @@
           "type": "registry:ui",
           "target": "components/sora-ui/radix/button.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "demoProps": {
+          "Button": {
+            "children": {
+              "value": "Button"
+            },
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Secondary": "secondary",
+                "Destructive": "destructive",
+                "Outline": "outline",
+                "Ghost": "ghost",
+                "Link": "link"
+              }
+            },
+            "size": {
+              "value": "default",
+              "options": {
+                "Extra Small": "xs",
+                "Small": "sm",
+                "Default": "default",
+                "Large": "lg"
+              }
+            },
+            "hoverScale": {
+              "value": 1.05,
+              "min": 1,
+              "max": 1.3,
+              "step": 0.01
+            },
+            "tapScale": {
+              "value": 0.95,
+              "min": 0.7,
+              "max": 1,
+              "step": 0.01
+            },
+            "disableAnimation": {
+              "value": false
+            }
+          }
+        }
+      }
     },
     {
       "name": "radix-checkbox",
@@ -3314,7 +3170,19 @@
           "type": "registry:ui",
           "target": "components/sora-ui/radix/checkbox.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "demoProps": {
+          "Checkbox": {
+            "label": {
+              "value": "Accept terms and conditions"
+            },
+            "disabled": {
+              "value": false
+            }
+          }
+        }
+      }
     },
     {
       "name": "radix-dialog",

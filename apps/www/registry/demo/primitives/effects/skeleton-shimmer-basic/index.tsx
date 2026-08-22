@@ -5,8 +5,8 @@ import { type ReactNode, useEffect, useState } from "react";
 import { SkeletonOverlay } from "@/registry/primitives/effects/skeleton-shimmer";
 import { Button } from "@/registry/ui/base/button";
 
-const BANNER_IMAGE_URL = "https://sora.axyl.io.vn/media/axyl-banner.jpg";
-const AVATAR_IMAGE_URL = "https://sora.axyl.io.vn/media/axyl-avt.jpg";
+const BANNER_IMAGE_URL = "https://cdn.soralabs.io.vn/media/axyl-banner.jpg";
+const AVATAR_IMAGE_URL = "https://cdn.soralabs.io.vn/media/axyl-avt.jpg";
 const LOAD_DELAY_MS = 2200;
 const CARD_COPY =
   "Skeleton placeholder sized to the incoming card content so the layout never shifts.";

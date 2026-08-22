@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/demo/ui/base/checkbox/index.tsx",
-      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxDemo() {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <div className=\"flex items-center gap-2\">\n        <Checkbox id=\"terms-default\" />\n        <label\n          className=\"cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n          htmlFor=\"terms-default\"\n        >\n          Accept terms and conditions\n        </label>\n      </div>\n    </div>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { Checkbox, type CheckboxProps } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxDemo({\n  label = \"Accept terms and conditions\",\n  ...props\n}: CheckboxProps) {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Checkbox label={label} {...props} />\n    </div>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/base/checkbox.tsx"
     }

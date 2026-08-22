@@ -13,5 +13,17 @@
       "target": "components/sora-ui/radix/checkbox.tsx"
     }
   ],
+  "meta": {
+    "demoProps": {
+      "Checkbox": {
+        "label": {
+          "value": "Accept terms and conditions"
+        },
+        "disabled": {
+          "value": false
+        }
+      }
+    }
+  },
   "type": "registry:ui"
 }

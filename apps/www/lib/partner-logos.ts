@@ -5,7 +5,7 @@ export interface PartnerLogo {
   src: string;
 }
 
-const PARTNER_LOGO_BASE_URL = "https://sora.axyl.io.vn/logos/partners";
+const PARTNER_LOGO_BASE_URL = "https://cdn.soralabs.io.vn/logos/partners";
 
 export const PARTNER_LOGOS = {
   nvidia: {

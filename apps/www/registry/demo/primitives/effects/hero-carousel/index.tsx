@@ -6,7 +6,7 @@ import {
 } from "@/registry/primitives/effects/hero-carousel";
 
 const HERO_CAROUSEL_MEDIA =
-  "https://sora.axyl.io.vn/media/demo/hero-carousel" as const;
+  "https://cdn.soralabs.io.vn/media/demo/hero-carousel" as const;
 
 const HERO_CAROUSEL_FILES = [
   "trellis-1",

@@ -2,7 +2,8 @@
 
 import { VideoPlayer } from "@/registry/primitives/effects/video-player";
 
-const DEMO_VIDEO_SRC = "https://sora.axyl.io.vn/media/demo/testimonials.webm";
+const DEMO_VIDEO_SRC =
+  "https://cdn.soralabs.io.vn/media/demo/testimonials.webm";
 
 const CHAPTERS = [
   { start: 0, title: "Intro" },

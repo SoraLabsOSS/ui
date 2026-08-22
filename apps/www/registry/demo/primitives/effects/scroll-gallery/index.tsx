@@ -10,7 +10,7 @@ import {
 } from "@/registry/primitives/effects/scroll-gallery";
 
 const SCROLL_GALLERY_MEDIA =
-  "https://sora.axyl.io.vn/media/demo/scroll-gallery" as const;
+  "https://cdn.soralabs.io.vn/media/demo/scroll-gallery" as const;
 
 export const scrollGalleryDemoSlides: ScrollGallerySlide[] = [
   {

@@ -1,7 +1,8 @@
-﻿{
+{
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "demo-button-variants",
   "title": "Button Variants Demo",
+  "description": "Showcase of all visual button variants: default, secondary, destructive, outline, ghost, and link.",
   "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
