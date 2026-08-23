@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-base-accordion",
+  "type": "registry:ui",
+  "title": "Base Accordion Demo",
+  "description": "Base UI accordion with 1:1 Motion spring physics, blur transitions, and animated focus ring.",
+  "registryDependencies": ["base-accordion"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/accordion.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "Accordion": {
+        "variant": {
+          "value": "default",
+          "options": {
+            "Default": "default",
+            "Bordered": "bordered",
+            "Separated": "separated",
+            "Ghost": "ghost"
+          }
+        },
+        "multiple": {
+          "value": false
+        },
+        "showFocusRing": {
+          "value": true
+        },
+        "disableAnimation": {
+          "value": false
+        }
+      }
+    }
+  }
+}

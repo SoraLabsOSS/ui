@@ -131,7 +131,7 @@ function ProfileSkeletonCard({ shimmerDuration }: { shimmerDuration: number }) {
 function ProfileContentCard() {
   return (
     <div style={sCard}>
-      {/* Banner — CSS gradient, same as sandbox original */}
+      {/* Banner — CSS gradient background */}
       <div style={sBannerContainer} />
 
       <div style={sBody}>

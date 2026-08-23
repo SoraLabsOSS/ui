@@ -867,6 +867,86 @@
       }
     },
     {
+      "name": "demo-base-accordion",
+      "type": "registry:ui",
+      "title": "Base Accordion Demo",
+      "description": "Base UI accordion with 1:1 Motion spring physics, blur transitions, and animated focus ring.",
+      "registryDependencies": ["@soralabs/base-accordion"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/accordion/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/accordion.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "Accordion": {
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Bordered": "bordered",
+                "Separated": "separated",
+                "Ghost": "ghost"
+              }
+            },
+            "multiple": {
+              "value": false
+            },
+            "showFocusRing": {
+              "value": true
+            },
+            "disableAnimation": {
+              "value": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "demo-base-accordion-bordered",
+      "type": "registry:ui",
+      "title": "Base Accordion Bordered Demo",
+      "description": "Base UI accordion in a bordered card container with refined surface styling.",
+      "registryDependencies": ["@soralabs/base-accordion"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/accordion-bordered/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/accordion-bordered.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-base-accordion-multiple",
+      "type": "registry:ui",
+      "title": "Multiple Open Base Accordion Demo",
+      "description": "Base UI accordion allowing multiple panels to expand simultaneously.",
+      "registryDependencies": ["@soralabs/base-accordion"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/accordion-multiple/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/accordion-multiple.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-base-accordion-separated",
+      "type": "registry:ui",
+      "title": "Separated Base Accordion Demo",
+      "description": "Base UI accordion with separated card-style items.",
+      "registryDependencies": ["@soralabs/base-accordion"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/accordion-separated/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/accordion-separated.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-button",
       "type": "registry:ui",
       "title": "Button Demo",
@@ -2963,6 +3043,50 @@
           "target": "components/sora-ui/texts/typer.tsx"
         }
       ]
+    },
+    {
+      "name": "base-accordion",
+      "type": "registry:ui",
+      "title": "Base Accordion",
+      "description": "An animated accordion component built on Base UI with spring physics, height collapse mask gradient, blur transitions, and gliding layoutId focus ring.",
+      "dependencies": [
+        "@base-ui/react",
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "files": [
+        {
+          "path": "registry/ui/base/accordion/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/accordion.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "Accordion": {
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Bordered": "bordered",
+                "Separated": "separated",
+                "Ghost": "ghost"
+              }
+            },
+            "multiple": {
+              "value": false
+            },
+            "showFocusRing": {
+              "value": true
+            },
+            "disableAnimation": {
+              "value": false
+            }
+          }
+        }
+      }
     },
     {
       "name": "base-button",

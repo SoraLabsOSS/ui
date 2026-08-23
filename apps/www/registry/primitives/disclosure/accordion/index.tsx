@@ -158,7 +158,7 @@ export interface AccordionProps
   children?: ReactNode;
   /**
    * Disable accordion animations on matching breakpoints.
-   * Mirrors `data-anm-disable` on the sandbox section.
+   * Responsive media queries to disable transitions on mobile, tablet, or desktop.
    */
   disabledOn?: DisabledBreakpoint[];
   duration?: number;

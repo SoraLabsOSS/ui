@@ -83,7 +83,7 @@ export interface MaskedTextRevealProps {
   unitClassName?: string;
   /**
    * Viewport margin that controls when the animation triggers.
-   * Maps to sandbox `start: "top 75%"` by default.
+   * Triggers when the element reaches the top 75% of the viewport by default.
    * @default "0px 0px -25% 0px"
    */
   viewportMargin?: UseInViewOptions["margin"];

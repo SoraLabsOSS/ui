@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-base-accordion-separated",
+  "type": "registry:ui",
+  "title": "Separated Base Accordion Demo",
+  "description": "Base UI accordion with separated card-style items.",
+  "registryDependencies": ["base-accordion"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/accordion-separated/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/accordion-separated.tsx"
+    }
+  ]
+}

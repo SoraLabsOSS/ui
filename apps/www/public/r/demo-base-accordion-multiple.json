@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-base-accordion-multiple",
+  "title": "Multiple Open Base Accordion Demo",
+  "description": "Base UI accordion allowing multiple panels to expand simultaneously.",
+  "registryDependencies": ["@soralabs/base-accordion"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/accordion-multiple/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  type AccordionProps,\n  AccordionTrigger,\n} from \"@/components/sora-ui/base/accordion\";\n\nexport default function AccordionMultipleDemo({\n  className,\n  defaultValue = [\"item-1\", \"item-2\"],\n  multiple = true,\n  ...props\n}: AccordionProps) {\n  return (\n    <div className=\"flex w-full max-w-lg flex-col items-center justify-start self-start py-4\">\n      <Accordion\n        className={cn(\"w-full\", className)}\n        defaultValue={defaultValue}\n        multiple={multiple}\n        {...props}\n      >\n        <AccordionItem value=\"item-1\">\n          <AccordionTrigger>Multiple Items Expansion</AccordionTrigger>\n          <AccordionContent>\n            With the <code>multiple</code> prop enabled, multiple accordion\n            panels can remain open simultaneously without collapsing others.\n          </AccordionContent>\n        </AccordionItem>\n        <AccordionItem value=\"item-2\">\n          <AccordionTrigger>Independent Animations</AccordionTrigger>\n          <AccordionContent>\n            Each panel independently runs its height expand/collapse and blur\n            transition using Motion spring physics.\n          </AccordionContent>\n        </AccordionItem>\n        <AccordionItem value=\"item-3\">\n          <AccordionTrigger>Gliding Focus Ring</AccordionTrigger>\n          <AccordionContent>\n            Keyboard users can tab through triggers and see the focus ring\n            smoothly glide between items.\n          </AccordionContent>\n        </AccordionItem>\n      </Accordion>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/accordion-multiple.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

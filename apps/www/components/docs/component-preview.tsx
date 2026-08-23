@@ -293,7 +293,7 @@ export function ComponentPreview({
             value="code"
           >
             <div className="flex flex-col space-y-4">
-              <div className="h-[450px] w-full rounded-md [&_pre]:my-0 [&_pre]:h-[400px] [&_pre]:overflow-auto">
+              <div className="w-full rounded-md [&_[data-slot=codeblock-viewport]]:max-h-[450px] [&_figure]:my-0 [&_pre]:my-0">
                 <DynamicCodeBlock
                   code={displayCode ?? undefined}
                   icon={<ReactIcon />}

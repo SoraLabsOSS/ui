@@ -1,0 +1,176 @@
+---
+title: Accordion
+description: An animated accordion component built on Base UI with 1:1 Motion spring physics, height collapse mask gradient, blur transitions, and gliding layoutId focus ring.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-base-accordion" description="Default animated Base UI accordion with Motion spring transitions and glowing focus ring." />
+
+## Installation
+
+<ComponentInstallation name="base-accordion" />
+
+## Usage
+
+```tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/sora-ui/base/accordion";
+
+export default function Page() {
+  return (
+    <Accordion defaultValue={["item-1"]}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern using Base UI primitives.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Is it animated?</AccordionTrigger>
+        <AccordionContent>
+          Yes! It features 1:1 Motion spring physics, mask gradient height collapse,
+          blur transitions, and gliding focus rings.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
+## Examples
+
+### Bordered Container
+
+<ComponentPreview name="demo-base-accordion-bordered" description="Accordion in a bordered container with refined surface styling." />
+
+### Separated Cards
+
+<ComponentPreview name="demo-base-accordion-separated" description="Accordion with individual card-style separated items." />
+
+### Multiple Items
+
+<ComponentPreview name="demo-base-accordion-multiple" description="Accordion allowing multiple panels to expand simultaneously." />
+
+## Props
+
+### Accordion
+
+<TypeTable
+  type={{
+    value: {
+      description: "The controlled value of the item(s) that should be expanded.",
+      type: "string | number | (string | number)[]",
+    },
+    defaultValue: {
+      description: "The uncontrolled value of the item(s) that should be initially expanded.",
+      type: "string | number | (string | number)[]",
+      default: "[]",
+    },
+    multiple: {
+      description: "Whether multiple items can be open at the same time.",
+      type: "boolean",
+      default: "false",
+    },
+    variant: {
+      description: "Visual style variant of the accordion.",
+      type: '"default" | "bordered" | "separated" | "ghost"',
+      default: '"default"',
+    },
+    showFocusRing: {
+      description: "Whether to render the gliding animated focus ring on keyboard focus.",
+      type: "boolean",
+      default: "true",
+    },
+    focusRingClassName: {
+      description: "Additional CSS classes for the animated focus ring.",
+      type: "string",
+    },
+    focusRingLayoutId: {
+      description: "Custom layoutId for the focus ring shared layout animation.",
+      type: "string",
+    },
+    disableAnimation: {
+      description: "Whether to disable all motion physics and animations.",
+      type: "boolean",
+      default: "false",
+    },
+    transition: {
+      description: "Spring transition physics configuration for layout animations.",
+      type: "Transition",
+      default: '{ type: "spring", bounce: 0.2, visualDuration: 0.4 }',
+    },
+    onValueChange: {
+      description: "Event handler called when an accordion item expands or collapses.",
+      type: "(value: (string | number)[]) => void",
+    },
+  }}
+/>
+
+### AccordionItem
+
+<TypeTable
+  type={{
+    value: {
+      description: "Unique value that identifies this accordion item.",
+      type: "string | number",
+    },
+    disabled: {
+      description: "Whether the item should ignore user interaction.",
+      type: "boolean",
+      default: "false",
+    },
+    className: {
+      description: "Additional CSS classes for the item container.",
+      type: "string",
+    },
+  }}
+/>
+
+### AccordionTrigger
+
+<TypeTable
+  type={{
+    hideChevron: {
+      description: "Whether to hide the rotating chevron indicator icon.",
+      type: "boolean",
+      default: "false",
+    },
+    chevron: {
+      description: "Custom trailing chevron or icon element.",
+      type: "ReactNode",
+    },
+    chevronClassName: {
+      description: "Additional CSS classes for the chevron icon.",
+      type: "string",
+    },
+    showFocusRing: {
+      description: "Whether to display the focus ring on this trigger (overrides root).",
+      type: "boolean",
+    },
+    focusRingClassName: {
+      description: "Additional CSS classes for the trigger focus ring.",
+      type: "string",
+    },
+  }}
+/>
+
+### AccordionContent
+
+<TypeTable
+  type={{
+    innerClassName: {
+      description: "Additional CSS classes for the inner wrapper element.",
+      type: "string",
+    },
+    className: {
+      description: "Additional CSS classes for the panel container.",
+      type: "string",
+    },
+  }}
+/>

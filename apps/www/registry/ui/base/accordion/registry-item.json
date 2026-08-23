@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "base-accordion",
+  "type": "registry:ui",
+  "title": "Base Accordion",
+  "description": "An animated accordion component built on Base UI with spring physics, height collapse mask gradient, blur transitions, and gliding layoutId focus ring.",
+  "dependencies": [
+    "@base-ui/react",
+    "motion",
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "registryDependencies": ["utils", "hooks-use-controlled-state"],
+  "files": [
+    {
+      "path": "registry/ui/base/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/base/accordion.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "Accordion": {
+        "variant": {
+          "value": "default",
+          "options": {
+            "Default": "default",
+            "Bordered": "bordered",
+            "Separated": "separated",
+            "Ghost": "ghost"
+          }
+        },
+        "multiple": {
+          "value": false
+        },
+        "showFocusRing": {
+          "value": true
+        },
+        "disableAnimation": {
+          "value": false
+        }
+      }
+    }
+  }
+}
