@@ -107,7 +107,7 @@ export default config;
   "mcpServers": {
     "sora-ui": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.soralabs.io.vn/mcp"]
+      "args": ["-y", "mcp-remote", "https://mcp.soralabs.studio/mcp"]
     }
   }
 }
@@ -132,7 +132,7 @@ export default config;
 {
   "mcpServers": {
     "sora-ui": {
-      "url": "https://mcp.soralabs.io.vn/mcp"
+      "url": "https://mcp.soralabs.studio/mcp"
     }
   }
 }

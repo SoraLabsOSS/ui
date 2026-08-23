@@ -58,10 +58,10 @@ In the previous version, JSON-RPC requests hit the root path `/`, causing confli
 With `apps/xmcp`, the live MCP streaming endpoint is cleanly located at:
 
 ```
-https://mcp.soralabs.io.vn/mcp
+https://mcp.soralabs.studio/mcp
 ```
 
-Visiting the root domain (`https://mcp.soralabs.io.vn`) now serves a clean visual dashboard, while AI clients connect directly to `/mcp`.
+Visiting the root domain (`https://mcp.soralabs.studio`) now serves a clean visual dashboard, while AI clients connect directly to `/mcp`.
 
 ---
 
@@ -109,7 +109,7 @@ Updating your configuration is straightforward.
 {
   "mcpServers": {
     "sora-ui": {
-      "url": "https://mcp.soralabs.io.vn/mcp"
+      "url": "https://mcp.soralabs.studio/mcp"
     }
   }
 }
@@ -131,7 +131,7 @@ Updating your configuration is straightforward.
 
 ```bash
 # Connect via remote HTTP
-claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn/mcp
+claude mcp add --transport http sora-ui https://mcp.soralabs.studio/mcp
 
 # Or connect via local STDIO
 claude mcp add sora-ui node /ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js
@@ -144,7 +144,7 @@ claude mcp add sora-ui node /ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js
   "mcpServers": {
     "sora-ui": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.soralabs.io.vn/mcp"]
+      "args": ["-y", "mcp-remote", "https://mcp.soralabs.studio/mcp"]
     }
   }
 }

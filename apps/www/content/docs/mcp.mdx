@@ -365,7 +365,7 @@ Merge the shadcn entry into your MCP config (example for Cursor):
     Cursor: `{
   "mcpServers": {
     "sora-ui": {
-      "url": "https://mcp.soralabs.io.vn/mcp"
+      "url": "https://mcp.soralabs.studio/mcp"
     },
     "shadcn": {
       "command": "npx",
@@ -377,7 +377,7 @@ Merge the shadcn entry into your MCP config (example for Cursor):
   "mcpServers": {
     "sora-ui": {
       "type": "http",
-      "url": "https://mcp.soralabs.io.vn/mcp"
+      "url": "https://mcp.soralabs.studio/mcp"
     },
     "shadcn": {
       "command": "npx",
@@ -408,7 +408,7 @@ MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in
 
 **Cursor**: Confirm **{SORA_UI_MCP_SERVER_NAME}** is enabled in **Settings → Tools & MCP**, restart Cursor after changing `.cursor/mcp.json`, and check **View → Output → MCP** for errors.
 
-**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add --transport http sora-ui https://mcp.soralabs.io.vn/mcp`. Use `claude mcp get sora-ui` to inspect the saved config.
+**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add --transport http sora-ui https://mcp.soralabs.studio/mcp`. Use `claude mcp get sora-ui` to inspect the saved config.
 
 **Claude Desktop**: Confirm the JSON in `claude_desktop_config.json` is valid (no trailing commas), then fully quit and reopen the app.
 
