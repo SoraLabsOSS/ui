@@ -34,6 +34,9 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
   }
   const quotedDependencies = dependencies
     .map((dep) => {
+      if (dep.startsWith("https://ui.soralabs.studio/r/")) {
+        return dep.replace("https://ui.soralabs.studio/r/", "@soralabs/");
+      }
       if (dep.startsWith("https://ui.soralabs.io.vn/r/")) {
         return dep.replace("https://ui.soralabs.io.vn/r/", "@soralabs/");
       }

@@ -37,7 +37,7 @@ If that still fails, add or update the `registries` field in `components.json`:
 ```json
 {
   "registries": {
-    "@soralabs": "https://ui.soralabs.io.vn/r/{name}.json"
+    "@soralabs": "https://ui.soralabs.studio/r/{name}.json"
   }
 }
 ```
@@ -51,7 +51,7 @@ If you were testing against a local docs server (`http://localhost:3000/r/{name}
 Verify the registry is reachable:
 
 ```bash
-bunx --bun shadcn@latest list https://ui.soralabs.io.vn/r/registry.json
+bunx --bun shadcn@latest list https://ui.soralabs.studio/r/registry.json
 ```
 
 Then install with the scope, for example:
@@ -69,7 +69,7 @@ the CLI fetches them from your `@soralabs` registry URL, not the default shadcn
 registry.
 
 Ensure `components.json` includes the Sora registry (see above), then retry
-after the registry on `https://ui.soralabs.io.vn/r/` is updated. For local
+after the registry on `https://ui.soralabs.studio/r/` is updated. For local
 testing, point `@soralabs` at `http://localhost:3000/r/{name}.json` while
 `bun dev` is running in this repo.
 

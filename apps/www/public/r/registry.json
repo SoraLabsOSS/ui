@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "Sora UI",
-  "homepage": "https://ui.soralabs.io.vn",
+  "homepage": "https://ui.soralabs.studio",
   "items": [
     {
       "name": "index",

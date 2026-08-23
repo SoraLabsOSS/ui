@@ -138,7 +138,7 @@ function sourceTitle(source: SourceUrlUIPart) {
   }
 
   try {
-    const path = new URL(source.url, "https://ui.soralabs.io.vn").pathname;
+    const path = new URL(source.url, "https://ui.soralabs.studio").pathname;
     const last = path.split("/").filter(Boolean).at(-1) ?? path;
     return last.replaceAll("-", " ");
   } catch {

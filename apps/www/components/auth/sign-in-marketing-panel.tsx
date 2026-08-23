@@ -83,7 +83,7 @@ export function SignInMarketingPanel() {
               <div className="size-2 rounded-full bg-white/25" />
               <div className="size-2 rounded-full bg-white/15" />
               <span className="ml-4 font-mono text-[9px] text-white/40 tracking-wider">
-                studio.soralabs.io.vn
+                ui.soralabs.studio
               </span>
             </div>
             <Image

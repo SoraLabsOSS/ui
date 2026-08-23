@@ -33,7 +33,7 @@ export function getPageAlternates(
   };
 }
 
-export const CONTACT_EMAIL = "hello@soralabs.io.vn" as const;
+export const CONTACT_EMAIL = "hello@soralabs.studio" as const;
 export const SUPPORT_EMAIL = CONTACT_EMAIL;
 
 export const GITHUB_REPO_URL = "https://github.com/SoraLabsOSS/ui" as const;
