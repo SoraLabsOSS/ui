@@ -5,6 +5,6 @@
       "@workspace/ui/*": ["./src/*"]
     }
   },
-  "include": ["."],
+  "include": [".", "../../apps/www/components/banner.tsx"],
   "exclude": ["node_modules", "dist"]
 }

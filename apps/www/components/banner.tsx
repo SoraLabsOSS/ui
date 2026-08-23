@@ -1,10 +1,9 @@
 "use client";
 
+import { buttonVariants } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { X } from "lucide-react";
 import { type HTMLAttributes, useEffect, useState } from "react";
-import { getBannerDismissClass } from "@/lib/banner-config";
 
 type BannerVariant = "rainbow" | "normal";
 
@@ -43,36 +42,19 @@ export function Banner({
    */
   changeLayout?: boolean;
 }) {
-  const globalKey = id ? getBannerDismissClass(id) : null;
-  const [open, setOpen] = useState(() => {
-    if (!globalKey || typeof window === "undefined") {
-      return true;
-    }
-
-    return localStorage.getItem(globalKey) !== "true";
-  });
+  const [open, setOpen] = useState(true);
+  const globalKey = id ? `nd-banner-${encodeBase32(id)}` : null;
 
   useEffect(() => {
-    if (!globalKey) {
-      return;
+    if (globalKey && localStorage.getItem(globalKey) === "true") {
+      setOpen(false);
     }
-
-    if (localStorage.getItem(globalKey) !== "true") {
-      return;
-    }
-
-    document.documentElement.classList.add(globalKey);
-    document.documentElement.style.setProperty("--fd-banner-height", "0px");
-    setOpen(false);
   }, [globalKey]);
 
   function onClose() {
     setOpen(false);
-
     if (globalKey) {
       localStorage.setItem(globalKey, "true");
-      document.documentElement.classList.add(globalKey);
-      document.documentElement.style.setProperty("--fd-banner-height", "0px");
     }
   }
 
@@ -80,57 +62,63 @@ export function Banner({
     return null;
   }
 
-  const bannerHeightStyle = { height };
-
   return (
-    <>
-      <div
-        id={id}
-        {...props}
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 flex shrink-0 flex-row items-center justify-center px-4 text-center font-medium text-sm",
-          variant === "normal" && "bg-background",
-          variant === "rainbow" && "bg-background",
-          props.className
-        )}
-        style={bannerHeightStyle}
-      >
-        {changeLayout && open ? (
-          <style>
-            {globalKey
-              ? `:root:not(.${globalKey}) { --fd-banner-height: ${height}; }`
-              : `:root { --fd-banner-height: ${height}; }`}
-          </style>
-        ) : null}
-
-        {variant === "rainbow"
-          ? flow({
-              colors: rainbowColors,
-            })
-          : null}
-        {props.children}
-        {id ? (
-          <button
-            aria-label="Close Banner"
-            className={cn(
-              buttonVariants({
-                color: "ghost",
-                className:
-                  "absolute inset-e-2 top-1/2 -translate-y-1/2 text-fd-muted-foreground/50",
-                size: "icon-sm",
-              })
-            )}
-            onClick={onClose}
-            type="button"
-          >
-            <X />
-          </button>
-        ) : null}
-      </div>
-      {changeLayout ? (
-        <div aria-hidden className="shrink-0" style={bannerHeightStyle} />
+    <div
+      id={id}
+      {...props}
+      className={cn(
+        "sticky top-0 z-40 flex flex-row items-center justify-center px-4 text-center font-medium text-sm",
+        variant === "normal" && "bg-fd-secondary",
+        variant === "rainbow" && "bg-fd-background",
+        !open && "hidden",
+        props.className
+      )}
+      style={{
+        height,
+      }}
+    >
+      {changeLayout && open ? (
+        <style>
+          {globalKey
+            ? `:root:not(.${globalKey}) { --fd-banner-height: ${height}; }`
+            : `:root { --fd-banner-height: ${height}; }`}
+        </style>
       ) : null}
-    </>
+      {globalKey ? (
+        <style>{`.${globalKey} #${id} { display: none; }`}</style>
+      ) : null}
+      {globalKey ? (
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if (localStorage.getItem('${globalKey}') === 'true') document.documentElement.classList.add('${globalKey}');`,
+          }}
+        />
+      ) : null}
+
+      {variant === "rainbow"
+        ? flow({
+            colors: rainbowColors,
+          })
+        : null}
+      {props.children}
+      {id ? (
+        <button
+          aria-label="Close Banner"
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              className:
+                "absolute inset-e-2 top-1/2 -translate-y-1/2 text-fd-muted-foreground/50",
+              size: "icon-sm",
+            })
+          )}
+          onClick={onClose}
+          type="button"
+        >
+          <X />
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -142,14 +130,16 @@ function flow({ colors }: { colors: string[] }) {
     <>
       <div
         className="absolute inset-0 -z-1"
-        style={{
-          maskImage,
-          maskComposite: "intersect",
-          animation: "fd-moving-banner 20s linear infinite",
-          backgroundImage: `repeating-linear-gradient(70deg, ${[...colors, colors[0]].map((color, i) => `${color} ${(i * 50) / colors.length}%`).join(", ")})`,
-          backgroundSize: "200% 100%",
-          filter: "saturate(2)",
-        }}
+        style={
+          {
+            maskImage,
+            maskComposite: "intersect",
+            animation: "fd-moving-banner 20s linear infinite",
+            backgroundImage: `repeating-linear-gradient(70deg, ${[...colors, colors[0]].map((color, i) => `${color} ${(i * 50) / colors.length}%`).join(", ")})`,
+            backgroundSize: "200% 100%",
+            filter: "saturate(2)",
+          } as object
+        }
       />
       <style>
         {`@keyframes fd-moving-banner {
@@ -159,4 +149,28 @@ function flow({ colors }: { colors: string[] }) {
       </style>
     </>
   );
+}
+
+function encodeBase32(str: string) {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz234567";
+  let encoded = "";
+
+  let buffer = 0;
+  let bitsLeft = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    buffer = (buffer << 8) | str.charCodeAt(i);
+    bitsLeft += 8;
+
+    while (bitsLeft >= 5) {
+      bitsLeft -= 5;
+      encoded += alphabet[(buffer >> bitsLeft) & 31];
+    }
+  }
+
+  if (bitsLeft > 0) {
+    encoded += alphabet[(buffer << (5 - bitsLeft)) & 31];
+  }
+
+  return encoded;
 }
