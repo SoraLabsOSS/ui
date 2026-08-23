@@ -5,6 +5,13 @@ import { Tab } from "fumadocs-ui/components/tabs";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
+import {
+  Changelog,
+  ChangelogItem,
+  ChangelogItemDescription,
+  ChangelogItemTitle,
+  ChangelogItemVersion,
+} from "@/components/docs/changelog";
 import { ExternalLink } from "@/components/docs/external-link";
 import { PrimitivesIndex } from "@/components/docs/primitives-index";
 import { SoraTypeTable } from "@/components/docs/sora-type-table";
@@ -71,6 +78,11 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PrimitivesIndex,
     UiIndex,
     RoadmapTimeline,
+    Changelog,
+    ChangelogItem,
+    ChangelogItemVersion,
+    ChangelogItemTitle,
+    ChangelogItemDescription,
     TypeTable: SoraTypeTable,
     ExternalLink,
     Steps,

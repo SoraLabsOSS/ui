@@ -15,7 +15,7 @@ export const baseOptions: BaseLayoutProps = {
       type: "separator",
       name: "Guide",
       icon: <BookOpen fill="currentColor" strokeWidth={2.5} />,
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: custom separator layout item
     } as any,
     {
       text: "Introduction",
@@ -25,6 +25,11 @@ export const baseOptions: BaseLayoutProps = {
     {
       text: "Installation",
       url: "/docs/installation",
+      secondary: false,
+    },
+    {
+      text: "Changelog",
+      url: "/docs/changelog",
       secondary: false,
     },
     {

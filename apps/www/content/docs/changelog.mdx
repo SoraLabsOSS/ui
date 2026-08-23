@@ -1,0 +1,141 @@
+﻿---
+title: Changelog
+description: Latest updates and announcements.
+---
+
+import {
+  Changelog,
+  ChangelogItem,
+  ChangelogItemTitle,
+  ChangelogItemDescription,
+  ChangelogItemVersion,
+} from '@/components/docs/changelog';
+
+<Changelog>
+
+<ChangelogItem date="2026-08-23">
+  <ChangelogItemVersion>
+
+## Base UI Accordion & XMCP
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>UI</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- New Base UI `Accordion` primitive (`/ui/base/accordion`) with spring height morphing, bottom mask gradient fade, chevron spring rotation, exit animation via `AnimatePresence`, and shared `layoutId` focus ring gliding.
+- Added 4 interactive showcase variants (`default`, `bordered`, `separated`, `ghost`) with live documentation showcase.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Infrastructure</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Migrated Sora MCP server to `@xmcp/framework` (`apps/xmcp`) supporting STDIO and HTTP transports.
+- Enhanced global native and WebKit scrollbars with adaptive dark mode styling.
+- Standardized automated Ultracite (Biome) lint-fixing in registry workflows.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-08-22">
+  <ChangelogItemVersion>
+
+## UI Roadmap & MotionScore™
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>UI & Docs</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- New interactive UI Roadmap & Timeline (`/ui/roadmap`) tracking Base UI and Radix UI rollouts.
+- Introduced MotionScore™ performance benchmarking guidelines and local Chromium audit CLI commands.
+- Migrated media and video demo assets to `cdn.soralabs.io.vn`.
+- Dynamic Edge OG image generation support for `/ui` and `/catalog` routes.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-08-21">
+  <ChangelogItemVersion>
+
+## 3-Tier Taxonomy Evolution
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>Architecture</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- The Great Sora UI Taxonomy Evolution: restructured the ecosystem into **Motion** (`/docs/motion`), **Catalog** (`/catalog`), and **UI** (`/ui`).
+- Multi-Foundation registry architecture supporting parallel `@base-ui/react` and `@radix-ui/react` primitives.
+- Upgraded AI search rewriting prompt to index across all 3 taxonomy tiers.
+- Added backward-compatible Next.js route rewrites and redirects.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-08-20">
+  <ChangelogItemVersion>
+
+## Base UI Foundation Launch
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>UI Foundation</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Initial Base UI components released: `Button`, `Checkbox`, and `Dialog`.
+- Eliminated conflicting CSS transitions across buttons and dialog overlays to favor pure GPU compositor transforms.
+- Standardized `prefers-reduced-motion` compliance across all active components.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-06-08">
+  <ChangelogItemVersion>
+
+## Catalog Showcases & Auth Engine
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>Primitives & Catalog</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Added `ScrollGallery`, `StickyScrollCards`, `MagneticCards`, `TextRevealMask`, `NumberFlow`, `PixelBackground`, and `ProgressiveBlur`.
+- Integrated Better Auth with session management, bookmarking system, and Upstash Redis secondary storage.
+- Enforced Ultracite (Biome) linting and Lefthook pre-commit hooks.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-05-19">
+  <ChangelogItemVersion>
+
+## Sora UI Genesis
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>Genesis</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Monorepo initialization with Turborepo, Next.js 16 (Turbopack), and Fumadocs documentation engine.
+- Implemented shadcn-compatible component registry generator (`apps/www/scripts/build-registry.mts`).
+- Initial animated primitives and Tailwind CSS v4 foundation.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+</Changelog>

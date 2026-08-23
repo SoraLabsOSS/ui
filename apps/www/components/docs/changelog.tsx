@@ -1,9 +1,9 @@
 "use client";
 
+import { getStrictContext } from "@workspace/ui/lib/get-strict-context";
 import { cn } from "@workspace/ui/lib/utils";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { getStrictContext } from "@/registry/lib/get-strict-context";
 
 interface ChangelogItemContextType {
   major: boolean;
@@ -12,15 +12,15 @@ interface ChangelogItemContextType {
 const [ChangelogItemProvider, useChangelogItem] =
   getStrictContext<ChangelogItemContextType>("ChangelogItemContext");
 
-type ChangelogProps = React.ComponentProps<"div">;
+export type ChangelogProps = React.ComponentProps<"div">;
 
 export function Changelog(props: ChangelogProps) {
   return <div className="mt-4 flex flex-col" {...props} />;
 }
 
-type ChangelogItemProps = React.ComponentProps<"div"> & {
+export type ChangelogItemProps = React.ComponentProps<"div"> & {
   date: string;
-  major: boolean;
+  major?: boolean;
 };
 
 export const ChangelogItem = ({
@@ -59,7 +59,7 @@ export const ChangelogItem = ({
   </ChangelogItemProvider>
 );
 
-type ChangelogItemVersionProps = React.ComponentProps<"div">;
+export type ChangelogItemVersionProps = React.ComponentProps<"div">;
 
 export const ChangelogItemVersion = ({
   children,
@@ -81,7 +81,7 @@ export const ChangelogItemVersion = ({
   );
 };
 
-type ChangelogItemTitleProps = React.ComponentProps<"h3">;
+export type ChangelogItemTitleProps = React.ComponentProps<"h3">;
 
 export const ChangelogItemTitle = ({
   children,
@@ -92,7 +92,7 @@ export const ChangelogItemTitle = ({
   </h3>
 );
 
-type ChangelogItemDescriptionProps = React.ComponentProps<"div">;
+export type ChangelogItemDescriptionProps = React.ComponentProps<"div">;
 
 export const ChangelogItemDescription = ({
   children,
