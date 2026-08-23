@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 /** Production site origin — used for sitemap, robots, metadata, and JSON-LD. */
-export const SITE_URL = "https://ui.soralabs.io.vn" as const;
+export const SITE_URL = "https://ui.soralabs.studio" as const;
 
 function toAbsoluteSiteUrl(pathname: string): string {
   if (pathname === "/" || pathname === "") {

@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "registry/demo/primitives/effects/video-player/index.tsx",
-      "content": "\"use client\";\n\nimport { VideoPlayer } from \"@/components/sora-ui/effects/video-player\";\n\nconst DEMO_VIDEO_SRC =\n  \"https://cdn.soralabs.io.vn/media/demo/testimonials.webm\";\n\nconst CHAPTERS = [\n  { start: 0, title: \"Intro\" },\n  { start: 15, title: \"The orchard\" },\n  { start: 60, title: \"Trouble arrives\" },\n  { start: 120, title: \"The chase\" },\n  { start: 240, title: \"Showdown\" },\n  { start: 480, title: \"Credits\" },\n];\n\nexport default function VideoPlayerDemo() {\n  return (\n    <div className=\"flex items-center justify-center\">\n      <VideoPlayer chapters={CHAPTERS} defaultSpeed={1} src={DEMO_VIDEO_SRC} />\n    </div>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { VideoPlayer } from \"@/components/sora-ui/effects/video-player\";\n\nconst DEMO_VIDEO_SRC =\n  \"https://cdn.soralabs.studio/media/demo/testimonials.webm\";\n\nconst CHAPTERS = [\n  { start: 0, title: \"Intro\" },\n  { start: 15, title: \"The orchard\" },\n  { start: 60, title: \"Trouble arrives\" },\n  { start: 120, title: \"The chase\" },\n  { start: 240, title: \"Showdown\" },\n  { start: 480, title: \"Credits\" },\n];\n\nexport default function VideoPlayerDemo() {\n  return (\n    <div className=\"flex items-center justify-center\">\n      <VideoPlayer chapters={CHAPTERS} defaultSpeed={1} src={DEMO_VIDEO_SRC} />\n    </div>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/effects/video-player.tsx"
     }

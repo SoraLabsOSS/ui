@@ -4,7 +4,7 @@ Thank you for contributing to **Sora UI** — an open-source, Motion-first React
 
 - **Source repo:** [github.com/SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui)
 - **Bugs, questions, ideas:** [github.com/SoraLabsOSS/sora-ui-community](https://github.com/SoraLabsOSS/sora-ui-community) (not this repo’s issue tracker)
-- **Site:** [ui.soralabs.io.vn](https://ui.soralabs.io.vn)
+- **Site:** [ui.soralabs.studio](https://ui.soralabs.studio)
 
 ## Introduction
 

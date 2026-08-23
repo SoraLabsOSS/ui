@@ -12,7 +12,7 @@ const QUERY_SPLIT_REGEX = /\s+/;
 /** Also used by `registry/sora-registry-source.ts` — same host serves `/r/registry.json`. */
 export const DOCS_BASE_URL =
   process.env.DOCS_BASE_URL?.replace(BASE_URL_CLEAN_REGEX, "") ??
-  "https://ui.soralabs.io.vn";
+  "https://ui.soralabs.studio";
 
 /** Matches `apps/www/app` LLM + search routes. */
 const SORA_WWW_DOCS = {

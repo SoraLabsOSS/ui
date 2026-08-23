@@ -7,7 +7,7 @@ date: 2026-07-11
 hashtags: ["#a11y", "#accessibility", "#css", "#react"]
 ---
 
-I maintain [Sora UI](https://ui.soralabs.io.vn) — a small React component library: animated cards, custom cursors, scroll effects, the stuff people reach for to make a landing page feel alive. It's grown to 24 published motion primitives, all built on either GSAP or Motion, and both of those libraries will happily animate someone straight into a migraine if you let them.
+I maintain [Sora UI](https://ui.soralabs.studio) — a small React component library: animated cards, custom cursors, scroll effects, the stuff people reach for to make a landing page feel alive. It's grown to 24 published motion primitives, all built on either GSAP or Motion, and both of those libraries will happily animate someone straight into a migraine if you let them.
 
 Grep `prefers-reduced-motion` across all 24 components and every single one touches it somewhere.
 
@@ -214,7 +214,7 @@ The `StickyScrollCards` bug specifically suggests something more mechanical than
 
 None of this is exotic. `window.matchMedia`, a `useEffect`, a handful of `if` statements repeated 24 times with different endings. But "does this component respect reduced motion" turns out to be the wrong question past a handful of components. The real one is what does this component's content actually reduce to — a cursor reduces to nothing, a pill indicator reduces to instant, a card stack reduces to wherever the story would've ended. Same hook underneath all three. Three different answers, because the question was never really about the hook.
 
-Every component discussed here — `StickyScrollCards`, `MagneticCards`, `Highlight`, `ProgressiveBlur`, `CustomCursor`, `Skeleton`, and the shared `usePrefersReducedMotion` hook itself — is open source in the [Sora UI](https://ui.soralabs.io.vn) registry, `npx shadcn add`-able, source included, no package to trust blindly.
+Every component discussed here — `StickyScrollCards`, `MagneticCards`, `Highlight`, `ProgressiveBlur`, `CustomCursor`, `Skeleton`, and the shared `usePrefersReducedMotion` hook itself — is open source in the [Sora UI](https://ui.soralabs.studio) registry, `npx shadcn add`-able, source included, no package to trust blindly.
 
 Reduced motion isn't about removing animation.
 

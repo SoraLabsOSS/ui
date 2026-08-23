@@ -6,7 +6,7 @@ import {
 } from "@/registry/primitives/effects/magnetic-cards";
 
 const MAGNETIC_CARDS_MEDIA =
-  "https://cdn.soralabs.io.vn/media/demo/magnetic-cards" as const;
+  "https://cdn.soralabs.studio/media/demo/magnetic-cards" as const;
 
 const DEMO_ITEMS: MagneticCardsItem[] = [
   { alt: "Magnetic cards demo 1", src: `${MAGNETIC_CARDS_MEDIA}/item1.avif` },

@@ -46,6 +46,7 @@ const nextConfig: NextConfig = {
       { hostname: "cdn.prod.website-files.com" },
       { hostname: "images.unsplash.com" },
       { hostname: "plus.unsplash.com" },
+      { hostname: "cdn.soralabs.studio", pathname: "/**", protocol: "https" },
       { hostname: "cdn.soralabs.io.vn", pathname: "/**", protocol: "https" },
       { hostname: "avatars.githubusercontent.com" },
     ],

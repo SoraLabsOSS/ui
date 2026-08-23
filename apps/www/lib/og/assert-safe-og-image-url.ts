@@ -2,6 +2,7 @@ import { getMetadataBaseUrl, SITE_URL } from "@/lib/site";
 
 const ALLOWED_OG_IMAGE_HOSTS = new Set([
   "avatars.githubusercontent.com",
+  "ui.soralabs.studio",
   "ui.soralabs.io.vn",
 ]);
 

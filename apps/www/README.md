@@ -11,7 +11,7 @@ A fully animated, open-source component distribution built with React, TypeScrip
 
 ## Documentation
 
-Visit [ui.soralabs.io.vn](https://ui.soralabs.io.vn/docs) to view the documentation.
+Visit [ui.soralabs.studio](https://ui.soralabs.studio/docs) to view the documentation.
 
 ## Contributing
 

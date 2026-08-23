@@ -91,13 +91,13 @@ export const registryCache = new MemoryCache({ maxEntries: 50, ttlMs: 86_400_000
 export const docsCache = new MemoryCache({ maxEntries: 500, ttlMs: 86_400_000 });
 ```
 
-Docs and registry data change on deploy, not on request, so a 24-hour TTL isn't cautious — it's the correct number. Most calls in a warm invocation never leave memory to hit `ui.soralabs.io.vn` at all.
+Docs and registry data change on deploy, not on request, so a 24-hour TTL isn't cautious — it's the correct number. Most calls in a warm invocation never leave memory to hit `ui.soralabs.studio` at all.
 
 ## Why a server and not a Skill
 
 This repo already leans on Skills for itself — `.agents/skills/nextjs`, `.agents/skills/design-taste-frontend`, packaged instructions that steer an agent while it works *inside* this codebase. Sora UI's own docs and registry could have shipped the same way, as a Skill, instead of a whole HTTP server. I looked at that option and went with the server anyway.
 
-Because a Skill is a bundle. It ships with a specific assistant's setup, gets loaded into context, and stays exactly as fresh as the last time someone re-packaged and re-published it. Sora UI doesn't sit still — `registry:build` runs on every deploy, regenerating `public/r/registry.json` and every per-item file the moment a primitive is added or changed. `sora-mcp` doesn't hold a copy of any of that. `get_component_info` and `get_component_code` `fetch()` `ui.soralabs.io.vn` directly, through a cache with a 24-hour TTL, not a bundle with no TTL at all. Ship a new primitive today, and every already-connected agent can `list_components` its way to it the next time that cache entry expires — nobody has to touch a Skill package for that to be true.
+Because a Skill is a bundle. It ships with a specific assistant's setup, gets loaded into context, and stays exactly as fresh as the last time someone re-packaged and re-published it. Sora UI doesn't sit still — `registry:build` runs on every deploy, regenerating `public/r/registry.json` and every per-item file the moment a primitive is added or changed. `sora-mcp` doesn't hold a copy of any of that. `get_component_info` and `get_component_code` `fetch()` `ui.soralabs.studio` directly, through a cache with a 24-hour TTL, not a bundle with no TTL at all. Ship a new primitive today, and every already-connected agent can `list_components` its way to it the next time that cache entry expires — nobody has to touch a Skill package for that to be true.
 
 The other half is reach. A Skill is bound to whichever assistant defines that packaging format — right now, mostly Claude. MCP is a protocol several clients already speak — Cursor, Claude Desktop, Claude Code, VS Code — so one HTTP endpoint, registered once, is the whole distribution story. Freshness without a republish step, and reach without picking one assistant to bet on: that's the actual argument for a server over a Skill, not "servers are more impressive than a markdown file."
 

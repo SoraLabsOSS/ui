@@ -11,7 +11,7 @@ A fully animated, open-source component distribution built with React, TypeScrip
 
 ## Documentation
 
-Visit [ui.soralabs.io.vn](https://ui.soralabs.io.vn/docs) to view the documentation.
+Visit [ui.soralabs.studio](https://ui.soralabs.studio/docs) to view the documentation.
 
 ## Local development
 
@@ -47,7 +47,7 @@ cd apps/xmcp && bun run dev
 cd apps/xmcp && bun run build
 ```
 
-See the [MCP Documentation](https://ui.soralabs.io.vn/docs/mcp) or [`apps/xmcp/README.md`](./apps/xmcp/README.md) for full configuration details.
+See the [MCP Documentation](https://ui.soralabs.studio/docs/mcp) or [`apps/xmcp/README.md`](./apps/xmcp/README.md) for full configuration details.
 
 ## Contributing
 

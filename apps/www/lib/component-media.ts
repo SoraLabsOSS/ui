@@ -5,7 +5,7 @@ export interface ComponentPreviewMedia {
   videoWebm: string;
 }
 
-const COMPONENT_MEDIA_BASE_URL = "https://cdn.soralabs.io.vn/media/components";
+const COMPONENT_MEDIA_BASE_URL = "https://cdn.soralabs.studio/media/components";
 
 export function getComponentPreviewMedia(slug: string): ComponentPreviewMedia {
   const base = `${COMPONENT_MEDIA_BASE_URL}/${slug}`;
