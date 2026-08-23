@@ -1,35 +1,37 @@
 ---
-title: "Announcement: Sora UI is moving to ui.soralabs.studio"
-description: "Sora UI is preparing to transition to its new official home at ui.soralabs.studio. Here is an early look at what is changing, our rollout plan, and CLI compatibility."
-ogSubtitle: Sora UI is preparing to move to ui.soralabs.studio. Seamless redirects, uninterrupted CLI workflows, and a unified home for our ecosystem.
+title: "Changelog: Sora UI has moved to ui.soralabs.studio"
+description: "Sora UI has officially migrated to its new official domain: ui.soralabs.studio. All traffic and endpoints from the legacy domain are now automatically redirected."
+ogSubtitle: Sora UI is now live on ui.soralabs.studio. Seamless 301 redirects are active, and all CLI workflows continue without interruption.
 author: Axyl
 date: 2026-08-23
-hashtags: ["#announcement", "#changelog", "#domain", "#sora-ui"]
+hashtags: ["#changelog", "#announcement", "#domain", "#sora-ui"]
 ---
 
-Sora UI is preparing to migrate to a new official domain: **`ui.soralabs.studio`**.
+Sora UI has officially moved to our new domain: [**ui.soralabs.studio**](https://ui.soralabs.studio).
 
-As our component registry, primitives collection, and CLI tools continue to grow, moving to `soralabs.studio` unites the entire Sora Labs open-source ecosystem under a cleaner, more dedicated home.
+As our component registry, primitives collection, and CLI tools continue to grow, moving to `soralabs.studio` unites the entire Sora Labs open-source ecosystem under a cleaner, dedicated home.
 
-This post serves as an advance announcement outlining what will change, our upcoming rollout timeline, and how we are ensuring zero disruptions for your existing projects.
+Visiting the legacy domain (`ui.soralabs.io.vn`) now automatically redirects to `ui.soralabs.studio`.
 
-## What is changing
+Here is a summary of the migration details and what it means for your projects.
+
+## What has changed
 
 ### 1. New Official Web Address
-- **Upcoming Domain:** `https://ui.soralabs.studio` *(currently in DNS setup & provisioning)*
-- **Current Active Domain:** `https://ui.soralabs.io.vn`
+- **Official Domain:** `https://ui.soralabs.studio` *(Active)*
+- **Legacy Domain:** `https://ui.soralabs.io.vn` *(Redirecting)*
 
-Once the new domain is fully live and DNS propagation finishes, all documentation, component showcases, interactive catalogs, and API references will transition over.
+All documentation, component showcases, interactive catalogs, and API references are now served directly from `ui.soralabs.studio`.
 
-### 2. Seamless 301 Redirects
-You won't need to worry about broken bookmarks or external links. Every existing URL on `ui.soralabs.io.vn` — from individual primitive pages (`/motion/*`, `/ui/*`) to catalog layouts (`/catalog/*`) and blog articles (`/blog/*`) — will permanently redirect (HTTP 301) to its exact counterpart on `ui.soralabs.studio`.
+### 2. Automatic 301 Permanent Redirects
+You don't need to worry about broken bookmarks or external links. Every URL on `ui.soralabs.io.vn` — from individual primitive pages (`/motion/*`, `/ui/*`) to catalog layouts (`/catalog/*`) and blog articles (`/blog/*`) — automatically and permanently redirects (HTTP 301) to its exact counterpart on `ui.soralabs.studio`.
 
 ### 3. CLI & Registry Compatibility
-Your local workflow and CI/CD pipelines will continue to work without interruption:
+Your local development workflow and CI/CD pipelines continue to work without interruption:
 
-- **Sora CLI:** `npx @soralabsoss/sora-cli add <component>` will automatically resolve against the new endpoints once the switchover occurs.
-- **shadcn/ui CLI:** `npx shadcn@latest add @soralabs/<component>` will resolve through automatic HTTP redirects.
-- **MCP Server:** Tools querying docs and registry metadata will route directly to the updated base URL.
+- **Sora CLI:** `npx @soralabsoss/sora-cli add <component>` resolves seamlessly against the updated endpoints.
+- **shadcn/ui CLI:** `npx shadcn@latest add @soralabs/<component>` continues fetching schemas with automatic redirect handling.
+- **MCP Server:** Tools querying docs and registry metadata route directly to `ui.soralabs.studio`.
 
 ```bash
 # Both install commands remain fully supported
@@ -37,20 +39,17 @@ npx @soralabsoss/sora-cli add text-effect
 npx shadcn@latest add @soralabs/text-effect
 ```
 
-## Migration Timeline
+## Migration Status
 
-- **Phase 1 (Upcoming / In Preparation):** Infrastructure setup, SSL certificate issuance, and registry routing validation for `ui.soralabs.studio`.
-- **Phase 2 (Planned):** Primary DNS switchover and global 301 redirect deployment for all incoming traffic from `ui.soralabs.io.vn`.
-- **Phase 3 (Final):** Updating repository documentation, npm package links, and social metadata.
+- **Phase 1 (Complete):** Infrastructure setup and SSL certificate provisioning for `ui.soralabs.studio`.
+- **Phase 2 (Active):** Global 301 permanent redirects deployed for all incoming traffic from `ui.soralabs.io.vn`.
+- **Phase 3 (Ongoing):** Updating repository documentation, npm package links, and external references.
 
-We expect to complete Phases 1 through 3 over the coming week.
+## Recommended Next Steps
 
-## What you should do
+While existing links and CLI commands redirect automatically, we recommend:
 
-For now, **no immediate action is required**. Everything continues to run normally on `ui.soralabs.io.vn`.
+1. **Update Your Bookmarks:** Bookmark [ui.soralabs.studio](https://ui.soralabs.studio) for direct access.
+2. **Update Hardcoded URLs:** If your internal docs, starter templates, or CI configurations reference `ui.soralabs.io.vn`, update them to `ui.soralabs.studio`.
 
-When the migration completes:
-1. **Update Bookmarks:** Switch your saved links to `ui.soralabs.studio`.
-2. **Update Hardcoded References:** If you maintain internal starter kits or docs referencing `ui.soralabs.io.vn`, update them to the new domain.
-
-If you have questions or feedback regarding the upcoming move, feel free to open a discussion on [GitHub](https://github.com/SoraLabsOSS/ui) or join our [Community Hub](https://github.com/SoraLabsOSS/sora-ui-community).
+If you notice any broken links or unexpected behavior during the transition, please report it on [GitHub](https://github.com/SoraLabsOSS/ui) or via our [Community Discussions](https://github.com/SoraLabsOSS/sora-ui-community/discussions).

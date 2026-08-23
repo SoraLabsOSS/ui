@@ -142,7 +142,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <Banner className="px-2 sm:px-4" variant="rainbow">
           <span className="inline-flex max-w-full items-center gap-1 whitespace-nowrap text-xs sm:text-sm">
-            <span>Sora UI is moving to ui.soralabs.studio soon.</span>
+            <span>Sora UI has moved to ui.soralabs.studio.</span>
             <Link
               className="inline-flex items-center gap-1 underline"
               href="/blog/moving-to-soralabs-studio"
