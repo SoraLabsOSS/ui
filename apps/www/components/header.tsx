@@ -32,7 +32,7 @@ const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
 export const Header = ({ className }: { className?: string }) => (
   <header
     className={cn(
-      "fixed inset-x-0 top-(--fd-banner-height) z-30 h-16 overflow-visible py-4",
+      "fixed inset-x-0 top-(--fd-banner-height) z-30 flex h-16 items-center overflow-visible",
       className
     )}
   >
@@ -42,7 +42,11 @@ export const Header = ({ className }: { className?: string }) => (
       maskFadeStart="40%"
       position="top"
     />
-    <HomeShell contentClassName="relative z-10 flex h-16 items-center justify-between gap-3">
+    <HomeShell
+      className="relative z-10 h-full w-full"
+      contentClassName="flex h-full items-center justify-between gap-3"
+      gutterClassName="h-full"
+    >
       <Link
         aria-label="Sora UI home"
         className="flex min-w-0 items-center gap-1.5 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring sm:gap-2"
