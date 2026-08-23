@@ -31,7 +31,18 @@ interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
 }
 
+const UI_FRAMEWORK_PREFIX = /^(base|radix)-/;
+
 type RegistryIndexEntry = (typeof index)[string];
+
+function isCanonicalDemoForItem(demoName: string, depName: string): boolean {
+  const strippedDep = depName.replace(UI_FRAMEWORK_PREFIX, "");
+  return (
+    demoName === depName ||
+    demoName === `demo-${depName}` ||
+    demoName === `demo-${strippedDep}`
+  );
+}
 
 function resolveDemoProps(name: string): Record<string, unknown> {
   const entry = index[name] as RegistryIndexEntry | undefined;
@@ -47,10 +58,12 @@ function resolveDemoProps(name: string): Record<string, unknown> {
   }
 
   for (const dep of entry?.registryDependencies ?? []) {
-    const inherited = (index[dep] as RegistryIndexEntry | undefined)?.component
-      ?.demoProps;
-    if (inherited && Object.keys(inherited).length > 0) {
-      return inherited;
+    if (isCanonicalDemoForItem(name, dep)) {
+      const inherited = (index[dep] as RegistryIndexEntry | undefined)
+        ?.component?.demoProps;
+      if (inherited && Object.keys(inherited).length > 0) {
+        return inherited;
+      }
     }
   }
 

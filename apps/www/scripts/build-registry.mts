@@ -15,6 +15,8 @@ const CONTENT_MDX_PATHS = [
   path.join(process.cwd(), "content", "ui"),
 ];
 
+const UI_FRAMEWORK_PREFIX = /^(base|radix)-/;
+
 /**
  * Recursively collect all component/demo names referenced in .mdx files
  * via <ComponentPreview name="..."> and <ComponentInstallation name="..."> tags.
@@ -463,6 +465,18 @@ export const previewComponents: Record<string, any> = {`;
       .map((item: RegistryItem) => item.name)
   );
 
+  const isCanonicalDemoForItem = (
+    demoName: string,
+    depName: string
+  ): boolean => {
+    const strippedDep = depName.replace(UI_FRAMEWORK_PREFIX, "");
+    return (
+      demoName === depName ||
+      demoName === `demo-${depName}` ||
+      demoName === `demo-${strippedDep}`
+    );
+  };
+
   const resolveDemoProps = (
     item: RegistryItem
   ): Record<string, Record<string, unknown>> => {
@@ -482,10 +496,12 @@ export const previewComponents: Record<string, any> = {`;
     }
 
     for (const dep of item.registryDependencies ?? []) {
-      const depItem = uniqueItemsMap.get(dep);
-      const inherited = depItem?.meta?.demoProps;
-      if (inherited && Object.keys(inherited).length > 0) {
-        return inherited;
+      if (isCanonicalDemoForItem(item.name, dep)) {
+        const depItem = uniqueItemsMap.get(dep);
+        const inherited = depItem?.meta?.demoProps;
+        if (inherited && Object.keys(inherited).length > 0) {
+          return inherited;
+        }
       }
     }
     return {};
