@@ -121,7 +121,8 @@ registry/demo/ui/base/checkbox/
 1. Merges `registry-item.json` files into `public/r/registry.json` (only items referenced in docs, UI, or catalog MDX).
 2. Generates `__registry__/index.tsx` (preview + code for the docs app).
 3. For each documented primitive with `demoProps` and **no** `demo-*` folder on disk → synthesizes a `demo-<name>` entry (`component: null`, `files[].content` only).
-4. Runs `shadcn build` → JSON artifacts under `public/r/*.json`.
+4. Runs the local `shadcn` CLI → JSON artifacts under `public/r/*.json`.
+5. Runs `ultracite fix` on generated files.
 
 ## Inspiration attribution
 

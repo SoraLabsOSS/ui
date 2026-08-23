@@ -3,11 +3,18 @@
  *
  * Docs component flow (preview + auto Code tab): see registry/README.md
  */
-import { exec } from "node:child_process";
+import { spawn } from "node:child_process";
 import { promises as fs } from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
 import { rimraf } from "rimraf";
-import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.ts";
+import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.js";
+import {
+  assertRegistryCatalog,
+  assertRegistryItem,
+} from "./validate-registry-schema.js";
+
+const require = createRequire(import.meta.url);
 
 const CONTENT_MDX_PATHS = [
   path.join(process.cwd(), "content", "docs"),
@@ -356,6 +363,8 @@ async function buildRegistryFile() {
     ),
   ];
 
+  assertRegistryCatalog(registryData, REGISTRY_JSON_PATH);
+
   await fs.writeFile(REGISTRY_JSON_PATH, JSON.stringify(registryData, null, 2));
 }
 
@@ -365,33 +374,38 @@ async function buildRegistryFile() {
  * @returns An array of registry item objects.
  */
 async function getRegistryItemsFromFolder(dir: string) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const items: any[] = [];
-  // Read directory entries with file type information
+  const items: RegistryItem[] = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      // Define the expected path of registry-item.json in the current directory
-      const registryItemPath = path.join(fullPath, "registry-item.json");
-      try {
-        // Check if registry-item.json exists in this directory
-        await fs.access(registryItemPath);
-        // Read and parse the registry item file
-        const content = await fs.readFile(registryItemPath, "utf-8");
-        const item = JSON.parse(content);
-        // Remove the $schema property if it exists
-        if (item.$schema) {
-          item.$schema = undefined;
-        }
-        items.push(item);
-      } catch {
-        // If registry-item.json does not exist in the current directory,
-        // recursively search in the subdirectories
-        const subItems = await getRegistryItemsFromFolder(fullPath);
-        items.push(...subItems);
-      }
+    if (!entry.isDirectory()) {
+      continue;
     }
+
+    const fullPath = path.join(dir, entry.name);
+    const registryItemPath = path.join(fullPath, "registry-item.json");
+
+    try {
+      await fs.access(registryItemPath);
+    } catch {
+      items.push(...(await getRegistryItemsFromFolder(fullPath)));
+      continue;
+    }
+
+    const content = await fs.readFile(registryItemPath, "utf-8");
+    let item: unknown;
+    try {
+      item = JSON.parse(content);
+    } catch (error) {
+      throw new Error(
+        `Invalid JSON in ${registryItemPath}: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
+
+    assertRegistryItem(item, registryItemPath);
+
+    const parsed = item as RegistryItem & { $schema?: string };
+    parsed.$schema = undefined;
+    items.push(parsed);
   }
   return items;
 }
@@ -750,6 +764,59 @@ export const previewComponents: Record<string, any> = {`;
   );
 }
 
+function resolveShadcnCli(): string {
+  return require.resolve("shadcn");
+}
+
+function runShadcnBuild(): Promise<void> {
+  const shadcnCli = resolveShadcnCli();
+
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      [shadcnCli, "build", "public/r/registry.json", "--output", "./public/r/"],
+      { cwd: process.cwd(), stdio: "inherit" }
+    );
+
+    child.on("error", reject);
+    child.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`shadcn build exited with code ${code}`));
+    });
+  });
+}
+
+function formatGeneratedFiles(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      [
+        "x",
+        "ultracite",
+        "fix",
+        "__registry__/index.tsx",
+        "__registry__/preview.tsx",
+        "public/r",
+      ],
+      { cwd: process.cwd(), stdio: "inherit" }
+    );
+
+    child.on("error", reject);
+    child.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`ultracite fix exited with code ${code}`));
+    });
+  });
+}
+
 /**
  * Function to build the registry.
  * It clears the previous registry directory, builds the registry files,
@@ -771,22 +838,10 @@ async function buildRegistry() {
     })
   );
 
-  // 2. Build the registry using the shadcn build command
-  await new Promise((resolve, reject) => {
-    const process = exec(
-      "bunx shadcn@latest build public/r/registry.json --output ./public/r/"
-    );
+  // 3. Build item JSON with the locally installed shadcn CLI (pinned in package.json)
+  await runShadcnBuild();
 
-    process.on("exit", (code) => {
-      if (code === 0) {
-        resolve(undefined);
-      } else {
-        reject(new Error(`Process exited with code ${code}`));
-      }
-    });
-  });
-
-  // 3. Replace `@/registry/...` path strings in published JSON (see replaceRegistryPaths)
+  // 4. Replace `@/registry/...` path strings in published JSON (see replaceRegistryPaths)
   const files = await fs.readdir(path.join(process.cwd(), "public/r"));
 
   await Promise.all(
@@ -799,15 +854,23 @@ async function buildRegistry() {
       const registryItem = JSON.parse(content);
 
       // Replace `@/registry` in file contents
-      registryItem.files = registryItem.files?.map((file: any) => {
-        if (
-          file.content?.includes("@/registry") ||
-          file.content?.includes("@workspace/ui/")
-        ) {
-          file.content = replaceRegistryPaths(file.content);
+      registryItem.files = registryItem.files?.map(
+        (entry: RegistryItemFile & { content?: string }) => {
+          if (
+            entry.content?.includes("@/registry") ||
+            entry.content?.includes("@workspace/ui/")
+          ) {
+            entry.content = replaceRegistryPaths(entry.content);
+          }
+          return entry;
         }
-        return file;
-      });
+      );
+
+      if (file === "registry.json") {
+        assertRegistryCatalog(registryItem, file);
+      } else {
+        assertRegistryItem(registryItem, file);
+      }
 
       // Write the updated file back to disk
       await fs.writeFile(
@@ -829,6 +892,8 @@ try {
   await buildRegistryIndex();
   console.log("🏗️ Building registry...");
   await buildRegistry();
+  console.log("✨ Formatting generated registry files...");
+  await formatGeneratedFiles();
 } catch (error) {
   console.error(error);
   process.exit(1);
