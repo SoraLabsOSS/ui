@@ -538,8 +538,9 @@
     }
   }
 
+  /* Default Fumadocs mobile TOC bar — trigger lives in the docs header instead. */
   #nd-tocnav {
-    @apply !hidden;
+    @apply hidden!;
   }
 
   #docs-body h1,

@@ -30,6 +30,7 @@ import {
   AuthNavMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
+import { DOCS_TOC_HEADER_SLOT_ID } from "@/components/docs/docs-toc-header-slot";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -336,6 +337,11 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
               ]}
               size="icon"
               triggerSize="icon-sm"
+            />
+
+            <span
+              className="inline-flex empty:hidden xl:hidden"
+              id={DOCS_TOC_HEADER_SLOT_ID}
             />
 
             <ThemeSwitcher className="max-md:hidden" />

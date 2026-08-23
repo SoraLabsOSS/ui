@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DocsAuthor } from "@/components/docs/docs-author";
+import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
 import { Footer } from "@/components/docs/footer";
 import { PageActionButtons } from "@/components/docs/page-actions";
@@ -93,6 +94,9 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
       }}
       full={page.data.full}
       tableOfContent={{ style: "clerk" }}
+      tableOfContentPopover={{
+        component: <DocsHeaderToc />,
+      }}
       toc={page.data.toc}
     >
       <DocsPageJsonLd page={page} />

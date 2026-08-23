@@ -64,7 +64,7 @@ async function BlogPostBody({ slug }: { slug: string }) {
         style: "clerk",
       }}
       tableOfContentPopover={{
-        style: "clerk",
+        enabled: false,
       }}
       toc={toc}
     >
