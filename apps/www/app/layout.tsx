@@ -140,7 +140,11 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <Banner className="px-2 sm:px-4" variant="rainbow">
+        <Banner
+          className="px-2 sm:px-4"
+          id="soralabs-studio-banner"
+          variant="rainbow"
+        >
           <span className="inline-flex max-w-full items-center gap-1 whitespace-nowrap text-xs sm:text-sm">
             <span>Sora UI has moved to ui.soralabs.studio.</span>
             <Link
