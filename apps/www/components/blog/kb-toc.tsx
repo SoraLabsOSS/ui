@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
 } from "@workspace/ui/components/ui/popover";
 import { cn } from "@workspace/ui/lib/utils";
+import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePublishHeaderToc } from "@/components/docs/docs-toc-header-slot";
@@ -63,20 +64,25 @@ function findActiveBlogHeadingId(ids: string[]): string | undefined {
   }
 
   const scrollElement = document.scrollingElement || document.documentElement;
-  const scrollTop = scrollElement.scrollTop;
+  const scrollTop = scrollElement.scrollTop || window.scrollY || 0;
+  const viewportHeight = window.innerHeight || scrollElement.clientHeight || 0;
+  const scrollHeight =
+    scrollElement.scrollHeight || document.body.scrollHeight || 0;
 
   if (scrollTop <= 10) {
     return ids[0];
   }
 
+  const isScrollable = scrollHeight > viewportHeight + 100;
   if (
-    scrollTop + scrollElement.clientHeight >=
-    scrollElement.scrollHeight - 10
+    isScrollable &&
+    scrollTop > 50 &&
+    scrollTop + viewportHeight >= scrollHeight - 80
   ) {
     return ids.at(-1);
   }
 
-  const threshold = 120;
+  const threshold = 140;
   let currentId = ids[0];
   for (const id of ids) {
     const element = document.getElementById(id);
@@ -93,6 +99,43 @@ function findActiveBlogHeadingId(ids: string[]): string | undefined {
   return currentId;
 }
 
+function scrollActiveBlogItem(
+  scroller: HTMLElement,
+  id: string,
+  behavior: ScrollBehavior
+): boolean {
+  const target = scroller.querySelector<HTMLElement>(
+    `a[href="#${CSS.escape(id)}"]`
+  );
+  if (!target) {
+    return false;
+  }
+
+  if (scroller.clientHeight === 0) {
+    return false;
+  }
+
+  const scrollerRect = scroller.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  if (scrollerRect.height === 0 || targetRect.height === 0) {
+    return false;
+  }
+
+  const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
+  if (maxScrollTop <= 0) {
+    return true;
+  }
+
+  const targetCenter = targetRect.top + targetRect.height / 2;
+  const scrollerCenter = scrollerRect.top + scrollerRect.height / 2;
+  const nextScrollTop = Math.max(
+    0,
+    Math.min(maxScrollTop, scroller.scrollTop + (targetCenter - scrollerCenter))
+  );
+  scroller.scrollTo({ top: nextScrollTop, behavior });
+  return true;
+}
+
 export function KbToc({
   contentId = "kb-main-content",
   className,
@@ -105,6 +148,12 @@ export function KbToc({
   const [isPastBottom, setIsPastBottom] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const activeIdRef = useRef(activeId);
+  activeIdRef.current = activeId;
+  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotionRef = useRef(prefersReducedMotion);
+  prefersReducedMotionRef.current = prefersReducedMotion;
   const headerItems = useMemo(
     () =>
       items.map((item) => ({
@@ -115,6 +164,38 @@ export function KbToc({
     [items]
   );
   usePublishHeaderToc(headerItems, true);
+
+  // Auto-scroll active item into view ONCE when popover opens
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    let frameId: number;
+    let attempts = 0;
+    const maxAttempts = 15;
+
+    const tryScroll = () => {
+      attempts += 1;
+      const scroller = contentRef.current;
+      const id = activeIdRef.current;
+      const behavior: ScrollBehavior = prefersReducedMotionRef.current
+        ? "auto"
+        : "smooth";
+      const done =
+        scroller && id ? scrollActiveBlogItem(scroller, id, behavior) : false;
+
+      if (!done && attempts < maxAttempts) {
+        frameId = requestAnimationFrame(tryScroll);
+      }
+    };
+
+    frameId = requestAnimationFrame(tryScroll);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [isOpen]);
 
   // Extract headings from the content DOM
   useEffect(() => {
@@ -317,9 +398,12 @@ export function KbToc({
             "z-50 max-h-[60vh] w-[280px] overflow-y-auto rounded-lg border border-border bg-popover p-0 shadow-lg",
             "outline-none"
           )}
+          onCloseAutoFocus={(e) => e.preventDefault()}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onOpenAutoFocus={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
+          ref={contentRef}
           side="left"
           sideOffset={8}
         >

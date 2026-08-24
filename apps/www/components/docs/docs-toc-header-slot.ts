@@ -10,8 +10,8 @@ export interface HeaderTocItem {
 }
 
 const EMPTY_ITEMS: HeaderTocItem[] = [];
-/** Covers the gap while the next page's publisher mounts (blog headings included). */
-const UNPUBLISH_MS = 250;
+/** Short gap while the next page's publisher mounts (blog headings included). */
+const UNPUBLISH_MS = 50;
 
 let items: HeaderTocItem[] = EMPTY_ITEMS;
 let epoch = 0;

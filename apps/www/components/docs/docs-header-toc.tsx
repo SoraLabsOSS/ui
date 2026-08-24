@@ -12,8 +12,13 @@ import {
 import { PageTOCPopoverItems } from "fumadocs-ui/layouts/docs/page";
 import { useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
-import { type ComponentProps, useLayoutEffect, useRef, useState } from "react";
-import { RemoveScroll } from "react-remove-scroll";
+import {
+  type ComponentProps,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   type HeaderTocItem,
   useHeaderTocItems,
@@ -24,6 +29,8 @@ const RING_SIZE = 20;
 const RING_STROKE = 1.75;
 const RING_RADIUS = (RING_SIZE - RING_STROKE) / 2;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
+const HASH_PREFIX_REGEX = /^#/;
+const CLICK_OVERRIDE_MS = 800;
 
 function clamp(value: number, min: number, max: number) {
   if (value < min) {
@@ -65,7 +72,7 @@ function TocProgressRing({
       <circle
         {...circleProps}
         className={
-          prefersReducedMotion
+          prefersReducedMotion || progress <= 0
             ? undefined
             : "transition-[stroke-dashoffset] duration-200"
         }
@@ -79,16 +86,35 @@ function TocProgressRing({
   );
 }
 
-function scrollChildIntoView(scroller: HTMLElement, target: HTMLElement) {
+function scrollChildIntoView(
+  scroller: HTMLElement,
+  target: HTMLElement,
+  behavior: ScrollBehavior = "auto"
+) {
+  if (scroller.clientHeight === 0) {
+    return false;
+  }
+
   const scrollerRect = scroller.getBoundingClientRect();
   const targetRect = target.getBoundingClientRect();
-  if (targetRect.top < scrollerRect.top) {
-    scroller.scrollTop -= scrollerRect.top - targetRect.top;
-    return;
+  if (scrollerRect.height === 0 || targetRect.height === 0) {
+    return false;
   }
-  if (targetRect.bottom > scrollerRect.bottom) {
-    scroller.scrollTop += targetRect.bottom - scrollerRect.bottom;
+
+  const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
+  if (maxScrollTop <= 0) {
+    return true;
   }
+
+  const targetCenter = targetRect.top + targetRect.height / 2;
+  const scrollerCenter = scrollerRect.top + scrollerRect.height / 2;
+  const nextScrollTop = clamp(
+    scroller.scrollTop + (targetCenter - scrollerCenter),
+    0,
+    maxScrollTop
+  );
+  scroller.scrollTo({ top: nextScrollTop, behavior });
+  return true;
 }
 
 function findActiveHeadingId(tocItems: HeaderTocItem[]): string | undefined {
@@ -97,7 +123,10 @@ function findActiveHeadingId(tocItems: HeaderTocItem[]): string | undefined {
   }
 
   const scrollElement = document.scrollingElement || document.documentElement;
-  const scrollTop = scrollElement.scrollTop;
+  const scrollTop = scrollElement.scrollTop || window.scrollY || 0;
+  const viewportHeight = window.innerHeight || scrollElement.clientHeight || 0;
+  const scrollHeight =
+    scrollElement.scrollHeight || document.body.scrollHeight || 0;
 
   const headings: { id: string; element: HTMLElement }[] = [];
   for (const item of tocItems) {
@@ -119,14 +148,17 @@ function findActiveHeadingId(tocItems: HeaderTocItem[]): string | undefined {
     return headings[0]?.id;
   }
 
+  // Only consider bottom-of-page if page has real scrollable overflow and user has scrolled down
+  const isScrollable = scrollHeight > viewportHeight + 100;
   if (
-    scrollTop + scrollElement.clientHeight >=
-    scrollElement.scrollHeight - 10
+    isScrollable &&
+    scrollTop > 50 &&
+    scrollTop + viewportHeight >= scrollHeight - 80
   ) {
     return headings.at(-1)?.id;
   }
 
-  const threshold = 120;
+  const threshold = 140;
   let activeId = headings[0]?.id;
 
   for (const { id, element } of headings) {
@@ -141,33 +173,44 @@ function findActiveHeadingId(tocItems: HeaderTocItem[]): string | undefined {
   return activeId;
 }
 
-function syncActiveTocLink(
+function scrollActiveDocsItem(
   scroller: HTMLElement,
-  activeHref: string,
-  hasActiveAnchor: boolean
-) {
+  href: string | null,
+  id: string | undefined,
+  behavior: ScrollBehavior
+): boolean {
   const links = scroller.querySelectorAll<HTMLAnchorElement>("a");
   let target: HTMLAnchorElement | null = null;
+
   for (const link of links) {
-    if (link.getAttribute("href") === activeHref) {
+    const linkHref = link.getAttribute("href");
+    if (
+      (href && linkHref === href) ||
+      (id && (link.hash === `#${id}` || linkHref === `#${id}`))
+    ) {
       target = link;
-      link.setAttribute("data-active", "true");
-    } else if (!hasActiveAnchor) {
-      link.removeAttribute("data-active");
+      break;
     }
   }
-  if (target) {
-    scrollChildIntoView(scroller, target);
+
+  if (!target) {
+    target = scroller.querySelector<HTMLAnchorElement>('a[data-active="true"]');
   }
+
+  return target ? scrollChildIntoView(scroller, target, behavior) : false;
 }
 
 function HeaderTocPopover() {
   const items = useTOCItems();
   const active = useActiveAnchor();
   const pathname = usePathname();
+  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotionRef = useRef(prefersReducedMotion);
+  prefersReducedMotionRef.current = prefersReducedMotion;
   const [fallbackActiveId, setFallbackActiveId] = useState<string | undefined>(
     undefined
   );
+  const [clickedId, setClickedId] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
   const [openPathname, setOpenPathname] = useState(pathname);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -177,6 +220,8 @@ function HeaderTocPopover() {
   if (pathname !== openPathname) {
     setOpenPathname(pathname);
     setOpen(false);
+    setFallbackActiveId(undefined);
+    setClickedId(undefined);
   }
 
   useLayoutEffect(() => {
@@ -203,14 +248,43 @@ function HeaderTocPopover() {
     };
   }, [enabled, items]);
 
-  const currentActiveId =
-    active && items.some((item) => active === item.url.slice(1))
-      ? active
-      : fallbackActiveId;
+  useEffect(() => {
+    if (!clickedId) {
+      return;
+    }
+    if (active === clickedId || fallbackActiveId === clickedId) {
+      setClickedId(undefined);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setClickedId(undefined);
+    }, CLICK_OVERRIDE_MS);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [active, clickedId, fallbackActiveId]);
 
-  const selectedIndex = items.findIndex(
-    (item) => currentActiveId === item.url.slice(1)
-  );
+  const hasClickedId =
+    Boolean(clickedId) && items.some((item) => clickedId === item.url.slice(1));
+  const hasObserverId =
+    Boolean(active) && items.some((item) => active === item.url.slice(1));
+  const hasFallbackId =
+    Boolean(fallbackActiveId) &&
+    items.some((item) => fallbackActiveId === item.url.slice(1));
+
+  let currentActiveId: string | undefined;
+  if (hasClickedId) {
+    currentActiveId = clickedId;
+  } else if (hasFallbackId) {
+    currentActiveId = fallbackActiveId;
+  } else if (hasObserverId) {
+    currentActiveId = active;
+  }
+
+  const selectedIndex =
+    enabled && currentActiveId
+      ? items.findIndex((item) => currentActiveId === item.url.slice(1))
+      : -1;
   const progress =
     enabled && selectedIndex >= 0
       ? (selectedIndex + 1) / Math.max(1, items.length)
@@ -218,32 +292,53 @@ function HeaderTocPopover() {
   const activeHref =
     enabled && selectedIndex >= 0 ? items[selectedIndex]?.url : null;
 
-  useLayoutEffect(() => {
-    if (!(open && activeHref)) {
+  const activeHrefRef = useRef(activeHref);
+  activeHrefRef.current = activeHref;
+  const activeIdRef = useRef(currentActiveId);
+  activeIdRef.current = currentActiveId;
+
+  // Scroll ONCE when popover opens without re-triggering during background scrolls
+  useEffect(() => {
+    if (!open) {
       return;
     }
 
-    const scroller = contentRef.current?.querySelector<HTMLElement>(
-      "[data-docs-toc-scroller]"
-    );
-    if (!scroller) {
-      return;
-    }
+    let frameId: number;
+    let attempts = 0;
+    const maxAttempts = 12;
+    const behavior: ScrollBehavior = prefersReducedMotionRef.current
+      ? "auto"
+      : "smooth";
 
-    const scroll = () => {
-      syncActiveTocLink(scroller, activeHref, Boolean(active));
+    const tryScroll = () => {
+      attempts += 1;
+      const content = contentRef.current;
+      const scroller = content?.querySelector<HTMLElement>(
+        "[data-docs-toc-scroller]"
+      );
+      const done = scroller
+        ? scrollActiveDocsItem(
+            scroller,
+            activeHrefRef.current,
+            activeIdRef.current,
+            behavior
+          )
+        : false;
+
+      if (!done && attempts < maxAttempts) {
+        frameId = requestAnimationFrame(tryScroll);
+      }
     };
 
-    scroll();
-    const frame = requestAnimationFrame(scroll);
+    frameId = requestAnimationFrame(tryScroll);
+
     return () => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(frameId);
     };
-  }, [active, activeHref, open]);
+  }, [open]);
 
   return (
     <Popover
-      modal
       onOpenChange={(nextOpen) => {
         if (enabled) {
           setOpen(nextOpen);
@@ -272,9 +367,21 @@ function HeaderTocPopover() {
           className="flex max-h-[min(24rem,var(--radix-popover-content-available-height))] w-72 flex-col overflow-hidden p-1 xl:hidden"
           collisionPadding={12}
           onClick={(event) => {
-            if (event.target instanceof Element && event.target.closest("a")) {
-              setOpen(false);
+            if (event.target instanceof Element) {
+              const anchor = event.target.closest("a");
+              if (anchor) {
+                const hash = anchor.hash
+                  ? anchor.hash.slice(1)
+                  : anchor.getAttribute("href")?.replace(HASH_PREFIX_REGEX, "");
+                if (hash) {
+                  setClickedId(hash);
+                }
+                setOpen(false);
+              }
             }
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
           }}
           onOpenAutoFocus={(event) => {
             event.preventDefault();
@@ -283,17 +390,11 @@ function HeaderTocPopover() {
           side="bottom"
           sideOffset={8}
         >
-          <RemoveScroll
-            allowPinchZoom
-            className="flex min-h-0 min-w-0 flex-1 flex-col"
-            gapMode="padding"
-          >
-            <PageTOCPopoverItems
-              className="min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin]!"
-              data-docs-toc-scroller=""
-              variant="clerk"
-            />
-          </RemoveScroll>
+          <PageTOCPopoverItems
+            className="min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin]!"
+            data-docs-toc-scroller=""
+            variant="clerk"
+          />
         </PopoverContent>
       ) : null}
     </Popover>
