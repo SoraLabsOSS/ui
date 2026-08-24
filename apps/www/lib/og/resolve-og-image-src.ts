@@ -90,7 +90,7 @@ function fetchRemoteOgImage(src: string): Promise<string | undefined> {
       "User-Agent": "SoraUI-OG/1.0",
     },
   })
-    .then(async (response) => {
+    .then(async (response): Promise<string | undefined> => {
       if (!response.ok) {
         remoteDataUrls.delete(url);
         return;
@@ -102,7 +102,7 @@ function fetchRemoteOgImage(src: string): Promise<string | undefined> {
       }
       return dataUrl;
     })
-    .catch(() => {
+    .catch((): undefined => {
       remoteDataUrls.delete(url);
       return;
     });
