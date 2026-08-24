@@ -5,14 +5,29 @@ import { usePathname } from "next/navigation";
 /** Cover leftover taps on the header hamburger after a nav close. */
 export const MOBILE_SIDEBAR_CLOSE_LOCK_MS = 500;
 
-let lockedUntil = 0;
+let closeLocked = false;
+let closeLockTimer: ReturnType<typeof setTimeout> | null = null;
 let suppressUntilExplicitOpen = false;
 let lastPathname: string | null = null;
+
+function armCloseLock() {
+  closeLocked = true;
+  if (typeof window === "undefined") {
+    return;
+  }
+  if (closeLockTimer !== null) {
+    window.clearTimeout(closeLockTimer);
+  }
+  closeLockTimer = window.setTimeout(() => {
+    closeLocked = false;
+    closeLockTimer = null;
+  }, MOBILE_SIDEBAR_CLOSE_LOCK_MS);
+}
 
 /** Ignore hamburger re-opens from click-through after the drawer starts closing. */
 export function markMobileSidebarClosed() {
   suppressUntilExplicitOpen = true;
-  lockedUntil = Date.now() + MOBILE_SIDEBAR_CLOSE_LOCK_MS;
+  armCloseLock();
 }
 
 export function allowMobileSidebarOpen() {
@@ -20,7 +35,7 @@ export function allowMobileSidebarOpen() {
 }
 
 export function isMobileSidebarCloseLocked() {
-  return Date.now() < lockedUntil;
+  return closeLocked;
 }
 
 /**
@@ -29,7 +44,7 @@ export function isMobileSidebarCloseLocked() {
  * remounts until the user opens the hamburger again.
  */
 export function isMobileSidebarSuppressed() {
-  return suppressUntilExplicitOpen || Date.now() < lockedUntil;
+  return suppressUntilExplicitOpen;
 }
 
 export function closeMobileSidebar(setOpen: (open: boolean) => void) {
@@ -41,7 +56,7 @@ export function useSyncMobileSidebarPathname() {
   const pathname = usePathname();
   if (lastPathname !== pathname) {
     if (lastPathname !== null) {
-      markMobileSidebarClosed();
+      suppressUntilExplicitOpen = true;
     }
     lastPathname = pathname;
   }
