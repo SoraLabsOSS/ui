@@ -10,9 +10,7 @@ import {
   Sidebar001Section,
   useSidebar001Hover,
 } from "@workspace/ui/components/unlumen-ui/sidebar-001";
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
-import { Sidebar } from "fumadocs-ui/components/layout/sidebar";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import type { LinkItemType, MainItemType } from "fumadocs-ui/layouts/links";
 import { BaseLinkItem } from "fumadocs-ui/layouts/links";
@@ -29,10 +27,12 @@ import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
+import { DocsMobileDrawer } from "@/components/docs-sidebar/mobile-drawer";
 import {
   DocsReleaseDatesProvider,
   useDocsPageNew,
 } from "@/components/docs-sidebar/release-dates-context";
+import { closeMobileSidebar } from "@/components/docs-sidebar/sidebar-close-lock";
 import { useDismissMobileSidebarOnOutside } from "@/components/docs-sidebar/use-dismiss-mobile-sidebar";
 import { IconLogo } from "@/components/icon-logo";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
@@ -218,7 +218,6 @@ export function AccountSidebar({
   componentsUrl,
   releaseDatesByUrl = {},
 }: AccountSidebarProps) {
-  const isMobile = useIsMobile();
   const { setOpen } = useSidebar();
   const resolvedLinks = getLinks(links, githubUrl);
   const iconLinks = resolvedLinks.filter((link) => link.type === "icon");
@@ -231,20 +230,12 @@ export function AccountSidebar({
   useDismissMobileSidebarOnOutside();
 
   const closeMobile = () => {
-    if (isMobile) {
-      setOpen(false);
-    }
+    closeMobileSidebar(setOpen);
   };
 
   return (
     <DocsReleaseDatesProvider releaseDatesByUrl={releaseDatesByUrl}>
-      <Sidebar
-        className={cn(
-          "md:!hidden min-h-0 overflow-hidden",
-          "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]"
-        )}
-        collapsible={false}
-      >
+      <DocsMobileDrawer label="Account Navigation">
         <Sidebar001
           className="min-h-0 w-full max-md:max-w-full"
           defaultWidth={380}
@@ -322,7 +313,7 @@ export function AccountSidebar({
             </div>
           </Sidebar001Footer>
         </Sidebar001>
-      </Sidebar>
+      </DocsMobileDrawer>
     </DocsReleaseDatesProvider>
   );
 }

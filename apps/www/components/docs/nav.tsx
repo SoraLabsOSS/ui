@@ -30,7 +30,13 @@ import {
   AuthNavMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
-import { DOCS_TOC_HEADER_SLOT_ID } from "@/components/docs/docs-toc-header-slot";
+import { NavHeaderToc } from "@/components/docs/docs-header-toc";
+import {
+  allowMobileSidebarOpen,
+  isMobileSidebarCloseLocked,
+  markMobileSidebarClosed,
+  useSyncMobileSidebarPathname,
+} from "@/components/docs-sidebar/sidebar-close-lock";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -262,6 +268,7 @@ function NavMenuItems({
 }
 
 export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
+  useSyncMobileSidebarPathname();
   const { setOpen } = useSidebar();
   const { data: session } = useSession(authClient);
   const authNavPending = useAuthNavPending();
@@ -311,12 +318,12 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
             </NavigationMenu>
           </div>
 
-          <div className="relative z-10 flex shrink-0 items-center gap-2 md:gap-3">
+          <div className="relative z-10 flex shrink-0 items-center">
             <CommandPaletteTrigger />
 
             <a
               aria-label="GitHub repository"
-              className="hidden size-6 shrink-0 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground md:inline-flex [&_svg]:size-6"
+              className="ms-2 hidden size-6 shrink-0 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground md:ms-3 md:inline-flex [&_svg]:size-6"
               href={GITHUB_REPO_URL}
               rel="noreferrer noopener"
               target="_blank"
@@ -326,7 +333,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
 
             <UserButton
               align="end"
-              className="size-6! p-0! text-fd-muted-foreground"
+              className="ms-2 size-6! p-0! text-fd-muted-foreground md:ms-3"
               links={[
                 {
                   label: "Bookmark",
@@ -339,12 +346,9 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
               triggerSize="icon-sm"
             />
 
-            <span
-              className="inline-flex empty:hidden xl:hidden"
-              id={DOCS_TOC_HEADER_SLOT_ID}
-            />
+            <NavHeaderToc />
 
-            <ThemeSwitcher className="max-md:hidden" />
+            <ThemeSwitcher className="max-md:hidden md:ms-3" />
 
             <button
               aria-label="Open menu"
@@ -353,10 +357,28 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
                   color: "ghost",
                   size: "icon-sm",
                   className:
-                    "relative z-10 size-6! shrink-0 p-0! text-fd-muted-foreground md:hidden [&_svg]:size-6!",
+                    "relative z-10 ms-2 size-6! shrink-0 p-0! text-fd-muted-foreground md:hidden [&_svg]:size-6!",
                 })
               )}
-              onClick={() => setOpen((prev) => !prev)}
+              data-sidebar-menu-toggle="true"
+              onClick={() => {
+                setOpen((prev) => {
+                  if (prev) {
+                    markMobileSidebarClosed();
+                    return false;
+                  }
+                  if (isMobileSidebarCloseLocked()) {
+                    return false;
+                  }
+                  allowMobileSidebarOpen();
+                  return true;
+                });
+              }}
+              onPointerDown={(event) => {
+                if (isMobileSidebarCloseLocked()) {
+                  event.preventDefault();
+                }
+              }}
               type="button"
             >
               <Menu />

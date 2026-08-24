@@ -9,6 +9,11 @@ export async function getBlogOgImageBuffer(
     return null;
   }
 
-  const response = await createBlogOgImageResponse(content);
-  return await response.arrayBuffer();
+  try {
+    return await (await createBlogOgImageResponse(content)).arrayBuffer();
+  } catch {
+    return await (
+      await createBlogOgImageResponse({ ...content, avatar: undefined })
+    ).arrayBuffer();
+  }
 }

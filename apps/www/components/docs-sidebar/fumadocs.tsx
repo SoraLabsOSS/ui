@@ -1,11 +1,9 @@
 "use client";
 
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
 import type { PageTree } from "fumadocs-core/server";
 import type { SidebarComponents } from "fumadocs-ui/components/layout/sidebar";
-import { Sidebar } from "fumadocs-ui/components/layout/sidebar";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { LinkItemType } from "fumadocs-ui/layouts/links";
@@ -16,7 +14,13 @@ import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, type ReactNode, useEffect, useMemo } from "react";
+import {
+  type CSSProperties,
+  Fragment,
+  type ReactNode,
+  useEffect,
+  useMemo,
+} from "react";
 import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
@@ -37,6 +41,7 @@ import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
+import { DocsMobileDrawer } from "./mobile-drawer";
 import {
   DocsReleaseDatesProvider,
   useCheckDocsPageNew,
@@ -53,6 +58,7 @@ import {
   useDocsShellHover,
 } from "./shell";
 import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./shell/scroll-active-nearest";
+import { closeMobileSidebar } from "./sidebar-close-lock";
 import { useDismissMobileSidebarOnOutside } from "./use-dismiss-mobile-sidebar";
 
 const getIsActive = (pathname: string, href: string) =>
@@ -473,137 +479,142 @@ export const DocsSidebar = (
     ...sidebarProps
   } = all.sidebar ?? {};
   const links = getLinks(all.links ?? [], all.githubUrl);
-  const isMobile = useIsMobile();
   const pathname = usePathname();
   const uiUrl = all.uiUrl ?? "/ui";
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();
 
   const closeMobile = () => {
-    if (isMobile) {
-      setOpen(false);
-    }
+    closeMobileSidebar(setOpen);
   };
 
   const scrollViewportSelector = `[&_[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]]:!p-0`;
   const releaseDatesByUrl = all.releaseDatesByUrl ?? {};
 
+  const content = (
+    <DocsShell
+      className="h-full min-h-0 max-md:w-full max-md:max-w-full"
+      defaultWidth={260}
+      maxWidth={380}
+      minWidth={180}
+    >
+      <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
+        <Link
+          aria-label="Sora UI home"
+          className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
+          href="/"
+        >
+          <IconLogo size="sm" />
+          <span className="font-semibold text-sm">Sora UI</span>
+        </Link>
+        <button
+          aria-label="Close menu"
+          className={cn(
+            buttonVariants({
+              color: "ghost",
+              size: "icon-sm",
+              className: "!size-8 [&_svg]:!size-5 text-fd-muted-foreground",
+            })
+          )}
+          onClick={closeMobile}
+          type="button"
+        >
+          <X />
+        </button>
+      </DocsShellHeader>
+
+      <DocsShellContent
+        className={cn(
+          "min-h-0",
+          "max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14"
+        )}
+      >
+        {links
+          .filter((v) => v.type !== "icon")
+          .map((item, i, list) => {
+            let linkKey: string;
+            if (item.type === "menu") {
+              linkKey = `menu-${item.text}`;
+            } else if (item.type === "custom") {
+              linkKey = "custom-docs-link";
+            } else if (item.url) {
+              linkKey = item.url;
+            } else {
+              linkKey = `link-${item.text ?? "unknown"}-${i}`;
+            }
+
+            return (
+              <SidebarLinkItem
+                className={cn(i === list.length - 1 && "mb-1")}
+                item={item}
+                key={linkKey}
+                onNavigate={closeMobile}
+              />
+            );
+          })}
+
+        <GuideBottomMenu
+          onNavigate={closeMobile}
+          primitivesUrl={all.primitivesUrl}
+          uiUrl={all.uiUrl}
+        />
+
+        <div className="mt-4">
+          <SidebarPageTree
+            components={sidebarComponents}
+            onNavigate={closeMobile}
+            showPrimitiveSections={!pathname.startsWith(uiUrl)}
+          />
+        </div>
+      </DocsShellContent>
+
+      <DocsShellFooter>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <div className="ms-auto flex items-center justify-end gap-1 md:hidden">
+            {links
+              .filter((link) => link.type === "icon")
+              .map((link) => (
+                <BaseLinkItem
+                  aria-label={link.label}
+                  className={cn(
+                    buttonVariants({ size: "icon", color: "ghost" }),
+                    "text-fd-muted-foreground md:[&_svg]:size-4.5",
+                    link.url ===
+                      links.filter((l) => l.type === "icon").at(-1)?.url &&
+                      "me-auto"
+                  )}
+                  item={link}
+                  key={link.url}
+                >
+                  {link.icon}
+                </BaseLinkItem>
+              ))}
+            <ThemeSwitcher />
+          </div>
+        </div>
+        {sidebarFooter ? <div className="mt-2">{sidebarFooter}</div> : null}
+      </DocsShellFooter>
+    </DocsShell>
+  );
+
   return (
     <DocsReleaseDatesProvider releaseDatesByUrl={releaseDatesByUrl}>
-      <Sidebar
-        className={cn(
-          "min-h-0 overflow-hidden",
-          "max-md:!w-[min(300px,calc(100vw-1.5rem))] max-md:!max-w-[min(300px,calc(100vw-1.5rem))]",
-          scrollViewportSelector,
-          sidebarProps.className
-        )}
-        collapsible={false}
-        {...sidebarProps}
+      <DocsMobileDrawer
+        className={cn(scrollViewportSelector, sidebarProps.className)}
+        desktopClassName={scrollViewportSelector}
+        desktopStyle={
+          {
+            ...sidebarProps.style,
+            "--fd-sidebar-margin": "0px",
+            "--fd-sidebar-top":
+              "calc(var(--fd-banner-height) + var(--fd-nav-height) + var(--fd-sidebar-margin, 0px))",
+          } as CSSProperties
+        }
+        label="Docs Navigation"
+        layout="responsive"
       >
-        <DocsShell
-          className="min-h-0 max-md:w-full max-md:max-w-full"
-          defaultWidth={260}
-          maxWidth={380}
-          minWidth={180}
-        >
-          <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
-            <Link
-              aria-label="Sora UI home"
-              className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
-              href="/"
-            >
-              <IconLogo size="sm" />
-              <span className="font-semibold text-sm">Sora UI</span>
-            </Link>
-            <button
-              aria-label="Close menu"
-              className={cn(
-                buttonVariants({
-                  color: "ghost",
-                  size: "icon-sm",
-                  className: "!size-8 [&_svg]:!size-5 text-fd-muted-foreground",
-                })
-              )}
-              onClick={closeMobile}
-              type="button"
-            >
-              <X />
-            </button>
-          </DocsShellHeader>
-
-          <DocsShellContent
-            className={cn(
-              "min-h-0",
-              "max-md:pt-2 [&_[data-radix-scroll-area-viewport]]:pb-4 md:[&_[data-radix-scroll-area-viewport]]:pb-14"
-            )}
-          >
-            {links
-              .filter((v) => v.type !== "icon")
-              .map((item, i, list) => {
-                let linkKey: string;
-                if (item.type === "menu") {
-                  linkKey = `menu-${item.text}`;
-                } else if (item.type === "custom") {
-                  linkKey = "custom-docs-link";
-                } else if (item.url) {
-                  linkKey = item.url;
-                } else {
-                  linkKey = `link-${item.text ?? "unknown"}-${i}`;
-                }
-
-                return (
-                  <SidebarLinkItem
-                    className={cn(i === list.length - 1 && "mb-1")}
-                    item={item}
-                    key={linkKey}
-                    onNavigate={closeMobile}
-                  />
-                );
-              })}
-
-            <GuideBottomMenu
-              onNavigate={closeMobile}
-              primitivesUrl={all.primitivesUrl}
-              uiUrl={all.uiUrl}
-            />
-
-            <div className="mt-4">
-              <SidebarPageTree
-                components={sidebarComponents}
-                onNavigate={closeMobile}
-                showPrimitiveSections={!pathname.startsWith(uiUrl)}
-              />
-            </div>
-          </DocsShellContent>
-
-          <DocsShellFooter>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-              <div className="ms-auto flex items-center justify-end gap-1 md:hidden">
-                {links
-                  .filter((link) => link.type === "icon")
-                  .map((link) => (
-                    <BaseLinkItem
-                      aria-label={link.label}
-                      className={cn(
-                        buttonVariants({ size: "icon", color: "ghost" }),
-                        "text-fd-muted-foreground md:[&_svg]:size-4.5",
-                        link.url ===
-                          links.filter((l) => l.type === "icon").at(-1)?.url &&
-                          "me-auto"
-                      )}
-                      item={link}
-                      key={link.url}
-                    >
-                      {link.icon}
-                    </BaseLinkItem>
-                  ))}
-                <ThemeSwitcher />
-              </div>
-            </div>
-            {sidebarFooter ? <div className="mt-2">{sidebarFooter}</div> : null}
-          </DocsShellFooter>
-        </DocsShell>
-      </Sidebar>
+        {content}
+      </DocsMobileDrawer>
     </DocsReleaseDatesProvider>
   );
 };

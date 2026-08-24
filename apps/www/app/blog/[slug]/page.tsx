@@ -1,11 +1,9 @@
 import path from "node:path";
-import { cn } from "@workspace/ui/lib/utils";
-import { DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { BlogPostJsonLd } from "@/components/blog/blog-post-json-ld";
-import { InlineTOC } from "@/components/blog/inline-toc";
+import { KbToc } from "@/components/blog/kb-toc";
 import {
   createBlogMetadata,
   getBlogPageImage,
@@ -15,10 +13,10 @@ import { getReadingTimeMinutes } from "@/lib/blog/reading-time";
 import { blog } from "@/lib/blog/source";
 import { getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
+import { BlogPostAside } from "./post-aside";
 import { BlogPostHeader } from "./post-header";
 
 const HASHTAG_PREFIX = /^#/;
-const blogPostGutterClassName = "px-0 md:px-4";
 
 export default async function BlogPostPage(props: {
   params: Promise<{ slug: string }>;
@@ -39,7 +37,6 @@ async function BlogPostBody({ slug }: { slug: string }) {
   }
 
   const MDXContent = page.data.body;
-  const toc = page.data.toc;
 
   const image = {
     url: page.data.image ?? getBlogPageImage(page).url,
@@ -54,80 +51,76 @@ async function BlogPostBody({ slug }: { slug: string }) {
   const readingMinutes = getReadingTimeMinutes(page.data);
 
   return (
-    <DocsPage
-      breadcrumb={{ enabled: false }}
-      footer={{
-        enabled: false,
-      }}
-      full={page.data.full}
-      tableOfContent={{
-        style: "clerk",
-      }}
-      tableOfContentPopover={{
-        enabled: false,
-      }}
-      toc={toc}
+    <div
+      className="@container mx-auto w-full max-w-[1400px] px-4 pt-20 pb-16 sm:pt-24 md:px-6 md:pt-28 md:pb-24"
+      id="page-content"
     >
       <BlogPostJsonLd page={page} />
-      <article className="blog-article flex w-full flex-col pb-16">
-        <div
-          className={cn(
-            "mx-auto flex w-full max-w-[800px] flex-col",
-            blogPostGutterClassName
-          )}
-        >
-          <BlogPostHeader
-            author={page.data.author}
-            date={publishedAt}
-            primaryTag={primaryTag}
-            readingMinutes={readingMinutes}
-            title={page.data.title}
-            url={page.url}
-          />
-        </div>
+      <KbToc contentId="kb-main-content" />
 
-        <figure
-          className={cn(
-            "mx-auto mb-6 w-full max-w-[800px]",
-            blogPostGutterClassName
-          )}
-        >
-          <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
-            <BlogOgImage
-              className="w-full"
-              image={{
-                alt: page.data.title,
-                className: "h-auto w-full",
-                draggable: false,
-                height: image.height,
-                loading: "eager",
-                priority: true,
-                src: image.url,
-                unoptimized: true,
-                width: image.width,
-              }}
-            />
-          </div>
-        </figure>
+      {/* Row 1: Header Grid */}
+      <div className="grid grid-cols-12 gap-x-6 gap-y-6">
+        <BlogPostHeader
+          author={page.data.author}
+          date={publishedAt}
+          description={page.data.description}
+          primaryTag={primaryTag}
+          readingMinutes={readingMinutes}
+          title={page.data.title}
+          url={page.url}
+        />
+      </div>
 
-        <div
-          className={cn(
-            "prose dark:prose-invert mx-auto w-full min-w-0 max-w-[800px] flex-1",
-            blogPostGutterClassName
-          )}
-        >
-          {page.data.flags?.includes("personal-opinion") ? (
-            <p className="mt-8 rounded-md border-yellow-500 border-l-4 bg-yellow-300/50 p-4 text-xs md:text-sm">
-              <strong>Personal opinion:</strong> The views in this post are the
-              author&apos;s own and do not represent Sora UI or any affiliated
-              organization.
-            </p>
-          ) : null}
-          <InlineTOC className="mt-2 mb-4" items={toc} />
-          <MDXContent components={getMDXComponents()} />
+      {/* Row 2: Main Content & Aside Grid */}
+      <div className="grid grid-cols-12 gap-x-6 gap-y-6">
+        <BlogPostAside
+          author={page.data.author}
+          date={publishedAt}
+          description={page.data.description}
+          readingMinutes={readingMinutes}
+          title={page.data.title}
+          url={page.url}
+        />
+
+        <div className="@lg:col-span-7 @xl:col-span-6 col-span-12 @lg:col-start-2 @xl:col-start-4 [--grid-divider-gap:72px]">
+          <article
+            className="@lg:col-span-8 col-span-12 flex flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&>*:not([data-kb-media-breakout])]:w-full [&>*]:min-w-0 [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1"
+            id="kb-main-content"
+          >
+            <figure className="mb-6 w-full">
+              <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
+                <BlogOgImage
+                  className="w-full"
+                  image={{
+                    alt: page.data.title,
+                    className: "h-auto w-full",
+                    draggable: false,
+                    height: image.height,
+                    loading: "eager",
+                    priority: true,
+                    src: image.url,
+                    unoptimized: true,
+                    width: image.width,
+                  }}
+                />
+              </div>
+            </figure>
+
+            {page.data.flags?.includes("personal-opinion") ? (
+              <p className="mt-8 rounded-md border-yellow-500 border-l-4 bg-yellow-300/50 p-4 text-xs md:text-sm">
+                <strong>Personal opinion:</strong> The views in this post are
+                the author&apos;s own and do not represent Sora UI or any
+                affiliated organization.
+              </p>
+            ) : null}
+
+            <div className="prose dark:prose-invert w-full max-w-none">
+              <MDXContent components={getMDXComponents()} />
+            </div>
+          </article>
         </div>
-      </article>
-    </DocsPage>
+      </div>
+    </div>
   );
 }
 
@@ -138,7 +131,6 @@ export async function generateMetadata(props: {
   const page = blog.getPage([params.slug]);
 
   if (!page) {
-    // Page component 404s; avoid notFound() in cached metadata (see above).
     return {};
   }
 

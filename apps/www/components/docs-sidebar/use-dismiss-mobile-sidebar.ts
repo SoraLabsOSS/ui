@@ -1,51 +1,83 @@
 "use client";
 
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { useSidebar } from "fumadocs-ui/provider";
 import { useEffect } from "react";
+import {
+  closeMobileSidebar,
+  isMobileSidebarSuppressed,
+} from "./sidebar-close-lock";
 
-const MOBILE_SIDEBAR_ID = "nd-sidebar-mobile";
+const SIDEBAR_PANEL = "[data-docs-sidebar]";
+const MENU_TOGGLE = "[data-sidebar-menu-toggle]";
+
+function isMobileViewport() {
+  return window.matchMedia("(max-width: 767px)").matches;
+}
 
 /**
- * Fumadocs renders a full-screen backdrop (z-40) plus a panel (~85% width).
- * Page content is a later sibling in #nd-docs-layout and can sit above the
- * backdrop in the stacking order, so taps on the “dimmed” area often miss the
- * backdrop onClick. This closes the drawer on any pointer down outside the panel.
+ * Close the drawer on outside pointer / Escape. Ignores the header hamburger
+ * so capture-phase pointerdown does not close and the click then toggle-open.
  */
 export function useDismissMobileSidebarOnOutside() {
-  const isMobile = useIsMobile();
   const { open, setOpen } = useSidebar();
+  const drawerOpen = open && !isMobileSidebarSuppressed();
 
   useEffect(() => {
-    if (!(isMobile && open)) {
+    if (!drawerOpen) {
       return;
     }
 
-    document.body.style.overflow = "hidden";
-    return () => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const apply = () => {
+      if (media.matches) {
+        document.body.style.overflow = "hidden";
+        return;
+      }
       document.body.style.removeProperty("overflow");
     };
-  }, [isMobile, open]);
+
+    apply();
+    media.addEventListener("change", apply);
+    return () => {
+      media.removeEventListener("change", apply);
+      document.body.style.removeProperty("overflow");
+    };
+  }, [drawerOpen]);
 
   useEffect(() => {
-    if (!(isMobile && open)) {
+    if (!drawerOpen) {
       return;
     }
 
     const onPointerDown = (event: PointerEvent) => {
-      const panel = document.getElementById(MOBILE_SIDEBAR_ID);
-      const target = event.target;
-      if (!(target instanceof Node)) {
+      if (!isMobileViewport()) {
         return;
       }
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+      if (target.closest(MENU_TOGGLE)) {
+        return;
+      }
+      const panel = document.querySelector(SIDEBAR_PANEL);
       if (panel?.contains(target)) {
         return;
       }
-      setOpen(false);
+      closeMobileSidebar(setOpen);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMobileSidebar(setOpen);
+      }
     };
 
     document.addEventListener("pointerdown", onPointerDown, true);
-    return () =>
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
       document.removeEventListener("pointerdown", onPointerDown, true);
-  }, [isMobile, open, setOpen]);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [drawerOpen, setOpen]);
 }

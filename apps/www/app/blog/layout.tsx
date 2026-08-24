@@ -43,7 +43,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
       {...DOCS_LAYOUT_PROPS}
       containerProps={{
         className:
-          "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:260px]",
+          "account-docs-layout [--fd-nav-height:3.5rem] md:[--fd-nav-height:4.25rem] md:[--fd-sidebar-width:0px] xl:[--fd-toc-width:0px]",
       }}
       nav={{
         component: <Nav primitivesUrl={primitivesUrl} uiUrl={uiUrl} />,

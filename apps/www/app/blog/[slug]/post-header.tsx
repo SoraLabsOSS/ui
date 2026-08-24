@@ -1,15 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogAuthorByName } from "@/lib/blog/blog-authors";
-import { BlogPostActions } from "./blog-post-actions";
-
-function formatPostDate(date: Date) {
-  return date.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 function AuthorAvatar({ author }: { author: string }) {
   const profile = getBlogAuthorByName(author);
@@ -18,12 +9,12 @@ function AuthorAvatar({ author }: { author: string }) {
     return (
       <Image
         alt=""
-        className="size-4 shrink-0 rounded-full ring-1 ring-border"
+        className="size-5 shrink-0 rounded-full ring-1 ring-border"
         draggable={false}
-        height={16}
+        height={20}
         src={profile.avatar}
         unoptimized
-        width={16}
+        width={20}
       />
     );
   }
@@ -31,7 +22,7 @@ function AuthorAvatar({ author }: { author: string }) {
   return (
     <span
       aria-hidden
-      className="flex size-4 shrink-0 items-center justify-center rounded-full bg-muted font-medium text-[10px] text-muted-foreground uppercase"
+      className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted font-medium text-[10px] text-muted-foreground uppercase"
     >
       {author.slice(0, 1)}
     </span>
@@ -40,69 +31,70 @@ function AuthorAvatar({ author }: { author: string }) {
 
 export function BlogPostHeader({
   author,
-  date,
+  description,
   primaryTag,
-  readingMinutes,
   title,
-  url,
 }: {
   author: string;
-  date: Date;
+  date?: Date;
+  description?: string;
   primaryTag?: string;
-  readingMinutes: number | null;
+  readingMinutes?: number | null;
   title: string;
-  url: string;
+  url?: string;
 }) {
   const profile = getBlogAuthorByName(author);
-  const formattedDate = formatPostDate(date);
 
   return (
-    <header className="not-prose mb-10 flex flex-col gap-5 lg:mb-14">
-      <h1 className="text-pretty font-medium text-3xl tracking-tight lg:text-4xl lg:leading-tight">
-        {title}
-      </h1>
-
-      <div className="order-first flex flex-col gap-2 text-muted-foreground text-sm">
+    <header className="@lg:col-span-7 @xl:col-span-6 col-span-12 @lg:col-start-2 @xl:col-start-4 @lg:mb-16 mb-12 flex flex-col gap-5">
+      <div className="order-first flex items-center text-muted-foreground text-sm">
         <span>
           <Link
-            className="transition-colors hover:text-foreground"
+            className="cursor-pointer transition-colors hover:text-foreground"
             href="/blog"
           >
             Blog
           </Link>
-          {primaryTag ? (
-            <span className="before:mx-1 before:content-['/']">
-              <span>{primaryTag}</span>
-            </span>
-          ) : null}
         </span>
+        {primaryTag ? (
+          <span className="before:mx-1 before:content-['/']">
+            <Link
+              className="cursor-pointer transition-colors hover:text-foreground"
+              href={`/blog?tag=${primaryTag}`}
+            >
+              {primaryTag}
+            </Link>
+          </span>
+        ) : null}
       </div>
 
-      <div className="order-last flex flex-col gap-4">
-        <div className="flex items-start gap-2">
-          <div className="mt-0.5">
-            <AuthorAvatar author={author} />
-          </div>
-          <span className="flex flex-wrap items-center gap-x-2 gap-y-0 text-sm">
-            <span className="font-medium text-foreground">{author}</span>
-            {profile?.handle ? (
-              <span className="text-muted-foreground">{profile.handle}</span>
-            ) : null}
-            <time
-              className="text-muted-foreground"
-              dateTime={date.toISOString()}
-            >
-              {formattedDate}
-            </time>
-            {readingMinutes === null ? null : (
-              <span className="text-muted-foreground before:mr-2 before:content-['·']">
-                {readingMinutes} min read
-              </span>
-            )}
-          </span>
-        </div>
+      <h1 className="text-balance text-pretty font-[450] @lg:text-5xl text-3xl text-foreground leading-tight tracking-tight sm:text-4xl">
+        {title}
+      </h1>
 
-        <BlogPostActions url={url} />
+      {description ? (
+        <p className="text-pretty @lg:text-lg text-base text-muted-foreground leading-relaxed">
+          {description}
+        </p>
+      ) : null}
+
+      <div className="order-last flex flex-col gap-5">
+        <div className="flex gap-2">
+          <div
+            className="flex items-center gap-x-2 gap-y-1 text-foreground"
+            id="authors"
+          >
+            <div className="mt-0.5">
+              <AuthorAvatar author={author} />
+            </div>
+            <span className="flex flex-wrap items-center gap-x-2 gap-y-0 text-sm">
+              <span className="font-medium text-foreground">{author}</span>
+              {profile?.handle ? (
+                <span className="text-muted-foreground">{profile.handle}</span>
+              ) : null}
+            </span>
+          </div>
+        </div>
       </div>
     </header>
   );
