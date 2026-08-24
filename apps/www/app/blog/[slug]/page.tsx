@@ -11,6 +11,7 @@ import {
 } from "@/lib/blog/metadata";
 import { getReadingTimeMinutes } from "@/lib/blog/reading-time";
 import { blog } from "@/lib/blog/source";
+import { kbTocItemsFromFumadocs } from "@/lib/blog/toc-items";
 import { getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 import { BlogPostAside } from "./post-aside";
@@ -56,7 +57,10 @@ async function BlogPostBody({ slug }: { slug: string }) {
       id="page-content"
     >
       <BlogPostJsonLd page={page} />
-      <KbToc contentId="kb-main-content" />
+      <KbToc
+        contentId="kb-main-content"
+        items={kbTocItemsFromFumadocs(page.data.toc)}
+      />
 
       {/* Row 1: Header Grid */}
       <div className="grid grid-cols-12 gap-x-6 gap-y-6">

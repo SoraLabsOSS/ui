@@ -10,16 +10,7 @@ import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePublishHeaderToc } from "@/components/docs/docs-toc-header-slot";
-
-export interface TocItem {
-  href: string;
-  level: number;
-  name: string;
-  normalizedPosition: number;
-}
-
-const HASH_PREFIX_REGEX = /^#\s*/;
-const COPY_HEADING_PREFIX_REGEX = /^Copy link to heading\s*/i;
+import type { KbTocItem } from "@/lib/blog/toc-items";
 
 function getBarWidth(level: number): number {
   if (level === 2) {
@@ -29,33 +20,6 @@ function getBarWidth(level: number): number {
     return 14;
   }
   return 10;
-}
-
-function extractHeadingText(heading: HTMLElement): string {
-  const clone = heading.cloneNode(true) as HTMLElement;
-
-  const iconsAndAnchors = clone.querySelectorAll(
-    'a.subheading-anchor, a[aria-label*="anchor" i], a[aria-label*="heading" i], svg, [aria-hidden="true"]'
-  );
-  for (const el of iconsAndAnchors) {
-    const txt = el.textContent?.trim();
-    if (
-      txt === "#" ||
-      txt === "" ||
-      el.tagName === "svg" ||
-      el.getAttribute("aria-hidden") === "true"
-    ) {
-      el.remove();
-    }
-  }
-
-  let text = clone.textContent?.trim() || "";
-  text = text
-    .replace(HASH_PREFIX_REGEX, "")
-    .replace(COPY_HEADING_PREFIX_REGEX, "")
-    .trim();
-
-  return text || heading.textContent?.trim() || "";
 }
 
 function findActiveBlogHeadingId(ids: string[]): string | undefined {
@@ -137,13 +101,14 @@ function scrollActiveBlogItem(
 }
 
 export function KbToc({
+  items,
   contentId = "kb-main-content",
   className,
 }: {
+  items: KbTocItem[];
   contentId?: string;
   className?: string;
 }) {
-  const [items, setItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const [isPastBottom, setIsPastBottom] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -196,57 +161,6 @@ export function KbToc({
       cancelAnimationFrame(frameId);
     };
   }, [isOpen]);
-
-  // Extract headings from the content DOM
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const el = document.getElementById(contentId);
-      if (!el) {
-        return;
-      }
-
-      const headings = el.querySelectorAll<HTMLElement>("h2, h3, h4");
-      const scrollHeight = el.scrollHeight;
-
-      const parsedItems: TocItem[] = Array.from(headings)
-        .map((heading) => {
-          const level = Number.parseInt(heading.tagName.slice(1), 10);
-          let id = heading.id;
-          if (!id) {
-            const childWithId = heading.querySelector("[id]");
-            if (childWithId) {
-              id = childWithId.id;
-            }
-          }
-
-          const text = extractHeadingText(heading);
-
-          if (!id) {
-            id = text.toLowerCase().replace(/[?()]/g, "").replace(/\s+/g, "-");
-            heading.id = id;
-          }
-
-          const rect = heading.getBoundingClientRect();
-          const scrollY = window.scrollY;
-          const normalizedPos = Math.max(
-            0,
-            Math.min(1, (rect.top + scrollY - el.offsetTop) / scrollHeight)
-          );
-
-          return {
-            name: text,
-            href: `#${id}`,
-            level,
-            normalizedPosition: normalizedPos,
-          };
-        })
-        .filter((item) => item.name.length > 0);
-
-      setItems(parsedItems);
-    }, 150);
-
-    return () => clearTimeout(timer);
-  }, [contentId]);
 
   // Track active heading with IntersectionObserver and scroll position fallback
   useEffect(() => {
