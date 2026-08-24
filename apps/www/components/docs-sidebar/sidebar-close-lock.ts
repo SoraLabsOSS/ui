@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export const MOBILE_SIDEBAR_CLOSE_LOCK_MS = 500;
 
 let closeLocked = false;
-let closeLockTimer: ReturnType<typeof setTimeout> | null = null;
+let closeLockTimer: number | ReturnType<typeof setTimeout> | null = null;
 let suppressUntilExplicitOpen = false;
 let lastPathname: string | null = null;
 
