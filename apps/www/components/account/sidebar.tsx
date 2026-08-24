@@ -98,13 +98,6 @@ const ACCOUNT_MENU_ITEMS = [
     requiresAuth: false,
   },
   {
-    getHref: () => "/catalog",
-    getIsActive: (pathname: string, href: string) =>
-      pathname === href || pathname.startsWith(`${href}/`),
-    label: "Catalog",
-    requiresAuth: false,
-  },
-  {
     getHref: () => "/docs/icons",
     getIsActive: (pathname: string, href: string) =>
       isIconsNavItemActive(pathname, href),
@@ -116,6 +109,13 @@ const ACCOUNT_MENU_ITEMS = [
     getIsActive: (pathname: string, href: string) =>
       isUiNavItemActive(pathname, href),
     label: "UI",
+    requiresAuth: false,
+  },
+  {
+    getHref: () => "/catalog",
+    getIsActive: (pathname: string, href: string) =>
+      pathname === href || pathname.startsWith(`${href}/`),
+    label: "Catalog",
     requiresAuth: false,
   },
   {

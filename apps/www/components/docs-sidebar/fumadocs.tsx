@@ -14,13 +14,7 @@ import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  type CSSProperties,
-  Fragment,
-  type ReactNode,
-  useEffect,
-  useMemo,
-} from "react";
+import { type CSSProperties, type ReactNode, useEffect, useMemo } from "react";
 import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
@@ -120,6 +114,30 @@ function getPrimitiveRootFolders(treeRoot: PageTree.Root): PageTree.Folder[] {
   return treeRoot.children.filter(isRootFolder);
 }
 
+/**
+ * Section trees (Motion, Icons, UI) only appear after opening that section.
+ * Guide pages keep the layout `links` above Menu and must not leak Motion.
+ */
+function getPageTreeSidebarItems(
+  root: PageTree.Root,
+  treePath: PageTree.Node[]
+): PageTree.Node[] | null {
+  const sectionRoot = treePath.findLast(isRootFolder);
+  if (sectionRoot) {
+    return sectionRoot.children;
+  }
+
+  if (isRootFolder(root as PageTree.Node)) {
+    return (root as PageTree.Folder).children;
+  }
+
+  if (root.children.some(isRootFolder)) {
+    return null;
+  }
+
+  return root.children;
+}
+
 /** Renders a bottom "Menu" section on guide pages with Primitives + Components links. */
 function GuideBottomMenu({
   onNavigate,
@@ -175,12 +193,6 @@ function GuideBottomMenu({
         onClick={onNavigate}
       />
       <DocsShellNavItem
-        href="/catalog"
-        isActive={pathname === "/catalog" || pathname.startsWith("/catalog/")}
-        label="Catalog"
-        onClick={onNavigate}
-      />
-      <DocsShellNavItem
         href="/docs/icons"
         isActive={isIconsNavItemActive(pathname)}
         itemKey={MENU_ICONS_ITEM_KEY}
@@ -192,6 +204,12 @@ function GuideBottomMenu({
         isActive={isUiNavItemActive(pathname, uiUrl)}
         itemKey="menu-ui"
         label="UI"
+        onClick={onNavigate}
+      />
+      <DocsShellNavItem
+        href="/catalog"
+        isActive={pathname === "/catalog" || pathname.startsWith("/catalog/")}
+        label="Catalog"
         onClick={onNavigate}
       />
       <DocsShellNavItem
@@ -233,8 +251,6 @@ function GuideBottomMenu({
 export function SidebarPageTree(props: {
   components?: Partial<SidebarComponents>;
   onNavigate?: () => void;
-  /** Always render primitive root folders (Texts, Disclosure, …) below Menu. */
-  showPrimitiveSections?: boolean;
 }) {
   const { root } = useTreeContext();
   const pathname = usePathname();
@@ -244,7 +260,10 @@ export function SidebarPageTree(props: {
 
   return useMemo(() => {
     const { Separator, Item, Folder } = props.components ?? {};
-    const primitiveRoots = getPrimitiveRootFolders(root);
+    const sidebarItems = getPageTreeSidebarItems(root, treePath);
+    if (!sidebarItems) {
+      return null;
+    }
 
     function renderSeparator(
       item: PageTree.Separator,
@@ -362,45 +381,12 @@ export function SidebarPageTree(props: {
       });
     }
 
-    if (props.showPrimitiveSections) {
-      if (primitiveRoots.length === 0) {
-        return null;
-      }
-
-      const activeRoot = treePath.findLast(isRootFolder) ?? primitiveRoots[0];
-
-      return (
-        <Fragment key={activeRoot.$id ?? String(activeRoot.name)}>
-          {renderSidebarList(
-            activeRoot.children,
-            1,
-            String(activeRoot.$id ?? activeRoot.name)
-          )}
-        </Fragment>
-      );
-    }
-
-    const sectionRoot = treePath.findLast(isRootFolder);
-    const sidebarItems = sectionRoot?.children ?? root.children;
-
     return (
-      <Fragment key={sectionRoot?.$id ?? root.$id}>
-        {renderSidebarList(
-          sidebarItems,
-          1,
-          String(sectionRoot?.$id ?? root.$id ?? "tree")
-        )}
-      </Fragment>
+      <div className="mt-4">
+        {renderSidebarList(sidebarItems, 1, String(root.$id ?? "tree"))}
+      </div>
     );
-  }, [
-    props.components,
-    props.showPrimitiveSections,
-    root,
-    pathname,
-    treePath,
-    onNavigate,
-    checkPageNew,
-  ]);
+  }, [props.components, root, pathname, treePath, onNavigate, checkPageNew]);
 }
 
 export function SidebarLinkItem({
@@ -479,8 +465,6 @@ export const DocsSidebar = (
     ...sidebarProps
   } = all.sidebar ?? {};
   const links = getLinks(all.links ?? [], all.githubUrl);
-  const pathname = usePathname();
-  const uiUrl = all.uiUrl ?? "/ui";
   const { setOpen } = useSidebar();
   useDismissMobileSidebarOnOutside();
 
@@ -559,13 +543,10 @@ export const DocsSidebar = (
           uiUrl={all.uiUrl}
         />
 
-        <div className="mt-4">
-          <SidebarPageTree
-            components={sidebarComponents}
-            onNavigate={closeMobile}
-            showPrimitiveSections={!pathname.startsWith(uiUrl)}
-          />
-        </div>
+        <SidebarPageTree
+          components={sidebarComponents}
+          onNavigate={closeMobile}
+        />
       </DocsShellContent>
 
       <DocsShellFooter>

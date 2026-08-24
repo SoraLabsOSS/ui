@@ -77,11 +77,6 @@ const LIBRARY_NAV_ITEMS = (
     description: "Unstyled, animated building blocks powered by Motion.",
   },
   {
-    title: "Catalog",
-    url: "/catalog",
-    description: "Fully-assembled layout showcases built from primitives.",
-  },
-  {
     title: "Icons",
     url: "/docs/icons",
     description: "Animated icons with hover, tap, and view triggers.",
@@ -91,6 +86,11 @@ const LIBRARY_NAV_ITEMS = (
     url: uiUrl,
     description:
       "Styled app components built with Base UI, Radix UI and Motion.",
+  },
+  {
+    title: "Catalog",
+    url: "/catalog",
+    description: "Fully-assembled layout showcases built from primitives.",
   },
 ];
 

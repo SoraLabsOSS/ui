@@ -252,13 +252,6 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       path: primitivesUrl,
     }),
     item({
-      id: "page-catalog",
-      label: "Catalog",
-      href: "/catalog",
-      icon: "box",
-      path: "/catalog",
-    }),
-    item({
       id: "page-icons",
       label: "Icons",
       href: "/docs/icons",
@@ -271,6 +264,13 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       href: uiUrl,
       icon: "box",
       path: uiUrl,
+    }),
+    item({
+      id: "page-catalog",
+      label: "Catalog",
+      href: "/catalog",
+      icon: "box",
+      path: "/catalog",
     }),
     item({
       id: "page-blog",
