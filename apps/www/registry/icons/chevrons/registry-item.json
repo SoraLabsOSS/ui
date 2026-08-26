@@ -5,7 +5,7 @@
   "title": "Chevrons",
   "description": "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
   "dependencies": ["motion"],
-  "registryDependencies": ["icons-icon"],
+  "registryDependencies": ["@soralabs/icons-icon"],
   "files": [
     {
       "path": "registry/icons/chevrons/index.tsx",

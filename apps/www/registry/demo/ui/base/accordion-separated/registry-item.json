@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Separated Base Accordion Demo",
   "description": "Base UI accordion with separated card-style items.",
-  "registryDependencies": ["base-accordion"],
+  "registryDependencies": ["@soralabs/base-accordion"],
   "files": [
     {
       "path": "registry/demo/ui/base/accordion-separated/index.tsx",

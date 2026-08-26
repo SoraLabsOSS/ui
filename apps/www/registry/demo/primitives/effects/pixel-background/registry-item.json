@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Pixel Background Demo",
   "description": "A hoverable panel revealing a grid of pixels staggered by the selected pattern.",
-  "registryDependencies": ["pixel-background"],
+  "registryDependencies": ["@soralabs/pixel-background"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/pixel-background/index.tsx",

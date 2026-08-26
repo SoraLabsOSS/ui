@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Button Loading Demo",
   "dependencies": ["lucide-react"],
-  "registryDependencies": ["base-button"],
+  "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-loading/index.tsx",

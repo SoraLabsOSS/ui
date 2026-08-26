@@ -10,7 +10,7 @@
     "lucide-react",
     "class-variance-authority"
   ],
-  "registryDependencies": ["utils", "hooks-use-controlled-state"],
+  "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
   "files": [
     {
       "path": "registry/ui/base/accordion/index.tsx",

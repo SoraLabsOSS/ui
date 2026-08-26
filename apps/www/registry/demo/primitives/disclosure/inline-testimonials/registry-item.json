@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Inline Testimonials Demo",
   "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
-  "registryDependencies": ["inline-testimonials"],
+  "registryDependencies": ["@soralabs/inline-testimonials"],
   "files": [
     {
       "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",

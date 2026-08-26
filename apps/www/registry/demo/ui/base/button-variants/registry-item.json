@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Button Variants Demo",
   "description": "Showcase of all visual button variants: default, secondary, destructive, outline, ghost, and link.",
-  "registryDependencies": ["base-button"],
+  "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-variants/index.tsx",

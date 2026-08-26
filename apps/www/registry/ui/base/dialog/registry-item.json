@@ -7,8 +7,8 @@
   "dependencies": ["@base-ui/react", "motion", "lucide-react"],
   "registryDependencies": [
     "utils",
-    "hooks-use-controlled-state",
-    "base-button"
+    "@soralabs/hooks-use-controlled-state",
+    "@soralabs/base-button"
   ],
   "files": [
     {

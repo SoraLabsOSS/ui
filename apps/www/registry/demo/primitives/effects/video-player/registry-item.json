@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Video Player Demo",
   "description": "Trigger button that opens the modal video player with a sample chaptered video.",
-  "registryDependencies": ["video-player"],
+  "registryDependencies": ["@soralabs/video-player"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/video-player/index.tsx",

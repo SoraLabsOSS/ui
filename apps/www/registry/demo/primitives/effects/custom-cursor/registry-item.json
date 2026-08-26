@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Custom Cursor Demo",
   "description": "Custom cursor demo with Sora icons and shape variants.",
-  "registryDependencies": ["custom-cursor"],
+  "registryDependencies": ["@soralabs/custom-cursor"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",

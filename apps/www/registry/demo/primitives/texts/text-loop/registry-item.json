@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Text Loop Demo",
   "description": "Cycling headline built with TextLoop.",
-  "registryDependencies": ["text-loop"],
+  "registryDependencies": ["@soralabs/text-loop"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-loop/index.tsx",
@@ -15,8 +15,15 @@
   "meta": {
     "demoProps": {
       "TextLoopExample": {
-        "interval": { "value": 2, "min": 0.5, "max": 5, "step": 0.1 },
-        "className": { "value": "font-medium text-2xl text-foreground" }
+        "interval": {
+          "value": 2,
+          "min": 0.5,
+          "max": 5,
+          "step": 0.1
+        },
+        "className": {
+          "value": "font-medium text-2xl text-foreground"
+        }
       }
     }
   }

@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Button Motion Scaling Demo",
   "description": "Customizable hover and tap Motion spring scaling on Radix UI button.",
-  "registryDependencies": ["radix-button"],
+  "registryDependencies": ["@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/button-motion/index.tsx",

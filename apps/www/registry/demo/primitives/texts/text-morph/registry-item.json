@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Text Morph Demo",
   "description": "Continue / Confirm pill button with per-character layout morph.",
-  "registryDependencies": ["text-morph"],
+  "registryDependencies": ["@soralabs/text-morph"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-morph/index.tsx",

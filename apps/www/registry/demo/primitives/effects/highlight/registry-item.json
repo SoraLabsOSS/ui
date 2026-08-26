@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Highlight Demo",
   "description": "Shared sliding highlight pill moving between nav items on hover.",
-  "registryDependencies": ["highlight"],
+  "registryDependencies": ["@soralabs/highlight"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/highlight/index.tsx",

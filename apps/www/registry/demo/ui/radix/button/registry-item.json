@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Button Demo",
   "description": "Interactive showcase of Radix UI Slot Button variants, sizes, icon combinations, and Motion scaling.",
-  "registryDependencies": ["radix-button"],
+  "registryDependencies": ["@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/button/index.tsx",

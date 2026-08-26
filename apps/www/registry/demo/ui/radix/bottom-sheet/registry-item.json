@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Bottom Sheet Demo",
   "description": "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
-  "registryDependencies": ["bottom-sheet"],
+  "registryDependencies": ["@soralabs/bottom-sheet"],
   "files": [
     {
       "path": "registry/demo/ui/radix/bottom-sheet/index.tsx",

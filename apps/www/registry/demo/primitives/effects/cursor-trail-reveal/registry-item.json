@@ -5,9 +5,9 @@
   "title": "Cursor Trail Reveal Demo",
   "description": "Full-page contact layout with cursor trail image reveals on desktop.",
   "registryDependencies": [
-    "cursor-trail-reveal",
-    "text-reveal-block",
-    "text-scramble"
+    "@soralabs/cursor-trail-reveal",
+    "@soralabs/text-reveal-block",
+    "@soralabs/text-scramble"
   ],
   "files": [
     {

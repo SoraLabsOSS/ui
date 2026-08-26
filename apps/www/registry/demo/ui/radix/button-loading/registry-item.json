@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Button Loading Demo",
   "description": "Disabled Radix UI button displaying an animated spinner.",
-  "registryDependencies": ["radix-button"],
+  "registryDependencies": ["@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/button-loading/index.tsx",

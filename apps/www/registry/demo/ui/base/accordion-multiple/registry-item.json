@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Multiple Open Base Accordion Demo",
   "description": "Base UI accordion allowing multiple panels to expand simultaneously.",
-  "registryDependencies": ["base-accordion"],
+  "registryDependencies": ["@soralabs/base-accordion"],
   "files": [
     {
       "path": "registry/demo/ui/base/accordion-multiple/index.tsx",

@@ -7,8 +7,8 @@
   "dependencies": ["radix-ui", "motion", "lucide-react"],
   "registryDependencies": [
     "utils",
-    "hooks-use-controlled-state",
-    "radix-button"
+    "@soralabs/hooks-use-controlled-state",
+    "@soralabs/radix-button"
   ],
   "files": [
     {

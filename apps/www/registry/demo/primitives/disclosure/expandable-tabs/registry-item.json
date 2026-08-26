@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Expandable Tabs Demo",
   "description": "Pill tab bar expanding into a floating profile/notifications/settings panel.",
-  "registryDependencies": ["expandable-tabs"],
+  "registryDependencies": ["@soralabs/expandable-tabs"],
   "files": [
     {
       "path": "registry/demo/primitives/disclosure/expandable-tabs/index.tsx",

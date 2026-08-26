@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Border Trail Demo",
   "description": "Card with animated border spotlight.",
-  "registryDependencies": ["border-trail"],
+  "registryDependencies": ["@soralabs/border-trail"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/border-trail/index.tsx",

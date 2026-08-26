@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Checkbox Demo",
   "description": "Interactive showcase of Radix UI animated Checkbox with SVG stroke draw animation.",
-  "registryDependencies": ["radix-checkbox"],
+  "registryDependencies": ["@soralabs/radix-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/radix/checkbox/index.tsx",

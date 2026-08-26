@@ -3,7 +3,7 @@
   "name": "demo-checkbox-card",
   "type": "registry:ui",
   "title": "Checkbox Card Demo",
-  "registryDependencies": ["base-checkbox"],
+  "registryDependencies": ["@soralabs/base-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/base/checkbox-card/index.tsx",

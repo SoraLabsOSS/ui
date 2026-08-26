@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Particle Hover Button Demo",
   "description": "A heart-particle sponsor link, styled after the anime.js navbar Sponsor button.",
-  "registryDependencies": ["particle-hover-button"],
+  "registryDependencies": ["@soralabs/particle-hover-button"],
   "files": [
     {
       "path": "registry/demo/primitives/buttons/particle-hover-button/index.tsx",

@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Text Roll Demo",
   "description": "Interactive copy button with chromatic text roll feedback.",
-  "registryDependencies": ["text-roll"],
+  "registryDependencies": ["@soralabs/text-roll"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-roll/index.tsx",

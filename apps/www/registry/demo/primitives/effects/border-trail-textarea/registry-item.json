@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Border Trail Textarea Demo",
   "description": "Textarea with a continuous gradient border trail.",
-  "registryDependencies": ["border-trail"],
+  "registryDependencies": ["@soralabs/border-trail"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/border-trail-textarea/index.tsx",

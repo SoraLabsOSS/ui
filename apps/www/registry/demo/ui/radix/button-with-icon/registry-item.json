@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Button with Icon Demo",
   "description": "Radix UI button combined with leading and trailing Lucide icons.",
-  "registryDependencies": ["radix-button"],
+  "registryDependencies": ["@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/button-with-icon/index.tsx",

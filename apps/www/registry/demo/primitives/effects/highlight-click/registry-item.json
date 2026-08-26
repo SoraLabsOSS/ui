@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Highlight Click Demo",
   "description": "Per-item fade background activated on click — menu list style.",
-  "registryDependencies": ["highlight"],
+  "registryDependencies": ["@soralabs/highlight"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/highlight-click/index.tsx",

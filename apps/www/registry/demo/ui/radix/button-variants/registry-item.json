@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Button Variants Demo",
   "description": "Showcase of all visual Radix button variants: default, secondary, destructive, outline, ghost, and link.",
-  "registryDependencies": ["radix-button"],
+  "registryDependencies": ["@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/button-variants/index.tsx",

@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Base Accordion Demo",
   "description": "Base UI accordion with 1:1 Motion spring physics, blur transitions, and animated focus ring.",
-  "registryDependencies": ["base-accordion"],
+  "registryDependencies": ["@soralabs/base-accordion"],
   "files": [
     {
       "path": "registry/demo/ui/base/accordion/index.tsx",

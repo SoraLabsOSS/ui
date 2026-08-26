@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Infinite Scrolling Images Demo",
   "description": "Preview for the infinite stacked image scroll effect.",
-  "registryDependencies": ["infinite-scrolling-images"],
+  "registryDependencies": ["@soralabs/infinite-scrolling-images"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/infinite-scrolling-images/index.tsx",

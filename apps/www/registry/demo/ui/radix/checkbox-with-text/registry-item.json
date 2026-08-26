@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Checkbox with Text Demo",
   "description": "Radix UI checkbox with supplementary title and description text.",
-  "registryDependencies": ["radix-checkbox"],
+  "registryDependencies": ["@soralabs/radix-checkbox"],
   "files": [
     {
       "path": "registry/demo/ui/radix/checkbox-with-text/index.tsx",

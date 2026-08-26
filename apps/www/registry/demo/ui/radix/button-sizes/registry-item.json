@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Button Sizes Demo",
   "description": "Radix UI button size presets from extra small to large.",
-  "registryDependencies": ["radix-button"],
+  "registryDependencies": ["@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/button-sizes/index.tsx",

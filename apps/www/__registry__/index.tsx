@@ -29,7 +29,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["particle-hover-button"],
+    registryDependencies: ["@soralabs/particle-hover-button"],
     files: [
   {
     "path": "registry/demo/primitives/buttons/particle-hover-button/index.tsx",
@@ -77,7 +77,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["accordion"],
+    registryDependencies: ["@soralabs/accordion"],
     files: [
   {
     "path": "registry/demo/primitives/disclosure/accordion/index.tsx",
@@ -125,7 +125,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["expandable-tabs"],
+    registryDependencies: ["@soralabs/expandable-tabs"],
     files: [
   {
     "path": "registry/demo/primitives/disclosure/expandable-tabs/index.tsx",
@@ -173,7 +173,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["inline-testimonials"],
+    registryDependencies: ["@soralabs/inline-testimonials"],
     files: [
   {
     "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
@@ -221,7 +221,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["border-trail"],
+    registryDependencies: ["@soralabs/border-trail"],
     files: [
   {
     "path": "registry/demo/primitives/effects/border-trail/index.tsx",
@@ -269,7 +269,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["border-trail"],
+    registryDependencies: ["@soralabs/border-trail"],
     files: [
   {
     "path": "registry/demo/primitives/effects/border-trail-loading/index.tsx",
@@ -317,7 +317,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["border-trail"],
+    registryDependencies: ["@soralabs/border-trail"],
     files: [
   {
     "path": "registry/demo/primitives/effects/border-trail-textarea/index.tsx",
@@ -365,7 +365,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["cursor-bubble"],
+    registryDependencies: ["@soralabs/cursor-bubble"],
     files: [
   {
     "path": "registry/demo/primitives/effects/cursor-bubble/index.tsx",
@@ -413,7 +413,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["cursor-trail-reveal","text-reveal-block","text-scramble"],
+    registryDependencies: ["@soralabs/cursor-trail-reveal","@soralabs/text-reveal-block","@soralabs/text-scramble"],
     files: [
   {
     "path": "registry/demo/primitives/effects/cursor-trail-reveal/index.tsx",
@@ -461,7 +461,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["custom-cursor"],
+    registryDependencies: ["@soralabs/custom-cursor"],
     files: [
   {
     "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",
@@ -509,7 +509,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["dock-nav"],
+    registryDependencies: ["@soralabs/dock-nav"],
     files: [
   {
     "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
@@ -557,7 +557,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["hero-carousel"],
+    registryDependencies: ["@soralabs/hero-carousel"],
     files: [
   {
     "path": "registry/demo/primitives/effects/hero-carousel/index.tsx",
@@ -605,7 +605,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["highlight"],
+    registryDependencies: ["@soralabs/highlight"],
     files: [
   {
     "path": "registry/demo/primitives/effects/highlight/index.tsx",
@@ -653,7 +653,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["highlight"],
+    registryDependencies: ["@soralabs/highlight"],
     files: [
   {
     "path": "registry/demo/primitives/effects/highlight-click/index.tsx",
@@ -701,7 +701,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["infinite-scrolling-images"],
+    registryDependencies: ["@soralabs/infinite-scrolling-images"],
     files: [
   {
     "path": "registry/demo/primitives/effects/infinite-scrolling-images/index.tsx",
@@ -749,7 +749,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["logo-carousel-swapper"],
+    registryDependencies: ["@soralabs/logo-carousel-swapper"],
     files: [
   {
     "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
@@ -764,7 +764,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/primitives/effects/logo-carousel-swapper/index.tsx");
-        const demoProps = {"LogoCarouselSwapper":{"monochrome":{"value":true}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -786,7 +786,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"LogoCarouselSwapper":{"monochrome":{"value":true}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-logo-carousel-swapper',
@@ -797,7 +797,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["magnetic-cards"],
+    registryDependencies: ["@soralabs/magnetic-cards"],
     files: [
   {
     "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
@@ -845,7 +845,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["pixel-background"],
+    registryDependencies: ["@soralabs/pixel-background"],
     files: [
   {
     "path": "registry/demo/primitives/effects/pixel-background/index.tsx",
@@ -860,7 +860,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/primitives/effects/pixel-background/index.tsx");
-        const demoProps = {"PixelBackground":{"colors":{"value":"#f8fafc,#f1f5f9,#cbd5e1","options":{"White":"#f8fafc,#f1f5f9,#cbd5e1","Blue":"#e0f2fe,#7dd3fc,#0ea5e9","Pink":"#fecdd3,#fda4af,#e11d48"}},"pattern":{"value":"center","options":{"Center":"center","Cursor":"cursor","Spiral":"spiral","Edges":"edges","Random":"random"}},"gap":{"value":5,"min":2,"max":20,"step":1},"speed":{"value":35,"min":0,"max":100,"step":1},"pixelOpacity":{"value":1,"min":0.1,"max":1,"step":0.05}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -882,7 +882,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"PixelBackground":{"colors":{"value":"#f8fafc,#f1f5f9,#cbd5e1","options":{"White":"#f8fafc,#f1f5f9,#cbd5e1","Blue":"#e0f2fe,#7dd3fc,#0ea5e9","Pink":"#fecdd3,#fda4af,#e11d48"}},"pattern":{"value":"center","options":{"Center":"center","Cursor":"cursor","Spiral":"spiral","Edges":"edges","Random":"random"}},"gap":{"value":5,"min":2,"max":20,"step":1},"speed":{"value":35,"min":0,"max":100,"step":1},"pixelOpacity":{"value":1,"min":0.1,"max":1,"step":0.05}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-pixel-background',
@@ -893,7 +893,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["progressive-blur"],
+    registryDependencies: ["@soralabs/progressive-blur"],
     files: [
   {
     "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",
@@ -941,7 +941,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["scroll-chapters"],
+    registryDependencies: ["@soralabs/scroll-chapters"],
     files: [
   {
     "path": "registry/demo/primitives/effects/scroll-chapters/index.tsx",
@@ -989,7 +989,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["scroll-gallery"],
+    registryDependencies: ["@soralabs/scroll-gallery"],
     files: [
   {
     "path": "registry/demo/primitives/effects/scroll-gallery/index.tsx",
@@ -1004,7 +1004,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/components/catalog/scroll-gallery-catalog-preview");
-        const demoProps = {"ScrollGallery":{"prefixLabel":{"value":"Featured"},"linkLabel":{"value":"Explore"},"showPrefix":{"value":true},"showLink":{"value":true},"showInfoBand":{"value":true},"scrollPerTransition":{"value":600,"min":200,"max":1500,"step":50},"stripsCount":{"value":20,"min":4,"max":40,"step":2},"scrub":{"value":1,"min":0,"max":3,"step":0.1}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -1026,7 +1026,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"ScrollGallery":{"prefixLabel":{"value":"Featured"},"linkLabel":{"value":"Explore"},"showPrefix":{"value":true},"showLink":{"value":true},"showInfoBand":{"value":true},"scrollPerTransition":{"value":600,"min":200,"max":1500,"step":50},"stripsCount":{"value":20,"min":4,"max":40,"step":2},"scrub":{"value":1,"min":0,"max":3,"step":0.1}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-scroll-gallery',
@@ -1037,7 +1037,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["skeleton"],
+    registryDependencies: ["@soralabs/skeleton"],
     files: [
   {
     "path": "registry/demo/primitives/effects/skeleton/index.tsx",
@@ -1085,7 +1085,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["skeleton-shimmer"],
+    registryDependencies: ["@soralabs/skeleton-shimmer"],
     files: [
   {
     "path": "registry/demo/primitives/effects/skeleton-shimmer/index.tsx",
@@ -1133,7 +1133,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["skeleton-shimmer"],
+    registryDependencies: ["@soralabs/skeleton-shimmer"],
     files: [
   {
     "path": "registry/demo/primitives/effects/skeleton-shimmer-basic/index.tsx",
@@ -1181,7 +1181,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["sticky-scroll-cards"],
+    registryDependencies: ["@soralabs/sticky-scroll-cards"],
     files: [
   {
     "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",
@@ -1229,7 +1229,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["tilt-card"],
+    registryDependencies: ["@soralabs/tilt-card"],
     files: [
   {
     "path": "registry/demo/primitives/effects/tilt-card/index.tsx",
@@ -1277,7 +1277,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["tilt-card"],
+    registryDependencies: ["@soralabs/tilt-card"],
     files: [
   {
     "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",
@@ -1325,7 +1325,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["video-player"],
+    registryDependencies: ["@soralabs/video-player"],
     files: [
   {
     "path": "registry/demo/primitives/effects/video-player/index.tsx",
@@ -1373,7 +1373,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["dia-text-reveal"],
+    registryDependencies: ["@soralabs/dia-text-reveal"],
     files: [
   {
     "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
@@ -1421,7 +1421,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["fog-text-reveal"],
+    registryDependencies: ["@soralabs/fog-text-reveal"],
     files: [
   {
     "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",
@@ -1469,7 +1469,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["number-flow"],
+    registryDependencies: ["@soralabs/number-flow"],
     files: [
   {
     "path": "registry/demo/primitives/texts/number-flow/index.tsx",
@@ -1517,7 +1517,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-cursor-loop"],
+    registryDependencies: ["@soralabs/text-cursor-loop"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-cursor-loop/index.tsx",
@@ -1565,7 +1565,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-effect"],
+    registryDependencies: ["@soralabs/text-effect"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-effect/index.tsx",
@@ -1580,7 +1580,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/primitives/texts/text-effect/index.tsx");
-        const demoProps = {"TextEffect":{"as":{"value":"h2","options":{"h2":"h2","p":"p","span":"span"}},"children":{"value":"Motion-first text effects"},"className":{"value":"text-center font-bold text-3xl"},"preset":{"value":"fade-in-blur","options":{"Fade in blur":"fade-in-blur","Blur":"blur","Fade":"fade","Slide":"slide","Scale":"scale"}},"per":{"value":"word","options":{"Word":"word","Char":"char","Line":"line"}},"delay":{"value":0,"min":0,"max":2,"step":0.1},"speedReveal":{"value":1,"min":0.25,"max":3,"step":0.25},"speedSegment":{"value":1,"min":0.25,"max":3,"step":0.25},"scrollTrigger":{"value":true}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -1602,7 +1602,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"TextEffect":{"as":{"value":"h2","options":{"h2":"h2","p":"p","span":"span"}},"children":{"value":"Motion-first text effects"},"className":{"value":"text-center font-bold text-3xl"},"preset":{"value":"fade-in-blur","options":{"Fade in blur":"fade-in-blur","Blur":"blur","Fade":"fade","Slide":"slide","Scale":"scale"}},"per":{"value":"word","options":{"Word":"word","Char":"char","Line":"line"}},"delay":{"value":0,"min":0,"max":2,"step":0.1},"speedReveal":{"value":1,"min":0.25,"max":3,"step":0.25},"speedSegment":{"value":1,"min":0.25,"max":3,"step":0.25},"scrollTrigger":{"value":true}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-text-effect',
@@ -1613,7 +1613,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-loop"],
+    registryDependencies: ["@soralabs/text-loop"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-loop/index.tsx",
@@ -1661,7 +1661,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-morph"],
+    registryDependencies: ["@soralabs/text-morph"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-morph/index.tsx",
@@ -1709,7 +1709,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-morph"],
+    registryDependencies: ["@soralabs/text-morph"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
@@ -1757,7 +1757,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-reveal-box"],
+    registryDependencies: ["@soralabs/text-reveal-box"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-reveal-box/index.tsx",
@@ -1805,7 +1805,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-reveal-mask"],
+    registryDependencies: ["@soralabs/text-reveal-mask"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",
@@ -1853,7 +1853,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["text-roll"],
+    registryDependencies: ["@soralabs/text-roll"],
     files: [
   {
     "path": "registry/demo/primitives/texts/text-roll/index.tsx",
@@ -1901,7 +1901,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["typer"],
+    registryDependencies: ["@soralabs/typer"],
     files: [
   {
     "path": "registry/demo/primitives/texts/typer/index.tsx",
@@ -1949,7 +1949,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-accordion"],
+    registryDependencies: ["@soralabs/base-accordion"],
     files: [
   {
     "path": "registry/demo/ui/base/accordion/index.tsx",
@@ -1997,7 +1997,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-accordion"],
+    registryDependencies: ["@soralabs/base-accordion"],
     files: [
   {
     "path": "registry/demo/ui/base/accordion-bordered/index.tsx",
@@ -2045,7 +2045,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-accordion"],
+    registryDependencies: ["@soralabs/base-accordion"],
     files: [
   {
     "path": "registry/demo/ui/base/accordion-multiple/index.tsx",
@@ -2093,7 +2093,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-accordion"],
+    registryDependencies: ["@soralabs/base-accordion"],
     files: [
   {
     "path": "registry/demo/ui/base/accordion-separated/index.tsx",
@@ -2141,7 +2141,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-button"],
+    registryDependencies: ["@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button/index.tsx",
@@ -2156,7 +2156,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/base/button/index.tsx");
-        const demoProps = {"Button":{"children":{"value":"Button"},"variant":{"value":"default","options":{"Default":"default","Secondary":"secondary","Destructive":"destructive","Outline":"outline","Ghost":"ghost","Link":"link"}},"size":{"value":"default","options":{"Extra Small":"xs","Small":"sm","Default":"default","Large":"lg"}},"hoverScale":{"value":1.05,"min":1,"max":1.3,"step":0.01},"tapScale":{"value":0.95,"min":0.7,"max":1,"step":0.01},"disableAnimation":{"value":false}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -2178,7 +2178,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"Button":{"children":{"value":"Button"},"variant":{"value":"default","options":{"Default":"default","Secondary":"secondary","Destructive":"destructive","Outline":"outline","Ghost":"ghost","Link":"link"}},"size":{"value":"default","options":{"Extra Small":"xs","Small":"sm","Default":"default","Large":"lg"}},"hoverScale":{"value":1.05,"min":1,"max":1.3,"step":0.01},"tapScale":{"value":0.95,"min":0.7,"max":1,"step":0.01},"disableAnimation":{"value":false}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-button',
@@ -2189,7 +2189,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["base-button"],
+    registryDependencies: ["@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-loading/index.tsx",
@@ -2237,7 +2237,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-button"],
+    registryDependencies: ["@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-motion/index.tsx",
@@ -2285,7 +2285,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-button"],
+    registryDependencies: ["@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-sizes/index.tsx",
@@ -2333,7 +2333,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-button"],
+    registryDependencies: ["@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-variants/index.tsx",
@@ -2381,7 +2381,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["base-button"],
+    registryDependencies: ["@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/button-with-icon/index.tsx",
@@ -2429,7 +2429,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-checkbox"],
+    registryDependencies: ["@soralabs/base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox/index.tsx",
@@ -2444,7 +2444,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/base/checkbox/index.tsx");
-        const demoProps = {"Checkbox":{"label":{"value":"Accept terms and conditions"},"disabled":{"value":false}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -2466,7 +2466,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"Checkbox":{"label":{"value":"Accept terms and conditions"},"disabled":{"value":false}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-checkbox',
@@ -2477,7 +2477,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-checkbox"],
+    registryDependencies: ["@soralabs/base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-card/index.tsx",
@@ -2525,7 +2525,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-checkbox"],
+    registryDependencies: ["@soralabs/base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-indeterminate/index.tsx",
@@ -2573,7 +2573,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-checkbox"],
+    registryDependencies: ["@soralabs/base-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/base/checkbox-with-text/index.tsx",
@@ -2621,7 +2621,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-dialog"],
+    registryDependencies: ["@soralabs/base-dialog"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog/index.tsx",
@@ -2669,7 +2669,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["base-dialog","base-button"],
+    registryDependencies: ["@soralabs/base-dialog","@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",
@@ -2717,7 +2717,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["base-dialog","base-button"],
+    registryDependencies: ["@soralabs/base-dialog","@soralabs/base-button"],
     files: [
   {
     "path": "registry/demo/ui/base/dialog-share/index.tsx",
@@ -2765,7 +2765,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["bottom-sheet"],
+    registryDependencies: ["@soralabs/bottom-sheet"],
     files: [
   {
     "path": "registry/demo/ui/radix/bottom-sheet/index.tsx",
@@ -2813,7 +2813,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-button"],
+    registryDependencies: ["@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/button/index.tsx",
@@ -2828,7 +2828,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/radix/button/index.tsx");
-        const demoProps = {"Button":{"children":{"value":"Button"},"variant":{"value":"default","options":{"Default":"default","Secondary":"secondary","Destructive":"destructive","Outline":"outline","Ghost":"ghost","Link":"link"}},"size":{"value":"default","options":{"Extra Small":"xs","Small":"sm","Default":"default","Large":"lg"}},"hoverScale":{"value":1.05,"min":1,"max":1.3,"step":0.01},"tapScale":{"value":0.95,"min":0.7,"max":1,"step":0.01},"disableAnimation":{"value":false}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -2850,7 +2850,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"Button":{"children":{"value":"Button"},"variant":{"value":"default","options":{"Default":"default","Secondary":"secondary","Destructive":"destructive","Outline":"outline","Ghost":"ghost","Link":"link"}},"size":{"value":"default","options":{"Extra Small":"xs","Small":"sm","Default":"default","Large":"lg"}},"hoverScale":{"value":1.05,"min":1,"max":1.3,"step":0.01},"tapScale":{"value":0.95,"min":0.7,"max":1,"step":0.01},"disableAnimation":{"value":false}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-radix-button',
@@ -2861,7 +2861,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-button"],
+    registryDependencies: ["@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/button-loading/index.tsx",
@@ -2909,7 +2909,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-button"],
+    registryDependencies: ["@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/button-motion/index.tsx",
@@ -2957,7 +2957,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-button"],
+    registryDependencies: ["@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/button-sizes/index.tsx",
@@ -3005,7 +3005,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-button"],
+    registryDependencies: ["@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/button-variants/index.tsx",
@@ -3053,7 +3053,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-button"],
+    registryDependencies: ["@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/button-with-icon/index.tsx",
@@ -3101,7 +3101,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-checkbox"],
+    registryDependencies: ["@soralabs/radix-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/radix/checkbox/index.tsx",
@@ -3116,7 +3116,7 @@ export const index: Record<string, any> = {
     component: (function() {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/radix/checkbox/index.tsx");
-        const demoProps = {"Checkbox":{"label":{"value":"Accept terms and conditions"},"disabled":{"value":false}}};
+        const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -3138,7 +3138,7 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {"Checkbox":{"label":{"value":"Accept terms and conditions"},"disabled":{"value":false}}};
+      LazyComp.demoProps = {};
       return LazyComp;
     })(),
     command: '@soralabs/demo-radix-checkbox',
@@ -3149,7 +3149,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-checkbox"],
+    registryDependencies: ["@soralabs/radix-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/radix/checkbox-card/index.tsx",
@@ -3197,7 +3197,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-checkbox"],
+    registryDependencies: ["@soralabs/radix-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/radix/checkbox-indeterminate/index.tsx",
@@ -3245,7 +3245,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-checkbox"],
+    registryDependencies: ["@soralabs/radix-checkbox"],
     files: [
   {
     "path": "registry/demo/ui/radix/checkbox-with-text/index.tsx",
@@ -3293,7 +3293,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-dialog","radix-button"],
+    registryDependencies: ["@soralabs/radix-dialog","@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/dialog/index.tsx",
@@ -3341,7 +3341,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-dialog","radix-button"],
+    registryDependencies: ["@soralabs/radix-dialog","@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/dialog-scrollable/index.tsx",
@@ -3389,7 +3389,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: undefined,
     devDependencies: undefined,
-    registryDependencies: ["radix-dialog","radix-button"],
+    registryDependencies: ["@soralabs/radix-dialog","@soralabs/radix-button"],
     files: [
   {
     "path": "registry/demo/ui/radix/dialog-share/index.tsx",
@@ -3677,7 +3677,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: ["icons-icon"],
+    registryDependencies: ["@soralabs/icons-icon"],
     files: [
   {
     "path": "registry/icons/bell/index.tsx",
@@ -3725,7 +3725,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: ["icons-icon"],
+    registryDependencies: ["@soralabs/icons-icon"],
     files: [
   {
     "path": "registry/icons/chevrons/index.tsx",
@@ -3773,7 +3773,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: ["hooks-use-is-in-view","primitives-animate-slot"],
+    registryDependencies: ["@soralabs/hooks-use-is-in-view","@soralabs/primitives-animate-slot"],
     files: [
   {
     "path": "registry/icons/icon/index.tsx",
@@ -6077,7 +6077,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["@base-ui/react","motion","lucide-react","class-variance-authority"],
     devDependencies: undefined,
-    registryDependencies: ["utils","hooks-use-controlled-state"],
+    registryDependencies: ["utils","@soralabs/hooks-use-controlled-state"],
     files: [
   {
     "path": "registry/ui/base/accordion/index.tsx",
@@ -6221,7 +6221,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["@base-ui/react","motion","lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["utils","hooks-use-controlled-state","base-button"],
+    registryDependencies: ["utils","@soralabs/hooks-use-controlled-state","@soralabs/base-button"],
     files: [
   {
     "path": "registry/ui/base/dialog/index.tsx",
@@ -6413,7 +6413,7 @@ export const index: Record<string, any> = {
     type: "registry:ui",
     dependencies: ["radix-ui","motion","lucide-react"],
     devDependencies: undefined,
-    registryDependencies: ["utils","hooks-use-controlled-state","radix-button"],
+    registryDependencies: ["utils","@soralabs/hooks-use-controlled-state","@soralabs/radix-button"],
     files: [
   {
     "path": "registry/ui/radix/dialog/index.tsx",

@@ -3,7 +3,7 @@
   "name": "demo-button-sizes",
   "type": "registry:ui",
   "title": "Button Sizes Demo",
-  "registryDependencies": ["base-button"],
+  "registryDependencies": ["@soralabs/base-button"],
   "files": [
     {
       "path": "registry/demo/ui/base/button-sizes/index.tsx",

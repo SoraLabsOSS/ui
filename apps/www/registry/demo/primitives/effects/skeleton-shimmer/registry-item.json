@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Skeleton Shimmer Demo",
   "description": "Skeleton loading card that wipes away to reveal a profile card once content is ready.",
-  "registryDependencies": ["skeleton-shimmer"],
+  "registryDependencies": ["@soralabs/skeleton-shimmer"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/skeleton-shimmer/index.tsx",

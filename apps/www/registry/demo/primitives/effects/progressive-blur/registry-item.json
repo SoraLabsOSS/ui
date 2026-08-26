@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Progressive Blur Demo",
   "description": "A scrollable panel with progressive blur fading content under the top and bottom edges.",
-  "registryDependencies": ["progressive-blur"],
+  "registryDependencies": ["@soralabs/progressive-blur"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",

@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Magnetic Cards Demo",
   "description": "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
-  "registryDependencies": ["magnetic-cards"],
+  "registryDependencies": ["@soralabs/magnetic-cards"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",

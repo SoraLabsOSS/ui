@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Text Reveal (Mask) Demo",
   "description": "Scroll-triggered masked text reveal with rich text emphasis.",
-  "registryDependencies": ["text-reveal-mask"],
+  "registryDependencies": ["@soralabs/text-reveal-mask"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",

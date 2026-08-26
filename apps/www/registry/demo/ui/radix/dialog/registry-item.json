@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Dialog Demo",
   "description": "Interactive showcase of Radix UI modal Dialog with 3D perspective spring entrance and exit animations.",
-  "registryDependencies": ["radix-dialog", "radix-button"],
+  "registryDependencies": ["@soralabs/radix-dialog", "@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/dialog/index.tsx",

@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Skeleton Shimmer Basic Demo",
   "description": "Standard skeleton shimmer loading state with blocks and overlay without View Transitions API.",
-  "registryDependencies": ["skeleton-shimmer"],
+  "registryDependencies": ["@soralabs/skeleton-shimmer"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/skeleton-shimmer-basic/index.tsx",

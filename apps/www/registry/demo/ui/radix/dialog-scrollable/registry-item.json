@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Dialog Scrollable Demo",
   "description": "Radix UI dialog with scrollable content area.",
-  "registryDependencies": ["radix-dialog", "radix-button"],
+  "registryDependencies": ["@soralabs/radix-dialog", "@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/dialog-scrollable/index.tsx",

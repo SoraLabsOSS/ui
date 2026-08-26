@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Radix Dialog Share Demo",
   "description": "Interactive Radix UI dialog with link copying and sharing.",
-  "registryDependencies": ["radix-dialog", "radix-button"],
+  "registryDependencies": ["@soralabs/radix-dialog", "@soralabs/radix-button"],
   "files": [
     {
       "path": "registry/demo/ui/radix/dialog-share/index.tsx",

@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Base Accordion Bordered Demo",
   "description": "Base UI accordion in a bordered card container with refined surface styling.",
-  "registryDependencies": ["base-accordion"],
+  "registryDependencies": ["@soralabs/base-accordion"],
   "files": [
     {
       "path": "registry/demo/ui/base/accordion-bordered/index.tsx",

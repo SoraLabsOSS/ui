@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Tilt Card Demo",
   "description": "Card tilting toward the cursor with layered depth content.",
-  "registryDependencies": ["tilt-card"],
+  "registryDependencies": ["@soralabs/tilt-card"],
   "files": [
     {
       "path": "registry/demo/primitives/effects/tilt-card/index.tsx",

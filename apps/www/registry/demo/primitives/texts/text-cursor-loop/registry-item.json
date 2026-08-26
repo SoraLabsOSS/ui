@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Text Cursor Loop Demo",
   "description": "The anime.js hero line, with the cursor flashing red only while collapsing/revealing.",
-  "registryDependencies": ["text-cursor-loop"],
+  "registryDependencies": ["@soralabs/text-cursor-loop"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-cursor-loop/index.tsx",

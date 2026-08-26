@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Text Morph Input Demo",
   "description": "Live text morph driven by a controlled input.",
-  "registryDependencies": ["text-morph"],
+  "registryDependencies": ["@soralabs/text-morph"],
   "files": [
     {
       "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
