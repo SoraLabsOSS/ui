@@ -1,10 +1,6 @@
 "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useLayoutEffect } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useLayoutEffect } from "react";
 
 import { Header } from "@/components/header";
 import { HomeFaq } from "@/components/home/home-faq";
@@ -12,10 +8,7 @@ import { HomeFooter } from "@/components/home/home-footer";
 import { HomeHeroFeatures } from "@/components/home/home-hero-features";
 import { HomeTwoWays } from "@/components/home/home-two-ways";
 import { WhoItsFor } from "@/components/home/who-its-for";
-import {
-  dispatchHomeScrollReady,
-  HOME_SCROLL_READY_EVENT,
-} from "@/lib/home/home-scroll-ready";
+import { dispatchHomeScrollReady } from "@/lib/home/home-scroll-ready";
 import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-registry-item";
 
 const HOME_PAGE_ID = "home-page";
@@ -37,29 +30,11 @@ export function HomePageClient({
 }: HomePageClientProps) {
   useLayoutEffect(() => {
     dispatchHomeScrollReady();
-  }, []);
-
-  useEffect(() => {
-    const refresh = () => {
-      ScrollTrigger.refresh();
-    };
-
-    const onHomeScrollReady = () => {
-      refresh();
-    };
-
-    window.addEventListener(HOME_SCROLL_READY_EVENT, onHomeScrollReady);
-
-    const frameId = requestAnimationFrame(refresh);
-    const timeoutId = window.setTimeout(refresh, 150);
     const lateTimeoutId = window.setTimeout(() => {
       dispatchHomeScrollReady();
     }, 300);
 
     return () => {
-      window.removeEventListener(HOME_SCROLL_READY_EVENT, onHomeScrollReady);
-      cancelAnimationFrame(frameId);
-      window.clearTimeout(timeoutId);
       window.clearTimeout(lateTimeoutId);
     };
   }, []);

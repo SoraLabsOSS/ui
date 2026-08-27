@@ -88,6 +88,13 @@ const SUGGESTED_PROMPTS = [
   "How do I add icons?",
 ] as const;
 
+/**
+ * Below catalog/docs flyouts (backdrop z-110, aside z-111) so an open
+ * sidebar covers Ask AI. Catalog idle chrome stays under this panel.
+ * Command palette is z-1000.
+ */
+const AI_CHAT_LAYER_CLASSNAME = "z-[100]";
+
 const PENDING_ASSISTANT: ChatUIMessage = {
   id: "pending-assistant",
   role: "assistant",
@@ -767,8 +774,9 @@ export function AISearchTrigger({
       {...props}
       className={cn(
         position === "float" && [
-          // Above the fixed full-height TOC (#nd-toc is z-20).
-          "fixed inset-e-[calc(--spacing(4)+var(--removed-body-scroll-bar-size,0px))] bottom-4 z-40 w-24 cursor-pointer gap-3 shadow-lg transition-[translate,opacity]",
+          // Above catalog mobile chrome and the fixed TOC (#nd-toc is z-20).
+          "fixed inset-e-[calc(--spacing(4)+var(--removed-body-scroll-bar-size,0px))] bottom-4 w-24 cursor-pointer gap-3 shadow-lg transition-[translate,opacity]",
+          AI_CHAT_LAYER_CLASSNAME,
           open && "pointer-events-none translate-y-10 opacity-0",
         ],
         className
@@ -848,7 +856,8 @@ export function AISearchPanel() {
       <button
         aria-label="Close AI chat"
         className={cn(
-          "fixed inset-0 z-40 cursor-default border-0 bg-fd-overlay/60 backdrop-blur-xs lg:hidden",
+          "fixed inset-0 cursor-default border-0 bg-fd-overlay/60 backdrop-blur-xs lg:hidden",
+          AI_CHAT_LAYER_CLASSNAME,
           "transition-opacity duration-200 motion-reduce:transition-none",
           entered ? "opacity-100" : "opacity-0"
         )}
@@ -859,7 +868,8 @@ export function AISearchPanel() {
         aria-label="AI Chat"
         aria-modal="true"
         className={cn(
-          "fixed z-40 flex w-[min(100vw-1rem,var(--ai-chat-width))] flex-col overflow-hidden bg-fd-card text-fd-card-foreground shadow-xl",
+          "fixed flex w-[min(100vw-1rem,var(--ai-chat-width))] flex-col overflow-hidden bg-fd-card text-fd-card-foreground shadow-xl",
+          AI_CHAT_LAYER_CLASSNAME,
           "inset-e-2 top-4 bottom-4 rounded-2xl border",
           "lg:inset-e-0 lg:top-[calc(var(--fd-banner-height)+var(--fd-nav-height))] lg:bottom-0 lg:w-(--ai-chat-width) lg:rounded-none lg:border-s lg:border-e-0 lg:shadow-none",
           "[--ai-chat-width:400px] 2xl:[--ai-chat-width:460px]",

@@ -620,24 +620,25 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   }
 }
 
-/* Mobile drawer: above banner (z-50) while open and during close. */
+/* Mobile drawer: above Ask AI (z-100) while open and during close. */
 @media (max-width: 767px) {
   .fixed.inset-0.z-40:has(+ [data-docs-sidebar][data-state="open"]),
-  .fixed.inset-0.z-\[60\]:has(+ [data-docs-sidebar]) {
-    z-index: 60 !important;
+  .fixed.inset-0.z-\[60\]:has(+ [data-docs-sidebar][data-state="open"]),
+  .fixed.inset-0.z-\[110\]:has(+ [data-docs-sidebar]) {
+    z-index: 110 !important;
   }
 
   [data-docs-sidebar][data-state="open"] {
-    z-index: 61 !important;
+    z-index: 111 !important;
   }
 
-  /* Fumadocs search dialog — above banner (z-50) and mobile drawer (z-61) */
+  /* Fumadocs search dialog — above the mobile drawer (z-111) */
   .fixed.inset-0.z-50.max-md\:backdrop-blur-xs[data-state="open"] {
-    z-index: 80 !important;
+    z-index: 120 !important;
   }
 
   .fixed.left-1\/2.top-4.z-50.rounded-2xl[data-state="open"] {
-    z-index: 81 !important;
+    z-index: 121 !important;
   }
 }
 

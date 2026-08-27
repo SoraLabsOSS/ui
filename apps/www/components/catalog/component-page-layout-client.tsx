@@ -179,7 +179,8 @@ export function ComponentPageLayoutClient({
       <div
         className={cn(
           "max-lg:order-1",
-          "lg:absolute lg:top-0 lg:right-1/2 lg:left-0 lg:z-30",
+          "lg:absolute lg:top-0 lg:right-1/2 lg:left-0",
+          isCatalogMenuOpen ? "lg:z-[120]" : "lg:z-30",
           !isLayoutReady && "pointer-events-none"
         )}
       >

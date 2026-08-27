@@ -87,7 +87,9 @@ export function DocsMobileDrawer({
         aria-hidden={!raised}
         aria-label="Close menu"
         className={cn(
-          "fixed inset-0 z-[60] cursor-default backdrop-blur-xs transition-opacity duration-250 motion-reduce:transition-none md:hidden",
+          "fixed inset-0 cursor-default backdrop-blur-xs transition-opacity duration-250 motion-reduce:transition-none md:hidden",
+          // Above AI chat (`z-[100]`) while open so Ask AI cannot cover the drawer.
+          raised ? "z-[110]" : "z-[60]",
           show ? "opacity-100" : "opacity-0",
           show || overlayLocked ? "pointer-events-auto" : "pointer-events-none"
         )}
@@ -110,7 +112,7 @@ export function DocsMobileDrawer({
                 show
                   ? "max-md:translate-x-0"
                   : "max-md:pointer-events-none max-md:-translate-x-[calc(100%+1.25rem)]",
-                raised && "max-md:z-[61]",
+                raised && "max-md:z-[111]",
                 "md:pointer-events-auto md:fixed md:inset-s-0 md:top-(--fd-sidebar-top) md:bottom-(--fd-sidebar-margin,0px) md:z-20 md:translate-x-0 md:items-end md:rounded-none md:border-e md:bg-fd-card md:text-sm md:shadow-none",
                 "md:*:w-(--fd-sidebar-width)",
                 desktopClassName
@@ -121,7 +123,7 @@ export function DocsMobileDrawer({
                 show
                   ? "translate-x-0"
                   : "pointer-events-none -translate-x-[calc(100%+1.25rem)]",
-                raised && "z-[61]"
+                raised && "z-[111]"
               ),
           className
         )}

@@ -157,7 +157,8 @@ export const catalogPreviewMobileViewportClassName = [
   catalogPreviewMobileChromeInsetClassName,
 ].join(" ");
 
-/** Fixed chrome on stacked layout — stays visible while page scrolls. */
+/** Fixed chrome on stacked layout — stays visible while page scrolls.
+ * Keep below AI chat (`z-[100]` in `components/ai/search.tsx`). */
 export const catalogDocsHeaderMobileFixedClassName = [
   "max-lg:fixed max-lg:inset-x-0 max-lg:top-(--fd-banner-height) max-lg:z-[60]",
   "max-lg:border-border/40 max-lg:border-b",
@@ -180,29 +181,33 @@ export const catalogDocsHeaderMobileMenuOpenClassName = [
   "max-lg:supports-[backdrop-filter]:bg-transparent",
 ].join(" ");
 
-/** Desktop flyout open — keep docs header chrome above the aside panel. */
-export const catalogDocsHeaderDesktopMenuOpenClassName =
-  "lg:relative lg:z-[25]";
+/** Desktop flyout open — parent column is `lg:z-[120]`; keep header in flow. */
+export const catalogDocsHeaderDesktopMenuOpenClassName = "lg:relative";
 
 /** Floating chrome chips stay clickable while the flyout overlay is open. */
 export const catalogMobileChromeInteractiveClassName =
   "max-lg:pointer-events-auto";
 
-/** Fixed mobile menu chip layer (`document.body`).
- * Above the flyout aside (`z-[81]`); toolbar stays in the header (`z-[60]`).
- * Source drawer stays below toolbar (`z-[55]`). */
+/** Fixed mobile menu chip layer (`document.body`). Position only — z-index is
+ * applied separately so the idle/open layers never fight in the stylesheet. */
 export const catalogMobileMenuChipFixedClassName = [
-  "pointer-events-auto fixed z-[90]",
+  "pointer-events-auto fixed",
   "top-[calc(var(--fd-banner-height)+1rem)]",
   "left-4 sm:left-8 md:left-16",
 ].join(" ");
 
+/** Idle chip — above header toolbar (`z-[60]`), below AI chat (`z-[100]`). */
+export const catalogMobileMenuChipIdleLayerClassName = "z-[90]";
+
+/** Open chip — above the flyout aside (`z-[111]`) so the toggle stays clickable. */
+export const catalogMobileMenuChipMenuOpenLayerClassName = "z-[120]";
+
 /**
- * Cursor-following nav preview — above flyout aside (`z-[81]`),
- * below the fixed menu chip (`z-[90]`).
+ * Cursor-following nav preview — above the flyout aside (`z-[111]`),
+ * below the open menu chip (`z-[120]`).
  */
 export const catalogNavHoverPreviewLayerClassName = [
-  "pointer-events-none fixed top-0 left-0 z-[88] w-56",
+  "pointer-events-none fixed top-0 left-0 z-[115] w-56",
 ].join(" ");
 
 /** @deprecated Use catalogMobileMenuChipFixedClassName */
@@ -236,8 +241,11 @@ export const catalogSourcePanelGutterClassName = [
   "lg:pt-4 lg:pb-4 lg:pl-4 lg:pr-1.5",
 ].join(" ");
 
-/** Mobile bottom sheet — below fixed catalog chrome, above in-flow preview content. */
-export const catalogSourcePanelMobileLayerClassName = "max-lg:z-[55]";
+/**
+ * Mobile source sheet — above AI chat (`z-[100]`), below catalog flyout
+ * (`z-[110]`). Height is capped under the header so `</>` stays visible.
+ */
+export const catalogSourcePanelMobileLayerClassName = "max-lg:z-[105]";
 
 /** Desktop split view — overlays the preview column. */
 export const catalogSourcePanelDesktopLayerClassName = "lg:z-70";
@@ -272,21 +280,21 @@ export const catalogPreviewToolbarRowClassName = [
 
 /**
  * Dimmed overlay behind the flyout catalog menu.
- * Desktop `z-[21]` sits above the preview column (`z-20`) but below the aside + docs header.
+ * Above AI chat (`z-[100]`) at every breakpoint so Ask AI cannot sit on
+ * the backdrop. Aside is `z-[111]`; open chrome is `z-[120]`.
  */
 export const catalogSidebarBackdropClassName = [
-  "fixed inset-0 bg-background/50 backdrop-blur-[2px]",
+  "fixed inset-0 z-[110] bg-background/50 backdrop-blur-[2px]",
   "pointer-events-auto",
-  "max-lg:z-[80]",
-  "lg:z-[21] lg:bg-background/40",
+  "lg:bg-background/40",
 ].join(" ");
 
 /** Flyout catalog sidebar (Skiper-style rail), toggled from the menu button. */
 export const catalogDesktopSidebarAsideClassName = [
   "fixed top-(--fd-banner-height) h-[calc(100dvh-var(--fd-banner-height))]",
-  "pointer-events-auto left-0",
+  "pointer-events-auto left-0 z-[111]",
   "w-[min(20rem,calc(100vw-0.5rem))] p-3",
-  "max-lg:z-[81] lg:z-[22] lg:left-2 lg:w-[320px] lg:p-4 lg:pr-2 lg:pl-2",
+  "lg:left-2 lg:w-[320px] lg:p-4 lg:pr-2 lg:pl-2",
 ].join(" ");
 
 export const catalogDesktopSidebarPanelClassName = [
