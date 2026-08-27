@@ -24,6 +24,7 @@ import {
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 import { uiSource } from "@/lib/ui/source";
+import { getUiFamilyLabel, getUiQualifiedTitle } from "@/lib/ui/ui-family";
 import { getMDXComponents } from "@/mdx-components";
 
 export default async function Page(props: {
@@ -45,6 +46,7 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
   }
 
   const MDXContent = page.data.body;
+  const familyLabel = getUiFamilyLabel(page.url);
   const tree = uiSource.getPageTree();
   const { previous, next: nextPage } = findNeighbour(tree, page.url);
   const uiUrl = getFirstUiDocUrl();
@@ -101,7 +103,14 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
     >
       <DocsPageJsonLd page={page} />
       <div className="flex w-full flex-row items-start justify-between gap-2">
-        <DocsTitle className="font-medium">{page.data.title}</DocsTitle>
+        <DocsTitle className="font-medium">
+          {page.data.title}
+          {familyLabel ? (
+            <span className="font-normal text-muted-foreground">
+              {` · ${familyLabel}`}
+            </span>
+          ) : null}
+        </DocsTitle>
         {(prevNav || nextNav) && (
           <div className="flex flex-row items-center gap-1.5 pt-0.5">
             <Link
@@ -169,7 +178,7 @@ export async function generateMetadata(props: {
   }
 
   const ogPath = ["ui", ...slug];
-  const title = page.data.title;
+  const title = getUiQualifiedTitle(page.data.title, page.url);
 
   return {
     title,

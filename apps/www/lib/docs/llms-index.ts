@@ -3,6 +3,7 @@ import type { source } from "@/lib/docs/source";
 import type { componentSource } from "@/lib/registry/component-source";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 import type { uiSource } from "@/lib/ui/source";
+import { getUiQualifiedTitle } from "@/lib/ui/ui-family";
 
 type DocsPage = InferPageType<typeof source>;
 type ComponentPage = InferPageType<typeof componentSource>;
@@ -12,7 +13,7 @@ type LlmsIndexPage = DocsPage | ComponentPage | UiPage;
 function formatPageLine(page: LlmsIndexPage): string {
   const description = page.data.description?.trim();
   const suffix = description ? `: ${description}` : "";
-  return `- [${page.data.title}](${SITE_URL}${page.url})${suffix}`;
+  return `- [${getUiQualifiedTitle(page.data.title, page.url)}](${SITE_URL}${page.url})${suffix}`;
 }
 
 /** Build `llms.txt` index for docs, UI kit, and component catalog pages. */

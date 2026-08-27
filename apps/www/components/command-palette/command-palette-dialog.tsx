@@ -48,6 +48,7 @@ import {
   useCommandPaletteSearch,
 } from "@/lib/command-palette/use-command-palette-search";
 import { setThemeWithTransition } from "@/lib/theme/set-theme-with-transition";
+import { getUiSearchHint } from "@/lib/ui/ui-family";
 import {
   CommandPaletteInputShortcut,
   CommandPaletteShortcut,
@@ -179,6 +180,7 @@ function CommandSearchResultItem({
 }) {
   const isPage = result.type === "page";
   const isNested = !isPage;
+  const hint = getUiSearchHint(result.url, result.content);
 
   return (
     <CommandHighlightItem
@@ -195,11 +197,16 @@ function CommandSearchResultItem({
       {isNested ? (
         <div
           aria-hidden
-          className="absolute inset-y-0 start-[18px] w-px bg-border"
+          className="absolute inset-s-4.5 inset-y-0 w-px bg-border"
         />
       ) : null}
       <SearchResultIcon type={result.type} />
       <span className="min-w-0 flex-1 truncate">{result.content}</span>
+      {hint ? (
+        <span className="ml-auto shrink-0 text-muted-foreground text-xs">
+          {hint}
+        </span>
+      ) : null}
     </CommandHighlightItem>
   );
 }
@@ -384,14 +391,14 @@ export function CommandPaletteDialog({
       <DialogPortal>
         <DialogOverlay
           animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[1000] bg-black/60"
+          className="fixed inset-0 z-1000 bg-black/60"
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
         />
         <DialogContent
           className={cn(
-            "fixed top-[max(1rem,10dvh)] right-4 left-4 z-[1001] mx-auto flex max-h-[85dvh] max-w-xl flex-col overflow-hidden rounded-2xl border bg-popover p-0 shadow-lg outline-none",
+            "fixed top-[max(1rem,10dvh)] right-4 left-4 z-1001 mx-auto flex max-h-[85dvh] max-w-xl flex-col overflow-hidden rounded-2xl border bg-popover p-0 shadow-lg outline-none",
             "md:top-[max(1rem,calc(50%-220px))] md:max-h-none"
           )}
           from="left"

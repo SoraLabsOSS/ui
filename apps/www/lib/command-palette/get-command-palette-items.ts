@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { baseOptions } from "@/app/layout.config";
 import motionMeta from "@/content/docs/motion/meta.json";
+import uiMeta from "@/content/ui/meta.json";
 import { blog } from "@/lib/blog/source";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
@@ -12,6 +13,8 @@ import {
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
 import type { ComponentGalleryCategory } from "@/lib/registry/types";
 import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
+import { uiSource } from "@/lib/ui/source";
+import { getUiFamilyLabel } from "@/lib/ui/ui-family";
 import type { CommandPaletteGroup, CommandPaletteItem } from "./types";
 
 function sectionTitle(category: ComponentGalleryCategory): string {
@@ -174,6 +177,39 @@ function getComponentItems(): CommandPaletteItem[] {
     });
 }
 
+function getUiItems(): CommandPaletteItem[] {
+  const pagesByPath = new Map(
+    uiSource.getPages().map((page) => [page.slugs.join("/"), page] as const)
+  );
+
+  const items: CommandPaletteItem[] = [];
+
+  for (const entry of uiMeta.pages) {
+    if (entry.startsWith("---")) {
+      continue;
+    }
+
+    const page = pagesByPath.get(entry);
+    if (!page || page.url === "/ui") {
+      continue;
+    }
+
+    items.push(
+      item({
+        id: `ui-${page.url}`,
+        label: page.data.title,
+        hint: getUiFamilyLabel(page.url) ?? "UI",
+        href: page.url,
+        icon: "box",
+        path: page.url,
+        keywords: page.data.description ? [page.data.description] : undefined,
+      })
+    );
+  }
+
+  return items;
+}
+
 function getIconItems(): CommandPaletteItem[] {
   const icons: CommandPaletteItem[] = [];
 
@@ -290,6 +326,7 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
 
   const documentation = getDocumentationItems();
   const primitives = getPrimitiveItems();
+  const uiPages = getUiItems();
   const components = getComponentItems();
   const iconPages = getIconItems();
   const blogPosts = getBlogItems();
@@ -308,6 +345,10 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
 
   if (primitives.length > 0) {
     groups.push({ id: "motion", label: "Motion", items: primitives });
+  }
+
+  if (uiPages.length > 0) {
+    groups.push({ id: "ui", label: "UI", items: uiPages });
   }
 
   if (components.length > 0) {

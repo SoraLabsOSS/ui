@@ -6,6 +6,7 @@ import {
   SITE_OG_HERO_TITLE,
 } from "@/lib/site";
 import { uiSource } from "@/lib/ui/source";
+import { getUiQualifiedTitle } from "@/lib/ui/ui-family";
 
 export interface OgPageContent {
   description?: string;
@@ -56,7 +57,7 @@ export function resolveOgPage(slug: string[]): OgPageContent | null {
     }
 
     return {
-      title: page.data.title,
+      title: getUiQualifiedTitle(page.data.title, page.url),
       description: page.data.description,
     };
   }

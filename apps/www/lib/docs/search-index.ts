@@ -5,6 +5,7 @@ import { blog } from "@/lib/blog/source";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
 import { uiSource } from "@/lib/ui/source";
+import { getUiQualifiedTitle } from "@/lib/ui/ui-family";
 
 type SearchablePage =
   | InferPageType<typeof source>
@@ -32,9 +33,13 @@ function pageToAdvancedIndex(page: SearchablePage): AdvancedIndex {
   }
 
   const structuredData = page.data.structuredData;
+  const title = getUiQualifiedTitle(
+    page.data.title ?? page.slugs.at(-1) ?? page.url,
+    page.url
+  );
 
   return {
-    title: page.data.title ?? page.slugs.at(-1) ?? page.url,
+    title,
     description: "description" in page.data ? page.data.description : undefined,
     url: page.url,
     id: page.url,
@@ -73,7 +78,7 @@ export function getStaticSearchDocuments(): OramaDocument[] {
       structured: page.data.structuredData,
       tag: getSearchTag(page),
       url: page.url,
-      title: page.data.title,
+      title: getUiQualifiedTitle(page.data.title, page.url),
       description: page.data.description,
     } satisfies OramaDocument;
   });
