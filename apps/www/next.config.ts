@@ -144,6 +144,18 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/",
+        has: [{ type: "host", value: "ui.soralabs.io.vn" }],
+        destination: "https://ui.soralabs.studio/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "ui.soralabs.io.vn" }],
+        destination: "https://ui.soralabs.studio/:path*",
+        permanent: true,
+      },
+      {
         source: "/privacy",
         destination: "/legal/privacy",
         permanent: true,
