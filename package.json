@@ -40,6 +40,8 @@
     "format:write": "ultracite fix",
     "format:check": "ultracite check",
     "registry:build": "bun run --cwd apps/www registry:build",
+    "create:primitive": "bun packages/www-cli/src/index.ts create primitive",
+    "test:www-cli": "bun run --cwd packages/www-cli test",
     "prepare": "lefthook install",
     "check": "ultracite check",
     "check-types": "turbo check-types",

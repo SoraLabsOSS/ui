@@ -125,6 +125,8 @@ There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
 ### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
 
+**Shortcut (scaffold):** from the repo root, run `bun run create:primitive` (interactive) or `bun run create:primitive <name> --category=<texts|buttons|disclosure|effects|animate> --yes` to generate the registry folder, MDX page, and `meta.json` entry, then run `registry:build`. Verify with `bun run test:www-cli`. See `packages/www-cli`.
+
 1. Edit **`registry/primitives/<category>/<name>/index.tsx`** and **`registry-item.json`**.
 2. Set **`meta.demoProps`** on `registry-item.json` for Tweakpane controls and auto Code tab snippet (or add manual demo in `registry/demo/primitives/...` for multi-component layouts).
 3. Edit **`content/docs/motion/<name>.mdx`** with `<ComponentPreview />`, `<ComponentInstallation />`, `<TypeTable>`, and `<ComponentCredits />`.
