@@ -657,9 +657,11 @@ export const previewComponents: Record<string, any> = {`;
         const resolvedFilePath = path.resolve(filePath);
 
         try {
-          // Read the file content (preserving newlines)
+          // Read the file content (preserving newlines as LF)
           const content = await fs.readFile(resolvedFilePath, "utf-8");
-          const processedContent = replaceRegistryPaths(content).trim(); // Trim leading/trailing spaces
+          const processedContent = replaceRegistryPaths(content)
+            .replace(/\r\n/g, "\n")
+            .trim(); // Trim leading/trailing spaces
 
           return {
             path: filePath,
@@ -853,9 +855,12 @@ async function buildRegistry() {
 
       const registryItem = JSON.parse(content);
 
-      // Replace `@/registry` in file contents
+      // Replace `@/registry` in file contents and normalize line endings to LF
       registryItem.files = registryItem.files?.map(
         (entry: RegistryItemFile & { content?: string }) => {
+          if (entry.content) {
+            entry.content = entry.content.replace(/\r\n/g, "\n");
+          }
           if (
             entry.content?.includes("@/registry") ||
             entry.content?.includes("@workspace/ui/")
