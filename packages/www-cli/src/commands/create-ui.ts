@@ -1,23 +1,23 @@
 import path from "node:path";
 import { log, note, outro, spinner } from "@clack/prompts";
-import { insertIntoMotionMeta } from "../lib/meta-json.js";
+import { insertIntoUiMeta } from "../lib/meta-json.js";
 import {
   findRepoRoot,
-  getPrimitivePaths,
+  getUiPaths,
   getWwwRoot,
-  type PrimitiveCategory,
+  type UiFramework,
 } from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
-import type { CreatePrimitiveOptions } from "../lib/resolve-create-primitive-options.js";
-import { resolveCreatePrimitiveOptions } from "../lib/resolve-create-primitive-options.js";
+import type { CreateUiOptions } from "../lib/resolve-create-ui-options.js";
+import { resolveCreateUiOptions } from "../lib/resolve-create-ui-options.js";
 import {
-  buildScaffoldLabels,
-  renderDemoIndex,
-  renderDemoRegistryItem,
-  renderMotionMdx,
-  renderPrimitiveIndex,
-  renderPrimitiveRegistryItem,
-} from "../lib/templates.js";
+  buildUiScaffoldLabels,
+  renderUiDemoIndex,
+  renderUiDemoRegistryItem,
+  renderUiIndex,
+  renderUiMdx,
+  renderUiRegistryItem,
+} from "../lib/ui-templates.js";
 import {
   findExistingPaths,
   type ScaffoldFile,
@@ -30,37 +30,28 @@ function relativeFromWww(wwwRoot: string, absolutePath: string): string {
 
 function buildScaffoldPlan(
   wwwRoot: string,
-  category: PrimitiveCategory,
+  framework: UiFramework,
   name: string,
   withDemo: boolean
-): { files: ScaffoldFile[]; labels: ReturnType<typeof buildScaffoldLabels> } {
-  const paths = getPrimitivePaths(wwwRoot, category, name);
-  const labels = buildScaffoldLabels(name);
+): {
+  files: ScaffoldFile[];
+  labels: ReturnType<typeof buildUiScaffoldLabels>;
+} {
+  const paths = getUiPaths(wwwRoot, framework, name);
+  const labels = buildUiScaffoldLabels(framework, name);
 
   const files: ScaffoldFile[] = [
     {
-      relativePath: relativeFromWww(wwwRoot, paths.primitiveIndexPath),
-      contents: renderPrimitiveIndex(name, labels.exportName),
+      relativePath: relativeFromWww(wwwRoot, paths.uiIndexPath),
+      contents: renderUiIndex(framework, name, labels.exportName),
     },
     {
-      relativePath: relativeFromWww(wwwRoot, paths.primitiveRegistryItemPath),
-      contents: renderPrimitiveRegistryItem(
-        name,
-        category,
-        labels.exportName,
-        labels.title,
-        labels.description
-      ),
+      relativePath: relativeFromWww(wwwRoot, paths.uiRegistryItemPath),
+      contents: renderUiRegistryItem(framework, name, labels),
     },
     {
       relativePath: relativeFromWww(wwwRoot, paths.mdxPath),
-      contents: renderMotionMdx(
-        name,
-        category,
-        labels.title,
-        labels.description,
-        labels.exportName
-      ),
+      contents: renderUiMdx(framework, name, labels),
     },
   ];
 
@@ -68,16 +59,16 @@ function buildScaffoldPlan(
     files.push(
       {
         relativePath: relativeFromWww(wwwRoot, paths.demoIndexPath),
-        contents: renderDemoIndex(
+        contents: renderUiDemoIndex(
+          framework,
           name,
-          category,
           labels.exportName,
-          labels.demoExportName
+          labels.demoComponentName
         ),
       },
       {
         relativePath: relativeFromWww(wwwRoot, paths.demoRegistryItemPath),
-        contents: renderDemoRegistryItem(name, category, labels.title),
+        contents: renderUiDemoRegistryItem(framework, name, labels),
       }
     );
   }
@@ -85,16 +76,16 @@ function buildScaffoldPlan(
   return { files, labels };
 }
 
-export async function runCreatePrimitive(
+export async function runCreateUi(
   nameArg: string | undefined,
-  options: CreatePrimitiveOptions
+  options: CreateUiOptions
 ): Promise<void> {
   const repoRoot = findRepoRoot();
   const wwwRoot = getWwwRoot(repoRoot);
-  const resolved = await resolveCreatePrimitiveOptions(nameArg, options);
+  const resolved = await resolveCreateUiOptions(nameArg, options);
   const { files, labels } = buildScaffoldPlan(
     wwwRoot,
-    resolved.category,
+    resolved.framework,
     resolved.name,
     resolved.withDemo
   );
@@ -115,12 +106,14 @@ export async function runCreatePrimitive(
   writeSpinner.start("Writing scaffold files");
 
   const written = await writeScaffoldFiles(wwwRoot, files);
-  await insertIntoMotionMeta(
-    path.join(wwwRoot, "content/docs/motion/meta.json"),
-    resolved.category,
+  await insertIntoUiMeta(
+    path.join(wwwRoot, "content/ui/meta.json"),
+    resolved.framework,
     resolved.name
   );
-  written.push(`content/docs/motion/meta.json (+${resolved.name})`);
+  written.push(
+    `content/ui/meta.json (+${resolved.framework}/${resolved.name})`
+  );
 
   writeSpinner.stop("Scaffold created");
 
@@ -138,27 +131,30 @@ export async function runCreatePrimitive(
 
   note(
     [
+      `Registry name: ${labels.registryName}`,
       `Export name: ${labels.exportName}`,
       `demoProps key: ${labels.exportName}`,
-      withDemoNote(resolved.withDemo, labels.demoExportName),
+      `Preview demo: ${labels.demoRegistryName}`,
+      withDemoNote(resolved.withDemo, labels.demoComponentName),
       "",
       "Next steps:",
-      "  1. Implement animation in registry/primitives/.../index.tsx",
-      "  2. Expand content/docs/motion/<name>.mdx (Usage, Accessibility, Credits)",
+      "  1. Implement component in registry/ui/.../index.tsx",
+      "  2. Expand content/ui/<framework>/<name>.mdx (Examples, Props, Credits)",
       "  3. Tune meta.demoProps in registry-item.json",
+      "  4. Add variant demos under registry/demo/ui/... if needed",
       resolved.skipBuild
-        ? "  4. Run: cd apps/www && bun run registry:build"
-        : "  4. Preview: bun run dev:www → /motion/<name>",
+        ? "  5. Run: cd apps/www && bun run registry:build"
+        : `  5. Preview: bun run dev:www → /ui/${resolved.framework}/${resolved.name}`,
     ].join("\n"),
     "Contributor checklist"
   );
 
-  outro(`Created motion primitive "${resolved.name}".`);
+  outro(`Created ${resolved.framework} UI component "${resolved.name}".`);
 }
 
-function withDemoNote(withDemo: boolean, demoExportName: string): string {
+function withDemoNote(withDemo: boolean, demoComponentName: string): string {
   if (!withDemo) {
-    return "Manual demo: skipped (demoProps drives preview + Code tab)";
+    return "Manual demo: skipped (add registry/demo/ui/... before preview works)";
   }
-  return `Manual demo export: ${demoExportName}`;
+  return `Manual demo export: ${demoComponentName}`;
 }

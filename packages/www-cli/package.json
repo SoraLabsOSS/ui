@@ -9,6 +9,7 @@
   "scripts": {
     "create": "bun src/index.ts create",
     "create:primitive": "bun src/index.ts create primitive",
+    "create:ui": "bun src/index.ts create ui",
     "check-types": "tsc --noEmit",
     "lint": "ultracite check",
     "test": "bun test"

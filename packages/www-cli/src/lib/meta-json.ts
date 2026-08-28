@@ -1,36 +1,36 @@
 import { readFile, writeFile } from "node:fs/promises";
-import type { PrimitiveCategory } from "./paths.js";
-import { sectionForCategory } from "./paths.js";
+import { uiPageSlug } from "./naming.js";
+import type { PrimitiveCategory, UiFramework } from "./paths.js";
+import { sectionForCategory, sectionForFramework } from "./paths.js";
 
-interface MotionMetaJson {
+interface MetaJson {
   pages: string[];
 }
 
-function parseMetaJson(content: string): MotionMetaJson {
-  const parsed = JSON.parse(content) as MotionMetaJson;
+function parseMetaJson(content: string): MetaJson {
+  const parsed = JSON.parse(content) as MetaJson;
   if (!Array.isArray(parsed.pages)) {
-    throw new Error("content/docs/motion/meta.json is missing a pages array.");
+    throw new Error("meta.json is missing a pages array.");
   }
   return parsed;
 }
 
-export async function insertIntoMotionMeta(
+async function insertIntoSectionedMeta(
   metaJsonPath: string,
-  category: PrimitiveCategory,
-  name: string
+  sectionMarker: string,
+  pageSlug: string
 ): Promise<void> {
   const content = await readFile(metaJsonPath, "utf-8");
   const meta = parseMetaJson(content);
 
-  if (meta.pages.includes(name)) {
-    throw new Error(`"${name}" is already listed in motion meta.json.`);
+  if (meta.pages.includes(pageSlug)) {
+    throw new Error(`"${pageSlug}" is already listed in meta.json.`);
   }
 
-  const sectionMarker = sectionForCategory(category);
   const sectionIndex = meta.pages.indexOf(sectionMarker);
   if (sectionIndex === -1) {
     throw new Error(
-      `Section marker "${sectionMarker}" was not found in motion meta.json.`
+      `Section marker "${sectionMarker}" was not found in meta.json.`
     );
   }
 
@@ -43,8 +43,32 @@ export async function insertIntoMotionMeta(
     insertIndex += 1;
   }
 
-  meta.pages.splice(insertIndex, 0, name);
+  meta.pages.splice(insertIndex, 0, pageSlug);
 
   const nextContent = `${JSON.stringify(meta, null, 2)}\n`;
   await writeFile(metaJsonPath, nextContent, "utf-8");
+}
+
+export async function insertIntoMotionMeta(
+  metaJsonPath: string,
+  category: PrimitiveCategory,
+  name: string
+): Promise<void> {
+  await insertIntoSectionedMeta(
+    metaJsonPath,
+    sectionForCategory(category),
+    name
+  );
+}
+
+export async function insertIntoUiMeta(
+  metaJsonPath: string,
+  framework: UiFramework,
+  name: string
+): Promise<void> {
+  await insertIntoSectionedMeta(
+    metaJsonPath,
+    sectionForFramework(framework),
+    uiPageSlug(framework, name)
+  );
 }

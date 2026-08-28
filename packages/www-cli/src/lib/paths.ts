@@ -98,3 +98,53 @@ export function getPrimitivePaths(
     metaJsonPath: path.join(wwwRoot, "content", "docs", "motion", "meta.json"),
   };
 }
+
+export const UI_FRAMEWORKS = ["base", "radix"] as const;
+
+export type UiFramework = (typeof UI_FRAMEWORKS)[number];
+
+export const UI_SECTIONS: Record<UiFramework, string> = {
+  base: "---Base UI---",
+  radix: "---Radix UI---",
+};
+
+export function sectionForFramework(framework: UiFramework): string {
+  return UI_SECTIONS[framework];
+}
+
+export interface UiPaths {
+  componentName: string;
+  demoDir: string;
+  demoIndexPath: string;
+  demoRegistryItemPath: string;
+  framework: UiFramework;
+  mdxPath: string;
+  metaJsonPath: string;
+  uiDir: string;
+  uiIndexPath: string;
+  uiRegistryItemPath: string;
+  wwwRoot: string;
+}
+
+export function getUiPaths(
+  wwwRoot: string,
+  framework: UiFramework,
+  name: string
+): UiPaths {
+  const uiDir = path.join(wwwRoot, "registry", "ui", framework, name);
+  const demoDir = path.join(wwwRoot, "registry", "demo", "ui", framework, name);
+
+  return {
+    wwwRoot,
+    framework,
+    componentName: name,
+    uiDir,
+    uiIndexPath: path.join(uiDir, "index.tsx"),
+    uiRegistryItemPath: path.join(uiDir, "registry-item.json"),
+    demoDir,
+    demoIndexPath: path.join(demoDir, "index.tsx"),
+    demoRegistryItemPath: path.join(demoDir, "registry-item.json"),
+    mdxPath: path.join(wwwRoot, "content", "ui", framework, `${name}.mdx`),
+    metaJsonPath: path.join(wwwRoot, "content", "ui", "meta.json"),
+  };
+}

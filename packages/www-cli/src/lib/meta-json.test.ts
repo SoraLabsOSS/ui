@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "bun:test";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { insertIntoMotionMeta } from "./meta-json.js";
+import { insertIntoMotionMeta, insertIntoUiMeta } from "./meta-json.js";
 
 const ALREADY_LISTED_ERROR = /already listed/i;
 
@@ -55,5 +55,53 @@ describe("insertIntoMotionMeta", () => {
     await expect(
       insertIntoMotionMeta(metaPath, "effects", "highlight")
     ).rejects.toThrow(ALREADY_LISTED_ERROR);
+  });
+});
+
+describe("insertIntoUiMeta", () => {
+  let tempDir = "";
+
+  afterEach(async () => {
+    if (tempDir) {
+      await rm(tempDir, { recursive: true, force: true });
+      tempDir = "";
+    }
+  });
+
+  it("inserts a nested page slug at the end of the framework section", async () => {
+    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-ui-meta-"));
+    const metaPath = path.join(tempDir, "meta.json");
+    await writeFile(
+      metaPath,
+      `${JSON.stringify(
+        {
+          pages: [
+            "---Overview---",
+            "roadmap",
+            "---Base UI---",
+            "base/button",
+            "---Radix UI---",
+            "radix/button",
+          ],
+        },
+        null,
+        2
+      )}\n`
+    );
+
+    await insertIntoUiMeta(metaPath, "base", "switch");
+
+    const meta = JSON.parse(await readFile(metaPath, "utf-8")) as {
+      pages: string[];
+    };
+    expect(meta.pages).toEqual([
+      "---Overview---",
+      "roadmap",
+      "---Base UI---",
+      "base/button",
+      "base/switch",
+      "---Radix UI---",
+      "radix/button",
+    ]);
   });
 });

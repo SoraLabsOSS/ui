@@ -41,6 +41,7 @@
     "format:check": "ultracite check",
     "registry:build": "bun run --cwd apps/www registry:build",
     "create:primitive": "bun packages/www-cli/src/index.ts create primitive",
+    "create:ui": "bun packages/www-cli/src/index.ts create ui",
     "test:www-cli": "bun run --cwd packages/www-cli test",
     "prepare": "lefthook install",
     "check": "ultracite check",

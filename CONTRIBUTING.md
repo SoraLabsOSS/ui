@@ -117,10 +117,12 @@ There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
 ### Flow 1: Adding a UI component (`/ui` — Base UI / Radix UI + Motion)
 
+**Shortcut (scaffold):** from the repo root, run `bun run create:ui` (interactive) or `bun run create:ui <name> --framework=<base|radix> --yes` to generate the registry folder, manual demo, MDX page, and `meta.json` entry. Use `--skip-demo` to omit the demo folder. Verify with `bun run test:www-cli`. See `packages/www-cli`.
+
 1. Write/edit **`registry/ui/base/<name>/index.tsx`** (or `registry/ui/radix/<name>/index.tsx`) and **`registry-item.json`**.
 2. Add manual demo under **`registry/demo/ui/base/<name>/index.tsx`** (or `radix`) to demonstrate diverse usage patterns (forms, descriptions, cards, custom class overrides).
-3. Create/edit **`content/ui/<name>.mdx`** with `<ComponentPreview name="<name>" />`, `<ComponentInstallation name="<name>" />`, `<TypeTable>`, and `<ComponentCredits name="<name>" />`.
-4. Register `"<name>"` in **`content/ui/meta.json`** under the appropriate section.
+3. Create/edit **`content/ui/<framework>/<name>.mdx`** with `<ComponentPreview name="demo-<name>" />` (or `demo-radix-<name>` for Radix), `<ComponentInstallation name="<framework>-<name>" />`, `<TypeTable>`, and `<ComponentCredits />`.
+4. Register `"<framework>/<name>"` in **`content/ui/meta.json`** under the appropriate section.
 5. Run **`bun run registry:build`**.
 
 ### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
