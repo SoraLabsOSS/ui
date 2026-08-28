@@ -92,4 +92,28 @@ describe("create ui integration", () => {
     expect(result.status).toBe(0);
     expect(result.stderr).not.toMatch(INTERACTIVE_PROMPT_ERROR);
   });
+
+  it("does not write files in dry-run mode", async () => {
+    await runCreateUi(UI_FIXTURE_NAME, {
+      framework,
+      yes: true,
+      dryRun: true,
+      skipBuild: true,
+    });
+
+    expect(await pathExists(paths.uiIndexPath)).toBe(false);
+    expect(await pathExists(paths.mdxPath)).toBe(false);
+  });
+
+  it("runs through the CLI with --no-input", () => {
+    const result = runCli([
+      UI_FIXTURE_NAME,
+      "--framework=base",
+      "--no-input",
+      "--skip-build",
+    ]);
+
+    expect(result.status).toBe(0);
+    expect(result.stderr).not.toMatch(INTERACTIVE_PROMPT_ERROR);
+  });
 });

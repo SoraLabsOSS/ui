@@ -5,14 +5,18 @@ import {
   PRIMITIVE_CATEGORIES,
   type PrimitiveCategory,
 } from "./paths.js";
-import { isInteractiveTerminal, nonInteractiveHint } from "./terminal.js";
+import {
+  allowsPrompts,
+  isScripted,
+  type ScaffoldRunFlags,
+} from "./scaffold-flags.js";
+import { nonInteractiveHint } from "./terminal.js";
 
-export interface CreatePrimitiveOptions {
+export interface CreatePrimitiveOptions extends ScaffoldRunFlags {
   category?: string;
   name?: string;
   skipBuild?: boolean;
   withDemo?: boolean;
-  yes?: boolean;
 }
 
 function isPrimitiveCategory(value: string): value is PrimitiveCategory {
@@ -21,15 +25,18 @@ function isPrimitiveCategory(value: string): value is PrimitiveCategory {
 
 function assertCanPrompt(
   nameArg: string | undefined,
-  options: CreatePrimitiveOptions,
-  interactive: boolean
+  options: CreatePrimitiveOptions
 ): void {
   const hasName = Boolean(nameArg?.trim());
   const hasCategory = Boolean(
     options.category && isPrimitiveCategory(options.category)
   );
 
-  if (interactive || options.yes || (hasName && hasCategory)) {
+  if (
+    allowsPrompts(options) ||
+    isScripted(options) ||
+    (hasName && hasCategory)
+  ) {
     return;
   }
 
@@ -109,14 +116,13 @@ async function resolveName(
 
 async function resolveWithDemo(
   withDemoOption: boolean | undefined,
-  interactive: boolean,
-  yes: boolean | undefined
+  options: CreatePrimitiveOptions
 ): Promise<boolean> {
-  if (withDemoOption !== undefined || yes) {
+  if (withDemoOption !== undefined || isScripted(options)) {
     return withDemoOption ?? false;
   }
 
-  if (!interactive) {
+  if (!allowsPrompts(options)) {
     return false;
   }
 
@@ -136,31 +142,33 @@ export async function resolveCreatePrimitiveOptions(
   options: CreatePrimitiveOptions
 ): Promise<{
   category: PrimitiveCategory;
+  dryRun: boolean;
   name: string;
+  quiet: boolean;
   skipBuild: boolean;
   withDemo: boolean;
 }> {
-  const interactive = isInteractiveTerminal();
-  assertCanPrompt(nameArg, options, interactive);
+  assertCanPrompt(nameArg, options);
+  const interactive = allowsPrompts(options);
 
-  intro(
-    options.yes
-      ? "www-cli · create primitive"
-      : "www-cli · create motion primitive"
-  );
+  if (!(options.quiet || options.dryRun)) {
+    intro(
+      isScripted(options)
+        ? "www-cli · create primitive"
+        : "www-cli · create motion primitive"
+    );
+  }
 
   const category = await resolveCategory(options.category, interactive);
   const name = await resolveName(nameArg, interactive);
-  const withDemo = await resolveWithDemo(
-    options.withDemo,
-    interactive,
-    options.yes
-  );
+  const withDemo = await resolveWithDemo(options.withDemo, options);
 
   return {
     category,
     name,
     withDemo,
+    dryRun: options.dryRun ?? false,
+    quiet: options.quiet ?? false,
     skipBuild: options.skipBuild ?? false,
   };
 }

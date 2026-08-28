@@ -117,7 +117,7 @@ There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
 ### Flow 1: Adding a UI component (`/ui` — Base UI / Radix UI + Motion)
 
-**Shortcut (scaffold):** from the repo root, run `bun run create:ui` (interactive) or `bun run create:ui <name> --framework=<base|radix> --yes` to generate the registry folder, manual demo, MDX page, and `meta.json` entry. Use `--skip-demo` to omit the demo folder. Verify with `bun run test:www-cli`. See `packages/www-cli`.
+**Shortcut (scaffold):** from the repo root, run `bun run create` (interactive wizard) or `bun run create:ui <name> --framework=<base|radix> --yes` to generate the registry folder, manual demo, MDX page, and `meta.json` entry. Use `--dry-run` to preview paths without writing, `--no-input` in CI (same requirements as `--yes`), and `--skip-demo` to omit the demo folder. Verify with `bun run test:www-cli` (or `bun run test:www-cli:slow` for a full `registry:build` integration check). See `packages/www-cli`.
 
 1. Write/edit **`registry/ui/base/<name>/index.tsx`** (or `registry/ui/radix/<name>/index.tsx`) and **`registry-item.json`**.
 2. Add manual demo under **`registry/demo/ui/base/<name>/index.tsx`** (or `radix`) to demonstrate diverse usage patterns (forms, descriptions, cards, custom class overrides).
@@ -127,7 +127,7 @@ There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
 ### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
 
-**Shortcut (scaffold):** from the repo root, run `bun run create:primitive` (interactive) or `bun run create:primitive <name> --category=<texts|buttons|disclosure|effects|animate> --yes` to generate the registry folder, MDX page, and `meta.json` entry, then run `registry:build`. Verify with `bun run test:www-cli`. See `packages/www-cli`.
+**Shortcut (scaffold):** from the repo root, run `bun run create` (interactive wizard) or `bun run create:primitive <name> --category=<texts|buttons|disclosure|effects|animate> --yes` to generate the registry folder, MDX page, and `meta.json` entry, then run `registry:build`. Use `--dry-run` to preview paths without writing, or `--no-input` in CI (same requirements as `--yes`). Verify with `bun run test:www-cli`. See `packages/www-cli`.
 
 1. Edit **`registry/primitives/<category>/<name>/index.tsx`** and **`registry-item.json`**.
 2. Set **`meta.demoProps`** on `registry-item.json` for Tweakpane controls and auto Code tab snippet (or add manual demo in `registry/demo/primitives/...` for multi-component layouts).

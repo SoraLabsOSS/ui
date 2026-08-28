@@ -1,5 +1,6 @@
 import path from "node:path";
-import { log, note, outro, spinner } from "@clack/prompts";
+import { note, outro, spinner } from "@clack/prompts";
+import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoUiMeta } from "../lib/meta-json.js";
 import {
   findRepoRoot,
@@ -96,23 +97,48 @@ export async function runCreateUi(
   );
 
   if (existing.length > 0) {
-    log.error(
+    throw new Error(
       `These paths already exist:\n${existing.map((item) => `  - ${item}`).join("\n")}`
     );
-    process.exit(1);
+  }
+
+  const metaUpdate = `content/ui/meta.json (+${resolved.framework}/${resolved.name})`;
+
+  if (resolved.dryRun) {
+    printDryRunPlan({
+      title: `${resolved.framework} UI component "${resolved.name}"`,
+      files: files.map((file) => file.relativePath),
+      metaUpdates: [metaUpdate],
+    });
+    return;
+  }
+
+  if (resolved.quiet) {
+    await writeScaffoldFiles(wwwRoot, files);
+    await insertIntoUiMeta(
+      path.join(wwwRoot, "content/ui/meta.json"),
+      resolved.framework,
+      resolved.name
+    );
+
+    if (!resolved.skipBuild) {
+      runRegistryBuild(wwwRoot, { quiet: true });
+    }
+
+    console.log(
+      `Created ${resolved.framework} UI component "${resolved.name}" (${files.length} files, meta updated).`
+    );
+    return;
   }
 
   const writeSpinner = spinner();
   writeSpinner.start("Writing scaffold files");
 
-  const written = await writeScaffoldFiles(wwwRoot, files);
+  await writeScaffoldFiles(wwwRoot, files);
   await insertIntoUiMeta(
     path.join(wwwRoot, "content/ui/meta.json"),
     resolved.framework,
     resolved.name
-  );
-  written.push(
-    `content/ui/meta.json (+${resolved.framework}/${resolved.name})`
   );
 
   writeSpinner.stop("Scaffold created");

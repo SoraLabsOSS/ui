@@ -20,8 +20,30 @@ export function toPascalCase(name: string): string {
 export function toTitleCase(name: string): string {
   return name
     .split("-")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .map((part) => formatTitleSegment(part))
     .join(" ");
+}
+
+const TITLE_ACRONYMS = new Set([
+  "api",
+  "cli",
+  "css",
+  "dom",
+  "mdx",
+  "og",
+  "svg",
+  "ui",
+  "url",
+  "www",
+]);
+
+function formatTitleSegment(segment: string): string {
+  const lower = segment.toLowerCase();
+  if (TITLE_ACRONYMS.has(lower)) {
+    return lower.toUpperCase();
+  }
+
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 
 export function categoryLabel(category: PrimitiveCategory): string {

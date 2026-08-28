@@ -51,6 +51,19 @@ export async function cleanupPrimitiveFixture(
   await writeFile(paths.metaJsonPath, `${JSON.stringify(meta, null, 2)}\n`);
 }
 
+export async function cleanupRegistryJsonArtifact(
+  name: string,
+  repoRoot = getRepoRoot()
+): Promise<void> {
+  const artifactPath = path.join(
+    getWwwRootFromRepo(repoRoot),
+    "public",
+    "r",
+    `${name}.json`
+  );
+  await rm(artifactPath, { force: true });
+}
+
 export async function cleanupUiFixture(
   framework: UiFramework,
   name = UI_FIXTURE_NAME,

@@ -1,15 +1,19 @@
 import { cancel, confirm, intro, isCancel, select, text } from "@clack/prompts";
 import { assertKebabCase, frameworkLabel } from "./naming.js";
 import { UI_FRAMEWORKS, UI_SECTIONS, type UiFramework } from "./paths.js";
-import { isInteractiveTerminal, nonInteractiveHint } from "./terminal.js";
+import {
+  allowsPrompts,
+  isScripted,
+  type ScaffoldRunFlags,
+} from "./scaffold-flags.js";
+import { nonInteractiveHint } from "./terminal.js";
 
-export interface CreateUiOptions {
+export interface CreateUiOptions extends ScaffoldRunFlags {
   framework?: string;
   name?: string;
   skipBuild?: boolean;
   skipDemo?: boolean;
   withDemo?: boolean;
-  yes?: boolean;
 }
 
 function isUiFramework(value: string): value is UiFramework {
@@ -18,15 +22,18 @@ function isUiFramework(value: string): value is UiFramework {
 
 function assertCanPrompt(
   nameArg: string | undefined,
-  options: CreateUiOptions,
-  interactive: boolean
+  options: CreateUiOptions
 ): void {
   const hasName = Boolean(nameArg?.trim());
   const hasFramework = Boolean(
     options.framework && isUiFramework(options.framework)
   );
 
-  if (interactive || options.yes || (hasName && hasFramework)) {
+  if (
+    allowsPrompts(options) ||
+    isScripted(options) ||
+    (hasName && hasFramework)
+  ) {
     return;
   }
 
@@ -102,21 +109,18 @@ async function resolveName(
   return entered.trim();
 }
 
-async function resolveWithDemo(
-  options: CreateUiOptions,
-  interactive: boolean
-): Promise<boolean> {
+async function resolveWithDemo(options: CreateUiOptions): Promise<boolean> {
   if (options.skipDemo) {
     return false;
   }
   if (options.withDemo !== undefined) {
     return options.withDemo;
   }
-  if (options.yes) {
+  if (isScripted(options)) {
     return true;
   }
 
-  if (!interactive) {
+  if (!allowsPrompts(options)) {
     return true;
   }
 
@@ -135,24 +139,34 @@ export async function resolveCreateUiOptions(
   nameArg: string | undefined,
   options: CreateUiOptions
 ): Promise<{
+  dryRun: boolean;
   framework: UiFramework;
   name: string;
+  quiet: boolean;
   skipBuild: boolean;
   withDemo: boolean;
 }> {
-  const interactive = isInteractiveTerminal();
-  assertCanPrompt(nameArg, options, interactive);
+  assertCanPrompt(nameArg, options);
+  const interactive = allowsPrompts(options);
 
-  intro(options.yes ? "www-cli · create ui" : "www-cli · create UI component");
+  if (!(options.quiet || options.dryRun)) {
+    intro(
+      isScripted(options)
+        ? "www-cli · create ui"
+        : "www-cli · create UI component"
+    );
+  }
 
   const framework = await resolveFramework(options.framework, interactive);
   const name = await resolveName(nameArg, interactive);
-  const withDemo = await resolveWithDemo(options, interactive);
+  const withDemo = await resolveWithDemo(options);
 
   return {
     framework,
     name,
     withDemo,
+    dryRun: options.dryRun ?? false,
+    quiet: options.quiet ?? false,
     skipBuild: options.skipBuild ?? false,
   };
 }

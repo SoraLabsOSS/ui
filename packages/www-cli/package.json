@@ -12,7 +12,8 @@
     "create:ui": "bun src/index.ts create ui",
     "check-types": "tsc --noEmit",
     "lint": "ultracite check",
-    "test": "bun test"
+    "test": "bun test",
+    "test:slow": "bun test src/registry-build.integration.test.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",

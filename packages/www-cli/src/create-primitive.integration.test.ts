@@ -115,4 +115,43 @@ describe("create primitive integration", () => {
     expect(result.status).toBe(1);
     expect(`${result.stdout}\n${result.stderr}`).toMatch(ALREADY_EXISTS_ERROR);
   });
+
+  it("does not write files in dry-run mode", async () => {
+    await runCreatePrimitive(FIXTURE_NAME, {
+      category,
+      yes: true,
+      dryRun: true,
+      skipBuild: true,
+    });
+
+    expect(await pathExists(paths.primitiveIndexPath)).toBe(false);
+    expect(await pathExists(paths.mdxPath)).toBe(false);
+  });
+
+  it("runs through the CLI with --no-input", () => {
+    const result = runCli([
+      FIXTURE_NAME,
+      "--category=effects",
+      "--no-input",
+      "--skip-build",
+    ]);
+
+    expect(result.status).toBe(0);
+    expect(result.stderr).not.toMatch(INTERACTIVE_PROMPT_ERROR);
+  });
+
+  it("prints a dry-run plan via the CLI", () => {
+    const result = runCli([
+      FIXTURE_NAME,
+      "--category=effects",
+      "--yes",
+      "--dry-run",
+    ]);
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toMatch(/Dry run/i);
+    expect(result.stdout).toContain(
+      `registry/primitives/${category}/${FIXTURE_NAME}`
+    );
+  });
 });

@@ -20,6 +20,8 @@ describe("naming", () => {
 
   it("converts kebab-case to title case", () => {
     expect(toTitleCase("border-trail")).toBe("Border Trail");
+    expect(toTitleCase("www-cli-smoke-test")).toBe("WWW CLI Smoke Test");
+    expect(toTitleCase("my-text")).toBe("My Text");
   });
 
   it("rejects invalid slugs", () => {
