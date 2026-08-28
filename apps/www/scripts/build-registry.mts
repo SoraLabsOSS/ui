@@ -489,10 +489,11 @@ export const previewComponents: Record<string, any> = {`;
     demoName: string,
     depName: string
   ): boolean => {
-    const strippedDep = depName.replace(UI_FRAMEWORK_PREFIX, "");
+    const rawDep = normalizeRegistryDependencyName(depName);
+    const strippedDep = rawDep.replace(UI_FRAMEWORK_PREFIX, "");
     return (
-      demoName === depName ||
-      demoName === `demo-${depName}` ||
+      demoName === rawDep ||
+      demoName === `demo-${rawDep}` ||
       demoName === `demo-${strippedDep}`
     );
   };
@@ -516,8 +517,9 @@ export const previewComponents: Record<string, any> = {`;
     }
 
     for (const dep of item.registryDependencies ?? []) {
+      const rawDep = normalizeRegistryDependencyName(dep);
       if (isCanonicalDemoForItem(item.name, dep)) {
-        const depItem = uniqueItemsMap.get(dep);
+        const depItem = uniqueItemsMap.get(rawDep) || uniqueItemsMap.get(dep);
         const inherited = depItem?.meta?.demoProps;
         if (inherited && Object.keys(inherited).length > 0) {
           return inherited;

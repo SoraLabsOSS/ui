@@ -871,7 +871,9 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/demo/primitives/effects/logo-carousel-swapper/index.tsx"
         );
-        const demoProps = {};
+        const demoProps = {
+          LogoCarouselSwapper: { monochrome: { value: true } },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -893,7 +895,9 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        LogoCarouselSwapper: { monochrome: { value: true } },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-logo-carousel-swapper",
@@ -975,7 +979,31 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/demo/primitives/effects/pixel-background/index.tsx"
         );
-        const demoProps = {};
+        const demoProps = {
+          PixelBackground: {
+            colors: {
+              value: "#f8fafc,#f1f5f9,#cbd5e1",
+              options: {
+                White: "#f8fafc,#f1f5f9,#cbd5e1",
+                Blue: "#e0f2fe,#7dd3fc,#0ea5e9",
+                Pink: "#fecdd3,#fda4af,#e11d48",
+              },
+            },
+            pattern: {
+              value: "center",
+              options: {
+                Center: "center",
+                Cursor: "cursor",
+                Spiral: "spiral",
+                Edges: "edges",
+                Random: "random",
+              },
+            },
+            gap: { value: 5, min: 2, max: 20, step: 1 },
+            speed: { value: 35, min: 0, max: 100, step: 1 },
+            pixelOpacity: { value: 1, min: 0.1, max: 1, step: 0.05 },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -997,7 +1025,31 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        PixelBackground: {
+          colors: {
+            value: "#f8fafc,#f1f5f9,#cbd5e1",
+            options: {
+              White: "#f8fafc,#f1f5f9,#cbd5e1",
+              Blue: "#e0f2fe,#7dd3fc,#0ea5e9",
+              Pink: "#fecdd3,#fda4af,#e11d48",
+            },
+          },
+          pattern: {
+            value: "center",
+            options: {
+              Center: "center",
+              Cursor: "cursor",
+              Spiral: "spiral",
+              Edges: "edges",
+              Random: "random",
+            },
+          },
+          gap: { value: 5, min: 2, max: 20, step: 1 },
+          speed: { value: 35, min: 0, max: 100, step: 1 },
+          pixelOpacity: { value: 1, min: 0.1, max: 1, step: 0.05 },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-pixel-background",
@@ -1131,7 +1183,18 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/components/catalog/scroll-gallery-catalog-preview"
         );
-        const demoProps = {};
+        const demoProps = {
+          ScrollGallery: {
+            prefixLabel: { value: "Featured" },
+            linkLabel: { value: "Explore" },
+            showPrefix: { value: true },
+            showLink: { value: true },
+            showInfoBand: { value: true },
+            scrollPerTransition: { value: 600, min: 200, max: 1500, step: 50 },
+            stripsCount: { value: 20, min: 4, max: 40, step: 2 },
+            scrub: { value: 1, min: 0, max: 3, step: 0.1 },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -1153,7 +1216,18 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        ScrollGallery: {
+          prefixLabel: { value: "Featured" },
+          linkLabel: { value: "Explore" },
+          showPrefix: { value: true },
+          showLink: { value: true },
+          showInfoBand: { value: true },
+          scrollPerTransition: { value: 600, min: 200, max: 1500, step: 50 },
+          stripsCount: { value: 20, min: 4, max: 40, step: 2 },
+          scrub: { value: 1, min: 0, max: 3, step: 0.1 },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-scroll-gallery",
@@ -1811,7 +1885,29 @@ export const index: Record<string, any> = {
         const mod = await import(
           "@/registry/demo/primitives/texts/text-effect/index.tsx"
         );
-        const demoProps = {};
+        const demoProps = {
+          TextEffectDemo: {
+            children: { value: "Motion-first text effects" },
+            preset: {
+              value: "fade-in-blur",
+              options: {
+                "Fade in blur": "fade-in-blur",
+                Blur: "blur",
+                Fade: "fade",
+                Slide: "slide",
+                Scale: "scale",
+              },
+            },
+            per: {
+              value: "word",
+              options: { Word: "word", Char: "char", Line: "line" },
+            },
+            delay: { value: 0, min: 0, max: 2, step: 0.1 },
+            speedReveal: { value: 1, min: 0.25, max: 3, step: 0.25 },
+            speedSegment: { value: 1, min: 0.25, max: 3, step: 0.25 },
+            scrollTrigger: { value: true },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -1833,7 +1929,29 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        TextEffectDemo: {
+          children: { value: "Motion-first text effects" },
+          preset: {
+            value: "fade-in-blur",
+            options: {
+              "Fade in blur": "fade-in-blur",
+              Blur: "blur",
+              Fade: "fade",
+              Slide: "slide",
+              Scale: "scale",
+            },
+          },
+          per: {
+            value: "word",
+            options: { Word: "word", Char: "char", Line: "line" },
+          },
+          delay: { value: 0, min: 0, max: 2, step: 0.1 },
+          speedReveal: { value: 1, min: 0.25, max: 3, step: 0.25 },
+          speedSegment: { value: 1, min: 0.25, max: 3, step: 0.25 },
+          scrollTrigger: { value: true },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-text-effect",
@@ -2522,7 +2640,34 @@ export const index: Record<string, any> = {
     component: (function () {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/base/button/index.tsx");
-        const demoProps = {};
+        const demoProps = {
+          Button: {
+            children: { value: "Button" },
+            variant: {
+              value: "default",
+              options: {
+                Default: "default",
+                Secondary: "secondary",
+                Destructive: "destructive",
+                Outline: "outline",
+                Ghost: "ghost",
+                Link: "link",
+              },
+            },
+            size: {
+              value: "default",
+              options: {
+                "Extra Small": "xs",
+                Small: "sm",
+                Default: "default",
+                Large: "lg",
+              },
+            },
+            hoverScale: { value: 1.05, min: 1, max: 1.3, step: 0.01 },
+            tapScale: { value: 0.95, min: 0.7, max: 1, step: 0.01 },
+            disableAnimation: { value: false },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -2544,7 +2689,34 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        Button: {
+          children: { value: "Button" },
+          variant: {
+            value: "default",
+            options: {
+              Default: "default",
+              Secondary: "secondary",
+              Destructive: "destructive",
+              Outline: "outline",
+              Ghost: "ghost",
+              Link: "link",
+            },
+          },
+          size: {
+            value: "default",
+            options: {
+              "Extra Small": "xs",
+              Small: "sm",
+              Default: "default",
+              Large: "lg",
+            },
+          },
+          hoverScale: { value: 1.05, min: 1, max: 1.3, step: 0.01 },
+          tapScale: { value: 0.95, min: 0.7, max: 1, step: 0.01 },
+          disableAnimation: { value: false },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-button",
@@ -2827,7 +2999,12 @@ export const index: Record<string, any> = {
     component: (function () {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/base/checkbox/index.tsx");
-        const demoProps = {};
+        const demoProps = {
+          Checkbox: {
+            label: { value: "Accept terms and conditions" },
+            disabled: { value: false },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -2849,7 +3026,12 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        Checkbox: {
+          label: { value: "Accept terms and conditions" },
+          disabled: { value: false },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-checkbox",
@@ -3234,7 +3416,34 @@ export const index: Record<string, any> = {
     component: (function () {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/radix/button/index.tsx");
-        const demoProps = {};
+        const demoProps = {
+          Button: {
+            children: { value: "Button" },
+            variant: {
+              value: "default",
+              options: {
+                Default: "default",
+                Secondary: "secondary",
+                Destructive: "destructive",
+                Outline: "outline",
+                Ghost: "ghost",
+                Link: "link",
+              },
+            },
+            size: {
+              value: "default",
+              options: {
+                "Extra Small": "xs",
+                Small: "sm",
+                Default: "default",
+                Large: "lg",
+              },
+            },
+            hoverScale: { value: 1.05, min: 1, max: 1.3, step: 0.01 },
+            tapScale: { value: 0.95, min: 0.7, max: 1, step: 0.01 },
+            disableAnimation: { value: false },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -3256,7 +3465,34 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        Button: {
+          children: { value: "Button" },
+          variant: {
+            value: "default",
+            options: {
+              Default: "default",
+              Secondary: "secondary",
+              Destructive: "destructive",
+              Outline: "outline",
+              Ghost: "ghost",
+              Link: "link",
+            },
+          },
+          size: {
+            value: "default",
+            options: {
+              "Extra Small": "xs",
+              Small: "sm",
+              Default: "default",
+              Large: "lg",
+            },
+          },
+          hoverScale: { value: 1.05, min: 1, max: 1.3, step: 0.01 },
+          tapScale: { value: 0.95, min: 0.7, max: 1, step: 0.01 },
+          disableAnimation: { value: false },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-radix-button",
@@ -3542,7 +3778,12 @@ export const index: Record<string, any> = {
     component: (function () {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/radix/checkbox/index.tsx");
-        const demoProps = {};
+        const demoProps = {
+          Checkbox: {
+            label: { value: "Accept terms and conditions" },
+            disabled: { value: false },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -3564,7 +3805,12 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        Checkbox: {
+          label: { value: "Accept terms and conditions" },
+          disabled: { value: false },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-radix-checkbox",

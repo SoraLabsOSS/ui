@@ -650,7 +650,55 @@
           "type": "registry:ui",
           "target": "components/sora-ui/demo/texts/text-effect.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "demoProps": {
+          "TextEffectDemo": {
+            "children": {
+              "value": "Motion-first text effects"
+            },
+            "preset": {
+              "value": "fade-in-blur",
+              "options": {
+                "Fade in blur": "fade-in-blur",
+                "Blur": "blur",
+                "Fade": "fade",
+                "Slide": "slide",
+                "Scale": "scale"
+              }
+            },
+            "per": {
+              "value": "word",
+              "options": {
+                "Word": "word",
+                "Char": "char",
+                "Line": "line"
+              }
+            },
+            "delay": {
+              "value": 0,
+              "min": 0,
+              "max": 2,
+              "step": 0.1
+            },
+            "speedReveal": {
+              "value": 1,
+              "min": 0.25,
+              "max": 3,
+              "step": 0.25
+            },
+            "speedSegment": {
+              "value": 1,
+              "min": 0.25,
+              "max": 3,
+              "step": 0.25
+            },
+            "scrollTrigger": {
+              "value": true
+            }
+          }
+        }
+      }
     },
     {
       "name": "demo-text-loop",
