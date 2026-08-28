@@ -116,6 +116,78 @@ function inferSyntheticDemoPath(item: RegistryItem): string {
   return `registry/demo/${item.name}/index.tsx`;
 }
 
+function getScaffoldHint(item: RegistryItem): string | null {
+  if (item.name.startsWith("primitives-") || item.name.startsWith("icons-")) {
+    return null;
+  }
+
+  const sourcePath = item.files?.[0]?.path ?? "";
+
+  const primitiveMatch = sourcePath.match(
+    /^registry\/primitives\/([^/]+)\/([^/]+)\//
+  );
+  if (primitiveMatch) {
+    const [, category, name] = primitiveMatch;
+    return `bun run create:primitive ${name} --category=${category} --yes`;
+  }
+
+  const uiMatch = sourcePath.match(/^registry\/ui\/(base|radix)\/([^/]+)\//);
+  if (uiMatch) {
+    const [, framework, name] = uiMatch;
+    return `bun run create:ui ${name} --framework=${framework} --yes`;
+  }
+
+  const demoUiMatch = sourcePath.match(
+    /^registry\/demo\/ui\/(base|radix)\/([^/]+)\//
+  );
+  if (demoUiMatch) {
+    const [, framework, name] = demoUiMatch;
+    return `bun run create:ui ${name} --framework=${framework} --yes`;
+  }
+
+  const demoPrimitiveMatch = sourcePath.match(
+    /^registry\/demo\/primitives\/([^/]+)\/([^/]+)\//
+  );
+  if (demoPrimitiveMatch) {
+    const [, category, name] = demoPrimitiveMatch;
+    return `bun run create:primitive ${name} --category=${category} --yes`;
+  }
+
+  if (item.name.startsWith("base-")) {
+    return `bun run create:ui ${item.name.slice("base-".length)} --framework=base --yes`;
+  }
+
+  if (item.name.startsWith("radix-")) {
+    return `bun run create:ui ${item.name.slice("radix-".length)} --framework=radix --yes`;
+  }
+
+  if (item.name.startsWith("demo-radix-")) {
+    const name = item.name.slice("demo-radix-".length);
+    return `bun run create:ui ${name} --framework=radix --yes`;
+  }
+
+  if (item.name.startsWith("demo-")) {
+    const name = item.name.slice("demo-".length);
+    return `bun run create:primitive ${name} --category=effects --yes`;
+  }
+
+  return `bun run create:primitive ${item.name} --category=effects --yes`;
+}
+
+function logUndocumentedRegistrySkip(item: RegistryItem): void {
+  console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
+
+  const hint = getScaffoldHint(item);
+  if (hint) {
+    console.log(`   → Scaffold docs + meta.json: ${hint}`);
+    return;
+  }
+
+  console.log(
+    "   → Add an MDX page with ComponentPreview / ComponentInstallation for this item."
+  );
+}
+
 const REGISTRY_JSON_PATH = path.join(
   process.cwd(),
   "public",
@@ -329,7 +401,7 @@ async function buildRegistryFile() {
     // they stay internal and out of the public registry.
     if (!publishedNames.has(item.name)) {
       if (!item.name.startsWith("primitives-")) {
-        console.log(`⏭️  Skipping undocumented registry item: ${item.name}`);
+        logUndocumentedRegistrySkip(item);
       }
       return false;
     }

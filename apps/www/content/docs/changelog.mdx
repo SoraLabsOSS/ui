@@ -13,6 +13,27 @@ import {
 
 <Changelog>
 
+<ChangelogItem date="2026-08-28">
+  <ChangelogItemVersion>
+
+## Contributor CLI (`www-cli`)
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>Contributor DX</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Shipped an internal contributor CLI (`packages/www-cli`) to scaffold Motion primitives and UI components from the monorepo root — `bun run create`, `bun run create:primitive`, and `bun run create:ui`.
+- Generators write registry stubs, `registry-item.json`, docs MDX, `meta.json` entries, optional manual demos, and run `registry:build` by default.
+- Non-interactive flags for CI and agents: `--yes`, `--no-input`, `--dry-run`, `--quiet`, and `--no-color` ([clig.dev](https://clig.dev/) aligned).
+- `registry:build` skip logs now suggest the matching `create:primitive` / `create:ui` command when a folder looks undocumented.
+- Read more: [Making Sora UI Easier to Contribute To](/blog/making-sora-ui-easier-to-contribute-to) and [CONTRIBUTING.md](https://github.com/SoraLabsOSS/ui/blob/main/CONTRIBUTING.md). Consumer installs remain [`sora-cli`](/docs/cli).
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
 <ChangelogItem date="2026-08-23">
   <ChangelogItemVersion>
 
