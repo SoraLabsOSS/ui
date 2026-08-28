@@ -1,11 +1,11 @@
 "use client";
 
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
-import { cn } from "@workspace/ui/lib/utils";
 import {
   ScrollArea,
   ScrollViewport,
-} from "fumadocs-ui/components/ui/scroll-area";
+} from "@workspace/ui/components/ui/scroll-area";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
 import type * as React from "react";
 import { useCallback, useRef, useState } from "react";
 import {

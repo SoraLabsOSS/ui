@@ -360,9 +360,18 @@
     display: none;
   }
 
-  /* Radix custom thumb: collapse when idle so it does not offset preview content. */
+  /*
+   * Radix custom thumb: fade when idle. Do not use display:none — Radix measures
+   * scrollbar client size for thumb ratio/position; display:none zeros it out
+   * and the thumb stops tracking scroll (site-wide jank).
+   */
+  [data-radix-scroll-area-scrollbar] {
+    transition: opacity 150ms ease;
+  }
+
   [data-radix-scroll-area-scrollbar][data-state="hidden"] {
-    display: none;
+    pointer-events: none;
+    opacity: 0;
   }
 
   body {

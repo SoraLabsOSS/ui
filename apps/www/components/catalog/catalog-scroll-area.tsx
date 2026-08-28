@@ -17,7 +17,7 @@ export const catalogScrollViewportClassName =
 interface CatalogScrollAreaProps {
   children: ReactNode;
   className?: string;
-  /** Hides the custom Radix thumb (default on — OS scrollbar is suppressed globally). */
+  /** Fades out the custom Radix thumb (default on — OS scrollbar is suppressed globally). */
   hideScrollbar?: boolean;
   viewportClassName?: string;
 }
@@ -32,7 +32,8 @@ export function CatalogScrollArea({
     <ScrollArea
       className={cn(
         "min-h-0 min-w-0",
-        hideScrollbar && "[&_[data-radix-scroll-area-scrollbar]]:hidden",
+        hideScrollbar &&
+          "[&_[data-radix-scroll-area-scrollbar]]:pointer-events-none [&_[data-radix-scroll-area-scrollbar]]:opacity-0",
         className
       )}
       type="scroll"

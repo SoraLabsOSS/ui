@@ -36,7 +36,12 @@ const ScrollViewport = ({
   > | null>;
 }) => (
   <ScrollAreaPrimitive.Viewport
-    className={cn("size-full rounded-[inherit]", className)}
+    className={cn(
+      "size-full rounded-[inherit]",
+      // Radix wraps children in display:table; override so scroll metrics stay correct.
+      "[&>div]:!block [&>div]:!min-h-0 [&>div]:!min-w-0 [&>div]:w-full",
+      className
+    )}
     ref={ref}
     {...props}
   >
@@ -58,7 +63,7 @@ const ScrollBar = ({
 }) => (
   <ScrollAreaPrimitive.Scrollbar
     className={cn(
-      "flex select-none data-[state=hidden]:animate-fd-fade-out",
+      "flex select-none",
       orientation === "vertical" && "h-full w-1.5",
       orientation === "horizontal" && "h-1.5 flex-col",
       className
