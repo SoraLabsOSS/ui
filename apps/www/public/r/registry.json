@@ -1130,6 +1130,34 @@
       ]
     },
     {
+      "name": "demo-context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu Demo",
+      "description": "Base UI Context Menu with spring entrance, nested submenus, checkable items, radio items, shortcuts, and destructive actions.",
+      "registryDependencies": ["@soralabs/base-context-menu"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/context-menu/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/context-menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-context-menu-file",
+      "type": "registry:ui",
+      "title": "Context Menu File Demo",
+      "description": "Base UI Context Menu with file management actions, icons, shortcuts, and submenus.",
+      "registryDependencies": ["@soralabs/base-context-menu"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/context-menu-file/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/context-menu-file.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-dialog",
       "type": "registry:ui",
       "title": "Dialog Demo",
@@ -3221,6 +3249,21 @@
           }
         }
       }
+    },
+    {
+      "name": "base-context-menu",
+      "type": "registry:ui",
+      "title": "Base Context Menu",
+      "description": "An accessible context menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
+      "dependencies": ["@base-ui/react", "motion", "lucide-react"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "files": [
+        {
+          "path": "registry/ui/base/context-menu/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/context-menu.tsx"
+        }
+      ]
     },
     {
       "name": "base-dialog",

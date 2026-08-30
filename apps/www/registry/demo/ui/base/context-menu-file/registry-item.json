@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-context-menu-file",
+  "type": "registry:ui",
+  "title": "Context Menu File Demo",
+  "description": "Base UI Context Menu with file management actions, icons, shortcuts, and submenus.",
+  "registryDependencies": ["@soralabs/base-context-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/context-menu-file/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/context-menu-file.tsx"
+    }
+  ]
+}

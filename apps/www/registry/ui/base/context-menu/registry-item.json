@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "base-context-menu",
+  "type": "registry:ui",
+  "title": "Base Context Menu",
+  "description": "An accessible context menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
+  "dependencies": ["@base-ui/react", "motion", "lucide-react"],
+  "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "files": [
+    {
+      "path": "registry/ui/base/context-menu/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/base/context-menu.tsx"
+    }
+  ]
+}

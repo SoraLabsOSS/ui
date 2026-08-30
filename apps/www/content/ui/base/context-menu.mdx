@@ -1,0 +1,248 @@
+---
+title: Context Menu
+description: An accessible context menu component built on Base UI with smooth Motion spring scale and submenu slide animations.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-context-menu" description="An animated context menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+
+## Installation
+
+<ComponentInstallation name="base-context-menu" />
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/sora-ui/base/context-menu";
+
+export default function Page() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-40 w-full items-center justify-center rounded-xl border border-dashed border-border bg-muted/20">
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>
+          Back
+          <ContextMenuShortcut>⌘+[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled>
+          Forward
+          <ContextMenuShortcut>⌘+]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Reload
+          <ContextMenuShortcut>⌘+R</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>Save Page As…</ContextMenuItem>
+            <ContextMenuItem>Developer Tools</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}
+```
+
+## Examples
+
+### File Actions
+
+<ComponentPreview name="demo-context-menu-file" description="Context menu tailored for file systems with action icons, quick shortcuts, nested sharing options, and danger actions." />
+
+## Props
+
+### ContextMenu
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the context menu.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### ContextMenuContent
+
+<TypeTable
+  type={{
+    align: {
+      description: "Alignment of the popup relative to the anchor position.",
+      type: "\"start\" | \"center\" | \"end\"",
+      default: "\"start\"",
+    },
+    alignOffset: {
+      description: "Offset in pixels along the alignment axis.",
+      type: "number",
+      default: "4",
+    },
+    side: {
+      description: "Side of the anchor where the popup should appear.",
+      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
+      default: "\"right\"",
+    },
+    sideOffset: {
+      description: "Distance in pixels from the anchor point.",
+      type: "number",
+      default: "0",
+    },
+    disableAnimation: {
+      description: "Whether to disable Motion spring entrance/exit animations.",
+      type: "boolean",
+      default: "false",
+    },
+    positionerClassName: {
+      description: "Additional CSS classes for the positioner container.",
+      type: "string",
+    },
+  }}
+/>
+
+### ContextMenuItem
+
+<TypeTable
+  type={{
+    disabled: {
+      description: "Whether the menu item is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding for alignment with checkable/radio items.",
+      type: "boolean",
+      default: "false",
+    },
+    variant: {
+      description: "Visual style variant of the item.",
+      type: "\"default\" | \"destructive\"",
+      default: "\"default\"",
+    },
+  }}
+/>
+
+### ContextMenuCheckboxItem
+
+<TypeTable
+  type={{
+    checked: {
+      description: "The controlled checked state.",
+      type: "boolean",
+    },
+    onCheckedChange: {
+      description: "Event handler called when the checked state changes.",
+      type: "(checked: boolean) => void",
+    },
+    disabled: {
+      description: "Whether the checkbox item is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+
+### ContextMenuRadioItem
+
+<TypeTable
+  type={{
+    value: {
+      description: "Unique value identifying this radio option.",
+      type: "string",
+    },
+    disabled: {
+      description: "Whether the radio item is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+
+### ContextMenuSubTrigger
+
+<TypeTable
+  type={{
+    disabled: {
+      description: "Whether the submenu trigger is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding for alignment.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+
+### ContextMenuSubContent
+
+<TypeTable
+  type={{
+    align: {
+      description: "Alignment of the submenu popup.",
+      type: "\"start\" | \"center\" | \"end\"",
+      default: "\"start\"",
+    },
+    alignOffset: {
+      description: "Offset in pixels along the alignment axis.",
+      type: "number",
+      default: "-4",
+    },
+    side: {
+      description: "Side where the submenu should open.",
+      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
+      default: "\"right\"",
+    },
+    sideOffset: {
+      description: "Distance in pixels from the submenu trigger.",
+      type: "number",
+      default: "0",
+    },
+    disableAnimation: {
+      description: "Whether to disable Motion spring slide animations.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+

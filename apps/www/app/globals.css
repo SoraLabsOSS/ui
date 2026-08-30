@@ -570,6 +570,12 @@
     @apply font-sans;
   }
 
+  /* Inline code: break long paths and tokens cleanly on mobile screens */
+  :not(pre) > code {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
   .footer-newsletter-input:-webkit-autofill,
   .footer-newsletter-input:-webkit-autofill:hover,
   .footer-newsletter-input:-webkit-autofill:focus,

@@ -10,6 +10,7 @@
     "base/accordion",
     "base/button",
     "base/checkbox",
+    "base/context-menu",
     "base/dialog",
     "---Radix UI---",
     "radix/button",

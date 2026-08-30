@@ -3189,6 +3189,110 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-checkbox-with-text",
   },
+  "demo-context-menu": {
+    name: "demo-context-menu",
+    description:
+      "Base UI Context Menu with spring entrance, nested submenus, checkable items, radio items, shortcuts, and destructive actions.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/base-context-menu"],
+    files: [
+      {
+        path: "registry/demo/ui/base/context-menu/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/context-menu.tsx",
+        content:
+          '"use client";\n\nimport { useState } from "react";\nimport {\n  ContextMenu,\n  ContextMenuCheckboxItem,\n  ContextMenuContent,\n  ContextMenuGroup,\n  ContextMenuItem,\n  ContextMenuLabel,\n  ContextMenuRadioGroup,\n  ContextMenuRadioItem,\n  ContextMenuSeparator,\n  ContextMenuShortcut,\n  ContextMenuSub,\n  ContextMenuSubContent,\n  ContextMenuSubTrigger,\n  ContextMenuTrigger,\n} from "@/components/sora-ui/base/context-menu";\n\nexport default function ContextMenuDemo() {\n  const [bookmarksChecked, setBookmarksChecked] = useState(true);\n  const [urlsChecked, setUrlsChecked] = useState(false);\n  const [person, setPerson] = useState("pedro");\n\n  return (\n    <div className="flex w-full max-w-md items-center justify-center p-6">\n      <ContextMenu>\n        <ContextMenuTrigger className="flex h-56 w-full items-center justify-center rounded-xl border border-border border-dashed bg-muted/20 text-center font-medium text-muted-foreground text-sm transition-colors hover:border-foreground/30 hover:bg-muted/40">\n          <div className="flex select-none flex-col items-center gap-1.5 p-4">\n            <span className="font-semibold text-foreground">\n              Right-click here\n            </span>\n            <span className="text-muted-foreground text-xs">\n              Opens animated context menu with smooth spring transitions\n            </span>\n          </div>\n        </ContextMenuTrigger>\n\n        <ContextMenuContent className="w-64">\n          <ContextMenuItem>\n            Back\n            <ContextMenuShortcut>⌘+[</ContextMenuShortcut>\n          </ContextMenuItem>\n          <ContextMenuItem disabled>\n            Forward\n            <ContextMenuShortcut>⌘+]</ContextMenuShortcut>\n          </ContextMenuItem>\n          <ContextMenuItem>\n            Reload\n            <ContextMenuShortcut>⌘+R</ContextMenuShortcut>\n          </ContextMenuItem>\n\n          <ContextMenuSub>\n            <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>\n            <ContextMenuSubContent className="w-52">\n              <ContextMenuItem>\n                Save Page As…\n                <ContextMenuShortcut>⌘+S</ContextMenuShortcut>\n              </ContextMenuItem>\n              <ContextMenuItem>Create Shortcut…</ContextMenuItem>\n              <ContextMenuItem>Name Window…</ContextMenuItem>\n              <ContextMenuSeparator />\n              <ContextMenuItem>\n                Developer Tools\n                <ContextMenuShortcut>⌥⌘I</ContextMenuShortcut>\n              </ContextMenuItem>\n            </ContextMenuSubContent>\n          </ContextMenuSub>\n\n          <ContextMenuSeparator />\n\n          <ContextMenuCheckboxItem\n            checked={bookmarksChecked}\n            onCheckedChange={setBookmarksChecked}\n          >\n            Show Bookmarks Bar\n            <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>\n          </ContextMenuCheckboxItem>\n          <ContextMenuCheckboxItem\n            checked={urlsChecked}\n            onCheckedChange={setUrlsChecked}\n          >\n            Show Full URLs\n          </ContextMenuCheckboxItem>\n\n          <ContextMenuSeparator />\n\n          <ContextMenuGroup>\n            <ContextMenuLabel inset>People</ContextMenuLabel>\n            <ContextMenuRadioGroup onValueChange={setPerson} value={person}>\n              <ContextMenuRadioItem inset value="pedro">\n                Pedro Duarte\n              </ContextMenuRadioItem>\n              <ContextMenuRadioItem inset value="colm">\n                Colm Tuite\n              </ContextMenuRadioItem>\n            </ContextMenuRadioGroup>\n          </ContextMenuGroup>\n\n          <ContextMenuSeparator />\n\n          <ContextMenuItem variant="destructive">\n            Clear Cache\n            <ContextMenuShortcut>⌘⇧⌫</ContextMenuShortcut>\n          </ContextMenuItem>\n        </ContextMenuContent>\n      </ContextMenu>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/ui/base/context-menu/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-context-menu",
+  },
+  "demo-context-menu-file": {
+    name: "demo-context-menu-file",
+    description:
+      "Base UI Context Menu with file management actions, icons, shortcuts, and submenus.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/base-context-menu"],
+    files: [
+      {
+        path: "registry/demo/ui/base/context-menu-file/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/context-menu-file.tsx",
+        content:
+          '"use client";\n\nimport {\n  CopyIcon,\n  DownloadIcon,\n  FileCodeIcon,\n  FolderSyncIcon,\n  PencilIcon,\n  Share2Icon,\n  Trash2Icon,\n  UserPlusIcon,\n} from "lucide-react";\nimport {\n  ContextMenu,\n  ContextMenuContent,\n  ContextMenuGroup,\n  ContextMenuItem,\n  ContextMenuLabel,\n  ContextMenuSeparator,\n  ContextMenuShortcut,\n  ContextMenuSub,\n  ContextMenuSubContent,\n  ContextMenuSubTrigger,\n  ContextMenuTrigger,\n} from "@/components/sora-ui/base/context-menu";\n\nexport default function ContextMenuFileDemo() {\n  return (\n    <div className="flex w-full max-w-md items-center justify-center p-6">\n      <ContextMenu>\n        <ContextMenuTrigger className="flex h-52 w-full flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/60 p-6 text-center shadow-xs transition-colors hover:border-foreground/30 hover:bg-card/90">\n          <div className="flex size-14 items-center justify-center rounded-xl bg-primary/10 text-primary">\n            <FileCodeIcon className="size-7" />\n          </div>\n          <div className="flex flex-col items-center gap-0.5">\n            <span className="font-semibold text-foreground text-sm">\n              app-layout.tsx\n            </span>\n            <span className="text-muted-foreground text-xs">\n              Right-click file card for quick actions\n            </span>\n          </div>\n        </ContextMenuTrigger>\n\n        <ContextMenuContent className="w-56">\n          <ContextMenuItem>\n            <DownloadIcon className="size-4" />\n            Download\n            <ContextMenuShortcut>⌘D</ContextMenuShortcut>\n          </ContextMenuItem>\n          <ContextMenuItem>\n            <CopyIcon className="size-4" />\n            Copy Path\n            <ContextMenuShortcut>⌥⌘C</ContextMenuShortcut>\n          </ContextMenuItem>\n          <ContextMenuItem>\n            <PencilIcon className="size-4" />\n            Rename\n            <ContextMenuShortcut>⏎</ContextMenuShortcut>\n          </ContextMenuItem>\n\n          <ContextMenuSeparator />\n\n          <ContextMenuSub>\n            <ContextMenuSubTrigger>\n              <Share2Icon className="size-4" />\n              Share\n            </ContextMenuSubTrigger>\n            <ContextMenuSubContent className="w-48">\n              <ContextMenuItem>\n                <UserPlusIcon className="size-4" />\n                Invite Collaborator\n              </ContextMenuItem>\n              <ContextMenuItem>\n                <FolderSyncIcon className="size-4" />\n                Sync with Team\n              </ContextMenuItem>\n            </ContextMenuSubContent>\n          </ContextMenuSub>\n\n          <ContextMenuSeparator />\n\n          <ContextMenuGroup>\n            <ContextMenuLabel>Danger Zone</ContextMenuLabel>\n            <ContextMenuItem variant="destructive">\n              <Trash2Icon className="size-4" />\n              Delete File\n              <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>\n            </ContextMenuItem>\n          </ContextMenuGroup>\n        </ContextMenuContent>\n      </ContextMenu>\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/ui/base/context-menu-file/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-context-menu-file",
+  },
   "demo-dialog": {
     name: "demo-dialog",
     description:
@@ -8022,6 +8126,56 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/base-checkbox",
+  },
+  "base-context-menu": {
+    name: "base-context-menu",
+    description:
+      "An accessible context menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
+    type: "registry:ui",
+    dependencies: ["@base-ui/react", "motion", "lucide-react"],
+    devDependencies: undefined,
+    registryDependencies: ["utils", "@soralabs/hooks-use-controlled-state"],
+    files: [
+      {
+        path: "registry/ui/base/context-menu/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/base/context-menu.tsx",
+        content:
+          '"use client";\n\nimport { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu";\nimport { useControlledState } from "@/hooks/use-controlled-state";\nimport { cn } from "@/lib/utils";\nimport { CheckIcon, ChevronRightIcon } from "lucide-react";\nimport { AnimatePresence, motion, useReducedMotion } from "motion/react";\nimport { type ComponentProps, createContext, useContext, useMemo } from "react";\n\ninterface ContextMenuContextValue {\n  open: boolean;\n  setOpen: (open: boolean) => void;\n}\n\nconst ContextMenuContext = createContext<ContextMenuContextValue | null>(null);\n\nfunction useContextMenuContext() {\n  return useContext(ContextMenuContext);\n}\n\ninterface ContextMenuSubContextValue {\n  open: boolean;\n  setOpen: (open: boolean) => void;\n}\n\nconst ContextMenuSubContext = createContext<ContextMenuSubContextValue | null>(\n  null\n);\n\nfunction useContextMenuSubContext() {\n  return useContext(ContextMenuSubContext);\n}\n\ntype ContextMenuProps = ComponentProps<typeof ContextMenuPrimitive.Root>;\n\n/**\n * Root container for the Context Menu component powered by Base UI and Motion.\n */\nfunction ContextMenu({\n  open: controlledOpen,\n  defaultOpen = false,\n  onOpenChange,\n  children,\n  ...props\n}: ContextMenuProps) {\n  const [open, setOpen] = useControlledState({\n    defaultValue: defaultOpen,\n    onChange: (nextOpen: boolean) => {\n      onOpenChange?.(\n        nextOpen,\n        undefined as unknown as ContextMenuPrimitive.Root.ChangeEventDetails\n      );\n    },\n    value: controlledOpen,\n  });\n\n  const contextValue = useMemo(\n    () => ({ open: Boolean(open), setOpen }),\n    [open, setOpen]\n  );\n\n  return (\n    <ContextMenuContext.Provider value={contextValue}>\n      <ContextMenuPrimitive.Root\n        data-slot="context-menu"\n        onOpenChange={(nextOpen, eventDetails) => {\n          setOpen(nextOpen);\n          onOpenChange?.(nextOpen, eventDetails);\n        }}\n        open={open}\n        {...props}\n      >\n        {children}\n      </ContextMenuPrimitive.Root>\n    </ContextMenuContext.Provider>\n  );\n}\n\ntype ContextMenuPortalProps = ComponentProps<\n  typeof ContextMenuPrimitive.Portal\n>;\n\n/**\n * Portals the context menu content into the document body.\n */\nfunction ContextMenuPortal({ ...props }: ContextMenuPortalProps) {\n  return (\n    <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />\n  );\n}\n\ntype ContextMenuTriggerProps = ComponentProps<\n  typeof ContextMenuPrimitive.Trigger\n>;\n\n/**\n * The target element that opens the context menu on right click or long press.\n */\nfunction ContextMenuTrigger({ className, ...props }: ContextMenuTriggerProps) {\n  return (\n    <ContextMenuPrimitive.Trigger\n      className={cn("select-none", className)}\n      data-slot="context-menu-trigger"\n      {...props}\n    />\n  );\n}\n\ninterface ContextMenuContentProps\n  extends ComponentProps<typeof ContextMenuPrimitive.Popup>,\n    Pick<\n      ComponentProps<typeof ContextMenuPrimitive.Positioner>,\n      | "align"\n      | "alignOffset"\n      | "anchor"\n      | "arrowPadding"\n      | "collisionAvoidance"\n      | "collisionBoundary"\n      | "collisionPadding"\n      | "positionMethod"\n      | "side"\n      | "sideOffset"\n      | "sticky"\n    > {\n  /**\n   * Whether to disable Motion spring physics and animations.\n   * @default false\n   */\n  disableAnimation?: boolean;\n  /**\n   * Additional CSS classes for the positioner container.\n   */\n  positionerClassName?: string;\n}\n\n/**\n * Context menu popup container with smooth Motion spring scale and opacity entrance/exit animations.\n */\nfunction ContextMenuContent({\n  className,\n  positionerClassName,\n  align = "start",\n  alignOffset = 4,\n  side = "right",\n  sideOffset = 0,\n  anchor,\n  arrowPadding,\n  collisionAvoidance,\n  collisionBoundary,\n  collisionPadding = 8,\n  positionMethod,\n  sticky,\n  disableAnimation = false,\n  children,\n  render,\n  style,\n  ...props\n}: ContextMenuContentProps) {\n  const context = useContextMenuContext();\n  const prefersReducedMotion = useReducedMotion();\n  const isOpen = context ? context.open : true;\n  const shouldAnimate = !(disableAnimation || prefersReducedMotion);\n\n  return (\n    <AnimatePresence>\n      {isOpen && (\n        <ContextMenuPrimitive.Portal keepMounted>\n          <ContextMenuPrimitive.Positioner\n            align={align}\n            alignOffset={alignOffset}\n            anchor={anchor}\n            arrowPadding={arrowPadding}\n            className={cn("isolate z-50 outline-none", positionerClassName)}\n            collisionAvoidance={collisionAvoidance}\n            collisionBoundary={collisionBoundary}\n            collisionPadding={collisionPadding}\n            data-slot="context-menu-positioner"\n            positionMethod={positionMethod}\n            side={side}\n            sideOffset={sideOffset}\n            sticky={sticky}\n          >\n            <ContextMenuPrimitive.Popup\n              className={cn(\n                "z-50 max-h-(--available-height) min-w-44 overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-popover/95 p-1 text-popover-foreground shadow-xl outline-none ring-1 ring-foreground/5 backdrop-blur-md",\n                className\n              )}\n              data-slot="context-menu-content"\n              render={\n                render ?? (\n                  <motion.div\n                    animate={{ opacity: 1, scale: 1 }}\n                    exit={\n                      shouldAnimate\n                        ? {\n                            opacity: 0,\n                            scale: 0.9,\n                            transition: {\n                              duration: 0.1,\n                            },\n                          }\n                        : { opacity: 0 }\n                    }\n                    initial={\n                      shouldAnimate\n                        ? { opacity: 0, scale: 0.9 }\n                        : { opacity: 0 }\n                    }\n                    style={{ originX: 0, originY: 0, ...style }}\n                    transition={\n                      shouldAnimate\n                        ? {\n                            type: "spring",\n                            stiffness: 400,\n                            damping: 20,\n                            opacity: { duration: 0.2 },\n                          }\n                        : { duration: 0 }\n                    }\n                  />\n                )\n              }\n              {...props}\n            >\n              {children}\n            </ContextMenuPrimitive.Popup>\n          </ContextMenuPrimitive.Positioner>\n        </ContextMenuPrimitive.Portal>\n      )}\n    </AnimatePresence>\n  );\n}\n\ntype ContextMenuGroupProps = ComponentProps<typeof ContextMenuPrimitive.Group>;\n\n/**\n * Groups related context menu items together.\n */\nfunction ContextMenuGroup({ ...props }: ContextMenuGroupProps) {\n  return (\n    <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />\n  );\n}\n\ninterface ContextMenuLabelProps\n  extends ComponentProps<typeof ContextMenuPrimitive.GroupLabel> {\n  /**\n   * Whether to indent the label for alignment with checkable items.\n   * @default false\n   */\n  inset?: boolean;\n}\n\n/**\n * Section label for a group of context menu items.\n */\nfunction ContextMenuLabel({\n  className,\n  inset,\n  ...props\n}: ContextMenuLabelProps) {\n  return (\n    <ContextMenuPrimitive.GroupLabel\n      className={cn(\n        "px-2 py-1.5 font-semibold text-muted-foreground text-xs data-inset:pl-8",\n        className\n      )}\n      data-inset={inset}\n      data-slot="context-menu-label"\n      {...props}\n    />\n  );\n}\n\ninterface ContextMenuItemProps\n  extends ComponentProps<typeof ContextMenuPrimitive.Item> {\n  /**\n   * Whether to indent the item for alignment with checkable items.\n   * @default false\n   */\n  inset?: boolean;\n  /**\n   * Visual style variant of the item.\n   * @default "default"\n   */\n  variant?: "default" | "destructive";\n}\n\n/**\n * An actionable item within the context menu.\n */\nfunction ContextMenuItem({\n  className,\n  inset,\n  variant = "default",\n  ...props\n}: ContextMenuItemProps) {\n  return (\n    <ContextMenuPrimitive.Item\n      className={cn(\n        "group/context-menu-item relative flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-inset:pl-8 data-[variant=destructive]:text-destructive data-disabled:opacity-50 data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg:not([class*=\'size-\'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 focus:*:[svg]:text-accent-foreground data-[variant=destructive]:*:[svg]:text-destructive",\n        className\n      )}\n      data-inset={inset}\n      data-slot="context-menu-item"\n      data-variant={variant}\n      {...props}\n    />\n  );\n}\n\ntype ContextMenuSubProps = ComponentProps<\n  typeof ContextMenuPrimitive.SubmenuRoot\n>;\n\n/**\n * Submenu root container managing nested submenu state.\n */\nfunction ContextMenuSub({\n  open: controlledOpen,\n  defaultOpen = false,\n  onOpenChange,\n  children,\n  ...props\n}: ContextMenuSubProps) {\n  const [open, setOpen] = useControlledState({\n    defaultValue: defaultOpen,\n    onChange: (nextOpen: boolean) => {\n      onOpenChange?.(\n        nextOpen,\n        undefined as unknown as ContextMenuPrimitive.SubmenuRoot.ChangeEventDetails\n      );\n    },\n    value: controlledOpen,\n  });\n\n  const contextValue = useMemo(\n    () => ({ open: Boolean(open), setOpen }),\n    [open, setOpen]\n  );\n\n  return (\n    <ContextMenuSubContext.Provider value={contextValue}>\n      <ContextMenuPrimitive.SubmenuRoot\n        data-slot="context-menu-sub"\n        onOpenChange={(nextOpen, eventDetails) => {\n          setOpen(nextOpen);\n          onOpenChange?.(nextOpen, eventDetails);\n        }}\n        open={open}\n        {...props}\n      >\n        {children}\n      </ContextMenuPrimitive.SubmenuRoot>\n    </ContextMenuSubContext.Provider>\n  );\n}\n\ninterface ContextMenuSubTriggerProps\n  extends ComponentProps<typeof ContextMenuPrimitive.SubmenuTrigger> {\n  /**\n   * Whether to indent the item for alignment with checkable items.\n   * @default false\n   */\n  inset?: boolean;\n}\n\n/**\n * Interactive menu item that reveals a submenu on hover or click.\n */\nfunction ContextMenuSubTrigger({\n  className,\n  inset,\n  children,\n  ...props\n}: ContextMenuSubTriggerProps) {\n  return (\n    <ContextMenuPrimitive.SubmenuTrigger\n      className={cn(\n        "flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-open:bg-accent data-inset:pl-8 data-open:text-accent-foreground data-disabled:opacity-50 [&_svg:not([class*=\'size-\'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",\n        className\n      )}\n      data-inset={inset}\n      data-slot="context-menu-sub-trigger"\n      {...props}\n    >\n      {children}\n      <ChevronRightIcon className="cn-rtl-flip ml-auto size-4 text-muted-foreground" />\n    </ContextMenuPrimitive.SubmenuTrigger>\n  );\n}\n\ninterface ContextMenuSubContentProps\n  extends ComponentProps<typeof ContextMenuPrimitive.Popup>,\n    Pick<\n      ComponentProps<typeof ContextMenuPrimitive.Positioner>,\n      | "align"\n      | "alignOffset"\n      | "anchor"\n      | "arrowPadding"\n      | "collisionAvoidance"\n      | "collisionBoundary"\n      | "collisionPadding"\n      | "positionMethod"\n      | "side"\n      | "sideOffset"\n      | "sticky"\n    > {\n  /**\n   * Whether to disable Motion spring physics and animations.\n   * @default false\n   */\n  disableAnimation?: boolean;\n  /**\n   * Additional CSS classes for the positioner container.\n   */\n  positionerClassName?: string;\n}\n\n/**\n * Submenu popup content with smooth Motion spring slide entrance and exit animations.\n */\nfunction ContextMenuSubContent({\n  className,\n  positionerClassName,\n  align = "start",\n  alignOffset = -4,\n  side = "right",\n  sideOffset = 0,\n  anchor,\n  arrowPadding,\n  collisionAvoidance,\n  collisionBoundary,\n  collisionPadding = 8,\n  positionMethod,\n  sticky,\n  disableAnimation = false,\n  children,\n  render,\n  style,\n  ...props\n}: ContextMenuSubContentProps) {\n  const context = useContextMenuSubContext();\n  const prefersReducedMotion = useReducedMotion();\n  const isOpen = context ? context.open : true;\n  const shouldAnimate = !(disableAnimation || prefersReducedMotion);\n\n  return (\n    <AnimatePresence>\n      {isOpen && (\n        <ContextMenuPrimitive.Portal keepMounted>\n          <ContextMenuPrimitive.Positioner\n            align={align}\n            alignOffset={alignOffset}\n            anchor={anchor}\n            arrowPadding={arrowPadding}\n            className={cn("isolate z-50 outline-none", positionerClassName)}\n            collisionAvoidance={collisionAvoidance}\n            collisionBoundary={collisionBoundary}\n            collisionPadding={collisionPadding}\n            data-slot="context-menu-sub-positioner"\n            positionMethod={positionMethod}\n            side={side}\n            sideOffset={sideOffset}\n            sticky={sticky}\n          >\n            <ContextMenuPrimitive.Popup\n              className={cn(\n                "z-50 max-h-(--available-height) min-w-40 overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-popover/95 p-1 text-popover-foreground shadow-2xl outline-none ring-1 ring-foreground/5 backdrop-blur-md",\n                className\n              )}\n              data-slot="context-menu-sub-content"\n              render={\n                render ?? (\n                  <motion.div\n                    animate={{ opacity: 1, x: 0 }}\n                    exit={\n                      shouldAnimate\n                        ? {\n                            opacity: 0,\n                            x: -10,\n                            transition: {\n                              duration: 0.1,\n                            },\n                          }\n                        : { opacity: 0 }\n                    }\n                    initial={\n                      shouldAnimate ? { opacity: 0, x: -10 } : { opacity: 0 }\n                    }\n                    style={{ ...style }}\n                    transition={\n                      shouldAnimate\n                        ? {\n                            type: "spring",\n                            stiffness: 400,\n                            damping: 20,\n                            opacity: { duration: 0.2 },\n                          }\n                        : { duration: 0 }\n                    }\n                  />\n                )\n              }\n              {...props}\n            >\n              {children}\n            </ContextMenuPrimitive.Popup>\n          </ContextMenuPrimitive.Positioner>\n        </ContextMenuPrimitive.Portal>\n      )}\n    </AnimatePresence>\n  );\n}\n\ninterface ContextMenuCheckboxItemProps\n  extends ComponentProps<typeof ContextMenuPrimitive.CheckboxItem> {\n  /**\n   * Whether to indent the item for alignment.\n   * @default false\n   */\n  inset?: boolean;\n}\n\n/**\n * An actionable context menu item with a checkbox toggle state.\n */\nfunction ContextMenuCheckboxItem({\n  className,\n  children,\n  checked,\n  inset,\n  ...props\n}: ContextMenuCheckboxItemProps) {\n  return (\n    <ContextMenuPrimitive.CheckboxItem\n      checked={checked}\n      className={cn(\n        "relative flex cursor-default select-none items-center gap-2 rounded-md py-1.5 pr-2 pl-8 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-inset:pl-8 data-disabled:opacity-50 [&_svg:not([class*=\'size-\'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",\n        className\n      )}\n      data-inset={inset}\n      data-slot="context-menu-checkbox-item"\n      {...props}\n    >\n      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">\n        <ContextMenuPrimitive.CheckboxItemIndicator>\n          <CheckIcon className="size-4" />\n        </ContextMenuPrimitive.CheckboxItemIndicator>\n      </span>\n      {children}\n    </ContextMenuPrimitive.CheckboxItem>\n  );\n}\n\ntype ContextMenuRadioGroupProps = ComponentProps<\n  typeof ContextMenuPrimitive.RadioGroup\n>;\n\n/**\n * Radio group container for mutually exclusive context menu selections.\n */\nfunction ContextMenuRadioGroup({ ...props }: ContextMenuRadioGroupProps) {\n  return (\n    <ContextMenuPrimitive.RadioGroup\n      data-slot="context-menu-radio-group"\n      {...props}\n    />\n  );\n}\n\ninterface ContextMenuRadioItemProps\n  extends ComponentProps<typeof ContextMenuPrimitive.RadioItem> {\n  /**\n   * Whether to indent the item for alignment.\n   * @default false\n   */\n  inset?: boolean;\n}\n\n/**\n * A selectable radio option within a ContextMenuRadioGroup.\n */\nfunction ContextMenuRadioItem({\n  className,\n  children,\n  inset,\n  ...props\n}: ContextMenuRadioItemProps) {\n  return (\n    <ContextMenuPrimitive.RadioItem\n      className={cn(\n        "relative flex cursor-default select-none items-center gap-2 rounded-md py-1.5 pr-2 pl-8 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-inset:pl-8 data-disabled:opacity-50 [&_svg:not([class*=\'size-\'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",\n        className\n      )}\n      data-inset={inset}\n      data-slot="context-menu-radio-item"\n      {...props}\n    >\n      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">\n        <ContextMenuPrimitive.RadioItemIndicator>\n          <CheckIcon className="size-4" />\n        </ContextMenuPrimitive.RadioItemIndicator>\n      </span>\n      {children}\n    </ContextMenuPrimitive.RadioItem>\n  );\n}\n\ntype ContextMenuSeparatorProps = ComponentProps<\n  typeof ContextMenuPrimitive.Separator\n>;\n\n/**\n * Divider separating groups of context menu items.\n */\nfunction ContextMenuSeparator({\n  className,\n  ...props\n}: ContextMenuSeparatorProps) {\n  return (\n    <ContextMenuPrimitive.Separator\n      className={cn("-mx-1 my-1 h-px bg-border", className)}\n      data-slot="context-menu-separator"\n      {...props}\n    />\n  );\n}\n\ntype ContextMenuShortcutProps = ComponentProps<"span">;\n\n/**\n * Renders keyboard shortcut combination hints aligned to the right.\n */\nfunction ContextMenuShortcut({\n  className,\n  ...props\n}: ContextMenuShortcutProps) {\n  return (\n    <span\n      className={cn(\n        "ml-auto text-muted-foreground text-xs tracking-widest group-focus/context-menu-item:text-accent-foreground",\n        className\n      )}\n      data-slot="context-menu-shortcut"\n      {...props}\n    />\n  );\n}\n\nexport type {\n  ContextMenuCheckboxItemProps,\n  ContextMenuContentProps,\n  ContextMenuGroupProps,\n  ContextMenuItemProps,\n  ContextMenuLabelProps,\n  ContextMenuPortalProps,\n  ContextMenuProps,\n  ContextMenuRadioGroupProps,\n  ContextMenuRadioItemProps,\n  ContextMenuSeparatorProps,\n  ContextMenuShortcutProps,\n  ContextMenuSubContentProps,\n  ContextMenuSubProps,\n  ContextMenuSubTriggerProps,\n  ContextMenuTriggerProps,\n};\nexport {\n  ContextMenu,\n  ContextMenu as BaseContextMenu,\n  ContextMenu as default,\n  ContextMenuCheckboxItem,\n  ContextMenuContent,\n  ContextMenuGroup,\n  ContextMenuItem,\n  ContextMenuLabel,\n  ContextMenuPortal,\n  ContextMenuRadioGroup,\n  ContextMenuRadioItem,\n  ContextMenuSeparator,\n  ContextMenuShortcut,\n  ContextMenuSub,\n  ContextMenuSubContent,\n  ContextMenuSubTrigger,\n  ContextMenuTrigger,\n  useContextMenuContext,\n  useContextMenuSubContext,\n};',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/ui/base/context-menu/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/base-context-menu",
   },
   "base-dialog": {
     name: "base-dialog",

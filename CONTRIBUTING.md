@@ -3,7 +3,7 @@
 Thank you for contributing to **Sora UI** — an open-source, Motion-first React component distribution in the shadcn/ui registry style.
 
 - **Source repo:** [github.com/SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui)
-- **Bugs, questions, ideas:** [github.com/SoraLabsOSS/sora-ui-community](https://github.com/SoraLabsOSS/sora-ui-community) (not this repo’s issue tracker)
+- **Bugs, questions, ideas:** [github.com/SoraLabsOSS/ui/issues](https://github.com/SoraLabsOSS/ui/issues)
 - **Site:** [ui.soralabs.studio](https://ui.soralabs.studio)
 
 ## Introduction
@@ -192,11 +192,11 @@ Schema reference: [ui.shadcn.com/docs/registry/registry-item-json](https://ui.sh
 
 - Target **`main`** on [SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui).
 - Keep PRs focused; run lint, typecheck, and `registry:build` when touching registry or content.
-- For user-facing bugs and support threads, point people to the **[community repo](https://github.com/SoraLabsOSS/sora-ui-community)**.
+- For bugs, issues, and feature requests, please use the **[GitHub Issues tracker](https://github.com/SoraLabsOSS/ui/issues)** in this repository.
 
 ## Need help?
 
-- **Usage / bugs / ideas:** [Community hub](https://github.com/SoraLabsOSS/sora-ui-community)
+- **Usage / bugs / ideas:** [GitHub Issues](https://github.com/SoraLabsOSS/ui/issues)
 - **Registry mechanics:** [apps/www/registry/README.md](apps/www/registry/README.md)
 - **Agent-oriented repo map:** [AGENTS.md](AGENTS.md)
 
