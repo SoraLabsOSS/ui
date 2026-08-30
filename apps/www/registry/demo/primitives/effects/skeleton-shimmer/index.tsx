@@ -203,9 +203,10 @@ export function SkeletonShimmerDemo({
         startTransition(() => setLoaded(next));
         return;
       }
-      document.startViewTransition(() => {
+      const transition = document.startViewTransition(() => {
         flushSync(() => setLoaded(next));
       });
+      transition.finished.catch(() => undefined);
     },
     [prefersReducedMotion]
   );

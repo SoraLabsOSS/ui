@@ -33,7 +33,7 @@ const transitionStyles = `
 export type ThemeMode = "dark" | "light" | "system";
 
 type DocumentWithViewTransition = Document & {
-  startViewTransition?: (callback: () => void) => unknown;
+  startViewTransition?: (callback: () => void) => ViewTransition;
 };
 
 function injectTransitionStyles(): void {
@@ -69,7 +69,8 @@ export function setThemeWithTransition(
 
   injectTransitionStyles();
 
-  doc.startViewTransition(() => {
+  const transition = doc.startViewTransition(() => {
     setTheme(theme);
   });
+  transition.finished.catch(() => undefined);
 }
