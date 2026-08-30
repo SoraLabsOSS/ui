@@ -24,12 +24,7 @@ const nextConfig: NextConfig = {
     "@workspace/ui",
   ],
   experimental: {
-    optimizePackageImports: [
-      "lucide-react",
-      "motion",
-      "date-fns",
-      "@workspace/ui",
-    ],
+    optimizePackageImports: ["lucide-react", "date-fns", "@workspace/ui"],
     turbopackFileSystemCacheForBuild: true,
     // Experimental native React Compiler path (Next 16.3+). Falls back to
     // babel-plugin-react-compiler if disabled; safe to try on Preview.

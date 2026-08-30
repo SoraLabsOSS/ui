@@ -6,6 +6,7 @@ import {
 } from "@workspace/ui/components/ui/scroll-area";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
+import { LayoutGroup } from "motion/react";
 import type * as React from "react";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -37,7 +38,7 @@ export function DocsShellContent({
       >
         <div className="relative px-1" ref={containerRef}>
           <DocsShellHoverHighlight />
-          {children}
+          <LayoutGroup id="docs-shell-nav">{children}</LayoutGroup>
         </div>
       </ScrollViewport>
     </ScrollArea>

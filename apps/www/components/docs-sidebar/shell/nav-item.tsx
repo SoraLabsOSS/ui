@@ -110,6 +110,7 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
             }
           }}
           onMouseLeave={() => setHovered(null)}
+          prefetch={external ? undefined : false}
           rel={external ? "noopener noreferrer" : undefined}
           target={external ? "_blank" : undefined}
         >
