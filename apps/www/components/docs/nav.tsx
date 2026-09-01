@@ -21,7 +21,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
 import { useSidebar } from "fumadocs-ui/provider";
-import { ArrowUpRight, Bookmark, Menu } from "lucide-react";
+import { ArrowUpRight, Bookmark, Menu, User2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -37,6 +37,7 @@ import {
   markMobileSidebarClosed,
   useSyncMobileSidebarPathname,
 } from "@/components/docs-sidebar/sidebar-close-lock";
+import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -331,20 +332,31 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
               <GithubIcon className="size-6" />
             </a>
 
-            <UserButton
-              align="end"
-              className="ms-2 size-6! p-0! text-fd-muted-foreground md:ms-3"
-              links={[
-                {
-                  label: "Bookmark",
-                  href: "/bookmark",
-                  icon: <Bookmark />,
-                  visibility: "authenticated",
-                },
-              ]}
-              size="icon"
-              triggerSize="icon-sm"
-            />
+            {isAuthEnabled() ? (
+              <UserButton
+                align="end"
+                className="ms-2 size-6! p-0! text-fd-muted-foreground md:ms-3"
+                links={[
+                  {
+                    label: "Bookmark",
+                    href: "/bookmark",
+                    icon: <Bookmark />,
+                    visibility: "authenticated",
+                  },
+                ]}
+                size="icon"
+                triggerSize="icon-sm"
+              />
+            ) : (
+              <button
+                aria-label="Sign-in temporarily disabled"
+                className="ms-2 inline-flex size-6 shrink-0 cursor-not-allowed items-center justify-center rounded-md text-fd-muted-foreground/40 transition-colors md:ms-3 [&_svg]:size-5"
+                title="Sign-in is temporarily disabled in production"
+                type="button"
+              >
+                <User2 className="size-5 opacity-60" />
+              </button>
+            )}
 
             <NavHeaderToc />
 

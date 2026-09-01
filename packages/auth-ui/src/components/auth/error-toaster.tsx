@@ -35,8 +35,9 @@ export function ErrorToaster() {
       ) {
         return;
       }
-      if (err?.error) {
-        toast.error(err.error.message);
+      const message = err?.error?.message || err?.message;
+      if (message) {
+        toast.error(message);
       }
     };
 

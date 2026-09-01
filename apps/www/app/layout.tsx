@@ -5,9 +5,7 @@ import { type ReactNode, Suspense } from "react";
 
 import "./globals.css";
 import { cn } from "@workspace/ui/lib/utils";
-import { ArrowRightIcon } from "lucide-react";
 import { MotionConfig } from "motion/react";
-import Link from "next/link";
 import { AISearchRoot } from "@/components/ai/shell";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { AuthSessionProviders } from "@/components/auth-session-providers";
@@ -142,19 +140,11 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <Banner
           className="px-2 sm:px-4"
-          id="soralabs-studio-banner"
+          id="auth-maintenance-banner"
           variant="rainbow"
         >
-          <span className="inline-flex max-w-full items-center gap-1 whitespace-nowrap text-xs sm:text-sm">
-            <span>Sora UI has moved to ui.soralabs.studio.</span>
-            <Link
-              className="inline-flex items-center gap-1 underline"
-              href="/blog/moving-to-soralabs-studio"
-            >
-              <span>Learn more</span>
-              <ArrowRightIcon className="size-3" />
-            </Link>
-          </span>
+          Authentication is temporarily unavailable while we optimize our
+          infrastructure.
         </Banner>
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />

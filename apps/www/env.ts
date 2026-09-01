@@ -28,6 +28,8 @@ export const env = createEnv({
   },
 
   client: {
+    /** Feature flag to enable/disable auth in runtime & production */
+    NEXT_PUBLIC_ENABLE_AUTH: z.enum(["true", "false"]).default("false"),
     NEXT_PUBLIC_BETTER_AUTH_URL: z.url().default("http://localhost:3000"),
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().min(1).optional(),
     NEXT_PUBLIC_SENTRY_DSN: z.url().optional(),
@@ -38,6 +40,7 @@ export const env = createEnv({
 
   experimental__runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_ENABLE_AUTH: process.env.NEXT_PUBLIC_ENABLE_AUTH,
     NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -49,41 +52,55 @@ export const env = createEnv({
   emptyStringAsUndefined: true,
 });
 
+/** Client & Server safe — check if auth features are enabled. */
+export function isAuthEnabled() {
+  return env.NEXT_PUBLIC_ENABLE_AUTH === "true";
+}
+
 /** Server-only — do not import from client components or auth-client. */
 export function isDatabaseConfigured() {
-  return Boolean(env.DATABASE_URL);
+  return isAuthEnabled() && Boolean(env.DATABASE_URL);
 }
 
 /** Server-only — do not import from client components. */
 export function isRedisConfigured() {
-  return Boolean(env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN);
+  return (
+    isAuthEnabled() &&
+    Boolean(env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN)
+  );
 }
 
 /** Server-only — full Google OAuth (client id + secret). */
 export function isGoogleAuthConfigured() {
-  return Boolean(env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
+  return (
+    isAuthEnabled() &&
+    Boolean(env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET)
+  );
 }
 
 /** Client-safe — One Tap / GIS only needs the public client id. */
 export function isGoogleOneTapConfigured() {
-  return Boolean(env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
+  return isAuthEnabled() && Boolean(env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 }
 
 /** Server-only — full GitHub OAuth (client id + secret). */
 export function isGithubAuthConfigured() {
-  return Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET);
+  return (
+    isAuthEnabled() && Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET)
+  );
 }
 
 /** Server-only — Sentinel plugin (api key + identify URL). */
 export function isSentinelConfigured() {
-  return Boolean(
-    env.BETTER_AUTH_API_KEY && env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL
+  return (
+    isAuthEnabled() &&
+    Boolean(env.BETTER_AUTH_API_KEY && env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL)
   );
 }
 
 /** Client-safe — sentinelClient only needs the public identify URL. */
 export function isSentinelClientConfigured() {
-  return Boolean(env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL);
+  return isAuthEnabled() && Boolean(env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL);
 }
 
 /** Dev-only fallback so `next dev` can boot without a .env file. */

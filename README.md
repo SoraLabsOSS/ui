@@ -26,14 +26,13 @@ bun dev            # run all apps (Next.js docs + xmcp)
 
 | Feature | Variables |
 |---------|-----------|
-| Sign-in (Google / GitHub) | `DATABASE_URL`, `BETTER_AUTH_SECRET`, OAuth client ids/secrets |
-| Bookmarks | `DATABASE_URL` + session (above) |
+| Sign-in & Bookmarks | `NEXT_PUBLIC_ENABLE_AUTH="true"`, `DATABASE_URL`, `BETTER_AUTH_SECRET`, OAuth keys |
 | Redis rate limits / cache | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` |
 | Better Auth Sentinel | `BETTER_AUTH_API_KEY`, `NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL` |
 | Custom Ask AI endpoint | `AI_SEARCH_CHAT_URL` (defaults to the public docs search instance) |
 | Sentry | `NEXT_PUBLIC_SENTRY_DSN` |
 
-Production deployments must set `BETTER_AUTH_SECRET` and `DATABASE_URL` at minimum.
+Production deployments for documentation require **zero environment variables**. Set `NEXT_PUBLIC_ENABLE_AUTH="true"`, `BETTER_AUTH_SECRET`, and `DATABASE_URL` only when deploying with full authentication enabled.
 
 ## MCP Server
 
