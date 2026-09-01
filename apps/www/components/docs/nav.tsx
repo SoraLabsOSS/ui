@@ -350,11 +350,11 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
             ) : (
               <button
                 aria-label="Sign-in temporarily disabled"
-                className="ms-2 inline-flex size-6 shrink-0 cursor-not-allowed items-center justify-center rounded-md text-fd-muted-foreground/40 transition-colors md:ms-3 [&_svg]:size-5"
+                className="ms-2 inline-flex size-6 shrink-0 cursor-not-allowed items-center justify-center rounded-md text-fd-muted-foreground/40 transition-colors md:ms-3 [&_svg]:size-6"
                 title="Sign-in is temporarily disabled in production"
                 type="button"
               >
-                <User2 className="size-5 opacity-60" />
+                <User2 className="size-6 opacity-60" />
               </button>
             )}
 

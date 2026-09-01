@@ -3,11 +3,12 @@
 import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
-import { Bookmark } from "lucide-react";
+import { Bookmark, User2 } from "lucide-react";
 import Link from "next/link";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
+import { isAuthEnabled } from "@/env";
 import { GITHUB_PROFILE_URL } from "@/lib/site";
 import { ThemeSwitcher } from "./animate/theme-switcher";
 
@@ -74,19 +75,33 @@ export const Header = ({ className }: { className?: string }) => (
           <GithubLogo />
         </a>
 
-        <UserButton
-          align="end"
-          className={headerIconButtonClassName}
-          links={[
-            {
-              label: "Bookmark",
-              href: "/bookmark",
-              icon: <Bookmark />,
-              visibility: "authenticated",
-            },
-          ]}
-          size="icon"
-        />
+        {isAuthEnabled() ? (
+          <UserButton
+            align="end"
+            className={headerIconButtonClassName}
+            links={[
+              {
+                label: "Bookmark",
+                href: "/bookmark",
+                icon: <Bookmark />,
+                visibility: "authenticated",
+              },
+            ]}
+            size="icon"
+          />
+        ) : (
+          <button
+            aria-label="Sign-in temporarily disabled"
+            className={cn(
+              headerIconButtonClassName,
+              "cursor-not-allowed opacity-40 hover:bg-transparent hover:text-fd-muted-foreground"
+            )}
+            title="Sign-in is temporarily disabled in production"
+            type="button"
+          >
+            <User2 className="size-6" />
+          </button>
+        )}
 
         <div className={headerThemeToggleSlotClassName}>
           <ThemeSwitcher className="h-6 w-10" />

@@ -138,11 +138,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <Banner
-          className="px-2 sm:px-4"
-          id="auth-maintenance-banner"
-          variant="rainbow"
-        >
+        <Banner id="auth-maintenance-banner" variant="rainbow">
           Authentication is temporarily unavailable while we optimize our
           infrastructure.
         </Banner>
