@@ -60,6 +60,7 @@ packages/
   auth-ui/            — @workspace/auth-ui: better-auth UI wiring.
   db/                 — @workspace/db: Drizzle ORM schema/client (db:generate/push/migrate/studio).
   typescript-config/  — shared tsconfig bases.
+  www-cli/            — @workspace/www-cli: internal contributor CLI for scaffolding registry components (`bun run create`).
 ```
 
 ### The registry system (apps/www/registry) — the core of this repo

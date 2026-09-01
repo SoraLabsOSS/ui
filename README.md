@@ -53,7 +53,9 @@ See the [MCP Documentation](https://ui.soralabs.studio/docs/mcp) or [`apps/xmcp/
 
 Visit our [contributing guide](./CONTRIBUTING.md) to learn how to contribute.
 
-Adding a documented component (registry + docs preview flow): see [apps/www/registry/README.md](./apps/www/registry/README.md).
+- **Scaffold a component:** `bun run create` (interactive wizard)
+- **Adding a documented component:** see [apps/www/registry/README.md](./apps/www/registry/README.md)
+- **Contributor CLI reference:** see [packages/www-cli/README.md](./packages/www-cli/README.md)
 
 ## Code of Conduct
 

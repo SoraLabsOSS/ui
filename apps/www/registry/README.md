@@ -159,6 +159,12 @@ Skip `inspiration` for components that are fully original.
 ## Commands
 
 ```bash
+# Scaffold new component (from repo root)
+bun run create           # interactive wizard
+bun run create:ui        # UI component (Base or Radix)
+bun run create:primitive # Motion primitive
+
+# Build & run (inside apps/www)
 cd apps/www
 bun run registry:build   # after changing registry or demoProps
 bun dev                  # run the docs site
@@ -167,4 +173,5 @@ bun dev                  # run the docs site
 ## See also
 
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) — broader guide (taxonomy, setup, PR workflows)
+- [packages/www-cli/README.md](../../packages/www-cli/README.md) — internal contributor scaffolding CLI reference
 - [shadcn registry item schema](https://ui.shadcn.com/docs/registry/registry-item-json)

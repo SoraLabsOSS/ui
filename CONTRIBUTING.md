@@ -43,6 +43,7 @@ packages/
   auth-ui/            @workspace/auth-ui — Better Auth UI
   db/                 @workspace/db — Drizzle schema/client
   typescript-config/  Shared tsconfig bases
+  www-cli/            @workspace/www-cli — internal scaffolding CLI for contributors (`bun run create`)
 ```
 
 ### Registry (`apps/www/registry`)
@@ -113,7 +114,25 @@ There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
 
 **Windows:** do not use bare `npx biome` / `npx tsc` in this repo (unrelated decoy packages). Use `node_modules/.bin/biome.exe` and `node_modules/.bin/tsc.exe` instead.
 
-## Adding or changing a component
+## Fast track for new contributors (Recommended)
+
+Instead of creating 4–5 files by hand, you can use our built-in interactive contributor CLI (`packages/www-cli`):
+
+```bash
+# 1. Interactive wizard (walks you through tier, category/framework, and component name)
+bun run create
+
+# 2. Or scaffold directly via command:
+bun run create:ui <name> --framework=base        # Base UI component
+bun run create:ui <name> --framework=radix       # Radix UI component
+bun run create:primitive <name> --category=texts # Motion primitive (texts|buttons|disclosure|effects|animate)
+```
+
+The CLI automatically scaffolds the component implementation, `registry-item.json`, demo showcase, MDX documentation page, and registers the entry in `meta.json`.
+
+After scaffolding, start the dev server (`bun run dev:www`), implement your component in `registry/...`, and preview it live on `http://localhost:3000`.
+
+## Adding or changing a component (Manual reference)
 
 ### Flow 1: Adding a UI component (`/ui` — Base UI / Radix UI + Motion)
 
