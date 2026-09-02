@@ -5706,6 +5706,7 @@
   justify-content: flex-start;
   width: 7.5em;
   height: auto;
+  color: var(--color-dark);
 }
 
 .home-layout .info__scribble {
@@ -5804,7 +5805,7 @@
   }
   .home-layout .info {
     position: relative;
-    padding-top: var(--padding-s);
+    padding-top: var(--padding-m);
     padding-bottom: 0;
   }
   .home-layout .info__wrap {

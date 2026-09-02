@@ -7,11 +7,7 @@ export function InfoSection() {
         <div className="info__wrap">
           <div className="info__small-col">
             <div className="info__graphic">
-              <Bunny
-                className="text-neutral-900 dark:text-neutral-100"
-                size={80}
-                sleeping={false}
-              />
+              <Bunny size={80} sleeping={false} />
             </div>
           </div>
           <div className="info__large-col">
