@@ -128,9 +128,8 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                         <div className="form-field">
                           <div className="form-submit-btn is--newsletter">
                             <button
-                              className="button"
+                              className="button pointer-events-none cursor-not-allowed opacity-40"
                               data-button-rotate=""
-                              data-button-rotate-hover=""
                               data-responsive="landscape"
                               data-shape=""
                               data-size=""

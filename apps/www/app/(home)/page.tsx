@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
+import { InfoSection } from "./components/info-section";
 import { AboutModal } from "./components/modals/about-modal";
 import { Navbar } from "./components/navbar";
 import { UnderNavMarquee } from "./components/under-nav-marquee";
@@ -70,6 +71,7 @@ export default function HomePage() {
           isScrollingStarted={isScrollingStarted}
         />
         <Hero />
+        <InfoSection />
       </main>
 
       <Footer onOpenAboutModal={() => setIsAboutModalOpen(true)} />

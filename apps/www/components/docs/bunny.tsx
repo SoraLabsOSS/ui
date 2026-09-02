@@ -132,7 +132,7 @@ export function Bunny({ size = 32, sleeping = false, className }: BunnyProps) {
           100% { transform: translate(8px, -18px) scale(0.8); opacity: 0; }
         }
       `}</style>
-      <g transform="translate(6, 8)">
+      <g transform={`translate(${sleeping ? 6 : 7.15}, 8)`}>
         {sleeping ? (
           <>
             <g transform="rotate(-15, 7, 10) translate(0, 1)">
