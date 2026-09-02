@@ -14,7 +14,7 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
 
     gsap.registerPlugin(CustomEase);
     try {
-      CustomEase.create("osmo", "0.625, 0.05, 0, 1");
+      CustomEase.create("sora-cubic", "0.625, 0.05, 0, 1");
     } catch {
       // CustomEase exists
     }
@@ -120,7 +120,7 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
         elementWithFlag._rotTl = gsap.to(animTargets, {
           rotation: `+=${n}`,
           duration: dur,
-          ease: "osmo",
+          ease: "sora-cubic",
           stagger: 0.075,
           overwrite: "auto",
           onComplete: () => {

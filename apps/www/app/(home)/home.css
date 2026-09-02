@@ -325,19 +325,6 @@
   padding: 0;
 }
 
-.home-layout [class^="w-icon-"],
-.home-layout [class*=" w-icon-"] {
-  speak: none;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1;
-  font-family: webflow-icons !important;
-}
-
 .home-layout,
 .home-layout * {
   box-sizing: border-box;
@@ -5492,24 +5479,6 @@
 .home-layout [data-environment] body .container .body-content {
   width: 100%;
   padding: 0;
-}
-
-.home-layout [data-environment] #auth-embed {
-  width: 100% !important;
-}
-
-.home-layout [data-environment] img[title="Osmo"] {
-  max-height: 4em !important;
-}
-
-.home-layout
-  [data-environment]
-  [style="margin-top: 12px; padding-left: 12px;"] {
-  padding-left: 0 !important;
-}
-
-.home-layout [data-environment] img[title="Osmo"] {
-  max-width: 10em;
 }
 
 /* ------------------------- Grow Arrow -------------------------------------------------- */
