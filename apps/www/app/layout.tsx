@@ -9,9 +9,9 @@ import { MotionConfig } from "motion/react";
 import { AISearchRoot } from "@/components/ai/shell";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { AuthSessionProviders } from "@/components/auth-session-providers";
-import { Banner } from "@/components/banner";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
+import { ConditionalBanner } from "@/components/conditional-banner";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { Providers } from "@/components/providers";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
@@ -138,10 +138,10 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <Banner id="auth-maintenance-banner" variant="rainbow">
+        <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
           Authentication is temporarily unavailable while we optimize our
           infrastructure.
-        </Banner>
+        </ConditionalBanner>
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>
