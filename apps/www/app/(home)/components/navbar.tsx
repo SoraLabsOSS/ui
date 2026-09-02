@@ -119,8 +119,10 @@ export function Navbar({
               {/* Action Buttons: 1 Round (Login) + 1 Square (Docs) */}
               <div className="nav-bar__buttons">
                 <div className="nav-bar__login-button">
-                  <Link
-                    className="button w-inline-block"
+                  {/* Auth temporarily disabled — swap span back to Link when auth is re-enabled */}
+                  <span
+                    aria-disabled="true"
+                    className="button pointer-events-none w-inline-block cursor-not-allowed opacity-40"
                     data-barba-p=""
                     data-button-rotate=""
                     data-button-rotate-hover=""
@@ -129,7 +131,8 @@ export function Navbar({
                     data-shape="round"
                     data-size=""
                     data-theme=""
-                    href="/login"
+                    role="link"
+                    title="Đăng nhập tạm thời không khả dụng"
                   >
                     <div
                       className="button-bg"
@@ -143,7 +146,7 @@ export function Navbar({
                         <span>Login</span>
                       </div>
                     </div>
-                  </Link>
+                  </span>
                 </div>
                 <div className="nav-bar__signup-button">
                   <Link
