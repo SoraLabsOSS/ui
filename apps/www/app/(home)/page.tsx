@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
 import { InfoSection } from "./components/info-section";
-import { AboutModal } from "./components/modals/about-modal";
 import { Navbar } from "./components/navbar";
 import { UnderNavMarquee } from "./components/under-nav-marquee";
 import { useButton3DHover } from "./hooks/use-button-3d-hover";
@@ -19,7 +18,6 @@ export default function HomePage() {
   const [scrollingDirection, setScrollingDirection] = useState<"up" | "down">(
     "up"
   );
-  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
   // Monitor scroll state for Navbar & Marquee morphing
   useEffect(() => {
@@ -41,14 +39,14 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock/Unlock scroll when menu or modal is open
+  // Lock/Unlock scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen || isAboutModalOpen) {
+    if (isMenuOpen) {
       lenisRef.current?.stop();
     } else {
       lenisRef.current?.start();
     }
-  }, [isMenuOpen, isAboutModalOpen, lenisRef]);
+  }, [isMenuOpen, lenisRef]);
 
   return (
     <div className="home-content body" data-barba="wrapper">
@@ -74,12 +72,7 @@ export default function HomePage() {
         <InfoSection />
       </main>
 
-      <Footer onOpenAboutModal={() => setIsAboutModalOpen(true)} />
-
-      <AboutModal
-        isOpen={isAboutModalOpen}
-        onClose={() => setIsAboutModalOpen(false)}
-      />
+      <Footer />
     </div>
   );
 }

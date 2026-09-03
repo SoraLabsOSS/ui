@@ -10,11 +10,7 @@ import {
   X_PROFILE_URL,
 } from "@/lib/site";
 
-interface FooterProps {
-  onOpenAboutModal?: () => void;
-}
-
-export function Footer({ onOpenAboutModal }: FooterProps) {
+export function Footer() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(
     "components"
   );
@@ -293,17 +289,6 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                             >
                               Base UI &amp; Radix
                             </Link>
-                          </li>
-                          <li className="footer-link__col-li">
-                            <button
-                              className="p-m"
-                              data-modal-trigger="about"
-                              data-underline-link=""
-                              onClick={onOpenAboutModal}
-                              type="button"
-                            >
-                              About Sora UI
-                            </button>
                           </li>
                           <li className="footer-link__col-li">
                             <Link

@@ -45,12 +45,11 @@ export const GITHUB_PROFILE_URL = GITHUB_REPO_URL;
 export const X_PROFILE_URL = "https://x.com/axyl1410" as const;
 
 /** Public community hub — bug reports, discussions, and feature requests. */
-export const COMMUNITY_REPO_URL =
-  "https://github.com/SoraLabsOSS/sora-ui-community" as const;
+export const COMMUNITY_REPO_URL = "https://github.com/SoraLabsOSS/ui" as const;
 export const COMMUNITY_ISSUES_URL =
-  "https://github.com/SoraLabsOSS/sora-ui-community/issues/new" as const;
+  "https://github.com/SoraLabsOSS/ui/issues/new" as const;
 export const COMMUNITY_DISCUSSIONS_URL =
-  "https://github.com/SoraLabsOSS/sora-ui-community/discussions/1" as const;
+  "https://github.com/SoraLabsOSS/ui/discussions" as const;
 
 export const SITE_DESCRIPTION =
   "Copy-paste animated React components built with Motion, Tailwind CSS & GSAP. Free, shadcn/ui-compatible — install any primitive via the CLI in seconds.";

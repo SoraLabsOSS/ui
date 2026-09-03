@@ -44,7 +44,7 @@ export default function GlobalError({
             <Button onClick={() => unstable_retry()}>Try again</Button>
             <Button asChild variant="outline">
               <a
-                href="https://github.com/SoraLabsOSS/sora-ui-community/issues/new"
+                href="https://github.com/SoraLabsOSS/ui/issues/new"
                 rel="noopener noreferrer"
                 target="_blank"
               >
