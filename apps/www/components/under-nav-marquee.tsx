@@ -1,16 +1,32 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-interface UnderNavMarqueeProps {
+export interface UnderNavMarqueeProps {
   isMenuOpen?: boolean;
   isScrollingStarted?: boolean;
 }
 
 export function UnderNavMarquee({
   isMenuOpen = false,
-  isScrollingStarted = false,
-}: UnderNavMarqueeProps) {
+  isScrollingStarted: isScrollingStartedProp,
+}: UnderNavMarqueeProps = {}) {
+  const [internalScrollingStarted, setInternalScrollingStarted] =
+    useState(false);
+
+  useEffect(() => {
+    if (isScrollingStartedProp !== undefined) {
+      return;
+    }
+    const onScroll = () => {
+      setInternalScrollingStarted(window.scrollY > 30);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isScrollingStartedProp]);
+
+  const isScrollingStarted = isScrollingStartedProp ?? internalScrollingStarted;
   const isHidden = isMenuOpen || isScrollingStarted;
 
   return (
@@ -27,7 +43,7 @@ export function UnderNavMarquee({
       }}
     >
       <div className="under-nav-bar__inner">
-        <Link className="nav-marquee w-inline-block" href="/showcase">
+        <Link className="nav-marquee w-inline-block" href="/catalog">
           <div
             className="marquee-css"
             data-css-marquee=""

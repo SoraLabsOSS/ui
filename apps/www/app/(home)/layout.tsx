@@ -1,10 +1,16 @@
 import type { ReactNode } from "react";
-import "./home.css";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
+import { HomeProviders } from "./components/home-providers";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="home-layout flex min-h-full flex-1 flex-col antialiased">
-      {children}
-    </div>
+    <HomeProviders>
+      <div className="flex min-h-screen flex-col antialiased">
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </div>
+    </HomeProviders>
   );
 }

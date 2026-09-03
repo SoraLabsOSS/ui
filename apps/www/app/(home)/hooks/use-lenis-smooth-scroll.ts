@@ -37,7 +37,26 @@ export function useLenisSmoothScroll() {
     gsap.ticker.add(tickerCb);
     gsap.ticker.lagSmoothing(0);
 
+    // Auto-pause Lenis when mobile menu drawer is open
+    const menuObserver = new MutationObserver(() => {
+      const isMenuOpen = Boolean(
+        document.querySelector('[data-nav-status="active"]')
+      );
+      if (isMenuOpen) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    });
+
+    menuObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-nav-status"],
+      subtree: true,
+    });
+
     return () => {
+      menuObserver.disconnect();
       gsap.ticker.remove(tickerCb);
       lenis.destroy();
       lenisRef.current = null;

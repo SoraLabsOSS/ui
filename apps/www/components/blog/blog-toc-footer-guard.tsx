@@ -9,77 +9,71 @@ function getSiteFooter(): HTMLElement | null {
   return document.querySelector("[data-blog-site-footer]");
 }
 
-function updateBlogTocDismiss(toc: HTMLElement): void {
-  const siteFooter = getSiteFooter();
-
-  if (!siteFooter) {
-    return;
+function getTocElements(): HTMLElement[] {
+  const elements: HTMLElement[] = [];
+  const ndToc = document.getElementById("nd-toc");
+  if (ndToc) {
+    elements.push(ndToc);
   }
-
-  const footerTop = siteFooter.getBoundingClientRect().top;
-  const shouldDismiss = footerTop <= window.innerHeight + FOOTER_LEAD_PX;
-
-  if (shouldDismiss) {
-    if (
-      !(
-        toc.hasAttribute("data-blog-toc-leaving") ||
-        toc.hasAttribute("data-blog-toc-hidden")
-      )
-    ) {
-      toc.setAttribute("data-blog-toc-leaving", "");
-    }
-    return;
+  const customTocs = document.querySelectorAll<HTMLElement>("[data-blog-toc]");
+  for (const el of customTocs) {
+    elements.push(el);
   }
-
-  toc.removeAttribute("data-blog-toc-hidden");
-  toc.removeAttribute("data-blog-toc-leaving");
+  return elements;
 }
 
 export function BlogTocFooterGuard() {
   useEffect(() => {
-    const root = document.querySelector("[data-blog-footer]");
+    const root = document.querySelector<HTMLElement>("[data-blog-footer]");
 
     if (!root) {
       return;
     }
 
     let raf = 0;
-    let toc: HTMLElement | null = null;
-
-    const onTocTransitionEnd = (event: TransitionEvent) => {
-      if (event.target !== toc || event.propertyName !== "opacity") {
-        return;
-      }
-
-      if (!toc?.hasAttribute("data-blog-toc-leaving")) {
-        return;
-      }
-
-      toc.setAttribute("data-blog-toc-hidden", "");
-      toc.removeAttribute("data-blog-toc-leaving");
-    };
-
-    const bindToc = (nextToc: HTMLElement | null) => {
-      if (toc === nextToc) {
-        return;
-      }
-
-      toc?.removeEventListener("transitionend", onTocTransitionEnd);
-      toc = nextToc;
-
-      if (toc) {
-        toc.addEventListener("transitionend", onTocTransitionEnd);
-      }
-    };
 
     const tick = () => {
-      bindToc(document.getElementById("nd-toc"));
-
-      if (!toc) {
+      const siteFooter = getSiteFooter();
+      if (!siteFooter) {
         return;
       }
 
-      updateBlogTocDismiss(toc);
+      const footerTop = siteFooter.getBoundingClientRect().top;
+      const shouldDismiss = footerTop <= window.innerHeight + FOOTER_LEAD_PX;
+
+      if (shouldDismiss) {
+        root.setAttribute("data-footer-in-view", "");
+      } else {
+        root.removeAttribute("data-footer-in-view");
+      }
+
+      const tocs = getTocElements();
+      for (const toc of tocs) {
+        if (shouldDismiss) {
+          if (
+            !(
+              toc.hasAttribute("data-blog-toc-leaving") ||
+              toc.hasAttribute("data-blog-toc-hidden")
+            )
+          ) {
+            toc.setAttribute("data-blog-toc-leaving", "");
+          }
+        } else {
+          toc.removeAttribute("data-blog-toc-hidden");
+          toc.removeAttribute("data-blog-toc-leaving");
+        }
+      }
+    };
+
+    const onTransitionEnd = (event: TransitionEvent) => {
+      if (event.propertyName !== "opacity") {
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      if (target?.hasAttribute("data-blog-toc-leaving")) {
+        target.setAttribute("data-blog-toc-hidden", "");
+        target.removeAttribute("data-blog-toc-leaving");
+      }
     };
 
     const schedule = () => {
@@ -89,20 +83,40 @@ export function BlogTocFooterGuard() {
 
     schedule();
 
+    const siteFooter = getSiteFooter();
+    let observer: IntersectionObserver | null = null;
+
+    if (siteFooter) {
+      observer = new IntersectionObserver(
+        () => {
+          schedule();
+        },
+        {
+          rootMargin: `0px 0px ${FOOTER_LEAD_PX}px 0px`,
+        }
+      );
+      observer.observe(siteFooter);
+    }
+
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
+    window.addEventListener("transitionend", onTransitionEnd);
 
     const mutation = new MutationObserver(schedule);
     mutation.observe(root, { childList: true, subtree: true });
 
     return () => {
       cancelAnimationFrame(raf);
+      observer?.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      window.removeEventListener("transitionend", onTransitionEnd);
       mutation.disconnect();
-      toc?.removeEventListener("transitionend", onTocTransitionEnd);
-      toc?.removeAttribute("data-blog-toc-hidden");
-      toc?.removeAttribute("data-blog-toc-leaving");
+      root.removeAttribute("data-footer-in-view");
+      for (const toc of getTocElements()) {
+        toc.removeAttribute("data-blog-toc-hidden");
+        toc.removeAttribute("data-blog-toc-leaving");
+      }
     };
   }, []);
 

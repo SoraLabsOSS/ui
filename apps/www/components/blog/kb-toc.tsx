@@ -218,7 +218,11 @@ export function KbToc({
     }
 
     const handleScroll = () => {
-      setIsPastBottom(el.getBoundingClientRect().bottom < 600);
+      const siteFooter = document.querySelector("[data-blog-site-footer]");
+      const footerNear = siteFooter
+        ? siteFooter.getBoundingClientRect().top <= window.innerHeight + 120
+        : false;
+      setIsPastBottom(el.getBoundingClientRect().bottom < 600 || footerNear);
     };
 
     handleScroll();
@@ -277,6 +281,7 @@ export function KbToc({
               isPastBottom && "pointer-events-none opacity-0",
               className
             )}
+            data-blog-toc=""
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
@@ -312,6 +317,7 @@ export function KbToc({
             "z-50 max-h-[60vh] w-[280px] overflow-y-auto rounded-lg border border-border bg-popover p-0 shadow-lg",
             "outline-none"
           )}
+          data-blog-toc-popover=""
           onCloseAutoFocus={(e) => e.preventDefault()}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}

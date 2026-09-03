@@ -512,30 +512,39 @@
   }
 
   /*
-   * Blog slug: dismiss fixed TOC with an exit animation before HomeFooter.
+   * Blog slug: dismiss fixed TOC (both #nd-toc and [data-blog-toc]) with an exit animation before Footer.
    */
-  [data-blog-footer] #nd-toc {
+  [data-blog-footer] #nd-toc,
+  [data-blog-footer] [data-blog-toc] {
     transition:
       opacity 0.32s ease,
       visibility 0s linear 0.32s;
   }
 
-  [data-blog-footer] #nd-toc[data-blog-toc-leaving] {
-    pointer-events: none;
-    opacity: 0;
+  [data-blog-footer][data-footer-in-view] #nd-toc,
+  [data-blog-footer][data-footer-in-view] [data-blog-toc],
+  [data-blog-footer] #nd-toc[data-blog-toc-leaving],
+  [data-blog-footer] [data-blog-toc][data-blog-toc-leaving] {
+    pointer-events: none !important;
+    opacity: 0 !important;
   }
 
-  [data-blog-footer] #nd-toc[data-blog-toc-hidden] {
-    visibility: hidden;
-    pointer-events: none;
-    opacity: 0;
+  [data-blog-footer][data-footer-in-view] #nd-toc,
+  [data-blog-footer][data-footer-in-view] [data-blog-toc],
+  [data-blog-footer] #nd-toc[data-blog-toc-hidden],
+  [data-blog-footer] [data-blog-toc][data-blog-toc-hidden] {
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
     transition:
       opacity 0.32s ease,
       visibility 0s linear 0s;
   }
 
   [data-blog-footer]
-    #nd-toc:not([data-blog-toc-leaving]):not([data-blog-toc-hidden]) {
+    #nd-toc:not([data-blog-toc-leaving]):not([data-blog-toc-hidden]),
+  [data-blog-footer]
+    [data-blog-toc]:not([data-blog-toc-leaving]):not([data-blog-toc-hidden]) {
     transition:
       opacity 0.28s ease,
       visibility 0s linear 0s;

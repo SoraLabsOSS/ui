@@ -6,11 +6,10 @@ import { AccountSidebar } from "@/components/account/sidebar";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { BlogTocFooterGuard } from "@/components/blog/blog-toc-footer-guard";
 import { Nav } from "@/components/docs/nav";
-import { HomeFooter } from "@/components/home/home-footer";
+import { Footer } from "@/components/footer";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
-import { getLatestShippedRegistryItem } from "@/lib/registry/get-latest-shipped-registry-item";
 import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
 import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 
@@ -36,7 +35,6 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
   const primitivesUrl = getFirstPrimitiveDocUrl();
   const uiUrl = getFirstUiDocUrl();
   const releaseDatesByUrl = getReleaseDatesByUrl();
-  const latestShipped = getLatestShippedRegistryItem();
 
   return (
     <DocsLayout
@@ -62,7 +60,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
         <BlogTocFooterGuard />
         {children}
         <div className="relative z-20 bg-background" data-blog-site-footer>
-          <HomeFooter latestShipped={latestShipped} showTopBorder={false} />
+          <Footer />
         </div>
       </div>
     </DocsLayout>

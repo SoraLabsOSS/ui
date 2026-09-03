@@ -2,13 +2,16 @@
 
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
+import { usePathname } from "next/navigation";
 import { type RefObject, useEffect } from "react";
 
 const WHITESPACE_REGEX = /\s+/;
 
 export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
+  const pathname = usePathname();
+
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !pathname) {
       return;
     }
 
@@ -205,5 +208,5 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
         fn();
       }
     };
-  }, [containerRef]);
+  }, [containerRef, pathname]);
 }

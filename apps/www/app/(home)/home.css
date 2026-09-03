@@ -344,6 +344,23 @@
   background-color: var(--background);
 }
 
+/* Scoped component overrides: Prevent full-height stretching and unwanted background when used as Navbar/Footer */
+.sora-navbar-root.home-layout,
+.sora-footer-root.home-layout {
+  height: auto;
+  min-height: 0;
+  background-color: transparent;
+}
+
+.dark .sora-navbar-root.home-layout,
+[data-theme="dark"] .sora-navbar-root.home-layout,
+.sora-navbar-root.home-layout[data-theme="dark"],
+.dark .sora-footer-root.home-layout,
+[data-theme="dark"] .sora-footer-root.home-layout,
+.sora-footer-root.home-layout[data-theme="dark"] {
+  background-color: transparent;
+}
+
 .home-layout img {
   display: inline-block;
   max-width: 100%;
