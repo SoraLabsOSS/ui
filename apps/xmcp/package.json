@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "xmcp build",
+    "vercel-build": "xmcp build --vercel",
     "dev": "xmcp dev",
     "start": "node dist/http.js",
     "check-types": "tsc --noEmit",
