@@ -474,7 +474,7 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                     >
                       <div
                         className="button-bg"
-                        data-wf--button-theme--variant="coral"
+                        data-wf--button-theme--variant="electric"
                       />
                       <div className="button-label__wrap">
                         <div className="button-label">
@@ -800,7 +800,7 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                   >
                     <div
                       className="button-bg"
-                      data-wf--button-theme--variant="purple"
+                      data-wf--button-theme--variant="electric"
                     />
                     <div className="button-label__wrap">
                       <span className="button-label eyebrow">sora</span>
@@ -822,7 +822,7 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                   >
                     <div
                       className="button-bg"
-                      data-wf--button-theme--variant="purple"
+                      data-wf--button-theme--variant="electric"
                     />
                     <div className="button-label__wrap">
                       <span className="button-label eyebrow">labs</span>

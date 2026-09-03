@@ -589,34 +589,20 @@
 }
 
 .home-layout {
-  --color-neutral-200: #f4f4f4;
-  --color-neutral-800: #201d1d;
-  --color-purple: #fb460d;
   --dash-side-width: 19em;
-  --color-neutral-300: #eaeaea;
-  --color-neutral-450: #d8d8d8;
-  --color-light: var(--color-neutral-200);
   --dash-hero-height-top-shrinked: 7em;
-  --color-dark: var(--color-neutral-800);
-  --color-neutral-500: #817f7f;
-  --color-coral: #ea580c;
-  --color-neutral-700: #2a2727;
   --dash-side-width-ignore: 19em;
   --dash-end-padding: 4em;
   --dash-col-gap: 1.5em;
   --dash-col-width: 0em;
   --dash-col-width-half: 0em;
-  --color-neutral-400: #e1e1e1;
   --dash-content-width: 0em;
   --dash-content-max-width: 60em;
   --dash-hero-height-bottom: 5.5em;
-  --color-neutral-600: #312e2e;
-  --color-electric: #ff7a00;
   --dash-mobile-nav-height: calc(1.25em + 1.25em + 3em);
   --dash-hero-height-top: 11em;
   --padding-m: 7.5em;
   --btn-height: 2.5em;
-  --color-neutral-550: #393636;
   --stroke-weight: 1px;
   --gap-xxl: 2.5em;
   --gap-l: 1.875em;
@@ -625,24 +611,16 @@
   --gap-sm: 1.25em;
   --gap-xxs: 0.5em;
   --input-height: 3em;
-  --color-neutral-475: #b8b8b8;
   --gap-xs: 0.75em;
   --gap-m: 1.5em;
   --gap-s: 1em;
   --padding-l: 10em;
   --padding-xl: 12.5em;
-  --color-neutral-950: black;
-  --color-black: var(--color-neutral-900);
   --nav-bar-height: 4.625em;
   --nav-bar-max-width-small: 38em;
   --container-padding: 1.875em;
-  --color-neutral-900: #151313;
   --padding-xs: 3.75em;
-  --color-neutral-100: white;
-  --color-neutral-525: #4f4c4c;
-  --color-white: var(--color-neutral-100);
   --dash-side-width-collapsed: 5.5em;
-  --color-purple-copy: #6840ff;
 }
 
 .home-layout .w-checkbox {
@@ -679,9 +657,9 @@
   font-variation-settings: "wght" 460;
   font-weight: 400;
   line-height: 20px;
-  color: var(--color-neutral-800);
+  color: var(--foreground);
   letter-spacing: -0.01em;
-  background-color: var(--color-neutral-200);
+  background-color: var(--background);
 }
 
 .home-layout h1 {
@@ -2327,13 +2305,6 @@
   padding-top: 2em;
   padding-bottom: 2em;
   text-align: center;
-  background-image: linear-gradient(
-    180deg,
-    transparent,
-    var(--color-neutral-200) 20%,
-    var(--color-neutral-200) 80%,
-    transparent
-  );
 }
 
 .home-layout .home-hero__description-highlight {
@@ -3393,26 +3364,6 @@
   --color-ignore-rgb-light: 249, 249, 249;
   --color-ignore-rgb-black: 0, 0, 0;
   --color-ignore-rgb-white: 255, 255, 255;
-
-  /* Colors Theme */
-  --color-neutral-100: var(--color-ignore-neutral-100);
-  --color-neutral-200: var(--color-ignore-neutral-200);
-  --color-neutral-300: var(--color-ignore-neutral-300);
-  --color-neutral-400: var(--color-ignore-neutral-400);
-  --color-neutral-450: var(--color-ignore-neutral-450);
-  --color-neutral-475: var(--color-ignore-neutral-475);
-  --color-neutral-500: var(--color-ignore-neutral-500);
-  --color-neutral-525: var(--color-ignore-neutral-525);
-  --color-neutral-550: var(--color-ignore-neutral-550);
-  --color-neutral-600: var(--color-ignore-neutral-600);
-  --color-neutral-700: var(--color-ignore-neutral-700);
-  --color-neutral-800: var(--color-ignore-neutral-800);
-  --color-neutral-900: var(--color-ignore-neutral-900);
-  --color-neutral-950: var(--color-ignore-neutral-950);
-  --color-white: var(--color-ignore-neutral-100);
-  --color-light: var(--color-ignore-neutral-200);
-  --color-dark: var(--color-ignore-neutral-800);
-  --color-black: var(--color-ignore-neutral-950);
 
   /* RGB Colors, for transparent RGBA */
   --color-rgb-dark: var(--color-ignore-rgb-dark);

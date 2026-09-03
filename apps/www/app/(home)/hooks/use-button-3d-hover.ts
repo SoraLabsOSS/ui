@@ -21,6 +21,15 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
 
     const root = containerRef?.current || document;
 
+    // Helper to completely kill animations and remove inline transform overrides
+    const resetTargets = (animTargets: HTMLElement[]) => {
+      gsap.killTweensOf(animTargets);
+      for (const el of animTargets) {
+        el.style.removeProperty("transform");
+      }
+      gsap.set(animTargets, { clearProps: "all" });
+    };
+
     // 1. Calculate pivot depth --y based on text length (initRotateButtonsCalc)
     const calcButtonY = (t: HTMLElement) => {
       const labels = Array.from(
@@ -63,7 +72,15 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
       calcButtonY(btn);
     }
 
-    // 2. Exact 1:1 hover rotation from marketing.min.js with guard flags
+    // 2. Initial cleanup: ensure all buttons start with pristine CSS transforms
+    const initialTargets = root.querySelectorAll<HTMLElement>(
+      ".button-label, .button-icon"
+    );
+    if (initialTargets.length > 0) {
+      resetTargets(Array.from(initialTargets));
+    }
+
+    // 3. Hover rotation with click & unmount reset
     const hoverElements = root.querySelectorAll<HTMLElement>(
       "[data-button-rotate-hover]"
     );
@@ -88,6 +105,11 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
         t;
       const a = t.closest<HTMLElement>("[data-hover]") || t;
 
+      const targets = e.querySelectorAll<HTMLElement>(
+        ".button-label, .button-icon"
+      );
+      const animTargets = targets.length > 0 ? Array.from(targets) : [t];
+
       let r = 0;
       const throttle = () => {
         const now = performance.now();
@@ -102,15 +124,11 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
         if (!throttle()) {
           return;
         }
-        const targets = e.querySelectorAll<HTMLElement>(
-          ".button-label, .button-icon"
-        );
-        const animTargets = targets.length > 0 ? Array.from(targets) : [t];
 
         if (elementWithFlag._rotTl) {
           elementWithFlag._rotTl.kill();
           elementWithFlag._rotTl = null;
-          gsap.set(animTargets, { clearProps: "rotation" });
+          resetTargets(animTargets);
         }
 
         const n =
@@ -124,7 +142,7 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
           stagger: 0.075,
           overwrite: "auto",
           onComplete: () => {
-            gsap.set(animTargets, { clearProps: "rotation" });
+            resetTargets(animTargets);
             elementWithFlag._rotTl = null;
           },
         });
@@ -134,19 +152,45 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
         throttle();
       };
 
-      a.addEventListener("pointerenter", onEnter);
-      a.addEventListener("pointerleave", onLeave);
-
-      cleanups.push(() => {
-        a.removeEventListener("pointerenter", onEnter);
-        a.removeEventListener("pointerleave", onLeave);
+      // Reset immediately when user clicks to navigate away
+      const onClick = () => {
         if (elementWithFlag._rotTl) {
           elementWithFlag._rotTl.kill();
           elementWithFlag._rotTl = null;
         }
+        resetTargets(animTargets);
+      };
+
+      a.addEventListener("pointerenter", onEnter);
+      a.addEventListener("pointerleave", onLeave);
+      a.addEventListener("click", onClick, { capture: true });
+
+      cleanups.push(() => {
+        a.removeEventListener("pointerenter", onEnter);
+        a.removeEventListener("pointerleave", onLeave);
+        a.removeEventListener("click", onClick, { capture: true });
+        if (elementWithFlag._rotTl) {
+          elementWithFlag._rotTl.kill();
+          elementWithFlag._rotTl = null;
+        }
+        resetTargets(animTargets);
         elementWithFlag._rotBound = false;
       });
     }
+
+    // 4. Handle browser back/forward cache (bfcache) navigation
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        const labels = root.querySelectorAll<HTMLElement>(
+          ".button-label, .button-icon"
+        );
+        if (labels.length > 0) {
+          resetTargets(Array.from(labels));
+        }
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+    cleanups.push(() => window.removeEventListener("pageshow", onPageShow));
 
     const onResize = () => {
       for (const btn of Array.from(rotateButtons)) {
