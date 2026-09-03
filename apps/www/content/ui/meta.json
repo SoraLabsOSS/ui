@@ -8,6 +8,7 @@
     "roadmap",
     "---Base UI---",
     "base/accordion",
+    "base/alert-dialog",
     "base/button",
     "base/checkbox",
     "base/context-menu",

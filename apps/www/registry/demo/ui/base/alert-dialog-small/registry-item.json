@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-alert-dialog-small",
+  "type": "registry:ui",
+  "title": "Alert Dialog Small Demo",
+  "description": "Compact Base UI alert dialog with two-column button layout.",
+  "registryDependencies": ["@soralabs/base-alert-dialog"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/alert-dialog-small/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/alert-dialog-small.tsx"
+    }
+  ]
+}

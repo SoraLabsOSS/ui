@@ -711,6 +711,36 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-alert-dialog": React.lazy(async () => {
+    const mod = await import("@/registry/demo/ui/base/alert-dialog/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-alert-dialog-small": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/ui/base/alert-dialog-small/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-button": React.lazy(async () => {
     const mod = await import("@/registry/demo/ui/base/button/index.tsx");
     const pascalExportName = Object.keys(mod).find(
@@ -2007,6 +2037,20 @@ export const previewComponents: Record<string, any> = {
   }),
   "base-accordion": React.lazy(async () => {
     const mod = await import("@/registry/demo/ui/base/accordion/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "base-alert-dialog": React.lazy(async () => {
+    const mod = await import("@/registry/ui/base/alert-dialog/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );

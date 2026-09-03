@@ -1,0 +1,129 @@
+---
+title: Alert Dialog
+description: An accessible alert dialog component built on Base UI with smooth 3D perspective spring entrance and exit animations, customizable sizes, and media slots.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-alert-dialog" description="Default animated alert dialog with 3D perspective transition, media icon header, and destructive action." />
+
+## Installation
+
+<ComponentInstallation name="base-alert-dialog" />
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/sora-ui/base/alert-dialog";
+import { Button } from "@/components/sora-ui/base/button";
+import { AlertTriangleIcon } from "lucide-react";
+
+export default function Page() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={<Button variant="destructive">Delete Account</Button>}
+      />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-destructive/10 text-destructive">
+            <AlertTriangleIcon />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction closeOnClick variant="destructive">
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+```
+
+## Examples
+
+### Small Size
+
+<ComponentPreview name="demo-alert-dialog-small" description="Compact alert dialog layout with 2-column action buttons." />
+
+## Props
+
+### AlertDialog
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the alert dialog.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### AlertDialogContent
+
+<TypeTable
+  type={{
+    size: {
+      description: "The layout size variant of the alert dialog.",
+      type: '"default" | "sm"',
+      default: '"default"',
+    },
+    showCloseButton: {
+      description: "Whether to render an optional top-right close icon button.",
+      type: "boolean",
+      default: "false",
+    },
+    overlayClassName: {
+      description: "Additional CSS classes for the backdrop overlay.",
+      type: "string",
+    },
+    containerClassName: {
+      description: "Additional CSS classes for the fixed centering container.",
+      type: "string",
+    },
+    className: {
+      description: "Additional CSS classes for the alert dialog popup.",
+      type: "string",
+    },
+  }}
+/>
+
+### AlertDialogAction
+
+<TypeTable
+  type={{
+    closeOnClick: {
+      description: "Whether clicking the action button automatically closes the alert dialog via Base UI Close primitive.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>

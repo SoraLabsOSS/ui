@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-alert-dialog-small",
+  "title": "Alert Dialog Small Demo",
+  "description": "Compact Base UI alert dialog with two-column button layout.",
+  "registryDependencies": ["@soralabs/base-alert-dialog"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/alert-dialog-small/index.tsx",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport {\n  AlertDialog,\n  AlertDialogAction,\n  AlertDialogCancel,\n  AlertDialogContent,\n  AlertDialogDescription,\n  AlertDialogFooter,\n  AlertDialogHeader,\n  AlertDialogTitle,\n  AlertDialogTrigger,\n} from \"@/components/sora-ui/base/alert-dialog\";\nimport { Button } from \"@/components/sora-ui/base/button\";\n\nexport default function AlertDialogSmallDemo() {\n  const [open, setOpen] = useState(false);\n\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <AlertDialog onOpenChange={setOpen} open={open}>\n        <AlertDialogTrigger\n          render={<Button variant=\"outline\">Discard Changes</Button>}\n        />\n        <AlertDialogContent size=\"sm\">\n          <AlertDialogHeader>\n            <AlertDialogTitle>Discard unsaved draft?</AlertDialogTitle>\n            <AlertDialogDescription>\n              All unsaved changes will be permanently discarded.\n            </AlertDialogDescription>\n          </AlertDialogHeader>\n          <AlertDialogFooter>\n            <AlertDialogCancel>Keep editing</AlertDialogCancel>\n            <AlertDialogAction\n              closeOnClick\n              onClick={() => setOpen(false)}\n              variant=\"destructive\"\n            >\n              Discard\n            </AlertDialogAction>\n          </AlertDialogFooter>\n        </AlertDialogContent>\n      </AlertDialog>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/alert-dialog-small.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

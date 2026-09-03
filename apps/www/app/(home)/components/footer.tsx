@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type FormEvent, useState } from "react";
+import { useState } from "react";
 import {
   COMMUNITY_ISSUES_URL,
   COMMUNITY_REPO_URL,
@@ -18,15 +18,9 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
   const [openAccordion, setOpenAccordion] = useState<string | null>(
     "components"
   );
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
 
   const toggleAccordion = (name: string) => {
     setOpenAccordion((prev) => (prev === name ? null : name));
-  };
-
-  const handleSubmitNewsletter = (e: FormEvent) => {
-    e.preventDefault();
-    setEmailSubmitted(true);
   };
 
   return (
@@ -45,7 +39,6 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                   <form
                     className="form is--newsletter"
                     id="wf-form-Newsletter-Footer"
-                    onSubmit={handleSubmitNewsletter}
                   >
                     <div className="form-field-row is--newsletter">
                       <div className="form-field-group">
@@ -242,15 +235,6 @@ export function Footer({ onOpenAboutModal }: FooterProps) {
                               href="/docs/cli"
                             >
                               Sora CLI
-                            </Link>
-                          </li>
-                          <li className="footer-link__col-li">
-                            <Link
-                              className="p-m"
-                              data-underline-link=""
-                              href="/catalog"
-                            >
-                              Templates
                             </Link>
                           </li>
                         </ul>

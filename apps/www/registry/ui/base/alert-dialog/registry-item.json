@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "base-alert-dialog",
+  "type": "registry:ui",
+  "title": "Base Alert Dialog",
+  "description": "An accessible alert dialog built on Base UI with smooth Motion 3D perspective entrance and exit animations, customizable sizes, and media slots.",
+  "dependencies": ["@base-ui/react", "motion", "lucide-react"],
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-controlled-state",
+    "@soralabs/base-button"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/base/alert-dialog/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/base/alert-dialog.tsx"
+    }
+  ]
+}

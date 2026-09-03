@@ -1,6 +1,6 @@
 ---
 title: Changelog
-description: Latest updates and announcements.
+description: Latest updates, weekly releases, and announcements.
 ---
 
 import {
@@ -13,40 +13,108 @@ import {
 
 <Changelog>
 
-<ChangelogItem date="2026-08-28">
+<ChangelogItem date="2026-09-03" major>
   <ChangelogItemVersion>
 
-## Contributor CLI (`www-cli`)
+## Base UI Alert Dialog, Homepage Redesign & Button Physics Fix
 
   </ChangelogItemVersion>
 
-<ChangelogItemTitle>Contributor DX</ChangelogItemTitle>
+<ChangelogItemTitle>UI Components & Motion</ChangelogItemTitle>
 
 <ChangelogItemDescription>
 
-- Shipped an internal contributor CLI (`packages/www-cli`) to scaffold Motion primitives and UI components from the monorepo root — `bun run create`, `bun run create:primitive`, and `bun run create:ui`.
-- Generators write registry stubs, `registry-item.json`, docs MDX, `meta.json` entries, optional manual demos, and run `registry:build` by default.
-- Non-interactive flags for CI and agents: `--yes`, `--no-input`, `--dry-run`, `--quiet`, and `--no-color` ([clig.dev](https://clig.dev/) aligned).
-- `registry:build` skip logs now suggest the matching `create:primitive` / `create:ui` command when a folder looks undocumented.
-- Read more: [Making Sora UI Easier to Contribute To](/blog/making-sora-ui-easier-to-contribute-to) and [CONTRIBUTING.md](https://github.com/SoraLabsOSS/ui/blob/main/CONTRIBUTING.md). Consumer installs remain [`sora-cli`](/docs/cli).
+- **Base UI Alert Dialog** (`/ui/base/alert-dialog`): Shipped accessible alert dialog modal with Motion 3D perspective spring transitions, backdrop blur, responsive sizes (`default` and `sm`), and `AlertDialogMedia` icon slot.
+- **Button Subpixel Jitter Fix**: Eliminated font rasterization jitter and text displacement on hover scale across Base UI (`/ui/base/button`) and Radix UI (`/ui/radix/button`) by anchoring elements to GPU composite layers (`[backface-visibility:hidden]`, `will-change-transform`) with critically-damped spring damping.
+- **MotionScore Grid Optimization**: Refactored the MotionScore Quality Framework cards in the UI Roadmap to a balanced 2-row desktop layout and 1-column mobile view for improved readability.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Homepage & Navigation</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Homepage Redesign**: Shipped the all-new Sora UI homepage with interactive info sections, animated mascot, and streamlined responsive layouts.
+- Cleaned animation easing tokens and purged legacy styles for better runtime efficiency.
+- Synchronized 24px icon sizing across navigation bars and added graceful auth status indicators.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Developer Experience & Docs</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Added `NEXT_PUBLIC_ENABLE_AUTH` feature flag with graceful fallback handling and maintenance alert banners.
+- Published beginner fast-track guide and comprehensive documentation for `@workspace/www-cli`.
+- Updated UI Roadmap (`/ui/roadmap`) to include Base UI Alert Dialog in Phase 1.
 
 </ChangelogItemDescription>
 
 </ChangelogItem>
 
-<ChangelogItem date="2026-08-23">
+<ChangelogItem date="2026-08-30">
   <ChangelogItemVersion>
 
-## Base UI Accordion & XMCP
+## Base UI Context Menu & Contributor CLI
 
   </ChangelogItemVersion>
 
-<ChangelogItemTitle>UI</ChangelogItemTitle>
+<ChangelogItemTitle>UI & Primitives</ChangelogItemTitle>
 
 <ChangelogItemDescription>
 
-- New Base UI `Accordion` primitive (`/ui/base/accordion`) with spring height morphing, bottom mask gradient fade, chevron spring rotation, exit animation via `AnimatePresence`, and shared `layoutId` focus ring gliding.
-- Added 4 interactive showcase variants (`default`, `bordered`, `separated`, `ghost`) with live documentation showcase.
+- **Base UI Context Menu** (`/ui/base/context-menu`): New context menu primitive with spring scale physics, cascaded submenus, and keyboard navigation.
+- Restored demo props and scoped `@soralabs` dependencies across all registry components.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Contributor DX (`www-cli`)</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Shipped internal contributor CLI (`packages/www-cli`) to scaffold Motion primitives and UI components from monorepo root via `bun run create`, `bun run create:primitive`, and `bun run create:ui`.
+- Added non-interactive flags for CI and agents: `--yes`, `--no-input`, `--dry-run`, `--quiet`, and `--no-color` ([clig.dev](https://clig.dev/) aligned).
+- Read more: [Making Sora UI Easier to Contribute To](/blog/making-sora-ui-easier-to-contribute-to) and [CONTRIBUTING.md](https://github.com/SoraLabsOSS/ui/blob/main/CONTRIBUTING.md).
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Platform Stability</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- Mitigated Turbopack chunk race conditions during docs sidebar navigation.
+- Restored site-wide thumb scrollbar synchronization for Radix ScrollArea.
+- Deduped Motion hub and added `lastmod` metadata to static sitemap entries.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-08-23" major>
+  <ChangelogItemVersion>
+
+## Base UI Foundation, Accordion & Taxonomy Evolution
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>UI Foundation & Primitives</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Base UI Launch**: Released core `Button`, `Checkbox`, `Dialog`, and `Accordion` (`/ui/base/accordion`) primitives.
+- Accordion features spring height morphing, bottom mask gradient fade, chevron spring rotation, and shared `layoutId` focus ring.
+- Replaced conflicting CSS transitions with pure GPU compositor transforms across dialog overlays and interactive buttons.
+- Standardized `prefers-reduced-motion` compliance across all components.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Taxonomy & MotionScore™</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **3-Tier Taxonomy**: Restructured the ecosystem into **Motion** (`/docs/motion`), **Catalog** (`/catalog`), and **UI** (`/ui`).
+- **Interactive UI Roadmap & Timeline** (`/ui/roadmap`): Added roadmap tracking Base UI and Radix UI rollouts with MotionScore™ performance benchmarking guidelines.
+- Dynamic Edge OG image generation support for `/ui` and `/catalog` routes.
 
 </ChangelogItemDescription>
 
@@ -56,66 +124,7 @@ import {
 
 - Migrated Sora MCP server to `@xmcp/framework` (`apps/xmcp`) supporting STDIO and HTTP transports.
 - Enhanced global native and WebKit scrollbars with adaptive dark mode styling.
-- Standardized automated Ultracite (Biome) lint-fixing in registry workflows.
-
-</ChangelogItemDescription>
-
-</ChangelogItem>
-
-<ChangelogItem date="2026-08-22">
-  <ChangelogItemVersion>
-
-## UI Roadmap & MotionScore™
-
-  </ChangelogItemVersion>
-
-<ChangelogItemTitle>UI & Docs</ChangelogItemTitle>
-
-<ChangelogItemDescription>
-
-- New interactive UI Roadmap & Timeline (`/ui/roadmap`) tracking Base UI and Radix UI rollouts.
-- Introduced MotionScore™ performance benchmarking guidelines and local Chromium audit CLI commands.
-- Migrated media and video demo assets to `cdn.soralabs.studio`.
-- Dynamic Edge OG image generation support for `/ui` and `/catalog` routes.
-
-</ChangelogItemDescription>
-
-</ChangelogItem>
-
-<ChangelogItem date="2026-08-21">
-  <ChangelogItemVersion>
-
-## 3-Tier Taxonomy Evolution
-
-  </ChangelogItemVersion>
-
-<ChangelogItemTitle>Architecture</ChangelogItemTitle>
-
-<ChangelogItemDescription>
-
-- The Great Sora UI Taxonomy Evolution: restructured the ecosystem into **Motion** (`/docs/motion`), **Catalog** (`/catalog`), and **UI** (`/ui`).
-- Multi-Foundation registry architecture supporting parallel `@base-ui/react` and `@radix-ui/react` primitives.
-- Upgraded AI search rewriting prompt to index across all 3 taxonomy tiers.
-- Added backward-compatible Next.js route rewrites and redirects.
-
-</ChangelogItemDescription>
-
-</ChangelogItem>
-
-<ChangelogItem date="2026-08-20">
-  <ChangelogItemVersion>
-
-## Base UI Foundation Launch
-
-  </ChangelogItemVersion>
-
-<ChangelogItemTitle>UI Foundation</ChangelogItemTitle>
-
-<ChangelogItemDescription>
-
-- Initial Base UI components released: `Button`, `Checkbox`, and `Dialog`.
-- Eliminated conflicting CSS transitions across buttons and dialog overlays to favor pure GPU compositor transforms.
-- Standardized `prefers-reduced-motion` compliance across all active components.
+- Standardized automated Ultracite (Biome) lint-fixing in registry build workflows.
 
 </ChangelogItemDescription>
 

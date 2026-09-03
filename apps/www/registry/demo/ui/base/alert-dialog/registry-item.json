@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-alert-dialog",
+  "type": "registry:ui",
+  "title": "Alert Dialog Demo",
+  "description": "Base UI alert dialog with Motion 3D perspective transitions and media icon header.",
+  "registryDependencies": ["@soralabs/base-alert-dialog"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/alert-dialog/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/alert-dialog.tsx"
+    }
+  ]
+}

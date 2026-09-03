@@ -89,6 +89,22 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     tags: ["Overlays", "Scale Spring", "Base UI"],
   },
   {
+    id: "base-alert-dialog",
+    name: "Base UI: Alert dialog",
+    category: "base-ui",
+    categoryLabel: "Base UI",
+    phase: 1,
+    status: "completed",
+    frameworks: ["react"],
+    motionScore: "S",
+    scoreValue: 5,
+    description:
+      "Accessible alert dialog modal with 3D perspective spring transitions, customizable size variants, and media slot.",
+    docUrl: "/ui/base/alert-dialog",
+    priority: "High",
+    tags: ["Overlays", "3D Perspective", "Base UI"],
+  },
+  {
     id: "base-accordion",
     name: "Base UI: Accordion",
     category: "base-ui",
@@ -795,11 +811,13 @@ export function RoadmapTimeline() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {MOTIONSCORE_BENCHMARKS.map((benchmark) => (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          {MOTIONSCORE_BENCHMARKS.map((benchmark, index) => (
             <div
               className={cn(
                 "flex flex-col justify-between rounded-xl border p-4 transition-all duration-200 hover:border-foreground/30",
+                index < 3 ? "lg:col-span-2" : "lg:col-span-3",
+                index === 4 && "sm:col-span-2 lg:col-span-3",
                 benchmark.color
               )}
               key={benchmark.tier}
