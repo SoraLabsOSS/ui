@@ -1233,20 +1233,6 @@
       ]
     },
     {
-      "name": "demo-bottom-sheet",
-      "type": "registry:ui",
-      "title": "Bottom Sheet Demo",
-      "description": "A settings panel reproduced with the Bottom Sheet primitive: a trigger, a hidden title, and a row list toggling a few mock settings.",
-      "registryDependencies": ["@soralabs/bottom-sheet"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/bottom-sheet/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/bottom-sheet.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-radix-button",
       "type": "registry:ui",
       "title": "Radix Button Demo",
@@ -1568,32 +1554,6 @@
           "path": "registry/icons/icon/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/icons/icon.tsx"
-        }
-      ]
-    },
-    {
-      "name": "lib-ease",
-      "type": "registry:lib",
-      "title": "Ease & Spring Tokens",
-      "description": "Shared cubic-bezier eases and Motion spring presets (press, swap, panel, layout, mouse) used across primitives to keep motion consistent.",
-      "files": [
-        {
-          "path": "registry/lib/ease/index.tsx",
-          "type": "registry:lib",
-          "target": "lib/ease.tsx"
-        }
-      ]
-    },
-    {
-      "name": "lib-get-strict-context",
-      "type": "registry:lib",
-      "title": "getStrictContext",
-      "description": "A hook that allows you to create a strict context.",
-      "files": [
-        {
-          "path": "registry/lib/get-strict-context/index.tsx",
-          "type": "registry:lib",
-          "target": "lib/get-strict-context.tsx"
         }
       ]
     },
@@ -3330,35 +3290,6 @@
           "target": "components/sora-ui/base/dialog.tsx"
         }
       ]
-    },
-    {
-      "name": "bottom-sheet",
-      "type": "registry:ui",
-      "title": "Bottom Sheet",
-      "description": "A draggable, snap-point bottom sheet built on Radix Dialog for accessibility, with Motion driving the drag gesture and glide.",
-      "dependencies": ["motion", "radix-ui"],
-      "registryDependencies": [
-        "utils",
-        "@soralabs/hooks-use-controlled-state",
-        "@soralabs/hooks-use-prefers-reduced-motion",
-        "@soralabs/lib-get-strict-context",
-        "@soralabs/lib-ease"
-      ],
-      "files": [
-        {
-          "path": "registry/ui/radix/bottom-sheet/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/radix/bottom-sheet.tsx"
-        }
-      ],
-      "meta": {
-        "inspiration": {
-          "type": "inspired",
-          "label": "Vaul",
-          "url": "https://vaul.emilkowal.ski",
-          "stack": "Radix Dialog and Motion"
-        }
-      }
     },
     {
       "name": "radix-button",

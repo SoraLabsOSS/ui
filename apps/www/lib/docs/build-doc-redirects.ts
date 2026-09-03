@@ -27,7 +27,6 @@ const LEGACY_UI_SLUG_REDIRECTS: Record<string, string> = {
   button: "/ui/base/button",
   checkbox: "/ui/base/checkbox",
   dialog: "/ui/base/dialog",
-  "bottom-sheet": "/ui/radix/bottom-sheet",
 };
 
 /** Renamed primitive slugs — keeps old bookmarks working. */

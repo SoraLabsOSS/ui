@@ -965,20 +965,6 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
-  "demo-bottom-sheet": React.lazy(async () => {
-    const mod = await import("@/registry/demo/ui/radix/bottom-sheet/index.tsx");
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
   "demo-radix-button": React.lazy(async () => {
     const mod = await import("@/registry/demo/ui/radix/button/index.tsx");
     const pascalExportName = Object.keys(mod).find(
@@ -1279,34 +1265,6 @@ export const previewComponents: Record<string, any> = {
   }),
   "icons-icon": React.lazy(async () => {
     const mod = await import("@/registry/icons/icon/index.tsx");
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
-  "lib-ease": React.lazy(async () => {
-    const mod = await import("@/registry/lib/ease/index.tsx");
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
-  "lib-get-strict-context": React.lazy(async () => {
-    const mod = await import("@/registry/lib/get-strict-context/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -2107,20 +2065,6 @@ export const previewComponents: Record<string, any> = {
   }),
   "base-dialog": React.lazy(async () => {
     const mod = await import("@/registry/ui/base/dialog/index.tsx");
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
-  "bottom-sheet": React.lazy(async () => {
-    const mod = await import("@/registry/demo/ui/radix/bottom-sheet/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
