@@ -15,6 +15,7 @@ import {
 const CLI_ENTRY = path.join(getRepoRoot(), "packages/www-cli/src/index.ts");
 const INTERACTIVE_PROMPT_ERROR = /Interactive prompts require/i;
 const ALREADY_EXISTS_ERROR = /already exist/i;
+const DRY_RUN_PATTERN = /Dry run/i;
 
 function runCli(args: string[]) {
   return spawnSync(
@@ -149,7 +150,7 @@ describe("create primitive integration", () => {
     ]);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toMatch(/Dry run/i);
+    expect(result.stdout).toMatch(DRY_RUN_PATTERN);
     expect(result.stdout).toContain(
       `registry/primitives/${category}/${FIXTURE_NAME}`
     );

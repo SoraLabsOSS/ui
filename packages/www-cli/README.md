@@ -102,6 +102,27 @@ Use this as the implementation checklist for the next milestone.
 - [ ] `cd apps/www && bun run test:registry` passes
 - [ ] Manual smoke: `bun run dev:www` → `/catalog/<slug>`
 
+### Phase 4 — Section Icon (not started)
+
+Scaffolding for animated icons (`registry/icons/<name>/`).
+
+#### `create icon`
+
+- [ ] **Command** — `bun run create:icon` → `create icon <name>` in `src/index.ts`
+- [ ] **Resolve options** — `src/lib/resolve-create-icon-options.ts` (icon name/slug, keywords, `--yes`)
+- [ ] **Paths** — `getIconPaths()` in `src/lib/paths.ts`:
+  - `registry/icons/<name>/index.tsx`
+  - `registry/icons/<name>/registry-item.json` (`name: "icons-<name>"`, `target: "components/sora-ui/icons/<name>.tsx"`, dependencies: `["motion"]`, registryDependencies: `["@soralabs/icons-icon"]`)
+  - Optional demo: `registry/demo/icons/<name>/index.tsx`
+  - Docs / showcase entry if applicable
+- [ ] **Templates** — `src/lib/icon-templates.ts`:
+  - Component template extending `AnimateIcon` / Motion SVG path animations
+  - `registry-item.json` template with schema and keywords
+- [ ] **Command impl** — `src/commands/create-icon.ts`
+- [ ] **Wizard** — wire icon option in `src/commands/create-wizard.ts`
+- [ ] **Root script** — `"create:icon"` in root `package.json`
+- [ ] **Tests** — unit & integration tests for icon scaffolding
+
 ## Package layout
 
 ```text
@@ -113,6 +134,7 @@ packages/www-cli/
       create-ui.ts
       create-wizard.ts
       create-catalog.ts         # Phase 3
+      create-icon.ts            # Phase 4
     lib/
       paths.ts
       naming.ts
@@ -120,6 +142,7 @@ packages/www-cli/
       templates.ts              # motion primitives
       ui-templates.ts
       catalog-templates.ts      # Phase 3
+      icon-templates.ts         # Phase 4
       registry-build.ts
       resolve-create-*-options.ts
     test/
