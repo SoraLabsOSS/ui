@@ -708,3 +708,27 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
 .animate-marquee {
   animation: marquee 28s linear infinite;
 }
+
+#nprogress .bar,
+#nprogress .peg {
+  display: none !important;
+}
+
+#nprogress,
+#nprogress .spinner {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483647 !important;
+  display: block;
+}
+
+#nprogress .spinner-icon {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid transparent;
+  border-top-color: #fb460d;
+  border-left-color: #fb460d;
+  border-radius: 50%;
+}

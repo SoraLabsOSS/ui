@@ -6,6 +6,7 @@ A fully animated, open-source component distribution built with React, TypeScrip
 
 [![GitHub stars](https://img.shields.io/github/stars/SoraLabsOSS/ui?style=flat-square)](https://github.com/SoraLabsOSS/ui/stargazers)
 ![BlockDex](https://img.shields.io/endpoint?url=https%3A%2F%2Ftoolproof.kynth.studio%2Fapi%2Fv1%2Fbadge%2Fblockdex%2Fsora-ui)
+[![MotionScore](https://api.motion.dev/score/badge?url=ui.soralabs.studio)](https://score.motion.dev/site/ui.soralabs.studio)
 
 </div>
 
@@ -22,7 +23,7 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # run all apps (Next.js docs + xmcp)
 ```
 
-**No `.env` file is required** to browse docs, blog, the catalog, or use Ask AI locally. Copy [`apps/www/.env.example`](./apps/www/.env.example) only when you need optional features:
+**No `.env` file is required** to browse docs, blog, the catalog, or use Ask AI locally. Copy `[apps/www/.env.example](./apps/www/.env.example)` only when you need optional features:
 
 | Feature | Variables |
 |---------|-----------|
@@ -36,7 +37,7 @@ Production deployments for documentation require **zero environment variables**.
 
 ## MCP Server
 
-Sora UI includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server built with [xmcp](https://xmcp.dev) under [`apps/xmcp`](./apps/xmcp). It enables AI assistants (Cursor, Claude Desktop, Claude Code, etc.) to search documentation, browse sections, and install components:
+Sora UI includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server built with [xmcp](https://xmcp.dev) under `[apps/xmcp](./apps/xmcp)`. It enables AI assistants (Cursor, Claude Desktop, Claude Code, etc.) to search documentation, browse sections, and install components:
 
 ```bash
 # Run MCP server in development mode
@@ -46,7 +47,7 @@ cd apps/xmcp && bun run dev
 cd apps/xmcp && bun run build
 ```
 
-See the [MCP Documentation](https://ui.soralabs.studio/docs/mcp) or [`apps/xmcp/README.md`](./apps/xmcp/README.md) for full configuration details.
+See the [MCP Documentation](https://ui.soralabs.studio/docs/mcp) or `[apps/xmcp/README.md](./apps/xmcp/README.md)` for full configuration details.
 
 ## Contributing
 
