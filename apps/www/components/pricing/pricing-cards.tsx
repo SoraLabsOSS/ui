@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 import type { ReactNode } from "react";
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { MotionEffect } from "@/components/effects/motion-effect";
-import { HomeShell } from "@/components/home/home-shell";
+import { HomeShell } from "@/components/home-shell";
 import { BorderTrail } from "@/registry/primitives/effects/border-trail";
 import {
   GITHUB_SPONSORS_URL,

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { HomeShell } from "@/components/home/home-shell";
+import { HomeShell } from "@/components/home-shell";
 import { LegalPageHeader } from "./legal-page-header";
 
 interface LegalShellProps {

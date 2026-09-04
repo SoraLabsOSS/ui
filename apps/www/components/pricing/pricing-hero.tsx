@@ -3,7 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
-import { HomeShell } from "@/components/home/home-shell";
+import { HomeShell } from "@/components/home-shell";
 import { IconLogo } from "@/components/icon-logo";
 import { PRICING_CORE_MESSAGE, PRICING_HERO } from "./pricing-config";
 

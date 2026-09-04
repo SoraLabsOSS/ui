@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/sora-ui/disclosure/accordion";
 import { cn } from "@workspace/ui/lib/utils";
 import Link from "next/link";
-import { HomeShell } from "@/components/home/home-shell";
+import { HomeShell } from "@/components/home-shell";
 import { PRICING_FAQ_ITEMS } from "./pricing-config";
 
 const accordionTriggerClassName = cn(

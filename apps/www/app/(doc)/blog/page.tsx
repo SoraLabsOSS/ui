@@ -1,7 +1,7 @@
 import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { HomeShell } from "@/components/home/home-shell";
+import { HomeShell } from "@/components/home-shell";
 import { getBlogIndexOgContent } from "@/lib/blog/get-blog-index-og-content";
 import { createBlogMetadata } from "@/lib/blog/metadata";
 import { blog } from "@/lib/blog/source";
