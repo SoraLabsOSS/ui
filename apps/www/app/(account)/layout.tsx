@@ -2,10 +2,13 @@ import XIcon from "@workspace/ui/components/icons/x-icon";
 import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { AccountSidebar } from "@/components/account/sidebar";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
+import { AuthSessionProviders } from "@/components/auth-session-providers";
 import { Nav } from "@/components/docs/nav";
+import { Providers } from "@/components/providers";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { source } from "@/lib/docs/source";
@@ -43,7 +46,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const primitivesUrl = getFirstPrimitiveDocUrl();
   const uiUrl = getFirstUiDocUrl();
 
-  return (
+  const content = (
     <DocsLayout
       {...DOCS_LAYOUT_PROPS}
       containerProps={{
@@ -65,5 +68,11 @@ export default function Layout({ children }: { children: ReactNode }) {
     >
       {children}
     </DocsLayout>
+  );
+
+  return (
+    <Suspense fallback={<Providers>{content}</Providers>}>
+      <AuthSessionProviders>{content}</AuthSessionProviders>
+    </Suspense>
   );
 }

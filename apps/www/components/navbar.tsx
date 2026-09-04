@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import "@/app/(home)/home.css";
+import "@/app/(marketing)/home.css";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import { COMMUNITY_REPO_URL, GITHUB_REPO_URL, X_PROFILE_URL } from "@/lib/site";
 import { UnderNavMarquee } from "./under-nav-marquee";

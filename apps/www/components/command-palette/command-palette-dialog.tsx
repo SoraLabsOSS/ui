@@ -253,7 +253,9 @@ export function CommandPaletteDialog({
 }: CommandPaletteDialogProps) {
   const router = useRouter();
   const { setTheme } = useTheme();
-  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const { data: session, isPending: sessionPending } = useSession(authClient, {
+    enabled: open,
+  });
   const { search, setSearch, query } = useCommandPaletteSearch();
   const listRef = useRef<HTMLDivElement>(null);
   const [scrollLocked, setScrollLocked] = useState(false);

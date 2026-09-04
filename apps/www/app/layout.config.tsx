@@ -6,8 +6,8 @@ import { COMMUNITY_ISSUES_URL } from "@/lib/site";
  * Shared layout configurations
  *
  * you can customise layouts individually from:
- * Home Layout: app/(home)/layout.tsx
- * Docs Layout: app/docs/layout.tsx
+ * Marketing Layout: app/(marketing)/layout.tsx
+ * Docs Layout: app/(doc)/docs/layout.tsx
  */
 export const baseOptions: BaseLayoutProps = {
   links: [

@@ -1,19 +1,19 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { type ReactNode, Suspense } from "react";
+import type { ReactNode } from "react";
 
 import "./globals.css";
+import { Toaster } from "@workspace/ui/components/ui/sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionConfig } from "motion/react";
-import { AISearchRoot } from "@/components/ai/shell";
+import Script from "next/script";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
-import { AuthSessionProviders } from "@/components/auth-session-providers";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { ConditionalBanner } from "@/components/conditional-banner";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
-import { Providers } from "@/components/providers";
+import { QueryClientRootProvider } from "@/components/query-client-root-provider";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
 import { jsonLd } from "@/lib/json-ld";
 import {
@@ -126,9 +126,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="preload"
           type="font/woff2"
         />
-        <script suppressHydrationWarning type="application/ld+json">
+        <Script suppressHydrationWarning type="application/ld+json">
           {JSON.stringify(jsonLd)}
-        </script>
+        </Script>
       </head>
 
       <body
@@ -146,10 +146,10 @@ export default function Layout({ children }: { children: ReactNode }) {
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>
             <NuqsAdapter>
-              <Suspense fallback={<Providers>{app}</Providers>}>
-                <AuthSessionProviders>{app}</AuthSessionProviders>
-              </Suspense>
-              <AISearchRoot />
+              <QueryClientRootProvider>
+                {app}
+                <Toaster />
+              </QueryClientRootProvider>
             </NuqsAdapter>
           </CommandPaletteGroupsProvider>
         </MotionConfig>

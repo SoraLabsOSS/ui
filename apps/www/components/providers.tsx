@@ -8,7 +8,6 @@ import {
 import { AuthProvider } from "@workspace/auth-ui/components/auth/auth-provider";
 import { GoogleOneTapPendingProvider } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
-import { Toaster } from "@workspace/ui/components/ui/sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
@@ -45,11 +44,7 @@ export function Providers({
           redirectTo="/docs"
           socialProviders={["google", "github"]}
         >
-          <GoogleOneTapPendingProvider>
-            {children}
-
-            <Toaster />
-          </GoogleOneTapPendingProvider>
+          <GoogleOneTapPendingProvider>{children}</GoogleOneTapPendingProvider>
         </AuthProvider>
       </HydrationBoundary>
     </QueryClientProvider>
