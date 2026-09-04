@@ -40,6 +40,7 @@ export function UnderNavMarquee({
           ? "translateY(-2em) scale(0.975) rotate(0.001deg)"
           : "translateY(0em) scale(1) rotate(0.001deg)",
         transition: "all 0.6s cubic-bezier(0.625, 0.05, 0, 1)",
+        pointerEvents: isHidden ? "none" : undefined,
       }}
     >
       <div className="under-nav-bar__inner">

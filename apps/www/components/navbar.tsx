@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import "@/app/(home)/home.css";
-import { useButton3DHover } from "@/app/(home)/hooks/use-button-3d-hover";
+import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import { COMMUNITY_REPO_URL, GITHUB_REPO_URL, X_PROFILE_URL } from "@/lib/site";
 import { UnderNavMarquee } from "./under-nav-marquee";
 
@@ -27,6 +27,7 @@ export function Navbar({
   useButton3DHover(containerRef);
 
   const pathname = usePathname();
+  const router = useRouter();
 
   const [internalMenuOpen, setInternalMenuOpen] = useState(false);
   const [internalScrollingStarted, setInternalScrollingStarted] =
@@ -43,6 +44,37 @@ export function Navbar({
   const handleToggleMenu =
     onToggleMenuProp ?? (() => setInternalMenuOpen((prev) => !prev));
   const handleCloseMenu = onCloseMenuProp ?? (() => setInternalMenuOpen(false));
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (
+      e.metaKey ||
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.altKey ||
+      href.startsWith("http")
+    ) {
+      handleCloseMenu();
+      return;
+    }
+
+    if (isMenuOpen) {
+      e.preventDefault();
+      handleCloseMenu();
+
+      if (pathname === href) {
+        return;
+      }
+
+      setTimeout(() => {
+        router.push(href);
+      }, 550);
+    } else {
+      handleCloseMenu();
+    }
+  };
 
   // Reset navbar state on route navigation
   useEffect(() => {
@@ -162,6 +194,7 @@ export function Navbar({
                     aria-label="go to homepage"
                     className="nav-logo w--current w-inline-block"
                     href="/"
+                    onClick={(e) => handleLinkClick(e, "/")}
                   >
                     <svg
                       className="nav-logo__wordmark-svg"
@@ -241,6 +274,7 @@ export function Navbar({
                       data-size=""
                       data-theme=""
                       href="/docs"
+                      onClick={(e) => handleLinkClick(e, "/docs")}
                     >
                       <div
                         className="button-bg"
@@ -277,7 +311,9 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/docs/motion"
-                              onClick={handleCloseMenu}
+                              onClick={(e) =>
+                                handleLinkClick(e, "/docs/motion")
+                              }
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -293,7 +329,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/ui"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/ui")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -309,7 +345,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/catalog"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/catalog")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -325,7 +361,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/docs/icons"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/docs/icons")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -341,7 +377,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/docs/cli"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/docs/cli")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -358,7 +394,7 @@ export function Navbar({
                               className="nav-bar__small-a w-inline-block"
                               data-hover=""
                               href="/ui"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/ui")}
                             >
                               <span
                                 className="nav-bar__small-span"
@@ -373,7 +409,7 @@ export function Navbar({
                               className="nav-bar__small-a w-inline-block"
                               data-hover=""
                               href="/ui"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/ui")}
                             >
                               <span
                                 className="nav-bar__small-span"
@@ -397,7 +433,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/docs"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/docs")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -413,7 +449,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/catalog"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/catalog")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -435,7 +471,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/blog"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/blog")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -451,7 +487,7 @@ export function Navbar({
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
                               href="/pricing"
-                              onClick={handleCloseMenu}
+                              onClick={(e) => handleLinkClick(e, "/pricing")}
                             >
                               <span
                                 className="nav-bar__big-span"
@@ -627,7 +663,7 @@ export function Navbar({
                           className="nav-banner w-inline-block"
                           data-hover=""
                           href="/ui"
-                          onClick={handleCloseMenu}
+                          onClick={(e) => handleLinkClick(e, "/ui")}
                         >
                           <div className="nav-banner__before" />
                           <div className="nav-banner__content">

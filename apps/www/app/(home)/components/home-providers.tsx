@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect } from "react";
-import { useButton3DHover } from "../hooks/use-button-3d-hover";
-import { useLenisSmoothScroll } from "../hooks/use-lenis-smooth-scroll";
+import { useButton3DHover } from "@/hooks/use-button-3d-hover";
+import { useLenisSmoothScroll } from "@/hooks/use-lenis-smooth-scroll";
 
 export function HomeProviders({ children }: { children: ReactNode }) {
   const lenisRef = useLenisSmoothScroll();

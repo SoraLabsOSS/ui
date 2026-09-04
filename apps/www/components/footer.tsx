@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import "@/app/(home)/home.css";
-import { useButton3DHover } from "@/app/(home)/hooks/use-button-3d-hover";
+import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import {
   COMMUNITY_ISSUES_URL,
   COMMUNITY_REPO_URL,

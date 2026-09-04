@@ -5,7 +5,6 @@ import Link from "next/link";
 import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
 import { HomeShell } from "@/components/home/home-shell";
 import { IconLogo } from "@/components/icon-logo";
-import { TextEffect } from "@/registry/primitives/texts/text-effect";
 import { PRICING_CORE_MESSAGE, PRICING_HERO } from "./pricing-config";
 
 export function PricingHero() {
@@ -28,31 +27,13 @@ export function PricingHero() {
             {PRICING_HERO.eyebrow}
           </p>
 
-          <TextEffect
-            as="h1"
-            className="max-w-2xl font-medium text-3xl leading-tight tracking-tight md:text-5xl md:leading-tight"
-            containerTransition={{ staggerChildren: 0.04 }}
-            delay={0.05}
-            per="word"
-            preset="blur"
-            scrollTrigger
-            segmentTransition={{ duration: 0.5 }}
-          >
+          <h1 className="max-w-2xl font-medium text-3xl leading-tight tracking-tight md:text-5xl md:leading-tight">
             {PRICING_HERO.title}
-          </TextEffect>
+          </h1>
 
-          <TextEffect
-            as="p"
-            className="mt-4 block max-w-xl text-balance text-base text-muted-foreground leading-relaxed md:text-lg"
-            containerTransition={{ staggerChildren: 0.02 }}
-            delay={0.2}
-            per="word"
-            preset="blur"
-            scrollTrigger
-            segmentTransition={{ duration: 0.5 }}
-          >
+          <p className="mt-4 block max-w-xl text-balance text-base text-muted-foreground leading-relaxed md:text-lg">
             {PRICING_HERO.description}
-          </TextEffect>
+          </p>
 
           <p className="mt-6 max-w-lg text-balance text-foreground/80 text-sm leading-relaxed md:text-base">
             {PRICING_CORE_MESSAGE}
