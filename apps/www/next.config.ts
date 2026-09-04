@@ -14,6 +14,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: [
+    "@better-auth/infra",
+    "@better-auth/sso",
+    "@better-auth/scim",
+  ],
   transpilePackages: [
     "@workspace/auth-ui/lib/auth-core",
     "@workspace/auth-ui/lib/auth-react",
