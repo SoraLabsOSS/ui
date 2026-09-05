@@ -1,8 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import "@/app/(marketing)/home.css";
+import {
+  normalizePathname,
+  type TransitionMode,
+  usePageTransition,
+} from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import {
   COMMUNITY_ISSUES_URL,
@@ -16,6 +22,9 @@ export function Footer() {
   const containerRef = useRef<HTMLDivElement>(null);
   useButton3DHover(containerRef);
 
+  const pathname = usePathname();
+  const { transitionTo } = usePageTransition();
+
   const [openAccordion, setOpenAccordion] = useState<string | null>(
     "components"
   );
@@ -23,6 +32,63 @@ export function Footer() {
   const toggleAccordion = (name: string) => {
     setOpenAccordion((prev) => (prev === name ? null : name));
   };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const handleClick = (e: MouseEvent) => {
+      if (
+        e.defaultPrevented ||
+        e.button !== 0 ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.shiftKey ||
+        e.altKey
+      ) {
+        return;
+      }
+
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest("a");
+      if (!anchor || anchor.dataset.transitionPrevent !== undefined) {
+        return;
+      }
+
+      const href = anchor.getAttribute("href");
+      if (
+        !href ||
+        href.startsWith("http") ||
+        href.startsWith("//") ||
+        href.startsWith("#") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:")
+      ) {
+        return;
+      }
+
+      const targetPath = normalizePathname(href);
+      const currentPath = normalizePathname(pathname);
+
+      if (targetPath === currentPath) {
+        return;
+      }
+
+      e.preventDefault();
+      const mode: TransitionMode =
+        targetPath === "/docs" || targetPath.startsWith("/docs")
+          ? "docs"
+          : "commercial";
+      transitionTo(href, mode);
+    };
+
+    container.addEventListener("click", handleClick);
+    return () => {
+      container.removeEventListener("click", handleClick);
+    };
+  }, [pathname, transitionTo]);
 
   return (
     <div className="home-layout sora-footer-root w-full" ref={containerRef}>
