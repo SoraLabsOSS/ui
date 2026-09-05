@@ -35,6 +35,7 @@ import {
 import { closeMobileSidebar } from "@/components/docs-sidebar/sidebar-close-lock";
 import { useDismissMobileSidebarOnOutside } from "@/components/docs-sidebar/use-dismiss-mobile-sidebar";
 import { IconLogo } from "@/components/icon-logo";
+import { usePageTransition } from "@/components/page-transition/page-transition-provider";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -219,6 +220,7 @@ export function AccountSidebar({
   releaseDatesByUrl = {},
 }: AccountSidebarProps) {
   const { setOpen } = useSidebar();
+  const { transitionTo } = usePageTransition();
   const resolvedLinks = getLinks(links, githubUrl);
   const iconLinks = resolvedLinks.filter((link) => link.type === "icon");
   const navLinks = resolvedLinks.filter((link) => link.type !== "icon");
@@ -247,6 +249,14 @@ export function AccountSidebar({
               aria-label="Sora UI home"
               className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
               href="/"
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+                  return;
+                }
+                e.preventDefault();
+                closeMobile();
+                transitionTo("/", "commercial");
+              }}
             >
               <IconLogo size="sm" />
               <span className="font-semibold text-sm">Sora UI</span>

@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import "@/app/(marketing)/home.css";
+import {
+  type TransitionMode,
+  usePageTransition,
+} from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import { COMMUNITY_REPO_URL, GITHUB_REPO_URL, X_PROFILE_URL } from "@/lib/site";
 import { UnderNavMarquee } from "./under-nav-marquee";
@@ -27,7 +31,7 @@ export function Navbar({
   useButton3DHover(containerRef);
 
   const pathname = usePathname();
-  const router = useRouter();
+  const { transitionTo } = usePageTransition();
 
   const [internalMenuOpen, setInternalMenuOpen] = useState(false);
   const [internalScrollingStarted, setInternalScrollingStarted] =
@@ -45,6 +49,16 @@ export function Navbar({
     onToggleMenuProp ?? (() => setInternalMenuOpen((prev) => !prev));
   const handleCloseMenu = onCloseMenuProp ?? (() => setInternalMenuOpen(false));
 
+  const handleDocsPillClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      handleCloseMenu();
+      return;
+    }
+    e.preventDefault();
+    handleCloseMenu();
+    transitionTo("/docs", "docs");
+  };
+
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
@@ -60,20 +74,16 @@ export function Navbar({
       return;
     }
 
-    if (isMenuOpen) {
-      e.preventDefault();
+    if (pathname === href) {
       handleCloseMenu();
-
-      if (pathname === href) {
-        return;
-      }
-
-      setTimeout(() => {
-        router.push(href);
-      }, 550);
-    } else {
-      handleCloseMenu();
+      return;
     }
+
+    e.preventDefault();
+    handleCloseMenu();
+
+    const mode: TransitionMode = href === "/docs" ? "docs" : "commercial";
+    transitionTo(href, mode);
   };
 
   // Reset navbar state on route navigation
@@ -274,7 +284,7 @@ export function Navbar({
                       data-size=""
                       data-theme=""
                       href="/docs"
-                      onClick={(e) => handleLinkClick(e, "/docs")}
+                      onClick={handleDocsPillClick}
                     >
                       <div
                         className="button-bg"

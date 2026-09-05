@@ -37,6 +37,7 @@ import {
   markMobileSidebarClosed,
   useSyncMobileSidebarPathname,
 } from "@/components/docs-sidebar/sidebar-close-lock";
+import { usePageTransition } from "@/components/page-transition/page-transition-provider";
 import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
@@ -271,6 +272,7 @@ function NavMenuItems({
 export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
   useSyncMobileSidebarPathname();
   const { setOpen } = useSidebar();
+  const { transitionTo } = usePageTransition();
   const { data: session } = useSession(authClient);
   const authNavPending = useAuthNavPending();
   const { loginDialog, openLoginDialog } = useBookmarkLoginDialog();
@@ -294,6 +296,13 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
               "size-8! p-0! transition-colors duration-200 ease-in-out [&_svg]:size-7!",
           })}
           href="/"
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+              return;
+            }
+            e.preventDefault();
+            transitionTo("/", "commercial");
+          }}
         >
           <IconLogo size="sm" />
         </Link>
