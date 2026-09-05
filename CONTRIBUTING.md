@@ -30,7 +30,7 @@ Sora UI
 |------|---------------|------------|---------|
 | **Motion** | `registry/primitives/{category}/{name}/` | `/docs/motion/<name>` (alias `/motion/<name>`) | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
 | **Catalog** | `content/catalog/<slug>.mdx` (showcased) | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
-| **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `bottom-sheet`). |
+| **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `base-accordion`, `base-checkbox`). |
 
 ## Repository structure
 
@@ -69,7 +69,7 @@ Four separate trees — do not conflate them:
 | Tree | Route | Purpose |
 |------|-------|---------|
 | `content/docs/` | `/docs` | Guides + flat motion primitive docs at `docs/motion/<name>.mdx` (aliased to `/motion/<name>`) |
-| `content/ui/` | `/ui` | Base UI / Radix UI + Motion app components (`/ui/<name>`) |
+| `content/ui/` | `/ui` | Base UI / Radix UI + Motion app components (`content/ui/{base\|radix}/<name>.mdx`) |
 | `content/catalog/` | `/catalog` | Ready-to-use catalog showcase pages (aliased from `/components`) |
 | `content/docs/icons/` | `/docs/icons` | Animated icons guide and catalog |
 | `content/blog/` | `/blog` | Blog posts |

@@ -103,6 +103,8 @@ function registerContentPages(scanned: ScannedUrls): void {
 
 export function augmentScannedUrls(scanned: ScannedUrls): void {
   registerContentPages(scanned);
+  scanned.urls.set("/blog", {});
+  scanned.urls.set("/catalog", {});
   scanned.urls.set("/blog/rss.xml", {});
   scanned.urls.set("/llms.txt", {});
   scanned.urls.set("/llms-full.txt", {});

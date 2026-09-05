@@ -83,7 +83,7 @@ registry/
 ### content/ — four separate trees, don't conflate them
 
 - `content/docs/` — the core documentation site (routed at `/docs`). Top-level guide pages plus `docs/motion/<name>.mdx` (flat, one per registry motion primitive, aliased to `/motion/<name>`).
-- `content/ui/` — Base UI & Radix UI + Motion app components (routed at `/ui`). Flat MDX pages referenced by `content/ui/meta.json`; registry source lives under `registry/ui/base/` or `registry/ui/radix/`.
+- `content/ui/` — Base UI & Radix UI + Motion app components (routed at `/ui`). MDX pages organized by framework under `content/ui/base/<name>.mdx` and `content/ui/radix/<name>.mdx`, referenced in `content/ui/meta.json`; registry source lives under `registry/ui/base/` or `registry/ui/radix/`.
 - `content/catalog/` — flat catalog of fully-assembled example layout pages (routed at `/catalog`, backwards-compatible with `/components`), listed in `content/catalog/meta.json`.
 - `content/blog/` — blog posts (routed at `/blog`).
 
@@ -99,7 +99,12 @@ registry/
 
 ### apps/www app structure
 
-Route groups under `apps/www/app`: `(home)`, `(account)`, `(llms)`, plus `docs`, `docs-og`, `blog`, `blog-og`, `components`, `ui`, `demo`, `examples`, `pricing`, `privacy`, `legal`, `auth`, `api`. Docs content is Fumadocs-powered MDX under `apps/www/content`.
+Route groups under `apps/www/app`:
+- `(marketing)` — landing page (`/`), `/pricing`, `/legal/privacy`, `/legal/terms` with marketing layout (`Navbar` + `Footer` + `home.css`).
+- `(doc)` — Fumadocs documentation layout hosting `/docs` (`[[...slug]]`), `/ui` (`[[...slug]]`), `/catalog` (`[slug]`), and `/blog` (`[slug]`).
+- `(account)` — user account settings (`/settings/account`, `/settings/security`).
+- `(llms)` — AI-readable LLM feeds (`/llms.txt`, `/llms-full.txt`, and per-section `.mdx` routes).
+- Top-level routes — `auth` (`/auth/*`), `api` (`/api/*`), `examples` (`/examples/*`), `docs-og`, `blog-og`. Docs content is Fumadocs-powered MDX under `apps/www/content`.
 
 ### apps/xmcp
 

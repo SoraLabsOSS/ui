@@ -28,11 +28,11 @@ For accessible app & form primitives powered by `@base-ui/react` or `radix-ui` +
 
 2. registry/demo/ui/{base|radix}/<name>/index.tsx  ← rich multi-variant showcase (optional/recommended)
 
-3. content/ui/<name>.mdx
+3. content/ui/{base|radix}/<name>.mdx
       <ComponentPreview name="<name>" />
       <ComponentInstallation name="<name>" />
 
-4. content/ui/meta.json   ← add to UI sidebar sections
+4. content/ui/meta.json   ← add "base/<name>" or "radix/<name>" to UI sidebar sections
 
 5. bun run registry:build
 ```
