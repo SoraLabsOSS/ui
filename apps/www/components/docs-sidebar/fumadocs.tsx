@@ -19,6 +19,7 @@ import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
+import { usePageTransition } from "@/components/page-transition/page-transition-provider";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -466,6 +467,7 @@ export const DocsSidebar = (
   } = all.sidebar ?? {};
   const links = getLinks(all.links ?? [], all.githubUrl);
   const { setOpen } = useSidebar();
+  const { transitionTo } = usePageTransition();
   useDismissMobileSidebarOnOutside();
 
   const closeMobile = () => {
@@ -487,6 +489,14 @@ export const DocsSidebar = (
           aria-label="Sora UI home"
           className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
           href="/"
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+              return;
+            }
+            e.preventDefault();
+            closeMobile();
+            transitionTo("/", "commercial");
+          }}
         >
           <IconLogo size="sm" />
           <span className="font-semibold text-sm">Sora UI</span>

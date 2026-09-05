@@ -27,8 +27,7 @@ export default function NotFound() {
       <div className="mx-auto w-full max-w-2xl px-6 md:px-10">
         <div className="flex flex-col items-start gap-6">
           <span className="inline-flex flex-col items-center font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
-            <Bunny className="-mb-1.5" size={28} sleeping />
-            404
+            <Bunny size={28} sleeping />
           </span>
           <h1 className="font-medium text-6xl leading-none tracking-tight sm:text-7xl">
             Page not found.

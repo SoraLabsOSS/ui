@@ -14,6 +14,7 @@ import { CommandPaletteGroupsProvider } from "@/components/command-palette/comma
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
 import { ConditionalBanner } from "@/components/conditional-banner";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
+import { PageTransitionProvider } from "@/components/page-transition/page-transition-provider";
 import { QueryClientRootProvider } from "@/components/query-client-root-provider";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
 import { jsonLd } from "@/lib/json-ld";
@@ -158,8 +159,10 @@ export default function Layout({ children }: { children: ReactNode }) {
           <CommandPaletteGroupsProvider groups={commandGroups}>
             <NuqsAdapter>
               <QueryClientRootProvider>
-                {app}
-                <Toaster />
+                <PageTransitionProvider>
+                  {app}
+                  <Toaster />
+                </PageTransitionProvider>
               </QueryClientRootProvider>
             </NuqsAdapter>
           </CommandPaletteGroupsProvider>
