@@ -307,9 +307,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
                   {
                     "--accent": "#fb460d",
                     "--background": "#000000",
-                    "--foreground": "#fb460d",
+                    "--foreground": "#ffffff",
                     "--typer-space-width": "clamp(1.25rem, 3.5vw, 3rem)",
-                    color: "#fb460d",
+                    color: "#ffffff",
                   } as React.CSSProperties
                 }
               >
