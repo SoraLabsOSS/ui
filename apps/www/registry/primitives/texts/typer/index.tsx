@@ -5,18 +5,21 @@ import {
   type ComponentPropsWithoutRef,
   type CSSProperties,
   type ElementType,
+  type MouseEvent,
   type Ref,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
-// Run the reveal setup before the browser paints so the un-hidden text is never
-// shown for a frame; falls back to useEffect during SSR where layout effects warn.
+// Run the reveal setup before browser paints so un-hidden text is never
+// flashed; falls back to useEffect during SSR where layout effects warn.
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -24,11 +27,8 @@ const useIsomorphicLayoutEffect =
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(Math.max(v, lo), hi);
 
-// round v to the nearest multiple of step (quantizes the per-char progress so a
-// glyph holds each state for a beat instead of flickering every frame).
 const roundToStep = (v: number, step: number) => Math.round(v / step) * step;
 
-// linear remap of v from [inLo,inHi] into [outLo,outHi].
 const remap = (
   v: number,
   inLo: number,
@@ -37,10 +37,6 @@ const remap = (
   outHi: number
 ) => ((v - inLo) * (outHi - outLo)) / (inHi - inLo) + outLo;
 
-// solve a cubic bezier easing y for a given x, control points (x1,y1)(x2,y2),
-// endpoints fixed at (0,0)(1,1). Newton's method with a bisection fallback. Used
-// once per character to place its reveal "control point" along an eased curve, so
-// the ripple accelerates and settles like the original.
 function bezierEase(
   x: number,
   x1: number,
@@ -86,8 +82,6 @@ function bezierEase(
   return by(t);
 }
 
-// the full pool of per-character states (CSS class suffixes). Any subset can be
-// used; they get shuffled per run so the ripple never looks the same twice.
 export const ALL_VARIATIONS = [
   "charFill",
   "charInverse",
@@ -97,9 +91,11 @@ export const ALL_VARIATIONS = [
   "charBorder",
 ] as const;
 
+export const DEFAULT_VARIATIONS = ALL_VARIATIONS;
+
 export type TyperVariation = (typeof ALL_VARIATIONS)[number];
 
-type TyperType = "initial" | "in" | "out" | "inout" | "done";
+export type TyperType = "initial" | "in" | "out" | "inout" | "done";
 
 interface TyperOptions {
   cycleLength?: number;
@@ -107,7 +103,8 @@ interface TyperOptions {
   delay?: number;
   fps?: number;
   initVisible?: boolean;
-  variations?: string[];
+  onComplete?: () => void;
+  variations?: TyperVariation[];
 }
 
 interface CharNode {
@@ -118,25 +115,27 @@ interface CharNode {
 
 const WHITESPACE_SPLIT_RE = /(\s+)/;
 const WHITESPACE_RE = /\s/g;
+const SPACE_REPLACE_RE = / /g;
 
 class TyperEngine {
   private readonly element: HTMLElement;
-  private readonly source: string;
-  private readonly length: number;
+  private source: string;
+  private length: number;
   private readonly fps: number;
   private readonly cycles: number;
   private readonly cycleLength: number;
-  private readonly frames: number;
+  private frames: number;
   private frame = 0;
   private loop: number | null = null;
   private readonly delay: number;
   private delayTimer: number | null = null;
   private charNodes: CharNode[] = [];
   private type: TyperType = "initial";
-  private readonly divisor: number;
-  private readonly denominator: number;
-  private readonly variations: string[];
+  private divisor: number;
+  private denominator: number;
+  private readonly variations: TyperVariation[];
   private readonly initVisible: boolean;
+  private readonly onComplete?: () => void;
 
   constructor(element: HTMLElement, opts: TyperOptions = {}) {
     this.element = element;
@@ -145,11 +144,11 @@ class TyperEngine {
     this.fps = opts.fps ?? 20;
     this.cycles = opts.cycles ?? 3;
     this.cycleLength = opts.cycleLength ?? 0.5;
-    // total frames scales a little with word length so long lines don't feel rushed.
     this.frames = this.length ? this.fps * (1 + this.length * 0.01) : 0;
     this.delay = opts.delay ?? 0;
     this.divisor = this.length > 1 ? this.length - 1 : 1;
     this.denominator = this.frames - this.frames * this.cycleLength || 1;
+    this.onComplete = opts.onComplete;
 
     this.variations = (opts.variations ?? [...ALL_VARIATIONS]).slice();
     this.shuffle();
@@ -170,8 +169,6 @@ class TyperEngine {
     }
   }
 
-  // split into words (preserving whitespace nodes) and wrap each char in a span.
-  // Each char gets a bezier-eased control point from its position in the word.
   private build() {
     this.element.replaceChildren();
     this.charNodes = [];
@@ -179,19 +176,20 @@ class TyperEngine {
     let i = 0;
     for (const part of parts) {
       if (part.trim() === "") {
-        this.element.append(document.createTextNode(part));
+        const space = document.createElement("span");
+        space.className = "space";
+        space.textContent = part.replace(SPACE_REPLACE_RE, "\u00A0");
+        this.element.appendChild(space);
         continue;
       }
       const word = document.createElement("span");
       word.className = "word";
       for (const ch of part.split("")) {
         const pos = i / this.divisor;
-        // ease the control point so chars near the start reveal sooner, with a
-        // smooth ramp; quantize to 0.05 so states hold for a beat.
         const cp = roundToStep(bezierEase(pos, 0, 0.75, 0.75, 0), 0.05);
         const span = document.createElement("span");
         span.className = "char charInit";
-        span.textContent = ch || " ";
+        span.textContent = ch === " " ? "\u00A0" : ch;
         this.charNodes.push({ el: span, cp, currentClass: "char charInit" });
         i += 1;
         word.appendChild(span);
@@ -203,11 +201,33 @@ class TyperEngine {
   in() {
     this.setType("in");
   }
+
   out() {
     this.setType("out");
   }
+
   inOut() {
     this.setType("inout");
+  }
+
+  getType(): TyperType {
+    return this.type;
+  }
+
+  reset(newSource?: string) {
+    this.stopLoop();
+    if (newSource !== undefined && newSource !== this.source) {
+      this.source = newSource;
+      this.length = this.source.replace(WHITESPACE_RE, "").length;
+      this.frames = this.length ? this.fps * (1 + this.length * 0.01) : 0;
+      this.divisor = this.length > 1 ? this.length - 1 : 1;
+      this.denominator = this.frames - this.frames * this.cycleLength || 1;
+      this.build();
+    }
+    this.frame = 0;
+    this.type = "initial";
+    this.element.dataset.typerType = "initial";
+    this.applyFrame();
   }
 
   private setType(t: TyperType) {
@@ -259,20 +279,19 @@ class TyperEngine {
   }
 
   private tick() {
-    // inout runs the in phase then the out phase back to back (2x the frames).
     const total = this.type === "inout" ? this.frames * 2 : this.frames;
     this.frame += 1;
     this.frame = clamp(this.frame, 0, total);
     this.applyFrame();
     if (this.frame >= total) {
       this.stopLoop();
-      this.type = "done";
-      this.element.dataset.typerType = "done";
+      const finalType = this.type === "out" ? "initial" : "done";
+      this.type = finalType;
+      this.element.dataset.typerType = finalType;
+      this.onComplete?.();
     }
   }
 
-  // resolve the class for one character given the reveal phase and its local
-  // progress p. "in" ramps charInit → states → plain; "out" runs it in reverse.
   private resolveClass(phase: TyperType, p: number) {
     if (phase === "in") {
       if (p <= 0) {
@@ -289,14 +308,12 @@ class TyperEngine {
         return "char charInit";
       }
     }
-    // mid-reveal: roll through the shuffled pool by cycle.
     const idx = Math.round(remap(p, 0, 1, 0, this.cycles));
     const variation =
       this.variations[idx % this.variations.length] ?? "charInit";
     return variation ? `char ${variation}` : "char";
   }
 
-  // paint every char's class for the current frame.
   private applyFrame() {
     if (!(this.length && this.charNodes.length)) {
       return;
@@ -307,7 +324,6 @@ class TyperEngine {
       }
       return;
     }
-    // in the inout case, the second half is the "out" phase.
     let phase: TyperType = this.type;
     if (this.type === "inout") {
       phase = this.frame > this.frames ? "out" : "in";
@@ -319,7 +335,6 @@ class TyperEngine {
     const progress = rawFrame / this.denominator;
 
     for (const node of this.charNodes) {
-      // this char's local progress = global progress minus its control-point offset.
       let p = progress - node.cp;
       p = roundToStep(p, 0.1);
       p = clamp(p, 0, 1);
@@ -346,8 +361,6 @@ class TyperEngine {
   }
 }
 
-// Runs several typers together with a per-line stagger, so a stacked block
-// cascades in top-to-bottom. Each line's `delay` offsets when its reveal starts.
 class TyperGroup {
   private readonly typers: TyperEngine[];
 
@@ -366,11 +379,29 @@ class TyperGroup {
       t.in();
     }
   }
+
   out() {
     for (const t of this.typers) {
       t.out();
     }
   }
+
+  inOut() {
+    for (const t of this.typers) {
+      t.inOut();
+    }
+  }
+
+  getType(): TyperType {
+    return this.typers[0]?.getType() ?? "initial";
+  }
+
+  reset(newLines?: string[]) {
+    for (let i = 0; i < this.typers.length; i++) {
+      this.typers[i]?.reset(newLines?.[i]);
+    }
+  }
+
   destroy() {
     for (const t of this.typers) {
       t.destroy();
@@ -378,23 +409,36 @@ class TyperGroup {
   }
 }
 
-// ── injected styles (ships as a <style> tag, no .css file) ──
 const STYLE_ID = "sora-typer-styles";
 
 const TYPER_CSS = `
+[data-typer] {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 [data-typer][data-typer-type="initial"] { opacity: 0; }
-[data-typer] .word { white-space: pre; }
+[data-typer] .word {
+  white-space: pre;
+  display: inline-block;
+}
+[data-typer] .space {
+  white-space: pre;
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--typer-space-width, 0.5em);
+}
 [data-typer] .word .char {
   box-sizing: content-box;
   display: inline-block;
-  color: var(--typer-fg, var(--foreground, #1b1b1b));
+  color: var(--typer-fg, var(--foreground, currentColor));
   background: transparent;
   transition: none;
 }
-[data-typer] .word .char.charInit { color: transparent; }
+[data-typer] .word .char.charInit { color: transparent !important; }
 [data-typer] .word .char.charFill {
-  color: var(--typer-bg, var(--background, #fcfcfc));
-  background: var(--typer-fg, var(--foreground, #1b1b1b));
+  color: var(--typer-bg, var(--background, #000));
+  background: var(--typer-fg, var(--foreground, currentColor));
   border-radius: var(--typer-radius, 5px);
 }
 [data-typer] .word .char.charFill:has(+ .charFill) {
@@ -407,16 +451,26 @@ const TYPER_CSS = `
   border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charInverse {
-  color: var(--typer-bg, var(--background, #fcfcfc));
-  background: var(--typer-fg, var(--foreground, #1b1b1b));
+  color: var(--typer-bg, var(--background, #000));
+  background: var(--typer-fg, var(--foreground, currentColor));
 }
 [data-typer] .word .char.charAccent {
-  color: var(--typer-accent, #12a150);
-  background: transparent;
+  color: var(--typer-accent-fg, var(--typer-fg, var(--foreground, currentColor)));
+  background: var(--typer-accent, var(--accent, #0044ff));
+  border-radius: var(--typer-radius, 5px);
+}
+[data-typer] .word .char.charAccent:has(+ .charAccent) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-typer] .word .char.charAccent + .charAccent { border-radius: 0; }
+[data-typer] .word .char.charAccent + .charAccent:last-child,
+[data-typer] .word .char.charAccent + .charAccent:has(+ :not(.charAccent)) {
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charAccentInverse {
-  color: var(--typer-accent-ink, #fcfcfc);
-  background: var(--typer-accent, #12a150);
+  color: var(--typer-accent-ink, var(--typer-bg, var(--background, #000)));
+  background: var(--typer-accent, var(--accent, #0044ff));
   border-radius: var(--typer-radius, 5px);
 }
 [data-typer] .word .char.charAccentInverse:has(+ .charAccentInverse) {
@@ -425,27 +479,35 @@ const TYPER_CSS = `
 }
 [data-typer] .word .char.charAccentInverse + .charAccentInverse { border-radius: 0; }
 [data-typer] .word .char.charAccentInverse + .charAccentInverse:last-child,
-[data-typer]
-  .word
-  .char.charAccentInverse
-  + .charAccentInverse:has(+ :not(.charAccentInverse)) {
+[data-typer] .word .char.charAccentInverse + .charAccentInverse:has(+ :not(.charAccentInverse)) {
   border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charAccentFill {
-  color: var(--typer-accent, #12a150);
-  background: var(--typer-accent, #12a150);
+  color: var(--typer-accent, var(--accent, #0044ff));
+  background: var(--typer-accent, var(--accent, #0044ff));
+  border-radius: var(--typer-radius, 5px);
+}
+[data-typer] .word .char.charAccentFill:has(+ .charAccentFill) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-typer] .word .char.charAccentFill + .charAccentFill { border-radius: 0; }
+[data-typer] .word .char.charAccentFill + .charAccentFill:last-child,
+[data-typer] .word .char.charAccentFill + .charAccentFill:has(+ :not(.charAccentFill)) {
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charBorder {
   position: relative;
-  color: var(--typer-fg, var(--foreground, #1b1b1b));
+  color: var(--typer-fg, var(--foreground, currentColor));
 }
 [data-typer] .word .char.charBorder::after {
   content: "";
   display: inline-block;
   position: absolute;
   inset: 0;
-  border: 1px solid var(--typer-accent, #12a150);
+  border: 1px solid var(--typer-border, var(--typer-fg, var(--foreground, currentColor)));
   border-radius: var(--typer-radius, 5px);
+  box-sizing: border-box;
 }
 [data-typer] .word .char.charBorder:has(+ .charBorder)::after {
   border-right: 1px solid transparent;
@@ -460,12 +522,12 @@ const TYPER_CSS = `
 [data-typer] .word .char.charBorder + .charBorder:last-child::after,
 [data-typer] .word .char.charBorder + .charBorder:has(+ :not(.charBorder))::after {
   border-left: 1px solid transparent;
-  border-right: 1px solid var(--typer-accent, #12a150);
+  border-right: 1px solid var(--typer-border, var(--typer-fg, var(--foreground, currentColor)));
   border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 @media (prefers-reduced-motion: reduce) {
   [data-typer][data-typer-type="initial"] { opacity: 1; }
-  [data-typer] .word .char.charInit { color: var(--typer-fg, var(--foreground, #1b1b1b)); }
+  [data-typer] .word .char.charInit { color: var(--typer-fg, var(--foreground, currentColor)); }
 }
 `;
 
@@ -482,14 +544,43 @@ function ensureTyperStyles() {
   style.textContent = TYPER_CSS;
 }
 
+function dispatchGroupTrigger(
+  group: TyperGroup,
+  trigger: "in" | "out" | "inout"
+) {
+  if (trigger === "in") {
+    group.in();
+  } else if (trigger === "out") {
+    group.out();
+  } else if (trigger === "inout") {
+    group.inOut();
+  }
+}
+
 export interface TyperHandle {
+  /** Gets current TyperType state. */
+  getType: () => TyperType;
+  /** Runs the reveal in phase (alias for play). */
+  in: () => void;
+  /** Runs the reveal in phase followed by the out phase. */
+  inOut: () => void;
   /** Runs the reveal in reverse, clearing the text back out. */
   out: () => void;
   /** Reveals the text (in phase). Ignores startOnView gating. */
   play: () => void;
   /** Restarts the reveal from the beginning. */
   replay: () => void;
+  /** Resets state with optional new text. */
+  reset: (newText?: string | string[]) => void;
+  /** Alias for in(). */
+  triggerIn: () => void;
+  /** Alias for inOut(). */
+  triggerInOut: () => void;
+  /** Alias for out(). */
+  triggerOut: () => void;
 }
+
+export type TyperRef = TyperHandle;
 
 export interface TyperProps
   extends Omit<ComponentPropsWithoutRef<"div">, "children" | "color"> {
@@ -501,55 +592,142 @@ export interface TyperProps
   as?: ElementType;
   /** Knockout / page color inside filled pills. Maps to `--typer-bg`. @default theme `--background` */
   bg?: string;
+  /** Color for charBorder border. Maps to `--typer-border`. @default theme `--foreground` */
+  border?: string;
+  /** Children string fallback if text prop is omitted. */
+  children?: string;
+  /** Cycle length multiplier. @default 0.5 */
+  cycleLength?: number;
   /** How many random states each char rolls through before settling. @default 3 */
   cycles?: number;
+  /** Delay in seconds before starting animation. @default 0 */
+  delay?: number;
   /** Base ink color (plain letters, ink pills). Maps to `--typer-fg`. @default theme `--foreground` */
   fg?: string;
   /** Frames per second of the reveal loop. @default 20 */
   fps?: number;
-  /** Corner radius of merged pills. Maps to `--typer-radius`. */
+  /** Initial visibility. If true, starts directly in "done" state. @default false */
+  initVisible?: boolean;
+  /** Callback when the reveal animation completes. */
+  onComplete?: () => void;
+  /** Corner radius of merged pills. Maps to `--typer-radius`. @default "5px" */
   radius?: string;
-  /** Imperative handle exposing play / replay / out. */
+  /** Imperative handle exposing play / replay / in / out / inOut / reset. */
   ref?: Ref<TyperHandle>;
+  /** Custom space width between words. Maps to `--typer-space-width`. @default "0.5em" */
+  spaceWidth?: string;
   /** Seconds between consecutive lines cascading in. @default 0.15 */
   stagger?: number;
-  /** Wait until scrolled into view before revealing. @default true */
+  /** Wait until scrolled into view before revealing. Ignored if trigger is provided. @default true */
   startOnView?: boolean;
   /** Text to reveal. Pass an array to render one cascading line per string. */
-  text: string | string[];
+  text?: string | string[];
+  /** Declarative trigger to transition "in", "out", or "inout". */
+  trigger?: "in" | "out" | "inout";
+  /** Trigger animation on mouse hover. @default false */
+  triggerOnHover?: boolean;
+  /** Trigger animation automatically on mount. @default true */
+  triggerOnMount?: boolean;
   /** Which visual states each char rolls through. @default all six variations */
   variations?: TyperVariation[];
 }
 
 export function Typer({
-  text,
-  as: Component = "div",
-  variations,
-  fps = 20,
-  cycles = 3,
-  stagger = 0.15,
-  startOnView = true,
-  fg,
-  bg,
   accent,
   accentInk,
-  radius,
+  as: Component = "div",
+  bg,
+  border,
+  children,
   className,
-  style,
+  cycleLength = 0.5,
+  cycles = 3,
+  delay = 0,
+  fg,
+  fps = 20,
+  initVisible = false,
+  onComplete,
+  radius,
   ref,
+  spaceWidth,
+  stagger = 0.15,
+  startOnView = true,
+  style,
+  text: textProp,
+  trigger,
+  triggerOnHover = false,
+  triggerOnMount = true,
+  variations,
   ...props
 }: TyperProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<TyperGroup | null>(null);
 
-  const lines = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const mql = window.matchMedia(REDUCED_MOTION_QUERY);
+    setReducedMotion(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+
+  const rawText = textProp ?? (typeof children === "string" ? children : "");
+  const lines = useMemo(
+    () => (Array.isArray(rawText) ? rawText : [rawText]),
+    [rawText]
+  );
+
+  const customStyles = useMemo(() => {
+    const s: Record<string, string> = {};
+    if (fg) {
+      s["--typer-fg"] = fg;
+    }
+    if (bg) {
+      s["--typer-bg"] = bg;
+    }
+    if (accent) {
+      s["--typer-accent"] = accent;
+    }
+    if (accentInk) {
+      s["--typer-accent-ink"] = accentInk;
+    }
+    if (border) {
+      s["--typer-border"] = border;
+    }
+    if (radius) {
+      s["--typer-radius"] = radius;
+    }
+    if (spaceWidth) {
+      s["--typer-space-width"] = spaceWidth;
+    }
+    return { ...s, ...style } as CSSProperties;
+  }, [fg, bg, accent, accentInk, border, radius, spaceWidth, style]);
 
   useImperativeHandle(
     ref,
     () => ({
+      getType: () => groupRef.current?.getType() ?? "initial",
+      in: () => groupRef.current?.in(),
+      inOut: () => groupRef.current?.inOut(),
+      out: () => groupRef.current?.out(),
       play: () => groupRef.current?.in(),
       replay: () => groupRef.current?.in(),
-      out: () => groupRef.current?.out(),
+      reset: (newText?: string | string[]) => {
+        if (newText === undefined) {
+          groupRef.current?.reset();
+        } else {
+          const newLines = Array.isArray(newText) ? newText : [newText];
+          groupRef.current?.reset(newLines);
+        }
+      },
+      triggerIn: () => groupRef.current?.in(),
+      triggerInOut: () => groupRef.current?.inOut(),
+      triggerOut: () => groupRef.current?.out(),
     }),
     []
   );
@@ -569,13 +747,10 @@ export function Typer({
       return;
     }
 
-    // Clear the SSR inline opacity hint now that JS controls visibility; the
-    // injected stylesheet keeps lines hidden while their reveal is pending.
     for (const el of lineEls) {
       el.style.removeProperty("opacity");
     }
 
-    const mql = window.matchMedia(REDUCED_MOTION_QUERY);
     let group: TyperGroup | null = null;
     let observer: IntersectionObserver | null = null;
 
@@ -588,20 +763,26 @@ export function Typer({
     };
 
     const setup = () => {
-      const reduced = mql.matches;
       group = new TyperGroup(
         lineEls,
         {
-          fps,
+          cycleLength,
           cycles,
+          fps,
+          initVisible: reducedMotion || initVisible,
+          onComplete,
           variations,
-          initVisible: reduced,
         },
         stagger
       );
       groupRef.current = group;
 
-      if (reduced) {
+      if (reducedMotion || initVisible) {
+        return;
+      }
+
+      if (trigger) {
+        dispatchGroupTrigger(group, trigger);
         return;
       }
 
@@ -612,57 +793,72 @@ export function Typer({
               if (entry.isIntersecting) {
                 group?.in();
                 observer?.disconnect();
-                break;
+                observer = null;
               }
             }
           },
-          { threshold: 0.15 }
+          { threshold: 0.2 }
         );
         observer.observe(root);
-      } else {
+        return;
+      }
+
+      if (triggerOnMount) {
         group.in();
       }
     };
 
-    const onChange = () => {
-      teardown();
-      setup();
-    };
-
     setup();
-    mql.addEventListener("change", onChange);
+    return teardown;
+  }, [
+    lines,
+    fps,
+    cycles,
+    cycleLength,
+    stagger,
+    startOnView,
+    triggerOnMount,
+    trigger,
+    initVisible,
+    onComplete,
+    reducedMotion,
+    variations,
+  ]);
 
-    return () => {
-      mql.removeEventListener("change", onChange);
-      teardown();
-    };
-  }, [lines, variations, fps, cycles, stagger, startOnView]);
+  useEffect(() => {
+    if (groupRef.current && trigger && !reducedMotion) {
+      dispatchGroupTrigger(groupRef.current, trigger);
+    }
+  }, [trigger, reducedMotion]);
 
-  const cssVars = {
-    ...(fg && { "--typer-fg": fg }),
-    ...(bg && { "--typer-bg": bg }),
-    ...(accent && { "--typer-accent": accent }),
-    ...(accentInk && { "--typer-accent-ink": accentInk }),
-    ...(radius && { "--typer-radius": radius }),
-    ...style,
-  } as CSSProperties;
+  const handleMouseEnter = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      props.onMouseEnter?.(e);
+      if (triggerOnHover && !reducedMotion) {
+        groupRef.current?.inOut();
+      }
+    },
+    [props.onMouseEnter, triggerOnHover, reducedMotion]
+  );
 
   return (
     <Component
-      aria-label={lines.join(". ")}
-      className={cn("select-none", className)}
+      className={cn("inline-flex flex-col", className)}
+      onMouseEnter={handleMouseEnter}
       ref={rootRef}
-      style={cssVars}
+      style={customStyles}
       {...props}
     >
-      {lines.map((line, i) => (
+      {lines.map((line) => (
         <span
-          aria-hidden="true"
-          className="block"
-          data-typer
-          // biome-ignore lint/suspicious/noArrayIndexKey: lines are positional
-          key={`${i}-${line}`}
-          style={{ opacity: 0 }}
+          data-typer=""
+          data-typer-type={reducedMotion || initVisible ? "done" : "initial"}
+          key={line}
+          style={{
+            display: "inline-flex",
+            flexWrap: "wrap",
+            opacity: reducedMotion || initVisible ? 1 : 0,
+          }}
         >
           {line}
         </span>
@@ -670,3 +866,5 @@ export function Typer({
     </Component>
   );
 }
+
+export default Typer;

@@ -1,202 +1,423 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { useReducedMotion } from "motion/react";
-import type React from "react";
 import {
+  type ComponentPropsWithoutRef,
+  type CSSProperties,
+  type ElementType,
+  type MouseEvent,
+  type Ref,
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 
-// ============================================================================
-// Types
-// ============================================================================
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
-export type TyperType = "initial" | "in" | "out" | "inout" | "done";
+// Run the reveal setup before browser paints so un-hidden text is never
+// flashed; falls back to useEffect during SSR where layout effects warn.
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-export type TyperVariation =
-  | "charFill"
-  | "charInverse"
-  | "charAccent"
-  | "charAccentInverse"
-  | "charAccentFill"
-  | "charBorder";
+// ── math helpers ──
+const clamp = (v: number, lo: number, hi: number) =>
+  Math.min(Math.max(v, lo), hi);
 
-export interface TyperRef {
-  getType: () => TyperType;
-  reset: (newText: string) => void;
-  triggerIn: () => void;
-  triggerInOut: () => void;
-  triggerOut: () => void;
+const roundToStep = (v: number, step: number) => Math.round(v / step) * step;
+
+const remap = (
+  v: number,
+  inLo: number,
+  inHi: number,
+  outLo: number,
+  outHi: number
+) => ((v - inLo) * (outHi - outLo)) / (inHi - inLo) + outLo;
+
+function bezierEase(
+  x: number,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  eps = 1e-6
+): number {
+  const bx = (t: number) =>
+    3 * (1 - t) ** 2 * t * x1 + 3 * (1 - t) * t ** 2 * x2 + t ** 3;
+  const by = (t: number) =>
+    3 * (1 - t) ** 2 * t * y1 + 3 * (1 - t) * t ** 2 * y2 + t ** 3;
+  const bxDeriv = (t: number) =>
+    3 * (1 - t) ** 2 * x1 + 6 * (1 - t) * t * (x2 - x1) + 3 * t ** 2 * (1 - x2);
+
+  let t = x;
+  for (let i = 0; i < 8; i++) {
+    const dx = bx(t) - x;
+    if (Math.abs(dx) < eps) {
+      return by(t);
+    }
+    const d = bxDeriv(t);
+    if (Math.abs(d) < 1e-6) {
+      break;
+    }
+    t -= dx / d;
+  }
+  let lo = 0;
+  let hi = 1;
+  t = x;
+  while (lo < hi) {
+    const cx = bx(t);
+    if (Math.abs(cx - x) < eps) {
+      return by(t);
+    }
+    if (cx < x) {
+      lo = t;
+    } else {
+      hi = t;
+    }
+    t = (lo + hi) / 2;
+  }
+  return by(t);
 }
 
-export interface TyperProps extends React.HTMLAttributes<HTMLElement> {
-  as?: React.ElementType;
-  children?: string;
-  className?: string;
-  cycleLength?: number;
-  cycles?: number;
-  delay?: number;
-  fps?: number;
-  initVisible?: boolean;
-  onComplete?: () => void;
-  ref?: React.Ref<TyperRef | null>;
-  text?: string;
-  trigger?: "in" | "out" | "inout";
-  triggerOnHover?: boolean;
-  triggerOnMount?: boolean;
-  type?: TyperType;
-  variations?: TyperVariation[];
-}
-
-interface CharNode {
-  char: string;
-  cp: number;
-  id: string;
-}
-
-interface ParsedWord {
-  chars: CharNode[];
-  id: string;
-  isSpace: boolean;
-  text: string;
-}
-
-// ============================================================================
-// Constants & Regular Expressions
-// ============================================================================
-
-const WORD_SPLIT_REGEX = /(\s+)/;
-const WHITESPACE_REGEX = /\s/g;
-const SPACE_REPLACE_REGEX = / /g;
-
-const DEFAULT_VARIATIONS: TyperVariation[] = [
+export const ALL_VARIATIONS = [
   "charFill",
   "charInverse",
   "charAccent",
   "charAccentInverse",
   "charAccentFill",
   "charBorder",
-];
+] as const;
 
-// ============================================================================
-// Interpolation & Bezier Solver Utilities
-// ============================================================================
+export const DEFAULT_VARIATIONS = ALL_VARIATIONS;
 
-const roundTo = (val: number, step: number): number =>
-  Math.round(val / step) * step;
+export type TyperVariation = (typeof ALL_VARIATIONS)[number];
 
-const clamp = (val: number, min: number, max: number): number => {
-  if (val < min) {
-    return min;
-  }
-  if (val > max) {
-    return max;
-  }
-  return val;
-};
+export type TyperType = "initial" | "in" | "out" | "inout" | "done";
 
-const mapRange = (
-  val: number,
-  inMin: number,
-  inMax: number,
-  outMin: number,
-  outMax: number
-): number => ((val - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
-
-function getBezierX(u: number, p1x: number, p2x: number): number {
-  return (
-    (1 - u) ** 3 * 0 +
-    3 * (1 - u) ** 2 * u * p1x +
-    3 * (1 - u) * u ** 2 * p2x +
-    u ** 3 * 1
-  );
+interface TyperOptions {
+  cycleLength?: number;
+  cycles?: number;
+  delay?: number;
+  fps?: number;
+  initVisible?: boolean;
+  onComplete?: () => void;
+  variations?: TyperVariation[];
 }
 
-function getBezierY(u: number, p1y: number, p2y: number): number {
-  return (
-    (1 - u) ** 3 * 0 +
-    3 * (1 - u) ** 2 * u * p1y +
-    3 * (1 - u) * u ** 2 * p2y +
-    u ** 3 * 1
-  );
+interface CharNode {
+  cp: number;
+  currentClass: string;
+  el: HTMLSpanElement;
 }
 
-function getBezierSlope(u: number, p1x: number, p2x: number): number {
-  return (
-    3 * (1 - u) ** 2 * p1x +
-    6 * (1 - u) * u * (p2x - p1x) +
-    3 * u ** 2 * (1 - p2x)
-  );
-}
+const WHITESPACE_SPLIT_RE = /(\s+)/;
+const WHITESPACE_RE = /\s/g;
+const SPACE_REPLACE_RE = / /g;
 
-function solveBezierT(
-  targetX: number,
-  p1x: number,
-  p2x: number,
-  precision = 1e-6
-): number {
-  let t = targetX;
-  for (let i = 0; i < 8; i++) {
-    const currentX = getBezierX(t, p1x, p2x) - targetX;
-    if (Math.abs(currentX) < precision) {
-      return t;
+class TyperEngine {
+  private readonly element: HTMLElement;
+  private source: string;
+  private length: number;
+  private readonly fps: number;
+  private readonly cycles: number;
+  private readonly cycleLength: number;
+  private frames: number;
+  private frame = 0;
+  private loop: number | null = null;
+  private readonly delay: number;
+  private delayTimer: number | null = null;
+  private charNodes: CharNode[] = [];
+  private type: TyperType = "initial";
+  private divisor: number;
+  private denominator: number;
+  private readonly variations: TyperVariation[];
+  private readonly initVisible: boolean;
+  private readonly onComplete?: () => void;
+
+  constructor(element: HTMLElement, opts: TyperOptions = {}) {
+    this.element = element;
+    this.source = element.textContent || "";
+    this.length = this.source.replace(WHITESPACE_RE, "").length;
+    this.fps = opts.fps ?? 20;
+    this.cycles = opts.cycles ?? 3;
+    this.cycleLength = opts.cycleLength ?? 0.5;
+    this.frames = this.length ? this.fps * (1 + this.length * 0.01) : 0;
+    this.delay = opts.delay ?? 0;
+    this.divisor = this.length > 1 ? this.length - 1 : 1;
+    this.denominator = this.frames - this.frames * this.cycleLength || 1;
+    this.onComplete = opts.onComplete;
+
+    this.variations = (opts.variations ?? [...ALL_VARIATIONS]).slice();
+    this.shuffle();
+    this.initVisible = opts.initVisible ?? false;
+
+    if (this.length) {
+      this.build();
+      if (this.initVisible) {
+        for (const n of this.charNodes) {
+          this.setClass(n, "char");
+        }
+        this.type = "done";
+        this.element.dataset.typerType = "done";
+      } else {
+        this.applyFrame();
+        this.element.dataset.typerType = "initial";
+      }
     }
-    const slope = getBezierSlope(t, p1x, p2x);
-    if (Math.abs(slope) < 1e-6) {
-      break;
-    }
-    t -= currentX / slope;
   }
 
-  let low = 0;
-  let high = 1;
-  let mid = targetX;
-  while (low < high) {
-    const currentX = getBezierX(mid, p1x, p2x);
-    if (Math.abs(currentX - targetX) < precision) {
-      return mid;
+  private build() {
+    this.element.replaceChildren();
+    this.charNodes = [];
+    const parts = this.source.split(WHITESPACE_SPLIT_RE);
+    let i = 0;
+    for (const part of parts) {
+      if (part.trim() === "") {
+        const space = document.createElement("span");
+        space.className = "space";
+        space.textContent = part.replace(SPACE_REPLACE_RE, "\u00A0");
+        this.element.appendChild(space);
+        continue;
+      }
+      const word = document.createElement("span");
+      word.className = "word";
+      for (const ch of part.split("")) {
+        const pos = i / this.divisor;
+        const cp = roundToStep(bezierEase(pos, 0, 0.75, 0.75, 0), 0.05);
+        const span = document.createElement("span");
+        span.className = "char charInit";
+        span.textContent = ch === " " ? "\u00A0" : ch;
+        this.charNodes.push({ el: span, cp, currentClass: "char charInit" });
+        i += 1;
+        word.appendChild(span);
+      }
+      this.element.appendChild(word);
     }
-    if (targetX > currentX) {
-      low = mid;
+  }
+
+  in() {
+    this.setType("in");
+  }
+
+  out() {
+    this.setType("out");
+  }
+
+  inOut() {
+    this.setType("inout");
+  }
+
+  getType(): TyperType {
+    return this.type;
+  }
+
+  reset(newSource?: string) {
+    this.stopLoop();
+    if (newSource !== undefined && newSource !== this.source) {
+      this.source = newSource;
+      this.length = this.source.replace(WHITESPACE_RE, "").length;
+      this.frames = this.length ? this.fps * (1 + this.length * 0.01) : 0;
+      this.divisor = this.length > 1 ? this.length - 1 : 1;
+      this.denominator = this.frames - this.frames * this.cycleLength || 1;
+      this.build();
+    }
+    this.frame = 0;
+    this.type = "initial";
+    this.element.dataset.typerType = "initial";
+    this.applyFrame();
+  }
+
+  private setType(t: TyperType) {
+    if (t === this.type && t !== "inout") {
+      return;
+    }
+    this.type = t;
+    this.element.dataset.typerType = t;
+    this.stopLoop();
+    this.frame = 0;
+    this.applyFrame();
+    if (t !== "initial" && this.charNodes.length) {
+      this.startLoop();
+    }
+  }
+
+  private startLoop() {
+    if (this.loop || this.delayTimer || !this.charNodes.length) {
+      return;
+    }
+    if (this.type === "initial") {
+      return;
+    }
+    this.shuffle();
+    const begin = () => {
+      this.delayTimer = null;
+      if (this.loop || this.type === "initial") {
+        return;
+      }
+      this.applyFrame();
+      this.loop = window.setInterval(() => this.tick(), 1000 / this.fps);
+    };
+    if (this.delay > 0) {
+      this.delayTimer = window.setTimeout(begin, this.delay * 1000);
     } else {
-      high = mid;
+      begin();
     }
-    mid = (high + low) / 2;
   }
-  return mid;
+
+  private stopLoop() {
+    if (this.delayTimer) {
+      window.clearTimeout(this.delayTimer);
+      this.delayTimer = null;
+    }
+    if (this.loop) {
+      window.clearInterval(this.loop);
+      this.loop = null;
+    }
+  }
+
+  private tick() {
+    const total = this.type === "inout" ? this.frames * 2 : this.frames;
+    this.frame += 1;
+    this.frame = clamp(this.frame, 0, total);
+    this.applyFrame();
+    if (this.frame >= total) {
+      this.stopLoop();
+      const finalType = this.type === "out" ? "initial" : "done";
+      this.type = finalType;
+      this.element.dataset.typerType = finalType;
+      this.onComplete?.();
+    }
+  }
+
+  private resolveClass(phase: TyperType, p: number) {
+    if (phase === "in") {
+      if (p <= 0) {
+        return "char charInit";
+      }
+      if (p >= 1) {
+        return "char";
+      }
+    } else {
+      if (p <= 0) {
+        return "char";
+      }
+      if (p >= 1) {
+        return "char charInit";
+      }
+    }
+    const idx = Math.round(remap(p, 0, 1, 0, this.cycles));
+    const variation =
+      this.variations[idx % this.variations.length] ?? "charInit";
+    return variation ? `char ${variation}` : "char";
+  }
+
+  private applyFrame() {
+    if (!(this.length && this.charNodes.length)) {
+      return;
+    }
+    if (this.type === "initial") {
+      for (const n of this.charNodes) {
+        this.setClass(n, "char charInit");
+      }
+      return;
+    }
+    let phase: TyperType = this.type;
+    if (this.type === "inout") {
+      phase = this.frame > this.frames ? "out" : "in";
+    }
+    const rawFrame =
+      this.type === "inout" && phase === "out"
+        ? this.frame - this.frames
+        : this.frame;
+    const progress = rawFrame / this.denominator;
+
+    for (const node of this.charNodes) {
+      let p = progress - node.cp;
+      p = roundToStep(p, 0.1);
+      p = clamp(p, 0, 1);
+      this.setClass(node, this.resolveClass(phase, p));
+    }
+  }
+
+  private setClass(node: CharNode, cls: string) {
+    if (cls === node.currentClass) {
+      return;
+    }
+    node.currentClass = cls;
+    node.el.className = cls;
+  }
+
+  private shuffle() {
+    this.variations.sort(() => 0.5 - Math.random());
+  }
+
+  destroy() {
+    this.stopLoop();
+    this.element.textContent = this.source;
+    this.element.removeAttribute("data-typer-type");
+  }
 }
 
-/**
- * Computes the normalized progression curve for staggered character offsets.
- */
-function bezierSolve(
-  progress: number,
-  p1x: number,
-  p1y: number,
-  p2x: number,
-  p2y: number
-): number {
-  const solvedT = solveBezierT(progress, p1x, p2x);
-  return getBezierY(solvedT, p1y, p2y);
+class TyperGroup {
+  private readonly typers: TyperEngine[];
+
+  constructor(
+    elements: HTMLElement[],
+    opts: Omit<TyperOptions, "delay"> = {},
+    stagger = 0.15
+  ) {
+    this.typers = elements.map(
+      (el, i) => new TyperEngine(el, { ...opts, delay: i * stagger })
+    );
+  }
+
+  in() {
+    for (const t of this.typers) {
+      t.in();
+    }
+  }
+
+  out() {
+    for (const t of this.typers) {
+      t.out();
+    }
+  }
+
+  inOut() {
+    for (const t of this.typers) {
+      t.inOut();
+    }
+  }
+
+  getType(): TyperType {
+    return this.typers[0]?.getType() ?? "initial";
+  }
+
+  reset(newLines?: string[]) {
+    for (let i = 0; i < this.typers.length; i++) {
+      this.typers[i]?.reset(newLines?.[i]);
+    }
+  }
+
+  destroy() {
+    for (const t of this.typers) {
+      t.destroy();
+    }
+  }
 }
 
-// ============================================================================
-// Scoped Styles for Character Segments & Grouping
-// ============================================================================
+const STYLE_ID = "sora-typer-styles";
 
-const TYPER_STYLES = `
+const TYPER_CSS = `
 [data-typer] {
   display: inline-flex;
   flex-wrap: wrap;
+  align-items: center;
 }
-[data-typer][data-typer-type="initial"] {
-  opacity: 0;
-}
+[data-typer][data-typer-type="initial"] { opacity: 0; }
 [data-typer] .word {
   white-space: pre;
   display: inline-block;
@@ -210,58 +431,82 @@ const TYPER_STYLES = `
 [data-typer] .word .char {
   box-sizing: content-box;
   display: inline-block;
-  color: var(--foreground, currentColor);
+  color: var(--typer-fg, var(--foreground, currentColor));
   background: transparent;
+  transition: none;
 }
-[data-typer] .word .char.charInit {
-  color: transparent !important;
-}
+[data-typer] .word .char.charInit { color: transparent !important; }
 [data-typer] .word .char.charFill {
-  color: var(--background, #000);
-  background: var(--foreground, currentColor);
-  border-radius: 5px;
+  color: var(--typer-bg, var(--background, #000));
+  background: var(--typer-fg, var(--foreground, currentColor));
+  border-radius: var(--typer-radius, 5px);
 }
 [data-typer] .word .char.charFill:has(+ .charFill) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-[data-typer] .word .char.charFill + .charFill {
-  border-radius: 0;
-}
+[data-typer] .word .char.charFill + .charFill { border-radius: 0; }
 [data-typer] .word .char.charFill + .charFill:last-child,
 [data-typer] .word .char.charFill + .charFill:has(+ :not(.charFill)) {
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charInverse {
-  color: var(--background, #000);
-  background: var(--foreground, currentColor);
+  color: var(--typer-bg, var(--background, #000));
+  background: var(--typer-fg, var(--foreground, currentColor));
 }
 [data-typer] .word .char.charAccent {
-  color: var(--foreground, currentColor);
-  background: var(--accent, #0044ff);
+  color: var(--typer-accent-fg, var(--typer-fg, var(--foreground, currentColor)));
+  background: var(--typer-accent, var(--accent, #0044ff));
+  border-radius: var(--typer-radius, 5px);
+}
+[data-typer] .word .char.charAccent:has(+ .charAccent) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-typer] .word .char.charAccent + .charAccent { border-radius: 0; }
+[data-typer] .word .char.charAccent + .charAccent:last-child,
+[data-typer] .word .char.charAccent + .charAccent:has(+ :not(.charAccent)) {
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charAccentInverse {
-  color: var(--background, #000);
-  background: var(--accent, #0044ff);
+  color: var(--typer-accent-ink, var(--typer-bg, var(--background, #000)));
+  background: var(--typer-accent, var(--accent, #0044ff));
+  border-radius: var(--typer-radius, 5px);
+}
+[data-typer] .word .char.charAccentInverse:has(+ .charAccentInverse) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-typer] .word .char.charAccentInverse + .charAccentInverse { border-radius: 0; }
+[data-typer] .word .char.charAccentInverse + .charAccentInverse:last-child,
+[data-typer] .word .char.charAccentInverse + .charAccentInverse:has(+ :not(.charAccentInverse)) {
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charAccentFill {
-  color: var(--accent, #0044ff);
-  background: var(--accent, #0044ff);
+  color: var(--typer-accent, var(--accent, #0044ff));
+  background: var(--typer-accent, var(--accent, #0044ff));
+  border-radius: var(--typer-radius, 5px);
+}
+[data-typer] .word .char.charAccentFill:has(+ .charAccentFill) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[data-typer] .word .char.charAccentFill + .charAccentFill { border-radius: 0; }
+[data-typer] .word .char.charAccentFill + .charAccentFill:last-child,
+[data-typer] .word .char.charAccentFill + .charAccentFill:has(+ :not(.charAccentFill)) {
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
 }
 [data-typer] .word .char.charBorder {
   position: relative;
-  color: var(--foreground, currentColor);
+  color: var(--typer-fg, var(--foreground, currentColor));
 }
 [data-typer] .word .char.charBorder::after {
   content: "";
   display: inline-block;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border: 1px solid var(--foreground, currentColor);
-  border-radius: 5px;
+  inset: 0;
+  border: 1px solid var(--typer-border, var(--typer-fg, var(--foreground, currentColor)));
+  border-radius: var(--typer-radius, 5px);
   box-sizing: border-box;
 }
 [data-typer] .word .char.charBorder:has(+ .charBorder)::after {
@@ -277,424 +522,348 @@ const TYPER_STYLES = `
 [data-typer] .word .char.charBorder + .charBorder:last-child::after,
 [data-typer] .word .char.charBorder + .charBorder:has(+ :not(.charBorder))::after {
   border-left: 1px solid transparent;
-  border-right: 1px solid var(--foreground, currentColor);
-  border-radius: 0 5px 5px 0;
+  border-right: 1px solid var(--typer-border, var(--typer-fg, var(--foreground, currentColor)));
+  border-radius: 0 var(--typer-radius, 5px) var(--typer-radius, 5px) 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-typer][data-typer-type="initial"] { opacity: 1; }
+  [data-typer] .word .char.charInit { color: var(--typer-fg, var(--foreground, currentColor)); }
 }
 `;
 
-function resolveSubType(
-  currentType: TyperType,
-  frame: number,
-  frames: number
-): "in" | "out" | TyperType {
-  if (currentType === "inout") {
-    if (frame > frames) {
-      return "out";
-    }
-    return "in";
+function ensureTyperStyles() {
+  if (typeof document === "undefined") {
+    return;
   }
-  return currentType;
+  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+  if (!style) {
+    style = document.createElement("style");
+    style.id = STYLE_ID;
+    document.head.appendChild(style);
+  }
+  style.textContent = TYPER_CSS;
 }
 
-function computeCharClassName(
-  currentType: TyperType,
-  frame: number,
-  frames: number,
-  denominator: number,
-  cp: number,
-  cycles: number,
-  variations: TyperVariation[]
-): string {
-  if (currentType === "initial") {
-    return "char charInit";
+function dispatchGroupTrigger(
+  group: TyperGroup,
+  trigger: "in" | "out" | "inout"
+) {
+  if (trigger === "in") {
+    group.in();
+  } else if (trigger === "out") {
+    group.out();
+  } else if (trigger === "inout") {
+    group.inOut();
   }
-  if (currentType === "done") {
-    return "char";
-  }
-
-  const subType = resolveSubType(currentType, frame, frames);
-  const offsetFrame =
-    currentType === "inout" && subType === "out" ? frame - frames : frame;
-  const normalizedProgress = offsetFrame / denominator;
-
-  let progressDiff = normalizedProgress - cp;
-  progressDiff = roundTo(progressDiff, 0.1);
-  progressDiff = clamp(progressDiff, 0, 1);
-
-  let variationClass = "charInit";
-  if (progressDiff > 0) {
-    const cycleStep = Math.round(mapRange(progressDiff, 0, 1, 0, cycles));
-    const chosen = variations[cycleStep % variations.length];
-    if (chosen) {
-      variationClass = chosen;
-    }
-  }
-  if (progressDiff >= 1) {
-    variationClass = "";
-  }
-
-  const baseClass = variationClass ? `char ${variationClass}` : "char";
-
-  if (subType === "in") {
-    if (progressDiff <= 0) {
-      return "char charInit";
-    }
-    if (progressDiff >= 1) {
-      return "char";
-    }
-    return baseClass;
-  }
-
-  if (progressDiff <= 0) {
-    return "char";
-  }
-  if (progressDiff >= 1) {
-    return "char charInit";
-  }
-  return baseClass;
 }
 
-// ============================================================================
-// Component Definition
-// ============================================================================
+export interface TyperHandle {
+  /** Gets current TyperType state. */
+  getType: () => TyperType;
+  /** Runs the reveal in phase (alias for play). */
+  in: () => void;
+  /** Runs the reveal in phase followed by the out phase. */
+  inOut: () => void;
+  /** Runs the reveal in reverse, clearing the text back out. */
+  out: () => void;
+  /** Reveals the text (in phase). Ignores startOnView gating. */
+  play: () => void;
+  /** Restarts the reveal from the beginning. */
+  replay: () => void;
+  /** Resets state with optional new text. */
+  reset: (newText?: string | string[]) => void;
+  /** Alias for in(). */
+  triggerIn: () => void;
+  /** Alias for inOut(). */
+  triggerInOut: () => void;
+  /** Alias for out(). */
+  triggerOut: () => void;
+}
+
+export type TyperRef = TyperHandle;
+
+export interface TyperProps
+  extends Omit<ComponentPropsWithoutRef<"div">, "children" | "color"> {
+  /** Accent surface color (accent pills and borders). Maps to `--typer-accent`. */
+  accent?: string;
+  /** Text color sitting on an accent fill. Maps to `--typer-accent-ink`. */
+  accentInk?: string;
+  /** Render as a different element instead of `div`. @default "div" */
+  as?: ElementType;
+  /** Knockout / page color inside filled pills. Maps to `--typer-bg`. @default theme `--background` */
+  bg?: string;
+  /** Color for charBorder border. Maps to `--typer-border`. @default theme `--foreground` */
+  border?: string;
+  /** Children string fallback if text prop is omitted. */
+  children?: string;
+  /** Cycle length multiplier. @default 0.5 */
+  cycleLength?: number;
+  /** How many random states each char rolls through before settling. @default 3 */
+  cycles?: number;
+  /** Delay in seconds before starting animation. @default 0 */
+  delay?: number;
+  /** Base ink color (plain letters, ink pills). Maps to `--typer-fg`. @default theme `--foreground` */
+  fg?: string;
+  /** Frames per second of the reveal loop. @default 20 */
+  fps?: number;
+  /** Initial visibility. If true, starts directly in "done" state. @default false */
+  initVisible?: boolean;
+  /** Callback when the reveal animation completes. */
+  onComplete?: () => void;
+  /** Corner radius of merged pills. Maps to `--typer-radius`. @default "5px" */
+  radius?: string;
+  /** Imperative handle exposing play / replay / in / out / inOut / reset. */
+  ref?: Ref<TyperHandle>;
+  /** Custom space width between words. Maps to `--typer-space-width`. @default "0.5em" */
+  spaceWidth?: string;
+  /** Seconds between consecutive lines cascading in. @default 0.15 */
+  stagger?: number;
+  /** Wait until scrolled into view before revealing. Ignored if trigger is provided. @default true */
+  startOnView?: boolean;
+  /** Text to reveal. Pass an array to render one cascading line per string. */
+  text?: string | string[];
+  /** Declarative trigger to transition "in", "out", or "inout". */
+  trigger?: "in" | "out" | "inout";
+  /** Trigger animation on mouse hover. @default false */
+  triggerOnHover?: boolean;
+  /** Trigger animation automatically on mount. @default true */
+  triggerOnMount?: boolean;
+  /** Which visual states each char rolls through. @default all six variations */
+  variations?: TyperVariation[];
+}
 
 export function Typer({
-  as: Component = "span",
+  accent,
+  accentInk,
+  as: Component = "div",
+  bg,
+  border,
   children,
   className,
   cycleLength = 0.5,
   cycles = 3,
   delay = 0,
+  fg,
   fps = 20,
   initVisible = false,
   onComplete,
+  radius,
   ref,
+  spaceWidth,
+  stagger = 0.15,
+  startOnView = true,
+  style,
   text: textProp,
   trigger,
   triggerOnHover = false,
   triggerOnMount = true,
-  type: initialType = "initial",
-  variations: variationsProp,
+  variations,
   ...props
 }: TyperProps) {
-  const [sourceText, setSourceText] = useState<string>(() => {
-    if (textProp !== undefined) {
-      return textProp;
-    }
-    if (typeof children === "string") {
-      return children;
-    }
-    return "";
-  });
+  const rootRef = useRef<HTMLDivElement>(null);
+  const groupRef = useRef<TyperGroup | null>(null);
 
-  const [currentType, setCurrentType] = useState<TyperType>(() => {
-    if (initVisible) {
-      return "done";
-    }
-    return initialType;
-  });
-  const [frame, setFrame] = useState<number>(0);
-  const prefersReducedMotion = useReducedMotion();
-
-  const elementRef = useRef<HTMLElement | null>(null);
-  const loopRef = useRef<number | null>(null);
-  const delayTimerRef = useRef<number | null>(null);
-  const currentTypeRef = useRef<TyperType>(currentType);
-  currentTypeRef.current = currentType;
-
-  const [activeVariations, setActiveVariations] = useState<TyperVariation[]>(
-    () => {
-      const list =
-        variationsProp && variationsProp.length > 0
-          ? variationsProp
-          : DEFAULT_VARIATIONS;
-      return [...list].sort(() => 0.5 - Math.random());
-    }
-  );
-
-  const shuffleVariations = useCallback(() => {
-    const list =
-      variationsProp && variationsProp.length > 0
-        ? variationsProp
-        : DEFAULT_VARIATIONS;
-    setActiveVariations([...list].sort(() => 0.5 - Math.random()));
-  }, [variationsProp]);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    if (textProp !== undefined) {
-      setSourceText(textProp);
-    } else if (typeof children === "string") {
-      setSourceText(children);
-    } else {
-      setSourceText("");
+    if (typeof window === "undefined") {
+      return;
     }
-  }, [textProp, children]);
-
-  const { words, charList, frames, denominator } = useMemo(() => {
-    const rawWords = sourceText.split(WORD_SPLIT_REGEX);
-    const chars: CharNode[] = [];
-    const cleanLength = sourceText.replace(WHITESPACE_REGEX, "").length;
-    const divisor = cleanLength > 1 ? cleanLength - 1 : 1;
-    const calculatedFrames = cleanLength ? fps * (1 + cleanLength * 0.01) : 0;
-    const calculatedDenominator =
-      calculatedFrames - calculatedFrames * cycleLength || 1;
-
-    let charIdx = 0;
-    let wordCounter = 0;
-
-    const parsedWords: ParsedWord[] = rawWords.map((word) => {
-      wordCounter += 1;
-      const wordId = `w-${wordCounter}-${word}`;
-      const isSpace = word.trim() === "";
-      if (isSpace) {
-        return { chars: [], id: wordId, isSpace: true, text: word };
-      }
-
-      const wordChars = word.split("").map((ch) => {
-        const a = charIdx / divisor;
-        const cp = roundTo(bezierSolve(a, 0, 0.75, 0.75, 0), 0.05);
-        charIdx += 1;
-        const node: CharNode = { char: ch, cp, id: `c-${charIdx}-${ch}` };
-        chars.push(node);
-        return node;
-      });
-
-      return { chars: wordChars, id: wordId, isSpace: false, text: word };
-    });
-
-    return {
-      charList: chars,
-      denominator: calculatedDenominator,
-      frames: calculatedFrames,
-      words: parsedWords,
-    };
-  }, [sourceText, fps, cycleLength]);
-
-  const stopLoop = useCallback(() => {
-    if (delayTimerRef.current !== null) {
-      window.clearTimeout(delayTimerRef.current);
-      delayTimerRef.current = null;
-    }
-    if (loopRef.current !== null) {
-      window.clearInterval(loopRef.current);
-      loopRef.current = null;
-    }
+    const mql = window.matchMedia(REDUCED_MOTION_QUERY);
+    setReducedMotion(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
   }, []);
 
-  const setType = useCallback(
-    (newType: TyperType) => {
-      if (newType === currentTypeRef.current && newType !== "inout") {
-        return;
-      }
-
-      stopLoop();
-      setCurrentType(newType);
-      setFrame(0);
-
-      if (newType === "initial" || charList.length === 0) {
-        return;
-      }
-
-      if (prefersReducedMotion) {
-        stopLoop();
-        setCurrentType(
-          newType === "out" || newType === "inout" ? "initial" : "done"
-        );
-        onComplete?.();
-        return;
-      }
-
-      shuffleVariations();
-
-      const runLoop = () => {
-        delayTimerRef.current = null;
-        let currentFrame = 0;
-        const completionFrames = Math.ceil(1.9 * denominator);
-        const singlePhaseFrames = Math.max(frames, completionFrames);
-        const totalTargetFrames =
-          newType === "inout" ? singlePhaseFrames * 2 : singlePhaseFrames;
-
-        loopRef.current = window.setInterval(() => {
-          currentFrame += 1;
-          const clamped = clamp(currentFrame, 0, totalTargetFrames);
-          setFrame(clamped);
-
-          if (clamped >= totalTargetFrames) {
-            stopLoop();
-            setCurrentType(
-              newType === "out" || newType === "inout" ? "initial" : "done"
-            );
-            onComplete?.();
-          }
-        }, 1000 / fps);
-      };
-
-      if (delay > 0) {
-        delayTimerRef.current = window.setTimeout(runLoop, delay * 1000);
-      } else {
-        runLoop();
-      }
-    },
-    [
-      charList.length,
-      delay,
-      denominator,
-      fps,
-      frames,
-      onComplete,
-      prefersReducedMotion,
-      shuffleVariations,
-      stopLoop,
-    ]
+  const rawText = textProp ?? (typeof children === "string" ? children : "");
+  const lines = useMemo(
+    () => (Array.isArray(rawText) ? rawText : [rawText]),
+    [rawText]
   );
 
-  const reset = useCallback(
-    (newText: string) => {
-      stopLoop();
-      setSourceText(newText);
-      setFrame(0);
-      setCurrentType("initial");
-    },
-    [stopLoop]
-  );
+  const customStyles = useMemo(() => {
+    const s: Record<string, string> = {};
+    if (fg) {
+      s["--typer-fg"] = fg;
+    }
+    if (bg) {
+      s["--typer-bg"] = bg;
+    }
+    if (accent) {
+      s["--typer-accent"] = accent;
+    }
+    if (accentInk) {
+      s["--typer-accent-ink"] = accentInk;
+    }
+    if (border) {
+      s["--typer-border"] = border;
+    }
+    if (radius) {
+      s["--typer-radius"] = radius;
+    }
+    if (spaceWidth) {
+      s["--typer-space-width"] = spaceWidth;
+    }
+    return { ...s, ...style } as CSSProperties;
+  }, [fg, bg, accent, accentInk, border, radius, spaceWidth, style]);
 
   useImperativeHandle(
     ref,
     () => ({
-      getType: () => currentTypeRef.current,
-      reset: (newText: string) => {
-        reset(newText);
+      getType: () => groupRef.current?.getType() ?? "initial",
+      in: () => groupRef.current?.in(),
+      inOut: () => groupRef.current?.inOut(),
+      out: () => groupRef.current?.out(),
+      play: () => groupRef.current?.in(),
+      replay: () => groupRef.current?.in(),
+      reset: (newText?: string | string[]) => {
+        if (newText === undefined) {
+          groupRef.current?.reset();
+        } else {
+          const newLines = Array.isArray(newText) ? newText : [newText];
+          groupRef.current?.reset(newLines);
+        }
       },
-      triggerIn: () => {
-        setType("in");
-      },
-      triggerInOut: () => {
-        setType("inout");
-      },
-      triggerOut: () => {
-        setType("out");
-      },
+      triggerIn: () => groupRef.current?.in(),
+      triggerInOut: () => groupRef.current?.inOut(),
+      triggerOut: () => groupRef.current?.out(),
     }),
-    [reset, setType]
+    []
   );
 
-  useEffect(() => {
-    const el = elementRef.current;
-    if (!el) {
+  useIsomorphicLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) {
       return;
     }
 
-    const onIn = () => {
-      setType("in");
+    ensureTyperStyles();
+
+    const lineEls = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-typer]")
+    );
+    if (!lineEls.length) {
+      return;
+    }
+
+    for (const el of lineEls) {
+      el.style.removeProperty("opacity");
+    }
+
+    let group: TyperGroup | null = null;
+    let observer: IntersectionObserver | null = null;
+
+    const teardown = () => {
+      observer?.disconnect();
+      observer = null;
+      group?.destroy();
+      group = null;
+      groupRef.current = null;
     };
-    const onOut = () => {
-      setType("out");
-    };
-    const onInOut = () => {
-      setType("inout");
-    };
-    const onReset = (e: Event) => {
-      const customEvent = e as CustomEvent<string>;
-      if (customEvent.detail) {
-        reset(customEvent.detail);
+
+    const setup = () => {
+      group = new TyperGroup(
+        lineEls,
+        {
+          cycleLength,
+          cycles,
+          fps,
+          initVisible: reducedMotion || initVisible,
+          onComplete,
+          variations,
+        },
+        stagger
+      );
+      groupRef.current = group;
+
+      if (reducedMotion || initVisible) {
+        return;
+      }
+
+      if (trigger) {
+        dispatchGroupTrigger(group, trigger);
+        return;
+      }
+
+      if (startOnView) {
+        observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                group?.in();
+                observer?.disconnect();
+                observer = null;
+              }
+            }
+          },
+          { threshold: 0.2 }
+        );
+        observer.observe(root);
+        return;
+      }
+
+      if (triggerOnMount) {
+        group.in();
       }
     };
 
-    el.addEventListener("typer:in", onIn);
-    el.addEventListener("typer:out", onOut);
-    el.addEventListener("typer:inout", onInOut);
-    el.addEventListener("typer:reset", onReset);
-
-    return () => {
-      el.removeEventListener("typer:in", onIn);
-      el.removeEventListener("typer:out", onOut);
-      el.removeEventListener("typer:inout", onInOut);
-      el.removeEventListener("typer:reset", onReset);
-    };
-  }, [setType, reset]);
+    setup();
+    return teardown;
+  }, [
+    lines,
+    fps,
+    cycles,
+    cycleLength,
+    stagger,
+    startOnView,
+    triggerOnMount,
+    trigger,
+    initVisible,
+    onComplete,
+    reducedMotion,
+    variations,
+  ]);
 
   useEffect(() => {
-    if (trigger) {
-      setType(trigger);
-    } else if (triggerOnMount && !initVisible) {
-      setType("in");
+    if (groupRef.current && trigger && !reducedMotion) {
+      dispatchGroupTrigger(groupRef.current, trigger);
     }
-  }, [trigger, triggerOnMount, initVisible, setType]);
-
-  useEffect(
-    () => () => {
-      stopLoop();
-    },
-    [stopLoop]
-  );
+  }, [trigger, reducedMotion]);
 
   const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
+    (e: MouseEvent<HTMLDivElement>) => {
       props.onMouseEnter?.(e);
-      if (triggerOnHover) {
-        setType("inout");
+      if (triggerOnHover && !reducedMotion) {
+        groupRef.current?.inOut();
       }
     },
-    [props.onMouseEnter, triggerOnHover, setType]
+    [props.onMouseEnter, triggerOnHover, reducedMotion]
   );
 
-  if (prefersReducedMotion) {
-    return (
-      <Component
-        className={cn(className)}
-        data-typer=""
-        data-typer-type="done"
-        ref={elementRef}
-        {...props}
-      >
-        {sourceText}
-      </Component>
-    );
-  }
-
   return (
-    <>
-      <style>{TYPER_STYLES}</style>
-      <Component
-        className={cn(className)}
-        data-typer=""
-        data-typer-type={currentType}
-        onMouseEnter={handleMouseEnter}
-        ref={elementRef}
-        {...props}
-      >
-        {words.map((w) => {
-          if (w.isSpace) {
-            return (
-              <span className="space" key={w.id}>
-                {w.text.replace(SPACE_REPLACE_REGEX, "\u00A0")}
-              </span>
-            );
-          }
-
-          return (
-            <span className="word" key={w.id}>
-              {w.chars.map((ch) => (
-                <span
-                  className={computeCharClassName(
-                    currentType,
-                    frame,
-                    frames,
-                    denominator,
-                    ch.cp,
-                    cycles,
-                    activeVariations
-                  )}
-                  key={ch.id}
-                >
-                  {ch.char === " " ? "\u00A0" : ch.char}
-                </span>
-              ))}
-            </span>
-          );
-        })}
-      </Component>
-    </>
+    <Component
+      className={cn("inline-flex flex-col", className)}
+      onMouseEnter={handleMouseEnter}
+      ref={rootRef}
+      style={customStyles}
+      {...props}
+    >
+      {lines.map((line) => (
+        <span
+          data-typer=""
+          data-typer-type={reducedMotion || initVisible ? "done" : "initial"}
+          key={line}
+          style={{
+            display: "inline-flex",
+            flexWrap: "wrap",
+            opacity: reducedMotion || initVisible ? 1 : 0,
+          }}
+        >
+          {line}
+        </span>
+      ))}
+    </Component>
   );
 }
 
