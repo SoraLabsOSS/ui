@@ -2,6 +2,7 @@
 
 import { Typer } from "@workspace/ui/components/ui/typer";
 import { cn } from "@workspace/ui/lib/utils";
+import { useReducedMotion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
@@ -66,6 +67,7 @@ export function isMarketingPath(path: string): boolean {
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const prefersReducedMotion = useReducedMotion();
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const shaderRef = useRef<PageTransitionShader | null>(null);
@@ -79,7 +81,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const [phraseIndex, setPhraseIndex] = useState(0);
 
   useEffect(() => {
-    if (!canvasRef.current) {
+    if (prefersReducedMotion || !canvasRef.current) {
       return;
     }
     const shader = new PageTransitionShader(canvasRef.current, {
@@ -95,7 +97,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       shader.destroy();
       shaderRef.current = null;
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   const transitionTo = useCallback(
     async (href: string, mode?: TransitionMode) => {
@@ -106,10 +108,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      if (
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
+      if (prefersReducedMotion) {
         router.push(href);
         return;
       }
@@ -158,7 +157,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       setIsTransitioning(false);
       setTransitionMode(null);
     },
-    [isTransitioning, pathname, router]
+    [isTransitioning, pathname, prefersReducedMotion, router]
   );
 
   const value = useMemo(
@@ -173,55 +172,57 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   return (
     <PageTransitionContext.Provider value={value}>
       {children}
-      <div
-        aria-hidden={!isTransitioning}
-        className={cn(
-          "pointer-events-none fixed inset-0 z-[99999] transition-opacity duration-300",
-          isTransitioning ? "pointer-events-auto opacity-100" : "opacity-0"
-        )}
-      >
-        <canvas className="absolute inset-0 h-full w-full" ref={canvasRef} />
-        {transitionMode === "docs" && showTyper && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
-            <div
-              className="flex select-none items-center justify-center font-bold font-mono text-base uppercase tracking-wider transition-typer-banner sm:text-xl md:text-2xl lg:text-3xl"
-              style={
-                {
-                  "--accent": "#fb460d",
-                  "--background": "#000000",
-                  "--foreground": "#fb460d",
-                  "--typer-space-width": "clamp(1.25rem, 3.5vw, 3rem)",
-                  color: "#fb460d",
-                } as React.CSSProperties
-              }
-            >
-              <style>{`
-                .transition-typer-banner [data-typer] .space {
-                  display: inline-block !important;
-                  flex-shrink: 0 !important;
-                  width: clamp(1.25rem, 3.5vw, 3rem) !important;
+      {!prefersReducedMotion && (
+        <div
+          aria-hidden={!isTransitioning}
+          className={cn(
+            "pointer-events-none fixed inset-0 z-[99999] transition-opacity duration-300",
+            isTransitioning ? "pointer-events-auto opacity-100" : "opacity-0"
+          )}
+        >
+          <canvas className="absolute inset-0 h-full w-full" ref={canvasRef} />
+          {transitionMode === "docs" && showTyper && (
+            <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
+              <div
+                className="flex select-none items-center justify-center font-bold font-mono text-base uppercase tracking-wider transition-typer-banner sm:text-xl md:text-2xl lg:text-3xl"
+                style={
+                  {
+                    "--accent": "#fb460d",
+                    "--background": "#000000",
+                    "--foreground": "#fb460d",
+                    "--typer-space-width": "clamp(1.25rem, 3.5vw, 3rem)",
+                    color: "#fb460d",
+                  } as React.CSSProperties
                 }
-              `}</style>
-              <Typer
-                className="inline-flex items-center justify-center whitespace-nowrap"
-                cycleLength={0.5}
-                cycles={3}
-                fps={20}
-                key={DOCS_TRANSITION_PHRASES[phraseIndex]}
-                trigger={typerTrigger}
-                variations={[
-                  "charFill",
-                  "charBorder",
-                  "charAccent",
-                  "charAccentFill",
-                ]}
               >
-                {DOCS_TRANSITION_PHRASES[phraseIndex]}
-              </Typer>
+                <style>{`
+                  .transition-typer-banner [data-typer] .space {
+                    display: inline-block !important;
+                    flex-shrink: 0 !important;
+                    width: clamp(1.25rem, 3.5vw, 3rem) !important;
+                  }
+                `}</style>
+                <Typer
+                  className="inline-flex items-center justify-center whitespace-nowrap"
+                  cycleLength={0.5}
+                  cycles={3}
+                  fps={20}
+                  key={DOCS_TRANSITION_PHRASES[phraseIndex]}
+                  trigger={typerTrigger}
+                  variations={[
+                    "charFill",
+                    "charBorder",
+                    "charAccent",
+                    "charAccentFill",
+                  ]}
+                >
+                  {DOCS_TRANSITION_PHRASES[phraseIndex]}
+                </Typer>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </PageTransitionContext.Provider>
   );
 }

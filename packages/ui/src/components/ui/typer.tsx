@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+import { useReducedMotion } from "motion/react";
 import type React from "react";
 import {
   useCallback,
@@ -393,6 +394,7 @@ export function Typer({
     return initialType;
   });
   const [frame, setFrame] = useState<number>(0);
+  const prefersReducedMotion = useReducedMotion();
 
   const elementRef = useRef<HTMLElement | null>(null);
   const loopRef = useRef<number | null>(null);
@@ -493,6 +495,15 @@ export function Typer({
         return;
       }
 
+      if (prefersReducedMotion) {
+        stopLoop();
+        setCurrentType(
+          newType === "out" || newType === "inout" ? "initial" : "done"
+        );
+        onComplete?.();
+        return;
+      }
+
       shuffleVariations();
 
       const runLoop = () => {
@@ -531,6 +542,7 @@ export function Typer({
       fps,
       frames,
       onComplete,
+      prefersReducedMotion,
       shuffleVariations,
       stopLoop,
     ]
@@ -625,6 +637,20 @@ export function Typer({
     },
     [props.onMouseEnter, triggerOnHover, setType]
   );
+
+  if (prefersReducedMotion) {
+    return (
+      <Component
+        className={cn(className)}
+        data-typer=""
+        data-typer-type="done"
+        ref={elementRef}
+        {...props}
+      >
+        {sourceText}
+      </Component>
+    );
+  }
 
   return (
     <>
