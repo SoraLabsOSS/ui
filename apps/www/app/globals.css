@@ -732,3 +732,19 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   border-left-color: #fb460d;
   border-radius: 50%;
 }
+
+/* Medium Image Zoom styling for Docs & Blog */
+[data-rmiz-modal-overlay="visible"] {
+  background-color: color-mix(
+    in oklch,
+    var(--background) 82%,
+    transparent
+  ) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+[data-rmiz-modal-img] {
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}

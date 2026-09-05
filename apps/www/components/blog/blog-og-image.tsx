@@ -2,6 +2,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image, { type ImageProps } from "next/image";
 import {
@@ -149,12 +150,17 @@ export function BlogOgImage({
         }}
       >
         {loadFailed ? null : (
-          <Image
-            {...imageProps}
-            onError={mergeImageErrorHandler(onError, handleMediaError)}
-            onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
-            src={src}
-          />
+          <ImageZoom
+            className="w-full"
+            src={typeof src === "string" ? src : (src as { src: string })?.src}
+          >
+            <Image
+              {...imageProps}
+              onError={mergeImageErrorHandler(onError, handleMediaError)}
+              onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
+              src={src}
+            />
+          </ImageZoom>
         )}
       </motion.div>
 

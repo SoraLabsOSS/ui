@@ -1,10 +1,12 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Card } from "fumadocs-ui/components/card";
+import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab } from "fumadocs-ui/components/tabs";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
+import type { ComponentProps } from "react";
 import {
   Changelog,
   ChangelogItem,
@@ -94,6 +96,13 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     TabsContents,
     TabsContent,
     Tab,
+    ImageZoom,
+    img: (props: ComponentProps<typeof ImageZoom>) => (
+      <ImageZoom
+        {...props}
+        className={cn("rounded-lg border border-border/60", props.className)}
+      />
+    ),
     pre: (props: CodeBlockProps) => (
       <CodeBlock {...props}>
         <Pre>{props.children}</Pre>
