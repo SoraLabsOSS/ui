@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   type ReactNode,
+  startTransition,
   useCallback,
   useContext,
   useEffect,
@@ -108,6 +109,12 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      try {
+        router.prefetch(href);
+      } catch {
+        // Ignore prefetch failures in unsupported environments
+      }
+
       if (prefersReducedMotion) {
         router.push(href);
         return;
@@ -137,9 +144,15 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         setTyperTrigger("in");
         setShowTyper(true);
         await shader.show(1.1, "power2.out");
-        router.push(href);
 
-        await new Promise((resolve) => setTimeout(resolve, 900));
+        // Allow Typer to settle fully into hold state before initiating route render
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        startTransition(() => {
+          router.push(href);
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 700));
         setTyperTrigger("out");
         await Promise.all([
           shader.hide(1.7, "power2.inOut"),
@@ -148,7 +161,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         setShowTyper(false);
       } else {
         await shader.show(0.85, "power2.out");
-        router.push(href);
+        startTransition(() => {
+          router.push(href);
+        });
 
         await new Promise((resolve) => setTimeout(resolve, 220));
         await shader.hide(1.0, "power2.inOut");
