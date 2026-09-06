@@ -1,0 +1,239 @@
+---
+title: Dropdown Menu
+description: An accessible dropdown menu component built on Base UI with smooth Motion spring scale and submenu slide animations.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="demo-dropdown-menu" description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+
+## Installation
+
+<ComponentInstallation name="base-dropdown-menu" />
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/sora-ui/base/dropdown-menu";
+
+export default function Page() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>More Tools</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem>Developer Tools</DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">Delete Account</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+## Props
+
+### DropdownMenu
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the dropdown menu.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### DropdownMenuContent
+
+<TypeTable
+  type={{
+    align: {
+      description: "Alignment of the popup relative to the trigger.",
+      type: "\"start\" | \"center\" | \"end\"",
+      default: "\"start\"",
+    },
+    alignOffset: {
+      description: "Offset in pixels along the alignment axis.",
+      type: "number",
+      default: "0",
+    },
+    side: {
+      description: "Side of the trigger where the popup should appear.",
+      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
+      default: "\"bottom\"",
+    },
+    sideOffset: {
+      description: "Distance in pixels from the trigger.",
+      type: "number",
+      default: "4",
+    },
+    disableAnimation: {
+      description: "Whether to disable Motion spring entrance/exit animations.",
+      type: "boolean",
+      default: "false",
+    },
+    positionerClassName: {
+      description: "Additional CSS classes for the positioner container.",
+      type: "string",
+    },
+  }}
+/>
+
+### DropdownMenuItem
+
+<TypeTable
+  type={{
+    disabled: {
+      description: "Whether the menu item is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding for alignment with checkable/radio items.",
+      type: "boolean",
+      default: "false",
+    },
+    variant: {
+      description: "Visual style variant of the item.",
+      type: "\"default\" | \"destructive\"",
+      default: "\"default\"",
+    },
+  }}
+/>
+
+### DropdownMenuCheckboxItem
+
+<TypeTable
+  type={{
+    checked: {
+      description: "The controlled checked state.",
+      type: "boolean",
+    },
+    onCheckedChange: {
+      description: "Event handler called when the checked state changes.",
+      type: "(checked: boolean) => void",
+    },
+    disabled: {
+      description: "Whether the checkbox item is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+
+### DropdownMenuRadioItem
+
+<TypeTable
+  type={{
+    value: {
+      description: "Unique value identifying this radio option.",
+      type: "string",
+    },
+    disabled: {
+      description: "Whether the radio item is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+
+### DropdownMenuSubTrigger
+
+<TypeTable
+  type={{
+    disabled: {
+      description: "Whether the submenu trigger is disabled.",
+      type: "boolean",
+      default: "false",
+    },
+    inset: {
+      description: "Whether to add left padding for alignment.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
+
+### DropdownMenuSubContent
+
+<TypeTable
+  type={{
+    align: {
+      description: "Alignment of the submenu popup.",
+      type: "\"start\" | \"center\" | \"end\"",
+      default: "\"start\"",
+    },
+    alignOffset: {
+      description: "Offset in pixels along the alignment axis.",
+      type: "number",
+      default: "-4",
+    },
+    side: {
+      description: "Side where the submenu should open.",
+      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
+      default: "\"right\"",
+    },
+    sideOffset: {
+      description: "Distance in pixels from the submenu trigger.",
+      type: "number",
+      default: "0",
+    },
+    disableAnimation: {
+      description: "Whether to disable Motion spring slide animations.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>

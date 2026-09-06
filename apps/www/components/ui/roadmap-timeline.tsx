@@ -142,14 +142,15 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     category: "base-ui",
     categoryLabel: "Base UI",
     phase: 1,
-    status: "in-progress",
+    status: "completed",
     frameworks: ["react"],
     motionScore: "S",
     scoreValue: 5,
     description:
-      "Collision-aware floating dropdown with staggered items and active item pill.",
+      "Collision-aware floating dropdown with spring scale physics, cascaded submenus, and checkable items.",
+    docUrl: "/ui/base/dropdown-menu",
     priority: "High",
-    tags: ["Navigation", "Stagger", "Base UI"],
+    tags: ["Navigation", "Spring Scale", "Base UI"],
   },
   {
     id: "base-progress",
@@ -473,7 +474,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
 const MOTIONSCORE_BENCHMARKS = [
   {
     tier: "S",
-    count: 5,
+    count: 6,
     label: "S-Tier • Compositor Only",
     color:
       "border-[oklch(0.88_0.18_96)/40] bg-[oklch(0.88_0.18_96)/10] text-[#b88600] dark:text-[oklch(0.88_0.18_96)]",

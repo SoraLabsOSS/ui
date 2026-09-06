@@ -13,6 +13,7 @@
     "base/checkbox",
     "base/context-menu",
     "base/dialog",
+    "base/dropdown-menu",
     "---Radix UI---",
     "radix/button",
     "radix/checkbox",

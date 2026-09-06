@@ -2,6 +2,7 @@
 
 import type { SharedProps } from "fumadocs-ui/contexts/search";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { useCommandPaletteGroups } from "./command-palette-groups-provider";
 
 const CommandPaletteDialog = dynamic(
@@ -15,8 +16,15 @@ export function CommandPaletteSearchDialog({
   open,
 }: SharedProps) {
   const groups = useCommandPaletteGroups();
+  const [hasOpened, setHasOpened] = useState(open);
 
-  if (!open) {
+  useEffect(() => {
+    if (open) {
+      setHasOpened(true);
+    }
+  }, [open]);
+
+  if (!hasOpened) {
     return null;
   }
 

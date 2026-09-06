@@ -1,14 +1,6 @@
 "use client";
 
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-} from "@workspace/ui/components/animate-ui/primitives/radix/dialog";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   ArrowRight,
@@ -49,6 +41,12 @@ import {
 } from "@/lib/command-palette/use-command-palette-search";
 import { setThemeWithTransition } from "@/lib/theme/set-theme-with-transition";
 import { getUiSearchHint } from "@/lib/ui/ui-family";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/registry/ui/base/dialog";
 import {
   CommandPaletteInputShortcut,
   CommandPaletteShortcut,
@@ -305,18 +303,6 @@ export function CommandPaletteDialog({
     [onOpenChange, router]
   );
 
-  const handleOpenAutoFocus = useCallback((event: Event) => {
-    event.preventDefault();
-    const input = (
-      event.currentTarget as HTMLElement
-    ).querySelector<HTMLElement>('[data-slot="command-input"]');
-    input?.focus({ preventScroll: true });
-  }, []);
-
-  const handleCloseAutoFocus = useCallback((event: Event) => {
-    event.preventDefault();
-  }, []);
-
   const allGroups = useMemo(() => {
     const navigationIndex = groups.findIndex(
       (group) => group.id === "navigation"
@@ -390,108 +376,102 @@ export function CommandPaletteDialog({
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
-      <DialogPortal>
-        <DialogOverlay
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-1000 bg-black/60"
-          exit={{ opacity: 0 }}
-          initial={{ opacity: 0 }}
-          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        />
-        <DialogContent
-          className={cn(
-            "fixed top-[max(1rem,10dvh)] right-4 left-4 z-1001 mx-auto flex max-h-[85dvh] max-w-xl flex-col overflow-hidden rounded-2xl border bg-popover p-0 shadow-lg outline-none",
-            "md:top-[max(1rem,calc(50%-220px))] md:max-h-none"
-          )}
-          from="left"
-          onCloseAutoFocus={handleCloseAutoFocus}
-          onOpenAutoFocus={handleOpenAutoFocus}
-        >
-          <DialogTitle className="sr-only">
-            Search components, docs, blog, and actions
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            Search and navigate to components, documentation, blog posts, and
-            quick actions.
-          </DialogDescription>
+      <DialogContent
+        className={cn(
+          "flex max-h-[85dvh] w-full max-w-xl flex-col gap-0 overflow-hidden rounded-2xl border bg-popover p-0 shadow-lg outline-none",
+          "md:max-h-none"
+        )}
+        containerClassName="z-[1001] items-start pt-[max(1rem,10dvh)] md:pt-[max(1rem,calc(50vh-220px))]"
+        initialFocus={() =>
+          document.querySelector<HTMLElement>('[data-slot="command-input"]')
+        }
+        overlayClassName="z-[1000] bg-black/60"
+        showCloseButton={false}
+      >
+        <DialogTitle className="sr-only">
+          Search components, docs, blog, and actions
+        </DialogTitle>
+        <DialogDescription className="sr-only">
+          Search and navigate to components, documentation, blog posts, and
+          quick actions.
+        </DialogDescription>
 
-          <Command className="relative min-w-0" loop shouldFilter={!hasQuery}>
-            <CommandInput
-              onValueChange={setSearch}
-              placeholder="Search..."
-              suffix={
-                <span className="inline-flex items-center gap-1">
-                  <CommandPaletteInputShortcut />
-                  <button
-                    aria-label="Close search"
-                    className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent sm:hidden"
-                    onClick={() => onOpenChange(false)}
-                    type="button"
-                  >
-                    <X className="size-4" strokeWidth={1.5} />
-                  </button>
-                </span>
-              }
-              value={search}
-            />
+        <Command className="relative min-w-0" loop shouldFilter={!hasQuery}>
+          <CommandInput
+            onValueChange={setSearch}
+            placeholder="Search..."
+            suffix={
+              <span className="inline-flex items-center gap-1">
+                <CommandPaletteInputShortcut />
+                <button
+                  aria-label="Close search"
+                  className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent sm:hidden"
+                  onClick={() => onOpenChange(false)}
+                  type="button"
+                >
+                  <X className="size-4" strokeWidth={1.5} />
+                </button>
+              </span>
+            }
+            value={search}
+          />
 
-            <CommandList ref={listRef} scrollLocked={scrollLocked}>
-              {showLoadingState ? (
-                <div className="py-8 text-center text-muted-foreground text-sm">
-                  Searching...
-                </div>
-              ) : null}
+          <CommandList ref={listRef} scrollLocked={scrollLocked}>
+            {showLoadingState ? (
+              <div className="py-8 text-center text-muted-foreground text-sm">
+                Searching...
+              </div>
+            ) : null}
 
-              {showEmptyState ? (
-                <CommandEmpty>No results found.</CommandEmpty>
-              ) : null}
+            {showEmptyState ? (
+              <CommandEmpty>No results found.</CommandEmpty>
+            ) : null}
 
-              {showLoadingState || showEmptyState ? null : (
-                <>
-                  {hasQuery && searchResults.length > 0 ? (
-                    <CommandGroup heading="Results">
+            {showLoadingState || showEmptyState ? null : (
+              <>
+                {hasQuery && searchResults.length > 0 ? (
+                  <CommandGroup heading="Results">
+                    <CommandGroupHighlight
+                      deferMeasure={scrollLocked}
+                      values={searchResults.map((result) => result.id)}
+                    >
+                      {searchResults.map((result) => (
+                        <CommandSearchResultItem
+                          key={result.id}
+                          onSelect={() => navigate(result.url)}
+                          result={result}
+                        />
+                      ))}
+                    </CommandGroupHighlight>
+                  </CommandGroup>
+                ) : null}
+
+                {hasQuery &&
+                searchResults.length > 0 &&
+                filteredGroups.length > 0 ? (
+                  <CommandSeparator />
+                ) : null}
+
+                {filteredGroups.map((group, groupIndex) => (
+                  <Fragment key={group.id}>
+                    {groupIndex > 0 ? <CommandSeparator /> : null}
+                    <CommandGroup heading={group.label}>
                       <CommandGroupHighlight
                         deferMeasure={scrollLocked}
-                        values={searchResults.map((result) => result.id)}
+                        values={group.items.map((entry) => entry.searchValue)}
                       >
-                        {searchResults.map((result) => (
-                          <CommandSearchResultItem
-                            key={result.id}
-                            onSelect={() => navigate(result.url)}
-                            result={result}
-                          />
-                        ))}
+                        {group.items.map((entry) =>
+                          renderPaletteItem(entry, "action" in entry)
+                        )}
                       </CommandGroupHighlight>
                     </CommandGroup>
-                  ) : null}
-
-                  {hasQuery &&
-                  searchResults.length > 0 &&
-                  filteredGroups.length > 0 ? (
-                    <CommandSeparator />
-                  ) : null}
-
-                  {filteredGroups.map((group, groupIndex) => (
-                    <Fragment key={group.id}>
-                      {groupIndex > 0 ? <CommandSeparator /> : null}
-                      <CommandGroup heading={group.label}>
-                        <CommandGroupHighlight
-                          deferMeasure={scrollLocked}
-                          values={group.items.map((entry) => entry.searchValue)}
-                        >
-                          {group.items.map((entry) =>
-                            renderPaletteItem(entry, "action" in entry)
-                          )}
-                        </CommandGroupHighlight>
-                      </CommandGroup>
-                    </Fragment>
-                  ))}
-                </>
-              )}
-            </CommandList>
-          </Command>
-        </DialogContent>
-      </DialogPortal>
+                  </Fragment>
+                ))}
+              </>
+            )}
+          </CommandList>
+        </Command>
+      </DialogContent>
     </Dialog>
   );
 }

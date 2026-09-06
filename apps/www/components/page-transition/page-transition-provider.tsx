@@ -7,13 +7,13 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   type ReactNode,
-  startTransition,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  useTransition,
 } from "react";
 import { PageTransitionShader } from "./page-transition-shader";
 
@@ -66,7 +66,15 @@ export function usePageTransition() {
 }
 
 export function normalizePathname(url: string): string {
-  const clean = url.split("?")[0]?.split("#")[0] ?? url;
+  let path = url;
+  try {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      path = new URL(url).pathname;
+    }
+  } catch {
+    // Ignore invalid URLs
+  }
+  const clean = path.split("?")[0]?.split("#")[0] ?? path;
   if (clean === "" || clean === "/") {
     return "/";
   }
@@ -91,6 +99,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
+  const [isRoutePending, startRouteTransition] = useTransition();
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const shaderRef = useRef<PageTransitionShader | null>(null);
@@ -98,6 +107,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   pathnameRef.current = pathname;
 
   const pendingRouteRef = useRef<{
+    fromPath: string;
     targetPath: string;
     resolve: () => void;
   } | null>(null);
@@ -115,18 +125,34 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       return;
     }
     const current = normalizePathname(pathname);
-    if (current === pendingRouteRef.current.targetPath) {
-      pendingRouteRef.current.resolve();
+    const { fromPath, targetPath, resolve } = pendingRouteRef.current;
+
+    // Navigation succeeds if target path is reached OR pathname moved away from origin (redirects/rewrites)
+    const hasNavigated =
+      current === targetPath || (Boolean(fromPath) && current !== fromPath);
+
+    if (hasNavigated) {
+      if (isRoutePending) {
+        // Pathname changed but transition is still streaming
+        const timer = setTimeout(() => {
+          if (pendingRouteRef.current?.resolve === resolve) {
+            pendingRouteRef.current = null;
+            resolve();
+          }
+        }, 500);
+        return () => clearTimeout(timer);
+      }
       pendingRouteRef.current = null;
+      resolve();
     }
-  }, [pathname]);
+  }, [pathname, isRoutePending]);
 
   const waitForRouteChange = useCallback(
-    (targetHref: string, timeoutMs = 6000): Promise<void> => {
+    (targetHref: string, timeoutMs = 30_000): Promise<void> => {
       const targetPath = normalizePathname(targetHref);
-      const current = normalizePathname(pathnameRef.current);
+      const fromPath = normalizePathname(pathnameRef.current);
 
-      if (current === targetPath) {
+      if (fromPath === targetPath) {
         return Promise.resolve();
       }
 
@@ -144,11 +170,18 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         timer = setTimeout(() => {
           if (pendingRouteRef.current?.resolve === onDone) {
             pendingRouteRef.current = null;
+            // Catastrophic network timeout (30s): navigate natively so user is never stuck
+            try {
+              window.location.assign(targetHref);
+            } catch {
+              // fallback
+            }
           }
           onDone();
         }, timeoutMs);
 
         pendingRouteRef.current = {
+          fromPath,
           targetPath,
           resolve: onDone,
         };
@@ -228,9 +261,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         // Allow Typer to settle fully into hold state before initiating route render
         await new Promise((resolve) => setTimeout(resolve, 200));
 
-        const routePromise = waitForRouteChange(href, 6000);
+        const routePromise = waitForRouteChange(href, 30_000);
 
-        startTransition(() => {
+        startRouteTransition(() => {
           router.push(href);
         });
 
@@ -258,9 +291,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       } else {
         await shader.show(0.85, "power2.out");
 
-        const routePromise = waitForRouteChange(href, 6000);
+        const routePromise = waitForRouteChange(href, 30_000);
 
-        startTransition(() => {
+        startRouteTransition(() => {
           router.push(href);
         });
 
