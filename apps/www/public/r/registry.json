@@ -3236,7 +3236,7 @@
       "title": "Base Checkbox",
       "description": "An accessible, stylable checkbox built on Base UI with a Motion-friendly animated indicator.",
       "dependencies": ["@base-ui/react", "motion"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
       "files": [
         {
           "path": "registry/ui/base/checkbox/index.tsx",
@@ -3356,7 +3356,7 @@
       "title": "Radix Checkbox",
       "description": "An accessible, stylable checkbox built on Radix UI with a Motion-friendly animated indicator.",
       "dependencies": ["radix-ui", "motion"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
       "files": [
         {
           "path": "registry/ui/radix/checkbox/index.tsx",

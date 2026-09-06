@@ -1,46 +1,12 @@
 "use client";
 
+import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
 import { XIcon } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import {
-  type ComponentProps,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type ComponentProps, createContext, useContext, useMemo } from "react";
 import { Button } from "@/registry/ui/radix/button";
-
-function useControlledState<T, Rest extends unknown[] = []>(props: {
-  defaultValue?: T;
-  onChange?: (value: T, ...args: Rest) => void;
-  value?: T;
-}): readonly [T, (next: T, ...args: Rest) => void] {
-  const { value, defaultValue, onChange } = props;
-  const [state, setInternalState] = useState<T>(
-    value === undefined ? (defaultValue as T) : value
-  );
-
-  useEffect(() => {
-    if (value !== undefined) {
-      setInternalState(value);
-    }
-  }, [value]);
-
-  const setState = useCallback(
-    (next: T, ...args: Rest) => {
-      setInternalState(next);
-      onChange?.(next, ...args);
-    },
-    [onChange]
-  );
-
-  return [state, setState] as const;
-}
 
 interface DialogContextValue {
   open: boolean;

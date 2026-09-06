@@ -469,7 +469,7 @@ async function collectInstallGraph(items: readonly string[]): Promise<{
       expectedFiles.push({
         item,
         target: path.join("lib", "utils.ts"),
-        fingerprint: "twMerge",
+        fingerprint: "cn",
       });
       continue;
     }
@@ -617,11 +617,11 @@ async function scaffoldConsumer(
           strict: true,
           skipLibCheck: true,
           ignoreDeprecations: "6.0",
-          baseUrl: ".",
           paths: {
             "@/*": ["./*"],
             clsx: ["./stubs/clsx.ts"],
             "tailwind-merge": ["./stubs/tailwind-merge.ts"],
+            cn: ["./stubs/cn.ts"],
           },
         },
         include: ["**/*.ts", "**/*.tsx"],
@@ -653,6 +653,13 @@ export function clsx(...inputs: ClassValue[]): string {
     path.join(sandboxDir, "stubs", "tailwind-merge.ts"),
     `export function twMerge(...classLists: Array<string | undefined>): string {
   return classLists.filter(Boolean).join(" ");
+}
+`
+  );
+  await fs.writeFile(
+    path.join(sandboxDir, "stubs", "cn.ts"),
+    `export function cn(...inputs: unknown[]): string {
+  return inputs.filter(Boolean).join(" ");
 }
 `
   );

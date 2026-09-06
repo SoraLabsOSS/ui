@@ -1,6 +1,7 @@
 "use client";
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
+import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   motion,
@@ -9,34 +10,7 @@ import {
   useTransform,
 } from "motion/react";
 import type * as React from "react";
-import { useCallback, useEffect, useId, useState } from "react";
-
-function useControlledState<T, Rest extends unknown[] = []>(props: {
-  defaultValue?: T;
-  onChange?: (value: T, ...args: Rest) => void;
-  value?: T;
-}): readonly [T, (next: T, ...args: Rest) => void] {
-  const { value, defaultValue, onChange } = props;
-  const [state, setInternalState] = useState<T>(
-    value === undefined ? (defaultValue as T) : value
-  );
-
-  useEffect(() => {
-    if (value !== undefined) {
-      setInternalState(value);
-    }
-  }, [value]);
-
-  const setState = useCallback(
-    (next: T, ...args: Rest) => {
-      setInternalState(next);
-      onChange?.(next, ...args);
-    },
-    [onChange]
-  );
-
-  return [state, setState] as const;
-}
+import { useId } from "react";
 
 interface CheckboxCheckIconProps
   extends Omit<React.ComponentProps<"svg">, "children"> {
