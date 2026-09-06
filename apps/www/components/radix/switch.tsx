@@ -1,15 +1,16 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type HTMLMotionProps, motion } from "motion/react";
+import { type HTMLMotionProps, motion, useReducedMotion } from "motion/react";
 import { Switch as SwitchPrimitives } from "radix-ui";
-import * as React from "react";
+import type { ComponentProps, ReactNode } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-type SwitchProps = React.ComponentProps<typeof SwitchPrimitives.Root> &
+type SwitchProps = ComponentProps<typeof SwitchPrimitives.Root> &
   HTMLMotionProps<"button"> & {
-    leftIcon?: React.ReactNode;
-    rightIcon?: React.ReactNode;
-    thumbIcon?: React.ReactNode;
+    leftIcon?: ReactNode;
+    rightIcon?: ReactNode;
+    thumbIcon?: ReactNode;
   };
 
 function Switch({
@@ -20,18 +21,19 @@ function Switch({
   onCheckedChange,
   ...props
 }: SwitchProps) {
-  const [isChecked, setIsChecked] = React.useState(
+  const prefersReducedMotion = useReducedMotion();
+  const [isChecked, setIsChecked] = useState(
     props?.checked ?? props?.defaultChecked ?? false
   );
-  const [isTapped, setIsTapped] = React.useState(false);
+  const [isTapped, setIsTapped] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props?.checked !== undefined) {
       setIsChecked(props.checked);
     }
   }, [props?.checked]);
 
-  const handleCheckedChange = React.useCallback(
+  const handleCheckedChange = useCallback(
     (checked: boolean) => {
       setIsChecked(checked);
       onCheckedChange?.(checked);
@@ -55,7 +57,7 @@ function Switch({
         onTap={() => setIsTapped(false)}
         onTapCancel={() => setIsTapped(false)}
         onTapStart={() => setIsTapped(true)}
-        whileTap="tap"
+        whileTap={prefersReducedMotion ? undefined : "tap"}
         {...props}
       >
         {leftIcon && (
@@ -65,7 +67,11 @@ function Switch({
             }
             className="absolute top-1/2 left-1 -translate-y-1/2 text-neutral-400 dark:text-neutral-500 [&_svg]:size-3"
             data-slot="switch-left-icon"
-            transition={{ type: "spring", bounce: 0 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { type: "spring", bounce: 0 }
+            }
           >
             {leftIcon}
           </motion.div>
@@ -78,7 +84,11 @@ function Switch({
             }
             className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-500 dark:text-neutral-400 [&_svg]:size-3"
             data-slot="switch-right-icon"
-            transition={{ type: "spring", bounce: 0 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { type: "spring", bounce: 0 }
+            }
           >
             {rightIcon}
           </motion.div>
@@ -87,7 +97,7 @@ function Switch({
         <SwitchPrimitives.Thumb asChild>
           <motion.div
             animate={
-              isTapped
+              !prefersReducedMotion && isTapped
                 ? { width: 21, transition: { duration: 0.1 } }
                 : { width: 18, transition: { duration: 0.1 } }
             }
@@ -95,13 +105,17 @@ function Switch({
               "relative z-[1] flex items-center justify-center rounded-full bg-background text-neutral-500 shadow-lg ring-0 dark:text-neutral-400 [&_svg]:size-3"
             )}
             data-slot="switch-thumb"
-            layout
+            layout={!prefersReducedMotion}
             style={{
               width: 18,
               height: 18,
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            whileTap="tab"
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 300, damping: 25 }
+            }
+            whileTap={prefersReducedMotion ? undefined : "tab"}
           >
             {thumbIcon}
           </motion.div>

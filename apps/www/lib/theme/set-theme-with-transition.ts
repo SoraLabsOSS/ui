@@ -61,8 +61,11 @@ export function setThemeWithTransition(
   }
 
   const doc = document as DocumentWithViewTransition;
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
-  if (!doc.startViewTransition) {
+  if (!doc.startViewTransition || prefersReducedMotion) {
     setTheme(theme);
     return;
   }
