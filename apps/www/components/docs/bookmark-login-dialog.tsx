@@ -57,7 +57,7 @@ export function BookmarkLoginDialog({
       <DialogContent
         className="max-w-md"
         containerClassName="z-[81]"
-        overlayClassName="z-[80] bg-black/80"
+        overlayClassName="z-[80]"
       >
         <DialogHeader>
           <DialogTitle className="text-lg">Sign in to bookmark</DialogTitle>

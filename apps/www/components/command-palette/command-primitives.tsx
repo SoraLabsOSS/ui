@@ -3,12 +3,8 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { Search } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import type * as React from "react";
-import { useEffect, useState } from "react";
-import {
-  Highlight,
-  HighlightItem,
-} from "@/registry/primitives/effects/highlight";
 
 const LIST_HEIGHT_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
 const LIST_HEIGHT_DURATION_MS = 350;
@@ -147,65 +143,61 @@ function CommandItem({
 function CommandGroupHighlight({
   className,
   containerClassName,
-  deferMeasure = false,
-  values,
   children,
 }: {
   className?: string;
   containerClassName?: string;
-  /** Wait until the command list finishes its open height animation. */
+  /** Kept for backwards compatibility. */
   deferMeasure?: boolean;
-  values: string[];
+  /** Kept for backwards compatibility. */
+  values?: string[];
   children: React.ReactNode;
 }) {
-  const selectedValue = useCommandState((state) => state.value);
-  // Re-render when cmdk finishes registering/filtering items so the pill can measure.
-  useCommandState((state) => state.filtered.count);
-  const [ready, setReady] = useState(!deferMeasure);
-
-  useEffect(() => {
-    if (deferMeasure) {
-      setReady(false);
-      return;
-    }
-
-    const frame = requestAnimationFrame(() => {
-      setReady(true);
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [deferMeasure]);
-
-  const activeValue =
-    ready && selectedValue && values.includes(selectedValue)
-      ? selectedValue
-      : null;
-
   return (
-    <Highlight
-      className={cn("rounded-md bg-accent", className)}
-      containerClassName={cn("flex flex-col", containerClassName)}
-      exitDelay={80}
-      mode="parent"
-      transition={{ type: "spring", stiffness: 500, damping: 40 }}
-      trigger="click"
-      value={activeValue}
-    >
+    <div className={cn("flex flex-col", containerClassName, className)}>
       {children}
-    </Highlight>
+    </div>
   );
 }
 
 function CommandHighlightItem({
   className,
   value,
+  children,
   ...props
 }: Omit<React.ComponentProps<typeof CommandPrimitive.Item>, "value"> & {
   value: string;
 }) {
+  const selectedValue = useCommandState((state) => state.value);
+  const prefersReducedMotion = useReducedMotion();
+  const isSelected =
+    Boolean(selectedValue) &&
+    (selectedValue === value ||
+      selectedValue?.toLowerCase() === value.toLowerCase());
+
   return (
-    <HighlightItem asChild value={value}>
-      <CommandItem className={className} value={value} {...props} />
-    </HighlightItem>
+    <CommandItem
+      className={cn("relative z-10", className)}
+      value={value}
+      {...props}
+    >
+      {isSelected && (
+        <motion.div
+          animate={{ opacity: 1 }}
+          className="pointer-events-none absolute inset-0 rounded-md bg-accent"
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          layoutId="command-palette-highlight-pill"
+          style={{ zIndex: -1 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 500, damping: 40 }
+          }
+        />
+      )}
+      {children}
+    </CommandItem>
   );
 }
 

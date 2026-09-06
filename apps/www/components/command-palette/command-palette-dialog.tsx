@@ -385,7 +385,7 @@ export function CommandPaletteDialog({
         initialFocus={() =>
           document.querySelector<HTMLElement>('[data-slot="command-input"]')
         }
-        overlayClassName="z-[1000] bg-black/60"
+        overlayClassName="z-[1000]"
         showCloseButton={false}
       >
         <DialogTitle className="sr-only">
