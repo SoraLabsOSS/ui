@@ -75,34 +75,37 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
     candidates.push({ fetchPath, pagePath });
   };
 
-  if (trimmedSlug === "ui" || trimmedSlug.startsWith(UI_PREFIX)) {
-    const rest =
-      trimmedSlug === "ui" ? "" : trimmedSlug.slice(UI_PREFIX.length);
+  if (
+    trimmedSlug === "ui" ||
+    trimmedSlug.startsWith(UI_PREFIX) ||
+    trimmedSlug.startsWith("base/") ||
+    trimmedSlug.startsWith("radix/")
+  ) {
+    let rest = "";
+    if (trimmedSlug.startsWith(UI_PREFIX)) {
+      rest = trimmedSlug.slice(UI_PREFIX.length);
+    } else if (trimmedSlug !== "ui") {
+      rest = trimmedSlug;
+    }
     const pagePath = rest ? `/ui/${rest}` : "/ui";
-    add(`${pagePath}.mdx`, pagePath);
     add(rest ? `/llms-ui.mdx/${rest}` : "/llms-ui.mdx", pagePath);
     return candidates;
   }
 
   if (trimmedSlug.startsWith(CATALOG_PREFIX)) {
     const rest = trimmedSlug.slice(CATALOG_PREFIX.length);
-    add(`/catalog/${rest}.mdx`, `/catalog/${rest}`);
     add(`/llms-catalog.mdx/${rest}`, `/catalog/${rest}`);
     return candidates;
   }
 
   if (trimmedSlug.startsWith(COMPONENTS_PREFIX)) {
     const rest = trimmedSlug.slice(COMPONENTS_PREFIX.length);
-    add(`/catalog/${rest}.mdx`, `/catalog/${rest}`);
-    add(`/components/${rest}.mdx`, `/components/${rest}`);
     add(`/llms-catalog.mdx/${rest}`, `/catalog/${rest}`);
-    add(`/llms-components.mdx/${rest}`, `/components/${rest}`);
     return candidates;
   }
 
   if (trimmedSlug.startsWith(MOTION_PREFIX)) {
     const rest = trimmedSlug.slice(MOTION_PREFIX.length);
-    add(`/docs/motion/${rest}.mdx`, `/docs/motion/${rest}`);
     add(`/llms.mdx/motion/${rest}`, `/docs/motion/${rest}`);
     return candidates;
   }
@@ -111,13 +114,11 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
     ? trimmedSlug.slice("docs/".length)
     : trimmedSlug;
 
-  add(`/docs/${docPath}.mdx`, `/docs/${docPath}`);
   add(`/llms.mdx/${docPath}`, `/docs/${docPath}`);
 
   if (!trimmedSlug.startsWith("docs/")) {
-    add(`/catalog/${trimmedSlug}.mdx`, `/catalog/${trimmedSlug}`);
-    add(`/components/${trimmedSlug}.mdx`, `/components/${trimmedSlug}`);
     add(`/llms-catalog.mdx/${trimmedSlug}`, `/catalog/${trimmedSlug}`);
+    add(`/llms-ui.mdx/${trimmedSlug}`, `/ui/${trimmedSlug}`);
   }
 
   return candidates;
@@ -189,7 +190,12 @@ export class SoraDocsSource {
 
   async fetchText(url: string): Promise<string> {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Accept: "text/markdown, text/plain;q=0.9, */*;q=0.8",
+          "User-Agent": "Sora-MCP/1.0",
+        },
+      });
       if (!response.ok) {
         throw new DocSourceError(
           `Fetch failed: ${url} (${response.status} ${response.statusText})`
