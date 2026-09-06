@@ -1,9 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { Command as CommandPrimitive, useCommandState } from "cmdk";
+import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import type * as React from "react";
 
 const LIST_HEIGHT_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
@@ -131,7 +130,7 @@ function CommandItem({
   return (
     <CommandPrimitive.Item
       className={cn(
-        "relative z-10 flex cursor-default select-none items-center gap-2 rounded-md py-2.5 ps-2.5 pe-2.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 sm:py-3 sm:ps-3 sm:pe-3 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex cursor-default select-none items-center gap-2 rounded-md py-2.5 ps-2.5 pe-2.5 text-sm outline-hidden transition-colors duration-100 data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 sm:py-3 sm:ps-3 sm:pe-3 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       data-slot="command-item"
@@ -162,43 +161,9 @@ function CommandGroupHighlight({
 
 function CommandHighlightItem({
   className,
-  value,
-  children,
   ...props
-}: Omit<React.ComponentProps<typeof CommandPrimitive.Item>, "value"> & {
-  value: string;
-}) {
-  const selectedValue = useCommandState((state) => state.value);
-  const prefersReducedMotion = useReducedMotion();
-  const isSelected =
-    Boolean(selectedValue) &&
-    (selectedValue === value ||
-      selectedValue?.toLowerCase() === value.toLowerCase());
-
-  return (
-    <CommandItem
-      className={cn("relative z-10", className)}
-      value={value}
-      {...props}
-    >
-      {isSelected && (
-        <motion.div
-          animate={{ opacity: 1 }}
-          className="pointer-events-none absolute inset-0 rounded-md bg-accent"
-          exit={{ opacity: 0 }}
-          initial={{ opacity: 0 }}
-          layoutId="command-palette-highlight-pill"
-          style={{ zIndex: -1 }}
-          transition={
-            prefersReducedMotion
-              ? { duration: 0 }
-              : { type: "spring", stiffness: 500, damping: 40 }
-          }
-        />
-      )}
-      {children}
-    </CommandItem>
-  );
+}: React.ComponentProps<typeof CommandPrimitive.Item>) {
+  return <CommandItem className={className} {...props} />;
 }
 
 export const COMMAND_LIST_HEIGHT_DURATION_MS = LIST_HEIGHT_DURATION_MS;
