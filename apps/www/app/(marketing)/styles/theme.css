@@ -1,0 +1,121 @@
+/* --------------------------------------------------------------------------
+   Doc-Exact Theme Mapping (Background, Foreground, Muted, Border, Sora Accent)
+   -------------------------------------------------------------------------- */
+
+.home-layout {
+  --color-neutral-100: var(--background, #ffffff);
+  --color-neutral-200: var(--background, #ffffff);
+  --color-neutral-300: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 6%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-400: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 12%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-450: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 20%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-475: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 30%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-500: var(--muted-foreground, #817f7f);
+  --color-neutral-525: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 65%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-550: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 75%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-600: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 80%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-700: color-mix(
+    in srgb,
+    var(--foreground, #201d1d) 90%,
+    var(--background, #ffffff)
+  );
+  --color-neutral-800: var(--foreground, #201d1d);
+  --color-neutral-900: #151313;
+  --color-neutral-950: #000000;
+
+  --color-white: var(--background, #ffffff);
+  --color-light: var(--background, #ffffff);
+  --color-dark: var(--foreground, #201d1d);
+  --color-black: #000000;
+
+  --color-electric: #80ea5d;
+  --color-coral: #fe624c;
+  --color-purple: #fb460d;
+}
+
+.dark .home-layout,
+[data-theme="dark"] .home-layout,
+.home-layout[data-theme="dark"] {
+  --color-neutral-100: var(--background, #121212);
+  --color-neutral-200: var(--background, #121212);
+  --color-neutral-300: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 10%,
+    var(--background, #121212)
+  );
+  --color-neutral-400: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 18%,
+    var(--background, #121212)
+  );
+  --color-neutral-450: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 28%,
+    var(--background, #121212)
+  );
+  --color-neutral-475: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 38%,
+    var(--background, #121212)
+  );
+  --color-neutral-500: var(--muted-foreground, #a3a3a3);
+  --color-neutral-525: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 65%,
+    var(--background, #121212)
+  );
+  --color-neutral-550: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 75%,
+    var(--background, #121212)
+  );
+  --color-neutral-600: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 85%,
+    var(--background, #121212)
+  );
+  --color-neutral-700: color-mix(
+    in srgb,
+    var(--foreground, #fafafa) 92%,
+    var(--background, #121212)
+  );
+  --color-neutral-800: var(--foreground, #fafafa);
+  --color-neutral-900: #ffffff;
+  --color-neutral-950: #ffffff;
+
+  --color-white: var(--foreground, #fafafa);
+  --color-light: var(--background, #121212);
+  --color-dark: var(--foreground, #fafafa);
+  --color-black: var(--background, #121212);
+
+  --color-electric: #80ea5d;
+  --color-coral: #fe624c;
+  --color-purple: #fb460d;
+}

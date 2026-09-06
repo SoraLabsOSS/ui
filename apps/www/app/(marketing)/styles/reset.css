@@ -1,0 +1,240 @@
+.home-layout {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-family: sans-serif;
+}
+
+.home-layout {
+  margin: 0;
+}
+
+.home-layout article,
+.home-layout aside,
+.home-layout details,
+.home-layout figcaption,
+.home-layout figure,
+.home-layout footer,
+.home-layout header,
+.home-layout hgroup,
+.home-layout main,
+.home-layout menu,
+.home-layout nav,
+.home-layout section,
+.home-layout summary {
+  display: block;
+}
+
+.home-layout audio,
+.home-layout canvas,
+.home-layout progress,
+.home-layout video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.home-layout audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+.home-layout [hidden],
+.home-layout template {
+  display: none;
+}
+
+.home-layout a {
+  background-color: #0000;
+}
+
+.home-layout a:active,
+.home-layout a:hover {
+  outline: 0;
+}
+
+.home-layout abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+.home-layout b,
+.home-layout strong {
+  font-weight: 700;
+}
+
+.home-layout dfn {
+  font-style: italic;
+}
+
+.home-layout h1 {
+  margin: 0.67em 0;
+  font-size: 2em;
+}
+
+.home-layout mark {
+  color: #000;
+  background: #ff0;
+}
+
+.home-layout small {
+  font-size: 80%;
+}
+
+.home-layout sub,
+.home-layout sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+.home-layout sup {
+  top: -0.5em;
+}
+
+.home-layout sub {
+  bottom: -0.25em;
+}
+
+.home-layout img {
+  border: 0;
+}
+
+.home-layout svg:not(:root) {
+  overflow: hidden;
+}
+
+.home-layout hr {
+  box-sizing: content-box;
+  height: 0;
+}
+
+.home-layout pre {
+  overflow: auto;
+}
+
+.home-layout code,
+.home-layout kbd,
+.home-layout pre,
+.home-layout samp {
+  font-family: monospace;
+  font-size: 1em;
+}
+
+.home-layout button,
+.home-layout input,
+.home-layout optgroup,
+.home-layout select,
+.home-layout textarea {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-layout button {
+  overflow: visible;
+}
+
+.home-layout button,
+.home-layout select {
+  text-transform: none;
+}
+
+.home-layout button,
+.home-layout input[type="button"],
+.home-layout input[type="reset"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+.home-layout button[disabled],
+.home-layout input[disabled] {
+  cursor: default;
+}
+
+.home-layout button::-moz-focus-inner,
+.home-layout input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.home-layout input {
+  line-height: normal;
+}
+
+.home-layout input[type="checkbox"],
+.home-layout input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.home-layout input[type="number"]::-webkit-inner-spin-button,
+.home-layout input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+.home-layout input[type="search"] {
+  -webkit-appearance: none;
+}
+
+.home-layout input[type="search"]::-webkit-search-cancel-button,
+.home-layout input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+.home-layout legend {
+  padding: 0;
+  border: 0;
+}
+
+.home-layout textarea {
+  overflow: auto;
+}
+
+.home-layout optgroup {
+  font-weight: 700;
+}
+
+.home-layout table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.home-layout td,
+.home-layout th {
+  padding: 0;
+}
+
+.home-layout,
+.home-layout * {
+  box-sizing: border-box;
+}
+
+.home-layout {
+  height: 100%;
+}
+
+.home-layout {
+  min-height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+/* Scoped component overrides: Prevent full-height stretching and unwanted background when used as Navbar/Footer */
+.sora-navbar-root.home-layout,
+.sora-footer-root.home-layout {
+  height: auto;
+  min-height: 0;
+  background-color: transparent;
+}
+
+.dark .sora-navbar-root.home-layout,
+[data-theme="dark"] .sora-navbar-root.home-layout,
+.sora-navbar-root.home-layout[data-theme="dark"],
+.dark .sora-footer-root.home-layout,
+[data-theme="dark"] .sora-footer-root.home-layout,
+.sora-footer-root.home-layout[data-theme="dark"] {
+  background-color: transparent;
+}

@@ -22,7 +22,12 @@
         "AI_SEARCH_CHAT_URL"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**",
+        "!.next/node_modules/**"
+      ]
     }
   }
 }

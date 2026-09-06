@@ -1,6 +1,6 @@
 "use client";
 
-import { Typer } from "@workspace/ui/components/ui/typer";
+import { Typer, type TyperVariation } from "@workspace/ui/components/ui/typer";
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
@@ -27,6 +27,20 @@ export const DOCS_TRANSITION_PHRASES = [
   "pure craft zero boilerplate",
   "curate animate polish ship",
 ] as const;
+
+const DOCS_TYPER_VARIATIONS: TyperVariation[] = [
+  "charFill",
+  "charBorder",
+  "charAccent",
+  "charAccentFill",
+];
+
+const DOCS_TYPER_STYLE: React.CSSProperties = {
+  "--accent": "#fb460d",
+  "--background": "#000000",
+  "--foreground": "#ffffff",
+  color: "#ffffff",
+} as React.CSSProperties;
 
 export type TransitionMode = "commercial" | "docs";
 
@@ -302,24 +316,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           {transitionMode === "docs" && showTyper && (
             <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
               <div
-                className="flex select-none items-center justify-center font-bold font-mono text-base uppercase tracking-wider transition-typer-banner sm:text-xl md:text-2xl lg:text-3xl"
-                style={
-                  {
-                    "--accent": "#fb460d",
-                    "--background": "#000000",
-                    "--foreground": "#ffffff",
-                    "--typer-space-width": "clamp(1.25rem, 3.5vw, 3rem)",
-                    color: "#ffffff",
-                  } as React.CSSProperties
-                }
+                className="flex select-none items-center justify-center font-bold font-mono text-base uppercase tracking-normal transition-typer-banner sm:text-xl md:text-2xl lg:text-3xl"
+                style={DOCS_TYPER_STYLE}
               >
-                <style>{`
-                  .transition-typer-banner [data-typer] .space {
-                    display: inline-block !important;
-                    flex-shrink: 0 !important;
-                    width: clamp(1.25rem, 3.5vw, 3rem) !important;
-                  }
-                `}</style>
                 <Typer
                   className="inline-flex items-center justify-center whitespace-nowrap"
                   cycleLength={0.5}
@@ -327,12 +326,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
                   fps={20}
                   key={DOCS_TRANSITION_PHRASES[phraseIndex]}
                   trigger={typerTrigger}
-                  variations={[
-                    "charFill",
-                    "charBorder",
-                    "charAccent",
-                    "charAccentFill",
-                  ]}
+                  variations={DOCS_TYPER_VARIATIONS}
                 >
                   {DOCS_TRANSITION_PHRASES[phraseIndex]}
                 </Typer>

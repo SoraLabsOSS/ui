@@ -732,6 +732,12 @@ export function Typer({
     []
   );
 
+  const variationsKey = variations ? variations.join(",") : "";
+  // biome-ignore lint/correctness/useExhaustiveDependencies: serialized variationsKey ensures stable array reference
+  const stableVariations = useMemo(() => variations, [variationsKey]);
+
+  const prevTriggerRef = useRef(trigger);
+
   useIsomorphicLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) {
@@ -771,11 +777,12 @@ export function Typer({
           fps,
           initVisible: reducedMotion || initVisible,
           onComplete,
-          variations,
+          variations: stableVariations,
         },
         stagger
       );
       groupRef.current = group;
+      prevTriggerRef.current = trigger;
 
       if (reducedMotion || initVisible) {
         return;
@@ -818,14 +825,17 @@ export function Typer({
     stagger,
     startOnView,
     triggerOnMount,
-    trigger,
     initVisible,
     onComplete,
     reducedMotion,
-    variations,
+    stableVariations,
   ]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (prevTriggerRef.current === trigger) {
+      return;
+    }
+    prevTriggerRef.current = trigger;
     if (groupRef.current && trigger && !reducedMotion) {
       dispatchGroupTrigger(groupRef.current, trigger);
     }

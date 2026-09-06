@@ -45,6 +45,7 @@ const nextConfig: NextConfig = {
     turbopackRustReactCompiler: true,
   },
   cacheComponents: true,
+  partialPrefetching: true,
   reactCompiler: true,
   images: {
     remotePatterns: [
