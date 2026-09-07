@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import type { LatestShippedItem } from "@/lib/registry/get-latest-shipped-registry-item";
 import { PricingCards } from "./pricing-cards";
 import { PricingFaq } from "./pricing-faq";
@@ -10,11 +12,24 @@ interface PricingPageProps {
 }
 
 export function PricingPage(_props: PricingPageProps = {}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  useButton3DHover(containerRef);
+
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <PricingHero />
-      <PricingCards />
-      <PricingFaq />
-    </main>
+    <div
+      className="home-layout home-content body"
+      data-barba="wrapper"
+      ref={containerRef}
+    >
+      <main
+        className="main"
+        data-barba="container"
+        data-barba-namespace="pricing"
+      >
+        <PricingHero />
+        <PricingCards />
+        <PricingFaq />
+      </main>
+    </div>
   );
 }

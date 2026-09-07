@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
+import { HomeProviders } from "@/components/home-providers";
 import { Navbar } from "@/components/navbar";
-import { HomeProviders } from "./components/home-providers";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   return (

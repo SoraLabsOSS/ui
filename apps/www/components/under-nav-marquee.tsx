@@ -1,16 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export interface UnderNavMarqueeProps {
   isMenuOpen?: boolean;
   isScrollingStarted?: boolean;
+  text?: string;
 }
 
 export function UnderNavMarquee({
   isMenuOpen = false,
   isScrollingStarted: isScrollingStartedProp,
+  text = "Fully animated React components for modern web apps",
 }: UnderNavMarqueeProps = {}) {
   const [internalScrollingStarted, setInternalScrollingStarted] =
     useState(false);
@@ -44,7 +45,7 @@ export function UnderNavMarquee({
       }}
     >
       <div className="under-nav-bar__inner">
-        <Link className="nav-marquee w-inline-block" href="/catalog">
+        <div className="nav-marquee select-none">
           <div
             className="marquee-css"
             data-css-marquee=""
@@ -54,9 +55,7 @@ export function UnderNavMarquee({
               {Array.from({ length: 4 }).map((_, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: Static repeated marquee item
                 <div className="marquee-css__item" key={i}>
-                  <p className="eyebrow is--nav-marquee">
-                    Explore components built with Sora UI
-                  </p>
+                  <p className="eyebrow is--nav-marquee">{text}</p>
                   <svg
                     className="marquee-css__item-svg"
                     fill="currentColor"
@@ -74,9 +73,7 @@ export function UnderNavMarquee({
               {Array.from({ length: 4 }).map((_, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: Static repeated marquee item
                 <div className="marquee-css__item" key={`repeat-${i}`}>
-                  <p className="eyebrow is--nav-marquee">
-                    Explore components built with Sora UI
-                  </p>
+                  <p className="eyebrow is--nav-marquee">{text}</p>
                   <svg
                     className="marquee-css__item-svg"
                     fill="currentColor"
@@ -91,7 +88,7 @@ export function UnderNavMarquee({
               ))}
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );

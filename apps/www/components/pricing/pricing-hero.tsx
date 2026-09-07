@@ -1,63 +1,112 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
-import { HomeShell } from "@/components/home-shell";
-import { IconLogo } from "@/components/icon-logo";
-import { PRICING_CORE_MESSAGE, PRICING_HERO } from "./pricing-config";
+import { useRef } from "react";
+import { useButton3DHover } from "@/hooks/use-button-3d-hover";
+import { PRICING_CORE_MESSAGE } from "./pricing-config";
 
 export function PricingHero() {
+  const containerRef = useRef<HTMLElement>(null);
+  useButton3DHover(containerRef);
+
   return (
-    <section className="relative min-h-[calc(100dvh-4.625rem)] overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28 lg:pt-36 lg:pb-32">
+    <section className="home-hero" ref={containerRef}>
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(50%_89%_at_50%_100%,rgba(255,255,255,0.13),rgba(171,171,171,0))] dark:bg-[radial-gradient(50%_89%_at_50%_100%,rgba(255,255,255,0.06),rgba(0,0,0,0))]"
+        className="padding-hero"
+        data-wf--padding-hero--variant="nav-large"
       />
 
-      <HomeShell className="relative z-10">
-        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <IconLogo
-            aria-hidden
-            className="mb-8 size-14 text-foreground opacity-60 md:size-16"
-            size="sm"
-          />
+      <div className="is--md-m container">
+        <div className="home-hero__content text-center">
+          {/* Title at 5em */}
+          <div className="mx-auto max-w-4xl">
+            <h1 className="h-l text-balance text-neutral-900 leading-[1.02] tracking-tight dark:text-white">
+              <span className="block">Everything you need,</span>
+              <span className="block">free forever.</span>
+            </h1>
 
-          <p className="mb-4 font-mono text-muted-foreground text-xs uppercase tracking-widest">
-            {PRICING_HERO.eyebrow}
-          </p>
+            <p className="pricing-hero__subtitle mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed sm:text-xl">
+              {PRICING_CORE_MESSAGE}
+            </p>
+          </div>
 
-          <h1 className="max-w-2xl font-medium text-3xl leading-tight tracking-tight md:text-5xl md:leading-tight">
-            {PRICING_HERO.title}
-          </h1>
+          {/* Scribble annotation & Actions */}
+          <div className="relative mt-4 flex flex-col items-center">
+            {/* Handwritten scribble annotation */}
+            <div className="pointer-events-none absolute -top-11 left-1/2 ml-14 flex select-none items-end sm:ml-20">
+              <svg
+                aria-hidden="true"
+                className="h-9 w-9 -rotate-12 text-[#fe624c]"
+                fill="none"
+                viewBox="0 0 40 40"
+              >
+                <title>Free discount arrow</title>
+                <path
+                  d="M34 6 C28 14, 16 18, 10 32"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="2.2"
+                />
+                <path
+                  d="M6 23 L10 33 L20 30"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.2"
+                />
+              </svg>
+              <span className="scribble mb-3 ml-1 -rotate-3 whitespace-nowrap font-normal text-[#fe624c] text-xl sm:text-2xl">
+                100% Free
+              </span>
+            </div>
 
-          <p className="mt-4 block max-w-xl text-balance text-base text-muted-foreground leading-relaxed md:text-lg">
-            {PRICING_HERO.description}
-          </p>
-
-          <p className="mt-6 max-w-lg text-balance text-foreground/80 text-sm leading-relaxed md:text-base">
-            {PRICING_CORE_MESSAGE}
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <SectionCtaScramble
-              href="/docs/installation"
-              label="Use Sora UI"
-              variant="accent"
-            />
-            <Link
-              className="group inline-flex items-center gap-1 font-medium text-muted-foreground text-sm transition-opacity hover:opacity-70"
-              href="/catalog"
-            >
-              Browse catalog
-              <ArrowRight
-                aria-hidden
-                className="size-3.5 transition-transform group-hover:translate-x-0.5"
-              />
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link
+                className="button w-inline-block"
+                data-button-rotate=""
+                data-button-rotate-hover=""
+                data-shape="round"
+                data-theme=""
+                href="/docs/installation"
+              >
+                <div
+                  className="button-bg"
+                  data-wf--button-theme--variant="electric"
+                />
+                <div className="button-label__wrap">
+                  <div className="button-label">
+                    <span>Start Installing</span>
+                  </div>
+                  <div aria-hidden="true" className="button-label">
+                    <span>Start Installing</span>
+                  </div>
+                </div>
+              </Link>
+              <Link
+                className="button w-inline-block"
+                data-button-rotate=""
+                data-button-rotate-hover=""
+                data-shape="round"
+                data-theme=""
+                href="/catalog"
+              >
+                <div
+                  className="button-bg"
+                  data-wf--button-theme--variant="dark-outline"
+                />
+                <div className="button-label__wrap">
+                  <div className="button-label">
+                    <span>Browse Catalog &rarr;</span>
+                  </div>
+                  <div aria-hidden="true" className="button-label">
+                    <span>Browse Catalog &rarr;</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
-      </HomeShell>
+      </div>
     </section>
   );
 }

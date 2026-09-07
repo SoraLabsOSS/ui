@@ -47,7 +47,7 @@ export const PRICING_FAQ_ITEMS: PricingFaqItem[] = [
   {
     title: "Will there be a Pro plan?",
     content:
-      "Not today. Sora UI is free forever with no locked components. If that ever changes, it will be communicated clearly—not through a surprise paywall.",
+      "No. Sora UI is free forever, with no locked components. The core library will always remain free and accessible to everyone.",
   },
   {
     title: "What does supporting the project do?",
