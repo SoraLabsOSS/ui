@@ -277,7 +277,7 @@ export function KbToc({
           <div
             aria-hidden={isPastBottom}
             className={cn(
-              "group fixed top-1/2 right-4 z-40 @xl:flex hidden -translate-y-1/2 cursor-pointer items-center transition-all duration-250 ease-in-out",
+              "group fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 cursor-pointer items-center transition-all duration-250 ease-in-out xl:flex",
               isPastBottom && "pointer-events-none opacity-0",
               className
             )}

@@ -50,7 +50,7 @@ export function BlogPostHeader({
   const profile = getBlogAuthorByName(author);
 
   return (
-    <header className="@lg:col-span-7 @xl:col-span-6 col-span-12 @lg:col-start-2 @xl:col-start-4 @lg:mb-16 mb-12 flex flex-col gap-5">
+    <header className="col-span-12 mb-12 flex w-full flex-col gap-5 max-xl:mx-auto max-xl:max-w-3xl xl:col-span-6 xl:col-start-4 xl:mb-16">
       <div className="order-first flex items-center text-muted-foreground text-sm">
         <span>
           <Link
@@ -72,12 +72,12 @@ export function BlogPostHeader({
         ) : null}
       </div>
 
-      <h1 className="text-balance text-pretty font-[450] @lg:text-5xl text-3xl text-foreground leading-tight tracking-tight sm:text-4xl">
+      <h1 className="text-balance text-pretty font-[450] text-3xl text-foreground leading-tight tracking-tight sm:text-4xl xl:text-5xl">
         {title}
       </h1>
 
       {description ? (
-        <p className="text-pretty @lg:text-lg text-base text-muted-foreground leading-relaxed">
+        <p className="text-pretty text-base text-muted-foreground leading-relaxed sm:text-lg">
           {description}
         </p>
       ) : null}

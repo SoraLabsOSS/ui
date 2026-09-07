@@ -87,9 +87,9 @@ async function BlogPostBody({ slug }: { slug: string }) {
           url={page.url}
         />
 
-        <div className="@lg:col-span-7 @xl:col-span-6 col-span-12 @lg:col-start-2 @xl:col-start-4 [--grid-divider-gap:72px]">
+        <div className="col-span-12 w-full [--grid-divider-gap:72px] max-xl:mx-auto max-xl:max-w-3xl xl:col-span-6 xl:col-start-4">
           <article
-            className="@lg:col-span-8 col-span-12 flex flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&>*:not([data-kb-media-breakout])]:w-full [&>*]:min-w-0 [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1"
+            className="flex w-full flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&>*:not([data-kb-media-breakout])]:w-full [&>*]:min-w-0 [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1"
             id="kb-main-content"
           >
             <figure className="mb-6 w-full">

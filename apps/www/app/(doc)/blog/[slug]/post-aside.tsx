@@ -54,11 +54,11 @@ export function BlogPostAside({
   };
 
   return (
-    <aside className="relative @lg:order-last order-first @lg:col-span-3 @xl:col-span-2 col-span-12 @lg:col-start-10 @xl:col-start-11 @max-lg:-mb-3 @max-lg:mb-6 flex h-fit @lg:flex-col flex-wrap @max-lg:items-center justify-start gap-x-3 gap-y-2 @max-lg:border-b @max-lg:pb-3 text-muted-foreground text-xs md:text-sm">
+    <aside className="relative order-first col-span-12 flex h-fit w-full flex-wrap justify-start gap-x-3 gap-y-2 text-muted-foreground text-xs max-xl:mx-auto max-xl:-mb-3 max-xl:mb-6 max-xl:max-w-3xl max-xl:items-center max-xl:border-b max-xl:pb-3 md:text-sm xl:order-last xl:col-span-2 xl:col-start-11 xl:flex-col">
       <div>{formattedDate}</div>
       <span
         aria-hidden="true"
-        className="inline @lg:hidden h-4 w-px shrink-0 bg-border"
+        className="inline h-4 w-px shrink-0 bg-border xl:hidden"
       />
       {readingMinutes === null ? null : (
         <span className="flex items-center gap-1.5">
@@ -67,7 +67,7 @@ export function BlogPostAside({
       )}
 
       {/* Mobile action buttons */}
-      <div className="flex @lg:hidden w-full flex-wrap items-center gap-3 pt-1">
+      <div className="flex w-full flex-wrap items-center gap-3 pt-1 xl:hidden">
         <button
           className="m-0 flex shrink-0 cursor-pointer items-center gap-1 whitespace-nowrap border-none bg-transparent p-0 text-muted-foreground text-xs transition-colors hover:text-foreground md:text-sm"
           onClick={handleCopyUrl}
@@ -98,7 +98,7 @@ export function BlogPostAside({
       </div>
 
       {/* Desktop action dropdown menu */}
-      <div className="@lg:block hidden pt-1">
+      <div className="hidden pt-1 xl:block">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
