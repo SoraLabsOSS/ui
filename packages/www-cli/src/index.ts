@@ -7,6 +7,7 @@ import { Command } from "commander";
 import { runCreatePrimitive } from "./commands/create-primitive.js";
 import { runCreateUi } from "./commands/create-ui.js";
 import { runCreateWizard } from "./commands/create-wizard.js";
+import { runDoctor } from "./commands/doctor.js";
 import {
   CREATE_HELP_AFTER,
   PRIMITIVE_HELP_AFTER,
@@ -175,5 +176,46 @@ create.action(async () => {
     process.exit(1);
   }
 });
+
+interface DoctorCommandOptions {
+  all?: boolean;
+  noColor?: boolean;
+  quiet?: boolean;
+  strict?: boolean;
+}
+
+program
+  .command("doctor")
+  .description("Audit registry, docs, meta.json, and demoProps consistency")
+  .argument(
+    "[name]",
+    "Component name to check (e.g. text-effect, base/accordion)"
+  )
+  .option("--all", "Audit the entire registry instead of a specific component")
+  .option(
+    "-q, --quiet",
+    "Minimal output; only show errors or single status line"
+  )
+  .option("--no-color", "Disable ANSI color output")
+  .option(
+    "--strict",
+    "Treat warnings as errors (fail with exit code 1 on warnings)"
+  )
+  .action(async (name: string | undefined, options: DoctorCommandOptions) => {
+    applyNoColor(options.noColor ?? program.opts().noColor);
+
+    try {
+      await runDoctor({
+        targetName: name,
+        all: options.all,
+        noColor: options.noColor ?? program.opts().noColor,
+        quiet: options.quiet,
+        strict: options.strict,
+      });
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+  });
 
 await program.parseAsync(process.argv);

@@ -102,13 +102,19 @@ bun dev            # all apps (turbo)
 ### 3. Verify before opening a PR
 
 ```bash
+# Verify your specific component (recommended for contributors):
+bun run doctor <name>                   # e.g. bun run doctor text-effect or bun run doctor base/button
+
+# Standard checks:
 bun run check-types
 bun run lint
 cd apps/www && bun run registry:build   # after any registry/ or demoProps change
 cd apps/www && bun run lint:links       # internal doc links under content/
 ```
 
-There is no test runner — rely on `check-types`, `lint`, and `registry:build`.
+> **Tip for contributors:** Run `bun run doctor <name>` on your component before opening a PR. It checks that your `registry-item.json`, `meta.demoProps` keys, exported component names, MDX docs, and `meta.json` sidebar entries match and are ready for build. Contributors do **not** need to run `bun run doctor --all` (full registry scan is intended for maintainers and CI).
+
+There is no test runner — rely on `doctor <name>`, `check-types`, `lint`, and `registry:build`.
 
 **Git hooks (lefthook):** pre-commit runs Ultracite fix on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
 
@@ -143,6 +149,7 @@ After scaffolding, start the dev server (`bun run dev:www`), implement your comp
 3. Create/edit **`content/ui/<framework>/<name>.mdx`** with `<ComponentPreview name="demo-<name>" />` (or `demo-radix-<name>` for Radix), `<ComponentInstallation name="<framework>-<name>" />`, `<TypeTable>`, and `<ComponentCredits />`.
 4. Register `"<framework>/<name>"` in **`content/ui/meta.json`** under the appropriate section.
 5. Run **`bun run registry:build`**.
+6. Run **`bun run doctor <framework>/<name>`** (e.g. `bun run doctor base/<name>`) to verify your component's integrity.
 
 ### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
 
@@ -153,6 +160,7 @@ After scaffolding, start the dev server (`bun run dev:www`), implement your comp
 3. Edit **`content/docs/motion/<name>.mdx`** with `<ComponentPreview />`, `<ComponentInstallation />`, `<TypeTable>`, and `<ComponentCredits />`.
 4. Add `"<name>"` to **`content/docs/motion/meta.json`** under the right `---Section---`.
 5. Run **`bun run registry:build`**.
+6. Run **`bun run doctor <name>`** (e.g. `bun run doctor text-effect`) to verify exports, demoProps, and docs.
 
 ### Flow 3: Adding a Catalog Page (`/catalog` — Ready-to-use layout showcases)
 

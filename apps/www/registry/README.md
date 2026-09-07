@@ -35,6 +35,8 @@ For accessible app & form primitives powered by `@base-ui/react` or `radix-ui` +
 4. content/ui/meta.json   ← add "base/<name>" or "radix/<name>" to UI sidebar sections
 
 5. bun run registry:build
+
+6. bun run doctor {base|radix}/<name>   ← verify component health
 ```
 
 ### 2. Motion Primitives (`/docs/motion` — Animation building blocks)
@@ -53,6 +55,8 @@ For unstyled animation primitives (effects, text reveals, buttons, disclosure):
 3. content/docs/motion/meta.json   ← add to docs sidebar under section
 
 4. bun run registry:build
+
+5. bun run doctor <name>    ← verify component health
 ```
 
 ### 3. Catalog (`/catalog` — Ready-to-use layout showcases)
@@ -163,6 +167,9 @@ Skip `inspiration` for components that are fully original.
 bun run create           # interactive wizard
 bun run create:ui        # UI component (Base or Radix)
 bun run create:primitive # Motion primitive
+
+# Verify component integrity before opening a PR
+bun run doctor <name>    # e.g. bun run doctor text-effect or base/button
 
 # Build & run (inside apps/www)
 cd apps/www

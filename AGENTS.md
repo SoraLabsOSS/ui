@@ -28,6 +28,7 @@ bun run check-types          # turbo check-types (tsc --noEmit per package)
 bun run lint                 # turbo lint (ultracite check)
 bun run format:write          # ultracite fix (biome-based formatter/linter)
 bun run registry:build        # rebuild component registry (apps/www); already runs ultracite on generated files
+bun run doctor <name>         # targeted component check (registry, demoProps, MDX, meta.json)
 ```
 
 Single-app / targeted commands (run inside `apps/www`, or use `--filter=www`):
@@ -43,7 +44,7 @@ bun run registry:build        # merges registry-item.json, builds public/r/*.jso
 
 **Windows note:** `npx biome` / `npx tsc` resolve to unrelated decoy npm packages in this repo and silently produce fake output. Always invoke the real binaries directly: `node_modules/.bin/biome.exe check <path>` and `node_modules/.bin/tsc.exe --noEmit -p apps/www` (or `apps/www/tsconfig.json`).
 
-There is no test runner configured in this repo — verification is via `check-types`, `lint`, and `registry:build`. `registry:build` already runs `ultracite fix` on the files it generates (`apps/www/__registry__/*`, `public/r/*.json`). Do not run a second `bun x ultracite fix` / `bun run format:write` just because you ran `registry:build`.
+There is no test runner configured in this repo — verification is via `check-types`, `lint`, `registry:build`, and `bun run doctor <name>` (for targeted component health checks; avoid `doctor --all` during feature work). `registry:build` already runs `ultracite fix` on the files it generates (`apps/www/__registry__/*`, `public/r/*.json`). Do not run a second `bun x ultracite fix` / `bun run format:write` just because you ran `registry:build`.
 
 Git hooks (lefthook): pre-commit runs `ultracite fix` on staged JS/TS/JSON/CSS and `lint:links` on `apps/www/content/**`; pre-push runs `bun run build`.
 

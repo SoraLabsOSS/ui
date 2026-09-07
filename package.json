@@ -43,6 +43,7 @@
     "create:primitive": "bun packages/www-cli/src/index.ts create primitive",
     "create:ui": "bun packages/www-cli/src/index.ts create ui",
     "create": "bun packages/www-cli/src/index.ts create",
+    "doctor": "bun packages/www-cli/src/index.ts doctor",
     "test:www-cli": "bun run --cwd packages/www-cli test",
     "test:www-cli:slow": "WWW_CLI_RUN_REGISTRY_BUILD=1 bun run --cwd packages/www-cli test:slow",
     "prepare": "lefthook install",

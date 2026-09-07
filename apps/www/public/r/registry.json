@@ -929,7 +929,7 @@
       ],
       "meta": {
         "demoProps": {
-          "Accordion": {
+          "AccordionDemo": {
             "variant": {
               "value": "default",
               "options": {

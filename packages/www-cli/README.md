@@ -22,7 +22,16 @@ bun run create:primitive my-effect --category=effects --yes --skip-build
 bun run create:ui
 bun run create:ui my-widget --framework=base --yes
 bun run create:ui my-widget --framework=radix --yes --skip-demo
+
+# Doctor (audit registry, docs, meta.json, and demoProps)
+bun run doctor <name>           # recommended for contributors (e.g. text-effect, base/button)
+bun run doctor --all            # full registry audit (maintainers / CI only)
+bun run doctor <name> --quiet
+bun run doctor <name> --strict
 ```
+
+> **Contributor workflow:** Contributors should always run `bun run doctor <name>` to check their newly added/edited component. You do not need to run `bun run doctor --all`.
+
 
 | Flag | `create:primitive` | `create:ui` |
 |------|----------------------|-------------|
@@ -84,16 +93,15 @@ Use this as the implementation checklist for the next milestone.
 - `registryName` in frontmatter should match an installable registry item referenced in MDX.
 - Routes: `/catalog/<slug>`; listed in `content/catalog/meta.json`.
 
-#### `doctor` (optional, same phase or follow-up)
-
-- [ ] **Command** — `www-cli doctor` (read-only audit, no file writes)
-- [ ] **Checks:**
-  - Registry folder exists but no matching MDX in `content/docs/motion`, `content/ui`, or `content/catalog`
-  - `meta.demoProps` keys do not match exported component names in `index.tsx`
-  - Slug in `meta.json` but MDX file missing (or vice versa)
-  - Undocumented items that `registry:build` would skip (mirror `collectDocumentedNames` rules)
-- [ ] **Output** — actionable fixes (`bun run create:…`, add MDX, fix `demoProps` key)
-- [ ] **Tests** — fixture repo slice or mocked file tree
+#### `doctor`
+- [x] **Command** — `www-cli doctor` (read-only audit, no file writes)
+- [x] **Checks:**
+  - [x] Registry folder exists but no matching MDX in `content/docs/motion`, `content/ui`, or `content/catalog`
+  - [x] `meta.demoProps` keys do not match exported component names in `index.tsx`
+  - [x] Slug in `meta.json` but MDX file missing (or vice versa)
+  - [x] Undocumented items that `registry:build` would skip (mirror `collectDocumentedNames` rules)
+- [x] **Output** — actionable fixes (`bun run create:…`, add MDX, fix `demoProps` key)
+- [x] **Tests** — unit & integration test coverage across all checks
 
 #### Phase 3 verification
 
@@ -133,6 +141,7 @@ packages/www-cli/
       create-primitive.ts
       create-ui.ts
       create-wizard.ts
+      doctor.ts                 # doctor audit command
       create-catalog.ts         # Phase 3
       create-icon.ts            # Phase 4
     lib/
@@ -145,6 +154,13 @@ packages/www-cli/
       icon-templates.ts         # Phase 4
       registry-build.ts
       resolve-create-*-options.ts
+      doctor/
+        check-demo-props.ts     # demoProps keys vs exports
+        check-meta-json.ts      # meta.json vs MDX 2-way sync
+        check-registry-docs.ts  # registry folder & build-registry skips
+        extract-exports.ts      # TS export identifier parser
+        format-report.ts        # colored report & actionable fixes
+        types.ts                # diagnostic interfaces
     test/
       fixture.ts
       env.ts

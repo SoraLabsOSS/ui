@@ -2406,7 +2406,7 @@ export const index: Record<string, any> = {
       const LazyComp = React.lazy(async () => {
         const mod = await import("@/registry/demo/ui/base/accordion/index.tsx");
         const demoProps = {
-          Accordion: {
+          AccordionDemo: {
             variant: {
               value: "default",
               options: {
@@ -2443,7 +2443,7 @@ export const index: Record<string, any> = {
         return { default: Comp };
       });
       LazyComp.demoProps = {
-        Accordion: {
+        AccordionDemo: {
           variant: {
             value: "default",
             options: {
