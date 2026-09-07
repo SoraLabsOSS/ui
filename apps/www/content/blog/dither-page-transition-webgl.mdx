@@ -1,0 +1,250 @@
+---
+title: "Building a 60fps WebGL Dither Page Transition: Ditching Three.js and Surviving Slow Networks"
+description: How Sora UI's docs transition runs at 120fps with native WebGL and Bayer matrix dithering instead of Three.js — and how we solved the slow-network route exit problem in Next.js App Router.
+ogSubtitle: Native WebGL 1.0, Simplex Noise, Bayer 8x8 dithering, and resilient App Router transitions.
+author: Axyl
+date: 2026-09-07
+hashtags: ["#webgl", "#glsl", "#nextjs", "#react", "#performance"]
+---
+
+When someone clicks through the documentation on [Sora UI](https://ui.soralabs.studio) for the first time, the transition usually catches them off guard: a pixelated, 1-bit Bayer dither wave sweeps across the screen, accompanied by an animated terminal HUD [Typer](/docs/motion/typer) text reveal, dissolving the old page into the new one at a locked 120 fps.
+
+The visual concept and art direction of this transition were heavily inspired by the brilliant design work over at [2xa.studio](https://2xa.studio). Seeing that retro-digital aesthetic in action immediately sparked an engineering challenge: *Can we take this exact visual feeling and rebuild it entirely from the ground up for a high-performance documentation site without any heavyweight 3D dependencies?*
+
+The immediate guess from most frontend engineers is predictable:
+
+> *"Oh, you're importing Three.js and throwing a custom `ShaderMaterial` onto a fullscreen plane, right?"*
+
+Not even close.
+
+There is **zero Three.js** in this repository. Importing a 650KB 3D library just to draw a 2D screen wipe is engineering malpractice. Instead, the entire transition is powered by a **3KB raw WebGL 1.0 implementation** that compiles in under 2 milliseconds, consumes 48 bytes of VRAM, and runs buttery smooth on decade-old smartphones.
+
+Even more critical than the shader itself is how it talks to React: **how do you prevent the transition from exiting prematurely when the user is on a slow 3G connection, leaving them with an unrendered white flash?**
+
+Here is the complete teardown of [`page-transition-shader.ts`](https://github.com/SoraLabsOSS/ui/blob/main/apps/www/components/page-transition/page-transition-shader.ts) and [`page-transition-provider.tsx`](https://github.com/SoraLabsOSS/ui/blob/main/apps/www/components/page-transition/page-transition-provider.tsx).
+
+---
+
+## Part 1: The Three.js Illusion — What Does a Screen Transition Actually Need?
+
+When you reach for Three.js to implement a fullscreen screen wipe, you typically write boilerplate like this:
+
+```ts
+// ❌ The bloated Three.js route (~650KB bundle)
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+const geometry = new THREE.PlaneGeometry(2, 2);
+const material = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms });
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+renderer.render(scene, camera);
+```
+
+Step back and ask yourself what computer graphics actually requires here:
+
+* Do you need a 3D Scene Graph with parent-child transform matrices? **No.**
+* Do you need lighting, shadow maps, or PBR materials? **No.**
+* Do you need camera projection or view matrix inversions? **No.**
+
+All a screen transition needs is **a 2D rectangle covering the viewport, executing a Fragment Shader for every pixel**.
+
+![Three.js vs Sora UI Native WebGL Pipeline](https://cdn.soralabs.studio/media/threejs-vs-native-webgl-pipeline.webp)
+
+### Replacing Geometry with a 6-Vertex Fullscreen Quad
+
+In WebGL's Normalized Device Coordinates (NDC), the viewport spans from `[-1.0, -1.0]` (bottom-left) to `[1.0, 1.0]` (top-right). Two triangles spanning those coordinates cover 100% of the screen.
+
+In pure WebGL, that's exactly **12 floating-point numbers in a single static buffer (48 bytes in GPU VRAM)**:
+
+```ts
+const positions = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
+gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+```
+
+Because coordinates are already in NDC, the **Vertex Shader needs zero matrix multiplications**:
+
+```glsl
+attribute vec2 aPosition;
+varying vec2 vUv;
+void main() {
+  vUv = aPosition * 0.5 + 0.5; // Map [-1.0, 1.0] to UV [0.0, 1.0]
+  gl_Position = vec4(aPosition, 0.0, 1.0);
+}
+```
+
+Vertex processing cost: **essentially zero**.
+
+### Uniforms Without Garbage Collection
+
+Instead of letting Three.js allocate objects and diff uniform dictionaries every frame, we resolve `WebGLUniformLocation` once during shader compilation and push floats directly to the GPU driver:
+
+```ts
+gl.uniform1f(this.uProgressLoc, this.progress);
+gl.uniform2f(this.uResolutionLoc, this.canvas.width, this.canvas.height);
+```
+
+---
+
+## Part 2: Analytical Bayer 8x8 Matrix vs. Texture LUTs
+
+Ordered dithering gives that unmistakable retro 1-bit aesthetic. In classic game engines, you load a small `bayer8x8.png` texture lookup table (LUT) and sample it with `texture2D(uBayer, uv)`.
+
+On the web, loading an image texture for a transition is an anti-pattern:
+* It burns an extra HTTP network request.
+* If the user clicks a link before the texture image downloads, the transition glitches or fails.
+* It consumes a GPU texture unit and texture sampling cache.
+
+In our Fragment Shader, the **Bayer 8x8 threshold matrix is calculated analytically** using recursive fractal functions (`bayer2` → `bayer4` → `bayer8`). By dividing window-space pixel coordinates by `uDitherSize`, each fragment independently computes its threshold:
+
+```glsl
+float bayer = bayer8(gl_FragCoord.xy / max(uDitherSize, 1.0));
+float alpha = 1.0 - step(fill, bayer);
+```
+
+Every pixel on screen independently decides whether it should be opaque or discarded. **Zero image assets. 100% mathematical autonomy.**
+
+---
+
+## Part 3: Embedding 2D Simplex Noise
+
+A flat linear wipe looks mechanical. To make the transition look like an organic digital wave dissolving across the screen, we blend the wipe with 2D Simplex Noise.
+
+Rather than importing an external GLSL package, we embed Stefan Gustavson's analytical 2D Simplex Noise directly into our shader string, modulating the threshold:
+
+```glsl
+float threshold = p + snoise(noiseUv * uNoiseScale + uOffset) * uNoiseStrength;
+float fill = clamp((threshold - y) / (2.0 * uEdgeSmooth) + 0.5, 0.0, 1.0);
+```
+
+By tweaking `uNoiseScale` (0.5) and `uNoiseStrength` (0.8), the edge breaks apart into organic dithered clusters before resolving into a solid curtain.
+
+---
+
+## Part 4: Dynamic Ticker — Zero Idle GPU Usage
+
+A fullscreen `<canvas>` running an unconditional `requestAnimationFrame` loop drains laptop batteries and turns mobile devices into hand warmers, even when nothing is moving.
+
+In `PageTransitionShader`, the render loop is strictly on-demand. When `shader.show()` or `shader.hide()` is called, GSAP animates scalar progress while ticking the shader. The instant the transition completes, the ticker shuts down immediately.
+
+When the user is reading documentation, **the canvas does not render a single frame — CPU and GPU usage remain at 0.0%**. When the provider unmounts, we proactively call `gl.getExtension("WEBGL_lose_context")?.loseContext()` to release GPU memory and prevent context exhaustion during rapid development and hot-reloads.
+
+---
+
+## Part 5: Surviving Slow Networks in Next.js App Router
+
+Building a beautiful shader is only half the battle. The most common pitfall in web transitions is **the premature exit**.
+
+### The Naive Mistake
+Many transition implementations look like this:
+```ts
+// ❌ Naive implementation: bound to fail on real networks
+await shader.show();
+router.push(targetUrl);
+await sleep(800); // 🚨 Assumes the next page loads in 800ms!
+await shader.hide();
+```
+
+What happens when your user is on hotel Wi-Fi or a congested mobile network?
+1. The shader drops down, covering the screen.
+2. The hardcoded 800ms timer expires.
+3. The shader pulls back up.
+4. **The new page hasn't finished loading.** The user sees the old page, or a blank white flash (Flash of Unstyled Content), and then 2 seconds later the new content suddenly pops in. The illusion is completely shattered.
+
+### The Sora UI Solution: The 3-Stage Defensive Provider
+
+In [`page-transition-provider.tsx`](https://github.com/SoraLabsOSS/ui/blob/main/apps/www/components/page-transition/page-transition-provider.tsx), we engineered an orchestration system that guarantees the shader will **never** lift until the destination page is physically painted.
+
+![Page Transition Network Resilience Sequence](https://cdn.soralabs.studio/media/page-transition-network-resilience-sequence.webp)
+
+#### 1. Tracking Navigation & Stream Completion
+
+Next.js App Router streams page chunks asynchronously without an `onRouteComplete` event. To prevent premature exits, our provider listens to both `pathname` changes and React 19's `isRoutePending`:
+
+```tsx
+// Only resolve when destination is reached AND streaming chunks settle
+const hasNavigated = current === targetPath || (Boolean(fromPath) && current !== fromPath);
+if (hasNavigated && !isRoutePending) {
+  resolve(); // Safe to proceed to browser paint
+}
+```
+
+If the user's connection takes 4 seconds to download the new page's JavaScript chunks, **the dither curtain stays patiently closed**. Instead of a broken layout, the user sees an animated HUD status phrase powered by Sora UI's own [`Typer`](/docs/motion/typer) text primitive (which ripples characters through randomized accent, outline, and fill variations). And if the network drops completely, a 30-second timeout automatically falls back to native `window.location.assign()` so no user is ever trapped behind an overlay.
+
+#### 3. The Double `requestAnimationFrame` Trick
+This is the single most important detail in seamless page transitions.
+
+When `waitForRouteChange` resolves, React has updated its virtual DOM. **However, the browser compositor has not necessarily painted those new pixels to the display buffer yet.**
+
+If you call `shader.hide()` immediately on the same tick, there is a single-frame gap where the canvas becomes transparent before the new page is rasterized: a white flash.
+
+The fix is **two consecutive animation frames**:
+
+```tsx
+// Frame 1: Allows React commit & DOM mutation to finish
+// Frame 2: Guarantees the browser compositor has painted pixels under the overlay
+await new Promise<void>((resolve) => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      resolve();
+    });
+  });
+});
+
+// Now it is 100% safe to reveal the screen
+await shader.hide(1.0, "power2.inOut");
+```
+
+---
+
+## Part 6: Respecting `prefers-reduced-motion`
+
+Not everyone wants a fullscreen dithering wave. For users with vestibular motion sensitivities, large screen wipes can trigger physical discomfort.
+
+Accessibility is not an afterthought in Sora UI. In `PageTransitionProvider`:
+
+```tsx
+const prefersReducedMotion = useReducedMotion();
+
+if (prefersReducedMotion) {
+  router.push(href);
+  return;
+}
+```
+
+If the user has enabled reduced motion in their operating system settings:
+* The WebGL canvas is never instantiated.
+* Zero shader programs are compiled.
+* Navigation happens via standard, instant router pushes.
+
+---
+
+## Head-to-Head Comparison
+
+| Metric | Typical Three.js Route | Sora UI Native WebGL |
+| :--- | :--- | :--- |
+| **Bundle Impact** | +550KB to 650KB (minified) | **~3KB total** |
+| **Initialization Time** | 50 – 150ms (Scene, Camera, Renderer) | **< 2ms** (1 program, 1 quad buffer) |
+| **Asset Dependencies** | Requires external Bayer PNG LUT | **Zero assets** (analytical bit-math) |
+| **Memory Footprint** | Scene graph, matrix caches, VRAM textures | **48 bytes VRAM** (1 static VBO) |
+| **Slow Network Handling** | Fixed timers (frequent layout flashing) | **Resilient stream tracking + double rAF** |
+| **Idle GPU Usage** | Often keeps RAF running (hot battery) | **0.0%** (dynamic ticker stop) |
+| **Reduced Motion** | Often ignored | **100% bypassed seamlessly** |
+
+---
+
+## Credits & Inspiration
+ 
+Special credit goes to [2xa.studio](https://2xa.studio) for the original creative direction and animation aesthetic that inspired this transition. Their work demonstrates how powerful digital brutalism and retro-tech aesthetics can be when applied with intention. This implementation is our open-source, zero-dependency reimplementation tailored for React 19, pure WebGL, and Next.js App Router.
+ 
+---
+ 
+## Conclusion
+ 
+High-end creative web development doesn't require heavyweight 3D abstractions. By dropping down to raw WebGL 1.0, we achieved an effect with zero external dependencies, immediate compilation, and rock-solid 120 fps performance.
+ 
+And by pairing that graphics pipeline with deep understanding of React 19 concurrent transitions and browser compositing cycles, the transition remains bulletproof whether the user is on fiber or spotty subway cellular data.
+ 
+Try clicking between pages right now on [Sora UI](https://ui.soralabs.studio) to feel the transition in action. The full implementation is open source in the [SoraLabsOSS/ui repository](https://github.com/SoraLabsOSS/ui).

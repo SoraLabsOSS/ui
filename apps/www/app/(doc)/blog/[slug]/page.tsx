@@ -19,6 +19,8 @@ import { BlogPostHeader } from "./post-header";
 
 const HASHTAG_PREFIX = /^#/;
 
+export const instant = false;
+
 export default async function BlogPostPage(props: {
   params: Promise<{ slug: string }>;
 }) {
