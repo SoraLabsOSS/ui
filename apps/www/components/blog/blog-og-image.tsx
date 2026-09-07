@@ -33,6 +33,11 @@ export interface BlogOgImageProps extends ComponentPropsWithoutRef<"div"> {
   /** Called when the image fails to load. Skeleton stays visible. */
   onMediaError?: () => void;
   skeletonClassName?: string;
+  /**
+   * Enable image zoom modal on click.
+   * @default false
+   */
+  zoom?: boolean;
 }
 
 function mergeImageReadyHandler(
@@ -63,6 +68,7 @@ export function BlogOgImage({
   minDuration = 0,
   onMediaError,
   skeletonClassName,
+  zoom = false,
   ...props
 }: BlogOgImageProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -132,6 +138,32 @@ export function BlogOgImage({
   const showSkeleton = loadFailed || phase !== "revealed";
   const showMedia = !loadFailed && phase !== "loading";
 
+  const isRemoteCdn = typeof src === "string" && src.startsWith("http");
+
+  const imageElement = (
+    <Image
+      {...imageProps}
+      onError={mergeImageErrorHandler(onError, handleMediaError)}
+      onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
+      src={src}
+      unoptimized={imageProps.unoptimized ?? isRemoteCdn}
+    />
+  );
+
+  let mediaContent: React.ReactNode = null;
+  if (!loadFailed) {
+    mediaContent = zoom ? (
+      <ImageZoom
+        className="w-full"
+        src={typeof src === "string" ? src : (src as { src: string })?.src}
+      >
+        {imageElement}
+      </ImageZoom>
+    ) : (
+      imageElement
+    );
+  }
+
   return (
     <div
       className={cn("relative overflow-hidden", className)}
@@ -149,19 +181,7 @@ export function BlogOgImage({
           ease: [0.16, 1, 0.3, 1],
         }}
       >
-        {loadFailed ? null : (
-          <ImageZoom
-            className="w-full"
-            src={typeof src === "string" ? src : (src as { src: string })?.src}
-          >
-            <Image
-              {...imageProps}
-              onError={mergeImageErrorHandler(onError, handleMediaError)}
-              onLoad={mergeImageReadyHandler(onLoad, beginReveal)}
-              src={src}
-            />
-          </ImageZoom>
-        )}
+        {mediaContent}
       </motion.div>
 
       <AnimatePresence>

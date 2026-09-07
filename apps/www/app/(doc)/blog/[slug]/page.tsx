@@ -109,6 +109,7 @@ async function BlogPostBody({ slug }: { slug: string }) {
                     unoptimized: true,
                     width: image.width,
                   }}
+                  zoom={true}
                 />
               </div>
             </figure>
