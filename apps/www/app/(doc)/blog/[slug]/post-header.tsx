@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PageActionButtons } from "@/components/docs/page-actions";
 import { getBlogAuthorByName } from "@/lib/blog/blog-authors";
 
 function AuthorAvatar({ author }: { author: string }) {
@@ -32,12 +33,15 @@ function AuthorAvatar({ author }: { author: string }) {
 export function BlogPostHeader({
   author,
   description,
+  githubUrl,
   primaryTag,
   title,
+  url,
 }: {
   author: string;
   date?: Date;
   description?: string;
+  githubUrl?: string;
   primaryTag?: string;
   readingMinutes?: number | null;
   title: string;
@@ -95,6 +99,15 @@ export function BlogPostHeader({
             </span>
           </div>
         </div>
+
+        {url ? (
+          <PageActionButtons
+            githubUrl={githubUrl}
+            key={url}
+            markdownUrl={`${url}.mdx`}
+            url={url}
+          />
+        ) : null}
       </div>
     </header>
   );

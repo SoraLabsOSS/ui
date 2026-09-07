@@ -4,6 +4,7 @@ const MARKDOWN_ACCEPT = /text\/markdown|text\/plain/;
 const DOCS_PATH_RE = /^\/docs\/(.+)$/;
 const CATALOG_PATH_RE = /^\/(?:catalog|components)\/(.+)$/;
 const UI_PATH_RE = /^\/ui(?:\/(.+))?$/;
+const BLOG_PATH_RE = /^\/blog\/(.+)$/;
 const MD_EXT_RE = /\.(mdx|md)$/;
 
 function isMarkdownPreferred(request: NextRequest): boolean {
@@ -27,6 +28,11 @@ function rewriteMarkdownPath(pathname: string): string | null {
   if (uiMatch) {
     const rest = uiMatch[1];
     return rest ? `/llms-ui.mdx/${rest}` : "/llms-ui.mdx";
+  }
+
+  const blogMatch = clean.match(BLOG_PATH_RE);
+  if (blogMatch) {
+    return `/llms-blog.mdx/${blogMatch[1]}`;
   }
 
   return null;
@@ -56,5 +62,6 @@ export const config = {
     "/components/:path*",
     "/ui",
     "/ui/:path*",
+    "/blog/:path*",
   ],
 };

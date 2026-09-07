@@ -40,7 +40,7 @@ export function buildLlmsIndex(
     "",
     "## LLM exports",
     `- [llms-full.txt](${SITE_URL}/llms-full.txt): full docs + UI + catalog for AI`,
-    `- Append \`.mdx\` to any docs, UI, or catalog URL for markdown (e.g. \`${SITE_URL}/docs/motion/draw-underline-link.mdx\`, \`${SITE_URL}/ui.mdx\`, \`${SITE_URL}/catalog/cursor-trail-reveal.mdx\`)`,
+    `- Append \`.mdx\` to any docs, UI, catalog, or blog URL for markdown (e.g. \`${SITE_URL}/docs/motion/draw-underline-link.mdx\`, \`${SITE_URL}/ui.mdx\`, \`${SITE_URL}/catalog/cursor-trail-reveal.mdx\`, \`${SITE_URL}/blog/evolving-sora-ui-taxonomy.mdx\`)`,
   ];
 
   return lines.join("\n");

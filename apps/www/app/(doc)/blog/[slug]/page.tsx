@@ -12,7 +12,7 @@ import {
 import { getReadingTimeMinutes } from "@/lib/blog/reading-time";
 import { blog } from "@/lib/blog/source";
 import { kbTocItemsFromFumadocs } from "@/lib/blog/toc-items";
-import { getPageAlternates } from "@/lib/site";
+import { GITHUB_REPO_URL, getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 import { BlogPostAside } from "./post-aside";
 import { BlogPostHeader } from "./post-header";
@@ -68,6 +68,7 @@ async function BlogPostBody({ slug }: { slug: string }) {
           author={page.data.author}
           date={publishedAt}
           description={page.data.description}
+          githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/content/blog/${page.path}`}
           primaryTag={primaryTag}
           readingMinutes={readingMinutes}
           title={page.data.title}
