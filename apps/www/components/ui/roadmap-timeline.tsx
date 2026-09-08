@@ -23,7 +23,12 @@ export type Framework = "react" | "vue" | "js";
 export type MotionScore = "S" | "A" | "B" | "C";
 
 export interface RoadmapItem {
-  category: "base-ui" | "radix-ui" | "other-headless" | "cross-platform";
+  category:
+    | "base-ui"
+    | "rtl-support"
+    | "radix-ui"
+    | "other-headless"
+    | "cross-platform";
   categoryLabel: string;
   description: string;
   docUrl?: string;
@@ -273,13 +278,75 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     tags: ["Overlays", "Micro Animation", "Base UI"],
   },
 
-  // Phase 2: Radix UI (Priority 2 - 15+ Components)
+  // Phase 2: RTL Support & Existing Registry Retrofit (Immediate Next Priority)
+  {
+    id: "rtl-registry-retrofit",
+    name: "RTL: Existing Registry Retrofit",
+    category: "rtl-support",
+    categoryLabel: "RTL Support",
+    phase: 2,
+    status: "in-progress",
+    frameworks: ["react"],
+    motionScore: "S",
+    scoreValue: 5,
+    description:
+      "Prioritized RTL retrofitting across all existing components in the registry (Base UI suite, Radix UI suite, and Motion Primitives).",
+    priority: "High",
+    tags: ["RTL", "Retrofit", "Core", "Registry"],
+  },
+  {
+    id: "rtl-directional-physics",
+    name: "RTL: Directional Spring Physics & Gestures",
+    category: "rtl-support",
+    categoryLabel: "RTL Support",
+    phase: 2,
+    status: "planned",
+    frameworks: ["react"],
+    motionScore: "S",
+    scoreValue: 5,
+    description:
+      "Automatic motion mirroring and directional spring physics: dynamic inverted X-axis transforms, swipe-to-dismiss, and drawer gesture flings.",
+    priority: "High",
+    tags: ["RTL", "Directional Physics", "Motion"],
+  },
+  {
+    id: "rtl-logical-properties",
+    name: "RTL: CSS Logical Properties Standardization",
+    category: "rtl-support",
+    categoryLabel: "RTL Support",
+    phase: 2,
+    status: "planned",
+    frameworks: ["react"],
+    motionScore: "A",
+    scoreValue: 4,
+    description:
+      "Standardizing Tailwind CSS logical utilities (start/end, ps/pe, ms/me, border-s/border-e) across all registry templates.",
+    priority: "High",
+    tags: ["RTL", "Tailwind CSS", "Logical Properties"],
+  },
+  {
+    id: "rtl-floating-submenus",
+    name: "RTL: Floating Elements & Submenu Flipping",
+    category: "rtl-support",
+    categoryLabel: "RTL Support",
+    phase: 2,
+    status: "planned",
+    frameworks: ["react"],
+    motionScore: "S",
+    scoreValue: 5,
+    description:
+      "Collision-aware right-to-left cascading submenus, popover anchor realignment, and dynamic arrow direction for context & dropdown menus.",
+    priority: "High",
+    tags: ["RTL", "Floating UI", "Menus", "Popovers"],
+  },
+
+  // Phase 3: Radix UI (Priority 3 - 15+ Components)
   {
     id: "radix-button",
     name: "Radix: Button",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "completed",
     frameworks: ["react"],
     motionScore: "S",
@@ -294,7 +361,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Checkbox",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "completed",
     frameworks: ["react"],
     motionScore: "S",
@@ -309,7 +376,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Dialog",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "completed",
     frameworks: ["react"],
     motionScore: "S",
@@ -324,7 +391,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Bottom Sheet",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "planned",
     frameworks: ["react"],
     motionScore: "S",
@@ -339,7 +406,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Accordion",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "planned",
     frameworks: ["react"],
     motionScore: "S",
@@ -353,7 +420,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Context & Dropdown Menu",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "planned",
     frameworks: ["react"],
     motionScore: "S",
@@ -367,7 +434,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Popover & Hover Card",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "planned",
     frameworks: ["react"],
     motionScore: "A",
@@ -381,7 +448,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Tabs, Switch & Slider",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "planned",
     frameworks: ["react"],
     motionScore: "S",
@@ -396,7 +463,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Radix: Toast & Tooltip",
     category: "radix-ui",
     categoryLabel: "Radix UI",
-    phase: 2,
+    phase: 3,
     status: "planned",
     frameworks: ["react"],
     motionScore: "A",
@@ -406,13 +473,13 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     tags: ["Feedback", "Radix UI"],
   },
 
-  // Phase 3: Other Headless UI Libraries (Planned)
+  // Phase 4: Other Headless UI Libraries (Planned)
   {
     id: "react-aria-suite",
     name: "React Aria Components Integration",
     category: "other-headless",
     categoryLabel: "Other Headless UI",
-    phase: 3,
+    phase: 4,
     status: "planned",
     frameworks: ["react"],
     motionScore: "S",
@@ -427,7 +494,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Ark UI (Zag.js) Adapter",
     category: "other-headless",
     categoryLabel: "Other Headless UI",
-    phase: 3,
+    phase: 4,
     status: "under-consideration",
     frameworks: ["react", "vue"],
     motionScore: "A",
@@ -442,7 +509,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     name: "Ariakit & Headless UI Modules",
     category: "other-headless",
     categoryLabel: "Other Headless UI",
-    phase: 3,
+    phase: 4,
     status: "under-consideration",
     frameworks: ["react"],
     motionScore: "B",
@@ -453,13 +520,13 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     tags: ["Ariakit", "Headless UI"],
   },
 
-  // Phase 4: Cross-Platform & Ecosystem
+  // Phase 5: Cross-Platform & Ecosystem
   {
     id: "multi-platform-expansion",
     name: "Multi-Platform: Vue 3 & Vanilla JavaScript",
     category: "cross-platform",
     categoryLabel: "Cross-Platform",
-    phase: 4,
+    phase: 5,
     status: "planned",
     frameworks: ["vue", "js"],
     motionScore: "A",
@@ -712,6 +779,15 @@ export function RoadmapTimeline() {
     const baseUiCompleted = ROADMAP_ITEMS.filter(
       (i) => i.category === "base-ui" && i.status === "completed"
     ).length;
+    const rtlTotal = ROADMAP_ITEMS.filter(
+      (i) => i.category === "rtl-support"
+    ).length;
+    const rtlCompleted = ROADMAP_ITEMS.filter(
+      (i) => i.category === "rtl-support" && i.status === "completed"
+    ).length;
+    const rtlInProgress = ROADMAP_ITEMS.filter(
+      (i) => i.category === "rtl-support" && i.status === "in-progress"
+    ).length;
     const radixUiTotal = ROADMAP_ITEMS.filter(
       (i) => i.category === "radix-ui"
     ).length;
@@ -725,6 +801,9 @@ export function RoadmapTimeline() {
       planned,
       baseUiTotal,
       baseUiCompleted,
+      rtlTotal,
+      rtlCompleted,
+      rtlInProgress,
       radixUiTotal,
       radixUiCompleted,
     };
@@ -740,20 +819,20 @@ export function RoadmapTimeline() {
               <Sparkles className="size-3.5" /> Release Strategy & Priority
             </span>
             <span className="font-mono text-muted-foreground text-xs">
-              Phase 1: Base UI • Phase 2: Radix UI • Phase 3: Other Headless
+              Phase 1: Base UI • Phase 2: RTL Support • Phase 3: Radix UI
             </span>
           </div>
 
           <div>
             <h3 className="font-semibold text-2xl text-foreground tracking-tight">
-              Base UI First, Radix UI Next, Multi-Headless Architecture
+              Base UI Foundation, RTL Support Next, Multi-Headless Architecture
             </h3>
             <p className="mt-2 max-w-3xl text-muted-foreground text-sm leading-relaxed">
-              We are prioritizing all{" "}
-              <strong>13 core Base UI animated components</strong> to deliver a
-              complete, modern, accessible foundation. Radix UI animation
-              primitives follow in Phase 2, with React Aria, Ark UI, and
-              multi-framework expansions scheduled next.
+              We are completing all{" "}
+              <strong>13 core Base UI animated components</strong>, followed by{" "}
+              <strong>Phase 2: Comprehensive RTL Support</strong> prioritizing
+              retrofitting all existing registry components. Radix UI animation
+              primitives and multi-framework expansions follow.
             </p>
           </div>
 
@@ -776,18 +855,21 @@ export function RoadmapTimeline() {
             </div>
             <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
               <div className="text-muted-foreground text-xs">
-                Radix UI Suite (Phase 2)
+                RTL Support (Phase 2)
               </div>
               <div className="mt-1 font-bold text-foreground text-xl">
-                {stats.radixUiCompleted} / {stats.radixUiTotal}
+                {stats.rtlCompleted} / {stats.rtlTotal}
+                <span className="ml-1.5 font-semibold text-amber-500 text-xs">
+                  (Next Focus)
+                </span>
               </div>
             </div>
             <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
               <div className="text-muted-foreground text-xs">
-                Target Frameworks
+                Radix UI Suite (Phase 3)
               </div>
               <div className="mt-1 font-bold text-foreground text-xl">
-                React • JS • Vue
+                {stats.radixUiCompleted} / {stats.radixUiTotal}
               </div>
             </div>
             <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
@@ -907,9 +989,10 @@ export function RoadmapTimeline() {
             [
               { label: "All UI Components", value: "all" },
               { label: "Phase 1: Base UI", value: "base-ui" },
-              { label: "Phase 2: Radix UI", value: "radix-ui" },
-              { label: "Phase 3: Other Headless", value: "other-headless" },
-              { label: "Phase 4: Cross-Platform", value: "cross-platform" },
+              { label: "Phase 2: RTL Support", value: "rtl-support" },
+              { label: "Phase 3: Radix UI", value: "radix-ui" },
+              { label: "Phase 4: Other Headless", value: "other-headless" },
+              { label: "Phase 5: Cross-Platform", value: "cross-platform" },
             ] as const
           ).map((cat) => (
             <button

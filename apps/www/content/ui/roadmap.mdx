@@ -1,6 +1,6 @@
 ---
 title: Roadmap
-description: Upcoming development schedule, milestones, and release strategy for Sora UI animated components, Base UI foundations, Radix UI suite, and Headless UI adapters.
+description: Upcoming development schedule, milestones, and release strategy for Sora UI animated components, Base UI foundations, RTL internationalization, Radix UI suite, and Headless UI adapters.
 icon: Milestone
 author:
   name: Axyl
@@ -10,7 +10,7 @@ author:
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { CodeTabs } from '@/components/docs/code-tabs';
 
-The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Radix UI**, and expanding into other headless libraries and multi-framework ecosystems.
+The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Comprehensive RTL (Right-to-Left) Support** across all existing registries, expanding into **Radix UI**, and growing into other headless libraries and multi-framework ecosystems.
 
 <RoadmapTimeline />
 
@@ -44,7 +44,20 @@ Our component development follows a structured roadmap designed to provide compl
 </Step>
 <Step>
 
-### Phase 2: Radix UI Suite (Next Priority)
+### Phase 2: Comprehensive RTL Support & Existing Registry Retrofit (Next Priority)
+
+Comprehensive Right-to-Left (RTL) internationalization is our immediate next focus. We are prioritizing retrofitting all existing components in the Sora UI registry to provide first-class native support for Arabic, Hebrew, Persian, and Urdu locales:
+
+- **Existing Registry Retrofitting (Top Priority)**: Retrofitting all active components across the Base UI suite, Radix UI suite, and unstyled Motion Primitives with native bidirectional behavior.
+- **CSS Logical Properties**: Full migration to Tailwind CSS logical utilities (`start`, `end`, `ps`, `pe`, `ms`, `me`, `border-s`, `border-e`, `inset-inline-*`) replacing physical left/right constraints.
+- **Directional Motion Physics**: Automatic transform inversion for directional spring transitions (e.g. inverted horizontal sliding `x: -20` vs `x: 20`, drawer fling physics, and gesture dismissal).
+- **Collision & Submenu Flipping**: Collision-aware popovers, context menus, and dropdown submenus cascading correctly to the left in RTL orientation.
+- **Visual & Layout Indicators**: Reversing chevron rotations, sliding active background pills (`layoutId`), and timeline progress tracks.
+
+</Step>
+<Step>
+
+### Phase 3: Radix UI Suite Expansion
 
 Our Radix UI tier infuses [Radix Primitives](https://www.radix-ui.com/primitives) with Sora Motion spring dynamics and layout orchestration:
 
@@ -54,7 +67,7 @@ Our Radix UI tier infuses [Radix Primitives](https://www.radix-ui.com/primitives
 </Step>
 <Step>
 
-### Phase 3: Other Headless UI Libraries (Future Planning)
+### Phase 4: Other Headless UI Libraries (Future Planning)
 
 To provide universal flexibility across different architecture requirements:
 
@@ -65,7 +78,7 @@ To provide universal flexibility across different architecture requirements:
 </Step>
 <Step>
 
-### Phase 4: Cross-Platform & Ecosystem Expansion
+### Phase 5: Cross-Platform & Ecosystem Expansion
 
 - **Vue 3**: Official component ports using Motion for Vue.
 - **Vanilla JavaScript**: Web components and framework-agnostic wrappers.

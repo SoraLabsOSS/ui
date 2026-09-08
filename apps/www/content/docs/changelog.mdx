@@ -13,7 +13,78 @@ import {
 
 <Changelog>
 
-<ChangelogItem date="2026-09-03" major>
+<ChangelogItem date="2026-09-09" major>
+  <ChangelogItemVersion>
+
+## Base UI Dropdown Menu, WebGL Page Transitions, Better Auth 1.7 & RTL Roadmap
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>UI Components & Primitives</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Base UI Dropdown Menu** (`/ui/base/dropdown-menu`): Shipped collision-aware floating dropdown with spring scale physics, cascaded submenus, checkable items, and keyboard navigation.
+- **ScrollArea Base UI Migration**: Migrated ScrollArea implementation to `@base-ui-components/react/scroll-area` to eliminate production scrollbar jank and ensure smooth thumb auto-hiding on idle with balanced track width.
+- **Shared `useControlledState` Hook**: Standardized controlled and uncontrolled state management across Checkbox, Dialog, and interactive primitives.
+- **Motion Frame Synchronization**: Harmonized documentation dialog overlays and modal backdrops with Motion frame transitions.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Page Transitions & WebGL Visual Effects</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **WebGL Dither Page Transition**: Shipped high-performance native WebGL dither shader transition ([deep-dive blog post](/blog/dither-page-transition-webgl)) with custom canvas rendering.
+- **Zero-Rerender Typer Engine**: Re-engineered page transition typography HUD with a direct DOM mutation engine, guaranteeing 120 FPS transitions with zero React re-renders.
+- **Frame-Drop Elimination**: Integrated React 19 `startTransition` and route prefetching to await route mount before transition exit, eliminating white flashes and layout drops.
+- **Site-Wide Lenis Smooth Scroll**: Unified marketing and docs navigation with Lenis smooth scroll and interactive 3D button hover dynamics (`useButton3DHover`).
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Navigation, Footer & Design System</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Footer Navigation Refactor**: Replaced legacy newsletter form with the Sora UI Registry banner card, streamlined 3-column accordion layout, and introduced direct `/catalog` access alongside documentation links.
+- **Mobile Responsive Width Fixes**: Added full-width container stretching for footer banner cards on tablet and mobile viewports (`< 1024px`).
+- **Navbar Motion Polish**: Synchronized closing animations, pill indicators, and marquee movement with smooth layout transitions.
+- **Image Click-to-Zoom**: Added native opt-in image lightbox and zoom for documentation and technical blog articles.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Roadmap & Internationalization (RTL)</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Phase 2: Comprehensive RTL Support**: Updated the official [UI Roadmap](/ui/roadmap) to introduce Phase 2 dedicated to Right-to-Left (RTL) internationalization, prioritizing retrofitting all existing Base UI, Radix UI, and Motion primitives with CSS logical properties, directional spring physics, and flipped collision detection.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Authentication & Database</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Better Auth 1.7.3 Upgrade**: Upgraded `better-auth`, `@better-auth/sso`, and `@better-auth/scim` to version 1.7.3.
+- **Database Schema Migration**: Generated and applied Drizzle migration removing the deprecated `issuer` column requirement from the `account` table, fully aligned with the upstream Better Auth specification.
+- **Auth Session Isolation**: Isolated marketing routes from unnecessary session polling and optimized session query caching.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Developer Experience, CLI & Infrastructure</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **`www-cli doctor` Command**: Added targeted component health audit command to validate registry items, MDX documentation, and demoProps.
+- **TypeScript 7 & Turbopack Optimization**: Upgraded core build infrastructure, modularized marketing styles, and refined Next.js PPR / partial prefetching loading boundaries.
+- **LLM Markdown Export**: Added direct `.mdx` content routes and LLM-friendly documentation exports (`/llms-blog.mdx`, `/llms-ui.mdx`).
+- **Contributor Guidelines**: Enhanced first-time contributor onboarding and welcomed draft PR submissions.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-09-03">
   <ChangelogItemVersion>
 
 ## Base UI Alert Dialog, Homepage Redesign & Button Physics Fix
