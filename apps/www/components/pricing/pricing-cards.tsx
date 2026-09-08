@@ -4,11 +4,7 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
-import {
-  GITHUB_SPONSORS_URL,
-  getSupportMailtoUrl,
-  PRICING_DISCLAIMER,
-} from "./pricing-config";
+import { GITHUB_SPONSORS_URL, PRICING_DISCLAIMER } from "./pricing-config";
 
 const FREE_FEATURES = [
   "All Motion animation primitives",
@@ -31,8 +27,6 @@ export function PricingCards() {
   const containerRef = useRef<HTMLElement>(null);
   useButton3DHover(containerRef);
 
-  const supportMailtoUrl = getSupportMailtoUrl();
-
   return (
     <section className="pricing-cards" id="plans" ref={containerRef}>
       <div className="is--md-m container mx-auto max-w-4xl px-4 sm:px-6">
@@ -41,10 +35,16 @@ export function PricingCards() {
           <div className="pricing-card is--free">
             <div>
               <div className="pricing-card__header">
-                <div className="tag" data-shape="round" data-theme="">
+                <div
+                  className="tag rounded-[1.5rem]!"
+                  data-shape="round"
+                  data-theme=""
+                  style={{ borderRadius: "1.5rem" }}
+                >
                   <div
-                    className="button-bg"
+                    className="button-bg rounded-[1.5rem]!"
                     data-wf--button-theme--variant="coral"
+                    style={{ borderRadius: "1.5rem" }}
                   />
                   <span className="is--relative eyebrow flex items-center gap-1.5">
                     <span className="size-1.5 animate-pulse rounded-full bg-current" />
@@ -87,17 +87,19 @@ export function PricingCards() {
 
             <div className="pricing-card__actions">
               <Link
-                className="button w-inline-block"
+                className="button w-inline-block rounded-[1.5rem]!"
                 data-button-rotate=""
                 data-button-rotate-hover=""
                 data-shape="round"
                 data-size="full"
                 data-theme=""
                 href="/docs/installation"
+                style={{ borderRadius: "1.5rem" }}
               >
                 <div
-                  className="button-bg"
+                  className="button-bg rounded-[1.5rem]!"
                   data-wf--button-theme--variant="electric"
+                  style={{ borderRadius: "1.5rem" }}
                 />
                 <div className="button-label__wrap">
                   <div className="button-label">
@@ -115,10 +117,16 @@ export function PricingCards() {
           <div className="pricing-card is--sponsor">
             <div>
               <div className="pricing-card__header">
-                <div className="tag" data-shape="round" data-theme="">
+                <div
+                  className="tag rounded-[1.5rem]!"
+                  data-shape="round"
+                  data-theme=""
+                  style={{ borderRadius: "1.5rem" }}
+                >
                   <div
-                    className="button-bg"
+                    className="button-bg rounded-[1.5rem]!"
                     data-wf--button-theme--variant="neutral-525"
+                    style={{ borderRadius: "1.5rem" }}
                   />
                   <span className="is--relative eyebrow">Community</span>
                 </div>
@@ -155,19 +163,21 @@ export function PricingCards() {
 
             <div className="pricing-card__actions">
               <a
-                className="button w-inline-block"
+                className="button w-inline-block rounded-[.875rem]!"
                 data-button-rotate=""
                 data-button-rotate-hover=""
-                data-shape="round"
+                data-shape=""
                 data-size="full"
                 data-theme=""
                 href={GITHUB_SPONSORS_URL}
                 rel="noopener noreferrer"
+                style={{ borderRadius: ".875rem" }}
                 target="_blank"
               >
                 <div
-                  className="button-bg"
+                  className="button-bg rounded-[.875rem]!"
                   data-wf--button-theme--variant="dark-outline"
+                  style={{ borderRadius: ".875rem" }}
                 />
                 <div className="button-label__wrap">
                   <div className="button-label">

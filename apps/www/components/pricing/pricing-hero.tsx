@@ -62,16 +62,18 @@ export function PricingHero() {
 
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
-                className="button w-inline-block"
+                className="button w-inline-block rounded-[1.5rem]!"
                 data-button-rotate=""
                 data-button-rotate-hover=""
                 data-shape="round"
                 data-theme=""
                 href="/docs/installation"
+                style={{ borderRadius: "1.5rem" }}
               >
                 <div
-                  className="button-bg"
+                  className="button-bg rounded-[1.5rem]!"
                   data-wf--button-theme--variant="electric"
+                  style={{ borderRadius: "1.5rem" }}
                 />
                 <div className="button-label__wrap">
                   <div className="button-label">
@@ -83,16 +85,18 @@ export function PricingHero() {
                 </div>
               </Link>
               <Link
-                className="button w-inline-block"
+                className="button w-inline-block rounded-[.875rem]!"
                 data-button-rotate=""
                 data-button-rotate-hover=""
-                data-shape="round"
+                data-shape=""
                 data-theme=""
                 href="/catalog"
+                style={{ borderRadius: ".875rem" }}
               >
                 <div
-                  className="button-bg"
+                  className="button-bg rounded-[.875rem]!"
                   data-wf--button-theme--variant="dark-outline"
+                  style={{ borderRadius: ".875rem" }}
                 />
                 <div className="button-label__wrap">
                   <div className="button-label">

@@ -1292,6 +1292,91 @@
   border-radius: 0.1875em !important;
 }
 
+/* -------------------------------------------------------------------------- */
+/* NAVBAR & FOOTER BUTTONS: Rounder = 1.5rem, Squarer = .875rem               */
+/* -------------------------------------------------------------------------- */
+
+/* Rounder buttons and backgrounds in navbar and footer: 1.5rem */
+.home-layout.sora-navbar-root .button[data-shape="round"],
+.home-layout.sora-navbar-root [data-shape="round"] .button,
+.home-layout.sora-navbar-root a.button[data-shape="round"],
+.home-layout.sora-navbar-root [data-shape="round"] .button-bg,
+.home-layout.sora-navbar-root .square-button[data-shape="round"],
+.home-layout.sora-navbar-root .square-button[data-shape="round"] .button-bg,
+.home-layout.sora-navbar-root .tag[data-shape="round"],
+.home-layout.sora-navbar-root .tag[data-shape="round"] .button-bg,
+.home-layout.sora-footer-root .button[data-shape="round"],
+.home-layout.sora-footer-root [data-shape="round"] .button,
+.home-layout.sora-footer-root a.button[data-shape="round"],
+.home-layout.sora-footer-root [data-shape="round"] .button-bg,
+.home-layout.sora-footer-root .square-button[data-shape="round"],
+.home-layout.sora-footer-root .square-button[data-shape="round"] .button-bg,
+.home-layout.sora-footer-root .tag[data-shape="round"],
+.home-layout.sora-footer-root .tag[data-shape="round"] .button-bg {
+  border-radius: 1.5rem !important;
+}
+
+/* Squarer buttons and backgrounds in navbar and footer: .875rem */
+.home-layout.sora-navbar-root .button:not([data-shape="round"]),
+.home-layout.sora-navbar-root .button:not([data-shape="round"]) .button-bg,
+.home-layout.sora-navbar-root .square-button:not([data-shape="round"]),
+.home-layout.sora-navbar-root
+  .square-button:not([data-shape="round"])
+  .button-bg,
+.home-layout.sora-navbar-root .tag:not([data-shape="round"]),
+.home-layout.sora-navbar-root .tag:not([data-shape="round"]) .button-bg,
+.home-layout.sora-navbar-root .nav-menu,
+.home-layout.sora-footer-root .button:not([data-shape="round"]),
+.home-layout.sora-footer-root .button:not([data-shape="round"]) .button-bg,
+.home-layout.sora-footer-root .square-button:not([data-shape="round"]),
+.home-layout.sora-footer-root
+  .square-button:not([data-shape="round"])
+  .button-bg,
+.home-layout.sora-footer-root .tag:not([data-shape="round"]),
+.home-layout.sora-footer-root .tag:not([data-shape="round"]) .button-bg {
+  border-radius: 0.875rem !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PRICING PAGE BUTTONS: Rounder = 1.5rem, Squarer = .875rem                  */
+/* -------------------------------------------------------------------------- */
+
+/* Rounder buttons and backgrounds in pricing page: 1.5rem */
+.home-layout [data-barba-namespace="pricing"] .button[data-shape="round"],
+.home-layout [data-barba-namespace="pricing"] [data-shape="round"] .button,
+.home-layout [data-barba-namespace="pricing"] a.button[data-shape="round"],
+.home-layout [data-barba-namespace="pricing"] [data-shape="round"] .button-bg,
+.home-layout [data-barba-namespace="pricing"] .tag[data-shape="round"],
+.home-layout
+  [data-barba-namespace="pricing"]
+  .tag[data-shape="round"]
+  .button-bg,
+.home-layout .pricing-cards .button[data-shape="round"],
+.home-layout .pricing-cards [data-shape="round"] .button,
+.home-layout .pricing-cards [data-shape="round"] .button-bg,
+.home-layout .pricing-cards .tag[data-shape="round"],
+.home-layout .pricing-cards .tag[data-shape="round"] .button-bg {
+  border-radius: 1.5rem !important;
+}
+
+/* Squarer buttons and backgrounds in pricing page: .875rem */
+.home-layout [data-barba-namespace="pricing"] .button:not([data-shape="round"]),
+.home-layout
+  [data-barba-namespace="pricing"]
+  .button:not([data-shape="round"])
+  .button-bg,
+.home-layout [data-barba-namespace="pricing"] .tag:not([data-shape="round"]),
+.home-layout
+  [data-barba-namespace="pricing"]
+  .tag:not([data-shape="round"])
+  .button-bg,
+.home-layout .pricing-cards .button:not([data-shape="round"]),
+.home-layout .pricing-cards .button:not([data-shape="round"]) .button-bg,
+.home-layout .pricing-cards .tag:not([data-shape="round"]),
+.home-layout .pricing-cards .tag:not([data-shape="round"]) .button-bg {
+  border-radius: 0.875rem !important;
+}
+
 .home-layout .button,
 .home-layout button.tag {
   --r: 20deg;

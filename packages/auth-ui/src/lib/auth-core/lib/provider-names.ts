@@ -3,9 +3,10 @@ import type { SocialProvider } from "better-auth/social-providers";
 /**
  * Mapping of social authentication provider identifiers to their human-readable display names.
  */
-export const providerNames: Record<SocialProvider, string> = {
+export const providerNames: Partial<Record<SocialProvider, string>> = {
   apple: "Apple",
   atlassian: "Atlassian",
+  cloudflare: "Cloudflare",
   cognito: "Cognito",
   discord: "Discord",
   dropbox: "Dropbox",

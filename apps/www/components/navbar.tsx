@@ -239,14 +239,14 @@ export function Navbar({
                   </Link>
                 </div>
 
-                {/* Action Buttons: 1 Round (Login) + 1 Square (Docs) */}
+                {/* Action Buttons: 1st button 1.5rem (Login) + 2nd button .875rem (Docs) */}
                 <div className="nav-bar__buttons">
                   <div className="nav-bar__login-button">
                     {/* Auth temporarily disabled — swap span back to Link when auth is re-enabled */}
                     {/* biome-ignore lint/a11y/useFocusableInteractive lint/a11y/useSemanticElements: Auth temporarily disabled */}
                     <span
                       aria-disabled="true"
-                      className="button pointer-events-none w-inline-block cursor-not-allowed opacity-40"
+                      className="button pointer-events-none w-inline-block cursor-not-allowed rounded-[1.5rem]! opacity-40"
                       data-barba-p=""
                       data-button-rotate=""
                       data-button-rotate-hover=""
@@ -256,11 +256,13 @@ export function Navbar({
                       data-size=""
                       data-theme=""
                       role="link"
+                      style={{ borderRadius: "1.5rem" }}
                       title="Đăng nhập tạm thời không khả dụng"
                     >
                       <div
-                        className="button-bg"
+                        className="button-bg rounded-[1.5rem]!"
                         data-wf--button-theme--variant="neutral-525"
+                        style={{ borderRadius: "1.5rem" }}
                       />
                       <div className="button-label__wrap">
                         <div className="button-label">
@@ -274,7 +276,7 @@ export function Navbar({
                   </div>
                   <div className="nav-bar__signup-button">
                     <Link
-                      className="button w-inline-block"
+                      className="button w-inline-block rounded-[.875rem]!"
                       data-barba-p=""
                       data-button-rotate=""
                       data-button-rotate-hover=""
@@ -285,10 +287,12 @@ export function Navbar({
                       data-theme=""
                       href="/docs"
                       onClick={handleDocsPillClick}
+                      style={{ borderRadius: ".875rem" }}
                     >
                       <div
-                        className="button-bg"
+                        className="button-bg rounded-[.875rem]!"
                         data-wf--button-theme--variant="electric"
+                        style={{ borderRadius: ".875rem" }}
                       />
                       <div className="button-label__wrap">
                         <div className="button-label">
@@ -667,8 +671,8 @@ export function Navbar({
                         </div>
                       </div>
 
-                      {/* Featured Pro Ad / Promotion Column */}
-                      <div className="is--ad nav-bar__bottom-col">
+                      {/* Featured Pro Ad / Promotion Column (Temporarily commented out) */}
+                      {/* <div className="is--ad nav-bar__bottom-col">
                         <Link
                           className="nav-banner w-inline-block"
                           data-hover=""
@@ -736,7 +740,7 @@ export function Navbar({
                             </div>
                           </div>
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
