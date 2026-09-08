@@ -48,6 +48,7 @@ export function Banner({
   useEffect(() => {
     if (globalKey && localStorage.getItem(globalKey) === "true") {
       setOpen(false);
+      document.documentElement.classList.add(globalKey);
     }
   }, [globalKey]);
 
@@ -55,6 +56,7 @@ export function Banner({
     setOpen(false);
     if (globalKey) {
       localStorage.setItem(globalKey, "true");
+      document.documentElement.classList.add(globalKey);
     }
   }
 
@@ -86,13 +88,6 @@ export function Banner({
       ) : null}
       {globalKey ? (
         <style>{`.${globalKey} #${id} { display: none; }`}</style>
-      ) : null}
-      {globalKey ? (
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if (localStorage.getItem('${globalKey}') === 'true') document.documentElement.classList.add('${globalKey}');`,
-          }}
-        />
       ) : null}
 
       {variant === "rainbow"
@@ -159,17 +154,19 @@ function encodeBase32(str: string) {
   let bitsLeft = 0;
 
   for (let i = 0; i < str.length; i++) {
-    buffer = (buffer << 8) | str.charCodeAt(i);
+    buffer = buffer * 256 + str.charCodeAt(i);
     bitsLeft += 8;
 
     while (bitsLeft >= 5) {
       bitsLeft -= 5;
-      encoded += alphabet[(buffer >> bitsLeft) & 31];
+      const index = Math.floor(buffer / 2 ** bitsLeft) % 32;
+      encoded += alphabet[index];
     }
   }
 
   if (bitsLeft > 0) {
-    encoded += alphabet[(buffer << (5 - bitsLeft)) & 31];
+    const index = Math.floor(buffer * 2 ** (5 - bitsLeft)) % 32;
+    encoded += alphabet[index];
   }
 
   return encoded;
