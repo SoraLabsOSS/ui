@@ -97,3 +97,6 @@ jobs:
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: ""
           NEXT_PUBLIC_SENTRY_DSN: ""
           NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL: ""
+          # Placeholder DB connection (no real DB needed for build)
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+          DATABASE_URL_DIRECT: postgres://postgres:postgres@localhost:5432/postgres
