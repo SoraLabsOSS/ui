@@ -6,6 +6,13 @@ Thank you for contributing to **Sora UI** — an open-source, Motion-first React
 - **Bugs, questions, ideas:** [github.com/SoraLabsOSS/ui/issues](https://github.com/SoraLabsOSS/ui/issues)
 - **Site:** [ui.soralabs.studio](https://ui.soralabs.studio)
 
+> ### 💡 First time contributing?
+> **Don't let the monorepo or strict tooling intimidate you!**
+> - You **do not** need to make your code 100% perfect on the first try.
+> - If you have a cool animation or UI component idea, just get the core logic working and open a **Draft PR**.
+> - We will gladly jump in to help you polish TypeScript types, docs formatting, reduced-motion fallbacks, and registry wiring.
+> - Questions are always welcome in our [GitHub Discussions](https://github.com/SoraLabsOSS/ui/discussions)!
+
 ## Introduction
 
 This is a **Turborepo** monorepo. We use **[Bun](https://bun.sh)** (`bun@1.3.5`, pinned in `packageManager`) for installs and scripts, and **Ultracite (Biome)** for lint/format.
@@ -218,6 +225,7 @@ Schema reference: [ui.shadcn.com/docs/registry/registry-item-json](https://ui.sh
 ## Pull requests
 
 - Target **`main`** on [SoraLabsOSS/ui](https://github.com/SoraLabsOSS/ui).
+- **Draft PRs are encouraged early:** If you're building a new component or animation, don't wait until everything is 100% finished. Open a Draft PR so maintainers can collaborate with you early on architecture, edge cases, and docs!
 - Keep PRs focused; run lint, typecheck, and `registry:build` when touching registry or content.
 - For bugs, issues, and feature requests, please use the **[GitHub Issues tracker](https://github.com/SoraLabsOSS/ui/issues)** in this repository.
 
