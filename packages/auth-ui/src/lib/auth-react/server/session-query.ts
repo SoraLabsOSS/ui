@@ -39,6 +39,8 @@ export function sessionOptions<TAuth extends AuthServer>(
   const options = queryOptions<TData, APIError, TData, typeof queryKey>({
     queryKey,
     queryFn: () => auth.api.getSession(params) as Promise<TData>,
+    staleTime: 10 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
   });
 
   return options as typeof options & {

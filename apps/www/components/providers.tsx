@@ -41,6 +41,7 @@ export function Providers({
             replace ? router.replace(to) : router.push(to)
           }
           plugins={[deleteUserPlugin()]}
+          queryClient={queryClient}
           redirectTo="/docs"
           socialProviders={["google", "github"]}
         >

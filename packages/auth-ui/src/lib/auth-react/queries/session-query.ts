@@ -51,6 +51,12 @@ export function sessionOptions<TAuthClient extends AuthClient>(
           ...params,
           fetchOptions: { ...params?.fetchOptions, signal, throw: true },
         }) as Promise<TData>,
+      staleTime: 10 * 60 * 1000,
+      gcTime: 60 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      retry: false,
     }
   );
 

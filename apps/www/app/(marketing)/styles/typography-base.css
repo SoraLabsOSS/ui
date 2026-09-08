@@ -2598,6 +2598,7 @@
   }
 
   .home-layout .under-nav-bar__inner {
+    max-width: calc(var(--nav-bar-max-width-small) - 1em);
     padding-top: 0;
     margin-top: -0.125em;
   }

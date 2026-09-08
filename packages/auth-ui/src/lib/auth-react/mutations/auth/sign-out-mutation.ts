@@ -71,7 +71,9 @@ export function useSignOut<TAuthClient extends AuthClient>(
       ...signOutOptions(authClient),
       ...options,
       onSuccess: async (...args) => {
+        defaultQueryClient.setQueryData(authQueryKeys.session, null);
         defaultQueryClient.removeQueries({ queryKey: authQueryKeys.all });
+        defaultQueryClient.setQueryData(authQueryKeys.session, null);
         await options?.onSuccess?.(...args);
       },
     },

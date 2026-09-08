@@ -21,7 +21,12 @@ import { FetchOptionsProvider } from "./fetch-options-provider";
 const fallbackQueryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5000,
+      staleTime: 10 * 60 * 1000,
+      gcTime: 60 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      retry: false,
     },
   },
 });
