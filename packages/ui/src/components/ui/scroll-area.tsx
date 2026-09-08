@@ -26,6 +26,7 @@ function ScrollArea({
       {...props}
     >
       {children}
+      <ScrollBar orientation="vertical" />
       <ScrollAreaPrimitive.Corner data-slot="scroll-area-corner" />
     </ScrollAreaPrimitive.Root>
   );
@@ -56,7 +57,9 @@ function ScrollBar({
   return (
     <ScrollAreaPrimitive.Scrollbar
       className={cn(
-        "flex touch-none select-none transition-opacity duration-150 ease-out data-[state=hidden]:pointer-events-none data-[state=hidden]:opacity-0",
+        "group/scrollbar flex touch-none select-none transition-opacity duration-300 ease-out",
+        // Auto-hide when idle (not hovering scroll area and not actively scrolling)
+        "opacity-0 hover:opacity-100 data-hovering:opacity-100 data-scrolling:opacity-100",
         orientation === "vertical" && "h-full w-2.5 p-px",
         orientation === "horizontal" && "h-2.5 flex-col p-px",
         className
@@ -67,7 +70,7 @@ function ScrollBar({
       {...props}
     >
       <ScrollAreaPrimitive.Thumb
-        className="relative flex-1 rounded-full bg-border"
+        className="relative flex-1 rounded-full bg-fd-border transition-colors hover:bg-muted-foreground/60"
         data-slot="scroll-area-thumb"
       />
     </ScrollAreaPrimitive.Scrollbar>
