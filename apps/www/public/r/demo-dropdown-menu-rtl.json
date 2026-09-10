@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dropdown-menu-rtl",
+  "title": "Dropdown Menu RTL Demo",
+  "description": "Dropdown Menu rendered right-to-left with Base UI DirectionProvider.",
+  "registryDependencies": ["@soralabs/base-dropdown-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dropdown-menu-rtl/index.tsx",
+      "content": "\"use client\";\n\nimport { DirectionProvider } from \"@base-ui/react/direction-provider\";\nimport {\n  DropdownMenu,\n  DropdownMenuCheckboxItem,\n  DropdownMenuContent,\n  DropdownMenuItem,\n  DropdownMenuSeparator,\n  DropdownMenuSub,\n  DropdownMenuSubContent,\n  DropdownMenuSubTrigger,\n  DropdownMenuTrigger,\n} from \"@/components/sora-ui/base/dropdown-menu\";\n\nexport default function DropdownMenuRtlDemo() {\n  return (\n    <DirectionProvider direction=\"rtl\">\n      <div\n        className=\"flex w-full max-w-md items-center justify-center p-6\"\n        dir=\"rtl\"\n      >\n        <DropdownMenu>\n          <DropdownMenuTrigger className=\"inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-background px-4 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring\">\n            فتح القائمة\n          </DropdownMenuTrigger>\n          <DropdownMenuContent align=\"end\" className=\"w-52\" dir=\"rtl\">\n            <DropdownMenuItem>الملف الشخصي</DropdownMenuItem>\n            <DropdownMenuItem>الإعدادات</DropdownMenuItem>\n            <DropdownMenuSeparator />\n            <DropdownMenuSub>\n              <DropdownMenuSubTrigger>\n                المزيد من الخيارات\n              </DropdownMenuSubTrigger>\n              <DropdownMenuSubContent className=\"w-48\" dir=\"rtl\">\n                <DropdownMenuItem>أدوات المطور</DropdownMenuItem>\n                <DropdownMenuItem>حفظ باسم</DropdownMenuItem>\n              </DropdownMenuSubContent>\n            </DropdownMenuSub>\n            <DropdownMenuSeparator />\n            <DropdownMenuCheckboxItem checked>\n              إظهار شريط الإشارات\n            </DropdownMenuCheckboxItem>\n            <DropdownMenuItem variant=\"destructive\">\n              حذف الحساب\n            </DropdownMenuItem>\n          </DropdownMenuContent>\n        </DropdownMenu>\n      </div>\n    </DirectionProvider>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dropdown-menu-rtl.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

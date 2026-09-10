@@ -18,6 +18,7 @@ export interface DocsShellNavItemProps {
   itemKey?: string;
   label: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  showConnector?: boolean;
 }
 
 export const DocsShellNavItem = memo(function DocsShellNavItem({
@@ -26,6 +27,7 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
   label,
   isActive,
   isNew,
+  showConnector = true,
   external = false,
   className,
   onClick,
@@ -68,15 +70,19 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
         />
       )}
 
-      <motion.span
-        animate={{ width: indicatorWidth }}
-        className="pointer-events-none absolute top-1/2 left-0 z-0 h-px -translate-y-1/2 bg-foreground/50"
-        initial={false}
-        transition={{ type: "spring", stiffness: 600, damping: 30 }}
-      />
-      <motion.span className="pointer-events-none absolute top-1/4 left-0 z-0 h-px w-[13px] bg-foreground/30" />
-      <motion.span className="pointer-events-none absolute top-0 left-0 z-0 h-px w-[16px] bg-foreground/30" />
-      <motion.span className="pointer-events-none absolute top-3/4 left-0 z-0 h-px w-[13px] bg-foreground/30" />
+      {showConnector && (
+        <>
+          <motion.span
+            animate={{ width: indicatorWidth }}
+            className="pointer-events-none absolute top-1/2 left-0 z-0 h-px -translate-y-1/2 bg-foreground/50"
+            initial={false}
+            transition={{ type: "spring", stiffness: 600, damping: 30 }}
+          />
+          <motion.span className="pointer-events-none absolute top-1/4 left-0 z-0 h-px w-[13px] bg-foreground/30" />
+          <motion.span className="pointer-events-none absolute top-0 left-0 z-0 h-px w-[16px] bg-foreground/30" />
+          <motion.span className="pointer-events-none absolute top-3/4 left-0 z-0 h-px w-[13px] bg-foreground/30" />
+        </>
+      )}
 
       <motion.div
         animate={{ opacity, x }}

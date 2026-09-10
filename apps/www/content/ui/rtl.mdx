@@ -1,0 +1,207 @@
+---
+title: RTL
+description: Configure right-to-left layouts and migrate Sora UI components for Arabic, Hebrew, Persian, and other RTL languages.
+---
+
+import { CodeTabs } from "@/components/docs/code-tabs";
+
+Sora UI follows the RTL workflow introduced by
+[shadcn/ui](https://ui.shadcn.com/docs/rtl). The setup below covers Next.js,
+Vite, and TanStack Start.
+
+## Create a project
+
+Choose the template for your framework:
+
+<CodeTabs
+  codes={{
+    pnpm: `pnpm dlx shadcn@latest create --template next --rtl
+pnpm dlx shadcn@latest create --template vite --rtl
+pnpm dlx shadcn@latest create --template start --rtl`,
+    npm: `npx shadcn@latest create --template next --rtl
+npx shadcn@latest create --template vite --rtl
+npx shadcn@latest create --template start --rtl`,
+    yarn: `yarn dlx shadcn@latest create --template next --rtl
+yarn dlx shadcn@latest create --template vite --rtl
+yarn dlx shadcn@latest create --template start --rtl`,
+    bun: `bunx --bun shadcn@latest create --template next --rtl
+bunx --bun shadcn@latest create --template vite --rtl
+bunx --bun shadcn@latest create --template start --rtl`,
+  }}
+/>
+
+This creates a `components.json` file with the `rtl: true` flag.
+
+## Existing projects
+
+Add `rtl: true` to `components.json` to enable RTL-aware component generation
+and migration:
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "rtl": true
+}
+```
+
+For an existing project, migrate components incrementally with the shadcn CLI:
+
+<CodeTabs
+  codes={{
+    pnpm: "pnpm dlx shadcn@latest migrate rtl",
+    npm: "npx shadcn@latest migrate rtl",
+    yarn: "yarn dlx shadcn@latest migrate rtl",
+    bun: "bunx --bun shadcn@latest migrate rtl",
+  }}
+/>
+
+Limit the migration to a file or directory:
+
+<CodeTabs
+  codes={{
+    pnpm: "pnpm dlx shadcn@latest migrate rtl src/components/ui",
+    npm: "npx shadcn@latest migrate rtl src/components/ui",
+    yarn: "yarn dlx shadcn@latest migrate rtl src/components/ui",
+    bun: "bunx --bun shadcn@latest migrate rtl src/components/ui",
+  }}
+/>
+
+The migration converts physical properties to logical equivalents such as
+`ml-*` to `ms-*`, `left-*` to `start-*`, and `side="right"` to
+`side="inline-end"`.
+
+## Runtime direction
+
+`rtl: true` configures the CLI but does not change the browser direction.
+Your application must set both the document `dir` attribute and the
+Base UI `DirectionProvider`:
+
+```tsx
+import { DirectionProvider } from "@base-ui/react/direction-provider";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <DirectionProvider direction="rtl">
+      <div dir="rtl">{children}</div>
+    </DirectionProvider>
+  );
+}
+```
+
+Use `lang="ar"` for Arabic, `lang="he"` for Hebrew, `lang="fa"` for Persian,
+or the appropriate locale for your application.
+
+## Next.js
+
+In an App Router project, configure the root layout:
+
+```tsx title="app/layout.tsx"
+import { Noto_Sans_Arabic } from "next/font/google";
+import { DirectionProvider } from "@base-ui/react/direction-provider";
+
+const fontSans = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-sans",
+});
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ar" dir="rtl" className={fontSans.variable}>
+      <body>
+        <DirectionProvider direction="rtl">{children}</DirectionProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+## Vite
+
+Set the direction in `index.html` and provide the Base UI direction in
+`src/main.tsx`:
+
+```html title="index.html"
+<html lang="ar" dir="rtl">
+```
+
+```tsx title="src/main.tsx"
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { DirectionProvider } from "@base-ui/react/direction-provider";
+import App from "./App";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <DirectionProvider direction="rtl">
+      <App />
+    </DirectionProvider>
+  </StrictMode>
+);
+```
+
+Install an Arabic font with your package manager and import it in
+`src/index.css`:
+
+<CodeTabs
+  codes={{
+    pnpm: "pnpm add @fontsource-variable/noto-sans-arabic",
+    npm: "npm install @fontsource-variable/noto-sans-arabic",
+    yarn: "yarn add @fontsource-variable/noto-sans-arabic",
+    bun: "bun add @fontsource-variable/noto-sans-arabic",
+  }}
+/>
+
+```css title="src/index.css"
+@import "@fontsource-variable/noto-sans-arabic";
+
+@theme inline {
+  --font-sans: "Noto Sans Arabic Variable", sans-serif;
+}
+```
+
+## TanStack Start
+
+Set `dir="rtl"` and `lang="ar"` on the root document and wrap the app in
+`src/routes/__root.tsx`:
+
+```tsx title="src/routes/__root.tsx"
+import { DirectionProvider } from "@base-ui/react/direction-provider";
+
+function RootComponent() {
+  return (
+    <html lang="ar" dir="rtl">
+      <head>
+        <Meta />
+      </head>
+      <body>
+        <DirectionProvider direction="rtl">
+          {children}
+        </DirectionProvider>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+```
+
+For Arabic fonts, install `@fontsource-variable/noto-sans-arabic` and import
+it in your stylesheet. For Hebrew, use the corresponding Hebrew font package.
+
+## Component support
+
+RTL support is being rolled out progressively across the Sora UI registry.
+The goal is to make every component work correctly in RTL layouts, including
+popup placement, directional icons, keyboard navigation, and horizontal
+animations.
+
+Until the migration is complete, review each component's documentation and
+test it in both LTR and RTL contexts before shipping. Components that use
+direction-sensitive positioning or animation may require the
+`DirectionProvider`, logical CSS utilities, and an explicit `dir` attribute.

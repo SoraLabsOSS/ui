@@ -6,6 +6,7 @@
   "pages": [
     "---Overview---",
     "roadmap",
+    "rtl",
     "---Base UI---",
     "base/accordion",
     "base/alert-dialog",

@@ -337,6 +337,7 @@ export function SidebarPageTree(props: {
               isActive={getIsActive(pathname, folderIndex.url)}
               label={folderIndex.name ?? item.name}
               onClick={onNavigate}
+              showConnector={false}
             />
           ) : null}
           {children}
@@ -344,7 +345,7 @@ export function SidebarPageTree(props: {
       );
     }
 
-    function renderPage(item: PageTree.Item, key: string) {
+    function renderPage(item: PageTree.Item, key: string, level: number) {
       if (Item) {
         return <Item item={item} key={key} />;
       }
@@ -361,6 +362,7 @@ export function SidebarPageTree(props: {
           key={key}
           label={getNavItemLabel(item)}
           onClick={onNavigate}
+          showConnector={level === 1}
         />
       );
     }
@@ -378,7 +380,7 @@ export function SidebarPageTree(props: {
         if (item.type === "folder") {
           return renderFolder(item, key, level, parentKey);
         }
-        return renderPage(item, key);
+        return renderPage(item, key, level);
       });
     }
 

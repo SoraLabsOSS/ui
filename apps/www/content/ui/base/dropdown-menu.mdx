@@ -63,6 +63,48 @@ export default function Page() {
 }
 ```
 
+## RTL
+
+<ComponentPreview name="demo-dropdown-menu-rtl" description="The same dropdown menu pattern rendered right-to-left with Base UI DirectionProvider." />
+
+Use Base UI's `DirectionProvider` together with `dir="rtl"` on the demo
+container to render the menu from right to left. The provider keeps popup
+positioning and keyboard navigation aware of the text direction.
+
+```tsx
+import { DirectionProvider } from "@base-ui/react/direction-provider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/sora-ui/base/dropdown-menu";
+
+export default function RtlDropdownMenu() {
+  return (
+    <DirectionProvider direction="rtl">
+      <div dir="rtl">
+        <DropdownMenu>
+          <DropdownMenuTrigger>فتح القائمة</DropdownMenuTrigger>
+          <DropdownMenuContent align="end" dir="rtl">
+            <DropdownMenuItem>الملف الشخصي</DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>المزيد من الخيارات</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent dir="rtl">
+                <DropdownMenuItem>أدوات المطور</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </DirectionProvider>
+  );
+}
+```
+
 ## Props
 
 ### DropdownMenu

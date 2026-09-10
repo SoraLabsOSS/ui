@@ -1,5 +1,6 @@
 "use client";
 
+import { useDirection } from "@base-ui/react/direction-provider";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
@@ -375,7 +376,7 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="cn-rtl-flip ml-auto size-4 text-muted-foreground" />
+      <ChevronRightIcon className="ms-auto size-4 text-muted-foreground rtl:rotate-180" />
     </MenuPrimitive.SubmenuTrigger>
   );
 }
@@ -415,7 +416,7 @@ function DropdownMenuSubContent({
   positionerClassName,
   align = "start",
   alignOffset = -4,
-  side = "right",
+  side = "inline-end",
   sideOffset = 0,
   anchor,
   arrowPadding,
@@ -431,9 +432,11 @@ function DropdownMenuSubContent({
   ...props
 }: DropdownMenuSubContentProps) {
   const context = useDropdownMenuSubContext();
+  const direction = useDirection();
   const prefersReducedMotion = useReducedMotion();
   const isOpen = context ? context.open : true;
   const shouldAnimate = !(disableAnimation || prefersReducedMotion);
+  const slideOffset = direction === "rtl" ? 10 : -10;
 
   return (
     <AnimatePresence>
@@ -468,7 +471,7 @@ function DropdownMenuSubContent({
                       shouldAnimate
                         ? {
                             opacity: 0,
-                            x: -10,
+                            x: slideOffset,
                             transition: {
                               duration: 0.1,
                             },
@@ -476,7 +479,9 @@ function DropdownMenuSubContent({
                         : { opacity: 0 }
                     }
                     initial={
-                      shouldAnimate ? { opacity: 0, x: -10 } : { opacity: 0 }
+                      shouldAnimate
+                        ? { opacity: 0, x: slideOffset }
+                        : { opacity: 0 }
                     }
                     style={{ ...style }}
                     transition={

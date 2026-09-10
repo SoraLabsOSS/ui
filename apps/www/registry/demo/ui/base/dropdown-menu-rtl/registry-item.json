@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-dropdown-menu-rtl",
+  "type": "registry:ui",
+  "title": "Dropdown Menu RTL Demo",
+  "description": "Dropdown Menu rendered right-to-left with Base UI DirectionProvider.",
+  "registryDependencies": ["@soralabs/base-dropdown-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/dropdown-menu-rtl/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/dropdown-menu-rtl.tsx"
+    }
+  ]
+}
