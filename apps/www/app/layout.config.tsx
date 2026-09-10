@@ -64,6 +64,16 @@ export const baseOptions: BaseLayoutProps = {
       secondary: false,
     },
     {
+      text: "About",
+      url: "/docs/about",
+      secondary: false,
+    },
+    {
+      text: "Architecture",
+      url: "/docs/architecture",
+      secondary: false,
+    },
+    {
       text: "License",
       url: "/docs/license",
       secondary: false,

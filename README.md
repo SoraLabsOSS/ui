@@ -62,6 +62,12 @@ Visit our [contributing guide](./CONTRIBUTING.md) to learn how to contribute.
 This project follows a Code of Conduct to help create a welcoming community.
 Please read [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before contributing.
 
+## Credits & Attribution
+
+Sora UI is a fork of [Animate UI](https://github.com/animate-ui/animate-ui) by [Skyleen](https://skyleen.dev) ([@imskyleen](https://x.com/imskyleen)). The architecture, registry system, component APIs, and motion primitives have been substantially redesigned. Some internal patterns and abstractions remain influenced by the original codebase.
+
+Historical upstream material is attributed and licensed according to its original terms. See [`LICENSE.md`](./LICENSE.md) for the full legal text.
+
 ## License
 
 Licensed under the [MIT license](./LICENSE.md).

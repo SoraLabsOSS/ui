@@ -1,6 +1,13 @@
 MIT + Commons Clause License Condition
 
-Copyright (c) 2026 Alexsandr Senaviev
+Portions of this software are derived from Animate UI (https://github.com/animate-ui/animate-ui),
+Copyright (c) 2025 Elliot Sutton. Used under the MIT + Commons Clause License.
+
+Copyright (c) 2026 Alexsandr Senaviev (Sora UI — https://github.com/SoraLabsOSS/ui)
+
+Sora UI is a fork of Animate UI. The architecture, registry system, component APIs,
+and motion primitives have been substantially redesigned. Historical upstream patterns
+remain attributed here in accordance with the original license terms.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

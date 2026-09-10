@@ -1,0 +1,85 @@
+---
+title: Architecture
+description: How Sora UI is structured, what was inherited from Animate UI, and what is new.
+---
+
+Sora UI [started as a fork of Animate UI](/docs/about). This page documents what the project actually inherited from upstream and what is new.
+
+## What was inherited from Animate UI
+
+Sora UI inherited the **project structure and documentation infrastructure** — not component implementations:
+
+- Turborepo monorepo layout
+- Fumadocs-based docs site architecture
+- shadcn-style registry schema and copy-paste distribution model
+- Registry folder conventions (`primitives/`, `demo/`, `hooks/`, `lib/`)
+- `source.config.ts` and MDX content pipeline patterns
+
+No registry component code was carried over from Animate UI. All components in `registry/primitives/` and `registry/ui/` were independently built, reimplemented, or inspired by other sources (credited per-component in `## Credits` sections where applicable).
+
+## Monorepo structure
+
+**Animate UI** ships one app and three packages:
+
+```
+apps/www               — docs + registry site
+packages/
+  eslint-config
+  typescript-config
+  ui
+```
+
+**Sora UI** expanded the monorepo substantially:
+
+```
+apps/
+  www                  — docs + registry site (structure inherited, contents new)
+  xmcp                 — MCP server (new)
+packages/
+  ui                   — shared utilities (extended)
+  auth-ui              — better-auth UI wiring (new)
+  db                   — Drizzle ORM schema + client (new)
+  www-cli              — internal contributor scaffolding CLI (new)
+  typescript-config    — inherited
+```
+
+## Registry structure
+
+Animate UI's registry is organized as a flat set of primitive categories.
+
+Sora UI restructured it into three explicit tiers:
+
+```
+registry/
+  primitives/            — Motion tier (animation building blocks)
+    animate/   buttons/  effects/   texts/   disclosure/
+  ui/                    — UI tier (new — does not exist in Animate UI)
+    base/      radix/
+  demo/
+  hooks/       lib/      icons/
+```
+
+The **UI tier** (`registry/ui/`) has no equivalent in Animate UI.
+
+## Component origins
+
+All components in the Sora registry were independently built. Where a component was inspired by or reimplemented from an external source, that source is credited in the component's doc page under `## Credits`.
+
+None of the component implementations were copied from Animate UI.
+
+## New infrastructure
+
+| | |
+|---|---|
+| `apps/xmcp` — MCP server | New |
+| `packages/auth-ui` — better-auth integration | New |
+| `packages/db` — Drizzle ORM schema | New |
+| `packages/www-cli` — contributor scaffolding CLI | New |
+| Auth, bookmarks, session | New |
+| Blog with RSS | New |
+| Catalog tier | New |
+| `bun run doctor` audit command | New |
+
+## What remained from upstream
+
+The copy-paste distribution model, shadcn registry schema, Fumadocs docs site structure, and monorepo conventions trace back to Animate UI. The upstream copyright notice is in the [License](/docs/license).

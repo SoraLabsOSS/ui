@@ -1,3 +1,12 @@
 {
-  "pages": ["---Guide---", "changelog", "cli", "license", "motion", "icons"]
+  "pages": [
+    "---Guide---",
+    "about",
+    "architecture",
+    "changelog",
+    "cli",
+    "license",
+    "motion",
+    "icons"
+  ]
 }
