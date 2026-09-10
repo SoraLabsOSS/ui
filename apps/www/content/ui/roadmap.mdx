@@ -10,7 +10,7 @@ author:
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { CodeTabs } from '@/components/docs/code-tabs';
 
-The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Comprehensive RTL (Right-to-Left) Support** across all existing registries, expanding into **Radix UI**, and growing into other headless libraries and multi-framework ecosystems.
+The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Comprehensive RTL (Right-to-Left) Support** across all existing registries, expanding into **Agent-Native Semantic Composition Enrichment**, scaling the **Radix UI** suite, and growing into other headless libraries and multi-framework ecosystems.
 
 <RoadmapTimeline />
 
@@ -57,7 +57,19 @@ Comprehensive Right-to-Left (RTL) internationalization is our immediate next foc
 </Step>
 <Step>
 
-### Phase 3: Radix UI Suite Expansion
+### Phase 3: Agent-Native UI & Semantic Composition Enrichment (Post-RTL Priority)
+
+Following our RTL rollout, we are prioritizing transforming the UI registry content into a high-density, agent-grounded knowledge base. This equips AI coding assistants (via Sora MCP and agent tools) with deep semantic context rather than just raw JSX strings:
+
+- **Structured Agent Frontmatter**: Enriching all component MDX pages with machine-readable metadata (`intent`, `role`, `a11yConstraints`, `motionEngine`, `compositionRules`).
+- **Multi-Primitive Composition Recipes**: Documenting explicit multi-component compositions (e.g., nesting Base UI Dialog + Form + Spring Button + Presence) so AI models can orchestrate layouts without hallucinations.
+- **Base UI Integration Guardrails**: Concrete pattern documentation for LLMs (e.g. enforcing Base UI's `render={<Component />}` pattern over legacy Radix `asChild`, focus trap synchronization, and ESC handlers).
+- **Automated Composition Validation**: Semantic heuristics in MCP tools to allow agents to verify layout compatibility, reduced-motion fallbacks, and class conflict prevention.
+
+</Step>
+<Step>
+
+### Phase 4: Radix UI Suite Expansion
 
 Our Radix UI tier infuses [Radix Primitives](https://www.radix-ui.com/primitives) with Sora Motion spring dynamics and layout orchestration:
 
@@ -67,7 +79,7 @@ Our Radix UI tier infuses [Radix Primitives](https://www.radix-ui.com/primitives
 </Step>
 <Step>
 
-### Phase 4: Other Headless UI Libraries (Future Planning)
+### Phase 5: Other Headless UI Libraries (Future Planning)
 
 To provide universal flexibility across different architecture requirements:
 
@@ -78,7 +90,7 @@ To provide universal flexibility across different architecture requirements:
 </Step>
 <Step>
 
-### Phase 5: Cross-Platform & Ecosystem Expansion
+### Phase 6: Cross-Platform & Ecosystem Expansion
 
 - **Vue 3**: Official component ports using Motion for Vue.
 - **Vanilla JavaScript**: Web components and framework-agnostic wrappers.

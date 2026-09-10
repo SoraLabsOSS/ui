@@ -102,7 +102,7 @@ export function Footer() {
                 {/* Sora UI Registry Banner Card (rounded-[2.5rem]) */}
                 <div className="footer-form__col w-full max-w-full! lg:max-w-[35.1875em]!">
                   <Link
-                    className="nav-banner group w-full w-inline-block"
+                    className="nav-banner group w-full w-inline-block border border-neutral-300/40 bg-neutral-900 text-white dark:border-neutral-800 dark:bg-neutral-900/90 dark:text-neutral-100"
                     href="/ui"
                     style={{ borderRadius: "2.5rem" }}
                   >
@@ -117,19 +117,25 @@ export function Footer() {
                             className="button-bg"
                             data-wf--button-theme--variant="neutral-800"
                           />
-                          <span className="is--relative eyebrow">Animated</span>
+                          <span className="is--relative eyebrow text-neutral-200">
+                            Animated
+                          </span>
                         </div>
                         <div className="tag" data-shape="round" data-theme="">
                           <div
                             className="button-bg"
                             data-wf--button-theme--variant="coral"
                           />
-                          <span className="is--relative eyebrow">React UI</span>
+                          <span className="is--relative eyebrow text-white">
+                            React UI
+                          </span>
                         </div>
                       </div>
                       <div className="nav-banner__center-content flex flex-1 flex-col items-center justify-end">
                         <div className="nav-banner__title text-center">
-                          <h2 className="h-m text-white">Sora UI Registry</h2>
+                          <h2 className="h-m text-white dark:text-neutral-100">
+                            Sora UI Registry
+                          </h2>
                         </div>
                         <div className="nav-banner__btn flex justify-center pt-5">
                           <span
