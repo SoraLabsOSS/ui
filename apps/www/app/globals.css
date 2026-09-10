@@ -401,8 +401,14 @@
     min-height: 100dvh;
   }
 
-  #nd-sidebar {
-    @apply md:!border-0;
+  @variant md {
+    #nd-sidebar {
+      width: calc(
+        var(--fd-sidebar-width, 260px) +
+        var(--fd-layout-offset, 0px)
+      ) !important;
+      @apply md:!border-0;
+    }
   }
 
   #nd-sidebar div div div a[href^="/docs/components"] > svg[data-icon="true"],
