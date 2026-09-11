@@ -181,7 +181,7 @@ export function Footer() {
                     >
                       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
                       <div
-                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
+                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                         data-accordion-toggle=""
                         data-hover=""
                         onClick={() => toggleAccordion("components")}
@@ -267,7 +267,7 @@ export function Footer() {
                     >
                       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
                       <div
-                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
+                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                         data-accordion-toggle=""
                         data-hover=""
                         onClick={() => toggleAccordion("documentation")}
@@ -342,7 +342,7 @@ export function Footer() {
                     >
                       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
                       <div
-                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
+                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                         data-accordion-toggle=""
                         data-hover=""
                         onClick={() => toggleAccordion("community")}
