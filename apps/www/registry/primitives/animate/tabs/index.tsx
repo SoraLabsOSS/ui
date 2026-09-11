@@ -115,7 +115,9 @@ function Tabs({
   );
 }
 
-type TabsHighlightProps = Omit<HighlightProps, "value">;
+type TabsHighlightProps = Omit<HighlightProps, "value"> & {
+  containerClassName?: string;
+};
 
 function TabsHighlight({
   transition = { type: "spring", stiffness: 200, damping: 25 },

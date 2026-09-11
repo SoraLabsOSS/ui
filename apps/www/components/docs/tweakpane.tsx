@@ -331,7 +331,7 @@ const renderFlatBinds = (
   binds: FlatBinds,
   onBindsChange: (binds: FlatBinds) => void
 ): React.ReactNode => (
-  <div className="grid grid-cols-1 gap-x-3 gap-y-2.5 rounded-md py-1.5 pr-1 pl-1.5 md:grid-cols-2 lg:grid-cols-3 [&>div]:min-w-0">
+  <div className="grid grid-cols-1 gap-x-4 gap-y-3 rounded-md py-1.5 pr-1 pl-1.5 md:grid-cols-2 [&>div]:min-w-0">
     {Object.entries(binds).map(([key, bind]) => (
       <React.Fragment key={key}>
         {renderBind(key, bind, (value) =>

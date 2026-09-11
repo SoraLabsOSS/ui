@@ -1,31 +1,36 @@
 "use client";
 
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
+import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { Loader } from "lucide-react";
+import { Fullscreen, Loader } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { index } from "@/__registry__";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
+import { RefreshButton } from "@/components/docs/refresh";
 import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
-import {
-  Tabs,
-  TabsContent,
-  TabsContents,
-  TabsList,
-  TabsTrigger,
-} from "@/components/radix/tabs";
 import {
   extractPropsForCodegen,
   generateUsageExampleCode,
   installImportPathFromTarget,
 } from "@/lib/docs/generate-usage-example-code";
+import {
+  Tabs,
+  TabsContent,
+  TabsContents,
+  TabsHighlight,
+  TabsHighlightItem,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/primitives/animate/tabs";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
   /** Registry demo item for the Code tab (defaults to `demo-{name}` when present). */
   demo?: string;
-  /** Short description rendered above the preview — always visible to crawlers, not inside Suspense. */
+  /** Short description rendered below the preview frame. */
   description?: string;
   iframe?: boolean;
   name: string;
@@ -96,25 +101,25 @@ function isManualUsageDemo(entry: RegistryIndexEntry | undefined): boolean {
   return Boolean(entry?.component && entry.files?.[0]?.content);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function flattenFirstLevel<T>(input: Record<string, any>): T {
-  return Object.values(input).reduce(
-    (acc, current) => ({ ...acc, ...current }),
-    {} as T
-  );
+function flattenFirstLevel<T>(input: Record<string, unknown>): T {
+  const result: Record<string, unknown> = {};
+  for (const current of Object.values(input)) {
+    if (typeof current === "object" && current !== null) {
+      Object.assign(result, current);
+    }
+  }
+  return result as T;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function unwrapValues(obj: Record<string, any>): Record<string, any> {
+function unwrapValues(obj: Record<string, unknown>): Record<string, unknown> {
   if (obj !== null && typeof obj === "object" && !Array.isArray(obj)) {
     if ("value" in obj) {
-      return obj.value;
+      return obj.value as Record<string, unknown>;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: Record<string, any> = {};
+    const result: Record<string, unknown> = {};
     for (const key in obj) {
       if (Object.hasOwn(obj, key)) {
-        result[key] = unwrapValues(obj[key]);
+        result[key] = unwrapValues(obj[key] as Record<string, unknown>);
       }
     }
     return result;
@@ -232,79 +237,215 @@ export function ComponentPreview({
 
   return (
     <div
-      className={cn(
-        "not-prose relative my-4 flex flex-col space-y-2 lg:max-w-[120ch]",
-        className
-      )}
-      id="component-preview"
+      className={cn("not-prose my-4 w-full lg:max-w-[120ch]", className)}
       {...props}
     >
-      <Tabs className="relative mr-auto w-full" defaultValue="preview">
-        <div
-          className="flex items-center justify-between pb-2"
-          id="component-preview-tab-list"
-        >
-          <TabsList>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
-          </TabsList>
-        </div>
-
-        <TabsContents>
-          <TabsContent
-            animate={{ opacity: 1 }}
-            className="relative h-full rounded-md"
-            exit={{ opacity: 0 }}
-            initial={{ opacity: 0 }}
-            value="preview"
+      <div
+        className="relative overflow-hidden rounded-2xl border border-border/50"
+        id="component-preview"
+      >
+        <Tabs className="w-full gap-0" defaultValue="preview">
+          <div
+            className="flex h-11 items-center justify-between border-border/50 border-b px-3"
+            id="component-preview-tab-list"
           >
-            <div className="flex flex-col gap-3">
-              {description ? (
-                <p className="text-muted-foreground text-sm">{description}</p>
-              ) : null}
-              <ComponentWrapper
-                bigScreen={bigScreen}
-                iframe={iframe}
-                name={name}
-                previewKey={previewKey}
+            <TabsList className="flex items-center gap-0.5">
+              <TabsHighlight
+                className="h-full rounded-md bg-muted"
+                containerClassName="flex"
+                mode="parent"
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
-                <Suspense
-                  fallback={
-                    <div className="flex items-center text-muted-foreground text-sm">
-                      <Loader className="mr-2 size-4 animate-spin" />
-                      Loading...
-                    </div>
-                  }
-                >
-                  {preview}
-                </Suspense>
-              </ComponentWrapper>
-              {binds ? (
-                <div className="rounded-xl bg-accent px-1.5 py-2">
-                  <Tweakpane binds={binds} onBindsChange={setBinds} />
+                <TabsHighlightItem value="preview">
+                  <TabsTrigger
+                    className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                    value="preview"
+                  >
+                    Preview
+                  </TabsTrigger>
+                </TabsHighlightItem>
+                {displayCode ? (
+                  <TabsHighlightItem value="code">
+                    <TabsTrigger
+                      className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                      value="code"
+                    >
+                      Code
+                    </TabsTrigger>
+                  </TabsHighlightItem>
+                ) : null}
+              </TabsHighlight>
+            </TabsList>
+          </div>
+
+          <TabsContents>
+            <TabsContent
+              animate={{ opacity: 1 }}
+              className="relative h-full"
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              value="preview"
+            >
+              <div className="relative">
+                {/* top actions */}
+                <div className="absolute top-0 right-6 z-10 flex h-12 items-center justify-end gap-1.5 px-2">
+                  <RefreshButton
+                    onRefresh={() => setPreviewKey((prev) => prev + 1)}
+                  />
+
+                  {iframe ? (
+                    <Button
+                      asChild
+                      className="flex items-center rounded-lg"
+                      size="icon-sm"
+                      variant="neutral"
+                    >
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Fullscreen aria-label="fullscreen-btn" size={14} />
+                      </motion.button>
+                    </Button>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-          </TabsContent>
-          <TabsContent
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            initial={{ opacity: 0 }}
-            value="code"
-          >
-            <div className="flex flex-col space-y-4">
-              <div className="w-full rounded-md [&_[data-slot=codeblock-viewport]]:max-h-[450px] [&_figure]:my-0 [&_pre]:my-0">
-                <DynamicCodeBlock
-                  code={displayCode ?? undefined}
-                  icon={<ReactIcon />}
-                  lang="tsx"
-                  title={usageCodeMeta.title}
-                />
+
+                {/* top dashed */}
+                <svg
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-12 left-0 h-px w-full"
+                >
+                  <line
+                    className="text-border"
+                    stroke="currentColor"
+                    strokeDasharray="8 4"
+                    strokeWidth="1"
+                    x1="0"
+                    x2="100%"
+                    y1="0"
+                    y2="0"
+                  />
+                </svg>
+                {/* left dashed */}
+                <svg
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-0 left-6 h-full w-px"
+                >
+                  <line
+                    className="text-border"
+                    stroke="currentColor"
+                    strokeDasharray="8 4"
+                    strokeWidth="1"
+                    x1="0"
+                    x2="0"
+                    y1="0"
+                    y2="100%"
+                  />
+                </svg>
+                {/* right dashed */}
+                <svg
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-0 right-6 h-full w-px"
+                >
+                  <line
+                    className="text-border"
+                    stroke="currentColor"
+                    strokeDasharray="8 4"
+                    strokeWidth="1"
+                    x1="0"
+                    x2="0"
+                    y1="0"
+                    y2="100%"
+                  />
+                </svg>
+
+                {/* preview area */}
+                <div className="px-6 pt-12 pb-6">
+                  <ComponentWrapper
+                    bigScreen={bigScreen}
+                    iframe={iframe}
+                    key={previewKey}
+                    name={name}
+                  >
+                    <Suspense
+                      fallback={
+                        <div className="flex items-center text-muted-foreground text-sm">
+                          <Loader className="mr-2 size-4 animate-spin" />
+                          Loading...
+                        </div>
+                      }
+                    >
+                      {preview}
+                    </Suspense>
+                  </ComponentWrapper>
+                </div>
+
+                {/* bottom dashed separator */}
+                <svg aria-hidden="true" className="block h-px w-full">
+                  <line
+                    className="text-border"
+                    stroke="currentColor"
+                    strokeDasharray="8 4"
+                    strokeWidth="1"
+                    x1="0"
+                    x2="100%"
+                    y1="0"
+                    y2="0"
+                  />
+                </svg>
+
+                {/* tweakpane — shown below the separator when props exist */}
+                <AnimatePresence>
+                  {binds ? (
+                    <motion.div
+                      animate={{ opacity: 1, height: "auto" }}
+                      className="overflow-hidden"
+                      exit={{ opacity: 0, height: 0 }}
+                      initial={{ opacity: 0, height: 0 }}
+                      key="tweakpane"
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 20,
+                      }}
+                    >
+                      <div className="w-full px-4.5 py-4">
+                        <Tweakpane binds={binds} onBindsChange={setBinds} />
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </div>
-            </div>
-          </TabsContent>
-        </TabsContents>
-      </Tabs>
+            </TabsContent>
+
+            {displayCode ? (
+              <TabsContent
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                value="code"
+              >
+                <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_pre]:max-h-[500px] [&_pre]:overflow-auto">
+                  <DynamicCodeBlock
+                    code={displayCode}
+                    icon={<ReactIcon />}
+                    lang="tsx"
+                    title={usageCodeMeta.title}
+                  />
+                </div>
+              </TabsContent>
+            ) : null}
+          </TabsContents>
+        </Tabs>
+      </div>
+
+      {description ? (
+        <div className="flex items-center justify-center pt-3 text-center">
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {description}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

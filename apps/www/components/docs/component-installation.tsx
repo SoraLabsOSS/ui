@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import { index } from "@/__registry__";
@@ -7,9 +7,11 @@ import {
   Tabs,
   TabsContent,
   TabsContents,
+  TabsHighlight,
+  TabsHighlightItem,
   TabsList,
   TabsTrigger,
-} from "@/components/radix/tabs";
+} from "@/registry/primitives/animate/tabs";
 import { ComponentFileStructure } from "./component-file-structure";
 import { ComponentManualInstallation } from "./component-manual-installation";
 
@@ -30,10 +32,10 @@ export function ComponentInstallation({
   }
 
   const shadcnCommands = {
-    npm: `npx shadcn@latest add ${component.command}`,
-    pnpm: `pnpm dlx shadcn@latest add ${component.command}`,
-    yarn: `npx shadcn@latest add ${component.command}`,
-    bun: `bun x --bun shadcn@latest add ${component.command}`,
+    npm: `npx shadcn@latest add ${component?.command ?? name}`,
+    pnpm: `pnpm dlx shadcn@latest add ${component?.command ?? name}`,
+    yarn: `npx shadcn@latest add ${component?.command ?? name}`,
+    bun: `bun x --bun shadcn@latest add ${component?.command ?? name}`,
   };
 
   const soraCliCommands = {
@@ -44,28 +46,55 @@ export function ComponentInstallation({
   };
 
   return (
-    <div
-      className={cn(
-        "relative mt-2 flex flex-col space-y-3 lg:max-w-[120ch]",
-        className
-      )}
-      {...props}
-    >
-      <Tabs className="relative mr-auto w-full" defaultValue="shadcn">
-        <TabsList>
-          <TabsTrigger value="shadcn">shadcn</TabsTrigger>
-          <TabsTrigger value="sora-cli">sora-cli</TabsTrigger>
-          <TabsTrigger value="manual">Manual</TabsTrigger>
-        </TabsList>
+    <div className={cn("relative my-4 lg:max-w-[120ch]", className)} {...props}>
+      <Tabs
+        className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
+        defaultValue="shadcn"
+      >
+        <div className="flex h-10 items-center border-border/50 border-b px-3">
+          <TabsList className="flex items-center gap-0.5">
+            <TabsHighlight
+              className="h-full rounded-md bg-accent"
+              containerClassName="relative isolate flex items-center gap-0.5"
+              mode="parent"
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            >
+              <TabsHighlightItem value="shadcn">
+                <TabsTrigger
+                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  value="shadcn"
+                >
+                  shadcn CLI
+                </TabsTrigger>
+              </TabsHighlightItem>
+              <TabsHighlightItem value="sora-cli">
+                <TabsTrigger
+                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  value="sora-cli"
+                >
+                  Sora CLI
+                </TabsTrigger>
+              </TabsHighlightItem>
+              <TabsHighlightItem value="manual">
+                <TabsTrigger
+                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  value="manual"
+                >
+                  Manual
+                </TabsTrigger>
+              </TabsHighlightItem>
+            </TabsHighlight>
+          </TabsList>
+        </div>
 
         <TabsContents>
-          <TabsContent value="shadcn">
-            <CodeTabs codes={shadcnCommands} />
+          <TabsContent className="p-1.5" value="sora-cli">
+            <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
           </TabsContent>
-          <TabsContent value="sora-cli">
-            <CodeTabs codes={soraCliCommands} />
+          <TabsContent className="p-1.5" value="shadcn">
+            <CodeTabs className="rounded-lg border-0" codes={shadcnCommands} />
           </TabsContent>
-          <TabsContent value="manual">
+          <TabsContent className="p-4" value="manual">
             <ComponentManualInstallation
               code={component.files?.[0]?.content}
               dependencies={component.dependencies}

@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  ScrollArea,
-  ScrollBar,
-  ScrollViewport,
-} from "@workspace/ui/components/ui/scroll-area";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
 import {
@@ -62,44 +57,50 @@ export const CodeBlock = ({
     }
 
     const clone = pre.cloneNode(true) as HTMLElement;
-    clone.querySelectorAll(".nd-copy-ignore").forEach((node) => {
+    for (const node of clone.querySelectorAll(".nd-copy-ignore")) {
       node.remove();
-    });
+    }
 
-    void navigator.clipboard.writeText(clone.textContent ?? "").then(() => {
+    navigator.clipboard.writeText(clone.textContent ?? "").then(() => {
       setIsCopied(true);
       onCopyEvent?.();
       setTimeout(() => setIsCopied(false), 3000);
     });
   }, [onCopyEvent]);
 
+  let iconNode: ReactNode = null;
+  if (typeof icon === "string") {
+    iconNode = (
+      <div
+        className="text-muted-foreground/70 [&_svg]:size-3.5"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: icon SVG markup
+        dangerouslySetInnerHTML={{ __html: icon }}
+      />
+    );
+  } else if (icon) {
+    iconNode = (
+      <div className="text-muted-foreground/70 [&_svg]:size-3.5">{icon}</div>
+    );
+  }
+
   return (
     <figure
       ref={ref}
       {...props}
       className={cn(
-        "not-prose group fd-codeblock [&.shiki]:!bg-accent relative my-6 overflow-hidden rounded-xl text-sm",
+        "not-prose group fd-codeblock relative mt-2 mb-8 overflow-hidden rounded-xl border border-border/60 text-sm",
         props.className
       )}
     >
       {title ? (
-        <div className="flex h-10 flex-row items-center gap-2 pr-4 pl-4">
-          {icon ? (
-            <div
-              className="text-muted-foreground [&_svg]:size-3.5"
-              dangerouslySetInnerHTML={
-                typeof icon === "string" ? { __html: icon } : undefined
-              }
-            >
-              {typeof icon === "string" ? null : icon}
-            </div>
-          ) : null}
-          <figcaption className="flex-1 truncate text-muted-foreground">
+        <div className="flex h-10 flex-row items-center gap-2 border-border/50 border-b pr-3 pl-4 backdrop-blur-sm">
+          {iconNode}
+          <figcaption className="flex-1 truncate font-medium font-mono text-muted-foreground text-xs">
             {title}
           </figcaption>
           {allowCopy ? (
             <CopyButton
-              className="-me-2 bg-transparent hover:bg-black/5 dark:hover:bg-white/10"
+              className="-me-1 bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
               isCopied={isCopied}
               onClick={onCopy}
               size="xs"
@@ -109,9 +110,9 @@ export const CodeBlock = ({
         </div>
       ) : (
         allowCopy && (
-          <div className="absolute top-0 right-0 z-[2] rounded-bl-xl bg-accent p-1.5">
+          <div className="absolute top-2 right-2 z-[2]">
             <CopyButton
-              className="bg-transparent hover:bg-black/5 dark:hover:bg-white/10"
+              className="border border-border/40 bg-accent/80 backdrop-blur-sm hover:bg-accent"
               isCopied={isCopied}
               onClick={onCopy}
               size="xs"
@@ -120,20 +121,18 @@ export const CodeBlock = ({
           </div>
         )
       )}
-      <div className={cn("p-1.5", title && "pt-0")}>
-        <ScrollArea dir="ltr" ref={areaRef}>
-          <ScrollViewport
-            {...viewportProps}
-            className={cn(
-              "[&_code]:!text-[13px] [&_code_.line]:!px-0 h-auto max-h-[600px] w-full rounded-md bg-background",
-              viewportProps?.className
-            )}
-            data-slot="codeblock-viewport"
-          >
-            {props.children}
-          </ScrollViewport>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+      <div className={cn("p-1.5", title && "pt-1.5")}>
+        <div
+          {...viewportProps}
+          className={cn(
+            "[&_code]:!text-[13px] [&_code_.line]:!px-0 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border max-h-[600px] overflow-x-auto overflow-y-scroll rounded-lg bg-surface [scrollbar-gutter:stable]",
+            viewportProps?.className
+          )}
+          data-slot="codeblock-viewport"
+          ref={areaRef}
+        >
+          {props.children}
+        </div>
       </div>
     </figure>
   );

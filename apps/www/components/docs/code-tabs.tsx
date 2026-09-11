@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useTheme } from "next-themes";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { CopyButton } from "@/components/docs/copy";
 import {
   Tabs,
@@ -14,6 +14,13 @@ import {
   type TabsProps,
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
+
+const PACKAGE_MANAGER_STORAGE_KEY = "sora-ui-package-manager";
+const PACKAGE_MANAGERS = ["npm", "pnpm", "yarn", "bun"] as const;
+type PackageManager = (typeof PACKAGE_MANAGERS)[number];
+
+const isPackageManager = (value: string): value is PackageManager =>
+  PACKAGE_MANAGERS.includes(value as PackageManager);
 
 type CodeTabsProps = {
   codes: Record<string, string>;
@@ -40,15 +47,63 @@ function CodeTabs({
 }: CodeTabsProps) {
   const { resolvedTheme } = useTheme();
 
-  const [highlightedCodes, setHighlightedCodes] = React.useState<Record<
+  const [highlightedCodes, setHighlightedCodes] = useState<Record<
     string,
     string
   > | null>(null);
-  const [selectedCode, setSelectedCode] = React.useState<string>(
+  const [selectedCode, setSelectedCode] = useState<string>(
     value ?? defaultValue ?? Object.keys(codes)[0] ?? ""
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (value !== undefined) {
+      return;
+    }
+
+    try {
+      const storedValue = window.localStorage.getItem(
+        PACKAGE_MANAGER_STORAGE_KEY
+      );
+      if (storedValue && storedValue in codes) {
+        setSelectedCode(storedValue);
+      }
+    } catch (error) {
+      console.error("Error reading package manager preference", error);
+    }
+  }, [codes, value]);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      return;
+    }
+
+    const handlePackageManagerChange = (event: Event) => {
+      const nextValue =
+        event instanceof StorageEvent
+          ? event.newValue
+          : (event as CustomEvent<string>).detail;
+
+      if (nextValue && nextValue in codes) {
+        setSelectedCode(nextValue);
+      }
+    };
+
+    window.addEventListener("storage", handlePackageManagerChange);
+    window.addEventListener(
+      "sora-ui-package-manager-change",
+      handlePackageManagerChange
+    );
+
+    return () => {
+      window.removeEventListener("storage", handlePackageManagerChange);
+      window.removeEventListener(
+        "sora-ui-package-manager-change",
+        handlePackageManagerChange
+      );
+    };
+  }, [codes, value]);
+
+  useEffect(() => {
     async function loadHighlightedCode() {
       try {
         const { codeToHtml } = await import("shiki");
@@ -79,56 +134,64 @@ function CodeTabs({
   return (
     <Tabs
       className={cn(
-        "w-full gap-0 overflow-hidden rounded-xl bg-accent",
+        "w-full gap-0 overflow-hidden rounded-xl border border-border/60",
         className
       )}
       data-slot="install-tabs"
       {...props}
       onValueChange={(val) => {
         setSelectedCode(val);
+        if (isPackageManager(val)) {
+          try {
+            window.localStorage.setItem(PACKAGE_MANAGER_STORAGE_KEY, val);
+            window.dispatchEvent(
+              new CustomEvent("sora-ui-package-manager-change", {
+                detail: val,
+              })
+            );
+          } catch (error) {
+            console.error("Error saving package manager preference", error);
+          }
+        }
         onValueChange?.(val);
       }}
       value={selectedCode}
     >
-      <TabsHighlight className="absolute inset-0 z-0 rounded-none bg-transparent shadow-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-t-full after:bg-black after:content-[''] dark:after:bg-white">
-        <TabsList
-          className="relative flex h-10 w-full items-center justify-between rounded-none py-0 pr-4.5 pl-5 text-current"
-          data-slot="install-tabs-list"
-        >
-          <div className="flex h-full gap-x-3">
-            {highlightedCodes &&
-              Object.keys(highlightedCodes).map((code) => (
-                <TabsHighlightItem
-                  className="flex items-center justify-center"
-                  key={code}
+      <div className="flex h-10 items-center justify-between border-border/50 border-b px-3">
+        <TabsList className="flex items-center gap-0.5">
+          <TabsHighlight
+            className="h-full rounded-md bg-muted"
+            containerClassName="flex items-center gap-0.5"
+            mode="parent"
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            {Object.keys(codes).map((code) => (
+              <TabsHighlightItem key={code} value={code}>
+                <TabsTrigger
+                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
                   value={code}
                 >
-                  <TabsTrigger
-                    className="h-full px-0 font-medium text-muted-foreground text-sm data-[state=active]:text-current"
-                    key={code}
-                    value={code}
-                  >
-                    {code}
-                  </TabsTrigger>
-                </TabsHighlightItem>
-              ))}
-          </div>
-
-          {copyButton && highlightedCodes && (
-            <CopyButton
-              className="-me-2.5 bg-transparent hover:bg-black/5 dark:hover:bg-white/10"
-              content={codes[selectedCode]}
-              onCopiedChange={onCopiedChange}
-              size="xs"
-              variant="ghost"
-            />
-          )}
+                  {code}
+                </TabsTrigger>
+              </TabsHighlightItem>
+            ))}
+          </TabsHighlight>
         </TabsList>
-      </TabsHighlight>
 
-      <div className="px-1.5 pb-1.5">
+        {copyButton && highlightedCodes && (
+          <CopyButton
+            className="-me-1 bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
+            content={codes[selectedCode]}
+            onCopiedChange={onCopiedChange}
+            size="xs"
+            variant="ghost"
+          />
+        )}
+      </div>
+
+      <div className="p-1.5">
         <TabsContents
-          className="rounded-md bg-background"
+          className="rounded-lg bg-surface"
           data-slot="install-tabs-contents"
         >
           {highlightedCodes &&
@@ -140,7 +203,8 @@ function CodeTabs({
                 value={code}
               >
                 <div
-                  className="[&_code]:!text-[13px] [&_code_.line]:!px-0 [&>pre,_&_code]:!bg-transparent w-full overflow-auto p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important] [&_code]:grid [&_code]:whitespace-pre [&_code_.line]:block [&_pre]:m-0 [&_pre]:w-full [&_pre]:whitespace-pre"
+                  className="[&>pre,_&_code]:!bg-transparent [&_code]:!text-[13px] [&_code_.line]:!px-0 flex w-full items-center overflow-auto p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
+                  // biome-ignore lint/security/noDangerouslySetInnerHtml: highlighted code HTML from shiki
                   dangerouslySetInnerHTML={{ __html: val }}
                 />
               </TabsContent>

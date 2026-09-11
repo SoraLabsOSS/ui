@@ -106,6 +106,8 @@
 
   --color-fd-card-foreground: var(--foreground);
 
+  --surface: #f7f7f7;
+
   --background: oklch(1 0 0);
 
   --foreground: oklch(0.145 0 0);
@@ -207,6 +209,8 @@
 
   --color-fd-card-foreground: var(--foreground);
 
+  --surface: hsl(0, 0%, 9%);
+
   --pixel-bg-1: #2a2a2a;
 
   --pixel-bg-2: #3b3b3b;
@@ -250,6 +254,8 @@
   --color-destructive-foreground: var(--destructive-foreground);
 
   --color-border: var(--border);
+
+  --color-surface: var(--surface);
 
   --color-input: var(--input);
 
