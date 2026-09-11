@@ -14,8 +14,8 @@ export function Hero() {
           </div>
           <div className="home-hero__description-row">
             <p className="home-hero__description-p">
-              Open-source, fully animated React component distribution built
-              with TypeScript, Tailwind CSS v4, Base UI, Radix UI &amp; Motion.
+              Open-source, fully animated React components that are easy to
+              browse, compose, and build with AI.
             </p>
           </div>
         </div>
