@@ -187,10 +187,10 @@ export default function BlogPage() {
                 <li className="@lg:col-span-4 col-span-full" key={post.url}>
                   <article
                     aria-label={post.title}
-                    className="flex min-h-0 w-full @lg:flex-1 flex-col @max-lg:border-b @max-lg:pb-10"
+                    className="flex min-h-0 w-full @lg:flex-1 flex-col"
                   >
                     <Link
-                      className="@lg:mb-0 mb-6 flex h-full @lg:min-h-0 w-full @lg:flex-1 cursor-pointer flex-col @lg:gap-4 gap-0 @lg:rounded-lg @lg:p-6 pr-0 outline-offset-4 transition-colors duration-200 ease-in-out @lg:hover:bg-accent/40 focus-visible:outline-2"
+                      className="@lg:mb-0 mb-6 flex h-full @lg:min-h-0 w-full @lg:flex-1 cursor-pointer flex-col gap-4 rounded-lg border border-border/70 p-6 outline-offset-4 transition-colors duration-200 ease-in-out hover:border-foreground/40 hover:bg-accent/40 focus-visible:outline-2"
                       href={post.url}
                     >
                       <div className="@max-lg:mb-5 flex flex-row flex-wrap items-center justify-start gap-2">
