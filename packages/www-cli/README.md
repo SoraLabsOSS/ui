@@ -65,7 +65,20 @@ Inside this package: `bun test`, `bun run test:slow`, `bun run check-types`, `bu
 - [x] **Polish** — Optional slow test via `WWW_CLI_RUN_REGISTRY_BUILD=1`
 - [x] **Polish** — clig.dev alignment: `--no-input`, `--dry-run`, `--quiet`, help examples
 
-### Phase 3 — not started
+### Phase 3 — foundation complete
+
+The initial Phase 3 foundation is now implemented for the active UI registry:
+
+- [x] Agent metadata fields on Base UI and Radix UI MDX pages
+- [x] `www-cli doctor` validation for required UI agent metadata
+- [x] UI scaffold templates with semantic metadata placeholders
+- [x] Published `meta.agentMetadata` in registry artifacts for MCP consumers
+- [x] MCP component metadata and composition validation surface
+
+This phase provides semantic context and validation for agents. It does not
+automatically plan a component tree, select recipes, generate application
+files, or perform deep runtime accessibility/motion audits. Those belong to a
+future agent composition automation phase.
 
 Use this as the implementation checklist for the next milestone.
 

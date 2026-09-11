@@ -14,6 +14,18 @@
     }
   ],
   "meta": {
+    "agentMetadata": {
+      "intent": "Toggle an independent boolean setting.",
+      "role": "input",
+      "a11yConstraints": [
+        "Preserve the checkbox role, label association, and keyboard toggling."
+      ],
+      "motionEngine": "Motion checkmark and elastic scale feedback.",
+      "compositionRules": [
+        "Pair with a visible label and optional description."
+      ],
+      "compositionRecipes": ["Compose with base/button in a settings form."]
+    },
     "demoProps": {
       "Checkbox": {
         "label": {

@@ -4,6 +4,24 @@ description: An accessible dropdown menu component built on Base UI with smooth 
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Present a compact list of actions or choices from an anchored trigger.
+role: menu
+a11yConstraints:
+  - Preserve roving focus, keyboard navigation, and Escape dismissal.
+  - Use menu items for commands, not arbitrary form controls.
+  - Keep nested submenu labels and order predictable.
+motionEngine: Motion scale and opacity presence with collision-aware submenu cascades.
+compositionRules:
+  - Use a Button or equivalent semantic trigger.
+  - Use Select for persistent value selection rather than a command menu.
+compositionRecipes:
+  - name: account-actions
+    description: Expose secondary account actions from an avatar or button.
+    components:
+      - base/dropdown-menu
+      - base/button
+    constraints:
+      - Keep the trigger label or accessible name stable.
 ---
 
 <ComponentPreview name="demo-dropdown-menu" description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />

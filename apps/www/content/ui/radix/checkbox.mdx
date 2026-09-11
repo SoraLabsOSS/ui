@@ -4,6 +4,23 @@ description: An accessible, stylable checkbox component built with Radix UI and 
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Toggle an independent boolean setting with Radix state semantics.
+role: input
+a11yConstraints:
+  - Preserve the checkbox role, label association, and keyboard toggling.
+  - Do not use a checkbox for mutually exclusive choices.
+motionEngine: Motion checkmark and scale feedback synchronized with Radix checked state.
+compositionRules:
+  - Pair with a visible label and description where additional context is needed.
+  - Keep form submission semantics explicit when using custom render elements.
+compositionRecipes:
+  - name: radix-preference
+    description: Add an accessible preference control to a form.
+    components:
+      - radix/checkbox
+      - radix/button
+    constraints:
+      - Keep the checkbox label and submit action independently reachable.
 ---
 
 <ComponentPreview name="demo-radix-checkbox" description="Default animated Radix UI checkbox with interactive label and spring checkmark draw animation." />

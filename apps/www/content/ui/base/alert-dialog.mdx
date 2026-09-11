@@ -4,6 +4,24 @@ description: An accessible alert dialog component built on Base UI with smooth 3
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Require an explicit confirmation before an irreversible or high-impact action.
+role: modal-confirmation
+a11yConstraints:
+  - Preserve focus trapping and initial focus inside the alert dialog.
+  - Always provide an explicit cancel action.
+  - Do not use for non-blocking information.
+motionEngine: Motion perspective spring entrance with backdrop presence transition.
+compositionRules:
+  - Use AlertDialogTrigger render for the initiating control.
+  - Keep the confirmation action short and outcome-specific.
+compositionRecipes:
+  - name: destructive-confirmation
+    description: Confirm deletion or another irreversible operation.
+    components:
+      - base/alert-dialog
+      - base/button
+    constraints:
+      - Require a cancel path and explain the consequence.
 ---
 
 <ComponentPreview name="demo-alert-dialog" description="Default animated alert dialog with 3D perspective transition, media icon header, and destructive action." />

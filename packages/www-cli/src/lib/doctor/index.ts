@@ -1,3 +1,4 @@
+import { checkAgentMetadata } from "./check-agent-metadata.js";
 import { checkDemoProps } from "./check-demo-props.js";
 import { checkMetaJson } from "./check-meta-json.js";
 import { checkRegistryDocs } from "./check-registry-docs.js";
@@ -21,16 +22,19 @@ export async function runDoctorAudit(
     return checkTargetComponent(wwwRoot, options.targetName, options);
   }
 
-  const [metaResult, demoResult, registryResult] = await Promise.all([
-    checkMetaJson(wwwRoot),
-    checkDemoProps(wwwRoot),
-    checkRegistryDocs(wwwRoot),
-  ]);
+  const [metaResult, demoResult, registryResult, agentMetadataResult] =
+    await Promise.all([
+      checkMetaJson(wwwRoot),
+      checkDemoProps(wwwRoot),
+      checkRegistryDocs(wwwRoot),
+      checkAgentMetadata(wwwRoot),
+    ]);
 
   const issues: DiagnosticIssue[] = [
     ...metaResult.issues,
     ...demoResult.issues,
     ...registryResult.issues,
+    ...agentMetadataResult.issues,
   ];
 
   const errorCount = issues.filter((i) => i.severity === "error").length;

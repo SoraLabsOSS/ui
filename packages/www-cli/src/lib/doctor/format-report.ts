@@ -6,6 +6,7 @@ import type {
 } from "./types.js";
 
 const CATEGORY_TITLES: Record<IssueCategory, string> = {
+  "agent-metadata": "Agent Metadata",
   "meta-json": "Meta JSON Mismatches",
   "demo-props": "demoProps Key Mismatches",
   "registry-docs": "Missing MDX Documentation",

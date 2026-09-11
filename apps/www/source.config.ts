@@ -10,6 +10,13 @@ import remarkReadingTime from "remark-reading-time";
 import { z } from "zod/v4";
 import { gitLastModifiedForFile } from "./lib/docs/git-last-modified";
 
+const compositionRecipeSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  components: z.array(z.string()).min(1),
+  constraints: z.array(z.string()).default([]),
+});
+
 const catalogDocSchema = frontmatterSchema.extend({
   /** Overrides git `lastModified` for the 10-day "new" badge only. */
   releaseDate: z.coerce.date().optional(),
@@ -39,6 +46,16 @@ const catalogDocSchema = frontmatterSchema.extend({
   previewVideo: z.string().optional(),
 });
 
+const uiDocSchema = catalogDocSchema.extend({
+  /** Machine-readable composition semantics for agent tooling. */
+  intent: z.string().optional(),
+  role: z.string().optional(),
+  a11yConstraints: z.array(z.string()).optional(),
+  motionEngine: z.string().optional(),
+  compositionRules: z.array(z.string()).optional(),
+  compositionRecipes: z.array(compositionRecipeSchema).optional(),
+});
+
 const catalogDocPostprocess = {
   includeProcessedMarkdown: true,
 } as const;
@@ -59,7 +76,7 @@ export const docs = defineDocs({
 export const ui = defineDocs({
   dir: "content/ui",
   docs: {
-    schema: catalogDocSchema,
+    schema: uiDocSchema,
     postprocess: catalogDocPostprocess,
   },
   meta: {

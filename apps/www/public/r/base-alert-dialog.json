@@ -17,5 +17,21 @@
       "target": "components/sora-ui/base/alert-dialog.tsx"
     }
   ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Require explicit confirmation before an irreversible action.",
+      "role": "modal-confirmation",
+      "a11yConstraints": [
+        "Preserve focus trapping and always provide a cancel action."
+      ],
+      "motionEngine": "Motion perspective spring entrance with backdrop presence transition.",
+      "compositionRules": [
+        "Use AlertDialogTrigger render for the initiating control."
+      ],
+      "compositionRecipes": [
+        "Compose with base/button for destructive confirmation."
+      ]
+    }
+  },
   "type": "registry:ui"
 }

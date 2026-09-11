@@ -1,6 +1,7 @@
 export type IssueSeverity = "error" | "warning";
 
 export type IssueCategory =
+  | "agent-metadata"
   | "meta-json"
   | "demo-props"
   | "registry-docs"

@@ -17,5 +17,21 @@
       "target": "components/sora-ui/radix/dialog.tsx"
     }
   ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Present focused modal content with Radix focus and portal semantics.",
+      "role": "overlay",
+      "a11yConstraints": [
+        "Keep focus trapped and provide Dialog.Title and Dialog.Description."
+      ],
+      "motionEngine": "Motion scale, perspective, and backdrop presence transition.",
+      "compositionRules": [
+        "Use Radix Dialog.Trigger and render one semantic trigger element."
+      ],
+      "compositionRecipes": [
+        "Compose with radix/button for confirmation actions."
+      ]
+    }
+  },
   "type": "registry:ui"
 }

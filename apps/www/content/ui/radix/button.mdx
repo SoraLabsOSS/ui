@@ -4,6 +4,23 @@ description: An accessible button component built on Radix UI Slot and Motion fo
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Trigger an immediate user action with Radix-compatible composition.
+role: action
+a11yConstraints:
+  - Preserve native button keyboard activation and disabled semantics.
+  - Keep custom render elements interactive and focusable.
+motionEngine: Motion spring scale on hover and tap with reduced-motion bypass.
+compositionRules:
+  - Use with Radix primitives through their supported composition API.
+  - Prefer render composition over legacy asChild patterns.
+compositionRecipes:
+  - name: radix-dialog-trigger
+    description: Open a Radix dialog with an animated button.
+    components:
+      - radix/button
+      - radix/dialog
+    constraints:
+      - Render exactly one interactive trigger element.
 ---
 
 <ComponentPreview name="demo-radix-button" description="Default primary Radix UI button with Motion spring scaling on hover and tap." />

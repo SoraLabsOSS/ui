@@ -4,6 +4,24 @@ description: An accessible modal dialog component built with Radix UI and Motion
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Present focused modal content with Radix focus and portal semantics.
+role: overlay
+a11yConstraints:
+  - Keep focus trapped inside the open dialog and restore focus on close.
+  - Provide Dialog.Title and Dialog.Description for accessible naming.
+  - Preserve Escape-to-close unless the workflow explicitly prevents it.
+motionEngine: Motion scale, perspective, and backdrop presence transition.
+compositionRules:
+  - Use Radix Dialog.Trigger and render a single semantic trigger element.
+  - Keep primary and dismissive actions inside the dialog content.
+compositionRecipes:
+  - name: radix-confirmation
+    description: Confirm a consequential action in a Radix dialog.
+    components:
+      - radix/dialog
+      - radix/button
+    constraints:
+      - Keep cancel and confirm actions explicit and keyboard reachable.
 ---
 
 <ComponentPreview name="demo-radix-dialog" description="Default animated Radix UI modal dialog featuring 3D spring entrance and smooth backdrop blur." />

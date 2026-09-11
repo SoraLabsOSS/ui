@@ -61,10 +61,20 @@ Comprehensive Right-to-Left (RTL) internationalization is our immediate next foc
 
 Following our RTL rollout, we are prioritizing transforming the UI registry content into a high-density, agent-grounded knowledge base. This equips AI coding assistants (via Sora MCP and agent tools) with deep semantic context rather than just raw JSX strings:
 
-- **Structured Agent Frontmatter**: Enriching all component MDX pages with machine-readable metadata (`intent`, `role`, `a11yConstraints`, `motionEngine`, `compositionRules`).
+- **Structured Agent Frontmatter**: Enriching all active Base UI and Radix UI component MDX pages with machine-readable metadata (`intent`, `role`, `a11yConstraints`, `motionEngine`, `compositionRules`).
 - **Multi-Primitive Composition Recipes**: Documenting explicit multi-component compositions (e.g., nesting Base UI Dialog + Form + Spring Button + Presence) so AI models can orchestrate layouts without hallucinations.
 - **Base UI Integration Guardrails**: Concrete pattern documentation for LLMs (e.g. enforcing Base UI's `render={<Component />}` pattern over legacy Radix `asChild`, focus trap synchronization, and ESC handlers).
-- **Automated Composition Validation**: Semantic heuristics in MCP tools to allow agents to verify layout compatibility, reduced-motion fallbacks, and class conflict prevention.
+- **Published Registry Semantics**: Mirroring agent metadata into `registry-item.json.meta.agentMetadata` and published `public/r/*.json` artifacts so MCP can access it through component info without parsing JSX.
+- **Composition Validation Surface**: Adding MCP composition validation for component names, registry dependencies, accessibility constraints, composition rules, and motion requirements.
+
+**Status: Foundation complete.** Phase 3 now provides the semantic contract and MCP validation surface that agents can consume. It does not yet automatically plan a component tree, select recipes, generate files, or run deep runtime accessibility and motion audits.
+
+The next automation milestone is:
+
+- **Agent Composition Planner**: Convert a user prompt into an explicit component tree and dependency graph.
+- **Recipe Selection**: Match the requested intent to compatible published composition recipes.
+- **Code Generation Orchestration**: Install or compose registry items, generate project files, and preserve each component's guardrails.
+- **Deep Validation**: Run type, accessibility, reduced-motion, focus lifecycle, and class-conflict checks on generated output.
 
 </Step>
 <Step>

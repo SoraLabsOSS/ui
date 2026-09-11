@@ -6,6 +6,22 @@
   "description": "An accessible context menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
   "dependencies": ["@base-ui/react", "motion", "lucide-react"],
   "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Offer contextual actions for a target using pointer or long-press interaction.",
+      "role": "context-menu",
+      "a11yConstraints": [
+        "Keep essential actions available through a non-contextual path."
+      ],
+      "motionEngine": "Motion scale and opacity presence with directional submenu transitions.",
+      "compositionRules": [
+        "Use ContextMenuTrigger around the contextual target."
+      ],
+      "compositionRecipes": [
+        "Compose with base/alert-dialog for destructive actions."
+      ]
+    }
+  },
   "files": [
     {
       "path": "registry/ui/base/context-menu/index.tsx",

@@ -4,6 +4,24 @@ description: An accessible modal dialog component built on Base UI with smooth 3
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Present focused modal content that temporarily interrupts the current task.
+role: overlay
+a11yConstraints:
+  - Keep focus trapped inside the open dialog and restore focus on close.
+  - Provide a DialogTitle and DialogDescription for accessible naming.
+  - Preserve Escape-to-close unless the workflow explicitly prevents it.
+motionEngine: Motion scale, perspective, and backdrop blur presence transition.
+compositionRules:
+  - Use DialogTrigger render with a semantic interactive trigger.
+  - Place primary and dismissive actions in DialogFooter.
+compositionRecipes:
+  - name: confirmation-dialog
+    description: Confirm a consequential action with explicit cancel and confirm controls.
+    components:
+      - base/dialog
+      - base/button
+    constraints:
+      - Keep the destructive action visually and semantically explicit.
 ---
 
 <ComponentPreview name="demo-dialog" description="Default animated dialog with 3D perspective transition and backdrop blur." />

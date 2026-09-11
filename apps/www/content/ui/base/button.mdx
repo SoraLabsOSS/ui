@@ -4,6 +4,23 @@ description: An accessible button component built on Base UI and Motion for Reac
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Trigger an immediate user action with clear visual and motion feedback.
+role: action
+a11yConstraints:
+  - Preserve native button keyboard activation and disabled semantics.
+  - Keep loading and disabled states announced by the button label.
+motionEngine: Motion spring scale on hover and tap with reduced-motion bypass.
+compositionRules:
+  - Use as the trigger for dialogs, menus, and form submission.
+  - Keep destructive actions explicit with the destructive variant.
+compositionRecipes:
+  - name: dialog-trigger
+    description: Open a modal from a semantic button trigger.
+    components:
+      - base/button
+      - base/dialog
+    constraints:
+      - Use DialogTrigger render rather than nesting interactive elements.
 ---
 
 <ComponentPreview name="demo-button" description="Default primary button with Motion spring scaling on hover and tap." />

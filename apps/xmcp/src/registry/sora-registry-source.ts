@@ -19,6 +19,15 @@ export interface RegistryItem {
   type: string;
 }
 
+export interface AgentMetadata {
+  a11yConstraints?: string[];
+  compositionRecipes?: string[];
+  compositionRules?: string[];
+  intent?: string;
+  motionEngine?: string;
+  role?: string;
+}
+
 interface Registry {
   homepage: string;
   items: RegistryItem[];
@@ -154,6 +163,37 @@ export function formatSource(item: RegistryItem): string {
 
 const UNSAFE_CWD_CHARS = /[`;$&|<>(){}"'\n\r]/;
 
+function formatAgentMetadata(metadata: AgentMetadata | undefined): string[] {
+  if (!metadata) {
+    return [];
+  }
+
+  return [
+    "",
+    "## Agent Metadata",
+    ...(metadata.intent ? [`Intent: ${metadata.intent}`] : []),
+    ...(metadata.role ? [`Role: ${metadata.role}`] : []),
+    ...(metadata.motionEngine
+      ? [`Motion engine: ${metadata.motionEngine}`]
+      : []),
+    ...(metadata.a11yConstraints?.length
+      ? [
+          `Accessibility constraints:\n${metadata.a11yConstraints.map((rule) => `- ${rule}`).join("\n")}`,
+        ]
+      : []),
+    ...(metadata.compositionRules?.length
+      ? [
+          `Composition rules:\n${metadata.compositionRules.map((rule) => `- ${rule}`).join("\n")}`,
+        ]
+      : []),
+    ...(metadata.compositionRecipes?.length
+      ? [
+          `Composition recipes:\n${metadata.compositionRecipes.map((recipe) => `- ${recipe}`).join("\n")}`,
+        ]
+      : []),
+  ];
+}
+
 export function formatDetail(
   item: RegistryItem,
   includeSource: boolean,
@@ -164,6 +204,7 @@ export function formatDetail(
   const fileTargets = item.files
     .map((file) => `  - ${file.path} → ${file.target ?? "(default target)"}`)
     .join("\n");
+  const agentMetadata = item.meta?.agentMetadata as AgentMetadata | undefined;
 
   const trimmedCwd = cwd?.trim();
   const cwdWarning =
@@ -191,6 +232,8 @@ export function formatDetail(
     "Files:",
     fileTargets,
   ];
+
+  lines.push(...formatAgentMetadata(agentMetadata));
 
   if (includeSource) {
     lines.push(formatSource(item));

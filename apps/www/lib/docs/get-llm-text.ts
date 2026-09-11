@@ -14,6 +14,62 @@ type LLMPage =
 const FRONTMATTER_RE = /^---[\s\S]*?---\s*/;
 const TITLE_RE = /^title:\s*["']?([^"'\n]+)["']?/m;
 
+function getAgentMetadata(page: LLMPage): string {
+  const data = page.data as typeof page.data & {
+    a11yConstraints?: string[];
+    compositionRecipes?: Array<{
+      components: string[];
+      constraints: string[];
+      description: string;
+      name: string;
+    }>;
+    compositionRules?: string[];
+    intent?: string;
+    motionEngine?: string;
+    role?: string;
+  };
+
+  const metadataValues = [
+    data.intent,
+    data.role,
+    data.motionEngine,
+    data.a11yConstraints?.length,
+    data.compositionRules?.length,
+    data.compositionRecipes?.length,
+  ];
+  if (!metadataValues.some(Boolean)) {
+    return "";
+  }
+
+  const lines = ["## Agent Metadata"];
+  if (data.intent) {
+    lines.push(`- intent: ${data.intent}`);
+  }
+  if (data.role) {
+    lines.push(`- role: ${data.role}`);
+  }
+  if (data.motionEngine) {
+    lines.push(`- motionEngine: ${data.motionEngine}`);
+  }
+  if (data.a11yConstraints?.length) {
+    lines.push(
+      `- a11yConstraints: ${data.a11yConstraints.map((item) => `\`${item}\``).join(", ")}`
+    );
+  }
+  if (data.compositionRules?.length) {
+    lines.push(
+      `- compositionRules: ${data.compositionRules.map((item) => `\`${item}\``).join(", ")}`
+    );
+  }
+  for (const recipe of data.compositionRecipes ?? []) {
+    lines.push(
+      `- recipe "${recipe.name}": ${recipe.description} Components: ${recipe.components.join(", ")}. Constraints: ${recipe.constraints.join(", ") || "none"}.`
+    );
+  }
+
+  return `${lines.join("\n")}\n\n`;
+}
+
 export async function getLLMText(page: LLMPage) {
   let processed = "";
   let raw = "";
@@ -30,8 +86,9 @@ export async function getLLMText(page: LLMPage) {
     (raw ? raw.match(TITLE_RE)?.[1] : undefined) ||
     "Document";
   const body = expandLlmMarkdown(processed);
+  const agentMetadata = getAgentMetadata(page);
 
   return `# ${title} (${page.url})
 
-${body}`;
+  ${agentMetadata}${body}`;
 }

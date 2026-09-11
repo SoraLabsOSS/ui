@@ -135,6 +135,22 @@ export function renderUiMdx(
   return `---
 title: ${labels.title}
 description: ${labels.description}
+intent: Compose an accessible ${labels.title.toLowerCase()} with predictable state and motion behavior.
+role: ${framework === "base" ? "base-ui-component" : "radix-component"}
+a11yConstraints:
+  - Preserve the underlying ${source} keyboard and focus semantics.
+  - Keep interactive children semantically labeled and keyboard reachable.
+motionEngine: Motion transitions with a reduced-motion fallback.
+compositionRules:
+  - Prefer the framework's native composition API over nested interactive elements.
+  - Keep state ownership explicit when using controlled props.
+compositionRecipes:
+  - name: basic-composition
+    description: Compose the component with an accessible action or form surface.
+    components:
+      - ${labels.registryName}
+    constraints:
+      - Replace this placeholder with component-specific integration constraints.
 ---
 
 <ComponentPreview name="${labels.demoRegistryName}" description="${labels.description}" />

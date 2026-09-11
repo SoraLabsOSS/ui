@@ -84,7 +84,24 @@ describe("checkTargetComponent", () => {
     await fs.mkdir(docDir, { recursive: true });
     await fs.writeFile(
       path.join(docDir, "dialog.mdx"),
-      `# Base Dialog\n<ComponentPreview name="base-dialog" />`
+      `---
+intent: Present focused modal content.
+role: overlay
+a11yConstraints:
+  - Keep focus trapped.
+motionEngine: Motion presence transition.
+compositionRules:
+  - Use a semantic trigger.
+compositionRecipes:
+  - name: confirmation
+    description: Confirm an action.
+    components:
+      - base/dialog
+    constraints:
+      - Keep cancel available.
+---
+# Base Dialog
+<ComponentPreview name="base-dialog" />`
     );
 
     await fs.writeFile(

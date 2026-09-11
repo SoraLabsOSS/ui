@@ -3170,6 +3170,18 @@
         }
       ],
       "meta": {
+        "agentMetadata": {
+          "intent": "Expand and collapse related content sections inline.",
+          "role": "disclosure",
+          "a11yConstraints": [
+            "Keep each trigger keyboard accessible and associated with its panel."
+          ],
+          "motionEngine": "Motion layout-height morphing with spring chevron transitions.",
+          "compositionRules": [
+            "Use one AccordionItem per independently discoverable section."
+          ],
+          "compositionRecipes": ["Use base/accordion for FAQ sections."]
+        },
         "demoProps": {
           "Accordion": {
             "variant": {
@@ -3205,6 +3217,22 @@
         "@soralabs/hooks-use-controlled-state",
         "@soralabs/base-button"
       ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Require explicit confirmation before an irreversible action.",
+          "role": "modal-confirmation",
+          "a11yConstraints": [
+            "Preserve focus trapping and always provide a cancel action."
+          ],
+          "motionEngine": "Motion perspective spring entrance with backdrop presence transition.",
+          "compositionRules": [
+            "Use AlertDialogTrigger render for the initiating control."
+          ],
+          "compositionRecipes": [
+            "Compose with base/button for destructive confirmation."
+          ]
+        }
+      },
       "files": [
         {
           "path": "registry/ui/base/alert-dialog/index.tsx",
@@ -3228,6 +3256,18 @@
         }
       ],
       "meta": {
+        "agentMetadata": {
+          "intent": "Trigger an immediate user action with clear visual and motion feedback.",
+          "role": "action",
+          "a11yConstraints": [
+            "Preserve native button keyboard activation and disabled semantics."
+          ],
+          "motionEngine": "Motion spring scale on hover and tap with reduced-motion bypass.",
+          "compositionRules": [
+            "Use as a trigger for dialogs, menus, and form submission."
+          ],
+          "compositionRecipes": ["Compose with base/dialog for modal actions."]
+        },
         "demoProps": {
           "Button": {
             "children": {
@@ -3287,6 +3327,18 @@
         }
       ],
       "meta": {
+        "agentMetadata": {
+          "intent": "Toggle an independent boolean setting.",
+          "role": "input",
+          "a11yConstraints": [
+            "Preserve the checkbox role, label association, and keyboard toggling."
+          ],
+          "motionEngine": "Motion checkmark and elastic scale feedback.",
+          "compositionRules": [
+            "Pair with a visible label and optional description."
+          ],
+          "compositionRecipes": ["Compose with base/button in a settings form."]
+        },
         "demoProps": {
           "Checkbox": {
             "label": {
@@ -3306,6 +3358,22 @@
       "description": "An accessible context menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
       "dependencies": ["@base-ui/react", "motion", "lucide-react"],
       "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Offer contextual actions for a target using pointer or long-press interaction.",
+          "role": "context-menu",
+          "a11yConstraints": [
+            "Keep essential actions available through a non-contextual path."
+          ],
+          "motionEngine": "Motion scale and opacity presence with directional submenu transitions.",
+          "compositionRules": [
+            "Use ContextMenuTrigger around the contextual target."
+          ],
+          "compositionRecipes": [
+            "Compose with base/alert-dialog for destructive actions."
+          ]
+        }
+      },
       "files": [
         {
           "path": "registry/ui/base/context-menu/index.tsx",
@@ -3325,6 +3393,22 @@
         "@soralabs/hooks-use-controlled-state",
         "@soralabs/base-button"
       ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Present focused modal content that temporarily interrupts the current task.",
+          "role": "overlay",
+          "a11yConstraints": [
+            "Keep focus trapped and provide DialogTitle and DialogDescription."
+          ],
+          "motionEngine": "Motion scale, perspective, and backdrop blur presence transition.",
+          "compositionRules": [
+            "Use DialogTrigger render with a semantic interactive trigger."
+          ],
+          "compositionRecipes": [
+            "Compose with base/button for confirmation actions."
+          ]
+        }
+      },
       "files": [
         {
           "path": "registry/ui/base/dialog/index.tsx",
@@ -3340,6 +3424,20 @@
       "description": "An accessible dropdown menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
       "dependencies": ["@base-ui/react", "motion", "lucide-react"],
       "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Present a compact list of actions or choices from an anchored trigger.",
+          "role": "menu",
+          "a11yConstraints": [
+            "Preserve roving focus, keyboard navigation, and Escape dismissal."
+          ],
+          "motionEngine": "Motion scale and opacity presence with collision-aware submenu cascades.",
+          "compositionRules": ["Use a semantic button as the trigger."],
+          "compositionRecipes": [
+            "Compose with base/button for account actions."
+          ]
+        }
+      },
       "files": [
         {
           "path": "registry/ui/base/dropdown-menu/index.tsx",
@@ -3363,6 +3461,20 @@
         }
       ],
       "meta": {
+        "agentMetadata": {
+          "intent": "Trigger an immediate user action with Radix-compatible composition.",
+          "role": "action",
+          "a11yConstraints": [
+            "Preserve native button keyboard activation and disabled semantics."
+          ],
+          "motionEngine": "Motion spring scale on hover and tap with reduced-motion bypass.",
+          "compositionRules": [
+            "Prefer Radix render composition over legacy asChild patterns."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/dialog for modal triggers."
+          ]
+        },
         "demoProps": {
           "Button": {
             "children": {
@@ -3422,6 +3534,20 @@
         }
       ],
       "meta": {
+        "agentMetadata": {
+          "intent": "Toggle an independent boolean setting with Radix state semantics.",
+          "role": "input",
+          "a11yConstraints": [
+            "Preserve the checkbox role, label association, and keyboard toggling."
+          ],
+          "motionEngine": "Motion checkmark and scale feedback synchronized with checked state.",
+          "compositionRules": [
+            "Pair with a visible label and explicit form submission semantics."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/button in a preference form."
+          ]
+        },
         "demoProps": {
           "Checkbox": {
             "label": {
@@ -3445,6 +3571,22 @@
         "@soralabs/hooks-use-controlled-state",
         "@soralabs/radix-button"
       ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Present focused modal content with Radix focus and portal semantics.",
+          "role": "overlay",
+          "a11yConstraints": [
+            "Keep focus trapped and provide Dialog.Title and Dialog.Description."
+          ],
+          "motionEngine": "Motion scale, perspective, and backdrop presence transition.",
+          "compositionRules": [
+            "Use Radix Dialog.Trigger and render one semantic trigger element."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/button for confirmation actions."
+          ]
+        }
+      },
       "files": [
         {
           "path": "registry/ui/radix/dialog/index.tsx",

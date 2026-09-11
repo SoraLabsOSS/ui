@@ -4,6 +4,23 @@ description: An accessible checkbox component built on Base UI with a Motion spr
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Toggle an independent boolean setting.
+role: input
+a11yConstraints:
+  - Preserve the checkbox role, label association, and keyboard toggling.
+  - Do not use a checkbox for mutually exclusive choices.
+motionEngine: Motion path and elastic scale feedback synchronized with checked state.
+compositionRules:
+  - Pair with a visible label and optional description.
+  - Use a controlled group only when multiple independent values are submitted together.
+compositionRecipes:
+  - name: settings-field
+    description: Present a labeled preference in a settings form.
+    components:
+      - base/checkbox
+      - base/button
+    constraints:
+      - Keep the label clickable and the submit action separate.
 ---
 
 <ComponentPreview name="demo-checkbox" description="Default animated checkbox with interactive label and spring checkmark draw animation." />

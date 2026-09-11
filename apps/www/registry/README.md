@@ -160,6 +160,43 @@ Use one of two `type` values — copy is generated automatically:
 
 Skip `inspiration` for components that are fully original.
 
+## Agent-native UI metadata
+
+Every documented Base UI and Radix UI page should expose the following
+frontmatter fields so MCP clients can reason about composition without
+reverse-engineering JSX:
+
+```yaml
+intent: Present focused modal content.
+role: overlay
+a11yConstraints:
+  - Keep focus trapped while open.
+motionEngine: Motion presence transition with reduced-motion bypass.
+compositionRules:
+  - Use a semantic trigger and preserve the primitive's focus lifecycle.
+compositionRecipes:
+  - name: confirmation
+    description: Confirm a consequential action.
+    components:
+      - base/dialog
+      - base/button
+    constraints:
+      - Keep cancel and confirm actions independently reachable.
+```
+
+`bun run doctor base/<name>` and `bun run doctor radix/<name>` validate these
+fields. The generated LLM page exports include an `Agent Metadata` section so
+MCP consumers can use the same intent, accessibility, motion, and composition
+contract as the docs site.
+
+The registry also publishes the same contract under
+`registry-item.json.meta.agentMetadata`, which is preserved in
+`public/r/*.json`. MCP's `get_component_info` exposes this metadata directly,
+and `validate_composition` checks proposed component sets against their
+dependencies and constraints. This is an agent context and validation layer,
+not an end-to-end planner or code generator: the calling agent still chooses
+the component tree and writes the resulting application code.
+
 ## Commands
 
 ```bash

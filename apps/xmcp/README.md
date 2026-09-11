@@ -7,6 +7,7 @@ The official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) se
 This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Windsurf, and custom AI agents) with structured access to:
 - **Documentation & Guides**: Search, browse sections, and read full MDX docs.
 - **Component Registry**: Discover animated UI components, motion primitives, dependencies, and automated installation commands via `npx shadcn@latest add @soralabs/<name>`.
+- **Agent-native composition context**: Read published component intent, roles, accessibility constraints, motion behavior, and composition rules from registry metadata.
 
 ---
 
@@ -24,6 +25,14 @@ This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Win
    - Outlines the complete documentation structure and page count from `llms.txt`.
 4. **`get_component_info`** (`src/tools/get-component-info.ts`):
    - Lists installable components/hooks or provides detailed install instructions (`npx shadcn@latest add @soralabs/<name> --yes`), dependency trees, and optional raw source code.
+   - Includes `meta.agentMetadata` when it is published for a UI component.
+5. **`validate_composition`** (`src/tools/validate-composition.ts`):
+   - Validates a proposed set of registry components.
+   - Reports missing components, registry dependency warnings, accessibility constraints, motion requirements, and composition rules.
+
+These tools provide the semantic context and validation layer for agent-assisted
+UI construction. The calling agent still plans the component tree and writes
+application code; automatic planning and code generation are future work.
 
 ### Prompts (`src/prompts/`)
 - **`install-component`** (`src/prompts/install-component.ts`):

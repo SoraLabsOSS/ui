@@ -4,6 +4,23 @@ description: An animated accordion component built on Base UI with 1:1 Motion sp
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Expand and collapse related content sections inline.
+role: disclosure
+a11yConstraints:
+  - Keep each trigger keyboard accessible and associated with its panel.
+  - Use headings and concise labels to preserve document structure.
+  - Avoid hiding required task controls inside collapsed content.
+motionEngine: Motion layout-height morphing with spring chevron and focus-ring transitions.
+compositionRules:
+  - Use one AccordionItem per independently discoverable section.
+  - Prefer multiple mode for unrelated sections and single mode for stepwise disclosure.
+compositionRecipes:
+  - name: faq-sections
+    description: Group independently expandable answers in a content page.
+    components:
+      - base/accordion
+    constraints:
+      - Keep trigger labels meaningful without relying on panel content.
 ---
 
 <ComponentPreview name="demo-base-accordion" description="Default animated Base UI accordion with Motion spring transitions and glowing focus ring." />

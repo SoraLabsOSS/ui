@@ -39,6 +39,12 @@ Production deployments for documentation require **zero environment variables**.
 
 Sora UI includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server built with [xmcp](https://xmcp.dev) under `[apps/xmcp](./apps/xmcp)`. It enables AI assistants (Cursor, Claude Desktop, Claude Code, etc.) to search documentation, browse sections, and install components:
 
+The UI registry also publishes agent-native metadata for active Base UI and
+Radix UI components: intent, accessibility constraints, motion behavior, and
+composition rules. MCP exposes this context through component information and
+provides composition validation; it is a foundation for agent-assisted UI
+construction, not yet an end-to-end planner or code generator.
+
 ```bash
 # Run MCP server in development mode
 cd apps/xmcp && bun run dev

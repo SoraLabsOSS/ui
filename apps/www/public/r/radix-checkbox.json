@@ -14,6 +14,18 @@
     }
   ],
   "meta": {
+    "agentMetadata": {
+      "intent": "Toggle an independent boolean setting with Radix state semantics.",
+      "role": "input",
+      "a11yConstraints": [
+        "Preserve the checkbox role, label association, and keyboard toggling."
+      ],
+      "motionEngine": "Motion checkmark and scale feedback synchronized with checked state.",
+      "compositionRules": [
+        "Pair with a visible label and explicit form submission semantics."
+      ],
+      "compositionRecipes": ["Compose with radix/button in a preference form."]
+    },
     "demoProps": {
       "Checkbox": {
         "label": {

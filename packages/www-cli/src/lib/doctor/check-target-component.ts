@@ -1,5 +1,6 @@
 import { existsSync, promises as fs } from "node:fs";
 import path from "node:path";
+import { checkTargetAgentMetadata } from "./check-agent-metadata.js";
 import { extractExports } from "./extract-exports.js";
 import type { DiagnosticIssue, DoctorOptions, DoctorResult } from "./types.js";
 
@@ -376,7 +377,15 @@ export async function checkTargetComponent(
     validateTargetMdxAndMeta(wwwRoot, target),
   ]);
 
-  const issues = [...regResult.issues, ...mdxResult.issues];
+  const agentMetadataIssues = await checkTargetAgentMetadata(
+    wwwRoot,
+    target.relMdxPath
+  );
+  const issues = [
+    ...regResult.issues,
+    ...mdxResult.issues,
+    ...agentMetadataIssues,
+  ];
   const errorCount = issues.filter((i) => i.severity === "error").length;
   const warningCount = issues.filter((i) => i.severity === "warning").length;
 

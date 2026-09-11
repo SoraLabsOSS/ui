@@ -158,6 +158,31 @@ After scaffolding, start the dev server (`bun run dev:www`), implement your comp
 5. Run **`bun run registry:build`**.
 6. Run **`bun run doctor <framework>/<name>`** (e.g. `bun run doctor base/<name>`) to verify your component's integrity.
 
+For Phase 3 agent-native support, also add the following frontmatter to the
+component MDX page:
+
+```yaml
+intent: Describe the user's task this component supports.
+role: action | input | disclosure | overlay | menu
+a11yConstraints:
+  - State the keyboard, focus, labeling, or semantic requirements.
+motionEngine: Describe the Motion transition and reduced-motion behavior.
+compositionRules:
+  - State how this component should be composed with other registry items.
+compositionRecipes:
+  - name: short-recipe-name
+    description: Describe the valid composition.
+    components:
+      - base/component-name
+    constraints:
+      - State the composition constraint.
+```
+
+Keep the same semantics in `registry-item.json` under
+`meta.agentMetadata` so published registry consumers and MCP tools can access
+them without parsing MDX or JSX. Run `bun run doctor <framework>/<name>` to
+validate the metadata contract.
+
 ### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
 
 **Shortcut (scaffold):** from the repo root, run `bun run create` (interactive wizard) or `bun run create:primitive <name> --category=<texts|buttons|disclosure|effects|animate> --yes` to generate the registry folder, MDX page, and `meta.json` entry, then run `registry:build`. Use `--dry-run` to preview paths without writing, or `--no-input` in CI (same requirements as `--yes`). Verify with `bun run test:www-cli`. See `packages/www-cli`.
@@ -204,6 +229,20 @@ Required for every registry entry. Example:
     }
   ],
   "meta": {
+    "agentMetadata": {
+      "intent": "Toggle an independent boolean setting.",
+      "role": "input",
+      "a11yConstraints": [
+        "Preserve the checkbox role, label association, and keyboard toggling."
+      ],
+      "motionEngine": "Motion indicator transition with reduced-motion bypass.",
+      "compositionRules": [
+        "Pair with a visible label and keep form submission explicit."
+      ],
+      "compositionRecipes": [
+        "Compose with a form submit action."
+      ]
+    },
     "demoProps": {
       "Checkbox": {
         "label": { "value": "Enable notifications" },

@@ -19,6 +19,18 @@
     }
   ],
   "meta": {
+    "agentMetadata": {
+      "intent": "Expand and collapse related content sections inline.",
+      "role": "disclosure",
+      "a11yConstraints": [
+        "Keep each trigger keyboard accessible and associated with its panel."
+      ],
+      "motionEngine": "Motion layout-height morphing with spring chevron transitions.",
+      "compositionRules": [
+        "Use one AccordionItem per independently discoverable section."
+      ],
+      "compositionRecipes": ["Use base/accordion for FAQ sections."]
+    },
     "demoProps": {
       "Accordion": {
         "variant": {

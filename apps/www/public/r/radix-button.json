@@ -14,6 +14,18 @@
     }
   ],
   "meta": {
+    "agentMetadata": {
+      "intent": "Trigger an immediate user action with Radix-compatible composition.",
+      "role": "action",
+      "a11yConstraints": [
+        "Preserve native button keyboard activation and disabled semantics."
+      ],
+      "motionEngine": "Motion spring scale on hover and tap with reduced-motion bypass.",
+      "compositionRules": [
+        "Prefer Radix render composition over legacy asChild patterns."
+      ],
+      "compositionRecipes": ["Compose with radix/dialog for modal triggers."]
+    },
     "demoProps": {
       "Button": {
         "children": {

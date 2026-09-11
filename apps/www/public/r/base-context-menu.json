@@ -13,5 +13,21 @@
       "target": "components/sora-ui/base/context-menu.tsx"
     }
   ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Offer contextual actions for a target using pointer or long-press interaction.",
+      "role": "context-menu",
+      "a11yConstraints": [
+        "Keep essential actions available through a non-contextual path."
+      ],
+      "motionEngine": "Motion scale and opacity presence with directional submenu transitions.",
+      "compositionRules": [
+        "Use ContextMenuTrigger around the contextual target."
+      ],
+      "compositionRecipes": [
+        "Compose with base/alert-dialog for destructive actions."
+      ]
+    }
+  },
   "type": "registry:ui"
 }

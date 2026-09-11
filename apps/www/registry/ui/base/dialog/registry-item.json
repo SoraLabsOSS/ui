@@ -10,6 +10,22 @@
     "@soralabs/hooks-use-controlled-state",
     "@soralabs/base-button"
   ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Present focused modal content that temporarily interrupts the current task.",
+      "role": "overlay",
+      "a11yConstraints": [
+        "Keep focus trapped and provide DialogTitle and DialogDescription."
+      ],
+      "motionEngine": "Motion scale, perspective, and backdrop blur presence transition.",
+      "compositionRules": [
+        "Use DialogTrigger render with a semantic interactive trigger."
+      ],
+      "compositionRecipes": [
+        "Compose with base/button for confirmation actions."
+      ]
+    }
+  },
   "files": [
     {
       "path": "registry/ui/base/dialog/index.tsx",

@@ -4,6 +4,24 @@ description: An accessible context menu component built on Base UI with smooth M
 author:
   name: Axyl
   url: https://github.com/Axyl1410
+intent: Offer contextual actions for a target using pointer or long-press interaction.
+role: context-menu
+a11yConstraints:
+  - Preserve keyboard access through the underlying Base UI menu behavior.
+  - Keep actions available through a non-contextual path when essential.
+  - Ensure submenu labels are descriptive.
+motionEngine: Motion scale and opacity presence with directional submenu transitions.
+compositionRules:
+  - Use ContextMenuTrigger around the contextual target.
+  - Use render for custom menu item elements instead of nesting buttons.
+compositionRecipes:
+  - name: item-actions
+    description: Attach edit and delete actions to a selectable item.
+    components:
+      - base/context-menu
+      - base/alert-dialog
+    constraints:
+      - Keep destructive confirmation outside the menu lifecycle.
 ---
 
 <ComponentPreview name="demo-context-menu" description="An animated context menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />

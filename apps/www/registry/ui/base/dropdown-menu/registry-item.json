@@ -6,6 +6,18 @@
   "description": "An accessible dropdown menu built on Base UI with smooth Motion spring scale and submenu slide animations.",
   "dependencies": ["@base-ui/react", "motion", "lucide-react"],
   "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Present a compact list of actions or choices from an anchored trigger.",
+      "role": "menu",
+      "a11yConstraints": [
+        "Preserve roving focus, keyboard navigation, and Escape dismissal."
+      ],
+      "motionEngine": "Motion scale and opacity presence with collision-aware submenu cascades.",
+      "compositionRules": ["Use a semantic button as the trigger."],
+      "compositionRecipes": ["Compose with base/button for account actions."]
+    }
+  },
   "files": [
     {
       "path": "registry/ui/base/dropdown-menu/index.tsx",
