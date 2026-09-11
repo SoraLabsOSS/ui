@@ -27,6 +27,10 @@ import {
   useState,
 } from "react";
 import { AUTH_MENU_LINKS } from "@/components/auth/auth-menu-skeletons";
+import {
+  isMarketingPath,
+  usePageTransition,
+} from "@/components/page-transition/page-transition-provider";
 import { authClient } from "@/lib/auth-client";
 import type {
   CommandPaletteActionId,
@@ -250,6 +254,7 @@ export function CommandPaletteDialog({
   groups,
 }: CommandPaletteDialogProps) {
   const router = useRouter();
+  const { transitionTo } = usePageTransition();
   const { setTheme } = useTheme();
   const { data: session, isPending: sessionPending } = useSession(authClient, {
     enabled: open,
@@ -298,9 +303,15 @@ export function CommandPaletteDialog({
   const navigate = useCallback(
     (href: string) => {
       onOpenChange(false);
-      router.push(href);
+      if (isMarketingPath(href)) {
+        transitionTo(href, "commercial").catch((error) => {
+          console.error("Command palette navigation failed", error);
+        });
+      } else {
+        router.push(href);
+      }
     },
-    [onOpenChange, router]
+    [onOpenChange, router, transitionTo]
   );
 
   const allGroups = useMemo(() => {

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-context-menu-rtl",
+  "title": "Context Menu RTL Demo",
+  "description": "Context Menu rendered right-to-left with Base UI DirectionProvider.",
+  "registryDependencies": ["@soralabs/base-context-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/context-menu-rtl/index.tsx",
+      "content": "\"use client\";\n\nimport { DirectionProvider } from \"@base-ui/react/direction-provider\";\nimport {\n  ContextMenu,\n  ContextMenuCheckboxItem,\n  ContextMenuContent,\n  ContextMenuItem,\n  ContextMenuSeparator,\n  ContextMenuSub,\n  ContextMenuSubContent,\n  ContextMenuSubTrigger,\n  ContextMenuTrigger,\n} from \"@/components/sora-ui/base/context-menu\";\n\nexport default function ContextMenuRtlDemo() {\n  return (\n    <DirectionProvider direction=\"rtl\">\n      <div className=\"w-full max-w-md p-6\" dir=\"rtl\">\n        <ContextMenu>\n          <ContextMenuTrigger className=\"flex h-56 w-full items-center justify-center rounded-xl border border-border border-dashed bg-muted/20 text-center font-medium text-muted-foreground text-sm transition-colors hover:border-foreground/30 hover:bg-muted/40\">\n            <div className=\"flex select-none flex-col items-center gap-1.5 p-4\">\n              <span className=\"font-semibold text-foreground\">\n                انقر بزر الفأرة الأيمن هنا\n              </span>\n              <span className=\"text-muted-foreground text-xs\">\n                افتح القائمة السياقية من اليمين إلى اليسار\n              </span>\n            </div>\n          </ContextMenuTrigger>\n\n          <ContextMenuContent className=\"w-60\" dir=\"rtl\">\n            <ContextMenuItem>نسخ</ContextMenuItem>\n            <ContextMenuItem>لصق</ContextMenuItem>\n            <ContextMenuSeparator />\n            <ContextMenuSub>\n              <ContextMenuSubTrigger>المزيد من الخيارات</ContextMenuSubTrigger>\n              <ContextMenuSubContent className=\"w-48\" dir=\"rtl\">\n                <ContextMenuItem>حفظ باسم</ContextMenuItem>\n                <ContextMenuItem>أدوات المطور</ContextMenuItem>\n              </ContextMenuSubContent>\n            </ContextMenuSub>\n            <ContextMenuSeparator />\n            <ContextMenuCheckboxItem checked>\n              إظهار الملفات المخفية\n            </ContextMenuCheckboxItem>\n            <ContextMenuItem variant=\"destructive\">حذف</ContextMenuItem>\n          </ContextMenuContent>\n        </ContextMenu>\n      </div>\n    </DirectionProvider>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/context-menu-rtl.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

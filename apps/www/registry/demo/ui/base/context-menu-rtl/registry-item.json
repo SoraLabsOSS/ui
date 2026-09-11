@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-context-menu-rtl",
+  "type": "registry:ui",
+  "title": "Context Menu RTL Demo",
+  "description": "Context Menu rendered right-to-left with Base UI DirectionProvider.",
+  "registryDependencies": ["@soralabs/base-context-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/context-menu-rtl/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/context-menu-rtl.tsx"
+    }
+  ]
+}

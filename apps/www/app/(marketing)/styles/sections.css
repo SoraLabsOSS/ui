@@ -226,6 +226,18 @@
   background-color: var(--color-neutral-600);
 }
 
+.home-layout .sora-footer-registry-card {
+  background-color: rgb(23 23 23);
+  border-color: rgb(163 163 163 / 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  .home-layout .sora-footer-registry-card {
+    background-color: rgb(23 23 23 / 0.9);
+    border-color: rgb(38 38 38);
+  }
+}
+
 /* ------------------------- UNDER NAV BAR -------------------------  */
 .home-layout .under-nav-bar {
   visibility: visible;
@@ -1224,11 +1236,6 @@
   color: #fb460d !important;
 }
 
-.home-layout .footer-bottom__logo {
-  color: #1a1a1a;
-  transition: color 0.3s ease;
-}
-
 .home-layout input:focus,
 .home-layout textarea:focus {
   outline-color: #fb460d !important;
@@ -1254,21 +1261,6 @@
 .home-layout .under-nav-bar {
   visibility: visible;
   opacity: 1;
-}
-
-.home-layout .footer-inner {
-  grid-row-gap: var(--gap-xxl) !important;
-  row-gap: var(--gap-xxl) !important;
-  justify-content: flex-start !important;
-  min-height: auto !important;
-  padding-top: var(--gap-xxl) !important;
-  padding-bottom: var(--gap-l) !important;
-}
-
-.home-layout .footer-bottom__row {
-  padding-top: var(--gap-m) !important;
-  margin-top: var(--gap-xl) !important;
-  border-top: 1px solid var(--color-neutral-300) !important;
 }
 
 .home-layout .button[data-shape="round"],

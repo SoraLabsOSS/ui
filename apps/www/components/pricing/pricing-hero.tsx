@@ -25,7 +25,7 @@ export function PricingHero() {
               <span className="block">free forever.</span>
             </h1>
 
-            <p className="pricing-hero__subtitle mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed sm:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-balance text-[var(--color-neutral-500)] text-base leading-relaxed sm:text-xl">
               {PRICING_CORE_MESSAGE}
             </p>
           </div>

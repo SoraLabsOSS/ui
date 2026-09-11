@@ -92,26 +92,20 @@ export function Footer() {
 
   return (
     <div className="home-layout sora-footer-root w-full" ref={containerRef}>
-      <footer className="footer" data-theme-section="light">
+      <footer className="relative" data-theme-section="light">
         <div className="is--md-m container">
-          <div className="footer-inner">
+          <div className="flex min-h-auto flex-col justify-start gap-[var(--gap-xxl)] py-[var(--gap-xxl)] pb-[var(--gap-l)]">
             {/* Top Row: Newsletter + 3 Columns of Links */}
-            <div className="footer-top__row">
-              <div className="footer-top__links">
+            <div className="flex flex-col gap-[3.75em] max-[767px]:gap-[var(--gap-xxl)]">
+              <div className="flex items-start gap-[8.5em] max-[991px]:flex-col max-[767px]:gap-[var(--gap-xxl)] max-[991px]:gap-[4.5em]">
                 {/* Newsletter Column */}
-                {/* Sora UI Registry Banner Card (rounded-[2.5rem]) */}
-                <div className="footer-form__col w-full max-w-full! lg:max-w-[35.1875em]!">
+                <div className="flex w-full max-w-full! flex-col items-start justify-start gap-[var(--gap-xxl)] lg:max-w-[35.1875em]!">
                   <Link
-                    className="nav-banner group w-full w-inline-block border border-neutral-300/40 bg-neutral-900 text-white dark:border-neutral-800 dark:bg-neutral-900/90 dark:text-neutral-100"
+                    className="sora-footer-registry-card relative flex aspect-[4/3] w-full flex-col items-center justify-center overflow-hidden rounded-[2.5rem] border text-white dark:text-neutral-100"
                     href="/ui"
-                    style={{ borderRadius: "2.5rem" }}
                   >
-                    <div
-                      className="nav-banner__before"
-                      style={{ paddingTop: "75%" }}
-                    />
-                    <div className="nav-banner__content flex flex-col justify-between p-6 sm:p-8">
-                      <div className="nav-banner__tags flex justify-center gap-1.5">
+                    <div className="box-border flex size-full flex-col justify-between px-10 py-10">
+                      <div className="flex justify-center gap-1.5">
                         <div className="tag" data-shape="" data-theme="">
                           <div
                             className="button-bg"
@@ -131,13 +125,19 @@ export function Footer() {
                           </span>
                         </div>
                       </div>
-                      <div className="nav-banner__center-content flex flex-1 flex-col items-center justify-end">
-                        <div className="nav-banner__title text-center">
-                          <h2 className="h-m text-white dark:text-neutral-100">
-                            Sora UI Registry
+                      <div className="mx-auto flex w-full max-w-sm flex-1 flex-col items-center justify-end">
+                        <div className="text-center">
+                          <h2
+                            className="h-m text-white dark:text-neutral-100"
+                            style={{
+                              color: "#fff",
+                              WebkitTextFillColor: "#fff",
+                            }}
+                          >
+                            Sora UI
                           </h2>
                         </div>
-                        <div className="nav-banner__btn flex justify-center pt-5">
+                        <div className="flex justify-center pt-6">
                           <span
                             className="button"
                             data-button-rotate=""
@@ -169,26 +169,26 @@ export function Footer() {
                 {/* Accordion Columns + Buttons on the same right side */}
                 <div className="flex flex-1 flex-col justify-between gap-8 self-stretch">
                   <div
-                    className="footer-link__row"
+                    className="flex w-full items-start gap-[var(--gap-sm)] max-[767px]:flex-col max-[767px]:gap-0"
                     data-accordion-close-siblings="true"
                   >
                     {/* 1. Components Column */}
                     <div
-                      className="footer-link__col"
+                      className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
                       data-accordion-status={
                         openAccordion === "components" ? "active" : "not-active"
                       }
                     >
                       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
                       <div
-                        className="footer-link__col-top"
+                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                         data-accordion-toggle=""
                         data-hover=""
                         onClick={() => toggleAccordion("components")}
                       >
                         <h4 className="h-xs">Components</h4>
                         <svg
-                          className="footer-link__col-icon"
+                          className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
                           fill="none"
                           viewBox="0 0 13 13"
                           width="100%"
@@ -201,11 +201,11 @@ export function Footer() {
                           />
                         </svg>
                       </div>
-                      <div className="footer-link__col-bottom">
-                        <div className="footer-link__col-bottom-wrap">
-                          <div className="footer-link__col-bottom-content">
-                            <ul className="footer-link__col-ul">
-                              <li className="footer-link__col-li">
+                      <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
+                        <div className="relative flex h-[100000%] flex-col overflow-hidden">
+                          <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
+                            <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -214,7 +214,7 @@ export function Footer() {
                                   Motion Primitives
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -223,7 +223,7 @@ export function Footer() {
                                   UI Foundation
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -232,7 +232,7 @@ export function Footer() {
                                   Catalog Showcase
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -241,7 +241,7 @@ export function Footer() {
                                   Animated Icons
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -258,7 +258,7 @@ export function Footer() {
 
                     {/* 2. Documentation Column */}
                     <div
-                      className="footer-link__col"
+                      className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
                       data-accordion-status={
                         openAccordion === "documentation"
                           ? "active"
@@ -267,14 +267,14 @@ export function Footer() {
                     >
                       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
                       <div
-                        className="footer-link__col-top"
+                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                         data-accordion-toggle=""
                         data-hover=""
                         onClick={() => toggleAccordion("documentation")}
                       >
                         <h4 className="h-xs">Documentation</h4>
                         <svg
-                          className="footer-link__col-icon"
+                          className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
                           fill="none"
                           viewBox="0 0 13 13"
                           width="100%"
@@ -287,11 +287,11 @@ export function Footer() {
                           />
                         </svg>
                       </div>
-                      <div className="footer-link__col-bottom">
-                        <div className="footer-link__col-bottom-wrap">
-                          <div className="footer-link__col-bottom-content">
-                            <ul className="footer-link__col-ul">
-                              <li className="footer-link__col-li">
+                      <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
+                        <div className="relative flex h-[100000%] flex-col overflow-hidden">
+                          <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
+                            <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -300,7 +300,7 @@ export function Footer() {
                                   Introduction
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -309,7 +309,7 @@ export function Footer() {
                                   Base UI &amp; Radix
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="underline-link p-m"
                                   data-underline-link=""
@@ -318,7 +318,7 @@ export function Footer() {
                                   Changelog
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -335,21 +335,21 @@ export function Footer() {
 
                     {/* 3. Community Column */}
                     <div
-                      className="footer-link__col is--last"
+                      className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
                       data-accordion-status={
                         openAccordion === "community" ? "active" : "not-active"
                       }
                     >
                       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
                       <div
-                        className="footer-link__col-top"
+                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                         data-accordion-toggle=""
                         data-hover=""
                         onClick={() => toggleAccordion("community")}
                       >
                         <h4 className="h-xs">Community</h4>
                         <svg
-                          className="footer-link__col-icon"
+                          className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
                           fill="none"
                           viewBox="0 0 13 13"
                           width="100%"
@@ -362,11 +362,11 @@ export function Footer() {
                           />
                         </svg>
                       </div>
-                      <div className="footer-link__col-bottom">
-                        <div className="footer-link__col-bottom-wrap">
-                          <div className="footer-link__col-bottom-content">
-                            <ul className="footer-link__col-ul">
-                              <li className="footer-link__col-li">
+                      <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
+                        <div className="relative flex h-[100000%] flex-col overflow-hidden">
+                          <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
+                            <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
+                              <li>
                                 <a
                                   className="underline-link p-m"
                                   data-underline-link=""
@@ -377,7 +377,7 @@ export function Footer() {
                                   GitHub
                                 </a>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <a
                                   className="p-m"
                                   data-underline-link=""
@@ -388,7 +388,7 @@ export function Footer() {
                                   Community Hub
                                 </a>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -397,7 +397,7 @@ export function Footer() {
                                   Blog
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
@@ -406,7 +406,7 @@ export function Footer() {
                                   Pricing
                                 </Link>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <a
                                   className="p-m"
                                   data-underline-link=""
@@ -417,7 +417,7 @@ export function Footer() {
                                   Report an Issue
                                 </a>
                               </li>
-                              <li className="footer-link__col-li">
+                              <li>
                                 <a
                                   className="p-m"
                                   data-barba-prevent=""
@@ -435,8 +435,8 @@ export function Footer() {
                   </div>
 
                   {/* Buttons Row: Docs & Explore UI + Socials right below link columns */}
-                  <div className="footer-top__button-row pt-2">
-                    <div className="footer-top__button-col sm--hide">
+                  <div className="flex w-full items-start gap-[var(--gap-sm)] pt-2 max-[767px]:flex-col max-[767px]:items-center max-[767px]:justify-center max-[767px]:gap-0">
+                    <div className="w-full max-w-[13.375em] max-[767px]:hidden">
                       <div className="button-row">
                         <Link
                           className="button w-inline-block rounded-[1.5rem]!"
@@ -492,7 +492,7 @@ export function Footer() {
                         </Link>
                       </div>
                     </div>
-                    <div className="footer-top__button-col">
+                    <div className="w-full max-w-[13.375em] max-[767px]:w-auto max-[767px]:max-w-none">
                       <div className="button-row">
                         {/* GitHub */}
                         <a
@@ -653,21 +653,18 @@ export function Footer() {
             </div>
 
             {/* Bottom Row: Legal Pills + Copyright + Created By */}
-            <div className="footer-bottom__row">
-              <div className="footer-bottom__details">
+            <div className="mt-[var(--gap-xl)] flex flex-col gap-[var(--gap-xl)] border-neutral-300 border-t pt-[var(--gap-m)] max-[767px]:mt-0 max-[767px]:items-center max-[767px]:justify-start max-[767px]:gap-[var(--gap-sm)]">
+              <div className="grid grid-cols-3 max-[767px]:contents">
                 {/* Left Column: Legal Pills */}
-                <div className="footer-bottom__details-col is--start">
-                  <div className="footer-bottom__legal w-dyn-list">
+                <div>
+                  <div className="flex w-full">
                     {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list structure */}
                     <div
-                      className="footer-bottom__legal-list w-dyn-items"
+                      className="flex max-w-full flex-wrap items-center justify-center"
                       role="list"
                     >
                       {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div
-                        className="footer-bottom__legal-item w-dyn-item"
-                        role="listitem"
-                      >
+                      <div className="w-dyn-item" role="listitem">
                         <a
                           className="button tag w-inline-block"
                           data-barba-p=""
@@ -697,10 +694,7 @@ export function Footer() {
                         </a>
                       </div>
                       {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div
-                        className="footer-bottom__legal-item w-dyn-item"
-                        role="listitem"
-                      >
+                      <div className="w-dyn-item" role="listitem">
                         <Link
                           className="button tag w-inline-block"
                           data-barba-p=""
@@ -726,10 +720,7 @@ export function Footer() {
                         </Link>
                       </div>
                       {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div
-                        className="footer-bottom__legal-item w-dyn-item"
-                        role="listitem"
-                      >
+                      <div className="w-dyn-item" role="listitem">
                         <Link
                           className="button tag w-inline-block"
                           data-barba-p=""
@@ -757,10 +748,7 @@ export function Footer() {
                         </Link>
                       </div>
                       {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div
-                        className="footer-bottom__legal-item w-dyn-item"
-                        role="listitem"
-                      >
+                      <div className="w-dyn-item" role="listitem">
                         <a
                           className="button tag w-inline-block"
                           data-barba-p=""
@@ -792,14 +780,14 @@ export function Footer() {
                 </div>
 
                 {/* Center Column: Copyright */}
-                <div className="footer-bottom__details-col is--center">
+                <div className="flex items-center justify-center">
                   <p className="eyebrow">
                     © <span data-current-year="">2026</span> sora ui
                   </p>
                 </div>
 
                 {/* Right Column: Created By Buttons */}
-                <div className="footer-bottom__details-col is--end">
+                <div className="order-none flex items-center justify-end gap-[var(--gap-xxs)] max-[767px]:order-[-1]">
                   <span className="eyebrow">created by</span>
                   <div className="button-row">
                     <a

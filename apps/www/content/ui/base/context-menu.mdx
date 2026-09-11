@@ -65,6 +65,51 @@ export default function Page() {
 }
 ```
 
+## RTL
+
+<ComponentPreview name="demo-context-menu-rtl" description="The same context menu pattern rendered right-to-left with Base UI DirectionProvider." />
+
+Use Base UI's `DirectionProvider` together with `dir="rtl"` on the demo
+container to render the menu from right to left. The provider keeps popup
+positioning and keyboard navigation aware of the text direction.
+
+```tsx
+import { DirectionProvider } from "@base-ui/react/direction-provider";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/sora-ui/base/context-menu";
+
+export default function RtlContextMenu() {
+  return (
+    <DirectionProvider direction="rtl">
+      <div dir="rtl">
+        <ContextMenu>
+          <ContextMenuTrigger>انقر بزر الفأرة الأيمن هنا</ContextMenuTrigger>
+          <ContextMenuContent dir="rtl">
+            <ContextMenuItem>نسخ</ContextMenuItem>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger>المزيد من الخيارات</ContextMenuSubTrigger>
+              <ContextMenuSubContent dir="rtl">
+                <ContextMenuItem>أدوات المطور</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+          </ContextMenuContent>
+        </ContextMenu>
+      </div>
+    </DirectionProvider>
+  );
+}
+```
+
+Nested submenus open toward the logical inline end, check and radio indicators
+move to the correct side, and submenu animations follow the active direction.
+
 ## Examples
 
 ### File Actions
@@ -139,7 +184,7 @@ export default function Page() {
       default: "false",
     },
     inset: {
-      description: "Whether to add left padding for alignment with checkable/radio items.",
+      description: "Whether to add inline-start padding for alignment with checkable/radio items.",
       type: "boolean",
       default: "false",
     },
@@ -169,7 +214,7 @@ export default function Page() {
       default: "false",
     },
     inset: {
-      description: "Whether to add left padding.",
+      description: "Whether to add inline-start padding.",
       type: "boolean",
       default: "false",
     },
@@ -190,7 +235,7 @@ export default function Page() {
       default: "false",
     },
     inset: {
-      description: "Whether to add left padding.",
+      description: "Whether to add inline-start padding.",
       type: "boolean",
       default: "false",
     },
@@ -231,7 +276,7 @@ export default function Page() {
     side: {
       description: "Side where the submenu should open.",
       type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
-      default: "\"right\"",
+      default: "\"inline-end\"",
     },
     sideOffset: {
       description: "Distance in pixels from the submenu trigger.",
@@ -245,4 +290,3 @@ export default function Page() {
     },
   }}
 />
-

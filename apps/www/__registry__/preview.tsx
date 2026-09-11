@@ -921,6 +921,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-context-menu-rtl": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/ui/base/context-menu-rtl/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-dialog": React.lazy(async () => {
     const mod = await import("@/registry/demo/ui/base/dialog/index.tsx");
     const pascalExportName = Object.keys(mod).find(
