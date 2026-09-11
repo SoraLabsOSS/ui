@@ -425,7 +425,7 @@ export function ComponentPreview({
                 initial={{ opacity: 0 }}
                 value="code"
               >
-                <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_pre]:max-h-[500px] [&_pre]:overflow-auto">
+                <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_[data-slot=codeblock-viewport]]:max-h-[500px]">
                   <DynamicCodeBlock
                     code={displayCode}
                     icon={<ReactIcon />}

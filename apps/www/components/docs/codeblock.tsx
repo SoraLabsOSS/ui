@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  ScrollArea,
+  ScrollBar,
+  ScrollViewport,
+} from "@workspace/ui/components/ui/scroll-area";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
 import {
@@ -122,17 +127,19 @@ export const CodeBlock = ({
         )
       )}
       <div className={cn("p-1.5", title && "pt-1.5")}>
-        <div
-          {...viewportProps}
-          className={cn(
-            "[&_code]:!text-[13px] [&_code_.line]:!px-0 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border max-h-[600px] overflow-x-auto overflow-y-scroll rounded-lg bg-surface [scrollbar-gutter:stable]",
-            viewportProps?.className
-          )}
-          data-slot="codeblock-viewport"
-          ref={areaRef}
-        >
-          {props.children}
-        </div>
+        <ScrollArea dir="ltr" ref={areaRef}>
+          <ScrollViewport
+            {...viewportProps}
+            className={cn(
+              "[&_code]:!text-[13px] [&_code_.line]:!px-0 h-auto max-h-[600px] w-full rounded-lg bg-surface",
+              viewportProps?.className
+            )}
+            data-slot="codeblock-viewport"
+          >
+            {props.children}
+          </ScrollViewport>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </figure>
   );

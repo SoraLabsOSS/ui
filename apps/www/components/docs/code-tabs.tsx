@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  ScrollArea,
+  ScrollBar,
+  ScrollViewport,
+} from "@workspace/ui/components/ui/scroll-area";
 import { cn } from "@workspace/ui/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -202,11 +207,16 @@ function CodeTabs({
                 key={code}
                 value={code}
               >
-                <div
-                  className="[&>pre,_&_code]:!bg-transparent [&_code]:!text-[13px] [&_code_.line]:!px-0 flex w-full items-center overflow-auto p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
-                  // biome-ignore lint/security/noDangerouslySetInnerHtml: highlighted code HTML from shiki
-                  dangerouslySetInnerHTML={{ __html: val }}
-                />
+                <ScrollArea className="max-h-[600px]">
+                  <ScrollViewport className="w-full">
+                    <div
+                      className="[&>pre,_&_code]:!bg-transparent [&_code]:!text-[13px] [&_code_.line]:!px-0 flex w-full items-center p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
+                      // biome-ignore lint/security/noDangerouslySetInnerHtml: highlighted code HTML from shiki
+                      dangerouslySetInnerHTML={{ __html: val }}
+                    />
+                  </ScrollViewport>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
               </TabsContent>
             ))}
         </TabsContents>

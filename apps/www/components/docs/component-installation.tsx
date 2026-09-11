@@ -88,11 +88,11 @@ export function ComponentInstallation({
         </div>
 
         <TabsContents>
-          <TabsContent className="p-1.5" value="sora-cli">
-            <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
-          </TabsContent>
           <TabsContent className="p-1.5" value="shadcn">
             <CodeTabs className="rounded-lg border-0" codes={shadcnCommands} />
+          </TabsContent>
+          <TabsContent className="p-1.5" value="sora-cli">
+            <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
           </TabsContent>
           <TabsContent className="p-4" value="manual">
             <ComponentManualInstallation
