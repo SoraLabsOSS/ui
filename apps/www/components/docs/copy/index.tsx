@@ -20,8 +20,8 @@ function CopyButton({
   copied,
   onCopiedChange,
   onClick,
-  variant,
-  size,
+  variant = "ghost",
+  size = "icon-sm",
   delay = 3000,
   ...props
 }: CopyButtonProps) {

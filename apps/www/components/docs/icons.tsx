@@ -437,7 +437,7 @@ export function Icons() {
                     )}
                   </div>
 
-                  <div>
+                  <div className="mt-4">
                     <Tabs
                       className="gap-0"
                       onValueChange={(value) => setActiveTab(value)}

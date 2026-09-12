@@ -188,7 +188,7 @@ function CodeTabs({
             className="-me-1 bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
             content={codes[selectedCode]}
             onCopiedChange={onCopiedChange}
-            size="xs"
+            size="icon-sm"
             variant="ghost"
           />
         )}

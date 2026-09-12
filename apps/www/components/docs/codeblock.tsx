@@ -108,7 +108,7 @@ export const CodeBlock = ({
               className="-me-1 bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
               isCopied={isCopied}
               onClick={onCopy}
-              size="xs"
+              size="icon-sm"
               variant="ghost"
             />
           ) : null}
@@ -120,7 +120,7 @@ export const CodeBlock = ({
               className="border border-border/40 bg-accent/80 backdrop-blur-sm hover:bg-accent"
               isCopied={isCopied}
               onClick={onCopy}
-              size="xs"
+              size="icon-sm"
               variant="ghost"
             />
           </div>

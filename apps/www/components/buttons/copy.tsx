@@ -17,8 +17,8 @@ type CopyButtonProps = Omit<ButtonProps, "children"> & {
 function CopyButton({
   content,
   className,
-  size,
-  variant,
+  size = "icon-sm",
+  variant = "ghost",
   delay = 3000,
   onClick,
   onCopy,
