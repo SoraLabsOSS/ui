@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   ArrowRight,
@@ -31,7 +30,6 @@ import {
   isMarketingPath,
   usePageTransition,
 } from "@/components/page-transition/page-transition-provider";
-import { authClient } from "@/lib/auth-client";
 import type {
   CommandPaletteActionId,
   CommandPaletteActionItem,
@@ -256,9 +254,6 @@ export function CommandPaletteDialog({
   const router = useRouter();
   const { transitionTo } = usePageTransition();
   const { setTheme } = useTheme();
-  const { data: session, isPending: sessionPending } = useSession(authClient, {
-    enabled: open,
-  });
   const { search, setSearch, query } = useCommandPaletteSearch();
   const listRef = useRef<HTMLDivElement>(null);
   const [scrollLocked, setScrollLocked] = useState(false);
@@ -321,15 +316,12 @@ export function CommandPaletteDialog({
     const insertAt =
       navigationIndex === -1 ? groups.length : navigationIndex + 1;
 
-    const utilityGroups: CommandPaletteGroup[] = [
-      ...(session && !sessionPending ? [ACCOUNT_GROUP] : []),
-      THEME_GROUP,
-    ];
+    const utilityGroups: CommandPaletteGroup[] = [ACCOUNT_GROUP, THEME_GROUP];
 
     const result = [...groups];
     result.splice(insertAt, 0, ...utilityGroups);
     return result;
-  }, [groups, session, sessionPending]);
+  }, [groups]);
 
   const hasQuery = search.trim().length > 0;
   const searchResults = getSearchResults(query.data);

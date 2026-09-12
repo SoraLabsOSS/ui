@@ -19,6 +19,43 @@ export function CommandPaletteSearchDialog({
   const [hasOpened, setHasOpened] = useState(open);
 
   useEffect(() => {
+    const preload = () => {
+      import("./command-palette-dialog").catch(() => undefined);
+    };
+
+    const win = window as Window & {
+      cancelIdleCallback?: (id: number) => void;
+      requestIdleCallback?: (cb: () => void) => number;
+    };
+
+    if (typeof win.requestIdleCallback === "function") {
+      const handle = win.requestIdleCallback(preload);
+      return () => {
+        win.cancelIdleCallback?.(handle);
+      };
+    }
+
+    const timer = setTimeout(preload, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "k" || event.metaKey || event.ctrlKey) {
+        import("./command-palette-dialog").catch(() => undefined);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown, {
+      capture: true,
+      once: true,
+    });
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown, { capture: true });
+    };
+  }, []);
+
+  useEffect(() => {
     if (open) {
       setHasOpened(true);
     }

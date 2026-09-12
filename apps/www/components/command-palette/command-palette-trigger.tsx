@@ -26,6 +26,9 @@ export function CommandPaletteTrigger({
   variant = "search",
 }: CommandPaletteTriggerProps) {
   const openCommandPalette = useCommandPaletteOpen();
+  const handlePreload = () => {
+    import("./command-palette-dialog").catch(() => undefined);
+  };
 
   if (variant === "icon") {
     return (
@@ -33,6 +36,8 @@ export function CommandPaletteTrigger({
         aria-label="Open command palette"
         className={className}
         onClick={openCommandPalette}
+        onFocus={handlePreload}
+        onMouseEnter={handlePreload}
         type="button"
       >
         <CommandIcon />
@@ -47,6 +52,8 @@ export function CommandPaletteTrigger({
         className
       )}
       onClick={openCommandPalette}
+      onFocus={handlePreload}
+      onMouseEnter={handlePreload}
       type="button"
     >
       <span className="font-normal">Search...</span>
