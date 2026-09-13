@@ -85,8 +85,12 @@ function cleanMdxStepChildren(children?: string): string {
     (_, heading: string) => `\n\n**${heading.trim()}**\n\n`
   );
 
-  // Strip remaining HTML tags outside code blocks
-  text = text.replace(HTML_TAG_RE, "");
+  // Strip remaining HTML tags outside code blocks repeatedly until none remain
+  let previous: string;
+  do {
+    previous = text;
+    text = text.replace(HTML_TAG_RE, "");
+  } while (text !== previous);
 
   // Restore preserved code blocks
   text = text.replace(CODE_BLOCK_PLACEHOLDER_RE, (_, idx) => {
