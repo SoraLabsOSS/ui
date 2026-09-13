@@ -2,17 +2,34 @@
 
 # Sora UI
 
-A fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, and Motion.
+**The AI-ready animated component registry & motion system for React & Next.js.**
 
 [![GitHub stars](https://img.shields.io/github/stars/SoraLabsOSS/ui?style=flat-square)](https://github.com/SoraLabsOSS/ui/stargazers)
 ![BlockDex](https://img.shields.io/endpoint?url=https%3A%2F%2Ftoolproof.kynth.studio%2Fapi%2Fv1%2Fbadge%2Fblockdex%2Fsora-ui)
 [![MotionScore](https://api.motion.dev/score/badge?url=ui.soralabs.studio)](https://score.motion.dev/site/ui.soralabs.studio)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE.md)
 
 </div>
 
+## Architecture
+
+```text
+Sora UI
+├── Motion       (Animation building blocks: unstyled motion & effects at /docs/motion)
+├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
+└── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
+```
+
+## Highlights
+
+- **AI-Native & MCP-Ready**: Includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server (`apps/xmcp`) with rich metadata (intent, accessibility constraints, motion physics, and composition rules) for AI coding agents (Cursor, Claude, v0).
+- **Motion First**: Production-ready micro-interactions and animations built on Motion with first-class `prefers-reduced-motion` accessibility support.
+- **Modern Foundation**: Built on React 19, Tailwind CSS v4, Base UI, and Radix UI. Zero-overhead styling with full class override support via `cn(...)`.
+- **High-Performance Monorepo**: Powered by Bun 1.3, Turborepo, and Biome/Ultracite for lightning-fast builds, linting, and component scaffolding.
+
 ## Documentation
 
-Visit [ui.soralabs.studio](https://ui.soralabs.studio/docs) to view the documentation.
+Explore the interactive component catalog, animated showcases, and documentation at [ui.soralabs.studio](https://ui.soralabs.studio).
 
 ## Local development
 
@@ -39,11 +56,7 @@ Production deployments for documentation require **zero environment variables**.
 
 Sora UI includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server built with [xmcp](https://xmcp.dev) under `[apps/xmcp](./apps/xmcp)`. It enables AI assistants (Cursor, Claude Desktop, Claude Code, etc.) to search documentation, browse sections, and install components:
 
-The UI registry also publishes agent-native metadata for active Base UI and
-Radix UI components: intent, accessibility constraints, motion behavior, and
-composition rules. MCP exposes this context through component information and
-provides composition validation; it is a foundation for agent-assisted UI
-construction, not yet an end-to-end planner or code generator.
+The UI registry also publishes agent-native metadata for active Base UI and Radix UI components: intent, accessibility constraints, motion behavior, and composition rules. MCP exposes this context through component information and provides composition validation; it is a foundation for agent-assisted UI construction, not yet an end-to-end planner or code generator.
 
 ```bash
 # Run MCP server in development mode
@@ -61,6 +74,7 @@ Visit our [contributing guide](./CONTRIBUTING.md) to learn how to contribute.
 
 - **Scaffold a component:** `bun run create` (interactive wizard)
 - **Adding a documented component:** see [apps/www/registry/README.md](./apps/www/registry/README.md)
+- **Component health verification:** `bun run doctor <name>`
 - **Contributor CLI reference:** see [packages/www-cli/README.md](./packages/www-cli/README.md)
 
 ## Code of Conduct
