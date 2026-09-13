@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+import type { ReactNode } from "react";
 import { index } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
@@ -15,14 +16,21 @@ import {
 import { ComponentFileStructure } from "./component-file-structure";
 import { ComponentManualInstallation } from "./component-manual-installation";
 
-interface ComponentInstallationProps
+export interface ComponentInstallationProps
   extends React.HTMLAttributes<HTMLDivElement> {
+  afterSteps?: ReactNode;
+  beforeSteps?: ReactNode;
+  hideFileStructure?: boolean;
   name: string;
 }
 
 export function ComponentInstallation({
   name,
   className,
+  beforeSteps,
+  afterSteps,
+  children,
+  hideFileStructure = false,
   ...props
 }: ComponentInstallationProps) {
   const component = index[name];
@@ -96,17 +104,21 @@ export function ComponentInstallation({
           </TabsContent>
           <TabsContent className="p-4" value="manual">
             <ComponentManualInstallation
+              afterSteps={afterSteps}
+              beforeSteps={beforeSteps}
               code={component.files?.[0]?.content}
               dependencies={component.dependencies}
               devDependencies={component.devDependencies}
               path={component.files?.[0]?.target}
               registryDependencies={component.registryDependencies}
-            />
+            >
+              {children}
+            </ComponentManualInstallation>
           </TabsContent>
         </TabsContents>
       </Tabs>
 
-      <ComponentFileStructure name={name} />
+      {!hideFileStructure && <ComponentFileStructure name={name} />}
     </div>
   );
 }

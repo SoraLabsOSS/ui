@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-base-tooltip",
+  "title": "Base Tooltip Demo",
+  "description": "Base UI tooltip with spring bounce motion physics and arrow pointer.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["@soralabs/base-tooltip", "@soralabs/base-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/tooltip/index.tsx",
+      "content": "\"use client\";\n\nimport { BookmarkIcon } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Button } from \"@/components/sora-ui/base/button\";\nimport {\n  Tooltip,\n  TooltipArrow,\n  TooltipContent,\n  TooltipProvider,\n  TooltipTrigger,\n} from \"@/components/sora-ui/base/tooltip\";\n\nexport default function TooltipDemo() {\n  const [open, setOpen] = useState(false);\n\n  return (\n    <div className=\"flex min-h-48 items-center justify-center p-8\">\n      <TooltipProvider delay={100}>\n        <Tooltip onOpenChange={setOpen} open={open}>\n          <TooltipTrigger\n            render={\n              <Button size=\"icon\" variant=\"outline\">\n                <BookmarkIcon className=\"size-4\" />\n                <span className=\"sr-only\">Add to library</span>\n              </Button>\n            }\n          />\n          <TooltipContent side=\"top\">\n            Add to library\n            <TooltipArrow />\n          </TooltipContent>\n        </Tooltip>\n      </TooltipProvider>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/tooltip.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

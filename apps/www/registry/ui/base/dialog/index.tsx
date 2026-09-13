@@ -196,7 +196,7 @@ interface DialogContentProps
 }
 
 /**
- * Modal dialog content container with 1:1 Motion 3D perspective rotation and blur entrance/exit.
+ * Modal dialog content container with Motion 3D perspective rotation and blur entrance/exit.
  */
 function DialogContent({
   className,

@@ -1,0 +1,164 @@
+---
+title: Tooltip
+description: An accessible tooltip built on Base UI with spring-based keyframe scale and translation animations powered by Motion.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+intent: Provide contextual hint or shortcut explanation when hovering or focusing an interactive element.
+role: tooltip
+a11yConstraints:
+  - Render accessible name or description without trapping keyboard focus.
+  - Dismiss cleanly on Escape without activating underlying interactive elements.
+motionEngine: Motion spring scale, directional translation offset, and presence transition.
+compositionRules:
+  - Wrap interactive elements with TooltipTrigger using render prop or semantic button.
+compositionRecipes:
+  - name: icon-button-tooltip
+    description: Provide text label for icon-only action buttons.
+    components:
+      - base/tooltip
+      - base/button
+    constraints:
+      - Include an accessible sr-only label in the button alongside the tooltip.
+---
+
+<ComponentPreview name="demo-base-tooltip" description="Base UI tooltip with spring bounce motion physics and arrow pointer." />
+
+## Installation
+
+<ComponentInstallation name="base-tooltip">
+  <Step>
+    <h4 className="pt-1 pb-4">Add the TooltipProvider to the root of your app.</h4>
+
+    ```tsx title="app/layout.tsx"
+    import { TooltipProvider } from "@/components/sora-ui/base/tooltip";
+
+    export default function RootLayout({
+      children,
+    }: {
+      children: React.ReactNode;
+    }) {
+      return (
+        <html lang="en">
+          <body>
+            <TooltipProvider>{children}</TooltipProvider>
+          </body>
+        </html>
+      );
+    }
+    ```
+  </Step>
+</ComponentInstallation>
+
+## Usage
+
+```tsx
+import { Button } from "@/components/sora-ui/base/button";
+import {
+  Tooltip,
+  TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/sora-ui/base/tooltip";
+import { BookmarkIcon } from "lucide-react";
+
+export default function Page() {
+  return (
+    <TooltipProvider delay={100}>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button size="icon" variant="outline">
+              <BookmarkIcon className="size-4" />
+              <span className="sr-only">Add to library</span>
+            </Button>
+          }
+        />
+        <TooltipContent side="top">
+          Add to library
+          <TooltipArrow />
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+```
+
+## Props
+
+### Tooltip
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the tooltip.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### TooltipProvider
+
+<TypeTable
+  type={{
+    delay: {
+      description: "The delay in milliseconds before the tooltip appears.",
+      type: "number",
+      default: "0",
+    },
+    closeDelay: {
+      description: "The delay in milliseconds before the tooltip closes.",
+      type: "number",
+    },
+    skipDelayDuration: {
+      description: "How long in milliseconds to wait before re-enabling delay when moving between tooltips.",
+      type: "number",
+    },
+  }}
+/>
+
+### TooltipContent
+
+<TypeTable
+  type={{
+    side: {
+      description: "Preferred side of the trigger to position the tooltip content.",
+      type: '"top" | "bottom" | "left" | "right" | "inline-start" | "inline-end"',
+      default: '"top"',
+    },
+    sideOffset: {
+      description: "Offset distance in pixels from the anchor element.",
+      type: "number",
+      default: "4",
+    },
+    align: {
+      description: "Alignment relative to the anchor trigger.",
+      type: '"start" | "center" | "end"',
+      default: '"center"',
+    },
+    alignOffset: {
+      description: "Offset distance in pixels along the alignment axis.",
+      type: "number",
+      default: "0",
+    },
+    transition: {
+      description: "Custom Motion Transition spring physics configuration.",
+      type: "Transition",
+      default: '{ visualDuration: 0.3, type: "spring", bounce: 0.6 }',
+    },
+    className: {
+      description: "Additional CSS classes for styling the tooltip popup box.",
+      type: "string",
+    },
+  }}
+/>

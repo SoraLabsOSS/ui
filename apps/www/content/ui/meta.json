@@ -15,6 +15,7 @@
     "base/context-menu",
     "base/dialog",
     "base/dropdown-menu",
+    "base/tooltip",
     "---Radix UI---",
     "radix/button",
     "radix/checkbox",

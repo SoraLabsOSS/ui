@@ -380,39 +380,40 @@ export function ComponentPreview({
                   </ComponentWrapper>
                 </div>
 
-                {/* bottom dashed separator */}
-                <svg aria-hidden="true" className="block h-px w-full">
-                  <line
-                    className="text-border"
-                    stroke="currentColor"
-                    strokeDasharray="8 4"
-                    strokeWidth="1"
-                    x1="0"
-                    x2="100%"
-                    y1="0"
-                    y2="0"
-                  />
-                </svg>
-
-                {/* tweakpane — shown below the separator when props exist */}
+                {/* tweakpane & separator — only shown when props exist */}
                 <AnimatePresence>
                   {binds ? (
-                    <motion.div
-                      animate={{ opacity: 1, height: "auto" }}
-                      className="overflow-hidden"
-                      exit={{ opacity: 0, height: 0 }}
-                      initial={{ opacity: 0, height: 0 }}
-                      key="tweakpane"
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 20,
-                      }}
-                    >
-                      <div className="w-full px-4.5 py-4">
-                        <Tweakpane binds={binds} onBindsChange={setBinds} />
-                      </div>
-                    </motion.div>
+                    <>
+                      {/* bottom dashed separator */}
+                      <svg aria-hidden="true" className="block h-px w-full">
+                        <line
+                          className="text-border"
+                          stroke="currentColor"
+                          strokeDasharray="8 4"
+                          strokeWidth="1"
+                          x1="0"
+                          x2="100%"
+                          y1="0"
+                          y2="0"
+                        />
+                      </svg>
+                      <motion.div
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="overflow-hidden"
+                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, height: 0 }}
+                        key="tweakpane"
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 20,
+                        }}
+                      >
+                        <div className="w-full px-4.5 py-4">
+                          <Tweakpane binds={binds} onBindsChange={setBinds} />
+                        </div>
+                      </motion.div>
+                    </>
                   ) : null}
                 </AnimatePresence>
               </div>

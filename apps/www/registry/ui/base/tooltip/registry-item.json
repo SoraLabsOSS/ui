@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "base-tooltip",
+  "type": "registry:ui",
+  "title": "Base Tooltip",
+  "description": "An accessible tooltip built on Base UI with spring-based keyframe scale and translation animations powered by Motion.",
+  "dependencies": ["@base-ui/react", "motion"],
+  "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Provide contextual hint or shortcut explanation when hovering or focusing an interactive element.",
+      "role": "tooltip",
+      "a11yConstraints": [
+        "Render accessible name/description without trapping keyboard focus.",
+        "Dismiss cleanly on Escape without activating underlying element."
+      ],
+      "motionEngine": "Motion spring scale, directional translation offset, and presence transition.",
+      "compositionRules": [
+        "Wrap interactive elements with TooltipTrigger using render prop or semantic button."
+      ],
+      "compositionRecipes": [
+        "Compose with base/button for icon-only action button descriptions."
+      ]
+    }
+  },
+  "files": [
+    {
+      "path": "registry/ui/base/tooltip/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/base/tooltip.tsx"
+    }
+  ]
+}

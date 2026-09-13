@@ -183,7 +183,7 @@ interface AccordionProps
 }
 
 /**
- * Animated Accordion component built on Base UI with 1:1 Motion spring physics,
+ * Animated Accordion component built on Base UI with Motion spring physics,
  * blur/mask transitions, gliding layoutId focus ring, and full shadcn/ui customizability.
  */
 function Accordion({
@@ -389,7 +389,7 @@ interface AccordionTriggerProps
 
 /**
  * Interactive button that expands or collapses the accordion panel.
- * Features 1:1 Motion gliding focus ring, pressed spring tap, and smooth chevron rotation.
+ * Features Motion gliding focus ring, pressed spring tap, and smooth chevron rotation.
  */
 function AccordionTrigger({
   className,
@@ -553,7 +553,7 @@ interface AccordionContentProps
 
 /**
  * Collapsible panel containing the accordion content.
- * Features 1:1 Motion height collapse, gradient mask fading, and blur transitions.
+ * Features Motion height collapse, gradient mask fading, and blur transitions.
  */
 function AccordionContent({
   className,

@@ -1,15 +1,11 @@
-﻿"use client";
+"use client";
 
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { Step, Steps } from "fumadocs-ui/components/steps";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "fumadocs-ui/components/ui/collapsible";
-import { useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { type ReactNode, useState } from "react";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 
@@ -57,29 +53,39 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
   };
 };
 
+export interface ComponentManualInstallationProps {
+  afterSteps?: ReactNode;
+  beforeSteps?: ReactNode;
+  children?: ReactNode;
+  code?: string;
+  dependencies?: string[];
+  devDependencies?: string[];
+  path?: string;
+  registryDependencies?: string[];
+}
+
 export const ComponentManualInstallation = ({
   path,
   dependencies,
   devDependencies,
   registryDependencies,
   code,
-}: {
-  path?: string;
-  dependencies?: string[];
-  devDependencies?: string[];
-  registryDependencies?: string[];
-  code?: string;
-}) => {
+  beforeSteps,
+  afterSteps,
+  children,
+}: ComponentManualInstallationProps) => {
   const depsCommands = getDepsCommands(dependencies);
   const devDepsCommands = getDepsCommands(devDependencies);
   const registryDepsCommands = getRegistryDepsCommands(registryDependencies);
 
   const [isOpened, setIsOpened] = useState(false);
-  const collapsibleRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <div className="-mt-6">
       <Steps>
+        {beforeSteps}
+
         {depsCommands && (
           <Step>
             <h4 className="pt-1 pb-4">Install the following dependencies:</h4>
@@ -111,42 +117,49 @@ export const ComponentManualInstallation = ({
               Copy and paste the following code into your project:
             </h4>
 
-            <Collapsible onOpenChange={setIsOpened} open={isOpened}>
-              <div className="relative overflow-hidden" ref={collapsibleRef}>
-                <CollapsibleContent
-                  className={cn("overflow-hidden", !isOpened && "max-h-32")}
-                  forceMount
-                >
-                  <div
-                    className={cn(
-                      "[&_code]:pb-[60px] [&_pre]:my-0 [&_pre]:max-h-[650px]"
-                    )}
-                  >
-                    <DynamicCodeBlock
-                      code={code}
-                      icon={<ReactIcon />}
-                      lang="tsx"
-                      title={path}
-                    />
-                  </div>
-                </CollapsibleContent>
+            <div className="relative overflow-hidden">
+              <motion.div
+                animate={{ height: isOpened ? "auto" : 128 }}
+                className="overflow-hidden"
+                initial={false}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
+                }
+              >
                 <div
                   className={cn(
-                    "absolute flex items-center justify-center rounded-t-xl bg-gradient-to-b from-transparent to-background/95 p-2 dark:to-background/95",
-                    isOpened ? "inset-x-0 bottom-0 h-14" : "inset-0"
+                    "[&_code]:pb-16 [&_pre]:my-0 [&_pre]:max-h-[650px]"
                   )}
                 >
-                  <CollapsibleTrigger asChild>
-                    <Button
-                      className="h-7 rounded-full border border-border/40 px-3 text-xs"
-                      variant="secondary"
-                    >
-                      {isOpened ? "Collapse" : "Expand"}
-                    </Button>
-                  </CollapsibleTrigger>
+                  <DynamicCodeBlock
+                    code={code}
+                    icon={<ReactIcon />}
+                    lang="tsx"
+                    title={path}
+                  />
                 </div>
+              </motion.div>
+
+              <div
+                className={cn(
+                  "pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-3 transition-[height,background] duration-300",
+                  isOpened
+                    ? "h-16 bg-gradient-to-t from-background/90 via-background/40 to-transparent"
+                    : "h-24 bg-gradient-to-t from-background via-background/80 to-transparent"
+                )}
+              >
+                <Button
+                  className="pointer-events-auto h-7 rounded-full border border-border/40 bg-background/80 px-3 text-xs shadow-xs backdrop-blur-sm hover:bg-accent"
+                  onClick={() => setIsOpened(!isOpened)}
+                  type="button"
+                  variant="secondary"
+                >
+                  {isOpened ? "Collapse" : "Expand"}
+                </Button>
               </div>
-            </Collapsible>
+            </div>
           </Step>
         )}
 
@@ -155,6 +168,9 @@ export const ComponentManualInstallation = ({
             Update the import paths to match your project setup.
           </h4>
         </Step>
+
+        {children}
+        {afterSteps}
       </Steps>
     </div>
   );

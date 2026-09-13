@@ -61,7 +61,7 @@ export function PricingCards() {
               </div>
 
               <div className="mt-[1.25em] flex items-baseline gap-[0.375em]">
-                <h2 className="m-0 font-[Haffer_XH,Arial,sans-serif] font-normal text-[3.25em] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]">
+                <h2 className="m-0 font-[Haffer_XH,Arial,sans-serif] font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
                   $0
                 </h2>
                 <span className="eyebrow text-[var(--color-neutral-500)]">
@@ -144,7 +144,7 @@ export function PricingCards() {
               </div>
 
               <div className="mt-[1.25em] flex items-baseline gap-[0.375em]">
-                <h2 className="m-0 font-[Haffer_XH,Arial,sans-serif] font-normal text-[3.25em] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]">
+                <h2 className="m-0 font-[Haffer_XH,Arial,sans-serif] font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
                   Optional
                 </h2>
                 <span className="eyebrow text-[var(--color-neutral-500)]">

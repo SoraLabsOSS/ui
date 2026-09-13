@@ -3,7 +3,7 @@
   "name": "demo-base-accordion",
   "type": "registry:ui",
   "title": "Base Accordion Demo",
-  "description": "Base UI accordion with 1:1 Motion spring physics, blur transitions, and animated focus ring.",
+  "description": "Base UI accordion with Motion spring physics, blur transitions, and animated focus ring.",
   "registryDependencies": ["@soralabs/base-accordion"],
   "files": [
     {

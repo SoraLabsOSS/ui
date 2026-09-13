@@ -30,7 +30,7 @@ interface TypeTableProp {
 }
 
 const COMPONENT_INSTALLATION_RE =
-  /<ComponentInstallation\s+name=["']([^"']+)["']\s*\/>/g;
+  /<ComponentInstallation\s+name=["']([^"']+)["'](?:\s*\/>|(?:\s*>([\s\S]*?)<\/ComponentInstallation>))/g;
 
 const COMPONENT_CREDITS_RE = /<ComponentCredits\s+name=["']([^"']+)["']\s*\/>/g;
 
@@ -49,6 +49,12 @@ const TYPE_TABLE_TYPE_RE = /type:\s*'((?:\\'|[^'])*)'/;
 const TYPE_TABLE_DEFAULT_RE = /default:\s*'((?:\\'|[^'])*)'/;
 const TYPE_TABLE_REQUIRED_RE = /required:\s*true/;
 const TYPE_TABLE_DEPRECATED_RE = /deprecated:\s*true/;
+const CODE_BLOCKS_FENCE_RE = /^[ \t]*```[\s\S]*?^[ \t]*```/gm;
+const STEP_TAG_RE = /<\/?Step>/g;
+const HEADING_TAG_RE = /<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi;
+const HTML_TAG_RE = /<[^>]+>/g;
+const CODE_BLOCK_PLACEHOLDER_RE = /__CODE_BLOCK_(\d+)__/g;
+const LEADING_INDENT_RE = /^\s*/;
 const MULTI_NEWLINE_RE = /\n{3,}/g;
 
 function formatList(values: string[] | undefined): string {
@@ -58,7 +64,59 @@ function formatList(values: string[] | undefined): string {
   return values.join(", ");
 }
 
-function expandComponentInstallation(name: string): string {
+function cleanMdxStepChildren(children?: string): string {
+  if (!children?.trim()) {
+    return "";
+  }
+
+  // Preserve code blocks before stripping JSX tags
+  const codeBlocks: string[] = [];
+  let text = children.replace(CODE_BLOCKS_FENCE_RE, (block) => {
+    codeBlocks.push(block);
+    return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+  });
+
+  // Remove <Step> and </Step>
+  text = text.replace(STEP_TAG_RE, "");
+
+  // Convert <h[1-6][^>]*>(.*?)<\/h[1-6]> into markdown heading
+  text = text.replace(
+    HEADING_TAG_RE,
+    (_, heading: string) => `\n\n**${heading.trim()}**\n\n`
+  );
+
+  // Strip remaining HTML tags outside code blocks
+  text = text.replace(HTML_TAG_RE, "");
+
+  // Restore preserved code blocks
+  text = text.replace(CODE_BLOCK_PLACEHOLDER_RE, (_, idx) => {
+    const block = codeBlocks[Number(idx)] ?? "";
+    // Dedent block lines to avoid accidental 4-space indentation block interpretation
+    const lines = block.split("\n");
+    const minIndent = lines
+      .filter((l) => l.trim().length > 0)
+      .reduce((min, l) => {
+        const indent = l.match(LEADING_INDENT_RE)?.[0].length ?? 0;
+        return Math.min(min, indent);
+      }, Number.POSITIVE_INFINITY);
+
+    if (minIndent > 0 && minIndent !== Number.POSITIVE_INFINITY) {
+      return lines
+        .map((l) =>
+          l.startsWith(" ".repeat(minIndent)) ? l.slice(minIndent) : l
+        )
+        .join("\n");
+    }
+    return block;
+  });
+
+  return text.trim();
+}
+
+function expandComponentInstallation(
+  name: string,
+  rawChildren?: string
+): string {
   const entry = (index as Record<string, RegistryEntry | undefined>)[name];
   if (!entry?.command) {
     return `_Registry item \`${name}\` not found._`;
@@ -67,7 +125,7 @@ function expandComponentInstallation(name: string): string {
   const target = entry.files?.[0]?.target ?? "see registry JSON";
   const registryUrl = `${SITE_URL}/r/${name}.json`;
 
-  return [
+  const sections = [
     "**CLI**",
     "",
     "```bash",
@@ -80,7 +138,19 @@ function expandComponentInstallation(name: string): string {
     `**Install path:** \`${target}\``,
     `**Dependencies:** ${formatList(entry.dependencies)}`,
     `**Registry dependencies:** ${formatList(entry.registryDependencies)}`,
-  ].join("\n");
+  ];
+
+  const additionalSteps = cleanMdxStepChildren(rawChildren);
+  if (additionalSteps) {
+    sections.push(
+      "",
+      "**Manual Setup / Additional Steps**",
+      "",
+      additionalSteps
+    );
+  }
+
+  return sections.join("\n");
 }
 
 function expandComponentCredits(name: string): string {
@@ -209,8 +279,8 @@ function expandTypeTable(block: string): string {
 export function expandLlmMarkdown(content: string): string {
   let expanded = content
     .replace(COMPONENT_PREVIEW_RE, "")
-    .replace(COMPONENT_INSTALLATION_RE, (_, name: string) =>
-      expandComponentInstallation(name)
+    .replace(COMPONENT_INSTALLATION_RE, (_, name: string, children?: string) =>
+      expandComponentInstallation(name, children)
     )
     .replace(COMPONENT_CREDITS_RE, (_, name: string) =>
       expandComponentCredits(name)

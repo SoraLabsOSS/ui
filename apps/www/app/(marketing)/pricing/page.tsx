@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { PricingPage } from "@/components/pricing/pricing-page";
-import { getLatestShippedRegistryItem } from "@/lib/registry/get-latest-shipped-registry-item";
 import { getPageAlternates } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -16,7 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const latestShipped = getLatestShippedRegistryItem();
-
-  return <PricingPage latestShipped={latestShipped} />;
+  return <PricingPage />;
 }
