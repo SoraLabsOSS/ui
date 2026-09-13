@@ -409,8 +409,17 @@ export function ComponentPreview({
                           damping: 20,
                         }}
                       >
-                        <div className="w-full px-4.5 py-4">
-                          <Tweakpane binds={binds} onBindsChange={setBinds} />
+                        <div className="w-full px-6 py-4">
+                          <Tweakpane
+                            binds={binds}
+                            initialBinds={demoPropsConfig as Binds}
+                            onBindsChange={setBinds}
+                            onReset={() => {
+                              setBinds(demoPropsConfig as Binds);
+                              setComponentProps(unwrapValues(demoPropsConfig));
+                              setPreviewKey((prev) => prev + 1);
+                            }}
+                          />
                         </div>
                       </motion.div>
                     </>

@@ -12,7 +12,18 @@ import {
 import { Slider } from "@workspace/ui/components/ui/slider";
 import { Switch } from "@workspace/ui/components/ui/switch";
 import { cn } from "@workspace/ui/lib/utils";
-import * as React from "react";
+import { SlidersHorizontal, Undo2 } from "lucide-react";
+import {
+  type ChangeEvent,
+  type FC,
+  Fragment,
+  type InputHTMLAttributes,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { Button } from "@/registry/ui/base/button";
 
 interface BaseBindNumber {
   value: number;
@@ -43,18 +54,21 @@ type Binds = FlatBinds | NestedBinds;
 
 interface ControlledTweakpaneProps {
   binds: Binds;
+  initialBinds?: Binds;
   onBindsChange?: (binds: Binds) => void;
+  onReset?: () => void;
 }
 
 interface UncontrolledTweakpaneProps {
   initialBinds: Binds;
   onBindsChange?: (binds: Binds) => void;
+  onReset?: () => void;
 }
 
 type TweakpaneProps = ControlledTweakpaneProps | UncontrolledTweakpaneProps;
 
 interface NumericInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
   max?: number;
   min?: number;
   onValueChange: (value: number) => void;
@@ -62,7 +76,7 @@ interface NumericInputProps
   value: number;
 }
 
-const NumericInput: React.FC<NumericInputProps> = ({
+const NumericInput: FC<NumericInputProps> = ({
   value,
   onValueChange,
   className,
@@ -71,12 +85,12 @@ const NumericInput: React.FC<NumericInputProps> = ({
   step,
   ...props
 }) => {
-  const [display, setDisplay] = React.useState<string>(value.toString());
+  const [display, setDisplay] = useState<string>(value.toString());
 
-  React.useEffect(() => setDisplay(value.toString()), [value]);
+  useEffect(() => setDisplay(value.toString()), [value]);
 
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
       const v = e.target.value;
       setDisplay(v);
       if (v !== "") {
@@ -88,7 +102,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
           if (max !== undefined && n > max) {
             n = max;
           }
-          if (step !== undefined) {
+          if (step !== undefined && step > 0) {
             n = Math.round(n / step) * step;
           }
           onValueChange(n);
@@ -98,20 +112,21 @@ const NumericInput: React.FC<NumericInputProps> = ({
     [min, max, step, onValueChange]
   );
 
-  const handleBlur = React.useCallback(
-    () => setDisplay(value.toString()),
-    [value]
-  );
+  const handleBlur = useCallback(() => {
+    setDisplay(value.toString());
+  }, [value]);
 
   return (
-    <Input
+    <input
       {...props}
       autoComplete="off"
       className={cn(
-        'text-sm [&[type="number"]::-webkit-inner-spin-button]:appearance-none [&[type="number"]::-webkit-outer-spin-button]:appearance-none',
+        "h-6 w-14 rounded border border-border/60 bg-muted/30 px-1.5 text-right font-mono text-[11px] text-foreground transition-colors",
+        "hover:border-border focus:border-ring focus:bg-background focus:outline-none focus:ring-1 focus:ring-ring/40",
+        "[&[type='number']::-webkit-inner-spin-button]:appearance-none [&[type='number']::-webkit-outer-spin-button]:appearance-none",
         className
       )}
-      inputMode="numeric"
+      inputMode="decimal"
       max={max}
       min={min}
       onBlur={handleBlur}
@@ -139,86 +154,113 @@ const renderNumber = (
   key: string,
   bind: BindNumber,
   onChange: (value: number) => void
-) =>
-  "min" in bind && "max" in bind ? (
-    <div className="flex flex-row items-center gap-2" key={key}>
-      <div className="flex w-[72px] min-w-0 shrink-0 items-center">
-        <Label
-          className="block truncate text-current/80 text-xs leading-none"
-          htmlFor={key}
-        >
-          {key}
-        </Label>
-      </div>
-
-      <Slider
-        max={bind.max}
-        min={bind.min}
-        onValueChange={(v) => onChange(v[0] ?? 0)}
-        step={bind.step}
-        value={[bind.value]}
-      />
-
-      <NumericInput
-        className="h-7 w-[50px] shrink-0 rounded-md px-2"
-        id={key}
-        max={bind.max}
-        min={bind.min}
-        onValueChange={onChange}
-        step={bind.step}
-        value={bind.value}
-      />
-    </div>
-  ) : "options" in bind ? (
-    <div className="flex flex-row items-center gap-2" key={key}>
-      <div className="flex w-[72px] min-w-0 shrink-0 items-center truncate">
-        <Label
-          className="block truncate text-current/80 text-xs leading-none"
-          htmlFor={key}
-        >
-          {key}
-        </Label>
-      </div>
-
-      <Select
-        onValueChange={(v) => onChange(Number(v))}
-        value={bind.value.toString()}
+) => {
+  if ("min" in bind && "max" in bind) {
+    return (
+      <div
+        className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
+        key={key}
       >
-        <SelectTrigger
-          className="!h-7 flex-1 shrink-0 rounded-md px-2"
-          id={key}
-        >
-          <SelectValue placeholder="Select an option" />
-        </SelectTrigger>
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <Label
+            className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+            htmlFor={key}
+            title={key}
+          >
+            {key}
+          </Label>
+        </div>
 
-        <SelectContent>
-          {Object.entries(bind.options).map(([key, value]) => (
-            <SelectItem className="!h-7" key={key} value={value.toString()}>
-              {key}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  ) : (
-    <div className="flex flex-row items-center gap-2" key={key}>
-      <div className="flex w-[72px] min-w-0 shrink-0 items-center truncate">
+        <div className="flex items-center gap-2.5 sm:w-56 md:w-64">
+          <Slider
+            className="flex-1"
+            max={bind.max}
+            min={bind.min}
+            onValueChange={(v) => onChange(v[0] ?? 0)}
+            step={bind.step}
+            value={[bind.value]}
+          />
+          <NumericInput
+            id={key}
+            max={bind.max}
+            min={bind.min}
+            onValueChange={onChange}
+            step={bind.step}
+            value={bind.value}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if ("options" in bind) {
+    return (
+      <div
+        className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
+        key={key}
+      >
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <Label
+            className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+            htmlFor={key}
+            title={key}
+          >
+            {key}
+          </Label>
+        </div>
+
+        <Select
+          onValueChange={(v) => onChange(Number(v))}
+          value={bind.value.toString()}
+        >
+          <SelectTrigger
+            className="h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44"
+            id={key}
+            size="sm"
+          >
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+
+          <SelectContent align="end">
+            {Object.entries(bind.options).map(([optLabel, optValue]) => (
+              <SelectItem
+                className="font-mono text-xs"
+                key={optLabel}
+                value={optValue.toString()}
+              >
+                {optLabel}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
+      key={key}
+    >
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
-          className="block truncate text-current/80 text-xs leading-none"
+          className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
           htmlFor={key}
+          title={key}
         >
           {key}
         </Label>
       </div>
 
       <NumericInput
-        className="h-7 w-full rounded-md px-2"
+        className="w-24 text-left"
         id={key}
         onValueChange={onChange}
         value={bind.value}
       />
     </div>
   );
+};
 
 const renderString = (
   key: string,
@@ -226,11 +268,15 @@ const renderString = (
   onChange: (value: string | number | boolean) => void
 ) =>
   bind?.options ? (
-    <div className="flex flex-row items-center gap-2" key={key}>
-      <div className="flex w-[72px] min-w-0 shrink-0 items-center truncate">
+    <div
+      className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
+      key={key}
+    >
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
-          className="block truncate text-current/80 text-xs leading-none"
+          className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
           htmlFor={key}
+          title={key}
         >
           {key}
         </Label>
@@ -246,34 +292,43 @@ const renderString = (
         value={String(bind.value)}
       >
         <SelectTrigger
-          className="!h-7 flex-1 shrink-0 rounded-md px-2"
+          className="h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44"
           id={key}
+          size="sm"
         >
-          <SelectValue placeholder="Select an option" />
+          <SelectValue placeholder="Select" />
         </SelectTrigger>
 
-        <SelectContent>
-          {Object.entries(bind.options).map(([key, value]) => (
-            <SelectItem className="!h-7" key={key} value={String(value)}>
-              {key}
+        <SelectContent align="end">
+          {Object.entries(bind.options).map(([optLabel, optValue]) => (
+            <SelectItem
+              className="font-mono text-xs"
+              key={optLabel}
+              value={String(optValue)}
+            >
+              {optLabel}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
     </div>
   ) : (
-    <div className="flex flex-row items-center gap-2" key={key}>
-      <div className="flex w-[72px] min-w-0 shrink-0 items-center truncate">
+    <div
+      className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
+      key={key}
+    >
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
-          className="block truncate text-current/80 text-xs leading-none"
+          className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
           htmlFor={key}
+          title={key}
         >
           {key}
         </Label>
       </div>
 
       <Input
-        className="h-7 w-full rounded-md px-2"
+        className="h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44"
         id={key}
         onChange={(e) => onChange(e.target.value)}
         value={bind.value}
@@ -286,17 +341,26 @@ const renderBoolean = (
   bind: BindBoolean,
   onChange: (value: boolean) => void
 ) => (
-  <div className="flex flex-row items-center justify-between gap-2" key={key}>
-    <div className="flex w-[72px] min-w-0 shrink-0 items-center">
+  <div
+    className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
+    key={key}
+  >
+    <div className="flex min-w-0 flex-1 items-center gap-2">
       <Label
-        className="block truncate text-current/80 text-xs leading-none"
+        className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
         htmlFor={key}
+        title={key}
       >
         {key}
       </Label>
     </div>
 
-    <Switch checked={bind.value} id={key} onCheckedChange={onChange} />
+    <div className="flex items-center gap-2">
+      <span className="font-mono text-[10px] text-muted-foreground">
+        {bind.value ? "true" : "false"}
+      </span>
+      <Switch checked={bind.value} id={key} onCheckedChange={onChange} />
+    </div>
   </div>
 );
 
@@ -330,14 +394,14 @@ const renderBind = (
 const renderFlatBinds = (
   binds: FlatBinds,
   onBindsChange: (binds: FlatBinds) => void
-): React.ReactNode => (
-  <div className="grid grid-cols-1 gap-x-4 gap-y-3 rounded-md py-1.5 pr-1 pl-1.5 md:grid-cols-2 [&>div]:min-w-0">
+): ReactNode => (
+  <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
     {Object.entries(binds).map(([key, bind]) => (
-      <React.Fragment key={key}>
+      <Fragment key={key}>
         {renderBind(key, bind, (value) =>
           onBindsChange({ ...binds, [key]: { ...bind, value } } as FlatBinds)
         )}
-      </React.Fragment>
+      </Fragment>
     ))}
   </div>
 );
@@ -345,13 +409,30 @@ const renderFlatBinds = (
 const renderNestedBinds = (
   binds: NestedBinds,
   onBindsChange: (binds: NestedBinds) => void
-): React.ReactNode[] =>
+): ReactNode[] =>
   Object.entries(binds).map(([groupKey, groupBind]) => (
-    <React.Fragment key={groupKey}>
+    <div className="space-y-2" key={groupKey}>
+      <div className="flex items-center gap-2 px-1">
+        <span className="font-medium font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+          {groupKey}
+        </span>
+        <svg aria-hidden="true" className="block h-px flex-1">
+          <line
+            className="text-border/60"
+            stroke="currentColor"
+            strokeDasharray="8 4"
+            strokeWidth="1"
+            x1="0"
+            x2="100%"
+            y1="0"
+            y2="0"
+          />
+        </svg>
+      </div>
       {renderFlatBinds(groupBind, (updatedGroupBind) =>
         onBindsChange({ ...binds, [groupKey]: updatedGroupBind })
       )}
-    </React.Fragment>
+    </div>
   ));
 
 const renderBinds = (binds: Binds, onBindsChange: (binds: Binds) => void) =>
@@ -359,12 +440,16 @@ const renderBinds = (binds: Binds, onBindsChange: (binds: Binds) => void) =>
     ? renderNestedBinds(binds, onBindsChange as (b: NestedBinds) => void)
     : renderFlatBinds(binds, onBindsChange as (b: FlatBinds) => void);
 
-const Tweakpane = ({ onBindsChange, ...props }: TweakpaneProps) => {
-  const [localBinds, setLocalBinds] = React.useState<Binds>(
-    "binds" in props ? props.binds : props.initialBinds
+const Tweakpane = (props: TweakpaneProps) => {
+  const { onBindsChange, onReset } = props;
+  const initialBinds = "initialBinds" in props ? props.initialBinds : undefined;
+  const binds = "binds" in props ? props.binds : undefined;
+
+  const [localBinds, setLocalBinds] = useState<Binds>(
+    binds ?? initialBinds ?? ({} as Binds)
   );
 
-  const handleBindsChange = React.useCallback(
+  const handleBindsChange = useCallback(
     (binds: Binds) => {
       setLocalBinds(binds);
       onBindsChange?.(binds);
@@ -372,15 +457,50 @@ const Tweakpane = ({ onBindsChange, ...props }: TweakpaneProps) => {
     [onBindsChange]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if ("binds" in props) {
       setLocalBinds(props.binds);
     }
   }, [props]);
 
+  const canReset = Boolean(onReset || initialBinds);
+
+  const handleReset = useCallback(() => {
+    if (onReset) {
+      onReset();
+      return;
+    }
+    if (initialBinds) {
+      setLocalBinds(initialBinds);
+      onBindsChange?.(initialBinds);
+    }
+  }, [onReset, initialBinds, onBindsChange]);
+
   return (
-    <div className="overflow-y-auto rounded-md bg-background px-2 py-2">
-      {renderBinds(localBinds, handleBindsChange)}
+    <div className="w-full space-y-2.5">
+      <div className="flex items-center justify-between px-1">
+        <div className="flex items-center gap-1.5 font-medium text-muted-foreground text-xs">
+          <SlidersHorizontal className="size-3.5 text-foreground/70" />
+          <span className="font-medium text-foreground/90 tracking-tight">
+            Tweak Props
+          </span>
+        </div>
+
+        {canReset ? (
+          <Button
+            className="h-6 gap-1 px-2 font-mono text-[11px] text-muted-foreground hover:text-foreground"
+            onClick={handleReset}
+            size="xs"
+            title="Reset props to default"
+            variant="ghost"
+          >
+            <Undo2 className="size-3" />
+            <span>Reset</span>
+          </Button>
+        ) : null}
+      </div>
+
+      <div className="w-full">{renderBinds(localBinds, handleBindsChange)}</div>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
 import { source } from "@/lib/docs/source";
 import { componentSource } from "@/lib/registry/component-source";
-import { getLatestShippedRegistryItem } from "@/lib/registry/get-latest-shipped-registry-item";
 import { SITE_URL } from "@/lib/site";
 import { uiSource } from "@/lib/ui/source";
 
@@ -143,7 +142,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   const blogEntries = visibleBlogPages.map(blogPageToEntry);
   const latestBlogDate = getLatestBlogDate(visibleBlogPages);
 
-  const latestShipped = getLatestShippedRegistryItem();
   const latestContentDate = maxDate(
     latestDocDate,
     latestCatalogDate,
@@ -174,9 +172,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogEntries,
     {
       url: `${SITE_URL}/pricing`,
-      lastModified: latestShipped
-        ? toLastModified(latestShipped.releasedAt)
-        : latestContentDate,
+      lastModified: latestContentDate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
