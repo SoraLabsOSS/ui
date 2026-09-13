@@ -13,7 +13,8 @@ type LlmsIndexPage = DocsPage | ComponentPage | UiPage;
 function formatPageLine(page: LlmsIndexPage): string {
   const description = page.data.description?.trim();
   const suffix = description ? `: ${description}` : "";
-  return `- [${getUiQualifiedTitle(page.data.title, page.url)}](${SITE_URL}${page.url})${suffix}`;
+  const title = page.data.title || page.slugs.at(-1) || "Documentation";
+  return `- [${getUiQualifiedTitle(title, page.url)}](${SITE_URL}${page.url})${suffix}`;
 }
 
 /** Build `llms.txt` index for docs, UI kit, and component catalog pages. */

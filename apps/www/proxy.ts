@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 const MARKDOWN_ACCEPT = /text\/markdown|text\/plain/;
-const DOCS_PATH_RE = /^\/docs\/(.+)$/;
+const DOCS_PATH_RE = /^\/docs(?:\/(.+))?$/;
 const CATALOG_PATH_RE = /^\/(?:catalog|components)\/(.+)$/;
 const UI_PATH_RE = /^\/ui(?:\/(.+))?$/;
 const BLOG_PATH_RE = /^\/blog\/(.+)$/;
@@ -16,7 +16,8 @@ function rewriteMarkdownPath(pathname: string): string | null {
 
   const docsMatch = clean.match(DOCS_PATH_RE);
   if (docsMatch) {
-    return `/llms.mdx/${docsMatch[1]}`;
+    const rest = docsMatch[1];
+    return rest ? `/llms.mdx/${rest}` : "/llms.mdx";
   }
 
   const catalogMatch = clean.match(CATALOG_PATH_RE);
@@ -57,6 +58,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/docs",
     "/docs/:path*",
     "/catalog/:path*",
     "/components/:path*",

@@ -90,5 +90,5 @@ export async function getLLMText(page: LLMPage) {
 
   return `# ${title} (${page.url})
 
-  ${agentMetadata}${body}`;
+${agentMetadata}${body}`;
 }

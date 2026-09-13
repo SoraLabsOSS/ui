@@ -101,6 +101,14 @@ const nextConfig: NextConfig = {
         destination: "/llms.mdx/:path*",
       },
       {
+        source: "/docs.mdx",
+        destination: "/llms.mdx",
+      },
+      {
+        source: "/docs.md",
+        destination: "/llms.mdx",
+      },
+      {
         source: "/motion/:path*.mdx",
         destination: "/llms.mdx/motion/:path*",
       },

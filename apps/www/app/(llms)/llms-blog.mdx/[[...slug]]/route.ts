@@ -7,7 +7,12 @@ import { getLLMText } from "@/lib/docs/get-llm-text";
 async function getLLMContentForSlug(slug?: string[]) {
   "use cache";
   staticContentCacheLife();
-  const page = blog.getPage(slug);
+  let normalizedSlug = slug;
+  if (normalizedSlug && normalizedSlug.at(-1) === "index") {
+    const trimmed = normalizedSlug.slice(0, -1);
+    normalizedSlug = trimmed.length > 0 ? trimmed : undefined;
+  }
+  const page = blog.getPage(normalizedSlug);
   if (!page) {
     return null;
   }

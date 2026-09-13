@@ -7,11 +7,16 @@ import { uiSource } from "@/lib/ui/source";
 async function getLLMContentForSlug(slug?: string[]) {
   "use cache";
   staticContentCacheLife();
-  let page = uiSource.getPage(slug);
-  if (!page && slug && slug.length === 1) {
+  let normalizedSlug = slug;
+  if (normalizedSlug && normalizedSlug.at(-1) === "index") {
+    const trimmed = normalizedSlug.slice(0, -1);
+    normalizedSlug = trimmed.length > 0 ? trimmed : undefined;
+  }
+  let page = uiSource.getPage(normalizedSlug);
+  if (!page && normalizedSlug && normalizedSlug.length === 1) {
     page =
-      uiSource.getPage(["base", slug[0]]) ??
-      uiSource.getPage(["radix", slug[0]]);
+      uiSource.getPage(["base", normalizedSlug[0]]) ??
+      uiSource.getPage(["radix", normalizedSlug[0]]);
   }
   if (!page) {
     return null;

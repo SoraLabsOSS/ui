@@ -7,12 +7,17 @@ import { source } from "@/lib/docs/source";
 async function getLLMContentForSlug(slug?: string[]) {
   "use cache";
   staticContentCacheLife();
-  let page = source.getPage(slug);
-  if (!page && slug && slug.length > 0) {
-    if (slug[0] === "primitives") {
-      page = source.getPage(["motion", ...slug.slice(1)]);
-    } else if (slug[0] !== "motion") {
-      page = source.getPage(["motion", ...slug]);
+  let normalizedSlug = slug;
+  if (normalizedSlug && normalizedSlug.at(-1) === "index") {
+    const trimmed = normalizedSlug.slice(0, -1);
+    normalizedSlug = trimmed.length > 0 ? trimmed : undefined;
+  }
+  let page = source.getPage(normalizedSlug);
+  if (!page && normalizedSlug && normalizedSlug.length > 0) {
+    if (normalizedSlug[0] === "primitives") {
+      page = source.getPage(["motion", ...normalizedSlug.slice(1)]);
+    } else if (normalizedSlug[0] !== "motion") {
+      page = source.getPage(["motion", ...normalizedSlug]);
     }
   }
   if (!page) {

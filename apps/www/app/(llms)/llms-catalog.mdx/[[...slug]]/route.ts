@@ -8,7 +8,12 @@ import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 async function getLLMContentForSlug(slug?: string[]) {
   "use cache";
   staticContentCacheLife();
-  const page = componentSource.getPage(slug);
+  let normalizedSlug = slug;
+  if (normalizedSlug && normalizedSlug.at(-1) === "index") {
+    const trimmed = normalizedSlug.slice(0, -1);
+    normalizedSlug = trimmed.length > 0 ? trimmed : undefined;
+  }
+  const page = componentSource.getPage(normalizedSlug);
   if (!page) {
     return null;
   }
