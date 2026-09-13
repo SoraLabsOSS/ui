@@ -1,27 +1,40 @@
-MIT + Commons Clause License Condition
+# Sora UI Licensing
 
-Portions of this software are derived from Animate UI (https://github.com/animate-ui/animate-ui),
-Copyright (c) 2025 Elliot Sutton. Used under the MIT + Commons Clause License.
+Original Sora UI code is licensed under the MIT License. Portions derived from third-party projects remain subject to their respective licenses.
 
-Copyright (c) 2026 Alexsandr Senaviev (Sora UI — https://github.com/SoraLabsOSS/ui)
+Copyright (c) 2026 Alexsandr Senaviev
+Sora UI — https://github.com/SoraLabsOSS/ui
 
-Sora UI is a fork of Animate UI. The architecture, registry system, component APIs,
-and motion primitives have been substantially redesigned. Historical upstream patterns
-remain attributed here in accordance with the original license terms.
+The MIT License below applies to original Sora UI code and architecture authored by SoraLabs / Sora UI.
+
+---
+
+## Third-Party Code
+
+Certain portions of Sora UI are derived from Animate UI:
+https://github.com/animate-ui/animate-ui
+
+Copyright (c) 2025 Elliot Sutton.
+
+Those portions remain subject to the original Animate UI license terms, including the MIT + Commons Clause License Condition.
+
+The Animate UI license applies only to the portions derived from Animate UI and does not apply to independently authored Sora UI code.
+
+For the exact terms applicable to those portions, see the corresponding upstream license.
+
+---
+
+## MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, and distribute the Software **as part of an application, website, or product**, subject to the following conditions:
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
-## Commons Clause Restriction
-
-You may use this Software, including for any commercial purpose, **so long as you do not sell or redistribute the components themselves in their original form—whether alone or in a bundle.**
-
-## No Warranty
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

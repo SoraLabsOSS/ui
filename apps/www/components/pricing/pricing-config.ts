@@ -57,7 +57,7 @@ export const PRICING_FAQ_ITEMS: PricingFaqItem[] = [
   {
     title: "Can I use components commercially?",
     content:
-      "Yes. Use components in personal, commercial, and client projects. See the License page for full terms, including the Commons Clause restriction on reselling components as-is.",
+      "Yes. Use components in personal, commercial, and client projects. Original Sora UI code is MIT; upstream Animate UI portions follow MIT + Commons Clause (which permits commercial projects, only restricting standalone reselling of components as-is). See the License page for full terms.",
   },
   {
     title: "How do I install?",

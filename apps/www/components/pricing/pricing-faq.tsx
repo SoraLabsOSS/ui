@@ -8,9 +8,11 @@ function FaqAnswer({ content, title }: { content: string; title: string }) {
   if (title === "Can I use components commercially?") {
     return (
       <p className="pricing-faq__answer p-m">
-        Yes. Use components in personal, commercial, and client projects. See
-        the <Link href="/docs/license">License</Link> page for full terms,
-        including the Commons Clause restriction on reselling components as-is.
+        Yes. Use components in personal, commercial, and client projects.
+        Original Sora UI code is MIT; upstream Animate UI portions follow MIT +
+        Commons Clause (which permits commercial projects, only restricting
+        standalone reselling of components as-is). See the{" "}
+        <Link href="/docs/license">License</Link> page for full terms.
       </p>
     );
   }
