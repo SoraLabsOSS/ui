@@ -68,7 +68,7 @@ Inside this package: `bun test`, `bun run test:slow`, `bun run check-types`, `bu
 ### Done
 
 - [x] **Phase 0** — Design notes (`apps/www/sandbox/www-cli-idea.md`)
-- [x] **Phase 1** — `create primitive` (registry + MDX + `content/docs/motion/meta.json` + optional demo)
+- [x] **Phase 1** — `create primitive` (registry + MDX + `content/motion/meta.json` + optional demo)
 - [x] **Phase 2** — `create ui` (`base` / `radix`, demo default in `--yes` mode)
 - [x] **Polish** — `bun run create` wizard (Catalog shows “Phase 3” placeholder)
 - [x] **Polish** — `registry:build` skip log suggests `create:primitive` / `create:ui`
@@ -120,7 +120,7 @@ Use this as the implementation checklist for the next milestone.
 #### `doctor`
 - [x] **Command** — `www-cli doctor` (read-only audit, no file writes)
 - [x] **Checks:**
-  - [x] Registry folder exists but no matching MDX in `content/docs/motion`, `content/ui`, or `content/catalog`
+  - [x] Registry folder exists but no matching MDX in `content/motion`, `content/ui`, or `content/catalog`
   - [x] `meta.demoProps` keys do not match exported component names in `index.tsx`
   - [x] Slug in `meta.json` but MDX file missing (or vice versa)
   - [x] Undocumented items that `registry:build` would skip (mirror `collectDocumentedNames` rules)
@@ -142,11 +142,11 @@ Scaffolding for animated icons (`registry/icons/<name>/`).
 - [x] **Resolve options** — `src/lib/resolve-create-icon-options.ts` (icon name/slug, keywords, `--yes`)
 - [x] **Paths** — `getIconPaths()` in `src/lib/paths.ts`:
   - `registry/icons/<name>/index.tsx`
-  - `registry/icons/<name>/registry-item.json` (`name: "icons-<name>"`, `target: "components/sora-ui/icons/<name>.tsx"`, dependencies: `["motion"]`, registryDependencies: `["@soralabs/icons-icon"]`)
+  - `registry/icons/<name>/registry-item.json` (`name: "icons-<name>"`, `target: "components/sora-ui/icons/<name>.tsx"`, dependencies: `["motion"]`)
   - Optional demo: `registry/demo/icons/<name>/index.tsx`
   - Docs / showcase entry if applicable
 - [x] **Templates** — `src/lib/icon-templates.ts`:
-  - Component template extending `AnimateIcon` / Motion SVG path animations
+  - Self-contained component template with Motion SVG path animations
   - `registry-item.json` template with schema and keywords
 - [x] **Command impl** — `src/commands/create-icon.ts`
 - [x] **Wizard** — wire icon option in `src/commands/create-wizard.ts`

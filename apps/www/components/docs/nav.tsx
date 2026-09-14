@@ -80,7 +80,7 @@ const LIBRARY_NAV_ITEMS = (
   },
   {
     title: "Icons",
-    url: "/docs/icons",
+    url: "/icons",
     description: "Animated icons with hover, tap, and view triggers.",
   },
   {

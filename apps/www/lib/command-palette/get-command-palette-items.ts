@@ -1,10 +1,12 @@
 import { cache } from "react";
 import { baseOptions } from "@/app/layout.config";
-import motionMeta from "@/content/docs/motion/meta.json";
+import motionMeta from "@/content/motion/meta.json";
 import uiMeta from "@/content/ui/meta.json";
 import { blog } from "@/lib/blog/source";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
+import { iconsSource } from "@/lib/icons/source";
+import { motionSource } from "@/lib/motion/source";
 import {
   COMPONENT_GALLERY_SECTIONS,
   isGalleryCatalogItem,
@@ -121,13 +123,8 @@ function getDocumentationItems(): CommandPaletteItem[] {
 
 function getPrimitiveItems(): CommandPaletteItem[] {
   const primitivePagesBySlug = new Map(
-    source
+    motionSource
       .getPages()
-      .filter(
-        (page) =>
-          page.url.startsWith("/docs/motion/") ||
-          page.url.startsWith("/docs/primitives/")
-      )
       .map((page) => [page.slugs.at(-1) ?? "", page] as const)
   );
 
@@ -213,11 +210,7 @@ function getUiItems(): CommandPaletteItem[] {
 function getIconItems(): CommandPaletteItem[] {
   const icons: CommandPaletteItem[] = [];
 
-  for (const page of source.getPages()) {
-    if (!page.url.startsWith("/docs/icons")) {
-      continue;
-    }
-
+  for (const page of iconsSource.getPages()) {
     icons.push(
       item({
         id: `icon-${page.url}`,
@@ -290,9 +283,9 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
     item({
       id: "page-icons",
       label: "Icons",
-      href: "/docs/icons",
+      href: "/icons",
       icon: "box",
-      path: "/docs/icons",
+      path: "/icons",
     }),
     item({
       id: "page-ui",

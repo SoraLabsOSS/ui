@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { PrimitivesIndexNewDot } from "@/components/docs/primitives-index-new-dot";
-import motionMeta from "@/content/docs/motion/meta.json";
+import motionMeta from "@/content/motion/meta.json";
 import {
   getPageReleaseDateString,
   type PageReleaseDateFields,
 } from "@/lib/docs/get-page-release-date";
-import { source } from "@/lib/docs/source";
+import { motionSource } from "@/lib/motion/source";
 
 const SECTION_PATTERN = /^---(.+)---$/;
 
@@ -31,9 +31,7 @@ function getSections(): Section[] {
       sections.push(current);
       continue;
     }
-    const page =
-      source.getPage(["motion", entry]) ??
-      source.getPage(["primitives", entry]);
+    const page = motionSource.getPage([entry]);
     if (!(page && current)) {
       continue;
     }

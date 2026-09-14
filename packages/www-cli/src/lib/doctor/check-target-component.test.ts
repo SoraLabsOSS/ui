@@ -34,7 +34,7 @@ describe("checkTargetComponent", () => {
       })
     );
 
-    const docDir = path.join(tempDir, "content", "docs", "motion");
+    const docDir = path.join(tempDir, "content", "motion");
     await fs.mkdir(docDir, { recursive: true });
     await fs.writeFile(
       path.join(docDir, "glow.mdx"),

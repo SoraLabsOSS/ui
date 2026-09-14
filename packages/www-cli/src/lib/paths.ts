@@ -94,8 +94,8 @@ export function getPrimitivePaths(
     demoDir,
     demoIndexPath: path.join(demoDir, "index.tsx"),
     demoRegistryItemPath: path.join(demoDir, "registry-item.json"),
-    mdxPath: path.join(wwwRoot, "content", "docs", "motion", `${name}.mdx`),
-    metaJsonPath: path.join(wwwRoot, "content", "docs", "motion", "meta.json"),
+    mdxPath: path.join(wwwRoot, "content", "motion", `${name}.mdx`),
+    metaJsonPath: path.join(wwwRoot, "content", "motion", "meta.json"),
   };
 }
 

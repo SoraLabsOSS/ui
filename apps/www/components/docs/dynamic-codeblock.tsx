@@ -7,6 +7,7 @@ import type {
 } from "fumadocs-core/highlight";
 import { useShiki } from "fumadocs-core/highlight/client";
 import { Loader } from "lucide-react";
+import { Suspense } from "react";
 import { CodeBlock, Pre } from "@/components/docs/codeblock";
 
 const getComponents = ({
@@ -66,7 +67,7 @@ function DynamicCodeBlockLoading({
   );
 }
 
-export function DynamicCodeBlock({
+function ShikiHighlight({
   lang,
   code = "",
   options,
@@ -74,11 +75,9 @@ export function DynamicCodeBlock({
   icon,
   onCopy,
   className,
-}: DynamicCodeBlockProps) {
+  loading,
+}: DynamicCodeBlockProps & { loading: React.ReactNode }) {
   const components = getComponents({ title, icon, onCopy, className });
-  const loading = (
-    <DynamicCodeBlockLoading className={className} icon={icon} title={title} />
-  );
 
   return useShiki(code, {
     lang,
@@ -90,4 +89,20 @@ export function DynamicCodeBlock({
     },
     withPrerenderScript: true,
   });
+}
+
+export function DynamicCodeBlock(props: DynamicCodeBlockProps) {
+  const loading = (
+    <DynamicCodeBlockLoading
+      className={props.className}
+      icon={props.icon}
+      title={props.title}
+    />
+  );
+
+  return (
+    <Suspense fallback={loading}>
+      <ShikiHighlight {...props} loading={loading} />
+    </Suspense>
+  );
 }

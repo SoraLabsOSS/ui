@@ -3,13 +3,12 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { format } from "date-fns";
 import { motion } from "motion/react";
-import { BookmarkButton } from "@/components/docs/bookmark-button";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import {
   NeighborNavButtons,
   type NeighborNavItem,
 } from "@/components/docs/neighbor-nav-buttons";
-import { LLMCopyButton, ViewOptions } from "@/components/docs/page-actions";
+import { PageActionButtons } from "@/components/docs/page-actions";
 import type { ComponentPageHeaderData } from "@/lib/registry/types";
 import { GITHUB_REPO_URL } from "@/lib/site";
 
@@ -65,14 +64,12 @@ export function ComponentPageHeader({
         <DocsAuthor name={data.author.name} url={data.author.url} />
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-2">
-        <BookmarkButton url={data.componentUrl} />
-        <LLMCopyButton markdownUrl={`${data.docsUrl}.mdx`} />
-        <ViewOptions
-          githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/${githubPath}`}
-          markdownUrl={`${data.docsUrl}.mdx`}
-        />
-      </div>
+      <PageActionButtons
+        githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/${githubPath}`}
+        key={data.componentUrl}
+        markdownUrl={`${data.docsUrl}.mdx`}
+        url={data.componentUrl}
+      />
     </motion.header>
   );
 }

@@ -4,11 +4,13 @@ import {
   type PageReleaseDateFields,
 } from "@/lib/docs/get-page-release-date";
 import { source } from "@/lib/docs/source";
+import { iconsSource } from "@/lib/icons/source";
+import { motionSource } from "@/lib/motion/source";
 import { uiSource } from "@/lib/ui/source";
 
 /**
  * URL → date used for the 10-day "new" sidebar badge.
- * Merges dates across all docs, ui, and blog pages so the sidebar
+ * Merges dates across all docs, ui, motion, icons, and blog pages so the sidebar
  * always has complete badge info regardless of the active section layout.
  * Defaults to git lastModified per page; `releaseDate` in frontmatter overrides.
  */
@@ -17,6 +19,8 @@ export function getReleaseDatesByUrl(): Record<string, string> {
 
   const allPages = [
     ...source.getPages(),
+    ...motionSource.getPages(),
+    ...iconsSource.getPages(),
     ...uiSource.getPages(),
     ...blog.getPages(),
   ];

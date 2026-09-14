@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { source } from "@/lib/docs/source";
+import { iconsSource } from "@/lib/icons/source";
+import { motionSource } from "@/lib/motion/source";
 import { getCachedOgImageBuffer } from "@/lib/og/get-cached-og-image";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { uiSource } from "@/lib/ui/source";
@@ -34,6 +36,20 @@ export function generateStaticParams(): {
       slug: [...page.slug, "image.png"],
     }));
 
+  const motionParams = motionSource
+    .generateParams()
+    .filter((page) => page.slug && page.slug.length > 0)
+    .map((page) => ({
+      slug: ["motion", ...page.slug, "image.png"],
+    }));
+
+  const iconParams = iconsSource
+    .generateParams()
+    .filter((page) => page.slug && page.slug.length > 0)
+    .map((page) => ({
+      slug: ["icons", ...page.slug, "image.png"],
+    }));
+
   const uiParams = uiSource
     .generateParams()
     .filter((page) => page.slug && page.slug.length > 0)
@@ -51,10 +67,14 @@ export function generateStaticParams(): {
 
   return [
     { slug: ["image.png"] },
+    { slug: ["motion", "image.png"] },
+    { slug: ["icons", "image.png"] },
     { slug: ["ui", "image.png"] },
     { slug: ["catalog", "image.png"] },
     { slug: ["components", "image.png"] },
     ...docParams,
+    ...motionParams,
+    ...iconParams,
     ...uiParams,
     ...catalogParams,
     ...componentParams,

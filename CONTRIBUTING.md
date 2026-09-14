@@ -26,16 +26,19 @@ Sora UI is organized into three distinct product tiers:
 ```text
 Sora UI
 ├── Motion
-│   └── Animation building blocks (unstyled Motion/GSAP primitives)
+│   └── Animation building blocks (unstyled Motion/GSAP primitives at /motion)
+├── Icons
+│   └── Animated Lucide icons at /icons
 ├── Catalog
-│   └── Ready-to-use animated layout showcases & full example pages
+│   └── Ready-to-use animated layout showcases & full example pages at /catalog
 └── UI
-    └── Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS
+    └── Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui
 ```
 
 | Tier | Registry Path | Docs Route | Purpose |
 |------|---------------|------------|---------|
-| **Motion** | `registry/primitives/{category}/{name}/` | `/docs/motion/<name>` (alias `/motion/<name>`) | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
+| **Motion** | `registry/primitives/{category}/{name}/` | `/motion/<name>` | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
+| **Icons** | `registry/icons/{name}/` | `/icons` | Smooth animated Lucide icons powered by Motion and Tailwind CSS. |
 | **Catalog** | `content/catalog/<slug>.mdx` (showcased) | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
 | **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `base-accordion`, `base-checkbox`). |
 
@@ -71,14 +74,15 @@ registry/
 
 ### Content trees (`apps/www/content`)
 
-Four separate trees — do not conflate them:
+Distinct trees — do not conflate them:
 
 | Tree | Route | Purpose |
 |------|-------|---------|
-| `content/docs/` | `/docs` | Guides + flat motion primitive docs at `docs/motion/<name>.mdx` (aliased to `/motion/<name>`) |
+| `content/docs/` | `/docs` | Guides and general documentation |
+| `content/motion/` | `/motion` | Motion primitives and unstyled animation building blocks |
+| `content/icons/` | `/icons` | Animated icons guide and catalog |
 | `content/ui/` | `/ui` | Base UI / Radix UI + Motion app components (`content/ui/{base\|radix}/<name>.mdx`) |
 | `content/catalog/` | `/catalog` | Ready-to-use catalog showcase pages (aliased from `/components`) |
-| `content/docs/icons/` | `/docs/icons` | Animated icons guide and catalog |
 | `content/blog/` | `/blog` | Blog posts |
 
 ## Getting started
@@ -183,14 +187,14 @@ Keep the same semantics in `registry-item.json` under
 them without parsing MDX or JSX. Run `bun run doctor <framework>/<name>` to
 validate the metadata contract.
 
-### Flow 2: Adding a Motion Primitive (`/docs/motion` — Animation building blocks)
+### Flow 2: Adding a Motion Primitive (`/motion` — Animation building blocks)
 
 **Shortcut (scaffold):** from the repo root, run `bun run create` (interactive wizard) or `bun run create:primitive <name> --category=<texts|buttons|disclosure|effects|animate> --yes` to generate the registry folder, MDX page, and `meta.json` entry, then run `registry:build`. Use `--dry-run` to preview paths without writing, or `--no-input` in CI (same requirements as `--yes`). Verify with `bun run test:www-cli`. See `packages/www-cli`.
 
 1. Edit **`registry/primitives/<category>/<name>/index.tsx`** and **`registry-item.json`**.
 2. Set **`meta.demoProps`** on `registry-item.json` for Tweakpane controls and auto Code tab snippet (or add manual demo in `registry/demo/primitives/...` for multi-component layouts).
-3. Edit **`content/docs/motion/<name>.mdx`** with `<ComponentPreview />`, `<ComponentInstallation />`, `<TypeTable>`, and `<ComponentCredits />`.
-4. Add `"<name>"` to **`content/docs/motion/meta.json`** under the right `---Section---`.
+3. Edit **`content/motion/<name>.mdx`** with `<ComponentPreview />`, `<ComponentInstallation />`, `<TypeTable>`, and `<ComponentCredits />`.
+4. Add `"<name>"` to **`content/motion/meta.json`** under the right `---Section---`.
 5. Run **`bun run registry:build`**.
 6. Run **`bun run doctor <name>`** (e.g. `bun run doctor text-effect`) to verify exports, demoProps, and docs.
 

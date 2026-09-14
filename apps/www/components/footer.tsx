@@ -236,7 +236,7 @@ export function Footer() {
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
-                                  href="/docs/icons"
+                                  href="/icons"
                                 >
                                   Animated Icons
                                 </Link>

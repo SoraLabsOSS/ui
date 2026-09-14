@@ -6,13 +6,6 @@ import {
   ScrollArea,
   ScrollViewport,
 } from "@workspace/ui/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/ui/select";
 import { cn } from "@workspace/ui/lib/utils";
 import Fuse from "fuse.js";
 import { Check, Infinity as InfinityIcon, RotateCcw, X } from "lucide-react";
@@ -37,7 +30,6 @@ import {
   TooltipTrigger,
 } from "@/components/docs/tooltip";
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
-import { AnimateIcon, staticAnimations } from "@/registry/icons/icon";
 
 const FILTERS = {
   all: "All",
@@ -52,7 +44,7 @@ const ICON_PROPS = {
   },
   color: {
     type: "string",
-    default: "currentColor",
+    default: '"currentColor"',
     description: "Stroke color of the icon.",
   },
   className: {
@@ -60,19 +52,14 @@ const ICON_PROPS = {
     description: "Additional CSS classes to apply to the icon.",
   },
   animate: {
-    type: "boolean | string",
+    type: "boolean",
     default: "false",
-    description: "Play the animation immediately (or a named animation).",
+    description: "Play the animation.",
   },
   animateOnHover: {
-    type: "boolean | string",
-    default: "false",
+    type: "boolean",
+    default: "true",
     description: "Play the animation while the icon is hovered.",
-  },
-  animation: {
-    type: "string",
-    default: "default",
-    description: "Which named animation to play.",
   },
   loop: {
     type: "boolean",
@@ -112,7 +99,6 @@ function CheckBadge({
 export function Icons() {
   const [animationKey, setAnimationKey] = useState(0);
   const [activeTab, setActiveTab] = useState<string>("cli");
-  const [activeAnimation, setActiveAnimation] = useState<string>("default");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
   const [filter, setFilter] = useState<keyof typeof FILTERS>("all");
@@ -271,58 +257,42 @@ export function Icons() {
         {searchedIcons.length ? (
           <div className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
             <TooltipProvider>
-              {searchedIcons.map((item) => {
-                const supportedStaticAnimations =
-                  item?.component?.supportedStaticAnimations ??
-                  Object.keys(staticAnimations);
-                const totalAnimationsLength =
-                  supportedStaticAnimations.length +
-                  Object.keys(item?.component?.animations ?? {}).length;
-                return (
-                  <Tooltip key={item.name} side="bottom" sideOffset={14}>
-                    <TooltipTrigger>
-                      <div>
-                        <AnimateIcon animateOnHover asChild>
-                          <button
-                            className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
-                            data-value={item.name}
-                            onClick={() => {
-                              setActiveAnimation("default");
-                              setActiveIconWithoutPrefix(
-                                item.name.replace("icons-", "")
-                              );
-                            }}
-                            type="button"
-                          >
-                            {item?.component && (
-                              <item.component className="size-full text-current" />
-                            )}
-                            <div
-                              className={cn(
-                                "absolute inset-0 -z-2 rounded-lg bg-muted transition-colors duration-200",
-                                activeIcon === item.name && "bg-foreground/20"
-                              )}
-                            />
+              {searchedIcons.map((item) => (
+                <Tooltip key={item.name} side="bottom" sideOffset={14}>
+                  <TooltipTrigger asChild>
+                    <button
+                      className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
+                      data-value={item.name}
+                      onClick={() => {
+                        setActiveIconWithoutPrefix(
+                          item.name.replace("icons-", "")
+                        );
+                      }}
+                      type="button"
+                    >
+                      {item?.component && (
+                        <item.component
+                          animateOnHover
+                          className="size-full text-current"
+                        />
+                      )}
+                      <div
+                        className={cn(
+                          "absolute inset-0 -z-2 rounded-lg bg-muted transition-colors duration-200",
+                          activeIcon === item.name && "bg-foreground/20"
+                        )}
+                      />
 
-                            {newIconNames.includes(item.name) && (
-                              <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
-                            )}
-
-                            <div className="absolute -right-2.5 -bottom-2.5 z-10 flex size-5 items-center justify-center rounded-full border bg-background font-medium text-muted-foreground transition-colors duration-200 group-hover:border-foreground group-hover:ring group-hover:ring-foreground">
-                              <span className="text-[11px] leading-none">
-                                {totalAnimationsLength}
-                              </span>
-                            </div>
-                          </button>
-                        </AnimateIcon>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{item.name.replace("icons-", "")}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                );
-              })}
+                      {newIconNames.includes(item.name) && (
+                        <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
+                      )}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{item.name.replace("icons-", "")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
             </TooltipProvider>
           </div>
         ) : (
@@ -344,96 +314,51 @@ export function Icons() {
             <h2 className="mt-1.5 font-medium text-lg">
               {activeIcon?.replace("icons-", "")}
             </h2>
-            <AnimateIcon animateOnHover asChild>
-              <button
-                className="absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background transition-colors duration-200 hover:bg-muted"
-                onClick={() => setIsPanelOpen(false)}
-                type="button"
-              >
-                <X className="size-5 text-neutral-500" />
-              </button>
-            </AnimateIcon>
+            <button
+              className="absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background transition-colors duration-200 hover:bg-muted"
+              onClick={() => setIsPanelOpen(false)}
+              type="button"
+            >
+              <X className="size-5 text-neutral-500" />
+            </button>
 
             <ScrollArea className="h-[calc(100%-3.25rem)]" type="scroll">
               <ScrollViewport className="[&>div]:!block [&>div]:!min-w-0 [&>div]:w-full">
                 <div className="flex flex-col gap-y-4">
                   <div className="space-y-4">
                     {activeIcon && (
-                      <>
-                        <div className="relative mx-auto flex aspect-square h-37.5 w-full items-center justify-center rounded-2xl border bg-muted/50">
-                          {icon?.component && (
-                            <icon.component
-                              animate
-                              animation={activeAnimation}
-                              className="size-25 text-current"
-                              key={`${activeAnimation}-${activeIcon}-${animationKey}-${isLoop}`}
-                              loop={isLoop}
-                            />
+                      <div className="relative mx-auto flex aspect-square h-37.5 w-full items-center justify-center rounded-2xl border bg-muted/50">
+                        {icon?.component && (
+                          <icon.component
+                            animate
+                            className="size-25 text-current"
+                            key={`${activeIcon}-${animationKey}-${isLoop}`}
+                            loop={isLoop}
+                          />
+                        )}
+
+                        <Button
+                          className={cn(
+                            "absolute top-2 left-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
+                            isLoop &&
+                              "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
                           )}
-
-                          <Button
-                            className={cn(
-                              "absolute top-2 left-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10",
-                              isLoop &&
-                                "bg-black/10 hover:bg-black/15 dark:bg-white/15 dark:hover:bg-white/20"
-                            )}
-                            onClick={() => setIsLoop(!isLoop)}
-                            size="icon-sm"
-                            variant="ghost"
-                          >
-                            <InfinityIcon className="size-3.5" />
-                          </Button>
-
-                          <AnimateIcon animateOnHover asChild>
-                            <Button
-                              className="absolute top-2 right-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
-                              onClick={() =>
-                                setAnimationKey((prev) => prev + 1)
-                              }
-                              size="icon-sm"
-                              variant="ghost"
-                            >
-                              <RotateCcw className="size-3.5" />
-                            </Button>
-                          </AnimateIcon>
-                        </div>
-
-                        <Select
-                          onValueChange={(value) => setActiveAnimation(value)}
-                          value={activeAnimation}
+                          onClick={() => setIsLoop(!isLoop)}
+                          size="icon-sm"
+                          variant="ghost"
                         >
-                          <SelectTrigger className="h-11! w-full rounded-lg px-1.5">
-                            <SelectValue placeholder="Select an animation" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <div className="space-y-1.5 p-0.5">
-                              {[
-                                ...(icon?.component
-                                  ?.supportedStaticAnimations ??
-                                  Object.keys(staticAnimations)),
-                                ...Object.keys(
-                                  icon?.component?.animations ?? {}
-                                ),
-                              ].map((animation) => (
-                                <SelectItem
-                                  className="h-8! rounded-md px-0 focus:bg-muted"
-                                  key={animation}
-                                  value={animation}
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <div className="size-8 rounded-md bg-muted p-1.5">
-                                      {icon?.component && (
-                                        <icon.component className="size-full text-current" />
-                                      )}
-                                    </div>
-                                    <span>{animation}</span>
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </div>
-                          </SelectContent>
-                        </Select>
-                      </>
+                          <InfinityIcon className="size-3.5" />
+                        </Button>
+
+                        <Button
+                          className="absolute top-2 right-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
+                          onClick={() => setAnimationKey((prev) => prev + 1)}
+                          size="icon-sm"
+                          variant="ghost"
+                        >
+                          <RotateCcw className="size-3.5" />
+                        </Button>
+                      </div>
                     )}
                   </div>
 
@@ -477,11 +402,9 @@ export function Icons() {
                     <h3 className="mt-4 font-medium text-base">Usage</h3>
                     {activeIcon && (
                       <DynamicCodeBlock
-                        code={`<${iconName} animateOnHover />
-// Or use with the AnimateIcon component
-<AnimateIcon animateOnHover>
-  <${iconName} />
-</AnimateIcon>`}
+                        code={`import { ${iconName} } from "@/components/sora-ui/icons/${activeIconWithoutPrefix}";
+
+<${iconName} animateOnHover />`}
                         lang="tsx"
                       />
                     )}

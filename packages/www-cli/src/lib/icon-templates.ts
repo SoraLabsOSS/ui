@@ -35,37 +35,58 @@ export function buildIconLabels(
 export function renderIconIndex(_name: string, exportName: string): string {
   return `"use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import {
-  type IconProps,
-  IconWrapper,
-  useAnimateIconContext,
-  useAnimateIconVariants,
-} from "@/registry/icons/icon";
+import { motion, useReducedMotion, type SVGMotionProps } from "motion/react";
+import { useState } from "react";
 
-export type ${exportName}Props = IconProps<keyof typeof animations, never>;
+interface ${exportName}Props extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {
+  /**
+   * Icon size in pixels (applied to both width and height).
+   * @default 24
+   */
+  size?: number | string;
+  /**
+   * Any valid CSS color, mapped to the SVG \`stroke\`.
+   * @default "currentColor"
+   */
+  color?: string;
+  /**
+   * Whether to trigger the animation.
+   * @default false
+   */
+  animate?: boolean;
+  /**
+   * Play the animation when the icon is hovered.
+   * @default true
+   */
+  animateOnHover?: boolean;
+  /**
+   * Repeat the animation indefinitely.
+   * @default false
+   */
+  loop?: boolean;
+}
 
-const animations = {
-  default: {
-    group: {
-      initial: { scale: 1 },
-      animate: {
-        scale: [1, 1.15, 1],
-        transition: { duration: 0.5, ease: "easeInOut" },
-      },
-    },
-  },
-} satisfies Record<string, Variants>;
-
-function IconComponent({ size = 24, color = "currentColor", ...props }: ${exportName}Props) {
-  const { controls } = useAnimateIconContext();
-  const variants = useAnimateIconVariants(animations);
+function ${exportName}({
+  size = 24,
+  color = "currentColor",
+  animate = false,
+  animateOnHover = true,
+  loop = false,
+  className,
+  onMouseEnter,
+  onMouseLeave,
+  ...props
+}: ${exportName}Props) {
+  const [isHovered, setIsHovered] = useState(false);
   const reducedMotion = useReducedMotion();
+
+  const isTriggered = animate || (animateOnHover && isHovered);
 
   if (reducedMotion) {
     return (
       <motion.svg
         aria-hidden="true"
+        className={className}
         fill="none"
         height={size}
         stroke={color}
@@ -84,39 +105,58 @@ function IconComponent({ size = 24, color = "currentColor", ...props }: ${export
 
   return (
     <motion.svg
-      animate={controls}
-      aria-hidden="true"
+      className={className}
       fill="none"
       height={size}
+      onMouseEnter={(e) => {
+        setIsHovered(true);
+        if (typeof onMouseEnter === "function") {
+          onMouseEnter(e);
+        }
+      }}
+      onMouseLeave={(e) => {
+        setIsHovered(false);
+        if (typeof onMouseLeave === "function") {
+          onMouseLeave(e);
+        }
+      }}
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}
-      variants={variants.group}
       viewBox="0 0 24 24"
       width={size}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <circle cx="12" cy="12" r="9" />
+      <motion.g
+        animate={
+          isTriggered
+            ? {
+                scale: [1, 1.15, 1],
+                transition: {
+                  duration: 0.5,
+                  ease: "easeInOut",
+                  repeat: loop ? Number.POSITIVE_INFINITY : 0,
+                },
+              }
+            : { scale: 1 }
+        }
+        initial={{ scale: 1 }}
+        style={{ transformOrigin: "center" }}
+      >
+        <circle cx="12" cy="12" r="9" />
+      </motion.g>
     </motion.svg>
   );
 }
 
-export function ${exportName}(props: ${exportName}Props) {
-  return (
-    <IconWrapper
-      animate={props.animate}
-      animation={props.animation}
-      controls={props.controls}
-      loop={props.loop}
-    >
-      <IconComponent {...props} />
-    </IconWrapper>
-  );
-}
-
-export { ${exportName} as ${exportName}Icon };
+export {
+  ${exportName},
+  ${exportName} as ${exportName}Icon,
+  type ${exportName}Props,
+  type ${exportName}Props as ${exportName}IconProps,
+};
 `;
 }
 
@@ -134,7 +174,7 @@ export function renderIconRegistryItem(
     title,
     description,
     dependencies: ["motion"],
-    registryDependencies: ["@soralabs/icons-icon"],
+    registryDependencies: [],
     files: [
       {
         path: `registry/icons/${name}/index.tsx`,

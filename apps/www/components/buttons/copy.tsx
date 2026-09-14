@@ -1,9 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { CheckIcon, CopyIcon } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
+import { CopyIcon } from "@/registry/icons/copy";
 import { Button, type ButtonProps } from "@/registry/ui/base/button";
 
 type CopyButtonProps = Omit<ButtonProps, "children"> & {
@@ -27,7 +26,6 @@ function CopyButton({
   ...props
 }: CopyButtonProps) {
   const [localIsCopied, setLocalIsCopied] = useState(isCopied ?? false);
-  const Icon = localIsCopied ? CheckIcon : CopyIcon;
 
   useEffect(() => {
     setLocalIsCopied(isCopied ?? false);
@@ -72,18 +70,7 @@ function CopyButton({
       variant={variant}
       {...props}
     >
-      <AnimatePresence mode="popLayout">
-        <motion.span
-          animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-          data-slot="copy-button-icon"
-          exit={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
-          initial={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
-          key={localIsCopied ? "check" : "copy"}
-          transition={{ duration: 0.25 }}
-        >
-          <Icon />
-        </motion.span>
-      </AnimatePresence>
+      <CopyIcon animate={localIsCopied} size={16} />
     </Button>
   );
 }

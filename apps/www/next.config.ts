@@ -63,22 +63,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   async rewrites() {
     return [
-      // Rewrites for top-level /motion and legacy /primitives to /docs/motion
-      {
-        source: "/motion",
-        destination: "/docs/motion",
-      },
-      {
-        source: "/motion/:path*",
-        destination: "/docs/motion/:path*",
-      },
+      // Rewrites for legacy /primitives to /motion
       {
         source: "/primitives",
-        destination: "/docs/motion",
+        destination: "/motion",
       },
       {
         source: "/primitives/:path*",
-        destination: "/docs/motion/:path*",
+        destination: "/motion/:path*",
       },
 
       // Rewrites for legacy /components to /catalog
@@ -139,6 +131,30 @@ const nextConfig: NextConfig = {
       {
         source: "/components/:path*.md",
         destination: "/llms-catalog.mdx/:path*",
+      },
+      {
+        source: "/motion.mdx",
+        destination: "/llms.mdx/motion",
+      },
+      {
+        source: "/motion.md",
+        destination: "/llms.mdx/motion",
+      },
+      {
+        source: "/icons/:path*.mdx",
+        destination: "/llms.mdx/icons/:path*",
+      },
+      {
+        source: "/icons/:path*.md",
+        destination: "/llms.mdx/icons/:path*",
+      },
+      {
+        source: "/icons.mdx",
+        destination: "/llms.mdx/icons",
+      },
+      {
+        source: "/icons.md",
+        destination: "/llms.mdx/icons",
       },
       {
         source: "/ui/:path*.mdx",

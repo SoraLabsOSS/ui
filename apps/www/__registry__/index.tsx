@@ -4365,56 +4365,6 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/hooks-use-controlled-state",
   },
-  "hooks-use-is-in-view": {
-    name: "hooks-use-is-in-view",
-    description:
-      "A Motion-powered hook that allows you to check if an element is in view.",
-    type: "registry:hook",
-    dependencies: ["motion"],
-    devDependencies: undefined,
-    registryDependencies: undefined,
-    files: [
-      {
-        path: "registry/hooks/use-is-in-view/index.tsx",
-        type: "registry:hook",
-        target: "hooks/use-is-in-view.tsx",
-        content:
-          'import { type UseInViewOptions, useInView } from "motion/react";\nimport * as React from "react";\n\ninterface UseIsInViewOptions {\n  inView?: boolean;\n  inViewMargin?: UseInViewOptions["margin"];\n  inViewOnce?: boolean;\n}\n\nfunction useIsInView<T extends HTMLElement = HTMLElement>(\n  ref: React.Ref<T>,\n  options: UseIsInViewOptions = {}\n) {\n  const { inView, inViewOnce = false, inViewMargin = "0px" } = options;\n  const localRef = React.useRef<T>(null);\n  React.useImperativeHandle(ref, () => localRef.current as T);\n  const inViewResult = useInView(localRef, {\n    once: inViewOnce,\n    margin: inViewMargin,\n  });\n  const isInView = !inView || inViewResult;\n  return { ref: localRef, isInView };\n}\n\nexport { type UseIsInViewOptions, useIsInView };',
-      },
-    ],
-    keywords: [],
-    releaseDate: null,
-    inspiration: null,
-    component: (function () {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/hooks/use-is-in-view/index.tsx");
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        if (mod.supportedStaticAnimations) {
-          (LazyComp as any).supportedStaticAnimations =
-            mod.supportedStaticAnimations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/hooks-use-is-in-view",
-  },
   "hooks-use-prefers-reduced-motion": {
     name: "hooks-use-prefers-reduced-motion",
     description:
@@ -4520,18 +4470,18 @@ export const index: Record<string, any> = {
   "icons-bell": {
     name: "icons-bell",
     description:
-      "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot, powered by the AnimateIcon engine.",
+      "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: ["@soralabs/icons-icon"],
+    registryDependencies: undefined,
     files: [
       {
         path: "registry/icons/bell/index.tsx",
         type: "registry:ui",
         target: "components/sora-ui/icons/bell.tsx",
         content:
-          '"use client";\n\nimport { motion, useReducedMotion, type Variants } from "motion/react";\nimport {\n  type IconProps,\n  IconWrapper,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n} from "@/components/sora-ui/icons/icon";\n\ntype BellProps = IconProps<keyof typeof animations, never>;\n\nconst RATTLE = [0, -8, 4, -2, 1, -0.5, 0.25, 0];\nconst RATTLE_DURATION = 0.6;\n\nconst animations = {\n  default: {\n    group: {\n      initial: { rotate: 0 },\n      animate: {\n        rotate: RATTLE,\n        transition: { duration: RATTLE_DURATION, ease: "easeInOut" },\n      },\n    },\n  } satisfies Record<string, Variants>,\n} as const;\n\nconst supportedStaticAnimations = [] as const;\n\nconst BELL_BODY =\n  "M20 16.191C20 16.6378 19.6378 17 19.191 17H4.80902C4.36221 17 4 16.6378 4 16.191C4 16.0654 4.02924 15.9415 4.08541 15.8292L5.21846 13.5631C5.40413 13.1917 5.51071 12.7859 5.53144 12.3712L5.70037 8.99251C5.86822 5.63561 8.6389 3 12 3C15.3611 3 18.1318 5.63561 18.2996 8.99251L18.4686 12.3712C18.4893 12.7859 18.5959 13.1917 18.7815 13.5631L19.9146 15.8292C19.9708 15.9415 20 16.0654 20 16.191Z";\nconst BELL_CLAPPER =\n  "M16 17C16 19.2091 14.2091 21 12 21C9.79086 21 8 19.2091 8 17";\n\nfunction IconComponent({ size, color = "currentColor", ...props }: BellProps) {\n  const { controls } = useAnimateIconContext();\n  const variants = useAnimateIconVariants(animations);\n  const reducedMotion = useReducedMotion();\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={2}\n        viewBox="0 0 24 24"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap="square" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      fill="none"\n      height={size}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={2}\n      viewBox="0 0 24 24"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.g\n        animate={controls}\n        initial="initial"\n        style={{ transformOrigin: "50% 24%" }}\n        variants={variants.group}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap="square" />\n      </motion.g>\n    </motion.svg>\n  );\n}\n\nfunction Bell(props: BellProps) {\n  return (\n    <IconWrapper<keyof typeof animations, never>\n      icon={IconComponent}\n      {...props}\n    />\n  );\n}\n\nexport {\n  animations,\n  Bell,\n  Bell as BellIcon,\n  type BellProps,\n  type BellProps as BellIconProps,\n  supportedStaticAnimations,\n};',
+          '"use client";\n\nimport { motion, type SVGMotionProps, useReducedMotion } from "motion/react";\nimport { useState } from "react";\n\ninterface BellProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {\n  /**\n   * Whether to trigger the rattle animation.\n   * @default false\n   */\n  animate?: boolean;\n  /**\n   * Play the rattle animation when the icon is hovered.\n   * @default true\n   */\n  animateOnHover?: boolean;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default "currentColor"\n   */\n  color?: string;\n  /**\n   * Repeat the rattle animation indefinitely.\n   * @default false\n   */\n  loop?: boolean;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n}\n\nconst RATTLE = [0, -8, 4, -2, 1, -0.5, 0.25, 0];\nconst BELL_BODY =\n  "M20 16.191C20 16.6378 19.6378 17 19.191 17H4.80902C4.36221 17 4 16.6378 4 16.191C4 16.0654 4.02924 15.9415 4.08541 15.8292L5.21846 13.5631C5.40413 13.1917 5.51071 12.7859 5.53144 12.3712L5.70037 8.99251C5.86822 5.63561 8.6389 3 12 3C15.3611 3 18.1318 5.63561 18.2996 8.99251L18.4686 12.3712C18.4893 12.7859 18.5959 13.1917 18.7815 13.5631L19.9146 15.8292C19.9708 15.9415 20 16.0654 20 16.191Z";\nconst BELL_CLAPPER =\n  "M16 17C16 19.2091 14.2091 21 12 21C9.79086 21 8 19.2091 8 17";\n\nfunction Bell({\n  size = 24,\n  color = "currentColor",\n  animate = false,\n  animateOnHover = true,\n  loop = false,\n  className,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: BellProps) {\n  const [isHovered, setIsHovered] = useState(false);\n  const reducedMotion = useReducedMotion();\n\n  const isTriggered = animate || (animateOnHover && isHovered);\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        className={className}\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={2}\n        viewBox="0 0 24 24"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap="square" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      className={className}\n      fill="none"\n      height={size}\n      onMouseEnter={(e) => {\n        setIsHovered(true);\n        if (typeof onMouseEnter === "function") {\n          onMouseEnter(e);\n        }\n      }}\n      onMouseLeave={(e) => {\n        setIsHovered(false);\n        if (typeof onMouseLeave === "function") {\n          onMouseLeave(e);\n        }\n      }}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={2}\n      viewBox="0 0 24 24"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.g\n        animate={\n          isTriggered\n            ? {\n                rotate: RATTLE,\n                transition: {\n                  duration: 0.6,\n                  ease: "easeInOut",\n                  repeat: loop ? Number.POSITIVE_INFINITY : 0,\n                },\n              }\n            : { rotate: 0 }\n        }\n        initial={{ rotate: 0 }}\n        style={{ transformOrigin: "50% 24%" }}\n      >\n        <path d={BELL_CLAPPER} />\n        <path d={BELL_BODY} strokeLinecap="square" />\n      </motion.g>\n    </motion.svg>\n  );\n}\n\nexport {\n  Bell,\n  Bell as BellIcon,\n  type BellProps,\n  type BellProps as BellIconProps,\n};',
       },
     ],
     keywords: ["bell", "notification", "alert", "ring", "rattle", "inbox"],
@@ -4570,22 +4520,30 @@ export const index: Record<string, any> = {
   "icons-chevrons": {
     name: "icons-chevrons",
     description:
-      "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
+      "Animated double up-chevron that cross-fades between the two carets on trigger.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: ["@soralabs/icons-icon"],
+    registryDependencies: undefined,
     files: [
       {
         path: "registry/icons/chevrons/index.tsx",
         type: "registry:ui",
         target: "components/sora-ui/icons/chevrons.tsx",
         content:
-          '"use client";\n\nimport { motion, useReducedMotion, type Variants } from "motion/react";\nimport {\n  type IconProps,\n  IconWrapper,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n} from "@/components/sora-ui/icons/icon";\n\ntype ChevronsProps = IconProps<keyof typeof animations>;\n\nconst TOP = [0, 0, 0.15, 1, 1, 0.85, 0];\nconst BOTTOM = [0, 1, 1, 0.85, 0, 0, 0];\nconst TIMES = [0, 0.22, 0.3, 0.5, 0.72, 0.8, 1];\n\nconst TOP_END = [...TOP, 0.15, 1];\nconst BOTTOM_END = [...BOTTOM, 1, 1];\nconst TIMES_END = [0, 0.16, 0.21, 0.36, 0.51, 0.57, 0.71, 0.85, 1];\n\nconst animations = {\n  default: {\n    top: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: TOP_END,\n        transition: { duration: 1.05, ease: "easeInOut", times: TIMES_END },\n      },\n    },\n    bottom: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: BOTTOM_END,\n        transition: { duration: 1.05, ease: "easeInOut", times: TIMES_END },\n      },\n    },\n  } satisfies Record<string, Variants>,\n  "default-loop": {\n    top: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: TOP,\n        transition: {\n          duration: 0.75,\n          ease: "easeInOut",\n          times: TIMES,\n          repeat: Number.POSITIVE_INFINITY,\n        },\n      },\n    },\n    bottom: {\n      initial: { opacity: 1 },\n      animate: {\n        opacity: BOTTOM,\n        transition: {\n          duration: 0.75,\n          ease: "easeInOut",\n          times: TIMES,\n          repeat: Number.POSITIVE_INFINITY,\n        },\n      },\n    },\n  } satisfies Record<string, Variants>,\n} as const;\n\nfunction IconComponent({\n  size,\n  color = "currentColor",\n  ...props\n}: ChevronsProps) {\n  const { controls } = useAnimateIconContext();\n  const variants = useAnimateIconVariants(animations);\n  const reducedMotion = useReducedMotion();\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={1.25}\n        viewBox="0 0 16 16"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        <path d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625" />\n        <path d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      fill="none"\n      height={size}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={1.25}\n      viewBox="0 0 16 16"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.path\n        animate={controls}\n        d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625"\n        initial="initial"\n        variants={variants.top}\n      />\n      <motion.path\n        animate={controls}\n        d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812"\n        initial="initial"\n        variants={variants.bottom}\n      />\n    </motion.svg>\n  );\n}\n\nfunction Chevrons(props: ChevronsProps) {\n  return <IconWrapper icon={IconComponent} {...props} />;\n}\n\nexport {\n  animations,\n  Chevrons,\n  Chevrons as ChevronsIcon,\n  type ChevronsProps,\n  type ChevronsProps as ChevronsIconProps,\n};',
+          '"use client";\n\nimport { motion, type SVGMotionProps, useReducedMotion } from "motion/react";\nimport { useState } from "react";\n\ninterface ChevronsProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {\n  /**\n   * Whether to trigger the caret animation.\n   * @default false\n   */\n  animate?: boolean;\n  /**\n   * Play the animation when the icon is hovered.\n   * @default true\n   */\n  animateOnHover?: boolean;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default "currentColor"\n   */\n  color?: string;\n  /**\n   * Repeat the animation indefinitely.\n   * @default false\n   */\n  loop?: boolean;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 16\n   */\n  size?: number | string;\n}\n\nconst TOP_END = [0, 0, 0.15, 1, 1, 0.85, 0, 0.15, 1];\nconst BOTTOM_END = [0, 1, 1, 0.85, 0, 0, 0, 1, 1];\nconst TIMES_END = [0, 0.16, 0.21, 0.36, 0.51, 0.57, 0.71, 0.85, 1];\n\nfunction Chevrons({\n  size = 16,\n  color = "currentColor",\n  animate = false,\n  animateOnHover = true,\n  loop = false,\n  className,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: ChevronsProps) {\n  const [isHovered, setIsHovered] = useState(false);\n  const reducedMotion = useReducedMotion();\n\n  const isTriggered = animate || (animateOnHover && isHovered);\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        className={className}\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={1.25}\n        viewBox="0 0 16 16"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        <path d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625" />\n        <path d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812" />\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      className={className}\n      fill="none"\n      height={size}\n      onMouseEnter={(e) => {\n        setIsHovered(true);\n        if (typeof onMouseEnter === "function") {\n          onMouseEnter(e);\n        }\n      }}\n      onMouseLeave={(e) => {\n        setIsHovered(false);\n        if (typeof onMouseLeave === "function") {\n          onMouseLeave(e);\n        }\n      }}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={1.25}\n      viewBox="0 0 16 16"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.path\n        animate={\n          isTriggered\n            ? {\n                opacity: TOP_END,\n                transition: {\n                  duration: 1.05,\n                  ease: "easeInOut",\n                  times: TIMES_END,\n                  repeat: loop ? Number.POSITIVE_INFINITY : 0,\n                },\n              }\n            : { opacity: 1 }\n        }\n        d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625"\n        initial={{ opacity: 1 }}\n      />\n      <motion.path\n        animate={\n          isTriggered\n            ? {\n                opacity: BOTTOM_END,\n                transition: {\n                  duration: 1.05,\n                  ease: "easeInOut",\n                  times: TIMES_END,\n                  repeat: loop ? Number.POSITIVE_INFINITY : 0,\n                },\n              }\n            : { opacity: 1 }\n        }\n        d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812"\n        initial={{ opacity: 1 }}\n      />\n    </motion.svg>\n  );\n}\n\nexport {\n  Chevrons,\n  Chevrons as ChevronsIcon,\n  type ChevronsProps,\n  type ChevronsProps as ChevronsIconProps,\n};',
       },
     ],
-    keywords: ["chevron", "chevrons", "up", "arrow", "expand", "caret"],
-    releaseDate: "2026-07-30",
+    keywords: [
+      "chevrons",
+      "arrow",
+      "up",
+      "double",
+      "scroll-top",
+      "direction",
+      "navigation",
+    ],
+    releaseDate: "2026-08-05",
     inspiration: null,
     component: (function () {
       const LazyComp = React.lazy(async () => {
@@ -4617,32 +4575,29 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/icons-chevrons",
   },
-  "icons-icon": {
-    name: "icons-icon",
+  "icons-copy": {
+    name: "icons-copy",
     description:
-      "AnimateIcon engine that powers Sora's animated icons — provides animate, animateOnHover, animateOnTap, animateOnView, loop, and per/static path animations via a shared context.",
+      "Animated copy icon that smoothly transitions into a checkmark on trigger with a scale and blur pop effect.",
     type: "registry:ui",
     dependencies: ["motion"],
     devDependencies: undefined,
-    registryDependencies: [
-      "@soralabs/hooks-use-is-in-view",
-      "@soralabs/primitives-animate-slot",
-    ],
+    registryDependencies: undefined,
     files: [
       {
-        path: "registry/icons/icon/index.tsx",
+        path: "registry/icons/copy/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/icons/icon.tsx",
+        target: "components/sora-ui/icons/copy.tsx",
         content:
-          '"use client";\n\nimport {\n  type HTMLMotionProps,\n  type LegacyAnimationControls,\n  motion,\n  type SVGMotionProps,\n  type UseInViewOptions,\n  useAnimation,\n  type Variants,\n} from "motion/react";\n// biome-ignore lint/performance/noNamespaceImport: React namespace matches the shared registry primitive convention (see animate/slot)\nimport * as React from "react";\nimport { useIsInView } from "@/hooks/use-is-in-view";\nimport { Slot, type WithAsChild } from "@/components/sora-ui/animate/slot";\n\nconst staticAnimations = {\n  path: {\n    initial: { pathLength: 1 },\n    animate: {\n      pathLength: [0.05, 1],\n      transition: {\n        duration: 0.8,\n        ease: "easeInOut",\n      },\n    },\n  } as Variants,\n  "path-loop": {\n    initial: { pathLength: 1 },\n    animate: {\n      pathLength: [1, 0.05, 1],\n      transition: {\n        duration: 1.6,\n        ease: "easeInOut",\n      },\n    },\n  } as Variants,\n} as const;\n\ntype StaticAnimations = keyof typeof staticAnimations;\ntype TriggerProp<T = string> = boolean | StaticAnimations | T;\ntype Trigger = TriggerProp<string>;\n\ninterface AnimateIconContextValue {\n  active: boolean;\n  animate?: Trigger;\n  animation: StaticAnimations | string;\n  completeOnStop?: boolean;\n  controls: LegacyAnimationControls | undefined;\n  delay?: number;\n  initialOnAnimateEnd?: boolean;\n  loop: boolean;\n  loopDelay: number;\n  persistOnAnimateEnd?: boolean;\n}\n\ninterface DefaultIconProps<\n  T = string,\n  S extends StaticAnimations = StaticAnimations,\n> {\n  animate?: TriggerProp<T>;\n  animateOnHover?: TriggerProp<T>;\n  animateOnTap?: TriggerProp<T>;\n  animateOnView?: TriggerProp<T>;\n  animateOnViewMargin?: UseInViewOptions["margin"];\n  animateOnViewOnce?: boolean;\n  animation?: T | S;\n  completeOnStop?: boolean;\n  delay?: number;\n  initialOnAnimateEnd?: boolean;\n  loop?: boolean;\n  loopDelay?: number;\n  persistOnAnimateEnd?: boolean;\n}\n\ntype AnimateIconProps<T = string> = WithAsChild<\n  HTMLMotionProps<"span"> &\n    DefaultIconProps<T> & {\n      children: React.ReactNode;\n      asChild?: boolean;\n    }\n>;\n\ntype IconProps<\n  T,\n  S extends StaticAnimations = StaticAnimations,\n> = DefaultIconProps<T, S> &\n  Omit<SVGMotionProps<SVGSVGElement>, "animate"> & {\n    /**\n     * Icon size in pixels (applied to both width and height).\n     * @default 24\n     */\n    size?: number | string;\n    /**\n     * Any valid CSS color, mapped to the SVG `stroke`.\n     * @default "currentColor"\n     */\n    color?: string;\n  };\n\ntype IconWrapperProps<\n  T,\n  S extends StaticAnimations = StaticAnimations,\n> = IconProps<T, S> & {\n  icon: React.ComponentType<IconProps<T, S>>;\n};\n\nconst AnimateIconContext = React.createContext<AnimateIconContextValue | null>(\n  null\n);\n\nfunction useAnimateIconContext() {\n  const context = React.useContext(AnimateIconContext);\n  if (!context) {\n    return {\n      controls: undefined,\n      animation: "default",\n      loop: undefined,\n      loopDelay: undefined,\n      active: undefined,\n      animate: undefined,\n      initialOnAnimateEnd: undefined,\n      completeOnStop: undefined,\n      persistOnAnimateEnd: undefined,\n      delay: undefined,\n    };\n  }\n  return context;\n}\n\nfunction composeEventHandlers<E extends React.SyntheticEvent<unknown>>(\n  theirs?: (event: E) => void,\n  ours?: (event: E) => void\n) {\n  return (event: E) => {\n    theirs?.(event);\n    ours?.(event);\n  };\n}\n\n// biome-ignore lint/suspicious/noExplicitAny: child props are structurally unknown\ntype AnyProps = Record<string, any>;\n\nfunction AnimateIcon({\n  asChild = false,\n  animate = false,\n  animateOnHover = false,\n  animateOnTap = false,\n  animateOnView = false,\n  animateOnViewMargin = "0px",\n  animateOnViewOnce = true,\n  animation = "default",\n  loop = false,\n  loopDelay = 0,\n  initialOnAnimateEnd = false,\n  completeOnStop = false,\n  persistOnAnimateEnd = false,\n  delay = 0,\n  children,\n  ...props\n}: AnimateIconProps) {\n  const controls = useAnimation();\n\n  const [localAnimate, setLocalAnimate] = React.useState<boolean>(() => {\n    if (animate === undefined || animate === false) {\n      return false;\n    }\n    return delay <= 0;\n  });\n  const [currentAnimation, setCurrentAnimation] = React.useState<\n    string | StaticAnimations\n  >(typeof animate === "string" ? animate : animation);\n  const [status, setStatus] = React.useState<"initial" | "animate">("initial");\n\n  const delayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);\n  const loopDelayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);\n  const isAnimateInProgressRef = React.useRef<boolean>(false);\n  const animateEndPromiseRef = React.useRef<Promise<void> | null>(null);\n  const resolveAnimateEndRef = React.useRef<(() => void) | null>(null);\n  const activeRef = React.useRef<boolean>(localAnimate);\n\n  const runGenRef = React.useRef(0);\n  const cancelledRef = React.useRef(false);\n\n  const bumpGeneration = React.useCallback(() => {\n    runGenRef.current++;\n  }, []);\n\n  const startAnimation = React.useCallback(\n    (trigger: TriggerProp) => {\n      const next = typeof trigger === "string" ? trigger : animation;\n      bumpGeneration();\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n        delayRef.current = null;\n      }\n      setCurrentAnimation(next);\n      if (delay > 0) {\n        setLocalAnimate(false);\n        delayRef.current = setTimeout(() => {\n          setLocalAnimate(true);\n        }, delay);\n      } else {\n        setLocalAnimate(true);\n      }\n    },\n    [animation, delay, bumpGeneration]\n  );\n\n  const stopAnimation = React.useCallback(() => {\n    bumpGeneration();\n    if (delayRef.current) {\n      clearTimeout(delayRef.current);\n      delayRef.current = null;\n    }\n    if (loopDelayRef.current) {\n      clearTimeout(loopDelayRef.current);\n      loopDelayRef.current = null;\n    }\n    setLocalAnimate(false);\n  }, [bumpGeneration]);\n\n  React.useEffect(() => {\n    activeRef.current = localAnimate;\n  }, [localAnimate]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: only re-run when the animate trigger changes\n  React.useEffect(() => {\n    if (animate === undefined) {\n      return;\n    }\n    setCurrentAnimation(typeof animate === "string" ? animate : animation);\n    if (animate) {\n      startAnimation(animate as TriggerProp);\n    } else {\n      stopAnimation();\n    }\n  }, [animate]);\n\n  React.useEffect(\n    () => () => {\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n      }\n      if (loopDelayRef.current) {\n        clearTimeout(loopDelayRef.current);\n      }\n    },\n    []\n  );\n\n  const viewOuterRef = React.useRef<HTMLElement>(null);\n  const { ref: inViewRef, isInView } = useIsInView(viewOuterRef, {\n    inView: !!animateOnView,\n    inViewOnce: animateOnViewOnce,\n    inViewMargin: animateOnViewMargin,\n  });\n\n  const startAnim = React.useCallback(\n    async (anim: "initial" | "animate", method: "start" | "set" = "start") => {\n      try {\n        await controls[method](anim);\n        setStatus(anim);\n      } catch {\n        return;\n      }\n    },\n    [controls]\n  );\n\n  React.useEffect(() => {\n    if (!animateOnView) {\n      return;\n    }\n    if (isInView) {\n      startAnimation(animateOnView);\n    } else {\n      stopAnimation();\n    }\n  }, [isInView, animateOnView, startAnimation, stopAnimation]);\n\n  // biome-ignore lint/correctness/useExhaustiveDependencies: async run loop is intentionally keyed to localAnimate/controls\n  React.useEffect(() => {\n    const gen = ++runGenRef.current;\n    cancelledRef.current = false;\n\n    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: verbatim port of the AnimateIcon run loop with generation/cancel guards\n    async function run() {\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        await startAnim("initial");\n        return;\n      }\n\n      if (!localAnimate) {\n        if (\n          completeOnStop &&\n          isAnimateInProgressRef.current &&\n          animateEndPromiseRef.current\n        ) {\n          try {\n            await animateEndPromiseRef.current;\n          } catch {\n            // noop\n          }\n        }\n        if (!persistOnAnimateEnd) {\n          if (cancelledRef.current || gen !== runGenRef.current) {\n            await startAnim("initial");\n            return;\n          }\n          await startAnim("initial");\n        }\n        return;\n      }\n\n      if (loop) {\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await startAnim("initial", "set");\n      }\n\n      isAnimateInProgressRef.current = true;\n      animateEndPromiseRef.current = new Promise<void>((resolve) => {\n        resolveAnimateEndRef.current = resolve;\n      });\n\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        isAnimateInProgressRef.current = false;\n        resolveAnimateEndRef.current?.();\n        resolveAnimateEndRef.current = null;\n        animateEndPromiseRef.current = null;\n        await startAnim("initial");\n        return;\n      }\n\n      await startAnim("animate");\n\n      if (cancelledRef.current || gen !== runGenRef.current) {\n        isAnimateInProgressRef.current = false;\n        resolveAnimateEndRef.current?.();\n        resolveAnimateEndRef.current = null;\n        animateEndPromiseRef.current = null;\n        await startAnim("initial");\n        return;\n      }\n\n      isAnimateInProgressRef.current = false;\n      resolveAnimateEndRef.current?.();\n      resolveAnimateEndRef.current = null;\n      animateEndPromiseRef.current = null;\n\n      if (initialOnAnimateEnd) {\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await startAnim("initial", "set");\n      }\n\n      if (loop) {\n        if (loopDelay > 0) {\n          await new Promise<void>((resolve) => {\n            loopDelayRef.current = setTimeout(() => {\n              loopDelayRef.current = null;\n              resolve();\n            }, loopDelay);\n          });\n\n          if (cancelledRef.current || gen !== runGenRef.current) {\n            await startAnim("initial");\n            return;\n          }\n          if (!activeRef.current) {\n            if (status !== "initial" && !persistOnAnimateEnd) {\n              await startAnim("initial");\n            }\n            return;\n          }\n        } else if (!activeRef.current) {\n          if (status !== "initial" && !persistOnAnimateEnd) {\n            await startAnim("initial");\n          }\n          return;\n        }\n        if (cancelledRef.current || gen !== runGenRef.current) {\n          await startAnim("initial");\n          return;\n        }\n        await run();\n      }\n    }\n\n    // biome-ignore lint/complexity/noVoid: explicitly mark the fire-and-forget run loop promise as ignored\n    void run();\n\n    return () => {\n      cancelledRef.current = true;\n      if (delayRef.current) {\n        clearTimeout(delayRef.current);\n        delayRef.current = null;\n      }\n      if (loopDelayRef.current) {\n        clearTimeout(loopDelayRef.current);\n        loopDelayRef.current = null;\n      }\n    };\n  }, [localAnimate, controls]);\n\n  const childProps = (\n    React.isValidElement(children) ? (children as React.ReactElement).props : {}\n  ) as AnyProps;\n\n  const handleMouseEnter = composeEventHandlers<React.MouseEvent<HTMLElement>>(\n    childProps.onMouseEnter,\n    () => {\n      if (animateOnHover) {\n        startAnimation(animateOnHover);\n      }\n    }\n  );\n\n  const handleMouseLeave = composeEventHandlers<React.MouseEvent<HTMLElement>>(\n    childProps.onMouseLeave,\n    () => {\n      if (animateOnHover || animateOnTap) {\n        stopAnimation();\n      }\n    }\n  );\n\n  const handlePointerDown = composeEventHandlers<\n    React.PointerEvent<HTMLElement>\n  >(childProps.onPointerDown, () => {\n    if (animateOnTap) {\n      startAnimation(animateOnTap);\n    }\n  });\n\n  const handlePointerUp = composeEventHandlers<React.PointerEvent<HTMLElement>>(\n    childProps.onPointerUp,\n    () => {\n      if (animateOnTap) {\n        stopAnimation();\n      }\n    }\n  );\n\n  const content = asChild ? (\n    <Slot\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      onPointerUp={handlePointerUp}\n      ref={inViewRef}\n      {...props}\n    >\n      {children}\n    </Slot>\n  ) : (\n    <motion.span\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onPointerDown={handlePointerDown}\n      onPointerUp={handlePointerUp}\n      ref={inViewRef}\n      {...props}\n    >\n      {children}\n    </motion.span>\n  );\n\n  return (\n    <AnimateIconContext.Provider\n      value={{\n        controls,\n        animation: currentAnimation,\n        loop,\n        loopDelay,\n        active: localAnimate,\n        animate,\n        initialOnAnimateEnd,\n        completeOnStop,\n        delay,\n      }}\n    >\n      {content}\n    </AnimateIconContext.Provider>\n  );\n}\n\nfunction IconWrapper<\n  T extends string,\n  S extends StaticAnimations = StaticAnimations,\n>({\n  size = 24,\n  animation: animationProp,\n  animate,\n  animateOnHover,\n  animateOnTap,\n  animateOnView,\n  animateOnViewMargin,\n  animateOnViewOnce,\n  icon: IconComponent,\n  loop,\n  loopDelay,\n  persistOnAnimateEnd,\n  initialOnAnimateEnd,\n  delay,\n  completeOnStop,\n  className,\n  ...props\n}: IconWrapperProps<T, S>) {\n  const context = React.useContext(AnimateIconContext);\n\n  if (context) {\n    const {\n      controls,\n      animation: parentAnimation,\n      loop: parentLoop,\n      loopDelay: parentLoopDelay,\n      active: parentActive,\n      animate: parentAnimate,\n      persistOnAnimateEnd: parentPersistOnAnimateEnd,\n      initialOnAnimateEnd: parentInitialOnAnimateEnd,\n      delay: parentDelay,\n      completeOnStop: parentCompleteOnStop,\n    } = context;\n\n    const hasOverrides =\n      animate !== undefined ||\n      animateOnHover !== undefined ||\n      animateOnTap !== undefined ||\n      animateOnView !== undefined ||\n      loop !== undefined ||\n      loopDelay !== undefined ||\n      initialOnAnimateEnd !== undefined ||\n      persistOnAnimateEnd !== undefined ||\n      delay !== undefined ||\n      completeOnStop !== undefined;\n\n    if (hasOverrides) {\n      const inheritedAnimate: Trigger = parentActive\n        ? (animationProp ?? parentAnimation ?? "default")\n        : false;\n\n      const finalAnimate: Trigger = (animate ??\n        parentAnimate ??\n        inheritedAnimate) as Trigger;\n\n      return (\n        <AnimateIcon\n          animate={finalAnimate}\n          animateOnHover={animateOnHover}\n          animateOnTap={animateOnTap}\n          animateOnView={animateOnView}\n          animateOnViewMargin={animateOnViewMargin}\n          animateOnViewOnce={animateOnViewOnce}\n          animation={animationProp ?? parentAnimation}\n          asChild\n          completeOnStop={completeOnStop ?? parentCompleteOnStop}\n          delay={delay ?? parentDelay}\n          initialOnAnimateEnd={initialOnAnimateEnd ?? parentInitialOnAnimateEnd}\n          loop={loop ?? parentLoop}\n          loopDelay={loopDelay ?? parentLoopDelay}\n          persistOnAnimateEnd={persistOnAnimateEnd ?? parentPersistOnAnimateEnd}\n        >\n          <IconComponent className={className} size={size} {...props} />\n        </AnimateIcon>\n      );\n    }\n\n    const animationToUse = animationProp ?? parentAnimation;\n    const loopToUse = parentLoop;\n    const loopDelayToUse = parentLoopDelay;\n\n    return (\n      <AnimateIconContext.Provider\n        value={{\n          controls,\n          animation: animationToUse,\n          loop: loopToUse,\n          loopDelay: loopDelayToUse,\n          active: parentActive,\n          animate: parentAnimate,\n          initialOnAnimateEnd: parentInitialOnAnimateEnd,\n          delay: parentDelay,\n          completeOnStop: parentCompleteOnStop,\n        }}\n      >\n        <IconComponent className={className} size={size} {...props} />\n      </AnimateIconContext.Provider>\n    );\n  }\n\n  if (\n    animate !== undefined ||\n    animateOnHover !== undefined ||\n    animateOnTap !== undefined ||\n    animateOnView !== undefined ||\n    animationProp !== undefined\n  ) {\n    return (\n      <AnimateIcon\n        animate={animate}\n        animateOnHover={animateOnHover}\n        animateOnTap={animateOnTap}\n        animateOnView={animateOnView}\n        animateOnViewMargin={animateOnViewMargin}\n        animateOnViewOnce={animateOnViewOnce}\n        animation={animationProp}\n        asChild\n        completeOnStop={completeOnStop}\n        delay={delay}\n        loop={loop}\n        loopDelay={loopDelay}\n      >\n        <IconComponent className={className} size={size} {...props} />\n      </AnimateIcon>\n    );\n  }\n\n  return <IconComponent className={className} size={size} {...props} />;\n}\n\nfunction useAnimateIconVariants<\n  V extends { default: T; [key: string]: T },\n  T extends Record<string, Variants>,\n>(animations: V): T {\n  const { animation: animationType } = useAnimateIconContext();\n\n  let result: T;\n\n  if (animationType in staticAnimations) {\n    const variant = staticAnimations[animationType as StaticAnimations];\n    result = {} as T;\n    for (const key in animations.default) {\n      if (\n        (animationType === "path" || animationType === "path-loop") &&\n        key.includes("group")\n      ) {\n        continue;\n      }\n      result[key] = variant as T[Extract<keyof T, string>];\n    }\n  } else {\n    result = (animations[animationType as keyof V] as T) ?? animations.default;\n  }\n\n  return result;\n}\n\nexport {\n  AnimateIcon,\n  type AnimateIconContextValue,\n  type AnimateIconProps,\n  type IconProps,\n  IconWrapper,\n  type IconWrapperProps,\n  staticAnimations,\n  useAnimateIconContext,\n  useAnimateIconVariants,\n};',
+          '"use client";\n\nimport {\n  motion,\n  type SVGMotionProps,\n  useReducedMotion,\n  type Variants,\n} from "motion/react";\nimport { useState } from "react";\n\ninterface CopyProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {\n  /**\n   * Whether to animate the icon into its checkmark state.\n   * @default false\n   */\n  animate?: boolean;\n  /**\n   * Play the animation while the icon is hovered.\n   * @default false\n   */\n  animateOnHover?: boolean;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default "currentColor"\n   */\n  color?: string;\n  /**\n   * Convenience trigger prop. When true, transitions the icon into its checkmark state.\n   * Equivalent to `animate={copied}`.\n   */\n  copied?: boolean;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n}\n\nconst copyVariants: Variants = {\n  initial: {\n    scale: 1,\n    opacity: 1,\n    filter: "blur(0px)",\n    transition: { duration: 0.25, ease: "easeInOut" },\n  },\n  animate: {\n    scale: 0,\n    opacity: 0,\n    filter: "blur(4px)",\n    transition: { duration: 0.25, ease: "easeInOut" },\n  },\n};\n\nconst checkVariants: Variants = {\n  initial: {\n    scale: 0,\n    opacity: 0,\n    filter: "blur(4px)",\n    transition: { duration: 0.25, ease: "easeInOut" },\n  },\n  animate: {\n    scale: 1,\n    opacity: 1,\n    filter: "blur(0px)",\n    transition: { duration: 0.25, ease: "easeInOut" },\n  },\n};\n\nfunction Copy({\n  size = 24,\n  color = "currentColor",\n  animate = false,\n  copied,\n  animateOnHover = false,\n  className,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: CopyProps) {\n  const [isHovered, setIsHovered] = useState(false);\n  const reducedMotion = useReducedMotion();\n\n  const isTriggered =\n    (copied === undefined ? animate : copied) || (animateOnHover && isHovered);\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden="true"\n        className={className}\n        fill="none"\n        height={size}\n        stroke={color}\n        strokeLinecap="round"\n        strokeLinejoin="round"\n        strokeWidth={2}\n        viewBox="0 0 24 24"\n        width={size}\n        xmlns="http://www.w3.org/2000/svg"\n        {...props}\n      >\n        {isTriggered ? (\n          <path d="M20 6 9 17l-5-5" />\n        ) : (\n          <>\n            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />\n            <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />\n          </>\n        )}\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      className={className}\n      fill="none"\n      height={size}\n      onMouseEnter={(e) => {\n        setIsHovered(true);\n        if (typeof onMouseEnter === "function") {\n          onMouseEnter(e);\n        }\n      }}\n      onMouseLeave={(e) => {\n        setIsHovered(false);\n        if (typeof onMouseLeave === "function") {\n          onMouseLeave(e);\n        }\n      }}\n      stroke={color}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      strokeWidth={2}\n      viewBox="0 0 24 24"\n      width={size}\n      xmlns="http://www.w3.org/2000/svg"\n      {...props}\n    >\n      <motion.g\n        animate={isTriggered ? "animate" : "initial"}\n        initial="initial"\n        style={{ transformOrigin: "12px 12px" }}\n        variants={copyVariants}\n      >\n        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />\n        <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />\n      </motion.g>\n      <motion.g\n        animate={isTriggered ? "animate" : "initial"}\n        initial="initial"\n        style={{ transformOrigin: "12px 12px" }}\n        variants={checkVariants}\n      >\n        <path d="M20 6 9 17l-5-5" />\n      </motion.g>\n    </motion.svg>\n  );\n}\n\nexport {\n  Copy,\n  Copy as CopyIcon,\n  type CopyProps,\n  type CopyProps as CopyIconProps,\n};',
       },
     ],
-    keywords: [],
-    releaseDate: null,
+    keywords: ["copy", "clipboard", "duplicate", "check", "success", "action"],
+    releaseDate: "2026-09-14",
     inspiration: null,
     component: (function () {
       const LazyComp = React.lazy(async () => {
-        const mod = await import("@/registry/icons/icon/index.tsx");
+        const mod = await import("@/registry/icons/copy/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4668,7 +4623,7 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {};
       return LazyComp;
     })(),
-    command: "@soralabs/icons-icon",
+    command: "@soralabs/icons-copy",
   },
   "lib-scroll-trigger-utils": {
     name: "lib-scroll-trigger-utils",
@@ -4721,62 +4676,6 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/lib-scroll-trigger-utils",
-  },
-  "primitives-animate-slot": {
-    name: "primitives-animate-slot",
-    description:
-      "A slot component that allows you to use motion components with any element.",
-    type: "registry:ui",
-    dependencies: ["motion"],
-    devDependencies: undefined,
-    registryDependencies: ["utils"],
-    files: [
-      {
-        path: "registry/primitives/animate/slot/index.tsx",
-        type: "registry:ui",
-        target: "components/sora-ui/animate/slot.tsx",
-        content:
-          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { type HTMLMotionProps, isMotionComponent, motion } from "motion/react";\nimport * as React from "react";\n\ntype AnyProps = Record<string, unknown>;\n\ntype DOMMotionProps<T extends HTMLElement = HTMLElement> = Omit<\n  HTMLMotionProps<keyof HTMLElementTagNameMap>,\n  "ref"\n> & { ref?: React.Ref<T> };\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: React.ReactElement })\n  | (Base & { asChild?: false | undefined });\n\ntype SlotProps<T extends HTMLElement = HTMLElement> = {\n  // eslint-disable-next-line @typescript-eslint/no-explicit-any\n  children?: any;\n} & DOMMotionProps<T>;\n\nfunction mergeRefs<T>(\n  ...refs: (React.Ref<T> | undefined)[]\n): React.RefCallback<T> {\n  return (node) => {\n    refs.forEach((ref) => {\n      if (!ref) {\n        return;\n      }\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as React.RefObject<T | null>).current = node;\n      }\n    });\n  };\n}\n\nfunction mergeProps<T extends HTMLElement>(\n  childProps: AnyProps,\n  slotProps: DOMMotionProps<T>\n): AnyProps {\n  const merged: AnyProps = { ...childProps, ...slotProps };\n\n  if (childProps.className || slotProps.className) {\n    merged.className = cn(\n      childProps.className as string,\n      slotProps.className as string\n    );\n  }\n\n  if (childProps.style || slotProps.style) {\n    merged.style = {\n      ...(childProps.style as React.CSSProperties),\n      ...(slotProps.style as React.CSSProperties),\n    };\n  }\n\n  return merged;\n}\n\nfunction Slot<T extends HTMLElement = HTMLElement>({\n  children,\n  ref,\n  ...props\n}: SlotProps<T>) {\n  const isAlreadyMotion =\n    typeof children.type === "object" &&\n    children.type !== null &&\n    isMotionComponent(children.type);\n\n  const Base = React.useMemo(\n    () =>\n      isAlreadyMotion\n        ? (children.type as React.ElementType)\n        : motion.create(children.type as React.ElementType),\n    [isAlreadyMotion, children.type]\n  );\n\n  if (!React.isValidElement(children)) {\n    return null;\n  }\n\n  const { ref: childRef, ...childProps } = children.props as AnyProps;\n\n  const mergedProps = mergeProps(childProps, props);\n\n  return (\n    <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref<T>, ref)} />\n  );\n}\n\nexport {\n  type AnyProps,\n  type DOMMotionProps,\n  Slot,\n  type SlotProps,\n  type WithAsChild,\n};',
-      },
-    ],
-    keywords: [],
-    releaseDate: null,
-    inspiration: {
-      type: "adapted",
-      label: "Animate UI",
-      url: "https://animate-ui.com/docs/primitives/animate/slot",
-    },
-    component: (function () {
-      const LazyComp = React.lazy(async () => {
-        const mod = await import(
-          "@/registry/primitives/animate/slot/index.tsx"
-        );
-        const demoProps = {};
-        const demoExportName = Object.keys(demoProps)[0];
-        const pascalExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-        );
-        const functionExportName = Object.keys(mod).find(
-          (key) => typeof mod[key] === "function"
-        );
-        const Comp =
-          mod.default ||
-          (demoExportName ? mod[demoExportName] : undefined) ||
-          (pascalExportName ? mod[pascalExportName] : undefined) ||
-          (functionExportName ? mod[functionExportName] : undefined);
-        if (mod.animations) {
-          (LazyComp as any).animations = mod.animations;
-        }
-        if (mod.supportedStaticAnimations) {
-          (LazyComp as any).supportedStaticAnimations =
-            mod.supportedStaticAnimations;
-        }
-        return { default: Comp };
-      });
-      LazyComp.demoProps = {};
-      return LazyComp;
-    })(),
-    command: "@soralabs/primitives-animate-slot",
   },
   "particle-hover-button": {
     name: "particle-hover-button",
@@ -8108,6 +8007,62 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/radix-dialog",
+  },
+  "primitives-animate-slot": {
+    name: "primitives-animate-slot",
+    description:
+      "A slot component that allows you to use motion components with any element.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/animate/slot/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/animate/slot.tsx",
+        content:
+          '"use client";\n\nimport { cn } from "@/lib/utils";\nimport { type HTMLMotionProps, isMotionComponent, motion } from "motion/react";\nimport * as React from "react";\n\ntype AnyProps = Record<string, unknown>;\n\ntype DOMMotionProps<T extends HTMLElement = HTMLElement> = Omit<\n  HTMLMotionProps<keyof HTMLElementTagNameMap>,\n  "ref"\n> & { ref?: React.Ref<T> };\n\ntype WithAsChild<Base extends object> =\n  | (Base & { asChild: true; children: React.ReactElement })\n  | (Base & { asChild?: false | undefined });\n\ntype SlotProps<T extends HTMLElement = HTMLElement> = {\n  // eslint-disable-next-line @typescript-eslint/no-explicit-any\n  children?: any;\n} & DOMMotionProps<T>;\n\nfunction mergeRefs<T>(\n  ...refs: (React.Ref<T> | undefined)[]\n): React.RefCallback<T> {\n  return (node) => {\n    refs.forEach((ref) => {\n      if (!ref) {\n        return;\n      }\n      if (typeof ref === "function") {\n        ref(node);\n      } else {\n        (ref as React.RefObject<T | null>).current = node;\n      }\n    });\n  };\n}\n\nfunction mergeProps<T extends HTMLElement>(\n  childProps: AnyProps,\n  slotProps: DOMMotionProps<T>\n): AnyProps {\n  const merged: AnyProps = { ...childProps, ...slotProps };\n\n  if (childProps.className || slotProps.className) {\n    merged.className = cn(\n      childProps.className as string,\n      slotProps.className as string\n    );\n  }\n\n  if (childProps.style || slotProps.style) {\n    merged.style = {\n      ...(childProps.style as React.CSSProperties),\n      ...(slotProps.style as React.CSSProperties),\n    };\n  }\n\n  return merged;\n}\n\nfunction Slot<T extends HTMLElement = HTMLElement>({\n  children,\n  ref,\n  ...props\n}: SlotProps<T>) {\n  const isAlreadyMotion =\n    typeof children.type === "object" &&\n    children.type !== null &&\n    isMotionComponent(children.type);\n\n  const Base = React.useMemo(\n    () =>\n      isAlreadyMotion\n        ? (children.type as React.ElementType)\n        : motion.create(children.type as React.ElementType),\n    [isAlreadyMotion, children.type]\n  );\n\n  if (!React.isValidElement(children)) {\n    return null;\n  }\n\n  const { ref: childRef, ...childProps } = children.props as AnyProps;\n\n  const mergedProps = mergeProps(childProps, props);\n\n  return (\n    <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref<T>, ref)} />\n  );\n}\n\nexport {\n  type AnyProps,\n  type DOMMotionProps,\n  Slot,\n  type SlotProps,\n  type WithAsChild,\n};',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: {
+      type: "adapted",
+      label: "Animate UI",
+      url: "https://animate-ui.com/docs/primitives/animate/slot",
+    },
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/animate/slot/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/primitives-animate-slot",
   },
   "primitives-animate-tabs": {
     name: "primitives-animate-tabs",

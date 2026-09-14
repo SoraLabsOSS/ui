@@ -111,7 +111,7 @@ export async function runCreatePrimitive(
     );
   }
 
-  const metaUpdate = `content/docs/motion/meta.json (+${resolved.name})`;
+  const metaUpdate = `content/motion/meta.json (+${resolved.name})`;
 
   if (resolved.dryRun) {
     printDryRunPlan({
@@ -125,7 +125,7 @@ export async function runCreatePrimitive(
   if (resolved.quiet) {
     await writeScaffoldFiles(wwwRoot, files);
     await insertIntoMotionMeta(
-      path.join(wwwRoot, "content/docs/motion/meta.json"),
+      path.join(wwwRoot, "content/motion/meta.json"),
       resolved.category,
       resolved.name
     );
@@ -145,7 +145,7 @@ export async function runCreatePrimitive(
 
   await writeScaffoldFiles(wwwRoot, files);
   await insertIntoMotionMeta(
-    path.join(wwwRoot, "content/docs/motion/meta.json"),
+    path.join(wwwRoot, "content/motion/meta.json"),
     resolved.category,
     resolved.name
   );
@@ -172,7 +172,7 @@ export async function runCreatePrimitive(
       "",
       "Next steps:",
       "  1. Implement animation in registry/primitives/.../index.tsx",
-      "  2. Expand content/docs/motion/<name>.mdx (Usage, Accessibility, Credits)",
+      "  2. Expand content/motion/<name>.mdx (Usage, Accessibility, Credits)",
       "  3. Tune meta.demoProps in registry-item.json",
       resolved.skipBuild
         ? "  4. Run: cd apps/www && bun run registry:build"

@@ -5,8 +5,6 @@
     "architecture",
     "changelog",
     "cli",
-    "license",
-    "motion",
-    "icons"
+    "license"
   ]
 }

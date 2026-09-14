@@ -39,7 +39,7 @@ For accessible app & form primitives powered by `@base-ui/react` or `radix-ui` +
 6. bun run doctor {base|radix}/<name>   ← verify component health
 ```
 
-### 2. Motion Primitives (`/docs/motion` — Animation building blocks)
+### 2. Motion Primitives (`/motion` — Animation building blocks)
 
 For unstyled animation primitives (effects, text reveals, buttons, disclosure):
 
@@ -48,18 +48,32 @@ For unstyled animation primitives (effects, text reveals, buttons, disclosure):
       index.tsx
       registry-item.json    ← meta.demoProps (Tweakpane + auto Code tab)
 
-2. content/docs/motion/<name>.mdx
+2. content/motion/<name>.mdx
       <ComponentPreview name="<name>" />
       <ComponentInstallation name="<name>" />
 
-3. content/docs/motion/meta.json   ← add to docs sidebar under section
+3. content/motion/meta.json   ← add to motion sidebar under section
 
 4. bun run registry:build
 
 5. bun run doctor <name>    ← verify component health
 ```
 
-### 3. Catalog (`/catalog` — Ready-to-use layout showcases)
+### 3. Animated Icons (`/icons` — Motion-powered Lucide icons)
+
+For animated Lucide icons:
+
+```text
+1. registry/icons/<name>/
+      index.tsx
+      registry-item.json
+
+2. content/icons/index.mdx (auto-surfaces registered icons)
+
+3. bun run registry:build
+```
+
+### 4. Catalog (`/catalog` — Ready-to-use layout showcases)
 
 For full-page layout showcases documenting existing primitives:
 

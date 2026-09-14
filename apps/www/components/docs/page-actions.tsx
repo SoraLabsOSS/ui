@@ -10,9 +10,7 @@ import {
 } from "fumadocs-ui/components/ui/popover";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import {
-  Check,
   ChevronDown,
-  Copy,
   ExternalLinkIcon,
   MessageCircleIcon,
   TextIcon,
@@ -21,6 +19,7 @@ import { LayoutGroup, motion } from "motion/react";
 import { type JSX, useEffect, useMemo, useState } from "react";
 import { BookmarkButton } from "@/components/docs/bookmark-button";
 import { SITE_URL } from "@/lib/site";
+import { CopyIcon } from "@/registry/icons/copy";
 
 const cache = new Map<string, string>();
 
@@ -69,7 +68,7 @@ export function LLMCopyButton({
       onClick={onClick}
       type="button"
     >
-      {checked ? <Check /> : <Copy />}
+      <CopyIcon animate={checked} size={14} />
       Copy Markdown
     </button>
   );

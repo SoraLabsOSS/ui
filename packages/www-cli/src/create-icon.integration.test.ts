@@ -53,16 +53,14 @@ describe("create icon integration", () => {
     expect(await pathExists(paths.demoRegistryItemPath)).toBe(true);
 
     const indexSource = await readFile(paths.iconIndexPath, "utf-8");
-    expect(indexSource).toContain("export function WwwCliIconFixture");
-    expect(indexSource).toContain(
-      "export { WwwCliIconFixture as WwwCliIconFixtureIcon }"
-    );
+    expect(indexSource).toContain("function WwwCliIconFixture");
+    expect(indexSource).toContain("WwwCliIconFixture as WwwCliIconFixtureIcon");
 
     const registryItem = JSON.parse(
       await readFile(paths.iconRegistryItemPath, "utf-8")
     ) as { name: string; registryDependencies: string[] };
     expect(registryItem.name).toBe(`icons-${ICON_FIXTURE_NAME}`);
-    expect(registryItem.registryDependencies).toContain("@soralabs/icons-icon");
+    expect(registryItem.registryDependencies).toEqual([]);
   });
 
   it("skips demo when withDemo is false", async () => {

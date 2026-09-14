@@ -2,26 +2,36 @@
 export const MENU_ICONS_ITEM_KEY = "menu-icons";
 
 const ICONS_DOCS_PREFIX = "/docs/icons";
+const ICONS_PREFIX = "/icons";
 
-/** Any route inside the Icons docs section (index or leaf pages). */
+/** Any leaf route inside the Icons docs section (e.g. `/icons/get-started`). */
 export function isIconsDocPath(pathname: string): boolean {
   return (
-    pathname === ICONS_DOCS_PREFIX ||
-    pathname.startsWith(`${ICONS_DOCS_PREFIX}/`)
+    (pathname !== ICONS_PREFIX &&
+      pathname !== `${ICONS_PREFIX}/` &&
+      pathname.startsWith(`${ICONS_PREFIX}/`)) ||
+    (pathname !== ICONS_DOCS_PREFIX &&
+      pathname !== `${ICONS_DOCS_PREFIX}/` &&
+      pathname.startsWith(`${ICONS_DOCS_PREFIX}/`))
   );
 }
 
 /**
  * Sidebar / account menu "Icons" link.
- * Inside Icons docs the tree item owns active state — not this Menu entry.
+ * Inside leaf Icons docs the tree item owns active state — not this Menu entry.
  */
 export function isIconsNavItemActive(
   pathname: string,
-  iconsUrl = ICONS_DOCS_PREFIX
+  iconsUrl = "/icons"
 ): boolean {
   if (isIconsDocPath(pathname)) {
     return false;
   }
 
-  return pathname === iconsUrl || pathname.startsWith(`${iconsUrl}/`);
+  return (
+    pathname === iconsUrl ||
+    pathname.startsWith(`${iconsUrl}/`) ||
+    pathname === ICONS_DOCS_PREFIX ||
+    pathname.startsWith(`${ICONS_DOCS_PREFIX}/`)
+  );
 }

@@ -37,14 +37,32 @@ function resolvePrimitiveTarget(
       rawName
     );
     if (existsSync(candidateDir)) {
+      const motionMdx = path.join(
+        wwwRoot,
+        "content",
+        "motion",
+        `${rawName}.mdx`
+      );
+      const catalogMdx = path.join(
+        wwwRoot,
+        "content",
+        "catalog",
+        `${rawName}.mdx`
+      );
+      const isCatalog = !existsSync(motionMdx) && existsSync(catalogMdx);
+
       return {
         kind: "primitive",
         category: cat,
         componentName: rawName,
         dirPath: candidateDir,
         registryJsonPath: path.join(candidateDir, "registry-item.json"),
-        relMdxPath: `content/docs/motion/${rawName}.mdx`,
-        metaJsonRel: "content/docs/motion/meta.json",
+        relMdxPath: isCatalog
+          ? `content/catalog/${rawName}.mdx`
+          : `content/motion/${rawName}.mdx`,
+        metaJsonRel: isCatalog
+          ? "content/catalog/meta.json"
+          : "content/motion/meta.json",
         metaPageSlug: rawName,
       };
     }
@@ -117,9 +135,9 @@ function resolveTarget(
       componentName: clean,
       dirPath: iconDir,
       registryJsonPath: path.join(iconDir, "registry-item.json"),
-      relMdxPath: `content/docs/motion/${clean}.mdx`,
-      metaJsonRel: "content/docs/motion/meta.json",
-      metaPageSlug: clean,
+      relMdxPath: "content/icons/index.mdx",
+      metaJsonRel: "content/icons/meta.json",
+      metaPageSlug: "index",
     };
   }
 
@@ -282,6 +300,9 @@ async function validateTargetMdxAndMeta(
   metaChecked: number;
 }> {
   const issues: DiagnosticIssue[] = [];
+  if (target.kind === "icon") {
+    return { issues, mdxChecked: 0, metaChecked: 0 };
+  }
   const fullMdxPath = path.join(wwwRoot, target.relMdxPath);
   let mdxChecked = 0;
   let metaChecked = 0;

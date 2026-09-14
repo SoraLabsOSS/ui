@@ -15,7 +15,8 @@
 
 ```text
 Sora UI
-├── Motion       (Animation building blocks: unstyled motion & effects at /docs/motion)
+├── Motion       (Animation building blocks: unstyled motion & effects at /motion)
+├── Icons        (Animated Lucide icons at /icons)
 ├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
 └── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
 ```

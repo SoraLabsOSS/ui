@@ -80,6 +80,8 @@ async function collectDocumentedNames(wwwRoot: string): Promise<Set<string>> {
   const allowedNames = new Set<string>();
   const contentRoots = [
     path.join(wwwRoot, "content", "docs"),
+    path.join(wwwRoot, "content", "motion"),
+    path.join(wwwRoot, "content", "icons"),
     path.join(wwwRoot, "content", "catalog"),
     path.join(wwwRoot, "content", "ui"),
   ];
@@ -203,7 +205,6 @@ async function checkPrimitivesFolders(
       const mdxPath = path.join(
         wwwRoot,
         "content",
-        "docs",
         "motion",
         `${comp.name}.mdx`
       );

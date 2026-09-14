@@ -60,9 +60,12 @@ function readGuideSlugs(docsRoot: string): Set<string> {
 /** Redirects inferred from docs/component meta — fills missing `motion`, `primitives` or `catalog` segments. */
 export function buildDocRedirects(appRoot: string): DocRedirect[] {
   const docsRoot = path.join(appRoot, "content/docs");
-  const motionMetaPath = fs.existsSync(path.join(docsRoot, "motion/meta.json"))
-    ? path.join(docsRoot, "motion/meta.json")
-    : path.join(docsRoot, "primitives/meta.json");
+  let motionMetaPath = path.join(appRoot, "content/motion/meta.json");
+  if (!fs.existsSync(motionMetaPath)) {
+    motionMetaPath = fs.existsSync(path.join(docsRoot, "motion/meta.json"))
+      ? path.join(docsRoot, "motion/meta.json")
+      : path.join(docsRoot, "primitives/meta.json");
+  }
   const catalogMetaPath = fs.existsSync(
     path.join(appRoot, "content/catalog/meta.json")
   )
@@ -80,40 +83,55 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
   for (const [from, to] of Object.entries(LEGACY_PRIMITIVE_SLUG_RENAMES)) {
     redirects.push({
       source: `/docs/motion/${from}`,
-      destination: `/docs/motion/${to}`,
+      destination: `/motion/${to}`,
+      permanent: true,
+    });
+    redirects.push({
+      source: `/motion/${from}`,
+      destination: `/motion/${to}`,
       permanent: true,
     });
     redirects.push({
       source: `/docs/primitives/${from}`,
-      destination: `/docs/motion/${to}`,
+      destination: `/motion/${to}`,
       permanent: true,
     });
     redirects.push({
       source: `/docs/${from}`,
-      destination: `/docs/motion/${to}`,
+      destination: `/motion/${to}`,
       permanent: true,
     });
   }
 
-  // Redirect legacy /docs/primitives and /primitives to /docs/motion
+  // Redirect legacy /docs/motion, /docs/primitives, and /primitives to /motion
+  redirects.push({
+    source: "/docs/motion",
+    destination: "/motion",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/docs/motion/:path*",
+    destination: "/motion/:path*",
+    permanent: true,
+  });
   redirects.push({
     source: "/docs/primitives",
-    destination: "/docs/motion",
+    destination: "/motion",
     permanent: true,
   });
   redirects.push({
     source: "/docs/primitives/:path*",
-    destination: "/docs/motion/:path*",
+    destination: "/motion/:path*",
     permanent: true,
   });
   redirects.push({
     source: "/primitives",
-    destination: "/docs/motion",
+    destination: "/motion",
     permanent: true,
   });
   redirects.push({
     source: "/primitives/:path*",
-    destination: "/docs/motion/:path*",
+    destination: "/motion/:path*",
     permanent: true,
   });
 
@@ -149,6 +167,18 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
     permanent: true,
   });
 
+  // Redirect legacy /docs/icons to /icons
+  redirects.push({
+    source: "/docs/icons",
+    destination: "/icons",
+    permanent: true,
+  });
+  redirects.push({
+    source: "/docs/icons/:path*",
+    destination: "/icons/:path*",
+    permanent: true,
+  });
+
   // Redirect legacy flat /ui/:slug paths to /ui/base/:slug or /ui/radix/:slug
   for (const [slug, destination] of Object.entries(LEGACY_UI_SLUG_REDIRECTS)) {
     redirects.push({
@@ -161,7 +191,7 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
   for (const category of TOP_LEVEL_PRIMITIVE_PREFIXES) {
     redirects.push({
       source: `/docs/${category}/:path*`,
-      destination: "/docs/motion/:path*",
+      destination: "/motion/:path*",
       permanent: true,
     });
   }
@@ -169,7 +199,12 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
   for (const category of PRIMITIVE_CATEGORY_PREFIXES) {
     redirects.push({
       source: `/docs/motion/${category}/:path*`,
-      destination: "/docs/motion/:path*",
+      destination: "/motion/:path*",
+      permanent: true,
+    });
+    redirects.push({
+      source: `/motion/${category}/:path*`,
+      destination: "/motion/:path*",
       permanent: true,
     });
   }
@@ -181,7 +216,7 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
 
     redirects.push({
       source: `/docs/${slug}`,
-      destination: `/docs/motion/${slug}`,
+      destination: `/motion/${slug}`,
       permanent: true,
     });
   }

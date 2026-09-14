@@ -35,15 +35,16 @@ describe("icon templates", () => {
     const code = renderIconIndex("sparkles", "Sparkles");
     expect(code).toContain('"use client";');
     expect(code).toContain(
-      'import { motion, useReducedMotion, type Variants } from "motion/react";'
+      'import { motion, useReducedMotion, type SVGMotionProps } from "motion/react";'
     );
-    expect(code).toContain('from "@/registry/icons/icon";');
-    expect(code).toContain("export function Sparkles(props: SparklesProps)");
-    expect(code).toContain("export { Sparkles as SparklesIcon };");
+    expect(code).not.toContain("@/registry/icons/icon");
+    expect(code).toContain("function Sparkles({");
+    expect(code).toContain("export {");
+    expect(code).toContain("Sparkles as SparklesIcon");
     expect(code).toContain("if (reducedMotion) {");
   });
 
-  it("renders icon registry-item.json with @soralabs/icons-icon dependency", () => {
+  it("renders icon registry-item.json without icons-icon dependency", () => {
     const jsonStr = renderIconRegistryItem(
       "sparkles",
       "Sparkles",
@@ -63,7 +64,7 @@ describe("icon templates", () => {
     expect(parsed.name).toBe("icons-sparkles");
     expect(parsed.type).toBe("registry:ui");
     expect(parsed.dependencies).toEqual(["motion"]);
-    expect(parsed.registryDependencies).toEqual(["@soralabs/icons-icon"]);
+    expect(parsed.registryDependencies).toEqual([]);
     expect(parsed.files[0]?.path).toBe("registry/icons/sparkles/index.tsx");
     expect(parsed.files[0]?.target).toBe(
       "components/sora-ui/icons/sparkles.tsx"

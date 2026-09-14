@@ -1440,20 +1440,6 @@
       ]
     },
     {
-      "name": "hooks-use-is-in-view",
-      "type": "registry:hook",
-      "title": "useIsInView",
-      "description": "A Motion-powered hook that allows you to check if an element is in view.",
-      "dependencies": ["motion"],
-      "files": [
-        {
-          "path": "registry/hooks/use-is-in-view/index.tsx",
-          "type": "registry:hook",
-          "target": "hooks/use-is-in-view.tsx"
-        }
-      ]
-    },
-    {
       "name": "hooks-use-prefers-reduced-motion",
       "type": "registry:hook",
       "title": "usePrefersReducedMotion",
@@ -1488,9 +1474,8 @@
       "name": "icons-bell",
       "type": "registry:ui",
       "title": "Bell",
-      "description": "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot, powered by the AnimateIcon engine.",
+      "description": "Notification bell that rattles from its hanger on trigger — a decaying rotation pivot.",
       "dependencies": ["motion"],
-      "registryDependencies": ["@soralabs/icons-icon"],
       "files": [
         {
           "path": "registry/icons/bell/index.tsx",
@@ -1514,9 +1499,8 @@
       "name": "icons-chevrons",
       "type": "registry:ui",
       "title": "Chevrons",
-      "description": "Animated double up-chevron that cross-fades between the two carets on hover, powered by the AnimateIcon engine.",
+      "description": "Animated double up-chevron that cross-fades between the two carets on trigger.",
       "dependencies": ["motion"],
-      "registryDependencies": ["@soralabs/icons-icon"],
       "files": [
         {
           "path": "registry/icons/chevrons/index.tsx",
@@ -1525,27 +1509,42 @@
         }
       ],
       "meta": {
-        "keywords": ["chevron", "chevrons", "up", "arrow", "expand", "caret"],
-        "releaseDate": "2026-07-30"
+        "keywords": [
+          "chevrons",
+          "arrow",
+          "up",
+          "double",
+          "scroll-top",
+          "direction",
+          "navigation"
+        ],
+        "releaseDate": "2026-08-05"
       }
     },
     {
-      "name": "icons-icon",
+      "name": "icons-copy",
       "type": "registry:ui",
-      "title": "Icon",
-      "description": "AnimateIcon engine that powers Sora's animated icons — provides animate, animateOnHover, animateOnTap, animateOnView, loop, and per/static path animations via a shared context.",
+      "title": "Copy",
+      "description": "Animated copy icon that smoothly transitions into a checkmark on trigger with a scale and blur pop effect.",
       "dependencies": ["motion"],
-      "registryDependencies": [
-        "@soralabs/hooks-use-is-in-view",
-        "@soralabs/primitives-animate-slot"
-      ],
       "files": [
         {
-          "path": "registry/icons/icon/index.tsx",
+          "path": "registry/icons/copy/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/icons/icon.tsx"
+          "target": "components/sora-ui/icons/copy.tsx"
         }
-      ]
+      ],
+      "meta": {
+        "keywords": [
+          "copy",
+          "clipboard",
+          "duplicate",
+          "check",
+          "success",
+          "action"
+        ],
+        "releaseDate": "2026-09-14"
+      }
     },
     {
       "name": "lib-scroll-trigger-utils",
@@ -1559,28 +1558,6 @@
           "target": "lib/scroll-trigger-utils.tsx"
         }
       ]
-    },
-    {
-      "name": "primitives-animate-slot",
-      "type": "registry:ui",
-      "title": "Animate Slot",
-      "description": "A slot component that allows you to use motion components with any element.",
-      "dependencies": ["motion"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/animate/slot/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/animate/slot.tsx"
-        }
-      ],
-      "meta": {
-        "inspiration": {
-          "type": "adapted",
-          "label": "Animate UI",
-          "url": "https://animate-ui.com/docs/primitives/animate/slot"
-        }
-      }
     },
     {
       "name": "particle-hover-button",

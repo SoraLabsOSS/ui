@@ -99,7 +99,7 @@ const ACCOUNT_MENU_ITEMS = [
     requiresAuth: false,
   },
   {
-    getHref: () => "/docs/icons",
+    getHref: () => "/icons",
     getIsActive: (pathname: string, href: string) =>
       isIconsNavItemActive(pathname, href),
     label: "Icons",

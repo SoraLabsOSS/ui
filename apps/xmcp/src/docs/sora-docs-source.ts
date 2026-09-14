@@ -44,11 +44,18 @@ const DOCS_PREFIX = /^docs\//;
 const COMPONENTS_PREFIX = "components/";
 const CATALOG_PREFIX = "catalog/";
 const MOTION_PREFIX = "motion/";
+const ICONS_PREFIX = "icons/";
 const UI_PREFIX = "ui/";
 const FIRST_HEADING = /^#\s+(.+)$/m;
 const HEADER_PATTERN = /^#\s+([^\n(]+?)(?:\s*\(([^)]+)\))?\s*$/gm;
 
-type LlmsSection = "documentation" | "components" | "catalog" | "motion" | "ui";
+type LlmsSection =
+  | "documentation"
+  | "components"
+  | "catalog"
+  | "motion"
+  | "icons"
+  | "ui";
 
 interface MdxCandidate {
   fetchPath: string;
@@ -63,18 +70,7 @@ function cacheKeyForSlug(trimmedSlug: string): string {
   return trimmedSlug.replace(DOCS_PREFIX, "");
 }
 
-function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
-  const candidates: MdxCandidate[] = [];
-  const seen = new Set<string>();
-
-  const add = (fetchPath: string, pagePath: string) => {
-    if (seen.has(fetchPath)) {
-      return;
-    }
-    seen.add(fetchPath);
-    candidates.push({ fetchPath, pagePath });
-  };
-
+function resolveUiCandidate(trimmedSlug: string): MdxCandidate | null {
   if (
     trimmedSlug === "ui" ||
     trimmedSlug.startsWith(UI_PREFIX) ||
@@ -88,37 +84,94 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
       rest = trimmedSlug;
     }
     const pagePath = rest ? `/ui/${rest}` : "/ui";
-    add(rest ? `/llms-ui.mdx/${rest}` : "/llms-ui.mdx", pagePath);
-    return candidates;
+    return {
+      fetchPath: rest ? `/llms-ui.mdx/${rest}` : "/llms-ui.mdx",
+      pagePath,
+    };
+  }
+  return null;
+}
+
+function resolveSectionCandidate(
+  trimmedSlug: string,
+  section: string,
+  prefix: string,
+  llmsFile: string
+): MdxCandidate | null {
+  if (trimmedSlug === section || trimmedSlug.startsWith(prefix)) {
+    const rest = trimmedSlug.startsWith(prefix)
+      ? trimmedSlug.slice(prefix.length)
+      : "";
+    return {
+      fetchPath: rest ? `${llmsFile}/${rest}` : llmsFile,
+      pagePath: rest ? `/${section}/${rest}` : `/${section}`,
+    };
+  }
+  return null;
+}
+
+function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
+  const uiCandidate = resolveUiCandidate(trimmedSlug);
+  if (uiCandidate) {
+    return [uiCandidate];
   }
 
-  if (trimmedSlug.startsWith(CATALOG_PREFIX)) {
-    const rest = trimmedSlug.slice(CATALOG_PREFIX.length);
-    add(`/llms-catalog.mdx/${rest}`, `/catalog/${rest}`);
-    return candidates;
+  const catalog =
+    resolveSectionCandidate(
+      trimmedSlug,
+      "catalog",
+      CATALOG_PREFIX,
+      "/llms-catalog.mdx"
+    ) ||
+    resolveSectionCandidate(
+      trimmedSlug,
+      "catalog",
+      COMPONENTS_PREFIX,
+      "/llms-catalog.mdx"
+    );
+  if (catalog) {
+    return [catalog];
   }
 
-  if (trimmedSlug.startsWith(COMPONENTS_PREFIX)) {
-    const rest = trimmedSlug.slice(COMPONENTS_PREFIX.length);
-    add(`/llms-catalog.mdx/${rest}`, `/catalog/${rest}`);
-    return candidates;
+  const motion = resolveSectionCandidate(
+    trimmedSlug,
+    "motion",
+    MOTION_PREFIX,
+    "/llms.mdx/motion"
+  );
+  if (motion) {
+    return [motion];
   }
 
-  if (trimmedSlug.startsWith(MOTION_PREFIX)) {
-    const rest = trimmedSlug.slice(MOTION_PREFIX.length);
-    add(`/llms.mdx/motion/${rest}`, `/docs/motion/${rest}`);
-    return candidates;
+  const icons = resolveSectionCandidate(
+    trimmedSlug,
+    "icons",
+    ICONS_PREFIX,
+    "/llms.mdx/icons"
+  );
+  if (icons) {
+    return [icons];
   }
 
+  const candidates: MdxCandidate[] = [];
   const docPath = trimmedSlug.startsWith("docs/")
     ? trimmedSlug.slice("docs/".length)
     : trimmedSlug;
 
-  add(`/llms.mdx/${docPath}`, `/docs/${docPath}`);
+  candidates.push({
+    fetchPath: `/llms.mdx/${docPath}`,
+    pagePath: `/docs/${docPath}`,
+  });
 
   if (!trimmedSlug.startsWith("docs/")) {
-    add(`/llms-catalog.mdx/${trimmedSlug}`, `/catalog/${trimmedSlug}`);
-    add(`/llms-ui.mdx/${trimmedSlug}`, `/ui/${trimmedSlug}`);
+    candidates.push({
+      fetchPath: `/llms-catalog.mdx/${trimmedSlug}`,
+      pagePath: `/catalog/${trimmedSlug}`,
+    });
+    candidates.push({
+      fetchPath: `/llms-ui.mdx/${trimmedSlug}`,
+      pagePath: `/ui/${trimmedSlug}`,
+    });
   }
 
   return candidates;
@@ -150,6 +203,15 @@ function matchesLlmsSection(pathname: string, section: LlmsSection): boolean {
       pathname.startsWith("/motion/") ||
       pathname === "/docs/primitives" ||
       pathname.startsWith("/docs/primitives/")
+    );
+  }
+
+  if (section === "icons") {
+    return (
+      pathname === "/icons" ||
+      pathname.startsWith("/icons/") ||
+      pathname === "/docs/icons" ||
+      pathname.startsWith("/docs/icons/")
     );
   }
 
@@ -262,10 +324,12 @@ export class SoraDocsSource {
       section === "components" ||
       section === "catalog" ||
       section === "motion" ||
+      section === "icons" ||
       section === "ui"
     ) {
       const results = await this.rawSearch(query, {
         ...options,
+        limit: 100,
         section: undefined,
       });
       return filterByLlmsSection(results, section as LlmsSection, limit);

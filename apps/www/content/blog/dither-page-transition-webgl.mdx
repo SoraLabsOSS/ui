@@ -7,7 +7,7 @@ date: 2026-09-07
 hashtags: ["#webgl", "#glsl", "#nextjs", "#react", "#performance"]
 ---
 
-When someone clicks through the documentation on [Sora UI](https://ui.soralabs.studio) for the first time, the transition usually catches them off guard: a pixelated, 1-bit Bayer dither wave sweeps across the screen, accompanied by an animated terminal HUD [Typer](/docs/motion/typer) text reveal, dissolving the old page into the new one at a locked 120 fps.
+When someone clicks through the documentation on [Sora UI](https://ui.soralabs.studio) for the first time, the transition usually catches them off guard: a pixelated, 1-bit Bayer dither wave sweeps across the screen, accompanied by an animated terminal HUD [Typer](/motion/typer) text reveal, dissolving the old page into the new one at a locked 120 fps.
 
 The visual concept and art direction of this transition were heavily inspired by the brilliant design work over at [2xa.studio](https://2xa.studio). Seeing that retro-digital aesthetic in action immediately sparked an engineering challenge: *Can we take this exact visual feeling and rebuild it entirely from the ground up for a high-performance documentation site without any heavyweight 3D dependencies?*
 
@@ -171,7 +171,7 @@ if (hasNavigated && !isRoutePending) {
 }
 ```
 
-If the user's connection takes 4 seconds to download the new page's JavaScript chunks, **the dither curtain stays patiently closed**. Instead of a broken layout, the user sees an animated HUD status phrase powered by Sora UI's own [`Typer`](/docs/motion/typer) text primitive (which ripples characters through randomized accent, outline, and fill variations). And if the network drops completely, a 30-second timeout automatically falls back to native `window.location.assign()` so no user is ever trapped behind an overlay.
+If the user's connection takes 4 seconds to download the new page's JavaScript chunks, **the dither curtain stays patiently closed**. Instead of a broken layout, the user sees an animated HUD status phrase powered by Sora UI's own [`Typer`](/motion/typer) text primitive (which ripples characters through randomized accent, outline, and fill variations). And if the network drops completely, a 30-second timeout automatically falls back to native `window.location.assign()` so no user is ever trapped behind an overlay.
 
 #### 3. The Double `requestAnimationFrame` Trick
 This is the single most important detail in seamless page transitions.

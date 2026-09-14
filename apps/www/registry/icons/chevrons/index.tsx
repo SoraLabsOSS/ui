@@ -1,81 +1,61 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import {
-  type IconProps,
-  IconWrapper,
-  useAnimateIconContext,
-  useAnimateIconVariants,
-} from "@/registry/icons/icon";
+import { motion, type SVGMotionProps, useReducedMotion } from "motion/react";
+import { useState } from "react";
 
-type ChevronsProps = IconProps<keyof typeof animations>;
+interface ChevronsProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {
+  /**
+   * Whether to trigger the caret animation.
+   * @default false
+   */
+  animate?: boolean;
+  /**
+   * Play the animation when the icon is hovered.
+   * @default true
+   */
+  animateOnHover?: boolean;
+  /**
+   * Any valid CSS color, mapped to the SVG `stroke`.
+   * @default "currentColor"
+   */
+  color?: string;
+  /**
+   * Repeat the animation indefinitely.
+   * @default false
+   */
+  loop?: boolean;
+  /**
+   * Icon size in pixels (applied to both width and height).
+   * @default 16
+   */
+  size?: number | string;
+}
 
-const TOP = [0, 0, 0.15, 1, 1, 0.85, 0];
-const BOTTOM = [0, 1, 1, 0.85, 0, 0, 0];
-const TIMES = [0, 0.22, 0.3, 0.5, 0.72, 0.8, 1];
-
-const TOP_END = [...TOP, 0.15, 1];
-const BOTTOM_END = [...BOTTOM, 1, 1];
+const TOP_END = [0, 0, 0.15, 1, 1, 0.85, 0, 0.15, 1];
+const BOTTOM_END = [0, 1, 1, 0.85, 0, 0, 0, 1, 1];
 const TIMES_END = [0, 0.16, 0.21, 0.36, 0.51, 0.57, 0.71, 0.85, 1];
 
-const animations = {
-  default: {
-    top: {
-      initial: { opacity: 1 },
-      animate: {
-        opacity: TOP_END,
-        transition: { duration: 1.05, ease: "easeInOut", times: TIMES_END },
-      },
-    },
-    bottom: {
-      initial: { opacity: 1 },
-      animate: {
-        opacity: BOTTOM_END,
-        transition: { duration: 1.05, ease: "easeInOut", times: TIMES_END },
-      },
-    },
-  } satisfies Record<string, Variants>,
-  "default-loop": {
-    top: {
-      initial: { opacity: 1 },
-      animate: {
-        opacity: TOP,
-        transition: {
-          duration: 0.75,
-          ease: "easeInOut",
-          times: TIMES,
-          repeat: Number.POSITIVE_INFINITY,
-        },
-      },
-    },
-    bottom: {
-      initial: { opacity: 1 },
-      animate: {
-        opacity: BOTTOM,
-        transition: {
-          duration: 0.75,
-          ease: "easeInOut",
-          times: TIMES,
-          repeat: Number.POSITIVE_INFINITY,
-        },
-      },
-    },
-  } satisfies Record<string, Variants>,
-} as const;
-
-function IconComponent({
-  size,
+function Chevrons({
+  size = 16,
   color = "currentColor",
+  animate = false,
+  animateOnHover = true,
+  loop = false,
+  className,
+  onMouseEnter,
+  onMouseLeave,
   ...props
 }: ChevronsProps) {
-  const { controls } = useAnimateIconContext();
-  const variants = useAnimateIconVariants(animations);
+  const [isHovered, setIsHovered] = useState(false);
   const reducedMotion = useReducedMotion();
+
+  const isTriggered = animate || (animateOnHover && isHovered);
 
   if (reducedMotion) {
     return (
       <motion.svg
         aria-hidden="true"
+        className={className}
         fill="none"
         height={size}
         stroke={color}
@@ -95,8 +75,21 @@ function IconComponent({
 
   return (
     <motion.svg
+      className={className}
       fill="none"
       height={size}
+      onMouseEnter={(e) => {
+        setIsHovered(true);
+        if (typeof onMouseEnter === "function") {
+          onMouseEnter(e);
+        }
+      }}
+      onMouseLeave={(e) => {
+        setIsHovered(false);
+        if (typeof onMouseLeave === "function") {
+          onMouseLeave(e);
+        }
+      }}
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -107,27 +100,44 @@ function IconComponent({
       {...props}
     >
       <motion.path
-        animate={controls}
+        animate={
+          isTriggered
+            ? {
+                opacity: TOP_END,
+                transition: {
+                  duration: 1.05,
+                  ease: "easeInOut",
+                  times: TIMES_END,
+                  repeat: loop ? Number.POSITIVE_INFINITY : 0,
+                },
+              }
+            : { opacity: 1 }
+        }
         d="M5.2168 6.90625L8.3418 3.78125L11.4668 6.90625"
-        initial="initial"
-        variants={variants.top}
+        initial={{ opacity: 1 }}
       />
       <motion.path
-        animate={controls}
+        animate={
+          isTriggered
+            ? {
+                opacity: BOTTOM_END,
+                transition: {
+                  duration: 1.05,
+                  ease: "easeInOut",
+                  times: TIMES_END,
+                  repeat: loop ? Number.POSITIVE_INFINITY : 0,
+                },
+              }
+            : { opacity: 1 }
+        }
         d="M5.2168 11.2812L8.3418 8.15625L11.4668 11.2812"
-        initial="initial"
-        variants={variants.bottom}
+        initial={{ opacity: 1 }}
       />
     </motion.svg>
   );
 }
 
-function Chevrons(props: ChevronsProps) {
-  return <IconWrapper icon={IconComponent} {...props} />;
-}
-
 export {
-  animations,
   Chevrons,
   Chevrons as ChevronsIcon,
   type ChevronsProps,

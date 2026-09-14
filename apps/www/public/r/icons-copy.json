@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-copy",
+  "title": "Copy",
+  "description": "Animated copy icon that smoothly transitions into a checkmark on trigger with a scale and blur pop effect.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/icons/copy/index.tsx",
+      "content": "\"use client\";\n\nimport {\n  motion,\n  type SVGMotionProps,\n  useReducedMotion,\n  type Variants,\n} from \"motion/react\";\nimport { useState } from \"react\";\n\ninterface CopyProps extends Omit<SVGMotionProps<SVGSVGElement>, \"animate\"> {\n  /**\n   * Whether to animate the icon into its checkmark state.\n   * @default false\n   */\n  animate?: boolean;\n  /**\n   * Play the animation while the icon is hovered.\n   * @default false\n   */\n  animateOnHover?: boolean;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default \"currentColor\"\n   */\n  color?: string;\n  /**\n   * Convenience trigger prop. When true, transitions the icon into its checkmark state.\n   * Equivalent to `animate={copied}`.\n   */\n  copied?: boolean;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n}\n\nconst copyVariants: Variants = {\n  initial: {\n    scale: 1,\n    opacity: 1,\n    filter: \"blur(0px)\",\n    transition: { duration: 0.25, ease: \"easeInOut\" },\n  },\n  animate: {\n    scale: 0,\n    opacity: 0,\n    filter: \"blur(4px)\",\n    transition: { duration: 0.25, ease: \"easeInOut\" },\n  },\n};\n\nconst checkVariants: Variants = {\n  initial: {\n    scale: 0,\n    opacity: 0,\n    filter: \"blur(4px)\",\n    transition: { duration: 0.25, ease: \"easeInOut\" },\n  },\n  animate: {\n    scale: 1,\n    opacity: 1,\n    filter: \"blur(0px)\",\n    transition: { duration: 0.25, ease: \"easeInOut\" },\n  },\n};\n\nfunction Copy({\n  size = 24,\n  color = \"currentColor\",\n  animate = false,\n  copied,\n  animateOnHover = false,\n  className,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: CopyProps) {\n  const [isHovered, setIsHovered] = useState(false);\n  const reducedMotion = useReducedMotion();\n\n  const isTriggered =\n    (copied === undefined ? animate : copied) || (animateOnHover && isHovered);\n\n  if (reducedMotion) {\n    return (\n      <motion.svg\n        aria-hidden=\"true\"\n        className={className}\n        fill=\"none\"\n        height={size}\n        stroke={color}\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n        strokeWidth={2}\n        viewBox=\"0 0 24 24\"\n        width={size}\n        xmlns=\"http://www.w3.org/2000/svg\"\n        {...props}\n      >\n        {isTriggered ? (\n          <path d=\"M20 6 9 17l-5-5\" />\n        ) : (\n          <>\n            <path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\" />\n            <rect height=\"14\" rx=\"2\" ry=\"2\" width=\"14\" x=\"8\" y=\"8\" />\n          </>\n        )}\n      </motion.svg>\n    );\n  }\n\n  return (\n    <motion.svg\n      className={className}\n      fill=\"none\"\n      height={size}\n      onMouseEnter={(e) => {\n        setIsHovered(true);\n        if (typeof onMouseEnter === \"function\") {\n          onMouseEnter(e);\n        }\n      }}\n      onMouseLeave={(e) => {\n        setIsHovered(false);\n        if (typeof onMouseLeave === \"function\") {\n          onMouseLeave(e);\n        }\n      }}\n      stroke={color}\n      strokeLinecap=\"round\"\n      strokeLinejoin=\"round\"\n      strokeWidth={2}\n      viewBox=\"0 0 24 24\"\n      width={size}\n      xmlns=\"http://www.w3.org/2000/svg\"\n      {...props}\n    >\n      <motion.g\n        animate={isTriggered ? \"animate\" : \"initial\"}\n        initial=\"initial\"\n        style={{ transformOrigin: \"12px 12px\" }}\n        variants={copyVariants}\n      >\n        <path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\" />\n        <rect height=\"14\" rx=\"2\" ry=\"2\" width=\"14\" x=\"8\" y=\"8\" />\n      </motion.g>\n      <motion.g\n        animate={isTriggered ? \"animate\" : \"initial\"}\n        initial=\"initial\"\n        style={{ transformOrigin: \"12px 12px\" }}\n        variants={checkVariants}\n      >\n        <path d=\"M20 6 9 17l-5-5\" />\n      </motion.g>\n    </motion.svg>\n  );\n}\n\nexport {\n  Copy,\n  Copy as CopyIcon,\n  type CopyProps,\n  type CopyProps as CopyIconProps,\n};\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/copy.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "copy",
+      "clipboard",
+      "duplicate",
+      "check",
+      "success",
+      "action"
+    ],
+    "releaseDate": "2026-09-14"
+  },
+  "type": "registry:ui"
+}

@@ -3,12 +3,16 @@ import type { AdvancedIndex } from "fumadocs-core/search/server";
 import type { InferPageType } from "fumadocs-core/source";
 import { blog } from "@/lib/blog/source";
 import { source } from "@/lib/docs/source";
+import { iconsSource } from "@/lib/icons/source";
+import { motionSource } from "@/lib/motion/source";
 import { componentSource } from "@/lib/registry/component-source";
 import { uiSource } from "@/lib/ui/source";
 import { getUiQualifiedTitle } from "@/lib/ui/ui-family";
 
 type SearchablePage =
   | InferPageType<typeof source>
+  | InferPageType<typeof motionSource>
+  | InferPageType<typeof iconsSource>
   | InferPageType<typeof componentSource>
   | InferPageType<typeof uiSource>
   | InferPageType<typeof blog>;
@@ -22,7 +26,19 @@ function getSearchTag(page: SearchablePage): string {
     return "ui";
   }
 
-  return page.slugs[0];
+  if (page.url === "/motion" || page.url.startsWith("/motion/")) {
+    return "motion";
+  }
+
+  if (page.url === "/icons" || page.url.startsWith("/icons/")) {
+    return "icons";
+  }
+
+  if (page.url === "/catalog" || page.url.startsWith("/catalog/")) {
+    return "catalog";
+  }
+
+  return page.slugs[0] ?? "docs";
 }
 
 function pageToAdvancedIndex(page: SearchablePage): AdvancedIndex {
@@ -52,13 +68,22 @@ export function getSearchablePages(): SearchablePage[] {
   const docPages = source
     .getPages()
     .filter((page) => page.slugs[0] !== "openapi");
+  const motionPages = motionSource.getPages();
+  const iconsPages = iconsSource.getPages();
   const componentPages = componentSource.getPages();
   const uiPages = uiSource.getPages();
   const blogPages = blog
     .getPages()
     .filter((page) => !(page.data.hidden || page.data.subpage));
 
-  return [...docPages, ...uiPages, ...componentPages, ...blogPages];
+  return [
+    ...docPages,
+    ...motionPages,
+    ...iconsPages,
+    ...uiPages,
+    ...componentPages,
+    ...blogPages,
+  ];
 }
 
 export function getSearchIndexes(): AdvancedIndex[] {

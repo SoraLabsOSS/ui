@@ -3,12 +3,22 @@ import { fileURLToPath } from "node:url";
 import { type InferPageType, loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import type { FileObject } from "next-validate-link";
-import { blog, catalog, docs, ui } from "@/.source";
+import { blog, catalog, docs, icons, motion, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
 
 export const docSource = loader({
   baseUrl: "/docs",
   source: docs.toFumadocsSource(),
+});
+
+export const motionSourceForLinks = loader({
+  baseUrl: "/motion",
+  source: motion.toFumadocsSource(),
+});
+
+export const iconsSourceForLinks = loader({
+  baseUrl: "/icons",
+  source: icons.toFumadocsSource(),
 });
 
 export const componentSource = loader({
@@ -29,10 +39,18 @@ export const blogSource = loader({
 });
 
 type DocPage = InferPageType<typeof docSource>;
+type MotionPage = InferPageType<typeof motionSourceForLinks>;
+type IconPage = InferPageType<typeof iconsSourceForLinks>;
 type ComponentPage = InferPageType<typeof componentSource>;
 type UiPage = InferPageType<typeof uiSourceForLinks>;
 type BlogPage = InferPageType<typeof blogSource>;
-type ContentPage = DocPage | ComponentPage | UiPage | BlogPage;
+type ContentPage =
+  | DocPage
+  | MotionPage
+  | IconPage
+  | ComponentPage
+  | UiPage
+  | BlogPage;
 
 const appRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -55,6 +73,8 @@ export async function toFileObject(page: ContentPage): Promise<FileObject> {
 export function getAllContentFiles(): Promise<FileObject[]> {
   const pages: ContentPage[] = [
     ...docSource.getPages(),
+    ...motionSourceForLinks.getPages(),
+    ...iconsSourceForLinks.getPages(),
     ...componentSource.getPages(),
     ...uiSourceForLinks.getPages(),
     ...blogSource.getPages(),
@@ -66,6 +86,14 @@ export function getAllContentFiles(): Promise<FileObject[]> {
 export function buildPopulate() {
   return {
     "docs/[[...slug]]": docSource.getPages().map((page) => ({
+      value: { slug: page.slugs },
+      hashes: getHeadings(page),
+    })),
+    "motion/[[...slug]]": motionSourceForLinks.getPages().map((page) => ({
+      value: { slug: page.slugs },
+      hashes: getHeadings(page),
+    })),
+    "icons/[[...slug]]": iconsSourceForLinks.getPages().map((page) => ({
       value: { slug: page.slugs },
       hashes: getHeadings(page),
     })),
@@ -91,6 +119,8 @@ type ScannedUrls = Awaited<
 function registerContentPages(scanned: ScannedUrls): void {
   const pages: ContentPage[] = [
     ...docSource.getPages(),
+    ...motionSourceForLinks.getPages(),
+    ...iconsSourceForLinks.getPages(),
     ...componentSource.getPages(),
     ...uiSourceForLinks.getPages(),
     ...blogSource.getPages(),
@@ -110,17 +140,27 @@ export function augmentScannedUrls(scanned: ScannedUrls): void {
   scanned.urls.set("/llms-full.txt", {});
   scanned.urls.set("/components", {});
   scanned.urls.set("/docs/primitives", {});
+  scanned.urls.set("/docs/motion", {});
+  scanned.urls.set("/docs/icons", {});
   scanned.urls.set("/motion", {});
+  scanned.urls.set("/icons", {});
   scanned.urls.set("/primitives", {});
 
-  for (const page of docSource.getPages()) {
-    if (page.url.startsWith("/docs/motion/")) {
-      const slug = page.url.slice("/docs/motion/".length);
+  for (const page of motionSourceForLinks.getPages()) {
+    if (page.url.startsWith("/motion/")) {
+      const slug = page.url.slice("/motion/".length);
+      scanned.urls.set(`/docs/motion/${slug}`, { hashes: getHeadings(page) });
       scanned.urls.set(`/docs/primitives/${slug}`, {
         hashes: getHeadings(page),
       });
-      scanned.urls.set(`/motion/${slug}`, { hashes: getHeadings(page) });
       scanned.urls.set(`/primitives/${slug}`, { hashes: getHeadings(page) });
+    }
+  }
+
+  for (const page of iconsSourceForLinks.getPages()) {
+    if (page.url.startsWith("/icons/")) {
+      const slug = page.url.slice("/icons/".length);
+      scanned.urls.set(`/docs/icons/${slug}`, { hashes: getHeadings(page) });
     }
   }
 

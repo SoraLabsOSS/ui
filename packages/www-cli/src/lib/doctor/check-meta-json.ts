@@ -12,8 +12,13 @@ interface MetaFileConfig {
 
 const META_CONFIGS: MetaFileConfig[] = [
   {
-    metaRel: "content/docs/motion/meta.json",
-    dirRel: "content/docs/motion",
+    metaRel: "content/motion/meta.json",
+    dirRel: "content/motion",
+    recursive: false,
+  },
+  {
+    metaRel: "content/icons/meta.json",
+    dirRel: "content/icons",
     recursive: false,
   },
   {

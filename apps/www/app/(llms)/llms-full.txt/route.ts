@@ -1,6 +1,8 @@
 import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
 import { getLLMText } from "@/lib/docs/get-llm-text";
 import { source } from "@/lib/docs/source";
+import { iconsSource } from "@/lib/icons/source";
+import { motionSource } from "@/lib/motion/source";
 import { componentSource } from "@/lib/registry/component-source";
 import { uiSource } from "@/lib/ui/source";
 
@@ -9,6 +11,8 @@ async function getLLMsContent() {
   staticContentCacheLife();
   const pages = [
     ...source.getPages(),
+    ...motionSource.getPages(),
+    ...iconsSource.getPages(),
     ...uiSource.getPages(),
     ...componentSource.getPages(),
   ];

@@ -1,0 +1,125 @@
+---
+title: Get Started
+description: Get started with Sora UI Icons.
+---
+
+import { CodeTabs } from "@/components/docs/code-tabs";
+
+Our animated icons come from [Reicon](https://reicon.dev/) — [Lucide Icons](https://lucide.dev) animated with [Motion](https://motion.dev).
+
+<Callout type="warn">
+  **Note:** The animated icons are in **beta**. You may encounter bugs.
+  Recurring changes will take place, and some props may be added or removed.
+</Callout>
+
+## Installation
+
+Each animated icon is completely self-contained and installed directly via the shadcn CLI:
+
+<CodeTabs
+  codes={{
+    npm: `npx shadcn@latest add @soralabs/icons-[icon-name]`,
+    pnpm: `pnpm dlx shadcn@latest add @soralabs/icons-[icon-name]`,
+    yarn: `npx shadcn@latest add @soralabs/icons-[icon-name]`,
+    bun: `bun x --bun shadcn@latest add @soralabs/icons-[icon-name]`,
+  }}
+/>
+
+For example, to install the `bell` icon:
+
+```bash
+npx shadcn@latest add @soralabs/icons-bell
+```
+
+## Basic Usage
+
+Every icon is completely self-contained with built-in animation controls. It animates on hover by default:
+
+```tsx
+import { Bell } from "@/components/sora-ui/icons/bell";
+
+export default function Example() {
+  return (
+    <div className="flex items-center gap-4">
+      {/* Animate on hover (default) */}
+      <Bell />
+
+      {/* Control animation programmatically */}
+      <Bell animate={isActive} />
+
+      {/* Loop indefinitely */}
+      <Bell loop />
+
+      {/* Custom size and color */}
+      <Bell size={28} color="#3b82f6" />
+    </div>
+  );
+}
+```
+
+## API Reference
+
+### Props
+
+All icons accept standard SVG attributes alongside these motion props:
+
+<TypeTable
+  type={{
+    size: {
+      description: "Width and height of the icon in pixels (or any CSS length).",
+      type: "number | string",
+      required: false,
+      default: "24",
+    },
+    color: {
+      description: "Stroke color of the icon.",
+      type: "string",
+      required: false,
+      default: "\"currentColor\"",
+    },
+    animate: {
+      description: "Trigger the icon's primary animation programmatically.",
+      type: "boolean",
+      required: false,
+      default: "false",
+    },
+    animateOnHover: {
+      description: "Whether to play the animation when the user hovers over the icon.",
+      type: "boolean",
+      required: false,
+      default: "true",
+    },
+    loop: {
+      description: "Whether to repeat the animation continuously while triggered.",
+      type: "boolean",
+      required: false,
+      default: "false",
+    },
+    className: {
+      description: "Additional CSS classes to apply to the root SVG element.",
+      type: "string",
+      required: false,
+    },
+    "...props": {
+      description: "Standard SVG motion props forwarded to the SVG element.",
+      type: "SVGMotionProps<SVGSVGElement>",
+      required: false,
+    },
+  }}
+/>
+
+## Credits
+
+Our animated icons are sourced from [Reicon](https://reicon.dev/), built with the [Lucide Icons](https://lucide.dev) library and animated with [Motion](https://motion.dev).
+
+We took our inspiration from:
+
+- [Reicon](https://reicon.dev/)
+- [Iconly](https://iconly.pro/)
+- [Lordicon](https://lordicon.com/)
+- [Flaticon](https://www.flaticon.com/)
+- [pqoqubbw/icons](https://icons.pqoqubbw.dev/)
+
+## See also
+
+- [Animating Icons](/icons/animating-icons) — bonus agent skill for authoring custom icon gestures (outside this catalog)

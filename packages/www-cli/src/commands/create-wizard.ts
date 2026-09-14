@@ -25,7 +25,7 @@ export async function runCreateWizard(): Promise<void> {
       {
         value: "primitive",
         label: "Motion primitive",
-        hint: "registry/primitives → /docs/motion",
+        hint: "registry/primitives → /motion",
       },
       {
         value: "ui",
@@ -40,7 +40,7 @@ export async function runCreateWizard(): Promise<void> {
       {
         value: "icon",
         label: "Animated icon",
-        hint: "registry/icons",
+        hint: "registry/icons → /icons",
       },
     ],
   });

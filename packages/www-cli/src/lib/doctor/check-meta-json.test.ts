@@ -9,7 +9,7 @@ describe("checkMetaJson", () => {
     const tempDir = await fs.mkdtemp(
       path.join(os.tmpdir(), "doctor-meta-test-")
     );
-    const motionDir = path.join(tempDir, "content", "docs", "motion");
+    const motionDir = path.join(tempDir, "content", "motion");
     await fs.mkdir(motionDir, { recursive: true });
 
     await fs.writeFile(
@@ -35,7 +35,7 @@ describe("checkMetaJson", () => {
     const tempDir = await fs.mkdtemp(
       path.join(os.tmpdir(), "doctor-meta-test-")
     );
-    const motionDir = path.join(tempDir, "content", "docs", "motion");
+    const motionDir = path.join(tempDir, "content", "motion");
     await fs.mkdir(motionDir, { recursive: true });
 
     await fs.writeFile(
@@ -58,7 +58,7 @@ describe("checkMetaJson", () => {
     const tempDir = await fs.mkdtemp(
       path.join(os.tmpdir(), "doctor-meta-test-")
     );
-    const motionDir = path.join(tempDir, "content", "docs", "motion");
+    const motionDir = path.join(tempDir, "content", "motion");
     await fs.mkdir(motionDir, { recursive: true });
 
     await fs.writeFile(

@@ -99,6 +99,30 @@ export const catalog = defineDocs({
 /** @deprecated Alias for backwards compatibility with legacy imports. */
 export const components = catalog;
 
+/** Animated Icons docs — served at `/icons/*`. */
+export const icons = defineDocs({
+  dir: "content/icons",
+  docs: {
+    schema: catalogDocSchema,
+    postprocess: catalogDocPostprocess,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
+/** Motion primitives — served at `/motion/*`. */
+export const motion = defineDocs({
+  dir: "content/motion",
+  docs: {
+    schema: catalogDocSchema,
+    postprocess: catalogDocPostprocess,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 /** Blog posts — served at `/blog/*`. */
 export const blog = defineCollections({
   type: "doc",

@@ -10,7 +10,8 @@ Sora UI — an open-source, fully animated React component distribution (shadcn/
 
 ```text
 Sora UI
-├── Motion       (Animation building blocks: unstyled motion/effects at /docs/motion or /motion)
+├── Motion       (Animation building blocks: unstyled motion/effects at /motion)
+├── Icons        (Animated Lucide icons at /icons)
 ├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
 └── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
 ```
@@ -81,9 +82,11 @@ registry/
   hooks/, lib/
 ```
 
-### content/ — four separate trees, don't conflate them
+### content/ — distinct content trees, don't conflate them
 
-- `content/docs/` — the core documentation site (routed at `/docs`). Top-level guide pages plus `docs/motion/<name>.mdx` (flat, one per registry motion primitive, aliased to `/motion/<name>`).
+- `content/docs/` — the core documentation site (routed at `/docs`). Top-level guide pages.
+- `content/motion/` — unstyled animation primitives (routed at `/motion`). Flat, one MDX per primitive.
+- `content/icons/` — animated icons documentation and showcase (routed at `/icons`).
 - `content/ui/` — Base UI & Radix UI + Motion app components (routed at `/ui`). MDX pages organized by framework under `content/ui/base/<name>.mdx` and `content/ui/radix/<name>.mdx`, referenced in `content/ui/meta.json`; registry source lives under `registry/ui/base/` or `registry/ui/radix/`.
 - `content/catalog/` — flat catalog of fully-assembled example layout pages (routed at `/catalog`, backwards-compatible with `/components`), listed in `content/catalog/meta.json`.
 - `content/blog/` — blog posts (routed at `/blog`).
@@ -102,7 +105,7 @@ registry/
 
 Route groups under `apps/www/app`:
 - `(marketing)` — landing page (`/`), `/pricing`, `/legal/privacy`, `/legal/terms` with marketing layout (`Navbar` + `Footer` + `home.css`).
-- `(doc)` — Fumadocs documentation layout hosting `/docs` (`[[...slug]]`), `/ui` (`[[...slug]]`), `/catalog` (`[slug]`), and `/blog` (`[slug]`).
+- `(doc)` — Fumadocs documentation layout hosting `/docs` (`[[...slug]]`), `/motion` (`[[...slug]]`), `/icons` (`[[...slug]]`), `/ui` (`[[...slug]]`), `/catalog` (`[slug]`), and `/blog` (`[slug]`).
 - `(account)` — user account settings (`/settings/account`, `/settings/security`).
 - `(llms)` — AI-readable LLM feeds (`/llms.txt`, `/llms-full.txt`, and per-section `.mdx` routes).
 - Top-level routes — `auth` (`/auth/*`), `api` (`/api/*`), `examples` (`/examples/*`), `docs-og`, `blog-og`. Docs content is Fumadocs-powered MDX under `apps/www/content`.

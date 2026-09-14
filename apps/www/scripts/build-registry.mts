@@ -20,6 +20,8 @@ const CONTENT_MDX_PATHS = [
   path.join(process.cwd(), "content", "docs"),
   path.join(process.cwd(), "content", "catalog"),
   path.join(process.cwd(), "content", "ui"),
+  path.join(process.cwd(), "content", "motion"),
+  path.join(process.cwd(), "content", "icons"),
 ];
 
 const UI_FRAMEWORK_PREFIX = /^(base|radix)-/;
@@ -380,8 +382,7 @@ async function buildRegistryFile() {
   });
 
   // Icons live under registry/icons/* and are surfaced through the /icons
-  // gallery rather than MDX docs, so seed them (the icons-icon engine is
-  // pulled in transitively) to keep them in the published registry.
+  // gallery rather than MDX docs, so seed them to keep them in the published registry.
   const iconSeedNames = new Set(documentedItems.map((item) => item.name));
   for (const item of newItems) {
     if (item.name.startsWith("icons-")) {
@@ -712,7 +713,10 @@ export const previewComponents: Record<string, any> = {`;
     let componentPath = componentFile?.path ? `@/${componentFile.path}` : "";
 
     const demoName = `demo-${item.name}`;
-    if (!item.name.startsWith("demo-") && physicalDemoNames.has(demoName)) {
+    if (
+      !(item.name.startsWith("demo-") || item.name.startsWith("icons-")) &&
+      physicalDemoNames.has(demoName)
+    ) {
       const demoItem = uniqueItemsMap.get(demoName) as RegistryItem | undefined;
       const demoComponentFile =
         demoItem?.files?.find((file) => file.path?.endsWith("/index.tsx")) ??

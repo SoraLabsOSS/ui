@@ -194,7 +194,7 @@ function GuideBottomMenu({
         onClick={onNavigate}
       />
       <DocsShellNavItem
-        href="/docs/icons"
+        href="/icons"
         isActive={isIconsNavItemActive(pathname)}
         itemKey={MENU_ICONS_ITEM_KEY}
         label="Icons"
