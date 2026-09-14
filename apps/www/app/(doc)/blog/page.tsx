@@ -23,7 +23,7 @@ const FEATURED_TOPIC_CARDS = [
     tag: "Motion",
     description:
       "Animation building blocks, gesture physics, and spring-driven transitions for React and Next.js.",
-    href: "/docs/motion",
+    href: "/motion",
   },
   {
     title: "Base & Radix UI",
@@ -45,7 +45,12 @@ const ALL_TOPICS = [
   {
     title: "Motion Primitives",
     description: "Gesture, spring physics, and entrance transitions.",
-    href: "/docs/motion",
+    href: "/motion",
+  },
+  {
+    title: "Animated Icons",
+    description: "Micro-interactions and trigger-based animated Lucide icons.",
+    href: "/icons",
   },
   {
     title: "Base UI Foundation",

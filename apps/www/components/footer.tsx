@@ -209,7 +209,7 @@ export function Footer() {
                                 <Link
                                   className="p-m"
                                   data-underline-link=""
-                                  href="/docs/motion"
+                                  href="/motion"
                                 >
                                   Motion Primitives
                                 </Link>

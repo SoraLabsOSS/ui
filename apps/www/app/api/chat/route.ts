@@ -29,8 +29,9 @@ const systemPrompt = [
 
 const queryRewritePrompt = [
   "Rewrite the latest user question into a short English search query for Sora UI docs.",
-  "Prefer official names and paths across the three pillars (Motion, Catalog, and UI):",
-  "- motion / animation primitives → Motion building blocks /docs/motion",
+  "Prefer official names and paths across the four pillars (Motion, Icons, Catalog, and UI):",
+  "- motion / animation primitives → Motion building blocks /motion",
+  "- animated icons / icon animations → Animated Lucide icons /icons",
   "- layout showcases / pre-styled components → Catalog /catalog",
   "- Base UI / Radix UI accessible components → UI kit /ui",
   "- install / setup → Installation shadcn @soralabs sora-cli",

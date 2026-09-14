@@ -3,12 +3,16 @@ import type { MetadataRoute } from "next";
 import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
 import { source } from "@/lib/docs/source";
+import { iconsSource } from "@/lib/icons/source";
+import { motionSource } from "@/lib/motion/source";
 import { componentSource } from "@/lib/registry/component-source";
 import { SITE_URL } from "@/lib/site";
 import { uiSource } from "@/lib/ui/source";
 
 type ContentPage =
   | InferPageType<typeof source>
+  | InferPageType<typeof motionSource>
+  | InferPageType<typeof iconsSource>
   | InferPageType<typeof componentSource>
   | InferPageType<typeof uiSource>;
 
@@ -126,6 +130,18 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   );
   const latestDocDate = getLatestLastModified(docPages);
 
+  const motionPages = motionSource.getPages();
+  const motionEntries = motionPages.map((page) =>
+    contentPageToEntry(page, page.url === "/motion" ? 0.9 : 0.8)
+  );
+  const latestMotionDate = getLatestLastModified(motionPages);
+
+  const iconsPages = iconsSource.getPages();
+  const iconsEntries = iconsPages.map((page) =>
+    contentPageToEntry(page, page.url === "/icons" ? 0.9 : 0.8)
+  );
+  const latestIconsDate = getLatestLastModified(iconsPages);
+
   const catalogPages = componentSource.getPages();
   const componentEntries = catalogPages.map((page) =>
     contentPageToEntry(page, 0.75)
@@ -144,6 +160,8 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
 
   const latestContentDate = maxDate(
     latestDocDate,
+    latestMotionDate,
+    latestIconsDate,
     latestCatalogDate,
     latestUiDate,
     latestBlogDate
@@ -158,11 +176,33 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...docEntries,
     {
+      url: `${SITE_URL}/motion`,
+      lastModified: latestMotionDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...motionEntries,
+    {
+      url: `${SITE_URL}/icons`,
+      lastModified: latestIconsDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...iconsEntries,
+    {
       url: `${SITE_URL}/catalog`,
       lastModified: latestCatalogDate,
       changeFrequency: "weekly",
       priority: 0.85,
     },
+    ...componentEntries,
+    {
+      url: `${SITE_URL}/ui`,
+      lastModified: latestUiDate,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    ...uiEntries,
     {
       url: `${SITE_URL}/blog`,
       lastModified: latestBlogDate,
@@ -176,8 +216,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    ...componentEntries,
-    ...uiEntries,
     ...LEGAL_ENTRIES,
   ];
 

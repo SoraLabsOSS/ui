@@ -324,10 +324,8 @@ export function Navbar({
                             <Link
                               className="nav-bar__big-a w-inline-block"
                               data-hover=""
-                              href="/docs/motion"
-                              onClick={(e) =>
-                                handleLinkClick(e, "/docs/motion")
-                              }
+                              href="/motion"
+                              onClick={(e) => handleLinkClick(e, "/motion")}
                             >
                               <span
                                 className="nav-bar__big-span"

@@ -421,6 +421,8 @@
   #nd-sidebar div div div a[href^="/docs/primitives"] > svg[data-icon="true"],
   #nd-sidebar div div div a[href^="/docs/motion"] > svg[data-icon="true"],
   #nd-sidebar div div div a[href^="/docs/buttons"] > svg[data-icon="true"],
+  #nd-sidebar div div div a[href^="/motion"] > svg[data-icon="true"],
+  #nd-sidebar div div div a[href^="/icons"] > svg[data-icon="true"],
   #nd-sidebar div div div a + div[data-state="open"] {
     @apply !hidden;
   }
