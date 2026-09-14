@@ -28,7 +28,8 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | `search_docs` | Search docs and components by keyword or phrase. Supports filtering by section (`documentation`, `components`, `catalog`, `motion`, `ui`). Capped at 25 results per call (default 10) with relevant excerpts |
 | `get_page` | Fetch a page as markdown by slug or URL path (e.g. `getting-started`, `ui/button`, `primitives/accordion`). Enforces an 8,000-token budget with automatic truncation notice |
 | `list_sections` | Browse the documentation structure and page counts from `llms.txt`. Supports filtering to a specific section's children |
-| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks (`registry:ui`, `registry:hook`). With a `name`, returns install guidance (`npx shadcn@latest add @soralabs/<name> --yes` or `sora-cli add`), dependency trees, and file targets — pass `includeSource: true` to also get the full source, and `cwd` for monorepos |
+| `get_component_info` | Without a `name`, lists installable Sora UI components and hooks (`registry:ui`, `registry:hook`). With a `name`, returns install guidance (`npx shadcn@latest add @soralabs/<name> --yes` or `sora-cli add`), dependency trees, file targets, and published agent metadata (accessibility constraints, composition rules, motion engine) — pass `includeSource: true` to also get the full source, and `cwd` for monorepos |
+| `validate_composition` | Validate a proposed set of registry components against dependencies and published agent metadata before generating UI code. Reports missing items, registry dependency warnings, accessibility constraints, motion requirements, and composition rules |
 
 ### Prompts
 
@@ -54,7 +55,7 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 
 | Server | Role |
 | --- | --- |
-| **`sora-ui`** | Read docs, browse sections/resources, and inspect component info — `search_docs`, `get_page`, `list_sections`, `get_component_info`, `install-component` prompt (also returns `shadcn add` / `sora-cli` install commands) |
+| **`sora-ui`** | Read docs, browse sections/resources, inspect component info, and validate compositions — `search_docs`, `get_page`, `list_sections`, `get_component_info`, `validate_composition`, `install-component` prompt (also returns `shadcn add` / `sora-cli` install commands) |
 | **`shadcn`** | Install `@soralabs/*` into your project via the shadcn CLI, as an agent-callable tool instead of a shell command |
 
 Use **both** if you'd rather the agent call an MCP tool to install than run `shadcn`/`sora-cli` itself — register `@soralabs` in `components.json` first, see [Installation](/docs/installation). Most agents with shell access can just run the command `get_component_info` returns.
@@ -295,6 +296,12 @@ bun run build       # compiles dist/stdio.js and dist/http.js
 - What dependencies does the scroll-gallery component need?
 - Get the full source code for stagger-button
 - Add scroll-gallery from @soralabs and wire it into my page with variant=studio
+
+### Composition validation
+
+- Validate composing `base-dialog`, `base-button`, and `base-tooltip`
+- Check if `dialog` and `stagger-button` have any composition conflicts or accessibility constraints
+- Validate my selected components before building a modal form: `base-dialog`, `base-checkbox`, `base-button`
 
 ## Registry MCP (shadcn)
 

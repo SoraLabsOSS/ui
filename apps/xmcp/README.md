@@ -39,7 +39,7 @@ application code; automatic planning and code generation are future work.
   - Structured prompt template for guiding an AI assistant through discovering, installing, and configuring a Sora component.
 
 ### Resources (`src/resources/`)
-- **`sora-registry`** (`src/resources/registry.ts`):
+- **`registry-catalog`** (`src/resources/registry.ts`):
   - Live JSON snapshot of all installable Sora UI registry items.
 
 ---

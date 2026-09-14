@@ -40,17 +40,17 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # run all apps (Next.js docs + xmcp)
 ```
 
-**No `.env` file is required** to browse docs, blog, the catalog, or use Ask AI locally. Copy `[apps/www/.env.example](./apps/www/.env.example)` only when you need optional features:
+**No `.env` file is required** to browse docs, blog, or the catalog locally. Copy `[apps/www/.env.example](./apps/www/.env.example)` only when you need optional features:
 
 | Feature | Variables |
 |---------|-----------|
 | Sign-in & Bookmarks | `NEXT_PUBLIC_ENABLE_AUTH="true"`, `DATABASE_URL`, `BETTER_AUTH_SECRET`, OAuth keys |
 | Redis rate limits / cache | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` |
 | Better Auth Sentinel | `BETTER_AUTH_API_KEY`, `NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL` |
-| Custom Ask AI endpoint | `AI_SEARCH_CHAT_URL` (defaults to the public docs search instance) |
+| Ask AI (AI Search) | `AI_SEARCH_CHAT_URL` (Cloudflare AI Search chat endpoint; required for Ask AI, no public fallback) |
 | Sentry | `NEXT_PUBLIC_SENTRY_DSN` |
 
-Production deployments for documentation require **zero environment variables**. Set `NEXT_PUBLIC_ENABLE_AUTH="true"`, `BETTER_AUTH_SECRET`, and `DATABASE_URL` only when deploying with full authentication enabled.
+Production deployments for documentation require **zero environment variables** (set `NEXT_PUBLIC_ENABLE_AUTH="true"`, `BETTER_AUTH_SECRET`, `DATABASE_URL`, or `AI_SEARCH_CHAT_URL` only when enabling auth or Ask AI).
 
 ## MCP Server
 

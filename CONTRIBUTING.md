@@ -104,7 +104,7 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # all apps (turbo)
 ```
 
-**Environment variables are optional for local UI work.** You can browse docs, blog, the catalog, and Ask AI without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need optional features (auth, bookmarks, Redis, Sentry).
+**Environment variables are optional for local UI work.** You can browse docs, blog, and the catalog without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need optional features (auth, bookmarks, Redis, Sentry, or Ask AI which requires `AI_SEARCH_CHAT_URL`).
 
 ### 3. Verify before opening a PR
 
