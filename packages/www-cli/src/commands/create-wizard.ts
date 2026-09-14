@@ -1,5 +1,7 @@
 import { cancel, isCancel, select } from "@clack/prompts";
 import { isInteractiveTerminal, nonInteractiveHint } from "../lib/terminal.js";
+import { runCreateCatalog } from "./create-catalog.js";
+import { runCreateIcon } from "./create-icon.js";
 import { runCreatePrimitive } from "./create-primitive.js";
 import { runCreateUi } from "./create-ui.js";
 
@@ -10,6 +12,8 @@ export async function runCreateWizard(): Promise<void> {
         [
           "bun run create:primitive <name> --category=effects --yes",
           "bun run create:ui <name> --framework=base --yes",
+          "bun run create:catalog <slug> --yes",
+          "bun run create:icon <name> --yes",
         ].join("\n  ")
       )
     );
@@ -31,7 +35,12 @@ export async function runCreateWizard(): Promise<void> {
       {
         value: "catalog",
         label: "Catalog page",
-        hint: "Coming in Phase 3",
+        hint: "content/catalog → /catalog",
+      },
+      {
+        value: "icon",
+        label: "Animated icon",
+        hint: "registry/icons",
       },
     ],
   });
@@ -42,10 +51,13 @@ export async function runCreateWizard(): Promise<void> {
   }
 
   if (tier === "catalog") {
-    cancel(
-      "Catalog scaffolding is not available yet. Use Phase 3 (create catalog) when it lands."
-    );
-    process.exit(0);
+    await runCreateCatalog(undefined, {});
+    return;
+  }
+
+  if (tier === "icon") {
+    await runCreateIcon(undefined, {});
+    return;
   }
 
   if (tier === "primitive") {

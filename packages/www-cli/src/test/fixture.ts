@@ -3,6 +3,8 @@ import path from "node:path";
 import type { PrimitiveCategory, UiFramework } from "../lib/paths.js";
 import {
   findRepoRoot,
+  getCatalogPaths,
+  getIconPaths,
   getPrimitivePaths,
   getUiPaths,
   getWwwRoot,
@@ -10,6 +12,8 @@ import {
 
 export const FIXTURE_NAME = "www-cli-automated-fixture";
 export const UI_FIXTURE_NAME = "www-cli-ui-fixture";
+export const CATALOG_FIXTURE_SLUG = "www-cli-catalog-fixture";
+export const ICON_FIXTURE_NAME = "www-cli-icon-fixture";
 
 export function getRepoRoot(): string {
   return findRepoRoot(path.resolve(import.meta.dir, "../.."));
@@ -86,4 +90,35 @@ export async function cleanupUiFixture(
   };
   meta.pages = meta.pages.filter((page) => page !== pageSlug);
   await writeFile(paths.metaJsonPath, `${JSON.stringify(meta, null, 2)}\n`);
+}
+
+export async function cleanupCatalogFixture(
+  slug = CATALOG_FIXTURE_SLUG,
+  repoRoot = getRepoRoot()
+): Promise<void> {
+  const wwwRoot = getWwwRootFromRepo(repoRoot);
+  const paths = getCatalogPaths(wwwRoot, slug);
+
+  await rm(paths.mdxPath, { force: true });
+
+  if (!(await pathExists(paths.metaJsonPath))) {
+    return;
+  }
+
+  const meta = JSON.parse(await readFile(paths.metaJsonPath, "utf-8")) as {
+    pages: string[];
+  };
+  meta.pages = meta.pages.filter((page) => page !== slug);
+  await writeFile(paths.metaJsonPath, `${JSON.stringify(meta, null, 2)}\n`);
+}
+
+export async function cleanupIconFixture(
+  name = ICON_FIXTURE_NAME,
+  repoRoot = getRepoRoot()
+): Promise<void> {
+  const wwwRoot = getWwwRootFromRepo(repoRoot);
+  const paths = getIconPaths(wwwRoot, name);
+
+  await rm(paths.iconDir, { recursive: true, force: true });
+  await rm(paths.demoDir, { recursive: true, force: true });
 }

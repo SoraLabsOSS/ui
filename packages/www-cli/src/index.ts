@@ -4,12 +4,16 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Command } from "commander";
+import { runCreateCatalog } from "./commands/create-catalog.js";
+import { runCreateIcon } from "./commands/create-icon.js";
 import { runCreatePrimitive } from "./commands/create-primitive.js";
 import { runCreateUi } from "./commands/create-ui.js";
 import { runCreateWizard } from "./commands/create-wizard.js";
 import { runDoctor } from "./commands/doctor.js";
 import {
+  CATALOG_HELP_AFTER,
   CREATE_HELP_AFTER,
+  ICON_HELP_AFTER,
   PRIMITIVE_HELP_AFTER,
   UI_HELP_AFTER,
 } from "./lib/help-text.js";
@@ -34,9 +38,11 @@ interface ScaffoldCommandOptions {
   category?: string;
   dryRun?: boolean;
   framework?: string;
+  keywords?: string;
   noColor?: boolean;
   noInput?: boolean;
   quiet?: boolean;
+  registryName?: string;
   skipBuild?: boolean;
   skipDemo?: boolean;
   withDemo?: boolean;
@@ -60,13 +66,27 @@ function assertScriptedArgs(
   process.exit(1);
 }
 
+function assertScriptedName(label: string, name: string | undefined): void {
+  if (name) {
+    return;
+  }
+
+  console.error(
+    "Non-interactive mode requires <name> or <slug>.\n" +
+      `Example: bun run ${label} <name> --yes`
+  );
+  process.exit(1);
+}
+
 function mapScaffoldOptions(options: ScaffoldCommandOptions) {
   return {
     category: options.category,
     dryRun: options.dryRun,
     framework: options.framework,
+    keywords: options.keywords,
     noInput: options.noInput,
     quiet: options.quiet,
+    registryName: options.registryName,
     skipBuild: options.skipBuild,
     skipDemo: options.skipDemo,
     withDemo: options.withDemo,
@@ -160,6 +180,88 @@ create
 
     try {
       await runCreateUi(name, mapScaffoldOptions(options));
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+  });
+
+create
+  .command("catalog")
+  .description("Create a layout showcase under apps/www/content/catalog")
+  .argument("[slug]", "Catalog page slug in kebab-case")
+  .option(
+    "-c, --category <category>",
+    "Underlying primitive category (texts, buttons, disclosure, effects, animate)"
+  )
+  .option(
+    "-r, --registry-name <registryName>",
+    "Underlying registry component name (defaults to slug)"
+  )
+  .option("--skip-build", "Skip running registry:build after scaffolding")
+  .option("-y, --yes", "Non-interactive mode (requires slug)")
+  .option(...sharedScaffoldOptions[0])
+  .option(...sharedScaffoldOptions[1])
+  .option(...sharedScaffoldOptions[2])
+  .option(...sharedScaffoldOptions[3])
+  .addHelpText("after", CATALOG_HELP_AFTER)
+  .action(async (slug: string | undefined, options: ScaffoldCommandOptions) => {
+    applyNoColor(options.noColor ?? program.opts().noColor);
+
+    const scripted = isScripted(options);
+    if (scripted) {
+      assertScriptedName("create:catalog", slug);
+    }
+
+    try {
+      await runCreateCatalog(slug, mapScaffoldOptions(options));
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+  });
+
+create
+  .command("icon")
+  .description("Create an animated icon under apps/www/registry/icons")
+  .argument("[name]", "Icon name in kebab-case")
+  .option(
+    "-k, --keywords <keywords>",
+    "Comma-separated keywords for registry search"
+  )
+  .option(
+    "--with-demo",
+    "Create registry/demo/icons/... manual demo (default in --yes mode)"
+  )
+  .option("--skip-demo", "Skip manual demo folder")
+  .option("--skip-build", "Skip running registry:build after scaffolding")
+  .option("-y, --yes", "Non-interactive mode (requires name)")
+  .option(...sharedScaffoldOptions[0])
+  .option(...sharedScaffoldOptions[1])
+  .option(...sharedScaffoldOptions[2])
+  .option(...sharedScaffoldOptions[3])
+  .addHelpText("after", ICON_HELP_AFTER)
+  .action(async (name: string | undefined, options: ScaffoldCommandOptions) => {
+    applyNoColor(options.noColor ?? program.opts().noColor);
+
+    const scripted = isScripted(options);
+    if (scripted) {
+      assertScriptedName("create:icon", name);
+    }
+
+    const opts = mapScaffoldOptions(options);
+    let withDemo: boolean | undefined = options.withDemo;
+    if (options.skipDemo === true) {
+      withDemo = false;
+    } else if (withDemo === undefined && scripted) {
+      withDemo = true;
+    }
+
+    try {
+      await runCreateIcon(name, {
+        ...opts,
+        withDemo,
+      });
     } catch (error) {
       console.error(error instanceof Error ? error.message : error);
       process.exit(1);

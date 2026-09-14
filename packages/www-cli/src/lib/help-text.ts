@@ -23,6 +23,26 @@ Examples:
   $ bun run create
   $ bun run create primitive --help
   $ bun run create ui --help
+  $ bun run create catalog --help
+  $ bun run create icon --help
+
+Docs: ${DOCS_CONTRIBUTING}
+`;
+
+export const CATALOG_HELP_AFTER = `
+Examples:
+  $ bun run create:catalog hero-showcase --yes
+  $ bun run create:catalog hero-showcase --dry-run
+  $ bun run create:catalog hero-showcase --category=effects --skip-build
+
+Docs: ${DOCS_CONTRIBUTING} (Flow 3 — Catalog pages)
+`;
+
+export const ICON_HELP_AFTER = `
+Examples:
+  $ bun run create:icon sparkles --yes
+  $ bun run create:icon sparkles --dry-run
+  $ bun run create:icon sparkles --keywords=magic,star --skip-build
 
 Docs: ${DOCS_CONTRIBUTING}
 `;

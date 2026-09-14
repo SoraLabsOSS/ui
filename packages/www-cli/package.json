@@ -10,6 +10,8 @@
     "create": "bun src/index.ts create",
     "create:primitive": "bun src/index.ts create primitive",
     "create:ui": "bun src/index.ts create ui",
+    "create:catalog": "bun src/index.ts create catalog",
+    "create:icon": "bun src/index.ts create icon",
     "doctor": "bun src/index.ts doctor",
     "check-types": "tsc --noEmit",
     "lint": "ultracite check",

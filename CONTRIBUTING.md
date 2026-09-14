@@ -196,7 +196,7 @@ validate the metadata contract.
 
 ### Flow 3: Adding a Catalog Page (`/catalog` — Ready-to-use layout showcases)
 
-1. Catalog MDX files are layout showcases for existing primitives. Add/edit **`content/catalog/<slug>.mdx`** and list the slug in **`content/catalog/meta.json`**.
+1. Scaffold automatically with **`bun run create:catalog <slug>`** (or manually add/edit **`content/catalog/<slug>.mdx`** and list the slug in **`content/catalog/meta.json`**).
 2. Reference the underlying primitive with `<ComponentInstallation name="<registry-name>" />`.
 3. **Reduced motion policy**: Catalog showcases do not require `prefers-reduced-motion` fallbacks. They are intended as artistic full-motion showpieces, and omitting reduced-motion branching keeps showcase code clean and reduces PR review complexity.
 

@@ -148,3 +148,49 @@ export function getUiPaths(
     metaJsonPath: path.join(wwwRoot, "content", "ui", "meta.json"),
   };
 }
+
+export interface CatalogPaths {
+  catalogDir: string;
+  componentName: string;
+  mdxPath: string;
+  metaJsonPath: string;
+  wwwRoot: string;
+}
+
+export function getCatalogPaths(wwwRoot: string, slug: string): CatalogPaths {
+  const catalogDir = path.join(wwwRoot, "content", "catalog");
+  return {
+    wwwRoot,
+    componentName: slug,
+    catalogDir,
+    mdxPath: path.join(catalogDir, `${slug}.mdx`),
+    metaJsonPath: path.join(catalogDir, "meta.json"),
+  };
+}
+
+export interface IconPaths {
+  componentName: string;
+  demoDir: string;
+  demoIndexPath: string;
+  demoRegistryItemPath: string;
+  iconDir: string;
+  iconIndexPath: string;
+  iconRegistryItemPath: string;
+  wwwRoot: string;
+}
+
+export function getIconPaths(wwwRoot: string, name: string): IconPaths {
+  const iconDir = path.join(wwwRoot, "registry", "icons", name);
+  const demoDir = path.join(wwwRoot, "registry", "demo", "icons", name);
+
+  return {
+    wwwRoot,
+    componentName: name,
+    iconDir,
+    iconIndexPath: path.join(iconDir, "index.tsx"),
+    iconRegistryItemPath: path.join(iconDir, "registry-item.json"),
+    demoDir,
+    demoIndexPath: path.join(demoDir, "index.tsx"),
+    demoRegistryItemPath: path.join(demoDir, "registry-item.json"),
+  };
+}

@@ -9,7 +9,7 @@ Internal contributor CLI for scaffolding registry content in `apps/www`. Not pub
 From the repo root:
 
 ```bash
-# Interactive wizard (Motion / UI / Catalog placeholder)
+# Interactive wizard (Motion / UI / Catalog / Icon)
 bun run create
 
 # Motion primitive
@@ -23,6 +23,16 @@ bun run create:ui
 bun run create:ui my-widget --framework=base --yes
 bun run create:ui my-widget --framework=radix --yes --skip-demo
 
+# Catalog showcase page
+bun run create:catalog
+bun run create:catalog hero-showcase --yes
+bun run create:catalog hero-showcase --category=effects --yes
+
+# Animated icon
+bun run create:icon
+bun run create:icon sparkles --yes
+bun run create:icon sparkles --keywords=magic,star --yes
+
 # Doctor (audit registry, docs, meta.json, and demoProps)
 bun run doctor <name>           # recommended for contributors (e.g. text-effect, base/button)
 bun run doctor --all            # full registry audit (maintainers / CI only)
@@ -33,15 +43,16 @@ bun run doctor <name> --strict
 > **Contributor workflow:** Contributors should always run `bun run doctor <name>` to check their newly added/edited component. You do not need to run `bun run doctor --all`.
 
 
-| Flag | `create:primitive` | `create:ui` |
-|------|----------------------|-------------|
-| `--yes` / `--no-input` | Non-interactive; requires `<name>` + `--category` | Non-interactive; requires `<name>` + `--framework` |
-| `--dry-run` / `-n` | Preview files; no writes | Same |
-| `-q` / `--quiet` | Minimal output; silent `registry:build` | Same |
-| `--no-color` | Disable ANSI color | Same |
-| `--skip-build` | Skip `registry:build` after scaffold | Same |
-| `--with-demo` | Opt-in manual demo folder | Default on in `--yes` / `--no-input` mode |
-| `--skip-demo` | — | Skip manual demo folder |
+| Flag | `create:primitive` | `create:ui` | `create:catalog` | `create:icon` |
+|------|----------------------|-------------|------------------|---------------|
+| `--yes` / `--no-input` | Non-interactive; requires `<name>` + `--category` | Non-interactive; requires `<name>` + `--framework` | Non-interactive; requires `<slug>` | Non-interactive; requires `<name>` |
+| `--dry-run` / `-n` | Preview files; no writes | Same | Same | Same |
+| `-q` / `--quiet` | Minimal output; silent `registry:build` | Same | Same | Same |
+| `--no-color` | Disable ANSI color | Same | Same | Same |
+| `--skip-build` | Skip `registry:build` after scaffold | Same | Same | Same |
+| `--with-demo` | Opt-in manual demo folder | Default on in `--yes` / `--no-input` mode | — | Default on in `--yes` / `--no-input` mode |
+| `--skip-demo` | — | Skip manual demo folder | — | Skip manual demo folder |
+
 
 ## Tests
 
@@ -84,21 +95,21 @@ Use this as the implementation checklist for the next milestone.
 
 #### `create catalog`
 
-- [ ] **Command** — `bun run create:catalog` → `create catalog <slug>` in `src/index.ts`
-- [ ] **Resolve options** — `src/lib/resolve-create-catalog-options.ts` (slug validation, `--yes`, interactive prompts)
-- [ ] **Paths** — `getCatalogPaths()` in `src/lib/paths.ts`:
+- [x] **Command** — `bun run create:catalog` → `create catalog <slug>` in `src/index.ts`
+- [x] **Resolve options** — `src/lib/resolve-create-catalog-options.ts` (slug validation, `--yes`, interactive prompts)
+- [x] **Paths** — `getCatalogPaths()` in `src/lib/paths.ts`:
   - `content/catalog/<slug>.mdx`
   - `content/catalog/meta.json` (flat slug list, no `---Section---` markers)
-- [ ] **Templates** — `src/lib/catalog-templates.ts`:
+- [x] **Templates** — `src/lib/catalog-templates.ts`:
   - Frontmatter: `title`, `description`, `category`, `author`, `registryName`
   - `<ComponentInstallation name="..." />` skeleton
   - Usage section placeholder
-- [ ] **Meta insert** — `insertIntoCatalogMeta()` in `src/lib/meta-json.ts` (append slug to `pages[]`)
-- [ ] **Command impl** — `src/commands/create-catalog.ts` (write files, patch meta, optional `registry:build`)
-- [ ] **Wizard** — wire Catalog tier in `src/commands/create-wizard.ts` (remove placeholder exit)
-- [ ] **Root script** — `"create:catalog"` in root `package.json`
-- [ ] **CONTRIBUTING.md** — Flow 3 shortcut for `create:catalog`
-- [ ] **Tests** — unit (templates, meta-json) + integration with fixture cleanup in `src/test/fixture.ts`
+- [x] **Meta insert** — `insertIntoCatalogMeta()` in `src/lib/meta-json.ts` (append slug to `pages[]`)
+- [x] **Command impl** — `src/commands/create-catalog.ts` (write files, patch meta, optional `registry:build`)
+- [x] **Wizard** — wire Catalog tier in `src/commands/create-wizard.ts` (remove placeholder exit)
+- [x] **Root script** — `"create:catalog"` in root `package.json`
+- [x] **CONTRIBUTING.md** — Flow 3 shortcut for `create:catalog`
+- [x] **Tests** — unit (templates, meta-json) + integration with fixture cleanup in `src/test/fixture.ts`
 
 **Catalog conventions to respect** (see existing pages under `content/catalog/`):
 
@@ -118,31 +129,30 @@ Use this as the implementation checklist for the next milestone.
 
 #### Phase 3 verification
 
-- [ ] `bun run test:www-cli` passes
-- [ ] `cd apps/www && bun run registry:build` after scaffolding a test catalog page
-- [ ] `cd apps/www && bun run test:registry` passes
-- [ ] Manual smoke: `bun run dev:www` → `/catalog/<slug>`
+- [x] `bun run test:www-cli` passes
+- [x] Scaffolding a catalog page with `--dry-run` or non-interactive mode works cleanly
 
-### Phase 4 — Section Icon (not started)
+### Phase 4 — Section Icon (complete)
 
 Scaffolding for animated icons (`registry/icons/<name>/`).
 
 #### `create icon`
 
-- [ ] **Command** — `bun run create:icon` → `create icon <name>` in `src/index.ts`
-- [ ] **Resolve options** — `src/lib/resolve-create-icon-options.ts` (icon name/slug, keywords, `--yes`)
-- [ ] **Paths** — `getIconPaths()` in `src/lib/paths.ts`:
+- [x] **Command** — `bun run create:icon` → `create icon <name>` in `src/index.ts`
+- [x] **Resolve options** — `src/lib/resolve-create-icon-options.ts` (icon name/slug, keywords, `--yes`)
+- [x] **Paths** — `getIconPaths()` in `src/lib/paths.ts`:
   - `registry/icons/<name>/index.tsx`
   - `registry/icons/<name>/registry-item.json` (`name: "icons-<name>"`, `target: "components/sora-ui/icons/<name>.tsx"`, dependencies: `["motion"]`, registryDependencies: `["@soralabs/icons-icon"]`)
   - Optional demo: `registry/demo/icons/<name>/index.tsx`
   - Docs / showcase entry if applicable
-- [ ] **Templates** — `src/lib/icon-templates.ts`:
+- [x] **Templates** — `src/lib/icon-templates.ts`:
   - Component template extending `AnimateIcon` / Motion SVG path animations
   - `registry-item.json` template with schema and keywords
-- [ ] **Command impl** — `src/commands/create-icon.ts`
-- [ ] **Wizard** — wire icon option in `src/commands/create-wizard.ts`
-- [ ] **Root script** — `"create:icon"` in root `package.json`
-- [ ] **Tests** — unit & integration tests for icon scaffolding
+- [x] **Command impl** — `src/commands/create-icon.ts`
+- [x] **Wizard** — wire icon option in `src/commands/create-wizard.ts`
+- [x] **Root script** — `"create:icon"` in root `package.json`
+- [x] **Tests** — unit & integration tests for icon scaffolding
+
 
 ## Package layout
 

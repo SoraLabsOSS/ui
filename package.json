@@ -43,6 +43,8 @@
     "registry:build": "bun run --cwd apps/www registry:build",
     "create:primitive": "bun packages/www-cli/src/index.ts create primitive",
     "create:ui": "bun packages/www-cli/src/index.ts create ui",
+    "create:catalog": "bun packages/www-cli/src/index.ts create catalog",
+    "create:icon": "bun packages/www-cli/src/index.ts create icon",
     "create": "bun packages/www-cli/src/index.ts create",
     "doctor": "bun packages/www-cli/src/index.ts doctor",
     "test:www-cli": "bun run --cwd packages/www-cli test",

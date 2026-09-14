@@ -2,7 +2,11 @@ import { afterEach, describe, expect, it } from "bun:test";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { insertIntoMotionMeta, insertIntoUiMeta } from "./meta-json.js";
+import {
+  insertIntoCatalogMeta,
+  insertIntoMotionMeta,
+  insertIntoUiMeta,
+} from "./meta-json.js";
 
 const ALREADY_LISTED_ERROR = /already listed/i;
 
@@ -103,5 +107,57 @@ describe("insertIntoUiMeta", () => {
       "---Radix UI---",
       "radix/button",
     ]);
+  });
+});
+
+describe("insertIntoCatalogMeta", () => {
+  let tempDir = "";
+
+  afterEach(async () => {
+    if (tempDir) {
+      await rm(tempDir, { recursive: true, force: true });
+      tempDir = "";
+    }
+  });
+
+  it("appends a slug to the catalog pages list", async () => {
+    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-catalog-meta-"));
+    const metaPath = path.join(tempDir, "meta.json");
+    await writeFile(
+      metaPath,
+      `${JSON.stringify(
+        {
+          title: "Catalog",
+          pages: ["cursor-trail-reveal", "sticky-scroll-cards"],
+        },
+        null,
+        2
+      )}\n`
+    );
+
+    await insertIntoCatalogMeta(metaPath, "hero-showcase");
+
+    const meta = JSON.parse(await readFile(metaPath, "utf-8")) as {
+      pages: string[];
+      title: string;
+    };
+    expect(meta.pages).toEqual([
+      "cursor-trail-reveal",
+      "sticky-scroll-cards",
+      "hero-showcase",
+    ]);
+  });
+
+  it("throws when the slug is already registered in catalog", async () => {
+    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-catalog-meta-"));
+    const metaPath = path.join(tempDir, "meta.json");
+    await writeFile(
+      metaPath,
+      `${JSON.stringify({ pages: ["cursor-trail-reveal"] }, null, 2)}\n`
+    );
+
+    await expect(
+      insertIntoCatalogMeta(metaPath, "cursor-trail-reveal")
+    ).rejects.toThrow(ALREADY_LISTED_ERROR);
   });
 });

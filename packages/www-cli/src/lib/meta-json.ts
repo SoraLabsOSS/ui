@@ -72,3 +72,20 @@ export async function insertIntoUiMeta(
     uiPageSlug(framework, name)
   );
 }
+
+export async function insertIntoCatalogMeta(
+  metaJsonPath: string,
+  slug: string
+): Promise<void> {
+  const content = await readFile(metaJsonPath, "utf-8");
+  const meta = parseMetaJson(content);
+
+  if (meta.pages.includes(slug)) {
+    throw new Error(`"${slug}" is already listed in meta.json.`);
+  }
+
+  meta.pages.push(slug);
+
+  const nextContent = `${JSON.stringify(meta, null, 2)}\n`;
+  await writeFile(metaJsonPath, nextContent, "utf-8");
+}
