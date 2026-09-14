@@ -194,58 +194,6 @@
       ]
     },
     {
-      "name": "demo-custom-cursor",
-      "type": "registry:ui",
-      "title": "Custom Cursor Demo",
-      "description": "Custom cursor demo with Sora icons and shape variants.",
-      "registryDependencies": ["@soralabs/custom-cursor"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/custom-cursor/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/custom-cursor.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "CustomCursorExample": {
-            "color": {
-              "value": "#ff4c24"
-            },
-            "followStiffness": {
-              "value": 150,
-              "min": 50,
-              "max": 300,
-              "step": 10
-            },
-            "followDamping": {
-              "value": 22,
-              "min": 10,
-              "max": 40,
-              "step": 1
-            },
-            "className": {
-              "value": "w-full"
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-dock-nav",
-      "type": "registry:ui",
-      "title": "Dock Nav Demo",
-      "description": "Apple-style dock navigation demo with app icons.",
-      "registryDependencies": ["@soralabs/dock-nav"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/dock-nav/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/dock-nav.tsx"
-        }
-      ]
-    },
-    {
       "name": "demo-hero-carousel",
       "type": "registry:ui",
       "title": "Hero Carousel Demo",
@@ -326,20 +274,6 @@
           "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/effects/magnetic-cards.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-pixel-background",
-      "type": "registry:ui",
-      "title": "Pixel Background Demo",
-      "description": "A hoverable panel revealing a grid of pixels staggered by the selected pattern.",
-      "registryDependencies": ["@soralabs/pixel-background"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/pixel-background/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/pixel-background.tsx"
         }
       ]
     },
@@ -1909,36 +1843,6 @@
       ]
     },
     {
-      "name": "custom-cursor",
-      "type": "registry:ui",
-      "title": "Custom Cursor",
-      "description": "A smooth custom cursor that morphs when hovering interactive targets, powered by Motion.",
-      "dependencies": ["motion", "class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/effects/custom-cursor/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/effects/custom-cursor.tsx"
-        }
-      ]
-    },
-    {
-      "name": "dock-nav",
-      "type": "registry:ui",
-      "title": "Dock Nav",
-      "description": "An Apple-style dock navigation bar with Motion-powered expanding icons and tooltips on hover.",
-      "dependencies": ["motion", "class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/effects/dock-nav/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/effects/dock-nav.tsx"
-        }
-      ]
-    },
-    {
       "name": "hero-carousel",
       "type": "registry:ui",
       "title": "Hero Carousel",
@@ -2064,70 +1968,6 @@
       }
     },
     {
-      "name": "pixel-background",
-      "type": "registry:ui",
-      "title": "Pixel Background",
-      "description": "A canvas-based pixel grid that animates in on hover, with configurable reveal patterns.",
-      "registryDependencies": [
-        "utils",
-        "@soralabs/hooks-use-prefers-reduced-motion"
-      ],
-      "files": [
-        {
-          "path": "registry/primitives/effects/pixel-background/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/effects/pixel-background.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "PixelBackground": {
-            "colors": {
-              "value": "#f8fafc,#f1f5f9,#cbd5e1",
-              "options": {
-                "White": "#f8fafc,#f1f5f9,#cbd5e1",
-                "Blue": "#e0f2fe,#7dd3fc,#0ea5e9",
-                "Pink": "#fecdd3,#fda4af,#e11d48"
-              }
-            },
-            "pattern": {
-              "value": "center",
-              "options": {
-                "Center": "center",
-                "Cursor": "cursor",
-                "Spiral": "spiral",
-                "Edges": "edges",
-                "Random": "random"
-              }
-            },
-            "gap": {
-              "value": 5,
-              "min": 2,
-              "max": 20,
-              "step": 1
-            },
-            "speed": {
-              "value": 35,
-              "min": 0,
-              "max": 100,
-              "step": 1
-            },
-            "pixelOpacity": {
-              "value": 1,
-              "min": 0.1,
-              "max": 1,
-              "step": 0.05
-            }
-          }
-        },
-        "inspiration": {
-          "type": "inspired",
-          "label": "React Bits",
-          "url": "https://www.reactbits.dev/components/pixel-card"
-        }
-      }
-    },
-    {
       "name": "pixel-image-loader",
       "type": "registry:ui",
       "title": "Pixel Image Loader",
@@ -2178,56 +2018,6 @@
             },
             "className": {
               "value": "mx-auto w-72 rounded-lg"
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "pixelated-image-reveal",
-      "type": "registry:ui",
-      "title": "Pixelated Image Reveal",
-      "description": "An image card that reveals a second image through a randomized pixel grid on hover, powered by Motion.",
-      "dependencies": ["motion", "class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/effects/pixelated-image-reveal/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/effects/pixelated-image-reveal.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "PixelatedImageReveal": {
-            "alt": {
-              "value": "Pixelated image reveal demo"
-            },
-            "pixelColor": {
-              "value": "#ff4c24"
-            },
-            "gridSize": {
-              "value": 7,
-              "min": 3,
-              "max": 12,
-              "step": 1
-            },
-            "stepDuration": {
-              "value": 0.3,
-              "min": 0.1,
-              "max": 1,
-              "step": 0.05
-            },
-            "aspect": {
-              "value": "square",
-              "options": {
-                "Square": "square",
-                "Video": "video",
-                "Auto": "auto"
-              }
-            },
-            "className": {
-              "value": "mx-auto w-72"
             }
           }
         }
@@ -3083,71 +2873,6 @@
             },
             "triggerOnHover": {
               "value": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "text-underline",
-      "type": "registry:ui",
-      "title": "Text Underline",
-      "description": "A CSS-only link underline that slides through on hover.",
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/primitives/texts/text-underline/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/texts/text-underline.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TextUnderline": {
-            "label": {
-              "value": "Performance Collection"
-            },
-            "underlineColor": {
-              "value": "brand",
-              "options": {
-                "Current": "currentColor",
-                "Brand": "brand",
-                "Brand Muted": "brand-muted",
-                "Gray": "gray"
-              }
-            },
-            "underlineHeight": {
-              "value": "thin",
-              "options": {
-                "Thin": "thin",
-                "Medium": "medium",
-                "Thick": "thick"
-              }
-            },
-            "duration": {
-              "value": "normal",
-              "options": {
-                "Fast": "fast",
-                "Normal": "normal",
-                "Slow": "slow"
-              }
-            },
-            "initialScale": {
-              "value": "0",
-              "options": {
-                "0%": "0",
-                "25%": "25",
-                "50%": "50",
-                "75%": "75"
-              }
-            },
-            "anchor": {
-              "value": "left",
-              "options": {
-                "Left (slide through)": "left",
-                "Center (expand)": "center"
-              }
             }
           }
         }
