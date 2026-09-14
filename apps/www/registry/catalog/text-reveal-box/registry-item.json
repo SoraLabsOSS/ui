@@ -8,9 +8,9 @@
   "registryDependencies": ["@soralabs/lib-scroll-trigger-utils"],
   "files": [
     {
-      "path": "registry/primitives/texts/text-reveal-box/index.tsx",
+      "path": "registry/catalog/text-reveal-box/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/texts/text-reveal-box.tsx"
+      "target": "components/sora-ui/catalog/text-reveal-box.tsx"
     }
   ],
   "meta": {

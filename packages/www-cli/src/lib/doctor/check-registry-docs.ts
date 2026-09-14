@@ -3,6 +3,8 @@ import path from "node:path";
 import type { DiagnosticIssue } from "./types.js";
 
 const PRIMITIVE_SOURCE_RE = /^registry\/primitives\/([^/]+)\/([^/]+)\//;
+const CATALOG_SOURCE_RE = /^registry\/catalog\/([^/]+)\//;
+const DEMO_CATALOG_SOURCE_RE = /^registry\/demo\/catalog\/([^/]+)\//;
 const UI_SOURCE_RE = /^registry\/ui\/(base|radix)\/([^/]+)\//;
 const PREVIEW_TAG_RE =
   /<Component(?:Preview|Installation)\s+name=["']([^"']+)["']/g;
@@ -42,6 +44,14 @@ function getScaffoldHint(item: RegistryItemLike): string | null {
   if (primitiveMatch) {
     const [, category, name] = primitiveMatch;
     return `bun run create:primitive ${name} --category=${category} --yes`;
+  }
+
+  const catalogMatch =
+    sourcePath.match(CATALOG_SOURCE_RE) ??
+    sourcePath.match(DEMO_CATALOG_SOURCE_RE);
+  if (catalogMatch) {
+    const [, name] = catalogMatch;
+    return `bun run create:catalog ${name} --yes`;
   }
 
   const uiMatch = sourcePath.match(UI_SOURCE_RE);

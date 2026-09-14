@@ -7,7 +7,7 @@ import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
 import {
   ScrollGallery,
   type ScrollGallerySlide,
-} from "@/registry/primitives/effects/scroll-gallery";
+} from "@/registry/catalog/scroll-gallery";
 
 const SCROLL_GALLERY_MEDIA =
   "https://cdn.soralabs.studio/media/demo/scroll-gallery" as const;

@@ -39,7 +39,7 @@ Sora UI
 |------|---------------|------------|---------|
 | **Motion** | `registry/primitives/{category}/{name}/` | `/motion/<name>` | Unstyled animation primitives and micro-interactions (e.g. `border-trail`, `text-effect`, `highlight`, `auto-height`). |
 | **Icons** | `registry/icons/{name}/` | `/icons` | Smooth animated Lucide icons powered by Motion and Tailwind CSS. |
-| **Catalog** | `content/catalog/<slug>.mdx` (showcased) | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
+| **Catalog** | `registry/catalog/{name}/` | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
 | **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `base-accordion`, `base-checkbox`). |
 
 ## Repository structure
@@ -65,10 +65,13 @@ registry/
     radix/{name}/                 Radix UI + Motion components (UI tier)
   primitives/
     {animate|buttons|disclosure|effects|texts}/{name}/  Motion primitives tier
+  catalog/{name}/                 Ready-to-use layout showcases (Catalog tier)
   icons/{name}/                   Animated Lucide icons (@soralabs/icons-*)
   demo/
     ui/{base|radix}/{name}/       Manual demos for UI tier
     primitives/{category}/{name}/ Manual demos for Motion tier
+    catalog/{name}/               Showcase preview demos for Catalog tier
+    icons/{name}/                 Interactive preview demos for Icons tier
   hooks/, lib/
 ```
 
@@ -200,9 +203,10 @@ validate the metadata contract.
 
 ### Flow 3: Adding a Catalog Page (`/catalog` — Ready-to-use layout showcases)
 
-1. Scaffold automatically with **`bun run create:catalog <slug>`** (or manually add/edit **`content/catalog/<slug>.mdx`** and list the slug in **`content/catalog/meta.json`**).
-2. Reference the underlying primitive with `<ComponentInstallation name="<registry-name>" />`.
-3. **Reduced motion policy**: Catalog showcases do not require `prefers-reduced-motion` fallbacks. They are intended as artistic full-motion showpieces, and omitting reduced-motion branching keeps showcase code clean and reduces PR review complexity.
+1. **Source & Demo:** Create implementation under **`registry/catalog/<name>/index.tsx`** and **`registry-item.json`** (with target `"components/sora-ui/catalog/<name>.tsx"`), and preview showcase in **`registry/demo/catalog/<name>/index.tsx`**.
+2. **MDX showcase:** Add **`content/catalog/<slug>.mdx`** with `<ComponentPreview name="<name>" />`, `<ComponentInstallation name="<name>" />`, and list `<slug>` in **`content/catalog/meta.json`**.
+3. **Build & verify:** Run **`bun run registry:build`**, then **`bun run doctor <name>`** to verify showcase health.
+4. **Reduced motion policy**: Catalog showcases do not require `prefers-reduced-motion` fallbacks. They are intended as artistic full-motion showpieces, and omitting reduced-motion branching keeps showcase code clean and reduces PR review complexity.
 
 ### Component conventions
 

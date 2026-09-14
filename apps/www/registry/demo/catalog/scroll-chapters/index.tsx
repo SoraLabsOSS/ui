@@ -7,7 +7,7 @@ import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
 import {
   ScrollChapters,
   type ScrollChaptersChapter,
-} from "@/registry/primitives/effects/scroll-chapters";
+} from "@/registry/catalog/scroll-chapters";
 
 // Same copy, colors, and per-chapter panel opt-in/opt-out as the reference
 // implementation at apps/www/app/demo/gsap-scrollbar-demo.tsx (kept

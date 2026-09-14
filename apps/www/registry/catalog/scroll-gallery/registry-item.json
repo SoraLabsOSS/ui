@@ -8,9 +8,9 @@
   "registryDependencies": ["utils", "@soralabs/lib-scroll-trigger-utils"],
   "files": [
     {
-      "path": "registry/primitives/effects/scroll-gallery/index.tsx",
+      "path": "registry/catalog/scroll-gallery/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/effects/scroll-gallery.tsx"
+      "target": "components/sora-ui/catalog/scroll-gallery.tsx"
     }
   ],
   "meta": {

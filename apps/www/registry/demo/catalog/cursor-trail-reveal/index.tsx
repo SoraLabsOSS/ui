@@ -3,7 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { catalogPreviewScreenClassName } from "@/components/catalog/catalog-preview-classes";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
-import { CursorTrailReveal } from "@/registry/primitives/effects/cursor-trail-reveal";
+import { CursorTrailReveal } from "@/registry/catalog/cursor-trail-reveal";
 
 import { DEMO_TRAIL_IMAGES } from "./trail-images";
 

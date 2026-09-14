@@ -75,12 +75,24 @@ For animated Lucide icons:
 
 ### 4. Catalog (`/catalog` — Ready-to-use layout showcases)
 
-For full-page layout showcases documenting existing primitives:
+For full-page animated showcases and editorial layout sections:
 
 ```text
-1. content/catalog/<slug>.mdx   ← showcases underlying registry primitive
-2. content/catalog/meta.json    ← catalog navigation
-3. bun run registry:build
+1. registry/catalog/<name>/
+      index.tsx
+      registry-item.json
+
+2. registry/demo/catalog/<name>/index.tsx  ← showcase preview container
+
+3. content/catalog/<name>.mdx
+      <ComponentPreview name="<name>" />
+      <ComponentInstallation name="<name>" />
+
+4. content/catalog/meta.json    ← catalog navigation
+
+5. bun run registry:build
+
+6. bun run doctor <name>        ← verify component health
 ```
 
 Catalog showcase layouts are artistic showcases that intentionally preserve full motion and do not need `reduced-motion` branches, simplifying code and reducing review complexity.

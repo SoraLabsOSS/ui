@@ -7,9 +7,9 @@
   "registryDependencies": ["@soralabs/cursor-trail-reveal"],
   "files": [
     {
-      "path": "registry/demo/primitives/effects/cursor-trail-reveal/index.tsx",
+      "path": "registry/demo/catalog/cursor-trail-reveal/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/demo/effects/cursor-trail-reveal.tsx"
+      "target": "components/sora-ui/demo/catalog/cursor-trail-reveal.tsx"
     }
   ]
 }

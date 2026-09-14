@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
 import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
-import { scrollGalleryDemoSlides } from "@/registry/demo/primitives/effects/scroll-gallery";
-import { ScrollGallery } from "@/registry/primitives/effects/scroll-gallery";
+import { ScrollGallery } from "@/registry/catalog/scroll-gallery";
+import { scrollGalleryDemoSlides } from "@/registry/demo/catalog/scroll-gallery";
 
 export default function ScrollGalleryCatalogPreview() {
   const rootRef = useRef<HTMLDivElement>(null);

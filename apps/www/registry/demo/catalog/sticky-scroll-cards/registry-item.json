@@ -7,9 +7,9 @@
   "registryDependencies": ["@soralabs/sticky-scroll-cards"],
   "files": [
     {
-      "path": "registry/demo/primitives/effects/sticky-scroll-cards/index.tsx",
+      "path": "registry/demo/catalog/sticky-scroll-cards/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/demo/effects/sticky-scroll-cards.tsx"
+      "target": "components/sora-ui/demo/catalog/sticky-scroll-cards.tsx"
     }
   ]
 }

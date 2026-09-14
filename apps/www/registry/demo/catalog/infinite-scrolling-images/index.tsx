@@ -3,7 +3,7 @@
 import {
   InfiniteScrollingImages,
   type InfiniteScrollingImagesItem,
-} from "@/registry/primitives/effects/infinite-scrolling-images";
+} from "@/registry/catalog/infinite-scrolling-images";
 
 const INFINITE_SCROLLING_IMAGES_MEDIA =
   "https://cdn.soralabs.studio/media/demo/infinite-scrolling-images" as const;

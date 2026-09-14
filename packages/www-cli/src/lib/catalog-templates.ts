@@ -58,7 +58,7 @@ registryName: ${options.registryName}
 Place the layout showcase inside a relatively positioned container.
 
 \`\`\`tsx
-import { ${options.exportName} } from "@/components/sora-ui/${category}/${options.registryName}";
+import { ${options.exportName} } from "@/components/sora-ui/catalog/${options.registryName}";
 
 export default function ${options.exportName}Demo() {
   return (

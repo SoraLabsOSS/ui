@@ -75,10 +75,14 @@ registry/
     base/{name}/                                                 — Base UI + Motion components (UI tier)
     radix/{name}/                                                — Radix UI + Motion components (UI tier)
   primitives/
-    {animate|buttons|disclosure|effects|texts}/{name}/           — Unstyled animation primitives
+    {animate|buttons|disclosure|effects|texts}/{name}/           — Unstyled animation primitives (Motion tier)
+  catalog/{name}/                                                — Ready-to-use animated layout showcases (Catalog tier)
+  icons/{name}/                                                  — Animated Lucide icons (@soralabs/icons-*)
   demo/
     ui/{base|radix}/{name}/                                      — Manual demos for UI tier
-    primitives/{category}/{name}/                                — Manual demos for Primitives tier
+    primitives/{category}/{name}/                                — Manual demos for Motion tier
+    catalog/{name}/                                              — Showcase preview demos for Catalog tier
+    icons/{name}/                                                — Interactive preview demos for Icons tier
   hooks/, lib/
 ```
 

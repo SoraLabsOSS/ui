@@ -8,9 +8,9 @@
   "registryDependencies": ["utils"],
   "files": [
     {
-      "path": "registry/primitives/effects/infinite-scrolling-images/index.tsx",
+      "path": "registry/catalog/infinite-scrolling-images/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/effects/infinite-scrolling-images.tsx"
+      "target": "components/sora-ui/catalog/infinite-scrolling-images.tsx"
     }
   ],
   "meta": {

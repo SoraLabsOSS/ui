@@ -25,6 +25,8 @@ const CONTENT_MDX_PATHS = [
 ];
 
 const UI_FRAMEWORK_PREFIX = /^(base|radix)-/;
+const CATALOG_MATCH_RE = /^registry\/catalog\/([^/]+)\//;
+const DEMO_CATALOG_MATCH_RE = /^registry\/demo\/catalog\/([^/]+)\//;
 
 /**
  * Recursively collect all component/demo names referenced in .mdx files
@@ -112,6 +114,12 @@ function inferSyntheticDemoPath(item: RegistryItem): string {
   if (sourcePath.includes("/primitives/")) {
     return sourcePath.replace("/primitives/", "/demo/primitives/");
   }
+  if (sourcePath.includes("/catalog/")) {
+    return sourcePath.replace("/catalog/", "/demo/catalog/");
+  }
+  if (sourcePath.includes("/icons/")) {
+    return sourcePath.replace("/icons/", "/demo/icons/");
+  }
   if (sourcePath.includes("/components/")) {
     return sourcePath.replace("/components/", "/demo/components/");
   }
@@ -131,6 +139,18 @@ function getScaffoldHint(item: RegistryItem): string | null {
   if (primitiveMatch) {
     const [, category, name] = primitiveMatch;
     return `bun run create:primitive ${name} --category=${category} --yes`;
+  }
+
+  const catalogMatch = sourcePath.match(CATALOG_MATCH_RE);
+  if (catalogMatch) {
+    const [, name] = catalogMatch;
+    return `bun run create:catalog ${name} --yes`;
+  }
+
+  const demoCatalogMatch = sourcePath.match(DEMO_CATALOG_MATCH_RE);
+  if (demoCatalogMatch) {
+    const [, name] = demoCatalogMatch;
+    return `bun run create:catalog ${name} --yes`;
   }
 
   const uiMatch = sourcePath.match(/^registry\/ui\/(base|radix)\/([^/]+)\//);
@@ -216,14 +236,26 @@ function rewriteRegistryModulePath(content: string): string {
     return `@/${rest}`;
   }
 
-  const demoPrefixes = ["demo/ui/", "demo/primitives/", "demo/components/"];
+  const demoPrefixes = [
+    "demo/ui/",
+    "demo/primitives/",
+    "demo/components/",
+    "demo/catalog/",
+    "demo/icons/",
+  ];
   for (const prefix of demoPrefixes) {
     if (rest.startsWith(prefix)) {
       return `@/components/sora-ui/demo/${rest.slice(prefix.length)}`;
     }
   }
 
-  const standardPrefixes = ["ui/", "primitives/", "components/"];
+  const standardPrefixes = [
+    "ui/",
+    "primitives/",
+    "components/",
+    "catalog/",
+    "icons/",
+  ];
   for (const prefix of standardPrefixes) {
     if (rest.startsWith(prefix)) {
       return `@/components/sora-ui/${rest.slice(prefix.length)}`;

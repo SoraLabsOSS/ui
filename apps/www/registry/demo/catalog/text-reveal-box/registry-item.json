@@ -7,9 +7,9 @@
   "registryDependencies": ["@soralabs/text-reveal-box"],
   "files": [
     {
-      "path": "registry/demo/primitives/texts/text-reveal-box/index.tsx",
+      "path": "registry/demo/catalog/text-reveal-box/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/demo/texts/text-reveal-box.tsx"
+      "target": "components/sora-ui/demo/catalog/text-reveal-box.tsx"
     }
   ]
 }

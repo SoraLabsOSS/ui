@@ -7,9 +7,9 @@
   "registryDependencies": ["@soralabs/scroll-chapters"],
   "files": [
     {
-      "path": "registry/demo/primitives/effects/scroll-chapters/index.tsx",
+      "path": "registry/demo/catalog/scroll-chapters/index.tsx",
       "type": "registry:ui",
-      "target": "components/sora-ui/demo/effects/scroll-chapters.tsx"
+      "target": "components/sora-ui/demo/catalog/scroll-chapters.tsx"
     }
   ]
 }
