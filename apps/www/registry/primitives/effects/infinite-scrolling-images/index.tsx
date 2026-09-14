@@ -10,7 +10,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 export interface InfiniteScrollingImagesItem {
   alt?: string;
@@ -40,7 +39,6 @@ export interface InfiniteScrollingImagesProps
 }
 
 const REMOTE_IMAGE_SRC = /^https?:\/\//;
-const REDUCED_MOTION_VISIBLE = 1;
 
 function isRemoteImageSrc(src: string): boolean {
   return REMOTE_IMAGE_SRC.test(src);
@@ -76,7 +74,6 @@ function InfiniteScrollingImages({
   // isn't throttled by the `elapsed < minUpdateInterval` check below.
   const lastUpdateTimeRef = useRef(0);
   const touchStartYRef = useRef(0);
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   const updateFrame = useCallback(
     (delta: number) => {
@@ -107,7 +104,7 @@ function InfiniteScrollingImages({
   }, [minUpdateInterval, scrollThreshold, updateFrame]);
 
   useEffect(() => {
-    if (!keyboardControls || prefersReducedMotion) {
+    if (!keyboardControls) {
       return;
     }
 
@@ -123,10 +120,10 @@ function InfiniteScrollingImages({
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [keyboardControls, prefersReducedMotion, updateFrame]);
+  }, [keyboardControls, updateFrame]);
 
   useEffect(() => {
-    if (!autoplay || prefersReducedMotion || items.length === 0) {
+    if (!autoplay || items.length === 0) {
       return;
     }
 
@@ -138,19 +135,9 @@ function InfiniteScrollingImages({
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [
-    autoplay,
-    autoplayIntervalSeconds,
-    items.length,
-    prefersReducedMotion,
-    updateFrame,
-  ]);
+  }, [autoplay, autoplayIntervalSeconds, items.length, updateFrame]);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
     const container = containerRef.current;
     if (!container) {
       return;
@@ -184,11 +171,9 @@ function InfiniteScrollingImages({
       container.removeEventListener("touchstart", onTouchStart);
       container.removeEventListener("touchmove", onTouchMove);
     };
-  }, [flushScrollAccumulator, prefersReducedMotion]);
+  }, [flushScrollAccumulator]);
 
-  const safeFramesVisible = prefersReducedMotion
-    ? REDUCED_MOTION_VISIBLE
-    : Math.max(1, framesVisible);
+  const safeFramesVisible = Math.max(1, framesVisible);
   const start = currentIndex - renderBuffer;
   const end = currentIndex + safeFramesVisible + renderBuffer;
   const visibleCards: Array<{ imageIndex: number; index: number }> = [];
@@ -231,29 +216,19 @@ function InfiniteScrollingImages({
               animate={{
                 scale,
                 y,
-                transition: prefersReducedMotion
-                  ? { duration: 0 }
-                  : {
-                      damping: 20,
-                      mass: 0.5,
-                      stiffness: 250,
-                      type: "spring",
-                    },
+                transition: {
+                  damping: 20,
+                  mass: 0.5,
+                  stiffness: 250,
+                  type: "spring",
+                },
               }}
               className="absolute aspect-video w-[85%] max-w-[800px] overflow-hidden rounded-lg bg-black shadow-2xl"
               initial={false}
               key={card.index}
               style={{
-                filter: `blur(${prefersReducedMotion ? 0 : blur}px)`,
-                // Forcing opacity to 1 unconditionally used to reveal the
-                // whole `renderBuffer` — including already-scrolled-past
-                // cards scaled up to 2x for the normal crossfade. Reduced
-                // motion should only ever show the single current frame.
-                opacity: prefersReducedMotion
-                  ? card.index === currentIndex
-                    ? 1
-                    : 0
-                  : opacity,
+                filter: `blur(${blur}px)`,
+                opacity,
                 transitionDuration: "200ms",
                 transitionProperty: "opacity, filter",
                 transitionTimingFunction: "ease-in-out",

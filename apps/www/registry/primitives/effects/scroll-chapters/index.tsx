@@ -7,7 +7,6 @@ import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type ReactNode, useRef, useState } from "react";
-import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 import {
   observeWindowResize,
   waitForScrollerReady,
@@ -92,13 +91,18 @@ export interface ScrollChaptersProps {
 
 function resolveScrollChaptersClasses(
   className: string | undefined,
-  classNames: ScrollChaptersClassNames | undefined
+  classNames: ScrollChaptersClassNames | undefined,
+  embedded = false
 ) {
+  const defaultNav = embedded
+    ? "pointer-events-none fixed right-4 bottom-4 z-20 h-64 w-[min(21rem,calc(100%-2rem))] overflow-hidden sm:right-6 sm:bottom-6"
+    : LAYOUT.nav;
+
   return {
     chapter: cn(LAYOUT.chapter, classNames?.chapter),
     cursor: cn(LAYOUT.cursor, classNames?.cursor),
     cursorGhost: cn(LAYOUT.cursorGhost, classNames?.cursorGhost),
-    nav: cn(LAYOUT.nav, classNames?.nav),
+    nav: cn(defaultNav, classNames?.nav),
     panel: cn(LAYOUT.panel, classNames?.panel),
     progressCard: cn(LAYOUT.progressCard, classNames?.progressCard),
     root: cn(LAYOUT.root, className),
@@ -120,8 +124,7 @@ export function ScrollChapters({
   scroller: scrollerProp,
   startThreshold = 0.02,
 }: ScrollChaptersProps) {
-  const classes = resolveScrollChaptersClasses(className, classNames);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const classes = resolveScrollChaptersClasses(className, classNames, embedded);
 
   const rootRef = useRef<HTMLElement>(null);
   const chapterRefs = useRef<(HTMLElement | null)[]>([]);
@@ -190,12 +193,6 @@ export function ScrollChapters({
         await waitForScrollerReady(scroller);
 
         if (disposed || rootRef.current !== root) {
-          return;
-        }
-
-        if (prefersReducedMotion) {
-          gsap.set(progressCard, { opacity: 0 });
-          gsap.set(panel, { opacity: 0 });
           return;
         }
 
@@ -496,20 +493,23 @@ export function ScrollChapters({
         });
 
         // Mirrors the original's mobile skip: panels never animate in
-        // below the breakpoint at all. `activeChapterIndex` itself still
-        // updates below the breakpoint (cheap, and keeps state correct
-        // if the viewport grows back past it) — only the panel's
-        // visibility is gated.
-        mm = gsap.matchMedia();
-        mm.add(PANEL_BREAKPOINT, () => {
+        // below the breakpoint at all. When embedded (e.g. preview container),
+        // we enable panels directly because the container width is split.
+        if (embedded) {
           panelsEnabled = true;
           syncCurrentPanel();
-
-          return () => {
-            panelsEnabled = false;
+        } else {
+          mm = gsap.matchMedia();
+          mm.add(PANEL_BREAKPOINT, () => {
+            panelsEnabled = true;
             syncCurrentPanel();
-          };
-        });
+
+            return () => {
+              panelsEnabled = false;
+              syncCurrentPanel();
+            };
+          });
+        }
 
         if (scroller instanceof HTMLElement) {
           resizeObserver = new ResizeObserver(() => {
@@ -546,7 +546,6 @@ export function ScrollChapters({
         scrollerProp,
         refreshPriority,
         hasCards,
-        prefersReducedMotion,
         hideCardAtStart,
         hideCardAtEnd,
         startThreshold,

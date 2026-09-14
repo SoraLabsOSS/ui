@@ -1,7 +1,13 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { CodeXml, Maximize2, Minimize2, RotateCcw } from "lucide-react";
+import {
+  CodeXml,
+  ExternalLink,
+  Maximize2,
+  Minimize2,
+  RotateCcw,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
@@ -16,6 +22,7 @@ import { ThemeToggleDarkIcon, ThemeToggleLightIcon } from "./theme-toggle-icon";
 
 interface ComponentPagePreviewToolbarProps {
   className?: string;
+  exampleUrl?: string;
   hasSourceCode?: boolean;
   isExpanded: boolean;
   isSourceOpen?: boolean;
@@ -48,6 +55,7 @@ export function PreviewToolbarCell({
 
 export function ComponentPagePreviewToolbar({
   className,
+  exampleUrl,
   hasSourceCode = false,
   isExpanded,
   isSourceOpen = false,
@@ -63,12 +71,28 @@ export function ComponentPagePreviewToolbar({
         className
       )}
     >
+      {exampleUrl ? (
+        <PreviewToolbarCell>
+          <a
+            aria-label="Open preview in new tab"
+            className={catalogChromeToolbarIconClassName}
+            href={exampleUrl}
+            rel="noreferrer"
+            target="_blank"
+            title="Open full page preview in new tab"
+          >
+            <ExternalLink />
+          </a>
+        </PreviewToolbarCell>
+      ) : null}
+
       {hasSourceCode && onToggleSource ? (
         <PreviewToolbarCell active={isSourceOpen}>
           <ToolbarIconButton
             aria-label={isSourceOpen ? "Hide source" : "View source"}
             aria-pressed={isSourceOpen}
             onClick={onToggleSource}
+            title={isSourceOpen ? "Hide source code" : "View source code"}
           >
             <CodeXml />
           </ToolbarIconButton>
@@ -79,13 +103,22 @@ export function ComponentPagePreviewToolbar({
         <ToolbarIconButton
           aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
           onClick={onToggleExpanded}
+          title={
+            isExpanded
+              ? "Collapse view (⌘J / Ctrl+J)"
+              : "Maximize view (⌘J / Ctrl+J)"
+          }
         >
           {isExpanded ? <Minimize2 /> : <Maximize2 />}
         </ToolbarIconButton>
       </PreviewToolbarCell>
 
       <PreviewToolbarCell>
-        <ToolbarIconButton aria-label="Restart animation" onClick={onRestart}>
+        <ToolbarIconButton
+          aria-label="Restart animation"
+          onClick={onRestart}
+          title="Restart animation"
+        >
           <RotateCcw />
         </ToolbarIconButton>
       </PreviewToolbarCell>
@@ -107,17 +140,20 @@ interface ToolbarIconButtonProps {
   "aria-pressed"?: boolean;
   children: React.ReactNode;
   onClick: () => void;
+  title?: string;
 }
 
 function ToolbarIconButton({
   children,
   onClick,
+  title,
   ...ariaProps
 }: ToolbarIconButtonProps) {
   return (
     <button
       className={catalogChromeToolbarIconClassName}
       onClick={onClick}
+      title={title}
       type="button"
       {...ariaProps}
     >

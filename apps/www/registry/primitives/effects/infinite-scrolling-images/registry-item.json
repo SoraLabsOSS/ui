@@ -5,7 +5,7 @@
   "title": "Infinite Scrolling Images",
   "description": "An infinite card stack that advances with wheel, touch, or keyboard input using spring-based Motion transitions.",
   "dependencies": ["motion"],
-  "registryDependencies": ["@soralabs/hooks-use-prefers-reduced-motion"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/primitives/effects/infinite-scrolling-images/index.tsx",

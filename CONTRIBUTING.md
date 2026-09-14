@@ -198,11 +198,12 @@ validate the metadata contract.
 
 1. Catalog MDX files are layout showcases for existing primitives. Add/edit **`content/catalog/<slug>.mdx`** and list the slug in **`content/catalog/meta.json`**.
 2. Reference the underlying primitive with `<ComponentInstallation name="<registry-name>" />`.
+3. **Reduced motion policy**: Catalog showcases do not require `prefers-reduced-motion` fallbacks. They are intended as artistic full-motion showpieces, and omitting reduced-motion branching keeps showcase code clean and reduces PR review complexity.
 
 ### Component conventions
 
 - `"use client";` and import `cn` from **`@workspace/ui/lib/utils`** (not `@/lib/utils`) inside `registry/` files.
-- Respect **`prefers-reduced-motion`** via `useReducedMotion()` from `motion/react` — render static fallback or skip animation while preserving state updates.
+- Respect **`prefers-reduced-motion`** via `useReducedMotion()` from `motion/react` — render static fallback or skip animation while preserving state updates (applies strictly to Motion primitives and UI foundation components; Catalog showcases in `/catalog` are exempt to minimize review complexity).
 - JSDoc every prop (`/** ... */`, `@default` where relevant) for docs `TypeTable` entries.
 - Expose a **`ref`** on the root element where practical (React 19 style: `ref` as a normal prop).
 - Full Tailwind CSS class override support via `cn(...)` so consumers can customize borders, sizes, and colors just like shadcn/ui.

@@ -6,7 +6,6 @@ import { cn } from "@workspace/ui/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type CSSProperties, useMemo, useRef } from "react";
-import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 import {
   isWindowScroller,
   observeWindowResize,
@@ -456,7 +455,6 @@ export function TextRevealBox({
 
   const pinRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   const resolvedTiming = useMemo(
     () => resolveTiming(timingProp),
@@ -536,19 +534,7 @@ export function TextRevealBox({
         const { rgb: resolvedHighlight, alpha: resolvedAlpha } =
           readHighlightConfig(activeTrigger, highlightBg, highlightAlpha);
 
-        if (prefersReducedMotion) {
-          // updateWords(1, ...) would land past revealPortion, in the
-          // reverse-highlight phase — every word ends up covered by a solid
-          // highlight block with its text opacity at 0. lockWordsRevealed is
-          // the actual "fully revealed, plain readable" end state.
-          lockWordsRevealed(cachedWords, resolvedHighlight);
-          return;
-        }
-
-        // usePrefersReducedMotion() defaults to `true` on first mount, so this
-        // effect's first run may have already locked the words fully visible
-        // above. Reset to the progress=0 (hidden) state synchronously so
-        // there's no stuck "fully revealed" flash while ScrollTrigger mounts.
+        // Reset to progress=0 (hidden) state synchronously before ScrollTrigger mounts
         updateWords(
           0,
           cachedWords,
@@ -650,7 +636,6 @@ export function TextRevealBox({
         scrollerProp,
         resolvedTiming,
         embedded,
-        prefersReducedMotion,
       ],
     }
   );

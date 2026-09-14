@@ -69,6 +69,8 @@ For full-page layout showcases documenting existing primitives:
 3. bun run registry:build
 ```
 
+Catalog showcase layouts are artistic showcases that intentionally preserve full motion and do not need `reduced-motion` branches, simplifying code and reducing review complexity.
+
 ---
 
 ## On the docs site

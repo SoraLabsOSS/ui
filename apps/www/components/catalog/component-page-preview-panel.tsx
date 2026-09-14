@@ -2,17 +2,13 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { Loader } from "lucide-react";
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { previewComponents } from "@/__registry__/preview";
+import { useTheme } from "next-themes";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogPreviewMobilePanelClassName,
-  catalogPreviewMobileViewportClassName,
-  catalogPreviewScreenClassName,
   catalogPreviewToolbarRowClassName,
-  catalogPreviewViewportClassName,
 } from "./catalog-preview-classes";
-import { CatalogScrollArea } from "./catalog-scroll-area";
 import { ComponentPagePreviewToolbar } from "./component-page-preview-toolbar";
 import { ComponentPageSourcePanel } from "./component-page-source-panel";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
@@ -27,39 +23,97 @@ interface ComponentPagePreviewPanelProps {
 }
 
 export function ComponentPagePreviewPanel({
-  previewName,
+  previewName: _previewName,
   registryName,
   className,
   isExpanded,
   onToggleExpanded,
   sticky = true,
 }: ComponentPagePreviewPanelProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
   const [isSourceOpen, setIsSourceOpen] = useState(false);
   const isStacked = useCatalogStackedLayout();
   const { setToolbar } = useCatalogMobileChrome();
+  const { resolvedTheme } = useTheme();
 
-  const preview = useMemo(() => {
-    const Component = previewComponents[previewName];
-
-    if (!Component) {
-      return (
-        <p className="text-muted-foreground text-sm">
-          Preview for{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
-            {previewName}
-          </code>{" "}
-          is not available.
-        </p>
-      );
-    }
-
-    return <Component />;
-  }, [previewName]);
+  const exampleUrl = `/examples/catalog/${registryName}`;
 
   const handleRestart = useCallback(() => {
+    setIframeLoaded(false);
     setPreviewKey((current) => current + 1);
   }, []);
+
+  // Synchronize live theme toggle directly with the iframe DOM and via postMessage
+  const syncIframeTheme = useCallback(
+    (theme?: string) => {
+      const activeTheme = theme || resolvedTheme || "dark";
+      const isDark = activeTheme === "dark";
+      try {
+        const doc = iframeRef.current?.contentDocument;
+        if (doc?.documentElement) {
+          doc.documentElement.classList.toggle("dark", isDark);
+          doc.documentElement.classList.toggle("light", !isDark);
+          doc.documentElement.style.colorScheme = activeTheme;
+        }
+      } catch {
+        // Cross-origin fallback
+      }
+
+      try {
+        iframeRef.current?.contentWindow?.postMessage(
+          { type: "sora-catalog-theme-change", theme: activeTheme },
+          "*"
+        );
+      } catch {
+        // Ignore
+      }
+    },
+    [resolvedTheme]
+  );
+
+  useEffect(() => {
+    syncIframeTheme(resolvedTheme);
+  }, [resolvedTheme, syncIframeTheme]);
+
+  // Listen for iframe readiness or dismiss loading overlay after fallback timeout
+  useEffect(() => {
+    if (previewKey < 0) {
+      return;
+    }
+    function handleMessage(event: MessageEvent) {
+      if (event.data?.type === "sora-catalog-preview-ready") {
+        setIframeLoaded(true);
+        syncIframeTheme(resolvedTheme);
+      }
+    }
+
+    // Check if iframe is already loaded
+    try {
+      if (
+        iframeRef.current?.contentDocument?.readyState === "complete" &&
+        iframeRef.current.contentDocument.location.pathname !== "blank"
+      ) {
+        setIframeLoaded(true);
+        syncIframeTheme(resolvedTheme);
+      }
+    } catch {
+      // Cross-origin
+    }
+
+    // Safety timeout: dismiss loading overlay after 1.2s so it never gets stuck
+    const safetyTimer = setTimeout(() => {
+      setIframeLoaded(true);
+      syncIframeTheme(resolvedTheme);
+    }, 1200);
+
+    window.addEventListener("message", handleMessage);
+    return () => {
+      clearTimeout(safetyTimer);
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [previewKey, resolvedTheme, syncIframeTheme]);
 
   const handleToggleSource = useCallback(() => {
     if (isSourceOpen) {
@@ -85,6 +139,7 @@ export function ComponentPagePreviewPanel({
   const previewToolbar = useMemo(
     () => (
       <ComponentPagePreviewToolbar
+        exampleUrl={exampleUrl}
         hasSourceCode
         isExpanded={isExpanded}
         isSourceOpen={isSourceOpen}
@@ -94,6 +149,7 @@ export function ComponentPagePreviewPanel({
       />
     ),
     [
+      exampleUrl,
       handleRestart,
       handleToggleExpanded,
       handleToggleSource,
@@ -112,39 +168,6 @@ export function ComponentPagePreviewPanel({
     return () => setToolbar(null);
   }, [isExpanded, isStacked, previewToolbar, setToolbar]);
 
-  const remountKey = `${previewKey}`;
-
-  const previewBody = (
-    <div className="w-full max-lg:px-0 lg:px-0">
-      <div
-        className="w-full"
-        key={remountKey}
-        onClickCapture={(event) => {
-          const anchor = (event.target as HTMLElement).closest("a[href]");
-          if (anchor) {
-            event.preventDefault();
-          }
-        }}
-      >
-        <Suspense
-          fallback={
-            <div
-              className={cn(
-                catalogPreviewScreenClassName,
-                "flex w-full items-center justify-center gap-2 text-muted-foreground text-sm"
-              )}
-            >
-              <Loader className="size-4 animate-spin" />
-              Loading preview...
-            </div>
-          }
-        >
-          {preview}
-        </Suspense>
-      </div>
-    </div>
-  );
-
   return (
     <div
       className={cn(
@@ -159,19 +182,26 @@ export function ComponentPagePreviewPanel({
         {previewToolbar}
       </div>
 
-      {isStacked && !isExpanded ? (
-        <div className={catalogPreviewMobileViewportClassName}>
-          {previewBody}
-        </div>
-      ) : (
-        <CatalogScrollArea
-          className="min-h-0 flex-1 lg:h-full"
-          hideScrollbar
-          viewportClassName={catalogPreviewViewportClassName}
-        >
-          {previewBody}
-        </CatalogScrollArea>
-      )}
+      <div className="relative min-h-[520px] w-full flex-1 overflow-hidden rounded-b-2xl bg-background max-lg:h-[72dvh] lg:h-full">
+        {!iframeLoaded && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 bg-secondary/80 text-muted-foreground text-sm backdrop-blur-sm">
+            <Loader className="size-4 animate-spin" />
+            Loading preview...
+          </div>
+        )}
+        {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Native iframe onLoad state tracking. */}
+        <iframe
+          className="size-full border-0 bg-background"
+          key={`${registryName}-${previewKey}`}
+          onLoad={() => {
+            setIframeLoaded(true);
+            syncIframeTheme(resolvedTheme);
+          }}
+          ref={iframeRef}
+          src={exampleUrl}
+          title={`${registryName} preview`}
+        />
+      </div>
 
       <ComponentPageSourcePanel
         onClose={handleCloseSource}

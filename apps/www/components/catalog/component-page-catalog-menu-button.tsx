@@ -34,7 +34,7 @@ export function ComponentPageCatalogMenuButton({
         onClick={toggle}
         type="button"
       >
-        <SidebarToggleIcon className="size-4" isOpen={open} />
+        <SidebarToggleIcon className="size-5" isOpen={open} />
       </button>
     );
   }

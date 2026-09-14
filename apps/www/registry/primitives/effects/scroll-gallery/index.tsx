@@ -5,7 +5,6 @@ import { cn } from "@workspace/ui/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type CSSProperties, useMemo, useRef } from "react";
-import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 import {
   isWindowScroller,
   observeWindowResize,
@@ -400,7 +399,6 @@ export function ScrollGallery({
     [variant, classNames]
   );
 
-  const prefersReducedMotion = usePrefersReducedMotion();
   const resolvedTiming = useMemo(() => resolveTiming(timingProp), [timingProp]);
   const scrollConfig = useMemo(() => {
     if (!embedded) {
@@ -440,7 +438,7 @@ export function ScrollGallery({
   const exploreLinkRef = useRef<HTMLAnchorElement>(null);
   const slideImagesRef = useRef<HTMLDivElement>(null);
 
-  const shouldAnimate = !prefersReducedMotion && slides.length > 0;
+  const shouldAnimate = slides.length > 0;
   const displayPrefix = showInfoBand && showPrefix && Boolean(prefixLabel);
   const displayLink = showInfoBand && showLink;
 
@@ -846,15 +844,7 @@ export function ScrollGallery({
 
   const firstSlide = slides[0];
   const initialLinkLabel = firstSlide?.linkLabel ?? linkLabel;
-  // scaleFrom is the pre-scroll "zoomed in" starting point that the GSAP
-  // mount corrects toward scaleTo as the user scrolls. That mount never runs
-  // under reduced motion (shouldAnimate gates it off entirely, and there's
-  // no equivalent to StickyScrollCards' end-state snapshot here), so without
-  // this branch the first slide would sit permanently scaled up — the only
-  // slide ever shown, stuck at its zoomed-in starting frame.
-  const initialImageScale = prefersReducedMotion
-    ? scrollConfig.timing.scaleTo
-    : scrollConfig.timing.scaleFrom;
+  const initialImageScale = scrollConfig.timing.scaleFrom;
 
   const trackStyle = {
     "--sg-scroll-vh": scrollDistanceVh,

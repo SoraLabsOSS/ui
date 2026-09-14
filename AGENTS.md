@@ -92,7 +92,7 @@ registry/
 
 - `"use client";` + import `cn` from `@workspace/ui/lib/utils` (not `@/lib/utils`) inside `registry/` files.
 - Double-quoted strings, biome/ultracite-formatted (`ultracite/biome/core`, `react`, `next` presets extended in `biome.jsonc`).
-- **`prefers-reduced-motion` must be respected** via `useReducedMotion()` from `motion/react` — either render a static/no-animation fallback branch, or skip the animated transition while still updating state.
+- **`prefers-reduced-motion` must be respected** via `useReducedMotion()` from `motion/react` — either render a static/no-animation fallback branch, or skip the animated transition while still updating state. **Catalog exception:** Catalog showcase layouts in `/catalog` do not need `reduced-motion` branches — this preserves intended full artistic motion while avoiding code bloat and significantly reducing review complexity.
 - Props are individually JSDoc-commented (`/** ... */`, with `@default` tags) — these comments are the source for docs `TypeTable` entries.
 - Expose a forwarded `ref` prop (React 19 style: `ref` as a normal prop, not `forwardRef`) on the root element where practical.
 - Full Tailwind CSS class override support via `cn(...)` so consumers can override sizes, borders, and colors seamlessly.

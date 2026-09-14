@@ -3,7 +3,6 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { type ComponentPropsWithoutRef, useEffect, useRef } from "react";
-import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 const MASK_LAYER_COUNT = 10;
 const DEFAULT_IMAGE_SIZE = 175;
@@ -82,7 +81,6 @@ function CursorTrailReveal({
   const lastMousePosRef = useRef({ x: 0, y: 0 });
   const interpolatedMousePosRef = useRef({ x: 0, y: 0 });
   const isDesktopRef = useRef(false);
-  const prefersReducedMotion = usePrefersReducedMotion();
   const configRef = useRef<TrailConfig>({
     imageLifespan: 1000,
     mouseThreshold,
@@ -138,7 +136,12 @@ function CursorTrailReveal({
     const trailImageCount = images.length;
     const config = configRef.current;
 
-    isDesktopRef.current = window.innerWidth > desktopBreakpoint;
+    const checkIsDesktop = () =>
+      typeof window !== "undefined" &&
+      (window.innerWidth > desktopBreakpoint ||
+        window.matchMedia("(pointer: fine)").matches);
+
+    isDesktopRef.current = checkIsDesktop();
 
     const getMouseDistance = () =>
       MathUtils.distance(
@@ -300,7 +303,7 @@ function CursorTrailReveal({
     };
 
     const startAnimation = (): (() => void) | null => {
-      if (!isDesktopRef.current || prefersReducedMotion) {
+      if (!isDesktopRef.current) {
         return null;
       }
 
@@ -333,25 +336,20 @@ function CursorTrailReveal({
     let cleanUpMouseListener: (() => void) | null = null;
 
     const handleResize = () => {
-      const wasDesktop = isDesktopRef.current;
-      isDesktopRef.current = window.innerWidth > desktopBreakpoint;
+      isDesktopRef.current = checkIsDesktop();
 
-      if (prefersReducedMotion) {
-        return;
-      }
-
-      if (isDesktopRef.current && !wasDesktop) {
-        cleanUpMouseListener = startAnimation();
-      } else if (!isDesktopRef.current && wasDesktop) {
+      if (!isDesktopRef.current) {
         stopAnimation();
         cleanUpMouseListener?.();
         cleanUpMouseListener = null;
+      } else if (cleanUpMouseListener === null) {
+        cleanUpMouseListener = startAnimation();
       }
     };
 
     window.addEventListener("resize", handleResize);
 
-    if (!prefersReducedMotion && isDesktopRef.current) {
+    if (isDesktopRef.current) {
       cleanUpMouseListener = startAnimation();
     }
 
@@ -360,7 +358,7 @@ function CursorTrailReveal({
       cleanUpMouseListener?.();
       window.removeEventListener("resize", handleResize);
     };
-  }, [desktopBreakpoint, imageSize, images, maskColor, prefersReducedMotion]);
+  }, [desktopBreakpoint, imageSize, images, maskColor]);
 
   return (
     <div

@@ -245,4 +245,4 @@ Provide at least 3 slides for the scroll distance to feel earned. With fewer tha
 
 ## Accessibility
 
-The title element stays in the DOM for screen readers while GSAP animates it. Images use `alt` from slide `title`. The CTA link updates `href` (and label when using per-slide `linkLabel`) on each title change. When `prefers-reduced-motion: reduce` is set, scroll pinning is skipped and the first slide is shown statically.
+The title element stays in the DOM for screen readers while GSAP animates it. Images use accessible `alt` text from the slide `title`, and the CTA link remains keyboard-focusable and updates `href` and `linkLabel` on each slide transition.

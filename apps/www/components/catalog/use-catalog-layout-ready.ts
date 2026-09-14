@@ -1,6 +1,11 @@
 "use client";
 
-import { type RefObject, useLayoutEffect, useState } from "react";
+import {
+  type RefObject,
+  useLayoutEffect,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 const LG_MEDIA = "(min-width: 1024px)";
 
@@ -9,10 +14,24 @@ interface CatalogLayoutReadyState {
   isReady: boolean;
 }
 
+function subscribeLargeScreen(onStoreChange: () => void) {
+  const media = window.matchMedia(LG_MEDIA);
+  media.addEventListener("change", onStoreChange);
+  return () => media.removeEventListener("change", onStoreChange);
+}
+
+function getLargeScreenSnapshot() {
+  return window.matchMedia(LG_MEDIA).matches;
+}
+
 export function useCatalogLayoutReady(
   layoutRef: RefObject<HTMLDivElement | null>
 ): CatalogLayoutReadyState {
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const isLargeScreen = useSyncExternalStore(
+    subscribeLargeScreen,
+    getLargeScreenSnapshot,
+    () => true
+  );
   const [isReady, setIsReady] = useState(false);
 
   useLayoutEffect(() => {
@@ -23,17 +42,11 @@ export function useCatalogLayoutReady(
 
     let cancelled = false;
 
-    const media = window.matchMedia(LG_MEDIA);
     const syncLayoutWidth = () => {
       node.style.setProperty("--catalog-layout-width", `${node.clientWidth}px`);
     };
 
-    const syncLargeScreen = () => {
-      setIsLargeScreen(media.matches);
-      syncLayoutWidth();
-    };
-    syncLargeScreen();
-    media.addEventListener("change", syncLargeScreen);
+    syncLayoutWidth();
 
     let initialSizeSynced = false;
     const observer = new ResizeObserver(() => {
@@ -48,7 +61,6 @@ export function useCatalogLayoutReady(
     return () => {
       cancelled = true;
       observer.disconnect();
-      media.removeEventListener("change", syncLargeScreen);
     };
   }, [layoutRef]);
 

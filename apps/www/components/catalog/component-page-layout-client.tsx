@@ -115,6 +115,7 @@ export function ComponentPageLayoutClient({
     return () => cancelAnimationFrame(id);
   }, []);
 
+  // Collapse preview on Escape
   useEffect(() => {
     if (!isExpanded) {
       return;
@@ -124,7 +125,6 @@ export function ComponentPageLayoutClient({
       if (event.key !== "Escape") {
         return;
       }
-
       const hasOpenSheet = document.querySelector(
         '[data-slot="sheet-content"][data-state="open"]'
       );
@@ -141,6 +141,31 @@ export function ComponentPageLayoutClient({
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [isExpanded]);
+
+  // Toggle preview maximize/collapse via Cmd+J / Ctrl+J (matching Skiper UX)
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        !(event.metaKey || event.ctrlKey) ||
+        event.key.toLowerCase() !== "j"
+      ) {
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      if (
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+      event.preventDefault();
+      handleToggleExpanded();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [handleToggleExpanded]);
 
   const docsContent = (
     <div className="flex w-full min-w-0 justify-center">

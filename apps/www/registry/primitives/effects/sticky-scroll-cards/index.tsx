@@ -6,7 +6,6 @@ import { cn } from "@workspace/ui/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type CSSProperties, type ReactNode, useMemo, useRef } from "react";
-import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 import {
   isWindowScroller,
   observeWindowResize,
@@ -223,25 +222,6 @@ function setInitialTransforms(refs: CardRefs) {
   gsap.set(refs.backEls, { rotationY: -180 });
 }
 
-// Snapshots the "just flipped, nothing dismissed yet" moment — not
-// progress=1. The literal end of the sequence is every card flown off
-// (y: -250%) and the front card hidden behind its own flip: an accurate
-// last frame, but a blank one. Reduced-motion visitors never watched the
-// scroll, so they need the frame where the content is actually visible.
-function applyReducedMotionEndState(refs: CardRefs, timing: ResolvedTiming) {
-  if (refs.headlineEl) {
-    gsap.set(refs.headlineEl, { y: "-100%" });
-  }
-  gsap.set(refs.frontEl, { rotationY: 180, y: "-50%" });
-  for (const [i, el] of refs.backEls.entries()) {
-    gsap.set(el, {
-      rotation: angleAt(timing.flipTiltAngles, i),
-      rotationY: 0,
-      y: "-50%",
-    });
-  }
-}
-
 function StickyScrollCard({
   badge,
   card,
@@ -288,7 +268,6 @@ export function StickyScrollCards({
     [variant, className, classNames]
   );
   const resolvedTiming = useMemo(() => resolveTiming(timingProp), [timingProp]);
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -366,11 +345,6 @@ export function StickyScrollCards({
 
         const refs: CardRefs = { frontEl, backEls, headlineEl };
         setInitialTransforms(refs);
-
-        if (prefersReducedMotion) {
-          applyReducedMotionEndState(refs, resolvedTiming);
-          return;
-        }
 
         const svhToProgress = (svh: number) => svh / totalScrollVh;
         const enterEndProgress = svhToProgress(resolvedTiming.cardsEnterEnd);
@@ -539,7 +513,6 @@ export function StickyScrollCards({
         resolvedTiming,
         totalScrollVh,
         hasCards,
-        prefersReducedMotion,
       ],
       scope: embedded ? trackRef : sectionRef,
     }

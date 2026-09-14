@@ -39,7 +39,7 @@ export function InfiniteScrollingImagesExample() {
   return (
     <div className="flex h-full w-full min-w-0 items-center justify-center py-6 lg:py-10">
       <InfiniteScrollingImages
-        className="h-[min(56dvh,560px)] w-full md:h-screen"
+        className="w-full md:h-screen"
         items={DEMO_ITEMS}
       />
     </div>

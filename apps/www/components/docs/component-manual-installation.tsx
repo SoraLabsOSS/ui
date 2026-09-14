@@ -82,7 +82,7 @@ export const ComponentManualInstallation = ({
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className="-mt-6">
+    <div className="mt-0 [&_h4]:mt-0!">
       <Steps>
         {beforeSteps}
 

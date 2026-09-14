@@ -73,6 +73,9 @@ export function setThemeWithTransition(
   injectTransitionStyles();
 
   const transition = doc.startViewTransition(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.classList.toggle("light", theme === "light");
+    document.documentElement.style.colorScheme = theme;
     setTheme(theme);
   });
   transition.finished.catch(() => undefined);

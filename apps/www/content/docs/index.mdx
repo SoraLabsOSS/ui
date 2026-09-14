@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: What Sora UI is, how the copy-paste component model works, and why it's built for React + Motion + Tailwind CSS.
+description: What Sora UI is, how the copy-paste component model works, AI & MCP support, and why it's built for React, Motion, GSAP, and Tailwind CSS.
 ---
 
 **Sora UI is a distribution of React components** built with [Tailwind CSS](https://tailwindcss.com/) and [Motion](https://motion.dev/), based on the shadcn registry and inspired by [shadcn/ui](https://ui.shadcn.com/) and [Magic UI](https://magicui.design/). Our goal is to help anyone add tasteful, accessible, Motion‑powered animation to their UI while keeping sites fast and maintainable.
@@ -14,6 +14,21 @@ Like [shadcn/ui](https://ui.shadcn.com/), **Sora UI is not a typical install‑f
 - **Motion**: Motion- and GSAP-powered building blocks you install with the shadcn CLI (`@soralabs/*`) — buttons, text effects, disclosure, cursors, and more. Browse the [Motion](/docs/motion) section for live previews, API reference, and install commands.
 - **UI**: Styled app components built with [Base UI](https://base-ui.com/), [Radix UI](https://radix-ui.com/), and Motion — buttons, checkboxes, dialogs, and everyday UI. See the [UI](/ui) section.
 - **Catalog**: Curated compositions and layout showcases built from primitives — see the [Catalog](/catalog) for full-page examples and patterns you can adapt in your app.
+- **AI & MCP**: Built-in [Model Context Protocol (MCP)](/docs/mcp) support via `@soralabs/xmcp`, providing AI assistants with live tools, component schemas, and architectural composition rules.
+
+## Motion-first, powered by Motion and GSAP
+
+While [Motion](https://motion.dev/) serves as the primary engine for reactive micro-interactions, layout transitions, and spring physics, **Sora UI also utilizes [GSAP](https://gsap.com/) (and ScrollTrigger) whenever needed**.
+
+For complex timeline orchestrations, scrub-driven scroll animations, horizontal track pinning, and high-performance inertia flings, GSAP provides rock-solid precision. We choose the best tool for each specific interaction without locking you into a single paradigm.
+
+## AI-Native & MCP Support
+
+Sora UI is designed from the ground up for modern development workflows where developers pair program with AI agents.
+
+- **First-class MCP Server**: With our remote [MCP server](/docs/mcp) (`apps/xmcp`), AI coding assistants (such as Claude Code, Cursor, Windsurf, and v0) can search documentation, inspect installable primitives, fetch source code, and validate component compositions against accessibility constraints.
+- **Agent Metadata**: Registry components publish structured `agentMetadata` (intent, accessibility constraints, motion physics, and composition rules) so models reason accurately rather than guessing.
+- **Continuous AI Focus**: AI and MCP support will be heavily pushed and expanded throughout Sora UI's roadmap — continuously enhancing agent tooling, context delivery, and automation to provide the best possible AI-assisted UI engineering experience.
 
 ## Inspiration & attribution
 
@@ -28,8 +43,9 @@ Questions, bugs, and ideas are welcome on our [GitHub community hub](/docs/commu
 ## Why Sora UI?
 
 1. **Copy‑first**: Install components into your project and adapt them at their core to your design system.
-2. **Animation‑first, powered by Motion**: Consistent, composable motion patterns that make interfaces feel modern and engaging.
-3. **Performance & accessibility**: Sensible defaults and patterns that keep your site fast by default.
-4. **Style‑agnostic**: Not prescriptive about look and feel; baseline styles are minimal and easy to restyle.
-5. **Multi‑primitive support**: We aim to support and port components across multiple primitive libraries (Radix UI, Base UI, Headless UI).
-6. **Complementary to Magic UI and shadcn/ui**: Works alongside these projects, filling the animation‑focused gap.
+2. **Animation‑first (Motion + GSAP)**: Consistent, composable motion patterns powered by Motion, with GSAP stepping in seamlessly for advanced scroll & timeline interactions.
+3. **AI & MCP-Ready**: Native MCP tools and agent metadata, with ongoing advancements dedicated to making AI pair programming faster and more accurate.
+4. **Performance & accessibility**: Sensible defaults and reduced-motion support that keep your site fast by default.
+5. **Style‑agnostic**: Not prescriptive about look and feel; baseline styles are minimal and easy to restyle with Tailwind CSS.
+6. **Multi‑primitive support**: Components built across multiple headless foundations (Radix UI, Base UI).
+7. **Complementary to Magic UI and shadcn/ui**: Works alongside these projects, filling the animation‑focused gap.
