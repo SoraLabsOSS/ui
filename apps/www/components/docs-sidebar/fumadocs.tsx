@@ -117,12 +117,17 @@ function getPrimitiveRootFolders(treeRoot: PageTree.Root): PageTree.Folder[] {
 
 /**
  * Section trees (Motion, Icons, UI) only appear after opening that section.
- * Guide pages keep the layout `links` above Menu and must not leak Motion.
+ * Guide pages keep the layout `links` above Menu and must not duplicate Guide links below Menu.
  */
 function getPageTreeSidebarItems(
   root: PageTree.Root,
-  treePath: PageTree.Node[]
+  treePath: PageTree.Node[],
+  pathname?: string
 ): PageTree.Node[] | null {
+  if (pathname && (pathname === "/docs" || pathname.startsWith("/docs/"))) {
+    return null;
+  }
+
   const sectionRoot = treePath.findLast(isRootFolder);
   if (sectionRoot) {
     return sectionRoot.children;
@@ -261,7 +266,7 @@ export function SidebarPageTree(props: {
 
   return useMemo(() => {
     const { Separator, Item, Folder } = props.components ?? {};
-    const sidebarItems = getPageTreeSidebarItems(root, treePath);
+    const sidebarItems = getPageTreeSidebarItems(root, treePath, pathname);
     if (!sidebarItems) {
       return null;
     }
