@@ -230,6 +230,39 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // Public component registry (shadcn CLI & component previews)
+        source: "/r/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, stale-while-revalidate=86400",
+          },
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET, OPTIONS" },
+        ],
+      },
+      {
+        // Static fonts (immutable long-term caching)
+        source: "/fonts/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
+      },
+      {
+        // Static images
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
     ];
   },
 };

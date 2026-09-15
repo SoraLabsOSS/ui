@@ -1,46 +1,26 @@
 "use client";
 
-import { buttonVariants } from "@workspace/ui/components/ui/button";
-import { cn } from "@workspace/ui/lib/utils";
-import { MessageCircleIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import {
-  AISearch,
-  AISearchPanel,
-  AISearchTrigger,
-  isAskAiPath,
-} from "@/components/ai/search";
+import { isAskAiPath } from "./is-ask-ai-path";
 
-function AISearchSiteTrigger() {
+const AISearchRootLazy = dynamic(
+  () => import("./search").then((mod) => mod.AISearchRootComponent),
+  { ssr: false }
+);
+
+/**
+ * Single Ask AI instance for the whole app — lives in the doc layout.
+ * Hidden on home, settings, and auth.
+ * Loaded dynamically so that AI SDK, chat runtime, and markdown AST
+ * parsers are completely excluded from the initial critical JS bundle.
+ */
+export function AISearchRoot() {
   const pathname = usePathname();
 
   if (!isAskAiPath(pathname)) {
     return null;
   }
 
-  return (
-    <AISearchTrigger
-      className={cn(
-        buttonVariants({
-          variant: "secondary",
-          className: "rounded-2xl text-fd-muted-foreground",
-        })
-      )}
-      position="float"
-    >
-      <MessageCircleIcon className="size-4.5" />
-      Ask AI
-    </AISearchTrigger>
-  );
-}
-
-/** Single Ask AI instance for the whole app — lives in the root layout.
- * Hidden on home, settings, and auth. */
-export function AISearchRoot() {
-  return (
-    <AISearch>
-      <AISearchPanel />
-      <AISearchSiteTrigger />
-    </AISearch>
-  );
+  return <AISearchRootLazy />;
 }

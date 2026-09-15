@@ -7,7 +7,6 @@ import "./globals.css";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionConfig } from "motion/react";
-import Script from "next/script";
 import NextTopLoader from "nextjs-toploader";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
@@ -113,9 +112,11 @@ export default function Layout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <head>
-        <Script suppressHydrationWarning type="application/ld+json">
-          {JSON.stringify(jsonLd)}
-        </Script>
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script injection
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          type="application/ld+json"
+        />
       </head>
 
       <body

@@ -1,5 +1,6 @@
 "use client";
 import { type UseChatHelpers, useChat } from "@ai-sdk/react";
+import { buttonVariants as uiButtonVariants } from "@workspace/ui/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -22,6 +23,7 @@ import {
   X,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -38,7 +40,11 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { plainSourceTitle } from "@/lib/plain-text";
-import { Markdown } from "../markdown";
+
+const Markdown = dynamic(
+  () => import("../markdown").then((mod) => mod.Markdown),
+  { ssr: false }
+);
 
 export type ChatUIMessage = UIMessage<
   never,
@@ -55,17 +61,7 @@ const Context = createContext<{
   chat: UseChatHelpers<ChatUIMessage>;
 } | null>(null);
 
-const HIDE_ASK_AI_PREFIXES = ["/auth"] as const;
-
-export function isAskAiPath(pathname: string) {
-  if (pathname === "/") {
-    return false;
-  }
-
-  return !HIDE_ASK_AI_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
-  );
-}
+import { isAskAiPath } from "./is-ask-ai-path";
 
 const LOADING_MESSAGES = [
   "Searching...",
@@ -512,15 +508,13 @@ function ScrollToBottomButton({
         className={cn(
           "pointer-events-auto inline-flex size-8 items-center justify-center rounded-full border border-fd-border bg-fd-background text-fd-foreground shadow-md",
           "hover:bg-fd-muted",
-          reduceMotion
-            ? active
-              ? "opacity-100"
-              : "pointer-events-none opacity-0"
-            : [
-                "transition-[translate,scale,opacity] duration-200",
-                "data-[active=false]:pointer-events-none data-[active=false]:translate-y-full data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)]",
-                "data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)]",
-              ]
+          reduceMotion &&
+            (active ? "opacity-100" : "pointer-events-none opacity-0"),
+          !reduceMotion && [
+            "transition-[translate,scale,opacity] duration-200",
+            "data-[active=false]:pointer-events-none data-[active=false]:translate-y-full data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)]",
+            "data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)]",
+          ]
         )}
         data-active={active ? "true" : "false"}
         inert={active ? undefined : true}
@@ -984,4 +978,36 @@ export function useAISearchContext() {
 
 function useChatContext() {
   return useAISearchContext().chat;
+}
+
+export function AISearchSiteTrigger() {
+  const pathname = usePathname();
+
+  if (!isAskAiPath(pathname)) {
+    return null;
+  }
+
+  return (
+    <AISearchTrigger
+      className={cn(
+        uiButtonVariants({
+          variant: "secondary",
+          className: "rounded-2xl text-fd-muted-foreground",
+        })
+      )}
+      position="float"
+    >
+      <MessageCircleIcon className="size-4.5" />
+      Ask AI
+    </AISearchTrigger>
+  );
+}
+
+export function AISearchRootComponent() {
+  return (
+    <AISearch>
+      <AISearchPanel />
+      <AISearchSiteTrigger />
+    </AISearch>
+  );
 }
