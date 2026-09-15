@@ -23,7 +23,7 @@ Sora UI
 
 ## Highlights
 
-- **AI-Native & MCP-Ready**: Includes an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server (`apps/xmcp`) with rich metadata (intent, accessibility constraints, motion physics, and composition rules) for AI coding agents (Cursor, Claude, v0).
+- **Understood by Humans & AI**: UI components whose behavior, constraints, composition, and metadata are understandable by both humans and AI. Powered by an official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server (`apps/xmcp`) publishing structured intent, accessibility constraints, motion semantics, and composition rules.
 - **Motion First**: Production-ready micro-interactions and animations built on Motion with first-class `prefers-reduced-motion` accessibility support.
 - **Modern Foundation**: Built on React 19, Tailwind CSS v4, Base UI, and Radix UI. Zero-overhead styling with full class override support via `cn(...)`.
 - **High-Performance Monorepo**: Powered by Bun 1.3, Turborepo, and Biome/Ultracite for lightning-fast builds, linting, and component scaffolding.
