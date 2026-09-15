@@ -29,7 +29,8 @@ export function createBlogMetadata(override: Metadata): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      site: "@soralabs_io",
+      site: "@axyl1410",
+      creator: "@axyl1410",
       title: override.title ?? undefined,
       description: override.description ?? undefined,
       images: [`${getMetadataBaseUrl()}${BLOG_INDEX_OG_IMAGE_PATH}`],

@@ -1144,21 +1144,6 @@
 }
 
 /* ------------------------- Outseta Widget Styling -------------------------------------------------- */
-@font-face {
-  font-family: Haffer Mono;
-  src: url("/fonts/sora/HafferMonoMedium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Haffer VF;
-  src: url("/fonts/sora/HafferStandardUprights-VF.ttf") format("truetype");
-  font-weight: 100 1000;
-  font-style: normal;
-  font-display: swap;
-}
 
 .home-layout [data-environment] body {
   display: flex;
@@ -1412,10 +1397,7 @@
    -------------------------------------------------------------------------- */
 
 .home-layout .h-ml {
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 3.875em;
   font-weight: 400;
   line-height: 1;
@@ -1424,10 +1406,7 @@
 
 .home-layout .scribble {
   flex: none;
-  font-family:
-    Brisa Pro,
-    Arial,
-    sans-serif;
+  font-family: var(--font-brisa-pro), Arial, sans-serif;
   font-size: 1.5625em;
   font-weight: 400;
   line-height: 0.8;

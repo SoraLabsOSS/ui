@@ -215,7 +215,7 @@ export function Navbar({
                       <title>Sora UI</title>
                       <text
                         fill="currentColor"
-                        fontFamily="'Haffer XH', 'Haffer VF', -apple-system, BlinkMacSystemFont, sans-serif"
+                        fontFamily="var(--font-sf-pro-display), system-ui, sans-serif"
                         fontSize="54"
                         fontWeight="900"
                         letterSpacing="-1.5px"
@@ -468,12 +468,6 @@ export function Navbar({
                                 data-underline-link=""
                               >
                                 Catalog Layouts
-                              </span>
-                              <span
-                                className="nav-bar__big-span-number"
-                                data-vault-total=""
-                              >
-                                20+
                               </span>
                             </Link>
                             <div className="is--nav-transparent line" />

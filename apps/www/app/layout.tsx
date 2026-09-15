@@ -17,6 +17,7 @@ import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { PageTransitionProvider } from "@/components/page-transition/page-transition-provider";
 import { QueryClientRootProvider } from "@/components/query-client-root-provider";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
+import { fontSfPro } from "@/lib/fonts";
 import { jsonLd } from "@/lib/json-ld";
 import {
   getOgMetadataImages,
@@ -88,7 +89,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@soralabs_io",
+    site: "@axyl1410",
+    creator: "@axyl1410",
     title: "Sora UI",
     description: SITE_DESCRIPTION,
     images: defaultTwitterImages,
@@ -105,29 +107,12 @@ export default function Layout({ children }: { children: ReactNode }) {
   );
 
   return (
-    <html className="sf-pro-display" lang="en" suppressHydrationWarning>
+    <html
+      className={cn(fontSfPro.variable, "font-sans")}
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
-        <link
-          as="font"
-          crossOrigin="anonymous"
-          href="/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYREGULAR.woff2"
-          rel="preload"
-          type="font/woff2"
-        />
-        <link
-          as="font"
-          crossOrigin="anonymous"
-          href="/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYMEDIUM.woff2"
-          rel="preload"
-          type="font/woff2"
-        />
-        <link
-          as="font"
-          crossOrigin="anonymous"
-          href="/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYBOLD.woff2"
-          rel="preload"
-          type="font/woff2"
-        />
         <Script suppressHydrationWarning type="application/ld+json">
           {JSON.stringify(jsonLd)}
         </Script>

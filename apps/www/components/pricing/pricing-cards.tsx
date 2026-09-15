@@ -61,7 +61,7 @@ export function PricingCards() {
               </div>
 
               <div className="mt-[1.25em] flex items-baseline gap-[0.375em]">
-                <h2 className="m-0 font-[Haffer_XH,Arial,sans-serif] font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
+                <h2 className="m-0 font-heading font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
                   $0
                 </h2>
                 <span className="eyebrow text-[var(--color-neutral-500)]">
@@ -69,7 +69,7 @@ export function PricingCards() {
                 </span>
               </div>
 
-              <p className="mt-[0.75em] mb-0 font-[Haffer_VF,Arial,sans-serif] text-[1em] text-[var(--color-neutral-525)] leading-[1.5] tracking-[-0.01em] [font-variation-settings:'wght'_460]">
+              <p className="mt-[0.75em] mb-0 font-sans text-[1em] text-[var(--color-neutral-525)] leading-[1.5] tracking-[-0.01em]">
                 Full access to every animated primitive, component, and layout
                 with zero paywalls or limits.
               </p>
@@ -85,7 +85,7 @@ export function PricingCards() {
                     <div className="mt-[0.1875em] flex size-[1.25em] shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-coral)_14%,transparent)] text-[var(--color-coral)]">
                       <Check className="size-3 stroke-[2.5]" />
                     </div>
-                    <span className="font-[Haffer_VF,Arial,sans-serif] text-[0.9375em] text-[var(--color-neutral-800)] leading-[1.45] tracking-[-0.01em] [font-variation-settings:'wght'_460]">
+                    <span className="font-sans text-[0.9375em] text-[var(--color-neutral-800)] leading-[1.45] tracking-[-0.01em]">
                       {feature}
                     </span>
                   </li>
@@ -144,7 +144,7 @@ export function PricingCards() {
               </div>
 
               <div className="mt-[1.25em] flex items-baseline gap-[0.375em]">
-                <h2 className="m-0 font-[Haffer_XH,Arial,sans-serif] font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
+                <h2 className="m-0 font-heading font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
                   Optional
                 </h2>
                 <span className="eyebrow text-[var(--color-neutral-500)]">
@@ -152,7 +152,7 @@ export function PricingCards() {
                 </span>
               </div>
 
-              <p className="mt-[0.75em] mb-0 font-[Haffer_VF,Arial,sans-serif] text-[1em] text-[var(--color-neutral-525)] leading-[1.5] tracking-[-0.01em] [font-variation-settings:'wght'_460]">
+              <p className="mt-[0.75em] mb-0 font-sans text-[1em] text-[var(--color-neutral-525)] leading-[1.5] tracking-[-0.01em]">
                 Support independent open-source development and help keep Sora
                 UI actively maintained.
               </p>
@@ -209,7 +209,7 @@ export function PricingCards() {
 
         {/* Disclaimer note */}
         <div className="mx-auto mt-[3em] max-w-[42em] text-center">
-          <p className="m-0 font-[Haffer_VF,Arial,sans-serif] text-[0.875em] text-[var(--color-neutral-500)] leading-[1.5] [font-variation-settings:'wght'_420]">
+          <p className="m-0 font-sans text-[0.875em] text-[var(--color-neutral-500)] leading-[1.5]">
             {PRICING_DISCLAIMER}
           </p>
         </div>

@@ -14,7 +14,6 @@
 @import "fumadocs-ui/css/black.css";
 @import "fumadocs-ui/css/preset.css";
 @import "shadcn/tailwind.css";
-@import "./sf-pro-display.css";
 
 @source "../node_modules/fumadocs-ui/dist/**/*.js";
 
@@ -304,6 +303,15 @@
   --font-heading: var(--font-sf-pro-display);
 
   --font-hero-display: var(--font-sf-pro-display);
+
+  --font-haffer-vf: var(--font-sf-pro-display);
+
+  --font-haffer-xh: var(--font-sf-pro-display);
+
+  --font-haffer-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --font-brisa-pro: var(--font-brisa-pro);
 
   --radius-2xl: calc(var(--radius) * 1.8);
 

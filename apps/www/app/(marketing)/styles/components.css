@@ -671,10 +671,7 @@
 .home-layout .pricing-card__secondary-link {
   display: block;
   padding: 0.5em 0;
-  font-family:
-    Haffer VF,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-vf), Arial, sans-serif;
   font-size: 0.875em;
   font-variation-settings: "wght" 460;
   color: var(--color-neutral-500);
@@ -742,10 +739,7 @@
 
 .home-layout .pricing-faq__answer code {
   padding: 0.15em 0.35em;
-  font-family:
-    Haffer Mono,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-mono), Arial, sans-serif;
   font-size: 0.875em;
   color: var(--color-neutral-800);
   background-color: var(--color-neutral-200);

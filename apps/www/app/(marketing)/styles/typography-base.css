@@ -202,46 +202,6 @@
   }
 }
 
-@font-face {
-  font-family: Brisa Pro;
-  src: url("/fonts/sora/BrisaPro-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Haffer Mono;
-  src: url("/fonts/sora/HafferMonoMedium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Haffer Mono;
-  src: url("/fonts/sora/HafferMonoRegular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Haffer XH;
-  src: url("/fonts/sora/HafferXHRegular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Haffer VF;
-  src: url("/fonts/sora/HafferStandardUprights-VF.ttf") format("truetype");
-  font-weight: 100 1000;
-  font-style: normal;
-  font-display: swap;
-}
-
 .home-layout {
   --dash-side-width: 19em;
   --dash-hero-height-top-shrinked: 7em;
@@ -303,10 +263,7 @@
 }
 
 .home-layout {
-  font-family:
-    Haffer VF,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-vf), Arial, sans-serif;
   font-size: 14px;
   font-variation-settings: "wght" 460;
   font-weight: 400;
@@ -319,10 +276,7 @@
 .home-layout h1 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 7em;
   font-weight: 400;
   line-height: 1;
@@ -332,10 +286,7 @@
 .home-layout h2 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 5em;
   font-weight: 400;
   line-height: 1;
@@ -345,10 +296,7 @@
 .home-layout h3 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 3.875em;
   font-weight: 400;
   line-height: 1;
@@ -358,10 +306,7 @@
 .home-layout h4 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 2.5em;
   font-weight: 400;
   line-height: 1.05;
@@ -371,10 +316,7 @@
 .home-layout h5 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 1.875em;
   font-weight: 400;
   line-height: 1.08;
@@ -384,10 +326,7 @@
 .home-layout h6 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 1.25em;
   font-weight: 400;
   line-height: 1.08;
@@ -442,10 +381,7 @@
 
 .home-layout .eyebrow {
   display: block;
-  font-family:
-    Haffer Mono,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-mono), Arial, sans-serif;
   font-size: 0.6875em;
   font-weight: 400;
   line-height: 1;
@@ -468,10 +404,7 @@
 }
 
 .home-layout .h-xl {
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 7em;
   font-weight: 400;
   line-height: 1;
@@ -479,10 +412,7 @@
 }
 
 .home-layout .h-l {
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 5em;
   font-weight: 400;
   line-height: 1;
@@ -501,10 +431,7 @@
 }
 
 .home-layout .h-m {
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 2.5em;
   font-weight: 400;
   line-height: 1.05;
@@ -516,10 +443,7 @@
 }
 
 .home-layout .h-s {
-  font-family:
-    Haffer XH,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-xh), Arial, sans-serif;
   font-size: 1.875em;
   font-weight: 400;
   line-height: 1.08;
@@ -527,10 +451,7 @@
 }
 
 .home-layout .h-xs {
-  font-family:
-    Haffer VF,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-vf), Arial, sans-serif;
   font-size: 1.25em;
   font-weight: 400;
   line-height: 1.08;
@@ -538,10 +459,7 @@
 }
 
 .home-layout .p-l {
-  font-family:
-    Haffer VF,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-vf), Arial, sans-serif;
   font-size: 1.1875em;
   font-variation-settings: "wght" 420;
   font-weight: 400;
@@ -554,10 +472,7 @@
 }
 
 .home-layout .p-m {
-  font-family:
-    Haffer VF,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-vf), Arial, sans-serif;
   font-size: 1em;
   font-variation-settings: "wght" 430;
   font-weight: 400;
@@ -1738,10 +1653,7 @@
 .home-layout .cursor-bubble__drag-span {
   position: relative;
   display: block;
-  font-family:
-    Haffer VF,
-    Arial,
-    sans-serif;
+  font-family: var(--font-haffer-vf), Arial, sans-serif;
   font-size: 0.875em;
   font-variation-settings: "wght" 550;
   line-height: 1.2em;
