@@ -288,7 +288,7 @@ export function ComponentPreview({
             >
               <div className="relative">
                 {/* top actions */}
-                <div className="absolute top-0 right-6 z-10 flex h-12 items-center justify-end gap-1.5 px-2">
+                <div className="absolute top-0 right-2 z-10 flex h-12 items-center justify-end gap-1.5 px-2 sm:right-6">
                   <RefreshButton
                     onRefresh={() => setPreviewKey((prev) => prev + 1)}
                   />
@@ -329,7 +329,7 @@ export function ComponentPreview({
                 {/* left dashed */}
                 <svg
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-0 left-6 h-full w-px"
+                  className="pointer-events-none absolute top-0 left-6 hidden h-full w-px sm:block"
                 >
                   <line
                     className="text-border"
@@ -345,7 +345,7 @@ export function ComponentPreview({
                 {/* right dashed */}
                 <svg
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-0 right-6 h-full w-px"
+                  className="pointer-events-none absolute top-0 right-6 hidden h-full w-px sm:block"
                 >
                   <line
                     className="text-border"
@@ -360,7 +360,7 @@ export function ComponentPreview({
                 </svg>
 
                 {/* preview area */}
-                <div className="px-6 pt-12 pb-6">
+                <div className="px-0 pt-12 pb-6 sm:px-6">
                   <ComponentWrapper
                     bigScreen={bigScreen}
                     iframe={iframe}
@@ -409,7 +409,7 @@ export function ComponentPreview({
                           damping: 20,
                         }}
                       >
-                        <div className="w-full px-6 py-4">
+                        <div className="w-full px-3 py-4 sm:px-6">
                           <Tweakpane
                             binds={binds}
                             initialBinds={demoPropsConfig as Binds}
