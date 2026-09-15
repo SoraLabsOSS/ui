@@ -459,3 +459,5 @@ export function ComponentPreview({
     </div>
   );
 }
+
+export default ComponentPreview;
