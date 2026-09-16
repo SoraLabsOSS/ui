@@ -289,7 +289,7 @@ function GalleryCard({
         <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-3 transition-colors duration-200 hover:border-foreground/15">
           <div
             className="relative w-full overflow-hidden rounded-xl bg-muted"
-            style={{ aspectRatio: "4 / 3" }}
+            style={{ aspectRatio: "16 / 9" }}
           >
             <GalleryCardPreview
               active={isPreviewActive}
@@ -345,7 +345,7 @@ function GalleryCompactCard({
         <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-colors duration-200 hover:border-foreground/15">
           <div
             className="relative w-full overflow-hidden rounded-xl bg-muted"
-            style={{ aspectRatio: "4 / 3" }}
+            style={{ aspectRatio: "16 / 9" }}
           >
             <GalleryCardPreview
               active={isPreviewActive}

@@ -22,7 +22,7 @@ interface ComponentPageDocsHeaderProps {
 }
 
 export function ComponentPageDocsHeader({
-  isExpanded: _isExpanded = false,
+  isExpanded = false,
   title,
   navItems: _navItems,
 }: ComponentPageDocsHeaderProps) {
@@ -35,34 +35,45 @@ export function ComponentPageDocsHeader({
         catalogDocsHeaderClassName,
         catalogDocsHeaderInsetClassName,
         catalogDocsHeaderMobileSymmetricClassName,
-        "gap-3 lg:bg-transparent"
+        "pointer-events-none gap-3 lg:bg-transparent"
       )}
     >
       <div
         className={cn(
-          "flex min-w-0 flex-1 items-center gap-3 lg:gap-2.5",
+          "pointer-events-none flex min-w-0 items-center gap-3 lg:gap-2.5",
+          isExpanded ? "w-fit" : "flex-1",
           catalogDocsHeaderDesktopRowClassName
         )}
       >
         {/* Mobile menu lives in ComponentPageCatalogMobileMenuLayer — spacer only */}
         <div aria-hidden className="size-11 shrink-0 lg:hidden" />
 
-        <div className="hidden h-full items-center lg:flex">
-          <ComponentPageCatalogMenuButton variant="plain" />
+        <div className="pointer-events-auto hidden items-center lg:flex">
+          <ComponentPageCatalogMenuButton
+            isExpanded={isExpanded}
+            variant="morph"
+          />
         </div>
 
         <ComponentPageDocsBreadcrumb
           className={cn(
             catalogDocsHeaderBreadcrumbClassName,
-            "max-lg:hidden lg:transition-opacity lg:duration-200 lg:ease-out",
-            open && "lg:pointer-events-none lg:opacity-0"
+            "transition-opacity duration-200 ease-out max-lg:hidden",
+            open || isExpanded
+              ? "pointer-events-none opacity-0"
+              : "pointer-events-auto opacity-100"
           )}
           title={title}
         />
       </div>
 
       {toolbar ? (
-        <div className={cn(catalogDocsHeaderMenuClassName, "lg:hidden")}>
+        <div
+          className={cn(
+            catalogDocsHeaderMenuClassName,
+            "pointer-events-auto lg:hidden"
+          )}
+        >
           {toolbar}
         </div>
       ) : null}

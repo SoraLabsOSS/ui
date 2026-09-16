@@ -6,6 +6,7 @@
     "infinite-scrolling-images",
     "sticky-scroll-cards",
     "scroll-gallery",
-    "scroll-chapters"
+    "scroll-chapters",
+    "tilt-slide-transition"
   ]
 }

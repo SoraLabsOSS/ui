@@ -42,6 +42,184 @@ const EXPAND_TRANSITION = {
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
+function usePreviewShortcuts({
+  isExpanded,
+  onCollapse,
+  onToggle,
+}: {
+  isExpanded: boolean;
+  onCollapse: () => void;
+  onToggle: () => void;
+}) {
+  // Collapse preview on Escape
+  useEffect(() => {
+    if (!isExpanded) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      const hasOpenSheet = document.querySelector(
+        '[data-slot="sheet-content"][data-state="open"]'
+      );
+      if (hasOpenSheet) {
+        return;
+      }
+      onCollapse();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isExpanded, onCollapse]);
+
+  // Toggle preview maximize/collapse via Cmd+J / Ctrl+J (matching Skiper UX)
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        !(event.metaKey || event.ctrlKey) ||
+        event.key.toLowerCase() !== "j"
+      ) {
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      if (
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+      event.preventDefault();
+      onToggle();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onToggle]);
+}
+
+function useResponsiveBreakpointTransition(onReset: () => void) {
+  const [isBreakpointTransition, setIsBreakpointTransition] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(LG_MEDIA);
+    const handleBreakpointChange = () => {
+      if (!media.matches) {
+        onReset();
+      }
+    };
+    media.addEventListener("change", handleBreakpointChange);
+    return () => media.removeEventListener("change", handleBreakpointChange);
+  }, [onReset]);
+
+  useEffect(() => {
+    setIsBreakpointTransition(true);
+    const id = requestAnimationFrame(() => setIsBreakpointTransition(false));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  return isBreakpointTransition;
+}
+
+function ComponentPageDocsContent({
+  children,
+  githubPath,
+  header,
+  nextNav,
+  previousNav,
+  releaseDate,
+  toc,
+}: {
+  children: ReactNode;
+  githubPath: string;
+  header: ComponentPageHeaderData;
+  nextNav?: NeighborNavItem;
+  previousNav?: NeighborNavItem;
+  releaseDate?: string;
+  toc: ComponentTocItem[];
+}) {
+  return (
+    <div className="flex w-full min-w-0 justify-center">
+      <div
+        className={cn(
+          "flex w-full min-w-0 max-w-4xl flex-col gap-6 pt-8 pb-3 md:gap-10 md:pt-14 md:pb-6",
+          catalogContentGutterClassName
+        )}
+      >
+        <ComponentPageHeader
+          data={header}
+          githubPath={githubPath}
+          nextNav={nextNav}
+          previousNav={previousNav}
+          releaseDate={releaseDate}
+        />
+
+        <div className="min-w-0">{children}</div>
+
+        <ComponentPageToc className="lg:hidden" items={toc} />
+
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
+function ComponentPageDocsPanel({
+  children,
+  isExpanded,
+  isLayoutReady,
+  isStacked,
+}: {
+  children: ReactNode;
+  isExpanded: boolean;
+  isLayoutReady: boolean;
+  isStacked: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "max-lg:order-3 max-lg:flex-none",
+        "relative min-h-0 min-w-0",
+        "lg:absolute lg:inset-0 lg:z-0 lg:h-full lg:overflow-hidden lg:pr-[50%]",
+        isExpanded &&
+          "pointer-events-none select-none lg:opacity-0 lg:transition-opacity lg:duration-550 lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
+        !isLayoutReady && "pointer-events-none"
+      )}
+    >
+      <ProgressiveBlur
+        backgroundColor="var(--background)"
+        blurAmount="12px"
+        className="z-10 max-lg:hidden"
+        height="100px"
+        maskFadeStart="45%"
+        position="top"
+      />
+      <ProgressiveBlur
+        backgroundColor="var(--background)"
+        blurAmount="12px"
+        className="z-10 max-lg:hidden"
+        height="70px"
+        maskFadeStart="45%"
+        position="bottom"
+      />
+
+      {isStacked ? (
+        <div className="min-h-0 min-w-0">{children}</div>
+      ) : (
+        <CatalogScrollArea
+          className="min-h-0 min-w-0 lg:h-full"
+          hideScrollbar
+          viewportClassName="lg:pt-12"
+        >
+          {children}
+        </CatalogScrollArea>
+      )}
+    </div>
+  );
+}
+
 interface ComponentPageLayoutClientProps {
   children: ReactNode;
   githubPath: string;
@@ -70,7 +248,6 @@ export function ComponentPageLayoutClient({
   const layoutRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isPreviewAnimating, setIsPreviewAnimating] = useState(false);
-  const [isBreakpointTransition, setIsBreakpointTransition] = useState(false);
   const { isLargeScreen, isReady: isLayoutReady } =
     useCatalogLayoutReady(layoutRef);
   const isStacked = useCatalogStackedLayout();
@@ -93,103 +270,39 @@ export function ComponentPageLayoutClient({
     setIsPreviewAnimating(false);
   }, []);
 
-  useEffect(() => {
-    const media = window.matchMedia(LG_MEDIA);
-
-    const handleBreakpointChange = () => {
-      if (media.matches) {
-        return;
-      }
-
-      setIsExpanded(false);
-      setIsPreviewAnimating(false);
-    };
-
-    media.addEventListener("change", handleBreakpointChange);
-    return () => media.removeEventListener("change", handleBreakpointChange);
+  const handleBreakpointReset = useCallback(() => {
+    setIsExpanded(false);
+    setIsPreviewAnimating(false);
   }, []);
 
-  useEffect(() => {
-    setIsBreakpointTransition(true);
-    const id = requestAnimationFrame(() => setIsBreakpointTransition(false));
-    return () => cancelAnimationFrame(id);
-  }, []);
+  const isBreakpointTransition = useResponsiveBreakpointTransition(
+    handleBreakpointReset
+  );
 
-  // Collapse preview on Escape
-  useEffect(() => {
-    if (!isExpanded) {
-      return;
+  const handleCollapse = useCallback(() => {
+    if (window.matchMedia(LG_MEDIA).matches) {
+      setIsPreviewAnimating(true);
     }
+    setIsExpanded(false);
+  }, []);
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") {
-        return;
-      }
-      const hasOpenSheet = document.querySelector(
-        '[data-slot="sheet-content"][data-state="open"]'
-      );
-      if (hasOpenSheet) {
-        return;
-      }
-
-      if (window.matchMedia(LG_MEDIA).matches) {
-        setIsPreviewAnimating(true);
-      }
-      setIsExpanded(false);
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isExpanded]);
-
-  // Toggle preview maximize/collapse via Cmd+J / Ctrl+J (matching Skiper UX)
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (
-        !(event.metaKey || event.ctrlKey) ||
-        event.key.toLowerCase() !== "j"
-      ) {
-        return;
-      }
-      const target = event.target as HTMLElement | null;
-      if (
-        target?.tagName === "INPUT" ||
-        target?.tagName === "TEXTAREA" ||
-        target?.isContentEditable
-      ) {
-        return;
-      }
-      event.preventDefault();
-      handleToggleExpanded();
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [handleToggleExpanded]);
+  usePreviewShortcuts({
+    isExpanded,
+    onCollapse: handleCollapse,
+    onToggle: handleToggleExpanded,
+  });
 
   const docsContent = (
-    <div className="flex w-full min-w-0 justify-center">
-      <div
-        className={cn(
-          "flex w-full min-w-0 max-w-4xl flex-col gap-6 py-8 pb-4 md:gap-10 md:py-14",
-          catalogContentGutterClassName
-        )}
-      >
-        <ComponentPageHeader
-          data={header}
-          githubPath={githubPath}
-          nextNav={nextNav}
-          previousNav={previousNav}
-          releaseDate={releaseDate}
-        />
-
-        <div className="min-w-0">{children}</div>
-
-        <ComponentPageToc className="lg:hidden" items={toc} />
-
-        <Footer />
-      </div>
-    </div>
+    <ComponentPageDocsContent
+      githubPath={githubPath}
+      header={header}
+      nextNav={nextNav}
+      previousNav={previousNav}
+      releaseDate={releaseDate}
+      toc={toc}
+    >
+      {children}
+    </ComponentPageDocsContent>
   );
 
   return (
@@ -203,10 +316,10 @@ export function ComponentPageLayoutClient({
     >
       <div
         className={cn(
-          "max-lg:order-1",
-          "lg:absolute lg:top-0 lg:right-1/2 lg:left-0",
-          isCatalogMenuOpen ? "lg:z-[120]" : "lg:z-30",
-          !isLayoutReady && "pointer-events-none"
+          "pointer-events-none max-lg:order-1",
+          "lg:absolute lg:top-0 lg:left-0",
+          isExpanded ? "lg:w-fit" : "lg:right-1/2",
+          isCatalogMenuOpen ? "lg:z-[120]" : "lg:z-30"
         )}
       >
         <div
@@ -226,45 +339,13 @@ export function ComponentPageLayoutClient({
         </div>
       </div>
 
-      <div
-        className={cn(
-          "max-lg:order-3 max-lg:flex-none",
-          "relative min-h-0 min-w-0",
-          "lg:absolute lg:inset-0 lg:z-0 lg:h-full lg:overflow-hidden lg:pr-[50%]",
-          isExpanded &&
-            "pointer-events-none select-none lg:opacity-0 lg:transition-opacity lg:duration-550 lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
-          !isLayoutReady && "pointer-events-none"
-        )}
+      <ComponentPageDocsPanel
+        isExpanded={isExpanded}
+        isLayoutReady={isLayoutReady}
+        isStacked={isStacked}
       >
-        <ProgressiveBlur
-          backgroundColor="var(--background)"
-          blurAmount="12px"
-          className="z-10 max-lg:hidden"
-          height="100px"
-          maskFadeStart="45%"
-          position="top"
-        />
-        <ProgressiveBlur
-          backgroundColor="var(--background)"
-          blurAmount="12px"
-          className="z-10 max-lg:hidden"
-          height="70px"
-          maskFadeStart="45%"
-          position="bottom"
-        />
-
-        {isStacked ? (
-          <div className="min-h-0 min-w-0">{docsContent}</div>
-        ) : (
-          <CatalogScrollArea
-            className="min-h-0 min-w-0 lg:h-full"
-            hideScrollbar
-            viewportClassName="lg:pt-12"
-          >
-            {docsContent}
-          </CatalogScrollArea>
-        )}
-      </div>
+        {docsContent}
+      </ComponentPageDocsPanel>
 
       <motion.div
         animate={
@@ -294,6 +375,7 @@ export function ComponentPageLayoutClient({
           className={cn(
             "flex w-full flex-col max-lg:h-auto max-lg:min-h-min lg:h-full lg:min-h-0 lg:w-full",
             catalogPreviewShellClassName,
+            isExpanded && "lg:pl-4",
             useFixedPreviewShellWidth && catalogPreviewShellFixedWidthClassName
           )}
         >

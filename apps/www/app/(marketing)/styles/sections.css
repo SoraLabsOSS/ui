@@ -1,11 +1,6 @@
 /* ------------------------- PREVIEW (RESOURCE) -------------------------  */
 
 /* ------------------------- NAVIGATION -------------------------  */
-.home-layout :is(.wf-design-mode, .wf-editor) .nav {
-  visibility: visible;
-  opacity: 1;
-}
-
 .home-layout .nav__bg {
   transition:
     opacity var(--animation-default),
@@ -252,11 +247,6 @@
   opacity: 0;
   transform: translateY(-2em) scale(0.975) rotate(0.001deg);
   transition: all var(--animation-default);
-}
-
-.home-layout :is(.wf-design-mode, .wf-editor) .under-nav-bar {
-  visibility: visible;
-  opacity: 1;
 }
 
 /* ------------------------- CSS MARQUEE -------------------------  */
@@ -704,11 +694,6 @@
 
 .home-layout .button-demo__panel.is-leaving-to-right {
   animation: tab-leave-to-right 0.5s var(--ease) forwards;
-}
-
-.home-layout .wf-editor-mode .button-demo__panel,
-.home-layout .wf-design-mode .button-demo__panel {
-  grid-area: auto;
 }
 
 .home-layout .button-demo__panel-inner {
@@ -1319,15 +1304,12 @@
 /* -------------------------------------------------------------------------- */
 
 /* Rounder buttons and backgrounds in pricing page: 1.5rem */
-.home-layout [data-barba-namespace="pricing"] .button[data-shape="round"],
-.home-layout [data-barba-namespace="pricing"] [data-shape="round"] .button,
-.home-layout [data-barba-namespace="pricing"] a.button[data-shape="round"],
-.home-layout [data-barba-namespace="pricing"] [data-shape="round"] .button-bg,
-.home-layout [data-barba-namespace="pricing"] .tag[data-shape="round"],
-.home-layout
-  [data-barba-namespace="pricing"]
-  .tag[data-shape="round"]
-  .button-bg,
+.home-layout [data-page="pricing"] .button[data-shape="round"],
+.home-layout [data-page="pricing"] [data-shape="round"] .button,
+.home-layout [data-page="pricing"] a.button[data-shape="round"],
+.home-layout [data-page="pricing"] [data-shape="round"] .button-bg,
+.home-layout [data-page="pricing"] .tag[data-shape="round"],
+.home-layout [data-page="pricing"] .tag[data-shape="round"] .button-bg,
 .home-layout .pricing-cards .button[data-shape="round"],
 .home-layout .pricing-cards [data-shape="round"] .button,
 .home-layout .pricing-cards [data-shape="round"] .button-bg,
@@ -1337,16 +1319,10 @@
 }
 
 /* Squarer buttons and backgrounds in pricing page: .875rem */
-.home-layout [data-barba-namespace="pricing"] .button:not([data-shape="round"]),
-.home-layout
-  [data-barba-namespace="pricing"]
-  .button:not([data-shape="round"])
-  .button-bg,
-.home-layout [data-barba-namespace="pricing"] .tag:not([data-shape="round"]),
-.home-layout
-  [data-barba-namespace="pricing"]
-  .tag:not([data-shape="round"])
-  .button-bg,
+.home-layout [data-page="pricing"] .button:not([data-shape="round"]),
+.home-layout [data-page="pricing"] .button:not([data-shape="round"]) .button-bg,
+.home-layout [data-page="pricing"] .tag:not([data-shape="round"]),
+.home-layout [data-page="pricing"] .tag:not([data-shape="round"]) .button-bg,
 .home-layout .pricing-cards .button:not([data-shape="round"]),
 .home-layout .pricing-cards .button:not([data-shape="round"]) .button-bg,
 .home-layout .pricing-cards .tag:not([data-shape="round"]),

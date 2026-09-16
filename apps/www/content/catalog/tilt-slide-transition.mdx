@@ -1,0 +1,126 @@
+---
+title: Tilt Slide Transition
+description: Multi-page editorial portfolio transition with tilted scaling exit and diagonal clip-path entrance, powered by View Transition API, GSAP SplitText, and Lenis.
+category: effects
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: tilt-slide-transition
+---
+
+## Installation
+
+<ComponentInstallation name="tilt-slide-transition" />
+
+## Usage
+
+```tsx
+import { TiltSlideTransition } from "@/components/sora-ui/catalog/tilt-slide-transition";
+
+export default function PortfolioSection() {
+  return (
+    <div className="h-screen w-full">
+      <TiltSlideTransition
+        brandName="Sora"
+        heroTitle="Sora"
+      />
+    </div>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    brandName: {
+      description: "Logo/brand text displayed in the top navbar.",
+      type: "string",
+      default: '"Sora"',
+    },
+    defaultPage: {
+      description: "Default active view on uncontrolled mount ('home' | 'projects' | 'info').",
+      type: '"home" | "projects" | "info"',
+      default: '"home"',
+    },
+    page: {
+      description: "Active view for controlled usage.",
+      type: '"home" | "projects" | "info"',
+    },
+    onPageChange: {
+      description: "Callback fired when a page transition is requested.",
+      type: "(page: ViewPage) => void",
+    },
+    heroTitle: {
+      description: "Large heading revealed on the Home page via GSAP SplitText character animation.",
+      type: "string",
+      default: '"Sora"',
+    },
+    projectImages: {
+      description: "Array of image URLs rendered in the Projects smooth scroll feed.",
+      type: "string[]",
+    },
+    portraitImage: {
+      description: "Image URL displayed in the portrait column of the Info page.",
+      type: "string",
+    },
+    infoParagraph: {
+      description: "Bio text revealed line-by-line via GSAP SplitText on the Info page.",
+      type: "string",
+    },
+    navItems: {
+      description: "Custom navigation items rendered in the navbar.",
+      type: "TiltSlideTransitionNavItem[]",
+    },
+    className: {
+      description: "Additional CSS class names for the root container.",
+      type: "string",
+    },
+  }}
+/>
+
+### TiltSlideTransitionNavItem
+
+<TypeTable
+  type={{
+    id: {
+      description: "Identifier corresponding to the view ('home' | 'projects' | 'info').",
+      type: '"home" | "projects" | "info"',
+    },
+    label: {
+      description: "Display label shown in the navbar item.",
+      type: "string",
+    },
+  }}
+/>
+
+## Subcomponents
+
+For granular multi-page or custom layout implementations, individual page views and the navbar can be imported separately:
+
+```tsx
+import {
+  TiltSlideTransitionHome,
+  TiltSlideTransitionProjects,
+  TiltSlideTransitionInfo,
+  TiltSlideTransitionNavbar,
+} from "@/components/sora-ui/catalog/tilt-slide-transition";
+```
+
+## Starter Template
+
+A standalone, ready-to-use Next.js starter template with this tilt-slide page transition pre-configured is available for cloning:
+
+- **Demo**: [https://tilt-slide-template.soralabs.studio](https://tilt-slide-template.soralabs.studio/)
+- **Repository**: [https://github.com/SoraLabsOSS/tilt-slide-template](https://github.com/SoraLabsOSS/tilt-slide-template)
+
+```bash
+git clone https://github.com/SoraLabsOSS/tilt-slide-template.git
+cd tilt-slide-template
+bun install
+bun dev
+```
+
+## Credits
+
+<ComponentCredits name="tilt-slide-transition" />

@@ -273,7 +273,7 @@ export const catalogPreviewShellFixedWidthClassName =
 export const catalogPreviewToolbarRowClassName = [
   catalogChromeRowClassName,
   catalogPanelChromeInsetClassName,
-  "pointer-events-none z-20 justify-end",
+  "pointer-events-none z-50 justify-end",
   "lg:absolute lg:top-0 lg:right-2 lg:left-auto lg:w-auto lg:px-0 lg:pt-0",
 ].join(" ");
 

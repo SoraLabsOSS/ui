@@ -11,16 +11,8 @@ export function PricingPage() {
   useButton3DHover(containerRef);
 
   return (
-    <div
-      className="home-layout home-content body"
-      data-barba="wrapper"
-      ref={containerRef}
-    >
-      <main
-        className="main"
-        data-barba="container"
-        data-barba-namespace="pricing"
-      >
+    <div className="home-layout home-content body" ref={containerRef}>
+      <main className="main" data-page="pricing">
         <PricingHero />
         <PricingCards />
         <PricingFaq />

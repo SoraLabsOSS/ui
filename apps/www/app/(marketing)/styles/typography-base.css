@@ -9,10 +9,6 @@
   max-width: 100%;
 }
 
-.home-layout[data-w-dynpage] [data-w-cloak] {
-  color: #0000 !important;
-}
-
 .home-layout h1,
 .home-layout h2,
 .home-layout h3,

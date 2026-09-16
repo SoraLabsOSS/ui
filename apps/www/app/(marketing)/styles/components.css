@@ -38,10 +38,6 @@
   pointer-events: none;
 }
 
-.home-layout :is(.wf-design-mode, .wf-editor) div.button {
-  pointer-events: auto;
-}
-
 .home-layout .button-bg,
 .home-layout .button,
 .home-layout .tag-bg,
@@ -108,10 +104,6 @@
   transform-origin: 50% var(--y, 1100%);
 }
 
-.home-layout :is(.wf-design-mode, .wf-editor) .button-label {
-  transform-origin: 50% 1800%;
-}
-
 .home-layout .button-label:not(:nth-of-type(1)),
 .home-layout .square-button .button-icon:not(:nth-of-type(1)) {
   position: absolute;
@@ -138,12 +130,6 @@
 
 .home-layout [data-hover] {
   cursor: pointer;
-}
-
-.home-layout
-  :is(.wf-design-mode, .wf-editor)
-  .button-label[aria-hidden="true"] {
-  display: none;
 }
 
 .home-layout [data-underline-link] {
@@ -204,10 +190,6 @@
     transform-origin: left;
     transition-delay: 0.3s;
   }
-}
-
-.home-layout :is(.wf-design-mode, .wf-editor) .home-hero__cards-list {
-  opacity: 1;
 }
 
 /* ------------------------- CARDS -------------------------  */
@@ -627,10 +609,6 @@
 .home-layout [data-modal-status="active"] {
   overflow: auto;
   transform: rotate(0deg) translate(0%);
-}
-
-.home-layout .wf-design-mode .modal__item {
-  overflow: auto;
 }
 
 /* ------------------------- PRICING HERO -------------------------  */

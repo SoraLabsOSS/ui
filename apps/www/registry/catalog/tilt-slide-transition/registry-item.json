@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tilt-slide-transition",
+  "type": "registry:ui",
+  "title": "Tilt Slide Transition",
+  "description": "Multi-page editorial portfolio transition with tilted scaling exit and diagonal clip-path entrance, powered by View Transition API, GSAP SplitText, and Lenis.",
+  "dependencies": ["gsap", "@gsap/react", "lenis"],
+  "files": [
+    {
+      "path": "registry/catalog/tilt-slide-transition/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/catalog/tilt-slide-transition.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "tilt-transition",
+      "slide-transition",
+      "view-transition",
+      "page-transition",
+      "gsap",
+      "splittext",
+      "lenis",
+      "portfolio",
+      "editorial",
+      "codegrid"
+    ],
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Codegrid & Paul Kalkbrenner",
+      "url": "https://www.paulkalkbrenner.net",
+      "stack": "Next.js, View Transition API, GSAP, and Lenis"
+    }
+  }
+}

@@ -149,26 +149,8 @@
   ); /* 3 columns */
 }
 
-@media screen and (min-width: 768px) and (max-width: 1500px) {
-  .home-layout main[data-barba-namespace="icons"] {
-    --dash-columns: 2.5;
-  }
-}
-
 @media screen and (min-width: 1908px) {
   .home-layout main {
-    --dash-columns: 4;
-  }
-
-  .home-layout
-    main:is(
-      [data-barba-namespace="resource"],
-      [data-barba-namespace="lesson"]
-    ) {
-    --dash-columns: 3;
-  }
-
-  .home-layout main[data-barba-namespace="icons"] {
     --dash-columns: 4;
   }
 }
@@ -176,30 +158,6 @@
 @media screen and (min-width: 2276px) {
   .home-layout main {
     --dash-columns: 5;
-  }
-
-  .home-layout
-    main:is(
-      [data-barba-namespace="resource"],
-      [data-barba-namespace="lesson"]
-    ) {
-    --dash-columns: 4;
-  }
-
-  .home-layout main[data-barba-namespace="icons"] {
-    --dash-columns: 4.5;
-  }
-}
-
-@media screen and (min-width: 2400px) {
-  .home-layout main[data-barba-namespace="icons"] {
-    --dash-columns: 5;
-  }
-}
-
-@media screen and (min-width: 2550px) {
-  .home-layout main[data-barba-namespace="icons"] {
-    --dash-columns: 6;
   }
 }
 
@@ -212,49 +170,11 @@
   .home-layout [data-dash-collapsed="true"] main {
     --dash-columns: 4;
   }
-
-  .home-layout
-    [data-dash-collapsed="true"]
-    main:is(
-      [data-barba-namespace="resource"],
-      [data-barba-namespace="lesson"]
-    ) {
-    --dash-columns: 3;
-  }
-
-  .home-layout [data-dash-collapsed="true"] main[data-barba-namespace="icons"] {
-    --dash-columns: 3.5;
-  }
 }
 
 @media screen and (min-width: 2068px) {
   .home-layout [data-dash-collapsed="true"] main {
     --dash-columns: 5;
-  }
-
-  .home-layout
-    [data-dash-collapsed="true"]
-    main:is(
-      [data-barba-namespace="resource"],
-      [data-barba-namespace="lesson"]
-    ) {
-    --dash-columns: 4;
-  }
-
-  .home-layout [data-dash-collapsed="true"] main[data-barba-namespace="icons"] {
-    --dash-columns: 4;
-  }
-}
-
-@media screen and (min-width: 2220px) {
-  .home-layout [data-dash-collapsed="true"] main[data-barba-namespace="icons"] {
-    --dash-columns: 5;
-  }
-}
-
-@media screen and (min-width: 2370px) {
-  .home-layout [data-dash-collapsed="true"] main[data-barba-namespace="icons"] {
-    --dash-columns: 6;
   }
 }
 
@@ -286,10 +206,6 @@
   }
 
   .home-layout [data-dash-collapsed="true"] main {
-    --dash-columns: 1;
-  }
-
-  .home-layout main[data-barba-namespace="icons"] {
     --dash-columns: 1;
   }
 }

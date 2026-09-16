@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-tilt-slide-transition",
+  "type": "registry:ui",
+  "title": "Tilt Slide Transition Demo",
+  "description": "Interactive tilt slide transition showcase switching between Home, Projects, and Info views.",
+  "registryDependencies": ["@soralabs/tilt-slide-transition"],
+  "files": [
+    {
+      "path": "registry/demo/catalog/tilt-slide-transition/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/catalog/tilt-slide-transition.tsx"
+    }
+  ]
+}

@@ -206,6 +206,40 @@
       }
     },
     {
+      "name": "tilt-slide-transition",
+      "type": "registry:ui",
+      "title": "Tilt Slide Transition",
+      "description": "Multi-page editorial portfolio transition with tilted scaling exit and diagonal clip-path entrance, powered by View Transition API, GSAP SplitText, and Lenis.",
+      "dependencies": ["gsap", "@gsap/react", "lenis"],
+      "files": [
+        {
+          "path": "registry/catalog/tilt-slide-transition/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/catalog/tilt-slide-transition.tsx"
+        }
+      ],
+      "meta": {
+        "keywords": [
+          "tilt-transition",
+          "slide-transition",
+          "view-transition",
+          "page-transition",
+          "gsap",
+          "splittext",
+          "lenis",
+          "portfolio",
+          "editorial",
+          "codegrid"
+        ],
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Codegrid & Paul Kalkbrenner",
+          "url": "https://www.paulkalkbrenner.net",
+          "stack": "Next.js, View Transition API, GSAP, and Lenis"
+        }
+      }
+    },
+    {
       "name": "demo-cursor-trail-reveal",
       "type": "registry:ui",
       "title": "Cursor Trail Reveal Demo",
@@ -286,6 +320,20 @@
           "path": "registry/demo/catalog/text-reveal-box/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/demo/catalog/text-reveal-box.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-tilt-slide-transition",
+      "type": "registry:ui",
+      "title": "Tilt Slide Transition Demo",
+      "description": "Interactive tilt slide transition showcase switching between Home, Projects, and Info views.",
+      "registryDependencies": ["@soralabs/tilt-slide-transition"],
+      "files": [
+        {
+          "path": "registry/demo/catalog/tilt-slide-transition/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/catalog/tilt-slide-transition.tsx"
         }
       ]
     },

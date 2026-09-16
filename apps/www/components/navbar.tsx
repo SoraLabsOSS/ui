@@ -247,7 +247,6 @@ export function Navbar({
                     <span
                       aria-disabled="true"
                       className="button pointer-events-none w-inline-block cursor-not-allowed rounded-[1.5rem]! opacity-40"
-                      data-barba-p=""
                       data-button-rotate=""
                       data-button-rotate-hover=""
                       data-outseta-type="login"
@@ -277,7 +276,6 @@ export function Navbar({
                   <div className="nav-bar__signup-button">
                     <Link
                       className="button w-inline-block rounded-[.875rem]!"
-                      data-barba-p=""
                       data-button-rotate=""
                       data-button-rotate-hover=""
                       data-outseta-type="join"

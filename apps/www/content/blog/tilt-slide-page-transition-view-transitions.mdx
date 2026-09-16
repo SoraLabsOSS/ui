@@ -1,0 +1,352 @@
+---
+title: "Multi-Page Editorial Transitions: Deconstructing the Tilt-Slide View Transition in React 19"
+description: An in-depth breakdown of the editorial tilt-and-slide page transition — combining browser-native View Transitions, diagonal clip-path slicing, and Next.js App Router template orchestration.
+ogSubtitle: Native View Transition API, diagonal clip-path entrance, tilted scale exit, and React 19 template orchestration.
+author: Axyl
+date: 2026-09-16
+hashtags: ["#nextjs", "#viewtransitions", "#react", "#animation", "#css"]
+---
+
+<video autoPlay className="w-full rounded-md border border-border/60" loop muted playsInline src="https://cdn.soralabs.studio/media/components/tilt-slide-transition/preview.webm" />
+
+When you navigate between pages on high-end editorial portfolios, the transition rarely feels like a traditional webpage loading. Instead of a jarring hard-cut or an uninspired opacity crossfade, the outgoing page physically retreats — shrinking down, drifting south, and tilting slightly off-axis — while the incoming view sweeps across from the bottom-right corner through an angled, expanding diagonal slice.
+
+It creates a tactile sensation of depth and physical momentum, reminiscent of sliding photography boards across an architect's desk.
+
+We recently packaged this transition into two complementary forms in the Sora ecosystem:
+1. **The Component Pattern**: [`TiltSlideTransition`](/catalog/tilt-slide-transition) — an interactive, self-contained layout showcase with GSAP SplitText character and line reveals, Lenis smooth scrolling, and controlled view switching.
+2. **The App Router Architecture**: [`tilt-slide-template`](https://github.com/SoraLabsOSS/tilt-slide-template) — a standalone, multi-page Next.js template using React 19's native `<ViewTransition>` component in `template.tsx`.
+
+Here is the complete teardown of how the animation works, the mathematics of the CSS keyframes, and how to implement it both as a contained component and across real multi-page Next.js routes.
+
+---
+
+## What makes the transition feel so natural?
+
+The secret to this effect isn't just movement; it's **choreographed asymmetry**.
+
+Most multi-page transitions apply symmetric easing: Page A slides left by 100%, Page B enters from the right by 100% at the exact same velocity. The result often feels mechanical.
+
+In the tilt-slide transition, two distinct spatial transformations happen on an offset timeline:
+
+| Transition Layer | Start Time | Duration | Key Motion Behavior |
+| :--- | :--- | :--- | :--- |
+| **Outgoing (`page-out`)** | `0.00s` | `1600ms` | Scales down to `0.8` → tilts `-10°` → drifts down-left (`-50%, 20%`) |
+| **Incoming (`page-in`)** | `+0.25s` (delay) | `1500ms` | Expands diagonal `clip-path` from bottom-right → slides to `(0, 0)` |
+| **Navbar (Anchor)** | Continuous | Persistent | Remains fixed and un-animated via `view-transition-name: navbar` |
+
+### The 3-Phase Choreography
+
+1. **Phase 1: Depth Squeeze (`0.00s → 0.25s`)**  
+   The active page scales down to `80%` while staying level (`rotate(0deg)`). This gives the viewer's eye an instant cue that the current plane is receding in 3D space.
+
+2. **Phase 2: The Offset Slice (`+0.25s`)**  
+   After a deliberate 250ms delay, the incoming page cuts in from the bottom-right quadrant using an angled diagonal `clip-path`.
+
+3. **Phase 3: Tilt & Full Reveal (`0.25s → 1.75s`)**  
+   While the outgoing page tilts `-10°` and slides out of frame, the new page expands to 100% viewport coverage and settles cleanly into place.
+
+---
+
+## Deep Dive: The CSS Keyframe Mechanics
+
+All the motion lives in standard CSS pseudo-elements provided by the browser's View Transition API:
+
+```css
+::view-transition-group(navbar) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(.page-exit),
+::view-transition-old(page-content) {
+  animation: 1600ms cubic-bezier(0.65, 0, 0.35, 1) both page-out;
+}
+
+::view-transition-new(.page-enter),
+::view-transition-new(page-content) {
+  animation: 1500ms cubic-bezier(0.65, 0, 0.35, 1) both page-in;
+  animation-delay: 0.25s;
+}
+```
+
+### The Outgoing Squeeze & Tilt
+
+```css
+@keyframes page-out {
+  0% {
+    transform: translateX(0%) translateY(0%) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(0%) translateY(0%) rotate(0deg) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(-50%) translateY(20%) rotate(-10deg) scale(0.65);
+    opacity: 0.25;
+  }
+}
+```
+
+Notice the midpoint keyframe at `40%`:
+- The element shrinks to `80%` scale while remaining level at `rotate(0deg)`. This gives the eye time to register that the current canvas is moving back in 3D space.
+- Between `40%` and `100%`, it accelerates into a `-10deg` counter-clockwise tilt and sinks down `20%` on the Y-axis.
+
+### The Diagonal Polygon Slice
+
+The entrance uses CSS `clip-path: polygon(...)` to create an angular reveal:
+
+```css
+@keyframes page-in {
+  from {
+    transform: translateX(100%) translateY(20%);
+    clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
+  }
+  to {
+    transform: translateX(0%) translateY(0%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+```
+
+At the `from` frame:
+- The polygon `polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%)` isolates the **bottom-right quadrant**.
+- Combined with `translateX(100%) translateY(20%)`, the incoming page bursts out of that lower right quadrant and expands diagonally to cover `polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)`.
+
+Because both pseudo-elements run hardware-accelerated transforms and clip-paths, this animation executes comfortably at **60-120fps** without dropping frames.
+
+---
+
+## Pattern 1: Standalone Component (`document.startViewTransition`)
+
+If you are building an interactive showcase, catalog item, or single-page dashboard where views change within a container, you can trigger native View Transitions imperatively using `document.startViewTransition`:
+
+```tsx
+"use client";
+
+import { useCallback, useRef, useState } from "react";
+import { flushSync } from "react-dom";
+
+export function TiltSlideShowcase() {
+  const [activePage, setActivePage] = useState<"home" | "projects" | "info">("home");
+  const isTransitioningRef = useRef(false);
+
+  const handleNavigate = useCallback((targetPage: typeof activePage) => {
+    if (targetPage === activePage || isTransitioningRef.current) return;
+
+    if (typeof document !== "undefined" && "startViewTransition" in document) {
+      isTransitioningRef.current = true;
+      try {
+        const transition = document.startViewTransition(() => {
+          // flushSync ensures React updates DOM state synchronously
+          // before the browser captures the "new" snapshot
+          flushSync(() => {
+            setActivePage(targetPage);
+          });
+        });
+
+        transition.finished.finally(() => {
+          isTransitioningRef.current = false;
+        });
+      } catch {
+        setActivePage(targetPage);
+        isTransitioningRef.current = false;
+      }
+    } else {
+      // Fallback for browsers without View Transition API
+      setActivePage(targetPage);
+    }
+  }, [activePage]);
+
+  return (
+    <div className="tst-root">
+      <nav style={{ viewTransitionName: "navbar" }}>
+        <button onClick={() => handleNavigate("home")}>Home</button>
+        <button onClick={() => handleNavigate("projects")}>Projects</button>
+        <button onClick={() => handleNavigate("info")}>Info</button>
+      </nav>
+
+      <div
+        className="page-content page-enter page-exit"
+        style={{ viewTransitionName: "page-content" }}
+      >
+        {activePage === "home" && <HomeView />}
+        {activePage === "projects" && <ProjectsView />}
+        {activePage === "info" && <InfoView />}
+      </div>
+    </div>
+  );
+}
+```
+
+> [!IMPORTANT]
+> **Why `flushSync` is critical**: React 18 and 19 batch state updates asynchronously. `document.startViewTransition(callback)` expects the DOM to reflect the new state *immediately* when `callback()` resolves so it can snapshot the new view. Wrapping `setActivePage` inside `flushSync` guarantees that the DOM updates synchronously.
+
+---
+
+## Pattern 2: Next.js App Router Multi-Page Template (`<ViewTransition>`)
+
+In a real multi-page application with separate routes (`/`, `/projects`, `/about`, `/info`), you don't want a fake tab switcher. You want real URLs, SEO, browser back/forward history, and prefetching.
+
+In Next.js 15+ and React 19, you can orchestrate this across genuine route changes using **`template.tsx`** and React's experimental `<ViewTransition>`:
+
+### 1. The Template Wrapper (`src/app/template.tsx`)
+
+Unlike `layout.tsx` (which persists across navigations), `template.tsx` remounts on every route change. This makes it the ideal place to assign the transition tags:
+
+```tsx
+"use client";
+
+import type { ReactNode } from "react";
+import { ViewTransition } from "react";
+
+export default function Template({ children }: { children: ReactNode }) {
+  return (
+    <ViewTransition enter="page-enter" exit="page-exit" default="none">
+      {children}
+    </ViewTransition>
+  );
+}
+```
+
+### 2. The Persistent Layout (`src/app/layout.tsx`)
+
+Your navigation bar sits inside `layout.tsx` and maintains a permanent identity:
+
+```tsx
+import type { ReactNode } from "react";
+import Navbar from "@/components/Navbar";
+import "./globals.css";
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Navbar />
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+### 3. The Isolated Navbar (`src/components/Navbar.tsx`)
+
+Assigning `viewTransitionName: "navbar"` tells the browser: *"Do not snapshot or animate me as part of the page content. Keep me fixed in place."*
+
+```tsx
+import Link from "next/link";
+
+export default function Navbar() {
+  return (
+    <nav className="navbar" style={{ viewTransitionName: "navbar" }}>
+      <Link href="/">Home</Link>
+      <Link href="/projects">Projects</Link>
+      <Link href="/about">About</Link>
+      <Link href="/info">Info</Link>
+    </nav>
+  );
+}
+```
+
+Now, clicking any `<Link href="...">` triggers the native browser View Transition automatically. Zero client routing hacks, zero heavy third-party routing wrappers.
+
+---
+
+## The Mobile & Responsive Footgun: Viewport Scroll Locking
+
+When adapting this transition to responsive viewports, a common bug occurs:
+
+```css
+/* ❌ Problem: The container clips overflowing content */
+.tst-root {
+  height: 100svh;
+  overflow: hidden;
+}
+```
+
+On desktop, your pages might fit neatly inside `100svh`. But on mobile viewports:
+- Two-column layouts collapse into a vertical stack (`flex-direction: column`).
+- Images take vertical room (`55vh`), pushing text down.
+- The total height exceeds `100svh`.
+
+If your sub-views don't have their own scroll container, users will find the page locked and unable to scroll down.
+
+To fix this cleanly:
+1. Give each sub-view `height: 100svh; overflow-y: auto;`.
+2. Wrap scrollable columns in a smooth scroll container like `ReactLenis`:
+
+```tsx
+export function InfoView({ image, paragraph }: InfoProps) {
+  return (
+    <ReactLenis className="info" options={{ wrapper: undefined }}>
+      <div className="info-container">
+        <div className="col">
+          <img alt="Portrait" src={image} />
+        </div>
+        <div className="col">
+          <p>{paragraph}</p>
+        </div>
+      </div>
+    </ReactLenis>
+  );
+}
+```
+
+```css
+.tst-root .info {
+  width: 100%;
+  height: 100svh;
+  overflow-y: auto;
+  background-color: var(--bg);
+}
+
+.tst-root .info-container {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+}
+
+@media (max-width: 1000px) {
+  .tst-root .info-container {
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  .tst-root .col:first-child {
+    height: 55vh;
+    min-height: 300px;
+    flex: none;
+  }
+  .tst-root .col:nth-child(2) {
+    padding: 2.5rem 1.5rem 5rem;
+    flex: none;
+  }
+}
+```
+
+Now, on both mobile screens and narrow split-screen preview panels, visitors can smoothly scroll all the way to the bottom without breaking the transition.
+
+---
+
+## Resources & Starter Template
+
+You can explore and fork the ready-to-use template or try the component in Sora UI:
+
+- **Live Template Demo**: [tilt-slide-template.soralabs.studio](https://tilt-slide-template.soralabs.studio/)
+- **GitHub Starter Repository**: [SoraLabsOSS/tilt-slide-template](https://github.com/SoraLabsOSS/tilt-slide-template)
+- **Sora UI Component**: [Tilt Slide Transition](/catalog/tilt-slide-transition)
+
+```bash
+# Clone the complete Next.js starter
+git clone https://github.com/SoraLabsOSS/tilt-slide-template.git my-portfolio
+cd my-portfolio
+bun install
+bun dev
+```
+
+---
+
+## Credits
+
+Inspired by the editorial portfolio transition on [Paul Kalkbrenner](https://www.paulkalkbrenner.net) and the multi-page View Transition technique demonstrated by [Codegrid](https://www.youtube.com/@CodeGrid). Reimplemented natively for React 19, TypeScript, and Next.js App Router.
