@@ -171,8 +171,9 @@ export function ComponentPagePreviewPanel({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col rounded-2xl border border-border/50 bg-secondary",
-        "max-lg:flex-none max-lg:overflow-visible lg:min-h-0 lg:flex-1 lg:overflow-hidden",
+        "relative flex w-full flex-col border border-border/50 bg-secondary",
+        "rounded-2xl max-lg:rounded-3xl",
+        "max-lg:flex-none max-lg:overflow-hidden lg:min-h-0 lg:flex-1 lg:overflow-hidden",
         catalogPreviewMobilePanelClassName,
         sticky && "lg:h-full",
         className
@@ -182,16 +183,16 @@ export function ComponentPagePreviewPanel({
         {previewToolbar}
       </div>
 
-      <div className="relative min-h-[520px] w-full flex-1 overflow-hidden rounded-b-2xl bg-background max-lg:h-[72dvh] lg:h-full">
+      <div className="relative w-full flex-1 overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
         {!iframeLoaded && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 bg-secondary/80 text-muted-foreground text-sm backdrop-blur-sm">
+          <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 bg-secondary/80 text-muted-foreground text-sm backdrop-blur-sm max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl">
             <Loader className="size-4 animate-spin" />
             Loading preview...
           </div>
         )}
         {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Native iframe onLoad state tracking. */}
         <iframe
-          className="size-full border-0 bg-background"
+          className="size-full border-0 bg-background max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl"
           key={`${registryName}-${previewKey}`}
           onLoad={() => {
             setIframeLoaded(true);

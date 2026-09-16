@@ -253,8 +253,9 @@ export function ComponentPageLayoutClient({
   const isStacked = useCatalogStackedLayout();
   const { open: isCatalogMenuOpen } = useCatalogMenu();
 
-  const useFixedPreviewShellWidth =
+  const isDesktopAnimating =
     isLargeScreen && (isExpanded || isPreviewAnimating);
+  const useFixedPreviewShellWidth = isDesktopAnimating;
 
   const handleToggleExpanded = useCallback(() => {
     if (window.matchMedia(LG_MEDIA).matches) {
@@ -349,7 +350,7 @@ export function ComponentPageLayoutClient({
 
       <motion.div
         animate={
-          isLargeScreen
+          isDesktopAnimating
             ? {
                 left: isExpanded ? "0%" : "50%",
                 width: isExpanded ? "100%" : "50%",
@@ -366,7 +367,7 @@ export function ComponentPageLayoutClient({
         )}
         initial={false}
         onAnimationComplete={handlePreviewAnimationComplete}
-        style={isLargeScreen ? undefined : { left: "auto", width: "auto" }}
+        style={isLargeScreen ? undefined : { left: "auto", width: "100%" }}
         transition={
           isBreakpointTransition ? { duration: 0 } : EXPAND_TRANSITION
         }

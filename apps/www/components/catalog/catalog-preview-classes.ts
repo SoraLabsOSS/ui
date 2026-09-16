@@ -18,8 +18,9 @@ export const catalogPreviewDemoShellClassName = [
   "max-lg:h-auto",
 ].join(" ");
 
-/** Preview panel on stacked layout — grows with demo content; page scrolls instead. */
-export const catalogPreviewMobilePanelClassName = "max-lg:h-auto";
+/** Preview panel on stacked layout — fills viewport height on mobile. */
+export const catalogPreviewMobilePanelClassName =
+  "max-lg:h-[calc(100dvh-1rem)] max-lg:min-h-[calc(100dvh-1rem)]";
 
 /** Shared chrome row layout (mobile / stacked). */
 export const catalogChromeRowClassName = "flex min-h-14 shrink-0 items-center";
@@ -228,9 +229,9 @@ export const catalogDocsHeaderMenuClassName = "shrink-0";
 export const catalogDocsHeaderBreadcrumbClassName =
   "flex h-full min-w-0 flex-1 items-center truncate";
 
-/** Preview shell gutter — 8px top/x on mobile; asymmetric inset on desktop for tighter center gap. */
+/** Preview shell gutter — 8px frame on mobile; asymmetric inset on desktop for tighter center gap. */
 export const catalogPreviewShellGutterClassName = [
-  "max-lg:px-2 max-lg:pt-2 max-lg:pb-6",
+  "max-lg:p-2",
   "lg:pt-4 lg:pb-4 lg:pr-4 lg:pl-1.5",
 ].join(" ");
 
