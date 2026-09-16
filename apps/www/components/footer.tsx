@@ -18,6 +18,127 @@ import {
   X_PROFILE_URL,
 } from "@/lib/site";
 
+interface FooterLink {
+  external?: boolean;
+  href: string;
+  label: string;
+}
+
+interface FooterColumn {
+  id: string;
+  links: FooterLink[];
+  title: string;
+}
+
+const FOOTER_COLUMNS: FooterColumn[] = [
+  {
+    id: "components",
+    title: "Components",
+    links: [
+      { label: "Motion Primitives", href: "/motion" },
+      { label: "UI Foundation", href: "/ui" },
+      { label: "Catalog Showcase", href: "/catalog" },
+      { label: "Animated Icons", href: "/icons" },
+      { label: "Sora CLI", href: "/docs/cli" },
+    ],
+  },
+  {
+    id: "documentation",
+    title: "Documentation",
+    links: [
+      { label: "Introduction", href: "/docs" },
+      { label: "Base UI & Radix", href: "/ui" },
+      { label: "Changelog", href: "/docs/changelog" },
+      { label: "Troubleshooting", href: "/docs/troubleshooting" },
+    ],
+  },
+  {
+    id: "community",
+    title: "Community",
+    links: [
+      { label: "GitHub", href: GITHUB_REPO_URL, external: true },
+      { label: "Community Hub", href: COMMUNITY_REPO_URL, external: true },
+      { label: "Blog", href: "/blog" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Report an Issue", href: COMMUNITY_ISSUES_URL, external: true },
+      { label: "Support", href: `mailto:${CONTACT_EMAIL}`, external: true },
+    ],
+  },
+];
+
+function AccordionToggleSvg() {
+  return (
+    <svg
+      className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
+      fill="none"
+      viewBox="0 0 13 13"
+      width="100%"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Toggle</title>
+      <path
+        d="M5.96149 12.0996V6.99217H0.839844V5.20705H5.96149V0.0996094H7.74294V5.20705H12.8398V6.99217H7.74294V12.0996H5.96149Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function GithubSvg() {
+  return (
+    <svg
+      className="svg"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      width="100%"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>GitHub</title>
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+    </svg>
+  );
+}
+
+function XSvg() {
+  return (
+    <svg
+      className="svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      width="100%"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>X</title>
+      <path
+        d="M13.71 10.59L20.41 2.79999H18.82L13 9.55999L8.35 2.79999H3L10.03 13.03L3 21.2H4.59L10.73 14.06L15.64 21.2H21L13.71 10.59ZM11.54 13.12L10.83 12.1L5.16 3.99999H7.6L12.17 10.54L12.88 11.56L18.82 20.06H16.38L11.53 13.12H11.54Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function CommunitySvg() {
+  return (
+    <svg
+      className="svg"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="100%"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Community</title>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
 export function Footer() {
   const containerRef = useRef<HTMLDivElement>(null);
   useButton3DHover(containerRef);
@@ -172,266 +293,61 @@ export function Footer() {
                     className="flex w-full items-start gap-[var(--gap-sm)] max-[767px]:flex-col max-[767px]:gap-0"
                     data-accordion-close-siblings="true"
                   >
-                    {/* 1. Components Column */}
-                    <div
-                      className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
-                      data-accordion-status={
-                        openAccordion === "components" ? "active" : "not-active"
-                      }
-                    >
-                      {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
+                    {FOOTER_COLUMNS.map((column) => (
                       <div
-                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
-                        data-accordion-toggle=""
-                        data-hover=""
-                        onClick={() => toggleAccordion("components")}
+                        className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
+                        data-accordion-status={
+                          openAccordion === column.id ? "active" : "not-active"
+                        }
+                        key={column.id}
                       >
-                        <h4 className="h-xs">Components</h4>
-                        <svg
-                          className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
-                          fill="none"
-                          viewBox="0 0 13 13"
-                          width="100%"
-                          xmlns="http://www.w3.org/2000/svg"
+                        {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
+                        <div
+                          className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
+                          data-accordion-toggle=""
+                          data-hover=""
+                          onClick={() => toggleAccordion(column.id)}
                         >
-                          <title>Toggle</title>
-                          <path
-                            d="M5.96149 12.0996V6.99217H0.839844V5.20705H5.96149V0.0996094H7.74294V5.20705H12.8398V6.99217H7.74294V12.0996H5.96149Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </div>
-                      <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
-                        <div className="relative flex h-[100000%] flex-col overflow-hidden">
-                          <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
-                            <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/motion"
-                                >
-                                  Motion Primitives
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/ui"
-                                >
-                                  UI Foundation
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/catalog"
-                                >
-                                  Catalog Showcase
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/icons"
-                                >
-                                  Animated Icons
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/docs/cli"
-                                >
-                                  Sora CLI
-                                </Link>
-                              </li>
-                            </ul>
+                          <h4 className="h-xs">{column.title}</h4>
+                          <AccordionToggleSvg />
+                        </div>
+                        <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
+                          <div className="relative flex h-[100000%] flex-col overflow-hidden">
+                            <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
+                              <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
+                                {column.links.map((link) => (
+                                  <li key={link.label}>
+                                    {link.external ? (
+                                      <a
+                                        className="p-m"
+                                        data-underline-link=""
+                                        href={link.href}
+                                        rel="noopener noreferrer"
+                                        target={
+                                          link.href.startsWith("http")
+                                            ? "_blank"
+                                            : undefined
+                                        }
+                                      >
+                                        {link.label}
+                                      </a>
+                                    ) : (
+                                      <Link
+                                        className="p-m"
+                                        data-underline-link=""
+                                        href={link.href}
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    {/* 2. Documentation Column */}
-                    <div
-                      className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
-                      data-accordion-status={
-                        openAccordion === "documentation"
-                          ? "active"
-                          : "not-active"
-                      }
-                    >
-                      {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
-                      <div
-                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
-                        data-accordion-toggle=""
-                        data-hover=""
-                        onClick={() => toggleAccordion("documentation")}
-                      >
-                        <h4 className="h-xs">Documentation</h4>
-                        <svg
-                          className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
-                          fill="none"
-                          viewBox="0 0 13 13"
-                          width="100%"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>Toggle</title>
-                          <path
-                            d="M5.96149 12.0996V6.99217H0.839844V5.20705H5.96149V0.0996094H7.74294V5.20705H12.8398V6.99217H7.74294V12.0996H5.96149Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </div>
-                      <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
-                        <div className="relative flex h-[100000%] flex-col overflow-hidden">
-                          <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
-                            <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/docs"
-                                >
-                                  Introduction
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/ui"
-                                >
-                                  Base UI &amp; Radix
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="underline-link p-m"
-                                  data-underline-link=""
-                                  href="/docs/changelog"
-                                >
-                                  Changelog
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/docs/troubleshooting"
-                                >
-                                  Troubleshooting
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 3. Community Column */}
-                    <div
-                      className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
-                      data-accordion-status={
-                        openAccordion === "community" ? "active" : "not-active"
-                      }
-                    >
-                      {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
-                      <div
-                        className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
-                        data-accordion-toggle=""
-                        data-hover=""
-                        onClick={() => toggleAccordion("community")}
-                      >
-                        <h4 className="h-xs">Community</h4>
-                        <svg
-                          className="hidden size-[0.625em] shrink-0 rotate-0 items-center justify-center transition-transform duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:rotate-[315deg] max-[767px]:flex"
-                          fill="none"
-                          viewBox="0 0 13 13"
-                          width="100%"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>Toggle</title>
-                          <path
-                            d="M5.96149 12.0996V6.99217H0.839844V5.20705H5.96149V0.0996094H7.74294V5.20705H12.8398V6.99217H7.74294V12.0996H5.96149Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </div>
-                      <div className="relative grid grid-rows-[1fr] overflow-hidden transition-[grid-template-rows] duration-[var(--duration-default)] ease-[var(--cubic-default)] group-data-[accordion-status=active]:grid-rows-[1fr] max-[767px]:grid-rows-[0fr]">
-                        <div className="relative flex h-[100000%] flex-col overflow-hidden">
-                          <div className="max-[767px]:px-[var(--gap-l)] max-[767px]:pb-[var(--gap-l)]">
-                            <ul className="flex list-none flex-col items-start justify-start gap-[0.3125em] pb-[0.125em] max-[767px]:gap-[var(--gap-xxs)]">
-                              <li>
-                                <a
-                                  className="underline-link p-m"
-                                  data-underline-link=""
-                                  href={GITHUB_REPO_URL}
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                >
-                                  GitHub
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href={COMMUNITY_REPO_URL}
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                >
-                                  Community Hub
-                                </a>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/blog"
-                                >
-                                  Blog
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href="/pricing"
-                                >
-                                  Pricing
-                                </Link>
-                              </li>
-                              <li>
-                                <a
-                                  className="p-m"
-                                  data-underline-link=""
-                                  href={COMMUNITY_ISSUES_URL}
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                >
-                                  Report an Issue
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  className="p-m"
-                                  data-barba-prevent=""
-                                  data-underline-link=""
-                                  href={`mailto:${CONTACT_EMAIL}`}
-                                >
-                                  Support
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
 
                   {/* Buttons Row: Docs & Explore UI + Socials right below link columns */}
@@ -440,7 +356,6 @@ export function Footer() {
                       <div className="button-row">
                         <Link
                           className="button w-inline-block rounded-[1.5rem]!"
-                          data-barba-p=""
                           data-button-rotate=""
                           data-button-rotate-hover=""
                           data-responsive=""
@@ -466,7 +381,6 @@ export function Footer() {
                         </Link>
                         <Link
                           className="button w-inline-block rounded-[.875rem]!"
-                          data-barba-p=""
                           data-button-rotate=""
                           data-button-rotate-hover=""
                           data-responsive=""
@@ -512,28 +426,10 @@ export function Footer() {
                           />
                           <div className="button-icon__wrap">
                             <div className="button-icon">
-                              <svg
-                                className="svg"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                width="100%"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title>GitHub</title>
-                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                              </svg>
+                              <GithubSvg />
                             </div>
                             <div className="button-icon">
-                              <svg
-                                className="svg"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                width="100%"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title>GitHub</title>
-                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                              </svg>
+                              <GithubSvg />
                             </div>
                           </div>
                         </a>
@@ -556,34 +452,10 @@ export function Footer() {
                           />
                           <div className="button-icon__wrap">
                             <div className="button-icon">
-                              <svg
-                                className="svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                width="100%"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title>X</title>
-                                <path
-                                  d="M13.71 10.59L20.41 2.79999H18.82L13 9.55999L8.35 2.79999H3L10.03 13.03L3 21.2H4.59L10.73 14.06L15.64 21.2H21L13.71 10.59ZM11.54 13.12L10.83 12.1L5.16 3.99999H7.6L12.17 10.54L12.88 11.56L18.82 20.06H16.38L11.53 13.12H11.54Z"
-                                  fill="currentColor"
-                                />
-                              </svg>
+                              <XSvg />
                             </div>
                             <div className="button-icon">
-                              <svg
-                                className="svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                width="100%"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title>X</title>
-                                <path
-                                  d="M13.71 10.59L20.41 2.79999H18.82L13 9.55999L8.35 2.79999H3L10.03 13.03L3 21.2H4.59L10.73 14.06L15.64 21.2H21L13.71 10.59ZM11.54 13.12L10.83 12.1L5.16 3.99999H7.6L12.17 10.54L12.88 11.56L18.82 20.06H16.38L11.53 13.12H11.54Z"
-                                  fill="currentColor"
-                                />
-                              </svg>
+                              <XSvg />
                             </div>
                           </div>
                         </a>
@@ -606,42 +478,10 @@ export function Footer() {
                           />
                           <div className="button-icon__wrap">
                             <div className="button-icon">
-                              <svg
-                                className="svg"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                                width="100%"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title>Community</title>
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                <circle cx="9" cy="7" r="4" />
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                              </svg>
+                              <CommunitySvg />
                             </div>
                             <div className="button-icon">
-                              <svg
-                                className="svg"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                                width="100%"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title>Community</title>
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                <circle cx="9" cy="7" r="4" />
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                              </svg>
+                              <CommunitySvg />
                             </div>
                           </div>
                         </a>
@@ -667,7 +507,6 @@ export function Footer() {
                       <div className="w-dyn-item" role="listitem">
                         <a
                           className="button tag w-inline-block"
-                          data-barba-p=""
                           data-button-rotate=""
                           data-button-rotate-hover=""
                           data-shape="square"
@@ -697,7 +536,6 @@ export function Footer() {
                       <div className="w-dyn-item" role="listitem">
                         <Link
                           className="button tag w-inline-block"
-                          data-barba-p=""
                           data-button-rotate=""
                           data-button-rotate-hover=""
                           data-shape="round"
@@ -723,7 +561,6 @@ export function Footer() {
                       <div className="w-dyn-item" role="listitem">
                         <Link
                           className="button tag w-inline-block"
-                          data-barba-p=""
                           data-button-rotate=""
                           data-button-rotate-hover=""
                           data-shape="square"
@@ -751,7 +588,6 @@ export function Footer() {
                       <div className="w-dyn-item" role="listitem">
                         <a
                           className="button tag w-inline-block"
-                          data-barba-p=""
                           data-button-rotate=""
                           data-button-rotate-hover=""
                           data-shape="round"
@@ -792,7 +628,6 @@ export function Footer() {
                   <div className="button-row">
                     <a
                       className="button tag w-inline-block"
-                      data-barba-p="true"
                       data-button-rotate=""
                       data-button-rotate-hover=""
                       data-shape=""
@@ -817,7 +652,6 @@ export function Footer() {
                     </a>
                     <a
                       className="button tag w-inline-block"
-                      data-barba-p="true"
                       data-button-rotate=""
                       data-button-rotate-hover=""
                       data-shape="round"

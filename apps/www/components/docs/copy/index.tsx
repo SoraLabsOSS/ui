@@ -7,9 +7,12 @@ import { CopyIcon } from "@/registry/icons/copy";
 import { Button, type ButtonProps } from "@/registry/ui/base/button";
 
 type CopyButtonProps = Omit<ButtonProps, "children"> & {
-  content: string;
+  content?: string;
   copied?: boolean;
+  isCopied?: boolean;
   onCopiedChange?: (copied: boolean, content?: string) => void;
+  onCopyChange?: (isCopied: boolean) => void;
+  onCopy?: (content?: string) => void;
   delay?: number;
 };
 
@@ -17,7 +20,10 @@ function CopyButton({
   className,
   content,
   copied,
+  isCopied: isCopiedProp,
   onCopiedChange,
+  onCopyChange,
+  onCopy,
   onClick,
   variant = "ghost",
   size = "icon-sm",
@@ -25,8 +31,11 @@ function CopyButton({
   ...props
 }: CopyButtonProps) {
   const [isCopied, setIsCopied] = useControlledState({
-    value: copied,
-    onChange: onCopiedChange,
+    value: copied ?? isCopiedProp,
+    onChange: (val) => {
+      onCopiedChange?.(val, content);
+      onCopyChange?.(val);
+    },
   });
 
   const handleCopy = useCallback(
@@ -41,6 +50,7 @@ function CopyButton({
           .then(() => {
             setIsCopied(true);
             onCopiedChange?.(true, content);
+            onCopy?.(content);
             setTimeout(() => {
               setIsCopied(false);
               onCopiedChange?.(false);
@@ -51,7 +61,7 @@ function CopyButton({
           });
       }
     },
-    [onClick, isCopied, content, setIsCopied, onCopiedChange, delay]
+    [onClick, isCopied, content, setIsCopied, onCopiedChange, onCopy, delay]
   );
 
   return (

@@ -6,9 +6,9 @@ import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
 import { DocsSidebar } from "@/components/docs/sidebar";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
+import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";
 import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
-import { getUiReleaseDatesByUrl } from "@/lib/ui/get-release-dates-by-url";
 import { uiSource } from "@/lib/ui/source";
 
 const UI_LAYOUT_PROPS: DocsLayoutProps = {
@@ -30,7 +30,7 @@ const UI_LAYOUT_PROPS: DocsLayoutProps = {
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const releaseDatesByUrl = getUiReleaseDatesByUrl();
+  const releaseDatesByUrl = getReleaseDatesByUrl();
   const primitivesUrl = getFirstPrimitiveDocUrl();
   const uiUrl = getFirstUiDocUrl();
 

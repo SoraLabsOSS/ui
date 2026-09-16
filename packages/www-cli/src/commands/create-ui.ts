@@ -1,4 +1,3 @@
-import path from "node:path";
 import { note, outro, spinner } from "@clack/prompts";
 import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoUiMeta } from "../lib/meta-json.js";
@@ -6,6 +5,7 @@ import {
   findRepoRoot,
   getUiPaths,
   getWwwRoot,
+  relativeFromWww,
   type UiFramework,
 } from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
@@ -25,10 +25,6 @@ import {
   writeScaffoldFiles,
 } from "../lib/write-files.js";
 
-function relativeFromWww(wwwRoot: string, absolutePath: string): string {
-  return path.relative(wwwRoot, absolutePath).replaceAll("\\", "/");
-}
-
 function buildScaffoldPlan(
   wwwRoot: string,
   framework: UiFramework,
@@ -37,6 +33,7 @@ function buildScaffoldPlan(
 ): {
   files: ScaffoldFile[];
   labels: ReturnType<typeof buildUiScaffoldLabels>;
+  paths: ReturnType<typeof getUiPaths>;
 } {
   const paths = getUiPaths(wwwRoot, framework, name);
   const labels = buildUiScaffoldLabels(framework, name);
@@ -74,7 +71,7 @@ function buildScaffoldPlan(
     );
   }
 
-  return { files, labels };
+  return { files, labels, paths };
 }
 
 export async function runCreateUi(
@@ -84,7 +81,7 @@ export async function runCreateUi(
   const repoRoot = findRepoRoot();
   const wwwRoot = getWwwRoot(repoRoot);
   const resolved = await resolveCreateUiOptions(nameArg, options);
-  const { files, labels } = buildScaffoldPlan(
+  const { files, labels, paths } = buildScaffoldPlan(
     wwwRoot,
     resolved.framework,
     resolved.name,
@@ -116,7 +113,7 @@ export async function runCreateUi(
   if (resolved.quiet) {
     await writeScaffoldFiles(wwwRoot, files);
     await insertIntoUiMeta(
-      path.join(wwwRoot, "content/ui/meta.json"),
+      paths.metaJsonPath,
       resolved.framework,
       resolved.name
     );
@@ -135,11 +132,7 @@ export async function runCreateUi(
   writeSpinner.start("Writing scaffold files");
 
   await writeScaffoldFiles(wwwRoot, files);
-  await insertIntoUiMeta(
-    path.join(wwwRoot, "content/ui/meta.json"),
-    resolved.framework,
-    resolved.name
-  );
+  await insertIntoUiMeta(paths.metaJsonPath, resolved.framework, resolved.name);
 
   writeSpinner.stop("Scaffold created");
 

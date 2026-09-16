@@ -27,6 +27,10 @@ export function getWwwRoot(repoRoot = findRepoRoot()): string {
   return path.join(repoRoot, "apps", "www");
 }
 
+export function relativeFromWww(wwwRoot: string, absolutePath: string): string {
+  return path.relative(wwwRoot, absolutePath).replaceAll("\\", "/");
+}
+
 export const PRIMITIVE_CATEGORIES = [
   "texts",
   "buttons",

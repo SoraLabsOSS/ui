@@ -1,4 +1,3 @@
-import path from "node:path";
 import { note, outro, spinner } from "@clack/prompts";
 import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoMotionMeta } from "../lib/meta-json.js";
@@ -7,6 +6,7 @@ import {
   getPrimitivePaths,
   getWwwRoot,
   type PrimitiveCategory,
+  relativeFromWww,
 } from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreatePrimitiveOptions } from "../lib/resolve-create-primitive-options.js";
@@ -25,16 +25,16 @@ import {
   writeScaffoldFiles,
 } from "../lib/write-files.js";
 
-function relativeFromWww(wwwRoot: string, absolutePath: string): string {
-  return path.relative(wwwRoot, absolutePath).replaceAll("\\", "/");
-}
-
 function buildScaffoldPlan(
   wwwRoot: string,
   category: PrimitiveCategory,
   name: string,
   withDemo: boolean
-): { files: ScaffoldFile[]; labels: ReturnType<typeof buildScaffoldLabels> } {
+): {
+  files: ScaffoldFile[];
+  labels: ReturnType<typeof buildScaffoldLabels>;
+  paths: ReturnType<typeof getPrimitivePaths>;
+} {
   const paths = getPrimitivePaths(wwwRoot, category, name);
   const labels = buildScaffoldLabels(name);
 
@@ -83,7 +83,7 @@ function buildScaffoldPlan(
     );
   }
 
-  return { files, labels };
+  return { files, labels, paths };
 }
 
 export async function runCreatePrimitive(
@@ -93,7 +93,7 @@ export async function runCreatePrimitive(
   const repoRoot = findRepoRoot();
   const wwwRoot = getWwwRoot(repoRoot);
   const resolved = await resolveCreatePrimitiveOptions(nameArg, options);
-  const { files, labels } = buildScaffoldPlan(
+  const { files, labels, paths } = buildScaffoldPlan(
     wwwRoot,
     resolved.category,
     resolved.name,
@@ -125,7 +125,7 @@ export async function runCreatePrimitive(
   if (resolved.quiet) {
     await writeScaffoldFiles(wwwRoot, files);
     await insertIntoMotionMeta(
-      path.join(wwwRoot, "content/motion/meta.json"),
+      paths.metaJsonPath,
       resolved.category,
       resolved.name
     );
@@ -145,7 +145,7 @@ export async function runCreatePrimitive(
 
   await writeScaffoldFiles(wwwRoot, files);
   await insertIntoMotionMeta(
-    path.join(wwwRoot, "content/motion/meta.json"),
+    paths.metaJsonPath,
     resolved.category,
     resolved.name
   );

@@ -1,4 +1,3 @@
-import path from "node:path";
 import { note, outro, spinner } from "@clack/prompts";
 import { printDryRunPlan } from "../lib/dry-run.js";
 import {
@@ -8,7 +7,12 @@ import {
   renderIconIndex,
   renderIconRegistryItem,
 } from "../lib/icon-templates.js";
-import { findRepoRoot, getIconPaths, getWwwRoot } from "../lib/paths.js";
+import {
+  findRepoRoot,
+  getIconPaths,
+  getWwwRoot,
+  relativeFromWww,
+} from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreateIconOptions } from "../lib/resolve-create-icon-options.js";
 import { resolveCreateIconOptions } from "../lib/resolve-create-icon-options.js";
@@ -17,10 +21,6 @@ import {
   type ScaffoldFile,
   writeScaffoldFiles,
 } from "../lib/write-files.js";
-
-function relativeFromWww(wwwRoot: string, absolutePath: string): string {
-  return path.relative(wwwRoot, absolutePath).replaceAll("\\", "/");
-}
 
 function buildScaffoldPlan(
   wwwRoot: string,

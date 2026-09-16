@@ -15,7 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { CopyButton } from "@/components/buttons/copy";
+import { CopyButton } from "@/components/docs/copy";
 
 export type CodeBlockProps = HTMLAttributes<HTMLElement> & {
   icon?: ReactNode;

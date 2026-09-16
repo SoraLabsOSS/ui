@@ -14,3 +14,13 @@ export function isRecentlyReleased(date: Date | string | undefined): boolean {
   const diffDays = (Date.now() - releaseMs) / MS_PER_DAY;
   return diffDays <= NEW_RELEASE_WINDOW_DAYS;
 }
+
+export function isPageNew(
+  url: string | undefined,
+  releaseDatesByUrl: Record<string, string>
+): boolean {
+  if (!url) {
+    return false;
+  }
+  return isRecentlyReleased(releaseDatesByUrl[url]);
+}

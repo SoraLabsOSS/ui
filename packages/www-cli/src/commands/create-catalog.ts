@@ -1,9 +1,14 @@
-import path from "node:path";
 import { note, outro, spinner } from "@clack/prompts";
 import { renderCatalogMdx } from "../lib/catalog-templates.js";
 import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoCatalogMeta } from "../lib/meta-json.js";
-import { findRepoRoot, getCatalogPaths, getWwwRoot } from "../lib/paths.js";
+import { toPascalCase } from "../lib/naming.js";
+import {
+  findRepoRoot,
+  getCatalogPaths,
+  getWwwRoot,
+  relativeFromWww,
+} from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreateCatalogOptions } from "../lib/resolve-create-catalog-options.js";
 import { resolveCreateCatalogOptions } from "../lib/resolve-create-catalog-options.js";
@@ -12,10 +17,6 @@ import {
   type ScaffoldFile,
   writeScaffoldFiles,
 } from "../lib/write-files.js";
-
-function relativeFromWww(wwwRoot: string, absolutePath: string): string {
-  return path.relative(wwwRoot, absolutePath).replaceAll("\\", "/");
-}
 
 export async function runCreateCatalog(
   slugArg: string | undefined,
@@ -35,10 +36,7 @@ export async function runCreateCatalog(
         description: resolved.description,
         category: resolved.category,
         registryName: resolved.registryName,
-        exportName: resolved.registryName
-          .split("-")
-          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-          .join(""),
+        exportName: toPascalCase(resolved.registryName),
       }),
     },
   ];
