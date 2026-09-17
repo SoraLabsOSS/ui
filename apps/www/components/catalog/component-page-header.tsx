@@ -41,7 +41,7 @@ export function ComponentPageHeader({
           {data.collection}
         </p>
         <div className="flex w-full flex-row items-start justify-between gap-2">
-          <h1 className="min-w-0 text-3xl tracking-tighter sm:text-4xl md:text-5xl">
+          <h1 className="min-w-0 font-semibold text-2xl tracking-tight sm:text-3xl md:text-4xl">
             {data.title}
           </h1>
           <NeighborNavButtons
@@ -50,7 +50,7 @@ export function ComponentPageHeader({
             previous={previousNav}
           />
         </div>
-        <p className="mt-1 max-w-2xl text-base text-foreground/50 leading-relaxed md:text-lg">
+        <p className="mt-1 max-w-2xl text-foreground/60 text-sm leading-relaxed md:text-base">
           {data.description}
         </p>
         {releaseDate ? (

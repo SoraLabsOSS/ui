@@ -1091,6 +1091,50 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-switch": React.lazy(async () => {
+    const mod = await import("@/registry/demo/ui/base/switch/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-switch-sizes": React.lazy(async () => {
+    const mod = await import("@/registry/demo/ui/base/switch-sizes/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-switch-with-icon": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/ui/base/switch-with-icon/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-base-tooltip": React.lazy(async () => {
     const mod = await import("@/registry/demo/ui/base/tooltip/index.tsx");
     const pascalExportName = Object.keys(mod).find(
@@ -2015,6 +2059,20 @@ export const previewComponents: Record<string, any> = {
   }),
   "base-dropdown-menu": React.lazy(async () => {
     const mod = await import("@/registry/ui/base/dropdown-menu/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "base-switch": React.lazy(async () => {
+    const mod = await import("@/registry/ui/base/switch/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );

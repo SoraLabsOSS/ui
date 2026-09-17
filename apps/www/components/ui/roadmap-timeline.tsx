@@ -163,7 +163,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     category: "base-ui",
     categoryLabel: "Base UI",
     phase: 1,
-    status: "planned",
+    status: "in-progress",
     frameworks: ["react"],
     motionScore: "B",
     scoreValue: 3,
@@ -208,14 +208,15 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     category: "base-ui",
     categoryLabel: "Base UI",
     phase: 1,
-    status: "in-progress",
+    status: "completed",
     frameworks: ["react"],
     motionScore: "S",
     scoreValue: 5,
     description:
-      "Inertia stretch switch toggle with rubber-band thumb physics.",
+      "Toggle switch with Motion spring layout physics, size variants, and track icon slots.",
+    docUrl: "/ui/base/switch",
     priority: "High",
-    tags: ["Forms", "Rubber Band", "Base UI"],
+    tags: ["Forms", "Spring Layout", "Base UI"],
   },
   {
     id: "base-tabs",
@@ -660,25 +661,6 @@ function RoadmapCard({
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 self-start sm:self-auto">
-          {item.motionScore && (
-            <span
-              className={cn(
-                "rounded-md border px-2 py-0.5 font-bold font-mono text-xs",
-                item.motionScore === "S" &&
-                  "border-[oklch(0.88_0.18_96)/40] bg-[oklch(0.88_0.18_96)/10] text-[#b88600] dark:text-[oklch(0.88_0.18_96)]",
-                item.motionScore === "A" &&
-                  "border-[oklch(0.76_0.15_155)/40] bg-[oklch(0.76_0.15_155)/10] text-emerald-600 dark:text-[oklch(0.76_0.15_155)]",
-                item.motionScore === "B" &&
-                  "border-[oklch(0.68_0.18_255)/40] bg-[oklch(0.68_0.18_255)/10] text-blue-600 dark:text-[oklch(0.68_0.18_255)]",
-                item.motionScore === "C" &&
-                  "border-[oklch(0.64_0.18_302)/40] bg-[oklch(0.64_0.18_302)/10] text-purple-600 dark:text-[oklch(0.64_0.18_302)]"
-              )}
-              title={`MotionScore: Tier ${item.motionScore} (${item.scoreValue}/5)`}
-            >
-              Tier {item.motionScore}
-            </span>
-          )}
-
           {item.frameworks.map((fw) => (
             <span
               className="rounded border bg-accent/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground uppercase"

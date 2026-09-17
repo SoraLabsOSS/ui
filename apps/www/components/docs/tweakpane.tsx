@@ -10,7 +10,6 @@ import {
   SelectValue,
 } from "@workspace/ui/components/ui/select";
 import { Slider } from "@workspace/ui/components/ui/slider";
-import { Switch } from "@workspace/ui/components/ui/switch";
 import { cn } from "@workspace/ui/lib/utils";
 import { SlidersHorizontal, Undo2 } from "lucide-react";
 import {
@@ -24,6 +23,7 @@ import {
   useState,
 } from "react";
 import { Button } from "@/registry/ui/base/button";
+import { Switch } from "@/registry/ui/base/switch";
 
 interface BaseBindNumber {
   value: number;
@@ -150,6 +150,9 @@ const isNestedBinds = (binds: Binds): binds is NestedBinds =>
       )
   );
 
+const rowContainerClassName =
+  "group/item flex min-h-[42px] items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-3 py-2 transition-colors hover:border-border/80 hover:bg-muted/20";
+
 const renderNumber = (
   key: string,
   bind: BindNumber,
@@ -157,10 +160,7 @@ const renderNumber = (
 ) => {
   if ("min" in bind && "max" in bind) {
     return (
-      <div
-        className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
-        key={key}
-      >
+      <div className={rowContainerClassName} key={key}>
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Label
             className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -195,10 +195,7 @@ const renderNumber = (
 
   if ("options" in bind) {
     return (
-      <div
-        className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
-        key={key}
-      >
+      <div className={rowContainerClassName} key={key}>
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Label
             className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -238,10 +235,7 @@ const renderNumber = (
   }
 
   return (
-    <div
-      className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
-      key={key}
-    >
+    <div className={rowContainerClassName} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
           className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -268,10 +262,7 @@ const renderString = (
   onChange: (value: string | number | boolean) => void
 ) =>
   bind?.options ? (
-    <div
-      className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
-      key={key}
-    >
+    <div className={rowContainerClassName} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
           className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -313,10 +304,7 @@ const renderString = (
       </Select>
     </div>
   ) : (
-    <div
-      className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
-      key={key}
-    >
+    <div className={rowContainerClassName} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
           className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -341,13 +329,10 @@ const renderBoolean = (
   bind: BindBoolean,
   onChange: (value: boolean) => void
 ) => (
-  <div
-    className="group/item flex items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-2.5 py-2 transition-colors hover:border-border/80 hover:bg-muted/20"
-    key={key}
-  >
+  <div className={rowContainerClassName} key={key}>
     <div className="flex min-w-0 flex-1 items-center gap-2">
       <Label
-        className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+        className="select-none truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
         htmlFor={key}
         title={key}
       >
@@ -356,10 +341,15 @@ const renderBoolean = (
     </div>
 
     <div className="flex items-center gap-2">
-      <span className="font-mono text-[10px] text-muted-foreground">
+      <span className="select-none font-mono text-[10px] text-muted-foreground">
         {bind.value ? "true" : "false"}
       </span>
-      <Switch checked={bind.value} id={key} onCheckedChange={onChange} />
+      <Switch
+        checked={bind.value}
+        id={key}
+        onCheckedChange={onChange}
+        size="sm"
+      />
     </div>
   </div>
 );
@@ -395,7 +385,7 @@ const renderFlatBinds = (
   binds: FlatBinds,
   onBindsChange: (binds: FlatBinds) => void
 ): ReactNode => (
-  <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
     {Object.entries(binds).map(([key, bind]) => (
       <Fragment key={key}>
         {renderBind(key, bind, (value) =>
@@ -409,31 +399,46 @@ const renderFlatBinds = (
 const renderNestedBinds = (
   binds: NestedBinds,
   onBindsChange: (binds: NestedBinds) => void
-): ReactNode[] =>
-  Object.entries(binds).map(([groupKey, groupBind]) => (
-    <div className="space-y-2" key={groupKey}>
-      <div className="flex items-center gap-2 px-1">
-        <span className="font-medium font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
-          {groupKey}
-        </span>
-        <svg aria-hidden="true" className="block h-px flex-1">
-          <line
-            className="text-border/60"
-            stroke="currentColor"
-            strokeDasharray="8 4"
-            strokeWidth="1"
-            x1="0"
-            x2="100%"
-            y1="0"
-            y2="0"
-          />
-        </svg>
-      </div>
-      {renderFlatBinds(groupBind, (updatedGroupBind) =>
-        onBindsChange({ ...binds, [groupKey]: updatedGroupBind })
-      )}
+): ReactNode => {
+  const groups = Object.entries(binds);
+
+  // If there is only one group (e.g. single component name like "Switch"), omit the redundant header
+  if (groups.length === 1) {
+    const [groupKey, groupBind] = groups[0];
+    return renderFlatBinds(groupBind, (updatedGroupBind) =>
+      onBindsChange({ ...binds, [groupKey]: updatedGroupBind })
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {groups.map(([groupKey, groupBind]) => (
+        <div className="space-y-2.5" key={groupKey}>
+          <div className="flex items-center gap-2">
+            <span className="font-medium font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+              {groupKey}
+            </span>
+            <svg aria-hidden="true" className="block h-px flex-1">
+              <line
+                className="text-border/60"
+                stroke="currentColor"
+                strokeDasharray="8 4"
+                strokeWidth="1"
+                x1="0"
+                x2="100%"
+                y1="0"
+                y2="0"
+              />
+            </svg>
+          </div>
+          {renderFlatBinds(groupBind, (updatedGroupBind) =>
+            onBindsChange({ ...binds, [groupKey]: updatedGroupBind })
+          )}
+        </div>
+      ))}
     </div>
-  ));
+  );
+};
 
 const renderBinds = (binds: Binds, onBindsChange: (binds: Binds) => void) =>
   isNestedBinds(binds)
@@ -477,8 +482,8 @@ const Tweakpane = (props: TweakpaneProps) => {
   }, [onReset, initialBinds, onBindsChange]);
 
   return (
-    <div className="w-full space-y-2.5">
-      <div className="flex items-center justify-between px-1">
+    <div className="w-full space-y-3 px-1 sm:px-3">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 font-medium text-muted-foreground text-xs">
           <SlidersHorizontal className="size-3.5 text-foreground/70" />
           <span className="font-medium text-foreground/90 tracking-tight">

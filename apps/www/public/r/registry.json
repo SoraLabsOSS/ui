@@ -1443,6 +1443,49 @@
       ]
     },
     {
+      "name": "demo-switch",
+      "type": "registry:ui",
+      "title": "Switch Demo",
+      "description": "Base UI switch with Motion layout spring physics.",
+      "registryDependencies": ["@soralabs/base-switch"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/switch/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/switch.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-switch-sizes",
+      "type": "registry:ui",
+      "title": "Switch Sizes Demo",
+      "description": "Base UI switch rendered across sm, default, and lg sizes.",
+      "registryDependencies": ["@soralabs/base-switch"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/switch-sizes/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/switch-sizes.tsx"
+        }
+      ]
+    },
+    {
+      "name": "demo-switch-with-icon",
+      "type": "registry:ui",
+      "title": "Switch With Icon Demo",
+      "description": "Base UI switch with track icons and description.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@soralabs/base-switch"],
+      "files": [
+        {
+          "path": "registry/demo/ui/base/switch-with-icon/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/demo/base/switch-with-icon.tsx"
+        }
+      ]
+    },
+    {
       "name": "demo-base-tooltip",
       "type": "registry:ui",
       "title": "Base Tooltip Demo",
@@ -3193,6 +3236,46 @@
           "target": "components/sora-ui/base/dropdown-menu.tsx"
         }
       ]
+    },
+    {
+      "name": "base-switch",
+      "type": "registry:ui",
+      "title": "Base Switch",
+      "description": "An accessible, highly customizable switch built on Base UI with Motion spring layout physics.",
+      "dependencies": ["@base-ui/react", "motion", "class-variance-authority"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "files": [
+        {
+          "path": "registry/ui/base/switch/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/switch.tsx"
+        }
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Toggle a binary on/off setting or preference.",
+          "role": "input",
+          "a11yConstraints": [
+            "Preserve the switch role, label association, and keyboard toggling via Space or Enter."
+          ],
+          "motionEngine": "Motion layout spring physics with stiffness: 500, damping: 30.",
+          "compositionRules": [
+            "Pair with a visible label and optional description.",
+            "Provide clear visual contrast between checked and unchecked states."
+          ],
+          "compositionRecipes": ["Compose with base/button in a settings form."]
+        },
+        "demoProps": {
+          "Switch": {
+            "label": {
+              "value": "Airplane Mode"
+            },
+            "disabled": {
+              "value": false
+            }
+          }
+        }
+      }
     },
     {
       "name": "base-tooltip",

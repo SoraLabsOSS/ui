@@ -3977,6 +3977,167 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-dropdown-menu-rtl",
   },
+  "demo-switch": {
+    name: "demo-switch",
+    description: "Base UI switch with Motion layout spring physics.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/base-switch"],
+    files: [
+      {
+        path: "registry/demo/ui/base/switch/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/switch.tsx",
+        content:
+          '"use client";\n\nimport { Switch, type SwitchProps } from "@/components/sora-ui/base/switch";\n\nexport default function SwitchDemo({\n  label = "Airplane Mode",\n  ...props\n}: SwitchProps) {\n  return (\n    <div className="flex items-center justify-center p-4">\n      <Switch label={label} {...props} />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/base/switch/index.tsx");
+        const demoProps = {
+          Switch: {
+            label: { value: "Airplane Mode" },
+            disabled: { value: false },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        Switch: {
+          label: { value: "Airplane Mode" },
+          disabled: { value: false },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-switch",
+  },
+  "demo-switch-sizes": {
+    name: "demo-switch-sizes",
+    description: "Base UI switch rendered across sm, default, and lg sizes.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/base-switch"],
+    files: [
+      {
+        path: "registry/demo/ui/base/switch-sizes/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/switch-sizes.tsx",
+        content:
+          '"use client";\n\nimport { Switch } from "@/components/sora-ui/base/switch";\n\nexport default function SwitchSizesDemo() {\n  return (\n    <div className="flex flex-col items-start gap-4 p-4">\n      <Switch defaultChecked label="Small Switch" size="sm" />\n      <Switch defaultChecked label="Default Switch" size="default" />\n      <Switch defaultChecked label="Large Switch" size="lg" />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/ui/base/switch-sizes/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-switch-sizes",
+  },
+  "demo-switch-with-icon": {
+    name: "demo-switch-with-icon",
+    description: "Base UI switch with track icons and description.",
+    type: "registry:ui",
+    dependencies: ["lucide-react"],
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/base-switch"],
+    files: [
+      {
+        path: "registry/demo/ui/base/switch-with-icon/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/switch-with-icon.tsx",
+        content:
+          '"use client";\n\nimport { Switch } from "@/components/sora-ui/base/switch";\nimport { Moon, Sun } from "lucide-react";\nimport { useState } from "react";\n\nexport default function SwitchWithIconDemo() {\n  const [isDark, setIsDark] = useState(false);\n\n  return (\n    <div className="flex flex-col items-center justify-center gap-6 p-4">\n      <Switch\n        checked={isDark}\n        checkedIcon={<Moon className="size-3 text-primary-foreground" />}\n        description="Toggle between light and dark visual aesthetics."\n        label="Theme Mode"\n        onCheckedChange={setIsDark}\n        uncheckedIcon={<Sun className="size-3 text-muted-foreground" />}\n      />\n    </div>\n  );\n}',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/ui/base/switch-with-icon/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-switch-with-icon",
+  },
   "demo-base-tooltip": {
     name: "demo-base-tooltip",
     description:
@@ -7860,6 +8021,66 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/base-dropdown-menu",
   },
+  "base-switch": {
+    name: "base-switch",
+    description:
+      "An accessible, highly customizable switch built on Base UI with Motion spring layout physics.",
+    type: "registry:ui",
+    dependencies: ["@base-ui/react", "motion", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["utils", "@soralabs/hooks-use-controlled-state"],
+    files: [
+      {
+        path: "registry/ui/base/switch/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/base/switch.tsx",
+        content:
+          '"use client";\n\nimport { Switch as SwitchPrimitive } from "@base-ui/react/switch";\nimport { useControlledState } from "@/hooks/use-controlled-state";\nimport { cn } from "@/lib/utils";\nimport { cva, type VariantProps } from "class-variance-authority";\nimport { motion, useReducedMotion } from "motion/react";\nimport type * as React from "react";\nimport { useId } from "react";\n\n/**\n * Spring animation parameters for the switch thumb layout transition.\n */\nconst SWITCH_SPRING = {\n  type: "spring",\n  stiffness: 500,\n  damping: 30,\n} as const;\n\nconst switchVariants = cva(\n  "peer group/switch relative inline-flex shrink-0 cursor-pointer select-none items-center rounded-full border border-transparent p-0.5 outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:border-transparent group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-disabled:cursor-not-allowed data-[state=unchecked]:justify-start data-unchecked:justify-start data-[state=checked]:justify-end data-checked:justify-end data-checked:bg-primary data-unchecked:bg-input data-disabled:opacity-50 dark:data-unchecked:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",\n  {\n    variants: {\n      size: {\n        sm: "h-5 w-9",\n        default: "h-6 w-11",\n        lg: "h-7 w-13",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\nconst switchThumbVariants = cva(\n  "pointer-events-none relative flex select-none items-center justify-center rounded-full bg-background shadow-xs ring-0 data-checked:bg-primary-foreground dark:data-checked:bg-primary-foreground dark:data-unchecked:bg-foreground [&_svg]:size-3",\n  {\n    variants: {\n      size: {\n        sm: "size-3.5 text-[10px]",\n        default: "size-4.5 text-xs",\n        lg: "size-5.5 text-sm",\n      },\n    },\n    defaultVariants: {\n      size: "default",\n    },\n  }\n);\n\ninterface SwitchProps\n  extends Omit<\n      React.ComponentProps<typeof SwitchPrimitive.Root>,\n      "render" | "children"\n    >,\n    VariantProps<typeof switchVariants> {\n  /**\n   * Optional icon rendered in the track when checked (left side).\n   */\n  checkedIcon?: React.ReactNode;\n  /**\n   * Optional helper description rendered beneath the label.\n   */\n  description?: React.ReactNode;\n  /**\n   * Additional CSS classes for the description text.\n   */\n  descriptionClassName?: string;\n  /**\n   * Optional label text rendered beside the switch.\n   */\n  label?: React.ReactNode;\n  /**\n   * Additional CSS classes for the label text.\n   */\n  labelClassName?: string;\n  /**\n   * Position of the label relative to the switch.\n   * @default "right"\n   */\n  labelPosition?: "left" | "right";\n  /**\n   * Additional CSS classes for the thumb element.\n   */\n  thumbClassName?: string;\n  /**\n   * Optional icon or node rendered inside the moving thumb.\n   */\n  thumbIcon?: React.ReactNode;\n  /**\n   * Optional icon rendered in the track when unchecked (right side).\n   */\n  uncheckedIcon?: React.ReactNode;\n}\n\n/**\n * An accessible, highly customizable Switch component built with Base UI and Motion.\n * Features spring layout physics (`stiffness: 500, damping: 30`) and full Tailwind CSS override support.\n */\nfunction Switch({\n  checked: controlledChecked,\n  defaultChecked = false,\n  onCheckedChange,\n  size = "default",\n  thumbIcon,\n  checkedIcon,\n  uncheckedIcon,\n  label,\n  description,\n  labelPosition = "right",\n  className,\n  thumbClassName,\n  labelClassName,\n  descriptionClassName,\n  id,\n  ref,\n  disabled = false,\n  style,\n  ...props\n}: SwitchProps) {\n  const generatedId = useId();\n  const inputId = id ?? generatedId;\n  const descriptionId = description ? `${inputId}-desc` : undefined;\n\n  const [isChecked, setIsChecked] = useControlledState({\n    defaultValue: defaultChecked,\n    onChange: onCheckedChange,\n    value: controlledChecked,\n  });\n\n  const prefersReducedMotion = useReducedMotion();\n\n  const control = (\n    <SwitchPrimitive.Root\n      aria-describedby={descriptionId}\n      checked={isChecked}\n      className={cn(switchVariants({ size }), className)}\n      data-size={size}\n      data-slot="switch"\n      disabled={disabled}\n      id={inputId}\n      onCheckedChange={setIsChecked}\n      onMouseDown={(e) => {\n        if (e.detail > 1) {\n          e.preventDefault();\n        }\n        props.onMouseDown?.(e);\n      }}\n      ref={ref}\n      style={{\n        justifyContent: isChecked ? "flex-end" : "flex-start",\n        ...style,\n      }}\n      {...props}\n    >\n      {checkedIcon && (\n        <motion.span\n          animate={\n            isChecked ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }\n          }\n          aria-hidden="true"\n          className="pointer-events-none absolute left-1 flex items-center justify-center text-primary-foreground [&_svg]:size-3"\n          initial={false}\n          transition={\n            prefersReducedMotion ? { duration: 0 } : { duration: 0.15 }\n          }\n        >\n          {checkedIcon}\n        </motion.span>\n      )}\n\n      {uncheckedIcon && (\n        <motion.span\n          animate={\n            isChecked ? { opacity: 0, scale: 0.5 } : { opacity: 1, scale: 1 }\n          }\n          aria-hidden="true"\n          className="pointer-events-none absolute right-1 flex items-center justify-center text-muted-foreground [&_svg]:size-3"\n          initial={false}\n          transition={\n            prefersReducedMotion ? { duration: 0 } : { duration: 0.15 }\n          }\n        >\n          {uncheckedIcon}\n        </motion.span>\n      )}\n\n      <SwitchPrimitive.Thumb\n        className={cn(switchThumbVariants({ size }), thumbClassName)}\n        data-slot="switch-thumb"\n        render={\n          <motion.span\n            layout={!prefersReducedMotion}\n            transition={prefersReducedMotion ? { duration: 0 } : SWITCH_SPRING}\n          >\n            {thumbIcon}\n          </motion.span>\n        }\n      />\n    </SwitchPrimitive.Root>\n  );\n\n  if (label == null && description == null) {\n    return control;\n  }\n\n  const labelContent = (\n    <div className="flex flex-col gap-1">\n      {label && (\n        <label\n          className={cn(\n            "cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",\n            disabled && "cursor-not-allowed opacity-50",\n            labelClassName\n          )}\n          htmlFor={inputId}\n        >\n          {label}\n        </label>\n      )}\n      {description && (\n        <p\n          className={cn(\n            "select-none text-muted-foreground text-xs leading-normal",\n            disabled && "opacity-50",\n            descriptionClassName\n          )}\n          id={descriptionId}\n        >\n          {description}\n        </p>\n      )}\n    </div>\n  );\n\n  return (\n    <div\n      className={cn(\n        "inline-flex items-center gap-3",\n        labelPosition === "left" && "flex-row-reverse justify-end"\n      )}\n    >\n      {control}\n      {labelContent}\n    </div>\n  );\n}\n\nexport type { SwitchProps };\nexport { SWITCH_SPRING, Switch, switchThumbVariants, switchVariants };',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/ui/base/switch/index.tsx");
+        const demoProps = {
+          Switch: {
+            label: { value: "Airplane Mode" },
+            disabled: { value: false },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        Switch: {
+          label: { value: "Airplane Mode" },
+          disabled: { value: false },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/base-switch",
+  },
   "base-tooltip": {
     name: "base-tooltip",
     description:
@@ -8667,5 +8888,27 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: null,
     command: "@soralabs/demo-base-checkbox",
+  },
+  "demo-base-switch": {
+    name: "demo-base-switch",
+    description: "Usage example for base-switch.",
+    type: "registry:ui",
+    dependencies: ["@base-ui/react", "motion", "class-variance-authority"],
+    devDependencies: undefined,
+    registryDependencies: ["base-switch"],
+    files: [
+      {
+        path: "registry/demo/ui/base/switch/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/switch.tsx",
+        content:
+          '"use client";\n\nimport { Switch } from "@/components/sora-ui/base/switch";\n\nexport default function SwitchExample() {\n  return (\n    <Switch\n      label={"Airplane Mode"}\n      disabled={false}\n    />\n  );\n}\n',
+      },
+    ],
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-base-switch",
   },
 };

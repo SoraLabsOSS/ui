@@ -13,6 +13,102 @@ import {
 
 <Changelog>
 
+<ChangelogItem date="2026-09-17" major>
+  <ChangelogItemVersion>
+
+## Base UI Switch & 4-Tier Architecture
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>Base UI Switch</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Base UI Switch** (`/ui/base/switch`): Released a fully accessible toggle switch component combining Base UI reliability with smooth Motion spring layout physics. Features mobile-friendly touch targets, form validation styling, three size variants, track icon slots for dark mode toggles, and optional label/description layouts.
+- **Interactive Documentation Controls**: Polished the live component prop controls by removing redundant section headers and balancing spacing with preview borders.
+- **Roadmap Progress**: Updated the Phase 1 roadmap to mark Base UI Switch as completed and streamlined component card badges.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Ecosystem Taxonomy & Dedicated Pillars</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **4-Tier Ecosystem Architecture**: Elevated Sora UI into four core pillars: **Motion** (`/motion`), **Icons** (`/icons`), **Catalog** (`/catalog`), and **UI** (`/ui`), featuring independent top-level route trees, Fumadocs content collections, unified search indexing, and resilient OG image generators.
+- **Legacy Route Redirections**: Configured permanent HTTP 301 redirects in Next.js configuration for legacy `/docs/motion/*`, `/docs/icons/*`, and `/primitives/*` paths to their new canonical URLs.
+- **Registry Structure Separation**: Reorganized component registry to cleanly separate full layout showcases into `registry/catalog/` and animated Lucide icons into `registry/icons/`.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Catalog Showcases & Visual Transitions</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Tilt Slide Transition** (`/catalog/tilt-slide-transition`): Shipped multi-page editorial portfolio transition with tilted scaling exit, diagonal clip-path entrance, and GSAP SplitText character reveals using the View Transition API and Lenis.
+- **Engineering Deep-Dive**: Published [Tilt Slide Page Transition](/blog/tilt-slide-page-transition-view-transitions) exploring native View Transitions, clip-path trigonometry, and smooth scrolling synchronization.
+- **Catalog Experience Polish**: Upgraded showcase preview cards to a 16:9 aspect ratio, centered gallery hero, refined mobile drawer heights, and polished docs typography and container list bounds.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Contributor CLI & Scaffolding</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Catalog & Icon Generators**: Added interactive and non-interactive scaffolding for Catalog layouts (`bun run create:catalog`) and Icons (`bun run create:icon`) inside `@workspace/www-cli`.
+- **Automated CLI Testing**: Added automated fixture verification and scaffolding test suites to ensure generator integrity in CI.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Performance, Fonts & Architecture</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Local Font Migration**: Migrated typography pipeline to `next/font/local`, unifying marketing and docs font stacks while eliminating external network hops.
+- **React 19 PPR Loading Boundaries**: Added dedicated loading boundaries across `/motion` and `/icons` routes to enable Next.js Partial Prerendering and instantaneous route prefetching.
+- **Registry Cleanup**: Pruned deprecated primitives (`custom-cursor`, `dock-nav`, `pixel-background`, `pixelated-image-reveal`, `text-underline`) to maintain a clean, high-signal component registry.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
+<ChangelogItem date="2026-09-13">
+  <ChangelogItemVersion>
+
+## Base UI Tooltip, Bidirectional RTL Support & AI Agent Metadata
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>UI Components & Primitives</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Base UI Tooltip** (`/ui/base/tooltip`): Released accessible floating tooltip primitive with custom spring entry physics, collision-aware viewport detection, and instant hover-bridge transitions.
+- **Phase 2 RTL Support**: Shipped bidirectional Right-to-Left (RTL) support for Base UI Dropdown Menu and Context Menu with CSS logical properties, directional spring physics, and flipped collision offsets.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>AI-Ready Architecture & MCP Server</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **AI-Native Positioning**: Positioned Sora UI homepage and documentation for dual-comprehension by human developers and AI coding assistants.
+- **Phase 3 UI Agent Metadata**: Completed comprehensive agent metadata across all UI component schemas, giving LLMs clear composition rules, layout constraints, and best practices.
+- **MCP Server Validation**: Added `validate_composition` tool to `apps/xmcp` for automated component combination audits and hardened MDX tag parsing for LLM feeds.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>Documentation & Platform Hardening</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **About Page & Attribution**: Published the new [About Sora UI](/docs/about) page documenting origins, vision, and upstream attribution.
+- **Command Palette Preloading**: Configured idle preloading for the global search palette (`Cmd+K`) to achieve instant opening response.
+- **Security Hardening**: Hardened HTML tag sanitization routines to iteratively strip nested malicious tags and prevent XSS filter evasion.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
 <ChangelogItem date="2026-09-09" major>
   <ChangelogItemVersion>
 

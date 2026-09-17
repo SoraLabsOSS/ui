@@ -3,8 +3,8 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
-import { Switch } from "@/components/radix/switch";
 import { setThemeWithTransition } from "@/lib/theme/set-theme-with-transition";
+import { Switch } from "@/registry/ui/base/switch";
 
 export const ThemeSwitcher = ({ className }: { className?: string }) => {
   const { resolvedTheme: theme, setTheme } = useTheme();
@@ -28,10 +28,10 @@ export const ThemeSwitcher = ({ className }: { className?: string }) => {
           theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
         }
         checked={theme === "dark"}
+        checkedIcon={<Moon className="size-3 text-primary-foreground" />}
         className={className}
-        leftIcon={<Sun />}
         onCheckedChange={handleThemeChange}
-        rightIcon={<Moon />}
+        uncheckedIcon={<Sun className="size-3 text-muted-foreground" />}
       />
     )
   );

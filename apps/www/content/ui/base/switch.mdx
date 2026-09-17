@@ -1,0 +1,122 @@
+---
+title: Switch
+description: An accessible toggle switch component built on Base UI with spring layout physics and full customization.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+intent: Toggle an independent binary setting or preference.
+role: switch
+a11yConstraints:
+  - Preserve the switch role, label association, and keyboard toggling via Space or Enter.
+  - Never use a switch for navigating pages or submitting immediate destructive actions without confirmation.
+motionEngine: Motion flex layout spring animation with stiffness 500 and damping 30.
+compositionRules:
+  - Pair with a visible label and optional description text.
+  - Support full class override on root container, thumb, and label elements.
+compositionRecipes:
+  - name: settings-toggle
+    description: Control a user preference in an account or system settings view.
+    components:
+      - base/switch
+    constraints:
+      - Keep the label clickable and clearly describe the effect of enabling the switch.
+---
+
+<ComponentPreview name="demo-switch" description="Accessible Base UI switch with Motion layout spring physics." />
+
+## Installation
+
+<ComponentInstallation name="base-switch" />
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/sora-ui/base/switch";
+
+export default function Page() {
+  return <Switch label="Airplane Mode" />;
+}
+```
+
+## Examples
+
+### With Icons
+
+<ComponentPreview name="demo-switch-with-icon" description="Switch with contextual track icons and helper description." />
+
+### Sizes
+
+<ComponentPreview name="demo-switch-sizes" description="Switch rendered across small (sm), default, and large (lg) size variants." />
+
+## Props
+
+### Switch
+
+<TypeTable
+  type={{
+    checked: {
+      description: "The controlled checked state of the switch.",
+      type: "boolean",
+    },
+    defaultChecked: {
+      description: "The initial checked state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onCheckedChange: {
+      description: "Event handler called when the checked state changes.",
+      type: "(checked: boolean) => void",
+    },
+    size: {
+      description: "Size preset of the switch.",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+    },
+    label: {
+      description: "Optional label text rendered beside the switch.",
+      type: "ReactNode",
+    },
+    description: {
+      description: "Optional helper description rendered beneath the label.",
+      type: "ReactNode",
+    },
+    labelPosition: {
+      description: "Placement of the label relative to the switch control.",
+      type: '"left" | "right"',
+      default: '"right"',
+    },
+    thumbIcon: {
+      description: "Optional icon rendered inside the animated thumb.",
+      type: "ReactNode",
+    },
+    checkedIcon: {
+      description: "Optional icon rendered on the left/checked track side.",
+      type: "ReactNode",
+    },
+    uncheckedIcon: {
+      description: "Optional icon rendered on the right/unchecked track side.",
+      type: "ReactNode",
+    },
+    disabled: {
+      description: "Whether the switch ignores user interaction.",
+      type: "boolean",
+      default: "false",
+    },
+    className: {
+      description: "Additional CSS classes merged onto the switch root container.",
+      type: "string",
+    },
+    thumbClassName: {
+      description: "Additional CSS classes merged onto the switch thumb.",
+      type: "string",
+    },
+    labelClassName: {
+      description: "Additional CSS classes for the label text.",
+      type: "string",
+    },
+    descriptionClassName: {
+      description: "Additional CSS classes for the description text.",
+      type: "string",
+    },
+  }}
+/>
