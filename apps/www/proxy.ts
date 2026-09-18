@@ -1,3 +1,4 @@
+import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
 const MARKDOWN_ACCEPT = /text\/markdown|text\/plain/;
@@ -41,6 +42,29 @@ function rewriteMarkdownPath(pathname: string): string | null {
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Edge auth guard: redirect unauthenticated visitors before hitting Serverless SSR
+  if (pathname === "/settings" || pathname.startsWith("/settings/")) {
+    const isRoot = pathname === "/settings" || pathname === "/settings/";
+    const target =
+      (isRoot ? "/settings/account" : pathname) + request.nextUrl.search;
+
+    if (!getSessionCookie(request)) {
+      return NextResponse.redirect(
+        new URL(
+          `/auth/sign-in?redirectTo=${encodeURIComponent(target)}`,
+          request.nextUrl
+        )
+      );
+    }
+
+    if (isRoot) {
+      return NextResponse.redirect(new URL(target, request.nextUrl));
+    }
+
+    return NextResponse.next();
+  }
+
   const isExplicitMarkdown =
     pathname.endsWith(".mdx") || pathname.endsWith(".md");
 
@@ -65,5 +89,7 @@ export const config = {
     "/ui",
     "/ui/:path*",
     "/blog/:path*",
+    "/settings",
+    "/settings/:path*",
   ],
 };

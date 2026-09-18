@@ -1,6 +1,7 @@
 import { Auth } from "@workspace/auth-ui/components/auth/auth";
 import { resolveAuthRedirectTo } from "@workspace/auth-ui/lib/auth/redirect-to";
 import { viewPaths } from "@workspace/auth-ui/lib/auth-core";
+import { getSessionCookie } from "better-auth/cookies";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -8,7 +9,6 @@ import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
 import { SignInSplitShell } from "@/components/auth/sign-in-split-shell";
 import { isDatabaseConfigured } from "@/env";
-import { auth } from "@/lib/auth";
 import AuthLoading from "./loading";
 
 export function generateStaticParams() {
@@ -45,10 +45,14 @@ async function AuthPageContent({
 
   if (path === "sign-in" && isDatabaseConfigured()) {
     const requestHeaders = await headers();
-    const session = await auth.api.getSession({ headers: requestHeaders });
 
-    if (session?.user) {
-      redirect(resolveAuthRedirectTo(readRedirectToQuery(redirectToParam)));
+    if (getSessionCookie(requestHeaders)) {
+      const { auth } = await import("@/lib/auth");
+      const session = await auth.api.getSession({ headers: requestHeaders });
+
+      if (session?.user) {
+        redirect(resolveAuthRedirectTo(readRedirectToQuery(redirectToParam)));
+      }
     }
   }
 

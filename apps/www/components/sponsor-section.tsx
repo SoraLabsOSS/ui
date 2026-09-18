@@ -3,14 +3,14 @@ import Link from "next/link";
 export function SponsorSection() {
   return (
     <section
-      className="!pt-0 pb-20 font-sans text-foreground md:pb-28"
+      className="!pt-0 pb-20 text-foreground md:pb-28"
       data-theme-section="light"
     >
       <div className="is--md-m container">
         <div className="flex w-full flex-col items-center justify-center text-center">
           {/* Title */}
           <div className="mx-auto flex w-full max-w-3xl flex-col items-center justify-center">
-            <h2 className="!m-0 !font-semibold !text-3xl !leading-[1.15] sm:!text-4xl sm:!leading-[1.12] md:!text-5xl md:!leading-[1.08] lg:!text-[56px] lg:!leading-[1.06] text-center tracking-[-0.04em]">
+            <h2 className="!m-0 !font-normal !text-3xl !leading-[1.15] sm:!text-4xl sm:!leading-[1.12] md:!text-5xl md:!leading-[1.08] lg:!text-[56px] lg:!leading-[1.06] text-center tracking-[-0.04em]">
               Sora UI is supported by the open-source ecosystem
             </h2>
           </div>
@@ -147,7 +147,7 @@ export function SponsorSection() {
               Sora UI is made possible thanks to all mentioned above
             </p>
             <Link
-              className="!font-semibold !no-underline flex cursor-pointer items-center gap-1 pl-1 opacity-70 transition-opacity hover:opacity-100"
+              className="!font-medium !no-underline flex cursor-pointer items-center gap-1 pl-1 opacity-70 transition-opacity hover:opacity-100"
               href="/pricing"
             >
               be a part
