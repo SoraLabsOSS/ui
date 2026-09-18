@@ -126,90 +126,6 @@
   }
 }
 
-/* ------------------------- Dashboard ------------------------------------------- */
-.home-layout main {
-  /* Sizes */
-  --dash-side-width: 19em;
-  --dash-col-width: calc(
-    ((99.99vw - (var(--dash-side-width) + 4em)) / var(--dash-columns)) -
-    (var(--dash-col-gap) * ((var(--dash-columns) - 1) / var(--dash-columns)))
-  );
-  --dash-col-width-half: calc(
-    ((99.99vw - (var(--dash-side-width) + 4em)) / (var(--dash-columns) * 2)) -
-    (
-      var(--dash-col-gap) *
-      (((var(--dash-columns) * 2) - 1) / (var(--dash-columns) * 2))
-    )
-  );
-  --dash-columns: 3;
-  --dash-col-gap: 1.5em;
-  --dash-content-width: calc(
-    100vw -
-    (var(--dash-side-width) + var(--dash-col-width) + 5.5em)
-  ); /* 3 columns */
-}
-
-@media screen and (min-width: 1908px) {
-  .home-layout main {
-    --dash-columns: 4;
-  }
-}
-
-@media screen and (min-width: 2276px) {
-  .home-layout main {
-    --dash-columns: 5;
-  }
-}
-
-.home-layout[data-dash-collapsed="true"],
-.home-layout[data-dash-collapsed="true"] main {
-  --dash-side-width: var(--dash-side-width-collapsed);
-}
-
-@media screen and (min-width: 1700px) {
-  .home-layout [data-dash-collapsed="true"] main {
-    --dash-columns: 4;
-  }
-}
-
-@media screen and (min-width: 2068px) {
-  .home-layout [data-dash-collapsed="true"] main {
-    --dash-columns: 5;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .home-layout main {
-    /* Sizes */
-    --dash-col-width: calc(
-      ((99.99vw - 2em) / var(--dash-columns)) -
-      (var(--dash-col-gap) * ((var(--dash-columns) - 1) / var(--dash-columns)))
-    );
-    --dash-col-width-half: calc(
-      ((99.99vw - 2em) / (var(--dash-columns) * 2)) -
-      (
-        var(--dash-col-gap) *
-        (((var(--dash-columns) * 2) - 1) / (var(--dash-columns) * 2))
-      )
-    );
-    --dash-hero-height-top-shrinked: calc(1.625em + 2em + 2em);
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .home-layout main {
-    /* Sizes */
-    --dash-columns: 1;
-    --dash-col-gap: 1em;
-    --dash-top-height: 5.5em;
-    --dash-hero-height-top: 8em;
-  }
-
-  .home-layout [data-dash-collapsed="true"] main {
-    --dash-columns: 1;
-  }
-}
-
 /* ------------------------- Variables - Colors ------------------------------------------- */
 .home-layout {
   /* Colors (not changing with Dark/Light Theme) */
@@ -246,48 +162,14 @@
   --color-rgb-tint: 40, 40, 40;
 }
 
-.home-layout [data-dash-theme="dark"] {
-  /* Colors */
-  --color-neutral-100: var(--color-ignore-neutral-900);
-  --color-neutral-200: var(--color-ignore-neutral-800);
-  --color-neutral-300: var(--color-ignore-neutral-700);
-  --color-neutral-400: var(--color-ignore-neutral-600);
-  --color-neutral-450: var(--color-ignore-neutral-550);
-  --color-neutral-475: var(--color-ignore-neutral-525);
-  --color-neutral-500: var(--color-ignore-neutral-500);
-  --color-neutral-525: var(--color-ignore-neutral-475);
-  --color-neutral-550: var(--color-ignore-neutral-450);
-  --color-neutral-600: var(--color-ignore-neutral-400);
-  --color-neutral-700: var(--color-ignore-neutral-300);
-  --color-neutral-800: var(--color-ignore-neutral-200);
-  --color-neutral-900: var(--color-ignore-neutral-100);
-  --color-white: var(--color-ignore-neutral-900);
-  --color-light: var(--color-ignore-neutral-800);
-  --color-dark: var(--color-ignore-neutral-200);
-  --color-black: var(--color-ignore-neutral-100);
-  --color-saved: var(--color-ignore-saved-dark);
-
-  /* RGB Colors, for transparent RGBA */
-  --color-rgb-dark: var(--color-ignore-rgb-light);
-  --color-rgb-light: var(--color-ignore-rgb-dark);
-  --color-rgb-black: var(--color-ignore-rgb-white);
-  --color-rgb-white: var(--color-ignore-rgb-black);
-  --color-rgb-tint: 222, 210, 210;
-}
-
-.home-layout,
-.home-layout {
-  -webkit-font-smoothing: antialiased;
-}
-
 .home-layout {
   -ms-overflow-style: none;
   overscroll-behavior: none;
   font-size: var(--size-font);
+  -webkit-font-smoothing: antialiased;
   scrollbar-width: none;
 }
 
-.home-layout::-webkit-scrollbar,
 .home-layout::-webkit-scrollbar {
   display: none;
 }

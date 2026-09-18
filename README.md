@@ -17,9 +17,9 @@ Sora UI is supported by the open-source ecosystem. Special thanks to:
 
 <a href="https://mintlify.com" target="_blank" rel="noopener noreferrer">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./icons/mintlify-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="./icons/mintlify-light.svg" />
-    <img src="./icons/mintlify-light.svg" alt="Mintlify" height="24" />
+    <source media="(prefers-color-scheme: dark)" srcset="./.github/assets/mintlify-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./.github/assets/mintlify-light.svg" />
+    <img src="./.github/assets/mintlify-light.svg" alt="Mintlify" height="24" />
   </picture>
 </a>
 

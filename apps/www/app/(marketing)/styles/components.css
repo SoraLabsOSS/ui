@@ -198,167 +198,6 @@
   background-color: var(--color-electric);
 }
 
-/* ------------------------- FORMS -------------------------  */
-.home-layout [data-validate].is--error input,
-.home-layout [data-validate].is--error textarea,
-.home-layout [data-validate].is--error select {
-  border-color: var(--color-coral);
-}
-
-.home-layout
-  [data-form-validate]
-  .radiocheck-field
-  input:focus-visible
-  ~ .radiocheck-custom {
-  color: var(--color-neutral-400);
-  background-color: var(--color-neutral-400);
-}
-
-.home-layout
-  [data-form-validate]
-  .radiocheck-field
-  input:hover
-  ~ .radiocheck-custom {
-  border-color: var(--color-neutral-450);
-}
-
-.home-layout
-  [data-form-validate]
-  .radiocheck-field
-  input:focus-visible:checked
-  ~ .radiocheck-custom,
-.home-layout
-  [data-form-validate]
-  .radiocheck-field
-  input:checked
-  ~ .radiocheck-custom {
-  color: var(--color-light);
-  background-color: var(--color-purple);
-  border-color: var(--color-purple) !important;
-}
-
-.home-layout
-  [data-form-validate]
-  .radiocheck-field
-  .radiocheck-label.is--small {
-  margin-top: 0.125em;
-}
-
-.home-layout [data-validate].is--error .radiocheck-custom {
-  border-color: var(--color-coral);
-}
-
-.home-layout [data-validate].is--error input:checked ~ .radiocheck-custom {
-  border-color: var(--color-dark);
-}
-
-.home-layout [data-form-validate] select:has(option[value=""]:checked) {
-  color: rgba(19, 19, 19, 0.3);
-}
-
-.home-layout
-  [data-form-theme="dark"][data-form-validate]
-  select:has(option[value=""]:checked) {
-  color: var(--color-neutral-525);
-}
-
-.home-layout [data-form-theme="dark"] .form-input {
-  color: var(--color-light);
-  background-color: var(--color-neutral-800);
-}
-
-.home-layout [data-form-theme="dark"] .form-input:hover,
-.home-layout [data-form-theme="dark"] .form-input:focus,
-.home-layout [data-form-theme="dark"] .form-input:focus-within {
-  border-color: var(--color-neutral-525);
-}
-
-.home-layout [data-form-theme="dark"] [data-validate].is--error .form-input {
-  border-color: var(--color-coral);
-}
-
-.home-layout [data-form-theme="dark"] .form-input::placeholder {
-  color: var(--color-neutral-525);
-}
-
-.home-layout [data-form-theme="dark"] .radiocheck-label {
-  color: var(--color-neutral-400);
-}
-
-.home-layout [data-form-theme="dark"] .radiocheck-custom {
-  color: var(--color-neutral-525);
-  background-color: currentColor;
-}
-
-.home-layout
-  [data-form-theme="dark"]
-  .radiocheck-field
-  input:hover
-  ~ .radiocheck-custom {
-  border-color: var(--color-neutral-500);
-}
-
-/* ------------------------- FAQs -------------------------  */
-
-.home-layout [data-collection-status="not-active"] {
-  display: none;
-}
-
-.home-layout [data-faq-toggle][data-toggle-status="active"] {
-  border-radius: calc(var(--btn-height) / 2);
-}
-
-.home-layout
-  [data-theme-section="dark"]
-  [data-faq-toggle][data-toggle-status="active"] {
-  color: var(--color-neutral-800) !important;
-}
-
-.home-layout
-  [data-theme-section="dark"]
-  [data-faq-toggle][data-toggle-status="active"]
-  [data-wf--button-theme--variant] {
-  background-color: var(--color-neutral-200);
-}
-
-.home-layout
-  [data-theme-section="dark"]
-  [data-faq-toggle]:not([data-toggle-status="active"]) {
-  color: var(--color-neutral-200) !important;
-}
-
-.home-layout
-  [data-theme-section="dark"]
-  [data-faq-toggle]:not([data-toggle-status="active"])
-  [data-wf--button-theme--variant] {
-  background-color: var(--color-neutral-600);
-}
-
-.home-layout
-  [data-theme-section="light"]
-  [data-faq-toggle][data-toggle-status="active"] {
-  color: var(--color-neutral-200) !important;
-}
-
-.home-layout
-  [data-theme-section="light"]
-  [data-faq-toggle][data-toggle-status="active"]
-  [data-wf--button-theme--variant] {
-  background-color: var(--color-neutral-800);
-}
-
-/* ------------------------- RICH TEXT -------------------------  */
-
-/* ------------------------- FLICK SLIDER -------------------------  */
-.home-layout [data-flick-cards-dragger] {
-  position: absolute;
-  inset: 0;
-  bottom: 3.25em;
-  z-index: 1;
-  pointer-events: auto;
-  touch-action: pan-y;
-}
-
 /* ------------------------- HERO BG ELEMENTS -------------------------  */
 .home-layout .hero-bg__wrap[data-bg-offset="l"] {
   margin-bottom: -3.6em;
@@ -404,61 +243,6 @@
   );
 }
 
-/* ------------------------- TRUSTED BY -------------------------  */
-
-/* ------------------------- TRUSTED BY -------------------------  */
-
-/* ------------------------- ABOUT CARD -------------------------  */
-.home-layout [data-about-intro-card] h3,
-.home-layout [data-about-intro-card] h4 {
-  transition: all var(--duration-default) var(--cubic-default);
-}
-
-.home-layout [data-about-intro-card="ilja"] h3,
-.home-layout [data-about-intro-card="ilja"] h4 {
-  transform: translate(0px, -100%);
-}
-
-.home-layout [data-about-intro-card="ilja"] h3:first-of-type,
-.home-layout [data-about-intro-card="ilja"] h4:first-of-type {
-  opacity: 0;
-}
-
-.home-layout [data-about-intro-card="dennis"] h3:nth-of-type(2),
-.home-layout [data-about-intro-card="dennis"] h4:nth-of-type(2) {
-  opacity: 0;
-}
-
-.home-layout [data-about-intro-button="dennis"] {
-  border: 1px solid transparent;
-}
-
-.home-layout [data-about-intro-card="ilja"] [data-about-intro-button="ilja"] {
-  /*border-radius: 0.125em;*/
-  color: var(--color-neutral-800);
-  border-color: transparent;
-}
-
-.home-layout
-  [data-about-intro-card="ilja"]
-  [data-about-intro-button="ilja"]
-  .button-bg {
-  background-color: var(--color-neutral-200);
-}
-
-.home-layout [data-about-intro-card="ilja"] [data-about-intro-button="dennis"] {
-  /*border-radius: 2em;*/
-  color: var(--color-neutral-200);
-  border-color: var(--color-neutral-200);
-}
-
-.home-layout
-  [data-about-intro-card="ilja"]
-  [data-about-intro-button="dennis"]
-  .button-bg {
-  background-color: transparent;
-}
-
 /* ------------------------- Custom Cursor -------------------------  */
 .home-layout .cursor-bubble,
 .home-layout:has(main [data-button-rotate-hover]:hover) .cursor .cursor-bubble {
@@ -501,11 +285,7 @@
   margin-top: -1.5em;
 }
 
-.home-layout:has(
-    [data-cursor]:hover,
-    [data-flick-drag-status] [data-flick-cards-dragger]:hover,
-    [data-gsap-slider-collection]:hover
-  )
+.home-layout:has([data-cursor]:hover, [data-gsap-slider-collection]:hover)
   .cursor-bubble {
   clip-path: inset(0% round 100em);
 }
@@ -549,7 +329,6 @@
 
 .home-layout:has(
     [data-cursor="drag"]:hover,
-    [data-flick-drag-status] [data-flick-cards-dragger]:hover,
     [data-gsap-slider-collection]:hover
   )
   .cursor-bubble__drag-span {
@@ -558,60 +337,12 @@
 
 .home-layout:has(
     [data-cursor="drag"]:hover,
-    [data-flick-drag-status="grabbing"] [data-flick-cards-dragger]:hover,
     [data-gsap-drag-status="grabbing"] [data-gsap-slider-list]:hover
   )
   .cursor-bubble {
   clip-path: inset(7.5% round 100em);
 }
 
-/* ------------------------- VERTICAL SLIDER-------------------------  */
-.home-layout [data-vertical-slider-bullet="active"] {
-  color: var(--color-purple);
-}
-
-.home-layout [data-testimonial-map].is--active {
-  opacity: 1;
-}
-
-/* ------------------------- PRODUCT CARDS -------------------------  */
-
-.home-layout [data-product-slider-button][data-status="active"] {
-  color: var(--color-neutral-200) !important;
-  border-radius: 1.5em;
-}
-
-.home-layout
-  [data-product-slider-button][data-status="active"]
-  [data-wf--button-theme--variant] {
-  background-color: var(--color-neutral-800);
-}
-
-.home-layout [data-product-slider-button]:not([data-status="active"]) {
-  color: var(--color-neutral-800) !important;
-}
-
-.home-layout
-  [data-product-slider-button]:not([data-status="active"])
-  [data-wf--button-theme--variant] {
-  background-color: var(--color-neutral-300);
-}
-
-/* ------------------------- MODALS  -------------------------  */
-.home-layout [data-modal-wrap]:has(
-    [data-modal-target][data-modal-status="active"]
-  )
-  [data-modal-bg] {
-  pointer-events: auto;
-  opacity: 1;
-}
-
-.home-layout [data-modal-status="active"] {
-  overflow: auto;
-  transform: rotate(0deg) translate(0%);
-}
-
-/* ------------------------- PRICING HERO -------------------------  */
 /* ------------------------- PRICING CARDS -------------------------  */
 .home-layout .pricing-card {
   padding: 2.25em 2em;
@@ -630,20 +361,13 @@
   box-shadow: 0 0.75em 2.5em -0.75em rgba(0, 0, 0, 0.08);
 }
 
-.dark .home-layout .pricing-card.is--free,
-[data-theme="dark"] .home-layout .pricing-card.is--free {
-  box-shadow: 0 0 3.5em -1.25em
-    color-mix(in srgb, var(--color-coral) 20%, transparent);
-}
-
 .home-layout .pricing-card.is--sponsor {
   box-shadow: 0 0.5em 2em -0.75em rgba(0, 0, 0, 0.05);
 }
 
-.dark .home-layout .pricing-card.is--sponsor,
-[data-theme="dark"] .home-layout .pricing-card.is--sponsor {
-  box-shadow: 0 0 3.5em -1.25em
-    color-mix(in srgb, var(--color-electric) 15%, transparent);
+.dark .home-layout .pricing-card,
+[data-theme="dark"] .home-layout .pricing-card {
+  box-shadow: none;
 }
 
 .home-layout .pricing-card__secondary-link {
