@@ -11,12 +11,16 @@
 
 </div>
 
-## Sponsors
+## Supported by
 
 Sora UI is supported by the open-source ecosystem. Special thanks to:
 
 <a href="https://mintlify.com" target="_blank" rel="noopener noreferrer">
-  <img src="https://thesvg.org/icons/mintlify/wordmark.svg" alt="Mintlify" height="24" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./icons/mintlify-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./icons/mintlify-light.svg" />
+    <img src="./icons/mintlify-light.svg" alt="Mintlify" height="24" />
+  </picture>
 </a>
 
 ## Architecture
