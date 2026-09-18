@@ -4,7 +4,7 @@ import {
   SlidingChipButton,
   type SlidingChipButtonProps,
   type SlidingChipButtonVariant,
-} from "@workspace/ui/components/sora-ui/buttons/sliding-chip-button";
+} from "@workspace/ui/components/sliding-chip-button";
 import { TextScramble } from "@workspace/ui/components/ui/text-scramble";
 import {
   type ComponentPropsWithoutRef,

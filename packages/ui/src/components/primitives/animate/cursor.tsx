@@ -3,7 +3,7 @@
 import {
   Slot,
   type WithAsChild,
-} from "@workspace/ui/components/unlumen-ui/primitives/animate/slot";
+} from "@workspace/ui/components/primitives/animate/slot";
 import { getStrictContext } from "@workspace/ui/lib/get-strict-context";
 import {
   AnimatePresence,

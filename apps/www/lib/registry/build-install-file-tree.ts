@@ -1,4 +1,4 @@
-import type { FileTreeElement } from "@workspace/ui/components/unlumen-ui/file-tree";
+import type { FileTreeElement } from "@workspace/ui/components/file-tree";
 
 const PROJECT_ROOT_ID = "your-project";
 const PROJECT_ROOT_LABEL = "your-project";

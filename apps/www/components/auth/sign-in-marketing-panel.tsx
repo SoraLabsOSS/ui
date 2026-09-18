@@ -1,39 +1,17 @@
 "use client";
 
-import { FlutedGlass } from "@paper-design/shaders-react";
 import { motion } from "motion/react";
 import Image from "next/image";
 
 /**
- * Right-side marketing panel for the sign-in page: animated shader background,
+ * Right-side marketing panel for the sign-in page: sleek ambient background,
  * a testimonial, and a mockup preview — mirrors the Sora Studio sign-up split layout.
  */
 export function SignInMarketingPanel() {
   return (
-    <div className="relative flex min-h-[720px] flex-col overflow-hidden rounded-md bg-linear-to-b from-black to-white p-8 text-white sm:p-12 lg:min-h-0 lg:p-16 dark:to-[#050505]">
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <FlutedGlass
-          angle={0}
-          blur={0}
-          className="h-full w-full bg-transparent"
-          colorBack="#00000000"
-          colorHighlight="#FFFFFF"
-          colorShadow="#000000"
-          distortion={0.5}
-          distortionShape="prism"
-          edges={0.25}
-          fit="cover"
-          grainMixer={0.1}
-          grainOverlay={0.1}
-          highlights={0.1}
-          scale={1.11}
-          shadows={0.2}
-          shape="lines"
-          shift={0}
-          size={0.89}
-          stretch={0}
-        />
-      </div>
+    <div className="relative flex min-h-[720px] flex-col overflow-hidden rounded-md border border-white/10 bg-zinc-950 p-8 text-white sm:p-12 lg:min-h-0 lg:p-16">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/40 via-zinc-950 to-black" />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
       <div className="relative z-10 h-full w-full">
         <div className="max-w-[460px] lg:pt-12">

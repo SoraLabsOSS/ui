@@ -5,7 +5,7 @@ import {
   Sidebar001Content,
   Sidebar001Item,
   Sidebar001Section,
-} from "@workspace/ui/components/unlumen-ui/sidebar-001";
+} from "@workspace/ui/components/sidebar-001";
 import { cn } from "@workspace/ui/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo } from "react";

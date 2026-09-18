@@ -120,7 +120,6 @@ function TabsHighlight({
 
   return (
     <Highlight
-      click={false}
       controlledItems
       data-slot="tabs-highlight"
       transition={transition}

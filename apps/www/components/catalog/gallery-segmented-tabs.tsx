@@ -6,7 +6,7 @@ import {
   TabsHighlightItem,
   TabsList,
   TabsTrigger,
-} from "@workspace/ui/components/animate-ui/primitives/animate/tabs";
+} from "@workspace/ui/components/primitives/animate/tabs";
 import { cn } from "@workspace/ui/lib/utils";
 
 interface GallerySegmentedTabsProps<T extends string> {

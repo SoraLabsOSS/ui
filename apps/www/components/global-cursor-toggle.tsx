@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Cursor,
-  CursorProvider,
-} from "@workspace/ui/components/unlumen-ui/cursor";
+import { Cursor, CursorProvider } from "@workspace/ui/components/cursor";
 import { useEffect, useState } from "react";
 
 function isCursorToggleShortcut(event: KeyboardEvent) {

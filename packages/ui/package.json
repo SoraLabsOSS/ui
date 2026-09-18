@@ -43,8 +43,9 @@
     },
     "./lib/utils": "./src/lib/utils.ts",
     "./components/og/palette": "./src/components/og/palette.ts",
+    "./components/primitives/animate/*": "./src/components/primitives/animate/*.tsx",
+    "./components/primitives/effects/*": "./src/components/primitives/effects/*.tsx",
     "./components/*": "./src/components/*.tsx",
-    "./components/unlumen-ui/file-tree": "./src/components/unlumen-ui/file-tree.tsx",
     "./hooks/use-auto-height": "./src/hooks/use-auto-height.tsx",
     "./hooks/*": "./src/hooks/*.ts"
   }

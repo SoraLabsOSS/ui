@@ -6,7 +6,7 @@ import {
   TabsHighlightItem,
   TabsList,
   TabsTrigger,
-} from "@workspace/ui/components/animate-ui/primitives/animate/tabs";
+} from "@workspace/ui/components/primitives/animate/tabs";
 import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";

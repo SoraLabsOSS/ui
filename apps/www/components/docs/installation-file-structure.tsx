@@ -3,7 +3,7 @@
 import {
   FileTree,
   type FileTreeElement,
-} from "@workspace/ui/components/unlumen-ui/file-tree";
+} from "@workspace/ui/components/file-tree";
 import { cn } from "@workspace/ui/lib/utils";
 
 const INSTALLATION_PROJECT_TREE: FileTreeElement[] = [

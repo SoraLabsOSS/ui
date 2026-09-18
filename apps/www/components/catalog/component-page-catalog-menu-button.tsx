@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarToggleIcon } from "@workspace/ui/components/unlumen-ui/sidebar-toggle-icon";
+import { SidebarToggleIcon } from "@workspace/ui/components/sidebar-toggle-icon";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
 import { useCatalogMenu } from "./catalog-menu-context";

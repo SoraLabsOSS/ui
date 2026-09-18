@@ -9,7 +9,7 @@ import {
   Sidebar001Item,
   Sidebar001Section,
   useSidebar001Hover,
-} from "@workspace/ui/components/unlumen-ui/sidebar-001";
+} from "@workspace/ui/components/sidebar-001";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import type { LinkItemType, MainItemType } from "fumadocs-ui/layouts/links";

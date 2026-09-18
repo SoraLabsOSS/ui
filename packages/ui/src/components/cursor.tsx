@@ -8,7 +8,7 @@ import {
   CursorProvider as CursorProviderPrimitive,
   type CursorProviderProps as CursorProviderPropsPrimitive,
   useCursor,
-} from "@workspace/ui/components/unlumen-ui/primitives/animate/cursor";
+} from "@workspace/ui/components/primitives/animate/cursor";
 import { cn } from "@workspace/ui/lib/utils";
 import {
   motion,

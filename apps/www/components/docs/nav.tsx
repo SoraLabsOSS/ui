@@ -4,6 +4,11 @@ import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button"
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import GithubIcon from "@workspace/ui/components/icons/github-icon";
 import {
+  Highlight,
+  HighlightItem,
+  useHighlight,
+} from "@workspace/ui/components/primitives/effects/highlight";
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -12,11 +17,6 @@ import {
   NavigationMenuTrigger,
 } from "@workspace/ui/components/ui/navigation-menu";
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
-import {
-  Highlight,
-  HighlightItem,
-  useHighlight,
-} from "@workspace/ui/components/unlumen-ui/primitives/effects/highlight";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
