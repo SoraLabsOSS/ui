@@ -8,7 +8,7 @@ Sora UI is organized into three distinct product tiers:
 
 ```text
 Sora UI
-├── Motion       (Animation building blocks: border-trail, highlight, text-effect, auto-height)
+├── Motion       (Animation building blocks: tilt-card, highlight, text-effect, auto-height)
 ├── Catalog      (Ready-to-use animated showcases & layouts: sticky-scroll-cards, cursor-trail-reveal)
 └── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS)
 ```

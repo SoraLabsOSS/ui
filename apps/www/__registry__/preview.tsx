@@ -297,54 +297,6 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
-  "demo-border-trail": React.lazy(async () => {
-    const mod = await import(
-      "@/registry/demo/primitives/effects/border-trail/index.tsx"
-    );
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
-  "demo-border-trail-loading": React.lazy(async () => {
-    const mod = await import(
-      "@/registry/demo/primitives/effects/border-trail-loading/index.tsx"
-    );
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
-  "demo-border-trail-textarea": React.lazy(async () => {
-    const mod = await import(
-      "@/registry/demo/primitives/effects/border-trail-textarea/index.tsx"
-    );
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
   "demo-cursor-bubble": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/cursor-bubble/index.tsx"
@@ -1544,22 +1496,6 @@ export const previewComponents: Record<string, any> = {
   "inline-testimonials": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/disclosure/inline-testimonials/index.tsx"
-    );
-    const pascalExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
-    );
-    const functionExportName = Object.keys(mod).find(
-      (key) => typeof mod[key] === "function"
-    );
-    const Comp =
-      mod.default ||
-      (pascalExportName ? mod[pascalExportName] : undefined) ||
-      (functionExportName ? mod[functionExportName] : undefined);
-    return { default: Comp };
-  }),
-  "border-trail": React.lazy(async () => {
-    const mod = await import(
-      "@/registry/demo/primitives/effects/border-trail/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)

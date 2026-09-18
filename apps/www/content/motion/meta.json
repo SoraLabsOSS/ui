@@ -29,7 +29,6 @@
     "inline-testimonials",
     "---Effects---",
     "highlight",
-    "border-trail",
     "progressive-blur",
     "magnetic-cards",
     "logo-carousel-swapper",
@@ -39,8 +38,6 @@
     "tilt-card",
     "pixel-image-loader",
     "skeleton",
-    "skeleton-shimmer",
-    "---Animate---",
-    "slot"
+    "skeleton-shimmer"
   ]
 }
