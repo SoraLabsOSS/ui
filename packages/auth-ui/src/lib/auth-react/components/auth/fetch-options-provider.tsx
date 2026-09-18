@@ -10,21 +10,21 @@ import {
 } from "react";
 
 /** Subset of BetterFetchOptions we expose. Add fields as use-cases arise. */
-export type FetchOptions = {
-  headers?: Record<string, string>;
+export interface FetchOptions {
   body?: Record<string, unknown>;
-};
+  headers?: Record<string, string>;
+}
 
-type FetchOptionsContextValue = {
+interface FetchOptionsContextValue {
   /** Current fetchOptions, or `undefined` when none are set. */
   fetchOptions: FetchOptions | undefined;
-  /** OVERRIDES the entire fetchOptions object. Pass `undefined` to clear. */
-  setFetchOptions: (fetchOptions: FetchOptions | undefined) => void;
-  /** Clears `fetchOptions` and runs the registered reset (e.g. captcha widget). Call from form `onError`. */
-  resetFetchOptions: () => void;
   /** Register a reset handler. Used by `captchaPlugin`. Pass `null` to clear. */
   registerReset: (reset: (() => void) | null) => void;
-};
+  /** Clears `fetchOptions` and runs the registered reset (e.g. captcha widget). Call from form `onError`. */
+  resetFetchOptions: () => void;
+  /** OVERRIDES the entire fetchOptions object. Pass `undefined` to clear. */
+  setFetchOptions: (fetchOptions: FetchOptions | undefined) => void;
+}
 
 const FetchOptionsContext = createContext<FetchOptionsContextValue | undefined>(
   undefined

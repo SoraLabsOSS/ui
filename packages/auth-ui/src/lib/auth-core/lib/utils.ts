@@ -27,6 +27,8 @@ function isPlainObject(item: unknown): item is Record<string, unknown> {
   return true;
 }
 
+const FILE_EXTENSION_REGEX = /\.[^.]+$/;
+
 /**
  * Resize and square-crop an image file for use as an avatar.
  *
@@ -87,7 +89,7 @@ export function resizeAvatar(
           resolve(
             new File(
               [blob],
-              file.name.replace(/\.[^.]+$/, `.${resolvedExtension}`),
+              file.name.replace(FILE_EXTENSION_REGEX, `.${resolvedExtension}`),
               {
                 type: mimeType,
               }

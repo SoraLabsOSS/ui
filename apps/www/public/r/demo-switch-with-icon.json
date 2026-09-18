@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry/demo/ui/base/switch-with-icon/index.tsx",
-      "content": "\"use client\";\n\nimport { Switch } from \"@/components/sora-ui/base/switch\";\nimport { Moon, Sun } from \"lucide-react\";\nimport { useState } from \"react\";\n\nexport default function SwitchWithIconDemo() {\n  const [isDark, setIsDark] = useState(false);\n\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-6 p-4\">\n      <Switch\n        checked={isDark}\n        checkedIcon={<Moon className=\"size-3 text-primary-foreground\" />}\n        description=\"Toggle between light and dark visual aesthetics.\"\n        label=\"Theme Mode\"\n        onCheckedChange={setIsDark}\n        uncheckedIcon={<Sun className=\"size-3 text-muted-foreground\" />}\n      />\n    </div>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { Moon, Sun } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Switch } from \"@/components/sora-ui/base/switch\";\n\nexport default function SwitchWithIconDemo() {\n  const [isDark, setIsDark] = useState(false);\n\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-6 p-4\">\n      <Switch\n        checked={isDark}\n        checkedIcon={<Moon className=\"size-3 text-primary-foreground\" />}\n        description=\"Toggle between light and dark visual aesthetics.\"\n        label=\"Theme Mode\"\n        onCheckedChange={setIsDark}\n        uncheckedIcon={<Sun className=\"size-3 text-muted-foreground\" />}\n      />\n    </div>\n  );\n}\n",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/base/switch-with-icon.tsx"
     }

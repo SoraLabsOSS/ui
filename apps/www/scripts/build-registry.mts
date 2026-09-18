@@ -25,8 +25,13 @@ const CONTENT_MDX_PATHS = [
 ];
 
 const UI_FRAMEWORK_PREFIX = /^(base|radix)-/;
+const PRIMITIVE_MATCH_RE = /^registry\/primitives\/([^/]+)\/([^/]+)\//;
 const CATALOG_MATCH_RE = /^registry\/catalog\/([^/]+)\//;
 const DEMO_CATALOG_MATCH_RE = /^registry\/demo\/catalog\/([^/]+)\//;
+const UI_MATCH_RE = /^registry\/ui\/(base|radix)\/([^/]+)\//;
+const DEMO_UI_MATCH_RE = /^registry\/demo\/ui\/(base|radix)\/([^/]+)\//;
+const DEMO_PRIMITIVE_MATCH_RE =
+  /^registry\/demo\/primitives\/([^/]+)\/([^/]+)\//;
 
 /**
  * Recursively collect all component/demo names referenced in .mdx files
@@ -133,9 +138,7 @@ function getScaffoldHint(item: RegistryItem): string | null {
 
   const sourcePath = item.files?.[0]?.path ?? "";
 
-  const primitiveMatch = sourcePath.match(
-    /^registry\/primitives\/([^/]+)\/([^/]+)\//
-  );
+  const primitiveMatch = sourcePath.match(PRIMITIVE_MATCH_RE);
   if (primitiveMatch) {
     const [, category, name] = primitiveMatch;
     return `bun run create:primitive ${name} --category=${category} --yes`;
@@ -153,23 +156,19 @@ function getScaffoldHint(item: RegistryItem): string | null {
     return `bun run create:catalog ${name} --yes`;
   }
 
-  const uiMatch = sourcePath.match(/^registry\/ui\/(base|radix)\/([^/]+)\//);
+  const uiMatch = sourcePath.match(UI_MATCH_RE);
   if (uiMatch) {
     const [, framework, name] = uiMatch;
     return `bun run create:ui ${name} --framework=${framework} --yes`;
   }
 
-  const demoUiMatch = sourcePath.match(
-    /^registry\/demo\/ui\/(base|radix)\/([^/]+)\//
-  );
+  const demoUiMatch = sourcePath.match(DEMO_UI_MATCH_RE);
   if (demoUiMatch) {
     const [, framework, name] = demoUiMatch;
     return `bun run create:ui ${name} --framework=${framework} --yes`;
   }
 
-  const demoPrimitiveMatch = sourcePath.match(
-    /^registry\/demo\/primitives\/([^/]+)\/([^/]+)\//
-  );
+  const demoPrimitiveMatch = sourcePath.match(DEMO_PRIMITIVE_MATCH_RE);
   if (demoPrimitiveMatch) {
     const [, category, name] = demoPrimitiveMatch;
     return `bun run create:primitive ${name} --category=${category} --yes`;

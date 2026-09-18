@@ -33,12 +33,12 @@ export interface SettingsViewPaths {
 /**
  * View path configuration for authentication and settings routes.
  */
-export type ViewPaths = {
+export interface ViewPaths {
   /** Auth view path segments */
   auth: AuthViewPaths;
   /** Settings view path segments */
   settings: SettingsViewPaths;
-};
+}
 
 export const viewPaths: ViewPaths = {
   auth: {

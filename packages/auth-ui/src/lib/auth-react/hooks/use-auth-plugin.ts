@@ -10,11 +10,11 @@ import type { AuthPlugin } from "../lib/auth-plugin";
  *
  * Always produced by `createAuthPlugin` from `@workspace/auth-ui/lib/auth-core`.
  */
-export type AuthPluginFactory<T extends AuthPlugin = AuthPlugin> = {
+export interface AuthPluginFactory<T extends AuthPlugin = AuthPlugin> {
   id: string;
   // biome-ignore lint/suspicious/noExplicitAny: factory args vary by plugin
   (...args: any[]): T;
-};
+}
 
 /**
  * Access a registered plugin by passing its factory.

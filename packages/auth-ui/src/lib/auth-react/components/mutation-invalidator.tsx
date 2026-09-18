@@ -7,10 +7,10 @@ import {
 import { authMutationKeys } from "@workspace/auth-ui/lib/auth-core";
 import { useEffect } from "react";
 
-type AuthMutationMeta = {
-  invalidates?: Array<QueryKey>;
-  awaits?: Array<QueryKey>;
-};
+interface AuthMutationMeta {
+  awaits?: QueryKey[];
+  invalidates?: QueryKey[];
+}
 
 export function MutationInvalidator() {
   const queryClient = useQueryClient();

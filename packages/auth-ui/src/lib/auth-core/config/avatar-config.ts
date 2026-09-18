@@ -1,7 +1,7 @@
 /**
  * Configuration options for avatar handling.
  */
-export type AvatarConfig = {
+export interface AvatarConfig {
   /**
    * Delete the current avatar (e.g. remove from storage).
    * Gets called after the user's avatar is updated to null.
@@ -36,4 +36,4 @@ export type AvatarConfig = {
    * When undefined, the image is base64-encoded and saved directly to `user.image`.
    */
   upload?: (file: File) => Promise<string>;
-};
+}

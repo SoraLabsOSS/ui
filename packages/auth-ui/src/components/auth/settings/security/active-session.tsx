@@ -67,6 +67,13 @@ export function ActiveSession({ activeSession }: ActiveSessionProps) {
   const isMobile =
     ua.platform.type === "mobile" || ua.platform.type === "tablet";
 
+  let actionIcon = <X />;
+  if (isRevoking) {
+    actionIcon = <Spinner />;
+  } else if (isCurrentSession) {
+    actionIcon = <LogOut />;
+  }
+
   return (
     <Card className="border-0 bg-transparent shadow-none ring-0">
       <CardContent className="flex items-center justify-between gap-3">
@@ -115,7 +122,7 @@ export function ActiveSession({ activeSession }: ActiveSessionProps) {
           size="sm"
           variant="outline"
         >
-          {isRevoking ? <Spinner /> : isCurrentSession ? <LogOut /> : <X />}
+          {actionIcon}
 
           {isCurrentSession
             ? localization.auth.signOut
