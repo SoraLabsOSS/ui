@@ -1,0 +1,12 @@
+{
+  "name": "demo-radix-switch",
+  "code": "\"use client\";\n\nimport { Switch, type SwitchProps } from \"@/components/sora-ui/radix/switch\";\n\nexport default function SwitchDemo({\n  label = \"Airplane Mode\",\n  ...props\n}: SwitchProps) {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Switch label={label} {...props} />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/switch/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/switch.tsx",
+      "content": "\"use client\";\n\nimport { Switch, type SwitchProps } from \"@/components/sora-ui/radix/switch\";\n\nexport default function SwitchDemo({\n  label = \"Airplane Mode\",\n  ...props\n}: SwitchProps) {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Switch label={label} {...props} />\n    </div>\n  );\n}"
+    }
+  ]
+}

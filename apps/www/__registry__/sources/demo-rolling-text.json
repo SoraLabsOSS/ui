@@ -1,0 +1,12 @@
+{
+  "name": "demo-rolling-text",
+  "code": "\"use client\";\n\nimport { RollingText } from \"@/components/sora-ui/texts/rolling-text\";\n\nexport default function RollingTextExample() {\n  return (\n    <RollingText\n      text={\"MOTION FIRST\"}\n      direction={\"up\"}\n      speed={0.05}\n      duration={4}\n      className={\"font-bold text-4xl uppercase tracking-tight\"}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/rolling-text/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/rolling-text.tsx",
+      "content": "\"use client\";\n\nimport { RollingText } from \"@/components/sora-ui/texts/rolling-text\";\n\nexport default function RollingTextExample() {\n  return (\n    <RollingText\n      text={\"MOTION FIRST\"}\n      direction={\"up\"}\n      speed={0.05}\n      duration={4}\n      className={\"font-bold text-4xl uppercase tracking-tight\"}\n    />\n  );\n}\n"
+    }
+  ]
+}

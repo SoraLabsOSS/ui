@@ -100,6 +100,10 @@ export function DynamicCodeBlock(props: DynamicCodeBlockProps) {
     />
   );
 
+  if (props.code === undefined) {
+    return loading;
+  }
+
   return (
     <Suspense fallback={loading}>
       <ShikiHighlight {...props} loading={loading} />

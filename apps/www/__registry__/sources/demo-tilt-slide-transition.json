@@ -1,0 +1,12 @@
+{
+  "name": "demo-tilt-slide-transition",
+  "code": "\"use client\";\n\nimport { TiltSlideTransition } from \"@/components/sora-ui/tilt-slide-transition\";\n\nexport function TiltSlideTransitionDemo() {\n  return (\n    <div className=\"h-full min-h-screen w-full\">\n      <TiltSlideTransition />\n    </div>\n  );\n}\n\nexport default TiltSlideTransitionDemo;",
+  "files": [
+    {
+      "path": "registry/demo/catalog/tilt-slide-transition/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/catalog/tilt-slide-transition.tsx",
+      "content": "\"use client\";\n\nimport { TiltSlideTransition } from \"@/components/sora-ui/tilt-slide-transition\";\n\nexport function TiltSlideTransitionDemo() {\n  return (\n    <div className=\"h-full min-h-screen w-full\">\n      <TiltSlideTransition />\n    </div>\n  );\n}\n\nexport default TiltSlideTransitionDemo;"
+    }
+  ]
+}

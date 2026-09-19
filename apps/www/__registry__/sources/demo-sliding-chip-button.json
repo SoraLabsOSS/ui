@@ -1,0 +1,12 @@
+{
+  "name": "demo-sliding-chip-button",
+  "code": "\"use client\";\n\nimport { SlidingChipButton } from \"@/components/sora-ui/buttons/sliding-chip-button\";\n\nexport default function SlidingChipButtonExample() {\n  return (\n    <SlidingChipButton\n      label={\"Explore components\"}\n      variant={\"accent\"}\n      size={\"default\"}\n      duration={0.7}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/primitives/buttons/sliding-chip-button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/buttons/sliding-chip-button.tsx",
+      "content": "\"use client\";\n\nimport { SlidingChipButton } from \"@/components/sora-ui/buttons/sliding-chip-button\";\n\nexport default function SlidingChipButtonExample() {\n  return (\n    <SlidingChipButton\n      label={\"Explore components\"}\n      variant={\"accent\"}\n      size={\"default\"}\n      duration={0.7}\n    />\n  );\n}\n"
+    }
+  ]
+}

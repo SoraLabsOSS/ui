@@ -1,0 +1,12 @@
+{
+  "name": "demo-typer",
+  "code": "\"use client\";\n\nimport { Typer, type TyperProps } from \"@/components/sora-ui/texts/typer\";\n\nexport default function TyperExample({\n  fps = 20,\n  cycles = 3,\n  stagger = 0.15,\n  startOnView = true,\n  accent = \"#12a150\",\n}: Partial<TyperProps>) {\n  return (\n    <div className=\"flex w-full items-center justify-center px-6 py-16\">\n      <Typer\n        accent={accent}\n        className=\"font-semibold text-xl leading-[1.15] tracking-tight sm:text-2xl\"\n        cycles={cycles}\n        fps={fps}\n        stagger={stagger}\n        startOnView={startOnView}\n        text={\"Type that assembles itself, one glyph at a time.\"}\n      />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/typer/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/typer.tsx",
+      "content": "\"use client\";\n\nimport { Typer, type TyperProps } from \"@/components/sora-ui/texts/typer\";\n\nexport default function TyperExample({\n  fps = 20,\n  cycles = 3,\n  stagger = 0.15,\n  startOnView = true,\n  accent = \"#12a150\",\n}: Partial<TyperProps>) {\n  return (\n    <div className=\"flex w-full items-center justify-center px-6 py-16\">\n      <Typer\n        accent={accent}\n        className=\"font-semibold text-xl leading-[1.15] tracking-tight sm:text-2xl\"\n        cycles={cycles}\n        fps={fps}\n        stagger={stagger}\n        startOnView={startOnView}\n        text={\"Type that assembles itself, one glyph at a time.\"}\n      />\n    </div>\n  );\n}"
+    }
+  ]
+}

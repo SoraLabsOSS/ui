@@ -1,0 +1,12 @@
+{
+  "name": "demo-pixel-image-loader",
+  "code": "\"use client\";\n\nimport { PixelImageLoader } from \"@/components/sora-ui/effects/pixel-image-loader\";\n\nexport default function PixelImageLoaderExample() {\n  return (\n    <PixelImageLoader\n      src={\"https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=764&auto=format&fit=crop\"}\n      alt={\"Pixel image loader demo\"}\n      aspect={\"square\"}\n      initialDelay={0}\n      stepDuration={80}\n      trigger={\"inView\"}\n      className={\"mx-auto w-72 rounded-lg\"}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/primitives/effects/pixel-image-loader/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/effects/pixel-image-loader.tsx",
+      "content": "\"use client\";\n\nimport { PixelImageLoader } from \"@/components/sora-ui/effects/pixel-image-loader\";\n\nexport default function PixelImageLoaderExample() {\n  return (\n    <PixelImageLoader\n      src={\"https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=764&auto=format&fit=crop\"}\n      alt={\"Pixel image loader demo\"}\n      aspect={\"square\"}\n      initialDelay={0}\n      stepDuration={80}\n      trigger={\"inView\"}\n      className={\"mx-auto w-72 rounded-lg\"}\n    />\n  );\n}\n"
+    }
+  ]
+}

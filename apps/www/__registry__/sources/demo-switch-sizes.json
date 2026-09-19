@@ -1,0 +1,12 @@
+{
+  "name": "demo-switch-sizes",
+  "code": "\"use client\";\n\nimport { Switch } from \"@/components/sora-ui/base/switch\";\n\nexport default function SwitchSizesDemo() {\n  return (\n    <div className=\"flex flex-col items-start gap-4 p-4\">\n      <Switch defaultChecked label=\"Small Switch\" size=\"sm\" />\n      <Switch defaultChecked label=\"Default Switch\" size=\"default\" />\n      <Switch defaultChecked label=\"Large Switch\" size=\"lg\" />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/switch-sizes/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/switch-sizes.tsx",
+      "content": "\"use client\";\n\nimport { Switch } from \"@/components/sora-ui/base/switch\";\n\nexport default function SwitchSizesDemo() {\n  return (\n    <div className=\"flex flex-col items-start gap-4 p-4\">\n      <Switch defaultChecked label=\"Small Switch\" size=\"sm\" />\n      <Switch defaultChecked label=\"Default Switch\" size=\"default\" />\n      <Switch defaultChecked label=\"Large Switch\" size=\"lg\" />\n    </div>\n  );\n}"
+    }
+  ]
+}

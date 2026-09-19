@@ -1,0 +1,12 @@
+{
+  "name": "demo-text-reveal-block",
+  "code": "\"use client\";\n\nimport { TextRevealBlock } from \"@/components/sora-ui/texts/text-reveal-block\";\n\nexport default function TextRevealBlockExample() {\n  return (\n    <TextRevealBlock\n      as={\"h2\"}\n      text={\"Framed in shadow and light, every line arrives with deliberate tension.\"}\n      className={\"mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight\"}\n      animateOnScroll={false}\n      blockColor={\"#fe0100\"}\n      stagger={0.15}\n      duration={0.75}\n      delay={0}\n      direction={\"left\"}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-reveal-block/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-reveal-block.tsx",
+      "content": "\"use client\";\n\nimport { TextRevealBlock } from \"@/components/sora-ui/texts/text-reveal-block\";\n\nexport default function TextRevealBlockExample() {\n  return (\n    <TextRevealBlock\n      as={\"h2\"}\n      text={\"Framed in shadow and light, every line arrives with deliberate tension.\"}\n      className={\"mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight\"}\n      animateOnScroll={false}\n      blockColor={\"#fe0100\"}\n      stagger={0.15}\n      duration={0.75}\n      delay={0}\n      direction={\"left\"}\n    />\n  );\n}\n"
+    }
+  ]
+}

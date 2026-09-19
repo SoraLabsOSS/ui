@@ -12,7 +12,7 @@ import { Check, Infinity as InfinityIcon, RotateCcw, X } from "lucide-react";
 import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
-import { index } from "@/__registry__";
+import { index, loadComponentSource } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 import { SoraTypeTable } from "@/components/docs/sora-type-table";
@@ -212,6 +212,24 @@ export function Icons() {
     };
   }, [icon]);
 
+  const [iconSource, setIconSource] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (activeIcon) {
+      loadComponentSource(activeIcon).then((code) => {
+        if (!cancelled) {
+          setIconSource(code);
+        }
+      });
+    } else {
+      setIconSource(null);
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [activeIcon]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -390,7 +408,7 @@ export function Icons() {
                           {activeIcon && (
                             <DynamicCodeBlock
                               className="**:data-[slot='codeblock-viewport']:max-h-62.5"
-                              code={icon?.files?.[0]?.content}
+                              code={iconSource ?? undefined}
                               lang="tsx"
                               title={`${icon?.name.replace("icons-", "")}.tsx`}
                             />

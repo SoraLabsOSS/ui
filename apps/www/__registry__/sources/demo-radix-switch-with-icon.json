@@ -1,0 +1,12 @@
+{
+  "name": "demo-radix-switch-with-icon",
+  "code": "\"use client\";\n\nimport { Moon, Sun } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Switch } from \"@/components/sora-ui/radix/switch\";\n\nexport default function SwitchWithIconDemo() {\n  const [isDark, setIsDark] = useState(false);\n\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-6 p-4\">\n      <Switch\n        checked={isDark}\n        checkedIcon={<Moon className=\"size-3 text-primary-foreground\" />}\n        description=\"Toggle between light and dark visual aesthetics.\"\n        label=\"Theme Mode\"\n        onCheckedChange={setIsDark}\n        uncheckedIcon={<Sun className=\"size-3 text-muted-foreground\" />}\n      />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/switch-with-icon/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/switch-with-icon.tsx",
+      "content": "\"use client\";\n\nimport { Moon, Sun } from \"lucide-react\";\nimport { useState } from \"react\";\nimport { Switch } from \"@/components/sora-ui/radix/switch\";\n\nexport default function SwitchWithIconDemo() {\n  const [isDark, setIsDark] = useState(false);\n\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-6 p-4\">\n      <Switch\n        checked={isDark}\n        checkedIcon={<Moon className=\"size-3 text-primary-foreground\" />}\n        description=\"Toggle between light and dark visual aesthetics.\"\n        label=\"Theme Mode\"\n        onCheckedChange={setIsDark}\n        uncheckedIcon={<Sun className=\"size-3 text-muted-foreground\" />}\n      />\n    </div>\n  );\n}"
+    }
+  ]
+}

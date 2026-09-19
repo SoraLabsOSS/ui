@@ -1,0 +1,12 @@
+{
+  "name": "primitives-buttons-button",
+  "code": "\"use client\";\n\nimport { type HTMLMotionProps, motion } from \"motion/react\";\n\nimport { Slot, type WithAsChild } from \"@/components/sora-ui/animate/slot\";\n\ntype ButtonProps = WithAsChild<\n  HTMLMotionProps<\"button\"> & {\n    hoverScale?: number;\n    tapScale?: number;\n  }\n>;\n\nfunction Button({\n  hoverScale = 1.05,\n  tapScale = 0.95,\n  asChild = false,\n  ...props\n}: ButtonProps) {\n  const Component = asChild ? Slot : motion.button;\n\n  return (\n    <Component\n      whileHover={{ scale: hoverScale }}\n      whileTap={{ scale: tapScale }}\n      {...props}\n    />\n  );\n}\n\nexport { Button, type ButtonProps };",
+  "files": [
+    {
+      "path": "registry/primitives/buttons/button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/primitives/buttons/button.tsx",
+      "content": "\"use client\";\n\nimport { type HTMLMotionProps, motion } from \"motion/react\";\n\nimport { Slot, type WithAsChild } from \"@/components/sora-ui/animate/slot\";\n\ntype ButtonProps = WithAsChild<\n  HTMLMotionProps<\"button\"> & {\n    hoverScale?: number;\n    tapScale?: number;\n  }\n>;\n\nfunction Button({\n  hoverScale = 1.05,\n  tapScale = 0.95,\n  asChild = false,\n  ...props\n}: ButtonProps) {\n  const Component = asChild ? Slot : motion.button;\n\n  return (\n    <Component\n      whileHover={{ scale: hoverScale }}\n      whileTap={{ scale: tapScale }}\n      {...props}\n    />\n  );\n}\n\nexport { Button, type ButtonProps };"
+    }
+  ]
+}

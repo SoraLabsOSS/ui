@@ -1,0 +1,12 @@
+{
+  "name": "demo-base-switch",
+  "code": "\"use client\";\n\nimport { Switch } from \"@/components/sora-ui/base/switch\";\n\nexport default function SwitchExample() {\n  return (\n    <Switch\n      label={\"Airplane Mode\"}\n      disabled={false}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/switch/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/switch.tsx",
+      "content": "\"use client\";\n\nimport { Switch } from \"@/components/sora-ui/base/switch\";\n\nexport default function SwitchExample() {\n  return (\n    <Switch\n      label={\"Airplane Mode\"}\n      disabled={false}\n    />\n  );\n}\n"
+    }
+  ]
+}

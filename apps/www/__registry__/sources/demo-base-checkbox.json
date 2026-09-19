@@ -1,0 +1,12 @@
+{
+  "name": "demo-base-checkbox",
+  "code": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxExample() {\n  return (\n    <Checkbox\n      label={\"Accept terms and conditions\"}\n      disabled={false}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox.tsx",
+      "content": "\"use client\";\n\nimport { Checkbox } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxExample() {\n  return (\n    <Checkbox\n      label={\"Accept terms and conditions\"}\n      disabled={false}\n    />\n  );\n}\n"
+    }
+  ]
+}

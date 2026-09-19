@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import type { ReactNode } from "react";
-import { index } from "@/__registry__";
+import { type ReactNode, useEffect, useState } from "react";
+import { index, loadComponentSource } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
   Tabs,
@@ -33,7 +33,20 @@ export function ComponentInstallation({
   hideFileStructure = false,
   ...props
 }: ComponentInstallationProps) {
+  const [manualCode, setManualCode] = useState<string | undefined>(undefined);
   const component = index[name];
+
+  useEffect(() => {
+    let cancelled = false;
+    loadComponentSource(name).then((code) => {
+      if (!cancelled && code) {
+        setManualCode(code);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [name]);
 
   if (!component) {
     return null;
@@ -106,7 +119,7 @@ export function ComponentInstallation({
             <ComponentManualInstallation
               afterSteps={afterSteps}
               beforeSteps={beforeSteps}
-              code={component.files?.[0]?.content}
+              code={manualCode}
               dependencies={component.dependencies}
               devDependencies={component.devDependencies}
               path={component.files?.[0]?.target}

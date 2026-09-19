@@ -6,7 +6,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Fullscreen, Loader } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { index } from "@/__registry__";
+import { index, loadComponentSource } from "@/__registry__";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 import { RefreshButton } from "@/components/docs/refresh";
@@ -82,14 +82,14 @@ function resolveUsageCodeEntry(
 ): RegistryIndexEntry | undefined {
   if (explicitDemo) {
     const entry = index[explicitDemo] as RegistryIndexEntry | undefined;
-    if (entry?.files?.[0]?.content) {
+    if (entry?.hasSource || entry?.files?.length) {
       return entry;
     }
   }
 
   const autoDemoName = `demo-${previewName}`;
   const autoEntry = index[autoDemoName] as RegistryIndexEntry | undefined;
-  if (autoEntry?.files?.[0]?.content) {
+  if (autoEntry?.hasSource || autoEntry?.files?.length) {
     return autoEntry;
   }
 
@@ -98,7 +98,7 @@ function resolveUsageCodeEntry(
 
 /** Physical demo folder on disk — not the synthetic code-only `demo-*` entry. */
 function isManualUsageDemo(entry: RegistryIndexEntry | undefined): boolean {
-  return Boolean(entry?.component && entry.files?.[0]?.content);
+  return Boolean(entry?.component && (entry.hasSource || entry.files?.length));
 }
 
 function flattenFirstLevel<T>(input: Record<string, unknown>): T {
@@ -142,6 +142,7 @@ export function ComponentPreview({
     unknown
   > | null>(null);
   const [previewKey, setPreviewKey] = useState(0);
+  const [staticContent, setStaticContent] = useState<string | null>(null);
   const previousPropsSnapshot = useRef<string | null>(null);
 
   const demoPropsConfig = useMemo(() => resolveDemoProps(name), [name]);
@@ -149,9 +150,10 @@ export function ComponentPreview({
   const usageCodeMeta = useMemo(() => {
     const entry = resolveUsageCodeEntry(name, demo);
     const file = entry?.files?.[0];
+    const sourceName = entry?.name ?? demo ?? `demo-${name}`;
 
     return {
-      staticContent: file?.content ?? null,
+      sourceName,
       title: file?.target?.split("/").pop() ?? `${demo ?? `demo-${name}`}.tsx`,
       installTarget: (index[name] as RegistryIndexEntry | undefined)?.files?.[0]
         ?.target,
@@ -159,8 +161,28 @@ export function ComponentPreview({
     };
   }, [name, demo]);
 
+  const sourceName = usageCodeMeta.sourceName;
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!sourceName) {
+      setStaticContent(null);
+      return;
+    }
+
+    loadComponentSource(sourceName).then((code) => {
+      if (!cancelled) {
+        setStaticContent(code);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [sourceName]);
+
   const displayCode = useMemo(() => {
-    const { installTarget, staticContent, manualDemo } = usageCodeMeta;
+    const { installTarget, manualDemo } = usageCodeMeta;
 
     if (
       !manualDemo &&
@@ -179,7 +201,7 @@ export function ComponentPreview({
     }
 
     return staticContent;
-  }, [demoPropsConfig, componentProps, usageCodeMeta]);
+  }, [demoPropsConfig, componentProps, usageCodeMeta, staticContent]);
 
   const preview = useMemo(() => {
     const Component = index[name]?.component;
@@ -264,7 +286,7 @@ export function ComponentPreview({
                     Preview
                   </TabsTrigger>
                 </TabsHighlightItem>
-                {displayCode ? (
+                {usageCodeMeta.sourceName ? (
                   <TabsHighlightItem value="code">
                     <TabsTrigger
                       className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
@@ -428,7 +450,7 @@ export function ComponentPreview({
               </div>
             </TabsContent>
 
-            {displayCode ? (
+            {usageCodeMeta.sourceName ? (
               <TabsContent
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -437,7 +459,7 @@ export function ComponentPreview({
               >
                 <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_[data-slot=codeblock-viewport]]:max-h-[500px]">
                   <DynamicCodeBlock
-                    code={displayCode}
+                    code={displayCode ?? undefined}
                     icon={<ReactIcon />}
                     lang="tsx"
                     title={usageCodeMeta.title}

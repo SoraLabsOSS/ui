@@ -1,0 +1,12 @@
+{
+  "name": "demo-dia-text-reveal",
+  "code": "\"use client\";\n\nimport { DiaTextReveal } from \"@/components/sora-ui/texts/dia-text-reveal\";\n\nexport default function DiaTextRevealExample() {\n  return (\n    <p className=\"font-light text-4xl tracking-tight\">\n      Make interfaces feel{\" \"}\n      <DiaTextReveal\n        fixedWidth\n        repeat\n        repeatDelay={0.5}\n        text={[\"smooth.\", \"focused.\", \"refined.\"]}\n      />\n    </p>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/dia-text-reveal.tsx",
+      "content": "\"use client\";\n\nimport { DiaTextReveal } from \"@/components/sora-ui/texts/dia-text-reveal\";\n\nexport default function DiaTextRevealExample() {\n  return (\n    <p className=\"font-light text-4xl tracking-tight\">\n      Make interfaces feel{\" \"}\n      <DiaTextReveal\n        fixedWidth\n        repeat\n        repeatDelay={0.5}\n        text={[\"smooth.\", \"focused.\", \"refined.\"]}\n      />\n    </p>\n  );\n}"
+    }
+  ]
+}

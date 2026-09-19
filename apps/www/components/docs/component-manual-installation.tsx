@@ -111,7 +111,7 @@ export const ComponentManualInstallation = ({
           </Step>
         )}
 
-        {code && (
+        {(code !== undefined || Boolean(path)) && (
           <Step>
             <h4 className="pt-1 pb-4">
               Copy and paste the following code into your project:

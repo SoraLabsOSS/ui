@@ -44,6 +44,7 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { hostname: "ui.aceternity.com" },
       { hostname: "ui.paceui.com" },

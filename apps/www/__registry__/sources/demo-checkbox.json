@@ -1,0 +1,12 @@
+{
+  "name": "demo-checkbox",
+  "code": "\"use client\";\n\nimport { Checkbox, type CheckboxProps } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxDemo({\n  label = \"Accept terms and conditions\",\n  ...props\n}: CheckboxProps) {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Checkbox label={label} {...props} />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/checkbox/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/checkbox.tsx",
+      "content": "\"use client\";\n\nimport { Checkbox, type CheckboxProps } from \"@/components/sora-ui/base/checkbox\";\n\nexport default function CheckboxDemo({\n  label = \"Accept terms and conditions\",\n  ...props\n}: CheckboxProps) {\n  return (\n    <div className=\"flex items-center justify-center p-4\">\n      <Checkbox label={label} {...props} />\n    </div>\n  );\n}"
+    }
+  ]
+}

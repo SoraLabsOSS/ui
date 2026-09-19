@@ -1,0 +1,12 @@
+{
+  "name": "demo-radix-button",
+  "code": "\"use client\";\n\nimport { Button, type ButtonProps } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonDemo({\n  children = \"Button\",\n  ...props\n}: ButtonProps) {\n  return <Button {...props}>{children}</Button>;\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button.tsx",
+      "content": "\"use client\";\n\nimport { Button, type ButtonProps } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonDemo({\n  children = \"Button\",\n  ...props\n}: ButtonProps) {\n  return <Button {...props}>{children}</Button>;\n}"
+    }
+  ]
+}

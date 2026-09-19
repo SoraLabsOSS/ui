@@ -1,0 +1,12 @@
+{
+  "name": "demo-radix-button-loading",
+  "code": "\"use client\";\n\nimport { Loader2 } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonLoadingDemo() {\n  return (\n    <Button disabled>\n      <Loader2 className=\"size-4 animate-spin\" />\n      Please wait\n    </Button>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/button-loading/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/button-loading.tsx",
+      "content": "\"use client\";\n\nimport { Loader2 } from \"lucide-react\";\nimport { Button } from \"@/components/sora-ui/radix/button\";\n\nexport default function RadixButtonLoadingDemo() {\n  return (\n    <Button disabled>\n      <Loader2 className=\"size-4 animate-spin\" />\n      Please wait\n    </Button>\n  );\n}"
+    }
+  ]
+}

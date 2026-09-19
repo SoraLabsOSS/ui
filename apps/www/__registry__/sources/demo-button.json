@@ -1,0 +1,12 @@
+{
+  "name": "demo-button",
+  "code": "\"use client\";\n\nimport { Button, type ButtonProps } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonDemo({\n  children = \"Button\",\n  ...props\n}: ButtonProps) {\n  return <Button {...props}>{children}</Button>;\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/button.tsx",
+      "content": "\"use client\";\n\nimport { Button, type ButtonProps } from \"@/components/sora-ui/base/button\";\n\nexport default function ButtonDemo({\n  children = \"Button\",\n  ...props\n}: ButtonProps) {\n  return <Button {...props}>{children}</Button>;\n}"
+    }
+  ]
+}

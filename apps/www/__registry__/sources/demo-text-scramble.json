@@ -1,0 +1,12 @@
+{
+  "name": "demo-text-scramble",
+  "code": "\"use client\";\n\nimport { TextScramble } from \"@/components/sora-ui/texts/text-scramble\";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={\"Sora UI\"}\n      as={\"p\"}\n      className={\"font-mono text-2xl font-bold uppercase tracking-widest text-foreground\"}\n      scrambleColor={\"\"}\n      holdDuration={0}\n      duration={0.5}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-scramble/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/text-scramble.tsx",
+      "content": "\"use client\";\n\nimport { TextScramble } from \"@/components/sora-ui/texts/text-scramble\";\n\nexport default function TextScrambleExample() {\n  return (\n    <TextScramble\n      children={\"Sora UI\"}\n      as={\"p\"}\n      className={\"font-mono text-2xl font-bold uppercase tracking-widest text-foreground\"}\n      scrambleColor={\"\"}\n      holdDuration={0}\n      duration={0.5}\n      speed={0.03}\n      trigger={true}\n      triggerOnHover={false}\n    />\n  );\n}\n"
+    }
+  ]
+}
