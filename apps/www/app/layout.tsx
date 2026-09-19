@@ -7,7 +7,6 @@ import "./globals.css";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import { MotionConfig } from "motion/react";
-import NextTopLoader from "nextjs-toploader";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
@@ -126,16 +125,6 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <NextTopLoader
-          color="#fb460d"
-          crawl={false}
-          height={0}
-          shadow={false}
-          showAtBottom={true}
-          showSpinner={true}
-          template='<div class="bar" role="bar" style="display:none"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-          zIndex={2_147_483_647}
-        />
         <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
           Authentication is temporarily unavailable while we optimize our
           infrastructure.
