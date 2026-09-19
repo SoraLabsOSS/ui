@@ -4,13 +4,14 @@ How to add and maintain components on the docs site (`apps/www`). Build script: 
 
 ## Sora UI Taxonomy
 
-Sora UI is organized into three distinct product tiers:
+Sora UI is organized into four distinct product tiers:
 
 ```text
 Sora UI
-├── Motion       (Animation building blocks: tilt-card, highlight, text-effect, auto-height)
-├── Catalog      (Ready-to-use animated showcases & layouts: sticky-scroll-cards, cursor-trail-reveal)
-└── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS)
+├── Motion       (Animation building blocks: unstyled motion/effects at /motion)
+├── Icons        (Animated Lucide icons at /icons)
+├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
+└── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
 ```
 
 ---
@@ -105,7 +106,7 @@ Catalog showcase layouts are artistic showcases that intentionally preserve full
 |------|--------|-------|
 | **Preview** | `ComponentPreview name="<name>"` | Loads primitive from `@/registry/...`, props from `meta.demoProps` or manual `demo-*` |
 | **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` | Top-level key = React export name (e.g. `TextEffect`) |
-| **Code** | Auto-generated `demo-<name>` at build time (or manual demo on disk); **updates live** when Tweakpane changes | Snippet uses `@/components/sora-ui/...` (post–`shadcn add` paths) |
+| **Code** | Auto-generated `demo-<name>` at build time (or manual demo on disk); loaded on demand via `loadComponentSource`; **updates live** when Tweakpane changes | Snippet uses `@/components/sora-ui/...` (post–`shadcn add` paths) |
 | **Install** | `ComponentInstallation name="<name>"` | CLI tab in docs |
 
 ### `demoProps` (on the primitive `registry-item.json`)
@@ -148,13 +149,28 @@ registry/demo/ui/base/checkbox/
 - In `index.tsx`, use `@/registry/...`, not `@/components/sora-ui/...` (install paths exist only after the user runs `shadcn add`).
 - `registry:build` still transforms the **displayed** Code tab content to `@/components/sora-ui/...`.
 
+## The `__registry__` structure
+
+To minimize client bundle sizes and avoid monolithic JS objects, component source code is separated from registry metadata:
+
+```text
+apps/www/__registry__/
+├── index.tsx          ← Lightweight component metadata (dependencies, install targets, keywords, inspiration) + lazy renderers
+├── preview.tsx        ← Isolated catalog & showcase previews (used by /catalog and iframe example routes)
+├── sources.ts         ← On-demand source loaders and memory cache (loadComponentSource, loadComponentFiles)
+└── sources/*.json     ← Individual chunked component source files loaded dynamically
+```
+
 ## What `registry:build` does
 
-1. Merges `registry-item.json` files into `public/r/registry.json` (only items referenced in docs, UI, or catalog MDX).
-2. Generates `__registry__/index.tsx` (preview + code for the docs app).
-3. For each documented primitive with `demoProps` and **no** `demo-*` folder on disk → synthesizes a `demo-<name>` entry (`component: null`, `files[].content` only).
-4. Runs the local `shadcn` CLI → JSON artifacts under `public/r/*.json`.
-5. Runs `ultracite fix` on generated files.
+1. Scans MDX docs to collect referenced component and demo names (`collectDocumentedNames`).
+2. Merges `registry-item.json` files into `public/r/registry.json` (published items only, scoping dependencies to `@soralabs/*`).
+3. Generates `__registry__/preview.tsx` (isolated lazy component loaders for full layout showcases).
+4. Synthesizes `demo-<name>` entries for primitives with `demoProps` and no physical demo folder on disk.
+5. Code-splits component sources into individual JSON chunks in `__registry__/sources/*.json` and generates `__registry__/sources.ts` dynamic import loaders.
+6. Generates `__registry__/index.tsx` containing metadata and component references without inlined source strings.
+7. Runs the local `shadcn` CLI (`shadcn build`) to compile public registry artifacts under `public/r/*.json`.
+8. Formats generated artifacts (`__registry__/index.tsx`, `preview.tsx`, `sources.ts`, `sources/`, and `public/r/`) via Ultracite / Biome.
 
 ## Inspiration attribution
 
@@ -232,14 +248,17 @@ the component tree and writes the resulting application code.
 bun run create           # interactive wizard
 bun run create:ui        # UI component (Base or Radix)
 bun run create:primitive # Motion primitive
+bun run create:catalog   # Catalog layout showcase
 
-# Verify component integrity before opening a PR
-bun run doctor <name>    # e.g. bun run doctor text-effect or base/button
+# Verify component integrity & sandbox installation
+bun run doctor <name>    # targeted health check (e.g. bun run doctor text-effect or base/button)
+bun run test:registry    # 4-stage integrity, sandbox install & consumer typecheck (in apps/www)
 
 # Build & run (inside apps/www)
 cd apps/www
-bun run registry:build   # after changing registry or demoProps
-bun dev                  # run the docs site
+bun run registry:build   # rebuild registry & sources after editing registry-item.json
+bun run check-types      # tsc --noEmit
+bun dev                  # run the docs site (localhost:3000)
 ```
 
 ## See also
