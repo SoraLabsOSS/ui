@@ -416,6 +416,24 @@ function DialogDescription({ className, ...props }: DialogDescriptionProps) {
   );
 }
 
+type DialogViewportProps = ComponentProps<"div">;
+
+/**
+ * Optional scroll viewport wrapper for large or overflowing dialog popups.
+ */
+function DialogViewport({ className, ...props }: DialogViewportProps) {
+  return (
+    <div
+      className={cn(
+        "fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4",
+        className
+      )}
+      data-slot="dialog-viewport"
+      {...props}
+    />
+  );
+}
+
 export type {
   DialogCloseProps,
   DialogContentProps,
@@ -426,6 +444,7 @@ export type {
   DialogProps,
   DialogTitleProps,
   DialogTriggerProps,
+  DialogViewportProps,
 };
 export {
   Dialog,
@@ -440,4 +459,5 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  DialogViewport,
 };

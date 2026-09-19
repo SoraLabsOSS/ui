@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-dropdown-menu-rtl",
+  "type": "registry:ui",
+  "title": "Radix Dropdown Menu RTL Demo",
+  "description": "Right-to-left layout showcase for Radix Dropdown Menu using Radix DirectionProvider.",
+  "registryDependencies": ["@soralabs/radix-dropdown-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/dropdown-menu-rtl/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/dropdown-menu-rtl.tsx"
+    }
+  ]
+}

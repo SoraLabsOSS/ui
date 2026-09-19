@@ -1,0 +1,178 @@
+---
+title: Dropdown Menu
+description: An accessible dropdown menu component built on Radix UI with smooth Motion spring scale and submenu slide animations.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+intent: Present a compact list of actions or choices from an anchored trigger.
+role: menu
+a11yConstraints:
+  - Preserve roving focus, keyboard navigation, and Escape dismissal.
+  - Use menu items for commands, not arbitrary form controls.
+  - Keep nested submenu labels and order predictable.
+motionEngine: Motion scale and opacity presence with collision-aware submenu cascades.
+compositionRules:
+  - Use a Button or equivalent semantic trigger.
+  - Use Select for persistent value selection rather than a command menu.
+compositionRecipes:
+  - name: radix-account-actions
+    description: Expose secondary account actions from an avatar or button.
+    components:
+      - radix/dropdown-menu
+      - radix/button
+    constraints:
+      - Keep the trigger label or accessible name stable.
+---
+
+<ComponentPreview name="demo-radix-dropdown-menu" description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+
+## Installation
+
+<ComponentInstallation name="radix-dropdown-menu" />
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/sora-ui/radix/dropdown-menu";
+
+export default function Page() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>More Tools</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem>Developer Tools</DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">Delete Account</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+## RTL
+
+<ComponentPreview name="demo-radix-dropdown-menu-rtl" description="The same dropdown menu pattern rendered right-to-left with Radix UI DirectionProvider." />
+
+Use Radix UI's `DirectionProvider` together with `dir="rtl"` on the demo
+container to render the menu from right to left. The provider keeps popup
+positioning, slide transitions, and keyboard navigation aware of the text direction.
+
+```tsx
+import {
+  DirectionProvider,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/sora-ui/radix/dropdown-menu";
+
+export default function RtlDropdownMenu() {
+  return (
+    <DirectionProvider dir="rtl">
+      <div dir="rtl">
+        <DropdownMenu>
+          <DropdownMenuTrigger>فتح القائمة</DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>الملف الشخصي</DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>المزيد من الخيارات</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>أدوات المطور</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </DirectionProvider>
+  );
+}
+```
+
+## Props
+
+### DropdownMenu
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the dropdown menu.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### DropdownMenuContent
+
+<TypeTable
+  type={{
+    side: {
+      description: "Preferred side of the trigger to render against.",
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"bottom"',
+    },
+    sideOffset: {
+      description: "Distance in pixels from the anchor element.",
+      type: "number",
+      default: "4",
+    },
+    align: {
+      description: "Preferred alignment against the anchor.",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
+    },
+    alignOffset: {
+      description: "Distance in pixels from the alignment edge.",
+      type: "number",
+      default: "0",
+    },
+    disableAnimation: {
+      description: "Whether to disable all entrance/exit animations.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>

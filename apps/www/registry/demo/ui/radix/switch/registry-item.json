@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-switch",
+  "type": "registry:ui",
+  "title": "Radix Switch Demo",
+  "description": "Radix UI switch with Motion layout spring physics.",
+  "registryDependencies": ["@soralabs/radix-switch"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/switch/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/switch.tsx"
+    }
+  ]
+}

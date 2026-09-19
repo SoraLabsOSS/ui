@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-context-menu-rtl",
+  "type": "registry:ui",
+  "title": "Radix Context Menu RTL Demo",
+  "description": "Right-to-left layout showcase for Radix Context Menu using Radix DirectionProvider.",
+  "registryDependencies": ["@soralabs/radix-context-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/context-menu-rtl/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/context-menu-rtl.tsx"
+    }
+  ]
+}

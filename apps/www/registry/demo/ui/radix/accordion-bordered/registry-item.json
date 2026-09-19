@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-accordion-bordered",
+  "type": "registry:ui",
+  "title": "Radix Accordion Bordered Demo",
+  "description": "Radix UI accordion in a bordered card container with refined surface styling.",
+  "registryDependencies": ["@soralabs/radix-accordion"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/accordion-bordered/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/accordion-bordered.tsx"
+    }
+  ]
+}

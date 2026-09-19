@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-context-menu-file",
+  "type": "registry:ui",
+  "title": "Radix Context Menu File Demo",
+  "description": "Radix UI context menu with realistic file actions, shortcuts, and danger zone.",
+  "registryDependencies": ["@soralabs/radix-context-menu"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/context-menu-file/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/context-menu-file.tsx"
+    }
+  ]
+}

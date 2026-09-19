@@ -240,1371 +240,6 @@
       }
     },
     {
-      "name": "demo-cursor-trail-reveal",
-      "type": "registry:ui",
-      "title": "Cursor Trail Reveal Demo",
-      "description": "Full-page contact layout with cursor trail image reveals on desktop.",
-      "registryDependencies": ["@soralabs/cursor-trail-reveal"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/cursor-trail-reveal/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/cursor-trail-reveal.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-infinite-scrolling-images",
-      "type": "registry:ui",
-      "title": "Infinite Scrolling Images Demo",
-      "description": "Preview for the infinite stacked image scroll effect.",
-      "registryDependencies": ["@soralabs/infinite-scrolling-images"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/infinite-scrolling-images/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/infinite-scrolling-images.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-scroll-chapters",
-      "type": "registry:ui",
-      "title": "Scroll Chapters Demo",
-      "description": "Five chapters with a draggable, chaptered progress-bar nav — two of them opt out of showing a panel.",
-      "registryDependencies": ["@soralabs/scroll-chapters"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/scroll-chapters/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/scroll-chapters.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-scroll-gallery",
-      "type": "registry:ui",
-      "title": "Scroll Gallery Demo",
-      "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
-      "registryDependencies": ["@soralabs/scroll-gallery"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/scroll-gallery/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/scroll-gallery.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-sticky-scroll-cards",
-      "type": "registry:ui",
-      "title": "Sticky Scroll Cards Demo",
-      "description": "Front card flips to reveal 4 stacked back cards that dismiss one at a time as you scroll.",
-      "registryDependencies": ["@soralabs/sticky-scroll-cards"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/sticky-scroll-cards/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/sticky-scroll-cards.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-text-reveal-box",
-      "type": "registry:ui",
-      "title": "Text Reveal Box Demo",
-      "description": "Scroll-pinned manifesto copy with word-by-word highlight reveal.",
-      "registryDependencies": ["@soralabs/text-reveal-box"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/text-reveal-box/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/text-reveal-box.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-tilt-slide-transition",
-      "type": "registry:ui",
-      "title": "Tilt Slide Transition Demo",
-      "description": "Interactive tilt slide transition showcase switching between Home, Projects, and Info views.",
-      "registryDependencies": ["@soralabs/tilt-slide-transition"],
-      "files": [
-        {
-          "path": "registry/demo/catalog/tilt-slide-transition/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/catalog/tilt-slide-transition.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-particle-hover-button",
-      "type": "registry:ui",
-      "title": "Particle Hover Button Demo",
-      "description": "A heart-particle sponsor link, styled after the anime.js navbar Sponsor button.",
-      "registryDependencies": ["@soralabs/particle-hover-button"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/buttons/particle-hover-button/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/buttons/particle-hover-button.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-accordion",
-      "type": "registry:ui",
-      "title": "Accordion Demo",
-      "description": "FAQ accordion with animated panels.",
-      "registryDependencies": ["@soralabs/accordion"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/disclosure/accordion/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/disclosure/accordion.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-expandable-tabs",
-      "type": "registry:ui",
-      "title": "Expandable Tabs Demo",
-      "description": "Pill tab bar expanding into a floating profile/notifications/settings panel.",
-      "registryDependencies": ["@soralabs/expandable-tabs"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/disclosure/expandable-tabs/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/disclosure/expandable-tabs.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-inline-testimonials",
-      "type": "registry:ui",
-      "title": "Inline Testimonials Demo",
-      "description": "Hover any avatar to reveal the author while the rest of the quote stream blurs out.",
-      "registryDependencies": ["@soralabs/inline-testimonials"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/disclosure/inline-testimonials/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/disclosure/inline-testimonials.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-cursor-bubble",
-      "type": "registry:ui",
-      "title": "Cursor Bubble Demo",
-      "description": "A floating cursor label that elastic-pops into view over interactive links.",
-      "registryDependencies": ["@soralabs/cursor-bubble"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/cursor-bubble/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/cursor-bubble.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-hero-carousel",
-      "type": "registry:ui",
-      "title": "Hero Carousel Demo",
-      "description": "Hero image slideshow cycling through a set of project preview screenshots.",
-      "registryDependencies": ["@soralabs/hero-carousel"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/hero-carousel/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/hero-carousel.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-highlight",
-      "type": "registry:ui",
-      "title": "Highlight Demo",
-      "description": "Shared sliding highlight pill moving between nav items on hover.",
-      "registryDependencies": ["@soralabs/highlight"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/highlight/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/highlight.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-highlight-click",
-      "type": "registry:ui",
-      "title": "Highlight Click Demo",
-      "description": "Per-item fade background activated on click — menu list style.",
-      "registryDependencies": ["@soralabs/highlight"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/highlight-click/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/highlight-click.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-logo-carousel-swapper",
-      "type": "registry:ui",
-      "title": "Logo Carousel Swapper Demo",
-      "description": "Staggered four-column logo swapper with blur and vertical motion.",
-      "registryDependencies": ["@soralabs/logo-carousel-swapper"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/logo-carousel-swapper/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/logo-carousel-swapper.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-magnetic-cards",
-      "type": "registry:ui",
-      "title": "Magnetic Cards Demo",
-      "description": "A fanned stack of cards reacting to cursor movement with GSAP-driven spring physics.",
-      "registryDependencies": ["@soralabs/magnetic-cards"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/magnetic-cards/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/magnetic-cards.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-progressive-blur",
-      "type": "registry:ui",
-      "title": "Progressive Blur Demo",
-      "description": "A scrollable panel with progressive blur fading content under the top and bottom edges.",
-      "registryDependencies": ["@soralabs/progressive-blur"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/progressive-blur/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/progressive-blur.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-skeleton",
-      "type": "registry:ui",
-      "title": "Skeleton Demo",
-      "description": "A profile card loading, then crossfading into content once ready.",
-      "registryDependencies": ["@soralabs/skeleton"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/skeleton/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/skeleton.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-skeleton-shimmer",
-      "type": "registry:ui",
-      "title": "Skeleton Shimmer Demo",
-      "description": "Skeleton loading card that wipes away to reveal a profile card once content is ready.",
-      "registryDependencies": ["@soralabs/skeleton-shimmer"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/skeleton-shimmer/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/skeleton-shimmer.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "SkeletonShimmerDemo": {
-            "shimmerDuration": {
-              "value": 1.5,
-              "min": 0.5,
-              "max": 4,
-              "step": 0.1
-            },
-            "loadDelay": {
-              "value": 2500,
-              "min": 500,
-              "max": 6000,
-              "step": 100
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-skeleton-shimmer-basic",
-      "type": "registry:ui",
-      "title": "Skeleton Shimmer Basic Demo",
-      "description": "Standard skeleton shimmer loading state with blocks and overlay without View Transitions API.",
-      "registryDependencies": ["@soralabs/skeleton-shimmer"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/skeleton-shimmer-basic/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/skeleton-shimmer-basic.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "SkeletonShimmerBasicDemo": {
-            "shimmerDuration": {
-              "value": 1.5,
-              "min": 0.5,
-              "max": 4,
-              "step": 0.1
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-tilt-card",
-      "type": "registry:ui",
-      "title": "Tilt Card Demo",
-      "description": "Card tilting toward the cursor with layered depth content.",
-      "registryDependencies": ["@soralabs/tilt-card"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/tilt-card/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/tilt-card.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TiltCardDemo": {
-            "rotationFactor": {
-              "value": 8,
-              "min": 0,
-              "max": 45,
-              "step": 1
-            },
-            "perspective": {
-              "value": 1000,
-              "min": 400,
-              "max": 2000,
-              "step": 50
-            },
-            "scaleOnHover": {
-              "value": 1,
-              "min": 1,
-              "max": 1.15,
-              "step": 0.01
-            },
-            "isReverse": {
-              "value": false
-            },
-            "glare": {
-              "value": true
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-tilt-card-image",
-      "type": "registry:ui",
-      "title": "Tilt Card Image Demo",
-      "description": "Image card with a subtle reversed tilt.",
-      "registryDependencies": ["@soralabs/tilt-card"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/tilt-card-image/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/tilt-card-image.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TiltCardImageDemo": {
-            "rotationFactor": {
-              "value": 8,
-              "min": 0,
-              "max": 30,
-              "step": 1
-            },
-            "isReverse": {
-              "value": true
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-video-player",
-      "type": "registry:ui",
-      "title": "Video Player Demo",
-      "description": "Trigger button that opens the modal video player with a sample chaptered video.",
-      "registryDependencies": ["@soralabs/video-player"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/effects/video-player/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/effects/video-player.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dia-text-reveal",
-      "type": "registry:ui",
-      "title": "Dia Text Reveal Demo",
-      "description": "Gradient sweep revealing a headline with a looping chromatic wash.",
-      "registryDependencies": ["@soralabs/dia-text-reveal"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/dia-text-reveal/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/dia-text-reveal.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-fog-text-reveal",
-      "type": "registry:ui",
-      "title": "Fog Text Reveal Demo",
-      "description": "Inline text that materializes through a WebGL fog mask and cycles through messages, inheriting the surrounding font and color.",
-      "registryDependencies": ["@soralabs/fog-text-reveal"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/fog-text-reveal/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/fog-text-reveal.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "FogTextRevealExample": {
-            "loop": {
-              "value": true
-            },
-            "startOnView": {
-              "value": true
-            },
-            "holdDuration": {
-              "value": 320,
-              "min": 0,
-              "max": 2000,
-              "step": 20
-            },
-            "maxBlur": {
-              "value": 16,
-              "min": 0,
-              "max": 40,
-              "step": 1
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-number-flow",
-      "type": "registry:ui",
-      "title": "Number Flow Demo",
-      "description": "Number Flow demo with currency, input overlay, and countdown examples.",
-      "registryDependencies": ["@soralabs/number-flow"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/number-flow/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/number-flow.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-text-cursor-loop",
-      "type": "registry:ui",
-      "title": "Text Cursor Loop Demo",
-      "description": "The anime.js hero line, with the cursor flashing red only while collapsing/revealing.",
-      "registryDependencies": ["@soralabs/text-cursor-loop"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-cursor-loop/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-cursor-loop.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-text-effect",
-      "type": "registry:ui",
-      "title": "Text Effect Demo",
-      "description": "Scroll-triggered text reveal with blur, fade, slide, and scale presets.",
-      "registryDependencies": ["@soralabs/text-effect"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-effect/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-effect.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TextEffectDemo": {
-            "children": {
-              "value": "Motion-first text effects"
-            },
-            "preset": {
-              "value": "fade-in-blur",
-              "options": {
-                "Fade in blur": "fade-in-blur",
-                "Blur": "blur",
-                "Fade": "fade",
-                "Slide": "slide",
-                "Scale": "scale"
-              }
-            },
-            "per": {
-              "value": "word",
-              "options": {
-                "Word": "word",
-                "Char": "char",
-                "Line": "line"
-              }
-            },
-            "delay": {
-              "value": 0,
-              "min": 0,
-              "max": 2,
-              "step": 0.1
-            },
-            "speedReveal": {
-              "value": 1,
-              "min": 0.25,
-              "max": 3,
-              "step": 0.25
-            },
-            "speedSegment": {
-              "value": 1,
-              "min": 0.25,
-              "max": 3,
-              "step": 0.25
-            },
-            "scrollTrigger": {
-              "value": true
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-text-loop",
-      "type": "registry:ui",
-      "title": "Text Loop Demo",
-      "description": "Cycling headline built with TextLoop.",
-      "registryDependencies": ["@soralabs/text-loop"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-loop/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-loop.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TextLoopExample": {
-            "interval": {
-              "value": 2,
-              "min": 0.5,
-              "max": 5,
-              "step": 0.1
-            },
-            "className": {
-              "value": "font-medium text-2xl text-foreground"
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-text-morph",
-      "type": "registry:ui",
-      "title": "Text Morph Demo",
-      "description": "Continue / Confirm pill button with per-character layout morph.",
-      "registryDependencies": ["@soralabs/text-morph"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-morph/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-morph.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-text-morph-input",
-      "type": "registry:ui",
-      "title": "Text Morph Input Demo",
-      "description": "Live text morph driven by a controlled input.",
-      "registryDependencies": ["@soralabs/text-morph"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-morph-input/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-morph-input.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-text-reveal-mask",
-      "type": "registry:ui",
-      "title": "Text Reveal (Mask) Demo",
-      "description": "Scroll-triggered masked text reveal with rich text emphasis.",
-      "registryDependencies": ["@soralabs/text-reveal-mask"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-reveal-mask/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-reveal-mask.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "MaskedTextRevealExample": {
-            "splitBy": {
-              "value": "lines",
-              "options": {
-                "Lines": "lines",
-                "Words": "words",
-                "Characters": "chars"
-              }
-            },
-            "stagger": {
-              "value": 0.1,
-              "min": 0.01,
-              "max": 0.5,
-              "step": 0.01
-            },
-            "duration": {
-              "value": 0.8,
-              "min": 0.1,
-              "max": 2,
-              "step": 0.1
-            },
-            "yPercent": {
-              "value": 110,
-              "min": 50,
-              "max": 200,
-              "step": 5
-            },
-            "delay": {
-              "value": 0,
-              "min": 0,
-              "max": 2,
-              "step": 0.1
-            },
-            "viewportMargin": {
-              "value": "0px 0px -20% 0px"
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-text-roll",
-      "type": "registry:ui",
-      "title": "Text Roll Demo",
-      "description": "Interactive copy button with chromatic text roll feedback.",
-      "registryDependencies": ["@soralabs/text-roll"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/text-roll/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/text-roll.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TextRollPlayground": {
-            "className": {
-              "value": "font-medium text-lg tabular-nums"
-            },
-            "stagger": {
-              "value": 45,
-              "min": 0,
-              "max": 120,
-              "step": 5
-            },
-            "duration": {
-              "value": 300,
-              "min": 100,
-              "max": 600,
-              "step": 25
-            },
-            "bounce": {
-              "value": 0.6,
-              "min": 0,
-              "max": 1,
-              "step": 0.1
-            },
-            "chromatic": {
-              "value": true
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-typer",
-      "type": "registry:ui",
-      "title": "Typer Demo",
-      "description": "A stacked headline that cascades in line by line, each character rippling through pill and accent states before settling into plain text.",
-      "registryDependencies": ["@soralabs/typer"],
-      "files": [
-        {
-          "path": "registry/demo/primitives/texts/typer/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/texts/typer.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "TyperExample": {
-            "fps": {
-              "value": 20,
-              "min": 5,
-              "max": 40,
-              "step": 1
-            },
-            "cycles": {
-              "value": 3,
-              "min": 1,
-              "max": 6,
-              "step": 1
-            },
-            "stagger": {
-              "value": 0.15,
-              "min": 0,
-              "max": 0.6,
-              "step": 0.05
-            },
-            "startOnView": {
-              "value": true
-            },
-            "accent": {
-              "value": "#12a150"
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-base-accordion",
-      "type": "registry:ui",
-      "title": "Base Accordion Demo",
-      "description": "Base UI accordion with Motion spring physics, blur transitions, and animated focus ring.",
-      "registryDependencies": ["@soralabs/base-accordion"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/accordion/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/accordion.tsx"
-        }
-      ],
-      "meta": {
-        "demoProps": {
-          "AccordionDemo": {
-            "variant": {
-              "value": "default",
-              "options": {
-                "Default": "default",
-                "Bordered": "bordered",
-                "Separated": "separated",
-                "Ghost": "ghost"
-              }
-            },
-            "multiple": {
-              "value": false
-            },
-            "showFocusRing": {
-              "value": true
-            },
-            "disableAnimation": {
-              "value": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "demo-base-accordion-bordered",
-      "type": "registry:ui",
-      "title": "Base Accordion Bordered Demo",
-      "description": "Base UI accordion in a bordered card container with refined surface styling.",
-      "registryDependencies": ["@soralabs/base-accordion"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/accordion-bordered/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/accordion-bordered.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-base-accordion-multiple",
-      "type": "registry:ui",
-      "title": "Multiple Open Base Accordion Demo",
-      "description": "Base UI accordion allowing multiple panels to expand simultaneously.",
-      "registryDependencies": ["@soralabs/base-accordion"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/accordion-multiple/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/accordion-multiple.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-base-accordion-separated",
-      "type": "registry:ui",
-      "title": "Separated Base Accordion Demo",
-      "description": "Base UI accordion with separated card-style items.",
-      "registryDependencies": ["@soralabs/base-accordion"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/accordion-separated/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/accordion-separated.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-alert-dialog",
-      "type": "registry:ui",
-      "title": "Alert Dialog Demo",
-      "description": "Base UI alert dialog with Motion 3D perspective transitions and media icon header.",
-      "registryDependencies": ["@soralabs/base-alert-dialog"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/alert-dialog/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/alert-dialog.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-alert-dialog-small",
-      "type": "registry:ui",
-      "title": "Alert Dialog Small Demo",
-      "description": "Compact Base UI alert dialog with two-column button layout.",
-      "registryDependencies": ["@soralabs/base-alert-dialog"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/alert-dialog-small/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/alert-dialog-small.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button",
-      "type": "registry:ui",
-      "title": "Button Demo",
-      "description": "Interactive showcase of Base UI Button variants, sizes, icon combinations, and Motion scaling.",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-loading",
-      "type": "registry:ui",
-      "title": "Button Loading Demo",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-loading/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-loading.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-motion",
-      "type": "registry:ui",
-      "title": "Button Motion Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-motion/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-motion.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-sizes",
-      "type": "registry:ui",
-      "title": "Button Sizes Demo",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-sizes/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-sizes.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-variants",
-      "type": "registry:ui",
-      "title": "Button Variants Demo",
-      "description": "Showcase of all visual button variants: default, secondary, destructive, outline, ghost, and link.",
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-variants/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-variants.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-button-with-icon",
-      "type": "registry:ui",
-      "title": "Button With Icon Demo",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["@soralabs/base-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/button-with-icon/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/button-with-icon.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-checkbox",
-      "type": "registry:ui",
-      "title": "Checkbox Demo",
-      "description": "Base UI checkbox with Motion path-draw checkmark.",
-      "registryDependencies": ["@soralabs/base-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/checkbox/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/checkbox.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-checkbox-card",
-      "type": "registry:ui",
-      "title": "Checkbox Card Demo",
-      "registryDependencies": ["@soralabs/base-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/checkbox-card/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/checkbox-card.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-checkbox-indeterminate",
-      "type": "registry:ui",
-      "title": "Checkbox Indeterminate Demo",
-      "registryDependencies": ["@soralabs/base-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/checkbox-indeterminate/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/checkbox-indeterminate.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-checkbox-with-text",
-      "type": "registry:ui",
-      "title": "Checkbox With Text Demo",
-      "registryDependencies": ["@soralabs/base-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/checkbox-with-text/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/checkbox-with-text.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-context-menu",
-      "type": "registry:ui",
-      "title": "Context Menu Demo",
-      "description": "Base UI Context Menu with spring entrance, nested submenus, checkable items, radio items, shortcuts, and destructive actions.",
-      "registryDependencies": ["@soralabs/base-context-menu"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/context-menu/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/context-menu.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-context-menu-file",
-      "type": "registry:ui",
-      "title": "Context Menu File Demo",
-      "description": "Base UI Context Menu with file management actions, icons, shortcuts, and submenus.",
-      "registryDependencies": ["@soralabs/base-context-menu"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/context-menu-file/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/context-menu-file.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-context-menu-rtl",
-      "type": "registry:ui",
-      "title": "Context Menu RTL Demo",
-      "description": "Context Menu rendered right-to-left with Base UI DirectionProvider.",
-      "registryDependencies": ["@soralabs/base-context-menu"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/context-menu-rtl/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/context-menu-rtl.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dialog",
-      "type": "registry:ui",
-      "title": "Dialog Demo",
-      "description": "Base UI dialog with Motion spring transitions and form editing.",
-      "registryDependencies": ["@soralabs/base-dialog"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/dialog/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/dialog.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dialog-scrollable",
-      "type": "registry:ui",
-      "title": "Dialog Scrollable Demo",
-      "registryDependencies": [
-        "@soralabs/base-dialog",
-        "@soralabs/base-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/dialog-scrollable/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/dialog-scrollable.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dialog-share",
-      "type": "registry:ui",
-      "title": "Dialog Share Link Demo",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": [
-        "@soralabs/base-dialog",
-        "@soralabs/base-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/dialog-share/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/dialog-share.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dropdown-menu",
-      "type": "registry:ui",
-      "title": "Dropdown Menu Demo",
-      "description": "Base UI Dropdown Menu with spring entrance, nested submenus, checkable items, radio items, shortcuts, and destructive actions.",
-      "registryDependencies": ["@soralabs/base-dropdown-menu"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/dropdown-menu/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/dropdown-menu.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-dropdown-menu-rtl",
-      "type": "registry:ui",
-      "title": "Dropdown Menu RTL Demo",
-      "description": "Dropdown Menu rendered right-to-left with Base UI DirectionProvider.",
-      "registryDependencies": ["@soralabs/base-dropdown-menu"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/dropdown-menu-rtl/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/dropdown-menu-rtl.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-switch",
-      "type": "registry:ui",
-      "title": "Switch Demo",
-      "description": "Base UI switch with Motion layout spring physics.",
-      "registryDependencies": ["@soralabs/base-switch"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/switch/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/switch.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-switch-sizes",
-      "type": "registry:ui",
-      "title": "Switch Sizes Demo",
-      "description": "Base UI switch rendered across sm, default, and lg sizes.",
-      "registryDependencies": ["@soralabs/base-switch"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/switch-sizes/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/switch-sizes.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-switch-with-icon",
-      "type": "registry:ui",
-      "title": "Switch With Icon Demo",
-      "description": "Base UI switch with track icons and description.",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["@soralabs/base-switch"],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/switch-with-icon/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/switch-with-icon.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-base-tooltip",
-      "type": "registry:ui",
-      "title": "Base Tooltip Demo",
-      "description": "Base UI tooltip with spring bounce motion physics and arrow pointer.",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": [
-        "@soralabs/base-tooltip",
-        "@soralabs/base-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/base/tooltip/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/base/tooltip.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button",
-      "type": "registry:ui",
-      "title": "Radix Button Demo",
-      "description": "Interactive showcase of Radix UI Slot Button variants, sizes, icon combinations, and Motion scaling.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-loading",
-      "type": "registry:ui",
-      "title": "Radix Button Loading Demo",
-      "description": "Disabled Radix UI button displaying an animated spinner.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-loading/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-loading.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-motion",
-      "type": "registry:ui",
-      "title": "Radix Button Motion Scaling Demo",
-      "description": "Customizable hover and tap Motion spring scaling on Radix UI button.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-motion/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-motion.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-sizes",
-      "type": "registry:ui",
-      "title": "Radix Button Sizes Demo",
-      "description": "Radix UI button size presets from extra small to large.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-sizes/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-sizes.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-variants",
-      "type": "registry:ui",
-      "title": "Radix Button Variants Demo",
-      "description": "Showcase of all visual Radix button variants: default, secondary, destructive, outline, ghost, and link.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-variants/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-variants.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-button-with-icon",
-      "type": "registry:ui",
-      "title": "Radix Button with Icon Demo",
-      "description": "Radix UI button combined with leading and trailing Lucide icons.",
-      "registryDependencies": ["@soralabs/radix-button"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/button-with-icon/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/button-with-icon.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-checkbox",
-      "type": "registry:ui",
-      "title": "Radix Checkbox Demo",
-      "description": "Interactive showcase of Radix UI animated Checkbox with SVG stroke draw animation.",
-      "registryDependencies": ["@soralabs/radix-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/checkbox/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/checkbox.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-checkbox-card",
-      "type": "registry:ui",
-      "title": "Radix Checkbox Card Demo",
-      "description": "Selectable card container with embedded animated Radix UI checkbox.",
-      "registryDependencies": ["@soralabs/radix-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/checkbox-card/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/checkbox-card.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-checkbox-indeterminate",
-      "type": "registry:ui",
-      "title": "Radix Checkbox Indeterminate Demo",
-      "description": "Radix UI checkbox in a partially checked indeterminate state.",
-      "registryDependencies": ["@soralabs/radix-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/checkbox-indeterminate/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/checkbox-indeterminate.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-checkbox-with-text",
-      "type": "registry:ui",
-      "title": "Radix Checkbox with Text Demo",
-      "description": "Radix UI checkbox with supplementary title and description text.",
-      "registryDependencies": ["@soralabs/radix-checkbox"],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/checkbox-with-text/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/checkbox-with-text.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-dialog",
-      "type": "registry:ui",
-      "title": "Radix Dialog Demo",
-      "description": "Interactive showcase of Radix UI modal Dialog with 3D perspective spring entrance and exit animations.",
-      "registryDependencies": [
-        "@soralabs/radix-dialog",
-        "@soralabs/radix-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/dialog/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/dialog.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-dialog-scrollable",
-      "type": "registry:ui",
-      "title": "Radix Dialog Scrollable Demo",
-      "description": "Radix UI dialog with scrollable content area.",
-      "registryDependencies": [
-        "@soralabs/radix-dialog",
-        "@soralabs/radix-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/dialog-scrollable/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/dialog-scrollable.tsx"
-        }
-      ]
-    },
-    {
-      "name": "demo-radix-dialog-share",
-      "type": "registry:ui",
-      "title": "Radix Dialog Share Demo",
-      "description": "Interactive Radix UI dialog with link copying and sharing.",
-      "registryDependencies": [
-        "@soralabs/radix-dialog",
-        "@soralabs/radix-button"
-      ],
-      "files": [
-        {
-          "path": "registry/demo/ui/radix/dialog-share/index.tsx",
-          "type": "registry:ui",
-          "target": "components/sora-ui/demo/radix/dialog-share.tsx"
-        }
-      ]
-    },
-    {
       "name": "hooks-use-auto-height",
       "type": "registry:hook",
       "title": "useAutoHeight",
@@ -3198,6 +1833,97 @@
       ]
     },
     {
+      "name": "radix-accordion",
+      "type": "registry:ui",
+      "title": "Radix Accordion",
+      "description": "An animated accordion component built on Radix UI with spring physics, height collapse mask gradient, blur transitions, and gliding layoutId focus ring.",
+      "dependencies": [
+        "radix-ui",
+        "motion",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "files": [
+        {
+          "path": "registry/ui/radix/accordion/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/accordion.tsx"
+        }
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Expand and collapse related content sections inline.",
+          "role": "disclosure",
+          "a11yConstraints": [
+            "Keep each trigger keyboard accessible and associated with its panel."
+          ],
+          "motionEngine": "Motion layout-height morphing with spring chevron transitions.",
+          "compositionRules": [
+            "Use one AccordionItem per independently discoverable section."
+          ],
+          "compositionRecipes": ["Use radix/accordion for FAQ sections."]
+        },
+        "demoProps": {
+          "Accordion": {
+            "variant": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Bordered": "bordered",
+                "Separated": "separated",
+                "Ghost": "ghost"
+              }
+            },
+            "multiple": {
+              "value": false
+            },
+            "showFocusRing": {
+              "value": true
+            },
+            "disableAnimation": {
+              "value": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "radix-alert-dialog",
+      "type": "registry:ui",
+      "title": "Radix Alert Dialog",
+      "description": "An accessible alert dialog built on Radix UI with smooth Motion 3D perspective entrance and exit animations, customizable sizes, and media slots.",
+      "dependencies": ["radix-ui", "motion", "lucide-react"],
+      "registryDependencies": [
+        "utils",
+        "@soralabs/hooks-use-controlled-state",
+        "@soralabs/radix-button"
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Require explicit confirmation before an irreversible action.",
+          "role": "modal-confirmation",
+          "a11yConstraints": [
+            "Preserve focus trapping and always provide a cancel action."
+          ],
+          "motionEngine": "Motion perspective spring entrance with backdrop presence transition.",
+          "compositionRules": [
+            "Use AlertDialogTrigger asChild for the initiating control."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/button for destructive confirmation."
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "registry/ui/radix/alert-dialog/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/alert-dialog.tsx"
+        }
+      ]
+    },
+    {
       "name": "radix-button",
       "type": "registry:ui",
       "title": "Radix Button",
@@ -3312,6 +2038,37 @@
       }
     },
     {
+      "name": "radix-context-menu",
+      "type": "registry:ui",
+      "title": "Radix Context Menu",
+      "description": "An accessible context menu built on Radix UI with smooth Motion spring scale and submenu slide animations.",
+      "dependencies": ["radix-ui", "motion", "lucide-react"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Offer contextual actions for a target using pointer or long-press interaction.",
+          "role": "context-menu",
+          "a11yConstraints": [
+            "Keep essential actions available through a non-contextual path."
+          ],
+          "motionEngine": "Motion scale and opacity presence with directional submenu transitions.",
+          "compositionRules": [
+            "Use ContextMenuTrigger around the contextual target."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/alert-dialog for destructive actions."
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "registry/ui/radix/context-menu/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/context-menu.tsx"
+        }
+      ]
+    },
+    {
       "name": "radix-dialog",
       "type": "registry:ui",
       "title": "Radix Dialog",
@@ -3345,6 +2102,109 @@
           "target": "components/sora-ui/radix/dialog.tsx"
         }
       ]
+    },
+    {
+      "name": "radix-dropdown-menu",
+      "type": "registry:ui",
+      "title": "Radix Dropdown Menu",
+      "description": "An accessible dropdown menu built on Radix UI with smooth Motion spring scale and submenu slide animations.",
+      "dependencies": ["radix-ui", "motion", "lucide-react"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Present a compact list of actions or choices from an anchored trigger.",
+          "role": "menu",
+          "a11yConstraints": [
+            "Preserve roving focus, keyboard navigation, and Escape dismissal."
+          ],
+          "motionEngine": "Motion scale and opacity presence with collision-aware submenu cascades.",
+          "compositionRules": ["Use a semantic button as the trigger."],
+          "compositionRecipes": [
+            "Compose with radix/button for account actions."
+          ]
+        }
+      },
+      "files": [
+        {
+          "path": "registry/ui/radix/dropdown-menu/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/dropdown-menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "radix-switch",
+      "type": "registry:ui",
+      "title": "Radix Switch",
+      "description": "An accessible, highly customizable switch built on Radix UI with Motion spring layout physics.",
+      "dependencies": ["radix-ui", "motion", "class-variance-authority"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "files": [
+        {
+          "path": "registry/ui/radix/switch/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/switch.tsx"
+        }
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Toggle a binary on/off setting or preference.",
+          "role": "input",
+          "a11yConstraints": [
+            "Preserve the switch role, label association, and keyboard toggling via Space or Enter."
+          ],
+          "motionEngine": "Motion layout spring physics with stiffness: 500, damping: 30.",
+          "compositionRules": [
+            "Pair with a visible label and optional description.",
+            "Provide clear visual contrast between checked and unchecked states."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/button in a settings form."
+          ]
+        },
+        "demoProps": {
+          "Switch": {
+            "label": {
+              "value": "Airplane Mode"
+            },
+            "disabled": {
+              "value": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "radix-tooltip",
+      "type": "registry:ui",
+      "title": "Radix Tooltip",
+      "description": "An accessible tooltip built on Radix UI with spring-based keyframe scale and translation animations powered by Motion.",
+      "dependencies": ["radix-ui", "motion"],
+      "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+      "files": [
+        {
+          "path": "registry/ui/radix/tooltip/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/tooltip.tsx"
+        }
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Provide contextual hint or shortcut explanation when hovering or focusing an interactive element.",
+          "role": "tooltip",
+          "a11yConstraints": [
+            "Render accessible name/description without trapping keyboard focus.",
+            "Dismiss cleanly on Escape without activating underlying element."
+          ],
+          "motionEngine": "Motion spring scale, directional translation offset, and presence transition.",
+          "compositionRules": [
+            "Wrap interactive elements with TooltipTrigger using asChild or semantic button."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/button for icon-only action button descriptions."
+          ]
+        }
+      }
     }
   ]
 }

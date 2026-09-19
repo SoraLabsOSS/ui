@@ -1,0 +1,131 @@
+---
+title: Alert Dialog
+description: An accessible alert dialog component built on Radix UI with smooth 3D perspective spring entrance and exit animations, customizable sizes, and media slots.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+intent: Require an explicit confirmation before an irreversible or high-impact action.
+role: modal-confirmation
+a11yConstraints:
+  - Preserve focus trapping and initial focus inside the alert dialog.
+  - Always provide an explicit cancel action.
+  - Do not use for non-blocking information.
+motionEngine: Motion perspective spring entrance with backdrop presence transition.
+compositionRules:
+  - Use AlertDialogTrigger asChild for the initiating control.
+  - Keep the confirmation action short and outcome-specific.
+compositionRecipes:
+  - name: radix-destructive-confirmation
+    description: Confirm deletion or another irreversible operation.
+    components:
+      - radix/alert-dialog
+      - radix/button
+    constraints:
+      - Require a cancel path and explain the consequence.
+---
+
+<ComponentPreview name="demo-radix-alert-dialog" description="Default animated alert dialog with 3D perspective transition, media icon header, and destructive action." />
+
+## Installation
+
+<ComponentInstallation name="radix-alert-dialog" />
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/sora-ui/radix/alert-dialog";
+import { Button } from "@/components/sora-ui/radix/button";
+import { AlertTriangleIcon } from "lucide-react";
+
+export default function Page() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">Delete Account</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-destructive/10 text-destructive">
+            <AlertTriangleIcon />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction closeOnClick variant="destructive">
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+```
+
+## Examples
+
+### Small Size
+
+<ComponentPreview name="demo-radix-alert-dialog-small" description="Compact alert dialog layout with 2-column action buttons." />
+
+## Props
+
+### AlertDialog
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the alert dialog.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### AlertDialogContent
+
+<TypeTable
+  type={{
+    size: {
+      description: "Layout sizing variant of the alert dialog popup.",
+      type: '"default" | "sm"',
+      default: '"default"',
+    },
+    showCloseButton: {
+      description: "Whether to render an optional top-right close icon button.",
+      type: "boolean",
+      default: "false",
+    },
+    containerClassName: {
+      description: "Additional CSS class name for the fixed container wrapper.",
+      type: "string",
+    },
+    overlayClassName: {
+      description: "Additional CSS class name for the backdrop overlay.",
+      type: "string",
+    },
+  }}
+/>

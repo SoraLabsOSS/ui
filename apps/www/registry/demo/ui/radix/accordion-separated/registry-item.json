@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-accordion-separated",
+  "type": "registry:ui",
+  "title": "Radix Accordion Separated Demo",
+  "description": "Radix UI accordion with separated cards layout styling.",
+  "registryDependencies": ["@soralabs/radix-accordion"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/accordion-separated/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/accordion-separated.tsx"
+    }
+  ]
+}

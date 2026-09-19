@@ -18,8 +18,14 @@
     "base/switch",
     "base/tooltip",
     "---Radix UI---",
+    "radix/accordion",
+    "radix/alert-dialog",
     "radix/button",
     "radix/checkbox",
-    "radix/dialog"
+    "radix/context-menu",
+    "radix/dialog",
+    "radix/dropdown-menu",
+    "radix/switch",
+    "radix/tooltip"
   ]
 }

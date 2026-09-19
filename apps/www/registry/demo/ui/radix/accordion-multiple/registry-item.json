@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-accordion-multiple",
+  "type": "registry:ui",
+  "title": "Radix Accordion Multiple Demo",
+  "description": "Radix UI accordion with multiple open panels enabled.",
+  "registryDependencies": ["@soralabs/radix-accordion"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/accordion-multiple/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/accordion-multiple.tsx"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-switch-with-icon",
+  "type": "registry:ui",
+  "title": "Radix Switch With Icon Demo",
+  "description": "Radix UI switch with embedded sun/moon icons and descriptive text.",
+  "registryDependencies": ["@soralabs/radix-switch"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/switch-with-icon/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/switch-with-icon.tsx"
+    }
+  ]
+}

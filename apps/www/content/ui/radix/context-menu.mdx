@@ -1,0 +1,178 @@
+---
+title: Context Menu
+description: An accessible context menu component built on Radix UI with smooth Motion spring scale and submenu slide animations.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+intent: Offer contextual actions for a target using pointer or long-press interaction.
+role: context-menu
+a11yConstraints:
+  - Preserve keyboard access through the underlying Radix UI menu behavior.
+  - Keep actions available through a non-contextual path when essential.
+  - Ensure submenu labels are descriptive.
+motionEngine: Motion scale and opacity presence with directional submenu transitions.
+compositionRules:
+  - Use ContextMenuTrigger around the contextual target.
+  - Use asChild for custom trigger or menu item elements.
+compositionRecipes:
+  - name: radix-item-actions
+    description: Attach edit and delete actions to a selectable item.
+    components:
+      - radix/context-menu
+      - radix/alert-dialog
+    constraints:
+      - Keep destructive confirmation outside the menu lifecycle.
+---
+
+<ComponentPreview name="demo-radix-context-menu" description="An animated context menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+
+## Installation
+
+<ComponentInstallation name="radix-context-menu" />
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/sora-ui/radix/context-menu";
+
+export default function Page() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-40 w-full items-center justify-center rounded-xl border border-dashed border-border bg-muted/20">
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>
+          Back
+          <ContextMenuShortcut>⌘+[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled>
+          Forward
+          <ContextMenuShortcut>⌘+]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Reload
+          <ContextMenuShortcut>⌘+R</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>Save Page As…</ContextMenuItem>
+            <ContextMenuItem>Developer Tools</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}
+```
+
+## RTL
+
+<ComponentPreview name="demo-radix-context-menu-rtl" description="The same context menu pattern rendered right-to-left with Radix UI DirectionProvider." />
+
+Use Radix UI's `DirectionProvider` together with `dir="rtl"` on the demo
+container to render the menu from right to left. The provider keeps popup
+positioning, slide transitions, and keyboard navigation aware of the text direction.
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+  DirectionProvider,
+} from "@/components/sora-ui/radix/context-menu";
+
+export default function RtlContextMenu() {
+  return (
+    <DirectionProvider dir="rtl">
+      <div dir="rtl">
+        <ContextMenu>
+          <ContextMenuTrigger className="flex h-40 w-full items-center justify-center rounded-xl border border-dashed border-border bg-muted/20">
+            انقر بزر الفأرة الأيمن هنا
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>نسخ</ContextMenuItem>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger>المزيد من الخيارات</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>أدوات المطور</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+          </ContextMenuContent>
+        </ContextMenu>
+      </div>
+    </DirectionProvider>
+  );
+}
+```
+
+## Examples
+
+### File Actions
+
+<ComponentPreview name="demo-radix-context-menu-file" description="Context menu tailored for file systems with action icons, quick shortcuts, nested sharing options, and danger actions." />
+
+## Props
+
+### ContextMenu
+
+<TypeTable
+  type={{
+    open: {
+      description: "The controlled open state of the context menu.",
+      type: "boolean",
+    },
+    defaultOpen: {
+      description: "The initial open state when uncontrolled.",
+      type: "boolean",
+      default: "false",
+    },
+    onOpenChange: {
+      description: "Event handler called when the open state changes.",
+      type: "(open: boolean) => void",
+    },
+  }}
+/>
+
+### ContextMenuContent
+
+<TypeTable
+  type={{
+    alignOffset: {
+      description: "Distance in pixels from the alignment edge.",
+      type: "number",
+      default: "4",
+    },
+    collisionPadding: {
+      description: "Padding in pixels from the boundary edges.",
+      type: "number",
+      default: "8",
+    },
+    disableAnimation: {
+      description: "Whether to disable all entrance/exit animations.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>

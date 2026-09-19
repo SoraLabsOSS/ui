@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radix-tooltip",
+  "type": "registry:ui",
+  "title": "Radix Tooltip",
+  "description": "An accessible tooltip built on Radix UI with spring-based keyframe scale and translation animations powered by Motion.",
+  "dependencies": ["radix-ui", "motion"],
+  "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "files": [
+    {
+      "path": "registry/ui/radix/tooltip/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/tooltip.tsx"
+    }
+  ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Provide contextual hint or shortcut explanation when hovering or focusing an interactive element.",
+      "role": "tooltip",
+      "a11yConstraints": [
+        "Render accessible name/description without trapping keyboard focus.",
+        "Dismiss cleanly on Escape without activating underlying element."
+      ],
+      "motionEngine": "Motion spring scale, directional translation offset, and presence transition.",
+      "compositionRules": [
+        "Wrap interactive elements with TooltipTrigger using asChild or semantic button."
+      ],
+      "compositionRecipes": [
+        "Compose with radix/button for icon-only action button descriptions."
+      ]
+    }
+  }
+}

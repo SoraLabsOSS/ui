@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radix-alert-dialog",
+  "type": "registry:ui",
+  "title": "Radix Alert Dialog",
+  "description": "An accessible alert dialog built on Radix UI with smooth Motion 3D perspective entrance and exit animations, customizable sizes, and media slots.",
+  "dependencies": ["radix-ui", "motion", "lucide-react"],
+  "registryDependencies": [
+    "utils",
+    "@soralabs/hooks-use-controlled-state",
+    "@soralabs/radix-button"
+  ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Require explicit confirmation before an irreversible action.",
+      "role": "modal-confirmation",
+      "a11yConstraints": [
+        "Preserve focus trapping and always provide a cancel action."
+      ],
+      "motionEngine": "Motion perspective spring entrance with backdrop presence transition.",
+      "compositionRules": [
+        "Use AlertDialogTrigger asChild for the initiating control."
+      ],
+      "compositionRecipes": [
+        "Compose with radix/button for destructive confirmation."
+      ]
+    }
+  },
+  "files": [
+    {
+      "path": "registry/ui/radix/alert-dialog/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/alert-dialog.tsx"
+    }
+  ]
+}

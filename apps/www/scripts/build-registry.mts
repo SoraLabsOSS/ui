@@ -405,7 +405,7 @@ async function buildRegistryFile() {
   const documentedNames = await collectDocumentedNames();
 
   const documentedItems = newItems.filter((item) => {
-    if (item.name.startsWith("primitives-")) {
+    if (item.name.startsWith("primitives-") || item.name.startsWith("demo-")) {
       return false;
     }
 
@@ -427,6 +427,12 @@ async function buildRegistryFile() {
   );
 
   const filteredItems = newItems.filter((item) => {
+    // Exclude demo items from the public published registry (public/r/*.json).
+    // Demos are preview-only and rendered via __registry__/index.tsx on the docs site.
+    if (item.name.startsWith("demo-")) {
+      return false;
+    }
+
     // Publish internal primitives (primitives-*) only when they're a required
     // transitive dependency of a documented/icon item (present in
     // publishedNames) — e.g. icons-icon → primitives-animate-slot. Otherwise

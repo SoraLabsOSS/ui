@@ -1,0 +1,57 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radix-accordion",
+  "type": "registry:ui",
+  "title": "Radix Accordion",
+  "description": "An animated accordion component built on Radix UI with spring physics, height collapse mask gradient, blur transitions, and gliding layoutId focus ring.",
+  "dependencies": [
+    "radix-ui",
+    "motion",
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "files": [
+    {
+      "path": "registry/ui/radix/accordion/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/accordion.tsx"
+    }
+  ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Expand and collapse related content sections inline.",
+      "role": "disclosure",
+      "a11yConstraints": [
+        "Keep each trigger keyboard accessible and associated with its panel."
+      ],
+      "motionEngine": "Motion layout-height morphing with spring chevron transitions.",
+      "compositionRules": [
+        "Use one AccordionItem per independently discoverable section."
+      ],
+      "compositionRecipes": ["Use radix/accordion for FAQ sections."]
+    },
+    "demoProps": {
+      "Accordion": {
+        "variant": {
+          "value": "default",
+          "options": {
+            "Default": "default",
+            "Bordered": "bordered",
+            "Separated": "separated",
+            "Ghost": "ghost"
+          }
+        },
+        "multiple": {
+          "value": false
+        },
+        "showFocusRing": {
+          "value": true
+        },
+        "disableAnimation": {
+          "value": false
+        }
+      }
+    }
+  }
+}

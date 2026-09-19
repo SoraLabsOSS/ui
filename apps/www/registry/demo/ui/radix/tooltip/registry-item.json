@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-tooltip",
+  "type": "registry:ui",
+  "title": "Radix Tooltip Demo",
+  "description": "Radix UI tooltip with spring-based keyframe scale and translation animations powered by Motion.",
+  "registryDependencies": ["@soralabs/radix-tooltip", "@soralabs/radix-button"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/tooltip/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/tooltip.tsx"
+    }
+  ]
+}

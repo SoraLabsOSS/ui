@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-switch-sizes",
+  "type": "registry:ui",
+  "title": "Radix Switch Sizes Demo",
+  "description": "Radix UI switch demonstrating sm, default, and lg size variants.",
+  "registryDependencies": ["@soralabs/radix-switch"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/switch-sizes/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/switch-sizes.tsx"
+    }
+  ]
+}

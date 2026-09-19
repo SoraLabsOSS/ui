@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-alert-dialog-small",
+  "type": "registry:ui",
+  "title": "Radix Alert Dialog Small Demo",
+  "description": "Radix UI alert dialog in a compact sizing layout.",
+  "registryDependencies": [
+    "@soralabs/radix-alert-dialog",
+    "@soralabs/radix-button"
+  ],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/alert-dialog-small/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/alert-dialog-small.tsx"
+    }
+  ]
+}

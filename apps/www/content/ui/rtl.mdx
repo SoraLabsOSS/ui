@@ -76,8 +76,10 @@ The migration converts physical properties to logical equivalents such as
 ## Runtime direction
 
 `rtl: true` configures the CLI but does not change the browser direction.
-Your application must set both the document `dir` attribute and the
-Base UI `DirectionProvider`:
+Your application must set both the document `dir` attribute and the appropriate
+`DirectionProvider` (Base UI or Radix UI):
+
+### Base UI
 
 ```tsx
 import { DirectionProvider } from "@base-ui/react/direction-provider";
@@ -85,6 +87,20 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <DirectionProvider direction="rtl">
+      <div dir="rtl">{children}</div>
+    </DirectionProvider>
+  );
+}
+```
+
+### Radix UI
+
+```tsx
+import { DirectionProvider } from "@/components/sora-ui/radix/dropdown-menu";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <DirectionProvider dir="rtl">
       <div dir="rtl">{children}</div>
     </DirectionProvider>
   );

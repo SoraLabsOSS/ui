@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radix-switch",
+  "type": "registry:ui",
+  "title": "Radix Switch",
+  "description": "An accessible, highly customizable switch built on Radix UI with Motion spring layout physics.",
+  "dependencies": ["radix-ui", "motion", "class-variance-authority"],
+  "registryDependencies": ["utils", "@soralabs/hooks-use-controlled-state"],
+  "files": [
+    {
+      "path": "registry/ui/radix/switch/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/radix/switch.tsx"
+    }
+  ],
+  "meta": {
+    "agentMetadata": {
+      "intent": "Toggle a binary on/off setting or preference.",
+      "role": "input",
+      "a11yConstraints": [
+        "Preserve the switch role, label association, and keyboard toggling via Space or Enter."
+      ],
+      "motionEngine": "Motion layout spring physics with stiffness: 500, damping: 30.",
+      "compositionRules": [
+        "Pair with a visible label and optional description.",
+        "Provide clear visual contrast between checked and unchecked states."
+      ],
+      "compositionRecipes": ["Compose with radix/button in a settings form."]
+    },
+    "demoProps": {
+      "Switch": {
+        "label": {
+          "value": "Airplane Mode"
+        },
+        "disabled": {
+          "value": false
+        }
+      }
+    }
+  }
+}
