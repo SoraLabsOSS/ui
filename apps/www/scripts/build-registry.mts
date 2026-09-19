@@ -642,7 +642,12 @@ export const previewComponents: Record<string, any> = {`;
   const sourcesToWrite: Array<{
     name: string;
     code: string;
-    files: Array<{ path: string; type: string; target: string; content: string }>;
+    files: Array<{
+      path: string;
+      type: string;
+      target: string;
+      content: string;
+    }>;
   }> = [];
   const sourcesLoadersList: string[] = [];
 
