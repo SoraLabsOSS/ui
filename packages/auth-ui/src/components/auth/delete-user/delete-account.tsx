@@ -113,11 +113,13 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
         </div>
 
         <AlertDialog onOpenChange={handleDialogOpenChange} open={confirmOpen}>
-          <AlertDialogTrigger asChild>
-            <Button disabled={!accounts} size="sm" variant="destructive">
-              {deleteUserLocalization.deleteAccount}
-            </Button>
-          </AlertDialogTrigger>
+          <AlertDialogTrigger
+            render={
+              <Button disabled={!accounts} size="sm" variant="destructive">
+                {deleteUserLocalization.deleteAccount}
+              </Button>
+            }
+          />
 
           <AlertDialogContent>
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>

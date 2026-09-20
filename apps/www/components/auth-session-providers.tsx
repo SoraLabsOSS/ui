@@ -2,6 +2,7 @@ import { dehydrate } from "@tanstack/react-query";
 import { prefetchSession } from "@workspace/auth-ui/lib/auth-react/server";
 import { getSessionCookie } from "better-auth/cookies";
 import { headers } from "next/headers";
+import { connection } from "next/server";
 import type { ReactNode } from "react";
 import { isAuthEnabled } from "@/env";
 import { getQueryClient } from "@/lib/query-client";
@@ -26,6 +27,8 @@ export async function AuthSessionProviders({
   if (!isAuthEnabled()) {
     return <Providers>{children}</Providers>;
   }
+
+  await connection();
 
   const requestHeaders = await headers();
 
