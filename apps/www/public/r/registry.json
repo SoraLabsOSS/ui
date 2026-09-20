@@ -386,6 +386,46 @@
       ]
     },
     {
+      "name": "arrow-roll-button",
+      "type": "registry:ui",
+      "title": "Arrow Roll Button",
+      "description": "A bespoke studio CTA button with rolling text-shadow and dual-arrow sliding transitions on hover.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/buttons/arrow-roll-button/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/buttons/arrow-roll-button.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "ArrowRollButton": {
+            "children": {
+              "value": "Start a project"
+            },
+            "variant": {
+              "value": "light",
+              "options": {
+                "Light": "light",
+                "Dark": "dark",
+                "White": "white",
+                "Outline": "outline"
+              }
+            },
+            "size": {
+              "value": "default",
+              "options": {
+                "Default": "default",
+                "Large": "large"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "particle-hover-button",
       "type": "registry:ui",
       "title": "Particle Hover Button",
@@ -977,6 +1017,75 @@
             },
             "underlineColor": {
               "value": "#ff4c24"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "dual-wipe-reveal",
+      "type": "registry:ui",
+      "title": "Dual Wipe Reveal",
+      "description": "Dual-layer block wipe reveal that sweeps away curtain blocks to unveil text, powered by Motion.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/dual-wipe-reveal/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/dual-wipe-reveal.tsx"
+        }
+      ],
+      "meta": {
+        "demoProps": {
+          "DualWipeReveal": {
+            "as": {
+              "value": "h2",
+              "options": {
+                "h2": "h2",
+                "h1": "h1",
+                "p": "p",
+                "span": "span"
+              }
+            },
+            "children": {
+              "value": "Find it, copy it, ship it."
+            },
+            "className": {
+              "value": "text-3xl font-semibold tracking-tight sm:text-5xl"
+            },
+            "direction": {
+              "value": "left",
+              "options": {
+                "Left to right": "left",
+                "Right to left": "right",
+                "Top to bottom": "down",
+                "Bottom to top": "up"
+              }
+            },
+            "accentColor": {
+              "value": "bg-emerald-500"
+            },
+            "wipeColor": {
+              "value": "bg-neutral-800"
+            },
+            "duration": {
+              "value": 0.5,
+              "min": 0.2,
+              "max": 2,
+              "step": 0.1
+            },
+            "delay": {
+              "value": 0,
+              "min": 0,
+              "max": 2,
+              "step": 0.1
+            },
+            "stagger": {
+              "value": 0.1,
+              "min": 0.02,
+              "max": 0.5,
+              "step": 0.02
             }
           }
         }

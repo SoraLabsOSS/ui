@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-arrow-roll-button",
+  "type": "registry:ui",
+  "title": "Arrow Roll Button Demo",
+  "description": "Interactive demo of ArrowRollButton in various sizes and studio theme variants.",
+  "registryDependencies": ["@soralabs/arrow-roll-button"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/buttons/arrow-roll-button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/buttons/arrow-roll-button.tsx"
+    }
+  ]
+}

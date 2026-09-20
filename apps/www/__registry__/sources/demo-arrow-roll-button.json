@@ -1,0 +1,12 @@
+{
+  "name": "demo-arrow-roll-button",
+  "code": "\"use client\";\n\nimport { ArrowRollButton } from \"@/components/sora-ui/buttons/arrow-roll-button\";\n\nexport default function ArrowRollButtonExample() {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-6 p-8\">\n      <div className=\"flex flex-wrap items-center justify-center gap-4\">\n        <ArrowRollButton variant=\"light\">Start a project</ArrowRollButton>\n        <ArrowRollButton variant=\"dark\">Start a project</ArrowRollButton>\n        <ArrowRollButton variant=\"white\">Start a project</ArrowRollButton>\n      </div>\n\n      <div className=\"flex flex-wrap items-center justify-center gap-4\">\n        <ArrowRollButton size=\"large\" variant=\"light\">\n          Start a project\n        </ArrowRollButton>\n        <ArrowRollButton size=\"large\" variant=\"dark\">\n          Start a project\n        </ArrowRollButton>\n      </div>\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/primitives/buttons/arrow-roll-button/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/buttons/arrow-roll-button.tsx",
+      "content": "\"use client\";\n\nimport { ArrowRollButton } from \"@/components/sora-ui/buttons/arrow-roll-button\";\n\nexport default function ArrowRollButtonExample() {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-6 p-8\">\n      <div className=\"flex flex-wrap items-center justify-center gap-4\">\n        <ArrowRollButton variant=\"light\">Start a project</ArrowRollButton>\n        <ArrowRollButton variant=\"dark\">Start a project</ArrowRollButton>\n        <ArrowRollButton variant=\"white\">Start a project</ArrowRollButton>\n      </div>\n\n      <div className=\"flex flex-wrap items-center justify-center gap-4\">\n        <ArrowRollButton size=\"large\" variant=\"light\">\n          Start a project\n        </ArrowRollButton>\n        <ArrowRollButton size=\"large\" variant=\"dark\">\n          Start a project\n        </ArrowRollButton>\n      </div>\n    </div>\n  );\n}"
+    }
+  ]
+}

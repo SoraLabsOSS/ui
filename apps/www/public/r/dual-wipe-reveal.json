@@ -1,0 +1,71 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dual-wipe-reveal",
+  "title": "Dual Wipe Reveal",
+  "description": "Dual-layer block wipe reveal that sweeps away curtain blocks to unveil text, powered by Motion.",
+  "dependencies": ["motion"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/dual-wipe-reveal/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion, useInView, useReducedMotion } from \"motion/react\";\nimport type {\n  ComponentPropsWithoutRef,\n  ElementType,\n  ReactNode,\n  Ref,\n} from \"react\";\nimport { useImperativeHandle, useRef } from \"react\";\n\nexport type DualWipeRevealDirection = \"left\" | \"right\" | \"up\" | \"down\";\n\nconst DIRECTION_MAP = {\n  left: { axis: \"scaleX\", originClass: \"origin-right\" },\n  right: { axis: \"scaleX\", originClass: \"origin-left\" },\n  down: { axis: \"scaleY\", originClass: \"origin-bottom\" },\n  up: { axis: \"scaleY\", originClass: \"origin-top\" },\n} as const;\n\n/** Exact cubic-bezier equivalent of GSAP power3.inOut */\nconst EASE_POWER3_IN_OUT = [0.65, 0, 0.35, 1] as const;\n\nfunction isCssColorValue(value?: string): boolean {\n  if (!value) {\n    return false;\n  }\n  return (\n    value.startsWith(\"#\") ||\n    value.startsWith(\"rgb\") ||\n    value.startsWith(\"hsl\") ||\n    value.startsWith(\"var(\")\n  );\n}\n\nexport interface DualWipeRevealProps extends ComponentPropsWithoutRef<\"span\"> {\n  /**\n   * Primary accent wipe color class or CSS color.\n   * Revealed briefly as the top wipe curtain uncovers.\n   * @default \"bg-foreground\"\n   */\n  accentColor?: string;\n  /**\n   * HTML tag for the container element.\n   * @default \"span\"\n   */\n  as?: ElementType;\n  /**\n   * Content to reveal.\n   */\n  children?: ReactNode;\n  /**\n   * Additional className merged onto the root element.\n   */\n  className?: string;\n  /**\n   * Delay before the animation starts, in seconds.\n   * @default 0\n   */\n  delay?: number;\n  /**\n   * Wipe travel direction.\n   * - \"left\": reveals text from left to right (wipes shrink towards right).\n   * - \"right\": reveals text from right to left (wipes shrink towards left).\n   * - \"down\": reveals text from top to bottom (wipes shrink towards bottom).\n   * - \"up\": reveals text from bottom to top (wipes shrink towards top).\n   * @default \"left\"\n   */\n  direction?: DualWipeRevealDirection;\n  /**\n   * Duration of each wipe curtain animation, in seconds.\n   * @default 0.5\n   */\n  duration?: number;\n  /**\n   * Root margin for in-view trigger (defaults to matching GSAP top 82%).\n   * @default \"0px 0px -18% 0px\"\n   */\n  inViewMargin?: string;\n  /**\n   * Whether to animate only once when entering viewport.\n   * @default true\n   */\n  once?: boolean;\n  /**\n   * Ref forwarded to the container element.\n   */\n  ref?: Ref<HTMLElement>;\n  /**\n   * Stagger delay between the top wipe and the accent wipe, in seconds.\n   * @default 0.1\n   */\n  stagger?: number;\n  /**\n   * Explicit control over the revealed state. If provided, overrides viewport detection.\n   */\n  trigger?: boolean;\n  /**\n   * Top wipe cover color class or CSS color.\n   * Initially covers the entire text block.\n   * @default \"bg-neutral-800\"\n   */\n  wipeColor?: string;\n}\n\nexport function DualWipeReveal({\n  accentColor = \"bg-foreground\",\n  as: Component = \"span\",\n  children,\n  className,\n  delay = 0,\n  direction = \"left\",\n  duration = 0.5,\n  inViewMargin = \"0px 0px -18% 0px\",\n  once = true,\n  ref,\n  stagger = 0.1,\n  trigger,\n  wipeColor = \"bg-neutral-800\",\n  ...props\n}: DualWipeRevealProps) {\n  const containerRef = useRef<HTMLElement>(null);\n  useImperativeHandle(ref, () => containerRef.current as HTMLElement);\n\n  const isInView = useInView(containerRef, {\n    once,\n    margin: inViewMargin as never,\n  });\n\n  const prefersReducedMotion = useReducedMotion();\n  const isRevealed = trigger === undefined ? isInView : trigger;\n\n  if (prefersReducedMotion) {\n    return (\n      <Component\n        className={cn(\"inline-block align-top\", className)}\n        ref={containerRef}\n        {...props}\n      >\n        {children}\n      </Component>\n    );\n  }\n\n  const { axis, originClass } = DIRECTION_MAP[direction];\n  const isAccentCss = isCssColorValue(accentColor);\n  const isWipeCss = isCssColorValue(wipeColor);\n\n  const scale = isRevealed ? 0 : 1;\n  const initialMotion = axis === \"scaleX\" ? { scaleX: 1 } : { scaleY: 1 };\n  const targetMotion =\n    axis === \"scaleX\" ? { scaleX: scale } : { scaleY: scale };\n\n  return (\n    <Component\n      className={cn(\n        \"relative inline-block overflow-hidden align-top\",\n        className\n      )}\n      data-slot=\"dual-wipe-reveal\"\n      ref={containerRef}\n      {...props}\n    >\n      <span className=\"block whitespace-nowrap\">{children}</span>\n\n      {/* Layer 1: Accent / Brand wipe curtain */}\n      <motion.span\n        animate={targetMotion}\n        aria-hidden=\"true\"\n        className={cn(\n          \"pointer-events-none absolute -inset-[0.1em] z-10 block will-change-transform\",\n          originClass,\n          !isAccentCss && accentColor\n        )}\n        initial={initialMotion}\n        style={isAccentCss ? { backgroundColor: accentColor } : undefined}\n        transition={{\n          duration,\n          delay: delay + stagger,\n          ease: EASE_POWER3_IN_OUT,\n        }}\n      />\n\n      {/* Layer 2: Foreground cover wipe curtain */}\n      <motion.span\n        animate={targetMotion}\n        aria-hidden=\"true\"\n        className={cn(\n          \"pointer-events-none absolute -inset-[0.1em] z-20 block will-change-transform\",\n          originClass,\n          !isWipeCss && wipeColor\n        )}\n        initial={initialMotion}\n        style={isWipeCss ? { backgroundColor: wipeColor } : undefined}\n        transition={{\n          duration,\n          delay,\n          ease: EASE_POWER3_IN_OUT,\n        }}\n      />\n    </Component>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/dual-wipe-reveal.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "DualWipeReveal": {
+        "as": {
+          "value": "h2",
+          "options": {
+            "h2": "h2",
+            "h1": "h1",
+            "p": "p",
+            "span": "span"
+          }
+        },
+        "children": {
+          "value": "Find it, copy it, ship it."
+        },
+        "className": {
+          "value": "text-3xl font-semibold tracking-tight sm:text-5xl"
+        },
+        "direction": {
+          "value": "left",
+          "options": {
+            "Left to right": "left",
+            "Right to left": "right",
+            "Top to bottom": "down",
+            "Bottom to top": "up"
+          }
+        },
+        "accentColor": {
+          "value": "bg-emerald-500"
+        },
+        "wipeColor": {
+          "value": "bg-neutral-800"
+        },
+        "duration": {
+          "value": 0.5,
+          "min": 0.2,
+          "max": 2,
+          "step": 0.1
+        },
+        "delay": {
+          "value": 0,
+          "min": 0,
+          "max": 2,
+          "step": 0.1
+        },
+        "stagger": {
+          "value": 0.1,
+          "min": 0.02,
+          "max": 0.5,
+          "step": 0.02
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

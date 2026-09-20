@@ -995,8 +995,9 @@ function runShadcnBuild(): Promise<void> {
   const shadcnCli = resolveShadcnCli();
 
   return new Promise((resolve, reject) => {
+    const runtime = process.versions.bun ? "node" : process.execPath;
     const child = spawn(
-      process.execPath,
+      runtime,
       [shadcnCli, "build", "public/r/registry.json", "--output", "./public/r/"],
       { cwd: process.cwd(), stdio: "inherit" }
     );

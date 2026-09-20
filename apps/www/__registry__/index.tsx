@@ -867,6 +867,91 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/lib-scroll-trigger-utils",
   },
+  "arrow-roll-button": {
+    name: "arrow-roll-button",
+    description:
+      "A bespoke studio CTA button with rolling text-shadow and dual-arrow sliding transitions on hover.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/buttons/arrow-roll-button/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/buttons/arrow-roll-button.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/buttons/arrow-roll-button/index.tsx"
+        );
+        const demoProps = {
+          ArrowRollButton: {
+            children: { value: "Start a project" },
+            variant: {
+              value: "light",
+              options: {
+                Light: "light",
+                Dark: "dark",
+                White: "white",
+                Outline: "outline",
+              },
+            },
+            size: {
+              value: "default",
+              options: { Default: "default", Large: "large" },
+            },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        ArrowRollButton: {
+          children: { value: "Start a project" },
+          variant: {
+            value: "light",
+            options: {
+              Light: "light",
+              Dark: "dark",
+              White: "white",
+              Outline: "outline",
+            },
+          },
+          size: {
+            value: "default",
+            options: { Default: "default", Large: "large" },
+          },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/arrow-roll-button",
+  },
   "particle-hover-button": {
     name: "particle-hover-button",
     description:
@@ -2115,6 +2200,107 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/draw-underline-link",
+  },
+  "dual-wipe-reveal": {
+    name: "dual-wipe-reveal",
+    description:
+      "Dual-layer block wipe reveal that sweeps away curtain blocks to unveil text, powered by Motion.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/dual-wipe-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/dual-wipe-reveal.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/primitives/texts/dual-wipe-reveal/index.tsx"
+        );
+        const demoProps = {
+          DualWipeReveal: {
+            as: {
+              value: "h2",
+              options: { h2: "h2", h1: "h1", p: "p", span: "span" },
+            },
+            children: { value: "Find it, copy it, ship it." },
+            className: {
+              value: "text-3xl font-semibold tracking-tight sm:text-5xl",
+            },
+            direction: {
+              value: "left",
+              options: {
+                "Left to right": "left",
+                "Right to left": "right",
+                "Top to bottom": "down",
+                "Bottom to top": "up",
+              },
+            },
+            accentColor: { value: "bg-emerald-500" },
+            wipeColor: { value: "bg-neutral-800" },
+            duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
+            delay: { value: 0, min: 0, max: 2, step: 0.1 },
+            stagger: { value: 0.1, min: 0.02, max: 0.5, step: 0.02 },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        DualWipeReveal: {
+          as: {
+            value: "h2",
+            options: { h2: "h2", h1: "h1", p: "p", span: "span" },
+          },
+          children: { value: "Find it, copy it, ship it." },
+          className: {
+            value: "text-3xl font-semibold tracking-tight sm:text-5xl",
+          },
+          direction: {
+            value: "left",
+            options: {
+              "Left to right": "left",
+              "Right to left": "right",
+              "Top to bottom": "down",
+              "Bottom to top": "up",
+            },
+          },
+          accentColor: { value: "bg-emerald-500" },
+          wipeColor: { value: "bg-neutral-800" },
+          duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
+          delay: { value: 0, min: 0, max: 2, step: 0.1 },
+          stagger: { value: 0.1, min: 0.02, max: 0.5, step: 0.02 },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/dual-wipe-reveal",
   },
   "fog-text-reveal": {
     name: "fog-text-reveal",
@@ -4504,6 +4690,91 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-tilt-slide-transition",
+  },
+  "demo-arrow-roll-button": {
+    name: "demo-arrow-roll-button",
+    description:
+      "Interactive demo of ArrowRollButton in various sizes and studio theme variants.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/arrow-roll-button"],
+    files: [
+      {
+        path: "registry/demo/primitives/buttons/arrow-roll-button/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/buttons/arrow-roll-button.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/buttons/arrow-roll-button/index.tsx"
+        );
+        const demoProps = {
+          ArrowRollButton: {
+            children: { value: "Start a project" },
+            variant: {
+              value: "light",
+              options: {
+                Light: "light",
+                Dark: "dark",
+                White: "white",
+                Outline: "outline",
+              },
+            },
+            size: {
+              value: "default",
+              options: { Default: "default", Large: "large" },
+            },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        ArrowRollButton: {
+          children: { value: "Start a project" },
+          variant: {
+            value: "light",
+            options: {
+              Light: "light",
+              Dark: "dark",
+              White: "white",
+              Outline: "outline",
+            },
+          },
+          size: {
+            value: "default",
+            options: { Default: "default", Large: "large" },
+          },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-arrow-roll-button",
   },
   "demo-particle-hover-button": {
     name: "demo-particle-hover-button",
@@ -9538,6 +9809,27 @@ export const index: Record<string, any> = {
     },
     component: null,
     command: "@soralabs/demo-draw-underline-link",
+  },
+  "demo-dual-wipe-reveal": {
+    name: "demo-dual-wipe-reveal",
+    description: "Usage example for dual-wipe-reveal.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["dual-wipe-reveal"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/dual-wipe-reveal/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/dual-wipe-reveal.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-dual-wipe-reveal",
   },
   "demo-rolling-text": {
     name: "demo-rolling-text",

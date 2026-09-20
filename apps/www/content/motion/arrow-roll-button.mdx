@@ -1,0 +1,54 @@
+---
+title: Arrow Roll Button
+description: A bespoke studio CTA button featuring rolling text-shadow and dual-arrow sliding transitions on hover.
+---
+
+<ComponentPreview name="demo-arrow-roll-button" description="Arrow Roll Button interactive preview in studio variants." />
+
+## Installation
+
+<ComponentInstallation name="arrow-roll-button" />
+
+## Usage
+
+```tsx
+import { ArrowRollButton } from "@/components/sora-ui/buttons/arrow-roll-button";
+
+export function Example() {
+  return (
+    <ArrowRollButton href="/contact" size="large" variant="light">
+      Start a project
+    </ArrowRollButton>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: "Text label displayed inside the rolling text track.",
+      type: "ReactNode",
+      default: '"Start a project"',
+    },
+    variant: {
+      description: "Visual theme variant based on studio aesthetics.",
+      type: '"light" | "dark" | "white" | "outline"',
+      default: '"light"',
+    },
+    size: {
+      description: "Button size matching navbar ('default') or CTA section ('large').",
+      type: '"default" | "large"',
+      default: '"default"',
+    },
+    href: {
+      description: "Optional link destination. When provided, renders as an anchor <a> tag.",
+      type: "string",
+    },
+    className: {
+      description: "Additional class names merged onto the root element.",
+      type: "string",
+    },
+  }}
+/>

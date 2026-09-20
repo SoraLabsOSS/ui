@@ -235,6 +235,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "arrow-roll-button": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/buttons/arrow-roll-button/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "particle-hover-button": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/buttons/particle-hover-button/index.tsx"
@@ -526,6 +542,22 @@ export const previewComponents: Record<string, any> = {
   "draw-underline-link": React.lazy(async () => {
     const mod = await import(
       "@/registry/primitives/texts/draw-underline-link/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "dual-wipe-reveal": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/primitives/texts/dual-wipe-reveal/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -1084,6 +1116,22 @@ export const previewComponents: Record<string, any> = {
   "demo-tilt-slide-transition": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/catalog/tilt-slide-transition/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-arrow-roll-button": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/buttons/arrow-roll-button/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)

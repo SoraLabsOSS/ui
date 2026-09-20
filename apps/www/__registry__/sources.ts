@@ -24,6 +24,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "icons-copy": () => import("./sources/icons-copy.json"),
   "lib-scroll-trigger-utils": () =>
     import("./sources/lib-scroll-trigger-utils.json"),
+  "arrow-roll-button": () => import("./sources/arrow-roll-button.json"),
   "particle-hover-button": () => import("./sources/particle-hover-button.json"),
   "sliding-chip-button": () => import("./sources/sliding-chip-button.json"),
   "stagger-button": () => import("./sources/stagger-button.json"),
@@ -43,6 +44,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "video-player": () => import("./sources/video-player.json"),
   "dia-text-reveal": () => import("./sources/dia-text-reveal.json"),
   "draw-underline-link": () => import("./sources/draw-underline-link.json"),
+  "dual-wipe-reveal": () => import("./sources/dual-wipe-reveal.json"),
   "fog-text-reveal": () => import("./sources/fog-text-reveal.json"),
   "number-flow": () => import("./sources/number-flow.json"),
   "rolling-text": () => import("./sources/rolling-text.json"),
@@ -84,6 +86,8 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "demo-text-reveal-box": () => import("./sources/demo-text-reveal-box.json"),
   "demo-tilt-slide-transition": () =>
     import("./sources/demo-tilt-slide-transition.json"),
+  "demo-arrow-roll-button": () =>
+    import("./sources/demo-arrow-roll-button.json"),
   "demo-particle-hover-button": () =>
     import("./sources/demo-particle-hover-button.json"),
   "demo-accordion": () => import("./sources/demo-accordion.json"),
@@ -221,6 +225,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
     import("./sources/demo-pixel-image-loader.json"),
   "demo-draw-underline-link": () =>
     import("./sources/demo-draw-underline-link.json"),
+  "demo-dual-wipe-reveal": () => import("./sources/demo-dual-wipe-reveal.json"),
   "demo-rolling-text": () => import("./sources/demo-rolling-text.json"),
   "demo-text-reveal-block": () =>
     import("./sources/demo-text-reveal-block.json"),

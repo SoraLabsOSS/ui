@@ -1,0 +1,122 @@
+---
+title: Dual Wipe Reveal
+description: Dual-layer block wipe reveal that sweeps away curtain blocks to unveil text, powered by Motion. A React component.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview name="dual-wipe-reveal" description="Dual-layer block wipe reveal sweeping across text with brand accent highlights." />
+
+## Installation
+
+<ComponentInstallation name="dual-wipe-reveal" />
+
+## Usage
+
+```tsx
+import { DualWipeReveal } from '@/components/sora-ui/texts/dual-wipe-reveal';
+
+export function Example() {
+  return (
+    <h2 className="text-4xl font-semibold tracking-tight">
+      <DualWipeReveal
+        accentColor="bg-emerald-500"
+        wipeColor="bg-neutral-800"
+      >
+        Find it, copy it, ship it.
+      </DualWipeReveal>
+    </h2>
+  );
+}
+```
+
+Stagger multiple lines:
+
+```tsx
+<div className="flex flex-col gap-2">
+  <DualWipeReveal delay={0}>Find it,</DualWipeReveal>
+  <DualWipeReveal delay={0.15}>copy it,</DualWipeReveal>
+  <DualWipeReveal delay={0.3}>ship it.</DualWipeReveal>
+</div>
+```
+
+Reverse wipe direction (right to left):
+
+```tsx
+<DualWipeReveal direction="right">
+  Revealed from right to left
+</DualWipeReveal>
+```
+
+Vertical wipe reveals:
+
+```tsx
+<DualWipeReveal direction="down">
+  Swept from top to bottom
+</DualWipeReveal>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    children: {
+      description: 'Content to reveal.',
+      type: 'ReactNode',
+    },
+    as: {
+      description: 'HTML tag for the container element.',
+      type: 'ElementType',
+      default: '"span"',
+    },
+    direction: {
+      description: 'Wipe travel direction ("left" | "right" | "down" | "up").',
+      type: '"left" | "right" | "down" | "up"',
+      default: '"left"',
+    },
+    accentColor: {
+      description: 'Primary accent wipe color class or CSS color value.',
+      type: 'string',
+      default: '"bg-primary"',
+    },
+    wipeColor: {
+      description: 'Top wipe cover color class or CSS color value.',
+      type: 'string',
+      default: '"bg-muted"',
+    },
+    duration: {
+      description: 'Duration of each wipe animation in seconds.',
+      type: 'number',
+      default: '0.5',
+    },
+    delay: {
+      description: 'Delay before the animation starts, in seconds.',
+      type: 'number',
+      default: '0',
+    },
+    stagger: {
+      description: 'Stagger delay between top cover and accent wipe, in seconds.',
+      type: 'number',
+      default: '0.1',
+    },
+    once: {
+      description: 'Whether to animate only once when entering viewport.',
+      type: 'boolean',
+      default: 'true',
+    },
+    inViewMargin: {
+      description: 'Root margin for viewport in-view detection.',
+      type: 'string',
+      default: '"0px 0px -15% 0px"',
+    },
+    trigger: {
+      description: 'Explicit boolean to control the revealed state manually.',
+      type: 'boolean',
+    },
+    className: {
+      description: 'Additional class names merged onto the root container.',
+      type: 'string',
+    },
+  }}
+/>
