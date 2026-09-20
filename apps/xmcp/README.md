@@ -24,11 +24,15 @@ This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Win
 3. **`list_sections`** (`src/tools/list-sections.ts`):
    - Outlines the complete documentation structure and page count from `llms.txt`.
 4. **`get_component_info`** (`src/tools/get-component-info.ts`):
-   - Lists installable components/hooks or provides detailed install instructions (`npx shadcn@latest add @soralabs/<name> --yes`), dependency trees, and optional raw source code.
-   - Includes `meta.agentMetadata` when it is published for a UI component.
+   - Lists installable components, hooks, and utility libraries, or provides detailed install instructions (`npx shadcn@latest add @soralabs/<name> --yes`), dependency trees, and optional raw source code.
+   - Includes `meta.agentMetadata` when published for a UI component.
 5. **`validate_composition`** (`src/tools/validate-composition.ts`):
-   - Validates a proposed set of registry components.
-   - Reports missing components, registry dependency warnings, accessibility constraints, motion requirements, and composition rules.
+   - Validates a proposed set of registry components before generating UI code.
+   - Automatically resolves component name aliases (`button` → `base-button`).
+   - Detects Base UI vs Radix UI foundation mismatches (`render` vs `asChild`).
+   - Warns on multi-modal overlay collisions and focus trap hazards.
+   - Provides bidirectional (RTL) animation and Tailwind logical property guidelines.
+   - Generates unified multi-component install commands.
 
 These tools provide the semantic context and validation layer for agent-assisted
 UI construction. The calling agent still plans the component tree and writes
@@ -36,11 +40,13 @@ application code; automatic planning and code generation are future work.
 
 ### Prompts (`src/prompts/`)
 - **`install-component`** (`src/prompts/install-component.ts`):
-  - Structured prompt template for guiding an AI assistant through discovering, installing, and configuring a Sora component.
+  - Structured prompt template for guiding an AI assistant through discovering, installing, and configuring a single Sora component.
+- **`compose-components`** (`src/prompts/compose-components.ts`):
+  - Workflow prompt guiding AI agents through composing multiple Sora UI components with validation, foundation consistency, accessibility guardrails, and RTL support.
 
 ### Resources (`src/resources/`)
 - **`registry-catalog`** (`src/resources/registry.ts`):
-  - Live JSON snapshot of all installable Sora UI registry items.
+  - Live JSON snapshot of all installable Sora UI registry items (components, hooks, and libraries).
 
 ---
 

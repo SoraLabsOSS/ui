@@ -13,10 +13,10 @@ export const schema = {
     .string()
     .optional()
     .describe(
-      'Component or hook name, e.g. "stagger-button" or "hooks-use-auto-height". Omit to list all installable components/hooks instead.'
+      'Component, hook, or library name, e.g. "stagger-button", "hooks-use-auto-height", or "lib-scroll-trigger-utils". Omit to list all installable items instead.'
     ),
   type: z
-    .enum(["registry:ui", "registry:hook"])
+    .enum(["registry:ui", "registry:hook", "registry:lib"])
     .optional()
     .describe(
       "Only used when `name` is omitted — filter the listing to a specific item type."
@@ -38,7 +38,7 @@ export const schema = {
 export const metadata: ToolMetadata = {
   name: "get_component_info",
   description:
-    'Get Sora UI component/hook info: with `name`, returns install guidance (recommending the shadcn CLI command) and dependencies — pass `includeSource: true` to also get the full source (skip this by default and just install, then read the installed file directly if you need the code), and `cwd` (e.g. "packages/ui") when installing into a specific workspace of a monorepo so the suggested command includes shadcn CLI\'s `--cwd` flag; without `name`, lists all installable components and hooks.',
+    'Get Sora UI component, hook, or library info: with `name`, returns install guidance (recommending the shadcn CLI command) and dependencies — pass `includeSource: true` to also get the full source (skip this by default and just install, then read the installed file directly if you need the code), and `cwd` (e.g. "packages/ui") when installing into a specific workspace of a monorepo so the suggested command includes shadcn CLI\'s `--cwd` flag; without `name`, lists all installable components, hooks, and libraries.',
   annotations: {
     title: "Get Component Information",
     readOnlyHint: true,
@@ -47,6 +47,8 @@ export const metadata: ToolMetadata = {
     openWorldHint: true,
   },
 };
+
+const SORALABS_SCOPE_PREFIX_REGEX = /^@soralabs\//;
 
 export default async function getComponentInfo({
   name,
@@ -63,7 +65,14 @@ export default async function getComponentInfo({
       return formatList(items);
     }
 
-    const item = await getItemSource(name);
+    const cleanName = name.trim().replace(SORALABS_SCOPE_PREFIX_REGEX, "");
+    let item = await getItemSource(cleanName);
+    const isPrefixed =
+      cleanName.startsWith("base-") || cleanName.startsWith("radix-");
+    if (!(item || isPrefixed)) {
+      item = await getItemSource(`base-${cleanName}`);
+    }
+
     if (!item) {
       return `Component "${name}" not found. Call get_component_info without a name to see available components.`;
     }

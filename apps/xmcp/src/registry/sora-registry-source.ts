@@ -1,4 +1,6 @@
+import { readFileSync } from "node:fs";
 import { DOCS_BASE_URL } from "../docs/sora-docs-source";
+import { getLocalRegistryFile } from "../lib/monorepo";
 import { registryCache } from "./registry-cache";
 
 export interface RegistryFile {
@@ -47,20 +49,38 @@ export class RegistryFetchError extends Error {
 
 /** Real installable primitives — excludes the base style entry and internal demo-preview items. */
 export function isInstallablePrimitive(item: RegistryItem): boolean {
-  if (item.type === "registry:hook") {
-    return true;
+  if (item.name === "index" || item.name.startsWith(DEMO_PREFIX)) {
+    return false;
   }
   return (
-    item.type === "registry:ui" &&
-    item.name !== "index" &&
-    !item.name.startsWith(DEMO_PREFIX)
+    item.type === "registry:ui" ||
+    item.type === "registry:hook" ||
+    item.type === "registry:lib"
   );
+}
+
+function readLocalJson<T>(filename: string): T | null {
+  const file = getLocalRegistryFile(filename);
+  if (!file) {
+    return null;
+  }
+  try {
+    return JSON.parse(readFileSync(file, "utf-8")) as T;
+  } catch {
+    return null;
+  }
 }
 
 export async function fetchRegistry(): Promise<Registry> {
   const cached = registryCache.get<Registry>(REGISTRY_CACHE_KEY);
   if (cached !== null) {
     return cached;
+  }
+
+  const local = readLocalJson<Registry>("registry.json");
+  if (local) {
+    registryCache.set(REGISTRY_CACHE_KEY, local);
+    return local;
   }
 
   try {
@@ -109,6 +129,12 @@ export async function getItemSource(
   const cached = registryCache.get<RegistryItem>(cacheKey);
   if (cached !== null) {
     return cached;
+  }
+
+  const local = readLocalJson<RegistryItem>(`${name}.json`);
+  if (local) {
+    registryCache.set(cacheKey, local);
+    return local;
   }
 
   const url = `${DOCS_BASE_URL}/r/${name}.json`;

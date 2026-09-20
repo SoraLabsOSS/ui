@@ -1,8 +1,10 @@
+import { readFileSync } from "node:fs";
 import {
   type DocPage,
   type DocSection,
   parseLlmsTxt,
 } from "../lib/llms-txt-parser";
+import { getLocalContentFile } from "../lib/monorepo";
 import type { SearchResultItem } from "../lib/tokens";
 import { docsCache } from "./docs-cache";
 
@@ -47,6 +49,7 @@ const MOTION_PREFIX = "motion/";
 const ICONS_PREFIX = "icons/";
 const UI_PREFIX = "ui/";
 const FIRST_HEADING = /^#\s+(.+)$/m;
+const FRONTMATTER_TITLE_REGEX = /^title:\s*["']?([^"'\r\n]+)["']?/m;
 const HEADER_PATTERN = /^#\s+([^\n(]+?)(?:\s*\(([^)]+)\))?\s*$/gm;
 
 type LlmsSection =
@@ -250,13 +253,14 @@ export class SoraDocsSource {
     this.baseUrl = baseUrl.replace(BASE_URL_CLEAN_REGEX, "");
   }
 
-  async fetchText(url: string): Promise<string> {
+  async fetchText(url: string, timeoutMs = 3500): Promise<string> {
     try {
       const response = await fetch(url, {
         headers: {
           Accept: "text/markdown, text/plain;q=0.9, */*;q=0.8",
           "User-Agent": "Sora-MCP/1.0",
         },
+        signal: AbortSignal.timeout(timeoutMs),
       });
       if (!response.ok) {
         throw new DocSourceError(
@@ -554,6 +558,14 @@ export class SoraDocsSource {
     return last.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
+  private extractMdxTitle(content: string, fallbackSlug: string): string {
+    return (
+      content.match(FRONTMATTER_TITLE_REGEX)?.[1]?.trim() ??
+      content.match(FIRST_HEADING)?.[1]?.trim() ??
+      this.titleFromSlug(fallbackSlug)
+    );
+  }
+
   async getPage(slug: string): Promise<DocPage | null> {
     const trimmedSlug = trimSlug(slug);
     const cacheKey = `page:${cacheKeyForSlug(trimmedSlug)}`;
@@ -563,14 +575,37 @@ export class SoraDocsSource {
       return cached;
     }
 
+    // 1. LOCAL-FIRST: Check local monorepo MDX file first (instant 0ms, offline capable, reflects current branch edits)
+    const local = getLocalContentFile(trimmedSlug);
+    if (local) {
+      try {
+        const content = readFileSync(local.filePath, "utf-8");
+        const title = this.extractMdxTitle(content, trimmedSlug);
+        const page: DocPage = {
+          slug: cacheKeyForSlug(trimmedSlug),
+          url: `${this.baseUrl}${local.pagePath}`,
+          title,
+          content,
+        };
+        this.cache.set(cacheKey, page);
+        return page;
+      } catch {
+        // Fall through to remote fetch if local reading failed
+      }
+    }
+
+    // 2. REMOTE: buildMdxCandidates with fast timeout
     for (const { fetchPath, pagePath } of buildMdxCandidates(trimmedSlug)) {
       try {
-        const content = await this.fetchText(`${this.baseUrl}${fetchPath}`);
-        const titleMatch = content.match(FIRST_HEADING);
+        const content = await this.fetchText(
+          `${this.baseUrl}${fetchPath}`,
+          3000
+        );
+        const title = this.extractMdxTitle(content, trimmedSlug);
         const page: DocPage = {
           slug: cacheKeyForSlug(trimmedSlug),
           url: `${this.baseUrl}${pagePath}`,
-          title: titleMatch?.[1].trim() ?? cacheKeyForSlug(trimmedSlug),
+          title,
           content,
         };
 
