@@ -350,7 +350,7 @@ export function ComponentPageLayoutClient({
 
       <motion.div
         animate={
-          isDesktopAnimating
+          isLargeScreen
             ? {
                 left: isExpanded ? "0%" : "50%",
                 width: isExpanded ? "100%" : "50%",
