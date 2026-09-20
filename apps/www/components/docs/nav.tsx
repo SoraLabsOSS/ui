@@ -43,6 +43,7 @@ import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { GITHUB_REPO_URL } from "@/lib/site";
+import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { ThemeSwitcher } from "../animate/theme-switcher";
 import { IconLogo } from "../icon-logo";
 
@@ -244,9 +245,11 @@ function NavMenuItems({
       ))}
       {HEADER_AUTH_NAV_ITEMS.map((item) => (
         <NavigationMenuItem key={item.title}>
-          {sessionPending ? (
-            <AuthNavMenuSkeleton width={item.skeletonWidth} />
-          ) : (
+          <SkeletonTransition
+            fadeDuration={0.25}
+            loading={sessionPending}
+            skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
+          >
             <HighlightItem asChild value={item.title}>
               <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
                 <Link
@@ -262,7 +265,7 @@ function NavMenuItems({
                 </Link>
               </NavigationMenuLink>
             </HighlightItem>
-          )}
+          </SkeletonTransition>
         </NavigationMenuItem>
       ))}
     </>

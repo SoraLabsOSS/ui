@@ -1,0 +1,267 @@
+---
+title: Performance & Bundle Size
+description: Optimize bundle size, initial load times, and Core Web Vitals when building with Sora UI and Motion.
+---
+
+Animations bring interfaces to life, but excessive JavaScript or unoptimized animations can degrade **Core Web Vitals** (LCP, INP, CLS) and hurt the user experience. Excessive JavaScript can also increase Total Blocking Time (TBT) in lab measurements, which is commonly used as a proxy for interactivity issues related to INP.
+
+Sora UI is engineered from the ground up for high performance. This guide covers how Motion impacts your bundle size, the performance philosophy behind our component architecture, and practical techniques to keep your application fast and lightweight.
+
+## The Performance Philosophy
+
+Sora UI does not follow a "throw Motion everywhere" mentality. We treat animation as an intentional hierarchy, choosing the leanest primitive capable of achieving the desired user experience:
+
+```text
+Simple interaction (hover, tap, press)
+       ↓
+CSS Transitions / Tailwind CSS (0kb Motion)
+
+Imperative event animation (trigger on click, submit)
+       ↓
+useAnimate mini (2.3kb WAAPI)
+
+Declarative animation (modals, dialogs, drawers)
+       ↓
+m + LazyMotion / domAnimation (~19.6kb)
+
+Complex gestures & layout transitions (drag, reorder, layoutId)
+       ↓
+domMax (~29.6kb)
+
+Heavy full-page showcases & canvas backgrounds
+       ↓
+next/dynamic (Split chunk, 0kb initial)
+```
+
+---
+
+## The Motion Bundle Footprint
+
+Motion exports many standalone functions and hooks that bundlers can effectively tree-shake. If you only import a single utility like `useReducedMotion`, it ships at roughly ~1kb.
+
+However, Motion's `motion` component has a bundle footprint of approximately **34kb** (minified + gzipped) when used as the primary animation API:
+
+```tsx
+import { motion } from "motion/react";
+```
+
+Because of its declarative, props-driven API—which preloads support for variants, gestures, layout animations, exit transitions, and transforms—bundlers cannot tree-shake the `motion` component itself any smaller when it is directly imported.
+
+By adopting alternative APIs such as `LazyMotion` and `useAnimate` mini, you can reduce this initial overhead down to **2.3kb – 4.6kb**.
+
+---
+
+## 1. Keep Server Components at the Root
+
+In the Next.js App Router, push the `"use client"` boundary as far down the component tree as possible (to the leaf components).
+
+```tsx
+// ❌ Avoid: Marking the entire page or layout as client
+"use client";
+
+export default function Page() {
+  return (
+    <div>
+      <StaticHero />
+      <AnimatedCard />
+      <StaticFooter />
+    </div>
+  );
+}
+```
+
+```tsx
+// ✅ Recommended: Keep the page as a React Server Component (RSC)
+import { StaticHero } from "@/components/hero";
+import { StaticFooter } from "@/components/footer";
+import { AnimatedCard } from "@/components/animated-card"; // "use client" only inside here
+
+export default function Page() {
+  return (
+    <div>
+      <StaticHero />
+      <AnimatedCard />
+      <StaticFooter />
+    </div>
+  );
+}
+```
+
+This keeps Motion and other client-side JavaScript isolated to the interactive parts of the page, allowing static text, markup, and SVG assets to render on the server without incurring any animation runtime cost.
+
+---
+
+## 2. Use CSS for Micro-Interactions
+
+Not every interaction requires JavaScript or spring physics. For hover, focus, and tap feedback, prefer **Tailwind CSS v4** transitions:
+
+```tsx
+// ❌ Unnecessary Motion runtime overhead for a simple hover scale
+import { motion } from "motion/react";
+
+export function Button({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      {children}
+    </motion.button>
+  );
+}
+```
+
+```tsx
+// ✅ Zero JavaScript: Handled efficiently by browser rendering pipeline
+export function Button({ children }: { children: React.ReactNode }) {
+  return (
+    <button className="transition-transform duration-150 hover:scale-105 active:scale-95">
+      {children}
+    </button>
+  );
+}
+```
+
+CSS transitions can avoid JavaScript work entirely, and transitions of compositor-friendly properties such as `transform` and `opacity` can often be handled efficiently by the browser's rendering pipeline.
+
+---
+
+## 3. Shrink to 4.6kb with `LazyMotion` & `m`
+
+If you need declarative animations in custom views, you can replace the heavy `motion` component with the lightweight `m` component (`~4.6kb`).
+
+### Synchronous Feature Loading
+
+Wrap your app or section with `<LazyMotion>` and load only the feature package you need:
+
+```tsx
+import { LazyMotion, domAnimation } from "motion/react";
+import * as m from "motion/react-m";
+
+export function App({ children }: { children: React.ReactNode }) {
+  return (
+    <LazyMotion features={domAnimation}>
+      <m.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {children}
+      </m.div>
+    </LazyMotion>
+  );
+}
+```
+
+### Available Feature Packages
+
+* **`domAnimation` (+15kb)**: Adds support for animations, variants, exit animations (`AnimatePresence`), and tap/hover/focus gestures.
+* **`domMax` (+25kb)**: Adds all of the above, plus pan/drag gestures and layout animations (`layout`, `layoutId`).
+
+### Asynchronous (Deferred) Feature Loading
+
+To remove animation features from your initial page bundle, load the feature package dynamically after the initial render. Motion officially recommends defining your feature set in a dedicated file so your bundler can split it into an isolated chunk:
+
+```ts
+// features.ts
+import { domAnimation } from "motion/react";
+
+export default domAnimation;
+```
+
+Then dynamically import that file inside your component:
+
+```tsx
+import { LazyMotion } from "motion/react";
+import * as m from "motion/react-m";
+
+// Defers feature chunk download until after initial render
+const loadFeatures = () =>
+  import("./features").then((res) => res.default);
+
+export function DeferredSection({ children }: { children: React.ReactNode }) {
+  return (
+    <LazyMotion features={loadFeatures}>
+      <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        {children}
+      </m.div>
+    </LazyMotion>
+  );
+}
+```
+
+> [!IMPORTANT]
+> To benefit from `LazyMotion`, make sure descendant components do not import `motion` from `"motion/react"`, which would preload the full runtime bundle. You can pass `<LazyMotion strict>` to catch accidental `motion` imports during development.
+
+---
+
+## 4. Ultra-Light Animations with `useAnimate` Mini (2.3kb)
+
+For event-driven or imperative animations (e.g. triggering an animation on button click or form submit), Motion provides `useAnimate` mini, which clocks in at just **2.3kb**:
+
+```tsx
+import { useAnimate } from "motion/react-mini";
+
+export function NotificationBadge() {
+  const [scope, animate] = useAnimate();
+
+  const triggerPing = () => {
+    // Uses the native Web Animations API (WAAPI)
+    animate(scope.current, { scale: [1, 1.3, 1] }, { duration: 0.3 });
+  };
+
+  return (
+    <div ref={scope} onClick={triggerPing}>
+      New Notification
+    </div>
+  );
+}
+```
+
+Because the mini implementation uses the browser's Web Animations API (WAAPI), it avoids shipping Motion's larger animation runtime and doesn't require React re-renders to update the animated element.
+
+---
+
+## 5. Defer Below-The-Fold Showcases with `next/dynamic`
+
+When assembling pages with rich layout showcases (such as full-bleed 3D carousels or interactive canvas backgrounds), use `next/dynamic` to load them only when needed:
+
+```tsx
+import dynamic from "next/dynamic";
+
+const InteractiveShowcase = dynamic(
+  () =>
+    import("@/components/showcase").then((mod) => mod.InteractiveShowcase),
+  {
+    loading: () => (
+      <div className="h-[400px] w-full animate-pulse rounded-xl bg-muted" />
+    ),
+    ssr: false, // Render this component only on the client
+  }
+);
+
+export function LandingPage() {
+  return (
+    <div>
+      <StaticHero />
+      {/* Heavy animated showcase is loaded as a separate chunk */}
+      <InteractiveShowcase />
+    </div>
+  );
+}
+```
+
+---
+
+## Strategy Cheat Sheet
+
+| Use Case | Recommended Tool | Approx. Motion Bundle Footprint |
+| :--- | :--- | :--- |
+| **Buttons, links, card hovers** | Tailwind CSS v4 transitions | **0kb Motion** |
+| **Keyframe loops (icons, badges, spinners)** | CSS `@keyframes` in SVG/classes | **0kb Motion** |
+| **Imperative event animations** | `useAnimate` mini (`motion/react-mini`) | **~2.3kb** |
+| **Declarative components & modals** | `m` + `<LazyMotion features={domAnimation}>` | **~19.6kb** (or deferred) |
+| **Complex drag, reorder, layoutId** | `m` + `<LazyMotion features={domMax}>` | **~29.6kb** |
+| **Full showcase blocks** | `next/dynamic` with loading skeleton | **Deferred chunk (0kb initial Motion)** |
+
+> [!NOTE]
+> Sizes are approximate minified + gzipped Motion bundle sizes based on Motion's Rollup-generated bundles. Actual application bundle size varies by bundler (Rollup vs. Webpack) and surrounding application code.
+
+For further reference, consult the official [Motion Bundle Size Guide](https://motion.dev/docs/react-reduce-bundle-size).

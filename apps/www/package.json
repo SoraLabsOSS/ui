@@ -3,7 +3,7 @@
   "version": "1.0.27",
   "private": true,
   "scripts": {
-    "analyze": "cross-env ANALYZE=true next build",
+    "analyze": "next experimental-analyze",
     "build": "bun ./scripts/ensure-git-history.mts && next build",
     "check-types": "tsc --noEmit",
     "dev": "next dev -p 3000",
@@ -16,7 +16,7 @@
     "lint:fix": "ultracite fix",
     "format:write": "ultracite fix",
     "format:check": "ultracite check",
-    "audit:motion": "motionscore http://localhost:3000 --no-upload"
+    "audit:motion": "bunx motionscore http://localhost:3000 --no-upload"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.54",

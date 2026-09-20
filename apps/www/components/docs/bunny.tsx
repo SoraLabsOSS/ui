@@ -1,45 +1,3 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
-
-/** Eye look + blink keyframes (Motion). */
-const LEFT_EYE_ANIMATE = {
-  x: [6.477, 7.277, 7.277, 5.477, 6.477, 5.977, 6.477],
-  y: [18.666, 18.666, 18.666, 18.066, 18.666, 19.166, 18.666],
-  scaleY: [1, 1, 0.1, 1, 1, 1, 0.1, 1, 1, 1],
-};
-
-const RIGHT_EYE_ANIMATE = {
-  x: [18.078, 18.878, 18.878, 16.578, 18.078, 17.078, 18.078],
-  y: [18.666, 18.666, 18.666, 18.066, 18.666, 19.166, 18.666],
-  scaleY: [1, 1, 0.1, 1, 1, 1, 0.1, 1, 1, 1],
-};
-
-const EYE_TRANSITION = {
-  x: {
-    duration: 5,
-    times: [0, 0.1, 0.2, 0.4, 0.55, 0.75, 1],
-    repeat: Number.POSITIVE_INFINITY,
-    ease: "easeInOut" as const,
-  },
-  y: {
-    duration: 5,
-    times: [0, 0.1, 0.2, 0.4, 0.55, 0.75, 1],
-    repeat: Number.POSITIVE_INFINITY,
-    ease: "easeInOut" as const,
-  },
-  scaleY: {
-    duration: 5,
-    times: [0, 0.19, 0.21, 0.23, 0.5, 0.52, 0.54, 0.56, 0.9, 1],
-    repeat: Number.POSITIVE_INFINITY,
-  },
-};
-
-const EYE_STYLE = {
-  transformOrigin: "center",
-  transformBox: "fill-box" as const,
-};
-
 const EAR_LEFT_PATH =
   "M3.738 10.2164L7.224 2.007H9.167L5.676 10.2164H3.738ZM10.791 6.42705C10.791 5.90346 10.726 5.42764 10.596 4.99959C10.47 4.57155 10.292 4.16643 10.063 3.78425C9.833 3.39825 9.56 3.01797 9.243 2.64343C8.926 2.26507 8.767 2.07589 8.767 2.07589L10.24 0.957996C10.24 0.957996 10.433 1.17203 10.819 1.60007C11.209 2.0243 11.559 2.49056 11.869 2.99886C12.178 3.50717 12.413 4.04222 12.574 4.60403C12.734 5.16584 12.814 5.77352 12.814 6.42705C12.814 7.10734 12.73 7.7303 12.562 8.29593C12.394 8.85774 12.153 9.3966 11.84 9.9126C11.526 10.4247 11.181 10.8833 10.802 11.2884C10.428 11.6974 10.24 11.9018 10.24 11.9018L8.767 10.7839C8.767 10.7839 8.924 10.5948 9.237 10.2164C9.554 9.8419 9.83 9.4597 10.063 9.06985C10.3 8.6762 10.479 8.26726 10.602 7.84304C10.728 7.41499 10.791 6.943 10.791 6.42705Z";
 
@@ -58,8 +16,6 @@ interface BunnyProps {
 }
 
 export function Bunny({ size = 32, sleeping = false, className }: BunnyProps) {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <svg
       aria-hidden="true"
@@ -113,6 +69,38 @@ export function Bunny({ size = 32, sleeping = false, className }: BunnyProps) {
         }
         .bunny-ear-left-awake { animation: awakeLeftEarTwitch 12s ease-in-out infinite; }
         .bunny-ear-right-awake { animation: awakeRightEarTwitch 12s ease-in-out infinite; }
+        .bunny-eye-move-left {
+          animation: eyeMoveLeft 5s ease-in-out infinite;
+        }
+        .bunny-eye-move-right {
+          animation: eyeMoveRight 5s ease-in-out infinite;
+        }
+        .bunny-eye-blink {
+          transform-origin: center;
+          transform-box: fill-box;
+          animation: eyeBlink 5s ease-in-out infinite;
+        }
+        @keyframes eyeMoveLeft {
+          0%, 100% { transform: translate(0, 0); }
+          10%, 20% { transform: translate(0.8px, 0); }
+          40%      { transform: translate(-1px, -0.6px); }
+          55%      { transform: translate(0, 0); }
+          75%      { transform: translate(-0.5px, 0.5px); }
+        }
+        @keyframes eyeMoveRight {
+          0%, 100% { transform: translate(0, 0); }
+          10%, 20% { transform: translate(0.8px, 0); }
+          40%      { transform: translate(-1.5px, -0.6px); }
+          55%      { transform: translate(0, 0); }
+          75%      { transform: translate(-1px, 0.5px); }
+        }
+        @keyframes eyeBlink {
+          0%, 19%   { transform: scaleY(1); }
+          21%       { transform: scaleY(0.1); }
+          23%, 52%  { transform: scaleY(1); }
+          54%       { transform: scaleY(0.1); }
+          56%, 100% { transform: scaleY(1); }
+        }
         @keyframes zFloat1 {
           0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
           10% { opacity: 1; }
@@ -130,6 +118,23 @@ export function Bunny({ size = 32, sleeping = false, className }: BunnyProps) {
           10% { opacity: 1; }
           80% { opacity: 1; }
           100% { transform: translate(8px, -18px) scale(0.8); opacity: 0; }
+        }
+        .bunny-z1 { animation: 3s ease-out 0s infinite normal both running zFloat1; }
+        .bunny-z2 { animation: 3s ease-out 1s infinite normal both running zFloat2; }
+        .bunny-z3 { animation: 3s ease-out 2s infinite normal both running zFloat3; }
+        @media (prefers-reduced-motion: reduce) {
+          .bunny-ear-left-sleep,
+          .bunny-ear-right-sleep,
+          .bunny-ear-left-awake,
+          .bunny-ear-right-awake,
+          .bunny-eye-move-left,
+          .bunny-eye-move-right,
+          .bunny-eye-blink,
+          .bunny-z1,
+          .bunny-z2,
+          .bunny-z3 {
+            animation: none !important;
+          }
         }
       `}</style>
       <g transform={`translate(${sleeping ? 6 : 7.15}, 8)`}>
@@ -188,36 +193,30 @@ export function Bunny({ size = 32, sleeping = false, className }: BunnyProps) {
           </>
         ) : (
           <>
-            <motion.rect
-              animate={
-                shouldReduceMotion
-                  ? { x: 6.477, y: 18.666, scaleY: 1 }
-                  : LEFT_EYE_ANIMATE
-              }
-              fill="currentColor"
-              height={3.6}
-              initial={{ x: 6.477, y: 18.666, scaleY: 1 }}
-              rx={1.8}
-              ry={1.8}
-              style={EYE_STYLE}
-              transition={shouldReduceMotion ? undefined : EYE_TRANSITION}
-              width={3.6}
-            />
-            <motion.rect
-              animate={
-                shouldReduceMotion
-                  ? { x: 18.078, y: 18.666, scaleY: 1 }
-                  : RIGHT_EYE_ANIMATE
-              }
-              fill="currentColor"
-              height={3.6}
-              initial={{ x: 18.078, y: 18.666, scaleY: 1 }}
-              rx={1.8}
-              ry={1.8}
-              style={EYE_STYLE}
-              transition={shouldReduceMotion ? undefined : EYE_TRANSITION}
-              width={3.6}
-            />
+            <g className="bunny-eye-move-left">
+              <rect
+                className="bunny-eye-blink"
+                fill="currentColor"
+                height={3.6}
+                rx={1.8}
+                ry={1.8}
+                width={3.6}
+                x={6.477}
+                y={18.666}
+              />
+            </g>
+            <g className="bunny-eye-move-right">
+              <rect
+                className="bunny-eye-blink"
+                fill="currentColor"
+                height={3.6}
+                rx={1.8}
+                ry={1.8}
+                width={3.6}
+                x={18.078}
+                y={18.666}
+              />
+            </g>
           </>
         )}
       </g>
@@ -228,28 +227,13 @@ export function Bunny({ size = 32, sleeping = false, className }: BunnyProps) {
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <g
-            strokeWidth="1.5"
-            style={{
-              animation: "3s ease-out 0s infinite normal both running zFloat1",
-            }}
-          >
+          <g className="bunny-z1" strokeWidth="1.5">
             <path d="M32 5 L36 5 L32 9 L36 9" />
           </g>
-          <g
-            strokeWidth="1.3"
-            style={{
-              animation: "3s ease-out 1s infinite normal both running zFloat2",
-            }}
-          >
+          <g className="bunny-z2" strokeWidth="1.3">
             <path d="M34 3 L37 3 L34 6 L37 6" />
           </g>
-          <g
-            strokeWidth="1.1"
-            style={{
-              animation: "3s ease-out 2s infinite normal both running zFloat3",
-            }}
-          >
+          <g className="bunny-z3" strokeWidth="1.1">
             <path d="M36 1 L38.5 1 L36 3.5 L38.5 3.5" />
           </g>
         </g>

@@ -226,6 +226,7 @@ function GuideBottomMenu({
       />
       {AUTH_MENU_LINKS.map((item) => (
         <SkeletonTransition
+          fadeDuration={0.25}
           key={item.url}
           loading={authNavPending}
           skeleton={<AuthSidebarMenuSkeleton width={item.skeletonWidth} />}

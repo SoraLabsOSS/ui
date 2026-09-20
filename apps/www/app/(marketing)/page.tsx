@@ -1,5 +1,3 @@
-"use client";
-
 import { Hero } from "@/components/hero";
 import { InfoSection } from "@/components/info-section";
 import { SponsorSection } from "@/components/sponsor-section";

@@ -43,6 +43,11 @@ export const baseOptions: BaseLayoutProps = {
       secondary: false,
     },
     {
+      text: "Performance",
+      url: "/docs/performance",
+      secondary: false,
+    },
+    {
       text: "MCP",
       url: "/docs/mcp",
       secondary: false,

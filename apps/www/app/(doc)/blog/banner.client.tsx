@@ -1,7 +1,7 @@
 "use client";
 
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
-import { motion, useReducedMotion } from "motion/react";
+import { cn } from "@workspace/ui/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -16,7 +16,6 @@ const GrainGradient = dynamic(
 
 const BANNER_HEIGHT = 300;
 const BANNER_READY_DELAY_MS = 400;
-const BANNER_FADE_DURATION_S = 1.4;
 /** Safety net if shader mount detection misses. */
 const SHADER_REVEAL_FALLBACK_MS = 1800;
 
@@ -53,7 +52,6 @@ export function BlogHeaderBanner() {
   const [isShaderVisible, setIsShaderVisible] = useState(false);
   const shaderContainerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     import("@paper-design/shaders-react").catch(() => {
@@ -141,11 +139,6 @@ export function BlogHeaderBanner() {
     };
   }, [showShaders]);
 
-  const fadeTransition = {
-    duration: prefersReducedMotion ? 0 : BANNER_FADE_DURATION_S,
-    ease: [0.16, 1, 0.3, 1] as const,
-  };
-
   return (
     <section className="blog-inner px-3 sm:px-4 md:px-0">
       <div className="relative min-h-[300px] w-full overflow-hidden rounded-xl">
@@ -157,11 +150,11 @@ export function BlogHeaderBanner() {
         />
 
         {showShaders ? (
-          <motion.div
-            animate={{ opacity: isShaderVisible ? 1 : 0 }}
-            className="absolute inset-0 h-[300px] w-full"
-            initial={{ opacity: 0 }}
-            transition={fadeTransition}
+          <div
+            className={cn(
+              "absolute inset-0 h-[300px] w-full transition-opacity duration-1000 ease-out motion-reduce:transition-none",
+              isShaderVisible ? "opacity-100" : "opacity-0"
+            )}
           >
             <div className="h-full w-full" ref={shaderContainerRef}>
               <GrainGradient
@@ -179,13 +172,13 @@ export function BlogHeaderBanner() {
                 speed={0.7}
               />
             </div>
-          </motion.div>
+          </div>
         ) : (
-          <motion.div
-            animate={{ opacity: isFallbackVisible ? 1 : 0 }}
-            className="absolute inset-0 h-[300px] w-full bg-muted/25"
-            initial={{ opacity: 0 }}
-            transition={fadeTransition}
+          <div
+            className={cn(
+              "absolute inset-0 h-[300px] w-full bg-muted/25 transition-opacity duration-1000 ease-out motion-reduce:transition-none",
+              isFallbackVisible ? "opacity-100" : "opacity-0"
+            )}
           />
         )}
 

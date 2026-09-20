@@ -8,7 +8,10 @@ export const AUTH_MENU_LINKS = [
 
 export function AuthNavMenuSkeleton({ width }: { width: string }) {
   return (
-    <span aria-hidden className="flex h-8 items-center px-3">
+    <span
+      aria-hidden
+      className="fade-in flex h-8 animate-in items-center px-3 duration-200 motion-reduce:animate-none"
+    >
       <Skeleton className={cn("h-4", width)} />
     </span>
   );
@@ -39,7 +42,7 @@ function SidebarMenuTreeConnectors() {
 
 export function AuthSidebarMenuSkeleton({ width }: { width: string }) {
   return (
-    <div className="relative">
+    <div className="fade-in relative animate-in duration-200 motion-reduce:animate-none">
       <SidebarMenuTreeConnectors />
       <div aria-hidden className="relative ml-2 flex items-center py-1.5 pl-4">
         <Skeleton className={cn("h-5", width)} />

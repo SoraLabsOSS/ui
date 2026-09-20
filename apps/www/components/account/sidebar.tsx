@@ -183,6 +183,7 @@ function AccountMenuSection({
 
         return (
           <SkeletonTransition
+            fadeDuration={0.25}
             key={item.label}
             loading={authNavPending}
             skeleton={<AuthSidebarMenuSkeleton width={item.skeletonWidth} />}
