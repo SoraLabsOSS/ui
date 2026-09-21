@@ -154,6 +154,7 @@ function Input({
       caretMarker.style.width = "0px";
       const paddingLeft = Number.parseFloat(styles.paddingLeft) || 0;
       const borderLeft = Number.parseFloat(styles.borderLeftWidth) || 0;
+      const borderRight = Number.parseFloat(styles.borderRightWidth) || 0;
 
       if (isRtl) {
         measureSpan.style.boxSizing = "border-box";
@@ -172,7 +173,9 @@ function Input({
         const caretPosition = markerRect.left - inputRect.left;
         const minX = paddingLeft + borderLeft - 1;
         const maxX =
-          target.clientWidth - (Number.parseFloat(styles.paddingRight) || 0);
+          target.clientWidth -
+          (Number.parseFloat(styles.paddingRight) || 0) +
+          borderRight;
         const isCaretVisible =
           caretPosition >= minX && caretPosition <= maxX + 1;
         const hasSelection = selectionStart !== selectionEnd;
