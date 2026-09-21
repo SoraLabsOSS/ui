@@ -1,5 +1,5 @@
 name: ✨ Feature Request
-description: Propose a new feature for Animate UI.
+description: Propose a new feature for Sora UI.
 labels: ['enhancement']
 body:
   - type: textarea

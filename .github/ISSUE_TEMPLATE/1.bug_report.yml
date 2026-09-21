@@ -1,5 +1,5 @@
 name: 🐞 Bug report
-description: Report a bug with Animate UI components.
+description: Report a bug with Sora UI components.
 labels: ['bug']
 body:
   - type: textarea
