@@ -17,6 +17,8 @@ export function useBookmarkPages() {
     isAuthenticated,
     isBookmarksLoading,
     isToggling,
+    error,
+    refetch,
     removingUrl,
     sessionPending,
     toggleBookmark,
@@ -25,7 +27,7 @@ export function useBookmarkPages() {
   const staticQuery = useQuery({
     queryKey: ["static-search-index"],
     queryFn: fetchStaticSearchIndex,
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && bookmarks.length > 0,
     staleTime: STATIC_INDEX_STALE_TIME_MS,
     gcTime: STATIC_INDEX_GC_TIME_MS,
     refetchOnWindowFocus: false,
@@ -49,9 +51,11 @@ export function useBookmarkPages() {
 
   return {
     isAuthenticated,
+    error,
     isRemoving: isToggling,
     loading,
     pages,
+    refetch,
     removeBookmark: (url: string) => toggleBookmark(url, true),
     removingUrl,
     sessionPending,

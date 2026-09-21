@@ -11,13 +11,17 @@ export function isBookmarkablePath(url: string): boolean {
     url === "/ui" ||
     url.startsWith("/ui/") ||
     url === "/motion" ||
-    url.startsWith("/motion/")
+    url.startsWith("/motion/") ||
+    url === "/icons" ||
+    url.startsWith("/icons/") ||
+    url === "/primitives" ||
+    url.startsWith("/primitives/")
   );
 }
 
 export const bookmarkUrlSchema = z.object({
   url: z.string().min(1).max(512).refine(isBookmarkablePath, {
-    message: "Must be a valid doc, motion, catalog, or ui path",
+    message: "Must be a valid docs, motion, icons, catalog, or UI path",
   }),
 });
 

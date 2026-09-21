@@ -18,10 +18,11 @@ import {
   clearPendingBookmark,
   finishPendingBookmarkAutoSave,
 } from "@/lib/bookmarks/pending-intent";
-import { normalizeBookmarkUrl } from "@/lib/bookmarks/validate-url";
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
 
 const BOOKMARKS_STALE_TIME_MS = 5 * 60 * 1000;
 const BOOKMARKS_GC_TIME_MS = 30 * 60 * 1000;
+const BOOKMARKS_SYNC_CHANNEL = "sora-bookmarks";
 const EMPTY_BOOKMARKS: BookmarkRecord[] = [];
 
 type ToggleBookmarkResult =
@@ -41,12 +42,17 @@ function getBookmarkErrorMessage(error: unknown): string {
 }
 
 export function useBookmarks() {
-  const { data: session, isPending: sessionPending } = useSession(authClient);
+  const {
+    data: session,
+    isPending: sessionPending,
+    refetch: refetchSession,
+  } = useSession(authClient);
   const queryClient = useQueryClient();
   const userId = session?.user?.id;
   const isAuthenticated = Boolean(userId);
   const listQueryKey = userId ? bookmarkKeys.list(userId) : bookmarkKeys.all;
   const previousUserIdRef = useRef<string | undefined>(userId);
+  const syncChannelRef = useRef<BroadcastChannel | null>(null);
 
   useEffect(() => {
     const previousUserId = previousUserIdRef.current;
@@ -58,14 +64,43 @@ export function useBookmarks() {
     }
   }, [queryClient, userId]);
 
+  useEffect(() => {
+    if (!userId || typeof BroadcastChannel === "undefined") {
+      return;
+    }
+
+    const channel = new BroadcastChannel(BOOKMARKS_SYNC_CHANNEL);
+    syncChannelRef.current = channel;
+    channel.onmessage = () => {
+      queryClient.invalidateQueries({ queryKey: bookmarkKeys.list(userId) });
+    };
+
+    return () => {
+      syncChannelRef.current = null;
+      channel.close();
+    };
+  }, [queryClient, userId]);
+
   const query = useQuery({
     queryKey: listQueryKey,
     queryFn: fetchBookmarks,
     enabled: isAuthenticated,
     staleTime: BOOKMARKS_STALE_TIME_MS,
     gcTime: BOOKMARKS_GC_TIME_MS,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
+    retry: (failureCount, error) =>
+      !(error instanceof BookmarkRequestError && error.status === 401) &&
+      failureCount < 1,
   });
+
+  useEffect(() => {
+    if (
+      query.error instanceof BookmarkRequestError &&
+      query.error.status === 401
+    ) {
+      refetchSession();
+    }
+  }, [query.error, refetchSession]);
 
   const toggleMutation = useMutation({
     mutationFn: async ({
@@ -88,8 +123,8 @@ export function useBookmarks() {
 
       return { action: "created", bookmark };
     },
-    onMutate: ({ url, isBookmarked }) => {
-      queryClient.cancelQueries({ queryKey: listQueryKey });
+    onMutate: async ({ url, isBookmarked }) => {
+      await queryClient.cancelQueries({ queryKey: listQueryKey });
 
       const previous = queryClient.getQueryData<BookmarkRecord[]>(listQueryKey);
       const canonicalUrl = normalizeBookmarkUrl(url);
@@ -150,14 +185,18 @@ export function useBookmarks() {
       });
     },
     onError: (error, _variables, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(listQueryKey, context.previous);
+      if (context) {
+        queryClient.setQueryData(
+          listQueryKey,
+          context.previous ?? EMPTY_BOOKMARKS
+        );
       }
 
       toast.error(getBookmarkErrorMessage(error));
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: listQueryKey });
+      syncChannelRef.current?.postMessage("changed");
     },
   });
 
@@ -214,21 +253,6 @@ export function useBookmarks() {
       ? toggleMutation.variables.url
       : null;
 
-  const resetToggleMutation = useCallback(
-    (forUrl?: string) => {
-      if (!toggleMutation.isPending) {
-        return;
-      }
-
-      if (forUrl && toggleMutation.variables?.url !== forUrl) {
-        return;
-      }
-
-      toggleMutation.reset();
-    },
-    [toggleMutation]
-  );
-
   // Initial load only — not background revalidation when cached data exists.
   const isBookmarksLoading = isAuthenticated && query.isLoading;
 
@@ -239,9 +263,10 @@ export function useBookmarks() {
     isAuthenticated,
     isBookmarksLoading,
     isLoading: isBookmarksLoading,
+    error: query.data === undefined ? query.error : null,
+    refetch: query.refetch,
     isToggling: toggleMutation.isPending,
     removingUrl,
-    resetToggleMutation,
     sessionPending,
     toggleBookmark,
     togglingUrl,

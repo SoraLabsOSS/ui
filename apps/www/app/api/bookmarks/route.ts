@@ -1,24 +1,19 @@
 import {
   createBookmark,
-  deleteBookmark,
+  deleteBookmarks,
   listBookmarks,
 } from "@workspace/db/bookmarks";
 import { NextResponse } from "next/server";
-import {
-  getCachedBookmarks,
-  invalidateBookmarksCache,
-  setCachedBookmarks,
-} from "@/lib/bookmarks/cache";
 import {
   bookmarkRateLimitResponse,
   checkBookmarkPageRateLimit,
 } from "@/lib/bookmarks/ratelimit";
 import { requireSession } from "@/lib/bookmarks/require-session";
 import { bookmarkUrlSchema } from "@/lib/bookmarks/schemas";
-import {
-  isValidBookmarkUrl,
-  normalizeBookmarkUrl,
-} from "@/lib/bookmarks/validate-url";
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
+import { resolveBookmarkUrl } from "@/lib/bookmarks/validate-url";
+
+const PRIVATE_JSON_HEADERS = { "Cache-Control": "private, no-store" };
 
 function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -29,7 +24,7 @@ function invalidUrl() {
 }
 
 type ParseBookmarkUrlResult =
-  | { ok: true; rawUrl: string; url: string }
+  | { ok: true; rawUrl: string }
   | { ok: false; response: Response };
 
 async function parseBookmarkUrl(
@@ -60,15 +55,30 @@ async function parseBookmarkUrl(
     };
   }
 
-  if (!isValidBookmarkUrl(parsed.data.url)) {
-    return { ok: false, response: invalidUrl() };
-  }
-
   return {
     ok: true,
-    url: normalizeBookmarkUrl(parsed.data.url),
     rawUrl: parsed.data.url,
   };
+}
+
+function canonicalizeBookmarks(
+  bookmarks: Awaited<ReturnType<typeof listBookmarks>>
+) {
+  const seen = new Set<string>();
+
+  return bookmarks.flatMap((bookmark) => {
+    const url = getCanonicalBookmarkUrl(bookmark.url);
+    if (seen.has(url)) {
+      return [];
+    }
+
+    seen.add(url);
+    return [{ ...bookmark, url }];
+  });
+}
+
+function getCanonicalBookmarkUrl(url: string): string {
+  return resolveBookmarkUrl(url) ?? normalizeBookmarkUrl(url);
 }
 
 export async function GET(): Promise<Response> {
@@ -77,17 +87,9 @@ export async function GET(): Promise<Response> {
     return unauthorized();
   }
 
-  const userId = session.user.id;
-  const cached = await getCachedBookmarks(userId);
+  const bookmarks = canonicalizeBookmarks(await listBookmarks(session.user.id));
 
-  if (cached !== null) {
-    return NextResponse.json({ bookmarks: cached });
-  }
-
-  const bookmarks = await listBookmarks(userId);
-  await setCachedBookmarks(userId, bookmarks);
-
-  return NextResponse.json({ bookmarks });
+  return NextResponse.json({ bookmarks }, { headers: PRIVATE_JSON_HEADERS });
 }
 
 export async function POST(request: Request): Promise<Response> {
@@ -101,10 +103,12 @@ export async function POST(request: Request): Promise<Response> {
     return parsed.response;
   }
 
-  const rateLimit = await checkBookmarkPageRateLimit(
-    session.user.id,
-    parsed.url
-  );
+  const url = resolveBookmarkUrl(parsed.rawUrl);
+  if (!url) {
+    return invalidUrl();
+  }
+
+  const rateLimit = await checkBookmarkPageRateLimit(session.user.id, url);
   if (!rateLimit.success) {
     return bookmarkRateLimitResponse(
       rateLimit.reset,
@@ -113,7 +117,17 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const result = await createBookmark(session.user.id, parsed.url);
+  const alreadyExists = (await listBookmarks(session.user.id)).some(
+    (bookmark) => getCanonicalBookmarkUrl(bookmark.url) === url
+  );
+  if (alreadyExists) {
+    return NextResponse.json(
+      { error: "Bookmark already exists" },
+      { status: 409 }
+    );
+  }
+
+  const result = await createBookmark(session.user.id, url);
 
   if ("conflict" in result) {
     return NextResponse.json(
@@ -121,8 +135,6 @@ export async function POST(request: Request): Promise<Response> {
       { status: 409 }
     );
   }
-
-  await invalidateBookmarksCache(session.user.id);
 
   return NextResponse.json({ bookmark: result.bookmark }, { status: 201 });
 }
@@ -138,9 +150,11 @@ export async function DELETE(request: Request): Promise<Response> {
     return parsed.response;
   }
 
+  const canonicalUrl = getCanonicalBookmarkUrl(parsed.rawUrl);
+
   const rateLimit = await checkBookmarkPageRateLimit(
     session.user.id,
-    parsed.url
+    canonicalUrl
   );
   if (!rateLimit.success) {
     return bookmarkRateLimitResponse(
@@ -150,16 +164,17 @@ export async function DELETE(request: Request): Promise<Response> {
     );
   }
 
-  let deleted = await deleteBookmark(session.user.id, parsed.url);
-  if (!deleted && parsed.rawUrl !== parsed.url) {
-    deleted = await deleteBookmark(session.user.id, parsed.rawUrl);
-  }
+  const bookmarks = await listBookmarks(session.user.id);
+  const matchingUrls = bookmarks
+    .filter(
+      (bookmark) => getCanonicalBookmarkUrl(bookmark.url) === canonicalUrl
+    )
+    .map((bookmark) => bookmark.url);
+  const deleted = await deleteBookmarks(session.user.id, matchingUrls);
 
-  if (!deleted) {
+  if (deleted.length === 0) {
     return NextResponse.json({ error: "Bookmark not found" }, { status: 404 });
   }
 
-  await invalidateBookmarksCache(session.user.id);
-
-  return NextResponse.json({ bookmark: deleted });
+  return NextResponse.json({ bookmarks: deleted });
 }

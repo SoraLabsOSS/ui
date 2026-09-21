@@ -7,9 +7,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { type JSX, useCallback, useEffect, useState } from "react";
 import { BookmarkLoginDialog } from "@/components/docs/bookmark-login-dialog";
 import { setPendingBookmark } from "@/lib/bookmarks/pending-intent";
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
 import { useBookmarks } from "@/lib/bookmarks/use-bookmarks";
-
-import { normalizeBookmarkUrl } from "@/lib/bookmarks/validate-url";
 
 const layoutTransition = {
   type: "spring",
@@ -27,7 +26,8 @@ export function BookmarkButton({
   const {
     bookmarks,
     isAuthenticated,
-    resetToggleMutation,
+    isBookmarksLoading,
+    sessionPending,
     toggleBookmark,
     togglingUrl,
   } = useBookmarks();
@@ -39,7 +39,7 @@ export function BookmarkButton({
     (bookmark) => normalizeBookmarkUrl(bookmark.url) === normalizedUrl
   );
   const isBusy = localPending && togglingUrl === url;
-  const showLoadingState = isBusy;
+  const showLoadingState = sessionPending || isBookmarksLoading || isBusy;
 
   useEffect(() => {
     if (!togglingUrl) {
@@ -47,16 +47,8 @@ export function BookmarkButton({
     }
   }, [togglingUrl]);
 
-  useEffect(
-    () => () => {
-      setLocalPending(false);
-      resetToggleMutation(url);
-    },
-    [resetToggleMutation, url]
-  );
-
   const handleClick = useCallback(() => {
-    if (isBusy) {
+    if (sessionPending || isBookmarksLoading || isBusy) {
       return;
     }
 
@@ -68,12 +60,21 @@ export function BookmarkButton({
 
     setLocalPending(true);
     toggleBookmark(url, isBookmarked);
-  }, [isAuthenticated, isBookmarked, isBusy, toggleBookmark, url]);
+  }, [
+    isAuthenticated,
+    isBookmarked,
+    isBookmarksLoading,
+    isBusy,
+    sessionPending,
+    toggleBookmark,
+    url,
+  ]);
 
   return (
     <>
       <motion.button
         aria-busy={showLoadingState}
+        aria-pressed={isBookmarked}
         className={cn(
           buttonVariants({
             color: "secondary",

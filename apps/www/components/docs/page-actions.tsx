@@ -18,6 +18,7 @@ import {
 import { LayoutGroup, motion } from "motion/react";
 import { type JSX, useEffect, useMemo, useState } from "react";
 import { BookmarkButton } from "@/components/docs/bookmark-button";
+import { isAuthEnabled } from "@/env";
 import { SITE_URL } from "@/lib/site";
 import { CopyIcon } from "@/registry/icons/copy";
 
@@ -321,7 +322,9 @@ export function PageActionButtons({
         >
           <LLMCopyButton markdownUrl={markdownUrl} />
         </motion.div>
-        <BookmarkButton transition={activeTransition} url={url} />
+        {isAuthEnabled() && (
+          <BookmarkButton transition={activeTransition} url={url} />
+        )}
         <motion.div
           className="shrink-0"
           layout="position"

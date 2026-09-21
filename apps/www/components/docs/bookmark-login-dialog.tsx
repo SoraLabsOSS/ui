@@ -7,6 +7,7 @@ import {
   clearSigningInForBookmark,
   isSigningInForBookmark,
   markSigningInForBookmark,
+  peekPendingBookmark,
 } from "@/lib/bookmarks/pending-intent";
 import { Button, buttonVariants } from "@/registry/ui/base/button";
 import {
@@ -20,12 +21,14 @@ import {
 } from "@/registry/ui/base/dialog";
 
 interface BookmarkLoginDialogProps {
+  intent?: "account" | "bookmark";
   onOpenChange: (open: boolean) => void;
   open: boolean;
   redirectUrl: string;
 }
 
 export function BookmarkLoginDialog({
+  intent = "bookmark",
   open,
   onOpenChange,
   redirectUrl,
@@ -49,8 +52,14 @@ export function BookmarkLoginDialog({
   };
 
   const handleSignIn = () => {
-    markSigningInForBookmark();
+    if (intent === "account") {
+      clearPendingBookmark();
+    } else if (peekPendingBookmark()) {
+      markSigningInForBookmark();
+    }
   };
+
+  const isBookmarkIntent = intent === "bookmark";
 
   return (
     <Dialog onOpenChange={handleOpenChange} open={open}>
@@ -60,16 +69,20 @@ export function BookmarkLoginDialog({
         overlayClassName="z-[80]"
       >
         <DialogHeader>
-          <DialogTitle className="text-lg">Sign in to bookmark</DialogTitle>
+          <DialogTitle className="text-lg">
+            {isBookmarkIntent ? "Sign in to bookmark" : "Sign in to continue"}
+          </DialogTitle>
           <DialogDescription className="text-sm">
-            Save this page to your collection and access it anytime from your
-            bookmarks.
+            {isBookmarkIntent
+              ? "Save this page to your collection and access it anytime from your bookmarks."
+              : "Sign in to access your account and saved pages."}
           </DialogDescription>
         </DialogHeader>
 
         <p className="py-2 text-muted-foreground text-sm">
-          You need to be signed in to use bookmarks. Sign in to save this page,
-          or cancel to keep browsing.
+          {isBookmarkIntent
+            ? "You need to be signed in to use bookmarks. Sign in to save this page, or cancel to keep browsing."
+            : "You need to be signed in to continue."}
         </p>
 
         <DialogFooter className="flex flex-row justify-end gap-2">

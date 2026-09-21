@@ -36,6 +36,7 @@ import { closeMobileSidebar } from "@/components/docs-sidebar/sidebar-close-lock
 import { useDismissMobileSidebarOnOutside } from "@/components/docs-sidebar/use-dismiss-mobile-sidebar";
 import { IconLogo } from "@/components/icon-logo";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
+import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -126,16 +127,18 @@ const ACCOUNT_MENU_ITEMS = [
     label: "Blog",
     requiresAuth: false,
   },
-  ...AUTH_MENU_LINKS.map((link) => ({
-    getHref: (_primitivesUrl: string) => link.url,
-    getIsActive: (pathname: string, href: string) =>
-      link.title === "Settings"
-        ? pathname.startsWith("/settings")
-        : pathname === href || pathname.startsWith(`${href}/`),
-    label: link.title,
-    requiresAuth: true as const,
-    skeletonWidth: link.skeletonWidth,
-  })),
+  ...(isAuthEnabled()
+    ? AUTH_MENU_LINKS.map((link) => ({
+        getHref: (_primitivesUrl: string) => link.url,
+        getIsActive: (pathname: string, href: string) =>
+          link.title === "Settings"
+            ? pathname.startsWith("/settings")
+            : pathname === href || pathname.startsWith(`${href}/`),
+        label: link.title,
+        requiresAuth: true as const,
+        skeletonWidth: link.skeletonWidth,
+      }))
+    : []),
 ] as const;
 
 function AccountMenuSection({

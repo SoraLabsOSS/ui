@@ -24,6 +24,7 @@ import {
   BookmarkEmptyState,
   BookmarkSearchEmptyState,
 } from "@/components/bookmark/bookmark-empty-state";
+import { isAuthEnabled } from "@/env";
 import type { BookmarkPageData } from "@/lib/bookmarks/resolve-pages";
 import { useBookmarkPages } from "@/lib/bookmarks/use-bookmark-pages";
 
@@ -306,19 +307,23 @@ function BookmarkListRow({
 /* ── Content renderer ── */
 interface RenderContentProps {
   bookmarks: BookmarkPageData[];
+  error: Error | null;
   filteredBookmarks: BookmarkPageData[];
   handleRemove: (url: string) => void;
   loading: boolean;
+  onRetry: () => void;
   removingUrl: string | null;
   viewMode: ViewMode;
 }
 
 function renderContent({
   loading,
+  error,
   bookmarks,
   filteredBookmarks,
   viewMode,
   handleRemove,
+  onRetry,
   removingUrl,
 }: RenderContentProps): React.ReactNode {
   if (loading) {
@@ -333,6 +338,23 @@ function renderContent({
         <Loader className="h-7 w-7 animate-spin text-foreground/30" />
         <p className="text-foreground/40 text-sm">Loading bookmarks…</p>
       </motion.div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 text-center">
+        <p className="text-foreground/60 text-sm">
+          Could not load your bookmarks. Please try again.
+        </p>
+        <button
+          className="rounded-lg bg-foreground px-4 py-2 font-medium text-background text-sm transition-opacity hover:opacity-80"
+          onClick={onRetry}
+          type="button"
+        >
+          Retry
+        </button>
+      </div>
     );
   }
 
@@ -446,13 +468,27 @@ function GuestState(): React.ReactNode {
   );
 }
 
+function AuthDisabledState(): React.ReactNode {
+  return (
+    <BookmarkEmptyState
+      cta={{ href: "/docs", label: "Explore components", variant: "accent" }}
+      description="Bookmarks are unavailable while authentication is disabled."
+      eyebrow="Unavailable"
+      title="Bookmarks are temporarily disabled"
+    />
+  );
+}
+
 /* ── Page ── */
 export default function BookmarkPage() {
+  const authEnabled = isAuthEnabled();
   const {
     isAuthenticated,
+    error,
     isRemoving,
     loading,
     pages: bookmarks,
+    refetch,
     removeBookmark,
     removingUrl,
     sessionPending,
@@ -493,8 +529,16 @@ export default function BookmarkPage() {
   const showGuestState = !(sessionPending || isAuthenticated);
 
   const heroSubtitle = (() => {
+    if (!authEnabled) {
+      return "Bookmarks are unavailable while authentication is disabled.";
+    }
+
     if (showGuestState) {
       return "Sign in to sync and access your saved pages.";
+    }
+
+    if (error) {
+      return "We couldn't load your saved pages.";
     }
 
     if (bookmarks.length === 0 && !loading) {
@@ -503,6 +547,24 @@ export default function BookmarkPage() {
 
     return `${bookmarks.length} item${bookmarks.length === 1 ? "" : "s"} in your collection.`;
   })();
+
+  let bookmarkContent: React.ReactNode;
+  if (!authEnabled) {
+    bookmarkContent = <AuthDisabledState />;
+  } else if (showGuestState) {
+    bookmarkContent = <GuestState />;
+  } else {
+    bookmarkContent = renderContent({
+      loading,
+      error,
+      bookmarks,
+      filteredBookmarks,
+      viewMode,
+      handleRemove,
+      onRetry: refetch,
+      removingUrl: activeRemovingUrl,
+    });
+  }
 
   return (
     <div className="flex flex-col items-center px-6 lg:px-10">
@@ -575,20 +637,7 @@ export default function BookmarkPage() {
 
           {/* ── Grid / List ── */}
           <div className="min-h-[300px]">
-            <AnimatePresence mode="wait">
-              {showGuestState ? (
-                <GuestState />
-              ) : (
-                renderContent({
-                  loading,
-                  bookmarks,
-                  filteredBookmarks,
-                  viewMode,
-                  handleRemove,
-                  removingUrl: activeRemovingUrl,
-                })
-              )}
-            </AnimatePresence>
+            <AnimatePresence mode="wait">{bookmarkContent}</AnimatePresence>
           </div>
         </div>
       </div>

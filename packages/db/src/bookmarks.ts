@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { db } from "./client";
 import { bookmark } from "./schema/index";
 
@@ -49,14 +49,18 @@ export async function createBookmark(
   return { bookmark: toBookmarkRecord(row) };
 }
 
-export async function deleteBookmark(
+export async function deleteBookmarks(
   userId: string,
-  url: string
-): Promise<BookmarkRecord | null> {
-  const [row] = await db
+  urls: string[]
+): Promise<BookmarkRecord[]> {
+  if (urls.length === 0) {
+    return [];
+  }
+
+  const rows = await db
     .delete(bookmark)
-    .where(and(eq(bookmark.userId, userId), eq(bookmark.url, url)))
+    .where(and(eq(bookmark.userId, userId), inArray(bookmark.url, urls)))
     .returning();
 
-  return row ? toBookmarkRecord(row) : null;
+  return rows.map(toBookmarkRecord);
 }

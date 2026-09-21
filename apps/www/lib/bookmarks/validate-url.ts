@@ -1,3 +1,4 @@
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";
@@ -38,42 +39,40 @@ function getCachedBookmarkUrls(): Set<string> {
   return validBookmarkUrls;
 }
 
-const RE_COMPONENTS = /^\/components/;
-const RE_DOCS_MOTION = /^\/docs\/motion/;
-const RE_DOCS_PRIMITIVES = /^\/docs\/primitives/;
-const RE_PRIMITIVES = /^\/primitives/;
-const RE_DOCS_ICONS = /^\/docs\/icons/;
-
-export function normalizeBookmarkUrl(url: string): string {
-  if (url === "/components" || url.startsWith("/components/")) {
-    return url.replace(RE_COMPONENTS, "/catalog");
-  }
-  if (url === "/docs/motion" || url.startsWith("/docs/motion/")) {
-    return url.replace(RE_DOCS_MOTION, "/motion");
-  }
-  if (url === "/docs/primitives" || url.startsWith("/docs/primitives/")) {
-    return url.replace(RE_DOCS_PRIMITIVES, "/motion");
-  }
-  if (url === "/primitives" || url.startsWith("/primitives/")) {
-    return url.replace(RE_PRIMITIVES, "/motion");
-  }
-  if (url === "/docs/icons" || url.startsWith("/docs/icons/")) {
-    return url.replace(RE_DOCS_ICONS, "/icons");
-  }
-  return url;
-}
-
-export function isValidBookmarkUrl(url: string): boolean {
-  let urls = getCachedBookmarkUrls();
-
-  if (!urls.has(url)) {
-    urls = refreshBookmarkUrlCache();
-  }
-
+function resolveBookmarkUrlFromSet(
+  url: string,
+  urls: ReadonlySet<string>
+): string | null {
   if (urls.has(url)) {
-    return true;
+    return url;
   }
 
   const normalized = normalizeBookmarkUrl(url);
-  return urls.has(normalized);
+  if (urls.has(normalized)) {
+    return normalized;
+  }
+
+  if (url.startsWith("/docs/") && url.split("/").length === 3) {
+    const slug = url.slice("/docs/".length);
+    for (const candidate of [`/motion/${slug}`, `/catalog/${slug}`]) {
+      const canonicalCandidate = normalizeBookmarkUrl(candidate);
+      if (urls.has(canonicalCandidate)) {
+        return canonicalCandidate;
+      }
+    }
+  }
+
+  return null;
+}
+
+export function resolveBookmarkUrl(url: string): string | null {
+  let urls = getCachedBookmarkUrls();
+  let resolved = resolveBookmarkUrlFromSet(url, urls);
+
+  if (!resolved) {
+    urls = refreshBookmarkUrlCache();
+    resolved = resolveBookmarkUrlFromSet(url, urls);
+  }
+
+  return resolved;
 }

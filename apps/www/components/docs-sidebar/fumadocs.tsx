@@ -20,6 +20,7 @@ import {
   AuthSidebarMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
+import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
@@ -224,32 +225,33 @@ function GuideBottomMenu({
         label="Blog"
         onClick={onNavigate}
       />
-      {AUTH_MENU_LINKS.map((item) => (
-        <SkeletonTransition
-          fadeDuration={0.25}
-          key={item.url}
-          loading={authNavPending}
-          skeleton={<AuthSidebarMenuSkeleton width={item.skeletonWidth} />}
-        >
-          <DocsShellNavItem
-            href={item.url}
-            isActive={
-              item.title === "Settings"
-                ? pathname.startsWith("/settings")
-                : pathname === item.url || pathname.startsWith(`${item.url}/`)
-            }
-            label={item.title}
-            onClick={(event) => {
-              if (!session) {
-                event.preventDefault();
-                openLoginDialog(item.url);
-                return;
+      {isAuthEnabled() &&
+        AUTH_MENU_LINKS.map((item) => (
+          <SkeletonTransition
+            fadeDuration={0.25}
+            key={item.url}
+            loading={authNavPending}
+            skeleton={<AuthSidebarMenuSkeleton width={item.skeletonWidth} />}
+          >
+            <DocsShellNavItem
+              href={item.url}
+              isActive={
+                item.title === "Settings"
+                  ? pathname.startsWith("/settings")
+                  : pathname === item.url || pathname.startsWith(`${item.url}/`)
               }
-              onNavigate?.();
-            }}
-          />
-        </SkeletonTransition>
-      ))}
+              label={item.title}
+              onClick={(event) => {
+                if (!session) {
+                  event.preventDefault();
+                  openLoginDialog(item.url);
+                  return;
+                }
+                onNavigate?.();
+              }}
+            />
+          </SkeletonTransition>
+        ))}
       {loginDialog}
     </DocsShellSection>
   );

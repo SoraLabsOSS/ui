@@ -49,10 +49,7 @@ async function assertBookmarkResponse(
 
 export async function fetchBookmarks(): Promise<BookmarkRecord[]> {
   const response = await fetch("/api/bookmarks", { credentials: "include" });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch bookmarks");
-  }
+  await assertBookmarkResponse(response);
 
   const data = (await response.json()) as BookmarksResponse;
   return data.bookmarks;

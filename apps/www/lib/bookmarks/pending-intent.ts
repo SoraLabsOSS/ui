@@ -6,6 +6,7 @@ let pendingAutoSaveInFlightUrl: string | null = null;
 export function setPendingBookmark(url: string): void {
   try {
     sessionStorage.setItem(PENDING_BOOKMARK_KEY, url);
+    sessionStorage.removeItem(SIGNING_IN_FOR_BOOKMARK_KEY);
   } catch {
     // sessionStorage may be unavailable in private browsing.
   }

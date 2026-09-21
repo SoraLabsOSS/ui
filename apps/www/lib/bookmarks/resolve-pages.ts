@@ -1,5 +1,5 @@
 import type { BookmarkRecord } from "@/lib/bookmarks/client";
-import { normalizeBookmarkUrl } from "@/lib/bookmarks/validate-url";
+import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
 
 const TRAILING_SLASH_REGEX = /\/$/;
 

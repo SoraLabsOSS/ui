@@ -30,6 +30,7 @@ import {
   isMarketingPath,
   usePageTransition,
 } from "@/components/page-transition/page-transition-provider";
+import { isAuthEnabled } from "@/env";
 import type {
   CommandPaletteActionId,
   CommandPaletteActionItem,
@@ -316,7 +317,10 @@ export function CommandPaletteDialog({
     const insertAt =
       navigationIndex === -1 ? groups.length : navigationIndex + 1;
 
-    const utilityGroups: CommandPaletteGroup[] = [ACCOUNT_GROUP, THEME_GROUP];
+    const utilityGroups: CommandPaletteGroup[] = [
+      ...(isAuthEnabled() ? [ACCOUNT_GROUP] : []),
+      THEME_GROUP,
+    ];
 
     const result = [...groups];
     result.splice(insertAt, 0, ...utilityGroups);

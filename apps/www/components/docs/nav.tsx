@@ -243,31 +243,32 @@ function NavMenuItems({
           </HighlightItem>
         </NavigationMenuItem>
       ))}
-      {HEADER_AUTH_NAV_ITEMS.map((item) => (
-        <NavigationMenuItem key={item.title}>
-          <SkeletonTransition
-            fadeDuration={0.25}
-            loading={sessionPending}
-            skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
-          >
-            <HighlightItem asChild value={item.title}>
-              <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
-                <Link
-                  href={item.url}
-                  onClick={(event) => {
-                    if (!hasSession) {
-                      event.preventDefault();
-                      onRequireLogin(item.url);
-                    }
-                  }}
-                >
-                  {item.title}
-                </Link>
-              </NavigationMenuLink>
-            </HighlightItem>
-          </SkeletonTransition>
-        </NavigationMenuItem>
-      ))}
+      {isAuthEnabled() &&
+        HEADER_AUTH_NAV_ITEMS.map((item) => (
+          <NavigationMenuItem key={item.title}>
+            <SkeletonTransition
+              fadeDuration={0.25}
+              loading={sessionPending}
+              skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
+            >
+              <HighlightItem asChild value={item.title}>
+                <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
+                  <Link
+                    href={item.url}
+                    onClick={(event) => {
+                      if (!hasSession) {
+                        event.preventDefault();
+                        onRequireLogin(item.url);
+                      }
+                    }}
+                  >
+                    {item.title}
+                  </Link>
+                </NavigationMenuLink>
+              </HighlightItem>
+            </SkeletonTransition>
+          </NavigationMenuItem>
+        ))}
     </>
   );
 }

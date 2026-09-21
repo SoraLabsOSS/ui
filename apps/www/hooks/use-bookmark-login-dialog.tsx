@@ -12,6 +12,7 @@ export function useBookmarkLoginDialog() {
 
   const loginDialog = (
     <BookmarkLoginDialog
+      intent="account"
       onOpenChange={(open) => {
         if (!open) {
           setRedirectUrl(null);

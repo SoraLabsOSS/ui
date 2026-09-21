@@ -114,8 +114,6 @@ export function KbToc({
   const [isOpen, setIsOpen] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const activeIdRef = useRef(activeId);
-  activeIdRef.current = activeId;
   const prefersReducedMotion = useReducedMotion();
   const prefersReducedMotionRef = useRef(prefersReducedMotion);
   prefersReducedMotionRef.current = prefersReducedMotion;
@@ -143,7 +141,7 @@ export function KbToc({
     const tryScroll = () => {
       attempts += 1;
       const scroller = contentRef.current;
-      const id = activeIdRef.current;
+      const id = activeId;
       const behavior: ScrollBehavior = prefersReducedMotionRef.current
         ? "auto"
         : "smooth";
@@ -160,7 +158,7 @@ export function KbToc({
     return () => {
       cancelAnimationFrame(frameId);
     };
-  }, [isOpen]);
+  }, [activeId, isOpen]);
 
   // Track active heading with IntersectionObserver and scroll position fallback
   useEffect(() => {
