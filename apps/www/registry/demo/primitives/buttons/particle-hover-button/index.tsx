@@ -2,9 +2,6 @@
 
 import { ParticleHoverButton } from "@/registry/primitives/buttons/particle-hover-button";
 
-// Same heart path as the "Sponsor" nav link in the anime.js reference this
-// primitive reimplements — kept 1:1 so the demo reads as the same mark,
-// not a redraw.
 const HEART_PATH =
   "M12 18.445a.778.778 0 0 1-.34-.078C11.39 18.235 5 15.077 5 9.889a3.889 3.889 0 0 1 6.638-2.75L12 7.5l.362-.361A3.889 3.889 0 0 1 19 9.889c0 5.17-6.387 8.344-6.66 8.478a.778.778 0 0 1-.34.078z";
 

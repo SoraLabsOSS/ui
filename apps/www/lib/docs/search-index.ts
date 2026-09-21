@@ -90,21 +90,12 @@ export function getSearchIndexes(): AdvancedIndex[] {
   return getSearchablePages().map(pageToAdvancedIndex);
 }
 
-export function getStaticSearchDocuments(): OramaDocument[] {
-  return getSearchablePages().map((page) => {
-    if (!("structuredData" in page.data)) {
-      throw new Error(
-        `Cannot index page ${page.url}: structuredData is missing.`
-      );
-    }
-
-    return {
-      id: page.url,
-      structured: page.data.structuredData,
-      tag: getSearchTag(page),
-      url: page.url,
-      title: getUiQualifiedTitle(page.data.title, page.url),
-      description: page.data.description,
-    } satisfies OramaDocument;
-  });
+export function getStaticPageDocuments(): Omit<OramaDocument, "structured">[] {
+  return getSearchablePages().map((page) => ({
+    id: page.url,
+    tag: getSearchTag(page),
+    url: page.url,
+    title: getUiQualifiedTitle(page.data.title, page.url),
+    description: page.data.description,
+  }));
 }

@@ -164,7 +164,7 @@ function VideoPlayer({
     injectVideoPlayerStyles();
   }, []);
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: near-verbatim port of the dependency-free `media01()` reference implementation — see registry README for the porting rationale.
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates media loading, controls, focus, and pointer interactions.
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
@@ -914,7 +914,7 @@ function VideoPlayer({
       syncSpeedOptions(nextSpeed);
     }
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: near-verbatim port of the reference implementation (see file header).
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates playback speed state and menu interactions.
     async function changePlaybackSpeed(speed: number) {
       const nextSpeed = parseSpeed(String(speed));
       if (!nextSpeed) {
@@ -1136,7 +1136,7 @@ function VideoPlayer({
       });
     }
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: near-verbatim port of the reference implementation (see file header).
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates timeline preview state and pointer interactions.
     function showPreview(
       event: { clientX: number; pointerType?: string },
       time: number
@@ -1338,7 +1338,7 @@ function VideoPlayer({
       return null;
     }
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: near-verbatim port of the reference implementation (see file header).
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates keyboard shortcuts and player controls.
     function onDocumentKeydown(event: KeyboardEvent) {
       if (modal.hidden) {
         return;
@@ -1468,7 +1468,7 @@ function VideoPlayer({
       showPreview(event, point.time);
     }
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: near-verbatim port of the reference implementation (see file header).
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates pointer scrubbing and playback state.
     function endScrub(event: PointerEvent) {
       if (!(isDragging || pendingScrubTime !== null)) {
         return;

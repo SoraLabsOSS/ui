@@ -1,40 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
+import {
+  LEGACY_PATH_PREFIX_REDIRECTS,
+  LEGACY_PRIMITIVE_SLUG_RENAMES,
+  LEGACY_UI_SLUG_REDIRECTS,
+  MOTION_CATEGORY_PREFIXES,
+} from "../bookmarks/url";
 
 export interface DocRedirect {
   destination: string;
   permanent: true;
   source: string;
 }
-
-const PRIMITIVE_CATEGORY_PREFIXES = [
-  "texts",
-  "buttons",
-  "effects",
-  "disclosure",
-] as const;
-
-/** Old top-level doc paths before primitives were grouped under `/docs/primitives` or `/docs/motion`. */
-const TOP_LEVEL_PRIMITIVE_PREFIXES = [
-  "texts",
-  "buttons",
-  "effects",
-  "disclosure",
-] as const;
-
-/** Old flat UI paths before multi-foundation (Base UI / Radix UI) split. */
-const LEGACY_UI_SLUG_REDIRECTS: Record<string, string> = {
-  button: "/ui/base/button",
-  checkbox: "/ui/base/checkbox",
-  dialog: "/ui/base/dialog",
-};
-
-/** Renamed primitive slugs — keeps old bookmarks working. */
-const LEGACY_PRIMITIVE_SLUG_RENAMES: Record<string, string> = {
-  "scroll-text-reveal": "text-reveal-mask",
-  "text-reveal": "text-effect",
-  "text-reveal-blur": "text-effect",
-};
 
 function readMetaPages(metaPath: string): string[] {
   const meta = JSON.parse(fs.readFileSync(metaPath, "utf8")) as {
@@ -103,81 +80,14 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
     });
   }
 
-  // Redirect legacy /docs/motion, /docs/primitives, and /primitives to /motion
-  redirects.push({
-    source: "/docs/motion",
-    destination: "/motion",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/motion/:path*",
-    destination: "/motion/:path*",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/primitives",
-    destination: "/motion",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/primitives/:path*",
-    destination: "/motion/:path*",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/primitives",
-    destination: "/motion",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/primitives/:path*",
-    destination: "/motion/:path*",
-    permanent: true,
-  });
-
-  // Redirect legacy /components to /catalog
-  redirects.push({
-    source: "/components",
-    destination: "/catalog",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/components/:path*",
-    destination: "/catalog/:path*",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/components",
-    destination: "/catalog",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/components/:path*",
-    destination: "/catalog/:path*",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/catalog",
-    destination: "/catalog",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/catalog/:path*",
-    destination: "/catalog/:path*",
-    permanent: true,
-  });
-
-  // Redirect legacy /docs/icons to /icons
-  redirects.push({
-    source: "/docs/icons",
-    destination: "/icons",
-    permanent: true,
-  });
-  redirects.push({
-    source: "/docs/icons/:path*",
-    destination: "/icons/:path*",
-    permanent: true,
-  });
+  for (const [source, destination] of LEGACY_PATH_PREFIX_REDIRECTS) {
+    redirects.push({ source, destination, permanent: true });
+    redirects.push({
+      source: `${source}/:path*`,
+      destination: `${destination}/:path*`,
+      permanent: true,
+    });
+  }
 
   // Redirect legacy flat /ui/:slug paths to /ui/base/:slug or /ui/radix/:slug
   for (const [slug, destination] of Object.entries(LEGACY_UI_SLUG_REDIRECTS)) {
@@ -188,7 +98,7 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
     });
   }
 
-  for (const category of TOP_LEVEL_PRIMITIVE_PREFIXES) {
+  for (const category of MOTION_CATEGORY_PREFIXES) {
     redirects.push({
       source: `/docs/${category}/:path*`,
       destination: "/motion/:path*",
@@ -196,7 +106,7 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
     });
   }
 
-  for (const category of PRIMITIVE_CATEGORY_PREFIXES) {
+  for (const category of MOTION_CATEGORY_PREFIXES) {
     redirects.push({
       source: `/docs/motion/${category}/:path*`,
       destination: "/motion/:path*",
