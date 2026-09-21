@@ -579,7 +579,7 @@ export const DocsSidebar = (
                   aria-label={link.label}
                   className={cn(
                     buttonVariants({ size: "icon", color: "ghost" }),
-                    "text-fd-muted-foreground md:[&_svg]:size-4.5",
+                    "size-8 p-0 text-fd-muted-foreground [&_svg]:size-4.5",
                     link.url ===
                       links.filter((l) => l.type === "icon").at(-1)?.url &&
                       "me-auto"
@@ -590,7 +590,7 @@ export const DocsSidebar = (
                   {link.icon}
                 </BaseLinkItem>
               ))}
-            <ThemeSwitcher />
+            <ThemeSwitcher className="ms-2" />
           </div>
         </div>
         {sidebarFooter ? <div className="mt-2">{sidebarFooter}</div> : null}

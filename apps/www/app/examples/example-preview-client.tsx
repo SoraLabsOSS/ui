@@ -1,14 +1,25 @@
 "use client";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@workspace/ui/components/ui/sheet";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
-import { Loader } from "lucide-react";
+import { Loader, SlidersHorizontal } from "lucide-react";
 import { MotionConfig } from "motion/react";
-import { Suspense, useEffect, useMemo } from "react";
+import { type ReactNode, Suspense, useEffect, useMemo, useState } from "react";
 import { index } from "@/__registry__";
 import { previewComponents } from "@/__registry__/preview";
 import { catalogPreviewViewportClassName } from "@/components/catalog/catalog-preview-classes";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
+import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
+import { Button } from "@/registry/ui/base/button";
 
 interface ExamplePreviewClientProps {
   centered?: boolean;
@@ -64,16 +75,107 @@ export function ExamplePreviewClient({
     () => previewComponents[`demo-${slug}`] ?? previewComponents[slug] ?? null,
     [slug]
   );
-  const componentProps = useMemo(() => {
+  const demoPropsConfig = useMemo(() => {
     if (!passDemoProps) {
       return {};
     }
 
     const entry = index[slug] ?? index[`demo-${slug}`];
-    return flattenFirstLevel<Record<string, unknown>>(
-      unwrapValues(entry?.component?.demoProps ?? {})
-    );
+    return entry?.component?.demoProps ?? {};
   }, [passDemoProps, slug]);
+  const hasDemoProps = Object.keys(demoPropsConfig).length > 0;
+  const [binds, setBinds] = useState<Binds | null>(null);
+  const [componentProps, setComponentProps] = useState<Record<string, unknown>>(
+    {}
+  );
+  const [optionsOpen, setOptionsOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    if (!hasDemoProps) {
+      setBinds(null);
+      setComponentProps({});
+      return;
+    }
+
+    setBinds(demoPropsConfig as Binds);
+    setComponentProps(
+      flattenFirstLevel<Record<string, unknown>>(unwrapValues(demoPropsConfig))
+    );
+  }, [demoPropsConfig, hasDemoProps]);
+
+  const handleBindsChange = (nextBinds: Binds) => {
+    setBinds(nextBinds);
+    setComponentProps(
+      flattenFirstLevel<Record<string, unknown>>(unwrapValues(nextBinds))
+    );
+  };
+
+  const handleReset = () => {
+    setBinds(demoPropsConfig as Binds);
+    setComponentProps(
+      flattenFirstLevel<Record<string, unknown>>(unwrapValues(demoPropsConfig))
+    );
+  };
+
+  let optionsPanel: ReactNode = null;
+  if (hasDemoProps && binds) {
+    if (isMobile) {
+      optionsPanel = (
+        <Sheet onOpenChange={setOptionsOpen} open={optionsOpen}>
+          <SheetTrigger
+            aria-label="Open example options"
+            render={
+              <Button className="fixed top-3 right-3 z-40" variant="default" />
+            }
+          >
+            <SlidersHorizontal className="size-3.5" />
+            Options
+          </SheetTrigger>
+          <SheetContent
+            className="max-h-[70vh] overflow-y-auto rounded-t-2xl border-border/60 bg-background/95 p-4 backdrop-blur-md"
+            closeButtonClassName="top-2 right-3"
+            closeButtonSize="icon-xs"
+            side="bottom"
+          >
+            <SheetHeader className="sr-only">
+              <SheetTitle>Example options</SheetTitle>
+              <SheetDescription>
+                Adjust the props used by this example.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="pt-6">
+              <Tweakpane
+                binds={binds}
+                columns={2}
+                compact
+                initialBinds={demoPropsConfig as Binds}
+                onBindsChange={handleBindsChange}
+                onReset={handleReset}
+                stacked
+                title="Options"
+              />
+            </div>
+          </SheetContent>
+        </Sheet>
+      );
+    } else {
+      optionsPanel = (
+        <div className="absolute top-3 right-3 z-20 max-h-[70vh] w-[min(26rem,calc(100%-1.5rem))] overflow-y-auto rounded-xl border border-border/60 bg-background/90 p-2 backdrop-blur-md">
+          <Tweakpane
+            binds={binds}
+            columns={2}
+            compact
+            initialBinds={demoPropsConfig as Binds}
+            onBindsChange={handleBindsChange}
+            onReset={handleReset}
+            stacked
+            title="Options"
+          />
+        </div>
+      );
+    }
+  }
 
   if (!Component) {
     return (
@@ -90,10 +192,12 @@ export function ExamplePreviewClient({
   return (
     <div
       className={cn(
-        "h-screen w-full bg-background text-foreground antialiased",
+        "relative h-screen w-full bg-background text-foreground antialiased",
         centered && "p-6"
       )}
     >
+      {optionsPanel}
+
       <Suspense
         fallback={
           <div className="flex h-screen items-center justify-center gap-2 text-muted-foreground text-sm">
@@ -105,7 +209,7 @@ export function ExamplePreviewClient({
         <MotionConfig reducedMotion={reducedMotion}>
           {centered ? (
             <div className="flex h-full w-full items-center justify-center overflow-auto p-6">
-              <div className="w-fit max-w-xl">
+              <div className="w-full max-w-xl">
                 <Component {...componentProps} />
               </div>
             </div>

@@ -54,15 +54,23 @@ type Binds = FlatBinds | NestedBinds;
 
 interface ControlledTweakpaneProps {
   binds: Binds;
+  columns?: 1 | 2;
+  compact?: boolean;
   initialBinds?: Binds;
   onBindsChange?: (binds: Binds) => void;
   onReset?: () => void;
+  stacked?: boolean;
+  title?: string;
 }
 
 interface UncontrolledTweakpaneProps {
+  columns?: 1 | 2;
+  compact?: boolean;
   initialBinds: Binds;
   onBindsChange?: (binds: Binds) => void;
   onReset?: () => void;
+  stacked?: boolean;
+  title?: string;
 }
 
 type TweakpaneProps = ControlledTweakpaneProps | UncontrolledTweakpaneProps;
@@ -153,14 +161,23 @@ const isNestedBinds = (binds: Binds): binds is NestedBinds =>
 const rowContainerClassName =
   "group/item flex min-h-[42px] items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-3 py-2 transition-colors hover:border-border/80 hover:bg-muted/20";
 
+const getRowClassName = (stacked: boolean, compact: boolean) =>
+  cn(
+    rowContainerClassName,
+    stacked && "flex-col items-stretch gap-2",
+    compact && "min-h-0 rounded-md px-2 py-1.5"
+  );
+
 const renderNumber = (
   key: string,
   bind: BindNumber,
-  onChange: (value: number) => void
+  onChange: (value: number) => void,
+  stacked: boolean,
+  compact: boolean
 ) => {
   if ("min" in bind && "max" in bind) {
     return (
-      <div className={rowContainerClassName} key={key}>
+      <div className={getRowClassName(stacked, compact)} key={key}>
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Label
             className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -171,7 +188,12 @@ const renderNumber = (
           </Label>
         </div>
 
-        <div className="flex items-center gap-2.5 sm:w-56 md:w-64">
+        <div
+          className={cn(
+            "flex items-center gap-2.5 sm:w-56 md:w-64",
+            stacked && "w-full sm:w-full md:w-full"
+          )}
+        >
           <Slider
             className="flex-1"
             max={bind.max}
@@ -195,7 +217,7 @@ const renderNumber = (
 
   if ("options" in bind) {
     return (
-      <div className={rowContainerClassName} key={key}>
+      <div className={getRowClassName(stacked, compact)} key={key}>
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Label
             className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -211,7 +233,10 @@ const renderNumber = (
           value={bind.value.toString()}
         >
           <SelectTrigger
-            className="h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44"
+            className={cn(
+              "h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44",
+              stacked && "w-full sm:w-full"
+            )}
             id={key}
             size="sm"
           >
@@ -235,7 +260,7 @@ const renderNumber = (
   }
 
   return (
-    <div className={rowContainerClassName} key={key}>
+    <div className={getRowClassName(stacked, compact)} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
           className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -247,7 +272,7 @@ const renderNumber = (
       </div>
 
       <NumericInput
-        className="w-24 text-left"
+        className={cn("w-24 text-left", stacked && "w-full")}
         id={key}
         onValueChange={onChange}
         value={bind.value}
@@ -259,10 +284,12 @@ const renderNumber = (
 const renderString = (
   key: string,
   bind: BindString,
-  onChange: (value: string | number | boolean) => void
+  onChange: (value: string | number | boolean) => void,
+  stacked: boolean,
+  compact: boolean
 ) =>
   bind?.options ? (
-    <div className={rowContainerClassName} key={key}>
+    <div className={getRowClassName(stacked, compact)} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
           className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -283,7 +310,10 @@ const renderString = (
         value={String(bind.value)}
       >
         <SelectTrigger
-          className="h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44"
+          className={cn(
+            "h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44",
+            stacked && "w-full sm:w-full"
+          )}
           id={key}
           size="sm"
         >
@@ -304,7 +334,7 @@ const renderString = (
       </Select>
     </div>
   ) : (
-    <div className={rowContainerClassName} key={key}>
+    <div className={getRowClassName(stacked, compact)} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
           className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -316,7 +346,10 @@ const renderString = (
       </div>
 
       <Input
-        className="h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44"
+        className={cn(
+          "h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44",
+          stacked && "w-full sm:w-full"
+        )}
         id={key}
         onChange={(e) => onChange(e.target.value)}
         value={bind.value}
@@ -327,9 +360,11 @@ const renderString = (
 const renderBoolean = (
   key: string,
   bind: BindBoolean,
-  onChange: (value: boolean) => void
+  onChange: (value: boolean) => void,
+  stacked: boolean,
+  compact: boolean
 ) => (
-  <div className={rowContainerClassName} key={key}>
+  <div className={getRowClassName(stacked, compact)} key={key}>
     <div className="flex min-w-0 flex-1 items-center gap-2">
       <Label
         className="select-none truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
@@ -357,25 +392,43 @@ const renderBoolean = (
 const renderBind = (
   key: string,
   bind: Bind,
-  onChange: (value: unknown) => void
+  onChange: (value: unknown) => void,
+  stacked: boolean,
+  compact: boolean
 ) => {
   if ("value" in bind) {
     if ("options" in bind) {
       if (typeof bind.value === "number") {
-        return renderNumber(key, bind as unknown as BindNumber, onChange);
+        return renderNumber(
+          key,
+          bind as unknown as BindNumber,
+          onChange,
+          stacked,
+          compact
+        );
       }
-      return renderString(key, bind as unknown as BindString, (v) =>
-        onChange(v)
+      return renderString(
+        key,
+        bind as unknown as BindString,
+        (v) => onChange(v),
+        stacked,
+        compact
       );
     }
     if (typeof bind.value === "number") {
-      return renderNumber(key, bind as BindNumber, onChange);
+      return renderNumber(key, bind as BindNumber, onChange, stacked, compact);
     }
     if (typeof bind.value === "string") {
-      return renderString(key, bind as BindString, onChange);
+      return renderString(key, bind as BindString, onChange, stacked, compact);
     }
     if (typeof bind.value === "boolean") {
-      return renderBoolean(key, bind as BindBoolean, onChange);
+      return renderBoolean(
+        key,
+        bind as BindBoolean,
+        onChange,
+        stacked,
+        compact
+      );
     }
   }
   return null;
@@ -383,13 +436,27 @@ const renderBind = (
 
 const renderFlatBinds = (
   binds: FlatBinds,
-  onBindsChange: (binds: FlatBinds) => void
+  onBindsChange: (binds: FlatBinds) => void,
+  columns: 1 | 2,
+  stacked: boolean,
+  compact: boolean
 ): ReactNode => (
-  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+  <div
+    className={cn(
+      "grid grid-cols-1 gap-3",
+      columns === 2 && "sm:grid-cols-2",
+      compact && "gap-2"
+    )}
+  >
     {Object.entries(binds).map(([key, bind]) => (
       <Fragment key={key}>
-        {renderBind(key, bind, (value) =>
-          onBindsChange({ ...binds, [key]: { ...bind, value } } as FlatBinds)
+        {renderBind(
+          key,
+          bind,
+          (value) =>
+            onBindsChange({ ...binds, [key]: { ...bind, value } } as FlatBinds),
+          stacked,
+          compact
         )}
       </Fragment>
     ))}
@@ -398,15 +465,23 @@ const renderFlatBinds = (
 
 const renderNestedBinds = (
   binds: NestedBinds,
-  onBindsChange: (binds: NestedBinds) => void
+  onBindsChange: (binds: NestedBinds) => void,
+  columns: 1 | 2,
+  stacked: boolean,
+  compact: boolean
 ): ReactNode => {
   const groups = Object.entries(binds);
 
   // If there is only one group (e.g. single component name like "Switch"), omit the redundant header
   if (groups.length === 1) {
     const [groupKey, groupBind] = groups[0];
-    return renderFlatBinds(groupBind, (updatedGroupBind) =>
-      onBindsChange({ ...binds, [groupKey]: updatedGroupBind })
+    return renderFlatBinds(
+      groupBind,
+      (updatedGroupBind) =>
+        onBindsChange({ ...binds, [groupKey]: updatedGroupBind }),
+      columns,
+      stacked,
+      compact
     );
   }
 
@@ -431,8 +506,13 @@ const renderNestedBinds = (
               />
             </svg>
           </div>
-          {renderFlatBinds(groupBind, (updatedGroupBind) =>
-            onBindsChange({ ...binds, [groupKey]: updatedGroupBind })
+          {renderFlatBinds(
+            groupBind,
+            (updatedGroupBind) =>
+              onBindsChange({ ...binds, [groupKey]: updatedGroupBind }),
+            columns,
+            stacked,
+            compact
           )}
         </div>
       ))}
@@ -440,15 +520,37 @@ const renderNestedBinds = (
   );
 };
 
-const renderBinds = (binds: Binds, onBindsChange: (binds: Binds) => void) =>
+const renderBinds = (
+  binds: Binds,
+  onBindsChange: (binds: Binds) => void,
+  columns: 1 | 2,
+  stacked: boolean,
+  compact: boolean
+) =>
   isNestedBinds(binds)
-    ? renderNestedBinds(binds, onBindsChange as (b: NestedBinds) => void)
-    : renderFlatBinds(binds, onBindsChange as (b: FlatBinds) => void);
+    ? renderNestedBinds(
+        binds,
+        onBindsChange as (b: NestedBinds) => void,
+        columns,
+        stacked,
+        compact
+      )
+    : renderFlatBinds(
+        binds,
+        onBindsChange as (b: FlatBinds) => void,
+        columns,
+        stacked,
+        compact
+      );
 
 const Tweakpane = (props: TweakpaneProps) => {
   const { onBindsChange, onReset } = props;
   const initialBinds = "initialBinds" in props ? props.initialBinds : undefined;
   const binds = "binds" in props ? props.binds : undefined;
+  const columns = props.columns ?? 2;
+  const stacked = props.stacked ?? false;
+  const compact = props.compact ?? false;
+  const title = props.title ?? "Tweak Props";
 
   const [localBinds, setLocalBinds] = useState<Binds>(
     binds ?? initialBinds ?? ({} as Binds)
@@ -482,12 +584,17 @@ const Tweakpane = (props: TweakpaneProps) => {
   }, [onReset, initialBinds, onBindsChange]);
 
   return (
-    <div className="w-full space-y-3 px-1 sm:px-3">
+    <div
+      className={cn(
+        "w-full space-y-3 px-1 sm:px-3",
+        compact && "space-y-2 px-0 sm:px-0"
+      )}
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 font-medium text-muted-foreground text-xs">
           <SlidersHorizontal className="size-3.5 text-foreground/70" />
           <span className="font-medium text-foreground/90 tracking-tight">
-            Tweak Props
+            {title}
           </span>
         </div>
 
@@ -505,7 +612,9 @@ const Tweakpane = (props: TweakpaneProps) => {
         ) : null}
       </div>
 
-      <div className="w-full">{renderBinds(localBinds, handleBindsChange)}</div>
+      <div className="w-full">
+        {renderBinds(localBinds, handleBindsChange, columns, stacked, compact)}
+      </div>
     </div>
   );
 };

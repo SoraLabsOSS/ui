@@ -315,7 +315,7 @@ export function AccountSidebar({
                   aria-label={link.label}
                   className={cn(
                     buttonVariants({ size: "icon", color: "ghost" }),
-                    "text-fd-muted-foreground md:[&_svg]:size-4.5"
+                    "size-8 p-0 text-fd-muted-foreground [&_svg]:size-4.5"
                   )}
                   item={link}
                   key={link.url}
@@ -323,7 +323,7 @@ export function AccountSidebar({
                   {link.icon}
                 </BaseLinkItem>
               ))}
-              <ThemeSwitcher />
+              <ThemeSwitcher className="ms-2" />
             </div>
           </Sidebar001Footer>
         </Sidebar001>

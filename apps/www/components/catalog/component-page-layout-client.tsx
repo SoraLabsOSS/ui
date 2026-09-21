@@ -62,7 +62,7 @@ function usePreviewShortcuts({
         return;
       }
       const hasOpenSheet = document.querySelector(
-        '[data-slot="sheet-content"][data-state="open"]'
+        '[data-slot="sheet-content"][data-open]'
       );
       if (hasOpenSheet) {
         return;
