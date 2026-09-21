@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-radix-input-rtl",
+  "type": "registry:ui",
+  "title": "Radix Input RTL Demo",
+  "description": "Right-to-left animated caret showcase for Radix UI Input.",
+  "registryDependencies": ["@soralabs/radix-input"],
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/input-rtl.tsx"
+    }
+  ]
+}

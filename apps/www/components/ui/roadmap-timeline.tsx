@@ -44,7 +44,7 @@ export interface RoadmapItem {
 }
 
 const ROADMAP_ITEMS: RoadmapItem[] = [
-  // Phase 1: Base UI (Highest Priority - 13 Core Components)
+  // Phase 1: Base UI (Highest Priority - 14 Core Components)
   {
     id: "base-button",
     name: "Base UI: Button",
@@ -76,6 +76,22 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     docUrl: "/ui/base/checkbox",
     priority: "High",
     tags: ["Forms", "Path Morph", "Base UI"],
+  },
+  {
+    id: "base-input",
+    name: "Base UI: Input",
+    category: "base-ui",
+    categoryLabel: "Base UI",
+    phase: 1,
+    status: "completed",
+    frameworks: ["react"],
+    motionScore: "B",
+    scoreValue: 3,
+    description:
+      "Native input with familiar shadcn/ui styling and a Motion-powered caret.",
+    docUrl: "/ui/base/input",
+    priority: "High",
+    tags: ["Forms", "Caret Motion", "Base UI"],
   },
   {
     id: "base-dialog",
@@ -372,6 +388,22 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     docUrl: "/ui/radix/checkbox",
     priority: "High",
     tags: ["Forms", "Path Morph", "Radix UI"],
+  },
+  {
+    id: "radix-input",
+    name: "Radix: Input",
+    category: "radix-ui",
+    categoryLabel: "Radix UI",
+    phase: 3,
+    status: "completed",
+    frameworks: ["react"],
+    motionScore: "B",
+    scoreValue: 3,
+    description:
+      "Native input with shadcn/ui styling and a Motion-powered caret.",
+    docUrl: "/ui/radix/input",
+    priority: "High",
+    tags: ["Forms", "Caret Motion", "Radix UI"],
   },
   {
     id: "radix-dialog",

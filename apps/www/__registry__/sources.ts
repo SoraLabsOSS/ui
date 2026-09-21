@@ -64,6 +64,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "base-context-menu": () => import("./sources/base-context-menu.json"),
   "base-dialog": () => import("./sources/base-dialog.json"),
   "base-dropdown-menu": () => import("./sources/base-dropdown-menu.json"),
+  "base-input": () => import("./sources/base-input.json"),
   "base-switch": () => import("./sources/base-switch.json"),
   "base-tooltip": () => import("./sources/base-tooltip.json"),
   "radix-accordion": () => import("./sources/radix-accordion.json"),
@@ -73,6 +74,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "radix-context-menu": () => import("./sources/radix-context-menu.json"),
   "radix-dialog": () => import("./sources/radix-dialog.json"),
   "radix-dropdown-menu": () => import("./sources/radix-dropdown-menu.json"),
+  "radix-input": () => import("./sources/radix-input.json"),
   "radix-switch": () => import("./sources/radix-switch.json"),
   "radix-tooltip": () => import("./sources/radix-tooltip.json"),
   "demo-cursor-trail-reveal": () =>
@@ -153,6 +155,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "demo-dropdown-menu": () => import("./sources/demo-dropdown-menu.json"),
   "demo-dropdown-menu-rtl": () =>
     import("./sources/demo-dropdown-menu-rtl.json"),
+  "demo-input-rtl": () => import("./sources/demo-input-rtl.json"),
   "demo-switch": () => import("./sources/demo-switch.json"),
   "demo-switch-sizes": () => import("./sources/demo-switch-sizes.json"),
   "demo-switch-with-icon": () => import("./sources/demo-switch-with-icon.json"),
@@ -201,6 +204,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
     import("./sources/demo-radix-dropdown-menu.json"),
   "demo-radix-dropdown-menu-rtl": () =>
     import("./sources/demo-radix-dropdown-menu-rtl.json"),
+  "demo-radix-input-rtl": () => import("./sources/demo-radix-input-rtl.json"),
   "demo-radix-switch": () => import("./sources/demo-radix-switch.json"),
   "demo-radix-switch-sizes": () =>
     import("./sources/demo-radix-switch-sizes.json"),
@@ -232,7 +236,9 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "demo-text-scramble": () => import("./sources/demo-text-scramble.json"),
   "demo-base-button": () => import("./sources/demo-base-button.json"),
   "demo-base-checkbox": () => import("./sources/demo-base-checkbox.json"),
+  "demo-base-input": () => import("./sources/demo-base-input.json"),
   "demo-base-switch": () => import("./sources/demo-base-switch.json"),
+  "demo-radix-input": () => import("./sources/demo-radix-input.json"),
 };
 
 const sourceCache = new Map<string, string>();

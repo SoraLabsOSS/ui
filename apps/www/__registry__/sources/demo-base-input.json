@@ -1,0 +1,12 @@
+{
+  "name": "demo-base-input",
+  "code": "\"use client\";\n\nimport { Input } from \"@/components/sora-ui/base/input\";\n\nexport default function InputExample() {\n  return (\n    <Input\n      placeholder={\"Type something...\"}\n      type={\"text\"}\n    />\n  );\n}\n",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/input.tsx",
+      "content": "\"use client\";\n\nimport { Input } from \"@/components/sora-ui/base/input\";\n\nexport default function InputExample() {\n  return (\n    <Input\n      placeholder={\"Type something...\"}\n      type={\"text\"}\n    />\n  );\n}\n"
+    }
+  ]
+}

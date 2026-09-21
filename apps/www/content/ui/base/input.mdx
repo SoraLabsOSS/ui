@@ -1,0 +1,109 @@
+---
+title: Input
+description: A shadcn/ui-compatible input with a smooth Motion-powered caret.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+intent: Collect a single-line value from the user with familiar shadcn/ui input styling.
+role: input
+a11yConstraints:
+  - Preserve native input semantics, keyboard editing, selection, and label association.
+motionEngine: Motion spring animates the mirror caret for text, search, url, tel, and password inputs; other types keep the native caret.
+compositionRules:
+  - Use a visible label and helper text when the field needs context.
+compositionRecipes:
+  - name: form-field
+    description: Pair the input with a label and submit action.
+    components:
+      - base/input
+      - base/button
+    constraints:
+      - Keep the label associated with the input using htmlFor and id.
+---
+
+<ComponentPreview name="base-input" description="A shadcn/ui-style input with a smooth spring caret." />
+
+## Installation
+
+<ComponentInstallation name="base-input" />
+
+## Usage
+
+```tsx
+import { Input } from "@/components/sora-ui/base/input";
+
+export default function Page() {
+  return <Input placeholder="Type something..." />;
+}
+```
+
+## Controlled Input
+
+```tsx
+import { useState } from "react";
+import { Input } from "@/components/sora-ui/base/input";
+
+export default function Page() {
+  const [value, setValue] = useState("");
+
+  return (
+    <Input
+      aria-label="Project name"
+      onChange={(event) => setValue(event.target.value)}
+      placeholder="Project name"
+      value={value}
+    />
+  );
+}
+```
+
+## Input Types
+
+Use the native `type` prop for common field variants:
+
+```tsx
+<Input aria-label="Email" type="email" />
+<Input aria-label="Password" type="password" />
+<Input aria-label="Search" type="search" />
+```
+
+## RTL
+
+<ComponentPreview name="demo-input-rtl" description="Base UI Input animates a mirror caret through right-to-left text." />
+
+Set `dir="rtl"` on the input or an ancestor. The animated mirror caret follows the browser's bidirectional text layout, so clicks and selections remain aligned.
+
+```tsx
+<Input aria-label="Arabic text" dir="rtl" placeholder="اكتب هنا" />
+```
+
+## Styling and Motion
+
+The component keeps native input behavior while rendering a Motion-powered caret for `text`, `search`, `url`, `tel`, and `password`. `email`, `number`, `date`, `time`, `file`, and other input types keep the browser's native caret. Pass `className` to override the default shadcn/ui styles. Animated caret movement respects text selection, horizontal scrolling, and `prefers-reduced-motion`.
+
+## Props
+
+`Input` supports all native `<input>` props, including `name`, `value`, `defaultValue`, `placeholder`, `disabled`, validation attributes, event handlers, and `ref`.
+
+<TypeTable
+  type={{
+    type: {
+      description: "Native input type.",
+      type: "string",
+      default: "\"text\"",
+    },
+    className: {
+      description: "Additional CSS classes merged onto the input element.",
+      type: "string",
+    },
+  }}
+/>
+
+## Accessibility
+
+Associate the input with a visible label using `htmlFor` and `id`. Use `aria-invalid` when the current value fails validation.
+
+```tsx
+<label htmlFor="email">Email</label>
+<Input id="email" aria-invalid={hasError} type="email" />
+```

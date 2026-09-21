@@ -1,0 +1,12 @@
+{
+  "name": "demo-radix-input-rtl",
+  "code": "\"use client\";\n\nimport { Input } from \"@/components/sora-ui/radix/input\";\n\nexport default function RadixInputRtlDemo() {\n  return (\n    <div className=\"w-full max-w-md space-y-2 p-6\" dir=\"rtl\">\n      <label className=\"block font-medium text-sm\" htmlFor=\"radix-rtl-input\">\n        الاسم الكامل\n      </label>\n      <Input id=\"radix-rtl-input\" placeholder=\"اكتب اسمك\" />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/radix/input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/radix/input-rtl.tsx",
+      "content": "\"use client\";\n\nimport { Input } from \"@/components/sora-ui/radix/input\";\n\nexport default function RadixInputRtlDemo() {\n  return (\n    <div className=\"w-full max-w-md space-y-2 p-6\" dir=\"rtl\">\n      <label className=\"block font-medium text-sm\" htmlFor=\"radix-rtl-input\">\n        الاسم الكامل\n      </label>\n      <Input id=\"radix-rtl-input\" placeholder=\"اكتب اسمك\" />\n    </div>\n  );\n}"
+    }
+  ]
+}

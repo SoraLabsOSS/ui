@@ -861,6 +861,20 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "base-input": React.lazy(async () => {
+    const mod = await import("@/registry/ui/base/input/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "base-switch": React.lazy(async () => {
     const mod = await import("@/registry/ui/base/switch/index.tsx");
     const pascalExportName = Object.keys(mod).find(
@@ -977,6 +991,20 @@ export const previewComponents: Record<string, any> = {
     const mod = await import(
       "@/registry/demo/ui/radix/dropdown-menu/index.tsx"
     );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "radix-input": React.lazy(async () => {
+    const mod = await import("@/registry/ui/radix/input/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1955,6 +1983,20 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-input-rtl": React.lazy(async () => {
+    const mod = await import("@/registry/demo/ui/base/input/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-switch": React.lazy(async () => {
     const mod = await import("@/registry/demo/ui/base/switch/index.tsx");
     const pascalExportName = Object.keys(mod).find(
@@ -2369,6 +2411,20 @@ export const previewComponents: Record<string, any> = {
     const mod = await import(
       "@/registry/demo/ui/radix/dropdown-menu-rtl/index.tsx"
     );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-radix-input-rtl": React.lazy(async () => {
+    const mod = await import("@/registry/demo/ui/radix/input/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );

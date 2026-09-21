@@ -1,0 +1,12 @@
+{
+  "name": "demo-input-rtl",
+  "code": "\"use client\";\n\nimport { Input } from \"@/components/sora-ui/base/input\";\n\nexport default function InputRtlDemo() {\n  return (\n    <div className=\"w-full max-w-md space-y-2 p-6\" dir=\"rtl\">\n      <label className=\"block font-medium text-sm\" htmlFor=\"base-rtl-input\">\n        الاسم الكامل\n      </label>\n      <Input id=\"base-rtl-input\" placeholder=\"اكتب اسمك\" />\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/ui/base/input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/input-rtl.tsx",
+      "content": "\"use client\";\n\nimport { Input } from \"@/components/sora-ui/base/input\";\n\nexport default function InputRtlDemo() {\n  return (\n    <div className=\"w-full max-w-md space-y-2 p-6\" dir=\"rtl\">\n      <label className=\"block font-medium text-sm\" htmlFor=\"base-rtl-input\">\n        الاسم الكامل\n      </label>\n      <Input id=\"base-rtl-input\" placeholder=\"اكتب اسمك\" />\n    </div>\n  );\n}"
+    }
+  ]
+}

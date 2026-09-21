@@ -1870,6 +1870,53 @@
       ]
     },
     {
+      "name": "base-input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A shadcn/ui-compatible input with a smooth Motion-powered caret.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/base/input/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/base/input.tsx"
+        }
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Collect a single-line value from the user with familiar shadcn/ui input styling.",
+          "role": "input",
+          "a11yConstraints": [
+            "Preserve native input semantics, keyboard editing, selection, and label association."
+          ],
+          "motionEngine": "Motion spring animates a mirror caret for text, search, url, tel, and password inputs; other types keep the native caret, with an instant reduced-motion fallback.",
+          "compositionRules": [
+            "Use a visible label and helper text when the field needs context."
+          ],
+          "compositionRecipes": [
+            "Compose with a form label and base/button for form submission."
+          ]
+        },
+        "demoProps": {
+          "Input": {
+            "placeholder": {
+              "value": "Type something..."
+            },
+            "type": {
+              "value": "text",
+              "options": {
+                "Text": "text",
+                "Password": "password",
+                "Email": "email",
+                "Search": "search"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "base-switch",
       "type": "registry:ui",
       "title": "Base Switch",
@@ -2240,6 +2287,53 @@
           "target": "components/sora-ui/radix/dropdown-menu.tsx"
         }
       ]
+    },
+    {
+      "name": "radix-input",
+      "type": "registry:ui",
+      "title": "Radix Input",
+      "description": "A shadcn/ui-compatible native input with a smooth Motion-powered caret.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/radix/input/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/radix/input.tsx"
+        }
+      ],
+      "meta": {
+        "agentMetadata": {
+          "intent": "Collect a single-line value from the user with native input semantics.",
+          "role": "input",
+          "a11yConstraints": [
+            "Preserve native input semantics, keyboard editing, selection, and label association."
+          ],
+          "motionEngine": "Motion spring animates a mirror caret for text, search, url, tel, and password inputs; other types keep the native caret, with an instant reduced-motion fallback.",
+          "compositionRules": [
+            "Use a visible label and helper text when the field needs context."
+          ],
+          "compositionRecipes": [
+            "Compose with radix/button for form submission."
+          ]
+        },
+        "demoProps": {
+          "Input": {
+            "placeholder": {
+              "value": "Type something..."
+            },
+            "type": {
+              "value": "text",
+              "options": {
+                "Text": "text",
+                "Password": "password",
+                "Email": "email",
+                "Search": "search"
+              }
+            }
+          }
+        }
+      }
     },
     {
       "name": "radix-switch",

@@ -3639,6 +3639,81 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/base-dropdown-menu",
   },
+  "base-input": {
+    name: "base-input",
+    description:
+      "A shadcn/ui-compatible input with a smooth Motion-powered caret.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/ui/base/input/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/base/input.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/ui/base/input/index.tsx");
+        const demoProps = {
+          Input: {
+            placeholder: { value: "Type something..." },
+            type: {
+              value: "text",
+              options: {
+                Text: "text",
+                Password: "password",
+                Email: "email",
+                Search: "search",
+              },
+            },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        Input: {
+          placeholder: { value: "Type something..." },
+          type: {
+            value: "text",
+            options: {
+              Text: "text",
+              Password: "password",
+              Email: "email",
+              Search: "search",
+            },
+          },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/base-input",
+  },
   "base-switch": {
     name: "base-switch",
     description:
@@ -4204,6 +4279,81 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/radix-dropdown-menu",
+  },
+  "radix-input": {
+    name: "radix-input",
+    description:
+      "A shadcn/ui-compatible native input with a smooth Motion-powered caret.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/ui/radix/input/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/radix/input.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/ui/radix/input/index.tsx");
+        const demoProps = {
+          Input: {
+            placeholder: { value: "Type something..." },
+            type: {
+              value: "text",
+              options: {
+                Text: "text",
+                Password: "password",
+                Email: "email",
+                Search: "search",
+              },
+            },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        Input: {
+          placeholder: { value: "Type something..." },
+          type: {
+            value: "text",
+            options: {
+              Text: "text",
+              Password: "password",
+              Email: "email",
+              Search: "search",
+            },
+          },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/radix-input",
   },
   "radix-switch": {
     name: "radix-switch",
@@ -7667,6 +7817,54 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-dropdown-menu-rtl",
   },
+  "demo-input-rtl": {
+    name: "demo-input-rtl",
+    description: "Right-to-left animated caret showcase for Base UI Input.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/base-input"],
+    files: [
+      {
+        path: "registry/demo/ui/base/input/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/input-rtl.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/base/input/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-input-rtl",
+  },
   "demo-switch": {
     name: "demo-switch",
     description: "Base UI switch with Motion layout spring physics.",
@@ -9185,6 +9383,54 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/demo-radix-dropdown-menu-rtl",
   },
+  "demo-radix-input-rtl": {
+    name: "demo-radix-input-rtl",
+    description: "Right-to-left animated caret showcase for Radix UI Input.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/radix-input"],
+    files: [
+      {
+        path: "registry/demo/ui/radix/input/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/radix/input-rtl.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/demo/ui/radix/input/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-radix-input-rtl",
+  },
   "demo-radix-switch": {
     name: "demo-radix-switch",
     description: "Radix UI switch with Motion layout spring physics.",
@@ -9940,6 +10186,27 @@ export const index: Record<string, any> = {
     component: null,
     command: "@soralabs/demo-base-checkbox",
   },
+  "demo-base-input": {
+    name: "demo-base-input",
+    description: "Usage example for base-input.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["base-input"],
+    files: [
+      {
+        path: "registry/demo/ui/base/input/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/base/input.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-base-input",
+  },
   "demo-base-switch": {
     name: "demo-base-switch",
     description: "Usage example for base-switch.",
@@ -9960,6 +10227,27 @@ export const index: Record<string, any> = {
     inspiration: null,
     component: null,
     command: "@soralabs/demo-base-switch",
+  },
+  "demo-radix-input": {
+    name: "demo-radix-input",
+    description: "Usage example for radix-input.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["radix-input"],
+    files: [
+      {
+        path: "registry/demo/ui/radix/input/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/radix/input.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-radix-input",
   },
 };
 

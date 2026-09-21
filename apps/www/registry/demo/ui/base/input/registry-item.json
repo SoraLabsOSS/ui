@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-input-rtl",
+  "type": "registry:ui",
+  "title": "Input RTL Demo",
+  "description": "Right-to-left animated caret showcase for Base UI Input.",
+  "registryDependencies": ["@soralabs/base-input"],
+  "files": [
+    {
+      "path": "registry/demo/ui/base/input/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/base/input-rtl.tsx"
+    }
+  ]
+}
