@@ -16,6 +16,7 @@ import {
   generateUsageExampleCode,
   installImportPathFromTarget,
 } from "@/lib/docs/generate-usage-example-code";
+import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 import {
   Tabs,
   TabsContent,
@@ -100,32 +101,6 @@ function resolveUsageCodeEntry(
 /** Physical demo folder on disk — not the synthetic code-only `demo-*` entry. */
 function isManualUsageDemo(entry: RegistryIndexEntry | undefined): boolean {
   return Boolean(entry?.component && (entry.hasSource || entry.files?.length));
-}
-
-function flattenFirstLevel<T>(input: Record<string, unknown>): T {
-  const result: Record<string, unknown> = {};
-  for (const current of Object.values(input)) {
-    if (typeof current === "object" && current !== null) {
-      Object.assign(result, current);
-    }
-  }
-  return result as T;
-}
-
-function unwrapValues(obj: Record<string, unknown>): Record<string, unknown> {
-  if (obj !== null && typeof obj === "object" && !Array.isArray(obj)) {
-    if ("value" in obj) {
-      return obj.value as Record<string, unknown>;
-    }
-    const result: Record<string, unknown> = {};
-    for (const key in obj) {
-      if (Object.hasOwn(obj, key)) {
-        result[key] = unwrapValues(obj[key] as Record<string, unknown>);
-      }
-    }
-    return result;
-  }
-  return obj;
 }
 
 export function ComponentPreview({

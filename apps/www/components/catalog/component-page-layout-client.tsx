@@ -19,13 +19,13 @@ import type {
 } from "@/lib/registry/types";
 import { useCatalogMenu } from "./catalog-menu-context";
 import {
-  catalogContentGutterClassName,
   catalogDocsHeaderDesktopMenuOpenClassName,
   catalogDocsHeaderMobileFixedClassName,
   catalogDocsHeaderMobileFloatingClassName,
   catalogDocsHeaderMobileMenuOpenClassName,
   catalogPreviewShellClassName,
   catalogPreviewShellFixedWidthClassName,
+  catalogStackedHorizontalGutterClassName,
 } from "./catalog-preview-classes";
 import { CatalogScrollArea } from "./catalog-scroll-area";
 import { ComponentPageDocsHeader } from "./component-page-docs-header";
@@ -145,7 +145,7 @@ function ComponentPageDocsContent({
       <div
         className={cn(
           "flex w-full min-w-0 max-w-4xl flex-col gap-6 pt-8 pb-3 md:gap-10 md:pt-14 md:pb-6",
-          catalogContentGutterClassName
+          catalogStackedHorizontalGutterClassName
         )}
       >
         <ComponentPageHeader

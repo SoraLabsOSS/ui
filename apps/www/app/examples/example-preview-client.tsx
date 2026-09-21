@@ -8,43 +8,13 @@ import { index } from "@/__registry__";
 import { previewComponents } from "@/__registry__/preview";
 import { catalogPreviewViewportClassName } from "@/components/catalog/catalog-preview-classes";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
+import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 
 interface ExamplePreviewClientProps {
   centered?: boolean;
   passDemoProps?: boolean;
   reducedMotion?: "always" | "never" | "user";
   slug: string;
-}
-
-function unwrapValues(value: unknown): unknown {
-  if (value !== null && typeof value === "object" && !Array.isArray(value)) {
-    if ("value" in value) {
-      return (value as { value: unknown }).value;
-    }
-
-    return Object.fromEntries(
-      Object.entries(value).map(([key, nestedValue]) => [
-        key,
-        unwrapValues(nestedValue),
-      ])
-    );
-  }
-
-  return value;
-}
-
-function flattenProps(value: unknown): Record<string, unknown> {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return {};
-  }
-
-  const props: Record<string, unknown> = {};
-  for (const nestedValue of Object.values(value)) {
-    if (nestedValue && typeof nestedValue === "object") {
-      Object.assign(props, nestedValue);
-    }
-  }
-  return props;
 }
 
 export function ExamplePreviewClient({
@@ -100,7 +70,9 @@ export function ExamplePreviewClient({
     }
 
     const entry = index[slug] ?? index[`demo-${slug}`];
-    return flattenProps(unwrapValues(entry?.component?.demoProps ?? {}));
+    return flattenFirstLevel<Record<string, unknown>>(
+      unwrapValues(entry?.component?.demoProps ?? {})
+    );
   }, [passDemoProps, slug]);
 
   if (!Component) {

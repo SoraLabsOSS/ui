@@ -1,4 +1,4 @@
-import { cn } from "@workspace/ui/lib/utils";
+// Preview
 
 /** Scroll viewport — size container so demos can use `100cqh` inside a fixed-height panel. */
 export const catalogPreviewViewportClassName =
@@ -7,40 +7,21 @@ export const catalogPreviewViewportClassName =
 /** One full “screen” inside the preview panel (not browser `100vh`). */
 export const catalogPreviewScreenClassName = "min-h-[100cqh]";
 
-/**
- * Fixed-height demo shell inside the catalog preview scroll viewport (desktop).
- * On stacked mobile layout, height grows with demo content — page scrolls on
- * `[data-catalog-scroll-root]`.
- */
-export const catalogPreviewDemoShellClassName = [
-  catalogPreviewScreenClassName,
-  "w-full lg:h-[100cqh]",
-  "max-lg:h-auto",
-].join(" ");
-
 /** Preview panel on stacked layout — fills viewport height on mobile. */
 export const catalogPreviewMobilePanelClassName =
   "max-lg:h-[calc(100dvh-1rem)] max-lg:min-h-[calc(100dvh-1rem)]";
 
+// Chrome
+
 /** Shared chrome row layout (mobile / stacked). */
 export const catalogChromeRowClassName = "flex min-h-14 shrink-0 items-center";
-
-/** Horizontal inset from viewport / column edge (desktop chrome rows). */
-export const catalogChromePaddingClassName = "px-6";
 
 /** Shared horizontal inset — preview, docs, and header on stacked layout. */
 export const catalogStackedHorizontalGutterClassName = "px-4 sm:px-8 md:px-16";
 
-/** @deprecated Use catalogStackedHorizontalGutterClassName */
-export const catalogContentGutterClassName =
-  catalogStackedHorizontalGutterClassName;
-
 /** Centered content width on stacked layout — matches the docs column. */
 export const catalogStackedContentClassName =
   "max-lg:mx-auto max-lg:w-full max-lg:min-w-0 max-lg:max-w-4xl";
-
-/** Top inset for docs header + preview toolbar (symmetric). */
-export const catalogChromeTopInsetClassName = "pt-6";
 
 /** Inset from the preview panel border (chrome inside panel). */
 export const catalogPanelChromeInsetClassName = "px-4 pt-4";
@@ -115,11 +96,7 @@ export const catalogMenuTogglePlainClassName = [
 export const catalogMenuTogglePlainOpenClassName =
   "text-zinc-900 dark:text-zinc-100";
 
-/** @deprecated Use catalogChromeToolbarCellClassName + catalogChromeToolbarIconClassName */
-export const catalogChromeToolbarButtonClassName = cn(
-  catalogChromeToolbarCellClassName,
-  catalogChromeToolbarIconClassName
-);
+// Docs header
 
 /** Docs header — fixed height/padding across expand/collapse on desktop. */
 export const catalogDocsHeaderClassName = [
@@ -135,27 +112,9 @@ export const catalogDocsHeaderClassName = [
 export const catalogDocsHeaderDesktopRowClassName =
   "lg:min-h-14 lg:items-center";
 
-/** Fixed mobile chrome row — `pt-4` + `min-h-14`. */
-export const catalogDocsHeaderMobileHeight = "4.5rem";
-
 /** Scroll offset so in-flow sections clear the fixed mobile header when scrolled into view. */
 export const catalogDocsHeaderMobileScrollPaddingClassName =
   "max-lg:scroll-pt-[4.5rem]";
-
-/**
- * Inset inside the preview panel so demo content clears the fixed header chips.
- * The panel background extends under the transparent header instead of a blank spacer.
- */
-export const catalogPreviewMobileChromeInsetClassName = "max-lg:pt-[4.5rem]";
-
-/**
- * Stacked layout viewport — no size containment so demo content sets panel height
- * (`container-type: size` ignores descendant block size).
- */
-export const catalogPreviewMobileViewportClassName = [
-  "w-full min-w-0",
-  catalogPreviewMobileChromeInsetClassName,
-].join(" ");
 
 /** Fixed chrome on stacked layout — stays visible while page scrolls.
  * Keep below AI chat (`z-[100]` in `components/ai/search.tsx`). */
@@ -184,9 +143,7 @@ export const catalogDocsHeaderMobileMenuOpenClassName = [
 /** Desktop flyout open — parent column is `lg:z-[120]`; keep header in flow. */
 export const catalogDocsHeaderDesktopMenuOpenClassName = "lg:relative";
 
-/** Floating chrome chips stay clickable while the flyout overlay is open. */
-export const catalogMobileChromeInteractiveClassName =
-  "max-lg:pointer-events-auto";
+// Mobile menu
 
 /** Fixed mobile menu chip layer (`document.body`). Position only — z-index is
  * applied separately so the idle/open layers never fight in the stylesheet. */
@@ -210,14 +167,6 @@ export const catalogNavHoverPreviewLayerClassName = [
   "pointer-events-none fixed top-0 left-0 z-[115] w-56",
 ].join(" ");
 
-/** @deprecated Use catalogMobileMenuChipFixedClassName */
-export const catalogMobileMenuChipOpenClassName =
-  catalogMobileMenuChipFixedClassName;
-
-/** @deprecated Use catalogMobileChromeInteractiveClassName */
-export const catalogMenuButtonMobileOpenClassName =
-  catalogMobileChromeInteractiveClassName;
-
 /** Stacked layout — menu left, preview toolbar right. */
 export const catalogDocsHeaderMobileSymmetricClassName =
   "max-lg:w-full max-lg:justify-between";
@@ -228,6 +177,8 @@ export const catalogDocsHeaderMenuClassName = "shrink-0";
 /** Breadcrumb slot — desktop docs header only. */
 export const catalogDocsHeaderBreadcrumbClassName =
   "flex h-full min-w-0 flex-1 items-center truncate";
+
+// Panels
 
 /** Preview shell gutter — 8px frame on mobile; asymmetric inset on desktop for tighter center gap. */
 export const catalogPreviewShellGutterClassName = [
@@ -252,7 +203,7 @@ export const catalogSourcePanelDesktopLayerClassName = "lg:z-70";
 
 /**
  * Mobile sheet height — cap below the fixed header so short viewports do not
- * bury the preview toolbar (`catalogDocsHeaderMobileHeight`).
+ * bury the preview toolbar.
  */
 export const catalogSourcePanelMobileHeightClassName =
   "max-lg:h-[min(80dvh,calc(100dvh-var(--fd-banner-height)-4.5rem))]";
@@ -277,6 +228,8 @@ export const catalogPreviewToolbarRowClassName = [
   "pointer-events-none z-50 justify-end",
   "lg:absolute lg:top-0 lg:right-2 lg:left-auto lg:w-auto lg:px-0 lg:pt-0",
 ].join(" ");
+
+// Sidebar
 
 /**
  * Dimmed overlay behind the flyout catalog menu.
