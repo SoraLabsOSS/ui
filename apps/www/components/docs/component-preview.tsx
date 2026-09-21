@@ -3,7 +3,7 @@
 import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { Fullscreen, Loader } from "lucide-react";
+import { ExternalLink, Fullscreen, Loader } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { index, loadComponentSource } from "@/__registry__";
@@ -25,6 +25,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
+import { Button as RegistryButton } from "@/registry/ui/base/button";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
@@ -314,6 +315,23 @@ export function ComponentPreview({
                   <RefreshButton
                     onRefresh={() => setPreviewKey((prev) => prev + 1)}
                   />
+
+                  <RegistryButton
+                    aria-label="Open full page example"
+                    className="rounded-lg bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
+                    onClick={() =>
+                      window.open(
+                        `/examples/${name}`,
+                        "_blank",
+                        "noopener,noreferrer"
+                      )
+                    }
+                    size="icon-sm"
+                    title="Open full page example"
+                    variant="ghost"
+                  >
+                    <ExternalLink size={14} />
+                  </RegistryButton>
 
                   {iframe ? (
                     <Button

@@ -1,7 +1,7 @@
 import { RootProvider } from "fumadocs-ui/provider";
 import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 
 import "./globals.css";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
@@ -125,10 +125,12 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
-          Authentication is temporarily unavailable while we optimize our
-          infrastructure.
-        </ConditionalBanner>
+        <Suspense fallback={null}>
+          <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
+            Authentication is temporarily unavailable while we optimize our
+            infrastructure.
+          </ConditionalBanner>
+        </Suspense>
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>
