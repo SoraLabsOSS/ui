@@ -7,7 +7,6 @@ import { spawn } from "node:child_process";
 import { promises as fs } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { rimraf } from "rimraf";
 import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.js";
 import {
   assertRegistryCatalog,
@@ -903,7 +902,7 @@ export { loadComponentSource, loadComponentFiles } from "./sources";`;
 
   // Write sources chunk files and sources loader
   const sourcesDir = path.join(process.cwd(), "__registry__", "sources");
-  rimraf.sync(sourcesDir);
+  await fs.rm(sourcesDir, { force: true, recursive: true });
   await fs.mkdir(sourcesDir, { recursive: true });
 
   for (const s of sourcesToWrite) {
@@ -969,18 +968,24 @@ export async function loadComponentFiles(name: string): Promise<any[] | null> {
 }
 `;
 
-  rimraf.sync(path.join(process.cwd(), "__registry__/sources.ts"));
+  await fs.rm(path.join(process.cwd(), "__registry__/sources.ts"), {
+    force: true,
+  });
   await fs.writeFile(
     path.join(process.cwd(), "__registry__/sources.ts"),
     sourcesTs
   );
 
   // Remove the previous registry index file and write the new one.
-  rimraf.sync(path.join(process.cwd(), "__registry__/index.tsx"));
+  await fs.rm(path.join(process.cwd(), "__registry__/index.tsx"), {
+    force: true,
+  });
   await fs.writeFile(path.join(process.cwd(), "__registry__/index.tsx"), index);
 
   // Write the lightweight preview-only registry.
-  rimraf.sync(path.join(process.cwd(), "__registry__/preview.tsx"));
+  await fs.rm(path.join(process.cwd(), "__registry__/preview.tsx"), {
+    force: true,
+  });
   await fs.writeFile(
     path.join(process.cwd(), "__registry__/preview.tsx"),
     previewIndex

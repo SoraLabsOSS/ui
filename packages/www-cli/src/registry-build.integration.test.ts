@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { access } from "node:fs/promises";
 import path from "node:path";
 import { runCreatePrimitive } from "./commands/create-primitive.js";
+import { runRegistryBuild } from "./lib/registry-build.js";
 import { shouldRunRegistryBuildTests } from "./test/env.js";
 import {
   cleanupPrimitiveFixture,
@@ -38,7 +39,8 @@ describe.skipIf(!shouldRunRegistryBuildTests())(
     afterEach(async () => {
       await cleanupPrimitiveFixture(category, SLOW_FIXTURE_NAME);
       await cleanupRegistryJsonArtifact(SLOW_FIXTURE_NAME);
-    });
+      runRegistryBuild(getWwwRootFromRepo(), { quiet: true });
+    }, 120_000);
 
     it("runs registry:build and publishes public/r/*.json", async () => {
       await runCreatePrimitive(SLOW_FIXTURE_NAME, {
