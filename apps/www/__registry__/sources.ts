@@ -24,7 +24,6 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "icons-copy": () => import("./sources/icons-copy.json"),
   "lib-scroll-trigger-utils": () =>
     import("./sources/lib-scroll-trigger-utils.json"),
-  "arrow-roll-button": () => import("./sources/arrow-roll-button.json"),
   "particle-hover-button": () => import("./sources/particle-hover-button.json"),
   "sliding-chip-button": () => import("./sources/sliding-chip-button.json"),
   "stagger-button": () => import("./sources/stagger-button.json"),
@@ -88,8 +87,6 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "demo-text-reveal-box": () => import("./sources/demo-text-reveal-box.json"),
   "demo-tilt-slide-transition": () =>
     import("./sources/demo-tilt-slide-transition.json"),
-  "demo-arrow-roll-button": () =>
-    import("./sources/demo-arrow-roll-button.json"),
   "demo-particle-hover-button": () =>
     import("./sources/demo-particle-hover-button.json"),
   "demo-accordion": () => import("./sources/demo-accordion.json"),
