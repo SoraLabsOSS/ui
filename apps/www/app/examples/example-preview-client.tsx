@@ -17,6 +17,7 @@ import { index } from "@/__registry__";
 import { previewComponents } from "@/__registry__/preview";
 import { catalogPreviewViewportClassName } from "@/components/catalog/catalog-preview-classes";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
+import { RefreshButton } from "@/components/docs/refresh";
 import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 import { Button } from "@/registry/ui/base/button";
@@ -88,6 +89,7 @@ export function ExamplePreviewClient({
   const [componentProps, setComponentProps] = useState<Record<string, unknown>>(
     {}
   );
+  const [previewKey, setPreviewKey] = useState(0);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const isMobile = useIsMobile();
 
@@ -196,6 +198,12 @@ export function ExamplePreviewClient({
         centered && "p-6"
       )}
     >
+      <RefreshButton
+        aria-label="Reload example"
+        className="absolute top-3 left-3 z-30"
+        onRefresh={() => setPreviewKey((prev) => prev + 1)}
+        title="Reload example"
+      />
       {optionsPanel}
 
       <Suspense
@@ -209,8 +217,8 @@ export function ExamplePreviewClient({
         <MotionConfig reducedMotion={reducedMotion}>
           {centered ? (
             <div className="flex h-full w-full items-center justify-center overflow-auto p-6">
-              <div className="w-full max-w-xl">
-                <Component {...componentProps} />
+              <div className="flex w-full max-w-xl justify-center">
+                <Component key={previewKey} {...componentProps} />
               </div>
             </div>
           ) : (
@@ -220,7 +228,7 @@ export function ExamplePreviewClient({
               viewportClassName={catalogPreviewViewportClassName}
             >
               <div className="min-h-full w-full">
-                <Component {...componentProps} />
+                <Component key={previewKey} {...componentProps} />
               </div>
             </CatalogScrollArea>
           )}

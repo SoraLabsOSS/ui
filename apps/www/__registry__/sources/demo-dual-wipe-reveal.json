@@ -1,12 +1,12 @@
 {
   "name": "demo-dual-wipe-reveal",
-  "code": "\"use client\";\n\nimport { DualWipeReveal } from \"@/components/sora-ui/texts/dual-wipe-reveal\";\n\nexport default function DualWipeRevealExample() {\n  return (\n    <DualWipeReveal\n      as={\"h2\"}\n      children={\"Find it, copy it, ship it.\"}\n      className={\"text-3xl font-semibold tracking-tight sm:text-5xl\"}\n      direction={\"left\"}\n      accentColor={\"bg-emerald-500\"}\n      wipeColor={\"bg-neutral-800\"}\n      duration={0.5}\n      delay={0}\n      stagger={0.1}\n    />\n  );\n}\n",
+  "code": "\"use client\";\n\nimport { DualWipeReveal } from \"@/components/sora-ui/texts/dual-wipe-reveal\";\n\nexport default function DualWipeRevealExample() {\n  return (\n    <DualWipeReveal\n      as={\"h2\"}\n      children={\"Find it, copy it, ship it.\"}\n      className={\"text-3xl font-semibold tracking-tight sm:text-5xl\"}\n      direction={\"left\"}\n      accentColor={\"bg-emerald-500\"}\n      wipeColor={\"bg-neutral-800\"}\n      duration={0.5}\n      delay={0}\n      stagger={0.1}\n      once={true}\n    />\n  );\n}\n",
   "files": [
     {
       "path": "registry/demo/primitives/texts/dual-wipe-reveal/index.tsx",
       "type": "registry:ui",
       "target": "components/sora-ui/demo/texts/dual-wipe-reveal.tsx",
-      "content": "\"use client\";\n\nimport { DualWipeReveal } from \"@/components/sora-ui/texts/dual-wipe-reveal\";\n\nexport default function DualWipeRevealExample() {\n  return (\n    <DualWipeReveal\n      as={\"h2\"}\n      children={\"Find it, copy it, ship it.\"}\n      className={\"text-3xl font-semibold tracking-tight sm:text-5xl\"}\n      direction={\"left\"}\n      accentColor={\"bg-emerald-500\"}\n      wipeColor={\"bg-neutral-800\"}\n      duration={0.5}\n      delay={0}\n      stagger={0.1}\n    />\n  );\n}\n"
+      "content": "\"use client\";\n\nimport { DualWipeReveal } from \"@/components/sora-ui/texts/dual-wipe-reveal\";\n\nexport default function DualWipeRevealExample() {\n  return (\n    <DualWipeReveal\n      as={\"h2\"}\n      children={\"Find it, copy it, ship it.\"}\n      className={\"text-3xl font-semibold tracking-tight sm:text-5xl\"}\n      direction={\"left\"}\n      accentColor={\"bg-emerald-500\"}\n      wipeColor={\"bg-neutral-800\"}\n      duration={0.5}\n      delay={0}\n      stagger={0.1}\n      once={true}\n    />\n  );\n}\n"
     }
   ]
 }

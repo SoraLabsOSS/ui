@@ -2249,6 +2249,7 @@ export const index: Record<string, any> = {
             duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
             delay: { value: 0, min: 0, max: 2, step: 0.1 },
             stagger: { value: 0.1, min: 0.02, max: 0.5, step: 0.02 },
+            once: { value: true },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -2296,6 +2297,7 @@ export const index: Record<string, any> = {
           duration: { value: 0.5, min: 0.2, max: 2, step: 0.1 },
           delay: { value: 0, min: 0, max: 2, step: 0.1 },
           stagger: { value: 0.1, min: 0.02, max: 0.5, step: 0.02 },
+          once: { value: true },
         },
       };
       return LazyComp;

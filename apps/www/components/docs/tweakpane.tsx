@@ -190,7 +190,7 @@ const renderNumber = (
 
         <div
           className={cn(
-            "flex items-center gap-2.5 sm:w-56 md:w-64",
+            "flex w-56 items-center gap-2.5 md:w-64",
             stacked && "w-full sm:w-full md:w-full"
           )}
         >
