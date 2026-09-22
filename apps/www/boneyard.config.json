@@ -1,0 +1,14 @@
+{
+  "animate": "solid",
+  "breakpoints": [375, 640, 768, 1024, 1280, 1536],
+  "out": "./bones",
+  "skeletons": {
+    "blog-index": { "route": "/blog" },
+    "blog-post": { "route": "/blog/introducing-sora-ui" },
+    "docs-page": { "route": "/docs/installation" },
+    "icons-page": { "route": "/icons/get-started" },
+    "motion-page": { "route": "/motion/text-scramble" },
+    "ui-page": { "route": "/ui/base/button" }
+  },
+  "wait": 800
+}

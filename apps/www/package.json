@@ -5,6 +5,7 @@
   "scripts": {
     "analyze": "next experimental-analyze",
     "build": "bun ./scripts/ensure-git-history.mts && next build",
+    "bones:build": "boneyard-js build && biome format --write bones",
     "check-types": "tsc --noEmit",
     "dev": "next dev -p 3000",
     "start": "next start -p 3000",
@@ -36,6 +37,7 @@
     "@workspace/ui": "workspace:*",
     "ai": "^7.0.51",
     "better-auth": "1.7.3",
+    "boneyard-js": "^1.10.0",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",

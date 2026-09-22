@@ -118,6 +118,7 @@ export function ExamplePreviewClient({
     setComponentProps(
       flattenFirstLevel<Record<string, unknown>>(unwrapValues(demoPropsConfig))
     );
+    setPreviewKey((prev) => prev + 1);
   };
 
   let optionsPanel: ReactNode = null;

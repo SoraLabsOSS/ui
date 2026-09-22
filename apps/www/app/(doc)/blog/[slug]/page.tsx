@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { BlogPostJsonLd } from "@/components/blog/blog-post-json-ld";
 import { KbToc } from "@/components/blog/kb-toc";
+import { DocsBoneyardCapture } from "@/components/docs/docs-boneyard";
 import {
   createBlogMetadata,
   getBlogPageImage,
@@ -52,81 +53,83 @@ async function BlogPostBody({ slug }: { slug: string }) {
   const readingMinutes = getReadingTimeMinutes(page.data);
 
   return (
-    <div
-      className="@container mx-auto w-full max-w-[1400px] px-4 pt-20 pb-16 sm:pt-24 md:px-6 md:pt-28 md:pb-24"
-      id="page-content"
-    >
-      <BlogPostJsonLd page={page} />
-      <KbToc
-        contentId="kb-main-content"
-        items={kbTocItemsFromFumadocs(page.data.toc)}
-      />
-
-      {/* Row 1: Header Grid */}
-      <div className="grid grid-cols-12 gap-x-6 gap-y-6">
-        <BlogPostHeader
-          author={page.data.author}
-          date={publishedAt}
-          description={page.data.description}
-          githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/content/blog/${page.path}`}
-          primaryTag={primaryTag}
-          readingMinutes={readingMinutes}
-          title={page.data.title}
-          url={page.url}
-        />
-      </div>
-
-      {/* Row 2: Main Content & Aside Grid */}
-      <div className="grid grid-cols-12 gap-x-6 gap-y-6">
-        <BlogPostAside
-          author={page.data.author}
-          date={publishedAt}
-          description={page.data.description}
-          readingMinutes={readingMinutes}
-          title={page.data.title}
-          url={page.url}
+    <DocsBoneyardCapture name="blog-post">
+      <div
+        className="@container mx-auto w-full max-w-[1400px] px-4 pt-20 pb-16 sm:pt-24 md:px-6 md:pt-28 md:pb-24"
+        id="page-content"
+      >
+        <BlogPostJsonLd page={page} />
+        <KbToc
+          contentId="kb-main-content"
+          items={kbTocItemsFromFumadocs(page.data.toc)}
         />
 
-        <div className="col-span-12 w-full [--grid-divider-gap:72px] max-xl:mx-auto max-xl:max-w-3xl xl:col-span-6 xl:col-start-4">
-          <article
-            className="flex w-full flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&>*:not([data-kb-media-breakout])]:w-full [&>*]:min-w-0 [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1"
-            id="kb-main-content"
-          >
-            <figure className="mb-6 w-full">
-              <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
-                <BlogOgImage
-                  className="w-full"
-                  image={{
-                    alt: page.data.title,
-                    className: "h-auto w-full",
-                    draggable: false,
-                    height: image.height,
-                    loading: "eager",
-                    priority: true,
-                    src: image.url,
-                    unoptimized: true,
-                    width: image.width,
-                  }}
-                  zoom={true}
-                />
+        {/* Row 1: Header Grid */}
+        <div className="grid grid-cols-12 gap-x-6 gap-y-6">
+          <BlogPostHeader
+            author={page.data.author}
+            date={publishedAt}
+            description={page.data.description}
+            githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/content/blog/${page.path}`}
+            primaryTag={primaryTag}
+            readingMinutes={readingMinutes}
+            title={page.data.title}
+            url={page.url}
+          />
+        </div>
+
+        {/* Row 2: Main Content & Aside Grid */}
+        <div className="grid grid-cols-12 gap-x-6 gap-y-6">
+          <BlogPostAside
+            author={page.data.author}
+            date={publishedAt}
+            description={page.data.description}
+            readingMinutes={readingMinutes}
+            title={page.data.title}
+            url={page.url}
+          />
+
+          <div className="col-span-12 w-full [--grid-divider-gap:72px] max-xl:mx-auto max-xl:max-w-3xl xl:col-span-6 xl:col-start-4">
+            <article
+              className="flex w-full flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&>*:not([data-kb-media-breakout])]:w-full [&>*]:min-w-0 [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1"
+              id="kb-main-content"
+            >
+              <figure className="mb-6 w-full">
+                <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
+                  <BlogOgImage
+                    className="w-full"
+                    image={{
+                      alt: page.data.title,
+                      className: "h-auto w-full",
+                      draggable: false,
+                      height: image.height,
+                      loading: "eager",
+                      priority: true,
+                      src: image.url,
+                      unoptimized: true,
+                      width: image.width,
+                    }}
+                    zoom={true}
+                  />
+                </div>
+              </figure>
+
+              {page.data.flags?.includes("personal-opinion") ? (
+                <p className="mt-8 rounded-md border-yellow-500 border-l-4 bg-yellow-300/50 p-4 text-xs md:text-sm">
+                  <strong>Personal opinion:</strong> The views in this post are
+                  the author&apos;s own and do not represent Sora UI or any
+                  affiliated organization.
+                </p>
+              ) : null}
+
+              <div className="prose dark:prose-invert w-full max-w-none">
+                <MDXContent components={getMDXComponents()} />
               </div>
-            </figure>
-
-            {page.data.flags?.includes("personal-opinion") ? (
-              <p className="mt-8 rounded-md border-yellow-500 border-l-4 bg-yellow-300/50 p-4 text-xs md:text-sm">
-                <strong>Personal opinion:</strong> The views in this post are
-                the author&apos;s own and do not represent Sora UI or any
-                affiliated organization.
-              </p>
-            ) : null}
-
-            <div className="prose dark:prose-invert w-full max-w-none">
-              <MDXContent components={getMDXComponents()} />
-            </div>
-          </article>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
+    </DocsBoneyardCapture>
   );
 }
 

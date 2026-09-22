@@ -13,6 +13,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
+import { DocsBoneyardCapture } from "@/components/docs/docs-boneyard";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
 import { Footer } from "@/components/docs/footer";
@@ -119,79 +120,88 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
         : undefined;
 
   return (
-    <DocsPage
-      footer={{
-        component: (
-          <Footer
-            lastUpdate={
-              page.data.lastModified
-                ? new Date(page.data.lastModified)
-                : undefined
-            }
+    <DocsBoneyardCapture name="docs-page">
+      <DocsPage
+        footer={{
+          component: (
+            <Footer
+              lastUpdate={
+                page.data.lastModified
+                  ? new Date(page.data.lastModified)
+                  : undefined
+              }
+            />
+          ),
+        }}
+        full={page.data.full}
+        tableOfContent={{ style: "clerk" }}
+        tableOfContentPopover={{
+          component: <DocsHeaderToc />,
+        }}
+        toc={page.data.toc}
+      >
+        <DocsPageJsonLd page={page} />
+        <div className="flex w-full flex-row items-start justify-between gap-2">
+          <DocsTitle className="font-medium">{page.data.title}</DocsTitle>
+          {(prevNav || nextNav) && (
+            <div className="flex flex-row items-center gap-1.5 pt-0.5">
+              <Link
+                aria-disabled={!prevNav}
+                aria-label={
+                  prevNav ? `Aller à ${prevNav.name}` : "Pas de page précédente"
+                }
+                className={
+                  prevNav ? undefined : "pointer-events-none opacity-50"
+                }
+                href={prevNav?.url ?? page.url}
+              >
+                <Button size="icon-sm" variant="accent">
+                  <ArrowLeft />
+                </Button>
+              </Link>
+              <Link
+                aria-disabled={!nextNav}
+                aria-label={
+                  nextNav ? `Aller à ${nextNav.name}` : "Pas de page suivante"
+                }
+                className={
+                  nextNav ? undefined : "pointer-events-none opacity-50"
+                }
+                href={nextNav?.url ?? page.url}
+              >
+                <Button size="icon-sm" variant="accent">
+                  <ArrowRight />
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
+        <DocsDescription className="mb-1 font-normal">
+          {page.data.description}
+        </DocsDescription>
+        {page.data.author && (
+          <DocsAuthor
+            name={page.data.author.name}
+            url={page.data.author?.url}
           />
-        ),
-      }}
-      full={page.data.full}
-      tableOfContent={{ style: "clerk" }}
-      tableOfContentPopover={{
-        component: <DocsHeaderToc />,
-      }}
-      toc={page.data.toc}
-    >
-      <DocsPageJsonLd page={page} />
-      <div className="flex w-full flex-row items-start justify-between gap-2">
-        <DocsTitle className="font-medium">{page.data.title}</DocsTitle>
-        {(prevNav || nextNav) && (
-          <div className="flex flex-row items-center gap-1.5 pt-0.5">
-            <Link
-              aria-disabled={!prevNav}
-              aria-label={
-                prevNav ? `Aller à ${prevNav.name}` : "Pas de page précédente"
-              }
-              className={prevNav ? undefined : "pointer-events-none opacity-50"}
-              href={prevNav?.url ?? page.url}
-            >
-              <Button size="icon-sm" variant="accent">
-                <ArrowLeft />
-              </Button>
-            </Link>
-            <Link
-              aria-disabled={!nextNav}
-              aria-label={
-                nextNav ? `Aller à ${nextNav.name}` : "Pas de page suivante"
-              }
-              className={nextNav ? undefined : "pointer-events-none opacity-50"}
-              href={nextNav?.url ?? page.url}
-            >
-              <Button size="icon-sm" variant="accent">
-                <ArrowRight />
-              </Button>
-            </Link>
-          </div>
         )}
-      </div>
-      <DocsDescription className="mb-1 font-normal">
-        {page.data.description}
-      </DocsDescription>
-      {page.data.author && (
-        <DocsAuthor name={page.data.author.name} url={page.data.author?.url} />
-      )}
 
-      <PageActionButtons
-        githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/content/docs/${page.path}`}
-        key={page.url}
-        markdownUrl={`${page.url}.mdx`}
-        url={page.url}
-      />
-
-      <DocsBody className="pt-4 pb-10" id="docs-body">
-        <MDXContent
-          components={getMDXComponents({
-            a: createRelativeLink(source, page),
-          })}
+        <PageActionButtons
+          githubUrl={`${GITHUB_REPO_URL}/blob/main/apps/www/content/docs/${page.path}`}
+          key={page.url}
+          markdownUrl={`${page.url}.mdx`}
+          url={page.url}
         />
-      </DocsBody>
-    </DocsPage>
+
+        <DocsBody className="pt-4 pb-10" id="docs-body">
+          <MDXContent
+            components={getMDXComponents({
+              a: createRelativeLink(source, page),
+            })}
+          />
+        </DocsBody>
+      </DocsPage>
+    </DocsBoneyardCapture>
   );
 }
 
