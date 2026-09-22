@@ -52,7 +52,12 @@ export function DocsBoneyardServer({ bones, name }: DocsBoneyardServerProps) {
   `;
 
   return (
-    <div aria-busy="true" data-boneyard-ssr={name} style={rootStyle}>
+    <div
+      aria-busy="true"
+      className="w-full min-w-0"
+      data-boneyard-ssr={name}
+      style={rootStyle}
+    >
       <style>{boneStyle}</style>
       {breakpoints.map((breakpoint) => (
         <div data-boneyard-breakpoint={breakpoint} key={breakpoint}>

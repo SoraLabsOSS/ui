@@ -10,5 +10,5 @@
     "motion-page": { "route": "/motion/text-scramble" },
     "ui-page": { "route": "/ui/base/button" }
   },
-  "wait": 800
+  "wait": 1600
 }
