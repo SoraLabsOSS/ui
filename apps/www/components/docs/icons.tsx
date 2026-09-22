@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  AnimatedTooltip,
+  AnimatedTooltipGroup,
+} from "@workspace/ui/components/animated-tooltip";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Input } from "@workspace/ui/components/ui/input";
 import {
@@ -23,12 +27,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/docs/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/docs/tooltip";
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 
 const FILTERS = {
@@ -273,46 +271,44 @@ export function Icons() {
 
       <div>
         {searchedIcons.length ? (
-          <div className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
-            <TooltipProvider>
-              {searchedIcons.map((item) => (
-                <Tooltip key={item.name} side="bottom" sideOffset={14}>
-                  <TooltipTrigger asChild>
-                    <button
-                      className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
-                      data-value={item.name}
-                      onClick={() => {
-                        setActiveIconWithoutPrefix(
-                          item.name.replace("icons-", "")
-                        );
-                      }}
-                      type="button"
-                    >
-                      {item?.component && (
-                        <item.component
-                          animateOnHover
-                          className="size-full text-current"
-                        />
-                      )}
-                      <div
-                        className={cn(
-                          "absolute inset-0 -z-2 rounded-lg bg-muted transition-colors duration-200",
-                          activeIcon === item.name && "bg-foreground/20"
-                        )}
-                      />
+          <AnimatedTooltipGroup className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
+            {searchedIcons.map((item) => (
+              <AnimatedTooltip
+                className="h-full w-full"
+                content={item.name.replace("icons-", "")}
+                key={item.name}
+                side="top"
+                sideOffset={14}
+              >
+                <button
+                  aria-label={item.name.replace("icons-", "")}
+                  className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
+                  data-value={item.name}
+                  onClick={() => {
+                    setActiveIconWithoutPrefix(item.name.replace("icons-", ""));
+                  }}
+                  type="button"
+                >
+                  {item?.component && (
+                    <item.component
+                      animateOnHover
+                      className="size-full text-current"
+                    />
+                  )}
+                  <div
+                    className={cn(
+                      "absolute inset-0 -z-2 rounded-lg bg-muted transition-colors duration-200",
+                      activeIcon === item.name && "bg-foreground/20"
+                    )}
+                  />
 
-                      {newIconNames.includes(item.name) && (
-                        <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
-                      )}
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{item.name.replace("icons-", "")}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </TooltipProvider>
-          </div>
+                  {newIconNames.includes(item.name) && (
+                    <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
+                  )}
+                </button>
+              </AnimatedTooltip>
+            ))}
+          </AnimatedTooltipGroup>
         ) : (
           <div className="flex h-50 items-center justify-center">
             <p className="text-muted-foreground text-sm">No icons found</p>

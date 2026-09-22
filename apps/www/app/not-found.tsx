@@ -1,7 +1,6 @@
 import { Button } from "@workspace/ui/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Bunny } from "@/components/docs/bunny";
 import {
   Highlight,
   HighlightItem,
@@ -26,9 +25,9 @@ export default function NotFound() {
     <section className="flex min-h-screen items-center justify-center bg-background py-20">
       <div className="mx-auto w-full max-w-2xl px-6 md:px-10">
         <div className="flex flex-col items-start gap-6">
-          <span className="inline-flex flex-col items-center font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
+          {/* <span className="inline-flex flex-col items-center font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
             <Bunny size={28} sleeping />
-          </span>
+          </span> */}
           <h1 className="font-medium text-6xl leading-none tracking-tight sm:text-7xl">
             Page not found.
           </h1>
