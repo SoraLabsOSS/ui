@@ -2,6 +2,11 @@
 
 import { useAuth, useSession } from "@workspace/auth-ui/lib/auth-react";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@workspace/ui/components/ui/avatar";
+import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -83,7 +88,7 @@ function WorkspaceSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="h-8 rounded-lg text-[13px] transition-colors duration-150"
+                  className="h-8 rounded-lg transition-colors duration-150"
                   isActive={pathname === "/library"}
                   render={<Link href="/library" onClick={closeMobile} />}
                   tooltip="My Library"
@@ -101,7 +106,7 @@ function WorkspaceSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className="h-8 rounded-lg text-[13px] transition-colors duration-150"
+              className="h-8 rounded-lg transition-colors duration-150"
               isActive={pathname.startsWith("/settings/")}
               render={<Link href="/settings/account" onClick={closeMobile} />}
               tooltip="Settings"
@@ -112,7 +117,7 @@ function WorkspaceSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton
-              className="h-8 rounded-lg text-[13px] transition-colors duration-150"
+              className="h-8 rounded-lg transition-colors duration-150"
               render={<Link href="/docs" onClick={closeMobile} />}
               tooltip="Back to docs"
             >
@@ -169,19 +174,25 @@ function WorkspaceUserNav() {
             ) : (
               <>
                 {session ? (
-                  <div
-                    className="size-5 shrink-0 rounded-full ring-1 ring-sidebar-border/50"
-                    style={{
-                      background: `linear-gradient(135deg, oklch(0.35 0.08 ${hue}), oklch(0.25 0.05 ${hue + 40}))`,
-                    }}
-                  />
+                  <Avatar className="size-5 ring-1 ring-sidebar-border/50">
+                    <AvatarImage
+                      alt={session.user.name || userEmail}
+                      className="object-cover"
+                      src={session.user.image || undefined}
+                    />
+                    <AvatarFallback
+                      style={{
+                        background: `linear-gradient(135deg, oklch(0.35 0.08 ${hue}), oklch(0.25 0.05 ${hue + 40}))`,
+                      }}
+                    />
+                  </Avatar>
                 ) : (
                   <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-sidebar-foreground/10">
                     <User2 className="size-3.5" />
                   </div>
                 )}
                 <span
-                  className="truncate text-[13px] group-data-[collapsible=icon]:hidden"
+                  className="truncate group-data-[collapsible=icon]:hidden"
                   data-testid="user-email"
                 >
                   {session ? userEmail : localization.auth.signIn}

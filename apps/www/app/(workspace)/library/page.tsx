@@ -136,10 +136,8 @@ function BookmarkCard({
 }) {
   return (
     <motion.div
-      animate={{ opacity: 1, y: 0 }}
       className="group"
       exit={{ opacity: 0, scale: 0.96 }}
-      initial={{ opacity: 0, y: 16 }}
       layout
       transition={{ duration: 0.22, ease: "easeOut" }}
     >
@@ -202,9 +200,7 @@ function BookmarkCompactCard({
 }) {
   return (
     <motion.div
-      animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
-      initial={{ opacity: 0, y: 12 }}
       layout
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
@@ -252,11 +248,10 @@ function BookmarkListRow({
 }) {
   return (
     <motion.div
-      animate={{ opacity: isRemoving ? 0.55 : 1, x: 0 }}
+      animate={{ opacity: isRemoving ? 0.55 : 1 }}
       aria-busy={isRemoving}
       className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
       exit={{ opacity: 0, x: -8 }}
-      initial={{ opacity: 0, x: -8 }}
       layout
       transition={{ duration: 0.18 }}
     >
@@ -386,10 +381,8 @@ function renderContent({
   if (viewMode === "cards") {
     return (
       <motion.div
-        animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         exit={{ opacity: 0, y: -10 }}
-        initial={{ opacity: 0, y: 10 }}
         key="cards-container"
         layout
         transition={{ duration: 0.2, ease: "easeOut" }}
@@ -410,10 +403,8 @@ function renderContent({
   if (viewMode === "compact") {
     return (
       <motion.div
-        animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
         exit={{ opacity: 0, y: -10 }}
-        initial={{ opacity: 0, y: 10 }}
         key="compact-container"
         layout
         transition={{ duration: 0.2, ease: "easeOut" }}
@@ -433,10 +424,8 @@ function renderContent({
 
   return (
     <motion.div
-      animate={{ opacity: 1, y: 0 }}
       className="flex flex-col gap-4"
       exit={{ opacity: 0, y: -10 }}
-      initial={{ opacity: 0, y: 10 }}
       key="list-container"
       layout
       transition={{ duration: 0.2, ease: "easeOut" }}
