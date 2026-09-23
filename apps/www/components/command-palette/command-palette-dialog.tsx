@@ -94,7 +94,7 @@ const ACCOUNT_ICON_BY_TITLE: Record<
   (typeof AUTH_MENU_LINKS)[number]["title"],
   CommandPaletteIcon
 > = {
-  Bookmark: "bookmark",
+  "My Library": "bookmark",
   Settings: "settings",
 };
 

@@ -10,9 +10,9 @@ export const env = createEnv({
 
   server: {
     BETTER_AUTH_SECRET: z.string().min(1).optional(),
-    /** Transaction pooler (port 6543) — used by @workspace/db at runtime */
+    /** Pooled PostgreSQL URL used by @workspace/db at runtime */
     DATABASE_URL: z.url().optional(),
-    /** Direct connection (port 5432) — drizzle-kit migrations only */
+    /** Direct PostgreSQL URL used by drizzle-kit migrations */
     DATABASE_URL_DIRECT: z.url().optional(),
     GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
     UPSTASH_REDIS_REST_URL: z.url().optional(),

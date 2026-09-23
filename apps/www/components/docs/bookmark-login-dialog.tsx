@@ -64,7 +64,7 @@ export function BookmarkLoginDialog({
   return (
     <Dialog onOpenChange={handleOpenChange} open={open}>
       <DialogContent
-        className="max-w-md"
+        className="max-w-md gap-2"
         containerClassName="z-[81]"
         overlayClassName="z-[80]"
       >
@@ -79,11 +79,12 @@ export function BookmarkLoginDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <p className="py-2 text-muted-foreground text-sm">
-          {isBookmarkIntent
-            ? "You need to be signed in to use bookmarks. Sign in to save this page, or cancel to keep browsing."
-            : "You need to be signed in to continue."}
-        </p>
+        {isBookmarkIntent && (
+          <p className="text-muted-foreground text-sm">
+            You need to be signed in to use bookmarks. Sign in to save this
+            page, or cancel to keep browsing.
+          </p>
+        )}
 
         <DialogFooter className="flex flex-row justify-end gap-2">
           <DialogClose

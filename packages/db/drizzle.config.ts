@@ -1,15 +1,15 @@
-import "dotenv/config";
-
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
-import { env } from "./src/env";
 
 // Monorepo: apps/www/.env is the primary env file for local dev.
-config({ path: resolve(process.cwd(), "../apps/www/.env") });
-config();
+const configDirectory = dirname(fileURLToPath(import.meta.url));
+config({ path: resolve(configDirectory, "../../apps/www/.env") });
+config({ path: resolve(configDirectory, ".env") });
 
-const migrationUrl = env.DATABASE_URL_DIRECT ?? env.DATABASE_URL;
+const migrationUrl =
+  process.env.DATABASE_URL_DIRECT ?? process.env.DATABASE_URL;
 
 if (!migrationUrl) {
   throw new Error(
@@ -22,9 +22,7 @@ export default defineConfig({
   schema: "./src/schema/index.ts",
   dialect: "postgresql",
   dbCredentials: {
-    // For migrations, use direct connection (port 5432), NOT the transaction pooler.
-    // Set DATABASE_URL_DIRECT in your .env for migration commands.
-    // If not set, falls back to DATABASE_URL (may work if direct URL is used).
+    // Prefer the direct URL for migrations; fall back to DATABASE_URL if needed.
     url: migrationUrl,
   },
 });

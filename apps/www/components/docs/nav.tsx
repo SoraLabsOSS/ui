@@ -351,8 +351,8 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
                 className="ms-2 size-6! p-0! text-fd-muted-foreground md:ms-3"
                 links={[
                   {
-                    label: "Bookmark",
-                    href: "/bookmark",
+                    label: "My Library",
+                    href: "/library",
                     icon: <Bookmark />,
                     visibility: "authenticated",
                   },

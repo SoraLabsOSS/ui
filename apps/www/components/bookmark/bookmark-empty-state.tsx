@@ -1,7 +1,14 @@
 "use client";
 
-import { SectionCtaScramble } from "@/components/buttons/section-cta-scramble";
-import { MotionEffect } from "@/components/effects/motion-effect";
+import { Button } from "@workspace/ui/components/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@workspace/ui/components/ui/empty";
+import Link from "next/link";
 
 interface BookmarkEmptyStateProps {
   cta: {
@@ -21,46 +28,39 @@ export function BookmarkEmptyState({
   cta,
 }: BookmarkEmptyStateProps) {
   return (
-    <MotionEffect
-      className="flex min-h-[360px] flex-col items-center justify-center px-6 text-center"
-      fade
-      inView
-      slide={{ direction: "up", offset: 24 }}
-    >
-      <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
-        {eyebrow}
-      </p>
-      <h3 className="mt-4 max-w-[20ch] font-medium text-2xl tracking-tight md:text-3xl">
-        {title}
-      </h3>
-      <p className="mt-4 max-w-md text-base text-muted-foreground leading-relaxed">
-        {description}
-      </p>
-      <div className="mt-10 inline-flex">
-        <SectionCtaScramble
-          href={cta.href}
-          label={cta.label}
-          variant={cta.variant ?? "accent"}
-        />
-      </div>
-    </MotionEffect>
+    <Empty className="min-h-[360px]">
+      <EmptyHeader>
+        <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
+          {eyebrow}
+        </p>
+        <EmptyTitle aria-level={3} role="heading">
+          {title}
+        </EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button
+          asChild
+          variant={cta.variant === "inverted" ? "default" : "accent"}
+        >
+          <Link href={cta.href}>{cta.label}</Link>
+        </Button>
+      </EmptyContent>
+    </Empty>
   );
 }
 
 export function BookmarkSearchEmptyState() {
   return (
-    <MotionEffect
-      className="flex min-h-[200px] flex-col items-center justify-center gap-3 px-6 text-center"
-      fade
-      inView
-      slide={{ direction: "up", offset: 16 }}
-    >
-      <p className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
-        No results
-      </p>
-      <p className="max-w-sm text-base text-muted-foreground leading-relaxed">
-        No bookmarks match your search. Try a different keyword.
-      </p>
-    </MotionEffect>
+    <Empty className="min-h-[200px]">
+      <EmptyHeader>
+        <EmptyTitle aria-level={3} role="heading">
+          No results
+        </EmptyTitle>
+        <EmptyDescription>
+          No bookmarks match your search. Try a different keyword.
+        </EmptyDescription>
+      </EmptyHeader>
+    </Empty>
   );
 }

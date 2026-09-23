@@ -14,6 +14,7 @@ import { ConditionalBanner } from "@/components/conditional-banner";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { PageTransitionProvider } from "@/components/page-transition/page-transition-provider";
 import { QueryClientRootProvider } from "@/components/query-client-root-provider";
+import { isAuthEnabled } from "@/env";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
 import { fontSfPro } from "@/lib/fonts";
 import { jsonLd } from "@/lib/json-ld";
@@ -125,12 +126,14 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <Suspense fallback={null}>
-          <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
-            Authentication is temporarily unavailable while we optimize our
-            infrastructure.
-          </ConditionalBanner>
-        </Suspense>
+        {!isAuthEnabled() && (
+          <Suspense fallback={null}>
+            <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
+              Authentication is temporarily unavailable while we optimize our
+              infrastructure.
+            </ConditionalBanner>
+          </Suspense>
+        )}
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>

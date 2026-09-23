@@ -5,7 +5,7 @@ const DISALLOWED_PATHS = [
   "/api/",
   "/auth/",
   "/settings/",
-  "/bookmark",
+  "/library",
   "/examples/",
   "/static.json",
 ];

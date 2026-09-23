@@ -3,7 +3,7 @@ import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
 export const AUTH_MENU_LINKS = [
   { title: "Settings", url: "/settings/account", skeletonWidth: "w-14" },
-  { title: "Bookmark", url: "/bookmark", skeletonWidth: "w-[4.25rem]" },
+  { title: "My Library", url: "/library", skeletonWidth: "w-20" },
 ] as const;
 
 export function AuthNavMenuSkeleton({ width }: { width: string }) {

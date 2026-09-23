@@ -17,7 +17,7 @@ export function generateStaticParams() {
 
 function SettingsPageSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 pt-24 pb-6 md:px-6 md:pt-28 md:pb-8">
+    <div className="mx-auto w-full max-w-3xl px-4 pt-8 pb-6 md:px-6 md:pt-8 md:pb-8">
       <Skeleton className="h-64" rounded="lg" />
     </div>
   );
@@ -50,7 +50,7 @@ async function ProtectedSettingsContent({ path }: { path: string }) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="mx-auto w-full max-w-3xl px-4 pt-24 pb-6 md:px-6 md:pt-28 md:pb-8">
+      <div className="mx-auto w-full max-w-3xl px-4 pt-8 pb-6 md:px-6 md:pt-8 md:pb-8">
         <Settings path={path} />
       </div>
     </HydrationBoundary>

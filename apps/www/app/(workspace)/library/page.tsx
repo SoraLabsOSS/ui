@@ -14,7 +14,7 @@ import {
   Grid3x2,
   List,
   Loader,
-  Search,
+  Plus,
   Trash2,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -136,10 +136,8 @@ function BookmarkCard({
 }) {
   return (
     <motion.div
-      animate={{ opacity: 1, y: 0 }}
       className="group"
       exit={{ opacity: 0, scale: 0.96 }}
-      initial={{ opacity: 0, y: 16 }}
       layout
       transition={{ duration: 0.22, ease: "easeOut" }}
     >
@@ -202,9 +200,7 @@ function BookmarkCompactCard({
 }) {
   return (
     <motion.div
-      animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
-      initial={{ opacity: 0, y: 12 }}
       layout
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
@@ -252,11 +248,10 @@ function BookmarkListRow({
 }) {
   return (
     <motion.div
-      animate={{ opacity: isRemoving ? 0.55 : 1, x: 0 }}
+      animate={{ opacity: isRemoving ? 0.55 : 1 }}
       aria-busy={isRemoving}
       className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
       exit={{ opacity: 0, x: -8 }}
-      initial={{ opacity: 0, x: -8 }}
       layout
       transition={{ duration: 0.18 }}
     >
@@ -386,10 +381,8 @@ function renderContent({
   if (viewMode === "cards") {
     return (
       <motion.div
-        animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         exit={{ opacity: 0, y: -10 }}
-        initial={{ opacity: 0, y: 10 }}
         key="cards-container"
         layout
         transition={{ duration: 0.2, ease: "easeOut" }}
@@ -410,10 +403,8 @@ function renderContent({
   if (viewMode === "compact") {
     return (
       <motion.div
-        animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
         exit={{ opacity: 0, y: -10 }}
-        initial={{ opacity: 0, y: 10 }}
         key="compact-container"
         layout
         transition={{ duration: 0.2, ease: "easeOut" }}
@@ -433,10 +424,8 @@ function renderContent({
 
   return (
     <motion.div
-      animate={{ opacity: 1, y: 0 }}
       className="flex flex-col gap-4"
       exit={{ opacity: 0, y: -10 }}
-      initial={{ opacity: 0, y: 10 }}
       key="list-container"
       layout
       transition={{ duration: 0.2, ease: "easeOut" }}
@@ -456,14 +445,14 @@ function renderContent({
 }
 
 function GuestState(): React.ReactNode {
-  const signInUrl = `/auth/sign-in?redirectTo=${encodeURIComponent("/bookmark")}`;
+  const signInUrl = `/auth/sign-in?redirectTo=${encodeURIComponent("/library")}`;
 
   return (
     <BookmarkEmptyState
       cta={{ href: signInUrl, label: "Sign in", variant: "inverted" }}
-      description="Your saved components and docs are synced to your account. Sign in to see your collection."
+      description="Your saved Sora UI pages are synced to your account. Sign in to view your library."
       eyebrow="Account"
-      title="Sign in to view bookmarks"
+      title="Sign in to view your library"
     />
   );
 }
@@ -472,9 +461,9 @@ function AuthDisabledState(): React.ReactNode {
   return (
     <BookmarkEmptyState
       cta={{ href: "/docs", label: "Explore components", variant: "accent" }}
-      description="Bookmarks are unavailable while authentication is disabled."
+      description="My Library is unavailable while authentication is disabled."
       eyebrow="Unavailable"
-      title="Bookmarks are temporarily disabled"
+      title="My Library is temporarily disabled"
     />
   );
 }
@@ -495,6 +484,9 @@ export default function BookmarkPage() {
   } = useBookmarkPages();
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
+  const [activeTab, setActiveTab] = useState<"lists" | "saves" | "opened">(
+    "lists"
+  );
   const [pendingRemoveUrl, setPendingRemoveUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -528,26 +520,6 @@ export default function BookmarkPage() {
 
   const showGuestState = !(sessionPending || isAuthenticated);
 
-  const heroSubtitle = (() => {
-    if (!authEnabled) {
-      return "Bookmarks are unavailable while authentication is disabled.";
-    }
-
-    if (showGuestState) {
-      return "Sign in to sync and access your saved pages.";
-    }
-
-    if (error) {
-      return "We couldn't load your saved pages.";
-    }
-
-    if (bookmarks.length === 0 && !loading) {
-      return "Nothing saved yet — explore and bookmark components.";
-    }
-
-    return `${bookmarks.length} item${bookmarks.length === 1 ? "" : "s"} in your collection.`;
-  })();
-
   let bookmarkContent: React.ReactNode;
   if (!authEnabled) {
     bookmarkContent = <AuthDisabledState />;
@@ -566,81 +538,102 @@ export default function BookmarkPage() {
     });
   }
 
-  return (
-    <div className="flex flex-col items-center px-6 lg:px-10">
-      {/* ── Hero ── */}
-      <div className="relative flex flex-col items-center justify-center pt-24 sm:pt-30">
-        <motion.h1
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-2xl text-center font-medium text-4xl tracking-tighter sm:text-5xl md:text-6xl"
-          initial={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.4 }}
+  const listContent = (
+    <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 2xl:grid-cols-4">
+      <li>
+        <button
+          aria-label="Create a list (coming soon)"
+          className="flex aspect-[4/3] w-full cursor-not-allowed flex-col items-center justify-center gap-1.5 rounded-[14px] border border-border/70 border-dashed text-muted-foreground/50"
+          disabled
+          title="Lists are coming soon"
+          type="button"
         >
-          Your Bookmarks
-        </motion.h1>
-        <motion.p
-          animate={{ opacity: 1 }}
-          className="mt-3 max-w-xl text-balance text-center text-foreground/50 text-sm sm:text-base md:text-lg"
-          initial={{ opacity: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-        >
-          {heroSubtitle}
-        </motion.p>
+          <Plus className="size-[22px]" strokeWidth={1.5} />
+          <span className="font-medium text-xs">New list</span>
+        </button>
+      </li>
+    </ul>
+  );
+
+  let activeContent: React.ReactNode;
+  if (activeTab === "lists") {
+    activeContent = listContent;
+  } else if (activeTab === "opened") {
+    activeContent = (
+      <div className="flex min-h-48 items-center justify-center text-muted-foreground text-sm">
+        No opened pages yet.
       </div>
-
-      {/* ── Main content area ── */}
-      <div className="flex w-full max-w-7xl flex-col gap-10 py-6 md:gap-16 md:py-10">
-        <div className="flex flex-col gap-8 md:gap-12">
-          {/* Search + filters */}
-          <motion.div
-            animate={{ opacity: 1, y: 0 }}
-            className="mx-auto flex w-full max-w-2xl flex-col items-center gap-3 sm:flex-row"
-            initial={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.35, delay: 0.15 }}
-          >
-            {/* Search input */}
-            <div className="relative w-full">
-              <Search className="pointer-events-none absolute top-1/2 left-3.5 h-[18px] w-[18px] -translate-y-1/2 text-foreground/35" />
-              <input
-                className="h-10 w-full rounded-xl bg-muted pr-3 pl-10 text-base text-foreground transition-shadow placeholder:text-foreground/35 placeholder:tracking-tight focus:outline-none focus:ring-2 focus:ring-foreground/20"
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search… (or just explore)"
-                type="text"
-                value={search}
-              />
-            </div>
-          </motion.div>
-
-          {/* ── Section header ── */}
-          <motion.div
-            animate={{ opacity: 1 }}
-            className="flex items-start justify-between gap-3"
-            initial={{ opacity: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            <div className="flex flex-col gap-1">
-              <div className="inline-flex items-start gap-2">
-                <h2 className="text-2xl tracking-tight sm:text-3xl md:text-4xl">
-                  Bookmarks
-                </h2>
-                <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1.5 font-medium text-foreground/70 text-xs tabular-nums">
-                  {filteredBookmarks.length}
-                </span>
-              </div>
-              <p className="text-base text-foreground/50">
-                Your saved components and documentation pages
-              </p>
-            </div>
-
-            <ViewToggle setViewMode={setViewMode} viewMode={viewMode} />
-          </motion.div>
-
-          {/* ── Grid / List ── */}
-          <div className="min-h-[300px]">
-            <AnimatePresence mode="wait">{bookmarkContent}</AnimatePresence>
-          </div>
+    );
+  } else {
+    activeContent = (
+      <div className="space-y-5">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="font-medium text-lg">All saves</h2>
+          <ViewToggle setViewMode={setViewMode} viewMode={viewMode} />
+        </div>
+        <div className="min-h-[300px]">
+          <AnimatePresence mode="wait">{bookmarkContent}</AnimatePresence>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="relative min-h-full bg-background">
+      <main className="space-y-8 px-5 pt-[18px] pb-5 max-md:px-3">
+        <div className="flex flex-wrap items-center gap-3 px-2 pt-1">
+          <div className="min-w-[180px] flex-1">
+            <h1 className="font-medium text-2xl tracking-tight">Bookmarks</h1>
+            <p className="mt-0.5 h-[18px] text-[13px] text-muted-foreground">
+              {bookmarks.length} {bookmarks.length === 1 ? "save" : "saves"} ·
+              no lists yet
+            </p>
+          </div>
+          <input
+            className="hidden h-8 w-[190px] rounded-lg border border-input bg-background px-3 text-foreground text-sm shadow-black/5 shadow-sm transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/20 md:block"
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder={
+              activeTab === "lists" ? "Search lists" : "Search saves"
+            }
+            value={search}
+          />
+          <button
+            className="inline-flex h-8 shrink-0 cursor-not-allowed items-center gap-1.5 rounded-md bg-primary px-3 font-medium text-primary-foreground text-xs disabled:opacity-100"
+            disabled
+            title="Lists are coming soon"
+            type="button"
+          >
+            <Plus className="size-3.5" />
+            New list
+          </button>
+        </div>
+
+        <fieldset
+          aria-label="Bookmark views"
+          className="mx-2 flex w-max items-center gap-1 rounded-full bg-muted p-1"
+        >
+          <legend className="sr-only">Bookmark views</legend>
+          {(
+            [
+              ["lists", "Lists"],
+              ["saves", "All saves"],
+              ["opened", "Opened"],
+            ] as const
+          ).map(([tab, label]) => (
+            <button
+              aria-pressed={activeTab === tab}
+              className={`h-7 rounded-full border px-4 text-[13px] transition-colors ${activeTab === tab ? "border-border/60 bg-background font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              type="button"
+            >
+              {label}
+            </button>
+          ))}
+        </fieldset>
+
+        {activeContent}
+      </main>
     </div>
   );
 }
