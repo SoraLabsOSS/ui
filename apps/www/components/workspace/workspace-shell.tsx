@@ -65,18 +65,18 @@ function WorkspaceSidebar() {
                 render={<Link href="/" onClick={handleHomeClick} />}
                 tooltip="Sora UI"
               >
-                <IconLogo className="size-4" />
+                <IconLogo className="size-5!" />
               </SidebarMenuButton>
               <SidebarMenuButton
-                className="pointer-events-none absolute inset-0 size-8 opacity-0 group-data-[collapsible=icon]:pointer-events-auto group-data-[collapsible=icon]:group-hover/logo:opacity-100"
+                className="pointer-events-none absolute inset-0 size-8 items-center justify-center opacity-0 group-data-[collapsible=icon]:pointer-events-auto group-data-[collapsible=icon]:group-hover/logo:opacity-100"
                 onClick={toggleSidebar}
                 tooltip="Open sidebar"
               >
-                <PanelLeftIcon className="size-4" />
+                <PanelLeftIcon className="size-5!" />
               </SidebarMenuButton>
             </div>
             <div className="group-data-[collapsible=icon]:hidden">
-              <SidebarTrigger className="text-sidebar-foreground/60 transition-colors duration-150 hover:text-sidebar-foreground" />
+              <SidebarTrigger className="text-sidebar-foreground/60 transition-colors duration-150 hover:text-sidebar-foreground [&_svg]:size-5!" />
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -272,19 +272,10 @@ export function WorkspaceShell({
 }
 
 function WorkspaceMobileHeader() {
-  const handleHomeClick = useWorkspaceHomeClick();
-
   return (
     <header className="flex h-12 shrink-0 items-center gap-2 px-4 md:hidden">
-      <SidebarTrigger className="-ms-2 text-muted-foreground" />
-      <Link
-        className="inline-flex items-center gap-2"
-        href="/"
-        onClick={handleHomeClick}
-      >
-        <IconLogo className="size-4" />
-        <span className="font-medium text-sm">My Library</span>
-      </Link>
+      <SidebarTrigger className="-ms-2 text-muted-foreground [&_svg]:size-5!" />
+      <span className="font-medium text-base">My Library</span>
     </header>
   );
 }

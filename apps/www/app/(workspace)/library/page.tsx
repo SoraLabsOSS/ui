@@ -215,7 +215,7 @@ function BookmarkCompactCard({
           <CardThumbnail tag={page.tag} title={page.title} />
         </div>
         <div className="flex items-center justify-between px-3 py-2">
-          <span className="truncate font-medium text-foreground text-sm">
+          <span className="truncate font-medium text-base text-foreground">
             {page.title}
           </span>
           <button
@@ -261,13 +261,13 @@ function BookmarkListRow({
             {page.title}
           </span>
           {page.tag && (
-            <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-foreground/50 text-xs">
+            <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-foreground/50 text-sm">
               {page.tag}
             </span>
           )}
         </div>
         {page.description && (
-          <p className="line-clamp-1 text-foreground/50 text-xs">
+          <p className="line-clamp-1 text-foreground/50 text-sm">
             {page.description}
           </p>
         )}
@@ -331,7 +331,7 @@ function renderContent({
         key="loading-state"
       >
         <Loader className="h-7 w-7 animate-spin text-foreground/30" />
-        <p className="text-foreground/40 text-sm">Loading bookmarks…</p>
+        <p className="text-base text-foreground/40">Loading bookmarks…</p>
       </motion.div>
     );
   }
@@ -339,7 +339,7 @@ function renderContent({
   if (error) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 text-center">
-        <p className="text-foreground/60 text-sm">
+        <p className="text-base text-foreground/60">
           Could not load your bookmarks. Please try again.
         </p>
         <button
@@ -549,7 +549,7 @@ export default function BookmarkPage() {
           type="button"
         >
           <Plus className="size-[22px]" strokeWidth={1.5} />
-          <span className="font-medium text-xs">New list</span>
+          <span className="font-medium text-sm">New list</span>
         </button>
       </li>
     </ul>
@@ -560,7 +560,7 @@ export default function BookmarkPage() {
     activeContent = listContent;
   } else if (activeTab === "opened") {
     activeContent = (
-      <div className="flex min-h-48 items-center justify-center text-muted-foreground text-sm">
+      <div className="flex min-h-48 items-center justify-center text-base text-muted-foreground">
         No opened pages yet.
       </div>
     );
@@ -568,7 +568,7 @@ export default function BookmarkPage() {
     activeContent = (
       <div className="space-y-5">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="font-medium text-lg">All saves</h2>
+          <h2 className="font-medium text-xl">All saves</h2>
           <ViewToggle setViewMode={setViewMode} viewMode={viewMode} />
         </div>
         <div className="min-h-[300px]">
@@ -583,8 +583,10 @@ export default function BookmarkPage() {
       <main className="space-y-8 px-5 pt-[18px] pb-5 max-md:px-3">
         <div className="flex flex-wrap items-center gap-3 px-2 pt-1">
           <div className="min-w-[180px] flex-1">
-            <h1 className="font-medium text-2xl tracking-tight">Bookmarks</h1>
-            <p className="mt-0.5 h-[18px] text-[13px] text-muted-foreground">
+            <h1 className="font-medium text-3xl tracking-tight sm:text-4xl">
+              Bookmarks
+            </h1>
+            <p className="mt-1 text-muted-foreground text-sm">
               {bookmarks.length} {bookmarks.length === 1 ? "save" : "saves"} ·
               no lists yet
             </p>
@@ -598,7 +600,7 @@ export default function BookmarkPage() {
             value={search}
           />
           <button
-            className="inline-flex h-8 shrink-0 cursor-not-allowed items-center gap-1.5 rounded-md bg-primary px-3 font-medium text-primary-foreground text-xs disabled:opacity-100"
+            className="inline-flex h-8 shrink-0 cursor-not-allowed items-center gap-1.5 rounded-md bg-primary px-3 font-medium text-primary-foreground text-sm disabled:opacity-100"
             disabled
             title="Lists are coming soon"
             type="button"
@@ -622,7 +624,7 @@ export default function BookmarkPage() {
           ).map(([tab, label]) => (
             <button
               aria-pressed={activeTab === tab}
-              className={`h-7 rounded-full border px-4 text-[13px] transition-colors ${activeTab === tab ? "border-border/60 bg-background font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+              className={`h-8 rounded-full border px-4 text-sm transition-colors ${activeTab === tab ? "border-border/60 bg-background font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
               key={tab}
               onClick={() => setActiveTab(tab)}
               type="button"
@@ -632,7 +634,7 @@ export default function BookmarkPage() {
           ))}
         </fieldset>
 
-        {activeContent}
+        <div className="mx-2">{activeContent}</div>
       </main>
     </div>
   );
