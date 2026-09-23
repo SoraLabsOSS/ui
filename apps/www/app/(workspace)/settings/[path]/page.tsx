@@ -6,21 +6,13 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
+import { SettingsLoadingSkeleton } from "@/components/workspace/settings-loading-skeleton";
 import { isDatabaseConfigured } from "@/env";
 import { auth } from "@/lib/auth";
 import { getQueryClient } from "@/lib/query-client";
-import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
 export function generateStaticParams() {
   return Object.values(viewPaths.settings).map((path) => ({ path }));
-}
-
-function SettingsPageSkeleton() {
-  return (
-    <div className="mx-auto w-full max-w-3xl px-4 pt-8 pb-6 md:px-6 md:pt-8 md:pb-8">
-      <Skeleton className="h-64" rounded="lg" />
-    </div>
-  );
 }
 
 async function ProtectedSettingsContent({ path }: { path: string }) {
@@ -71,7 +63,7 @@ export default async function SettingsPage({
   }
 
   return (
-    <Suspense fallback={<SettingsPageSkeleton />}>
+    <Suspense fallback={<SettingsLoadingSkeleton />}>
       <ProtectedSettingsContent path={path} />
     </Suspense>
   );
