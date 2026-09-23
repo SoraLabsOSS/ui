@@ -152,10 +152,41 @@ function WorkspaceUserNav() {
   const { resolvedTheme, setTheme } = useTheme();
   const userEmail = session?.user.email ?? "";
   const hue = emailToHue(userEmail);
+  const avatarStyle = {
+    background: `linear-gradient(135deg, oklch(0.35 0.08 ${hue}), oklch(0.25 0.05 ${hue + 40}))`,
+  };
   const authLabel = session
     ? localization.auth.signOut
     : localization.auth.signIn;
   const authPath = `${basePaths.auth}/${session ? viewPaths.auth.signOut : viewPaths.auth.signIn}`;
+  let avatar: ReactNode;
+
+  if (session?.user.image) {
+    avatar = (
+      <Avatar className="size-5 ring-1 ring-sidebar-border/50">
+        <AvatarImage
+          alt={session.user.name || userEmail}
+          className="object-cover"
+          src={session.user.image}
+        />
+        <AvatarFallback style={avatarStyle} />
+      </Avatar>
+    );
+  } else if (session) {
+    avatar = (
+      <div
+        aria-hidden="true"
+        className="size-5 shrink-0 rounded-full ring-1 ring-sidebar-border/50"
+        style={avatarStyle}
+      />
+    );
+  } else {
+    avatar = (
+      <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-sidebar-foreground/10">
+        <User2 className="size-3.5" />
+      </div>
+    );
+  }
 
   return (
     <SidebarMenuItem className="mt-2 border-sidebar-border border-t pt-2">
@@ -173,24 +204,7 @@ function WorkspaceUserNav() {
               </>
             ) : (
               <>
-                {session ? (
-                  <Avatar className="size-5 ring-1 ring-sidebar-border/50">
-                    <AvatarImage
-                      alt={session.user.name || userEmail}
-                      className="object-cover"
-                      src={session.user.image || undefined}
-                    />
-                    <AvatarFallback
-                      style={{
-                        background: `linear-gradient(135deg, oklch(0.35 0.08 ${hue}), oklch(0.25 0.05 ${hue + 40}))`,
-                      }}
-                    />
-                  </Avatar>
-                ) : (
-                  <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-sidebar-foreground/10">
-                    <User2 className="size-3.5" />
-                  </div>
-                )}
+                {avatar}
                 <span
                   className="truncate group-data-[collapsible=icon]:hidden"
                   data-testid="user-email"
