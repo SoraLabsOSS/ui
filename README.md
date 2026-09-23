@@ -8,6 +8,7 @@
 ![BlockDex](https://img.shields.io/endpoint?url=https%3A%2F%2Ftoolproof.kynth.studio%2Fapi%2Fv1%2Fbadge%2Fblockdex%2Fsora-ui)
 [![MotionScore](https://api.motion.dev/score/badge?url=ui.soralabs.studio)](https://score.motion.dev/site/ui.soralabs.studio)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE.md)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/SoraLabsOSS/ui?utm_source=oss&utm_medium=github&utm_campaign=SoraLabsOSS%2Fui&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 </div>
 
