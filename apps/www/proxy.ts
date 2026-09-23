@@ -1,16 +1,11 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
-const MARKDOWN_ACCEPT = /text\/markdown|text\/plain/;
 const DOCS_PATH_RE = /^\/docs(?:\/(.+))?$/;
 const CATALOG_PATH_RE = /^\/(?:catalog|components)\/(.+)$/;
 const UI_PATH_RE = /^\/ui(?:\/(.+))?$/;
 const BLOG_PATH_RE = /^\/blog\/(.+)$/;
 const MD_EXT_RE = /\.(mdx|md)$/;
-
-function isMarkdownPreferred(request: NextRequest): boolean {
-  return MARKDOWN_ACCEPT.test(request.headers.get("accept") ?? "");
-}
 
 function rewriteMarkdownPath(pathname: string): string | null {
   const clean = pathname.replace(MD_EXT_RE, "");
@@ -43,7 +38,7 @@ function rewriteMarkdownPath(pathname: string): string | null {
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // Edge auth guard: redirect unauthenticated visitors before hitting Serverless SSR
+  // Avoid rendering settings pages when there is no session cookie.
   if (pathname === "/settings" || pathname.startsWith("/settings/")) {
     const isRoot = pathname === "/settings" || pathname === "/settings/";
     const target =
@@ -65,13 +60,6 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const isExplicitMarkdown =
-    pathname.endsWith(".mdx") || pathname.endsWith(".md");
-
-  if (!(isExplicitMarkdown || isMarkdownPreferred(request))) {
-    return NextResponse.next();
-  }
-
   const rewritten = rewriteMarkdownPath(pathname);
   if (!rewritten) {
     return NextResponse.next();
@@ -82,14 +70,77 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/docs",
-    "/docs/:path*",
-    "/catalog/:path*",
-    "/components/:path*",
-    "/ui",
-    "/ui/:path*",
-    "/blog/:path*",
     "/settings",
     "/settings/:path*",
+    {
+      source: "/docs",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/docs/:path*",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/catalog/:path+",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/components/:path+",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/ui",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/ui/:path*",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/blog/:path+",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
   ],
 };

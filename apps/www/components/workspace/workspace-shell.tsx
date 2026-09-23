@@ -56,7 +56,7 @@ function WorkspaceSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="pt-3 pb-0">
+      <SidebarHeader className="mx-2 border-sidebar-border border-b px-0 pt-3 pb-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex flex-row items-center justify-between">
             <div className="group/logo relative flex items-center justify-center">
@@ -83,7 +83,7 @@ function WorkspaceSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup className="pt-1">
+        <SidebarGroup className="pt-2">
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -102,9 +102,9 @@ function WorkspaceSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="gap-1 border-sidebar-border border-t py-2">
+      <SidebarFooter className="mx-2 gap-1 border-sidebar-border border-t px-0 pt-3 pb-2">
         <SidebarMenu className="gap-1">
-          <SidebarMenuItem>
+          <SidebarMenuItem className="mb-1">
             <SidebarMenuButton
               className="h-8 rounded-lg transition-colors duration-150"
               isActive={pathname.startsWith("/settings/")}
