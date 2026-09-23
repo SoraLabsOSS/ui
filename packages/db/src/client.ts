@@ -2,7 +2,29 @@ import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { env } from "./env";
-import * as schema from "./schema/index";
+import {
+  account,
+  accountRelations,
+  bookmark,
+  bookmarkRelations,
+  session,
+  sessionRelations,
+  user,
+  userRelations,
+  verification,
+} from "./schema/index";
+
+const schema = {
+  account,
+  accountRelations,
+  bookmark,
+  bookmarkRelations,
+  session,
+  sessionRelations,
+  user,
+  userRelations,
+  verification,
+};
 
 export type Database = PostgresJsDatabase<typeof schema>;
 
@@ -20,15 +42,9 @@ function getDbInstance(): Database {
     );
   }
 
-  /**
-   * Connection via Supabase Transaction Pooler (port 6543).
-   * Recommended for serverless/edge environments (Next.js App Router, etc.)
-   * to avoid exhausting database connections.
-   *
-   * For migrations (drizzle-kit), use a direct connection (port 5432).
-   */
+  /** Use the pooled Postgres URL at runtime; migrations use a direct URL. */
   client = postgres(env.DATABASE_URL, {
-    // Disable prefetch for serverless/edge compatibility
+    // Keep transaction-pooler compatibility.
     prepare: false,
   });
   dbInstance = drizzle({ client, schema });

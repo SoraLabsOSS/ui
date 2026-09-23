@@ -3,10 +3,10 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    /** Transaction pooler URL (port 6543) — runtime connections */
+    /** Pooled PostgreSQL URL for runtime connections */
     DATABASE_URL: z.url().optional(),
 
-    /** Direct connection URL (port 5432) — drizzle-kit migrations only */
+    /** Direct PostgreSQL URL for drizzle-kit migrations */
     DATABASE_URL_DIRECT: z.url().optional(),
   },
 
