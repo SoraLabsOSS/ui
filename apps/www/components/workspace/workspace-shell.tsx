@@ -103,7 +103,7 @@ function WorkspaceSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="gap-1 border-sidebar-border border-t py-2">
-        <SidebarMenu>
+        <SidebarMenu className="gap-1">
           <SidebarMenuItem>
             <SidebarMenuButton
               className="h-8 rounded-lg transition-colors duration-150"
