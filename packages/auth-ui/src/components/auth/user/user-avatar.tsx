@@ -18,6 +18,14 @@ import {
   shouldShowSessionSkeleton,
 } from "../../../lib/resolve-session-user";
 
+function emailToHue(email: string): number {
+  let hash = 0;
+  for (const char of email) {
+    hash = (hash * 31 + char.charCodeAt(0)) % 360;
+  }
+  return hash;
+}
+
 export interface UserAvatarProps {
   className?: string;
   fallback?: ReactNode;
@@ -29,12 +37,12 @@ export interface UserAvatarProps {
 /**
  * Display a user's avatar using session information or an explicit user prop.
  *
- * Renders a circular avatar that shows the user's image when available, a fallback node if provided, or the user's first two initials; while the session is loading (or when `isPending` is true) and no `user` prop is supplied, renders a skeleton placeholder. Before mount, a skeleton is always shown without a `user` prop so server and client markup match.
+ * Renders a circular avatar that shows the user's image when available, a fallback node if provided, or a hue-based background; while the session is loading (or when `isPending` is true) and no `user` prop is supplied, renders a skeleton placeholder. Before mount, a skeleton is always shown without a `user` prop so server and client markup match.
  *
  * @param className - Additional CSS classes applied to the avatar container
  * @param user - Optional user object to display instead of the session user
  * @param isPending - When true, treat the component as loading and show the skeleton if no `user` is provided
- * @param fallback - Node to render inside the avatar fallback area before initials or the default icon
+ * @param fallback - Optional node to render inside the avatar fallback area
  * @returns The avatar element to render (JSX)
  */
 export function UserAvatar({
@@ -68,13 +76,9 @@ export function UserAvatar({
     isPending,
   });
 
-  const initials = (
-    resolvedUser?.username ||
-    resolvedUser?.name ||
-    resolvedUser?.email
-  )
-    ?.slice(0, 2)
-    .toUpperCase();
+  const identity =
+    resolvedUser?.email || resolvedUser?.name || resolvedUser?.username || "";
+  const hue = emailToHue(identity);
 
   return (
     <Avatar
@@ -96,8 +100,15 @@ export function UserAvatar({
       <AvatarFallback
         className="text-muted-foreground!"
         delayMs={resolvedUser?.image ? 600 : undefined}
+        style={
+          identity
+            ? {
+                background: `linear-gradient(135deg, oklch(0.35 0.08 ${hue}), oklch(0.25 0.05 ${hue + 40}))`,
+              }
+            : undefined
+        }
       >
-        {fallback || initials || <User2 className="size-4" />}
+        {fallback || (!identity && <User2 className="size-4" />)}
       </AvatarFallback>
     </Avatar>
   );
