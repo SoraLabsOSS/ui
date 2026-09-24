@@ -26,6 +26,7 @@ interface ExamplePreviewClientProps {
   centered?: boolean;
   passDemoProps?: boolean;
   reducedMotion?: "always" | "never" | "user";
+  showRefreshButton?: boolean;
   slug: string;
 }
 
@@ -33,6 +34,7 @@ export function ExamplePreviewClient({
   centered = false,
   passDemoProps = true,
   reducedMotion = "user",
+  showRefreshButton = true,
   slug,
 }: ExamplePreviewClientProps) {
   useEffect(() => {
@@ -199,12 +201,14 @@ export function ExamplePreviewClient({
         centered && "p-6"
       )}
     >
-      <RefreshButton
-        aria-label="Reload example"
-        className="absolute top-3 left-3 z-30"
-        onRefresh={() => setPreviewKey((prev) => prev + 1)}
-        title="Reload example"
-      />
+      {showRefreshButton ? (
+        <RefreshButton
+          aria-label="Reload example"
+          className="absolute top-3 left-3 z-30"
+          onRefresh={() => setPreviewKey((prev) => prev + 1)}
+          title="Reload example"
+        />
+      ) : null}
       {optionsPanel}
 
       <Suspense

@@ -11,6 +11,7 @@ export function CatalogExampleClient({ slug }: CatalogExampleClientProps) {
     <ExamplePreviewClient
       passDemoProps={false}
       reducedMotion="never"
+      showRefreshButton={false}
       slug={slug}
     />
   );
