@@ -6,7 +6,17 @@ import {
   type Transition,
   useReducedMotion,
 } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import {
+  Children,
+  isValidElement,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { getStrictContext } from "@/registry/lib/get-strict-context";
 import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
 import {
@@ -50,14 +60,14 @@ function Tabs({
   children,
   ...props
 }: TabsProps) {
-  const [activeValue, setActiveValue] = React.useState<string | undefined>(
+  const [activeValue, setActiveValue] = useState<string | undefined>(
     defaultValue
   );
-  const triggersRef = React.useRef(new Map<string, HTMLElement>());
-  const initialSet = React.useRef(false);
+  const triggersRef = useRef(new Map<string, HTMLElement>());
+  const initialSet = useRef(false);
   const isControlled = value !== undefined;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       !isControlled &&
       activeValue === undefined &&
@@ -74,7 +84,7 @@ function Tabs({
     }
   }, [activeValue, isControlled]);
 
-  const registerTrigger = React.useCallback(
+  const registerTrigger = useCallback(
     (val: string, node: HTMLElement | null) => {
       if (node) {
         triggersRef.current.set(val, node);
@@ -89,7 +99,7 @@ function Tabs({
     [activeValue, isControlled]
   );
 
-  const handleValueChange = React.useCallback(
+  const handleValueChange = useCallback(
     (val: string) => {
       if (isControlled) {
         onValueChange?.(val);
@@ -166,10 +176,10 @@ function TabsTrigger({
 }: TabsTriggerProps) {
   const { activeValue, handleValueChange, registerTrigger } = useTabs();
 
-  const localRef = React.useRef<HTMLButtonElement | null>(null);
-  React.useImperativeHandle(ref, () => localRef.current as HTMLButtonElement);
+  const localRef = useRef<HTMLButtonElement | null>(null);
+  useImperativeHandle(ref, () => localRef.current as HTMLButtonElement);
 
-  React.useEffect(() => {
+  useEffect(() => {
     registerTrigger(value, localRef.current);
     return () => registerTrigger(value, null);
   }, [value, registerTrigger]);
@@ -206,23 +216,23 @@ function TabsContents({
 }: TabsContentsProps) {
   const { activeValue } = useTabs();
   const prefersReducedMotion = useReducedMotion();
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = Children.toArray(children);
   const activeIndex = childrenArray.findIndex(
     (child): child is React.ReactElement<{ value: string }> =>
-      React.isValidElement(child) &&
+      isValidElement(child) &&
       typeof child.props === "object" &&
       child.props !== null &&
       "value" in child.props &&
       child.props.value === activeValue
   );
 
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
-  const itemRefs = React.useRef<Array<HTMLDivElement | null>>([]);
-  const [height, setHeight] = React.useState(0);
-  const roRef = React.useRef<ResizeObserver | null>(null);
-  const rafRef = React.useRef<number | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [height, setHeight] = useState(0);
+  const roRef = useRef<ResizeObserver | null>(null);
+  const rafRef = useRef<number | null>(null);
 
-  const scheduleHeight = React.useCallback((next: number) => {
+  const scheduleHeight = useCallback((next: number) => {
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
     }
@@ -232,7 +242,7 @@ function TabsContents({
     });
   }, []);
 
-  const measure = React.useCallback((index: number) => {
+  const measure = useCallback((index: number) => {
     const pane = itemRefs.current[index];
     const container = containerRef.current;
     if (!(pane && container)) {
@@ -259,7 +269,7 @@ function TabsContents({
     return total;
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (roRef.current) {
       roRef.current.disconnect();
       roRef.current = null;
@@ -291,7 +301,7 @@ function TabsContents({
     };
   }, [activeIndex, measure, scheduleHeight]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (height === 0 && activeIndex >= 0) {
       const next = measure(activeIndex);
       if (next !== 0) {
@@ -318,17 +328,23 @@ function TabsContents({
         className="-mx-2 flex items-start"
         transition={contentsTransition}
       >
-        {childrenArray.map((child, index) => (
-          <div
-            className="w-full shrink-0 px-2"
-            key={index}
-            ref={(el) => {
-              itemRefs.current[index] = el;
-            }}
-          >
-            {child}
-          </div>
-        ))}
+        {childrenArray.map((child, index) => {
+          const tabKey = isValidElement(child)
+            ? (child.key ?? `tab-pane-${index}`)
+            : `tab-pane-${index}`;
+
+          return (
+            <div
+              className="w-full shrink-0 px-2"
+              key={tabKey}
+              ref={(el) => {
+                itemRefs.current[index] = el;
+              }}
+            >
+              {child}
+            </div>
+          );
+        })}
       </motion.div>
     </motion.div>
   );

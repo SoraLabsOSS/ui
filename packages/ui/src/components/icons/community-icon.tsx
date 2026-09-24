@@ -1,6 +1,7 @@
 export default function CommunityIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      aria-hidden="true"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"

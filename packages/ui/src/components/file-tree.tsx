@@ -12,7 +12,15 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -51,10 +59,10 @@ interface HighlightBounds {
   width: number;
 }
 
-const FileTreeContext = React.createContext<FileTreeCtx | null>(null);
+const FileTreeContext = createContext<FileTreeCtx | null>(null);
 
 function useFileTree() {
-  const context = React.useContext(FileTreeContext);
+  const context = useContext(FileTreeContext);
   if (!context) {
     throw new Error("File tree components must be used within <FileTree />");
   }
@@ -66,10 +74,10 @@ interface FolderCtx {
   toggle: () => void;
 }
 
-const FolderContext = React.createContext<FolderCtx | null>(null);
+const FolderContext = createContext<FolderCtx | null>(null);
 
 function useFolder() {
-  const context = React.useContext(FolderContext);
+  const context = useContext(FolderContext);
   if (!context) {
     throw new Error("Folder components must be used within a folder item");
   }
@@ -142,11 +150,11 @@ function FileTreeHoverHighlight({ className }: { className?: string }) {
   );
 }
 
-function useHighlightTarget() {
+function useHighlightTarget<T extends HTMLElement = HTMLDivElement>() {
   const { containerRef, setHighlightBounds } = useFileTree();
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = useRef<T>(null);
 
-  const onMouseEnter = React.useCallback(() => {
+  const onMouseEnter = useCallback(() => {
     const element = ref.current;
     const container = containerRef.current;
     if (!(element && container)) {
@@ -222,6 +230,8 @@ function FileTreeFile({ node }: { node: FileTreeElement }) {
   const highlightTarget = useHighlightTarget();
 
   return (
+    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: Hover only positions the decorative highlight behind this file row.
+    // biome-ignore lint/a11y/noStaticElementInteractions: Hover only positions the decorative highlight behind this file row.
     <div
       className="relative z-10"
       onMouseEnter={highlightTarget.onMouseEnter}
@@ -245,20 +255,23 @@ function FileTreeFile({ node }: { node: FileTreeElement }) {
 function FileTreeFolder({ node }: { node: FileTreeElement }) {
   const { defaultOpenIds, highlightColor, indentSize, showIcons } =
     useFileTree();
-  const highlightTarget = useHighlightTarget();
-  const [isOpen, setIsOpen] = React.useState(
+  const highlightTarget = useHighlightTarget<HTMLButtonElement>();
+  const [isOpen, setIsOpen] = useState(
     node.defaultOpen ?? defaultOpenIds.has(node.id)
   );
-  const toggle = React.useCallback(() => setIsOpen((open) => !open), []);
+  const toggle = useCallback(() => setIsOpen((open) => !open), []);
 
   return (
     <FolderContext.Provider value={{ isOpen, toggle }}>
       <div className="relative z-10" data-value={node.id}>
-        <button className="w-full text-start" onClick={toggle} type="button">
-          <div
-            onMouseEnter={highlightTarget.onMouseEnter}
-            ref={highlightTarget.ref}
-          >
+        <button
+          className="w-full text-start"
+          onClick={toggle}
+          onMouseEnter={highlightTarget.onMouseEnter}
+          ref={highlightTarget.ref}
+          type="button"
+        >
+          <div>
             <div className="pointer-events-none flex items-center gap-2 p-2">
               {showIcons && (
                 <FolderIcon
@@ -320,10 +333,10 @@ export function FileTree({
   showIcons = true,
   defaultOpenIds = [],
 }: FileTreeProps) {
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [highlightBounds, setHighlightBounds] =
-    React.useState<HighlightBounds | null>(null);
-  const defaultOpenIdSet = React.useMemo(
+    useState<HighlightBounds | null>(null);
+  const defaultOpenIdSet = useMemo(
     () => new Set(defaultOpenIds),
     [defaultOpenIds]
   );
@@ -346,6 +359,8 @@ export function FileTree({
           className
         )}
       >
+        {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Leaving the container only clears the decorative highlight. */}
+        {/* biome-ignore lint/a11y/noStaticElementInteractions: Leaving the container only clears the decorative highlight. */}
         <div
           className="relative isolate w-full p-2"
           onMouseLeave={() => setHighlightBounds(null)}

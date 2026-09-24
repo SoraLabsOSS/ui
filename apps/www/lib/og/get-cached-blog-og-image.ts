@@ -6,5 +6,5 @@ export async function getCachedBlogOgImageBuffer(
 ): Promise<ArrayBuffer | null> {
   "use cache";
   staticContentCacheLife();
-  return getBlogOgImageBuffer(pageSlug);
+  return await getBlogOgImageBuffer(pageSlug);
 }

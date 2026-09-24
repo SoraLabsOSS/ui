@@ -106,17 +106,15 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
     return;
   })();
 
-  const nextNav =
-    guideIndex >= 0 && guideItems.length > 0
-      ? guideIndex < guideItems.length - 1
-        ? {
-            url: guideItems[guideIndex + 1].url,
-            name: guideItems[guideIndex + 1].text,
-          }
-        : { url: primitivesUrl, name: "Motion" }
-      : nextPage
-        ? { url: nextPage.url, name: String(nextPage.name ?? "Suivant") }
-        : undefined;
+  let nextNav: { url: string; name: string } | undefined;
+  if (guideIndex >= 0 && guideItems.length > 0) {
+    const nextGuideItem = guideItems[guideIndex + 1];
+    nextNav = nextGuideItem
+      ? { url: nextGuideItem.url, name: nextGuideItem.text }
+      : { url: primitivesUrl, name: "Motion" };
+  } else if (nextPage) {
+    nextNav = { url: nextPage.url, name: String(nextPage.name ?? "Suivant") };
+  }
 
   return (
     <DocsPage

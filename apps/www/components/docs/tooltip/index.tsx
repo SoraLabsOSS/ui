@@ -1,5 +1,5 @@
 import { cn } from "@workspace/ui/lib/utils";
-import * as motion from "motion/react-client";
+import { div as MotionDiv } from "motion/react-client";
 import type * as React from "react";
 import {
   TooltipArrow as TooltipArrowPrimitive,
@@ -50,9 +50,9 @@ function TooltipContent({
       )}
       {...props}
     >
-      <motion.div className="overflow-hidden text-balance px-3 py-1.5 text-xs">
-        <motion.div layout={layout}>{children}</motion.div>
-      </motion.div>
+      <MotionDiv className="overflow-hidden text-balance px-3 py-1.5 text-xs">
+        <MotionDiv layout={layout}>{children}</MotionDiv>
+      </MotionDiv>
       <TooltipArrowPrimitive
         className="size-3 fill-primary data-[side='left']:translate-x-[-1px] data-[side='right']:translate-x-[1px] data-[side='bottom']:translate-y-[1px] data-[side='top']:translate-y-[-1px]"
         tipRadius={2}

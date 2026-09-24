@@ -30,6 +30,7 @@ export function SidebarToggleIcon({
 }: SidebarToggleIconProps) {
   return (
     <svg
+      aria-hidden="true"
       className={className}
       fill="none"
       height="24"

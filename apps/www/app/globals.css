@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
+@import "shadcn/tailwind.css";
+
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../../../packages/**/*.{ts,tsx}";
@@ -6,14 +11,9 @@
 @source "../**/*.{ts,tsx,mdx}";
 @source "./(playground)/**/*.{ts,tsx,mdx}";
 
-@import "tw-animate-css";
 @plugin "tailwind-scrollbar";
 
 @custom-variant dark (&:is(.dark *));
-
-@import "fumadocs-ui/css/black.css";
-@import "fumadocs-ui/css/preset.css";
-@import "shadcn/tailwind.css";
 
 @source "../node_modules/fumadocs-ui/dist/**/*.js";
 
@@ -443,6 +443,15 @@
     --_fd-blog-slug-gutter: 0px;
   }
 
+  /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
+  #nd-page {
+    max-width: min(
+      100%,
+      calc(var(--fd-layout-width) - var(--fd-sidebar-width))
+    ) !important;
+    @apply mx-auto w-full items-start !pt-0;
+  }
+
   /* Balance left (sidebar + offset) and right (offset) gutters when banner shifts layout down */
   #nd-docs-layout {
     margin-inline-end: var(--fd-layout-offset) !important;
@@ -479,15 +488,6 @@
 
   #nd-page article.blog-article {
     @apply !pt-3 !max-w-none;
-  }
-
-  /* Keep article + TOC together; avoid 2xl:max-w-none stretching TOC to the viewport edge */
-  #nd-page {
-    max-width: min(
-      100%,
-      calc(var(--fd-layout-width) - var(--fd-sidebar-width))
-    ) !important;
-    @apply mx-auto w-full items-start !pt-0;
   }
 
   /* Reserve TOC column width in page flex layout. */
@@ -714,7 +714,6 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   /* Prevent accidental image drag while scrolling blog cards and articles. */
   [data-blog-footer] img {
     -webkit-user-drag: none;
-    user-drag: none;
   }
 }
 

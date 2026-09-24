@@ -21,6 +21,8 @@ export interface Processor {
   process: (content: string) => Promise<ReactNode>;
 }
 
+const WORD_BOUNDARY_REGEX = /(?=\s)/;
+
 export function rehypeWrapWords() {
   return (tree: Root) => {
     visit(tree, ["text", "element"], (node, index, parent) => {
@@ -31,7 +33,7 @@ export function rehypeWrapWords() {
         return;
       }
 
-      const words = node.value.split(/(?=\s)/);
+      const words = node.value.split(WORD_BOUNDARY_REGEX);
 
       // Create new span nodes for each word and whitespace
       const newNodes: ElementContent[] = words.flatMap((word) => {

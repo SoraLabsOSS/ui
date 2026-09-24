@@ -1,5 +1,6 @@
 export const LucideIcons = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
+    aria-hidden="true"
     fill="none"
     height="24"
     stroke="currentColor"

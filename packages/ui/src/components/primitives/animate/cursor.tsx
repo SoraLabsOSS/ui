@@ -13,7 +13,14 @@ import {
   useMotionValue,
   useSpring,
 } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 interface CursorContextType {
   active: boolean;
@@ -32,13 +39,13 @@ interface CursorProviderProps {
 }
 
 function CursorProvider({ children, global = false }: CursorProviderProps) {
-  const [cursorPos, setCursorPos] = React.useState({ x: 0, y: 0 });
-  const [active, setActive] = React.useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [active, setActive] = useState(false);
 
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const cursorRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const id = "__cursor_none_style__";
     if (document.getElementById(id)) {
       return;
@@ -52,7 +59,7 @@ function CursorProvider({ children, global = false }: CursorProviderProps) {
     document.head.appendChild(style);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let removeListeners: () => void;
 
     if (global) {
@@ -155,7 +162,7 @@ function CursorContainer({
   ...props
 }: CursorContainerProps) {
   const { containerRef, global, active } = useCursor();
-  React.useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
+  useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
 
   const Component = asChild ? Slot : motion.div;
 
@@ -178,12 +185,12 @@ type CursorProps = WithAsChild<
 
 function Cursor({ ref, asChild = false, style, ...props }: CursorProps) {
   const { cursorPos, active, containerRef, cursorRef, global } = useCursor();
-  React.useImperativeHandle(ref, () => cursorRef.current as HTMLDivElement);
+  useImperativeHandle(ref, () => cursorRef.current as HTMLDivElement);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const target = global
       ? document.documentElement
       : containerRef.current?.parentElement;
@@ -203,7 +210,7 @@ function Cursor({ ref, asChild = false, style, ...props }: CursorProps) {
     };
   }, [active, global, containerRef]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     x.set(cursorPos.x);
     y.set(cursorPos.y);
   }, [cursorPos, x, y]);
@@ -263,11 +270,8 @@ function CursorFollow({
   ...props
 }: CursorFollowProps) {
   const { cursorPos, active, cursorRef, global } = useCursor();
-  const cursorFollowRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(
-    ref,
-    () => cursorFollowRef.current as HTMLDivElement
-  );
+  const cursorFollowRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => cursorFollowRef.current as HTMLDivElement);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -275,7 +279,7 @@ function CursorFollow({
   const springX = useSpring(x, transition);
   const springY = useSpring(y, transition);
 
-  const calculateOffset = React.useCallback(() => {
+  const calculateOffset = useCallback(() => {
     const rect = cursorFollowRef.current?.getBoundingClientRect();
     const width = rect?.width ?? 0;
     const height = rect?.height ?? 0;
@@ -296,6 +300,8 @@ function CursorFollow({
           case "end":
             offsetX = -alignOffset;
             break;
+          default:
+            break;
         }
         break;
 
@@ -310,6 +316,8 @@ function CursorFollow({
             break;
           case "end":
             offsetX = -alignOffset;
+            break;
+          default:
             break;
         }
         break;
@@ -326,6 +334,8 @@ function CursorFollow({
           case "end":
             offsetY = -alignOffset;
             break;
+          default:
+            break;
         }
         break;
 
@@ -341,14 +351,18 @@ function CursorFollow({
           case "end":
             offsetY = -alignOffset;
             break;
+          default:
+            break;
         }
+        break;
+      default:
         break;
     }
 
     return { x: offsetX, y: offsetY };
   }, [side, align, sideOffset, alignOffset]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const offset = calculateOffset();
     const cursorRect = cursorRef.current?.getBoundingClientRect();
     const cursorWidth = cursorRect?.width ?? 20;

@@ -4,15 +4,18 @@ import { env, isRedisConfigured } from "@/env";
 let redis: Redis | undefined;
 
 export function getRedis(): Redis {
-  if (!isRedisConfigured()) {
+  const url = env.UPSTASH_REDIS_REST_URL;
+  const token = env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!(isRedisConfigured() && url && token)) {
     throw new Error(
       "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required for Redis."
     );
   }
 
   redis ??= new Redis({
-    url: env.UPSTASH_REDIS_REST_URL!,
-    token: env.UPSTASH_REDIS_REST_TOKEN!,
+    url,
+    token,
   });
 
   return redis;

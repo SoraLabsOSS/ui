@@ -43,6 +43,31 @@ function getShadcnDepTarget(dep: string): string | null {
   return `components/ui/${dep}.tsx`;
 }
 
+function appendRegistryInstallTargets(
+  entry: RegistryEntry,
+  queue: string[],
+  targets: string[]
+) {
+  for (const file of entry.files ?? []) {
+    if (file.target) {
+      targets.push(file.target);
+    }
+  }
+
+  for (const dep of entry.registryDependencies ?? []) {
+    if (dep.startsWith(SORALABS_DEP_PREFIX)) {
+      queue.push(dep.slice(SORALABS_DEP_PREFIX.length));
+    } else if (dep in index) {
+      queue.push(dep);
+    } else {
+      const shadcnTarget = getShadcnDepTarget(dep);
+      if (shadcnTarget && !targets.includes(shadcnTarget)) {
+        targets.push(shadcnTarget);
+      }
+    }
+  }
+}
+
 /**
  * Walks `registryDependencies` for internal (`@soralabs/*`) items — e.g. the
  * shared hooks a primitive installs alongside itself — so the file tree
@@ -67,28 +92,7 @@ function getRegistryInstallTargets(name: string): string[] {
       continue;
     }
 
-    for (const file of entry.files ?? []) {
-      if (file.target) {
-        targets.push(file.target);
-      }
-    }
-
-    for (const dep of entry.registryDependencies ?? []) {
-      if (dep.startsWith(SORALABS_DEP_PREFIX)) {
-        queue.push(dep.slice(SORALABS_DEP_PREFIX.length));
-        continue;
-      }
-
-      if (dep in index) {
-        queue.push(dep);
-        continue;
-      }
-
-      const shadcnTarget = getShadcnDepTarget(dep);
-      if (shadcnTarget && !targets.includes(shadcnTarget)) {
-        targets.push(shadcnTarget);
-      }
-    }
+    appendRegistryInstallTargets(entry, queue, targets);
   }
 
   return targets;

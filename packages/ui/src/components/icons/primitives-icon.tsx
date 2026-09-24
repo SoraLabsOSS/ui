@@ -1,6 +1,7 @@
 export default function PrimitivesIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      aria-hidden="true"
       fill="transparent"
       stroke="currentColor"
       strokeWidth={2}

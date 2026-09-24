@@ -43,16 +43,16 @@ import {
   useCheckDocsPageNew,
   useDocsPageNew,
 } from "./release-dates-context";
+import { useDocsShellHover } from "./shell/context";
 import {
   DocsShell,
   DocsShellContent,
   DocsShellFooter,
   DocsShellHeader,
-  DocsShellNavGroup,
-  DocsShellNavItem,
-  DocsShellSection,
-  useDocsShellHover,
-} from "./shell";
+} from "./shell/layout";
+import { DocsShellNavGroup } from "./shell/nav-group";
+import { DocsShellNavItem } from "./shell/nav-item";
+import { DocsShellSection } from "./shell/nav-section";
 import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./shell/scroll-active-nearest";
 import { closeMobileSidebar } from "./sidebar-close-lock";
 import { useDismissMobileSidebarOnOutside } from "./use-dismiss-mobile-sidebar";

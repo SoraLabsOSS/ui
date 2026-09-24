@@ -53,7 +53,10 @@ async function collectDocumentedNames(): Promise<Set<string>> {
           /<Component(?:Preview|Installation)\s+name=["']([^"']+)["']/g
         );
         for (const match of matches) {
-          allowedNames.add(match[1]!);
+          const name = match[1];
+          if (name) {
+            allowedNames.add(name);
+          }
         }
       }
     }
@@ -523,6 +526,7 @@ async function getRegistryItemsFromFolder(dir: string) {
  * Function to build the registry index file.
  * This function reads the registry.json items and builds a dynamic index file.
  */
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: The generator intentionally runs ordered registry build phases in one pipeline.
 async function buildRegistryIndex() {
   const registryJsonContent = await fs.readFile(REGISTRY_JSON_PATH, "utf-8");
   const registryItems = JSON.parse(registryJsonContent);
@@ -607,11 +611,18 @@ export const previewComponents: Record<string, any> = {`;
     );
   };
 
+  const getNonemptyDemoProps = (item: RegistryItem | undefined) => {
+    const demoProps = item?.meta?.demoProps;
+    return demoProps && Object.keys(demoProps).length > 0
+      ? demoProps
+      : undefined;
+  };
+
   const resolveDemoProps = (
     item: RegistryItem
   ): Record<string, Record<string, unknown>> => {
-    const own = item?.meta?.demoProps;
-    if (own && Object.keys(own).length > 0) {
+    const own = getNonemptyDemoProps(item);
+    if (own) {
       return own;
     }
 
@@ -619,8 +630,8 @@ export const previewComponents: Record<string, any> = {`;
       const demoItem = uniqueItemsMap.get(`demo-${item.name}`) as
         | RegistryItem
         | undefined;
-      const fromDemo = demoItem?.meta?.demoProps;
-      if (fromDemo && Object.keys(fromDemo).length > 0) {
+      const fromDemo = getNonemptyDemoProps(demoItem);
+      if (fromDemo) {
         return fromDemo;
       }
     }
@@ -629,8 +640,8 @@ export const previewComponents: Record<string, any> = {`;
       const rawDep = normalizeRegistryDependencyName(dep);
       if (isCanonicalDemoForItem(item.name, dep)) {
         const depItem = uniqueItemsMap.get(rawDep) || uniqueItemsMap.get(dep);
-        const inherited = depItem?.meta?.demoProps;
-        if (inherited && Object.keys(inherited).length > 0) {
+        const inherited = getNonemptyDemoProps(depItem);
+        if (inherited) {
           return inherited;
         }
       }
@@ -796,7 +807,7 @@ export const previewComponents: Record<string, any> = {`;
 
     // Read files and add content preserving newlines
     const filesWithContent = await Promise.all(
-      item.files.map(async (file: any) => {
+      item.files.map(async (file) => {
         const filePath = typeof file === "string" ? file : file.path;
         const resolvedFilePath = path.resolve(filePath);
 

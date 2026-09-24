@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import { Nav } from "@/components/docs/nav";
-import { DocsSidebar } from "@/components/docs/sidebar";
+import { DocsSidebar } from "@/components/docs-sidebar/fumadocs";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";
 import { GITHUB_PROFILE_URL, X_PROFILE_URL } from "@/lib/site";

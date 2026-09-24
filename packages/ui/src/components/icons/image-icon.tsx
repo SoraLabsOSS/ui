@@ -1,6 +1,7 @@
 export default function ImageIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      aria-hidden="true"
       strokeWidth="4"
       viewBox="0 0 37.85 37.85"
       xmlns="http://www.w3.org/2000/svg"

@@ -15,6 +15,21 @@ import { logAuthApiError } from "./log-auth-api-error";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
 
 const authSecret = getBetterAuthSecret();
+const googleAuthConfigured = isGoogleAuthConfigured();
+const googleClientId = env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+const googleClientSecret = env.GOOGLE_CLIENT_SECRET;
+const googleProvider =
+  googleAuthConfigured && googleClientId && googleClientSecret
+    ? { clientId: googleClientId, clientSecret: googleClientSecret }
+    : undefined;
+const githubClientId = env.GITHUB_CLIENT_ID;
+const githubClientSecret = env.GITHUB_CLIENT_SECRET;
+const githubProvider =
+  isGithubAuthConfigured() && githubClientId && githubClientSecret
+    ? { clientId: githubClientId, clientSecret: githubClientSecret }
+    : undefined;
+const sentinelApiKey = env.BETTER_AUTH_API_KEY;
+const sentinelConfigured = isSentinelConfigured() && sentinelApiKey;
 
 export const auth = betterAuth({
   appName: "Sora UI",
@@ -77,22 +92,8 @@ export const auth = betterAuth({
     },
   },
   socialProviders: {
-    ...(isGoogleAuthConfigured()
-      ? {
-          google: {
-            clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-            clientSecret: env.GOOGLE_CLIENT_SECRET!,
-          },
-        }
-      : {}),
-    ...(isGithubAuthConfigured()
-      ? {
-          github: {
-            clientId: env.GITHUB_CLIENT_ID!,
-            clientSecret: env.GITHUB_CLIENT_SECRET!,
-          },
-        }
-      : {}),
+    ...(googleProvider ? { google: googleProvider } : {}),
+    ...(githubProvider ? { github: githubProvider } : {}),
   },
   ...(isRedisConfigured() ? { secondaryStorage: redisSecondaryStorage } : {}),
   session: {
@@ -142,12 +143,12 @@ export const auth = betterAuth({
     // only serve them outside production.
     ...(env.NODE_ENV === "production" ? [] : [openAPI()]),
     dash(),
-    ...(isGoogleAuthConfigured() ? [oneTap()] : []),
+    ...(googleAuthConfigured ? [oneTap()] : []),
     lastLoginMethod(),
-    ...(isSentinelConfigured()
+    ...(sentinelConfigured
       ? [
           sentinel({
-            apiKey: env.BETTER_AUTH_API_KEY!,
+            apiKey: sentinelConfigured,
             kvUrl: env.NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL,
             security: {
               // Safe to hard-block regardless of traffic — no legitimate case for

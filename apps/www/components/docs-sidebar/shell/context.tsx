@@ -15,7 +15,7 @@ const EFFECTS_STORAGE_KEY = "docs-shell-motion-effects";
 
 const EffectsContext = createContext<{ enabled: boolean; toggle: () => void }>({
   enabled: true,
-  toggle: () => {},
+  toggle: () => undefined,
 });
 
 export function DocsShellEffectsProvider({
@@ -66,7 +66,7 @@ const HoverContext = createContext<{
   hovered: null,
   hoverRect: null,
   containerRef: { current: null },
-  setHovered: () => {},
+  setHovered: () => undefined,
 });
 
 export function DocsShellHoverProvider({

@@ -9,7 +9,8 @@ import {
   useInView,
   type Variant,
 } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import { useImperativeHandle, useRef } from "react";
 
 type MotionEffectProps = HTMLMotionProps<"div"> & {
   children: React.ReactNode;
@@ -35,6 +36,7 @@ type MotionEffectProps = HTMLMotionProps<"div"> & {
     | boolean;
 };
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: The component maps four independent motion options into one variant pair.
 function MotionEffect({
   ref,
   children,
@@ -50,8 +52,8 @@ function MotionEffect({
   zoom = false,
   ...props
 }: MotionEffectProps) {
-  const localRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(
+  const localRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(
     ref as React.Ref<HTMLDivElement>,
     () => localRef.current as HTMLDivElement
   );

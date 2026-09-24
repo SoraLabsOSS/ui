@@ -18,7 +18,16 @@ import {
   motion,
   type Transition,
 } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { getStrictContext } from "@/registry/lib/get-strict-context";
 import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
@@ -107,14 +116,15 @@ function TooltipProvider({
   closeDelay = 300,
   transition = { type: "spring", stiffness: 300, damping: 35 },
 }: TooltipProviderProps) {
-  const globalId = React.useId();
-  const [currentTooltip, setCurrentTooltip] =
-    React.useState<TooltipData | null>(null);
-  const timeoutRef = React.useRef<number | null>(null);
-  const lastCloseTimeRef = React.useRef<number>(0);
-  const referenceElRef = React.useRef<HTMLElement | null>(null);
+  const globalId = useId();
+  const [currentTooltip, setCurrentTooltip] = useState<TooltipData | null>(
+    null
+  );
+  const timeoutRef = useRef<number | null>(null);
+  const lastCloseTimeRef = useRef<number>(0);
+  const referenceElRef = useRef<HTMLElement | null>(null);
 
-  const showTooltip = React.useCallback(
+  const showTooltip = useCallback(
     (data: TooltipData) => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -133,7 +143,7 @@ function TooltipProvider({
     [openDelay, closeDelay, currentTooltip]
   );
 
-  const hideTooltip = React.useCallback(() => {
+  const hideTooltip = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -143,7 +153,7 @@ function TooltipProvider({
     }, closeDelay);
   }, [closeDelay]);
 
-  const hideImmediate = React.useCallback(() => {
+  const hideImmediate = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -151,11 +161,11 @@ function TooltipProvider({
     lastCloseTimeRef.current = Date.now();
   }, []);
 
-  const setReferenceEl = React.useCallback((el: HTMLElement | null) => {
+  const setReferenceEl = useCallback((el: HTMLElement | null) => {
     referenceElRef.current = el;
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         hideImmediate();
@@ -224,7 +234,7 @@ function TooltipArrow({
   const { side, align, open } = useRenderedTooltip();
   const { context, arrowRef } = useFloatingContext();
   const { transition, globalId } = useGlobalTooltip();
-  React.useImperativeHandle(ref, () => arrowRef.current as SVGSVGElement);
+  useImperativeHandle(ref, () => arrowRef.current as SVGSVGElement);
 
   const deg = { top: 0, right: 90, bottom: 180, left: -90 }[side];
 
@@ -254,12 +264,12 @@ function TooltipOverlay() {
   const { currentTooltip, transition, globalId, referenceElRef } =
     useGlobalTooltip();
 
-  const [rendered, setRendered] = React.useState<{
+  const [rendered, setRendered] = useState<{
     data: TooltipData | null;
     open: boolean;
   }>({ data: null, open: false });
 
-  const arrowRef = React.useRef<SVGSVGElement | null>(null);
+  const arrowRef = useRef<SVGSVGElement | null>(null);
 
   const side = rendered.data?.side ?? "top";
   const align = rendered.data?.align ?? "center";
@@ -278,7 +288,7 @@ function TooltipOverlay() {
     ],
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentTooltip) {
       setRendered({ data: currentTooltip, open: true });
     } else {
@@ -287,7 +297,7 @@ function TooltipOverlay() {
   }, [currentTooltip]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: rendered.data must re-run this so the shared tooltip re-anchors to each new trigger as the cursor moves between elements
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (referenceElRef.current) {
       refs.setReference(referenceElRef.current);
       update();
@@ -313,7 +323,7 @@ function TooltipOverlay() {
               top: 0,
               left: 0,
               zIndex: 50,
-              transform: `translate3d(${x!}px, ${y!}px, 0)`,
+              transform: `translate3d(${x ?? 0}px, ${y ?? 0}px, 0)`,
             }}
           >
             <FloatingProvider value={{ context, arrowRef }}>
@@ -385,9 +395,9 @@ function Tooltip({
   align = "center",
   alignOffset = 0,
 }: TooltipProps) {
-  const id = React.useId();
-  const [props, setProps] = React.useState<HTMLMotionProps<"div">>({});
-  const [asChild, setAsChild] = React.useState(false);
+  const id = useId();
+  const [props, setProps] = useState<HTMLMotionProps<"div">>({});
+  const [asChild, setAsChild] = useState(false);
 
   return (
     <LocalTooltipProvider
@@ -436,18 +446,17 @@ function shallowEqualWithoutChildren(
 
 function TooltipContent({ asChild = false, ...props }: TooltipContentProps) {
   const { setProps, setAsChild } = useTooltip();
-  const lastPropsRef = React.useRef<HTMLMotionProps<"div"> | undefined>(
-    undefined
-  );
+  const lastPropsRef = useRef<HTMLMotionProps<"div"> | undefined>(undefined);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!shallowEqualWithoutChildren(lastPropsRef.current, props)) {
       lastPropsRef.current = props;
       setProps(props);
     }
+    // biome-ignore lint/correctness/useExhaustiveDependencies: This rest-props object is intentionally compared shallowly before updating provider state.
   }, [props, setProps]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setAsChild(asChild);
   }, [asChild, setAsChild]);
 
@@ -483,12 +492,12 @@ function TooltipTrigger({
     setReferenceEl,
   } = useGlobalTooltip();
 
-  const triggerRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref, () => triggerRef.current as HTMLDivElement);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => triggerRef.current as HTMLDivElement);
 
-  const suppressNextFocusRef = React.useRef(false);
+  const suppressNextFocusRef = useRef(false);
 
-  const handleOpen = React.useCallback(() => {
+  const handleOpen = useCallback(() => {
     if (!triggerRef.current) {
       return;
     }
@@ -516,7 +525,7 @@ function TooltipTrigger({
     id,
   ]);
 
-  const handlePointerDown = React.useCallback(
+  const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       onPointerDown?.(e);
       if (currentTooltip?.id === id) {
@@ -530,7 +539,7 @@ function TooltipTrigger({
     [onPointerDown, currentTooltip?.id, id, hideImmediate]
   );
 
-  const handleMouseEnter = React.useCallback(
+  const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       onMouseEnter?.(e);
       handleOpen();
@@ -538,7 +547,7 @@ function TooltipTrigger({
     [handleOpen, onMouseEnter]
   );
 
-  const handleMouseLeave = React.useCallback(
+  const handleMouseLeave = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       onMouseLeave?.(e);
       hideTooltip();
@@ -546,7 +555,7 @@ function TooltipTrigger({
     [hideTooltip, onMouseLeave]
   );
 
-  const handleFocus = React.useCallback(
+  const handleFocus = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       onFocus?.(e);
       if (suppressNextFocusRef.current) {
@@ -557,7 +566,7 @@ function TooltipTrigger({
     [handleOpen, onFocus]
   );
 
-  const handleBlur = React.useCallback(
+  const handleBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       onBlur?.(e);
       hideTooltip();

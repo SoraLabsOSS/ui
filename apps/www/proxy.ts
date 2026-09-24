@@ -2,6 +2,8 @@ import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
 const DOCS_PATH_RE = /^\/docs(?:\/(.+))?$/;
+const MOTION_PATH_RE = /^\/(?:motion|primitives)(?:\/(.+))?$/;
+const ICONS_PATH_RE = /^\/icons(?:\/(.+))?$/;
 const CATALOG_PATH_RE = /^\/(?:catalog|components)\/(.+)$/;
 const UI_PATH_RE = /^\/ui(?:\/(.+))?$/;
 const BLOG_PATH_RE = /^\/blog\/(.+)$/;
@@ -14,6 +16,18 @@ function rewriteMarkdownPath(pathname: string): string | null {
   if (docsMatch) {
     const rest = docsMatch[1];
     return rest ? `/llms.mdx/${rest}` : "/llms.mdx";
+  }
+
+  const motionMatch = clean.match(MOTION_PATH_RE);
+  if (motionMatch) {
+    const rest = motionMatch[1];
+    return rest ? `/llms.mdx/motion/${rest}` : "/llms.mdx/motion";
+  }
+
+  const iconsMatch = clean.match(ICONS_PATH_RE);
+  if (iconsMatch) {
+    const rest = iconsMatch[1];
+    return rest ? `/llms.mdx/icons/${rest}` : "/llms.mdx/icons";
   }
 
   const catalogMatch = clean.match(CATALOG_PATH_RE);
@@ -72,6 +86,8 @@ export const config = {
   matcher: [
     "/settings",
     "/settings/:path*",
+    "/(docs|ui|motion|primitives|icons)/:path*.(md|mdx)",
+    "/(catalog|components|blog)/:path+.(md|mdx)",
     {
       source: "/docs",
       has: [
@@ -84,6 +100,66 @@ export const config = {
     },
     {
       source: "/docs/:path*",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/motion",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/motion/:path*",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/primitives",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/primitives/:path*",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/icons",
+      has: [
+        {
+          type: "header",
+          key: "accept",
+          value: ".*text/(markdown|plain).*",
+        },
+      ],
+    },
+    {
+      source: "/icons/:path*",
       has: [
         {
           type: "header",

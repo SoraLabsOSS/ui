@@ -17,7 +17,8 @@ import {
   useTransform,
   useVelocity,
 } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import { useEffect } from "react";
 
 type CursorProviderProps = Omit<CursorProviderPropsPrimitive, "children"> &
   Omit<CursorContainerPropsPrimitive, "asChild" | "children"> & {
@@ -45,7 +46,7 @@ function Cursor({ className, ...props }: CursorProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     x.set(cursorPos.x);
     y.set(cursorPos.y);
   }, [cursorPos, x, y]);
@@ -111,7 +112,7 @@ function CursorFollow({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     x.set(cursorPos.x);
     y.set(cursorPos.y);
   }, [cursorPos, x, y]);

@@ -1,8 +1,10 @@
+// biome-ignore-all lint/suspicious/noArrayIndexKey: Slider thumbs are positional controls whose identity is their index.
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import { Slider as SliderPrimitive } from "radix-ui";
-import * as React from "react";
+import type * as React from "react";
+import { useMemo } from "react";
 
 function Slider({
   className,
@@ -12,15 +14,15 @@ function Slider({
   max = 100,
   ...props
 }: React.ComponentProps<typeof SliderPrimitive.Root>) {
-  const _values = React.useMemo(
-    () =>
-      Array.isArray(value)
-        ? value
-        : Array.isArray(defaultValue)
-          ? defaultValue
-          : [min, max],
-    [value, defaultValue, min, max]
-  );
+  const _values = useMemo(() => {
+    if (Array.isArray(value)) {
+      return value;
+    }
+    if (Array.isArray(defaultValue)) {
+      return defaultValue;
+    }
+    return [min, max];
+  }, [value, defaultValue, min, max]);
 
   return (
     <SliderPrimitive.Root

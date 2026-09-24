@@ -2,7 +2,21 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, motion, type Transition } from "motion/react";
-import * as React from "react";
+import type * as React from "react";
+import {
+  Children,
+  cloneElement,
+  createContext,
+  createElement,
+  isValidElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 type HighlightMode = "children" | "parent";
 
@@ -31,13 +45,13 @@ interface HighlightContextType<T extends string> {
   transition?: Transition;
 }
 
-const HighlightContext = React.createContext<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const HighlightContext = createContext<
+  // biome-ignore lint/suspicious/noExplicitAny: The context carries a generic string id; useHighlight casts it back for each consumer.
   HighlightContextType<any> | undefined
 >(undefined);
 
 function useHighlight<T extends string>(): HighlightContextType<T> {
-  const context = React.useContext(HighlightContext);
+  const context = useContext(HighlightContext);
   if (!context) {
     throw new Error("useHighlight must be used within a HighlightProvider");
   }
@@ -127,15 +141,14 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     itemsClassName?: string;
   };
 
-  const localRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
+  const localRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
 
-  const [activeValue, setActiveValue] = React.useState<T | null>(
+  const [activeValue, setActiveValue] = useState<T | null>(
     value ?? defaultValue ?? null
   );
-  const [boundsState, setBoundsState] = React.useState<Bounds | null>(null);
-  const [activeClassNameState, setActiveClassNameState] =
-    React.useState<string>("");
+  const [boundsState, setBoundsState] = useState<Bounds | null>(null);
+  const [activeClassNameState, setActiveClassNameState] = useState<string>("");
 
   function safeSetActiveValue(id: T | null) {
     setActiveValue((prev) => {
@@ -177,7 +190,7 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     setBoundsState((prev) => (prev === null ? prev : null));
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (value !== undefined) {
       setActiveValue(value);
     } else if (defaultValue !== undefined) {
@@ -185,9 +198,9 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     }
   }, [value, defaultValue]);
 
-  const id = React.useId();
+  const id = useId();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (mode !== "parent") {
       return;
     }
@@ -262,6 +275,21 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
     return children;
   }
 
+  let renderedChildren = children;
+  if (enabled) {
+    renderedChildren = controlledItems
+      ? render(children)
+      : render(
+          Children.map(children, (child) =>
+            isValidElement(child) ? (
+              <HighlightItem className={itemsClassName}>{child}</HighlightItem>
+            ) : (
+              child
+            )
+          )
+        );
+  }
+
   return (
     <HighlightContext.Provider
       value={{
@@ -282,21 +310,7 @@ function Highlight<T extends string>({ ref, ...props }: HighlightProps<T>) {
         forceUpdateBounds,
       }}
     >
-      {enabled
-        ? controlledItems
-          ? render(children)
-          : render(
-              React.Children.map(children, (child, index) =>
-                React.isValidElement(child) ? (
-                  <HighlightItem className={itemsClassName} key={index}>
-                    {child}
-                  </HighlightItem>
-                ) : (
-                  child
-                )
-              )
-            )
-        : children}
+      {renderedChildren}
     </HighlightContext.Provider>
   );
 }
@@ -332,7 +346,7 @@ function useComposedRefs<T>(
   localRef: React.Ref<T> | undefined,
   forwardedRef: React.Ref<T> | undefined
 ): React.RefCallback<T> {
-  return React.useCallback(
+  return useCallback(
     (node) => {
       assignRef(childRef, node);
       assignRef(localRef, node);
@@ -379,7 +393,7 @@ function HighlightItem({
   forceUpdateBounds,
   ...props
 }: HighlightItemProps) {
-  const itemId = React.useId();
+  const itemId = useId();
   const {
     activeValue,
     setActiveValue,
@@ -397,7 +411,7 @@ function HighlightItem({
     setActiveClassName,
   } = useHighlight();
 
-  const isValidChild = React.isValidElement<ExtendedChildProps>(children);
+  const isValidChild = isValidElement<ExtendedChildProps>(children);
   const element = isValidChild ? children : null;
   const childValue =
     id ??
@@ -409,8 +423,8 @@ function HighlightItem({
   const isDisabled = disabled === undefined ? contextDisabled : disabled;
   const itemTransition = transition ?? contextTransition;
 
-  const localRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
+  const localRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
   const childRef = element?.props.ref;
   const composedRef = useComposedRefs<HTMLElement>(
     childRef,
@@ -418,7 +432,7 @@ function HighlightItem({
     ref as React.Ref<HTMLElement>
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (mode !== "parent") {
       return;
     }
@@ -510,7 +524,7 @@ function HighlightItem({
       element.props as ExtendedChildProps;
 
     if (mode === "children") {
-      return React.createElement(
+      return createElement(
         element.type,
         {
           ...childProps,
@@ -563,7 +577,7 @@ function HighlightItem({
       );
     }
 
-    return React.createElement(element.type, {
+    return createElement(element.type, {
       ...childProps,
       ref: composedRef,
       ...getNonOverridingDataAttributes(element, {
@@ -613,7 +627,7 @@ function HighlightItem({
         </AnimatePresence>
       )}
 
-      {React.cloneElement(element, {
+      {cloneElement(element, {
         className: cn("relative z-1", element.props.className),
         ...getNonOverridingDataAttributes(element, {
           ...dataAttributes,
