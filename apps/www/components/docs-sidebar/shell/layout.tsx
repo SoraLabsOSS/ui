@@ -4,11 +4,10 @@ import {
   ScrollArea,
   ScrollViewport,
 } from "@workspace/ui/components/ui/scroll-area";
-import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
 import { LayoutGroup } from "motion/react";
 import type * as React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
 import {
   DocsShellEffectsProvider,
   DocsShellHoverHighlight,
@@ -49,57 +48,14 @@ export interface DocsShellProps {
   children: React.ReactNode;
   className?: string;
   defaultEffectsEnabled?: boolean;
-  /** Initial width in px. Default: 240 */
-  defaultWidth?: number;
-  /** Max resize width in px. Default: 400 */
-  maxWidth?: number;
-  /** Min resize width in px. Default: 160 */
-  minWidth?: number;
 }
 
 export function DocsShell({
   children,
   className,
   defaultEffectsEnabled = true,
-  defaultWidth = 240,
-  minWidth = 160,
-  maxWidth = 400,
 }: DocsShellProps) {
-  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(defaultWidth);
-  const dragging = useRef(false);
-  const startX = useRef(0);
-  const startW = useRef(0);
-
-  const onPointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      e.preventDefault();
-      dragging.current = true;
-      startX.current = e.clientX;
-      startW.current = width;
-      (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    },
-    [width]
-  );
-
-  const onPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragging.current) {
-        return;
-      }
-      const next = Math.min(
-        maxWidth,
-        Math.max(minWidth, startW.current + e.clientX - startX.current)
-      );
-      setWidth(next);
-    },
-    [minWidth, maxWidth]
-  );
-
-  const onPointerUp = useCallback(() => {
-    dragging.current = false;
-  }, []);
 
   return (
     <DocsShellEffectsProvider defaultEnabled={defaultEffectsEnabled}>
@@ -109,18 +65,8 @@ export function DocsShell({
             "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-background",
             className
           )}
-          style={isMobile ? undefined : { width }}
         >
           {children}
-
-          <div
-            className="group/handle absolute top-0 right-0 z-50 hidden h-full w-1 cursor-col-resize md:block"
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-          >
-            <div className="absolute top-0 right-0 h-full w-px bg-border/50 transition-colors duration-150 group-hover/handle:bg-border md:hidden" />
-          </div>
         </aside>
       </DocsShellHoverProvider>
     </DocsShellEffectsProvider>

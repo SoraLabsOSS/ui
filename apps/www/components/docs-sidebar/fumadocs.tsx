@@ -488,12 +488,7 @@ export const DocsSidebar = (
   const releaseDatesByUrl = all.releaseDatesByUrl ?? {};
 
   const content = (
-    <DocsShell
-      className="h-full min-h-0 max-md:w-full max-md:max-w-full"
-      defaultWidth={260}
-      maxWidth={380}
-      minWidth={180}
-    >
+    <DocsShell className="h-full min-h-0 max-md:w-full max-md:max-w-full">
       <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
         <Link
           aria-label="Sora UI home"
