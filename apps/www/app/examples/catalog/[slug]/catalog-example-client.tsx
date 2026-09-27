@@ -13,6 +13,7 @@ export function CatalogExampleClient({ slug }: CatalogExampleClientProps) {
       reducedMotion="never"
       showRefreshButton={false}
       slug={slug}
+      smoothScroll
     />
   );
 }

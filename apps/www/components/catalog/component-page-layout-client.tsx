@@ -359,7 +359,7 @@ export function ComponentPageLayoutClient({
         }
         className={cn(
           "z-20 flex shrink-0 overflow-hidden max-lg:z-0 max-lg:order-2",
-          "max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:w-full max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:bg-background max-lg:pb-0",
+          "max-lg:!left-0 max-lg:!w-full max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:bg-background max-lg:pb-0",
           "lg:absolute lg:top-0 lg:left-1/2 lg:h-full lg:min-h-[min(420px,55vh)] lg:w-1/2 lg:bg-transparent",
           isExpanded &&
             "max-lg:fixed max-lg:inset-0 max-lg:h-full max-lg:overflow-hidden max-lg:bg-background max-lg:p-6",
@@ -367,7 +367,6 @@ export function ComponentPageLayoutClient({
         )}
         initial={false}
         onAnimationComplete={handlePreviewAnimationComplete}
-        style={isLargeScreen ? undefined : { left: "auto", width: "100%" }}
         transition={
           isBreakpointTransition ? { duration: 0 } : EXPAND_TRANSITION
         }

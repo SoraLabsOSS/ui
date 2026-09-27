@@ -19,6 +19,7 @@ import { catalogPreviewViewportClassName } from "@/components/catalog/catalog-pr
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
 import { RefreshButton } from "@/components/docs/refresh";
 import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
+import { useLenisSmoothScroll } from "@/hooks/use-lenis-smooth-scroll";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 import { Button } from "@/registry/ui/base/button";
 
@@ -28,6 +29,7 @@ interface ExamplePreviewClientProps {
   reducedMotion?: "always" | "never" | "user";
   showRefreshButton?: boolean;
   slug: string;
+  smoothScroll?: boolean;
 }
 
 export function ExamplePreviewClient({
@@ -36,7 +38,9 @@ export function ExamplePreviewClient({
   reducedMotion = "user",
   showRefreshButton = true,
   slug,
+  smoothScroll = false,
 }: ExamplePreviewClientProps) {
+  const lenisRef = useLenisSmoothScroll(smoothScroll);
   useEffect(() => {
     function applyTheme(theme: string) {
       const isDark = theme === "dark";
@@ -123,6 +127,18 @@ export function ExamplePreviewClient({
     setPreviewKey((prev) => prev + 1);
   };
 
+  useEffect(() => {
+    if (!smoothScroll || previewKey < 0) {
+      return;
+    }
+
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [lenisRef, previewKey, smoothScroll]);
+
   let optionsPanel: ReactNode = null;
   if (hasDemoProps && binds) {
     if (isMobile) {
@@ -194,10 +210,38 @@ export function ExamplePreviewClient({
     );
   }
 
+  const renderedComponent = <Component key={previewKey} {...componentProps} />;
+
+  let previewContent: ReactNode = null;
+  if (centered) {
+    previewContent = (
+      <div className="flex h-full w-full items-center justify-center overflow-auto p-6">
+        <div className="flex w-full max-w-xl justify-center">
+          {renderedComponent}
+        </div>
+      </div>
+    );
+  } else if (smoothScroll) {
+    previewContent = (
+      <div className="min-h-screen w-full">{renderedComponent}</div>
+    );
+  } else {
+    previewContent = (
+      <CatalogScrollArea
+        className="h-full w-full"
+        hideScrollbar
+        viewportClassName={catalogPreviewViewportClassName}
+      >
+        <div className="min-h-full w-full">{renderedComponent}</div>
+      </CatalogScrollArea>
+    );
+  }
+
   return (
     <div
       className={cn(
-        "relative h-screen w-full bg-background text-foreground antialiased",
+        "relative w-full bg-background text-foreground antialiased",
+        smoothScroll ? "min-h-screen" : "h-screen",
         centered && "p-6"
       )}
     >
@@ -220,23 +264,7 @@ export function ExamplePreviewClient({
         }
       >
         <MotionConfig reducedMotion={reducedMotion}>
-          {centered ? (
-            <div className="flex h-full w-full items-center justify-center overflow-auto p-6">
-              <div className="flex w-full max-w-xl justify-center">
-                <Component key={previewKey} {...componentProps} />
-              </div>
-            </div>
-          ) : (
-            <CatalogScrollArea
-              className="h-full w-full"
-              hideScrollbar
-              viewportClassName={catalogPreviewViewportClassName}
-            >
-              <div className="min-h-full w-full">
-                <Component key={previewKey} {...componentProps} />
-              </div>
-            </CatalogScrollArea>
-          )}
+          {previewContent}
         </MotionConfig>
       </Suspense>
     </div>

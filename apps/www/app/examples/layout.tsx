@@ -11,6 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         html, body {
           scrollbar-width: none !important;
           -ms-overflow-style: none !important;
+          overscroll-behavior: none;
         }
         *::-webkit-scrollbar {
           display: none !important;
