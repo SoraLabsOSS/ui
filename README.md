@@ -23,6 +23,15 @@ Sora UI is supported by the open-source ecosystem. Special thanks to:
     <img src="https://cdn.soralabs.studio/logos/partners/mintlify-light.svg" alt="Mintlify" height="24" />
   </picture>
 </a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://1password.com" target="_blank" rel="noopener noreferrer">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.soralabs.studio/logos/partners/1password-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.soralabs.studio/logos/partners/1password-light.svg" />
+    <img src="https://cdn.soralabs.studio/logos/partners/1password-light.svg" alt="1Password" height="24" />
+  </picture>
+</a>
+
 
 ## Architecture
 
