@@ -118,7 +118,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
               "rounded-2xl max-lg:rounded-3xl",
               "max-lg:flex-none max-lg:overflow-hidden lg:min-h-0 lg:flex-1 lg:overflow-hidden",
               catalogPreviewMobilePanelClassName,
-              "lg:h-full"
+              "max-lg:min-h-[500px] lg:h-full"
             )}
           >
             {/* Desktop preview toolbar */}

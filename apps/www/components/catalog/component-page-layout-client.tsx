@@ -187,6 +187,7 @@ function ComponentPageDocsPanel({
           "pointer-events-none select-none lg:opacity-0 lg:transition-opacity lg:duration-550 lg:ease-[cubic-bezier(0.32,0.72,0,1)]",
         !isLayoutReady && "pointer-events-none"
       )}
+      data-catalog-docs-panel
     >
       <ProgressiveBlur
         backgroundColor="var(--background)"

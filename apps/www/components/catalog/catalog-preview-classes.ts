@@ -5,11 +5,37 @@ export const catalogPreviewViewportClassName =
   "@container/preview [container-type:size]";
 
 /** One full “screen” inside the preview panel (not browser `100vh`). */
-export const catalogPreviewScreenClassName = "min-h-[100cqh]";
+export const catalogPreviewScreenClassName =
+  "min-h-[100cqh] max-lg:min-h-[70dvh]";
 
-/** Preview panel on stacked layout — fills viewport height on mobile. */
-export const catalogPreviewMobilePanelClassName =
-  "max-lg:h-[calc(100dvh-1rem)] max-lg:min-h-[calc(100dvh-1rem)]";
+/**
+ * Fixed-height demo shell inside the catalog preview scroll viewport (desktop).
+ * On stacked mobile layout, height grows with demo content — page scrolls on
+ * `[data-catalog-scroll-root]`.
+ */
+export const catalogPreviewDemoShellClassName = [
+  catalogPreviewScreenClassName,
+  "w-full lg:h-[100cqh]",
+  "max-lg:h-auto max-lg:min-h-[70dvh]",
+].join(" ");
+
+/** Preview panel on stacked layout — grows with demo content; page scrolls instead. */
+export const catalogPreviewMobilePanelClassName = "max-lg:h-auto";
+
+/**
+ * Inset inside the preview panel so demo content clears the fixed header chips.
+ * The panel background extends under the transparent header instead of a blank spacer.
+ */
+export const catalogPreviewMobileChromeInsetClassName = "max-lg:pt-[4.5rem]";
+
+/**
+ * Stacked layout viewport — no size containment so demo content sets panel height
+ * (`container-type: size` ignores descendant block size).
+ */
+export const catalogPreviewMobileViewportClassName = [
+  "w-full min-w-0",
+  catalogPreviewMobileChromeInsetClassName,
+].join(" ");
 
 // Chrome
 
