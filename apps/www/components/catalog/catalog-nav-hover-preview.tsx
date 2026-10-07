@@ -87,7 +87,7 @@ function CatalogNavPreviewMedia({
           alt=""
           aria-hidden
           className={cn(
-            "object-cover transition-opacity",
+            "scale-[1.02] object-cover transition-opacity",
             videoSrc && isVideoReady ? "opacity-0" : "opacity-100"
           )}
           fill
@@ -100,7 +100,7 @@ function CatalogNavPreviewMedia({
         <video
           autoPlay
           className={cn(
-            "absolute inset-0 size-full object-cover transition-opacity",
+            "absolute inset-0 size-full scale-[1.02] object-cover transition-opacity",
             isVideoReady ? "opacity-100" : "opacity-0"
           )}
           loop

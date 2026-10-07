@@ -71,7 +71,7 @@ function GalleryCardBaseLayer({
         image={{
           alt: "",
           "aria-hidden": true,
-          className: "object-cover",
+          className: "object-cover scale-[1.02]",
           fill: true,
           priority,
           sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
@@ -198,7 +198,7 @@ function GalleryCardPreviewMedia({
       {shouldMountVideo ? (
         <video
           className={cn(
-            "absolute inset-0 size-full object-cover transition-opacity duration-300",
+            "absolute inset-0 size-full scale-[1.02] object-cover transition-opacity duration-300",
             showVideoLayer ? "opacity-100" : "opacity-0"
           )}
           loop

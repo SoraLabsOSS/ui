@@ -47,7 +47,12 @@
     --padding-l: 7.5em;
     --padding-m: 5em;
     --padding-s: 3.75em;
-    --container-padding: 0.625em;
+    --container-padding: 1em;
+  }
+
+  .home-layout .container,
+  .home-layout .container.is--md-m {
+    padding: 0 1em;
   }
 }
 
@@ -79,6 +84,13 @@
 
   .home-layout .container.is--md-m {
     padding: 0 var(--gap-m);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .home-layout .container,
+  .home-layout .container.is--md-m {
+    padding: 0 1em;
   }
 }
 

@@ -36,9 +36,13 @@ const nextConfig: NextConfig = {
       "cmdk",
     ],
     turbopackFileSystemCacheForBuild: true,
+    // Keep generated React.lazy registry previews on the stable compilation
+    // path; Turbopack lazy compilation can leave their module factory missing.
     // Experimental native React Compiler path (Next 16.3+). Falls back to
     // babel-plugin-react-compiler if disabled; safe to try on Preview.
     turbopackRustReactCompiler: true,
+    agentUpgrade: "security",
+    agentFeedback: true,
   },
   cacheComponents: true,
   partialPrefetching: true,
