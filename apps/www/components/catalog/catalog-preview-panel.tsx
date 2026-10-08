@@ -212,14 +212,21 @@ export function ComponentPagePreviewPanel({
       "[data-catalog-docs-panel]"
     );
     const target = docsHeader || docsPanel;
-    if (scroller && target) {
-      const targetTop = target.offsetTop;
+    if (!target) {
+      return;
+    }
+
+    if (scroller && scroller.scrollHeight > scroller.clientHeight) {
+      const scrollerRect = scroller.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const targetScrollTop =
+        scroller.scrollTop + (targetRect.top - scrollerRect.top);
       scroller.scrollTo({
-        top: Math.max(0, targetTop - 56),
+        top: Math.max(0, targetScrollTop - 64),
         behavior: "smooth",
       });
-    } else if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+    } else {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
