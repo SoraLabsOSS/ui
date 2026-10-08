@@ -1,8 +1,8 @@
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ComponentPageDocs } from "@/components/catalog/component-page-docs";
-import { ComponentPageLayout } from "@/components/catalog/component-page-layout";
+import { ComponentPageDocs } from "@/components/catalog/catalog-docs";
+import { ComponentPageLayout } from "@/components/catalog/catalog-layout";
 import { ComponentPageJsonLd } from "@/components/docs/component-page-json-ld";
 import {
   getOgMetadataImages,

@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
 import { CatalogMenuProvider } from "./catalog-menu-context";
 import { CatalogMobileChromeProvider } from "./catalog-mobile-chrome-context";
-import { ComponentPageCatalogMobileMenuLayer } from "./component-page-catalog-mobile-menu-layer";
-import { ComponentPageCatalogSidebar } from "./component-page-catalog-sidebar";
+import { ComponentPageCatalogMobileMenuLayer } from "./catalog-mobile-menu-layer";
+import { ComponentPageCatalogSidebar } from "./catalog-sidebar";
 
 interface ComponentPageCatalogShellProps {
   children: ReactNode;

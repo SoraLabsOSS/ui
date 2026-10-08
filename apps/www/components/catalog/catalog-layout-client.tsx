@@ -17,6 +17,8 @@ import type {
   ComponentPageHeaderData,
   ComponentTocItem,
 } from "@/lib/registry/types";
+import { ComponentPageDocsHeader } from "./catalog-docs-header";
+import { ComponentPageHeader } from "./catalog-header";
 import { useCatalogMenu } from "./catalog-menu-context";
 import {
   catalogDocsHeaderDesktopMenuOpenClassName,
@@ -27,11 +29,9 @@ import {
   catalogPreviewShellFixedWidthClassName,
   catalogStackedHorizontalGutterClassName,
 } from "./catalog-preview-classes";
+import { ComponentPagePreviewPanel } from "./catalog-preview-panel";
 import { CatalogScrollArea } from "./catalog-scroll-area";
-import { ComponentPageDocsHeader } from "./component-page-docs-header";
-import { ComponentPageHeader } from "./component-page-header";
-import { ComponentPagePreviewPanel } from "./component-page-preview-panel";
-import { ComponentPageToc } from "./component-page-toc";
+import { ComponentPageToc } from "./catalog-toc";
 import { useCatalogLayoutReady } from "./use-catalog-layout-ready";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
 

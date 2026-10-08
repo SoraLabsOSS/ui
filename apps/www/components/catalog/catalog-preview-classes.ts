@@ -19,8 +19,9 @@ export const catalogPreviewDemoShellClassName = [
   "max-lg:h-auto max-lg:min-h-[70dvh]",
 ].join(" ");
 
-/** Preview panel on stacked layout — grows with demo content; page scrolls instead. */
-export const catalogPreviewMobilePanelClassName = "max-lg:h-auto";
+/** Preview panel on stacked layout — fills viewport height on mobile. */
+export const catalogPreviewMobilePanelClassName =
+  "max-lg:h-[calc(100dvh-1rem)] max-lg:min-h-[calc(100dvh-1rem)]";
 
 /**
  * Inset inside the preview panel so demo content clears the fixed header chips.

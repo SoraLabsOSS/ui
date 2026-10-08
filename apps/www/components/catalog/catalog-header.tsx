@@ -36,7 +36,7 @@ export function ComponentPageHeader({
       initial={false}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5" data-catalog-docs-header>
         <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.2em]">
           {data.collection}
         </p>

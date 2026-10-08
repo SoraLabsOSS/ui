@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
-import { ComponentGalleryExplorer } from "@/components/catalog/component-gallery-explorer";
-import { ComponentsGalleryHero } from "@/components/catalog/components-gallery-hero";
+import { ComponentGalleryExplorer } from "@/components/catalog/gallery/component-gallery-explorer";
+import { ComponentsGalleryHero } from "@/components/catalog/gallery/components-gallery-hero";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,

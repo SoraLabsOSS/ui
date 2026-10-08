@@ -6,12 +6,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useCatalogMenu } from "./catalog-menu-context";
+import { ComponentPageCatalogNav } from "./catalog-nav";
 import {
   catalogDesktopSidebarAsideClassName,
   catalogDesktopSidebarPanelClassName,
   catalogSidebarBackdropClassName,
 } from "./catalog-preview-classes";
-import { ComponentPageCatalogNav } from "./component-page-catalog-nav";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
 
 const SIDEBAR_TRANSITION = {

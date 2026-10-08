@@ -2,6 +2,8 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+import { ComponentPageDocsBreadcrumb } from "./catalog-docs-breadcrumb";
+import { ComponentPageCatalogMenuButton } from "./catalog-menu-button";
 import { useCatalogMenu } from "./catalog-menu-context";
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
@@ -12,8 +14,6 @@ import {
   catalogDocsHeaderMenuClassName,
   catalogDocsHeaderMobileSymmetricClassName,
 } from "./catalog-preview-classes";
-import { ComponentPageCatalogMenuButton } from "./component-page-catalog-menu-button";
-import { ComponentPageDocsBreadcrumb } from "./component-page-docs-breadcrumb";
 
 interface ComponentPageDocsHeaderProps {
   isExpanded?: boolean;

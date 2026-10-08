@@ -5,7 +5,7 @@ import type {
   ComponentPageData,
   ComponentPageHeaderData,
 } from "@/lib/registry/types";
-import { ComponentPageLayoutClient } from "./component-page-layout-client";
+import { ComponentPageLayoutClient } from "./catalog-layout-client";
 
 interface ComponentPageLayoutProps {
   children: ReactNode;

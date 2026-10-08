@@ -19,10 +19,10 @@ import {
   resolveGalleryCategory,
 } from "@/lib/registry/component-gallery-sections";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
-import { CatalogNavHoverPreview } from "./catalog-nav-hover-preview";
+import { CatalogNavHoverPreview } from "../catalog-nav-hover-preview";
+import { useCatalogHoverPreview } from "../use-catalog-hover-preview";
 import { GalleryCardPreview } from "./gallery-card-preview";
 import { GallerySegmentedTabs } from "./gallery-segmented-tabs";
-import { useCatalogHoverPreview } from "./use-catalog-hover-preview";
 
 type SortMode = "default" | "newest";
 type ViewMode = "cards" | "compact" | "list";
