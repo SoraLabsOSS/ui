@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { ChevronDown, Loader, MousePointerClick } from "lucide-react";
+import { ChevronDown, MousePointerClick } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import {
   catalogPreviewMobilePanelClassName,
   catalogPreviewToolbarRowClassName,
 } from "./catalog-preview-classes";
+import { CatalogPreviewLoadingOverlay } from "./catalog-preview-loading";
 import { ComponentPagePreviewToolbar } from "./catalog-preview-toolbar";
 import { ComponentPageSourcePanel } from "./catalog-source-panel";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
@@ -44,6 +45,7 @@ export function ComponentPagePreviewPanel({
   const [isInteracting, setIsInteracting] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
   const [isSourceOpen, setIsSourceOpen] = useState(false);
+  const [isSourceLoading, setIsSourceLoading] = useState(false);
   const isStacked = useCatalogStackedLayout();
   const { setToolbar } = useCatalogMobileChrome();
   const { resolvedTheme } = useTheme();
@@ -257,6 +259,8 @@ export function ComponentPagePreviewPanel({
         exampleUrl={exampleUrl}
         hasSourceCode
         isExpanded={isExpanded}
+        isLoadingPreview={!iframeLoaded}
+        isSourceLoading={isSourceLoading}
         isSourceOpen={isSourceOpen}
         onRestart={handleRestart}
         onToggleExpanded={handleToggleExpanded}
@@ -268,7 +272,9 @@ export function ComponentPagePreviewPanel({
       handleRestart,
       handleToggleExpanded,
       handleToggleSource,
+      iframeLoaded,
       isExpanded,
+      isSourceLoading,
       isSourceOpen,
     ]
   );
@@ -299,12 +305,7 @@ export function ComponentPagePreviewPanel({
       </div>
 
       <div className="relative w-full flex-1 overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
-        {!iframeLoaded && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 bg-secondary/80 text-muted-foreground text-sm backdrop-blur-sm max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl">
-            <Loader className="size-4 animate-spin" />
-            Loading preview...
-          </div>
-        )}
+        {!iframeLoaded && <CatalogPreviewLoadingOverlay />}
         {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Native iframe onLoad state tracking. */}
         <iframe
           className={cn(
@@ -423,6 +424,7 @@ export function ComponentPagePreviewPanel({
 
       <ComponentPageSourcePanel
         onClose={handleCloseSource}
+        onLoadingChange={setIsSourceLoading}
         open={isSourceOpen}
         registryName={registryName}
       />

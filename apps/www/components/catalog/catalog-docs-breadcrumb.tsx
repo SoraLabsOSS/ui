@@ -10,7 +10,7 @@ import Link from "next/link";
 
 interface ComponentPageDocsBreadcrumbProps {
   className?: string;
-  title: string;
+  title?: string;
 }
 
 export function ComponentPageDocsBreadcrumb({
@@ -31,9 +31,13 @@ export function ComponentPageDocsBreadcrumb({
           </BreadcrumbItem>
           <BreadcrumbSeparator className="opacity-50" />
           <BreadcrumbItem>
-            <BreadcrumbPage className="truncate font-medium text-zinc-900 dark:text-zinc-100">
-              {title}
-            </BreadcrumbPage>
+            {title ? (
+              <BreadcrumbPage className="truncate font-medium text-zinc-900 dark:text-zinc-100">
+                {title}
+              </BreadcrumbPage>
+            ) : (
+              <div className="h-4 w-28 rounded-md bg-accent motion-safe:animate-pulse" />
+            )}
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

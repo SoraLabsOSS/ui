@@ -9,20 +9,20 @@ import { DEMO_TRAIL_IMAGES } from "./trail-images";
 
 export function CursorTrailRevealExample() {
   return (
-    <div
-      className={cn(
-        "relative flex items-center justify-center overflow-hidden",
-        catalogPreviewScreenClassName
-      )}
-    >
-      <CursorTrailReveal
-        desktopBreakpoint={0}
-        images={DEMO_TRAIL_IMAGES}
-        maskColor="#1a1a1a"
-      />
+    <div className="w-full">
+      <CatalogScrollHint label="Move cursor to reveal trail" />
 
-      <div className="pointer-events-none relative z-1 flex items-center justify-center">
-        <CatalogScrollHint label="Move cursor to reveal trail" />
+      <div
+        className={cn(
+          "relative flex items-center justify-center overflow-hidden",
+          catalogPreviewScreenClassName
+        )}
+      >
+        <CursorTrailReveal
+          desktopBreakpoint={0}
+          images={DEMO_TRAIL_IMAGES}
+          maskColor="#1a1a1a"
+        />
       </div>
     </div>
   );

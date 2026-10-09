@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import {
   CodeXml,
   ExternalLink,
+  Loader,
   Maximize2,
   Minimize2,
   RotateCcw,
@@ -24,10 +25,12 @@ interface ComponentPagePreviewToolbarProps {
   className?: string;
   exampleUrl?: string;
   hasSourceCode?: boolean;
-  isExpanded: boolean;
+  isExpanded?: boolean;
+  isLoadingPreview?: boolean;
+  isSourceLoading?: boolean;
   isSourceOpen?: boolean;
-  onRestart: () => void;
-  onToggleExpanded: () => void;
+  onRestart?: () => void;
+  onToggleExpanded?: () => void;
   onToggleSource?: () => void;
 }
 
@@ -53,11 +56,102 @@ export function PreviewToolbarCell({
   );
 }
 
+function resolveSourceLabel(isLoading: boolean, isOpen: boolean) {
+  if (isLoading) {
+    return "Loading source code...";
+  }
+  return isOpen ? "Hide source code" : "View source code";
+}
+
+function PreviewToolbarExternalLinkButton({
+  exampleUrl,
+}: {
+  exampleUrl?: string;
+}) {
+  return (
+    <PreviewToolbarCell>
+      {exampleUrl ? (
+        <a
+          aria-label="Open preview in new tab"
+          className={catalogChromeToolbarIconClassName}
+          href={exampleUrl}
+          rel="noreferrer"
+          target="_blank"
+          title="Open full page preview in new tab"
+        >
+          <ExternalLink />
+        </a>
+      ) : (
+        <ToolbarIconButton
+          aria-label="Open preview in new tab"
+          disabled
+          title="Open preview in new tab"
+        >
+          <ExternalLink />
+        </ToolbarIconButton>
+      )}
+    </PreviewToolbarCell>
+  );
+}
+
+function PreviewToolbarSourceButton({
+  isLoading,
+  isOpen,
+  onToggle,
+}: {
+  isLoading?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}) {
+  const label = resolveSourceLabel(Boolean(isLoading), Boolean(isOpen));
+
+  return (
+    <PreviewToolbarCell active={isOpen}>
+      <ToolbarIconButton
+        aria-label={label}
+        aria-pressed={isOpen}
+        disabled={isLoading || !onToggle}
+        onClick={onToggle}
+        title={label}
+      >
+        {isLoading ? (
+          <Loader className="animate-spin text-current" />
+        ) : (
+          <CodeXml />
+        )}
+      </ToolbarIconButton>
+    </PreviewToolbarCell>
+  );
+}
+
+function PreviewToolbarRestartButton({
+  isLoading,
+  onRestart,
+}: {
+  isLoading?: boolean;
+  onRestart?: () => void;
+}) {
+  return (
+    <PreviewToolbarCell>
+      <ToolbarIconButton
+        aria-label="Restart animation"
+        disabled={isLoading || !onRestart}
+        onClick={onRestart}
+        title="Restart animation"
+      >
+        <RotateCcw />
+      </ToolbarIconButton>
+    </PreviewToolbarCell>
+  );
+}
+
 export function ComponentPagePreviewToolbar({
   className,
   exampleUrl,
-  hasSourceCode = false,
-  isExpanded,
+  hasSourceCode: _hasSourceCode = false,
+  isExpanded = false,
+  isLoadingPreview = false,
+  isSourceLoading = false,
   isSourceOpen = false,
   onRestart,
   onToggleExpanded,
@@ -71,37 +165,18 @@ export function ComponentPagePreviewToolbar({
         className
       )}
     >
-      {exampleUrl ? (
-        <PreviewToolbarCell>
-          <a
-            aria-label="Open preview in new tab"
-            className={catalogChromeToolbarIconClassName}
-            href={exampleUrl}
-            rel="noreferrer"
-            target="_blank"
-            title="Open full page preview in new tab"
-          >
-            <ExternalLink />
-          </a>
-        </PreviewToolbarCell>
-      ) : null}
+      <PreviewToolbarExternalLinkButton exampleUrl={exampleUrl} />
 
-      {hasSourceCode && onToggleSource ? (
-        <PreviewToolbarCell active={isSourceOpen}>
-          <ToolbarIconButton
-            aria-label={isSourceOpen ? "Hide source" : "View source"}
-            aria-pressed={isSourceOpen}
-            onClick={onToggleSource}
-            title={isSourceOpen ? "Hide source code" : "View source code"}
-          >
-            <CodeXml />
-          </ToolbarIconButton>
-        </PreviewToolbarCell>
-      ) : null}
+      <PreviewToolbarSourceButton
+        isLoading={isSourceLoading}
+        isOpen={isSourceOpen}
+        onToggle={onToggleSource}
+      />
 
       <PreviewToolbarCell active={isExpanded} className="max-lg:hidden">
         <ToolbarIconButton
           aria-label={isExpanded ? "Collapse preview" : "Expand preview"}
+          disabled={!onToggleExpanded}
           onClick={onToggleExpanded}
           title={
             isExpanded
@@ -113,15 +188,10 @@ export function ComponentPagePreviewToolbar({
         </ToolbarIconButton>
       </PreviewToolbarCell>
 
-      <PreviewToolbarCell>
-        <ToolbarIconButton
-          aria-label="Restart animation"
-          onClick={onRestart}
-          title="Restart animation"
-        >
-          <RotateCcw />
-        </ToolbarIconButton>
-      </PreviewToolbarCell>
+      <PreviewToolbarRestartButton
+        isLoading={isLoadingPreview}
+        onRestart={onRestart}
+      />
 
       <PreviewToolbarThemeToggle />
 
@@ -139,19 +209,25 @@ interface ToolbarIconButtonProps {
   "aria-label": string;
   "aria-pressed"?: boolean;
   children: React.ReactNode;
-  onClick: () => void;
+  disabled?: boolean;
+  onClick?: () => void;
   title?: string;
 }
 
 function ToolbarIconButton({
   children,
+  disabled,
   onClick,
   title,
   ...ariaProps
 }: ToolbarIconButtonProps) {
   return (
     <button
-      className={catalogChromeToolbarIconClassName}
+      className={cn(
+        catalogChromeToolbarIconClassName,
+        disabled && "pointer-events-none opacity-60"
+      )}
+      disabled={disabled}
       onClick={onClick}
       title={title}
       type="button"

@@ -37,11 +37,8 @@ const DEMO_ITEMS: InfiniteScrollingImagesItem[] = [
 
 export function InfiniteScrollingImagesExample() {
   return (
-    <div className="flex h-full w-full min-w-0 items-center justify-center py-6 lg:py-10">
-      <InfiniteScrollingImages
-        className="w-full md:h-screen"
-        items={DEMO_ITEMS}
-      />
+    <div className="flex h-full w-full min-w-0 items-center justify-center">
+      <InfiniteScrollingImages className="h-screen w-full" items={DEMO_ITEMS} />
     </div>
   );
 }

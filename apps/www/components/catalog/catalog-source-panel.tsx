@@ -20,6 +20,7 @@ import {
 interface ComponentPageSourcePanelProps {
   filename?: string;
   onClose: () => void;
+  onLoadingChange?: (loading: boolean) => void;
   open: boolean;
   registryName: string;
 }
@@ -214,6 +215,7 @@ function useComponentSource(
 export function ComponentPageSourcePanel({
   open,
   onClose,
+  onLoadingChange,
   registryName,
   filename: initialFilename,
 }: ComponentPageSourcePanelProps) {
@@ -222,6 +224,10 @@ export function ComponentPageSourcePanel({
   const sourceDragControls = useDragControls();
   const { isLoading, loadError, sourceCode, sourceFilename, sourceHtml } =
     useComponentSource(open, registryName, initialFilename);
+
+  useEffect(() => {
+    onLoadingChange?.(isLoading);
+  }, [isLoading, onLoadingChange]);
 
   useEffect(() => {
     setMounted(true);

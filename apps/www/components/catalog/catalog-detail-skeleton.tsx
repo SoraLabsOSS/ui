@@ -1,7 +1,10 @@
+"use client";
+
 import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
+import { ComponentPageDocsBreadcrumb } from "./catalog-docs-breadcrumb";
+import { ComponentPageCatalogMenuButton } from "./catalog-menu-button";
 import {
-  catalogChromeToolbarClassName,
   catalogDocsHeaderBreadcrumbClassName,
   catalogDocsHeaderClassName,
   catalogDocsHeaderDesktopRowClassName,
@@ -14,6 +17,8 @@ import {
   catalogPreviewToolbarRowClassName,
   catalogStackedHorizontalGutterClassName,
 } from "./catalog-preview-classes";
+import { CatalogPreviewLoadingOverlay } from "./catalog-preview-loading";
+import { ComponentPagePreviewToolbar } from "./catalog-preview-toolbar";
 
 function Skeleton({ className }: { className?: string }) {
   return (
@@ -67,32 +72,26 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
               {/* Spacer matching mobile menu button */}
               <div aria-hidden className="size-11 shrink-0 lg:hidden" />
 
-              {/* Desktop menu toggle button skeleton */}
-              <div className="hidden items-center lg:flex">
-                <Skeleton className="size-8 rounded-lg" />
+              {/* Desktop menu toggle button */}
+              <div className="pointer-events-auto hidden items-center lg:flex">
+                <ComponentPageCatalogMenuButton variant="morph" />
               </div>
 
-              {/* Desktop breadcrumb skeleton */}
-              <div
+              {/* Desktop breadcrumb */}
+              <ComponentPageDocsBreadcrumb
                 className={cn(
                   catalogDocsHeaderBreadcrumbClassName,
-                  "max-lg:hidden"
+                  "pointer-events-auto max-lg:hidden"
                 )}
-              >
-                <div className="flex items-center gap-2">
-                  <Skeleton className="h-4 w-16" />
-                  <span className="text-muted-foreground/40 text-xs">/</span>
-                  <Skeleton className="h-4 w-28" />
-                </div>
-              </div>
+              />
             </div>
 
-            {/* Mobile toolbar skeleton */}
+            {/* Mobile toolbar */}
             <div className="flex items-center gap-1 lg:hidden">
-              <div className={catalogChromeToolbarClassName}>
-                <Skeleton className="size-8 rounded-2xl bg-zinc-200/65 dark:bg-zinc-800/75" />
-                <Skeleton className="size-8 rounded-2xl bg-zinc-200/65 dark:bg-zinc-800/75" />
-              </div>
+              <ComponentPagePreviewToolbar
+                className="pointer-events-auto"
+                isLoadingPreview
+              />
             </div>
           </header>
         </div>
@@ -125,29 +124,16 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
             <div
               className={cn(catalogPreviewToolbarRowClassName, "max-lg:hidden")}
             >
-              <div className={catalogChromeToolbarClassName}>
-                <Skeleton className="size-8 rounded-2xl bg-zinc-200/65 dark:bg-zinc-800/75" />
-                <Skeleton className="size-8 rounded-2xl bg-zinc-200/65 dark:bg-zinc-800/75" />
-                <Skeleton className="size-8 rounded-2xl bg-zinc-200/65 dark:bg-zinc-800/75" />
-                <Skeleton className="size-8 rounded-2xl bg-zinc-200/65 dark:bg-zinc-800/75" />
-              </div>
+              <ComponentPagePreviewToolbar
+                className="pointer-events-auto"
+                hasSourceCode
+                isLoadingPreview
+              />
             </div>
 
             {/* Preview viewport content */}
             <div className="relative flex w-full flex-1 items-center justify-center overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
-              <div className="flex w-full max-w-lg flex-col items-center gap-6 p-8">
-                <Skeleton className="h-6 w-32 rounded-full bg-muted/60" />
-                <Skeleton className="h-10 w-4/5 rounded-xl bg-muted/80" />
-                <Skeleton className="h-4 w-3/5 rounded-md bg-muted/50" />
-                <div className="mt-2 flex gap-3">
-                  <Skeleton className="h-9 w-24 rounded-lg bg-muted" />
-                  <Skeleton className="h-9 w-24 rounded-lg bg-muted/60" />
-                </div>
-                <div className="mt-4 grid w-full grid-cols-2 gap-4">
-                  <Skeleton className="aspect-video w-full rounded-xl bg-muted/40" />
-                  <Skeleton className="aspect-video w-full rounded-xl bg-muted/40" />
-                </div>
-              </div>
+              <CatalogPreviewLoadingOverlay />
             </div>
           </div>
         </div>
