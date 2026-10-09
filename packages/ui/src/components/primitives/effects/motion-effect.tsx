@@ -122,3 +122,4 @@ function MotionEffect({
 }
 
 export { MotionEffect, type MotionEffectProps };
+export default MotionEffect;

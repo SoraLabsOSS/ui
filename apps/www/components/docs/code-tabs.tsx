@@ -8,7 +8,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { CopyButton } from "@/components/docs/copy";
+import { CopyButton } from "@/components/docs/copy-button";
 import {
   Tabs,
   TabsContent,

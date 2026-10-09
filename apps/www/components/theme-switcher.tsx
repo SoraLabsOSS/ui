@@ -3,7 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
-import { setThemeWithTransition } from "@/lib/theme/set-theme-with-transition";
+import { setThemeWithTransition } from "@/lib/theme-transition";
 import { Switch } from "@/registry/ui/base/switch";
 
 export const ThemeSwitcher = ({ className }: { className?: string }) => {

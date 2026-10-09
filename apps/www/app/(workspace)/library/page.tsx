@@ -23,7 +23,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   BookmarkEmptyState,
   BookmarkSearchEmptyState,
-} from "@/components/bookmark/bookmark-empty-state";
+} from "@/components/bookmark-empty-state";
 import { isAuthEnabled } from "@/env";
 import type { BookmarkPageData } from "@/lib/bookmarks/resolve-pages";
 import { useBookmarkPages } from "@/lib/bookmarks/use-bookmark-pages";

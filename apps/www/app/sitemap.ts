@@ -1,7 +1,7 @@
 import type { InferPageType } from "fumadocs-core/source";
 import type { MetadataRoute } from "next";
 import { blog } from "@/lib/blog/source";
-import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";

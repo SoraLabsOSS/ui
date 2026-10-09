@@ -33,20 +33,17 @@
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
-    "./lib/get-strict-context": {
-      "types": "./src/lib/get-strict-context.tsx",
-      "default": "./src/lib/get-strict-context.tsx"
-    },
-    "./lib/get-motion-component": {
-      "types": "./src/lib/get-motion-component.ts",
-      "default": "./src/lib/get-motion-component.ts"
-    },
-    "./lib/utils": "./src/lib/utils.ts",
+    "./lib/get-strict-context": "./src/lib/get-strict-context.tsx",
+    "./lib/get-motion-component": "./src/lib/get-motion-component.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./hooks/use-auto-height": "./src/hooks/use-auto-height.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./components/ui/*": "./src/components/ui/*.tsx",
+    "./components/icons/*": "./src/components/icons/*.tsx",
     "./components/og/palette": "./src/components/og/palette.ts",
+    "./components/og/*": "./src/components/og/*.tsx",
     "./components/primitives/animate/*": "./src/components/primitives/animate/*.tsx",
     "./components/primitives/effects/*": "./src/components/primitives/effects/*.tsx",
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/use-auto-height": "./src/hooks/use-auto-height.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./components/*": "./src/components/*.tsx"
   }
 }

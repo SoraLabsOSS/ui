@@ -1,4 +1,4 @@
-export interface ShadcnRegistry3Props {
+export interface BlogPostCardProps {
   credit?: string;
   description?: string;
   ghost?: string;
@@ -6,13 +6,13 @@ export interface ShadcnRegistry3Props {
   title: string;
 }
 
-export const ShadcnRegistry3 = ({
+export const BlogPostCard = ({
   title,
   credit = "",
   description = "",
   ghost = "",
   logo = "",
-}: ShadcnRegistry3Props) => (
+}: BlogPostCardProps) => (
   <div
     style={{
       backgroundColor: "#0a0a0a",

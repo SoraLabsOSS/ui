@@ -19,7 +19,7 @@ import {
   SquareMenu,
   TypeIcon,
 } from "lucide-react";
-import { LucideIcons } from "@/components/icons/lucide-icons";
+import { LucideIcons } from "@/components/lucide-icons";
 
 const Icon = ({ children }: { children: React.ReactNode }) => (
   <span className="relative flex size-5 items-center justify-center rounded-[5px] bg-border text-muted-foreground [&_svg]:size-[12px]">

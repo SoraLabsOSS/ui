@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
+import { SoraIcon } from "@workspace/ui/components/icons/sora-icon";
 import { cn } from "@workspace/ui/lib/utils";
 import type { PageTree } from "fumadocs-core/server";
 import type { SidebarComponents } from "fumadocs-ui/components/layout/sidebar";
@@ -20,6 +21,7 @@ import {
   AuthSidebarMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
@@ -35,8 +37,6 @@ import {
 } from "@/lib/docs/primitive-nav-active";
 import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
-import { ThemeSwitcher } from "../animate/theme-switcher";
-import { IconLogo } from "../icon-logo";
 import { DocsMobileDrawer } from "./mobile-drawer";
 import {
   DocsReleaseDatesProvider,
@@ -503,7 +503,7 @@ export const DocsSidebar = (
             transitionTo("/", "commercial");
           }}
         >
-          <IconLogo size="sm" />
+          <SoraIcon size="sm" />
           <span className="font-semibold text-sm">Sora UI</span>
         </Link>
         <button

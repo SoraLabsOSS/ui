@@ -1,4 +1,4 @@
-import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import {
   getSearchIndexes,
   getStaticPageDocuments,

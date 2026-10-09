@@ -23,7 +23,7 @@ import {
   TabsContents,
   TabsList,
   TabsTrigger,
-} from "@/components/radix/tabs";
+} from "@/components/radix-tabs";
 import { RoadmapTimeline } from "@/components/ui/roadmap-timeline";
 import { UiIndex } from "@/components/ui/ui-index";
 import { Callout } from "./components/docs/callout";

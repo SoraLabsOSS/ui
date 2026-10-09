@@ -1,6 +1,13 @@
-import { HOME_SCROLL_READY_EVENT } from "@/lib/home/home-scroll-ready";
-
+export const HOME_SCROLL_READY_EVENT = "sora:home-scroll-ready";
 export const DEMO_SCROLL_READY_EVENT = "sora:demo-scroll-ready";
+
+export function dispatchHomeScrollReady() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.dispatchEvent(new Event(HOME_SCROLL_READY_EVENT));
+}
 
 export function isWindowScroller(scroller: Element | Window): boolean {
   return (

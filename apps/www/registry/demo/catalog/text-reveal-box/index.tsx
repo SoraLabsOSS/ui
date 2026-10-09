@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
-import { resolveScrollRoot } from "@/lib/catalog/resolve-scroll-root";
-import { waitForScrollerReady } from "@/lib/scroll/scroller-ready";
+import { resolveScrollRoot } from "@/lib/resolve-scroll-root";
+import { waitForScrollerReady } from "@/lib/scroller-ready";
 import { TextRevealBox } from "@/registry/catalog/text-reveal-box";
 
 const PARAGRAPHS = [

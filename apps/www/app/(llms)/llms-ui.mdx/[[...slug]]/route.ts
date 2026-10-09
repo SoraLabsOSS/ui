@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { type NextRequest, NextResponse } from "next/server";
-import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { getLLMText } from "@/lib/docs/get-llm-text";
 import { uiSource } from "@/lib/ui/source";
 

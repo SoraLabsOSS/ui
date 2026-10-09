@@ -42,7 +42,7 @@ import {
   matchesCommandQuery,
   useCommandPaletteSearch,
 } from "@/lib/command-palette/use-command-palette-search";
-import { setThemeWithTransition } from "@/lib/theme/set-theme-with-transition";
+import { setThemeWithTransition } from "@/lib/theme-transition";
 import { getUiSearchHint } from "@/lib/ui/ui-family";
 import {
   Dialog,

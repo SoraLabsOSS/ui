@@ -1,4 +1,4 @@
-import { ShadcnRegistry3 } from "@workspace/ui/components/og/shadcn-registry-3";
+import { BlogPostCard } from "@workspace/ui/components/og/blog-post-card";
 import { ImageResponse } from "next/og";
 import type { BlogOgContent } from "@/lib/og/blog-og-types";
 import { resolveBlogOgSubtitle } from "@/lib/og/resolve-blog-og-subtitle";
@@ -39,7 +39,7 @@ export async function createBlogOgImageResponse(
         width: "100%",
       }}
     >
-      <ShadcnRegistry3 {...toRegistryProps(content, logo)} />
+      <BlogPostCard {...toRegistryProps(content, logo)} />
     </div>,
     {
       width: 1200,

@@ -3,6 +3,7 @@
 import { UserButton } from "@workspace/auth-ui/components/auth/user/user-button";
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import GithubIcon from "@workspace/ui/components/icons/github-icon";
+import { SoraIcon } from "@workspace/ui/components/icons/sora-icon";
 import {
   Highlight,
   HighlightItem,
@@ -38,14 +39,13 @@ import {
   useSyncMobileSidebarPathname,
 } from "@/components/docs-sidebar/sidebar-close-lock";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { GITHUB_REPO_URL } from "@/lib/site";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
-import { ThemeSwitcher } from "../animate/theme-switcher";
-import { IconLogo } from "../icon-logo";
 
 const DOCS_GUIDE_URL = "/docs";
 export interface NavProps {
@@ -126,7 +126,7 @@ function LibraryMenuContent({
         >
           <Link href={DOCS_GUIDE_URL}>
             <span className="flex size-9 items-center justify-center rounded-md border bg-background">
-              <IconLogo className="text-foreground" size="sm" />
+              <SoraIcon className="text-foreground" size="sm" />
             </span>
             <span className="mt-8 font-medium text-sm">Sora UI</span>
             <span className="mt-1 text-muted-foreground text-xs leading-relaxed">
@@ -308,7 +308,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
             transitionTo("/", "commercial");
           }}
         >
-          <IconLogo size="sm" />
+          <SoraIcon size="sm" />
         </Link>
         <div className="flex flex-1 items-center justify-end gap-2 md:justify-between">
           <div className="hidden items-center gap-1 md:flex">

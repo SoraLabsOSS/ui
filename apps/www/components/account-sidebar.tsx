@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
+import { SoraIcon } from "@workspace/ui/components/icons/sora-icon";
 import {
   Sidebar001,
   Sidebar001Content,
@@ -22,7 +23,6 @@ import { SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect } from "react";
-import { ThemeSwitcher } from "@/components/animate/theme-switcher";
 import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
@@ -34,8 +34,8 @@ import {
 } from "@/components/docs-sidebar/release-dates-context";
 import { closeMobileSidebar } from "@/components/docs-sidebar/sidebar-close-lock";
 import { useDismissMobileSidebarOnOutside } from "@/components/docs-sidebar/use-dismiss-mobile-sidebar";
-import { IconLogo } from "@/components/icon-logo";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { isAuthEnabled } from "@/env";
 import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
@@ -262,7 +262,7 @@ export function AccountSidebar({
                 transitionTo("/", "commercial");
               }}
             >
-              <IconLogo size="sm" />
+              <SoraIcon size="sm" />
               <span className="font-semibold text-sm">Sora UI</span>
             </Link>
             <button

@@ -4,10 +4,7 @@
 
 import { captureRouterTransitionStart, init } from "@sentry/nextjs";
 import { env } from "@/env";
-import {
-  SENTRY_ENABLED,
-  SENTRY_TRACES_SAMPLE_RATE,
-} from "@/lib/sentry/traces-sample-rate";
+import { SENTRY_ENABLED, SENTRY_TRACES_SAMPLE_RATE } from "@/lib/sentry-rate";
 
 init({
   dsn: env.NEXT_PUBLIC_SENTRY_DSN,

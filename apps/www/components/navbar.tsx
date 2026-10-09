@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -191,8 +192,18 @@ export function Navbar({
                       <div className="nav-menu__hamburger-bar" />
                       <div className="nav-menu__hamburger-bar" />
                     </div>
-                    <span className="nav-menu__label">
-                      {isMenuOpen ? "Close" : "Menu"}
+                    <span className="nav-menu__label relative inline-flex items-center">
+                      <AnimatePresence initial={false} mode="wait">
+                        <motion.span
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          initial={{ opacity: 0 }}
+                          key={isMenuOpen ? "close" : "menu"}
+                          transition={{ duration: 0.18, ease: "easeOut" }}
+                        >
+                          {isMenuOpen ? "Close" : "Menu"}
+                        </motion.span>
+                      </AnimatePresence>
                     </span>
                   </div>
                 </div>

@@ -368,36 +368,6 @@
   height: calc(var(--nav-bar-height) + max(8.333em, 25svh));
 }
 
-/* ------------------------- UNDER NAV BAR ------------------------------------------- */
-.home-layout [data-wf--under-nav-bar--variant="purple"] .nav-marquee,
-.home-layout
-  [data-wf--under-nav-bar--variant="purple"]
-  .nav-product-info__end
-  .tag-bg {
-  background-color: var(--color-purple);
-}
-
-.home-layout [data-wf--under-nav-bar--variant="coral"] .nav-marquee,
-.home-layout
-  [data-wf--under-nav-bar--variant="coral"]
-  .nav-product-info__end
-  .tag-bg {
-  background-color: var(--color-coral);
-}
-
-.home-layout [data-wf--under-nav-bar--variant="purple"] .nav-marquee,
-.home-layout
-  [data-wf--under-nav-bar--variant="purple"]
-  .nav-product-info__end
-  .tag,
-.home-layout [data-wf--under-nav-bar--variant="coral"] .nav-marquee,
-.home-layout
-  [data-wf--under-nav-bar--variant="coral"]
-  .nav-product-info__end
-  .tag {
-  color: var(--color-light);
-}
-
 /* ------------------------- PRICING CARDS ------------------------------------------- */
 .home-layout [data-wf--pricing-card-member--variant="dark"],
 .home-layout [data-wf--pricing-card-team--variant="dark"] {
@@ -420,7 +390,6 @@
   --color-coral: #ea580c !important;
   --accent-pro: #fb460d !important;
   --color-accent: #fb460d !important;
-  --selection-bg: #fb460d;
 }
 
 .home-layout ::selection {
@@ -454,15 +423,6 @@
 
 .home-layout .button-bg[data-wf--button-theme--variant="electric"] {
   background-color: #ff7a00 !important;
-}
-
-.home-layout .nav-link:hover,
-.home-layout .nav-link.w--current {
-  color: #fb460d !important;
-}
-
-.home-layout .home-hero__top-logo {
-  color: #fb460d !important;
 }
 
 .home-layout input:focus,

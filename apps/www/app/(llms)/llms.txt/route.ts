@@ -1,4 +1,4 @@
-import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { buildLlmsIndex } from "@/lib/docs/llms-index";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";

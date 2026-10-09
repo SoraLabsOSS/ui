@@ -1,5 +1,5 @@
 import { cn } from "@workspace/ui/lib/utils";
-import { SORA_UI_CURSOR_MCP_INSTALL_LINK } from "@/lib/mcp/cursor-install";
+import { SORA_UI_CURSOR_MCP_INSTALL_LINK } from "@/lib/mcp-cursor";
 
 function CursorMark({ className }: { className?: string }) {
   return (

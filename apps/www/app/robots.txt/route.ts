@@ -1,4 +1,4 @@
-import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { SITE_URL } from "@/lib/site";
 
 const DISALLOWED_PATHS = [

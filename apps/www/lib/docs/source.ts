@@ -7,7 +7,7 @@ import {
 import { icons } from "lucide-react";
 import { createElement } from "react";
 import { docs } from "@/.source";
-import { LucideIcons } from "@/components/icons/lucide-icons";
+import { LucideIcons } from "@/components/lucide-icons";
 import { attachFile } from "@/lib/docs/attach-file";
 import { attachSeparator } from "@/lib/docs/attach-separator";
 

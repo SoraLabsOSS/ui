@@ -1,4 +1,4 @@
-import { staticContentCacheLife } from "@/lib/cache/static-content-cache-life";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { createOgImageResponse } from "@/lib/og/create-og-image-response";
 import { resolveOgPage } from "@/lib/og/resolve-og-page";
 

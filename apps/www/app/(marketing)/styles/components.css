@@ -21,10 +21,6 @@
   display: grid;
 }
 
-.home-layout button.tag .tag-label {
-  display: none;
-}
-
 .home-layout .button[data-shape="round"],
 .home-layout .square-button[data-shape="round"] {
   border-radius: 3em;
@@ -40,7 +36,6 @@
 
 .home-layout .button-bg,
 .home-layout .button,
-.home-layout .tag-bg,
 .home-layout button.tag {
   transition: all var(--animation-ease);
 }
@@ -60,14 +55,6 @@
 @media screen and (max-width: 479px) {
   .home-layout .button[data-responsive="mobile"] {
     width: 100%;
-  }
-
-  .home-layout .button:has(.button-icon__slot) {
-    gap: 0.45em;
-  }
-
-  .home-layout .button:has(.button-icon__slot) .button-icon__slot {
-    width: 1em;
   }
 }
 
@@ -198,151 +185,6 @@
   background-color: var(--color-electric);
 }
 
-/* ------------------------- HERO BG ELEMENTS -------------------------  */
-.home-layout .hero-bg__wrap[data-bg-offset="l"] {
-  margin-bottom: -3.6em;
-}
-
-.home-layout .hero-bg__wrap[data-bg-offset="xl"] {
-  margin-bottom: -5.1em;
-}
-
-.home-layout .hero-bg__wrap[data-bg-offset="xxl"] {
-  margin-bottom: -6.75em;
-}
-
-@media screen and (max-width: 991px) {
-  .home-layout .hero-bg__wrap[data-bg-offset="xxl"] {
-    margin-bottom: -5.25em;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .home-layout .hero-bg__wrap[data-bg-offset="xxl"] {
-    margin-bottom: -3em;
-  }
-}
-
-.home-layout .hero-bg__horizontal {
-  background-image: linear-gradient(
-    90deg,
-    color-mix(in srgb, currentColor 0%, transparent 100%) 0%,
-    currentColor 10%,
-    currentColor 90%,
-    color-mix(in srgb, currentColor 0%, transparent 100%) 100%
-  );
-}
-
-.home-layout .hero-bg__vertical {
-  background-image: linear-gradient(
-    180deg,
-    color-mix(in srgb, currentColor 0%, transparent 100%) 15%,
-    currentColor 50%,
-    currentColor 90%,
-    color-mix(in srgb, currentColor 0%, transparent 100%) 100%
-  );
-}
-
-/* ------------------------- Custom Cursor -------------------------  */
-.home-layout .cursor-bubble,
-.home-layout:has(main [data-button-rotate-hover]:hover) .cursor .cursor-bubble {
-  clip-path: inset(50% round 100em);
-  transition:
-    clip-path var(--animation-default) 0s,
-    background-color 0s linear var(--duration-default),
-    color 0s linear var(--duration-default);
-}
-
-.home-layout:has([data-cursor-zone="neutral-600"]:hover) .cursor-bubble {
-  color: var(--color-light);
-  background-color: var(--color-neutral-600);
-  transition:
-    clip-path var(--animation-default) 0s,
-    background-color 0s linear 0s,
-    color 0s linear 0s;
-}
-
-.home-layout:has([data-cursor-zone="purple"]:hover) .cursor-bubble {
-  color: var(--color-light);
-  background-color: var(--color-purple);
-  transition:
-    clip-path var(--animation-default) 0s,
-    background-color 0s linear 0s,
-    color 0s linear 0s;
-}
-
-.home-layout:has([data-cursor-zone="electric"]:hover) .cursor-bubble {
-  color: var(--color-dark);
-  background-color: var(--color-electric);
-  transition:
-    clip-path var(--animation-default) 0s,
-    background-color 0s linear 0s,
-    color 0s linear 0s;
-}
-
-.home-layout .cursor-bubble,
-.home-layout .cursor__drag-dots {
-  margin-top: -1.5em;
-}
-
-.home-layout:has([data-cursor]:hover, [data-gsap-slider-collection]:hover)
-  .cursor-bubble {
-  clip-path: inset(0% round 100em);
-}
-
-.home-layout .cursor-bubble__arrow {
-  transform: rotate(-90deg);
-  transition-delay: var(--duration-default);
-}
-
-.home-layout:has([data-vertical-slider] [data-cursor]:hover)
-  .cursor-bubble__arrow {
-  transform: rotate(0deg);
-  transition-delay: 0s;
-}
-
-.home-layout .cursor-bubble__arrow-svg,
-.home-layout:has(main [data-button-rotate-hover]:hover)
-  .cursor
-  .cursor-bubble__arrow-svg {
-  transform: translateY(0%) rotate(0.001deg);
-  transition: transform var(--animation-default);
-}
-
-@media screen and (pointer: fine) {
-  .home-layout:has([data-cursor="prev"]:hover) .cursor-bubble__arrow-svg {
-    transform: translateY(100%) rotate(0.001deg);
-  }
-
-  .home-layout:has([data-cursor="next"]:hover) .cursor-bubble__arrow-svg {
-    transform: translateY(-100%) rotate(0.001deg);
-  }
-}
-
-.home-layout .cursor-bubble__drag-span,
-.home-layout:has(main [data-button-rotate-hover]:hover)
-  .cursor
-  .cursor-bubble__drag-span {
-  transform: translateY(100%) scale(0.5) rotate(0.001deg);
-  transition: transform var(--animation-default);
-}
-
-.home-layout:has(
-    [data-cursor="drag"]:hover,
-    [data-gsap-slider-collection]:hover
-  )
-  .cursor-bubble__drag-span {
-  transform: translateY(0%) scale(1) rotate(0.001deg);
-}
-
-.home-layout:has(
-    [data-cursor="drag"]:hover,
-    [data-gsap-drag-status="grabbing"] [data-gsap-slider-list]:hover
-  )
-  .cursor-bubble {
-  clip-path: inset(7.5% round 100em);
-}
-
 /* ------------------------- PRICING CARDS -------------------------  */
 .home-layout .pricing-card {
   padding: 2.25em 2em;
@@ -368,21 +210,6 @@
 .dark .home-layout .pricing-card,
 [data-theme="dark"] .home-layout .pricing-card {
   box-shadow: none;
-}
-
-.home-layout .pricing-card__secondary-link {
-  display: block;
-  padding: 0.5em 0;
-  font-family: var(--font-haffer-vf), Arial, sans-serif;
-  font-size: 0.875em;
-  font-variation-settings: "wght" 460;
-  color: var(--color-neutral-500);
-  text-align: center;
-  transition: color var(--animation-ease);
-}
-
-.home-layout .pricing-card__secondary-link:hover {
-  color: var(--color-neutral-800);
 }
 
 /* ------------------------- PRICING FAQ -------------------------  */

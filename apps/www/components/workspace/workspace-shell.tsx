@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth, useSession } from "@workspace/auth-ui/lib/auth-react";
+import { SoraIcon } from "@workspace/ui/components/icons/sora-icon";
 import {
   Avatar,
   AvatarFallback,
@@ -44,7 +45,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { type MouseEvent, type ReactNode, useCallback } from "react";
-import { IconLogo } from "@/components/icon-logo";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
 import { isAuthEnabled } from "@/env";
 
@@ -65,7 +65,7 @@ function WorkspaceSidebar() {
                 render={<Link href="/" onClick={handleHomeClick} />}
                 tooltip="Sora UI"
               >
-                <IconLogo className="size-5!" />
+                <SoraIcon className="size-5!" />
               </SidebarMenuButton>
               <SidebarMenuButton
                 className="pointer-events-none absolute inset-0 size-8 items-center justify-center opacity-0 group-data-[collapsible=icon]:pointer-events-auto group-data-[collapsible=icon]:group-hover/logo:opacity-100"
