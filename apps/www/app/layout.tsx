@@ -6,7 +6,9 @@ import { type ReactNode, Suspense } from "react";
 import "./globals.css";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
 import { cn } from "@workspace/ui/lib/utils";
+import { ArrowRightIcon } from "lucide-react";
 import { MotionConfig } from "motion/react";
+import Link from "next/link";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
@@ -14,7 +16,6 @@ import { ConditionalBanner } from "@/components/conditional-banner";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { PageTransitionProvider } from "@/components/page-transition/page-transition-provider";
 import { QueryClientRootProvider } from "@/components/query-client-root-provider";
-import { isAuthEnabled } from "@/env";
 import { getCommandPaletteGroups } from "@/lib/command-palette/get-command-palette-items";
 import { fontSfPro } from "@/lib/fonts";
 import { jsonLd } from "@/lib/json-ld";
@@ -126,14 +127,26 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        {!isAuthEnabled() && (
-          <Suspense fallback={null}>
-            <ConditionalBanner id="auth-maintenance-banner" variant="rainbow">
-              Authentication is temporarily unavailable while we optimize our
-              infrastructure.
-            </ConditionalBanner>
-          </Suspense>
-        )}
+        <Suspense fallback={null}>
+          <ConditionalBanner
+            className="px-10 py-2 sm:px-4 sm:py-0"
+            id="mcp-paused-banner"
+            variant="rainbow"
+          >
+            <p className="max-w-2xl text-center text-xs leading-normal sm:text-sm">
+              <span>
+                The remote MCP server is temporarily paused due to usage limits.
+              </span>{" "}
+              <Link
+                className="inline-flex items-center gap-1 whitespace-nowrap font-semibold underline underline-offset-4 hover:opacity-80"
+                href="/docs/mcp"
+              >
+                <span>Learn more</span>
+                <ArrowRightIcon className="size-3" />
+              </Link>
+            </p>
+          </ConditionalBanner>
+        </Suspense>
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>

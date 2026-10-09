@@ -76,7 +76,9 @@ export function Banner({
         props.className
       )}
       style={{
-        height,
+        minHeight: height,
+        height: "auto",
+        ...props.style,
       }}
     >
       {changeLayout && open ? (

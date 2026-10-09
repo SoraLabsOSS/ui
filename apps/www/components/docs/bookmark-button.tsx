@@ -105,17 +105,15 @@ export function BookmarkButton({
           )}
         </motion.span>
         <AnimatePresence initial={false} mode="popLayout">
-          {showLoadingState ? null : (
-            <motion.span
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, filter: "blur(4px)" }}
-              initial={{ opacity: 0, filter: "blur(4px)" }}
-              key={isBookmarked ? "saved" : "bookmark"}
-              transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
-              {isBookmarked ? "Saved" : "Bookmark"}
-            </motion.span>
-          )}
+          <motion.span
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(4px)" }}
+            initial={{ opacity: 0, filter: "blur(4px)" }}
+            key={isBookmarked ? "saved" : "bookmark"}
+            transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            {isBookmarked ? "Saved" : "Bookmark"}
+          </motion.span>
         </AnimatePresence>
       </motion.button>
 
