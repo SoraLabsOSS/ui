@@ -203,7 +203,11 @@ export function ComponentPreview({
       );
     }
 
-    return <Component {...flattenFirstLevel(componentProps ?? {})} />;
+    const resolvedProps = flattenFirstLevel<Record<string, unknown>>(
+      componentProps ?? {}
+    );
+
+    return <Component {...resolvedProps} key={JSON.stringify(resolvedProps)} />;
   }, [name, componentProps, binds, demoPropsConfig]);
 
   useEffect(() => {

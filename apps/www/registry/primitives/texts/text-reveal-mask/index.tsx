@@ -284,6 +284,8 @@ function RevealTarget({
   delay: unitDelay,
   display = "inline-block",
   duration: unitDuration,
+  maskClassName,
+  masked = false,
   yPercent,
 }: {
   animate: boolean;
@@ -292,11 +294,13 @@ function RevealTarget({
   delay: number;
   display?: "block" | "inline-block";
   duration: number;
+  maskClassName?: string;
+  masked?: boolean;
   yPercent: number;
 }) {
   const hiddenY = `${yPercent}%`;
 
-  return (
+  const target = (
     <motion.span
       animate={animate ? { y: "0%" } : { y: hiddenY }}
       className={cn(
@@ -313,6 +317,18 @@ function RevealTarget({
     >
       {children}
     </motion.span>
+  );
+
+  if (!masked) {
+    return target;
+  }
+
+  return (
+    <span
+      className={cn("inline-block overflow-hidden align-bottom", maskClassName)}
+    >
+      {target}
+    </span>
   );
 }
 
@@ -486,16 +502,17 @@ export function MaskedTextReveal({
           return (
             <RevealTarget
               animate={shouldAnimate}
-              className={cn(
-                "split-word",
-                wordIndex < words.length - 1 && "me-[0.25em]",
-                unitClassName
-              )}
+              className={cn("split-word", unitClassName)}
               delay={
                 delay + (wordStaggerMap.get(wordIndex) ?? 0) * resolvedStagger
               }
               duration={resolvedDuration}
               key={wordIndex}
+              maskClassName={cn(
+                "split-word",
+                wordIndex < words.length - 1 && "me-[0.25em]"
+              )}
+              masked
               yPercent={yPercent}
             >
               {renderWordContent(word)}
@@ -520,6 +537,7 @@ export function MaskedTextReveal({
             delay={delay + token.staggerIndex * resolvedStagger}
             duration={resolvedDuration}
             key={charIndex}
+            masked
             yPercent={yPercent}
           >
             {token.char === " " ? "\u00A0" : token.char}
