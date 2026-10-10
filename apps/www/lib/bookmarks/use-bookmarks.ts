@@ -87,7 +87,8 @@ export function useBookmarks() {
     enabled: isAuthenticated,
     staleTime: BOOKMARKS_STALE_TIME_MS,
     gcTime: BOOKMARKS_GC_TIME_MS,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     retry: (failureCount, error) =>
       !(error instanceof BookmarkRequestError && error.status === 401) &&
       failureCount < 1,

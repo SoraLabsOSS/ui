@@ -11,6 +11,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
@@ -31,6 +32,7 @@ export default async function MotionPage(props: {
   const params = await props.params;
 
   if (!motionSource.getPage(params.slug)) {
+    await connection();
     notFound();
   }
 

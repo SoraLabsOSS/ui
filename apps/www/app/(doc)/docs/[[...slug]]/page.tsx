@@ -11,6 +11,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
@@ -33,6 +34,7 @@ export default async function Page(props: {
   const params = await props.params;
 
   if (!source.getPage(params.slug)) {
+    await connection();
     notFound();
   }
 

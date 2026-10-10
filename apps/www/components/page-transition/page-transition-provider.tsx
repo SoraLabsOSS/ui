@@ -222,12 +222,6 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      try {
-        router.prefetch(href);
-      } catch {
-        // Ignore prefetch failures in unsupported environments
-      }
-
       if (prefersReducedMotion) {
         router.push(href);
         return;
