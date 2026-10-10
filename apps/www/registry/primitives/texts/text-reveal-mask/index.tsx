@@ -538,7 +538,11 @@ export function MaskedTextReveal({
   return (
     <div className="relative w-full" ref={rootRef}>
       {measureLayer}
-      <Component aria-label={accessibleLabel} className={rootClassName}>
+      <Component
+        aria-label={accessibleLabel}
+        className={rootClassName}
+        key={splitBy}
+      >
         {splitContent}
       </Component>
     </div>
