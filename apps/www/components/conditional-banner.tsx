@@ -4,7 +4,14 @@ import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
 import { Banner } from "@/components/banner";
 
-const NO_BANNER_PREFIXES = ["/pricing", "/legal", "/examples"];
+const NO_BANNER_PREFIXES = [
+  "/pricing",
+  "/legal",
+  "/examples",
+  "/library",
+  "/settings",
+  "/workspace",
+];
 
 export function ConditionalBanner(props: ComponentProps<typeof Banner>) {
   const pathname = usePathname();
