@@ -17,6 +17,7 @@ import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
 import type { DocsPagerItem } from "@/components/docs/docs-pager";
 import { DocsPager } from "@/components/docs/docs-pager";
+import { DocsTocPromo } from "@/components/docs/docs-toc-promo";
 import { Footer } from "@/components/docs/footer";
 import { PageActionButtons } from "@/components/docs/page-actions";
 import { motionSource } from "@/lib/motion/source";
@@ -93,7 +94,10 @@ async function MotionPageBody({ slug }: { slug?: string[] }) {
         ),
       }}
       full={page.data.full}
-      tableOfContent={{ style: "clerk" }}
+      tableOfContent={{
+        style: "clerk",
+        footer: page.data.toc.length > 0 ? <DocsTocPromo /> : undefined,
+      }}
       tableOfContentPopover={{
         component: <DocsHeaderToc />,
       }}

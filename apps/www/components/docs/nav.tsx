@@ -26,6 +26,7 @@ import { ArrowUpRight, Bookmark, Menu, User2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { AskAiNavTrigger } from "@/components/ai/ask-ai-nav-trigger";
 import {
   AUTH_MENU_LINKS,
   AuthNavMenuSkeleton,
@@ -334,6 +335,8 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
 
           <div className="relative z-10 flex shrink-0 items-center">
             <CommandPaletteTrigger />
+
+            <AskAiNavTrigger className="ms-2 hidden xl:inline-flex" />
 
             <a
               aria-label="GitHub repository"

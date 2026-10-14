@@ -526,7 +526,7 @@
       var(--fd-nav-height)
     ) !important;
     /* Empty TOC column must not steal clicks from the floating Ask AI button. */
-    @apply pointer-events-none z-20 self-start pt-6! pb-2 max-xl:hidden;
+    @apply pointer-events-none z-20 self-start pt-6! pb-7! max-xl:hidden;
   }
 
   #nd-toc > * {

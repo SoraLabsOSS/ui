@@ -37,6 +37,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
 import { plainSourceTitle } from "@/lib/plain-text";
@@ -62,6 +63,7 @@ const Context = createContext<{
 } | null>(null);
 
 import { isAskAiPath } from "./is-ask-ai-path";
+import { aiChatOpenStore } from "./open-store";
 
 const LOADING_MESSAGES = [
   "Searching...",
@@ -735,13 +737,18 @@ function EmptyState() {
 }
 
 export function AISearch({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(false);
+  const open = useSyncExternalStore(
+    aiChatOpenStore.subscribe,
+    aiChatOpenStore.getOpen,
+    aiChatOpenStore.getServerOpen
+  );
   const chat = useChat<ChatUIMessage>({
     id: "search",
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
   });
+  const { setOpen } = aiChatOpenStore;
 
   return (
     <Context value={useMemo(() => ({ chat, open, setOpen }), [chat, open])}>
@@ -993,7 +1000,10 @@ export function AISearchSiteTrigger() {
         uiButtonVariants({
           variant: "secondary",
           className: "rounded-2xl text-fd-muted-foreground",
-        })
+        }),
+        // The navbar entry point (`AskAiNavTrigger`) only shows once the TOC
+        // column takes over at `xl`; below that the float stays.
+        "xl:hidden"
       )}
       position="float"
     >
