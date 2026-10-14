@@ -21,16 +21,20 @@ import {
 } from "@/registry/ui/base/dialog";
 
 interface BookmarkLoginDialogProps {
+  containerClassName?: string;
   intent?: "account" | "bookmark";
   onOpenChange: (open: boolean) => void;
   open: boolean;
+  overlayClassName?: string;
   redirectUrl: string;
 }
 
 export function BookmarkLoginDialog({
+  containerClassName,
   intent = "bookmark",
   open,
   onOpenChange,
+  overlayClassName,
   redirectUrl,
 }: BookmarkLoginDialogProps) {
   const signInUrl = `/auth/sign-in?redirectTo=${encodeURIComponent(redirectUrl)}`;
@@ -65,8 +69,8 @@ export function BookmarkLoginDialog({
     <Dialog onOpenChange={handleOpenChange} open={open}>
       <DialogContent
         className="max-w-md gap-2"
-        containerClassName="z-[81]"
-        overlayClassName="z-[80]"
+        containerClassName={cn("z-[1001]", containerClassName)}
+        overlayClassName={cn("z-[1000]", overlayClassName)}
       >
         <DialogHeader>
           <DialogTitle className="text-lg">

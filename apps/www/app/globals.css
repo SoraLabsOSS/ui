@@ -608,6 +608,42 @@
   }
 }
 
+/* Smooth synchronized color transition across all elements during mobile theme toggle */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition-delay: 0s !important;
+  transition-timing-function: ease !important;
+  transition-duration: 0.3s !important;
+  transition-property:
+    background-color, border-color, color, fill, stroke, box-shadow !important;
+}
+
+/* Circular reveal animation for theme changes on every viewport size */
+::view-transition-group(root) {
+  animation-duration: 0.75s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+::view-transition-old(root) {
+  z-index: -1;
+  animation: none;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0% at top right);
+  }
+  to {
+    clip-path: circle(150vmax at top right);
+  }
+}
+
 .screenshot-mode #nd-sidebar,
 .screenshot-mode #nd-toc,
 .screenshot-mode #d-page article > *:not(#docs-body),

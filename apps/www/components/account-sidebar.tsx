@@ -198,6 +198,7 @@ function AccountMenuSection({
               onClick={(event) => {
                 if (!session) {
                   event.preventDefault();
+                  onNavigate();
                   openLoginDialog(href);
                   return;
                 }

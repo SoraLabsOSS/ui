@@ -15,17 +15,26 @@ import { connection } from "next/server";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
+import type { DocsPagerItem } from "@/components/docs/docs-pager";
+import { DocsPager } from "@/components/docs/docs-pager";
 import { Footer } from "@/components/docs/footer";
 import { PageActionButtons } from "@/components/docs/page-actions";
-import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { iconsSource } from "@/lib/icons/source";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
 } from "@/lib/og/og-metadata-images";
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
-import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 import { getMDXComponents } from "@/mdx-components";
+
+const resolveNavItem = (url: string, fallbackName: string): DocsPagerItem => {
+  const pageData = iconsSource.getPageByHref(url)?.page;
+  return {
+    description: pageData?.data.description,
+    name: pageData?.data.title ?? fallbackName,
+    url,
+  };
+};
 
 export default async function IconDocsPage(props: {
   params: Promise<{ slug?: string[] }>;
@@ -49,49 +58,38 @@ async function IconDocsPageBody({ slug }: { slug?: string[] }) {
   const MDXContent = page.data.body;
   const tree = iconsSource.getPageTree();
   const { previous, next: nextPage } = findNeighbour(tree, page.url);
-  const primitivesUrl = getFirstPrimitiveDocUrl();
-  const uiUrl = getFirstUiDocUrl();
 
-  const prevNav = (() => {
-    if (previous) {
-      return {
-        url: previous.url,
-        name: String(previous.name ?? "Previous"),
-      } as const;
+  const prevNav: DocsPagerItem | undefined = (() => {
+    if (previous?.url?.startsWith("/icons")) {
+      return resolveNavItem(previous.url, String(previous.name ?? "Previous"));
     }
-
-    if (page.url === "/icons") {
-      return { url: primitivesUrl, name: "Motion" } as const;
-    }
-
-    if (page.url.startsWith("/icons/")) {
-      return { url: "/icons", name: "Icons" } as const;
-    }
-
     return;
   })();
 
-  const nextNav = (() => {
-    if (nextPage) {
-      return { url: nextPage.url, name: String(nextPage.name ?? "Next") };
-    }
-    if (page.url === "/icons") {
-      return { url: uiUrl, name: "UI" } as const;
+  const nextNav: DocsPagerItem | undefined = (() => {
+    if (nextPage?.url?.startsWith("/icons")) {
+      return resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"));
     }
     return;
   })();
 
   return (
     <DocsPage
+      article={{
+        className: "[&>[role=none].flex-1]:hidden",
+      }}
       footer={{
         component: (
-          <Footer
-            lastUpdate={
-              page.data.lastModified
-                ? new Date(page.data.lastModified)
-                : undefined
-            }
-          />
+          <div className="flex w-full flex-col gap-6">
+            <DocsPager next={nextNav} previous={prevNav} />
+            <Footer
+              lastUpdate={
+                page.data.lastModified
+                  ? new Date(page.data.lastModified)
+                  : undefined
+              }
+            />
+          </div>
         ),
       }}
       full={page.data.full}

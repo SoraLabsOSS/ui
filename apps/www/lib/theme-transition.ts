@@ -1,54 +1,25 @@
-const svgMask = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><filter id="blur"><feGaussianBlur stdDeviation="2"/></filter></defs><circle cx="40" cy="0" r="18" fill="white" filter="url(%23blur)"/></svg>`;
-
-const transitionStyles = `
-  ::view-transition-group(root) {
-    animation-duration: 1.5s;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  ::view-transition-new(root) {
-    mask: url('${svgMask}') top right / 0 no-repeat;
-    -webkit-mask: url('${svgMask}') top right / 0 no-repeat;
-    mask-origin: content-box;
-    -webkit-mask-origin: content-box;
-    animation: theme-reveal-scale 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    transform-origin: top right;
-  }
-
-  ::view-transition-old(root) {
-    animation: none;
-    z-index: -1;
-  }
-
-  @keyframes theme-reveal-scale {
-    from {
-      mask-size: 0;
-    }
-    to {
-      mask-size: 350vmax;
-    }
-  }
-`;
-
 export type ThemeMode = "dark" | "light" | "system";
 
 type DocumentWithViewTransition = Document & {
   startViewTransition?: (callback: () => void) => ViewTransition;
 };
 
-function injectTransitionStyles(): void {
-  const styleId = "theme-transition-styles";
-  let styleElement = document.getElementById(
-    styleId
-  ) as HTMLStyleElement | null;
+let themeTransitionTimer: number | undefined;
 
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = styleId;
-    document.head.appendChild(styleElement);
+function resolveTheme(theme: ThemeMode): "dark" | "light" {
+  if (theme === "system") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
   }
+  return theme;
+}
 
-  styleElement.textContent = transitionStyles;
+function applyThemeToDom(theme: ThemeMode): void {
+  const resolved = resolveTheme(theme);
+  document.documentElement.classList.toggle("dark", resolved === "dark");
+  document.documentElement.classList.toggle("light", resolved === "light");
+  document.documentElement.style.colorScheme = resolved;
 }
 
 export function setThemeWithTransition(
@@ -65,17 +36,37 @@ export function setThemeWithTransition(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  if (!doc.startViewTransition || prefersReducedMotion) {
+  if (prefersReducedMotion || !doc.startViewTransition) {
+    if (!prefersReducedMotion) {
+      const executeThemeChange = () => {
+        applyThemeToDom(theme);
+        setTheme(theme);
+
+        if (themeTransitionTimer !== undefined) {
+          window.clearTimeout(themeTransitionTimer);
+        }
+        themeTransitionTimer = window.setTimeout(() => {
+          document.documentElement.classList.remove("theme-transitioning");
+          themeTransitionTimer = undefined;
+        }, 350);
+      };
+
+      if (document.documentElement.classList.contains("theme-transitioning")) {
+        executeThemeChange();
+      } else {
+        document.documentElement.classList.add("theme-transitioning");
+        executeThemeChange();
+      }
+      return;
+    }
+
+    applyThemeToDom(theme);
     setTheme(theme);
     return;
   }
 
-  injectTransitionStyles();
-
   const transition = doc.startViewTransition(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    document.documentElement.classList.toggle("light", theme === "light");
-    document.documentElement.style.colorScheme = theme;
+    applyThemeToDom(theme);
     setTheme(theme);
   });
   transition.finished.catch(() => undefined);

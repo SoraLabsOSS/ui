@@ -16,10 +16,10 @@ import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
+import type { DocsPagerItem } from "@/components/docs/docs-pager";
+import { DocsPager } from "@/components/docs/docs-pager";
 import { Footer } from "@/components/docs/footer";
 import { PageActionButtons } from "@/components/docs/page-actions";
-import { DOCS_COMPONENTS_SECTION_URL } from "@/lib/docs/docs-nav-constants";
-import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
 import {
   getOgMetadataImages,
@@ -27,6 +27,30 @@ import {
 } from "@/lib/og/og-metadata-images";
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
+
+interface GuideLink {
+  text: string;
+  url: string;
+}
+
+const isGuideLink = (l: unknown): l is GuideLink => {
+  if (typeof l !== "object" || l === null) {
+    return false;
+  }
+  const obj = l as Record<string, unknown>;
+  return (
+    typeof obj.url === "string" && typeof obj.text === "string" && !obj.external
+  );
+};
+
+const resolveNavItem = (url: string, fallbackName: string): DocsPagerItem => {
+  const pageData = source.getPageByHref(url)?.page;
+  return {
+    description: pageData?.data.description,
+    name: pageData?.data.title ?? fallbackName,
+    url,
+  };
+};
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -52,83 +76,52 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
   const tree = source.getPageTree();
   const { previous, next: nextPage } = findNeighbour(tree, page.url);
 
-  interface GuideLink {
-    text: string;
-    url: string;
-  }
-  const isGuideLink = (l: unknown): l is GuideLink => {
-    if (typeof l !== "object" || l === null) {
-      return false;
-    }
-    const obj = l as Record<string, unknown>;
-    return (
-      typeof obj.url === "string" &&
-      typeof obj.text === "string" &&
-      !obj.external
-    );
-  };
   const guideItems = (baseOptions.links ?? []).filter(isGuideLink);
   const guideIndex = guideItems.findIndex((it) => it.url === page.url);
-  const primitivesUrl = getFirstPrimitiveDocUrl();
 
-  const prevNav = (() => {
-    if (guideIndex >= 0 && guideItems.length > 0) {
-      if (guideIndex > 0) {
-        return {
-          url: guideItems[guideIndex - 1].url,
-          name: guideItems[guideIndex - 1].text,
-        } as const;
-      }
-      return;
+  const prevNav: DocsPagerItem | undefined = (() => {
+    if (guideIndex > 0 && guideItems.length > 0) {
+      const item = guideItems[guideIndex - 1];
+      return resolveNavItem(item.url, item.text);
     }
 
-    if (previous) {
-      return {
-        url: previous.url,
-        name: String(previous.name ?? "Précédent"),
-      } as const;
-    }
-
-    const isPrimitivesRoot = page.url === primitivesUrl;
-    const isSectionRoot =
-      page.url === DOCS_COMPONENTS_SECTION_URL || isPrimitivesRoot;
-
-    if (isSectionRoot && guideItems.length > 0) {
-      const last = guideItems.at(-1);
-      return { url: last?.url, name: last?.text } as const;
-    }
-
-    if (
-      page.url.startsWith("/docs/motion/") ||
-      page.url.startsWith("/docs/primitives/")
-    ) {
-      return { url: primitivesUrl, name: "Motion" } as const;
+    if (guideIndex === -1 && previous?.url?.startsWith("/docs")) {
+      return resolveNavItem(previous.url, String(previous.name ?? "Previous"));
     }
 
     return;
   })();
 
-  let nextNav: { url: string; name: string } | undefined;
-  if (guideIndex >= 0 && guideItems.length > 0) {
-    const nextGuideItem = guideItems[guideIndex + 1];
-    nextNav = nextGuideItem
-      ? { url: nextGuideItem.url, name: nextGuideItem.text }
-      : { url: primitivesUrl, name: "Motion" };
-  } else if (nextPage) {
-    nextNav = { url: nextPage.url, name: String(nextPage.name ?? "Suivant") };
-  }
+  const nextNav: DocsPagerItem | undefined = (() => {
+    if (guideIndex !== -1 && guideIndex < guideItems.length - 1) {
+      const nextGuideItem = guideItems[guideIndex + 1];
+      return resolveNavItem(nextGuideItem.url, nextGuideItem.text);
+    }
+
+    if (guideIndex === -1 && nextPage?.url?.startsWith("/docs")) {
+      return resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"));
+    }
+
+    return;
+  })();
 
   return (
     <DocsPage
+      article={{
+        className: "[&>[role=none].flex-1]:hidden",
+      }}
       footer={{
         component: (
-          <Footer
-            lastUpdate={
-              page.data.lastModified
-                ? new Date(page.data.lastModified)
-                : undefined
-            }
-          />
+          <div className="flex w-full flex-col gap-6">
+            <DocsPager next={nextNav} previous={prevNav} />
+            <Footer
+              lastUpdate={
+                page.data.lastModified
+                  ? new Date(page.data.lastModified)
+                  : undefined
+              }
+            />
+          </div>
         ),
       }}
       full={page.data.full}
@@ -146,7 +139,7 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
             <Link
               aria-disabled={!prevNav}
               aria-label={
-                prevNav ? `Aller à ${prevNav.name}` : "Pas de page précédente"
+                prevNav ? `Go to ${prevNav.name}` : "No previous page"
               }
               className={prevNav ? undefined : "pointer-events-none opacity-50"}
               href={prevNav?.url ?? page.url}
@@ -157,9 +150,7 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
             </Link>
             <Link
               aria-disabled={!nextNav}
-              aria-label={
-                nextNav ? `Aller à ${nextNav.name}` : "Pas de page suivante"
-              }
+              aria-label={nextNav ? `Go to ${nextNav.name}` : "No next page"}
               className={nextNav ? undefined : "pointer-events-none opacity-50"}
               href={nextNav?.url ?? page.url}
             >

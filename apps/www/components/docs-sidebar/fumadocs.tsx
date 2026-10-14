@@ -244,6 +244,7 @@ function GuideBottomMenu({
               onClick={(event) => {
                 if (!session) {
                   event.preventDefault();
+                  onNavigate?.();
                   openLoginDialog(item.url);
                   return;
                 }
