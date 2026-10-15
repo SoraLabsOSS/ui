@@ -210,7 +210,7 @@ function CodeTabs({
                 <ScrollArea className="max-h-[600px]">
                   <ScrollViewport className="w-full">
                     <div
-                      className="[&>pre,_&_code]:!bg-transparent [&_code]:!text-[13px] [&_code_.line]:!px-0 flex w-full items-center p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
+                      className="not-fumadocs-codeblock [&>pre,_&_code]:!bg-transparent [&_code]:!text-[13px] [&_.line]:!px-0 flex w-full items-start p-4 text-sm [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
                       // biome-ignore lint/security/noDangerouslySetInnerHtml: highlighted code HTML from shiki
                       dangerouslySetInnerHTML={{ __html: val }}
                     />

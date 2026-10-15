@@ -6,12 +6,7 @@ description: Connect the Sora UI docs MCP server to Cursor and other AI clients.
 import { CodeTabs } from '@/components/docs/code-tabs';
 import { AddToCursorButton } from '@/components/docs/add-to-cursor-button';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from '@/components/radix-tabs';
+import { McpInitTabs } from '@/components/docs/mcp-init-tabs';
 import {
   SORA_UI_MCP_SERVER_NAME,
   SORA_UI_MCP_URL,
@@ -128,21 +123,29 @@ Add this to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all 
 <CodeTabs
   lang="json"
   codes={{
-    'Remote HTTP': `{
-  "mcpServers": {
-    "sora-ui": {
-      "url": "${SORA_UI_MCP_URL}"
-    }
-  }
-}`,
-    'Local STDIO': `{
-  "mcpServers": {
-    "sora-ui": {
-      "command": "node",
-      "args": ["<path-to-repo>/apps/xmcp/dist/stdio.js"]
-    }
-  }
-}`,
+    'Remote HTTP': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            url: SORA_UI_MCP_URL,
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    'Local STDIO': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            command: 'node',
+            args: ['<path-to-repo>/apps/xmcp/dist/stdio.js'],
+          },
+        },
+      },
+      null,
+      2,
+    ),
   }}
 />
 
@@ -185,22 +188,30 @@ Add to `~/.claude/settings.json` (global) or `.claude/settings.json` (project):
 <CodeTabs
   lang="json"
   codes={{
-    'Remote HTTP': `{
-  "mcpServers": {
-    "sora-ui": {
-      "type": "http",
-      "url": "${SORA_UI_MCP_URL}"
-    }
-  }
-}`,
-    'Local STDIO': `{
-  "mcpServers": {
-    "sora-ui": {
-      "command": "node",
-      "args": ["<path-to-repo>/apps/xmcp/dist/stdio.js"]
-    }
-  }
-}`,
+    'Remote HTTP': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            type: 'http',
+            url: SORA_UI_MCP_URL,
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    'Local STDIO': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            command: 'node',
+            args: ['<path-to-repo>/apps/xmcp/dist/stdio.js'],
+          },
+        },
+      },
+      null,
+      2,
+    ),
   }}
 />
 
@@ -216,30 +227,42 @@ Add the server under `mcpServers`. Claude Desktop connects via `mcp-remote` (rec
 <CodeTabs
   lang="json"
   codes={{
-    'Remote (mcp-remote)': `{
-  "mcpServers": {
-    "sora-ui": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "${SORA_UI_MCP_URL}"]
-    }
-  }
-}`,
-    'Native HTTP': `{
-  "mcpServers": {
-    "sora-ui": {
-      "type": "http",
-      "url": "${SORA_UI_MCP_URL}"
-    }
-  }
-}`,
-    'Local STDIO': `{
-  "mcpServers": {
-    "sora-ui": {
-      "command": "node",
-      "args": ["/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js"]
-    }
-  }
-}`,
+    'Remote (mcp-remote)': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            command: 'npx',
+            args: ['-y', 'mcp-remote', SORA_UI_MCP_URL],
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    'Native HTTP': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            type: 'http',
+            url: SORA_UI_MCP_URL,
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    'Local STDIO': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            command: 'node',
+            args: ['/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js'],
+          },
+        },
+      },
+      null,
+      2,
+    ),
   }}
 />
 
@@ -315,46 +338,7 @@ To add `@soralabs/*` components from the registry with natural language, configu
 
 ### Automatic configuration
 
-<Tabs defaultValue="cursor">
-  <TabsList>
-    <TabsTrigger value="claude">Claude Code</TabsTrigger>
-    <TabsTrigger value="cursor">Cursor</TabsTrigger>
-    <TabsTrigger value="vscode">VS Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="claude">
-    <CodeTabs
-      lang="bash"
-      codes={{
-        pnpm: `pnpm dlx shadcn@latest mcp init --client claude`,
-        npm: `npx shadcn@latest mcp init --client claude`,
-        yarn: `yarn shadcn@latest mcp init --client claude`,
-        bun: `bunx --bun shadcn@latest mcp init --client claude`,
-      }}
-    />
-  </TabsContent>
-  <TabsContent value="cursor">
-    <CodeTabs
-      lang="bash"
-      codes={{
-        pnpm: `pnpm dlx shadcn@latest mcp init --client cursor`,
-        npm: `npx shadcn@latest mcp init --client cursor`,
-        yarn: `yarn shadcn@latest mcp init --client cursor`,
-        bun: `bunx --bun shadcn@latest mcp init --client cursor`,
-      }}
-    />
-  </TabsContent>
-  <TabsContent value="vscode">
-    <CodeTabs
-      lang="bash"
-      codes={{
-        pnpm: `pnpm dlx shadcn@latest mcp init --client vscode`,
-        npm: `npx shadcn@latest mcp init --client vscode`,
-        yarn: `yarn shadcn@latest mcp init --client vscode`,
-        bun: `bunx --bun shadcn@latest mcp init --client vscode`,
-      }}
-    />
-  </TabsContent>
-</Tabs>
+<McpInitTabs />
 
 ### Manual configuration
 
@@ -375,37 +359,49 @@ Merge the shadcn entry into your MCP config (example for Cursor):
 <CodeTabs
   lang="json"
   codes={{
-    Cursor: `{
-  "mcpServers": {
-    "sora-ui": {
-      "url": "https://mcp.soralabs.studio/mcp"
-    },
-    "shadcn": {
-      "command": "npx",
-      "args": ["shadcn@latest", "mcp"]
-    }
-  }
-}`,
-    'Claude Code': `{
-  "mcpServers": {
-    "sora-ui": {
-      "type": "http",
-      "url": "https://mcp.soralabs.studio/mcp"
-    },
-    "shadcn": {
-      "command": "npx",
-      "args": ["shadcn@latest", "mcp"]
-    }
-  }
-}`,
-    'VS Code': `{
-  "servers": {
-    "shadcn": {
-      "command": "npx",
-      "args": ["shadcn@latest", "mcp"]
-    }
-  }
-}`,
+    Cursor: JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            url: SORA_UI_MCP_URL,
+          },
+          shadcn: {
+            command: 'npx',
+            args: ['shadcn@latest', 'mcp'],
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    'Claude Code': JSON.stringify(
+      {
+        mcpServers: {
+          'sora-ui': {
+            type: 'http',
+            url: SORA_UI_MCP_URL,
+          },
+          shadcn: {
+            command: 'npx',
+            args: ['shadcn@latest', 'mcp'],
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    'VS Code': JSON.stringify(
+      {
+        servers: {
+          shadcn: {
+            command: 'npx',
+            args: ['shadcn@latest', 'mcp'],
+          },
+        },
+      },
+      null,
+      2,
+    ),
   }}
 />
 
