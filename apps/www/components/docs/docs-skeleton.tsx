@@ -81,7 +81,7 @@ export function DocsSkeleton() {
           </div>
           {/* Mirrors the promo card rendered below the TOC list. */}
           <div className="mt-6">
-            <LoadingBlock className="h-[164px] w-full rounded-xl" />
+            <LoadingBlock className="h-[212px] w-full rounded-xl" />
           </div>
         </div>
       </aside>

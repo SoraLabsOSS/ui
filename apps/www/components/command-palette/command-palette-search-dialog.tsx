@@ -11,49 +11,21 @@ const CommandPaletteDialog = dynamic(
   { ssr: false }
 );
 
+// Preload as soon as this module evaluates. The root layout imports it
+// statically, so this runs during page load. Fumadocs only mounts `SearchDialog`
+// once `isOpen` is no longer undefined — i.e. only after the first open — so any
+// preload living inside the component would start loading the chunk at the same
+// moment the dialog is being shown, which is exactly the delay we are avoiding.
+if (typeof window !== "undefined") {
+  import("./command-palette-dialog").catch(() => undefined);
+}
+
 export function CommandPaletteSearchDialog({
   onOpenChange,
   open,
 }: SharedProps) {
   const groups = useCommandPaletteGroups();
   const [hasOpened, setHasOpened] = useState(open);
-
-  useEffect(() => {
-    const preload = () => {
-      import("./command-palette-dialog").catch(() => undefined);
-    };
-
-    const win = window as Window & {
-      cancelIdleCallback?: (id: number) => void;
-      requestIdleCallback?: (cb: () => void) => number;
-    };
-
-    if (typeof win.requestIdleCallback === "function") {
-      const handle = win.requestIdleCallback(preload);
-      return () => {
-        win.cancelIdleCallback?.(handle);
-      };
-    }
-
-    const timer = setTimeout(preload, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "k" || event.metaKey || event.ctrlKey) {
-        import("./command-palette-dialog").catch(() => undefined);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown, {
-      capture: true,
-      once: true,
-    });
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown, { capture: true });
-    };
-  }, []);
 
   useEffect(() => {
     if (open) {

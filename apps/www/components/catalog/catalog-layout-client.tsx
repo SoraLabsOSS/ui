@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { DocsPager } from "@/components/docs/docs-pager";
 import { Footer } from "@/components/docs/footer";
 import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
 import type {
@@ -160,7 +161,10 @@ function ComponentPageDocsContent({
 
         <ComponentPageToc className="lg:hidden" items={toc} />
 
-        <Footer />
+        <div className="flex w-full flex-col gap-6">
+          <DocsPager next={nextNav} previous={previousNav} />
+          <Footer />
+        </div>
       </div>
     </div>
   );

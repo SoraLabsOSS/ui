@@ -5,11 +5,6 @@ import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import GithubIcon from "@workspace/ui/components/icons/github-icon";
 import { SoraIcon } from "@workspace/ui/components/icons/sora-icon";
 import {
-  Highlight,
-  HighlightItem,
-  useHighlight,
-} from "@workspace/ui/components/primitives/effects/highlight";
-import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -46,6 +41,11 @@ import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { GITHUB_REPO_URL } from "@/lib/site";
+import {
+  Highlight,
+  HighlightItem,
+  useHighlight,
+} from "@/registry/primitives/effects/highlight";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 
 const DOCS_GUIDE_URL = "/docs";
@@ -116,9 +116,8 @@ function LibraryMenuContent({
     <Highlight
       className="pointer-events-none rounded-sm bg-accent"
       containerClassName="flex w-120 gap-2"
-      controlledItems
-      hover
       mode="parent"
+      trigger="hover"
     >
       <HighlightItem asChild value="sora-ui">
         <NavigationMenuLink
@@ -193,7 +192,7 @@ function NavMenuItems({
   sessionPending: boolean;
 }) {
   const pathname = usePathname();
-  const { setActiveValue, clearBounds } = useHighlight<string>();
+  const { setActiveValue, clearBounds } = useHighlight();
   // biome-ignore lint/correctness/useExhaustiveDependencies: reset only on route/auth change
   useEffect(() => {
     setActiveValue(null);
@@ -252,7 +251,11 @@ function NavMenuItems({
               loading={sessionPending}
               skeleton={<AuthNavMenuSkeleton width={item.skeletonWidth} />}
             >
-              <HighlightItem asChild value={item.title}>
+              <HighlightItem
+                asChild
+                disabled={sessionPending}
+                value={item.title}
+              >
                 <NavigationMenuLink asChild className={NAV_LINK_CLASS}>
                   <Link
                     href={item.url}
@@ -317,9 +320,8 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
               <Highlight
                 className="pointer-events-none rounded-md bg-accent"
                 containerClassName="relative"
-                controlledItems
-                hover
                 mode="parent"
+                trigger="hover"
               >
                 <NavigationMenuList className="relative z-10 gap-0 bg-transparent">
                   <NavMenuItems

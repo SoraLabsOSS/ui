@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export interface NeighborNavItem {
+  description?: string;
   name: string;
   url: string;
 }

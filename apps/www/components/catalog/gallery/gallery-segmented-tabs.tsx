@@ -1,13 +1,13 @@
 "use client";
 
+import { cn } from "@workspace/ui/lib/utils";
 import {
   Tabs,
   TabsHighlight,
   TabsHighlightItem,
   TabsList,
   TabsTrigger,
-} from "@workspace/ui/components/primitives/animate/tabs";
-import { cn } from "@workspace/ui/lib/utils";
+} from "@/registry/primitives/animate/tabs";
 
 interface GallerySegmentedTabsProps<T extends string> {
   className?: string;

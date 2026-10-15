@@ -49,9 +49,9 @@ export default function NavBar() {
 }
 ```
 
-### Children mode — per-item fade
+### Children mode — per-item background
 
-Each item renders its own `motion.div` overlay. Framer Motion's `layoutId` animates between items on click.
+Each item renders its own `motion.div` overlay carrying one shared `layoutId`, so the background slides from the previous item to the new one as you move or click. Exactly one overlay is mounted at a time and it never fades, which keeps the colour identical the whole way across — crossfading two translucent layers never adds back up to a single layer.
 
 ```tsx
 import { Highlight, HighlightItem } from '@/components/sora-ui/effects/highlight';
@@ -110,7 +110,8 @@ const [active, setActive] = React.useState<string | null>('design');
       default: '"click"',
     },
     value: {
-      description: 'Controlled active value. Pass `null` to clear.',
+      description:
+        'Controlled active value. Pass `null` to clear. While set, the highlight only follows this prop.',
       type: 'string | null',
     },
     defaultValue: {
@@ -136,7 +137,7 @@ const [active, setActive] = React.useState<string | null>('design');
     },
     exitDelay: {
       description:
-        'Milliseconds to delay the highlight exit fade. Useful with `trigger="hover"` to prevent flicker when crossing item gaps.',
+        '`mode="parent"` only. Milliseconds to hold the highlight before it starts fading out when nothing is active. Prevents flicker on a fast hover.',
       type: 'number',
       default: '0',
     },
@@ -144,6 +145,17 @@ const [active, setActive] = React.useState<string | null>('design');
       description: 'Disables all interaction across every item.',
       type: 'boolean',
       default: 'false',
+    },
+    enabled: {
+      description:
+        'Renders `children` untouched — no container, no wrappers, no overlay. Useful as a runtime kill switch.',
+      type: 'boolean',
+      default: 'true',
+    },
+    itemsClassName: {
+      description:
+        'Class applied to each auto-generated `HighlightItem` wrapper. Ignored for children you write yourself.',
+      type: 'string',
     },
     containerClassName: {
       description: '`mode="parent"` only. Classes on the relative container `div`.',
@@ -159,23 +171,30 @@ const [active, setActive] = React.useState<string | null>('design');
 
 ### HighlightItem
 
+<Callout>
+  `className` styles the generated wrapper `div` — this is where layout classes like
+  `flex-1` or `h-full` belong. Use `activeClassName` to style the highlight overlay.
+</Callout>
+
 <TypeTable
   type={{
     value: {
-      description: 'Unique string identifying this item.',
+      description:
+        'Unique string identifying this item. Falls back to the child\'s `data-highlight-value`, then its `id`.',
       type: 'string',
     },
     disabled: {
-      description: 'Disables interaction for this item only.',
+      description:
+        'Disables interaction for this item only. Leave `undefined` to inherit the group value; pass `false` to keep this item interactive inside a disabled group.',
       type: 'boolean',
-      default: 'false',
     },
     activeClassName: {
       description: 'Extra class applied to the highlight overlay when this item is active.',
       type: 'string',
     },
     className: {
-      description: '`mode="children"` only. Class merged onto this item\'s local highlight overlay.',
+      description:
+        'Class on the generated wrapper `div`, merged into the child element when `asChild` is set.',
       type: 'string',
     },
     style: {
@@ -195,16 +214,76 @@ const [active, setActive] = React.useState<string | null>('design');
   }}
 />
 
+## Composition
+
+`HighlightItem` never takes over your markup. With `asChild` it merges into the
+child element while preserving what the child already owns:
+
+- The child's `ref` is composed, not replaced — Radix or cmdk items keep measuring themselves.
+- The child's own `onClick` / `onMouseEnter` / `onMouseLeave` still run, then the highlight activates.
+- Data attributes the child already sets (`aria-selected`, `data-active`) win over the injected ones.
+
+```tsx
+<Highlight mode="parent" trigger="hover" className="rounded-full bg-foreground/8">
+  {ITEMS.map((item) => (
+    <HighlightItem asChild key={item} value={item}>
+      <Link className="px-3 py-1.5 text-sm" href={item.href}>
+        {item.label}
+      </Link>
+    </HighlightItem>
+  ))}
+</Highlight>
+```
+
+Both components forward `ref` and accept native `div` props. On `Highlight` the
+forwarded ref points at the container element in `mode="parent"`, and is `null` in
+`mode="children"` where no container is rendered.
+
+<Callout title="Controlled means controlled">
+  Passing `value` puts `Highlight` fully in your hands: clicks and hovers only
+  report through `onValueChange`, the highlight never moves on its own. Forget to
+  wire the callback and nothing will highlight.
+</Callout>
+
+### Uncontrolled
+
+`defaultValue` seeds the active item and the component owns it from then on.
+
+```tsx
+<Highlight defaultValue="inbox" mode="children" trigger="click">
+  ...
+</Highlight>
+```
+
+### Controlled
+
+```tsx
+const [active, setActive] = React.useState<string | null>('design');
+
+<Highlight value={active} onValueChange={setActive} mode="parent" trigger="hover">
+  ...
+</Highlight>
+```
+
+<Callout title="Children are never double-wrapped">
+  Writing your own `<HighlightItem>` children needs no extra flag — `Highlight`
+  detects them and leaves them alone. Any other element is wrapped for you.
+</Callout>
+
 ## When to Use
 
 Use `mode="parent"` for navigation bars, tab rows, and any horizontal/vertical list where you want one smooth background element sliding between items. The spring physics make the motion feel natural even when the cursor skips quickly across items.
 
-Use `mode="children"` for menus, sidebars, and selection lists where each item independently fades in its background. The shared `layoutId` cross-fades between items on click.
+Use `mode="children"` for menus, sidebars, and selection lists where each item independently slides its own background into place.
 
 Avoid using `trigger="hover"` with `mode="children"` and widely-spaced items — the per-item fade-in/out can feel noisy. In that case, prefer `mode="parent"` which slides a single element.
 
 ## Accessibility
 
 `HighlightItem` sets `aria-selected` and `data-active` on each item wrapper. The highlight overlay itself is decorative (`pointer-events-none`) and invisible to assistive technologies. Keyboard navigation is not wired automatically — connect it via the controlled `value`/`onValueChange` API if needed.
+
+`aria-selected` is only meaningful on an element that carries the matching role. If you build a listbox or tablist, pass `role` (and any other ARIA attributes) to `HighlightItem`; they land on the wrapper the attributes describe.
+
+In `mode="children"` there is no container element, so native `div` props on `Highlight` (`role`, `onKeyDown`, `id`…) are not rendered anywhere. Use `mode="parent"`, or `enabled={false}` to opt out of the highlight entirely. In development this logs a warning naming the ignored props.
 
 When `prefers-reduced-motion: reduce` is set, `useReducedMotion()` collapses the transition to `duration: 0` — the highlight still moves to the active item's bounds, just instantly instead of animating.

@@ -12,6 +12,7 @@ import type {
 } from "@/lib/registry/types";
 
 export interface ComponentNeighbourNav {
+  description?: string;
   name: string;
   url: string;
 }
@@ -142,9 +143,19 @@ export function getComponentNeighbours(slug: string): {
 
   return {
     previous: previousItem
-      ? { url: previousItem.href, name: previousItem.title }
+      ? {
+          url: previousItem.href,
+          name: previousItem.title,
+          description: previousItem.description,
+        }
       : undefined,
-    next: nextItem ? { url: nextItem.href, name: nextItem.title } : undefined,
+    next: nextItem
+      ? {
+          url: nextItem.href,
+          name: nextItem.title,
+          description: nextItem.description,
+        }
+      : undefined,
   };
 }
 

@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  Tabs,
-  TabsHighlight,
-  TabsHighlightItem,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/primitives/animate/tabs";
 import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
@@ -19,6 +12,13 @@ import {
   resolveGalleryCategory,
 } from "@/lib/registry/component-gallery-sections";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+import {
+  Tabs,
+  TabsHighlight,
+  TabsHighlightItem,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/primitives/animate/tabs";
 import { CatalogNavHoverPreview } from "../catalog-nav-hover-preview";
 import { useCatalogHoverPreview } from "../use-catalog-hover-preview";
 import { GalleryCardPreview } from "./gallery-card-preview";

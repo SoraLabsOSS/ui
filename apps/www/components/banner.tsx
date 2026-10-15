@@ -45,6 +45,16 @@ export function Banner({
   const [open, setOpen] = useState(true);
   const globalKey = id ? `nd-banner-${encodeBase32(id)}` : null;
 
+  // Runs while the HTML is being parsed, before the first paint. If the banner
+  // was already dismissed, the document is marked *before* anything is laid out,
+  // so `:root:not(.key)` never matches and `--fd-banner-height` is never
+  // reserved. Reading localStorage in an effect instead would paint the banner
+  // first and only then remove it, shifting every element that reads that
+  // variable — sidebar offsets, sticky tops, catalog and auth shells.
+  const dismissScript = globalKey
+    ? `try{if(localStorage.getItem(${JSON.stringify(globalKey)})==="true"){document.documentElement.classList.add(${JSON.stringify(globalKey)})}}catch(e){}`
+    : null;
+
   useEffect(() => {
     if (globalKey && localStorage.getItem(globalKey) === "true") {
       setOpen(false);
@@ -81,6 +91,10 @@ export function Banner({
         ...props.style,
       }}
     >
+      {dismissScript ? (
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: the snippet is generated from encodeBase32(id) and contains no user input
+        <script dangerouslySetInnerHTML={{ __html: dismissScript }} />
+      ) : null}
       {changeLayout && open ? (
         <style>
           {globalKey

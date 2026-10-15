@@ -1,13 +1,6 @@
 "use client";
 
 import {
-  Tabs,
-  TabsHighlight,
-  TabsHighlightItem,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/primitives/animate/tabs";
-import {
   ArrowUpRight,
   ExternalLink,
   Grid2x2,
@@ -27,6 +20,13 @@ import {
 import { isAuthEnabled } from "@/env";
 import type { BookmarkPageData } from "@/lib/bookmarks/resolve-pages";
 import { useBookmarkPages } from "@/lib/bookmarks/use-bookmark-pages";
+import {
+  Tabs,
+  TabsHighlight,
+  TabsHighlightItem,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/primitives/animate/tabs";
 
 type ViewMode = "cards" | "compact" | "list";
 
