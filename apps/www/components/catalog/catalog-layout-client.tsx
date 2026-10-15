@@ -31,7 +31,6 @@ import {
   catalogStackedHorizontalGutterClassName,
 } from "./catalog-preview-classes";
 import { ComponentPagePreviewPanel } from "./catalog-preview-panel";
-import { CatalogScrollArea } from "./catalog-scroll-area";
 import { ComponentPageToc } from "./catalog-toc";
 import { useCatalogLayoutReady } from "./use-catalog-layout-ready";
 import { useCatalogStackedLayout } from "./use-catalog-stacked-layout";
@@ -195,31 +194,27 @@ function ComponentPageDocsPanel({
     >
       <ProgressiveBlur
         backgroundColor="var(--background)"
-        blurAmount="12px"
-        className="z-10 max-lg:hidden"
-        height="100px"
-        maskFadeStart="45%"
+        blurAmount="6px"
+        className="z-10 max-lg:hidden lg:w-1/2"
+        height="80px"
+        maskFadeStart="75%"
         position="top"
       />
-      <ProgressiveBlur
-        backgroundColor="var(--background)"
-        blurAmount="12px"
-        className="z-10 max-lg:hidden"
-        height="70px"
-        maskFadeStart="45%"
-        position="bottom"
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-background via-background/80 to-transparent max-lg:hidden lg:right-1/2"
       />
 
       {isStacked ? (
         <div className="min-h-0 min-w-0">{children}</div>
       ) : (
-        <CatalogScrollArea
-          className="min-h-0 min-w-0 lg:h-full"
-          hideScrollbar
-          viewportClassName="lg:pt-12"
+        <div
+          className="size-full min-h-0 min-w-0 overflow-y-auto overflow-x-hidden overscroll-y-contain [scrollbar-width:none] lg:pt-12 [&::-webkit-scrollbar]:hidden"
+          data-catalog-docs-scroller
+          style={{ WebkitOverflowScrolling: "touch" }}
         >
           {children}
-        </CatalogScrollArea>
+        </div>
       )}
     </div>
   );

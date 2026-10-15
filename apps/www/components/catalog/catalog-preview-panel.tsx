@@ -138,49 +138,67 @@ export function ComponentPagePreviewPanel({
       return;
     }
 
+    const target = document.querySelector<HTMLElement>(
+      "[data-catalog-docs-header]"
+    );
+    if (!target) {
+      return;
+    }
+
+    if (typeof IntersectionObserver !== "undefined") {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry) {
+            return;
+          }
+          const isSeen =
+            entry.isIntersecting ||
+            entry.boundingClientRect.top <= window.innerHeight;
+          setIsDocsHeaderVisible(isSeen);
+          if (isSeen) {
+            setIsInteracting(false);
+          }
+        },
+        { threshold: [0, 1] }
+      );
+      observer.observe(target);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+
     const scroller = document.querySelector<HTMLElement>(
       "[data-catalog-scroll-root]"
     );
 
+    let rafId: number | null = null;
     const updateVisibility = () => {
-      const target = document.querySelector<HTMLElement>(
-        "[data-catalog-docs-header]"
-      );
-      if (!target) {
+      if (rafId !== null) {
         return;
       }
-      const rect = target.getBoundingClientRect();
-      // Hide dock as soon as the "component" header in docs enters viewport
-      const isSeen = rect.top <= window.innerHeight;
-      setIsDocsHeaderVisible(isSeen);
-      if (isSeen) {
-        setIsInteracting(false);
-      }
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const rect = target.getBoundingClientRect();
+        const isSeen = rect.top <= window.innerHeight;
+        setIsDocsHeaderVisible(isSeen);
+        if (isSeen) {
+          setIsInteracting(false);
+        }
+      });
     };
 
     updateVisibility();
-
     scroller?.addEventListener("scroll", updateVisibility, { passive: true });
     window.addEventListener("scroll", updateVisibility, { passive: true });
 
-    let observer: IntersectionObserver | null = null;
-    const target = document.querySelector<HTMLElement>(
-      "[data-catalog-docs-header]"
-    );
-    if (target && typeof IntersectionObserver !== "undefined") {
-      observer = new IntersectionObserver(
-        () => {
-          updateVisibility();
-        },
-        { threshold: 0 }
-      );
-      observer.observe(target);
-    }
-
     return () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
       scroller?.removeEventListener("scroll", updateVisibility);
       window.removeEventListener("scroll", updateVisibility);
-      observer?.disconnect();
     };
   }, [isStacked]);
 
@@ -304,7 +322,7 @@ export function ComponentPagePreviewPanel({
         {previewToolbar}
       </div>
 
-      <div className="relative w-full flex-1 overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
+      <div className="relative isolate w-full flex-1 transform-gpu overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
         {!iframeLoaded && <CatalogPreviewLoadingOverlay />}
         {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Native iframe onLoad state tracking. */}
         <iframe
