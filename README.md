@@ -29,6 +29,14 @@ Sora UI is supported by the open-source ecosystem. Special thanks to:
     <img src="https://cdn.soralabs.studio/logos/partners/1password-light.svg" alt="1Password" height="24" />
   </picture>
 </a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a aria-label="Sponsored by Neon" href="https://neon.tech" target="_blank" rel="noopener noreferrer">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.soralabs.studio/logos/partners/neon-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.soralabs.studio/logos/partners/neon-light.svg" />
+    <img src="https://cdn.soralabs.studio/logos/partners/neon-light.svg" alt="Neon" height="24" />
+  </picture>
+</a>
 
 
 ## Architecture
@@ -72,6 +80,8 @@ bun dev            # run all apps (Next.js docs + xmcp)
 | Sentry | `NEXT_PUBLIC_SENTRY_DSN` |
 
 Production deployments for documentation require **zero environment variables** (set `NEXT_PUBLIC_ENABLE_AUTH="true"`, `BETTER_AUTH_SECRET`, `DATABASE_URL`, or `AI_SEARCH_CHAT_URL` only when enabling auth or Ask AI).
+
+Sign-in and bookmarks need Postgres — see the [database guide](https://ui.soralabs.studio/docs/database) for the recommended provider and setup.
 
 ## MCP Server
 

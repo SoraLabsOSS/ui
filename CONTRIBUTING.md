@@ -13,6 +13,20 @@ Thank you for contributing to **Sora UI** — an open-source, Motion-first React
 > - We will gladly jump in to help you polish TypeScript types, docs formatting, reduced-motion fallbacks, and registry wiring.
 > - Questions are always welcome in our [GitHub Discussions](https://github.com/SoraLabsOSS/ui/discussions)!
 
+## Supported by
+
+Sora UI is supported by the open-source ecosystem. Special thanks to:
+
+<a aria-label="Sponsored by Neon" href="https://neon.tech" target="_blank" rel="noopener noreferrer">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.soralabs.studio/logos/partners/neon-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.soralabs.studio/logos/partners/neon-light.svg" />
+    <img src="https://cdn.soralabs.studio/logos/partners/neon-light.svg" alt="Neon" height="24" />
+  </picture>
+</a>
+
+The docs site and its Postgres database run on [Neon](https://neon.tech) — serverless Postgres with branching and scale-to-zero. See the [database guide](https://ui.soralabs.studio/docs/database) if you want to self-host the docs site with the same stack.
+
 ## Introduction
 
 This is a **Turborepo** monorepo. We use **[Bun](https://bun.sh)** (`bun@1.3.5`, pinned in `packageManager`) for installs and scripts, and **Ultracite (Biome)** for lint/format.

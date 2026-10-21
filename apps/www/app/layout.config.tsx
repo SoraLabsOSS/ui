@@ -48,6 +48,11 @@ export const baseOptions: BaseLayoutProps = {
       secondary: false,
     },
     {
+      text: "Database",
+      url: "/docs/database",
+      secondary: false,
+    },
+    {
       text: "MCP",
       url: "/docs/mcp",
       secondary: false,
