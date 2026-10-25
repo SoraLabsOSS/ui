@@ -48,7 +48,31 @@ npx @soralabs/cli doctor
 
 Resolves the dependency tree for the requested component(s), writes files into your project, and installs npm dependencies with your detected package manager (bun/pnpm/yarn/npm).
 
+`add` supports universal component specifiers:
+- **Bare names**: searches the Sora UI registry first, then automatically falls back to shadcn/ui base components (`button`, `dialog`, `input`, etc.) if not found.
+- **Direct URLs**: points straight to any remote registry JSON file.
+- **Local files**: installs from a local schema JSON file (e.g. `./registry/card.json`).
+- **GitHub references**: installs directly from a GitHub repository (`owner/repo/item` or `github:owner/repo#branch/item`).
+- **Namespaces**: resolves `@scope/item` using custom registries defined in your `components.json`.
+
 ```bash
+# install from Sora UI or shadcn/ui base (auto-fallback)
+npx @soralabs/cli add text-effect button
+
+# direct URL from any shadcn-compatible registry
+npx @soralabs/cli add https://magicui.design/r/marquee.json
+
+# local registry item
+npx @soralabs/cli add ./registry/custom-button.json
+
+# direct from GitHub
+npx @soralabs/cli add shadcn-ui/ui/button
+npx @soralabs/cli add github:owner/repo#main/component
+
+# scoped namespace defined in components.json ("registries": { "@magicui": "https://magicui.design/r" })
+npx @soralabs/cli add @magicui/marquee
+
+# flags and customizations
 npx @soralabs/cli add text-effect --path src/components/ui
 npx @soralabs/cli add card --cwd packages/ui       # run as if started in packages/ui (monorepos)
 npx @soralabs/cli add text-effect --force           # overwrite existing files without asking
@@ -112,11 +136,15 @@ npx @soralabs/cli doctor --json
 
 ## How it works
 
-The CLI fetches a shadcn-compatible registry (`<product-url>/r/registry.json`, `<product-url>/r/<name>.json`), resolves the dependency tree, writes files into your project, and installs npm dependencies with your detected package manager.
+The CLI resolves component dependencies across multiple origins, writes files into your project with your configured path aliases, and installs npm dependencies with your detected package manager.
+
+- **Universal Addressing**: When an address is provided, the CLI automatically detects whether it is a direct HTTPS URL, local file path, GitHub repository reference, or a scoped namespace from `components.json.registries`.
+- **Shadcn Base Fallback**: For bare component names (e.g. `button`), `sora-cli` checks the primary registry first. If the item returns 404, it seamlessly falls back to `https://ui.shadcn.com` using the style configured in your `components.json`.
+- **Cross-Registry Dependencies**: If a component from an external registry or URL depends on base primitives (like `button` or `utils`), the CLI traverses and flattens the dependency tree, placing base components into `components/ui` and rewriting import aliases so everything resolves out of the box.
 
 Since components are copied into your project rather than installed as a package, `diff` is the way to check whether the registry has changed a component since you installed it, and `add <component> --force --yes` is how you apply that update.
 
-Registry content isn't cryptographically signed, so only point `--registry` at a source you trust — it's written into your project and its dependency list is fed straight into your package manager.
+Registry content isn't cryptographically signed, so only point `--registry` or custom URLs at sources you trust — files are written into your project and their dependencies are fed straight into your package manager.
 
 ## Monorepos
 
