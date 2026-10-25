@@ -31,6 +31,9 @@ const MEDIA_CROSSFADE = {
 
 const MEDIA_LAYER_FADE_MS = 280;
 
+/** The preview video unmounts on unhover, so remember where each src paused. */
+const VIDEO_SEEK_MEMORY = new Map<string, number>();
+
 export interface CatalogNavHoverPreviewState {
   media: ResolvedCardPreviewMedia;
   title: string;
@@ -107,6 +110,17 @@ function CatalogNavPreviewMedia({
           muted
           onLoadedData={() => {
             setIsVideoReady(true);
+          }}
+          onLoadedMetadata={(event) => {
+            const resumeAt = VIDEO_SEEK_MEMORY.get(videoSrc);
+            const { currentTarget } = event;
+            const duration = currentTarget.duration;
+            if (resumeAt != null && Number.isFinite(duration) && duration > 0) {
+              currentTarget.currentTime = resumeAt % duration;
+            }
+          }}
+          onTimeUpdate={(event) => {
+            VIDEO_SEEK_MEMORY.set(videoSrc, event.currentTarget.currentTime);
           }}
           playsInline
           preload="auto"

@@ -179,9 +179,6 @@ function GalleryCardPreviewMedia({
     }
 
     video.pause();
-    if (!active) {
-      video.currentTime = 0;
-    }
   }, [active, videoReady]);
 
   return (

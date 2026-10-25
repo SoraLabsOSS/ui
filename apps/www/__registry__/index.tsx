@@ -2284,6 +2284,62 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/fog-text-reveal",
   },
+  "hover-link": {
+    name: "hover-link",
+    description:
+      "Five CSS-only link hover presets — three underline wipes and two block highlights — with an optional sliding arrow.",
+    type: "registry:ui",
+    dependencies: [],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/texts/hover-link/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/hover-link.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: {
+      type: "reimplemented",
+      label: "Skiper UI",
+      stack: "CSS transitions",
+      url: "https://skiper-ui.com",
+    },
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/hover-link/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/hover-link",
+  },
   "number-flow": {
     name: "number-flow",
     description:
@@ -5785,6 +5841,56 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-fog-text-reveal",
+  },
+  "demo-hover-link": {
+    name: "demo-hover-link",
+    description: "Playground for the five Hover Link presets.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/hover-link"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/hover-link/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/hover-link.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/hover-link/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-hover-link",
   },
   "demo-number-flow": {
     name: "demo-number-flow",

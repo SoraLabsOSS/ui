@@ -1,0 +1,12 @@
+{
+  "name": "demo-hover-link",
+  "code": "import {\n  HoverLink,\n  type HoverLinkVariant,\n} from \"@/components/sora-ui/texts/hover-link\";\n\nconst PREVIEW_LINKS: HoverLinkVariant[] = [\n  \"underline-left\",\n  \"underline-right\",\n  \"underline-center\",\n  \"highlight-rise\",\n  \"highlight-wipe\",\n];\n\nexport function HoverLinkDemo() {\n  return (\n    <div className=\"relative flex w-full flex-col items-center justify-center gap-5 p-10\">\n      {PREVIEW_LINKS.map((variant) => (\n        <HoverLink href=\"#hover-link\" key={variant} variant={variant}>\n          hello@soralabs.studio\n        </HoverLink>\n      ))}\n    </div>\n  );\n}",
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/hover-link/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/hover-link.tsx",
+      "content": "import {\n  HoverLink,\n  type HoverLinkVariant,\n} from \"@/components/sora-ui/texts/hover-link\";\n\nconst PREVIEW_LINKS: HoverLinkVariant[] = [\n  \"underline-left\",\n  \"underline-right\",\n  \"underline-center\",\n  \"highlight-rise\",\n  \"highlight-wipe\",\n];\n\nexport function HoverLinkDemo() {\n  return (\n    <div className=\"relative flex w-full flex-col items-center justify-center gap-5 p-10\">\n      {PREVIEW_LINKS.map((variant) => (\n        <HoverLink href=\"#hover-link\" key={variant} variant={variant}>\n          hello@soralabs.studio\n        </HoverLink>\n      ))}\n    </div>\n  );\n}"
+    }
+  ]
+}

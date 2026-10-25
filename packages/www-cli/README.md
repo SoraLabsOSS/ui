@@ -2,7 +2,7 @@
 
 Internal contributor CLI for scaffolding registry content in `apps/www`. Not published to npm — workspace-only, invoked from the monorepo root.
 
-**Consumer install CLI (separate):** [`@soralabsoss/sora-cli`](https://github.com/SoraLabsOSS/cli) (`add`, `list`, `doctor`). Do not merge scaffold logic into that repo.
+**Consumer install CLI (separate):** [`@soralabs/cli`](https://github.com/SoraLabsOSS/cli) (`add`, `list`, `doctor`). Do not merge scaffold logic into that repo.
 
 ## Commands
 

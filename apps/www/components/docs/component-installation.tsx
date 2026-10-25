@@ -60,10 +60,10 @@ export function ComponentInstallation({
   };
 
   const soraCliCommands = {
-    npm: `npx @soralabsoss/sora-cli@latest add ${name}`,
-    pnpm: `pnpm dlx @soralabsoss/sora-cli@latest add ${name}`,
-    yarn: `npx @soralabsoss/sora-cli@latest add ${name}`,
-    bun: `bun x --bun @soralabsoss/sora-cli@latest add ${name}`,
+    npm: `npx @soralabs/cli@latest add ${name}`,
+    pnpm: `pnpm dlx @soralabs/cli@latest add ${name}`,
+    yarn: `npx @soralabs/cli@latest add ${name}`,
+    bun: `bun x --bun @soralabs/cli@latest add ${name}`,
   };
 
   return (

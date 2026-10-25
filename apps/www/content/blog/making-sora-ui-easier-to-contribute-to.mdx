@@ -9,7 +9,7 @@ hashtags: ["#soraui", "#opensource", "#dx", "#cli", "#contributing"]
 
 Good OSS documentation tells contributors how your project works. Good tooling lets them contribute without having to learn everything first.
 
-That line is the whole reason we shipped a **contributor CLI** inside the Sora UI monorepo this month. Not another consumer install command — we already have [`@soralabsoss/sora-cli`](/docs/cli) for that. This one is for people opening PRs against the registry itself: the folks adding Motion primitives, Base UI / Radix UI components, and (soon) Catalog showcases.
+That line is the whole reason we shipped a **contributor CLI** inside the Sora UI monorepo this month. Not another consumer install command — we already have [`@soralabs/cli`](/docs/cli) for that. This one is for people opening PRs against the registry itself: the folks adding Motion primitives, Base UI / Radix UI components, and (soon) Catalog showcases.
 
 Sora UI is large enough now that **adding one component is not just creating a file**. It's a small distributed system: registry source, `registry-item.json`, docs MDX, sidebar metadata, optional manual demos, `demoProps` keys that must match export names, and a `registry:build` pass that only publishes what the docs actually reference. The architecture is intentional. The cognitive load on a first-time contributor is also real.
 
@@ -74,7 +74,7 @@ We still want contributors to understand the architecture eventually. We just do
 
 ## Introducing the Sora UI contributor CLI
 
-`packages/www-cli` is an internal workspace CLI — invoked from the monorepo root, not published to npm. It deliberately stays separate from [`@soralabsoss/sora-cli`](https://github.com/SoraLabsOSS/cli): consumers install components into *their* apps; contributors scaffold components inside *our* registry.
+`packages/www-cli` is an internal workspace CLI — invoked from the monorepo root, not published to npm. It deliberately stays separate from [`@soralabs/cli`](https://github.com/SoraLabsOSS/cli): consumers install components into *their* apps; contributors scaffold components inside *our* registry.
 
 ```bash
 # Interactive wizard — Motion, UI, or Catalog (Catalog coming in Phase 3)
@@ -184,7 +184,7 @@ bun run create
 
 Pick Motion or UI, name your component, and spend your time on the animation — not on remembering which `meta.json` section marker goes where.
 
-If you're consuming Sora UI in your app, nothing changes: keep using `npx @soralabsoss/sora-cli add <name> --yes`. This CLI is for the people building the registry you install from.
+If you're consuming Sora UI in your app, nothing changes: keep using `npx @soralabs/cli add <name> --yes`. This CLI is for the people building the registry you install from.
 
 ---
 

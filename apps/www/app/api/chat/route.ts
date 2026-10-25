@@ -18,7 +18,7 @@ const systemPrompt = [
   "Reply in the same language as the user.",
   "Answer from the retrieved documents. Synthesize, paraphrase, and infer from related pages — do not require an exact heading match.",
   "If the user asks how to add, install, or use something and a Get Started, Installation, or usage page was retrieved, that is the answer: walk through those steps and code examples.",
-  'Sora UI is a shadcn-style registry (`@soralabs` / `@soralabsoss/sora-cli`). There is no npm package named `@sora-ui/components` and no `<Icon name="..." />` API.',
+  'Sora UI is a shadcn-style registry (`@soralabs` / `@soralabs/cli`). There is no npm package named `@sora-ui/components` and no `<Icon name="..." />` API.',
   "Copy CLI commands and code snippets from the retrieved docs when present. After install, imports use `@/components/sora-ui/...`, not a fake npm package.",
   "When the question is about adding or installing icons and Icons Get Started was retrieved: run `npx shadcn@latest add @soralabs/icons-[icon-name]` (kebab-case, e.g. `icons-chevrons`). Usage is `<Chevrons animateOnHover />` or `<Chevrons animate={isActive} />`.",
   "Do not invent packages, import paths, component names, CLI commands, or URLs that are not in the retrieved sources.",

@@ -1,0 +1,89 @@
+---
+title: Hover Link
+description: Five CSS-only link hover presets — underline wipes and block highlights — with an optional arrow that slides in on hover. No motion library required.
+---
+
+<ComponentPreview name="hover-link" description="All five presets stacked — the first link has no arrow, the rest slide one in on hover." />
+
+## Installation
+
+<ComponentInstallation name="hover-link" />
+
+## Usage
+
+```tsx
+import { HoverLink } from '@/components/sora-ui/texts/hover-link';
+
+export function Example() {
+  return <HoverLink href="/catalog">Hover me</HoverLink>;
+}
+```
+
+### Underline wipes
+
+`underline-left`, `underline-right`, and `underline-center` draw a 1px rule in from that origin on hover.
+
+```tsx
+<HoverLink href="/docs" variant="underline-left">Underline left</HoverLink>
+<HoverLink href="/docs" variant="underline-right">Underline right</HoverLink>
+<HoverLink href="/docs" variant="underline-center">Underline center</HoverLink>
+```
+
+### Block highlights
+
+`highlight-rise` grows a white block up from the baseline; `highlight-wipe` wipes it across from the left. Both use `mix-blend-difference`, so the copy inverts as the block passes over it — no color props needed.
+
+```tsx
+<HoverLink href="/docs" variant="highlight-rise">Highlight rise</HoverLink>
+<HoverLink href="/docs" variant="highlight-wipe">Highlight wipe</HoverLink>
+```
+
+### Without the arrow
+
+The arrow is on by default. Set `withArrow={false}` for plain copy links.
+
+```tsx
+<HoverLink href="/docs" variant="underline-center" withArrow={false}>
+  Plain link
+</HoverLink>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    variant: {
+      description:
+        'Hover preset: `"underline-left"`, `"underline-right"`, `"underline-center"`, `"highlight-rise"`, or `"highlight-wipe"`.',
+      type: '"underline-left" | "underline-right" | "underline-center" | "highlight-rise" | "highlight-wipe"',
+      default: '"underline-left"',
+    },
+    withArrow: {
+      description: 'Show the diagonal arrow that slides in on hover.',
+      type: 'boolean',
+      default: 'true',
+    },
+    href: {
+      description: 'Link target. Renders a plain `<a>`, so any anchor prop works.',
+      type: 'string',
+    },
+    className: {
+      description: 'Additional class names merged onto the anchor.',
+      type: 'string',
+    },
+  }}
+/>
+
+## When to Use
+
+Use it for inline editorial links, footer or nav lists, and call-to-action rows where a hover state should feel deliberate without extra JavaScript. All five presets are pure CSS transitions.
+
+Avoid it for multi-line paragraph links: the underline spans the whole anchor box, so a wrapped link looks like a block rather than per-line underlines.
+
+## Accessibility
+
+Renders a standard `<a>` with the arrow marked `aria-hidden`. Focus is handled with `focus-visible` ring tokens, so keyboard users see the same affordance as hover. When `target="_blank"` is set, `rel="noopener noreferrer"` is added automatically unless you pass your own. Under `prefers-reduced-motion: reduce` the transitions are dropped and the hover state appears instantly.
+
+## Credits
+
+<ComponentCredits name="hover-link" />

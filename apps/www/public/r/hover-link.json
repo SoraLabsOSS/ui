@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-link",
+  "title": "Hover Link",
+  "description": "Five CSS-only link hover presets — three underline wipes and two block highlights — with an optional sliding arrow.",
+  "dependencies": [],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/texts/hover-link/index.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport type { ComponentPropsWithoutRef } from \"react\";\n\nexport type HoverLinkVariant =\n  | \"underline-left\"\n  | \"underline-right\"\n  | \"underline-center\"\n  | \"highlight-rise\"\n  | \"highlight-wipe\";\n\nconst ARROW_PATH = \"M1.004 9.166 9.337.833m0 0v8.333m0-8.333H1.004\";\n\nconst UNDERLINE_CLASSES =\n  \"before:pointer-events-none before:absolute before:top-[1.5em] before:left-0 before:h-[0.05em] before:w-full before:bg-current before:content-[''] before:scale-x-0 before:transition-transform before:duration-300 before:ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:before:transition-none\";\n\nconst HIGHLIGHT_CLASSES =\n  \"before:pointer-events-none before:absolute before:left-0 before:w-full before:bg-white before:content-[''] before:mix-blend-difference before:transition-all before:duration-300 before:ease-[cubic-bezier(0.4,0,0.2,1)] before:z-1 px-2 motion-reduce:before:transition-none\";\n\nconst VARIANT_CLASSES: Record<HoverLinkVariant, string> = {\n  \"underline-left\": cn(\n    UNDERLINE_CLASSES,\n    \"before:origin-right hover:before:origin-left hover:before:scale-x-100\"\n  ),\n  \"underline-right\": cn(\n    UNDERLINE_CLASSES,\n    \"before:origin-left hover:before:origin-right hover:before:scale-x-100\"\n  ),\n  \"underline-center\": cn(\n    UNDERLINE_CLASSES,\n    \"before:origin-center hover:before:scale-x-100\"\n  ),\n  \"highlight-rise\": cn(\n    HIGHLIGHT_CLASSES,\n    \"before:bottom-0 before:h-0 hover:before:h-full\"\n  ),\n  \"highlight-wipe\": cn(\n    HIGHLIGHT_CLASSES,\n    \"before:top-0 before:h-full before:origin-left before:scale-x-0 hover:before:scale-x-100\"\n  ),\n};\n\nconst ARROW_CLASSES: Record<HoverLinkVariant, string> = {\n  \"underline-left\":\n    \"ml-[0.3em] translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100\",\n  \"underline-right\":\n    \"ml-[0.3em] translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100\",\n  \"underline-center\":\n    \"ml-[0.3em] translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100\",\n  \"highlight-rise\":\n    \"z-0 ml-[0.6em] translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:rotate-45 group-hover:opacity-100\",\n  \"highlight-wipe\":\n    \"z-0 ml-[0.6em] -translate-x-1 rotate-45 opacity-0 group-hover:translate-x-0 group-hover:opacity-100\",\n};\n\nexport interface HoverLinkProps extends ComponentPropsWithoutRef<\"a\"> {\n  /**\n   * Motion preset. Three underline wipes and two block highlights.\n   * @default \"underline-left\"\n   */\n  variant?: HoverLinkVariant;\n  /**\n   * Show the diagonal arrow that slides in on hover.\n   * @default true\n   */\n  withArrow?: boolean;\n}\n\nexport function HoverLink({\n  children,\n  className,\n  rel,\n  target,\n  variant = \"underline-left\",\n  withArrow = true,\n  ...props\n}: HoverLinkProps) {\n  return (\n    <a\n      className={cn(\n        \"group relative flex items-center outline-none\",\n        \"focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background\",\n        VARIANT_CLASSES[variant],\n        className\n      )}\n      rel={target === \"_blank\" ? (rel ?? \"noopener noreferrer\") : rel}\n      target={target}\n      {...props}\n    >\n      {children}\n      {withArrow ? (\n        <svg\n          aria-hidden=\"true\"\n          className={cn(\n            \"size-[0.55em] transition-all duration-300 motion-reduce:transition-none\",\n            ARROW_CLASSES[variant]\n          )}\n          fill=\"none\"\n          viewBox=\"0 0 10 10\"\n          xmlns=\"http://www.w3.org/2000/svg\"\n        >\n          <path\n            d={ARROW_PATH}\n            stroke=\"currentColor\"\n            strokeLinecap=\"round\"\n            strokeLinejoin=\"round\"\n            strokeWidth=\"1.25\"\n          />\n        </svg>\n      ) : null}\n    </a>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/hover-link.tsx"
+    }
+  ],
+  "meta": {
+    "inspiration": {
+      "type": "reimplemented",
+      "label": "Skiper UI",
+      "stack": "CSS transitions",
+      "url": "https://skiper-ui.com"
+    }
+  },
+  "type": "registry:ui"
+}

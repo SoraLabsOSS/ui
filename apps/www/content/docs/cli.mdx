@@ -6,7 +6,7 @@ description: Full command reference for the sora-cli tool — add, list, diff, a
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { CodeTabs } from '@/components/docs/code-tabs';
 
-**[sora-cli](https://www.npmjs.com/package/@soralabsoss/sora-cli)** is a standalone CLI for installing components from any [shadcn](https://ui.shadcn.com)-compatible registry into your project. It defaults to the Sora UI registry, so it skips the extra step of registering the `@soralabs` scope that the [shadcn CLI](/docs/installation) needs — but it also works against any other registry via `--registry <url>`.
+**[sora-cli](https://www.npmjs.com/package/@soralabs/cli)** is a standalone CLI for installing components from any [shadcn](https://ui.shadcn.com)-compatible registry into your project. It defaults to the Sora UI registry, so it skips the extra step of registering the `@soralabs` scope that the [shadcn CLI](/docs/installation) needs — but it also works against any other registry via `--registry <url>`.
 
 <Callout>
   sora-cli is in early development — installation may fail in the current release. If something breaks, fall back to the [shadcn CLI](/docs/installation) install commands and [report an issue](https://github.com/SoraLabsOSS/cli/issues).
@@ -20,28 +20,28 @@ import { CodeTabs } from '@/components/docs/code-tabs';
 
 <CodeTabs
   codes={{
-    pnpm: `pnpm dlx @soralabsoss/sora-cli@latest add text-effect`,
-    npm: `npx @soralabsoss/sora-cli@latest add text-effect`,
-    yarn: `npx @soralabsoss/sora-cli@latest add text-effect`,
-    bun: `bunx --bun @soralabsoss/sora-cli@latest add text-effect`,
+    pnpm: `pnpm dlx @soralabs/cli@latest add text-effect`,
+    npm: `npx @soralabs/cli@latest add text-effect`,
+    yarn: `npx @soralabs/cli@latest add text-effect`,
+    bun: `bunx --bun @soralabs/cli@latest add text-effect`,
   }}
 />
 
 ```bash
 # multiple components in one call
-npx @soralabsoss/sora-cli add text-effect draw-underline-link
+npx @soralabs/cli add text-effect draw-underline-link
 
 # interactive picker — no component names, browse and multi-select
-npx @soralabsoss/sora-cli add
+npx @soralabs/cli add
 
 # list every component available in the registry
-npx @soralabsoss/sora-cli list
+npx @soralabs/cli list
 
 # compare installed files against the current registry version
-npx @soralabsoss/sora-cli diff text-effect
+npx @soralabs/cli diff text-effect
 
 # diagnose common project setup issues
-npx @soralabsoss/sora-cli doctor
+npx @soralabs/cli doctor
 ```
 
 ### `add`
@@ -49,13 +49,13 @@ npx @soralabsoss/sora-cli doctor
 Resolves the dependency tree for the requested component(s), writes files into your project, and installs npm dependencies with your detected package manager (bun/pnpm/yarn/npm).
 
 ```bash
-npx @soralabsoss/sora-cli add text-effect --path src/components/ui
-npx @soralabsoss/sora-cli add card --cwd packages/ui       # run as if started in packages/ui (monorepos)
-npx @soralabsoss/sora-cli add text-effect --force           # overwrite existing files without asking
-npx @soralabsoss/sora-cli add text-effect --yes              # skip the install confirmation, for scripts/CI
-npx @soralabsoss/sora-cli add text-effect --dry-run          # preview what would change, write nothing
-npx @soralabsoss/sora-cli add text-effect --silent            # only print summary lines, not per-file output
-npx @soralabsoss/sora-cli add text-effect --view              # print file contents instead of writing them
+npx @soralabs/cli add text-effect --path src/components/ui
+npx @soralabs/cli add card --cwd packages/ui       # run as if started in packages/ui (monorepos)
+npx @soralabs/cli add text-effect --force           # overwrite existing files without asking
+npx @soralabs/cli add text-effect --yes              # skip the install confirmation, for scripts/CI
+npx @soralabs/cli add text-effect --dry-run          # preview what would change, write nothing
+npx @soralabs/cli add text-effect --silent            # only print summary lines, not per-file output
+npx @soralabs/cli add text-effect --view              # print file contents instead of writing them
 ```
 
 <Callout type="warn">
@@ -67,8 +67,8 @@ npx @soralabsoss/sora-cli add text-effect --view              # print file conte
 Lists every component the target registry exposes. Add `--json` for machine-readable output (safe to pipe — errors and status messages go to stderr, never mixed into the JSON on stdout).
 
 ```bash
-npx @soralabsoss/sora-cli list
-npx @soralabsoss/sora-cli list --json
+npx @soralabs/cli list
+npx @soralabs/cli list --json
 ```
 
 ### `diff`
@@ -76,7 +76,7 @@ npx @soralabsoss/sora-cli list --json
 Read-only comparison of installed component files against the current registry content — reports drift without writing anything.
 
 ```bash
-npx @soralabsoss/sora-cli diff text-effect
+npx @soralabs/cli diff text-effect
 ```
 
 If files differ, re-run `add <component> --force --yes` to apply the update.
@@ -86,8 +86,8 @@ If files differ, re-run `add <component> --force --yes` to apply the update.
 Diagnoses common project setup issues before you install anything: Node version, package manager/lockfile conflicts, `components.json` validity, path alias configuration, Tailwind/React versions, `cn()` util dependencies, registry reachability, and whether a newer `sora-cli` version is available.
 
 ```bash
-npx @soralabsoss/sora-cli doctor
-npx @soralabsoss/sora-cli doctor --json
+npx @soralabs/cli doctor
+npx @soralabs/cli doctor --json
 ```
 
 ## Options reference
@@ -129,7 +129,7 @@ Use `--cwd <path>` (or `-c`) to run `add`/`diff`/`doctor` as if the CLI had been
 <Step>
 
 ```bash
-npx @soralabsoss/sora-cli add card --cwd packages/ui
+npx @soralabs/cli add card --cwd packages/ui
 ```
 
 </Step>

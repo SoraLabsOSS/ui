@@ -7,19 +7,19 @@ date: 2026-07-24
 hashtags: ["#cli", "#mcp", "#ai", "#react"]
 ---
 
-Two things shipped this week, and they're really one change told from two sides. `sora-cli` — a standalone install command, `@soralabsoss/sora-cli` on npm — went from "mentioned in passing on the installation page" to a full reference at [`/docs/cli`](/docs/cli). And `sora-mcp`'s registry tools, which used to be three separate calls, got merged into one that stops trying to be an installer and just tells you — or your agent — exactly what to run.
+Two things shipped this week, and they're really one change told from two sides. `sora-cli` — a standalone install command, `@soralabs/cli` on npm — went from "mentioned in passing on the installation page" to a full reference at [`/docs/cli`](/docs/cli). And `sora-mcp`'s registry tools, which used to be three separate calls, got merged into one that stops trying to be an installer and just tells you — or your agent — exactly what to run.
 
 ## What `sora-cli` actually does
 
 It's a copy-paste installer for shadcn-compatible registries, defaulting to Sora UI's own:
 
 ```bash
-npx @soralabsoss/sora-cli add text-effect
-npx @soralabsoss/sora-cli add text-effect draw-underline-link   # multiple at once
-npx @soralabsoss/sora-cli add                                    # interactive picker
-npx @soralabsoss/sora-cli list
-npx @soralabsoss/sora-cli diff text-effect
-npx @soralabsoss/sora-cli doctor
+npx @soralabs/cli add text-effect
+npx @soralabs/cli add text-effect draw-underline-link   # multiple at once
+npx @soralabs/cli add                                    # interactive picker
+npx @soralabs/cli list
+npx @soralabs/cli diff text-effect
+npx @soralabs/cli doctor
 ```
 
 `add` resolves the dependency tree, writes files into your project with the right import aliases, and installs whatever npm packages the component needs, using whichever package manager it detects. `diff` is the read-only counterpart — it never writes anything, it just tells you whether the registry has moved since you installed. `doctor` checks the things that usually break an install before you find out the hard way: Node version, lockfile conflicts, `components.json`, path aliases, Tailwind/React versions, registry reachability.
@@ -27,7 +27,7 @@ npx @soralabsoss/sora-cli doctor
 The one flag worth committing to memory if anything other than you, sitting at a keyboard, is going to run this: `--yes`. Skip it in a non-interactive shell and `add` prints a confirmation prompt, gets no TTY to answer it, and exits 0 having installed nothing — silently, which is the worst way for a command to fail.
 
 ```bash
-npx @soralabsoss/sora-cli add text-effect --cwd packages/ui --yes
+npx @soralabs/cli add text-effect --cwd packages/ui --yes
 ```
 
 `--cwd` matters the same way in monorepos — it makes the CLI resolve `tsconfig.json`/`components.json` from the target workspace instead of the repo root, which is usually the wrong place to write files anyway.
@@ -53,7 +53,7 @@ Call it with no `name` and it lists every installable component and hook. Call i
 
 ```
 Run this in the user's project (not this MCP server, which has no
-access to their files): `npx @soralabsoss/sora-cli add text-effect --yes`
+access to their files): `npx @soralabs/cli add text-effect --yes`
 — fetches this component with the correct import aliases for their
 project and installs its dependencies.
 ```
@@ -95,7 +95,7 @@ One detail that's easy to skip past: `cwd` gets checked against a small denylist
 1. Enable the sora-ui MCP server
 2. Ask naturally: "Install scroll-gallery and show usage with variant=studio"
 3. Agent calls get_component_info → gets back the sora-cli command
-4. Agent runs `npx @soralabsoss/sora-cli add scroll-gallery --yes`
+4. Agent runs `npx @soralabs/cli add scroll-gallery --yes`
    in a real shell → files land in your project
 ```
 

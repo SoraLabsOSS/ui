@@ -1070,6 +1070,29 @@
       ]
     },
     {
+      "name": "hover-link",
+      "type": "registry:ui",
+      "title": "Hover Link",
+      "description": "Five CSS-only link hover presets — three underline wipes and two block highlights — with an optional sliding arrow.",
+      "dependencies": [],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/primitives/texts/hover-link/index.tsx",
+          "type": "registry:ui",
+          "target": "components/sora-ui/texts/hover-link.tsx"
+        }
+      ],
+      "meta": {
+        "inspiration": {
+          "type": "reimplemented",
+          "label": "Skiper UI",
+          "stack": "CSS transitions",
+          "url": "https://skiper-ui.com"
+        }
+      }
+    },
+    {
       "name": "number-flow",
       "type": "registry:ui",
       "title": "Number Flow",

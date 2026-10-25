@@ -29,13 +29,13 @@ You don't need to worry about broken bookmarks or external links. Every URL on `
 ### 3. CLI & Registry Compatibility
 Your local development workflow and CI/CD pipelines continue to work without interruption:
 
-- **Sora CLI:** `npx @soralabsoss/sora-cli add <component>` resolves seamlessly against the updated endpoints.
+- **Sora CLI:** `npx @soralabs/cli add <component>` resolves seamlessly against the updated endpoints.
 - **shadcn/ui CLI:** `npx shadcn@latest add @soralabs/<component>` continues fetching schemas with automatic redirect handling.
 - **MCP Server:** Tools querying docs and registry metadata route directly to `ui.soralabs.studio`.
 
 ```bash
 # Both install commands remain fully supported
-npx @soralabsoss/sora-cli add text-effect
+npx @soralabs/cli add text-effect
 npx shadcn@latest add @soralabs/text-effect
 ```
 

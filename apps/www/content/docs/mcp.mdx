@@ -45,7 +45,7 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | `registry-catalog` | Complete live JSON snapshot of all installable Sora UI registry items (`type: "registry:ui"` and `type: "registry:hook"`) |
 
 <Callout>
-  `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the standard `shadcn add` or [`sora-cli`](https://www.npmjs.com/package/@soralabsoss/sora-cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
+  `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the standard `shadcn add` or [`sora-cli`](https://www.npmjs.com/package/@soralabs/cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
 ## How it works in practice

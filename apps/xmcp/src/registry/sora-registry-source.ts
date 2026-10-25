@@ -250,7 +250,7 @@ export function formatDetail(
     cwdFlag
       ? "In a monorepo, `--cwd` points shadcn CLI at the target workspace (e.g. `packages/ui`) so it resolves that workspace's tsconfig paths/aliases instead of the repo root's."
       : "In a monorepo, if you know which workspace the user wants (e.g. `packages/ui`), pass `cwd` to this tool or add `--cwd <workspace>` to the command yourself — otherwise shadcn installs relative to the repo root, which is usually wrong for a nested package.",
-    `(Prefer using sora-cli instead? \`npx @soralabsoss/sora-cli add ${item.name}${cwdFlag} --yes\` works too. To check upstream changes: \`npx @soralabsoss/sora-cli diff ${item.name}${cwdFlag}\`.)`,
+    `(Prefer using sora-cli instead? \`npx @soralabs/cli add ${item.name}${cwdFlag} --yes\` works too. To check upstream changes: \`npx @soralabs/cli diff ${item.name}${cwdFlag}\`.)`,
     "",
     "## Details",
     `Dependencies: ${dependencies}`,

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-hover-link",
+  "type": "registry:ui",
+  "title": "Hover Link Demo",
+  "description": "Playground for the five Hover Link presets.",
+  "registryDependencies": ["@soralabs/hover-link"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/hover-link/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/texts/hover-link.tsx"
+    }
+  ]
+}
