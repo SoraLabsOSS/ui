@@ -1,7 +1,9 @@
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { type InferPageType, loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
+import Slugger from "github-slugger";
 import type { FileObject } from "next-validate-link";
 import { blog, catalog, docs, icons, motion, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
@@ -57,8 +59,50 @@ const appRoot = path.resolve(
   "../.."
 );
 
+const ATX_HEADING = /^#{1,6}\s+(.+?)\s*#*$/;
+const CODE_FENCE = /^\s*(?:```|~~~)/;
+const LINE_BREAK = /\r?\n/;
+const headingCache = new Map<string, string[]>();
+
+function inlineToText(value: string): string {
+  return value
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/`([^`]*)`/g, "$1")
+    .replace(/[*_~]/g, "")
+    .trim();
+}
+
+/**
+ * Reads heading slugs from the raw MDX file: `page.data.toc` is undefined when
+ * the source is loaded under Bun, which made every `#anchor` fail validation.
+ */
+function readHeadings(filePath: string): string[] {
+  const cached = headingCache.get(filePath);
+  if (cached) {
+    return cached;
+  }
+
+  const slugger = new Slugger();
+  const hashes: string[] = [];
+  let fenced = false;
+
+  for (const line of readFileSync(filePath, "utf8").split(LINE_BREAK)) {
+    if (CODE_FENCE.test(line)) {
+      fenced = !fenced;
+      continue;
+    }
+    const match = fenced ? null : line.match(ATX_HEADING);
+    if (match) {
+      hashes.push(slugger.slug(inlineToText(match[1])));
+    }
+  }
+
+  headingCache.set(filePath, hashes);
+  return hashes;
+}
+
 export function getHeadings(page: ContentPage): string[] {
-  return (page.data.toc ?? []).map((item) => item.url.slice(1));
+  return readHeadings(page.absolutePath);
 }
 
 export async function toFileObject(page: ContentPage): Promise<FileObject> {

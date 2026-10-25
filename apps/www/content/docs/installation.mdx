@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Install Sora UI in a Next.js or Vite project using the shadcn CLI — dependencies, Tailwind config, and folder structure in 3 steps.
+description: Install Sora UI in a Next.js or Vite project using the shadcn CLI — dependencies, Tailwind config, folder structure in 3 steps — plus fixes for common install errors.
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
@@ -79,16 +79,9 @@ npx shadcn@latest list @soralabs
 
 <Callout type="warn">
   **Only if the shadcn CLI errors** — for example `unknown registry`, cannot
-  resolve `@soralabs`, or fetch timeout — add the scope manually to
-  `components.json`:
-
-  ```json
-  {
-    "registries": {
-      "@soralabs": "https://ui.soralabs.studio/r/{name}.json"
-    }
-  }
-  ```
+  resolve `@soralabs`, or fetch timeout — see
+  [The CLI does not recognize `@soralabs`](#the-cli-does-not-recognize-soralabs)
+  for the manual `components.json` fix.
 </Callout>
 
 </Step>
@@ -114,3 +107,91 @@ export default function Home() {
 </Steps>
 
 <InstallationFileStructure />
+
+## Troubleshooting
+
+### Verify your versions
+
+| Dependency       | Minimum recommended version |
+| ---------------- | --------------------------- |
+| **Motion**       | `≥ 12.23.0`                 |
+| **React**        | `≥ 19`                      |
+| **Tailwind CSS** | `≥ 4.1.0`                   |
+| **Base UI**      | `1.0.0-beta.3`              |
+| **Radix UI**     | `≥ 1.4.0`                   |
+| **Headless UI**  | `≥ 2.2.0`                   |
+
+Make sure your environment meets or exceeds these versions to ensure Sora UI remains compatible and stable.
+
+### Documentation display issues
+
+Certain browser extensions can interfere with how the documentation is rendered. Common culprits include:
+
+- **[Screen Shader | Smart Screen Tinting](https://chromewebstore.google.com/detail/screen-shader-smart-scree/fmlboobidmkelggdainpknloccojpppi?hl=fr&utm_source=ext_sidebar)**
+
+If problems persist after disabling extensions, clear your browser cache and refresh the page.
+
+### The CLI does not recognize `@soralabs`
+
+Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json). Register the namespace first:
+
+```bash
+npx shadcn@latest registry add @soralabs
+```
+
+If that still fails, add or update the `registries` field in `components.json`:
+
+```json
+{
+  "registries": {
+    "@soralabs": "https://ui.soralabs.studio/r/{name}.json"
+  }
+}
+```
+
+If you were testing against a local docs server (`http://localhost:3000/r/{name}.json`), switch back to the production URL when:
+
+- The dev server is not running
+- `shadcn list` or `shadcn add` times out or returns 404
+- You are installing into a project outside this monorepo
+
+Verify the registry is reachable:
+
+```bash
+bunx --bun shadcn@latest list https://ui.soralabs.studio/r/registry.json
+```
+
+Then install with the scope, for example:
+
+```bash
+bunx --bun shadcn@latest add @soralabs/accordion
+```
+
+### A Sora dependency resolves from `ui.shadcn.com`
+
+If `shadcn add @soralabs/accordion` fails with a 404 for something like
+`hooks-use-auto-height` on `ui.shadcn.com`, the published registry item listed
+that dependency without the `@soralabs/` scope. Sora-only deps must be scoped so
+the CLI fetches them from your `@soralabs` registry URL, not the default shadcn
+registry.
+
+Ensure `components.json` includes the Sora registry (see above), then retry
+after the registry on `https://ui.soralabs.studio/r/` is updated. For local
+testing, point `@soralabs` at `http://localhost:3000/r/{name}.json` while
+`bun dev` is running in this repo.
+
+### The CLI installation does not respect aliases
+
+In some projects, components may not install in the desired location that you configured in the aliases in the `components.json` file. This is because we can't use a target path with aliases.
+
+We have filed an [issue on shadcn/ui](https://github.com/shadcn-ui/ui/issues/8169), Shadcn added it to the roadmap.
+
+For now, we recommend using the manual installation.
+
+### Flickering with the highlight component
+
+If you are experiencing flickering issues with the `Highlight` component, this is likely due to React's strict mode. Set it to false to avoid issues during development.
+
+### Other issues
+
+If you encounter any other problem, see the [Community](/docs/community) page — [open an issue](https://github.com/SoraLabsOSS/ui/issues/new) or ask in [Discussions](https://github.com/SoraLabsOSS/ui/discussions).

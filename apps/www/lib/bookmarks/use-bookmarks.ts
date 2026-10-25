@@ -124,42 +124,9 @@ export function useBookmarks() {
 
       return { action: "created", bookmark };
     },
-    onMutate: async ({ url, isBookmarked }) => {
+    onMutate: async () => {
+      // No optimistic write — the bookmark UI must not flip until the server confirms.
       await queryClient.cancelQueries({ queryKey: listQueryKey });
-
-      const previous = queryClient.getQueryData<BookmarkRecord[]>(listQueryKey);
-      const canonicalUrl = normalizeBookmarkUrl(url);
-
-      if (isBookmarked) {
-        queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) =>
-          (old ?? EMPTY_BOOKMARKS).filter(
-            (bookmark) => normalizeBookmarkUrl(bookmark.url) !== canonicalUrl
-          )
-        );
-      } else {
-        queryClient.setQueryData<BookmarkRecord[]>(listQueryKey, (old) => {
-          const bookmarks = old ?? EMPTY_BOOKMARKS;
-
-          if (
-            bookmarks.some(
-              (bookmark) => normalizeBookmarkUrl(bookmark.url) === canonicalUrl
-            )
-          ) {
-            return bookmarks;
-          }
-
-          return [
-            {
-              id: `optimistic-${canonicalUrl}`,
-              url: canonicalUrl,
-              createdAt: new Date().toISOString(),
-            },
-            ...bookmarks,
-          ];
-        });
-      }
-
-      return { previous };
     },
     onSuccess: (result, { url }) => {
       const canonicalUrl = normalizeBookmarkUrl(url);
@@ -185,14 +152,7 @@ export function useBookmarks() {
         return [result.bookmark, ...withoutUrl];
       });
     },
-    onError: (error, _variables, context) => {
-      if (context) {
-        queryClient.setQueryData(
-          listQueryKey,
-          context.previous ?? EMPTY_BOOKMARKS
-        );
-      }
-
+    onError: (error) => {
       toast.error(getBookmarkErrorMessage(error));
     },
     onSettled: () => {

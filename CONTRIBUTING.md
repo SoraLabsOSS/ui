@@ -25,7 +25,7 @@ Sora UI is supported by the open-source ecosystem. Special thanks to:
   </picture>
 </a>
 
-The docs site and its Postgres database run on [Neon](https://neon.tech) — serverless Postgres with branching and scale-to-zero. See the [database guide](https://ui.soralabs.studio/docs/database) if you want to self-host the docs site with the same stack.
+The docs site and its Postgres database run on [Neon](https://neon.tech) — serverless Postgres with branching and scale-to-zero. See the [self-hosting section](https://ui.soralabs.studio/docs/architecture#self-hosting-the-docs-site) if you want to self-host the docs site with the same stack.
 
 ## Introduction
 

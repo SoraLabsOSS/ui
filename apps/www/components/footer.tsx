@@ -49,7 +49,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Introduction", href: "/docs" },
       { label: "Base UI & Radix", href: "/ui" },
       { label: "Changelog", href: "/docs/changelog" },
-      { label: "Troubleshooting", href: "/docs/troubleshooting" },
+      { label: "Troubleshooting", href: "/docs/installation#troubleshooting" },
     ],
   },
   {

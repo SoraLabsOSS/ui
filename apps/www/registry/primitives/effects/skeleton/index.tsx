@@ -7,6 +7,7 @@ import {
   type ReactNode,
   type Ref,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
@@ -263,10 +264,19 @@ function SkeletonTransition({
     loading ? "loading" : "done"
   );
   const prefersReducedMotion = usePrefersReducedMotion();
+  // Reveal only on a real loading → ready transition. The effect also re-runs
+  // when prefersReducedMotion resolves after mount, which must not replay it.
+  const wasLoadingRef = useRef(loading);
 
   useEffect(() => {
+    const wasLoading = wasLoadingRef.current;
+    wasLoadingRef.current = loading;
+
     if (loading) {
       setPhase("loading");
+      return;
+    }
+    if (!wasLoading) {
       return;
     }
     setPhase(prefersReducedMotion ? "done" : "settling");

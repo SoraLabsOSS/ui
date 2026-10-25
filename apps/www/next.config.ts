@@ -202,6 +202,21 @@ const nextConfig: NextConfig = {
         destination: "/legal/privacy",
         permanent: true,
       },
+      {
+        source: "/docs/about",
+        destination: "/docs/architecture",
+        permanent: true,
+      },
+      {
+        source: "/docs/troubleshooting",
+        destination: "/docs/installation",
+        permanent: true,
+      },
+      {
+        source: "/docs/database",
+        destination: "/docs/architecture",
+        permanent: true,
+      },
       ...buildDocRedirects(appRoot),
     ];
   },

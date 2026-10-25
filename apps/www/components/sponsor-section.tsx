@@ -60,7 +60,7 @@ export function SponsorSection() {
           {/* The three logos' width/height ratios sum to 13.11, so a fixed height
               cannot fit them on one mobile row: they wrap or overflow. The height
               must scale with the container width (6.2vw fills it exactly). */}
-          <div className="my-10 flex flex-nowrap items-center justify-between gap-3 sm:justify-center sm:gap-6 md:my-12 md:gap-14">
+          <div className="my-10 flex w-full flex-nowrap items-center justify-between gap-3 sm:justify-center sm:gap-6 md:my-12 md:gap-14">
             <a
               aria-label="Mintlify"
               className="!no-underline flex shrink-0 cursor-pointer items-center justify-center transition-opacity duration-200 hover:opacity-50"

@@ -81,7 +81,7 @@ bun dev            # run all apps (Next.js docs + xmcp)
 
 Production deployments for documentation require **zero environment variables** (set `NEXT_PUBLIC_ENABLE_AUTH="true"`, `BETTER_AUTH_SECRET`, `DATABASE_URL`, or `AI_SEARCH_CHAT_URL` only when enabling auth or Ask AI).
 
-Sign-in and bookmarks need Postgres — see the [database guide](https://ui.soralabs.studio/docs/database) for the recommended provider and setup.
+Sign-in and bookmarks need Postgres — see the [self-hosting section](https://ui.soralabs.studio/docs/architecture#self-hosting-the-docs-site) for the recommended provider and setup.
 
 ## MCP Server
 

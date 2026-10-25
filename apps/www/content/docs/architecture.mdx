@@ -1,9 +1,22 @@
 ---
 title: Architecture
-description: How Sora UI is structured, what was inherited from Animate UI, and what is new.
+description: How Sora UI is structured — its origins as a fork of Animate UI, the monorepo and registry layout, and how to self-host the docs site's auth database.
 ---
 
-Sora UI [started as a fork of Animate UI](/docs/about). This page documents what the project actually inherited from upstream and what is new.
+Sora UI started as a fork of [Animate UI](https://animate-ui.com) by [@imskyleen](https://x.com/imskyleen). The initial codebase, registry conventions, and copy-paste distribution model came from that project.
+
+Since then, the architecture, registry system, component APIs, and motion primitives have been substantially redesigned. Some patterns and abstractions still trace back to the original codebase. This page documents what the project actually inherited from upstream, what is new, and how it is laid out.
+
+## Direction
+
+Sora UI is built around a dual-comprehension philosophy: UI components whose behavior, constraints, composition, and metadata are understandable by both humans and AI agents. It pairs an open, copy-paste registry architecture with structured metadata exposed through an [MCP server](/docs/mcp), alongside a component roadmap centered on motion-first, composable primitives.
+
+What's different from upstream:
+
+- **Built for humans and AI** — an MCP server delivering rich metadata (intent, accessibility constraints, motion semantics, and composition rules) so AI assistants reason accurately about components
+- **Three-tier primitives** — Motion, UI, and Catalog as distinct layers of abstraction
+- **Multi-primitive support** — components ported across Radix UI, Base UI, and Headless UI
+- **Deeper motion system** — accessible defaults, reduced-motion support, and composable animation primitives
 
 ## What was inherited from Animate UI
 
@@ -73,13 +86,135 @@ None of the component implementations were copied from Animate UI.
 |---|---|
 | `apps/xmcp` — MCP server | New |
 | `packages/auth-ui` — better-auth integration | New |
-| `packages/db` — Drizzle ORM schema (Postgres on [Neon](/docs/database)) | New |
+| `packages/db` — Drizzle ORM schema (Postgres on Neon) | New |
 | `packages/www-cli` — contributor scaffolding CLI | New |
 | Auth, bookmarks, session | New |
 | Blog with RSS | New |
 | Catalog tier | New |
 | `bun run doctor` audit command | New |
 
-## What remained from upstream
+## Self-hosting the docs site
 
-The copy-paste distribution model, shadcn registry schema, Fumadocs docs site structure, and monorepo conventions trace back to Animate UI. The upstream copyright notice is in the [License](/docs/license).
+Sora UI's documentation site keeps **sign-in sessions and bookmarks** in a Postgres database. The schema and client live in `packages/db`, built on [Drizzle ORM](https://orm.drizzle.team/) and [`postgres.js`](https://github.com/porsager/postgres.js).
+
+<Callout>
+  **You only need a database if you enable auth.** Browsing the docs, blog,
+  catalog, and registry works with zero environment variables. Set
+  `NEXT_PUBLIC_ENABLE_AUTH="true"` to turn on sign-in and bookmarks.
+</Callout>
+
+### Recommended: Neon
+
+<Callout type="success" title="Sponsored by Neon">
+  <a href="https://neon.tech" target="_blank" rel="noopener noreferrer">
+    <svg
+      aria-label="Neon"
+      className="my-1 block"
+      fill="none"
+      height="28"
+      role="img"
+      viewBox="0 0 100 28"
+      width="102"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Neon</title>
+      <path
+        d="M27.542.008V28l-10.747-9.508v9.323H0V0zM3.376 24.439H13.42V11.084l10.747 9.508V3.382l-20.79-.005z"
+        fill="#37C38F"
+      />
+      <path
+        d="m49.97 23.124-10.745-9.51v9.323h-3.38V6.201l10.746 9.51V6.387h3.38zm3.722-.187V6.387h10.116V9.72h-6.736v3.264h5.338v3.263h-5.338v3.357h6.736v3.333zm20.58.187a8.446 8.446 0 0 1-8.461-8.462 8.446 8.446 0 0 1 8.46-8.461 8.446 8.446 0 0 1 8.462 8.461 8.446 8.446 0 0 1-8.461 8.462m0-3.264c2.89 0 5.058-2.33 5.058-5.198 0-2.867-2.168-5.198-5.058-5.198s-5.058 2.331-5.058 5.198 2.168 5.198 5.058 5.198m24.888 3.264-10.746-9.51v9.323h-3.38V6.201l10.746 9.51V6.387h3.38z"
+        fill="currentColor"
+      />
+    </svg>
+  </a>
+
+  Sora UI's production database runs on [Neon](https://neon.tech) — serverless
+  Postgres with branching, autoscaling, and scale-to-zero. Neon sponsors
+  Sora UI's infrastructure.
+</Callout>
+
+**Neon is the provider we recommend for self-hosting Sora UI.** It fits the way this app talks to Postgres:
+
+- **Pooled connections at runtime.** Neon exposes a PgBouncer endpoint that accepts thousands of client connections over a small pool of real ones — ideal for a serverless deployment that opens a connection per request.
+- **Direct connections for migrations.** The same project hands you a direct (unpooled) endpoint, which schema migrations need because transaction-mode pooling does not support session-level state.
+- **Branching for preview deployments.** A Neon branch is an instant, copy-on-write clone of the database with its own connection string — handy for testing migrations without touching production.
+- **Scale to zero.** Idle computes suspend after a few minutes, so a low-traffic docs site costs close to nothing.
+
+### Connection strings
+
+Neon gives you two URLs for the same database. They differ only by the `-pooler` suffix in the hostname:
+
+| Use | Variable | Hostname |
+| --- | --- | --- |
+| Runtime (pooled) | `DATABASE_URL` | `ep-xxx-pooler.<region>.aws.neon.tech` |
+| Migrations (direct) | `DATABASE_URL_DIRECT` | `ep-xxx.<region>.aws.neon.tech` |
+
+Both use port `5432` and require `sslmode=require`:
+
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@ep-xxx-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+DATABASE_URL_DIRECT="postgresql://USER:PASSWORD@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require"
+```
+
+Copy both URLs from the Neon console with the **Connect** button. Enable
+**Connection pooling** for `DATABASE_URL`, then disable it for
+`DATABASE_URL_DIRECT`.
+
+The Neon CLI can pull the pooled and direct URLs as `DATABASE_URL` and
+`DATABASE_URL_UNPOOLED`:
+
+```bash
+neon env pull
+```
+
+This project uses `DATABASE_URL_DIRECT` instead of Neon's
+`DATABASE_URL_UNPOOLED` name, so copy the unpooled value into
+`DATABASE_URL_DIRECT` in `apps/www/.env`.
+
+### Environment variables
+
+Set these in `apps/www/.env`:
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_ENABLE_AUTH` | Yes, for auth | Set to `"true"` to enable sign-in and bookmarks |
+| `DATABASE_URL` | Yes, for auth | Pooled Postgres URL used at runtime |
+| `DATABASE_URL_DIRECT` | Only for migrations | Direct Postgres URL used by `drizzle-kit` |
+
+### Applying migrations
+
+Schema lives in `packages/db/src/schema`. Run migrations from the package root:
+
+```bash
+cd packages/db
+bun run db:migrate
+```
+
+`drizzle-kit` prefers `DATABASE_URL_DIRECT` and falls back to `DATABASE_URL`. Always give it a direct connection — running migrations through a transaction-mode pooler fails in confusing ways.
+
+Other schema commands:
+
+```bash
+bun run db:generate   # generate SQL from the schema
+bun run db:push       # push schema without a migration file (dev only)
+bun run db:studio     # open Drizzle Studio
+```
+
+### Using a different Postgres provider
+
+Any Postgres provider works — the schema is plain Postgres, and the client connects with `prepare: false` so it stays compatible with transaction-mode poolers (Neon's `-pooler` endpoint, Supabase's port `6543`).
+
+Point `DATABASE_URL` at a **pooled** endpoint and `DATABASE_URL_DIRECT` at a **direct** one, then apply the migrations above.
+
+## License & attribution
+
+Original Sora UI code is distributed under the **MIT License**. Portions derived from third-party projects remain subject to their respective licenses.
+
+The upstream copyright notice:
+
+> Portions Copyright (c) 2025 Elliot Sutton (Animate UI — https://github.com/animate-ui/animate-ui)
+
+Full license text on the [License](/docs/license) page.
+
+If something looks like it's missing credit, [reach out](/docs/community).

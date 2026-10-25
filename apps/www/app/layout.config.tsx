@@ -48,18 +48,8 @@ export const baseOptions: BaseLayoutProps = {
       secondary: false,
     },
     {
-      text: "Database",
-      url: "/docs/database",
-      secondary: false,
-    },
-    {
       text: "MCP",
       url: "/docs/mcp",
-      secondary: false,
-    },
-    {
-      text: "Troubleshooting",
-      url: "/docs/troubleshooting",
       secondary: false,
     },
     {
@@ -67,15 +57,9 @@ export const baseOptions: BaseLayoutProps = {
       url: "/docs/community",
       secondary: false,
     },
-
     {
       text: "Other animated distributions",
       url: "/docs/other-animated-distributions",
-      secondary: false,
-    },
-    {
-      text: "About",
-      url: "/docs/about",
       secondary: false,
     },
     {
