@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
 import {
   BookmarkEmptyState,
@@ -468,6 +469,9 @@ function AuthDisabledState(): React.ReactNode {
   );
 }
 
+const TAB_OPTIONS = ["lists", "saves", "opened"] as const;
+type TabOption = (typeof TAB_OPTIONS)[number];
+
 /* ── Page ── */
 export default function BookmarkPage() {
   const authEnabled = isAuthEnabled();
@@ -484,8 +488,9 @@ export default function BookmarkPage() {
   } = useBookmarkPages();
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
-  const [activeTab, setActiveTab] = useState<"lists" | "saves" | "opened">(
-    "lists"
+  const [activeTab, setActiveTab] = useQueryState<TabOption>(
+    "tab",
+    parseAsStringLiteral(TAB_OPTIONS).withDefault("lists")
   );
   const [pendingRemoveUrl, setPendingRemoveUrl] = useState<string | null>(null);
 

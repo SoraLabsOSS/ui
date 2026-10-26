@@ -13,10 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default function WorkspaceLayout({ children }: { children: ReactNode }) {
-  const fallback = <WorkspaceShell defaultOpen>{children}</WorkspaceShell>;
-
   return (
-    <Suspense fallback={<Providers>{fallback}</Providers>}>
+    <Suspense
+      fallback={
+        <Providers>
+          <WorkspaceShell defaultOpen>
+            <div className="min-h-full" />
+          </WorkspaceShell>
+        </Providers>
+      }
+    >
       <AuthSessionProviders>
         <WorkspaceShell defaultOpen>{children}</WorkspaceShell>
       </AuthSessionProviders>
