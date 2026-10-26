@@ -1,6 +1,6 @@
 ---
 title: Sora CLI
-description: Full command reference for the sora-cli tool — add, list, diff, and doctor.
+description: Full command reference for the sora-cli tool — init, add, list, diff, doctor, and mcp.
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
@@ -9,15 +9,7 @@ import { CodeTabs } from '@/components/docs/code-tabs';
 **[sora-cli](https://www.npmjs.com/package/@soralabs/cli)** is a standalone CLI for installing components from any [shadcn](https://ui.shadcn.com)-compatible registry into your project. It defaults to the Sora UI registry, so it skips the extra step of registering the `@soralabs` scope that the [shadcn CLI](/docs/installation) needs — but it also works against any other registry via `--registry <url>`.
 
 <Callout>
-  Looking for dedicated documentation? Visit **[cli.soralabs.studio](https://cli.soralabs.studio)** for the standalone documentation site with in-depth guides, architecture, and complete command references.
-</Callout>
-
-<Callout>
-  sora-cli is in early development — installation may fail in the current release. If something breaks, fall back to the [shadcn CLI](/docs/installation) install commands and [report an issue](https://github.com/SoraLabsOSS/cli/issues).
-</Callout>
-
-<Callout>
-  You still need `shadcn@latest init` first — see [Installation](/docs/installation) — since that sets up Tailwind, CSS variables, and the `@/` import alias every component depends on.
+  Looking for dedicated documentation? Visit **[cli.soralabs.studio](https://cli.soralabs.studio)** for the standalone documentation site with in-depth guides, architecture, registry authoring, and complete command references.
 </Callout>
 
 ## Commands
@@ -32,20 +24,38 @@ import { CodeTabs } from '@/components/docs/code-tabs';
 />
 
 ```bash
-# multiple components in one call
+# initialize a new or existing project
+npx @soralabs/cli init
+
+# install components
 npx @soralabs/cli add text-effect draw-underline-link
 
-# interactive picker — no component names, browse and multi-select
+# interactive picker — browse and multi-select
 npx @soralabs/cli add
 
-# list every component available in the registry
+# list available components in the registry
 npx @soralabs/cli list
 
-# compare installed files against the current registry version
+# compare installed files against current registry updates
 npx @soralabs/cli diff text-effect
 
 # diagnose common project setup issues
 npx @soralabs/cli doctor
+
+# configure MCP server for AI coding assistants (Cursor, Claude Code, VS Code)
+npx @soralabs/cli mcp init
+```
+
+### `init`
+
+Initializes a new or existing project for Sora UI and shadcn-compatible registries. It automatically detects your framework (Next.js App Router, Vite, Remix, Astro), Tailwind CSS version (v3/v4), configures `components.json`, sets up the `@/*` import alias, and installs required utility dependencies (`clsx`, `tailwind-merge`).
+
+```bash
+# interactive configuration wizard
+npx @soralabs/cli init
+
+# non-interactive setup with recommended defaults
+npx @soralabs/cli init --yes
 ```
 
 ### `add`
@@ -58,6 +68,7 @@ Resolves the dependency tree for the requested component(s), writes files into y
 - **Local files**: installs from a local schema JSON file (e.g. `./registry/card.json`).
 - **GitHub references**: installs directly from a GitHub repository (`owner/repo/item` or `github:owner/repo#branch/item`).
 - **Namespaces**: resolves `@scope/item` using custom registries defined in your `components.json`.
+- **Automatic RSC Handling**: intelligently adds or strips the `'use client'` directive depending on whether your project uses React Server Components.
 
 ```bash
 # install from Sora UI or shadcn/ui base (auto-fallback)
@@ -117,6 +128,22 @@ Diagnoses common project setup issues before you install anything: Node version,
 npx @soralabs/cli doctor
 npx @soralabs/cli doctor --json
 ```
+
+### `mcp`
+
+Starts the Model Context Protocol (MCP) server or automates configuration for AI coding assistants.
+
+```bash
+# 1-click interactive integration for Cursor, Claude Code, or VS Code
+npx @soralabs/cli mcp init
+
+# run the MCP server directly over stdio
+npx @soralabs/cli mcp
+```
+
+<Callout>
+  **Authoring a custom registry?** If you are building your own component registry, `sora-cli` also includes `build` (compiles source components to shadcn-compliant schema JSON) and `validate` (verifies imports and schema integrity). For in-depth guides, see the [Sora CLI Docs](https://cli.soralabs.studio/commands/build).
+</Callout>
 
 ## Options reference
 

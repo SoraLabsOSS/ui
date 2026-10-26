@@ -19,19 +19,8 @@
   "meta": {
     "demoProps": {
       "TextRevealBlock": {
-        "as": {
-          "value": "h2",
-          "options": {
-            "h1": "h1",
-            "h2": "h2",
-            "p": "p"
-          }
-        },
         "text": {
           "value": "Framed in shadow and light, every line arrives with deliberate tension."
-        },
-        "className": {
-          "value": "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight"
         },
         "animateOnScroll": {
           "value": false

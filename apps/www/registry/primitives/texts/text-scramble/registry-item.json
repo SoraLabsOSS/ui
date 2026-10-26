@@ -18,20 +18,6 @@
         "children": {
           "value": "Sora UI"
         },
-        "as": {
-          "value": "p",
-          "options": {
-            "p": "p",
-            "h2": "h2",
-            "span": "span"
-          }
-        },
-        "className": {
-          "value": "font-mono text-2xl font-bold uppercase tracking-widest text-foreground"
-        },
-        "scrambleColor": {
-          "value": ""
-        },
         "holdDuration": {
           "value": 0,
           "min": 0,

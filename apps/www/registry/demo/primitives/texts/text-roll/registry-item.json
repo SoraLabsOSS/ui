@@ -15,9 +15,6 @@
   "meta": {
     "demoProps": {
       "TextRollPlayground": {
-        "className": {
-          "value": "font-medium text-lg tabular-nums"
-        },
         "stagger": {
           "value": 45,
           "min": 0,

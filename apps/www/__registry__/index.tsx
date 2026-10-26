@@ -1613,7 +1613,6 @@ export const index: Record<string, any> = {
               value: "inView",
               options: { "In View": "inView", Immediate: "immediate" },
             },
-            className: { value: "mx-auto w-72 rounded-lg" },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -1654,7 +1653,6 @@ export const index: Record<string, any> = {
             value: "inView",
             options: { "In View": "inView", Immediate: "immediate" },
           },
-          className: { value: "mx-auto w-72 rounded-lg" },
         },
       };
       return LazyComp;
@@ -1821,7 +1819,6 @@ export const index: Record<string, any> = {
         const demoProps = {
           SkeletonShimmerDemo: {
             shimmerDuration: { value: 1.5, min: 0.5, max: 4, step: 0.1 },
-            loadDelay: { value: 2500, min: 500, max: 6000, step: 100 },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -1848,7 +1845,6 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         SkeletonShimmerDemo: {
           shimmerDuration: { value: 1.5, min: 0.5, max: 4, step: 0.1 },
-          loadDelay: { value: 2500, min: 500, max: 6000, step: 100 },
         },
       };
       return LazyComp;
@@ -2142,14 +2138,7 @@ export const index: Record<string, any> = {
         );
         const demoProps = {
           DualWipeReveal: {
-            as: {
-              value: "h2",
-              options: { h2: "h2", h1: "h1", p: "p", span: "span" },
-            },
             children: { value: "Find it, copy it, ship it." },
-            className: {
-              value: "text-3xl font-semibold tracking-tight sm:text-5xl",
-            },
             direction: {
               value: "left",
               options: {
@@ -2190,14 +2179,7 @@ export const index: Record<string, any> = {
       });
       LazyComp.demoProps = {
         DualWipeReveal: {
-          as: {
-            value: "h2",
-            options: { h2: "h2", h1: "h1", p: "p", span: "span" },
-          },
           children: { value: "Find it, copy it, ship it." },
-          className: {
-            value: "text-3xl font-semibold tracking-tight sm:text-5xl",
-          },
           direction: {
             value: "left",
             options: {
@@ -2430,7 +2412,6 @@ export const index: Record<string, any> = {
             direction: { value: "up", options: { up: "up", down: "down" } },
             speed: { value: 0.05, min: 0, max: 0.2, step: 0.01 },
             duration: { value: 4, min: 1, max: 8, step: 0.5 },
-            className: { value: "font-bold text-4xl uppercase tracking-tight" },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -2460,7 +2441,6 @@ export const index: Record<string, any> = {
           direction: { value: "up", options: { up: "up", down: "down" } },
           speed: { value: 0.05, min: 0, max: 0.2, step: 0.01 },
           duration: { value: 4, min: 1, max: 8, step: 0.5 },
-          className: { value: "font-bold text-4xl uppercase tracking-tight" },
         },
       };
       return LazyComp;
@@ -2556,9 +2536,7 @@ export const index: Record<string, any> = {
         );
         const demoProps = {
           TextEffect: {
-            as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
             children: { value: "Motion-first text effects" },
-            className: { value: "text-center font-bold text-3xl" },
             preset: {
               value: "fade-in-blur",
               options: {
@@ -2602,9 +2580,7 @@ export const index: Record<string, any> = {
       });
       LazyComp.demoProps = {
         TextEffect: {
-          as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
           children: { value: "Motion-first text effects" },
-          className: { value: "text-center font-bold text-3xl" },
           preset: {
             value: "fade-in-blur",
             options: {
@@ -2660,7 +2636,6 @@ export const index: Record<string, any> = {
         const demoProps = {
           TextLoopExample: {
             interval: { value: 2, min: 0.5, max: 5, step: 0.1 },
-            className: { value: "font-medium text-2xl text-foreground" },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -2687,7 +2662,6 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         TextLoopExample: {
           interval: { value: 2, min: 0.5, max: 5, step: 0.1 },
-          className: { value: "font-medium text-2xl text-foreground" },
         },
       };
       return LazyComp;
@@ -2778,14 +2752,9 @@ export const index: Record<string, any> = {
         );
         const demoProps = {
           TextRevealBlock: {
-            as: { value: "h2", options: { h1: "h1", h2: "h2", p: "p" } },
             text: {
               value:
                 "Framed in shadow and light, every line arrives with deliberate tension.",
-            },
-            className: {
-              value:
-                "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight",
             },
             animateOnScroll: { value: false },
             blockColor: { value: "#fe0100" },
@@ -2821,14 +2790,9 @@ export const index: Record<string, any> = {
       });
       LazyComp.demoProps = {
         TextRevealBlock: {
-          as: { value: "h2", options: { h1: "h1", h2: "h2", p: "p" } },
           text: {
             value:
               "Framed in shadow and light, every line arrives with deliberate tension.",
-          },
-          className: {
-            value:
-              "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight",
           },
           animateOnScroll: { value: false },
           blockColor: { value: "#fe0100" },
@@ -2876,14 +2840,8 @@ export const index: Record<string, any> = {
         );
         const demoProps = {
           MaskedTextReveal: {
-            as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
-            className: {
-              value:
-                "mx-auto max-w-3xl text-center text-3xl leading-tight font-normal tracking-tight text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground",
-            },
             text: {
-              value:
-                "Every stride is a statement. Every finish line a new beginning. We build gear for athletes who refuse to settle for yesterday's pace. Push beyond limits. Outrun expectations. This is where champions are made.",
+              value: "Every stride is a statement. Outrun expectations.",
             },
             splitBy: {
               value: "lines",
@@ -2893,7 +2851,6 @@ export const index: Record<string, any> = {
             duration: { value: 0.8, min: 0.1, max: 2, step: 0.1 },
             yPercent: { value: 110, min: 50, max: 200, step: 5 },
             delay: { value: 0, min: 0, max: 2, step: 0.1 },
-            viewportMargin: { value: "0px 0px -25% 0px" },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -2919,15 +2876,7 @@ export const index: Record<string, any> = {
       });
       LazyComp.demoProps = {
         MaskedTextReveal: {
-          as: { value: "h2", options: { h2: "h2", p: "p", span: "span" } },
-          className: {
-            value:
-              "mx-auto max-w-3xl text-center text-3xl leading-tight font-normal tracking-tight text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground",
-          },
-          text: {
-            value:
-              "Every stride is a statement. Every finish line a new beginning. We build gear for athletes who refuse to settle for yesterday's pace. Push beyond limits. Outrun expectations. This is where champions are made.",
-          },
+          text: { value: "Every stride is a statement. Outrun expectations." },
           splitBy: {
             value: "lines",
             options: { Lines: "lines", Words: "words", Characters: "chars" },
@@ -2936,7 +2885,6 @@ export const index: Record<string, any> = {
           duration: { value: 0.8, min: 0.1, max: 2, step: 0.1 },
           yPercent: { value: 110, min: 50, max: 200, step: 5 },
           delay: { value: 0, min: 0, max: 2, step: 0.1 },
-          viewportMargin: { value: "0px 0px -25% 0px" },
         },
       };
       return LazyComp;
@@ -2973,7 +2921,6 @@ export const index: Record<string, any> = {
         );
         const demoProps = {
           TextRollPlayground: {
-            className: { value: "font-medium text-lg tabular-nums" },
             stagger: { value: 45, min: 0, max: 120, step: 5 },
             duration: { value: 300, min: 100, max: 600, step: 25 },
             bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
@@ -3003,7 +2950,6 @@ export const index: Record<string, any> = {
       });
       LazyComp.demoProps = {
         TextRollPlayground: {
-          className: { value: "font-medium text-lg tabular-nums" },
           stagger: { value: 45, min: 0, max: 120, step: 5 },
           duration: { value: 300, min: 100, max: 600, step: 25 },
           bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
@@ -3041,12 +2987,6 @@ export const index: Record<string, any> = {
         const demoProps = {
           TextScramble: {
             children: { value: "Sora UI" },
-            as: { value: "p", options: { p: "p", h2: "h2", span: "span" } },
-            className: {
-              value:
-                "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
-            },
-            scrambleColor: { value: "" },
             holdDuration: { value: 0, min: 0, max: 2, step: 0.1 },
             duration: { value: 0.5, min: 0.2, max: 3, step: 0.1 },
             speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
@@ -3078,12 +3018,6 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         TextScramble: {
           children: { value: "Sora UI" },
-          as: { value: "p", options: { p: "p", h2: "h2", span: "span" } },
-          className: {
-            value:
-              "font-mono text-2xl font-bold uppercase tracking-widest text-foreground",
-          },
-          scrambleColor: { value: "" },
           holdDuration: { value: 0, min: 0, max: 2, step: 0.1 },
           duration: { value: 0.5, min: 0.2, max: 3, step: 0.1 },
           speed: { value: 0.03, min: 0.01, max: 0.15, step: 0.01 },
@@ -5456,7 +5390,6 @@ export const index: Record<string, any> = {
         const demoProps = {
           SkeletonShimmerDemo: {
             shimmerDuration: { value: 1.5, min: 0.5, max: 4, step: 0.1 },
-            loadDelay: { value: 2500, min: 500, max: 6000, step: 100 },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -5483,7 +5416,6 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         SkeletonShimmerDemo: {
           shimmerDuration: { value: 1.5, min: 0.5, max: 4, step: 0.1 },
-          loadDelay: { value: 2500, min: 500, max: 6000, step: 100 },
         },
       };
       return LazyComp;
@@ -6115,7 +6047,6 @@ export const index: Record<string, any> = {
         const demoProps = {
           TextLoopExample: {
             interval: { value: 2, min: 0.5, max: 5, step: 0.1 },
-            className: { value: "font-medium text-2xl text-foreground" },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -6142,7 +6073,6 @@ export const index: Record<string, any> = {
       LazyComp.demoProps = {
         TextLoopExample: {
           interval: { value: 2, min: 0.5, max: 5, step: 0.1 },
-          className: { value: "font-medium text-2xl text-foreground" },
         },
       };
       return LazyComp;
@@ -6283,7 +6213,6 @@ export const index: Record<string, any> = {
             duration: { value: 0.8, min: 0.1, max: 2, step: 0.1 },
             yPercent: { value: 110, min: 50, max: 200, step: 5 },
             delay: { value: 0, min: 0, max: 2, step: 0.1 },
-            viewportMargin: { value: "0px 0px -20% 0px" },
           },
         };
         const demoExportName = Object.keys(demoProps)[0];
@@ -6317,7 +6246,6 @@ export const index: Record<string, any> = {
           duration: { value: 0.8, min: 0.1, max: 2, step: 0.1 },
           yPercent: { value: 110, min: 50, max: 200, step: 5 },
           delay: { value: 0, min: 0, max: 2, step: 0.1 },
-          viewportMargin: { value: "0px 0px -20% 0px" },
         },
       };
       return LazyComp;
@@ -6349,7 +6277,6 @@ export const index: Record<string, any> = {
         );
         const demoProps = {
           TextRollPlayground: {
-            className: { value: "font-medium text-lg tabular-nums" },
             stagger: { value: 45, min: 0, max: 120, step: 5 },
             duration: { value: 300, min: 100, max: 600, step: 25 },
             bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },
@@ -6379,7 +6306,6 @@ export const index: Record<string, any> = {
       });
       LazyComp.demoProps = {
         TextRollPlayground: {
-          className: { value: "font-medium text-lg tabular-nums" },
           stagger: { value: 45, min: 0, max: 120, step: 5 },
           duration: { value: 300, min: 100, max: 600, step: 25 },
           bounce: { value: 0.6, min: 0, max: 1, step: 0.1 },

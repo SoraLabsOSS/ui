@@ -1,97 +1,72 @@
 ---
 title: Architecture
-description: How Sora UI is structured — its origins as a fork of Animate UI, the monorepo and registry layout, and how to self-host the docs site's auth database.
+description: Overview of Sora UI's architecture — design philosophy, monorepo packages, 3-tier registry layout, and docs site self-hosting.
 ---
 
-Sora UI started as a fork of [Animate UI](https://animate-ui.com) by [@imskyleen](https://x.com/imskyleen). The initial codebase, registry conventions, and copy-paste distribution model came from that project.
+Sora UI is designed as an open-source, motion-first component system built with a **dual-comprehension philosophy**: UI components whose behavior, accessibility constraints, animation semantics, and composition rules are directly understandable by both developers and AI assistants.
 
-Since then, the architecture, registry system, component APIs, and motion primitives have been substantially redesigned. Some patterns and abstractions still trace back to the original codebase. This page documents what the project actually inherited from upstream, what is new, and how it is laid out.
+It combines an open copy-paste registry architecture with structured metadata served via an [MCP server](/docs/mcp), offering flexible primitives across multiple headless foundation libraries.
 
-## Direction
+## Core Principles
 
-Sora UI is built around a dual-comprehension philosophy: UI components whose behavior, constraints, composition, and metadata are understandable by both humans and AI agents. It pairs an open, copy-paste registry architecture with structured metadata exposed through an [MCP server](/docs/mcp), alongside a component roadmap centered on motion-first, composable primitives.
+- **Built for humans and AI** — Native Model Context Protocol (MCP) support exposing component intents, composition patterns, and constraints directly into AI coding workflows.
+- **Three-tier component model** — A clear hierarchy spanning Motion Primitives, Headless UI Implementations, and Complex Catalog Components.
+- **Multi-primitive foundations** — Components built on robust accessibility primitives including Radix UI, Base UI, and Headless UI.
+- **Deep motion system** — Fluid, physics-based animations with accessible defaults and first-class `prefers-reduced-motion` support.
 
-What's different from upstream:
+## Monorepo Layout
 
-- **Built for humans and AI** — an MCP server delivering rich metadata (intent, accessibility constraints, motion semantics, and composition rules) so AI assistants reason accurately about components
-- **Three-tier primitives** — Motion, UI, and Catalog as distinct layers of abstraction
-- **Multi-primitive support** — components ported across Radix UI, Base UI, and Headless UI
-- **Deeper motion system** — accessible defaults, reduced-motion support, and composable animation primitives
-
-## What was inherited from Animate UI
-
-Sora UI inherited the **project structure and documentation infrastructure** — not component implementations:
-
-- Turborepo monorepo layout
-- Fumadocs-based docs site architecture
-- shadcn-style registry schema and copy-paste distribution model
-- Registry folder conventions (`primitives/`, `demo/`, `hooks/`, `lib/`)
-- `source.config.ts` and MDX content pipeline patterns
-
-No registry component code was carried over from Animate UI. All components in `registry/primitives/` and `registry/ui/` were independently built, reimplemented, or inspired by other sources (credited per-component in `## Credits` sections where applicable).
-
-## Monorepo structure
-
-**Animate UI** ships one app and three packages:
-
-```
-apps/www               — docs + registry site
-packages/
-  eslint-config
-  typescript-config
-  ui
-```
-
-**Sora UI** expanded the monorepo substantially:
+Sora UI is organized as a Turborepo monorepo with dedicated apps and modular packages:
 
 ```
 apps/
-  www                  — docs + registry site (structure inherited, contents new)
-  xmcp                 — MCP server (new)
+  www                  — Documentation site, interactive playground & registry catalog
+  xmcp                 — Model Context Protocol (MCP) server for AI coding agents
 packages/
-  ui                   — shared utilities (extended)
-  auth-ui              — better-auth UI wiring (new)
-  db                   — Drizzle ORM schema + client (new)
-  www-cli              — internal contributor scaffolding CLI (new)
-  typescript-config    — inherited
+  ui                   — Shared UI utilities, styles, and core building blocks
+  auth-ui              — Better-auth UI components and session management
+  db                   — Database client and Drizzle ORM schemas (Postgres / Neon)
+  www-cli              — Internal CLI tools for component scaffolding and registry audits
+  typescript-config    — Shared TypeScript configurations
 ```
 
-## Registry structure
+### Applications
 
-Animate UI's registry is organized as a flat set of primitive categories.
+- **`apps/www`**: Built with Next.js (App Router) and Fumadocs. Serves the documentation, component previews, theme switcher, and JSON registry endpoints.
+- **`apps/xmcp`**: A standalone MCP server delivering real-time search, documentation, and installation schemas to AI assistants (Cursor, Claude Code, VS Code, Windsurf).
 
-Sora UI restructured it into three explicit tiers:
+### Packages
+
+- **`packages/db`**: Database layer using Drizzle ORM and Postgres, powering docs authentication, starred components, and user bookmarks.
+- **`packages/auth-ui`**: Authentication views and state integration using `better-auth`.
+- **`packages/ui`**: Shared design tokens, Tailwind configuration, and utility functions used across internal applications.
+- **`packages/www-cli`**: Internal development utilities including automated registry generation and health audit commands (`bun run doctor`).
+
+## Registry Architecture
+
+Components are distributed via an open, copy-paste registry following the shadcn distribution schema. The registry is structured into three distinct tiers:
 
 ```
 registry/
-  primitives/            — Motion tier (animation building blocks)
-    animate/   buttons/  effects/   texts/   disclosure/
-  ui/                    — UI tier (new — does not exist in Animate UI)
-    base/      radix/
-  demo/
-  hooks/       lib/      icons/
+  primitives/            — Tier 1: Motion Primitives (animation building blocks)
+    animate/             — Core animation wrappers and state transitions
+    buttons/             — Animated buttons and micro-interactions
+    effects/             — Visual effects, backgrounds, and shaders
+    texts/               — Typography motion and text reveals
+    disclosure/          — Accordions, tabs, and collapsible motion
+  ui/                    — Tier 2: Foundation UI (accessible primitives)
+    base/                — Components built on @base-ui-components/react
+    radix/               — Components built on @radix-ui
+  demo/                  — Interactive examples and documentation previews
+  hooks/                 — Reusable React animation and lifecycle hooks
+  lib/                   — Internal utilities, cn helper, and math functions
 ```
 
-The **UI tier** (`registry/ui/`) has no equivalent in Animate UI.
+### Component Tiers
 
-## Component origins
-
-All components in the Sora registry were independently built. Where a component was inspired by or reimplemented from an external source, that source is credited in the component's doc page under `## Credits`.
-
-None of the component implementations were copied from Animate UI.
-
-## New infrastructure
-
-| | |
-|---|---|
-| `apps/xmcp` — MCP server | New |
-| `packages/auth-ui` — better-auth integration | New |
-| `packages/db` — Drizzle ORM schema (Postgres on Neon) | New |
-| `packages/www-cli` — contributor scaffolding CLI | New |
-| Auth, bookmarks, session | New |
-| Blog with RSS | New |
-| Catalog tier | New |
-| `bun run doctor` audit command | New |
+1. **Motion Primitives (`registry/primitives/`)**: Low-level, composable building blocks focused on motion and gesture interactions powered by Framer Motion / Motion.
+2. **UI Components (`registry/ui/`)**: Standard application UI elements (dialogs, dropdowns, inputs, tooltips) wired to battle-tested headless primitives like Radix UI or Base UI for full WAI-ARIA compliance.
+3. **Catalog & Compositions**: Advanced, production-ready composite patterns that combine motion primitives with UI components.
 
 ## Self-hosting the docs site
 
@@ -207,14 +182,14 @@ Any Postgres provider works — the schema is plain Postgres, and the client con
 
 Point `DATABASE_URL` at a **pooled** endpoint and `DATABASE_URL_DIRECT` at a **direct** one, then apply the migrations above.
 
-## License & attribution
+## Origins & Attribution
 
-Original Sora UI code is distributed under the **MIT License**. Portions derived from third-party projects remain subject to their respective licenses.
+Sora UI originated as a fork of [Animate UI](https://animate-ui.com) by [@imskyleen](https://x.com/imskyleen), from which it inherited early monorepo boilerplate and documentation layout conventions.
 
-The upstream copyright notice:
+Since then, the project has been fully re-architected with independent component implementations, an AI-native MCP server, a 3-tier registry architecture, and dedicated fullstack docs infrastructure. Component implementations are developed independently or credited in their respective documentation pages under `## Credits`.
+
+Original Sora UI code is distributed under the **MIT License**. Portions derived from upstream remain subject to their original licenses:
 
 > Portions Copyright (c) 2025 Elliot Sutton (Animate UI — https://github.com/animate-ui/animate-ui)
 
-Full license text on the [License](/docs/license) page.
-
-If something looks like it's missing credit, [reach out](/docs/community).
+Full license text is available on the [License](/docs/license) page. If something looks like it's missing credit, please [reach out](/docs/community).

@@ -16,20 +16,8 @@
   "meta": {
     "demoProps": {
       "DualWipeReveal": {
-        "as": {
-          "value": "h2",
-          "options": {
-            "h2": "h2",
-            "h1": "h1",
-            "p": "p",
-            "span": "span"
-          }
-        },
         "children": {
           "value": "Find it, copy it, ship it."
-        },
-        "className": {
-          "value": "text-3xl font-semibold tracking-tight sm:text-5xl"
         },
         "direction": {
           "value": "left",

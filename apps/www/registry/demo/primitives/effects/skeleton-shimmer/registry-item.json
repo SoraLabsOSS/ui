@@ -20,12 +20,6 @@
           "min": 0.5,
           "max": 4,
           "step": 0.1
-        },
-        "loadDelay": {
-          "value": 2500,
-          "min": 500,
-          "max": 6000,
-          "step": 100
         }
       }
     }

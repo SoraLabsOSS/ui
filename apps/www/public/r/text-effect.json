@@ -21,19 +21,8 @@
     },
     "demoProps": {
       "TextEffect": {
-        "as": {
-          "value": "h2",
-          "options": {
-            "h2": "h2",
-            "p": "p",
-            "span": "span"
-          }
-        },
         "children": {
           "value": "Motion-first text effects"
-        },
-        "className": {
-          "value": "text-center font-bold text-3xl"
         },
         "preset": {
           "value": "fade-in-blur",

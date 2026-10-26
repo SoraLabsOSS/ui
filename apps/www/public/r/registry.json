@@ -748,9 +748,6 @@
                 "In View": "inView",
                 "Immediate": "immediate"
               }
-            },
-            "className": {
-              "value": "mx-auto w-72 rounded-lg"
             }
           }
         }
@@ -999,20 +996,8 @@
       "meta": {
         "demoProps": {
           "DualWipeReveal": {
-            "as": {
-              "value": "h2",
-              "options": {
-                "h2": "h2",
-                "h1": "h1",
-                "p": "p",
-                "span": "span"
-              }
-            },
             "children": {
               "value": "Find it, copy it, ship it."
-            },
-            "className": {
-              "value": "text-3xl font-semibold tracking-tight sm:text-5xl"
             },
             "direction": {
               "value": "left",
@@ -1153,9 +1138,6 @@
               "min": 1,
               "max": 8,
               "step": 0.5
-            },
-            "className": {
-              "value": "font-bold text-4xl uppercase tracking-tight"
             }
           }
         },
@@ -1213,19 +1195,8 @@
         },
         "demoProps": {
           "TextEffect": {
-            "as": {
-              "value": "h2",
-              "options": {
-                "h2": "h2",
-                "p": "p",
-                "span": "span"
-              }
-            },
             "children": {
               "value": "Motion-first text effects"
-            },
-            "className": {
-              "value": "text-center font-bold text-3xl"
             },
             "preset": {
               "value": "fade-in-blur",
@@ -1334,19 +1305,8 @@
       "meta": {
         "demoProps": {
           "TextRevealBlock": {
-            "as": {
-              "value": "h2",
-              "options": {
-                "h1": "h1",
-                "h2": "h2",
-                "p": "p"
-              }
-            },
             "text": {
               "value": "Framed in shadow and light, every line arrives with deliberate tension."
-            },
-            "className": {
-              "value": "mx-auto max-w-lg text-center font-semibold text-2xl leading-tight tracking-tight"
             },
             "animateOnScroll": {
               "value": false
@@ -1408,19 +1368,8 @@
         },
         "demoProps": {
           "MaskedTextReveal": {
-            "as": {
-              "value": "h2",
-              "options": {
-                "h2": "h2",
-                "p": "p",
-                "span": "span"
-              }
-            },
-            "className": {
-              "value": "mx-auto max-w-3xl text-center text-3xl leading-tight font-normal tracking-tight text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground"
-            },
             "text": {
-              "value": "Every stride is a statement. Every finish line a new beginning. We build gear for athletes who refuse to settle for yesterday's pace. Push beyond limits. Outrun expectations. This is where champions are made."
+              "value": "Every stride is a statement. Outrun expectations."
             },
             "splitBy": {
               "value": "lines",
@@ -1453,9 +1402,6 @@
               "min": 0,
               "max": 2,
               "step": 0.1
-            },
-            "viewportMargin": {
-              "value": "0px 0px -25% 0px"
             }
           }
         }
@@ -1501,20 +1447,6 @@
           "TextScramble": {
             "children": {
               "value": "Sora UI"
-            },
-            "as": {
-              "value": "p",
-              "options": {
-                "p": "p",
-                "h2": "h2",
-                "span": "span"
-              }
-            },
-            "className": {
-              "value": "font-mono text-2xl font-bold uppercase tracking-widest text-foreground"
-            },
-            "scrambleColor": {
-              "value": ""
             },
             "holdDuration": {
               "value": 0,

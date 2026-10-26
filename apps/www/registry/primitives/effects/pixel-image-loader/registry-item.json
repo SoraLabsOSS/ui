@@ -47,9 +47,6 @@
             "In View": "inView",
             "Immediate": "immediate"
           }
-        },
-        "className": {
-          "value": "mx-auto w-72 rounded-lg"
         }
       }
     }

@@ -22,19 +22,8 @@
     },
     "demoProps": {
       "MaskedTextReveal": {
-        "as": {
-          "value": "h2",
-          "options": {
-            "h2": "h2",
-            "p": "p",
-            "span": "span"
-          }
-        },
-        "className": {
-          "value": "mx-auto max-w-3xl text-center text-3xl leading-tight font-normal tracking-tight text-foreground/75 [&_strong]:font-medium [&_strong]:text-foreground"
-        },
         "text": {
-          "value": "Every stride is a statement. Every finish line a new beginning. We build gear for athletes who refuse to settle for yesterday's pace. Push beyond limits. Outrun expectations. This is where champions are made."
+          "value": "Every stride is a statement. Outrun expectations."
         },
         "splitBy": {
           "value": "lines",
@@ -67,9 +56,6 @@
           "min": 0,
           "max": 2,
           "step": 0.1
-        },
-        "viewportMargin": {
-          "value": "0px 0px -25% 0px"
         }
       }
     }
