@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { LegalArticle } from "@/components/legal/legal-article";
-import { LegalShell } from "@/components/legal/legal-shell";
-import { PrivacyPolicyArticle } from "@/components/legal/privacy-policy-article";
+import { LegalScrollView } from "@/components/legal/legal-scroll-view";
+import { PRIVACY_POLICY_ITEMS } from "@/components/legal/privacy-data";
 import { getPageAlternates } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function LegalPrivacyPage() {
   return (
-    <LegalShell>
-      <LegalArticle>
-        <PrivacyPolicyArticle />
-      </LegalArticle>
-    </LegalShell>
+    <LegalScrollView
+      lastUpdated="June 24, 2026"
+      terms={PRIVACY_POLICY_ITEMS}
+      title="Privacy Policy"
+    />
   );
 }

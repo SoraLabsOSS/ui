@@ -45,7 +45,10 @@ export function UnderNavMarquee({
       }}
     >
       <div className="under-nav-bar__inner">
-        <div className="nav-marquee select-none">
+        <div
+          className="nav-marquee select-none text-white"
+          style={{ color: "#ffffff" }}
+        >
           <div
             className="marquee-css"
             data-css-marquee=""
@@ -55,9 +58,14 @@ export function UnderNavMarquee({
               {Array.from({ length: 4 }).map((_, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: Static repeated marquee item
                 <div className="marquee-css__item" key={i}>
-                  <p className="eyebrow is--nav-marquee">{text}</p>
+                  <p
+                    className="eyebrow is--nav-marquee text-white"
+                    style={{ color: "#ffffff" }}
+                  >
+                    {text}
+                  </p>
                   <svg
-                    className="marquee-css__item-svg"
+                    className="marquee-css__item-svg text-white"
                     fill="currentColor"
                     viewBox="0 0 8 8"
                     width="100%"
@@ -73,9 +81,14 @@ export function UnderNavMarquee({
               {Array.from({ length: 4 }).map((_, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: Static repeated marquee item
                 <div className="marquee-css__item" key={`repeat-${i}`}>
-                  <p className="eyebrow is--nav-marquee">{text}</p>
+                  <p
+                    className="eyebrow is--nav-marquee text-white"
+                    style={{ color: "#ffffff" }}
+                  >
+                    {text}
+                  </p>
                   <svg
-                    className="marquee-css__item-svg"
+                    className="marquee-css__item-svg text-white"
                     fill="currentColor"
                     viewBox="0 0 8 8"
                     width="100%"

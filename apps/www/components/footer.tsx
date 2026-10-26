@@ -15,6 +15,7 @@ import {
   COMMUNITY_REPO_URL,
   CONTACT_EMAIL,
   GITHUB_REPO_URL,
+  STUDIO_URL,
   X_PROFILE_URL,
 } from "@/lib/site";
 
@@ -396,10 +397,13 @@ export function Footer() {
                             style={{ borderRadius: ".875rem" }}
                           />
                           <div className="button-label__wrap">
-                            <div className="button-label">
+                            <div className="button-label text-white">
                               <span>Catalog</span>
                             </div>
-                            <div aria-hidden="true" className="button-label">
+                            <div
+                              aria-hidden="true"
+                              className="button-label text-white"
+                            >
                               <span>Catalog</span>
                             </div>
                           </div>
@@ -641,10 +645,12 @@ export function Footer() {
                         data-wf--button-theme--variant="electric"
                       />
                       <div className="button-label__wrap">
-                        <span className="button-label eyebrow">sora</span>
+                        <span className="button-label eyebrow text-white">
+                          sora
+                        </span>
                         <span
                           aria-hidden="true"
-                          className="button-label eyebrow"
+                          className="button-label eyebrow text-white"
                         >
                           sora
                         </span>
@@ -656,7 +662,7 @@ export function Footer() {
                       data-button-rotate-hover=""
                       data-shape="round"
                       data-theme=""
-                      href={X_PROFILE_URL}
+                      href={STUDIO_URL}
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -665,10 +671,12 @@ export function Footer() {
                         data-wf--button-theme--variant="electric"
                       />
                       <div className="button-label__wrap">
-                        <span className="button-label eyebrow">labs</span>
+                        <span className="button-label eyebrow text-white">
+                          labs
+                        </span>
                         <span
                           aria-hidden="true"
-                          className="button-label eyebrow"
+                          className="button-label eyebrow text-white"
                         >
                           labs
                         </span>

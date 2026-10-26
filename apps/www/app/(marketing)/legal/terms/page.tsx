@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { LegalArticle } from "@/components/legal/legal-article";
-import { LegalShell } from "@/components/legal/legal-shell";
-import { TermsOfServiceArticle } from "@/components/legal/terms-of-service-article";
+import { LegalScrollView } from "@/components/legal/legal-scroll-view";
+import { TERMS_OF_SERVICE_ITEMS } from "@/components/legal/terms-data";
 import { getPageAlternates } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,10 +12,10 @@ export const metadata: Metadata = {
 
 export default function LegalTermsPage() {
   return (
-    <LegalShell>
-      <LegalArticle>
-        <TermsOfServiceArticle />
-      </LegalArticle>
-    </LegalShell>
+    <LegalScrollView
+      lastUpdated="June 24, 2026"
+      terms={TERMS_OF_SERVICE_ITEMS}
+      title="Terms of Service"
+    />
   );
 }

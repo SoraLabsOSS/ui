@@ -55,7 +55,7 @@
   --color-dark: var(--foreground, #201d1d);
   --color-black: #000000;
 
-  --color-electric: #80ea5d;
+  --color-electric: #ff7a00;
   --color-coral: #fe624c;
   --color-purple: #fb460d;
 }
@@ -115,7 +115,7 @@
   --color-dark: var(--foreground, #fafafa);
   --color-black: var(--background, #121212);
 
-  --color-electric: #80ea5d;
+  --color-electric: #ff7a00;
   --color-coral: #fe624c;
   --color-purple: #fb460d;
 }

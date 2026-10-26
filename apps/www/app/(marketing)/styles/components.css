@@ -181,7 +181,7 @@
 
 /* ------------------------- CARDS -------------------------  */
 .home-layout [data-wf--cta-card--variant="electric"] {
-  color: var(--color-neutral-800);
+  color: #ffffff !important;
   background-color: var(--color-electric);
 }
 

@@ -304,10 +304,13 @@ export function Navbar({
                         style={{ borderRadius: ".875rem" }}
                       />
                       <div className="button-label__wrap">
-                        <div className="button-label">
+                        <div className="button-label text-white">
                           <span>Docs</span>
                         </div>
-                        <div aria-hidden="true" className="button-label">
+                        <div
+                          aria-hidden="true"
+                          className="button-label text-white"
+                        >
                           <span>Docs</span>
                         </div>
                       </div>
@@ -701,7 +704,7 @@ export function Navbar({
                                   className="button-bg"
                                   data-wf--button-theme--variant="purple"
                                 />
-                                <span className="is--relative eyebrow">
+                                <span className="is--relative eyebrow text-white">
                                   React UI
                                 </span>
                               </div>

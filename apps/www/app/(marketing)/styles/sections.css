@@ -265,6 +265,17 @@
   animation-play-state: paused;
 }
 
+/* Lock under-nav marquee text and svg dots to pure white regardless of theme */
+.home-layout .eyebrow.is--nav-marquee,
+.home-layout .nav-marquee,
+.home-layout .nav-marquee .eyebrow,
+.home-layout .nav-marquee .eyebrow.is--nav-marquee,
+.home-layout .nav-marquee .marquee-css__item,
+.home-layout .nav-marquee .marquee-css__item-svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
 /* ------------------------- DEFAULT HERO -------------------------  */
 .home-layout :where([data-theme-section="dark"]) {
   color: var(--color-light);
@@ -326,6 +337,7 @@
 
 .home-layout [data-theme]:has([data-wf--button-theme--variant="coral"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="purple"]),
+.home-layout [data-theme]:has([data-wf--button-theme--variant="electric"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="neutral-525"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="neutral-600"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="neutral-800"]),
@@ -333,7 +345,6 @@
   color: var(--color-neutral-200);
 }
 
-.home-layout [data-theme]:has([data-wf--button-theme--variant="electric"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="neutral-200"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="neutral-300"]),
 .home-layout [data-theme]:has([data-wf--button-theme--variant="dark-10"]) {
@@ -408,7 +419,7 @@
 }
 
 .home-layout [data-wf--button-theme--variant="electric"] {
-  color: #000000 !important;
+  color: #ffffff !important;
   background-color: #ff7a00 !important;
 }
 
@@ -423,6 +434,45 @@
 
 .home-layout .button-bg[data-wf--button-theme--variant="electric"] {
   background-color: #ff7a00 !important;
+}
+
+.home-layout .button-bg[data-wf--button-theme--variant="coral"] {
+  background-color: #ea580c !important;
+}
+
+/* Ensure all orange button/tag/badge labels and icons are pure white */
+.home-layout
+:where([data-theme], .button, .tag):has(
+  [data-wf--button-theme--variant="purple"]
+),
+.home-layout
+  :where([data-theme], .button, .tag):has(
+    [data-wf--button-theme--variant="electric"]
+  ),
+.home-layout
+  :where([data-theme], .button, .tag):has(
+    [data-wf--button-theme--variant="coral"]
+  ) {
+  color: #ffffff !important;
+}
+
+.home-layout
+  :where([data-theme], .button, .tag):has(
+    [data-wf--button-theme--variant="purple"]
+  )
+  :where(.button-label, .eyebrow, span),
+.home-layout
+  :where([data-theme], .button, .tag):has(
+    [data-wf--button-theme--variant="electric"]
+  )
+  :where(.button-label, .eyebrow, span),
+.home-layout
+  :where([data-theme], .button, .tag):has(
+    [data-wf--button-theme--variant="coral"]
+  )
+  :where(.button-label, .eyebrow, span) {
+  color: #ffffff !important;
+  fill: #ffffff !important;
 }
 
 .home-layout input:focus,
