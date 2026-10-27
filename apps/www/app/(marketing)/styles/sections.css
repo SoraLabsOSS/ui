@@ -568,6 +568,18 @@
   border-radius: 0.875rem !important;
 }
 
+/* Maintain light-theme neutral-525 background on navbar login button in dark theme */
+.dark .home-layout.sora-navbar-root .nav-bar__login-button .button-bg,
+[data-theme="dark"]
+  .home-layout.sora-navbar-root
+  .nav-bar__login-button
+  .button-bg,
+.home-layout[data-theme="dark"].sora-navbar-root
+  .nav-bar__login-button
+  .button-bg {
+  background-color: color-mix(in srgb, #201d1d 65%, #ffffff) !important;
+}
+
 /* -------------------------------------------------------------------------- */
 /* PRICING PAGE BUTTONS: Rounder = 1.5rem, Squarer = .875rem                  */
 /* -------------------------------------------------------------------------- */

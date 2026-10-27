@@ -93,10 +93,11 @@ export function ProviderButton({
   const signInMutating = useIsMutating({
     mutationKey: authMutationKeys.signIn.all,
   });
+  const isGoogleOneTapPending = provider === "google" && isOneTapPending;
   const isPending = signInMutating > 0 || isOneTapPending;
 
   const renderIcon = () => {
-    if (signInSocialPending || isOneTapPending) {
+    if (signInSocialPending || isGoogleOneTapPending) {
       return <Spinner />;
     }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentProps } from "react";
 import {
   Group as ResizablePanelGroupPrimitive,

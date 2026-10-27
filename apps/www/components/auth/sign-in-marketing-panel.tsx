@@ -54,26 +54,24 @@ export function SignInMarketingPanel() {
           </motion.blockquote>
         </div>
 
-        <div className="mt-10 w-full translate-y-[24%] overflow-hidden rounded-2xl border border-white/15 bg-black/70 p-2 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:translate-y-[22%] lg:absolute lg:-bottom-28 lg:left-[12%] lg:mt-0 lg:w-[105%] lg:max-w-none lg:origin-bottom-left lg:translate-y-0 lg:-rotate-3 xl:-bottom-[150px] xl:left-[14%] xl:w-[108%] 2xl:-bottom-[170px] 2xl:w-[112%]">
-          <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
-            <div className="flex select-none items-center gap-1.5 border-white/10 border-b bg-black/40 px-4 py-3">
-              <div className="size-2 rounded-full bg-white/35" />
-              <div className="size-2 rounded-full bg-white/25" />
-              <div className="size-2 rounded-full bg-white/15" />
-              <span className="ml-4 font-mono text-[9px] text-white/40 tracking-wider">
-                ui.soralabs.studio
-              </span>
-            </div>
-            <Image
-              alt="Sora Studio landing page preview"
-              className="filter-[invert(1)_hue-rotate(180deg)_brightness(0.68)_contrast(1.16)] h-auto w-full object-cover object-top opacity-95"
-              draggable={false}
-              height={1080}
-              loading="eager"
-              src="/dashboard-mockup-signin.png"
-              width={1920}
-            />
+        <div className="mt-10 w-full translate-y-[24%] overflow-hidden rounded-2xl border border-white/15 bg-black shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:translate-y-[22%] lg:absolute lg:-bottom-28 lg:left-[12%] lg:mt-0 lg:w-[105%] lg:max-w-none lg:origin-bottom-left lg:translate-y-0 lg:-rotate-3 xl:-bottom-[150px] xl:left-[14%] xl:w-[108%] 2xl:-bottom-[170px] 2xl:w-[112%]">
+          <div className="flex select-none items-center gap-1.5 border-white/10 border-b bg-black/40 px-4 py-3">
+            <div className="size-2 rounded-full bg-white/35" />
+            <div className="size-2 rounded-full bg-white/25" />
+            <div className="size-2 rounded-full bg-white/15" />
+            <span className="ml-4 font-mono text-[9px] text-white/40 tracking-wider">
+              ui.soralabs.studio
+            </span>
           </div>
+          <Image
+            alt="Sora Studio landing page preview"
+            className="filter-[invert(1)_hue-rotate(180deg)_brightness(0.68)_contrast(1.16)] -ml-[0.5%] h-auto w-[103%] max-w-none object-cover object-top opacity-95"
+            draggable={false}
+            height={1080}
+            loading="eager"
+            src="/dashboard-mockup-signin.png"
+            width={1920}
+          />
         </div>
       </div>
     </div>

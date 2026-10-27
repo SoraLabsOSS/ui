@@ -3,8 +3,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "cnfast";
 import { PanelLeftIcon } from "lucide-react";
 import {
   type ComponentProps,
