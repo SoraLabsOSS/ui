@@ -11,11 +11,7 @@ const CommandPaletteDialog = dynamic(
   { ssr: false }
 );
 
-// Preload as soon as this module evaluates. The root layout imports it
-// statically, so this runs during page load. Fumadocs only mounts `SearchDialog`
-// once `isOpen` is no longer undefined — i.e. only after the first open — so any
-// preload living inside the component would start loading the chunk at the same
-// moment the dialog is being shown, which is exactly the delay we are avoiding.
+// Preload the JS chunk as soon as this module evaluates.
 if (typeof window !== "undefined") {
   import("./command-palette-dialog").catch(() => undefined);
 }
@@ -27,13 +23,41 @@ export function CommandPaletteSearchDialog({
   const groups = useCommandPaletteGroups();
   const [hasOpened, setHasOpened] = useState(open);
 
+  // Pre-mount during browser idle time so the first Cmd+K / click is instant
   useEffect(() => {
+    if (hasOpened) {
+      return;
+    }
+
     if (open) {
       setHasOpened(true);
+      return;
     }
-  }, [open]);
 
-  if (!hasOpened) {
+    const win = window as Window & {
+      cancelIdleCallback?: (id: number) => void;
+      requestIdleCallback?: (cb: () => void) => number;
+    };
+
+    if (typeof win.requestIdleCallback === "function") {
+      const handle = win.requestIdleCallback(() => {
+        setHasOpened(true);
+      });
+      return () => {
+        win.cancelIdleCallback?.(handle);
+      };
+    }
+
+    const timer = setTimeout(() => {
+      setHasOpened(true);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [hasOpened, open]);
+
+  if (!(hasOpened || open)) {
     return null;
   }
 

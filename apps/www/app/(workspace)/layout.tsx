@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { AuthSessionProviders } from "@/components/auth-session-providers";
 import { Providers } from "@/components/providers";
+import { LibraryLoadingSkeleton } from "@/components/workspace/library-loading-skeleton";
 import { WorkspaceShell } from "@/components/workspace/workspace-shell";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ export default function WorkspaceLayout({ children }: { children: ReactNode }) {
       fallback={
         <Providers>
           <WorkspaceShell defaultOpen>
-            <div className="min-h-full" />
+            <LibraryLoadingSkeleton />
           </WorkspaceShell>
         </Providers>
       }
