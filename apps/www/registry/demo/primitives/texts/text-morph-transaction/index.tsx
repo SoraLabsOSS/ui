@@ -1,8 +1,13 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { TextMorph } from "@/registry/primitives/texts/text-morph";
 
 const STATES = [
@@ -76,12 +81,14 @@ const ICON_TRANSITION = {
  * Docs preview — transaction status pill with smooth layout morphing.
  */
 export function TextMorphTransaction() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef);
   const [currentStateIndex, setCurrentStateIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
   const current = STATES[currentStateIndex] ?? STATES[0];
 
   useEffect(() => {
-    if (shouldReduceMotion) {
+    if (shouldReduceMotion || !isInView) {
       return;
     }
 
@@ -90,10 +97,13 @@ export function TextMorphTransaction() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, isInView]);
 
   return (
-    <div className="flex w-full items-center justify-center p-6">
+    <div
+      className="flex w-full items-center justify-center p-6"
+      ref={containerRef}
+    >
       <div
         className={cn(
           "inline-flex items-center justify-center gap-2.5 overflow-hidden",

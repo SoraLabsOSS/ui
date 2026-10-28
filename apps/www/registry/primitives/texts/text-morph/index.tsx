@@ -2922,11 +2922,12 @@ export function useTextMorph(props: TextMorphOptions) {
   const ref = useRef<HTMLElement | null>(null);
   const controllerRef = useRef(new MorphController());
 
-  const _configKey = MorphController.serializeConfig(props);
+  const configKey = MorphController.serializeConfig(props);
 
   const handlers = useRef(props);
   handlers.current = props;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-attach only when serialized configKey changes; props identity changes every render
   useEffect(() => {
     const controller = controllerRef.current;
     if (ref.current) {
@@ -2947,8 +2948,7 @@ export function useTextMorph(props: TextMorphOptions) {
     return () => {
       controller.destroy();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props]);
+  }, [configKey]);
 
   const update = useCallback((value: number | string, cursorIndex?: number) => {
     controllerRef.current.update(value, cursorIndex);
