@@ -39,6 +39,7 @@
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",
+    "dialkit": "^2.1.0",
     "feed": "^5.1.0",
     "fumadocs-core": "15.6.3",
     "fumadocs-mdx": "14.2.14",

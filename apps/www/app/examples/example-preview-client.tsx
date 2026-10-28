@@ -22,6 +22,7 @@ import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
 import { useLenisSmoothScroll } from "@/hooks/use-lenis-smooth-scroll";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 import { Button } from "@/registry/ui/base/button";
+import { DialKitBridge } from "./dialkit-bridge";
 
 interface ExamplePreviewClientProps {
   centered?: boolean;
@@ -140,62 +141,45 @@ export function ExamplePreviewClient({
   }, [lenisRef, previewKey, smoothScroll]);
 
   let optionsPanel: ReactNode = null;
-  if (hasDemoProps && binds) {
-    if (isMobile) {
-      optionsPanel = (
-        <Sheet onOpenChange={setOptionsOpen} open={optionsOpen}>
-          <SheetTrigger
-            aria-label="Open example options"
-            render={
-              <Button className="fixed top-3 right-3 z-40" variant="default" />
-            }
-          >
-            <SlidersHorizontal className="size-3.5" />
-            Options
-          </SheetTrigger>
-          <SheetContent
-            className="max-h-[70vh] overflow-y-auto rounded-t-2xl border-border/60 bg-background/95 p-4 backdrop-blur-md"
-            closeButtonClassName="top-2 right-3"
-            closeButtonSize="icon-xs"
-            side="bottom"
-          >
-            <SheetHeader className="sr-only">
-              <SheetTitle>Example options</SheetTitle>
-              <SheetDescription>
-                Adjust the props used by this example.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="pt-6">
-              <Tweakpane
-                binds={binds}
-                columns={2}
-                compact
-                initialBinds={demoPropsConfig as Binds}
-                onBindsChange={handleBindsChange}
-                onReset={handleReset}
-                stacked
-                title="Options"
-              />
-            </div>
-          </SheetContent>
-        </Sheet>
-      );
-    } else {
-      optionsPanel = (
-        <div className="absolute top-3 right-3 z-20 max-h-[70vh] w-[min(26rem,calc(100%-1.5rem))] overflow-y-auto rounded-xl border border-border/60 bg-background/90 p-2 backdrop-blur-md">
-          <Tweakpane
-            binds={binds}
-            columns={2}
-            compact
-            initialBinds={demoPropsConfig as Binds}
-            onBindsChange={handleBindsChange}
-            onReset={handleReset}
-            stacked
-            title="Options"
-          />
-        </div>
-      );
-    }
+  if (hasDemoProps && binds && isMobile) {
+    optionsPanel = (
+      <Sheet onOpenChange={setOptionsOpen} open={optionsOpen}>
+        <SheetTrigger
+          aria-label="Open example options"
+          render={
+            <Button className="fixed top-3 right-3 z-40" variant="default" />
+          }
+        >
+          <SlidersHorizontal className="size-3.5" />
+          Options
+        </SheetTrigger>
+        <SheetContent
+          className="max-h-[70vh] overflow-y-auto rounded-t-2xl border-border/60 bg-background/95 p-4 backdrop-blur-md"
+          closeButtonClassName="top-2 right-3"
+          closeButtonSize="icon-xs"
+          side="bottom"
+        >
+          <SheetHeader className="sr-only">
+            <SheetTitle>Example options</SheetTitle>
+            <SheetDescription>
+              Adjust the props used by this example.
+            </SheetDescription>
+          </SheetHeader>
+          <div className="pt-6">
+            <Tweakpane
+              binds={binds}
+              columns={2}
+              compact
+              initialBinds={demoPropsConfig as Binds}
+              onBindsChange={handleBindsChange}
+              onReset={handleReset}
+              stacked
+              title="Options"
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
   }
 
   if (!Component) {
@@ -254,6 +238,13 @@ export function ExamplePreviewClient({
         />
       ) : null}
       {optionsPanel}
+      {hasDemoProps && !isMobile ? (
+        <DialKitBridge
+          demoPropsConfig={demoPropsConfig as Binds}
+          onPropsChange={setComponentProps}
+          slug={slug}
+        />
+      ) : null}
 
       <Suspense
         fallback={
