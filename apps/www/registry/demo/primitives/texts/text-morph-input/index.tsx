@@ -7,10 +7,15 @@ import { TextMorph } from "@/registry/primitives/texts/text-morph";
 /** Docs preview — live morph as you type. */
 export function TextMorphInput() {
   const [text, setText] = useState("Craft");
+  const [caret, setCaret] = useState<number | undefined>();
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center justify-end space-y-12">
-      <TextMorph className="font-medium text-5xl text-foreground" live="polite">
+      <TextMorph
+        className="font-medium text-5xl text-foreground"
+        cursorIndex={caret}
+        live="polite"
+      >
         {text}
       </TextMorph>
       <input
@@ -20,7 +25,10 @@ export function TextMorphInput() {
           "placeholder:text-muted-foreground",
           "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         )}
-        onChange={(event) => setText(event.target.value)}
+        onChange={(event) => {
+          setCaret(event.target.selectionStart ?? undefined);
+          setText(event.target.value);
+        }}
         placeholder="Type your text here"
         type="text"
         value={text}

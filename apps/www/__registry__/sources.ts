@@ -118,6 +118,8 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "demo-text-loop": () => import("./sources/demo-text-loop.json"),
   "demo-text-morph": () => import("./sources/demo-text-morph.json"),
   "demo-text-morph-input": () => import("./sources/demo-text-morph-input.json"),
+  "demo-text-morph-transaction": () =>
+    import("./sources/demo-text-morph-transaction.json"),
   "demo-text-reveal-mask": () => import("./sources/demo-text-reveal-mask.json"),
   "demo-text-roll": () => import("./sources/demo-text-roll.json"),
   "demo-typer": () => import("./sources/demo-typer.json"),

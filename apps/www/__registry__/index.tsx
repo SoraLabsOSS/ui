@@ -2671,9 +2671,9 @@ export const index: Record<string, any> = {
   "text-morph": {
     name: "text-morph",
     description:
-      "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
+      "Per-character and place-value text morphing for labels, counters, and live text swaps, powered by Web Animations API.",
     type: "registry:ui",
-    dependencies: ["motion"],
+    dependencies: [],
     devDependencies: undefined,
     registryDependencies: ["utils"],
     files: [
@@ -2687,9 +2687,10 @@ export const index: Record<string, any> = {
     keywords: [],
     releaseDate: null,
     inspiration: {
-      type: "inspired",
-      label: "motion-primitives",
-      url: "https://motion-primitives.com/docs/text-morph",
+      type: "reimplemented",
+      label: "Torph",
+      url: "https://torph.dev",
+      stack: "React and Web Animations API",
     },
     component: (function () {
       const LazyComp = React.lazy(async () => {
@@ -6179,6 +6180,57 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-text-morph-input",
+  },
+  "demo-text-morph-transaction": {
+    name: "demo-text-morph-transaction",
+    description:
+      "Interactive transaction status pill morphing between processing and safe states.",
+    type: "registry:example",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["text-morph"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-morph-transaction/index.tsx",
+        type: "registry:example",
+        target: "",
+      },
+    ],
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/texts/text-morph-transaction/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-text-morph-transaction",
   },
   "demo-text-reveal-mask": {
     name: "demo-text-reveal-mask",

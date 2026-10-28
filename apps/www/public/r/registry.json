@@ -1267,8 +1267,8 @@
       "name": "text-morph",
       "type": "registry:ui",
       "title": "Text Morph",
-      "description": "Per-character layout morphing for labels, counters, and live text swaps, powered by Motion.",
-      "dependencies": ["motion"],
+      "description": "Per-character and place-value text morphing for labels, counters, and live text swaps, powered by Web Animations API.",
+      "dependencies": [],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1279,9 +1279,10 @@
       ],
       "meta": {
         "inspiration": {
-          "type": "inspired",
-          "label": "motion-primitives",
-          "url": "https://motion-primitives.com/docs/text-morph"
+          "type": "reimplemented",
+          "label": "Torph",
+          "url": "https://torph.dev",
+          "stack": "React and Web Animations API"
         }
       }
     },

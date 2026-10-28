@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-text-morph-transaction",
+  "type": "registry:example",
+  "title": "Text Morph Processing Transaction Demo",
+  "description": "Interactive transaction status pill morphing between processing and safe states.",
+  "registryDependencies": ["text-morph"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/texts/text-morph-transaction/index.tsx",
+      "type": "registry:example",
+      "target": ""
+    }
+  ]
+}

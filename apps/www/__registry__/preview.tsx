@@ -1573,6 +1573,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "demo-text-morph-transaction": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/texts/text-morph-transaction/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "demo-text-reveal-mask": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/texts/text-reveal-mask/index.tsx"

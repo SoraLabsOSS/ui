@@ -1,14 +1,18 @@
 ---
 title: Text Morph
-description: Per-character layout morphing for labels, counters, and live text swaps, powered by Motion. React component.
+description: Per-character layout morphing and place-value number transitions for labels, counters, and live text swaps, powered by Web Animations API and FLIP. React component.
 author:
   name: Axyl
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-morph" description="Per-character layout morph between two labels — click the preview button to trigger a swap." />
+<ComponentPreview name="text-morph" description="Per-character layout morph between Copy and Copied — click the button to trigger a swap." />
 
 ## Examples
+
+### Processing Transaction
+
+<ComponentPreview name="demo-text-morph-transaction" description="Transaction status pill toggling between Processing Transaction and Transaction Safe with smooth layout morphing." />
 
 ### Text Morph Input
 
@@ -94,29 +98,57 @@ export function TextMorphInput() {
 <TypeTable
   type={{
     children: {
-      description: 'Label string to morph when updated.',
-      type: 'string',
+      description: 'Text or numeric content to morph when updated.',
+      type: 'ReactNode',
     },
     as: {
-      description: 'Semantic HTML element for the root.',
+      description: 'Semantic HTML element for the root container.',
       type: 'ElementType',
-      default: '"p"',
+      default: '"span"',
     },
-    variant: {
+    duration: {
       description:
-        'Optional preset (`blur`, `slide`). Omit for default opacity morph.',
-      type: '"blur" | "slide"',
-    },
-    staggerDelay: {
-      description: 'Per-character delay in seconds.',
+        'Animation duration in milliseconds. Ignored when ease is a spring.',
       type: 'number',
-      default: '0',
+      default: '400',
     },
-    skipUnchanged: {
+    ease: {
       description:
-        'Keep same-index glyphs static instead of layout-morphing shared letters.',
+        'CSS easing string or spring physics parameters ({ stiffness, damping, mass, precision }).',
+      type: 'string | SpringParams',
+      default: '"cubic-bezier(0.19, 1, 0.22, 1)"',
+    },
+    scale: {
+      description: 'Enable scale animation on exiting segments.',
       type: 'boolean',
-      default: 'false',
+      default: 'true',
+    },
+    numbers: {
+      description:
+        'Morph numeric words by place value, sliding digits along the block axis. Off falls back to character-level morph.',
+      type: 'boolean',
+      default: 'true',
+    },
+    decimals: {
+      description:
+        'Fraction digits to format a numeric value to when children is a number.',
+      type: 'number',
+    },
+    locale: {
+      description:
+        'Locale for text segmentation and numeric formatting.',
+      type: 'Intl.LocalesArgument',
+      default: '"en"',
+    },
+    cursorIndex: {
+      description:
+        'Caret position for a single-number value (switches from place matching to caret matching in inputs).',
+      type: 'number',
+    },
+    respectReducedMotion: {
+      description: 'Respect user prefers-reduced-motion OS preference.',
+      type: 'boolean',
+      default: 'true',
     },
     charClassName: {
       description: 'Class names applied to each character span.',
@@ -127,16 +159,8 @@ export function TextMorphInput() {
       type: '"off" | "polite" | "assertive"',
       default: '"off"',
     },
-    variants: {
-      description: 'Custom Motion variants for enter, animate, and exit.',
-      type: 'Variants',
-    },
-    transition: {
-      description: 'Motion transition for each character.',
-      type: 'Transition',
-    },
     className: {
-      description: 'Class names on the root element.',
+      description: 'Class names on the root container element.',
       type: 'string',
     },
   }}
