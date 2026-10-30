@@ -7,6 +7,7 @@ import { spawn } from "node:child_process";
 import { promises as fs } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
+import { createHighlighter } from "shiki";
 import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.js";
 import {
   assertRegistryCatalog,
@@ -906,7 +907,7 @@ export const previewComponents: Record<string, any> = {`;
   index += `
   };
 
-export { loadComponentSource, loadComponentFiles } from "./sources";`;
+export { loadComponentSource, loadComponentFiles, loadComponentHtml } from "./sources";`;
 
   previewIndex += `
 }`;
@@ -916,10 +917,30 @@ export { loadComponentSource, loadComponentFiles } from "./sources";`;
   await fs.rm(sourcesDir, { force: true, recursive: true });
   await fs.mkdir(sourcesDir, { recursive: true });
 
+  const highlighter = await createHighlighter({
+    themes: ["github-light", "github-dark"],
+    langs: ["tsx", "typescript", "bash", "json", "css"],
+  });
+
   for (const s of sourcesToWrite) {
+    let highlightedHtml: string | undefined;
+    if (s.code) {
+      try {
+        highlightedHtml = highlighter.codeToHtml(s.code, {
+          lang: "tsx",
+          themes: {
+            light: "github-light",
+            dark: "github-dark",
+          },
+          defaultColor: false,
+        });
+      } catch {
+        // Fallback silently if highlighting fails for single item
+      }
+    }
     await fs.writeFile(
       path.join(sourcesDir, `${s.name}.json`),
-      JSON.stringify(s, null, 2)
+      JSON.stringify(highlightedHtml ? { ...s, highlightedHtml } : s, null, 2)
     );
   }
 
@@ -934,6 +955,7 @@ ${sourcesLoadersList.join("\n")}
 };
 
 const sourceCache = new Map<string, string>();
+const htmlCache = new Map<string, string>();
 const filesCache = new Map<string, any[]>();
 
 export async function loadComponentSource(name: string): Promise<string | null> {
@@ -952,6 +974,27 @@ export async function loadComponentSource(name: string): Promise<string | null> 
       sourceCache.set(name, code);
     }
     return code;
+  } catch {
+    return null;
+  }
+}
+
+export async function loadComponentHtml(name: string): Promise<string | null> {
+  if (htmlCache.has(name)) {
+    return htmlCache.get(name)!;
+  }
+  const loader = sourceLoaders[name];
+  if (!loader) {
+    return null;
+  }
+  try {
+    const mod = await loader();
+    const data = mod.default || mod;
+    const html = data.highlightedHtml || null;
+    if (html) {
+      htmlCache.set(name, html);
+    }
+    return html;
   } catch {
     return null;
   }

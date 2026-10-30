@@ -7,7 +7,7 @@ import type {
 } from "fumadocs-core/highlight";
 import { useShiki } from "fumadocs-core/highlight/client";
 import { Loader } from "lucide-react";
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { CodeBlock, Pre } from "@/components/docs/codeblock";
 
 const getComponents = ({
@@ -44,11 +44,12 @@ export interface DynamicCodeBlockProps {
   lang: string;
   loadingMinHeight?: number | string;
   onCopy?: () => void;
+  onLoaded?: () => void;
   options?: Omit<HighlightOptionsCommon, "lang"> & HighlightOptionsThemes;
   title?: string;
 }
 
-function DynamicCodeBlockLoading({
+export function DynamicCodeBlockLoading({
   className,
   icon,
   title,
@@ -80,6 +81,15 @@ function DynamicCodeBlockLoading({
   );
 }
 
+const jsxCache = new Map<string, React.ReactNode>();
+
+export function isCodeBlockCached(lang: string, code?: string): boolean {
+  if (!code) {
+    return false;
+  }
+  return jsxCache.has(`${lang}:${code}`);
+}
+
 function ShikiHighlight({
   lang,
   code = "",
@@ -87,12 +97,14 @@ function ShikiHighlight({
   title,
   icon,
   onCopy,
+  onLoaded,
   className,
   loading,
 }: DynamicCodeBlockProps & { loading: React.ReactNode }) {
+  const cacheKey = `${lang}:${code}`;
   const components = getComponents({ title, icon, onCopy, className });
 
-  return useShiki(code, {
+  const result = useShiki(code, {
     lang,
     loading,
     ...options,
@@ -102,9 +114,33 @@ function ShikiHighlight({
     },
     withPrerenderScript: true,
   });
+
+  useEffect(() => {
+    if (result && result !== loading) {
+      jsxCache.set(cacheKey, result);
+      onLoaded?.();
+    }
+  }, [result, loading, cacheKey, onLoaded]);
+
+  return result;
 }
 
 export function DynamicCodeBlock(props: DynamicCodeBlockProps) {
+  const cacheKey = `${props.lang}:${props.code ?? ""}`;
+  const cached = props.code ? jsxCache.get(cacheKey) : null;
+  const onLoadedRef = useRef(props.onLoaded);
+  onLoadedRef.current = props.onLoaded;
+
+  useEffect(() => {
+    if (cached) {
+      onLoadedRef.current?.();
+    }
+  }, [cached]);
+
+  if (cached) {
+    return cached;
+  }
+
   const loading = (
     <DynamicCodeBlockLoading
       className={props.className}

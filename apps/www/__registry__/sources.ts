@@ -243,6 +243,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
 };
 
 const sourceCache = new Map<string, string>();
+const htmlCache = new Map<string, string>();
 const filesCache = new Map<string, any[]>();
 
 export async function loadComponentSource(
@@ -263,6 +264,27 @@ export async function loadComponentSource(
       sourceCache.set(name, code);
     }
     return code;
+  } catch {
+    return null;
+  }
+}
+
+export async function loadComponentHtml(name: string): Promise<string | null> {
+  if (htmlCache.has(name)) {
+    return htmlCache.get(name)!;
+  }
+  const loader = sourceLoaders[name];
+  if (!loader) {
+    return null;
+  }
+  try {
+    const mod = await loader();
+    const data = mod.default || mod;
+    const html = data.highlightedHtml || null;
+    if (html) {
+      htmlCache.set(name, html);
+    }
+    return html;
   } catch {
     return null;
   }

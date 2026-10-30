@@ -205,7 +205,7 @@ export function Icons() {
     return {
       npm: `npx shadcn@latest add ${command}`,
       pnpm: `pnpm dlx shadcn@latest add ${command}`,
-      yarn: `npx shadcn@latest add ${command}`,
+      yarn: `yarn dlx shadcn@latest add ${command}`,
       bun: `bun x --bun shadcn@latest add ${command}`,
     };
   }, [icon]);

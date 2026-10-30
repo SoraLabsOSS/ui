@@ -4,11 +4,14 @@ import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { Step, Steps } from "fumadocs-ui/components/steps";
-import { Loader } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { CodeTabs } from "@/components/docs/code-tabs";
-import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
+import { CodeBlock, Pre } from "@/components/docs/codeblock";
+import {
+  DynamicCodeBlock,
+  isCodeBlockCached,
+} from "@/components/docs/dynamic-codeblock";
 
 const getDepsCommands = (dependencies?: string[]) => {
   const packageNames = dependencies?.map((dep) => dep.trim()).filter(Boolean);
@@ -49,7 +52,7 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
   return {
     npm: `npx shadcn@latest add ${quotedDependencies}`,
     pnpm: `pnpm dlx shadcn@latest add ${quotedDependencies}`,
-    yarn: `npx shadcn@latest add ${quotedDependencies}`,
+    yarn: `yarn dlx shadcn@latest add ${quotedDependencies}`,
     bun: `bun x --bun shadcn@latest add ${quotedDependencies}`,
   };
 };
@@ -61,9 +64,147 @@ export interface ComponentManualInstallationProps {
   code?: string;
   dependencies?: string[];
   devDependencies?: string[];
+  html?: string;
   path?: string;
   registryDependencies?: string[];
+  shouldRenderCode?: boolean;
 }
+
+interface ManualCodeViewerProps {
+  code?: string;
+  html?: string;
+  path?: string;
+  shouldRenderCode?: boolean;
+}
+
+const getExpandButtonContent = (isReady: boolean, isOpen: boolean) => {
+  if (!isReady) {
+    return "Loading...";
+  }
+  return isOpen ? "Collapse" : "Expand";
+};
+
+const ManualCodeViewer = ({
+  code,
+  html,
+  path,
+  shouldRenderCode = true,
+}: ManualCodeViewerProps) => {
+  const [isOpened, setIsOpened] = useState(false);
+  const [isDeferredReady, setIsDeferredReady] = useState(false);
+  const [isCodeReady, setIsCodeReady] = useState(() =>
+    Boolean(!html && code && isCodeBlockCached("tsx", code))
+  );
+  const prefersReducedMotion = useReducedMotion();
+  const prevCodeRef = useRef(code);
+
+  useEffect(() => {
+    if (html) {
+      const raf = requestAnimationFrame(() => {
+        setIsDeferredReady(true);
+        setIsCodeReady(true);
+      });
+      return () => cancelAnimationFrame(raf);
+    }
+    if (prevCodeRef.current !== code) {
+      prevCodeRef.current = code;
+      setIsCodeReady(Boolean(code && isCodeBlockCached("tsx", code)));
+      setIsOpened(false);
+    }
+  }, [code, html]);
+
+  let codeBlockNode: ReactNode;
+  if (html) {
+    codeBlockNode = (
+      <CodeBlock className="my-0" icon={<ReactIcon />} title={path}>
+        {isDeferredReady ? (
+          <div
+            className="w-full text-sm [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
+            dangerouslySetInnerHTML={{ __html: html }}
+            data-code-block
+          />
+        ) : (
+          <Pre
+            className="flex items-center justify-center text-muted-foreground"
+            style={{ minHeight: "128px" }}
+          >
+            <span className="text-sm">Loading code…</span>
+          </Pre>
+        )}
+      </CodeBlock>
+    );
+  } else if (code === undefined || !shouldRenderCode) {
+    codeBlockNode = (
+      <CodeBlock
+        allowCopy={false}
+        className="my-0"
+        icon={<ReactIcon />}
+        title={path}
+      >
+        <Pre
+          className="flex items-center justify-center text-muted-foreground"
+          style={{ minHeight: "128px" }}
+        >
+          <span className="text-sm">Loading...</span>
+        </Pre>
+      </CodeBlock>
+    );
+  } else {
+    codeBlockNode = (
+      <DynamicCodeBlock
+        code={code}
+        icon={<ReactIcon />}
+        lang="tsx"
+        loadingMinHeight={128}
+        onLoaded={() => setIsCodeReady(true)}
+        title={path}
+      />
+    );
+  }
+
+  return (
+    <div className="relative overflow-hidden" style={{ contain: "paint" }}>
+      <motion.div
+        animate={{ height: isOpened && isCodeReady ? "auto" : 128 }}
+        className="overflow-hidden"
+        initial={false}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
+        }
+      >
+        <div className="[&_code]:pb-16 [&_pre]:my-0 [&_pre]:max-h-[650px] [&_pre]:p-4 [&_pre]:focus-visible:outline-none">
+          {codeBlockNode}
+        </div>
+      </motion.div>
+
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-3 transition-[height,background] duration-300",
+          isOpened && isCodeReady
+            ? "h-16 bg-gradient-to-t from-background/90 via-background/40 to-transparent"
+            : "h-24 bg-gradient-to-t from-background via-background/80 to-transparent"
+        )}
+      >
+        <Button
+          className="pointer-events-auto h-7 rounded-full border border-border/60 bg-background/95 px-3 text-xs shadow-xs hover:bg-accent disabled:cursor-not-allowed disabled:opacity-70"
+          disabled={!isCodeReady}
+          onClick={() => {
+            if (isCodeReady) {
+              setIsOpened(!isOpened);
+            }
+          }}
+          type="button"
+          variant="secondary"
+        >
+          {getExpandButtonContent(isCodeReady, isOpened)}
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 export const ComponentManualInstallation = ({
   path,
@@ -71,16 +212,28 @@ export const ComponentManualInstallation = ({
   devDependencies,
   registryDependencies,
   code,
+  html,
   beforeSteps,
   afterSteps,
   children,
+  shouldRenderCode = true,
 }: ComponentManualInstallationProps) => {
-  const depsCommands = getDepsCommands(dependencies);
-  const devDepsCommands = getDepsCommands(devDependencies);
-  const registryDepsCommands = getRegistryDepsCommands(registryDependencies);
+  const depsKey = dependencies?.join(",") ?? "";
+  const devDepsKey = devDependencies?.join(",") ?? "";
+  const regDepsKey = registryDependencies?.join(",") ?? "";
 
-  const [isOpened, setIsOpened] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: depsKey tracks dependency changes stably
+  const depsCommands = useMemo(() => getDepsCommands(dependencies), [depsKey]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: devDepsKey tracks dependency changes stably
+  const devDepsCommands = useMemo(
+    () => getDepsCommands(devDependencies),
+    [devDepsKey]
+  );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: regDepsKey tracks dependency changes stably
+  const registryDepsCommands = useMemo(
+    () => getRegistryDepsCommands(registryDependencies),
+    [regDepsKey]
+  );
 
   return (
     <div className="mt-0 [&_h4]:mt-0!">
@@ -117,57 +270,12 @@ export const ComponentManualInstallation = ({
             <h4 className="pt-1 pb-4">
               Copy and paste the following code into your project:
             </h4>
-
-            {code === undefined ? (
-              <div className="relative flex h-32 w-full items-center justify-center rounded-xl border border-border/50 bg-card/40 text-muted-foreground">
-                <Loader aria-hidden className="mr-2 size-4 animate-spin" />
-                <span className="text-sm">Loading code…</span>
-              </div>
-            ) : (
-              <div className="relative overflow-hidden">
-                <motion.div
-                  animate={{ height: isOpened ? "auto" : 128 }}
-                  className="overflow-hidden"
-                  initial={false}
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0 }
-                      : { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
-                  }
-                >
-                  <div
-                    className={cn(
-                      "[&_code]:pb-16 [&_pre]:my-0 [&_pre]:max-h-[650px]"
-                    )}
-                  >
-                    <DynamicCodeBlock
-                      code={code}
-                      icon={<ReactIcon />}
-                      lang="tsx"
-                      title={path}
-                    />
-                  </div>
-                </motion.div>
-
-                <div
-                  className={cn(
-                    "pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-3 transition-[height,background] duration-300",
-                    isOpened
-                      ? "h-16 bg-gradient-to-t from-background/90 via-background/40 to-transparent"
-                      : "h-24 bg-gradient-to-t from-background via-background/80 to-transparent"
-                  )}
-                >
-                  <Button
-                    className="pointer-events-auto h-7 rounded-full border border-border/40 bg-background/80 px-3 text-xs shadow-xs backdrop-blur-sm hover:bg-accent"
-                    onClick={() => setIsOpened(!isOpened)}
-                    type="button"
-                    variant="secondary"
-                  >
-                    {isOpened ? "Collapse" : "Expand"}
-                  </Button>
-                </div>
-              </div>
-            )}
+            <ManualCodeViewer
+              code={code}
+              html={html}
+              path={path}
+              shouldRenderCode={shouldRenderCode}
+            />
           </Step>
         )}
 

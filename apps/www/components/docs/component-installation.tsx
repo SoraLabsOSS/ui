@@ -1,20 +1,18 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { useInView } from "motion/react";
 import {
   type ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
-import { index, loadComponentSource } from "@/__registry__";
+import { index, loadComponentHtml, loadComponentSource } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
   Tabs,
-  TabsContent,
-  TabsContents,
   TabsHighlight,
   TabsHighlightItem,
   TabsList,
@@ -41,48 +39,69 @@ export function ComponentInstallation({
   ...props
 }: ComponentInstallationProps) {
   const [manualCode, setManualCode] = useState<string | undefined>(undefined);
+  const [manualHtml, setManualHtml] = useState<string | undefined>(undefined);
   const [activeTab, setActiveTab] = useState("shadcn");
+  const [hasOpenedManual, setHasOpenedManual] = useState(false);
   const component = index[name];
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, {
-    margin: "300px 0px",
-    once: true,
-  });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset manual code state on component name change
+  useEffect(() => {
+    setManualCode(undefined);
+    setManualHtml(undefined);
+    setHasOpenedManual(false);
+
+    // Warm-up manual tab in background after initial render so switching to it is instant
+    const timer = setTimeout(() => {
+      setHasOpenedManual(true);
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [name]);
 
   const loadSource = useCallback(() => {
-    if (manualCode !== undefined) {
-      return;
-    }
     loadComponentSource(name).then((code) => {
       if (code) {
         setManualCode(code);
       }
     });
-  }, [manualCode, name]);
+    loadComponentHtml(name).then((html) => {
+      if (html) {
+        setManualHtml(html);
+      }
+    });
+  }, [name]);
 
+  // Pre-load component source in background on mount
   useEffect(() => {
-    if (isInView || activeTab === "manual") {
-      loadSource();
-    }
-  }, [activeTab, isInView, loadSource]);
+    loadSource();
+  }, [loadSource]);
+
+  const commandTarget = component?.command ?? name;
+
+  const shadcnCommands = useMemo(
+    () => ({
+      npm: `npx shadcn@latest add ${commandTarget}`,
+      pnpm: `pnpm dlx shadcn@latest add ${commandTarget}`,
+      yarn: `yarn dlx shadcn@latest add ${commandTarget}`,
+      bun: `bun x --bun shadcn@latest add ${commandTarget}`,
+    }),
+    [commandTarget]
+  );
+
+  const soraCliCommands = useMemo(
+    () => ({
+      npm: `npx @soralabs/cli@latest add ${name}`,
+      pnpm: `pnpm dlx @soralabs/cli@latest add ${name}`,
+      yarn: `yarn dlx @soralabs/cli@latest add ${name}`,
+      bun: `bun x --bun @soralabs/cli@latest add ${name}`,
+    }),
+    [name]
+  );
 
   if (!component) {
     return null;
   }
-
-  const shadcnCommands = {
-    npm: `npx shadcn@latest add ${component?.command ?? name}`,
-    pnpm: `pnpm dlx shadcn@latest add ${component?.command ?? name}`,
-    yarn: `npx shadcn@latest add ${component?.command ?? name}`,
-    bun: `bun x --bun shadcn@latest add ${component?.command ?? name}`,
-  };
-
-  const soraCliCommands = {
-    npm: `npx @soralabs/cli@latest add ${name}`,
-    pnpm: `pnpm dlx @soralabs/cli@latest add ${name}`,
-    yarn: `npx @soralabs/cli@latest add ${name}`,
-    bun: `bun x --bun @soralabs/cli@latest add ${name}`,
-  };
 
   return (
     <div
@@ -92,7 +111,13 @@ export function ComponentInstallation({
     >
       <Tabs
         className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
-        onValueChange={setActiveTab}
+        onValueChange={(val) => {
+          if (val === "manual") {
+            setHasOpenedManual(true);
+            loadSource();
+          }
+          setActiveTab(val);
+        }}
         value={activeTab}
       >
         <div className="flex h-10 items-center border-border/50 border-b px-3">
@@ -101,7 +126,7 @@ export function ComponentInstallation({
               className="h-full rounded-md bg-accent"
               containerClassName="relative isolate flex items-center gap-0.5"
               mode="parent"
-              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              transition={{ type: "spring", stiffness: 350, damping: 30 }}
             >
               <TabsHighlightItem value="shadcn">
                 <TabsTrigger
@@ -122,8 +147,14 @@ export function ComponentInstallation({
               <TabsHighlightItem value="manual">
                 <TabsTrigger
                   className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
-                  onFocus={loadSource}
-                  onMouseEnter={loadSource}
+                  onFocus={() => {
+                    setHasOpenedManual(true);
+                    loadSource();
+                  }}
+                  onMouseEnter={() => {
+                    setHasOpenedManual(true);
+                    loadSource();
+                  }}
                   value="manual"
                 >
                   Manual
@@ -133,27 +164,50 @@ export function ComponentInstallation({
           </TabsList>
         </div>
 
-        <TabsContents>
-          <TabsContent className="p-1.5" value="shadcn">
+        <div>
+          <div
+            className={cn(
+              "p-1.5 transition-opacity duration-150 ease-out",
+              activeTab === "shadcn" ? "block opacity-100" : "hidden opacity-0"
+            )}
+          >
             <CodeTabs className="rounded-lg border-0" codes={shadcnCommands} />
-          </TabsContent>
-          <TabsContent className="p-1.5" value="sora-cli">
+          </div>
+          <div
+            className={cn(
+              "p-1.5 transition-opacity duration-150 ease-out",
+              activeTab === "sora-cli"
+                ? "block opacity-100"
+                : "hidden opacity-0"
+            )}
+          >
             <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
-          </TabsContent>
-          <TabsContent className="p-4" value="manual">
-            <ComponentManualInstallation
-              afterSteps={afterSteps}
-              beforeSteps={beforeSteps}
-              code={manualCode}
-              dependencies={component.dependencies}
-              devDependencies={component.devDependencies}
-              path={component.files?.[0]?.target}
-              registryDependencies={component.registryDependencies}
+          </div>
+          {hasOpenedManual && (
+            <div
+              className={cn(
+                "p-4 transition-opacity duration-150 ease-out",
+                activeTab === "manual"
+                  ? "block opacity-100"
+                  : "hidden opacity-0"
+              )}
             >
-              {children}
-            </ComponentManualInstallation>
-          </TabsContent>
-        </TabsContents>
+              <ComponentManualInstallation
+                afterSteps={afterSteps}
+                beforeSteps={beforeSteps}
+                code={manualCode}
+                dependencies={component.dependencies}
+                devDependencies={component.devDependencies}
+                html={manualHtml}
+                path={component.files?.[0]?.target}
+                registryDependencies={component.registryDependencies}
+                shouldRenderCode={true}
+              >
+                {children}
+              </ComponentManualInstallation>
+            </div>
+          )}
+        </div>
       </Tabs>
 
       {!hideFileStructure && <ComponentFileStructure name={name} />}

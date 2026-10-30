@@ -212,6 +212,7 @@ function TabsContents({
     bounce: 0,
     restDelta: 0.01,
   },
+  onAnimationComplete,
   ...props
 }: TabsContentsProps) {
   const { activeValue } = useTabs();
@@ -233,12 +234,15 @@ function TabsContents({
   const rafRef = useRef<number | null>(null);
 
   const scheduleHeight = useCallback((next: number) => {
+    if (next <= 0) {
+      return;
+    }
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
     }
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = null;
-      setHeight(next);
+      setHeight((prev) => (Math.abs(prev - next) > 0.5 ? next : prev));
     });
   }, []);
 
@@ -269,6 +273,15 @@ function TabsContents({
     return total;
   }, []);
 
+  useLayoutEffect(() => {
+    if (activeIndex >= 0) {
+      const next = measure(activeIndex);
+      if (next > 0) {
+        setHeight((prev) => (Math.abs(prev - next) > 0.5 ? next : prev));
+      }
+    }
+  }, [activeIndex, measure]);
+
   useEffect(() => {
     if (roRef.current) {
       roRef.current.disconnect();
@@ -276,19 +289,15 @@ function TabsContents({
     }
 
     const pane = itemRefs.current[activeIndex];
-    const container = containerRef.current;
-    if (!(pane && container)) {
+    if (!pane) {
       return;
     }
-
-    setHeight(measure(activeIndex));
 
     const ro = new ResizeObserver(() => {
       scheduleHeight(measure(activeIndex));
     });
 
     ro.observe(pane);
-    ro.observe(container);
 
     roRef.current = ro;
     return () => {
@@ -300,15 +309,6 @@ function TabsContents({
       }
     };
   }, [activeIndex, measure, scheduleHeight]);
-
-  useLayoutEffect(() => {
-    if (height === 0 && activeIndex >= 0) {
-      const next = measure(activeIndex);
-      if (next !== 0) {
-        setHeight(next);
-      }
-    }
-  }, [activeIndex, height, measure]);
 
   const contentsTransition = prefersReducedMotion
     ? { duration: 0 }
@@ -325,6 +325,7 @@ function TabsContents({
     <motion.div
       animate={{ height: height || "auto" }}
       data-slot="tabs-contents"
+      initial={false}
       ref={containerRef}
       style={{ overflow: "hidden" }}
       transition={heightTransition}
@@ -333,6 +334,9 @@ function TabsContents({
       <motion.div
         animate={{ x: `${activeIndex * -100}%` }}
         className="-mx-2 flex items-start"
+        initial={{ x: `${activeIndex * -100}%` }}
+        onAnimationComplete={onAnimationComplete}
+        style={{ willChange: "transform" }}
         transition={contentsTransition}
       >
         {childrenArray.map((child, index) => {
@@ -382,12 +386,12 @@ function TabsContent({
   return (
     <Component
       animate={{
-        filter: prefersReducedMotion || isActive ? "blur(0px)" : "blur(4px)",
+        opacity: prefersReducedMotion || isActive ? 1 : 0.4,
       }}
       data-slot="tabs-content"
-      exit={{ filter: "blur(0px)" }}
+      exit={{ opacity: 1 }}
       inert={!isActive}
-      initial={{ filter: "blur(0px)" }}
+      initial={{ opacity: 1 }}
       role="tabpanel"
       style={{ overflow: "hidden", ...style }}
       transition={contentTransition}

@@ -10167,4 +10167,8 @@ export const index: Record<string, any> = {
   },
 };
 
-export { loadComponentFiles, loadComponentSource } from "./sources";
+export {
+  loadComponentFiles,
+  loadComponentHtml,
+  loadComponentSource,
+} from "./sources";
