@@ -34,9 +34,11 @@ npm-debug.log*
 # Misc
 .DS_Store
 *.pem
-
+    
 apps/www/app/(playground)
 
 sandbox
 
 .claude/settings.local.json
+
+graphify-out/
