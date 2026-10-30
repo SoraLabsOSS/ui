@@ -84,6 +84,14 @@ const getExpandButtonContent = (isReady: boolean, isOpen: boolean) => {
   return isOpen ? "Collapse" : "Expand";
 };
 
+function getCollapsedHtml(fullHtml: string, maxLines = 10): string {
+  const parts = fullHtml.split('<span class="line">');
+  if (parts.length <= maxLines) {
+    return fullHtml;
+  }
+  return `${parts.slice(0, maxLines).join('<span class="line">')}</code></pre>`;
+}
+
 const ManualCodeViewer = ({
   code,
   html,
@@ -91,20 +99,25 @@ const ManualCodeViewer = ({
   shouldRenderCode = true,
 }: ManualCodeViewerProps) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [isDeferredReady, setIsDeferredReady] = useState(false);
   const [isCodeReady, setIsCodeReady] = useState(() =>
-    Boolean(!html && code && isCodeBlockCached("tsx", code))
+    Boolean(html || (code && isCodeBlockCached("tsx", code)))
   );
   const prefersReducedMotion = useReducedMotion();
   const prevCodeRef = useRef(code);
 
+  const collapsedHtml = useMemo(() => {
+    if (!html) {
+      return;
+    }
+    return getCollapsedHtml(html, 10);
+  }, [html]);
+
+  const activeHtml = isOpened ? html : collapsedHtml;
+
   useEffect(() => {
     if (html) {
-      const raf = requestAnimationFrame(() => {
-        setIsDeferredReady(true);
-        setIsCodeReady(true);
-      });
-      return () => cancelAnimationFrame(raf);
+      setIsCodeReady(true);
+      return;
     }
     if (prevCodeRef.current !== code) {
       prevCodeRef.current = code;
@@ -114,24 +127,15 @@ const ManualCodeViewer = ({
   }, [code, html]);
 
   let codeBlockNode: ReactNode;
-  if (html) {
+  if (activeHtml) {
     codeBlockNode = (
       <CodeBlock className="my-0" icon={<ReactIcon />} title={path}>
-        {isDeferredReady ? (
-          <div
-            className="w-full text-sm [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
-            dangerouslySetInnerHTML={{ __html: html }}
-            data-code-block
-          />
-        ) : (
-          <Pre
-            className="flex items-center justify-center text-muted-foreground"
-            style={{ minHeight: "128px" }}
-          >
-            <span className="text-sm">Loading code…</span>
-          </Pre>
-        )}
+        <div
+          className="w-full text-sm [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
+          dangerouslySetInnerHTML={{ __html: activeHtml }}
+          data-code-block
+        />
       </CodeBlock>
     );
   } else if (code === undefined || !shouldRenderCode) {

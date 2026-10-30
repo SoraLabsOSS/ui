@@ -13,6 +13,8 @@ import { index, loadComponentHtml, loadComponentSource } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
   Tabs,
+  TabsContent,
+  TabsContents,
   TabsHighlight,
   TabsHighlightItem,
   TabsList,
@@ -40,8 +42,7 @@ export function ComponentInstallation({
 }: ComponentInstallationProps) {
   const [manualCode, setManualCode] = useState<string | undefined>(undefined);
   const [manualHtml, setManualHtml] = useState<string | undefined>(undefined);
-  const [activeTab, setActiveTab] = useState("shadcn");
-  const [hasOpenedManual, setHasOpenedManual] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("shadcn");
   const component = index[name];
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,14 +50,6 @@ export function ComponentInstallation({
   useEffect(() => {
     setManualCode(undefined);
     setManualHtml(undefined);
-    setHasOpenedManual(false);
-
-    // Warm-up manual tab in background after initial render so switching to it is instant
-    const timer = setTimeout(() => {
-      setHasOpenedManual(true);
-    }, 400);
-
-    return () => clearTimeout(timer);
   }, [name]);
 
   const loadSource = useCallback(() => {
@@ -113,7 +106,6 @@ export function ComponentInstallation({
         className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
         onValueChange={(val) => {
           if (val === "manual") {
-            setHasOpenedManual(true);
             loadSource();
           }
           setActiveTab(val);
@@ -147,14 +139,8 @@ export function ComponentInstallation({
               <TabsHighlightItem value="manual">
                 <TabsTrigger
                   className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
-                  onFocus={() => {
-                    setHasOpenedManual(true);
-                    loadSource();
-                  }}
-                  onMouseEnter={() => {
-                    setHasOpenedManual(true);
-                    loadSource();
-                  }}
+                  onFocus={loadSource}
+                  onMouseEnter={loadSource}
                   value="manual"
                 >
                   Manual
@@ -164,50 +150,29 @@ export function ComponentInstallation({
           </TabsList>
         </div>
 
-        <div>
-          <div
-            className={cn(
-              "p-1.5 transition-opacity duration-150 ease-out",
-              activeTab === "shadcn" ? "block opacity-100" : "hidden opacity-0"
-            )}
-          >
+        <TabsContents>
+          <TabsContent className="p-1.5" value="shadcn">
             <CodeTabs className="rounded-lg border-0" codes={shadcnCommands} />
-          </div>
-          <div
-            className={cn(
-              "p-1.5 transition-opacity duration-150 ease-out",
-              activeTab === "sora-cli"
-                ? "block opacity-100"
-                : "hidden opacity-0"
-            )}
-          >
+          </TabsContent>
+          <TabsContent className="p-1.5" value="sora-cli">
             <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
-          </div>
-          {hasOpenedManual && (
-            <div
-              className={cn(
-                "p-4 transition-opacity duration-150 ease-out",
-                activeTab === "manual"
-                  ? "block opacity-100"
-                  : "hidden opacity-0"
-              )}
+          </TabsContent>
+          <TabsContent className="p-4" value="manual">
+            <ComponentManualInstallation
+              afterSteps={afterSteps}
+              beforeSteps={beforeSteps}
+              code={manualCode}
+              dependencies={component.dependencies}
+              devDependencies={component.devDependencies}
+              html={manualHtml}
+              path={component.files?.[0]?.target}
+              registryDependencies={component.registryDependencies}
+              shouldRenderCode={true}
             >
-              <ComponentManualInstallation
-                afterSteps={afterSteps}
-                beforeSteps={beforeSteps}
-                code={manualCode}
-                dependencies={component.dependencies}
-                devDependencies={component.devDependencies}
-                html={manualHtml}
-                path={component.files?.[0]?.target}
-                registryDependencies={component.registryDependencies}
-                shouldRenderCode={true}
-              >
-                {children}
-              </ComponentManualInstallation>
-            </div>
-          )}
-        </div>
+              {children}
+            </ComponentManualInstallation>
+          </TabsContent>
+        </TabsContents>
       </Tabs>
 
       {!hideFileStructure && <ComponentFileStructure name={name} />}
