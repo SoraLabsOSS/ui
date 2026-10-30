@@ -46,29 +46,43 @@ export function ComponentInstallation({
   const component = index[name];
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset manual code state on component name change
+  const loadSource = useCallback(() => {
+    Promise.all([loadComponentSource(name), loadComponentHtml(name)]).then(
+      ([code, html]) => {
+        if (code) {
+          setManualCode(code);
+        }
+        if (html) {
+          setManualHtml(html);
+        }
+      }
+    );
+  }, [name]);
+
+  // Pre-load component source in background on mount and cancel stale requests on name change
   useEffect(() => {
+    let canceled = false;
     setManualCode(undefined);
     setManualHtml(undefined);
-  }, [name]);
 
-  const loadSource = useCallback(() => {
-    loadComponentSource(name).then((code) => {
-      if (code) {
-        setManualCode(code);
+    Promise.all([loadComponentSource(name), loadComponentHtml(name)]).then(
+      ([code, html]) => {
+        if (canceled) {
+          return;
+        }
+        if (code) {
+          setManualCode(code);
+        }
+        if (html) {
+          setManualHtml(html);
+        }
       }
-    });
-    loadComponentHtml(name).then((html) => {
-      if (html) {
-        setManualHtml(html);
-      }
-    });
-  }, [name]);
+    );
 
-  // Pre-load component source in background on mount
-  useEffect(() => {
-    loadSource();
-  }, [loadSource]);
+    return () => {
+      canceled = true;
+    };
+  }, [name]);
 
   const commandTarget = component?.command ?? name;
 
@@ -165,6 +179,7 @@ export function ComponentInstallation({
               dependencies={component.dependencies}
               devDependencies={component.devDependencies}
               html={manualHtml}
+              isActive={activeTab === "manual"}
               path={component.files?.[0]?.target}
               registryDependencies={component.registryDependencies}
               shouldRenderCode={true}

@@ -18,6 +18,7 @@ import {
 import { CopyButton } from "@/components/docs/copy-button";
 
 export type CodeBlockProps = HTMLAttributes<HTMLElement> & {
+  code?: string;
   icon?: ReactNode;
   allowCopy?: boolean;
   viewportProps?: ScrollAreaPrimitive.ScrollAreaViewportProps;
@@ -45,6 +46,7 @@ Pre.displayName = "Pre";
 export const CodeBlock = ({
   title,
   allowCopy = true,
+  code,
   icon,
   viewportProps,
   onCopy: onCopyEvent,
@@ -55,6 +57,15 @@ export const CodeBlock = ({
   const areaRef = useRef<HTMLDivElement>(null);
 
   const onCopy = useCallback(() => {
+    if (code) {
+      navigator.clipboard.writeText(code).then(() => {
+        setIsCopied(true);
+        onCopyEvent?.();
+        setTimeout(() => setIsCopied(false), 3000);
+      });
+      return;
+    }
+
     const pre = areaRef.current?.getElementsByTagName("pre").item(0);
 
     if (!pre) {
@@ -71,7 +82,7 @@ export const CodeBlock = ({
       onCopyEvent?.();
       setTimeout(() => setIsCopied(false), 3000);
     });
-  }, [onCopyEvent]);
+  }, [code, onCopyEvent]);
 
   let iconNode: ReactNode = null;
   if (typeof icon === "string") {

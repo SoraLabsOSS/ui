@@ -65,6 +65,7 @@ export interface ComponentManualInstallationProps {
   dependencies?: string[];
   devDependencies?: string[];
   html?: string;
+  isActive?: boolean;
   path?: string;
   registryDependencies?: string[];
   shouldRenderCode?: boolean;
@@ -73,6 +74,7 @@ export interface ComponentManualInstallationProps {
 interface ManualCodeViewerProps {
   code?: string;
   html?: string;
+  isActive?: boolean;
   path?: string;
   shouldRenderCode?: boolean;
 }
@@ -95,15 +97,18 @@ function getCollapsedHtml(fullHtml: string, maxLines = 10): string {
 const ManualCodeViewer = ({
   code,
   html,
+  isActive = true,
   path,
   shouldRenderCode = true,
 }: ManualCodeViewerProps) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [isCodeReady, setIsCodeReady] = useState(() =>
-    Boolean(html || (code && isCodeBlockCached("tsx", code)))
+  const [isDynamicReady, setIsDynamicReady] = useState(() =>
+    Boolean(code && isCodeBlockCached("tsx", code))
   );
   const prefersReducedMotion = useReducedMotion();
   const prevCodeRef = useRef(code);
+
+  const isCodeReady = Boolean(html) || isDynamicReady;
 
   const collapsedHtml = useMemo(() => {
     if (!html) {
@@ -115,21 +120,23 @@ const ManualCodeViewer = ({
   const activeHtml = isOpened ? html : collapsedHtml;
 
   useEffect(() => {
-    if (html) {
-      setIsCodeReady(true);
-      return;
-    }
-    if (prevCodeRef.current !== code) {
-      prevCodeRef.current = code;
-      setIsCodeReady(Boolean(code && isCodeBlockCached("tsx", code)));
+    if (!isActive) {
       setIsOpened(false);
     }
-  }, [code, html]);
+  }, [isActive]);
+
+  useEffect(() => {
+    if (prevCodeRef.current !== code) {
+      prevCodeRef.current = code;
+      setIsDynamicReady(Boolean(code && isCodeBlockCached("tsx", code)));
+      setIsOpened(false);
+    }
+  }, [code]);
 
   let codeBlockNode: ReactNode;
   if (activeHtml) {
     codeBlockNode = (
-      <CodeBlock className="my-0" icon={<ReactIcon />} title={path}>
+      <CodeBlock className="my-0" code={code} icon={<ReactIcon />} title={path}>
         <div
           className="w-full text-sm [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
@@ -161,7 +168,7 @@ const ManualCodeViewer = ({
         icon={<ReactIcon />}
         lang="tsx"
         loadingMinHeight={128}
-        onLoaded={() => setIsCodeReady(true)}
+        onLoaded={() => setIsDynamicReady(true)}
         title={path}
       />
     );
@@ -217,6 +224,7 @@ export const ComponentManualInstallation = ({
   registryDependencies,
   code,
   html,
+  isActive = true,
   beforeSteps,
   afterSteps,
   children,
@@ -277,6 +285,8 @@ export const ComponentManualInstallation = ({
             <ManualCodeViewer
               code={code}
               html={html}
+              isActive={isActive}
+              key={path || "manual-viewer"}
               path={path}
               shouldRenderCode={shouldRenderCode}
             />

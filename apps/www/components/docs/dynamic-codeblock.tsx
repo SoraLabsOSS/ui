@@ -12,11 +12,13 @@ import { CodeBlock, Pre } from "@/components/docs/codeblock";
 
 const getComponents = ({
   title,
+  code,
   icon,
   onCopy,
   className,
 }: {
   title?: string;
+  code?: string;
   icon?: React.ReactNode;
   onCopy?: () => void;
   className?: string;
@@ -27,6 +29,7 @@ const getComponents = ({
         <CodeBlock
           {...props}
           className={cn("my-0", props.className, className)}
+          code={code}
           icon={icon}
           onCopy={onCopy}
           title={title}
@@ -102,7 +105,7 @@ function ShikiHighlight({
   loading,
 }: DynamicCodeBlockProps & { loading: React.ReactNode }) {
   const cacheKey = `${lang}:${code}`;
-  const components = getComponents({ title, icon, onCopy, className });
+  const components = getComponents({ title, code, icon, onCopy, className });
 
   const result = useShiki(code, {
     lang,
