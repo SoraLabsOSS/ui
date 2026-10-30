@@ -3,12 +3,48 @@ trigger: always_on
 description: Consult the graphify knowledge graph at graphify-out/ for codebase and architecture questions.
 ---
 
-## graphify
+## Knowledge Graph & Codebase Exploration (Graphify)
 
-This project has a graphify knowledge graph at graphify-out/.
+This repository maintains a Graphify knowledge graph at `graphify-out/` to help AI agents understand cross-file relationships, architecture, and dependencies.
 
-Rules:
-- For codebase or architecture questions, when `graphify-out/graph.json` exists, first run `graphify query "<question>"` (CLI) or `query_graph` (MCP). Use `graphify path "<A>" "<B>"` / `shortest_path` for relationships and `graphify explain "<concept>"` / `get_node` for focused concepts. These return a scoped subgraph, usually much smaller than `GRAPH_REPORT.md` or raw grep output.
-- If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context
-- After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)
+### Exploration Strategy
+
+Use Graphify as the primary discovery tool when the task involves:
+
+- Unfamiliar subsystems or architectural exploration.
+- Cross-file dependency tracing.
+- Understanding component relationships across registry, demos, documentation, and metadata.
+- Impact analysis before modifying shared components or utilities.
+
+Available commands:
+
+- `graphify query "<question>"` — retrieve a scoped subgraph for architecture and codebase questions.
+- `graphify path "<A>" "<B>"` — inspect dependency paths between symbols.
+- `graphify explain "<concept>"` — discover nodes and relationships associated with a concept.
+
+### Direct Code Search
+
+Use Read, Grep, Glob, and Bash directly when:
+
+- The target file or symbol is already known.
+- Performing exact string, import, or reference searches.
+- Fixing localized bugs or making small changes.
+- Verifying implementation details discovered through Graphify.
+
+Do not run Graphify for copy edits, UI string tweaks, or text modifications in known files; use direct search, read, and edit instead.
+
+**Graphify is a discovery and navigation aid, not a source of truth.** Always verify relevant relationships, symbols, and implementation details against the actual source code using Grep and Read.
+
+Do not run Graphify for every trivial task. Prefer the smallest exploration strategy that provides sufficient context.
+
+### Graph Maintenance
+
+- Run `graphify update .` after completing a meaningful batch of source-code changes when the graph needs refreshing.
+- Prefer refreshing the graph after structural changes, such as adding, removing, moving, or renaming source files and changing module dependencies.
+- Avoid redundant updates during intermediate edits or cosmetic/content changes (e.g. CSS values, text copy).
+- Do not treat inferred graph edges as confirmed runtime or static dependencies.
+- If the graph is missing, stale, or incomplete, fall back to direct code exploration.
+
+### Subagent Instructions
+
+Subagents performing architectural exploration should use Graphify when relevant, then verify findings against source code. Do not mandate Graphify for trivial or narrowly scoped tasks.
