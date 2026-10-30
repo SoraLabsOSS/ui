@@ -1,6 +1,5 @@
 "use client";
 
-import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
 import {
@@ -192,13 +191,9 @@ function ComponentPageDocsPanel({
       )}
       data-catalog-docs-panel
     >
-      <ProgressiveBlur
-        backgroundColor="var(--background)"
-        blurAmount="6px"
-        className="z-10 max-lg:hidden lg:w-1/2"
-        height="80px"
-        maskFadeStart="75%"
-        position="top"
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-background via-background/80 to-transparent max-lg:hidden lg:w-1/2"
       />
       <div
         aria-hidden="true"

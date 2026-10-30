@@ -12,7 +12,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@workspace/ui/components/ui/navigation-menu";
-import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Navbar } from "fumadocs-ui/layouts/docs-client";
@@ -287,14 +286,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
   const libraryItems = LIBRARY_NAV_ITEMS(primitivesUrl, uiUrl);
 
   return (
-    <Navbar className="z-30 h-14 overflow-visible border-b-0 bg-transparent! px-(--fd-layout-offset) shadow-none! backdrop-blur-none! transition-none md:h-17">
-      <ProgressiveBlur
-        backgroundColor="var(--background)"
-        blurAmount="12px"
-        height="150%"
-        // maskFadeStart="45%"
-        position="top"
-      />
+    <Navbar className="z-30 h-14 border-border/40 border-b bg-background/80 px-(--fd-layout-offset) backdrop-blur-md transition-colors md:h-17">
       <div className="relative z-10 mx-auto flex h-full w-full max-w-(--fd-layout-width) items-center gap-3 px-3 md:px-5">
         <Link
           className={buttonVariants({

@@ -1,6 +1,5 @@
 "use client";
 
-import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { ComponentPageDocsBreadcrumb } from "./catalog-docs-breadcrumb";
 import { ComponentPageCatalogMenuButton } from "./catalog-menu-button";
@@ -147,21 +146,13 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
           "lg:absolute lg:inset-0 lg:z-0 lg:h-full lg:overflow-hidden lg:pr-[50%]"
         )}
       >
-        <ProgressiveBlur
-          backgroundColor="var(--background)"
-          blurAmount="12px"
-          className="z-10 max-lg:hidden"
-          height="100px"
-          maskFadeStart="45%"
-          position="top"
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-background via-background/80 to-transparent max-lg:hidden"
         />
-        <ProgressiveBlur
-          backgroundColor="var(--background)"
-          blurAmount="12px"
-          className="z-10 max-lg:hidden"
-          height="70px"
-          maskFadeStart="45%"
-          position="bottom"
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-background via-background/80 to-transparent max-lg:hidden"
         />
 
         <div className="min-h-0 min-w-0 max-lg:block lg:h-full lg:overflow-hidden">

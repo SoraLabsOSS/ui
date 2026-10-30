@@ -1,6 +1,5 @@
 "use client";
 
-import { ProgressiveBlur } from "@workspace/ui/components/ui/progressive-blur";
 import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -106,21 +105,13 @@ export function ComponentPageCatalogSidebar() {
               style={{ willChange: "transform, opacity, backdrop-filter" }}
               transition={SIDEBAR_TRANSITION}
             >
-              <ProgressiveBlur
-                backgroundColor="color-mix(in oklab, var(--background) 35%, transparent)"
-                blurAmount="12px"
-                className="z-10 rounded-t-3xl"
-                height="5.5rem"
-                maskFadeStart="35%"
-                position="top"
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 rounded-t-3xl bg-gradient-to-b from-background/90 via-background/40 to-transparent"
               />
-              <ProgressiveBlur
-                backgroundColor="color-mix(in oklab, var(--background) 35%, transparent)"
-                blurAmount="12px"
-                className="z-10 rounded-b-3xl"
-                height="4rem"
-                maskFadeStart="35%"
-                position="bottom"
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 rounded-b-3xl bg-gradient-to-t from-background/90 via-background/40 to-transparent"
               />
 
               <ComponentPageCatalogNav items={navItems} onNavigate={close} />

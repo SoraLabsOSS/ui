@@ -60,7 +60,7 @@ function TabsHighlight({
 
   return (
     <Highlight
-      data-slot="tabs-highlight"
+      {...(props.mode === "parent" ? { "data-slot": "tabs-highlight" } : {})}
       transition={transition}
       value={value}
       {...props}

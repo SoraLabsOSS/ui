@@ -318,7 +318,11 @@ export function Highlight<T extends string = string>({
   ...rest
 }: HighlightProps<T>) {
   const { boundsOffset, containerClassName } = rest as HighlightParentOnlyProps;
-  const containerProps = omitKeys(rest, ["boundsOffset", "containerClassName"]);
+  const containerProps = omitKeys(rest, [
+    "boundsOffset",
+    "containerClassName",
+    "data-slot",
+  ]);
   const localRef = useRef<HTMLDivElement | null>(null);
   const setContainerRef = useComposedRefs<HTMLDivElement>(
     undefined,
