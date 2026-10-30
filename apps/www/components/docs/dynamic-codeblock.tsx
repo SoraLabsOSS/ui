@@ -42,6 +42,7 @@ export interface DynamicCodeBlockProps {
   code?: string;
   icon?: React.ReactNode;
   lang: string;
+  loadingMinHeight?: number | string;
   onCopy?: () => void;
   options?: Omit<HighlightOptionsCommon, "lang"> & HighlightOptionsThemes;
   title?: string;
@@ -51,7 +52,11 @@ function DynamicCodeBlockLoading({
   className,
   icon,
   title,
-}: Pick<DynamicCodeBlockProps, "className" | "icon" | "title">) {
+  loadingMinHeight = 360,
+}: Pick<
+  DynamicCodeBlockProps,
+  "className" | "icon" | "title" | "loadingMinHeight"
+>) {
   return (
     <CodeBlock
       allowCopy={false}
@@ -59,7 +64,15 @@ function DynamicCodeBlockLoading({
       icon={icon}
       title={title}
     >
-      <Pre className="flex min-h-[360px] items-center justify-center gap-2 text-muted-foreground">
+      <Pre
+        className="flex items-center justify-center gap-2 text-muted-foreground"
+        style={{
+          minHeight:
+            typeof loadingMinHeight === "number"
+              ? `${loadingMinHeight}px`
+              : loadingMinHeight,
+        }}
+      >
         <Loader aria-hidden className="size-4 animate-spin" />
         <span className="text-sm">Loading code…</span>
       </Pre>
@@ -96,6 +109,7 @@ export function DynamicCodeBlock(props: DynamicCodeBlockProps) {
     <DynamicCodeBlockLoading
       className={props.className}
       icon={props.icon}
+      loadingMinHeight={props.loadingMinHeight}
       title={props.title}
     />
   );

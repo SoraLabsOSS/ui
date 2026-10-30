@@ -1,7 +1,14 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type ReactNode, useEffect, useState } from "react";
+import { useInView } from "motion/react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { index, loadComponentSource } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
@@ -36,22 +43,28 @@ export function ComponentInstallation({
   const [manualCode, setManualCode] = useState<string | undefined>(undefined);
   const [activeTab, setActiveTab] = useState("shadcn");
   const component = index[name];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, {
+    margin: "300px 0px",
+    once: true,
+  });
 
-  useEffect(() => {
-    if (activeTab !== "manual" || manualCode !== undefined) {
+  const loadSource = useCallback(() => {
+    if (manualCode !== undefined) {
       return;
     }
-
-    let cancelled = false;
     loadComponentSource(name).then((code) => {
-      if (!cancelled && code) {
+      if (code) {
         setManualCode(code);
       }
     });
-    return () => {
-      cancelled = true;
-    };
-  }, [activeTab, manualCode, name]);
+  }, [manualCode, name]);
+
+  useEffect(() => {
+    if (isInView || activeTab === "manual") {
+      loadSource();
+    }
+  }, [activeTab, isInView, loadSource]);
 
   if (!component) {
     return null;
@@ -72,7 +85,11 @@ export function ComponentInstallation({
   };
 
   return (
-    <div className={cn("relative my-4 lg:max-w-[120ch]", className)} {...props}>
+    <div
+      className={cn("relative my-4 lg:max-w-[120ch]", className)}
+      ref={containerRef}
+      {...props}
+    >
       <Tabs
         className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
         onValueChange={setActiveTab}
@@ -105,6 +122,8 @@ export function ComponentInstallation({
               <TabsHighlightItem value="manual">
                 <TabsTrigger
                   className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  onFocus={loadSource}
+                  onMouseEnter={loadSource}
                   value="manual"
                 >
                   Manual
@@ -122,19 +141,17 @@ export function ComponentInstallation({
             <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
           </TabsContent>
           <TabsContent className="p-4" value="manual">
-            {activeTab === "manual" ? (
-              <ComponentManualInstallation
-                afterSteps={afterSteps}
-                beforeSteps={beforeSteps}
-                code={manualCode}
-                dependencies={component.dependencies}
-                devDependencies={component.devDependencies}
-                path={component.files?.[0]?.target}
-                registryDependencies={component.registryDependencies}
-              >
-                {children}
-              </ComponentManualInstallation>
-            ) : null}
+            <ComponentManualInstallation
+              afterSteps={afterSteps}
+              beforeSteps={beforeSteps}
+              code={manualCode}
+              dependencies={component.dependencies}
+              devDependencies={component.devDependencies}
+              path={component.files?.[0]?.target}
+              registryDependencies={component.registryDependencies}
+            >
+              {children}
+            </ComponentManualInstallation>
           </TabsContent>
         </TabsContents>
       </Tabs>

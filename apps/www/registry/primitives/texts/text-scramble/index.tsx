@@ -88,6 +88,10 @@ function buildScrambledText(
   revealedLength: number,
   characterSet: string
 ): string {
+  if (!source) {
+    return "";
+  }
+
   let scrambled = "";
 
   for (let i = 0; i < source.length; i++) {
@@ -126,7 +130,7 @@ export function TextScramble({
   const [frame, setFrame] = useState<ScrambleFrame | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const text = children;
+  const text = String(children ?? "");
   const shouldTriggerOnMount = trigger && !triggerOnHover;
 
   const clearAnimationInterval = () => {
@@ -137,7 +141,7 @@ export function TextScramble({
   };
 
   const scramble = () => {
-    if (prefersReducedMotion || isAnimating) {
+    if (prefersReducedMotion || isAnimating || !text) {
       return;
     }
 

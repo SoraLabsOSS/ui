@@ -5,7 +5,14 @@ import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { ExternalLink, Fullscreen, Loader } from "lucide-react";
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { index, loadComponentSource } from "@/__registry__";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
@@ -144,28 +151,50 @@ export function ComponentPreview({
   }, [name, demo]);
 
   const sourceName = usageCodeMeta.sourceName;
+  const [hasOpenedCode, setHasOpenedCode] = useState(false);
+  const shouldRenderCode = hasOpenedCode || activeTab === "code";
+  const previewPaneRef = useRef<HTMLDivElement>(null);
+  const [previewHeight, setPreviewHeight] = useState(496);
 
-  useEffect(() => {
-    if (!(isInView && activeTab === "code")) {
+  const preloadSource = useCallback(() => {
+    if (staticContent !== null || !sourceName) {
       return;
     }
-
-    let cancelled = false;
-    if (!sourceName) {
-      setStaticContent(null);
-      return;
-    }
-
     loadComponentSource(sourceName).then((code) => {
-      if (!cancelled) {
+      if (code) {
         setStaticContent(code);
       }
     });
+  }, [sourceName, staticContent]);
 
-    return () => {
-      cancelled = true;
+  useEffect(() => {
+    if (isInView) {
+      preloadSource();
+    }
+  }, [isInView, preloadSource]);
+
+  useEffect(() => {
+    if (activeTab === "code") {
+      setHasOpenedCode(true);
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    const el = previewPaneRef.current;
+    if (!el) {
+      return;
+    }
+    const updateHeight = () => {
+      const h = el.getBoundingClientRect().height;
+      if (h > 0) {
+        setPreviewHeight(Math.round(h));
+      }
     };
-  }, [activeTab, isInView, sourceName]);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const displayCode = useMemo(() => {
     const { installTarget, manualDemo } = usageCodeMeta;
@@ -195,9 +224,14 @@ export function ComponentPreview({
     }
 
     const Component = index[name]?.component;
+    const initialProps =
+      Object.keys(demoPropsConfig).length === 0
+        ? null
+        : unwrapValues(demoPropsConfig);
+
     if (Object.keys(demoPropsConfig).length !== 0) {
-      if (componentProps === null) {
-        setComponentProps(unwrapValues(demoPropsConfig));
+      if (componentProps === null && initialProps) {
+        setComponentProps(initialProps);
       }
       if (binds === null) {
         setBinds(demoPropsConfig as Binds);
@@ -218,7 +252,7 @@ export function ComponentPreview({
     }
 
     const resolvedProps = flattenFirstLevel<Record<string, unknown>>(
-      componentProps ?? {}
+      componentProps ?? initialProps ?? {}
     );
 
     return <Component {...resolvedProps} key={JSON.stringify(resolvedProps)} />;
@@ -289,6 +323,8 @@ export function ComponentPreview({
                   <TabsHighlightItem value="code">
                     <TabsTrigger
                       className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                      onFocus={preloadSource}
+                      onMouseEnter={preloadSource}
                       value="code"
                     >
                       Code
@@ -307,7 +343,7 @@ export function ComponentPreview({
               initial={{ opacity: 0 }}
               value="preview"
             >
-              <div className="relative">
+              <div className="relative" ref={previewPaneRef}>
                 {/* top actions */}
                 <div className="absolute top-0 right-2 z-10 flex h-12 items-center justify-end gap-1.5 px-2 sm:right-6">
                   <RefreshButton
@@ -480,12 +516,13 @@ export function ComponentPreview({
                 initial={{ opacity: 0 }}
                 value="code"
               >
-                {activeTab === "code" ? (
+                {shouldRenderCode ? (
                   <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_[data-slot=codeblock-viewport]]:max-h-[500px]">
                     <DynamicCodeBlock
                       code={displayCode ?? undefined}
                       icon={<ReactIcon />}
                       lang="tsx"
+                      loadingMinHeight={previewHeight}
                       title={usageCodeMeta.title}
                     />
                   </div>

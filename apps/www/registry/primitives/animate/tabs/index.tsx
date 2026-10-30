@@ -314,13 +314,20 @@ function TabsContents({
     ? { duration: 0 }
     : transition;
 
+  const heightTransition: Transition = prefersReducedMotion
+    ? { duration: 0 }
+    : ((transition as { height?: Transition })?.height ?? {
+        duration: 0.3,
+        ease: [0.16, 1, 0.3, 1],
+      });
+
   return (
     <motion.div
       animate={{ height: height || "auto" }}
       data-slot="tabs-contents"
       ref={containerRef}
       style={{ overflow: "hidden" }}
-      transition={contentsTransition}
+      transition={heightTransition}
       {...props}
     >
       <motion.div
