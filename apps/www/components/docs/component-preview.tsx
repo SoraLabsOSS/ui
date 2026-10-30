@@ -4,7 +4,7 @@ import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { ExternalLink, Fullscreen, Loader } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { index, loadComponentSource } from "@/__registry__";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
@@ -118,8 +118,14 @@ export function ComponentPreview({
     unknown
   > | null>(null);
   const [previewKey, setPreviewKey] = useState(0);
+  const [activeTab, setActiveTab] = useState("preview");
   const [staticContent, setStaticContent] = useState<string | null>(null);
   const previousPropsSnapshot = useRef<string | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(previewRef, {
+    margin: "200px 0px",
+    once: true,
+  });
 
   const demoPropsConfig = useMemo(() => resolveDemoProps(name), [name]);
 
@@ -140,6 +146,10 @@ export function ComponentPreview({
   const sourceName = usageCodeMeta.sourceName;
 
   useEffect(() => {
+    if (!(isInView && activeTab === "code")) {
+      return;
+    }
+
     let cancelled = false;
     if (!sourceName) {
       setStaticContent(null);
@@ -155,7 +165,7 @@ export function ComponentPreview({
     return () => {
       cancelled = true;
     };
-  }, [sourceName]);
+  }, [activeTab, isInView, sourceName]);
 
   const displayCode = useMemo(() => {
     const { installTarget, manualDemo } = usageCodeMeta;
@@ -180,6 +190,10 @@ export function ComponentPreview({
   }, [demoPropsConfig, componentProps, usageCodeMeta, staticContent]);
 
   const preview = useMemo(() => {
+    if (!isInView) {
+      return null;
+    }
+
     const Component = index[name]?.component;
     if (Object.keys(demoPropsConfig).length !== 0) {
       if (componentProps === null) {
@@ -208,7 +222,7 @@ export function ComponentPreview({
     );
 
     return <Component {...resolvedProps} key={JSON.stringify(resolvedProps)} />;
-  }, [name, componentProps, binds, demoPropsConfig]);
+  }, [name, componentProps, binds, demoPropsConfig, isInView]);
 
   useEffect(() => {
     if (!binds) {
@@ -240,13 +254,18 @@ export function ComponentPreview({
   return (
     <div
       className={cn("not-prose my-4 w-full lg:max-w-[120ch]", className)}
+      ref={previewRef}
       {...props}
     >
       <div
         className="relative overflow-hidden rounded-2xl border border-border/50"
         id="component-preview"
       >
-        <Tabs className="w-full gap-0" defaultValue="preview">
+        <Tabs
+          className="w-full gap-0"
+          onValueChange={setActiveTab}
+          value={activeTab}
+        >
           <div
             className="flex h-11 items-center justify-between border-border/50 border-b px-3"
             id="component-preview-tab-list"
@@ -386,16 +405,23 @@ export function ComponentPreview({
                     key={previewKey}
                     name={name}
                   >
-                    <Suspense
-                      fallback={
-                        <div className="flex items-center text-muted-foreground text-sm">
-                          <Loader className="mr-2 size-4 animate-spin" />
-                          Loading...
-                        </div>
-                      }
-                    >
-                      {preview}
-                    </Suspense>
+                    {isInView ? (
+                      <Suspense
+                        fallback={
+                          <div className="flex items-center text-muted-foreground text-sm">
+                            <Loader className="mr-2 size-4 animate-spin" />
+                            Loading...
+                          </div>
+                        }
+                      >
+                        {preview}
+                      </Suspense>
+                    ) : (
+                      <div className="flex min-h-[200px] items-center justify-center text-muted-foreground text-sm">
+                        <Loader className="mr-2 size-4 animate-spin" />
+                        Loading...
+                      </div>
+                    )}
                   </ComponentWrapper>
                 </div>
 
@@ -454,14 +480,16 @@ export function ComponentPreview({
                 initial={{ opacity: 0 }}
                 value="code"
               >
-                <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_[data-slot=codeblock-viewport]]:max-h-[500px]">
-                  <DynamicCodeBlock
-                    code={displayCode ?? undefined}
-                    icon={<ReactIcon />}
-                    lang="tsx"
-                    title={usageCodeMeta.title}
-                  />
-                </div>
+                {activeTab === "code" ? (
+                  <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_[data-slot=codeblock-viewport]]:max-h-[500px]">
+                    <DynamicCodeBlock
+                      code={displayCode ?? undefined}
+                      icon={<ReactIcon />}
+                      lang="tsx"
+                      title={usageCodeMeta.title}
+                    />
+                  </div>
+                ) : null}
               </TabsContent>
             ) : null}
           </TabsContents>

@@ -2566,7 +2566,9 @@ export class TextMorphEngine {
     element: HTMLElement,
     cursorIndex?: number
   ) {
-    const { width: oldWidth, height: oldHeight } = layoutSize(element);
+    const { width: oldWidth, height: oldHeight } = this.isInitialRender
+      ? { height: 0, width: 0 }
+      : layoutSize(element);
     const numbers = this.options.numbers !== false;
 
     this.syncAccessibleText(value);
@@ -2595,7 +2597,7 @@ export class TextMorphEngine {
 
     splitWordSpans(element, splits, this.options.charClassName);
 
-    this.prevMeasures = measure(this.element);
+    this.prevMeasures = this.isInitialRender ? {} : measure(this.element);
     const oldChildren = (Array.from(element.children) as HTMLElement[]).filter(
       (child) => !child.hasAttribute(ATTR_SR)
     );
@@ -2627,22 +2629,26 @@ export class TextMorphEngine {
       this.options.charClassName
     );
 
-    this.currentMeasures = measure(this.element);
+    this.currentMeasures = this.isInitialRender ? {} : measure(this.element);
 
     const lineCount = segments.reduce(
       (lines, segment) => (segment.string === "\n" ? lines + 1 : lines),
       1
     );
-    const slideDistance = (element.offsetHeight || 20 * lineCount) / lineCount;
+    const slideDistance = this.isInitialRender
+      ? 0
+      : (element.offsetHeight || 20 * lineCount) / lineCount;
 
-    element.style.width = `${oldWidth}px`;
-    if (element.offsetWidth < 0) {
-      // reflow
+    if (!this.isInitialRender) {
+      element.style.width = `${oldWidth}px`;
+      if (element.offsetWidth < 0) {
+        // reflow
+      }
+      const firstFrameMeasures = measure(this.element);
+      element.style.width = "";
+
+      this.updateStyles(segments, firstFrameMeasures, slideDistance);
     }
-    const firstFrameMeasures = measure(this.element);
-    element.style.width = "";
-
-    this.updateStyles(segments, firstFrameMeasures, slideDistance);
 
     const leavingRuns = this.isInitialRender
       ? []

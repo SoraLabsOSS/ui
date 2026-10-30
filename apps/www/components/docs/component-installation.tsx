@@ -34,9 +34,14 @@ export function ComponentInstallation({
   ...props
 }: ComponentInstallationProps) {
   const [manualCode, setManualCode] = useState<string | undefined>(undefined);
+  const [activeTab, setActiveTab] = useState("shadcn");
   const component = index[name];
 
   useEffect(() => {
+    if (activeTab !== "manual" || manualCode !== undefined) {
+      return;
+    }
+
     let cancelled = false;
     loadComponentSource(name).then((code) => {
       if (!cancelled && code) {
@@ -46,7 +51,7 @@ export function ComponentInstallation({
     return () => {
       cancelled = true;
     };
-  }, [name]);
+  }, [activeTab, manualCode, name]);
 
   if (!component) {
     return null;
@@ -70,7 +75,8 @@ export function ComponentInstallation({
     <div className={cn("relative my-4 lg:max-w-[120ch]", className)} {...props}>
       <Tabs
         className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
-        defaultValue="shadcn"
+        onValueChange={setActiveTab}
+        value={activeTab}
       >
         <div className="flex h-10 items-center border-border/50 border-b px-3">
           <TabsList className="flex items-center gap-0.5">
@@ -116,17 +122,19 @@ export function ComponentInstallation({
             <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
           </TabsContent>
           <TabsContent className="p-4" value="manual">
-            <ComponentManualInstallation
-              afterSteps={afterSteps}
-              beforeSteps={beforeSteps}
-              code={manualCode}
-              dependencies={component.dependencies}
-              devDependencies={component.devDependencies}
-              path={component.files?.[0]?.target}
-              registryDependencies={component.registryDependencies}
-            >
-              {children}
-            </ComponentManualInstallation>
+            {activeTab === "manual" ? (
+              <ComponentManualInstallation
+                afterSteps={afterSteps}
+                beforeSteps={beforeSteps}
+                code={manualCode}
+                dependencies={component.dependencies}
+                devDependencies={component.devDependencies}
+                path={component.files?.[0]?.target}
+                registryDependencies={component.registryDependencies}
+              >
+                {children}
+              </ComponentManualInstallation>
+            ) : null}
           </TabsContent>
         </TabsContents>
       </Tabs>
