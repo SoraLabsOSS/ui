@@ -128,7 +128,7 @@ export const CodeBlock = ({
         allowCopy && (
           <div className="absolute top-2 right-2 z-[2]">
             <CopyButton
-              className="border border-border/40 bg-accent/80 backdrop-blur-sm hover:bg-accent"
+              className="bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
               isCopied={isCopied}
               onClick={onCopy}
               size="icon-sm"

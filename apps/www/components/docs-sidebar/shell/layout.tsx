@@ -19,9 +19,11 @@ import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./scroll-active-nearest";
 export function DocsShellContent({
   children,
   className,
+  viewportClassName,
 }: {
   children: React.ReactNode;
   className?: string;
+  viewportClassName?: string;
 }) {
   const containerRef = useDocsShellHover().containerRef;
 
@@ -29,7 +31,7 @@ export function DocsShellContent({
     <ScrollArea className={cn("min-h-0 flex-1", className)} type="scroll">
       <ScrollViewport
         {...{ [DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR]: "" }}
-        className="p-4"
+        className={cn("overscroll-y-contain p-4 pt-0", viewportClassName)}
         style={{
           maskImage:
             "linear-gradient(to bottom, transparent, white 12px, white calc(100% - 12px), transparent)",

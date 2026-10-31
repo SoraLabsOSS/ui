@@ -113,7 +113,8 @@ export function DocsMobileDrawer({
                   ? "max-md:translate-x-0"
                   : "max-md:pointer-events-none max-md:-translate-x-[calc(100%+1.25rem)]",
                 raised && "max-md:z-[111]",
-                "md:pointer-events-auto md:fixed md:inset-s-0 md:top-(--fd-sidebar-top) md:bottom-(--fd-sidebar-margin,0px) md:z-20 md:translate-x-0 md:items-end md:rounded-none md:border-e md:bg-fd-card md:text-sm md:shadow-none",
+                "md:pointer-events-auto md:fixed md:inset-s-0 md:top-(--fd-sidebar-top) md:bottom-(--fd-sidebar-margin,0px) md:z-20 md:translate-x-0 md:items-end md:rounded-none md:border-e md:bg-transparent md:text-sm md:shadow-none",
+                "md:*:w-[var(--fd-sidebar-width,260px)] md:*:max-w-[var(--fd-sidebar-width,260px)]",
                 desktopClassName
               )
             : cn(

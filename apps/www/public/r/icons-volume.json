@@ -1,0 +1,29 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-volume",
+  "title": "Volume",
+  "description": "Animated volume icon that morphs smoothly between sound waves and a mute slash with speaker shake effect.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/icons/volume/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  motion,\n  type SVGMotionProps,\n  type Transition,\n  useReducedMotion,\n} from \"motion/react\";\nimport { useId, useState } from \"react\";\n\ninterface VolumeProps extends Omit<SVGMotionProps<SVGSVGElement>, \"animate\"> {\n  /**\n   * Whether to trigger the mute animation.\n   * @default false\n   */\n  animate?: boolean;\n  /**\n   * Play the animation when the icon is hovered.\n   * @default false\n   */\n  animateOnHover?: boolean;\n  /**\n   * Any valid CSS color, mapped to SVG strokes/fills.\n   * @default \"currentColor\"\n   */\n  color?: string;\n  /**\n   * Repeat the animation indefinitely.\n   * @default false\n   */\n  loop?: boolean;\n  /**\n   * Convenience controlled state for mute.\n   */\n  muted?: boolean;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n}\n\nfunction Volume({\n  size = 24,\n  color = \"currentColor\",\n  animate = false,\n  muted,\n  loop = false,\n  animateOnHover = false,\n  className,\n  onClick,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: VolumeProps) {\n  const reactId = useId();\n  const maskId = `volume-mask-${reactId.replace(/[^a-zA-Z0-9_-]/g, \"\")}`;\n  const [isHovered, setIsHovered] = useState(false);\n  const reducedMotion = useReducedMotion();\n\n  const isMuted =\n    (muted === undefined ? animate : muted) || (animateOnHover && isHovered);\n\n  const slashTransition: Transition = reducedMotion\n    ? { duration: 0 }\n    : {\n        pathLength: {\n          ease: \"easeInOut\",\n          duration: isMuted ? 0.22 : 0.15,\n          delay: isMuted ? 0.06 : 0,\n        },\n        opacity: {\n          ease: \"easeOut\",\n          duration: isMuted ? 0.05 : 0.15,\n          delay: isMuted ? 0.06 : 0,\n        },\n        ...(loop && {\n          repeat: Number.POSITIVE_INFINITY,\n          repeatType: \"reverse\",\n          repeatDelay: 0.6,\n        }),\n      };\n\n  return (\n    <motion.svg\n      className={cn(\"cursor-pointer select-none\", className)}\n      fill=\"none\"\n      height={size}\n      onClick={(e) => {\n        if (typeof onClick === \"function\") {\n          onClick(e);\n        }\n      }}\n      onMouseEnter={(e) => {\n        setIsHovered(true);\n        if (typeof onMouseEnter === \"function\") {\n          onMouseEnter(e);\n        }\n      }}\n      onMouseLeave={(e) => {\n        setIsHovered(false);\n        if (typeof onMouseLeave === \"function\") {\n          onMouseLeave(e);\n        }\n      }}\n      viewBox=\"0 0 24 24\"\n      width={size}\n      xmlns=\"http://www.w3.org/2000/svg\"\n      {...props}\n    >\n      <defs>\n        <mask id={maskId}>\n          <rect fill=\"white\" height=\"24\" width=\"24\" />\n          <g transform=\"rotate(-40 12 12)\">\n            <motion.path\n              animate={{\n                pathLength: isMuted ? 1 : 0,\n                opacity: isMuted ? 1 : 0,\n              }}\n              d=\"M12 3 L12 21\"\n              initial={{ opacity: 0, pathLength: 0 }}\n              stroke=\"black\"\n              strokeLinecap=\"round\"\n              strokeWidth={3.5}\n              transition={slashTransition}\n            />\n          </g>\n        </mask>\n      </defs>\n\n      <motion.g\n        animate={{\n          rotate: isMuted && !reducedMotion ? [0, -15, 5, -2, 0] : 0,\n        }}\n        initial={false}\n        mask={`url(#${maskId})`}\n        style={{ transformOrigin: \"12px 12px\" }}\n        transition={{\n          duration: 0.35,\n          ease: \"easeInOut\",\n        }}\n      >\n        <path\n          d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"\n          fill={color}\n          stroke=\"none\"\n        />\n\n        <path\n          d=\"M16 9a5 5 0 0 1 0 6\"\n          fill=\"none\"\n          stroke={color}\n          strokeLinecap=\"round\"\n          strokeLinejoin=\"round\"\n          strokeWidth={2}\n        />\n        <path\n          d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"\n          fill=\"none\"\n          stroke={color}\n          strokeLinecap=\"round\"\n          strokeLinejoin=\"round\"\n          strokeWidth={2}\n        />\n      </motion.g>\n\n      <g transform=\"rotate(-40 12 12)\">\n        <motion.path\n          animate={{\n            pathLength: isMuted ? 1 : 0,\n            opacity: isMuted ? 1 : 0,\n          }}\n          d=\"M12 3 L12 21\"\n          initial={{ opacity: 0, pathLength: 0 }}\n          stroke={color}\n          strokeLinecap=\"round\"\n          strokeWidth={1.5}\n          transition={slashTransition}\n        />\n      </g>\n    </motion.svg>\n  );\n}\n\nexport {\n  Volume,\n  Volume as VolumeIcon,\n  type VolumeProps,\n  type VolumeProps as VolumeIconProps,\n};\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/volume.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "volume",
+      "audio",
+      "sound",
+      "mute",
+      "speaker",
+      "media",
+      "music",
+      "player"
+    ],
+    "releaseDate": "2026-10-31"
+  },
+  "type": "registry:ui"
+}

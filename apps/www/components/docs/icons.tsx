@@ -99,6 +99,7 @@ export function Icons() {
   const [activeTab, setActiveTab] = useState<string>("cli");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
+  const [isPreviewTriggered, setIsPreviewTriggered] = useState(false);
   const [filter, setFilter] = useState<keyof typeof FILTERS>("all");
 
   const [search, setSearch] = useQueryState(
@@ -119,6 +120,8 @@ export function Icons() {
     // Also closes a stale open panel when the icon query param is gone
     // (e.g. navigating away and back restores state without the URL).
     setIsPanelOpen(Boolean(activeIcon));
+    setIsPreviewTriggered(false);
+    setIsLoop(false);
   }, [activeIcon]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: clear query only when the panel closes
@@ -341,15 +344,24 @@ export function Icons() {
                 <div className="flex flex-col gap-y-4">
                   <div className="space-y-4">
                     {activeIcon && (
-                      <div className="relative mx-auto flex aspect-square h-37.5 w-full items-center justify-center rounded-2xl border bg-muted/50">
-                        {icon?.component && (
-                          <icon.component
-                            animate
-                            className="size-25 text-current"
-                            key={`${activeIcon}-${animationKey}-${isLoop}`}
-                            loop={isLoop}
-                          />
-                        )}
+                      <div className="relative mx-auto aspect-square h-37.5 w-full">
+                        <button
+                          className="relative flex size-full cursor-pointer select-none items-center justify-center rounded-2xl border bg-muted/50 transition-colors hover:bg-muted/80"
+                          onClick={() => {
+                            setIsPreviewTriggered((prev) => !prev);
+                          }}
+                          type="button"
+                        >
+                          {icon?.component && (
+                            <icon.component
+                              animate={isLoop || isPreviewTriggered}
+                              animateOnHover={false}
+                              className="pointer-events-none size-25 text-current"
+                              key={`${activeIcon}-${animationKey}-${isLoop}`}
+                              loop={isLoop}
+                            />
+                          )}
+                        </button>
 
                         <Button
                           className={cn(
@@ -366,7 +378,10 @@ export function Icons() {
 
                         <Button
                           className="absolute top-2 right-2 z-2 size-6 bg-transparent backdrop-blur-md hover:bg-black/5 dark:hover:bg-white/10"
-                          onClick={() => setAnimationKey((prev) => prev + 1)}
+                          onClick={() => {
+                            setIsPreviewTriggered(true);
+                            setAnimationKey((prev) => prev + 1);
+                          }}
                           size="icon-sm"
                           variant="ghost"
                         >

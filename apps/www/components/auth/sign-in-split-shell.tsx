@@ -11,7 +11,7 @@ export function SignInSplitShell({ children }: { children: ReactNode }) {
   return (
     <section className="min-h-[calc(100dvh-var(--fd-banner-height))] bg-background p-3 text-foreground antialiased [font-synthesis:none]">
       <div className="grid min-h-[calc(100dvh-var(--fd-banner-height)-1.5rem)] gap-6 lg:grid-cols-[0.94fr_1.06fr]">
-        <div className="flex min-h-[760px] flex-col rounded-md border bg-background px-6 py-8 lg:min-h-0 lg:px-14 xl:px-20">
+        <div className="flex flex-col rounded-md border bg-background px-6 py-8 lg:min-h-0 lg:px-14 xl:px-20">
           <Link
             className="inline-flex w-fit items-center gap-1 rounded-md px-2 py-1 text-muted-foreground text-sm hover:bg-muted hover:text-foreground"
             href="/docs"

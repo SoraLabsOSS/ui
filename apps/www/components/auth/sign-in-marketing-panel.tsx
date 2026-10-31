@@ -9,7 +9,7 @@ import Image from "next/image";
  */
 export function SignInMarketingPanel() {
   return (
-    <div className="relative flex min-h-[720px] flex-col overflow-hidden rounded-md border border-white/10 bg-zinc-950 p-8 text-white sm:p-12 lg:min-h-0 lg:p-16">
+    <div className="relative hidden flex-col overflow-hidden rounded-md border border-white/10 bg-zinc-950 p-8 text-white sm:p-12 lg:flex lg:min-h-0 lg:p-16">
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/40 via-zinc-950 to-black" />
       <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 

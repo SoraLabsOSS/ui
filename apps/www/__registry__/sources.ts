@@ -22,6 +22,8 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "icons-bell": () => import("./sources/icons-bell.json"),
   "icons-chevrons": () => import("./sources/icons-chevrons.json"),
   "icons-copy": () => import("./sources/icons-copy.json"),
+  "icons-menu": () => import("./sources/icons-menu.json"),
+  "icons-volume": () => import("./sources/icons-volume.json"),
   "lib-scroll-trigger-utils": () =>
     import("./sources/lib-scroll-trigger-utils.json"),
   "particle-hover-button": () => import("./sources/particle-hover-button.json"),

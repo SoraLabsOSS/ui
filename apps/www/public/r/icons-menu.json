@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons-menu",
+  "title": "Menu",
+  "description": "Animated hamburger menu icon that smoothly morphs into a close (X) icon.",
+  "dependencies": ["motion"],
+  "files": [
+    {
+      "path": "registry/icons/menu/index.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport {\n  motion,\n  type SVGMotionProps,\n  type Transition,\n  useReducedMotion,\n} from \"motion/react\";\nimport { useState } from \"react\";\n\ninterface MenuProps extends Omit<SVGMotionProps<SVGSVGElement>, \"animate\"> {\n  /**\n   * Whether to animate the icon into the close (X) state.\n   * @default false\n   */\n  animate?: boolean;\n  /**\n   * Play the animation when the icon is hovered.\n   * @default false\n   */\n  animateOnHover?: boolean;\n  /**\n   * Any valid CSS color, mapped to the SVG `stroke`.\n   * @default \"currentColor\"\n   */\n  color?: string;\n  /**\n   * Repeat the animation indefinitely.\n   * @default false\n   */\n  loop?: boolean;\n  /**\n   * Convenience controlled state for open/close.\n   */\n  open?: boolean;\n  /**\n   * Icon size in pixels (applied to both width and height).\n   * @default 24\n   */\n  size?: number | string;\n  /**\n   * Stroke width of the lines.\n   * @default 2\n   */\n  strokeWidth?: number | string;\n  /**\n   * Custom spring/transition configuration.\n   */\n  transition?: Transition;\n}\n\nfunction Menu({\n  size = 24,\n  color = \"currentColor\",\n  strokeWidth = 2,\n  animate = false,\n  open,\n  loop = false,\n  animateOnHover = false,\n  className,\n  transition: transitionProp,\n  onClick,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: MenuProps) {\n  const [isHovered, setIsHovered] = useState(false);\n  const reducedMotion = useReducedMotion();\n\n  const isClose =\n    (open === undefined ? animate : open) || (animateOnHover && isHovered);\n\n  const transition: Transition =\n    transitionProp ??\n    (reducedMotion\n      ? { duration: 0 }\n      : {\n          type: \"spring\",\n          stiffness: 260,\n          damping: 17,\n          ...(loop && {\n            repeat: Number.POSITIVE_INFINITY,\n            repeatType: \"reverse\",\n            repeatDelay: 0.5,\n          }),\n        });\n\n  return (\n    <motion.svg\n      className={cn(\"cursor-pointer select-none\", className)}\n      fill=\"none\"\n      height={size}\n      onClick={(e) => {\n        if (typeof onClick === \"function\") {\n          onClick(e);\n        }\n      }}\n      onMouseEnter={(e) => {\n        setIsHovered(true);\n        if (typeof onMouseEnter === \"function\") {\n          onMouseEnter(e);\n        }\n      }}\n      onMouseLeave={(e) => {\n        setIsHovered(false);\n        if (typeof onMouseLeave === \"function\") {\n          onMouseLeave(e);\n        }\n      }}\n      stroke={color}\n      strokeLinecap=\"round\"\n      strokeLinejoin=\"round\"\n      strokeWidth={strokeWidth}\n      viewBox=\"0 0 24 24\"\n      width={size}\n      xmlns=\"http://www.w3.org/2000/svg\"\n      {...props}\n    >\n      <motion.line\n        animate={{\n          y: isClose ? 6 : 0,\n          rotate: isClose ? 45 : 0,\n        }}\n        style={{ transformOrigin: \"12px 12px\" }}\n        transition={transition}\n        x1=\"3.5\"\n        x2=\"20.5\"\n        y1=\"6\"\n        y2=\"6\"\n      />\n      <motion.line\n        animate={{ opacity: isClose ? 0 : 1 }}\n        style={{ transformOrigin: \"12px 12px\" }}\n        transition={{ duration: 0.1 }}\n        x1=\"3.5\"\n        x2=\"20.5\"\n        y1=\"12\"\n        y2=\"12\"\n      />\n      <motion.line\n        animate={{\n          y: isClose ? -6 : 0,\n          rotate: isClose ? -45 : 0,\n        }}\n        style={{ transformOrigin: \"12px 12px\" }}\n        transition={transition}\n        x1=\"3.5\"\n        x2=\"20.5\"\n        y1=\"18\"\n        y2=\"18\"\n      />\n    </motion.svg>\n  );\n}\n\nexport {\n  Menu,\n  Menu as MenuIcon,\n  type MenuProps,\n  type MenuProps as MenuIconProps,\n};\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/icons/menu.tsx"
+    }
+  ],
+  "meta": {
+    "keywords": [
+      "menu",
+      "hamburger",
+      "close",
+      "x",
+      "toggle",
+      "navigation",
+      "drawer"
+    ],
+    "releaseDate": "2026-10-31"
+  },
+  "type": "registry:ui"
+}

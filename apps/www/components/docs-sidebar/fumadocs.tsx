@@ -53,7 +53,6 @@ import {
 import { DocsShellNavGroup } from "./shell/nav-group";
 import { DocsShellNavItem } from "./shell/nav-item";
 import { DocsShellSection } from "./shell/nav-section";
-import { DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR } from "./shell/scroll-active-nearest";
 import { closeMobileSidebar } from "./sidebar-close-lock";
 import { useDismissMobileSidebarOnOutside } from "./use-dismiss-mobile-sidebar";
 
@@ -441,7 +440,7 @@ export function SidebarLinkItem({
     return (
       <DocsShellSection
         {...props}
-        className={cn("!mt-2", props.className)}
+        className={cn("!mt-3", props.className)}
         label={<Separator icon={sep.icon} name={sep.name} />}
       >
         {null}
@@ -485,11 +484,10 @@ export const DocsSidebar = (
     closeMobileSidebar(setOpen);
   };
 
-  const scrollViewportSelector = `[&_[${DOCS_SIDEBAR_SCROLL_VIEWPORT_ATTR}]]:!p-0`;
   const releaseDatesByUrl = all.releaseDatesByUrl ?? {};
 
   const content = (
-    <DocsShell className="h-full min-h-0 max-md:w-full max-md:max-w-full">
+    <DocsShell className="h-full min-h-0 max-md:w-full max-md:max-w-full md:w-[var(--fd-sidebar-width,260px)] md:max-w-[var(--fd-sidebar-width,260px)]">
       <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
         <Link
           aria-label="Sora UI home"
@@ -597,8 +595,7 @@ export const DocsSidebar = (
   return (
     <DocsReleaseDatesProvider releaseDatesByUrl={releaseDatesByUrl}>
       <DocsMobileDrawer
-        className={cn(scrollViewportSelector, sidebarProps.className)}
-        desktopClassName={scrollViewportSelector}
+        className={sidebarProps.className}
         desktopStyle={
           {
             ...sidebarProps.style,

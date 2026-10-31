@@ -421,6 +421,7 @@
         var(--fd-sidebar-width, 260px) +
         var(--fd-layout-offset, 0px)
       ) !important;
+      background: transparent !important;
       @apply md:!border-0;
     }
   }

@@ -816,6 +816,121 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/icons-copy",
   },
+  "icons-menu": {
+    name: "icons-menu",
+    description:
+      "Animated hamburger menu icon that smoothly morphs into a close (X) icon.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/icons/menu/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/icons/menu.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [
+      "menu",
+      "hamburger",
+      "close",
+      "x",
+      "toggle",
+      "navigation",
+      "drawer",
+    ],
+    releaseDate: "2026-10-31",
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/icons/menu/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/icons-menu",
+  },
+  "icons-volume": {
+    name: "icons-volume",
+    description:
+      "Animated volume icon that morphs smoothly between sound waves and a mute slash with speaker shake effect.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: undefined,
+    files: [
+      {
+        path: "registry/icons/volume/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/icons/volume.tsx",
+      },
+    ],
+    hasSource: true,
+    keywords: [
+      "volume",
+      "audio",
+      "sound",
+      "mute",
+      "speaker",
+      "media",
+      "music",
+      "player",
+    ],
+    releaseDate: "2026-10-31",
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import("@/registry/icons/volume/index.tsx");
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/icons-volume",
+  },
   "lib-scroll-trigger-utils": {
     name: "lib-scroll-trigger-utils",
     description:

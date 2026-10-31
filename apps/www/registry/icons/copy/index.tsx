@@ -99,14 +99,16 @@ function Copy({
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
-        {isTriggered ? (
-          <path d="M20 6 9 17l-5-5" />
-        ) : (
-          <>
-            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-            <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
-          </>
-        )}
+        <g transform="matrix(0.82, 0, 0, 0.82, 2.16, 2.16)">
+          {isTriggered ? (
+            <path d="M20 6 9 17l-5-5" />
+          ) : (
+            <>
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+              <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
+            </>
+          )}
+        </g>
       </motion.svg>
     );
   }
@@ -137,23 +139,25 @@ function Copy({
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <motion.g
-        animate={isTriggered ? "animate" : "initial"}
-        initial="initial"
-        style={{ transformOrigin: "12px 12px" }}
-        variants={copyVariants}
-      >
-        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-        <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
-      </motion.g>
-      <motion.g
-        animate={isTriggered ? "animate" : "initial"}
-        initial="initial"
-        style={{ transformOrigin: "12px 12px" }}
-        variants={checkVariants}
-      >
-        <path d="M20 6 9 17l-5-5" />
-      </motion.g>
+      <g transform="matrix(0.82, 0, 0, 0.82, 2.16, 2.16)">
+        <motion.g
+          animate={isTriggered ? "animate" : "initial"}
+          initial="initial"
+          style={{ transformOrigin: "12px 12px" }}
+          variants={copyVariants}
+        >
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
+        </motion.g>
+        <motion.g
+          animate={isTriggered ? "animate" : "initial"}
+          initial="initial"
+          style={{ transformOrigin: "12px 12px" }}
+          variants={checkVariants}
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </motion.g>
+      </g>
     </motion.svg>
   );
 }
