@@ -33,7 +33,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
-import { Button as RegistryButton } from "@/registry/ui/base/button";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   bigScreen?: boolean;
@@ -350,7 +349,7 @@ export function ComponentPreview({
                     onRefresh={() => setPreviewKey((prev) => prev + 1)}
                   />
 
-                  <RegistryButton
+                  <Button
                     aria-label="Open full page example"
                     className="rounded-lg bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
                     onClick={() =>
@@ -365,7 +364,7 @@ export function ComponentPreview({
                     variant="ghost"
                   >
                     <ExternalLink size={14} />
-                  </RegistryButton>
+                  </Button>
 
                   {iframe ? (
                     <Button

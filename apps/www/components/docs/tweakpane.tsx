@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@workspace/ui/components/ui/button";
 import { Input } from "@workspace/ui/components/ui/input";
 import { Label } from "@workspace/ui/components/ui/label";
 import {
@@ -22,7 +23,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Button } from "@/registry/ui/base/button";
 import { Switch } from "@/registry/ui/base/switch";
 
 interface BaseBindNumber {

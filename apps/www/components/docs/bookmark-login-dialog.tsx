@@ -1,5 +1,6 @@
 "use client";
 
+import { Button, buttonVariants } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import Link from "next/link";
 import {
@@ -9,7 +10,6 @@ import {
   markSigningInForBookmark,
   peekPendingBookmark,
 } from "@/lib/bookmarks/pending-intent";
-import { Button, buttonVariants } from "@/registry/ui/base/button";
 import {
   Dialog,
   DialogClose,

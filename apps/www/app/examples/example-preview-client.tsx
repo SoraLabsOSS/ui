@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@workspace/ui/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -21,7 +22,6 @@ import { RefreshButton } from "@/components/docs/refresh";
 import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
 import { useLenisSmoothScroll } from "@/hooks/use-lenis-smooth-scroll";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
-import { Button } from "@/registry/ui/base/button";
 import { DialKitBridge } from "./dialkit-bridge";
 
 interface ExamplePreviewClientProps {

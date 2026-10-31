@@ -10,7 +10,8 @@ import {
   usePageTransition,
 } from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
-import { COMMUNITY_REPO_URL, GITHUB_REPO_URL, X_PROFILE_URL } from "@/lib/site";
+import { NAV_EXPLORE, NAV_PRODUCTS, NAV_SOCIALS } from "@/lib/navigation";
+import { SocialIcon } from "./social-icons";
 import { UnderNavMarquee } from "./under-nav-marquee";
 
 export interface NavbarProps {
@@ -332,117 +333,45 @@ export function Navbar({
                           <span className="eyebrow">Products</span>
                         </div>
                         <ul className="nav-bar__ul-big">
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/motion"
-                              onClick={(e) => handleLinkClick(e, "/motion")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
+                          {NAV_PRODUCTS.main.map((item, index) => (
+                            <li className="nav-bar__big-li" key={item.label}>
+                              <Link
+                                className="nav-bar__big-a w-inline-block"
+                                data-hover=""
+                                href={item.href}
+                                onClick={(e) => handleLinkClick(e, item.href)}
                               >
-                                Motion Primitives
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/ui"
-                              onClick={(e) => handleLinkClick(e, "/ui")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                UI Foundation
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/catalog"
-                              onClick={(e) => handleLinkClick(e, "/catalog")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                Catalog Showcase
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/icons"
-                              onClick={(e) => handleLinkClick(e, "/icons")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                Animated Icons
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/docs/cli"
-                              onClick={(e) => handleLinkClick(e, "/docs/cli")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                Sora CLI
-                              </span>
-                            </Link>
-                          </li>
+                                <span
+                                  className="nav-bar__big-span"
+                                  data-underline-link=""
+                                >
+                                  {item.label}
+                                </span>
+                              </Link>
+                              {index < NAV_PRODUCTS.main.length - 1 && (
+                                <div className="is--nav-transparent line" />
+                              )}
+                            </li>
+                          ))}
                         </ul>
                         <ul className="nav-bar__small-ul">
-                          <li className="nav-bar__small-li">
-                            <Link
-                              className="nav-bar__small-a w-inline-block"
-                              data-hover=""
-                              href="/ui"
-                              onClick={(e) => handleLinkClick(e, "/ui")}
-                            >
-                              <span
-                                className="nav-bar__small-span"
-                                data-underline-link=""
+                          {NAV_PRODUCTS.sub.map((item) => (
+                            <li className="nav-bar__small-li" key={item.label}>
+                              <Link
+                                className="nav-bar__small-a w-inline-block"
+                                data-hover=""
+                                href={item.href}
+                                onClick={(e) => handleLinkClick(e, item.href)}
                               >
-                                Base UI Components
-                              </span>
-                            </Link>
-                          </li>
-                          <li className="nav-bar__small-li">
-                            <Link
-                              className="nav-bar__small-a w-inline-block"
-                              data-hover=""
-                              href="/ui"
-                              onClick={(e) => handleLinkClick(e, "/ui")}
-                            >
-                              <span
-                                className="nav-bar__small-span"
-                                data-underline-link=""
-                              >
-                                Radix UI Components
-                              </span>
-                            </Link>
-                          </li>
+                                <span
+                                  className="nav-bar__small-span"
+                                  data-underline-link=""
+                                >
+                                  {item.label}
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
                         </ul>
                       </div>
 
@@ -452,225 +381,58 @@ export function Navbar({
                           <span className="eyebrow">Explore</span>
                         </div>
                         <ul className="nav-bar__ul-big">
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/docs"
-                              onClick={(e) => handleLinkClick(e, "/docs")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
+                          {NAV_EXPLORE.map((item, index) => (
+                            <li className="nav-bar__big-li" key={item.label}>
+                              <Link
+                                className="nav-bar__big-a w-inline-block"
+                                data-hover=""
+                                href={item.href}
+                                onClick={(e) => handleLinkClick(e, item.href)}
                               >
-                                Documentation
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/catalog"
-                              onClick={(e) => handleLinkClick(e, "/catalog")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                Catalog Layouts
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/blog"
-                              onClick={(e) => handleLinkClick(e, "/blog")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                Blog
-                              </span>
-                            </Link>
-                            <div className="is--nav-transparent line" />
-                          </li>
-                          <li className="nav-bar__big-li">
-                            <Link
-                              className="nav-bar__big-a w-inline-block"
-                              data-hover=""
-                              href="/pricing"
-                              onClick={(e) => handleLinkClick(e, "/pricing")}
-                            >
-                              <span
-                                className="nav-bar__big-span"
-                                data-underline-link=""
-                              >
-                                Pricing
-                              </span>
-                            </Link>
-                          </li>
+                                <span
+                                  className="nav-bar__big-span"
+                                  data-underline-link=""
+                                >
+                                  {item.label}
+                                </span>
+                              </Link>
+                              {index < NAV_EXPLORE.length - 1 && (
+                                <div className="is--nav-transparent line" />
+                              )}
+                            </li>
+                          ))}
                         </ul>
 
                         {/* Socials */}
                         <div className="nav-bar__socials">
                           <div className="button-row">
-                            {/* GitHub */}
-                            <a
-                              aria-label="GitHub"
-                              className="square-button"
-                              data-button-rotate-hover=""
-                              data-shape="round"
-                              data-size="r"
-                              data-theme=""
-                              href={GITHUB_REPO_URL}
-                              rel="noopener noreferrer"
-                              target="_blank"
-                            >
-                              <div
-                                className="button-bg"
-                                data-wf--button-theme--variant="neutral-600"
-                              />
-                              <div className="button-icon__wrap">
-                                <div className="button-icon">
-                                  <svg
-                                    className="svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                    width="100%"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <title>GitHub</title>
-                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                                  </svg>
+                            {NAV_SOCIALS.map((social) => (
+                              <a
+                                aria-label={social.label}
+                                className="square-button"
+                                data-button-rotate-hover=""
+                                data-shape={social.shape}
+                                data-size="r"
+                                data-theme=""
+                                href={social.href}
+                                key={social.label}
+                                rel="noopener noreferrer"
+                                target="_blank"
+                              >
+                                <div
+                                  className="button-bg"
+                                  data-wf--button-theme--variant="neutral-600"
+                                />
+                                <div className="button-icon__wrap">
+                                  <div className="button-icon">
+                                    <SocialIcon type={social.type} />
+                                  </div>
+                                  <div className="button-icon">
+                                    <SocialIcon type={social.type} />
+                                  </div>
                                 </div>
-                                <div className="button-icon">
-                                  <svg
-                                    className="svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                    width="100%"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <title>GitHub</title>
-                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                                  </svg>
-                                </div>
-                              </div>
-                            </a>
-
-                            {/* X */}
-                            <a
-                              aria-label="X"
-                              className="square-button"
-                              data-button-rotate-hover=""
-                              data-shape=""
-                              data-size="r"
-                              data-theme=""
-                              href={X_PROFILE_URL}
-                              rel="noopener noreferrer"
-                              target="_blank"
-                            >
-                              <div
-                                className="button-bg"
-                                data-wf--button-theme--variant="neutral-600"
-                              />
-                              <div className="button-icon__wrap">
-                                <div className="button-icon">
-                                  <svg
-                                    className="svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    width="100%"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <title>X</title>
-                                    <path
-                                      d="M13.71 10.59L20.41 2.79999H18.82L13 9.55999L8.35 2.79999H3L10.03 13.03L3 21.2H4.59L10.73 14.06L15.64 21.2H21L13.71 10.59ZM11.54 13.12L10.83 12.1L5.16 3.99999H7.6L12.17 10.54L12.88 11.56L18.82 20.06H16.38L11.53 13.12H11.54Z"
-                                      fill="currentColor"
-                                    />
-                                  </svg>
-                                </div>
-                                <div className="button-icon">
-                                  <svg
-                                    className="svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    width="100%"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <title>X</title>
-                                    <path
-                                      d="M13.71 10.59L20.41 2.79999H18.82L13 9.55999L8.35 2.79999H3L10.03 13.03L3 21.2H4.59L10.73 14.06L15.64 21.2H21L13.71 10.59ZM11.54 13.12L10.83 12.1L5.16 3.99999H7.6L12.17 10.54L12.88 11.56L18.82 20.06H16.38L11.53 13.12H11.54Z"
-                                      fill="currentColor"
-                                    />
-                                  </svg>
-                                </div>
-                              </div>
-                            </a>
-
-                            {/* Community */}
-                            <a
-                              aria-label="Community"
-                              className="square-button"
-                              data-button-rotate-hover=""
-                              data-shape="round"
-                              data-size="r"
-                              data-theme=""
-                              href={COMMUNITY_REPO_URL}
-                              rel="noopener noreferrer"
-                              target="_blank"
-                            >
-                              <div
-                                className="button-bg"
-                                data-wf--button-theme--variant="neutral-600"
-                              />
-                              <div className="button-icon__wrap">
-                                <div className="button-icon">
-                                  <svg
-                                    className="svg"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                    width="100%"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <title>Community</title>
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                    <circle cx="9" cy="7" r="4" />
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                  </svg>
-                                </div>
-                                <div className="button-icon">
-                                  <svg
-                                    className="svg"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                    width="100%"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <title>Community</title>
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                    <circle cx="9" cy="7" r="4" />
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                  </svg>
-                                </div>
-                              </div>
-                            </a>
+                              </a>
+                            ))}
                           </div>
                         </div>
                       </div>

@@ -11,61 +11,12 @@ import {
 } from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import {
-  COMMUNITY_ISSUES_URL,
-  COMMUNITY_REPO_URL,
-  CONTACT_EMAIL,
-  GITHUB_REPO_URL,
-  STUDIO_URL,
-  X_PROFILE_URL,
-} from "@/lib/site";
-
-interface FooterLink {
-  external?: boolean;
-  href: string;
-  label: string;
-}
-
-interface FooterColumn {
-  id: string;
-  links: FooterLink[];
-  title: string;
-}
-
-const FOOTER_COLUMNS: FooterColumn[] = [
-  {
-    id: "components",
-    title: "Components",
-    links: [
-      { label: "Motion Primitives", href: "/motion" },
-      { label: "UI Foundation", href: "/ui" },
-      { label: "Catalog Showcase", href: "/catalog" },
-      { label: "Animated Icons", href: "/icons" },
-      { label: "Sora CLI", href: "/docs/cli" },
-    ],
-  },
-  {
-    id: "documentation",
-    title: "Documentation",
-    links: [
-      { label: "Introduction", href: "/docs" },
-      { label: "Base UI & Radix", href: "/ui" },
-      { label: "Changelog", href: "/docs/changelog" },
-      { label: "Troubleshooting", href: "/docs/installation#troubleshooting" },
-    ],
-  },
-  {
-    id: "community",
-    title: "Community",
-    links: [
-      { label: "GitHub", href: GITHUB_REPO_URL, external: true },
-      { label: "Community Hub", href: COMMUNITY_REPO_URL, external: true },
-      { label: "Blog", href: "/blog" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Report an Issue", href: COMMUNITY_ISSUES_URL, external: true },
-      { label: "Support", href: `mailto:${CONTACT_EMAIL}`, external: true },
-    ],
-  },
-];
+  FOOTER_COLUMNS,
+  FOOTER_CREATORS,
+  FOOTER_LEGAL_LINKS,
+  NAV_SOCIALS,
+} from "@/lib/navigation";
+import { SocialIcon } from "./social-icons";
 
 function AccordionToggleSvg() {
   return (
@@ -81,61 +32,6 @@ function AccordionToggleSvg() {
         d="M5.96149 12.0996V6.99217H0.839844V5.20705H5.96149V0.0996094H7.74294V5.20705H12.8398V6.99217H7.74294V12.0996H5.96149Z"
         fill="currentColor"
       />
-    </svg>
-  );
-}
-
-function GithubSvg() {
-  return (
-    <svg
-      className="svg"
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      width="100%"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>GitHub</title>
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-    </svg>
-  );
-}
-
-function XSvg() {
-  return (
-    <svg
-      className="svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      width="100%"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>X</title>
-      <path
-        d="M13.71 10.59L20.41 2.79999H18.82L13 9.55999L8.35 2.79999H3L10.03 13.03L3 21.2H4.59L10.73 14.06L15.64 21.2H21L13.71 10.59ZM11.54 13.12L10.83 12.1L5.16 3.99999H7.6L12.17 10.54L12.88 11.56L18.82 20.06H16.38L11.53 13.12H11.54Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-function CommunitySvg() {
-  return (
-    <svg
-      className="svg"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      width="100%"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>Community</title>
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   );
 }
@@ -412,83 +308,33 @@ export function Footer() {
                     </div>
                     <div className="w-full max-w-[13.375em] max-[767px]:w-auto max-[767px]:max-w-none">
                       <div className="button-row">
-                        {/* GitHub */}
-                        <a
-                          aria-label="GitHub"
-                          className="square-button"
-                          data-button-rotate-hover=""
-                          data-shape="round"
-                          data-size="r"
-                          data-theme=""
-                          href={GITHUB_REPO_URL}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-300"
-                          />
-                          <div className="button-icon__wrap">
-                            <div className="button-icon">
-                              <GithubSvg />
+                        {NAV_SOCIALS.map((social) => (
+                          <a
+                            aria-label={social.label}
+                            className="square-button"
+                            data-button-rotate-hover=""
+                            data-shape={social.shape}
+                            data-size="r"
+                            data-theme=""
+                            href={social.href}
+                            key={social.label}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            <div
+                              className="button-bg"
+                              data-wf--button-theme--variant="neutral-300"
+                            />
+                            <div className="button-icon__wrap">
+                              <div className="button-icon">
+                                <SocialIcon type={social.type} />
+                              </div>
+                              <div className="button-icon">
+                                <SocialIcon type={social.type} />
+                              </div>
                             </div>
-                            <div className="button-icon">
-                              <GithubSvg />
-                            </div>
-                          </div>
-                        </a>
-
-                        {/* X (Twitter) */}
-                        <a
-                          aria-label="X"
-                          className="square-button"
-                          data-button-rotate-hover=""
-                          data-shape=""
-                          data-size="r"
-                          data-theme=""
-                          href={X_PROFILE_URL}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-300"
-                          />
-                          <div className="button-icon__wrap">
-                            <div className="button-icon">
-                              <XSvg />
-                            </div>
-                            <div className="button-icon">
-                              <XSvg />
-                            </div>
-                          </div>
-                        </a>
-
-                        {/* Community */}
-                        <a
-                          aria-label="Community"
-                          className="square-button"
-                          data-button-rotate-hover=""
-                          data-shape="round"
-                          data-size="r"
-                          data-theme=""
-                          href={COMMUNITY_REPO_URL}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-300"
-                          />
-                          <div className="button-icon__wrap">
-                            <div className="button-icon">
-                              <CommunitySvg />
-                            </div>
-                            <div className="button-icon">
-                              <CommunitySvg />
-                            </div>
-                          </div>
-                        </a>
+                          </a>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -507,114 +353,68 @@ export function Footer() {
                       className="flex max-w-full flex-wrap items-center justify-center"
                       role="list"
                     >
-                      {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div className="w-dyn-item" role="listitem">
-                        <a
-                          className="button tag w-inline-block"
-                          data-button-rotate=""
-                          data-button-rotate-hover=""
-                          data-shape="square"
-                          data-theme=""
-                          href="https://github.com/SoraLabsOSS/ui/blob/main/LICENSE"
-                          rel="noopener noreferrer"
-                          target="_blank"
+                      {FOOTER_LEGAL_LINKS.map((link) => (
+                        // biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item
+                        <div
+                          className="w-dyn-item"
+                          key={link.label}
+                          role="listitem"
                         >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-800"
-                          />
-                          <div className="button-label__wrap">
-                            <span className="button-label eyebrow">
-                              License
-                            </span>
-                            <span
-                              aria-hidden="true"
-                              className="button-label eyebrow"
+                          {link.external ? (
+                            <a
+                              className="button tag w-inline-block"
+                              data-button-rotate=""
+                              data-button-rotate-hover=""
+                              data-shape={link.shape}
+                              data-theme=""
+                              href={link.href}
+                              rel="noopener noreferrer"
+                              target="_blank"
                             >
-                              License
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div className="w-dyn-item" role="listitem">
-                        <Link
-                          className="button tag w-inline-block"
-                          data-button-rotate=""
-                          data-button-rotate-hover=""
-                          data-shape="round"
-                          data-theme=""
-                          href="/legal/terms"
-                        >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-800"
-                          />
-                          <div className="button-label__wrap">
-                            <span className="button-label eyebrow">Terms</span>
-                            <span
-                              aria-hidden="true"
-                              className="button-label eyebrow"
+                              <div
+                                className="button-bg"
+                                data-wf--button-theme--variant="neutral-800"
+                              />
+                              <div className="button-label__wrap">
+                                <span className="button-label eyebrow">
+                                  {link.label}
+                                </span>
+                                <span
+                                  aria-hidden="true"
+                                  className="button-label eyebrow"
+                                >
+                                  {link.label}
+                                </span>
+                              </div>
+                            </a>
+                          ) : (
+                            <Link
+                              className="button tag w-inline-block"
+                              data-button-rotate=""
+                              data-button-rotate-hover=""
+                              data-shape={link.shape}
+                              data-theme=""
+                              href={link.href}
                             >
-                              Terms
-                            </span>
-                          </div>
-                        </Link>
-                      </div>
-                      {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div className="w-dyn-item" role="listitem">
-                        <Link
-                          className="button tag w-inline-block"
-                          data-button-rotate=""
-                          data-button-rotate-hover=""
-                          data-shape="square"
-                          data-theme=""
-                          href="/legal/privacy"
-                        >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-800"
-                          />
-                          <div className="button-label__wrap">
-                            <span className="button-label eyebrow">
-                              Privacy
-                            </span>
-                            <span
-                              aria-hidden="true"
-                              className="button-label eyebrow"
-                            >
-                              Privacy
-                            </span>
-                          </div>
-                        </Link>
-                      </div>
-                      {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item */}
-                      <div className="w-dyn-item" role="listitem">
-                        <a
-                          className="button tag w-inline-block"
-                          data-button-rotate=""
-                          data-button-rotate-hover=""
-                          data-shape="round"
-                          data-theme=""
-                          href={COMMUNITY_REPO_URL}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <div
-                            className="button-bg"
-                            data-wf--button-theme--variant="neutral-800"
-                          />
-                          <div className="button-label__wrap">
-                            <span className="button-label eyebrow">Hub</span>
-                            <span
-                              aria-hidden="true"
-                              className="button-label eyebrow"
-                            >
-                              Hub
-                            </span>
-                          </div>
-                        </a>
-                      </div>
+                              <div
+                                className="button-bg"
+                                data-wf--button-theme--variant="neutral-800"
+                              />
+                              <div className="button-label__wrap">
+                                <span className="button-label eyebrow">
+                                  {link.label}
+                                </span>
+                                <span
+                                  aria-hidden="true"
+                                  className="button-label eyebrow"
+                                >
+                                  {link.label}
+                                </span>
+                              </div>
+                            </Link>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -630,58 +430,35 @@ export function Footer() {
                 <div className="order-none flex items-center justify-end gap-[var(--gap-xxs)] max-[767px]:order-[-1]">
                   <span className="eyebrow">created by</span>
                   <div className="button-row">
-                    <a
-                      className="button tag w-inline-block"
-                      data-button-rotate=""
-                      data-button-rotate-hover=""
-                      data-shape=""
-                      data-theme=""
-                      href="https://github.com/SoraLabsOSS"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <div
-                        className="button-bg"
-                        data-wf--button-theme--variant="electric"
-                      />
-                      <div className="button-label__wrap">
-                        <span className="button-label eyebrow text-white">
-                          sora
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="button-label eyebrow text-white"
-                        >
-                          sora
-                        </span>
-                      </div>
-                    </a>
-                    <a
-                      className="button tag w-inline-block"
-                      data-button-rotate=""
-                      data-button-rotate-hover=""
-                      data-shape="round"
-                      data-theme=""
-                      href={STUDIO_URL}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <div
-                        className="button-bg"
-                        data-wf--button-theme--variant="electric"
-                      />
-                      <div className="button-label__wrap">
-                        <span className="button-label eyebrow text-white">
-                          labs
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="button-label eyebrow text-white"
-                        >
-                          labs
-                        </span>
-                      </div>
-                    </a>
+                    {FOOTER_CREATORS.map((creator) => (
+                      <a
+                        className="button tag w-inline-block"
+                        data-button-rotate=""
+                        data-button-rotate-hover=""
+                        data-shape={creator.shape}
+                        data-theme=""
+                        href={creator.href}
+                        key={creator.label}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <div
+                          className="button-bg"
+                          data-wf--button-theme--variant="electric"
+                        />
+                        <div className="button-label__wrap">
+                          <span className="button-label eyebrow text-white">
+                            {creator.label}
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            className="button-label eyebrow text-white"
+                          >
+                            {creator.label}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>

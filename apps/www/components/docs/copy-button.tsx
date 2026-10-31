@@ -1,10 +1,10 @@
 "use client";
 
+import { Button, type ButtonProps } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { useCallback } from "react";
 import { useControlledState } from "@/registry/hooks/use-controlled-state";
 import { CopyIcon } from "@/registry/icons/copy";
-import { Button, type ButtonProps } from "@/registry/ui/base/button";
 
 type CopyButtonProps = Omit<ButtonProps, "children"> & {
   content?: string;
