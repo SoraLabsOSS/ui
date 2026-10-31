@@ -6,6 +6,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { ExternalLink, Fullscreen, Loader } from "lucide-react";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import {
+  type ReactNode,
   Suspense,
   useCallback,
   useEffect,
@@ -13,16 +14,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { index, loadComponentSource } from "@/__registry__";
+import { index, loadComponentHtml, loadComponentSource } from "@/__registry__";
+import { CodeBlock, Pre } from "@/components/docs/codeblock";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 import { RefreshButton } from "@/components/docs/refresh";
 import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
-import {
-  extractPropsForCodegen,
-  generateUsageExampleCode,
-  installImportPathFromTarget,
-} from "@/lib/docs/generate-usage-example-code";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 import {
   Tabs,
@@ -104,11 +101,6 @@ function resolveUsageCodeEntry(
   return index[previewName] as RegistryIndexEntry | undefined;
 }
 
-/** Physical demo folder on disk — not the synthetic code-only `demo-*` entry. */
-function isManualUsageDemo(entry: RegistryIndexEntry | undefined): boolean {
-  return Boolean(entry?.component && (entry.hasSource || entry.files?.length));
-}
-
 export function ComponentPreview({
   name,
   demo,
@@ -126,6 +118,7 @@ export function ComponentPreview({
   const [previewKey, setPreviewKey] = useState(0);
   const [activeTab, setActiveTab] = useState("preview");
   const [staticContent, setStaticContent] = useState<string | null>(null);
+  const [staticHtml, setStaticHtml] = useState<string | null>(null);
   const previousPropsSnapshot = useRef<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(previewRef, {
@@ -143,9 +136,6 @@ export function ComponentPreview({
     return {
       sourceName,
       title: file?.target?.split("/").pop() ?? `${demo ?? `demo-${name}`}.tsx`,
-      installTarget: (index[name] as RegistryIndexEntry | undefined)?.files?.[0]
-        ?.target,
-      manualDemo: isManualUsageDemo(entry),
     };
   }, [name, demo]);
 
@@ -156,15 +146,27 @@ export function ComponentPreview({
   const [previewHeight, setPreviewHeight] = useState(496);
 
   const preloadSource = useCallback(() => {
-    if (staticContent !== null || !sourceName) {
+    if ((staticContent !== null && staticHtml !== null) || !sourceName) {
       return;
     }
-    loadComponentSource(sourceName).then((code) => {
+    Promise.all([
+      loadComponentSource(sourceName),
+      loadComponentHtml(sourceName),
+    ]).then(([code, html]) => {
       if (code) {
         setStaticContent(code);
       }
+      if (html) {
+        setStaticHtml(html);
+      }
     });
-  }, [sourceName, staticContent]);
+  }, [sourceName, staticContent, staticHtml]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset static code on source change
+  useEffect(() => {
+    setStaticContent(null);
+    setStaticHtml(null);
+  }, [sourceName]);
 
   useEffect(() => {
     if (isInView) {
@@ -194,28 +196,6 @@ export function ComponentPreview({
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  const displayCode = useMemo(() => {
-    const { installTarget, manualDemo } = usageCodeMeta;
-
-    if (
-      !manualDemo &&
-      Object.keys(demoPropsConfig).length > 0 &&
-      componentProps &&
-      installTarget
-    ) {
-      const extracted = extractPropsForCodegen(demoPropsConfig, componentProps);
-      if (extracted) {
-        return generateUsageExampleCode({
-          componentName: extracted.componentName,
-          importPath: installImportPathFromTarget(installTarget),
-          props: extracted.props,
-        });
-      }
-    }
-
-    return staticContent;
-  }, [demoPropsConfig, componentProps, usageCodeMeta, staticContent]);
 
   const preview = useMemo(() => {
     if (!isInView) {
@@ -283,6 +263,52 @@ export function ComponentPreview({
     previousPropsSnapshot.current = snapshot;
     setPreviewKey((current) => current + 1);
   }, [componentProps]);
+
+  let codeBlockNode: ReactNode;
+  if (staticHtml) {
+    codeBlockNode = (
+      <CodeBlock
+        className="my-0 rounded-none border-0"
+        code={staticContent ?? undefined}
+        icon={<ReactIcon />}
+        title={usageCodeMeta.title}
+      >
+        <div
+          className="w-full text-sm [&_pre]:my-0 [&_pre]:bg-transparent [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
+          dangerouslySetInnerHTML={{ __html: staticHtml }}
+          data-code-block
+        />
+      </CodeBlock>
+    );
+  } else if (staticContent) {
+    codeBlockNode = (
+      <DynamicCodeBlock
+        code={staticContent}
+        icon={<ReactIcon />}
+        lang="tsx"
+        loadingMinHeight={previewHeight}
+        title={usageCodeMeta.title}
+      />
+    );
+  } else {
+    codeBlockNode = (
+      <CodeBlock
+        allowCopy={false}
+        className="my-0 rounded-none border-0"
+        icon={<ReactIcon />}
+        title={usageCodeMeta.title}
+      >
+        <Pre
+          className="flex items-center justify-center gap-2 text-muted-foreground"
+          style={{ minHeight: `${previewHeight}px` }}
+        >
+          <Loader aria-hidden className="size-4 animate-spin" />
+          <span className="text-sm">Loading code…</span>
+        </Pre>
+      </CodeBlock>
+    );
+  }
 
   return (
     <div
@@ -517,13 +543,7 @@ export function ComponentPreview({
               >
                 {shouldRenderCode ? (
                   <div className="relative w-full overflow-hidden [&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-none [&_.fd-codeblock]:border-0 [&_[data-slot=codeblock-viewport]]:max-h-[500px]">
-                    <DynamicCodeBlock
-                      code={displayCode ?? undefined}
-                      icon={<ReactIcon />}
-                      lang="tsx"
-                      loadingMinHeight={previewHeight}
-                      title={usageCodeMeta.title}
-                    />
+                    {codeBlockNode}
                   </div>
                 ) : null}
               </TabsContent>

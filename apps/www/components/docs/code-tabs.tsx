@@ -64,10 +64,6 @@ function getInitialHighlightedCodes(
 ): Record<string, string> {
   const result: Record<string, string> = {};
   for (const [command, val] of Object.entries(codes)) {
-    if (lang === "bash") {
-      result[command] = highlightBashCommandSync(val);
-      continue;
-    }
     const key = `${lang}:${theme}:${val}`;
     result[command] = cliHighlightCache.get(key) ?? buildFallbackHtml(val);
   }
@@ -161,10 +157,6 @@ function CodeTabs({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: codesKey tracks code content changes stably
   useEffect(() => {
-    if (lang === "bash") {
-      return;
-    }
-
     let cancelled = false;
 
     async function loadHighlightedCode() {
