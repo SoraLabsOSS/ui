@@ -230,6 +230,7 @@ validate the metadata contract.
 - Expose a **`ref`** on the root element where practical (React 19 style: `ref` as a normal prop).
 - Full Tailwind CSS class override support via `cn(...)` so consumers can customize borders, sizes, and colors just like shadcn/ui.
 - External inspiration: set **`meta.inspiration`** on `registry-item.json` and add **`## Credits`** with `<ComponentCredits name="..." />` in the doc.
+- **Multi-file components**: For complex components split across files, keep source files flat in `registry/.../<name>/`. Set `files[0]` to `index.tsx` (target: `components/sora-ui/.../<name>.tsx`), and helper submodules targeting subfolders (`components/sora-ui/.../<name>/<submodule>.ts`). Put shared types/constants in `defs.ts` or `core.ts` without importing back from `index.tsx`. `bun run registry:build` will automatically rewrite relative imports for the published registry. For 4+ files, optionally specify `meta.fileGroups` in `registry-item.json` (auto-fallback: 1–3 files flat, 4+ files grouped into "Main component" and "Internal implementation").
 
 ## Registry item (`registry-item.json`)
 

@@ -57,6 +57,24 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
   };
 };
 
+export interface ManualInstallFile {
+  content?: string;
+  path: string;
+  target?: string;
+}
+
+export interface RegistryFileGroupConfig {
+  description?: string;
+  files: string[];
+  title: string;
+}
+
+export interface ManualFileGroup {
+  description?: string;
+  files: ManualInstallFile[];
+  title: string;
+}
+
 export interface ComponentManualInstallationProps {
   afterSteps?: ReactNode;
   beforeSteps?: ReactNode;
@@ -64,6 +82,8 @@ export interface ComponentManualInstallationProps {
   code?: string;
   dependencies?: string[];
   devDependencies?: string[];
+  fileGroups?: RegistryFileGroupConfig[];
+  files?: ManualInstallFile[];
   html?: string;
   isActive?: boolean;
   path?: string;
@@ -136,7 +156,12 @@ const ManualCodeViewer = ({
   let codeBlockNode: ReactNode;
   if (activeHtml) {
     codeBlockNode = (
-      <CodeBlock className="my-0" code={code} icon={<ReactIcon />} title={path}>
+      <CodeBlock
+        className="my-0 rounded-xl border-0"
+        code={code}
+        icon={<ReactIcon />}
+        title={path}
+      >
         <div
           className="w-full text-sm [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
@@ -149,7 +174,7 @@ const ManualCodeViewer = ({
     codeBlockNode = (
       <CodeBlock
         allowCopy={false}
-        className="my-0"
+        className="my-0 rounded-xl border-0"
         icon={<ReactIcon />}
         title={path}
       >
@@ -164,6 +189,7 @@ const ManualCodeViewer = ({
   } else {
     codeBlockNode = (
       <DynamicCodeBlock
+        className="my-0 rounded-xl border-0"
         code={code}
         icon={<ReactIcon />}
         lang="tsx"
@@ -175,10 +201,10 @@ const ManualCodeViewer = ({
   }
 
   return (
-    <div className="relative overflow-hidden" style={{ contain: "paint" }}>
+    <div className="relative overflow-hidden rounded-xl border border-border/60">
       <motion.div
         animate={{ height: isOpened && isCodeReady ? "auto" : 128 }}
-        className="overflow-hidden"
+        className="overflow-hidden rounded-xl"
         initial={false}
         transition={
           prefersReducedMotion
@@ -186,7 +212,7 @@ const ManualCodeViewer = ({
             : { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
         }
       >
-        <div className="[&_code]:pb-16 [&_pre]:my-0 [&_pre]:max-h-[650px] [&_pre]:p-4 [&_pre]:focus-visible:outline-none">
+        <div className="[&_.fd-codeblock]:my-0 [&_.fd-codeblock]:rounded-xl [&_.fd-codeblock]:border-0 [&_code]:pb-16 [&_pre]:my-0 [&_pre]:max-h-[650px] [&_pre]:p-4 [&_pre]:focus-visible:outline-none">
           {codeBlockNode}
         </div>
       </motion.div>
@@ -217,6 +243,136 @@ const ManualCodeViewer = ({
   );
 };
 
+function resolveFileGroups(
+  files: ManualInstallFile[],
+  groupConfigs?: RegistryFileGroupConfig[]
+): ManualFileGroup[] | null {
+  if (groupConfigs && groupConfigs.length > 0) {
+    const assignedFiles = new Set<ManualInstallFile>();
+    const groups: ManualFileGroup[] = [];
+
+    for (const config of groupConfigs) {
+      const matched = files.filter((f) => {
+        if (assignedFiles.has(f)) {
+          return false;
+        }
+        const filename = f.path.split("/").pop();
+        const targetname = f.target?.split("/").pop();
+        return config.files.some(
+          (pattern) =>
+            pattern === f.path ||
+            pattern === f.target ||
+            pattern === filename ||
+            pattern === targetname ||
+            f.path.endsWith(`/${pattern}`) ||
+            Boolean(f.target?.endsWith(`/${pattern}`))
+        );
+      });
+
+      if (matched.length > 0) {
+        for (const m of matched) {
+          assignedFiles.add(m);
+        }
+        groups.push({
+          title: config.title,
+          description: config.description,
+          files: matched,
+        });
+      }
+    }
+
+    const remaining = files.filter((f) => !assignedFiles.has(f));
+    if (remaining.length > 0) {
+      groups.push({
+        title: "Internal implementation",
+        files: remaining,
+      });
+    }
+
+    return groups.length > 0 ? groups : null;
+  }
+
+  // Automatic smart grouping when files >= 4 and no custom groups specified
+  if (files.length >= 4) {
+    const mainFile = files[0];
+    if (!mainFile) {
+      return null;
+    }
+    return [
+      {
+        title: "Main component",
+        files: [mainFile],
+      },
+      {
+        title: "Internal implementation",
+        files: files.slice(1),
+      },
+    ];
+  }
+
+  return null;
+}
+
+interface ManualFilesListProps {
+  fileGroups: ManualFileGroup[] | null;
+  files: ManualInstallFile[];
+  isActive: boolean;
+  shouldRenderCode: boolean;
+}
+
+const ManualFilesList = ({
+  fileGroups,
+  files,
+  isActive,
+  shouldRenderCode,
+}: ManualFilesListProps) => {
+  if (fileGroups) {
+    return (
+      <div className="flex flex-col gap-6">
+        {fileGroups.map((group) => (
+          <div className="flex flex-col gap-2.5" key={group.title}>
+            <div className="flex flex-col gap-0.5">
+              <span className="font-semibold text-foreground text-sm tracking-tight">
+                {group.title}
+              </span>
+              {group.description && (
+                <p className="text-muted-foreground text-xs">
+                  {group.description}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-col gap-3">
+              {group.files.map((file) => (
+                <ManualCodeViewer
+                  code={file.content}
+                  isActive={isActive}
+                  key={file.path}
+                  path={file.target || file.path}
+                  shouldRenderCode={shouldRenderCode}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {files.map((file) => (
+        <ManualCodeViewer
+          code={file.content}
+          isActive={isActive}
+          key={file.path}
+          path={file.target || file.path}
+          shouldRenderCode={shouldRenderCode}
+        />
+      ))}
+    </div>
+  );
+};
+
 export const ComponentManualInstallation = ({
   path,
   dependencies,
@@ -224,6 +380,8 @@ export const ComponentManualInstallation = ({
   registryDependencies,
   code,
   html,
+  fileGroups,
+  files,
   isActive = true,
   beforeSteps,
   afterSteps,
@@ -245,6 +403,12 @@ export const ComponentManualInstallation = ({
   const registryDepsCommands = useMemo(
     () => getRegistryDepsCommands(registryDependencies),
     [regDepsKey]
+  );
+
+  const fileGroupsResolved = useMemo(
+    () =>
+      files && files.length > 1 ? resolveFileGroups(files, fileGroups) : null,
+    [files, fileGroups]
   );
 
   return (
@@ -277,19 +441,30 @@ export const ComponentManualInstallation = ({
           </Step>
         )}
 
-        {(code !== undefined || Boolean(path)) && (
+        {(code !== undefined || Boolean(path) || files?.length) && (
           <Step>
             <h4 className="pt-1 pb-4">
-              Copy and paste the following code into your project:
+              {files && files.length > 1
+                ? "Create each file below at the path shown in its header:"
+                : "Copy and paste the following code into your project:"}
             </h4>
-            <ManualCodeViewer
-              code={code}
-              html={html}
-              isActive={isActive}
-              key={path || "manual-viewer"}
-              path={path}
-              shouldRenderCode={shouldRenderCode}
-            />
+            {files && files.length > 1 ? (
+              <ManualFilesList
+                fileGroups={fileGroupsResolved}
+                files={files}
+                isActive={isActive}
+                shouldRenderCode={shouldRenderCode}
+              />
+            ) : (
+              <ManualCodeViewer
+                code={code}
+                html={html}
+                isActive={isActive}
+                key={path || "manual-viewer"}
+                path={path}
+                shouldRenderCode={shouldRenderCode}
+              />
+            )}
           </Step>
         )}
 

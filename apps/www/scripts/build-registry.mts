@@ -285,6 +285,65 @@ function replaceRegistryPaths(inputStr: string): string {
   });
 }
 
+const RELATIVE_SPECIFIER_RE = /(["'])(\.{1,2}\/[^"'\n]+)\1/g;
+const TS_EXTENSION_RE = /\.tsx?$/;
+const INDEX_FILE_SUFFIX = "/index.tsx";
+
+/**
+ * Re-point relative imports at the published layout, which may differ from the
+ * source layout (e.g. `index.tsx` installs one level above its modules).
+ */
+function rewriteRelativeImportTargets<
+  T extends { path: string; target?: string; content?: string },
+>(files: T[]): T[] {
+  const targetsByImportKey = new Map<string, string>();
+
+  for (const file of files) {
+    if (!file.target) {
+      continue;
+    }
+    const sourcePath = file.path.replace(/\\/g, "/");
+    targetsByImportKey.set(sourcePath, file.target);
+    targetsByImportKey.set(
+      sourcePath.replace(TS_EXTENSION_RE, ""),
+      file.target
+    );
+    if (sourcePath.endsWith(INDEX_FILE_SUFFIX)) {
+      targetsByImportKey.set(
+        sourcePath.slice(0, -INDEX_FILE_SUFFIX.length),
+        file.target
+      );
+    }
+  }
+
+  return files.map((file) => {
+    if (!(file.target && file.content)) {
+      return file;
+    }
+    const targetDir = path.posix.dirname(file.target);
+    const sourceDir = path.posix.dirname(file.path.replace(/\\/g, "/"));
+    const content = file.content.replace(
+      RELATIVE_SPECIFIER_RE,
+      (match, quote: string, specifier: string) => {
+        const dependencyTarget = targetsByImportKey.get(
+          path.posix.join(sourceDir, specifier).replace(TS_EXTENSION_RE, "")
+        );
+        if (!dependencyTarget) {
+          return match;
+        }
+        const relative = path.posix
+          .relative(targetDir, dependencyTarget)
+          .replace(TS_EXTENSION_RE, "");
+        const specifierPath = relative.startsWith(".")
+          ? relative
+          : `./${relative}`;
+        return `${quote}${specifierPath}${quote}`;
+      }
+    );
+    return { ...file, content };
+  });
+}
+
 const SHADCN_BUILTIN_REGISTRY_DEPS = new Set(["utils"]);
 
 function normalizeRegistryDependencyName(dependency: string): string {
@@ -680,6 +739,7 @@ export const previewComponents: Record<string, any> = {`;
         name: item.name,
         code: filesWithContent[0]?.content ?? "",
         files: filesWithContent,
+        fileGroups: item.meta?.fileGroups,
       });
       sourcesLoadersList.push(
         `  "${item.name}": () => import("./sources/${item.name}.json"),`
@@ -701,6 +761,7 @@ export const previewComponents: Record<string, any> = {`;
     devDependencies: ${JSON.stringify(item.devDependencies)},
     registryDependencies: ${JSON.stringify(item.registryDependencies)},
     files: ${JSON.stringify(filesMetadata, null, 2)},
+    fileGroups: ${JSON.stringify(item.meta?.fileGroups ?? null)},
     hasSource: ${filesWithContent.length > 0},
     keywords: ${JSON.stringify(item.meta?.keywords ?? [])},
     releaseDate: ${JSON.stringify(item.meta?.releaseDate ?? null)},
@@ -836,8 +897,9 @@ export const previewComponents: Record<string, any> = {`;
         }
       })
     );
+    const publishedFiles = rewriteRelativeImportTargets(filesWithContent);
 
-    appendIndexEntry(item as RegistryItem, filesWithContent, {
+    appendIndexEntry(item as RegistryItem, publishedFiles, {
       componentPath,
     });
     appendPreviewEntry(item as RegistryItem, { componentPath });
@@ -1139,20 +1201,24 @@ async function buildRegistry() {
       const registryItem = JSON.parse(content);
 
       // Replace `@/registry` in file contents and normalize line endings to LF
-      registryItem.files = registryItem.files?.map(
-        (entry: RegistryItemFile & { content?: string }) => {
-          if (entry.content) {
-            entry.content = entry.content.replace(/\r\n/g, "\n");
-          }
-          if (
-            entry.content?.includes("@/registry") ||
-            entry.content?.includes("@workspace/ui/")
-          ) {
-            entry.content = replaceRegistryPaths(entry.content);
-          }
-          return entry;
-        }
-      );
+      if (registryItem.files) {
+        registryItem.files = rewriteRelativeImportTargets(
+          registryItem.files.map(
+            (entry: RegistryItemFile & { content?: string }) => {
+              if (entry.content) {
+                entry.content = entry.content.replace(/\r\n/g, "\n");
+              }
+              if (
+                entry.content?.includes("@/registry") ||
+                entry.content?.includes("@workspace/ui/")
+              ) {
+                entry.content = replaceRegistryPaths(entry.content);
+              }
+              return entry;
+            }
+          )
+        );
+      }
 
       if (file === "registry.json") {
         assertRegistryCatalog(registryItem, file);

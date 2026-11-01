@@ -150,6 +150,7 @@ registry/
 - Expose a forwarded `ref` prop (React 19 style: `ref` as a normal prop, not `forwardRef`) on the root element where practical.
 - Full Tailwind CSS class override support via `cn(...)` so consumers can override sizes, borders, and colors seamlessly.
 - When borrowing UX/animation ideas or a full implementation from an external library/site, set `meta.inspiration` (`type: "inspired"` or `"reimplemented"`) on the registry-item.json and add a `## Credits` section with `<ComponentCredits name="..." />` in the doc.
+- **Multi-file components**: Keep source files flat as siblings next to `index.tsx` in `registry/.../<name>/`. Always put `index.tsx` at `files[0]` with root target (`components/sora-ui/.../<name>.tsx`), and helper submodules in a subfolder target (`components/sora-ui/.../<name>/<module>.ts`). Place shared types/constants in `defs.ts` or `core.ts` — submodules must never import back from `index.tsx`. `registry:build` automatically rewrites sibling imports to target paths. For 4+ files, optionally add `meta.fileGroups` in `registry-item.json` (auto-fallback: 1–3 files flat, 4+ files split into "Main component" & "Internal implementation").
 
 ### apps/www app structure
 

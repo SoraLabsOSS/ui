@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@workspace/ui/lib/utils";
 import {
   type HTMLMotionProps,
   motion,
@@ -233,6 +234,14 @@ function TabsContents({
   const roRef = useRef<ResizeObserver | null>(null);
   const rafRef = useRef<number | null>(null);
 
+  const [animatingFrom, setAnimatingFrom] = useState<number | null>(null);
+  const prevActiveRef = useRef(activeIndex);
+
+  if (prevActiveRef.current !== activeIndex) {
+    setAnimatingFrom(prevActiveRef.current);
+    prevActiveRef.current = activeIndex;
+  }
+
   const scheduleHeight = useCallback((next: number) => {
     if (next <= 0) {
       return;
@@ -310,16 +319,29 @@ function TabsContents({
     };
   }, [activeIndex, measure, scheduleHeight]);
 
+  const isInitialRef = useRef(true);
+
+  useEffect(() => {
+    isInitialRef.current = false;
+  }, []);
+
   const contentsTransition = prefersReducedMotion
     ? { duration: 0 }
     : transition;
 
-  const heightTransition: Transition = prefersReducedMotion
-    ? { duration: 0 }
-    : ((transition as { height?: Transition })?.height ?? {
-        duration: 0.3,
-        ease: [0.16, 1, 0.3, 1],
-      });
+  const heightTransition: Transition =
+    prefersReducedMotion || isInitialRef.current
+      ? { duration: 0 }
+      : ((transition as { height?: Transition })?.height ?? {
+          duration: 0.3,
+          ease: [0.16, 1, 0.3, 1],
+        });
+
+  const handleAnimationComplete: HTMLMotionProps<"div">["onAnimationComplete"] =
+    (definition) => {
+      setAnimatingFrom(null);
+      onAnimationComplete?.(definition);
+    };
 
   return (
     <motion.div
@@ -335,7 +357,7 @@ function TabsContents({
         animate={{ x: `${activeIndex * -100}%` }}
         className="-mx-2 flex items-start"
         initial={{ x: `${activeIndex * -100}%` }}
-        onAnimationComplete={onAnimationComplete}
+        onAnimationComplete={handleAnimationComplete}
         style={{ willChange: "transform" }}
         transition={contentsTransition}
       >
@@ -344,9 +366,14 @@ function TabsContents({
             ? (child.key ?? `tab-pane-${index}`)
             : `tab-pane-${index}`;
 
+          const isVisible = index === activeIndex || index === animatingFrom;
+
           return (
             <div
-              className="w-full shrink-0 px-2"
+              className={cn(
+                "w-full shrink-0 px-2",
+                !isVisible && "h-0 overflow-hidden"
+              )}
               key={tabKey}
               ref={(el) => {
                 itemRefs.current[index] = el;

@@ -100,6 +100,32 @@ Catalog showcase layouts are artistic showcases that intentionally preserve full
 
 ---
 
+## Multi-file items
+
+Large components can ship extra modules. Source files stay flat next to `index.tsx`; only their
+`target`s decide the published layout:
+
+```text
+registry/primitives/texts/text-morph/
+  index.tsx            → components/sora-ui/texts/text-morph.tsx      (files[0], required root entry)
+  defs.ts              → components/sora-ui/texts/text-morph/defs.ts  (shared types & constants)
+  runtime.ts           → components/sora-ui/texts/text-morph/runtime.ts
+```
+
+- **`files[0]` must be `index.tsx`**: Build scripts, CLI doctor, and the docs Code tab read the primary entrypoint at index 0.
+- **Automatic path rewrite**: `registry:build` automatically rewrites relative imports between those files to match their `target`s (e.g. `./defs` in `index.tsx` becomes `./text-morph/defs` in the published registry item). Write source imports as normal siblings and let the targets decide.
+- **No circular imports**: Place shared types and constants in `defs.ts` or `core.ts`. Submodules must never import back from `index.tsx` to prevent cyclic dependencies at runtime.
+- **File grouping in Manual docs (`meta.fileGroups`)**: For components with multiple modules, organize code blocks into logical roles (e.g. `Main component`, `Internal implementation`, `Shader sources`) via `meta.fileGroups` in `registry-item.json`:
+  ```json
+  "meta": {
+    "fileGroups": [
+      { "title": "Main component", "files": ["index.tsx"] },
+      { "title": "Internal implementation", "files": ["defs.ts", "runtime.ts"] }
+    ]
+  }
+  ```
+  *Fallback behavior:* 1–3 files display as a clean flat list; 4+ files without `meta.fileGroups` automatically group into `Main component` (`files[0]`) and `Internal implementation`.
+
 ## On the docs site
 
 | Part | Source | Notes |

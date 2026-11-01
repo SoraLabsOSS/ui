@@ -109,7 +109,7 @@ export const CodeBlock = ({
       )}
     >
       {title ? (
-        <div className="flex h-10 flex-row items-center gap-2 border-border/50 border-b pr-3 pl-4 backdrop-blur-sm">
+        <div className="flex h-10 flex-row items-center gap-2 rounded-t-xl border-border/50 border-b pr-3 pl-4">
           {iconNode}
           <figcaption className="flex-1 truncate font-medium font-mono text-muted-foreground text-xs">
             {title}

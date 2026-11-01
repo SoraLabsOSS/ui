@@ -845,7 +845,7 @@ async function testConsumerInstallation(): Promise<void> {
     passed = true;
   } finally {
     await registry.close();
-    if (passed) {
+    if (passed && process.env.SORA_REGISTRY_TEST_KEEP !== "1") {
       await fs.rm(sandboxDir, { recursive: true, force: true });
       console.log("🧹 Cleaned up test sandbox.");
     } else {

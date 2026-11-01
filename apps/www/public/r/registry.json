@@ -947,9 +947,50 @@
           "path": "registry/primitives/effects/video-player/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/effects/video-player.tsx"
+        },
+        {
+          "path": "registry/primitives/effects/video-player/defs.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/effects/video-player/defs.ts"
+        },
+        {
+          "path": "registry/primitives/effects/video-player/styles.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/effects/video-player/styles.ts"
+        },
+        {
+          "path": "registry/primitives/effects/video-player/icon.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/effects/video-player/icon.ts"
+        },
+        {
+          "path": "registry/primitives/effects/video-player/chapters.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/effects/video-player/chapters.ts"
+        },
+        {
+          "path": "registry/primitives/effects/video-player/runtime.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/effects/video-player/runtime.ts"
         }
       ],
       "meta": {
+        "fileGroups": [
+          {
+            "title": "Main component",
+            "files": ["index.tsx"]
+          },
+          {
+            "title": "Internal implementation",
+            "files": [
+              "defs.ts",
+              "styles.ts",
+              "icon.ts",
+              "chapters.ts",
+              "runtime.ts"
+            ]
+          }
+        ],
         "keywords": [
           "video",
           "player",
@@ -1328,9 +1369,56 @@
           "path": "registry/primitives/texts/text-morph/index.tsx",
           "type": "registry:ui",
           "target": "components/sora-ui/texts/text-morph.tsx"
+        },
+        {
+          "path": "registry/primitives/texts/text-morph/defs.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/texts/text-morph/defs.ts"
+        },
+        {
+          "path": "registry/primitives/texts/text-morph/styles.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/texts/text-morph/styles.ts"
+        },
+        {
+          "path": "registry/primitives/texts/text-morph/easing.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/texts/text-morph/easing.ts"
+        },
+        {
+          "path": "registry/primitives/texts/text-morph/layout.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/texts/text-morph/layout.ts"
+        },
+        {
+          "path": "registry/primitives/texts/text-morph/segments.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/texts/text-morph/segments.ts"
+        },
+        {
+          "path": "registry/primitives/texts/text-morph/runtime.ts",
+          "type": "registry:lib",
+          "target": "components/sora-ui/texts/text-morph/runtime.ts"
         }
       ],
       "meta": {
+        "fileGroups": [
+          {
+            "title": "Main component",
+            "files": ["index.tsx"]
+          },
+          {
+            "title": "Internal implementation",
+            "files": [
+              "defs.ts",
+              "styles.ts",
+              "easing.ts",
+              "layout.ts",
+              "segments.ts",
+              "runtime.ts"
+            ]
+          }
+        ],
         "inspiration": {
           "type": "reimplemented",
           "label": "Torph",

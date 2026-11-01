@@ -9,7 +9,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { index, loadComponentHtml, loadComponentSource } from "@/__registry__";
+import {
+  index,
+  loadComponentFiles,
+  loadComponentHtml,
+  loadComponentSource,
+} from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
   Tabs,
@@ -21,7 +26,10 @@ import {
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
 import { ComponentFileStructure } from "./component-file-structure";
-import { ComponentManualInstallation } from "./component-manual-installation";
+import {
+  ComponentManualInstallation,
+  type ManualInstallFile,
+} from "./component-manual-installation";
 
 export interface ComponentInstallationProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -42,21 +50,27 @@ export function ComponentInstallation({
 }: ComponentInstallationProps) {
   const [manualCode, setManualCode] = useState<string | undefined>(undefined);
   const [manualHtml, setManualHtml] = useState<string | undefined>(undefined);
+  const [manualFiles, setManualFiles] = useState<ManualInstallFile[]>([]);
   const [activeTab, setActiveTab] = useState<string>("shadcn");
   const component = index[name];
   const containerRef = useRef<HTMLDivElement>(null);
 
   const loadSource = useCallback(() => {
-    Promise.all([loadComponentSource(name), loadComponentHtml(name)]).then(
-      ([code, html]) => {
-        if (code) {
-          setManualCode(code);
-        }
-        if (html) {
-          setManualHtml(html);
-        }
+    Promise.all([
+      loadComponentSource(name),
+      loadComponentHtml(name),
+      loadComponentFiles(name),
+    ]).then(([code, html, files]) => {
+      if (code) {
+        setManualCode(code);
       }
-    );
+      if (html) {
+        setManualHtml(html);
+      }
+      if (files) {
+        setManualFiles(files);
+      }
+    });
   }, [name]);
 
   // Pre-load component source in background on mount and cancel stale requests on name change
@@ -64,20 +78,26 @@ export function ComponentInstallation({
     let canceled = false;
     setManualCode(undefined);
     setManualHtml(undefined);
+    setManualFiles([]);
 
-    Promise.all([loadComponentSource(name), loadComponentHtml(name)]).then(
-      ([code, html]) => {
-        if (canceled) {
-          return;
-        }
-        if (code) {
-          setManualCode(code);
-        }
-        if (html) {
-          setManualHtml(html);
-        }
+    Promise.all([
+      loadComponentSource(name),
+      loadComponentHtml(name),
+      loadComponentFiles(name),
+    ]).then(([code, html, files]) => {
+      if (canceled) {
+        return;
       }
-    );
+      if (code) {
+        setManualCode(code);
+      }
+      if (html) {
+        setManualHtml(html);
+      }
+      if (files) {
+        setManualFiles(files);
+      }
+    });
 
     return () => {
       canceled = true;
@@ -178,6 +198,8 @@ export function ComponentInstallation({
               code={manualCode}
               dependencies={component.dependencies}
               devDependencies={component.devDependencies}
+              fileGroups={component.fileGroups}
+              files={manualFiles}
               html={manualHtml}
               isActive={activeTab === "manual"}
               path={component.files?.[0]?.target}

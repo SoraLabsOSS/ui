@@ -11,9 +11,56 @@
       "path": "registry/primitives/texts/text-morph/index.tsx",
       "type": "registry:ui",
       "target": "components/sora-ui/texts/text-morph.tsx"
+    },
+    {
+      "path": "registry/primitives/texts/text-morph/defs.ts",
+      "type": "registry:lib",
+      "target": "components/sora-ui/texts/text-morph/defs.ts"
+    },
+    {
+      "path": "registry/primitives/texts/text-morph/styles.ts",
+      "type": "registry:lib",
+      "target": "components/sora-ui/texts/text-morph/styles.ts"
+    },
+    {
+      "path": "registry/primitives/texts/text-morph/easing.ts",
+      "type": "registry:lib",
+      "target": "components/sora-ui/texts/text-morph/easing.ts"
+    },
+    {
+      "path": "registry/primitives/texts/text-morph/layout.ts",
+      "type": "registry:lib",
+      "target": "components/sora-ui/texts/text-morph/layout.ts"
+    },
+    {
+      "path": "registry/primitives/texts/text-morph/segments.ts",
+      "type": "registry:lib",
+      "target": "components/sora-ui/texts/text-morph/segments.ts"
+    },
+    {
+      "path": "registry/primitives/texts/text-morph/runtime.ts",
+      "type": "registry:lib",
+      "target": "components/sora-ui/texts/text-morph/runtime.ts"
     }
   ],
   "meta": {
+    "fileGroups": [
+      {
+        "title": "Main component",
+        "files": ["index.tsx"]
+      },
+      {
+        "title": "Internal implementation",
+        "files": [
+          "defs.ts",
+          "styles.ts",
+          "easing.ts",
+          "layout.ts",
+          "segments.ts",
+          "runtime.ts"
+        ]
+      }
+    ],
     "inspiration": {
       "type": "reimplemented",
       "label": "Torph",
