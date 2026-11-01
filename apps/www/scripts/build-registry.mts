@@ -984,25 +984,70 @@ export { loadComponentSource, loadComponentFiles, loadComponentHtml } from "./so
     langs: ["tsx", "typescript", "bash", "json", "css"],
   });
 
-  for (const s of sourcesToWrite) {
-    let highlightedHtml: string | undefined;
-    if (s.code) {
-      try {
-        highlightedHtml = highlighter.codeToHtml(s.code, {
-          lang: "tsx",
-          themes: {
-            light: "github-light",
-            dark: "github-dark",
-          },
-          defaultColor: false,
-        });
-      } catch {
-        // Fallback silently if highlighting fails for single item
-      }
+  function getLangFromPath(filePath: string): string {
+    const ext = filePath.split(".").pop();
+    if (ext === "ts") {
+      return "typescript";
     }
+    if (ext === "css") {
+      return "css";
+    }
+    if (ext === "json") {
+      return "json";
+    }
+    return "tsx";
+  }
+
+  function highlightSourceCode(
+    highlighterInstance: Awaited<ReturnType<typeof createHighlighter>>,
+    code: string,
+    filePath = "index.tsx"
+  ): string | undefined {
+    if (!code) {
+      return;
+    }
+    try {
+      return highlighterInstance.codeToHtml(code, {
+        lang: getLangFromPath(filePath),
+        themes: {
+          light: "github-light",
+          dark: "github-dark",
+        },
+        defaultColor: false,
+      });
+    } catch {
+      return;
+    }
+  }
+
+  for (const s of sourcesToWrite) {
+    const isMultiFile = (s.files?.length ?? 0) > 1;
+
+    let rootHtml: string | undefined;
+    let filesWithHtml = s.files;
+
+    if (isMultiFile) {
+      // For multi-file components, highlight each file individually
+      filesWithHtml = s.files?.map((file) => {
+        const fileHtml = file.content
+          ? highlightSourceCode(highlighter, file.content, file.path)
+          : undefined;
+        return fileHtml ? { ...file, highlightedHtml: fileHtml } : file;
+      });
+    } else if (s.code) {
+      // For single-file components, only highlight the root code to avoid duplicate payloads
+      rootHtml = highlightSourceCode(highlighter, s.code);
+    }
+
+    const payload = {
+      ...s,
+      files: filesWithHtml,
+      ...(rootHtml ? { highlightedHtml: rootHtml } : {}),
+    };
+
     await fs.writeFile(
       path.join(sourcesDir, `${s.name}.json`),
-      JSON.stringify(highlightedHtml ? { ...s, highlightedHtml } : s, null, 2)
+      JSON.stringify(payload, null, 2)
     );
   }
 
@@ -1052,7 +1097,8 @@ export async function loadComponentHtml(name: string): Promise<string | null> {
   try {
     const mod = await loader();
     const data = mod.default || mod;
-    const html = data.highlightedHtml || null;
+    const html =
+      data.highlightedHtml || data.files?.[0]?.highlightedHtml || null;
     if (html) {
       htmlCache.set(name, html);
     }

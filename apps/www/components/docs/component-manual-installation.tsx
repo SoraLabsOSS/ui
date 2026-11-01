@@ -59,6 +59,7 @@ const getRegistryDepsCommands = (dependencies?: string[]) => {
 
 export interface ManualInstallFile {
   content?: string;
+  highlightedHtml?: string;
   path: string;
   target?: string;
 }
@@ -332,7 +333,7 @@ const ManualFilesList = ({
         {fileGroups.map((group) => (
           <div className="flex flex-col gap-2.5" key={group.title}>
             <div className="flex flex-col gap-0.5">
-              <span className="font-semibold text-foreground text-sm tracking-tight">
+              <span className="text-foreground text-sm tracking-tight">
                 {group.title}
               </span>
               {group.description && (
@@ -345,6 +346,7 @@ const ManualFilesList = ({
               {group.files.map((file) => (
                 <ManualCodeViewer
                   code={file.content}
+                  html={file.highlightedHtml}
                   isActive={isActive}
                   key={file.path}
                   path={file.target || file.path}
@@ -363,6 +365,7 @@ const ManualFilesList = ({
       {files.map((file) => (
         <ManualCodeViewer
           code={file.content}
+          html={file.highlightedHtml}
           isActive={isActive}
           key={file.path}
           path={file.target || file.path}

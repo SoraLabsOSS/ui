@@ -282,7 +282,8 @@ export async function loadComponentHtml(name: string): Promise<string | null> {
   try {
     const mod = await loader();
     const data = mod.default || mod;
-    const html = data.highlightedHtml || null;
+    const html =
+      data.highlightedHtml || data.files?.[0]?.highlightedHtml || null;
     if (html) {
       htmlCache.set(name, html);
     }

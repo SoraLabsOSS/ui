@@ -5,7 +5,7 @@ import {
   type FileTreeElement,
 } from "@workspace/ui/components/file-tree";
 import { cn } from "@workspace/ui/lib/utils";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { index } from "@/__registry__";
 import { buildInstallFileTree } from "@/lib/registry/build-install-file-tree";
 
@@ -36,7 +36,7 @@ function getShadcnDepTarget(dep: string): string | null {
     return null;
   }
 
-  if (dep in SHADCN_DEP_TARGETS) {
+  if (Object.hasOwn(SHADCN_DEP_TARGETS, dep)) {
     return SHADCN_DEP_TARGETS[dep] ?? null;
   }
 
@@ -46,23 +46,23 @@ function getShadcnDepTarget(dep: string): string | null {
 function appendRegistryInstallTargets(
   entry: RegistryEntry,
   queue: string[],
-  targets: string[]
+  targets: Set<string>
 ) {
   for (const file of entry.files ?? []) {
     if (file.target) {
-      targets.push(file.target);
+      targets.add(file.target);
     }
   }
 
   for (const dep of entry.registryDependencies ?? []) {
     if (dep.startsWith(SORALABS_DEP_PREFIX)) {
       queue.push(dep.slice(SORALABS_DEP_PREFIX.length));
-    } else if (dep in index) {
+    } else if (Object.hasOwn(index, dep)) {
       queue.push(dep);
     } else {
       const shadcnTarget = getShadcnDepTarget(dep);
-      if (shadcnTarget && !targets.includes(shadcnTarget)) {
-        targets.push(shadcnTarget);
+      if (shadcnTarget) {
+        targets.add(shadcnTarget);
       }
     }
   }
@@ -76,7 +76,7 @@ function appendRegistryInstallTargets(
  * standard `components/ui/<name>.tsx` install target.
  */
 function getRegistryInstallTargets(name: string): string[] {
-  const targets: string[] = [];
+  const targets = new Set<string>();
   const visited = new Set<string>();
   const queue = [name];
 
@@ -95,10 +95,10 @@ function getRegistryInstallTargets(name: string): string[] {
     appendRegistryInstallTargets(entry, queue, targets);
   }
 
-  return targets;
+  return Array.from(targets);
 }
 
-export function ComponentFileStructure({
+export const ComponentFileStructure = memo(function ComponentFileStructure({
   name,
   className,
 }: ComponentFileStructureProps) {
@@ -124,4 +124,4 @@ export function ComponentFileStructure({
       />
     </section>
   );
-}
+});

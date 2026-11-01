@@ -31,6 +31,39 @@ import {
   type ManualInstallFile,
 } from "./component-manual-installation";
 
+interface ComponentData {
+  code?: string;
+  files?: ManualInstallFile[];
+  html?: string;
+}
+
+const componentDataCache = new Map<string, Promise<ComponentData>>();
+
+function fetchComponentData(name: string): Promise<ComponentData> {
+  const cached = componentDataCache.get(name);
+  if (cached) {
+    return cached;
+  }
+
+  const promise = Promise.all([
+    loadComponentSource(name),
+    loadComponentHtml(name),
+    loadComponentFiles(name),
+  ])
+    .then(([code, html, files]) => ({
+      code: code ?? undefined,
+      html: html ?? undefined,
+      files: files ?? [],
+    }))
+    .catch((err) => {
+      componentDataCache.delete(name);
+      throw err;
+    });
+
+  componentDataCache.set(name, promise);
+  return promise;
+}
+
 export interface ComponentInstallationProps
   extends React.HTMLAttributes<HTMLDivElement> {
   afterSteps?: ReactNode;
@@ -38,6 +71,8 @@ export interface ComponentInstallationProps
   hideFileStructure?: boolean;
   name: string;
 }
+
+type LoadStatus = "idle" | "loading" | "loaded" | "error";
 
 export function ComponentInstallation({
   name,
@@ -51,58 +86,81 @@ export function ComponentInstallation({
   const [manualCode, setManualCode] = useState<string | undefined>(undefined);
   const [manualHtml, setManualHtml] = useState<string | undefined>(undefined);
   const [manualFiles, setManualFiles] = useState<ManualInstallFile[]>([]);
+  const [loadStatus, setLoadStatus] = useState<LoadStatus>("idle");
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>("shadcn");
   const component = index[name];
-  const containerRef = useRef<HTMLDivElement>(null);
+  const currentNameRef = useRef(name);
+  currentNameRef.current = name;
+  const loadStateRef = useRef<{ name: string; status: LoadStatus }>({
+    name,
+    status: "idle",
+  });
 
   const loadSource = useCallback(() => {
-    Promise.all([
-      loadComponentSource(name),
-      loadComponentHtml(name),
-      loadComponentFiles(name),
-    ]).then(([code, html, files]) => {
-      if (code) {
-        setManualCode(code);
-      }
-      if (html) {
-        setManualHtml(html);
-      }
-      if (files) {
-        setManualFiles(files);
-      }
-    });
+    const requestedName = name;
+    if (
+      loadStateRef.current.name === requestedName &&
+      (loadStateRef.current.status === "loading" ||
+        loadStateRef.current.status === "loaded")
+    ) {
+      return;
+    }
+
+    loadStateRef.current = { name: requestedName, status: "loading" };
+    setLoadStatus("loading");
+    setLoadError(null);
+
+    fetchComponentData(requestedName)
+      .then((data) => {
+        if (currentNameRef.current !== requestedName) {
+          return;
+        }
+        loadStateRef.current = { name: requestedName, status: "loaded" };
+        setLoadStatus("loaded");
+        if (data.code !== undefined) {
+          setManualCode(data.code);
+        }
+        if (data.html !== undefined) {
+          setManualHtml(data.html);
+        }
+        if (data.files) {
+          setManualFiles(data.files);
+        }
+      })
+      .catch((err) => {
+        if (currentNameRef.current !== requestedName) {
+          return;
+        }
+        loadStateRef.current = { name: requestedName, status: "error" };
+        setLoadStatus("error");
+        setLoadError(
+          err instanceof Error ? err.message : "Failed to load component source"
+        );
+      });
   }, [name]);
 
-  // Pre-load component source in background on mount and cancel stale requests on name change
+  const prevNameRef = useRef(name);
+  // Reset state when component name changes
   useEffect(() => {
-    let canceled = false;
-    setManualCode(undefined);
-    setManualHtml(undefined);
-    setManualFiles([]);
-
-    Promise.all([
-      loadComponentSource(name),
-      loadComponentHtml(name),
-      loadComponentFiles(name),
-    ]).then(([code, html, files]) => {
-      if (canceled) {
-        return;
-      }
-      if (code) {
-        setManualCode(code);
-      }
-      if (html) {
-        setManualHtml(html);
-      }
-      if (files) {
-        setManualFiles(files);
-      }
-    });
-
-    return () => {
-      canceled = true;
-    };
+    if (prevNameRef.current !== name) {
+      prevNameRef.current = name;
+      currentNameRef.current = name;
+      loadStateRef.current = { name, status: "idle" };
+      setManualCode(undefined);
+      setManualHtml(undefined);
+      setManualFiles([]);
+      setLoadStatus("idle");
+      setLoadError(null);
+    }
   }, [name]);
+
+  // Automatically trigger lazy loading if user switches directly to manual tab
+  useEffect(() => {
+    if (activeTab === "manual" && loadStatus === "idle") {
+      loadSource();
+    }
+  }, [activeTab, loadStatus, loadSource]);
 
   const commandTarget = component?.command ?? name;
 
@@ -130,20 +188,52 @@ export function ComponentInstallation({
     return null;
   }
 
+  let manualContent: ReactNode = null;
+  if (loadStatus === "loading") {
+    manualContent = (
+      <div className="flex h-32 items-center justify-center text-muted-foreground text-sm">
+        Loading installation files...
+      </div>
+    );
+  } else if (loadStatus === "error") {
+    manualContent = (
+      <div className="flex flex-col items-center justify-center gap-2 p-6 text-center text-sm">
+        <p className="text-destructive">{loadError}</p>
+        <button
+          className="cursor-pointer text-primary text-xs underline"
+          onClick={loadSource}
+          type="button"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  } else {
+    manualContent = (
+      <ComponentManualInstallation
+        afterSteps={afterSteps}
+        beforeSteps={beforeSteps}
+        code={manualCode}
+        dependencies={component.dependencies}
+        devDependencies={component.devDependencies}
+        fileGroups={component.fileGroups}
+        files={manualFiles}
+        html={manualHtml}
+        isActive={activeTab === "manual"}
+        path={component.files?.[0]?.target}
+        registryDependencies={component.registryDependencies}
+        shouldRenderCode={true}
+      >
+        {children}
+      </ComponentManualInstallation>
+    );
+  }
+
   return (
-    <div
-      className={cn("relative my-4 lg:max-w-[120ch]", className)}
-      ref={containerRef}
-      {...props}
-    >
+    <div className={cn("relative my-4 lg:max-w-[120ch]", className)} {...props}>
       <Tabs
         className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
-        onValueChange={(val) => {
-          if (val === "manual") {
-            loadSource();
-          }
-          setActiveTab(val);
-        }}
+        onValueChange={setActiveTab}
         value={activeTab}
       >
         <div className="flex h-10 items-center border-border/50 border-b px-3">
@@ -184,7 +274,7 @@ export function ComponentInstallation({
           </TabsList>
         </div>
 
-        <TabsContents>
+        <TabsContents animateHeight keepMounted={false} lazyMount>
           <TabsContent className="p-1.5" value="shadcn">
             <CodeTabs className="rounded-lg border-0" codes={shadcnCommands} />
           </TabsContent>
@@ -192,22 +282,7 @@ export function ComponentInstallation({
             <CodeTabs className="rounded-lg border-0" codes={soraCliCommands} />
           </TabsContent>
           <TabsContent className="p-4" value="manual">
-            <ComponentManualInstallation
-              afterSteps={afterSteps}
-              beforeSteps={beforeSteps}
-              code={manualCode}
-              dependencies={component.dependencies}
-              devDependencies={component.devDependencies}
-              fileGroups={component.fileGroups}
-              files={manualFiles}
-              html={manualHtml}
-              isActive={activeTab === "manual"}
-              path={component.files?.[0]?.target}
-              registryDependencies={component.registryDependencies}
-              shouldRenderCode={true}
-            >
-              {children}
-            </ComponentManualInstallation>
+            {manualContent}
           </TabsContent>
         </TabsContents>
       </Tabs>

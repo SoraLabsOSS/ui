@@ -15,6 +15,7 @@ import {
   useEffect,
   useImperativeHandle,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -27,14 +28,45 @@ import {
   type HighlightProps,
 } from "@/registry/primitives/effects/highlight";
 
-interface TabsContextType {
+interface TabsStateContextType {
   activeValue: string;
+}
+
+interface TabsPrewarmContextType {
+  prewarmedValues: Set<string>;
+}
+
+interface TabsActionsContextType {
   handleValueChange: (value: string) => void;
+  prewarmValue: (value: string) => void;
   registerTrigger: (value: string, node: HTMLElement | null) => void;
 }
 
-const [TabsProvider, useTabs] =
-  getStrictContext<TabsContextType>("TabsContext");
+interface TabsContextType
+  extends TabsStateContextType,
+    TabsPrewarmContextType,
+    TabsActionsContextType {}
+
+const [TabsStateProvider, useTabsState] =
+  getStrictContext<TabsStateContextType>("TabsStateContext");
+
+const [TabsPrewarmProvider, useTabsPrewarm] =
+  getStrictContext<TabsPrewarmContextType>("TabsPrewarmContext");
+
+const [TabsActionsProvider, useTabsActions] =
+  getStrictContext<TabsActionsContextType>("TabsActionsContext");
+
+function useTabs(): TabsContextType {
+  const state = useTabsState();
+  const prewarm = useTabsPrewarm();
+  const actions = useTabsActions();
+
+  return {
+    ...state,
+    ...prewarm,
+    ...actions,
+  };
+}
 
 type BaseTabsProps = React.ComponentProps<"div"> & {
   children: React.ReactNode;
@@ -64,9 +96,25 @@ function Tabs({
   const [activeValue, setActiveValue] = useState<string | undefined>(
     defaultValue
   );
+  const [prewarmedValues, setPrewarmedValues] = useState<Set<string>>(
+    () => new Set()
+  );
   const triggersRef = useRef(new Map<string, HTMLElement>());
   const initialSet = useRef(false);
   const isControlled = value !== undefined;
+  const activeValueRef = useRef(activeValue);
+  activeValueRef.current = activeValue;
+
+  const prewarmValue = useCallback((val: string) => {
+    setPrewarmedValues((prev) => {
+      if (prev.has(val)) {
+        return prev;
+      }
+      const next = new Set(prev);
+      next.add(val);
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     if (
@@ -89,7 +137,11 @@ function Tabs({
     (val: string, node: HTMLElement | null) => {
       if (node) {
         triggersRef.current.set(val, node);
-        if (!isControlled && activeValue === undefined && !initialSet.current) {
+        if (
+          !isControlled &&
+          activeValueRef.current === undefined &&
+          !initialSet.current
+        ) {
           setActiveValue(val);
           initialSet.current = true;
         }
@@ -97,11 +149,12 @@ function Tabs({
         triggersRef.current.delete(val);
       }
     },
-    [activeValue, isControlled]
+    [isControlled]
   );
 
   const handleValueChange = useCallback(
     (val: string) => {
+      setPrewarmedValues(new Set());
       if (isControlled) {
         onValueChange?.(val);
       } else {
@@ -111,18 +164,35 @@ function Tabs({
     [isControlled, onValueChange]
   );
 
+  const stateContextValue = useMemo(
+    () => ({ activeValue: (value ?? activeValue) as string }),
+    [value, activeValue]
+  );
+
+  const prewarmContextValue = useMemo(
+    () => ({ prewarmedValues }),
+    [prewarmedValues]
+  );
+
+  const actionsContextValue = useMemo(
+    () => ({
+      handleValueChange,
+      prewarmValue,
+      registerTrigger,
+    }),
+    [handleValueChange, prewarmValue, registerTrigger]
+  );
+
   return (
-    <TabsProvider
-      value={{
-        activeValue: (value ?? activeValue) as string,
-        handleValueChange,
-        registerTrigger,
-      }}
-    >
-      <div data-slot="tabs" {...props}>
-        {children}
-      </div>
-    </TabsProvider>
+    <TabsStateProvider value={stateContextValue}>
+      <TabsPrewarmProvider value={prewarmContextValue}>
+        <TabsActionsProvider value={actionsContextValue}>
+          <div data-slot="tabs" {...props}>
+            {children}
+          </div>
+        </TabsActionsProvider>
+      </TabsPrewarmProvider>
+    </TabsStateProvider>
   );
 }
 
@@ -134,7 +204,7 @@ function TabsHighlight({
   transition = { type: "spring", stiffness: 200, damping: 25 },
   ...props
 }: TabsHighlightProps) {
-  const { activeValue } = useTabs();
+  const { activeValue } = useTabsState();
 
   return (
     <Highlight
@@ -173,9 +243,12 @@ function TabsTrigger({
   ref,
   value,
   asChild = false,
+  onMouseEnter,
+  onFocus,
   ...props
 }: TabsTriggerProps) {
-  const { activeValue, handleValueChange, registerTrigger } = useTabs();
+  const { activeValue } = useTabsState();
+  const { handleValueChange, registerTrigger, prewarmValue } = useTabsActions();
 
   const localRef = useRef<HTMLButtonElement | null>(null);
   useImperativeHandle(ref, () => localRef.current as HTMLButtonElement);
@@ -187,11 +260,23 @@ function TabsTrigger({
 
   const Component = asChild ? Slot : motion.button;
 
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    prewarmValue?.(value);
+    onMouseEnter?.(e);
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+    prewarmValue?.(value);
+    onFocus?.(e);
+  };
+
   return (
     <Component
       data-slot="tabs-trigger"
       data-state={activeValue === value ? "active" : "inactive"}
       onClick={() => handleValueChange(value)}
+      onFocus={handleFocus}
+      onMouseEnter={handleMouseEnter}
       ref={localRef}
       role="tab"
       {...props}
@@ -202,6 +287,23 @@ function TabsTrigger({
 type TabsContentsProps = HTMLMotionProps<"div"> & {
   children: React.ReactNode;
   transition?: Transition;
+  /**
+   * Whether to lazily mount tabs only when active or prewarmed.
+   * Inactive tabs won't render their subtree until first visited.
+   * @default true
+   */
+  lazyMount?: boolean;
+  /**
+   * Whether to keep previously visited tabs mounted in the DOM.
+   * If false, tabs are unmounted when leaving (after animation completes).
+   * @default true
+   */
+  keepMounted?: boolean;
+  /**
+   * Whether to animate container height when switching tabs.
+   * @default true
+   */
+  animateHeight?: boolean;
 };
 
 function TabsContents({
@@ -213,10 +315,14 @@ function TabsContents({
     bounce: 0,
     restDelta: 0.01,
   },
+  lazyMount = true,
+  keepMounted = true,
+  animateHeight = true,
   onAnimationComplete,
   ...props
 }: TabsContentsProps) {
-  const { activeValue } = useTabs();
+  const { activeValue } = useTabsState();
+  const { prewarmedValues } = useTabsPrewarm();
   const prefersReducedMotion = useReducedMotion();
   const childrenArray = Children.toArray(children);
   const activeIndex = childrenArray.findIndex(
@@ -237,10 +343,34 @@ function TabsContents({
   const [animatingFrom, setAnimatingFrom] = useState<number | null>(null);
   const prevActiveRef = useRef(activeIndex);
 
-  if (prevActiveRef.current !== activeIndex) {
-    setAnimatingFrom(prevActiveRef.current);
-    prevActiveRef.current = activeIndex;
-  }
+  const isSwitching = prevActiveRef.current !== activeIndex;
+  const effectiveAnimatingFrom = isSwitching
+    ? prevActiveRef.current
+    : animatingFrom;
+
+  useLayoutEffect(() => {
+    if (prevActiveRef.current !== activeIndex) {
+      setAnimatingFrom(prevActiveRef.current);
+      prevActiveRef.current = activeIndex;
+    }
+  }, [activeIndex]);
+
+  const [visitedIndices, setVisitedIndices] = useState<Set<number>>(
+    () => new Set(activeIndex >= 0 ? [activeIndex] : [0])
+  );
+
+  useEffect(() => {
+    if (activeIndex >= 0) {
+      setVisitedIndices((prev) => {
+        if (prev.has(activeIndex)) {
+          return prev;
+        }
+        const next = new Set(prev);
+        next.add(activeIndex);
+        return next;
+      });
+    }
+  }, [activeIndex]);
 
   const scheduleHeight = useCallback((next: number) => {
     if (next <= 0) {
@@ -283,15 +413,21 @@ function TabsContents({
   }, []);
 
   useLayoutEffect(() => {
+    if (!animateHeight) {
+      return;
+    }
     if (activeIndex >= 0) {
       const next = measure(activeIndex);
       if (next > 0) {
         setHeight((prev) => (Math.abs(prev - next) > 0.5 ? next : prev));
       }
     }
-  }, [activeIndex, measure]);
+  }, [activeIndex, animateHeight, measure]);
 
   useEffect(() => {
+    if (!animateHeight) {
+      return;
+    }
     if (roRef.current) {
       roRef.current.disconnect();
       roRef.current = null;
@@ -317,7 +453,7 @@ function TabsContents({
         rafRef.current = null;
       }
     };
-  }, [activeIndex, measure, scheduleHeight]);
+  }, [activeIndex, animateHeight, measure, scheduleHeight]);
 
   const isInitialRef = useRef(true);
 
@@ -330,7 +466,7 @@ function TabsContents({
     : transition;
 
   const heightTransition: Transition =
-    prefersReducedMotion || isInitialRef.current
+    prefersReducedMotion || isInitialRef.current || !animateHeight
       ? { duration: 0 }
       : ((transition as { height?: Transition })?.height ?? {
           duration: 0.3,
@@ -345,7 +481,7 @@ function TabsContents({
 
   return (
     <motion.div
-      animate={{ height: height || "auto" }}
+      animate={{ height: animateHeight ? height || "auto" : "auto" }}
       data-slot="tabs-contents"
       initial={false}
       ref={containerRef}
@@ -366,7 +502,26 @@ function TabsContents({
             ? (child.key ?? `tab-pane-${index}`)
             : `tab-pane-${index}`;
 
-          const isVisible = index === activeIndex || index === animatingFrom;
+          const isVisible =
+            index === activeIndex || index === effectiveAnimatingFrom;
+
+          const tabValue =
+            isValidElement(child) &&
+            typeof child.props === "object" &&
+            child.props !== null &&
+            "value" in child.props
+              ? String(child.props.value)
+              : undefined;
+
+          const isPrewarmed =
+            tabValue !== undefined && prewarmedValues?.has(tabValue);
+
+          const shouldMount =
+            !lazyMount ||
+            index === activeIndex ||
+            index === effectiveAnimatingFrom ||
+            (keepMounted && visitedIndices.has(index)) ||
+            isPrewarmed;
 
           return (
             <div
@@ -379,7 +534,7 @@ function TabsContents({
                 itemRefs.current[index] = el;
               }}
             >
-              {child}
+              {shouldMount ? child : null}
             </div>
           );
         })}
@@ -396,32 +551,25 @@ type TabsContentProps = WithAsChild<
 >;
 
 function TabsContent({
+  ref,
   value,
   style,
   asChild = false,
   ...props
 }: TabsContentProps) {
-  const { activeValue } = useTabs();
-  const prefersReducedMotion = useReducedMotion();
+  const { activeValue } = useTabsState();
   const isActive = activeValue === value;
 
   const Component = asChild ? Slot : motion.div;
-  const contentTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { type: "spring" as const, stiffness: 200, damping: 25 };
 
   return (
     <Component
-      animate={{
-        opacity: prefersReducedMotion || isActive ? 1 : 0.4,
-      }}
       data-slot="tabs-content"
-      exit={{ opacity: 1 }}
+      data-state={isActive ? "active" : "inactive"}
       inert={!isActive}
-      initial={{ opacity: 1 }}
+      ref={ref}
       role="tabpanel"
-      style={{ overflow: "hidden", ...style }}
-      transition={contentTransition}
+      style={style}
       {...props}
     />
   );
@@ -429,6 +577,7 @@ function TabsContent({
 
 export {
   Tabs,
+  type TabsActionsContextType,
   TabsContent,
   type TabsContentProps,
   TabsContents,
@@ -440,8 +589,13 @@ export {
   type TabsHighlightProps,
   TabsList,
   type TabsListProps,
+  type TabsPrewarmContextType,
   type TabsProps,
+  type TabsStateContextType,
   TabsTrigger,
   type TabsTriggerProps,
   useTabs,
+  useTabsActions,
+  useTabsPrewarm,
+  useTabsState,
 };
