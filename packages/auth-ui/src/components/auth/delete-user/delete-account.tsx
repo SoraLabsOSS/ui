@@ -1,8 +1,8 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
 import { authQueryKeys } from "@workspace/auth-ui/lib/auth-core";
+import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth-core/plugins";
 import {
   useAuth,
   useAuthPlugin,
