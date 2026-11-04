@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";
-import { getCachedOgImageBuffer } from "@/lib/og/get-cached-og-image";
+import { getCachedOgImageBuffer } from "@/lib/og/og-docs";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { uiSource } from "@/lib/ui/source";
 

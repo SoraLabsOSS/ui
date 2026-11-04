@@ -1,8 +1,87 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { SORA_LOGO_PATH } from "@workspace/ui/components/icons/sora-icon";
 import { OG_PALETTE } from "@workspace/ui/components/og/palette";
-import type { OgPageContent } from "@/lib/og/resolve-og-page";
-import { OG_FONT_FAMILY } from "@/lib/og/sf-pro-display-font";
-import { OgSoraUiBrand } from "@/lib/og/sora-ui-brand";
-import { SITE_URL } from "@/lib/site";
+import { getMetadataBaseUrl, SITE_URL } from "@/lib/site";
+
+/** Registered name — must match `font-family` in `app/sf-pro-display.css`. */
+export const OG_FONT_FAMILY = "SF Pro Display";
+
+const FONT_PUBLIC_PATH =
+  "/fonts/sf-pro-display-cdnfonts/SFPRODISPLAYMEDIUM.OTF";
+
+const FONT_FILE_PATH = path.join(
+  process.cwd(),
+  "public",
+  "fonts",
+  "sf-pro-display-cdnfonts",
+  "SFPRODISPLAYMEDIUM.OTF"
+);
+
+let sfProMediumData: Promise<ArrayBuffer> | undefined;
+
+function toArrayBuffer(buffer: Buffer): ArrayBuffer {
+  const { buffer: arrayBuffer, byteOffset, byteLength } = buffer;
+  return arrayBuffer.slice(byteOffset, byteOffset + byteLength) as ArrayBuffer;
+}
+
+async function loadFontFromDisk(): Promise<ArrayBuffer> {
+  const buffer = await readFile(FONT_FILE_PATH);
+  return toArrayBuffer(buffer);
+}
+
+async function loadFontFromPublicUrl(): Promise<ArrayBuffer> {
+  const response = await fetch(`${getMetadataBaseUrl()}${FONT_PUBLIC_PATH}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch OG font (${response.status})`);
+  }
+
+  return response.arrayBuffer();
+}
+
+/** SF Pro Display Medium (500) for `next/og`. */
+export function getOgSfProDisplayFontData(): Promise<ArrayBuffer> {
+  if (!sfProMediumData) {
+    sfProMediumData = loadFontFromDisk().catch(() => loadFontFromPublicUrl());
+  }
+
+  return sfProMediumData;
+}
+
+export function OgSoraUiBrand() {
+  return (
+    <div tw="flex flex-row items-center">
+      <svg
+        aria-hidden="true"
+        fill="#fff"
+        height="52"
+        viewBox="0 0 200 200"
+        width="52"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g transform="translate(100 100) scale(0.8292) translate(-100 -100)">
+          <path d={SORA_LOGO_PATH} />
+        </g>
+      </svg>
+      <p
+        style={{
+          fontFamily: OG_FONT_FAMILY,
+          letterSpacing: "-1.5px",
+          marginLeft: 12,
+        }}
+        tw="text-white text-5xl font-bold"
+      >
+        Sora UI
+      </p>
+    </div>
+  );
+}
+
+export interface OgPageContent {
+  description?: string;
+  title: string;
+}
 
 export function OgImageFrame({ title, description }: OgPageContent) {
   return (

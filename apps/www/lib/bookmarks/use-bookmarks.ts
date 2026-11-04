@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import {
@@ -12,13 +12,21 @@ import {
   fetchBookmarks,
   removeBookmark,
 } from "@/lib/bookmarks/client";
-import { bookmarkKeys } from "@/lib/bookmarks/keys";
 import {
   claimPendingBookmarkForAutoSave,
   clearPendingBookmark,
   finishPendingBookmarkAutoSave,
 } from "@/lib/bookmarks/pending-intent";
+import {
+  fetchStaticSearchIndex,
+  resolveBookmarkPages,
+} from "@/lib/bookmarks/resolve-pages";
 import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
+
+export const bookmarkKeys = {
+  all: ["bookmarks"] as const,
+  list: (userId: string) => [...bookmarkKeys.all, "list", userId] as const,
+};
 
 const BOOKMARKS_STALE_TIME_MS = 5 * 60 * 1000;
 const BOOKMARKS_GC_TIME_MS = 30 * 60 * 1000;
@@ -231,5 +239,59 @@ export function useBookmarks() {
     sessionPending,
     toggleBookmark,
     togglingUrl,
+  };
+}
+
+const STATIC_INDEX_STALE_TIME_MS = 10 * 60 * 1000;
+const STATIC_INDEX_GC_TIME_MS = 30 * 60 * 1000;
+
+export function useBookmarkPages() {
+  const {
+    bookmarks,
+    isAuthenticated,
+    isBookmarksLoading,
+    isToggling,
+    error,
+    refetch,
+    removingUrl,
+    sessionPending,
+    toggleBookmark,
+  } = useBookmarks();
+
+  const staticQuery = useQuery({
+    queryKey: ["static-search-index"],
+    queryFn: fetchStaticSearchIndex,
+    enabled: isAuthenticated && bookmarks.length > 0,
+    staleTime: STATIC_INDEX_STALE_TIME_MS,
+    gcTime: STATIC_INDEX_GC_TIME_MS,
+    refetchOnWindowFocus: false,
+  });
+
+  const pages = useMemo(
+    () => resolveBookmarkPages(bookmarks, staticQuery.data),
+    [bookmarks, staticQuery.data]
+  );
+
+  const isResolvingPages =
+    isAuthenticated &&
+    bookmarks.length > 0 &&
+    staticQuery.isPending &&
+    !staticQuery.data;
+
+  const loading =
+    sessionPending ||
+    (isAuthenticated && isBookmarksLoading && bookmarks.length === 0) ||
+    isResolvingPages;
+
+  return {
+    isAuthenticated,
+    error,
+    isRemoving: isToggling,
+    loading,
+    pages,
+    refetch,
+    removeBookmark: (url: string) => toggleBookmark(url, true),
+    removingUrl,
+    sessionPending,
   };
 }

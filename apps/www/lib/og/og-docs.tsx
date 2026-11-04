@@ -1,6 +1,14 @@
+import { ImageResponse } from "next/og";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";
+import type { OgPageContent as OgPageData } from "@/lib/og/og-shared";
+import {
+  getOgSfProDisplayFontData,
+  OG_FONT_FAMILY,
+  OgImageFrame,
+} from "@/lib/og/og-shared";
 import { componentSource } from "@/lib/registry/component-source";
 import {
   SITE_DESCRIPTION,
@@ -10,41 +18,38 @@ import {
 import { uiSource } from "@/lib/ui/source";
 import { getUiQualifiedTitle } from "@/lib/ui/ui-family";
 
-export interface OgPageContent {
-  description?: string;
-  title: string;
-}
+export type { OgPageContent } from "@/lib/og/og-shared";
 
-const COMPONENTS_CATALOG: OgPageContent = {
+const COMPONENTS_CATALOG: OgPageData = {
   title: "Components",
   description:
     "Browse Sora UI components with live previews, installation commands, and API reference.",
 };
 
-const UI_CATALOG: OgPageContent = {
+const UI_CATALOG: OgPageData = {
   title: "UI Components",
   description:
     "Base UI and Radix UI primitives infused with Sora Motion spring dynamics and Tailwind CSS.",
 };
 
-const MOTION_CATALOG: OgPageContent = {
+const MOTION_CATALOG: OgPageData = {
   title: "Motion",
   description:
     "30+ animated, unstyled building blocks for React — text effects, buttons, interactions, and more. Built with Tailwind CSS and Motion.",
 };
 
-const ICONS_CATALOG: OgPageContent = {
+const ICONS_CATALOG: OgPageData = {
   title: "Icons",
   description:
     "A collection of animated icons for React, built with Motion and Tailwind CSS.",
 };
 
-const SITE_DEFAULT: OgPageContent = {
+const SITE_DEFAULT: OgPageData = {
   title: SITE_OG_HERO_TITLE,
   description: `${SITE_OG_HERO_SUBLINE}. ${SITE_DESCRIPTION}`,
 };
 
-function resolveMotionOgPage(slug: string[]): OgPageContent | null {
+function resolveMotionOgPage(slug: string[]): OgPageData | null {
   if (slug.length === 1) {
     const page = motionSource.getPage([]);
     return page
@@ -63,7 +68,7 @@ function resolveMotionOgPage(slug: string[]): OgPageContent | null {
   };
 }
 
-function resolveIconsOgPage(slug: string[]): OgPageContent | null {
+function resolveIconsOgPage(slug: string[]): OgPageData | null {
   if (slug.length === 1) {
     const page = iconsSource.getPage([]);
     return page
@@ -82,7 +87,7 @@ function resolveIconsOgPage(slug: string[]): OgPageContent | null {
   };
 }
 
-function resolveUiOgPage(slug: string[]): OgPageContent | null {
+function resolveUiOgPage(slug: string[]): OgPageData | null {
   if (slug.length === 1) {
     const page = uiSource.getPage([]);
     return page
@@ -101,7 +106,7 @@ function resolveUiOgPage(slug: string[]): OgPageContent | null {
   };
 }
 
-function resolveCatalogOgPage(slug: string[]): OgPageContent | null {
+function resolveCatalogOgPage(slug: string[]): OgPageData | null {
   if (slug.length === 1) {
     return COMPONENTS_CATALOG;
   }
@@ -117,7 +122,7 @@ function resolveCatalogOgPage(slug: string[]): OgPageContent | null {
   };
 }
 
-function resolveLegacyOgPage(slug: string[]): OgPageContent | null {
+function resolveLegacyOgPage(slug: string[]): OgPageData | null {
   if (slug[0] === "docs" && slug[1] === "motion") {
     const page = motionSource.getPage(slug.slice(2));
     return page
@@ -152,11 +157,7 @@ function resolveLegacyOgPage(slug: string[]): OgPageContent | null {
   return null;
 }
 
-/**
- * Resolve title/description for `/docs-og/[...slug]/image.png`.
- * Slug is the path segments before `image.png`.
- */
-export function resolveOgPage(slug: string[]): OgPageContent | null {
+export function resolveOgPage(slug: string[]): OgPageData | null {
   if (slug.length === 0) {
     return SITE_DEFAULT;
   }
@@ -199,4 +200,35 @@ export function resolveOgPage(slug: string[]): OgPageContent | null {
     title: page.data.title,
     description: page.data.description,
   };
+}
+
+export async function createOgImageResponse(
+  content: OgPageData
+): Promise<ImageResponse> {
+  return new ImageResponse(<OgImageFrame {...content} />, {
+    width: 1200,
+    height: 630,
+    fonts: [
+      {
+        name: OG_FONT_FAMILY,
+        data: await getOgSfProDisplayFontData(),
+        style: "normal",
+        weight: 500,
+      },
+    ],
+  });
+}
+
+export async function getCachedOgImageBuffer(
+  pageSlug: string[]
+): Promise<ArrayBuffer | null> {
+  "use cache";
+  staticContentCacheLife();
+  const content = resolveOgPage(pageSlug);
+  if (!content) {
+    return null;
+  }
+
+  const response = await createOgImageResponse(content);
+  return await response.arrayBuffer();
 }

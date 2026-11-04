@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { TERMS_OF_SERVICE_ITEMS } from "@/components/legal/legal-data";
 import { LegalScrollView } from "@/components/legal/legal-scroll-view";
-import { TERMS_OF_SERVICE_ITEMS } from "@/components/legal/terms-data";
 import { getPageAlternates } from "@/lib/site";
 
 export const metadata: Metadata = {

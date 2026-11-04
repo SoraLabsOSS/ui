@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { ComponentPageDocs } from "@/components/catalog/catalog-docs";
 import { ComponentPageLayout } from "@/components/catalog/catalog-layout";
-import { ComponentPageJsonLd } from "@/components/docs/component-page-json-ld";
+import { ComponentPageJsonLd } from "@/components/docs/docs-json-ld";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
-} from "@/lib/og/og-metadata-images";
+} from "@/lib/og/og-paths";
 import { getCatalogMDXComponents } from "@/lib/registry/catalog-mdx";
 import { componentSource } from "@/lib/registry/component-source";
 import {

@@ -1,4 +1,8 @@
-import { getComponentPageJsonLd } from "@/lib/docs/component-page-json-ld";
+import {
+  getComponentPageJsonLd,
+  getDocsPageJsonLd,
+} from "@/lib/docs/docs-json-ld";
+import type { Page } from "@/lib/docs/source";
 import type { ComponentDocPage } from "@/lib/registry/component-source";
 
 interface ComponentPageJsonLdProps {
@@ -20,5 +24,22 @@ export function ComponentPageJsonLd({
       }}
       type="application/ld+json"
     />
+  );
+}
+
+export function DocsPageJsonLd({ page }: { page: Page }) {
+  return (
+    <>
+      {getDocsPageJsonLd(page).map((schema) => (
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script injection
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+          }}
+          key={schema["@type"]}
+          type="application/ld+json"
+        />
+      ))}
+    </>
   );
 }

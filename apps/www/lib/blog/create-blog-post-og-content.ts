@@ -1,5 +1,5 @@
 import { BLOG_AUTHORS, type BlogAuthorId } from "@/lib/blog/blog-authors";
-import type { BlogOgContent } from "@/lib/og/blog-og-types";
+import type { BlogOgContent } from "@/lib/og/og-blog";
 
 /** Build OG card content for a `/blog/[slug]` article. */
 export function createBlogPostOgContent(

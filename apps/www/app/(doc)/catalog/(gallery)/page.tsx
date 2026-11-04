@@ -5,7 +5,7 @@ import { ComponentsGalleryHero } from "@/components/catalog/gallery/components-g
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
-} from "@/lib/og/og-metadata-images";
+} from "@/lib/og/og-paths";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
 import { getPageAlternates } from "@/lib/site";
 

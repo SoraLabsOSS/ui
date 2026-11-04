@@ -1,5 +1,6 @@
 "use client";
 
+import type { PageTree } from "fumadocs-core/server";
 import { useSidebar } from "fumadocs-ui/provider";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useEffect } from "react";
@@ -18,12 +19,18 @@ interface ComponentsRouteLayoutProps {
   children: ReactNode;
   navItems: ComponentGalleryItem[];
   primitivesUrl: string;
+  releaseDatesByUrl: Record<string, string>;
+  tree: PageTree.Root;
+  uiUrl: string;
 }
 
 export function ComponentsRouteLayout({
   children,
   navItems,
   primitivesUrl,
+  releaseDatesByUrl,
+  tree,
+  uiUrl,
 }: ComponentsRouteLayoutProps) {
   const pathname = usePathname();
   const isGalleryIndex = pathname === "/catalog" || pathname === "/components";
@@ -39,7 +46,12 @@ export function ComponentsRouteLayout({
 
   if (isGalleryIndex) {
     return (
-      <ComponentsGalleryLayout primitivesUrl={primitivesUrl}>
+      <ComponentsGalleryLayout
+        primitivesUrl={primitivesUrl}
+        releaseDatesByUrl={releaseDatesByUrl}
+        tree={tree}
+        uiUrl={uiUrl}
+      >
         {children}
       </ComponentsGalleryLayout>
     );

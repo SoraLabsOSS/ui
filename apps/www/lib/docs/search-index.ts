@@ -2,6 +2,7 @@ import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
 import type { AdvancedIndex } from "fumadocs-core/search/server";
 import type { InferPageType } from "fumadocs-core/source";
 import { blog } from "@/lib/blog/source";
+import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";
@@ -98,4 +99,16 @@ export function getStaticPageDocuments(): Omit<OramaDocument, "structured">[] {
     title: getUiQualifiedTitle(page.data.title, page.url),
     description: page.data.description,
   }));
+}
+
+export async function getCachedSearchIndexes() {
+  "use cache";
+  staticContentCacheLife();
+  return await Promise.resolve(getSearchIndexes());
+}
+
+export async function getCachedStaticPageDocuments() {
+  "use cache";
+  staticContentCacheLife();
+  return await Promise.resolve(getStaticPageDocuments());
 }

@@ -41,11 +41,11 @@ import { useAuthNavPending } from "@/hooks/use-auth-nav-pending";
 import { useBookmarkLoginDialog } from "@/hooks/use-bookmark-login-dialog";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
-import { isIconsNavItemActive } from "@/lib/docs/icons-nav-active";
 import {
+  isIconsNavItemActive,
   isPrimitivesNavItemActive,
   MENU_PRIMITIVES_ITEM_KEY,
-} from "@/lib/docs/primitive-nav-active";
+} from "@/lib/docs/docs-nav";
 import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 

@@ -22,7 +22,7 @@ import { jsonLd } from "@/lib/json-ld";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
-} from "@/lib/og/og-metadata-images";
+} from "@/lib/og/og-paths";
 import {
   getMetadataBaseUrl,
   getPageAlternates,

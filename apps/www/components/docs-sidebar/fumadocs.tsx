@@ -29,12 +29,10 @@ import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/lib/docs/attach-separator";
 import {
   isIconsNavItemActive,
-  MENU_ICONS_ITEM_KEY,
-} from "@/lib/docs/icons-nav-active";
-import {
   isPrimitivesNavItemActive,
+  MENU_ICONS_ITEM_KEY,
   MENU_PRIMITIVES_ITEM_KEY,
-} from "@/lib/docs/primitive-nav-active";
+} from "@/lib/docs/docs-nav";
 import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
 import { DocsMobileDrawer } from "./mobile-drawer";

@@ -14,7 +14,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
-import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
+import { DocsPageJsonLd } from "@/components/docs/docs-json-ld";
 import type { DocsPagerItem } from "@/components/docs/docs-pager";
 import { DocsPager } from "@/components/docs/docs-pager";
 import { DocsTocPromo } from "@/components/docs/docs-toc-promo";
@@ -23,7 +23,7 @@ import { PageActionButtons } from "@/components/docs/page-actions";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
-} from "@/lib/og/og-metadata-images";
+} from "@/lib/og/og-paths";
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { uiSource } from "@/lib/ui/source";
 import { getUiFamilyLabel, getUiQualifiedTitle } from "@/lib/ui/ui-family";

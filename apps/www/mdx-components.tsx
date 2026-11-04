@@ -46,7 +46,7 @@ const ComponentInstallation = dynamic(() =>
 );
 
 const InstallationFileStructure = dynamic(() =>
-  import("@/components/docs/installation-file-structure").then((m) => ({
+  import("@/components/docs/component-file-structure").then((m) => ({
     default: m.InstallationFileStructure,
   }))
 );

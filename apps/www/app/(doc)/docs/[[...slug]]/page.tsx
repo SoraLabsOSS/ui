@@ -15,7 +15,7 @@ import { connection } from "next/server";
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
-import { DocsPageJsonLd } from "@/components/docs/docs-page-json-ld";
+import { DocsPageJsonLd } from "@/components/docs/docs-json-ld";
 import type { DocsPagerItem } from "@/components/docs/docs-pager";
 import { DocsPager } from "@/components/docs/docs-pager";
 import { DocsTocPromo } from "@/components/docs/docs-toc-promo";
@@ -25,7 +25,7 @@ import { source } from "@/lib/docs/source";
 import {
   getOgMetadataImages,
   getTwitterMetadataImages,
-} from "@/lib/og/og-metadata-images";
+} from "@/lib/og/og-paths";
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 

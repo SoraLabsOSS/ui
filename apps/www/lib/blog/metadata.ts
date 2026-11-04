@@ -3,7 +3,7 @@ import type { BlogPage } from "@/lib/blog/source";
 import {
   BLOG_INDEX_OG_IMAGE_PATH,
   getBlogPostOgImagePath,
-} from "@/lib/og/get-blog-og-image-path";
+} from "@/lib/og/og-paths";
 import { getMetadataBaseUrl, SITE_URL } from "@/lib/site";
 
 const OG_SIZE = { width: 1200, height: 630 } as const;

@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
-import { blogOgPostsBySlug } from "@/lib/og/blog-og-posts";
-import { getBlogOgImageBuffer } from "@/lib/og/get-blog-og-image";
-import { getCachedBlogOgImageBuffer } from "@/lib/og/get-cached-blog-og-image";
+import {
+  blogOgPostsBySlug,
+  getBlogOgImageBuffer,
+  getCachedBlogOgImageBuffer,
+} from "@/lib/og/og-blog";
 
 export async function GET(
   _req: Request,

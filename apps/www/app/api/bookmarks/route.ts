@@ -6,12 +6,12 @@ import {
 import { NextResponse } from "next/server";
 import {
   bookmarkRateLimitResponse,
+  bookmarkUrlSchema,
   checkBookmarkPageRateLimit,
-} from "@/lib/bookmarks/ratelimit";
-import { requireSession } from "@/lib/bookmarks/require-session";
-import { bookmarkUrlSchema } from "@/lib/bookmarks/schemas";
+  requireSession,
+  resolveBookmarkUrl,
+} from "@/lib/bookmarks/bookmarks-server";
 import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
-import { resolveBookmarkUrl } from "@/lib/bookmarks/validate-url";
 
 const PRIVATE_JSON_HEADERS = { "Cache-Control": "private, no-store" };
 

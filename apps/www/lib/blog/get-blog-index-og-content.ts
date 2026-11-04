@@ -1,5 +1,5 @@
 import { BLOG_BRAND_AVATAR_PATH } from "@/lib/blog/blog-authors";
-import type { BlogOgContent } from "@/lib/og/blog-og-types";
+import type { BlogOgContent } from "@/lib/og/og-blog";
 import { getMetadataBaseUrl, SITE_URL } from "@/lib/site";
 
 /** OG card for `/blog` — Sora UI product branding. */

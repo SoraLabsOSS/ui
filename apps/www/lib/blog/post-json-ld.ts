@@ -1,6 +1,6 @@
 import type { BlogPage } from "@/lib/blog/source";
 import { SORA_UI_PUBLISHER_JSON_LD } from "@/lib/json-ld";
-import { getBlogPostOgImagePath } from "@/lib/og/get-blog-og-image-path";
+import { getBlogPostOgImagePath } from "@/lib/og/og-paths";
 import { SITE_URL } from "@/lib/site";
 
 export function getBlogPostJsonLd(page: BlogPage) {
