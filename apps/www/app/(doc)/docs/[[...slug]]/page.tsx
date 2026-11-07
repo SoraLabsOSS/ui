@@ -29,6 +29,8 @@ import {
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
+export const instant = false;
+
 interface GuideLink {
   text: string;
   url: string;

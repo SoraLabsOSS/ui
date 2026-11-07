@@ -29,6 +29,8 @@ import { uiSource } from "@/lib/ui/source";
 import { getUiFamilyLabel, getUiQualifiedTitle } from "@/lib/ui/ui-family";
 import { getMDXComponents } from "@/mdx-components";
 
+export const instant = false;
+
 const resolveNavItem = (url: string, fallbackName: string): DocsPagerItem => {
   const pageData = uiSource.getPageByHref(url)?.page;
   return {

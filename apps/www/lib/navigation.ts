@@ -1,4 +1,5 @@
 import {
+  COMMUNITY_DISCUSSIONS_URL,
   COMMUNITY_ISSUES_URL,
   COMMUNITY_REPO_URL,
   CONTACT_EMAIL,
@@ -105,7 +106,11 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     title: "Community",
     links: [
       { label: "GitHub", href: GITHUB_REPO_URL, external: true },
-      { label: "Community Hub", href: COMMUNITY_REPO_URL, external: true },
+      {
+        label: "Community Hub",
+        href: COMMUNITY_DISCUSSIONS_URL,
+        external: true,
+      },
       { label: "Blog", href: "/blog" },
       { label: "Pricing", href: "/pricing" },
       { label: "Report an Issue", href: COMMUNITY_ISSUES_URL, external: true },
@@ -136,7 +141,7 @@ export const FOOTER_LEGAL_LINKS: FooterLegalLink[] = [
   },
   {
     label: "Hub",
-    href: COMMUNITY_REPO_URL,
+    href: COMMUNITY_DISCUSSIONS_URL,
     external: true,
     shape: "round",
   },

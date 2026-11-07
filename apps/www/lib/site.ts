@@ -50,7 +50,7 @@ export const COMMUNITY_REPO_URL = "https://github.com/SoraLabsOSS/ui" as const;
 export const COMMUNITY_ISSUES_URL =
   "https://github.com/SoraLabsOSS/ui/issues/new" as const;
 export const COMMUNITY_DISCUSSIONS_URL =
-  "https://github.com/SoraLabsOSS/ui/discussions" as const;
+  "https://github.com/orgs/SoraLabsOSS/discussions" as const;
 
 export const SITE_DESCRIPTION =
   "Copy-paste animated React components built with Motion, Tailwind CSS & GSAP. Free, shadcn/ui-compatible — install any primitive via the CLI in seconds.";

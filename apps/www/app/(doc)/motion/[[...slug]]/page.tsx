@@ -28,6 +28,8 @@ import {
 import { GITHUB_REPO_URL, getPageAlternates, SITE_URL } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
 
+export const instant = false;
+
 const resolveNavItem = (url: string, fallbackName: string): DocsPagerItem => {
   const pageData = motionSource.getPageByHref(url)?.page;
   return {

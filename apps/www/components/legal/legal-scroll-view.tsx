@@ -67,30 +67,32 @@ export function LegalScrollView({
       )}
     >
       <div className="flex flex-col">
-        <div className="flex items-center gap-6 border-foreground/10 border-b pb-4 font-mono text-xs uppercase tracking-widest">
-          <Link
-            className={cn(
-              "transition-colors",
-              pathname === "/legal/terms"
-                ? "font-semibold text-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-            href="/legal/terms"
-          >
-            Terms of Service
-          </Link>
-          <Link
-            className={cn(
-              "transition-colors",
-              pathname === "/legal/privacy"
-                ? "font-semibold text-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-            href="/legal/privacy"
-          >
-            Privacy Policy
-          </Link>
-          <span className="ml-auto font-normal text-muted-foreground lowercase">
+        <div className="flex flex-col gap-2.5 border-foreground/10 border-b pb-4 font-mono text-xs uppercase tracking-widest sm:flex-row sm:items-center sm:justify-between">
+          <div className="scrollbar-none flex items-center gap-4 overflow-x-auto sm:gap-6">
+            <Link
+              className={cn(
+                "shrink-0 whitespace-nowrap transition-colors",
+                pathname === "/legal/terms"
+                  ? "font-semibold text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              href="/legal/terms"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              className={cn(
+                "shrink-0 whitespace-nowrap transition-colors",
+                pathname === "/legal/privacy"
+                  ? "font-semibold text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              href="/legal/privacy"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+          <span className="shrink-0 whitespace-nowrap font-normal text-muted-foreground lowercase sm:text-right">
             updated: {lastUpdated}
           </span>
         </div>
