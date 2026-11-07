@@ -4,7 +4,12 @@ import ReactIcon from "@workspace/ui/components/icons/react-icon";
 import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { ExternalLink, Fullscreen, Loader } from "lucide-react";
-import { AnimatePresence, motion, useInView } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "motion/react";
 import {
   type ReactNode,
   Suspense,
@@ -118,6 +123,7 @@ export function ComponentPreview({
   const [previewKey, setPreviewKey] = useState(0);
   const [activeTab, setActiveTab] = useState("preview");
   const [staticContent, setStaticContent] = useState<string | null>(null);
+  const prefersReducedMotion = useReducedMotion();
   const [staticHtml, setStaticHtml] = useState<string | null>(null);
   const previousPropsSnapshot = useRef<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -400,8 +406,12 @@ export function ComponentPreview({
                       variant="neutral"
                     >
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={
+                          prefersReducedMotion ? undefined : { scale: 1.05 }
+                        }
+                        whileTap={
+                          prefersReducedMotion ? undefined : { scale: 0.95 }
+                        }
                       >
                         <Fullscreen aria-label="fullscreen-btn" size={14} />
                       </motion.button>
@@ -509,11 +519,15 @@ export function ComponentPreview({
                         exit={{ opacity: 0, height: 0 }}
                         initial={{ opacity: 0, height: 0 }}
                         key="tweakpane"
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 20,
-                        }}
+                        transition={
+                          prefersReducedMotion
+                            ? { duration: 0 }
+                            : {
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 20,
+                              }
+                        }
                       >
                         <div className="w-full px-3 py-4 sm:px-6">
                           <Tweakpane

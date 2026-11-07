@@ -98,7 +98,7 @@ const LIBRARY_NAV_ITEMS = (
 ];
 
 const NAV_LINK_CLASS = cn(
-  "h-8 justify-center rounded-md bg-transparent px-3 py-0 font-normal text-neutral-700 text-sm transition-colors duration-200 ease-in-out hover:bg-transparent hover:text-black focus:bg-transparent focus:text-black dark:text-neutral-200 dark:focus:text-white dark:hover:text-white",
+  "ease h-8 justify-center rounded-md bg-transparent px-3 py-0 font-normal text-neutral-700 text-sm transition-[color,transform] duration-150 hover:bg-transparent hover:text-black focus:bg-transparent focus:text-black active:scale-[0.97] motion-reduce:active:scale-100 dark:text-neutral-200 dark:focus:text-white dark:hover:text-white",
   "data-[active=true]:bg-transparent data-[active=true]:text-black data-[active=true]:focus:bg-transparent data-[active=true]:hover:bg-transparent dark:data-[active=true]:text-white"
 );
 

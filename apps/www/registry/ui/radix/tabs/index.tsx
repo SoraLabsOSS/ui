@@ -94,7 +94,7 @@ type TabsContentProps = React.ComponentProps<typeof TabsPrimitive.Content> &
 function TabsContent({
   value,
   forceMount,
-  transition = { duration: 0.5, ease: "easeInOut" },
+  transition = { duration: 0.2, ease: "easeOut" },
   ...props
 }: TabsContentProps) {
   const prefersReducedMotion = useReducedMotion();

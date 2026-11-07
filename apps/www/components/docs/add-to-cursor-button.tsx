@@ -21,7 +21,7 @@ export function AddToCursorButton({ className }: { className?: string }) {
   return (
     <a
       className={cn(
-        "not-prose inline-flex h-9 items-center gap-2 rounded-lg bg-[#171717] px-4 font-medium text-sm text-white transition-colors hover:bg-[#262626] dark:bg-[#f5f5f5] dark:text-[#171717] dark:hover:bg-white",
+        "not-prose inline-flex h-9 items-center gap-2 rounded-lg bg-[#171717] px-4 font-medium text-sm text-white transition-[background-color,color,transform] duration-150 ease-out hover:bg-[#262626] active:scale-[0.97] motion-reduce:active:scale-100 dark:bg-[#f5f5f5] dark:text-[#171717] dark:hover:bg-white",
         className
       )}
       href={SORA_UI_CURSOR_MCP_INSTALL_LINK}

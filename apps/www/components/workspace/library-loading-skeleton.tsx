@@ -81,7 +81,7 @@ export function LibraryLoadingSkeleton({
               {SKELETON_GRID_SLOTS.map((slotId) => (
                 <li key={slotId}>
                   <div className="flex aspect-[4/3] w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/40 bg-card p-3 shadow-xs">
-                    <Skeleton className="h-full w-full" rounded="lg" />
+                    <Skeleton className="h-full w-full" rounded="sm" />
                     <div className="flex items-center px-1 pt-2.5">
                       <Skeleton className="h-4 w-3/5" rounded="sm" />
                     </div>

@@ -15,7 +15,7 @@ import {
 
 type TooltipProviderProps = TooltipProviderPrimitiveProps;
 
-function TooltipProvider({ openDelay = 0, ...props }: TooltipProviderProps) {
+function TooltipProvider({ openDelay = 300, ...props }: TooltipProviderProps) {
   return <TooltipProviderPrimitive openDelay={openDelay} {...props} />;
 }
 

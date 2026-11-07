@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import type * as React from "react";
 import { memo } from "react";
@@ -36,26 +36,22 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
   const { hovered, setHovered, containerRef } = useDocsShellHover();
   const isHovered = hovered === hoverId;
   const itemRef = useScrollActiveItemIntoView(isActive);
+  const prefersReducedMotion = useReducedMotion();
 
-  let opacity = 0.3;
+  let opacity = 0.55;
   if (isActive || isHovered) {
     opacity = 1;
-  } else if (hovered === null) {
-    opacity = 0.55;
+  } else if (hovered !== null) {
+    opacity = 0.4;
   }
 
-  let x = 0;
-  if (isActive) {
-    x = 8;
-  } else if (isHovered) {
-    x = 6;
-  }
+  const x = !prefersReducedMotion && isActive ? 4 : 0;
 
   let indicatorWidth = 18;
   if (isActive) {
     indicatorWidth = 0;
   } else if (isHovered) {
-    indicatorWidth = 26;
+    indicatorWidth = 24;
   }
 
   return (
@@ -66,7 +62,11 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
           className="pointer-events-none absolute top-1/2 left-[4px] z-35 h-[1.8px] -translate-y-1/2 rounded-full"
           layoutId="docs-shell-active-indicator"
           style={{ backgroundColor: "var(--accent-pro)" }}
-          transition={{ type: "spring", stiffness: 800, damping: 40 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 800, damping: 40 }
+          }
         />
       )}
 
@@ -76,7 +76,11 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
             animate={{ width: indicatorWidth }}
             className="pointer-events-none absolute top-1/2 left-0 z-0 h-px -translate-y-1/2 bg-foreground/50"
             initial={false}
-            transition={{ type: "spring", stiffness: 600, damping: 30 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 600, damping: 30 }
+            }
           />
           <motion.span className="pointer-events-none absolute top-1/4 left-0 z-0 h-px w-[13px] bg-foreground/30" />
           <motion.span className="pointer-events-none absolute top-0 left-0 z-0 h-px w-[16px] bg-foreground/30" />
@@ -88,7 +92,11 @@ export const DocsShellNavItem = memo(function DocsShellNavItem({
         animate={{ opacity, x }}
         ref={itemRef}
         style={{ transformOrigin: "left center" }}
-        transition={{ type: "spring", stiffness: 700, damping: 30 }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: 0.15, ease: "easeOut" }
+        }
       >
         <Link
           className={cn(

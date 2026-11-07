@@ -96,8 +96,7 @@ function AlertDialogTrigger({
       <motion.button
         data-primary-action
         type="button"
-        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
-        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+        whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
       >
         {children}
       </motion.button>
@@ -322,11 +321,8 @@ function AlertDialogContent({
                   >
                     <motion.button
                       type="button"
-                      whileHover={
-                        prefersReducedMotion ? undefined : { scale: 1.1 }
-                      }
                       whileTap={
-                        prefersReducedMotion ? undefined : { scale: 0.95 }
+                        prefersReducedMotion ? undefined : { scale: 0.96 }
                       }
                     >
                       <XIcon className="size-4" />
@@ -537,8 +533,7 @@ function AlertDialogClose({
     >
       <motion.button
         type="button"
-        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
-        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+        whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
       >
         {children}
       </motion.button>

@@ -35,7 +35,7 @@ type TooltipProviderProps = TooltipPrimitive.Provider.Props;
 /**
  * Provides shared delay and grouping settings for tooltips.
  */
-function TooltipProvider({ delay = 0, ...props }: TooltipProviderProps) {
+function TooltipProvider({ delay = 300, ...props }: TooltipProviderProps) {
   return (
     <TooltipPrimitive.Provider
       data-slot="tooltip-provider"

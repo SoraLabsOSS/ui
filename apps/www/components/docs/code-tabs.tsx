@@ -297,7 +297,7 @@ function CodeTabs({
 
       <div className="p-1.5">
         <TabsContents
-          className="rounded-lg bg-surface"
+          className="rounded-[calc(var(--radius-xl)-7px)] bg-surface"
           data-slot="install-tabs-contents"
         >
           {Object.entries(codes).map(([code, val]) => (

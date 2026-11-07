@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 import type * as React from "react";
 
 const LIST_HEIGHT_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
-const LIST_HEIGHT_DURATION_MS = 350;
+const LIST_HEIGHT_DURATION_MS = 200;
 
 function Command({
   className,

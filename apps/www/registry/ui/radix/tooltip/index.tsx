@@ -49,7 +49,7 @@ interface TooltipProviderProps
   /**
    * Delay in milliseconds before showing tooltips.
    * Alias to delayDuration.
-   * @default 0
+   * @default 300
    */
   delay?: number;
 }
@@ -58,7 +58,7 @@ interface TooltipProviderProps
  * Provides shared delay and grouping settings for tooltips.
  */
 function TooltipProvider({
-  delay = 0,
+  delay = 300,
   delayDuration,
   ...props
 }: TooltipProviderProps) {

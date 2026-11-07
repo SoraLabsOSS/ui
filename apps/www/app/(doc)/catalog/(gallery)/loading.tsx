@@ -15,7 +15,7 @@ function Skeleton({ className }: { className?: string }) {
 function GalleryCardSkeleton() {
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-3">
-      <Skeleton className="aspect-video w-full rounded-xl bg-muted" />
+      <Skeleton className="aspect-video w-full rounded-[max(4px,calc(var(--radius-2xl)-13px))] bg-muted" />
       <div className="flex items-center justify-between gap-2 px-4 py-2.5">
         <Skeleton className="h-5 w-32" />
       </div>

@@ -58,12 +58,12 @@ interface ButtonProps
   disableAnimation?: boolean;
   /**
    * Scale factor applied on pointer hover.
-   * @default 1.05
+   * @default 1
    */
   hoverScale?: number;
   /**
    * Scale factor applied on pointer click/tap.
-   * @default 0.95
+   * @default 0.98
    */
   tapScale?: number;
   /**
@@ -80,8 +80,8 @@ function Button({
   variant,
   size,
   asChild = false,
-  hoverScale = 1.05,
-  tapScale = 0.95,
+  hoverScale = 1,
+  tapScale = 0.98,
   disableAnimation = false,
   transition,
   ...props
@@ -113,7 +113,9 @@ function Button({
         }
       }
       type="button"
-      whileHover={shouldAnimate ? { scale: hoverScale } : undefined}
+      whileHover={
+        shouldAnimate && hoverScale !== 1 ? { scale: hoverScale } : undefined
+      }
       whileTap={shouldAnimate ? { scale: tapScale } : undefined}
       {...(props as ComponentPropsWithRef<typeof motion.button>)}
     />

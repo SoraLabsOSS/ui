@@ -27,7 +27,7 @@ export const DocsPager = ({ previous, next }: DocsPagerProps) => {
     >
       {previous && (
         <Link
-          className="@max-lg:col-span-full flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground"
+          className="@max-lg:col-span-full flex flex-col gap-2 rounded-lg border p-4 text-sm transition-[background-color,color,transform] duration-150 ease-out hover:bg-fd-accent/80 hover:text-fd-accent-foreground active:scale-[0.98] motion-reduce:active:scale-100"
           href={previous.url}
         >
           <div className="inline-flex items-center gap-1.5 font-medium">
@@ -46,7 +46,7 @@ export const DocsPager = ({ previous, next }: DocsPagerProps) => {
       )}
       {next && (
         <Link
-          className="@max-lg:col-span-full flex flex-col gap-2 rounded-lg border p-4 text-end text-sm transition-colors hover:bg-fd-accent/80 hover:text-fd-accent-foreground"
+          className="@max-lg:col-span-full flex flex-col gap-2 rounded-lg border p-4 text-end text-sm transition-[background-color,color,transform] duration-150 ease-out hover:bg-fd-accent/80 hover:text-fd-accent-foreground active:scale-[0.98] motion-reduce:active:scale-100"
           href={next.url}
         >
           <div className="inline-flex flex-row-reverse items-center gap-1.5 font-medium">
