@@ -47,6 +47,15 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   reactCompiler: true,
+  // Tailwind CSS v4 via the dedicated Turbopack loader (faster than PostCSS).
+  // Do NOT set `as: '*.css'` here: it breaks CSS Modules (see tailwindlabs/tailwindcss#20659).
+  turbopack: {
+    rules: {
+      "*.css": {
+        loaders: ["@tailwindcss/turbopack"],
+      },
+    },
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -283,7 +292,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(withBundleAnalyzer(withMDX(nextConfig)), {
+const baseConfig = withBundleAnalyzer(withMDX(nextConfig));
+
+const sentryOptions = {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
@@ -319,4 +330,9 @@ export default withSentryConfig(withBundleAnalyzer(withMDX(nextConfig)), {
       removeDebugLogging: true,
     },
   },
-});
+};
+
+// Sentry is only enabled on Vercel (production deploy); skipped for local builds to save time.
+export default process.env.VERCEL === "1"
+  ? withSentryConfig(baseConfig, sentryOptions)
+  : baseConfig;
