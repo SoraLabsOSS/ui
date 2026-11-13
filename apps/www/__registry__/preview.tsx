@@ -535,6 +535,22 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "silk-background": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/shaders/silk-background/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "dia-text-reveal": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/texts/dia-text-reveal/index.tsx"
@@ -1444,6 +1460,22 @@ export const previewComponents: Record<string, any> = {
   "demo-video-player": React.lazy(async () => {
     const mod = await import(
       "@/registry/demo/primitives/effects/video-player/index.tsx"
+    );
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
+  "demo-silk-background": React.lazy(async () => {
+    const mod = await import(
+      "@/registry/demo/primitives/shaders/silk-background/index.tsx"
     );
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)

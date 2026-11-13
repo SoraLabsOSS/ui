@@ -121,7 +121,7 @@ registry/
     base/{name}/                                                 — Base UI + Motion components (UI tier)
     radix/{name}/                                                — Radix UI + Motion components (UI tier)
   primitives/
-    {animate|buttons|disclosure|effects|texts}/{name}/           — Unstyled animation primitives (Motion tier)
+    {animate|buttons|disclosure|effects|shaders|texts}/{name}/   — Unstyled animation primitives (Motion tier)
   catalog/{name}/                                                — Ready-to-use animated layout showcases (Catalog tier)
   icons/{name}/                                                  — Animated Lucide icons (@soralabs/icons-*)
   demo/

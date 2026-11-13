@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "silk-background",
+  "type": "registry:ui",
+  "title": "Silk Background",
+  "description": "Fluid, interactive silk wave procedural background powered by WebGPU.",
+  "dependencies": ["vgpu", "@vgpu/wgsl"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "path": "registry/primitives/shaders/silk-background/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/shaders/silk-background.tsx"
+    }
+  ]
+}

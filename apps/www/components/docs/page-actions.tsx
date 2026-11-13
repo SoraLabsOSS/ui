@@ -62,7 +62,7 @@ export function LLMCopyButton({
           color: "secondary",
           size: "sm",
           className:
-            "shrink-0 gap-2 whitespace-nowrap border-0 transition-[background-color,color,transform] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
+            "shrink-0 gap-2 whitespace-nowrap border-0 transition-colors duration-150 ease-out [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground",
         })
       )}
       disabled={isLoading}
@@ -76,7 +76,7 @@ export function LLMCopyButton({
 }
 
 const optionVariants = cva(
-  "inline-flex items-center gap-2 rounded-lg p-2 text-sm transition-[background-color,color,transform] duration-150 ease-out hover:bg-fd-accent hover:text-fd-accent-foreground active:scale-[0.98] motion-reduce:active:scale-100 [&_svg]:size-4"
+  "inline-flex items-center gap-2 rounded-lg p-2 text-sm transition-colors duration-150 ease-out hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4"
 );
 
 export function ViewOptions({
@@ -256,7 +256,7 @@ export function ViewOptions({
             color: "secondary",
             size: "sm",
             className:
-              "shrink-0 gap-2 whitespace-nowrap border-0 transition-[background-color,color,transform] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100",
+              "shrink-0 gap-2 whitespace-nowrap border-0 transition-colors duration-150 ease-out",
           })
         )}
       >

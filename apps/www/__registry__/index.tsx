@@ -2161,6 +2161,58 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/video-player",
   },
+  "silk-background": {
+    name: "silk-background",
+    description:
+      "Fluid, interactive silk wave procedural background powered by WebGPU.",
+    type: "registry:ui",
+    dependencies: ["vgpu", "@vgpu/wgsl"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/shaders/silk-background/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/shaders/silk-background.tsx",
+      },
+    ],
+    fileGroups: null,
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/shaders/silk-background/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/silk-background",
+  },
   "dia-text-reveal": {
     name: "dia-text-reveal",
     description:
@@ -5942,6 +5994,57 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-video-player",
+  },
+  "demo-silk-background": {
+    name: "demo-silk-background",
+    description: "Interactive WebGPU procedural silk ripple effect demo.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/silk-background"],
+    files: [
+      {
+        path: "registry/demo/primitives/shaders/silk-background/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/shaders/silk-background.tsx",
+      },
+    ],
+    fileGroups: null,
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function () {
+      const LazyComp = React.lazy(async () => {
+        const mod = await import(
+          "@/registry/demo/primitives/shaders/silk-background/index.tsx"
+        );
+        const demoProps = {};
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {};
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-silk-background",
   },
   "demo-dia-text-reveal": {
     name: "demo-dia-text-reveal",

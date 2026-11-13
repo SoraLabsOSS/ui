@@ -122,7 +122,7 @@ create
   .argument("[name]", "Component slug in kebab-case")
   .option(
     "-c, --category <category>",
-    "Primitive category (texts, buttons, disclosure, effects, animate)"
+    "Primitive category (texts, buttons, disclosure, effects, animate, shaders)"
   )
   .option("--with-demo", "Also create registry/demo/primitives/... manual demo")
   .option("--skip-build", "Skip running registry:build after scaffolding")
@@ -192,7 +192,7 @@ create
   .argument("[slug]", "Catalog page slug in kebab-case")
   .option(
     "-c, --category <category>",
-    "Underlying primitive category (texts, buttons, disclosure, effects, animate)"
+    "Underlying primitive category (texts, buttons, disclosure, effects, animate, shaders)"
   )
   .option(
     "-r, --registry-name <registryName>",

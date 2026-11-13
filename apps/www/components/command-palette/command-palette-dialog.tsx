@@ -277,6 +277,25 @@ export function CommandPaletteDialog({
     return () => window.clearTimeout(timeout);
   }, [open, setSearch]);
 
+  // Reset list scroll to top whenever query text or async search results change
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    if ((search !== undefined || query.data !== undefined) && listRef.current) {
+      listRef.current.scrollTop = 0;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      if (listRef.current) {
+        listRef.current.scrollTop = 0;
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [search, query.data, open]);
+
   const runAction = useCallback(
     (action: CommandPaletteActionId) => {
       switch (action) {
@@ -405,7 +424,12 @@ export function CommandPaletteDialog({
 
         <Command className="relative min-w-0" loop shouldFilter={!hasQuery}>
           <CommandInput
-            onValueChange={setSearch}
+            onValueChange={(value) => {
+              setSearch(value);
+              if (listRef.current) {
+                listRef.current.scrollTop = 0;
+              }
+            }}
             placeholder="Search..."
             suffix={
               <span className="inline-flex items-center gap-1">

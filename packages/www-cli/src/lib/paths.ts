@@ -37,6 +37,7 @@ export const PRIMITIVE_CATEGORIES = [
   "disclosure",
   "effects",
   "animate",
+  "shaders",
 ] as const;
 
 export type PrimitiveCategory = (typeof PRIMITIVE_CATEGORIES)[number];
@@ -47,6 +48,7 @@ export const CATEGORY_SECTIONS: Record<PrimitiveCategory, string> = {
   disclosure: "---Disclosure---",
   effects: "---Effects---",
   animate: "---Animate---",
+  shaders: "---Shaders---",
 };
 
 export function sectionForCategory(category: PrimitiveCategory): string {

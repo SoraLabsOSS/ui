@@ -3,7 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Bookmark, Loader2 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { type JSX, useCallback, useEffect, useState } from "react";
 import { BookmarkLoginDialog } from "@/components/docs/bookmark-login-dialog";
 import { setPendingBookmark } from "@/lib/bookmarks/pending-intent";
@@ -33,8 +33,6 @@ export function BookmarkButton({
   } = useBookmarks();
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [localPending, setLocalPending] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
-
   const normalizedUrl = normalizeBookmarkUrl(url);
   const isBookmarked = bookmarks.some(
     (bookmark) => normalizeBookmarkUrl(bookmark.url) === normalizedUrl
@@ -90,7 +88,6 @@ export function BookmarkButton({
         onClick={handleClick}
         transition={transition}
         type="button"
-        whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
       >
         <motion.span layout="position" transition={transition}>
           {showLoadingState ? (

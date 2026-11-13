@@ -40,6 +40,8 @@
     "tilt-card",
     "pixel-image-loader",
     "skeleton",
-    "skeleton-shimmer"
+    "skeleton-shimmer",
+    "---Shaders---",
+    "silk-background"
   ]
 }

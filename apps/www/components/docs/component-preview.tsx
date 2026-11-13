@@ -409,9 +409,6 @@ export function ComponentPreview({
                         whileHover={
                           prefersReducedMotion ? undefined : { scale: 1.05 }
                         }
-                        whileTap={
-                          prefersReducedMotion ? undefined : { scale: 0.95 }
-                        }
                       >
                         <Fullscreen aria-label="fullscreen-btn" size={14} />
                       </motion.button>

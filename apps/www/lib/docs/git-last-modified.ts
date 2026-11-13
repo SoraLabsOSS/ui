@@ -1,4 +1,5 @@
 import { execFile } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -70,10 +71,24 @@ export function gitLastModifiedForFile(filePath: string): Promise<Date | null> {
         ["log", "-1", "--pretty=%ai", "--", gitPath],
         { cwd: repoRoot }
       );
-      const date = new Date(stdout.trim());
+      const trimmed = stdout.trim();
+      if (!trimmed) {
+        try {
+          const stat = await fs.promises.stat(filePath);
+          return stat.mtime;
+        } catch {
+          return null;
+        }
+      }
+      const date = new Date(trimmed);
       return Number.isNaN(date.getTime()) ? null : date;
     } catch {
-      return null;
+      try {
+        const stat = await fs.promises.stat(filePath);
+        return stat.mtime;
+      } catch {
+        return null;
+      }
     }
   })();
 

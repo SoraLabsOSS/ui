@@ -10,6 +10,7 @@ const PRIMITIVE_CATEGORIES = [
   "disclosure",
   "effects",
   "animate",
+  "shaders",
 ] as const;
 
 interface ResolvedTarget {

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-silk-background",
+  "type": "registry:ui",
+  "title": "Silk Background Demo",
+  "description": "Interactive WebGPU procedural silk ripple effect demo.",
+  "registryDependencies": ["@soralabs/silk-background"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/shaders/silk-background/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/shaders/silk-background.tsx"
+    }
+  ]
+}
