@@ -1,7 +1,8 @@
-import { DialRoot } from "dialkit";
 import type { Metadata } from "next";
 
 import "dialkit/styles.css";
+
+import { ExamplesDialRoot } from "./dial-root";
 
 export const metadata: Metadata = {
   robots: "noindex,nofollow",
@@ -23,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }
       `}</style>
       {children}
-      <DialRoot productionEnabled />
+      <ExamplesDialRoot />
     </>
   );
 }
