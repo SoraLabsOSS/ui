@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+
 import { extractExports } from "./extract-exports.js";
 
 describe("extractExports", () => {

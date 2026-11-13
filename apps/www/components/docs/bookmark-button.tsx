@@ -4,7 +4,9 @@ import { cn } from "@workspace/ui/lib/utils";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { Bookmark, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { type JSX, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import type { JSX } from "react";
+
 import { BookmarkLoginDialog } from "@/components/docs/bookmark-login-dialog";
 import { setPendingBookmark } from "@/lib/bookmarks/pending-intent";
 import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
@@ -91,7 +93,7 @@ export function BookmarkButton({
       >
         <motion.span layout="position" transition={transition}>
           {showLoadingState ? (
-            <Loader2 className="size-3.5 animate-spin text-fd-muted-foreground" />
+            <Loader2 className="text-fd-muted-foreground size-3.5 animate-spin" />
           ) : (
             <Bookmark
               className={cn(

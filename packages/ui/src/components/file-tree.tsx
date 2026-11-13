@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type * as React from "react";
 import {
   createContext,
+  createElement,
   useCallback,
   useContext,
   useMemo,
@@ -154,7 +155,7 @@ function useHighlightTarget<T extends HTMLElement = HTMLDivElement>() {
   const { containerRef, setHighlightBounds } = useFileTree();
   const ref = useRef<T>(null);
 
-  const onMouseEnter = useCallback(() => {
+  const handleMouseEnter = useCallback(() => {
     const element = ref.current;
     const container = containerRef.current;
     if (!(element && container)) {
@@ -172,7 +173,7 @@ function useHighlightTarget<T extends HTMLElement = HTMLDivElement>() {
     });
   }, [containerRef, setHighlightBounds]);
 
-  return { ref, onMouseEnter };
+  return { ref, handleMouseEnter };
 }
 
 function FolderIcon({
@@ -230,11 +231,11 @@ function FileTreeFile({ node }: { node: FileTreeElement }) {
   const highlightTarget = useHighlightTarget();
 
   return (
-    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: Hover only positions the decorative highlight behind this file row.
-    // biome-ignore lint/a11y/noStaticElementInteractions: Hover only positions the decorative highlight behind this file row.
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Hover only positions the decorative highlight behind this file row.
+    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions -- Hover only positions the decorative highlight behind this file row.
     <div
       className="relative z-10"
-      onMouseEnter={highlightTarget.onMouseEnter}
+      onMouseEnter={highlightTarget.handleMouseEnter}
       ref={highlightTarget.ref}
     >
       <div
@@ -243,7 +244,7 @@ function FileTreeFile({ node }: { node: FileTreeElement }) {
       >
         {showIcons && (
           <span className="inline-flex shrink-0">
-            <Icon className="size-4.5" />
+            {createElement(Icon, { className: "size-4.5" })}
           </span>
         )}
         <span className="text-sm">{node.name}</span>
@@ -260,14 +261,19 @@ function FileTreeFolder({ node }: { node: FileTreeElement }) {
     node.defaultOpen ?? defaultOpenIds.has(node.id)
   );
   const toggle = useCallback(() => setIsOpen((open) => !open), []);
+  const folderContextValue = useMemo(
+    () => ({ isOpen, toggle }),
+    [isOpen, toggle]
+  );
 
   return (
-    <FolderContext.Provider value={{ isOpen, toggle }}>
+    <FolderContext.Provider value={folderContextValue}>
       <div className="relative z-10" data-value={node.id}>
         <button
+          aria-label={node.name}
           className="w-full text-start"
           onClick={toggle}
-          onMouseEnter={highlightTarget.onMouseEnter}
+          onMouseEnter={highlightTarget.handleMouseEnter}
           ref={highlightTarget.ref}
           type="button"
         >
@@ -289,7 +295,7 @@ function FileTreeFolder({ node }: { node: FileTreeElement }) {
           </div>
         </button>
         <div
-          className="relative ml-6 before:absolute before:inset-y-0 before:-left-2 before:h-full before:w-px before:bg-border"
+          className="before:bg-border relative ml-6 before:absolute before:inset-y-0 before:-left-2 before:h-full before:w-px"
           style={indentSize === 24 ? undefined : { marginLeft: indentSize }}
         >
           <FolderContent>
@@ -341,32 +347,35 @@ export function FileTree({
     [defaultOpenIds]
   );
 
+  const contextValue = useMemo(
+    () => ({
+      highlightColor,
+      indentSize,
+      showIcons,
+      defaultOpenIds: defaultOpenIdSet,
+      containerRef,
+      highlightBounds,
+      setHighlightBounds,
+    }),
+    [highlightColor, indentSize, showIcons, defaultOpenIdSet, highlightBounds]
+  );
+
   return (
-    <FileTreeContext.Provider
-      value={{
-        highlightColor,
-        indentSize,
-        showIcons,
-        defaultOpenIds: defaultOpenIdSet,
-        containerRef,
-        highlightBounds,
-        setHighlightBounds,
-      }}
-    >
+    <FileTreeContext.Provider value={contextValue}>
       <div
         className={cn(
-          "overflow-hidden rounded-xl border border-border/60",
+          "border-border/60 overflow-hidden rounded-xl border",
           className
         )}
       >
-        {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Leaving the container only clears the decorative highlight. */}
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: Leaving the container only clears the decorative highlight. */}
+        {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Leaving the container only clears the decorative highlight. */}
+        {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions -- Leaving the container only clears the decorative highlight. */}
         <div
           className="relative isolate w-full p-2"
           onMouseLeave={() => setHighlightBounds(null)}
           ref={containerRef}
         >
-          <FileTreeHoverHighlight className="z-0 rounded-lg border border-accent/45 bg-accent/55" />
+          <FileTreeHoverHighlight className="border-accent/45 bg-accent/55 z-0 rounded-lg border" />
           {elements.map((node) => (
             <FileTreeNode key={node.id} node={node} />
           ))}

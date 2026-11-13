@@ -28,7 +28,11 @@ const chapters = [
         <p>The pill on the track is a real Draggable instance.</p>
       </section>
     ),
-    preview: <pre><code>{`Draggable.create(cursor, { ... })`}</code></pre>,
+    preview: (
+      <pre>
+        <code>{`Draggable.create(cursor, { ... })`}</code>
+      </pre>
+    ),
   },
   {
     id: "outro",
@@ -47,16 +51,11 @@ export default function Page() {
 }
 ```
 
-Each chapter's `content` is fully your own markup — `ScrollChapters` only
-owns the track/cursor/panel widget, not typography or layout. Give every
-chapter's `content` the same height (e.g. `h-svh`) so the per-chapter
-active window stays evenly spaced.
+Each chapter's `content` is fully your own markup — `ScrollChapters` only owns the track/cursor/panel widget, not typography or layout. Give every chapter's `content` the same height (e.g. `h-svh`) so the per-chapter active window stays evenly spaced.
 
 ### Hiding the widget near the edges
 
-The whole nav (track + cursor + panel) fades out near the very start/end of
-the content by default — `hideCardAtStart`/`hideCardAtEnd` (and their
-`startThreshold`/`endThreshold` progress values) control that independently:
+The whole nav (track + cursor + panel) fades out near the very start/end of the content by default — `hideCardAtStart`/`hideCardAtEnd` (and their `startThreshold`/`endThreshold` progress values) control that independently:
 
 ```tsx
 <ScrollChapters
@@ -68,10 +67,7 @@ the content by default — `hideCardAtStart`/`hideCardAtEnd` (and their
 
 ### Docs / catalog preview
 
-`embedded` + `containerQuery` switch chapter sizing from `100svh` to a
-`100cqh` calc so the widget fits a bounded preview panel instead of the
-full viewport — pass `scroller` (the panel's own scroll container) when
-using it this way, same contract as `StickyScrollCards`/`ScrollGallery`:
+`embedded` + `containerQuery` switch chapter sizing from `100svh` to a `100cqh` calc so the widget fits a bounded preview panel instead of the full viewport — pass `scroller` (the panel's own scroll container) when using it this way, same contract as `StickyScrollCards`/`ScrollGallery`:
 
 ```tsx
 <ScrollChapters
@@ -85,22 +81,21 @@ using it this way, same contract as `StickyScrollCards`/`ScrollGallery`:
 ## Styling
 
 <Callout title="No default colors">
-  `ScrollChapters` ships **structural** Tailwind classes only (position,
-  sizing, flex layout) — no background/text colors. Everything visible
-  (track background, cursor color, panel background) comes from the
-  `classNames` prop, same as this page's own preview.
+  `ScrollChapters` ships **structural** Tailwind classes only (position, sizing,
+  flex layout) — no background/text colors. Everything visible (track
+  background, cursor color, panel background) comes from the `classNames` prop,
+  same as this page's own preview.
 </Callout>
 
 <Callout type="warn" title="Track ruler">
-  The fine tick-mark ruler on the track is an inline `background-image`
-  (not expressible as a single Tailwind utility) — override it entirely via
+  The fine tick-mark ruler on the track is an inline `background-image` (not
+  expressible as a single Tailwind utility) — override it entirely via
   `classNames.track` if you want a different pattern.
 </Callout>
 
 ### Class slots
 
-`className` styles the root section. Pass any of these to `classNames` to
-override an inner layer:
+`className` styles the root section. Pass any of these to `classNames` to override an inner layer:
 
 - `chapter` — each chapter's `<article>` wrapper
 - `nav` — the fixed widget container (track + panel)
@@ -129,22 +124,26 @@ override an inner layer:
       default: "true",
     },
     startThreshold: {
-      description: "Progress (0-1) below which the widget hides, when `hideCardAtStart` is true.",
+      description:
+        "Progress (0-1) below which the widget hides, when `hideCardAtStart` is true.",
       type: "number",
       default: "0.02",
     },
     endThreshold: {
-      description: "Progress (0-1) above which the widget hides, when `hideCardAtEnd` is true.",
+      description:
+        "Progress (0-1) above which the widget hides, when `hideCardAtEnd` is true.",
       type: "number",
       default: "0.98",
     },
     embedded: {
-      description: "Size chapters against `scroller` instead of the viewport, for catalog/docs previews.",
+      description:
+        "Size chapters against `scroller` instead of the viewport, for catalog/docs previews.",
       type: "boolean",
       default: "false",
     },
     containerQuery: {
-      description: "Use `cqh` instead of `svh` for chapter height — pair with `embedded`.",
+      description:
+        "Use `cqh` instead of `svh` for chapter height — pair with `embedded`.",
       type: "boolean",
       default: "false",
     },
@@ -174,7 +173,8 @@ override an inner layer:
     id: { description: "Unique chapter id.", type: "string" },
     content: { description: "In-flow section content.", type: "ReactNode" },
     preview: {
-      description: "Panel content. Omit to opt this chapter out of the panel entirely.",
+      description:
+        "Panel content. Omit to opt this chapter out of the panel entirely.",
       type: "ReactNode",
     },
   }}
@@ -182,11 +182,7 @@ override an inner layer:
 
 ## When to Use
 
-`ScrollChapters` is a companion, not a hero — it's a quiet navigation aid
-for a page that already has its own big scroll-driven moments (text
-reveals, pinned sections, SVG morphs), letting a visitor see where they
-are and jump around without pulling focus. It doesn't carry a strong
-visual "wow" on its own; pair it with heavier primitives for that.
+`ScrollChapters` is a companion, not a hero — it's a quiet navigation aid for a page that already has its own big scroll-driven moments (text reveals, pinned sections, SVG morphs), letting a visitor see where they are and jump around without pulling focus. It doesn't carry a strong visual "wow" on its own; pair it with heavier primitives for that.
 
 ## Accessibility
 

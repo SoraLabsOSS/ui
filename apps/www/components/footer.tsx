@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+
 import "@/app/(marketing)/home.css";
 import {
   normalizePathname,
-  type TransitionMode,
   usePageTransition,
 } from "@/components/page-transition/page-transition-provider";
+import type { TransitionMode } from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import {
   FOOTER_COLUMNS,
@@ -16,6 +17,7 @@ import {
   FOOTER_LEGAL_LINKS,
   NAV_SOCIALS,
 } from "@/lib/navigation";
+
 import { SocialIcon } from "./social-icons";
 
 function AccordionToggleSvg() {
@@ -115,7 +117,7 @@ export function Footer() {
           <div className="flex min-h-auto flex-col justify-start gap-[var(--gap-xxl)] py-[var(--gap-xxl)] pb-[var(--gap-l)]">
             {/* Top Row: Newsletter + 3 Columns of Links */}
             <div className="flex flex-col gap-[3.75em] max-[767px]:gap-[var(--gap-xxl)]">
-              <div className="flex items-start gap-[8.5em] max-[991px]:flex-col max-[767px]:gap-[var(--gap-xxl)] max-[991px]:gap-[4.5em]">
+              <div className="flex items-start gap-[8.5em] max-[991px]:flex-col max-[991px]:gap-[4.5em] max-[767px]:gap-[var(--gap-xxl)]">
                 {/* Newsletter Column */}
                 <div className="flex w-full max-w-full! flex-col items-start justify-start gap-[var(--gap-xxl)] lg:max-w-[35.1875em]!">
                   <Link
@@ -192,13 +194,13 @@ export function Footer() {
                   >
                     {FOOTER_COLUMNS.map((column) => (
                       <div
-                        className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-neutral-400 max-[767px]:border-t max-[767px]:last:border-b"
+                        className="group w-full max-w-[13.375em] max-[767px]:-ms-[var(--gap-l)] max-[767px]:w-screen max-[767px]:max-w-none max-[767px]:border-t max-[767px]:border-neutral-400 max-[767px]:last:border-b"
                         data-accordion-status={
                           openAccordion === column.id ? "active" : "not-active"
                         }
                         key={column.id}
                       >
-                        {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
+                        {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions -- Accordion Toggle */}
                         <div
                           className="flex items-center justify-between pb-[var(--gap-xxl)] max-[767px]:min-h-[3.5rem] max-[767px]:cursor-pointer max-[767px]:px-[var(--gap-l)] max-[767px]:py-[var(--gap-m)]"
                           data-accordion-toggle=""
@@ -343,18 +345,18 @@ export function Footer() {
             </div>
 
             {/* Bottom Row: Legal Pills + Copyright + Created By */}
-            <div className="mt-[var(--gap-xl)] flex flex-col gap-[var(--gap-xl)] border-neutral-300 border-t pt-[var(--gap-m)] max-[767px]:mt-0 max-[767px]:items-center max-[767px]:justify-start max-[767px]:gap-[var(--gap-sm)]">
+            <div className="mt-[var(--gap-xl)] flex flex-col gap-[var(--gap-xl)] border-t border-neutral-300 pt-[var(--gap-m)] max-[767px]:mt-0 max-[767px]:items-center max-[767px]:justify-start max-[767px]:gap-[var(--gap-sm)]">
               <div className="grid grid-cols-3 max-[767px]:contents">
                 {/* Left Column: Legal Pills */}
                 <div>
                   <div className="flex w-full">
-                    {/* biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list structure */}
+                    {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- Webflow dynamic list structure */}
                     <div
                       className="flex max-w-full flex-wrap items-center justify-center"
                       role="list"
                     >
                       {FOOTER_LEGAL_LINKS.map((link) => (
-                        // biome-ignore lint/a11y/useSemanticElements: Webflow dynamic list item
+                        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- Webflow dynamic list item
                         <div
                           className="w-dyn-item"
                           key={link.label}
@@ -362,6 +364,7 @@ export function Footer() {
                         >
                           {link.external ? (
                             <a
+                              aria-label={link.label}
                               className="button tag w-inline-block"
                               data-button-rotate=""
                               data-button-rotate-hover=""
@@ -432,6 +435,7 @@ export function Footer() {
                   <div className="button-row">
                     {FOOTER_CREATORS.map((creator) => (
                       <a
+                        aria-label={creator.label}
                         className="button tag w-inline-block"
                         data-button-rotate=""
                         data-button-rotate-hover=""

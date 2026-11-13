@@ -3,6 +3,7 @@
 import type { SharedProps } from "fumadocs-ui/contexts/search";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
 import { useCommandPaletteGroups } from "./command-palette-groups-provider";
 
 const CommandPaletteDialog = dynamic(
@@ -13,7 +14,7 @@ const CommandPaletteDialog = dynamic(
 
 // Preload the JS chunk as soon as this module evaluates.
 if (typeof window !== "undefined") {
-  import("./command-palette-dialog").catch(() => undefined);
+  import("./command-palette-dialog").catch(() => {});
 }
 
 export function CommandPaletteSearchDialog({

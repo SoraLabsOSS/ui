@@ -3,6 +3,7 @@
 import { SidebarToggleIcon } from "@workspace/ui/components/sidebar-toggle-icon";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
+
 import { useCatalogMenu } from "./catalog-menu-context";
 import {
   catalogChromeToolbarIconClassName,
@@ -62,9 +63,9 @@ function CatalogMenuMorphButton({
         aria-label={open ? "Close components menu" : "Browse components"}
         className={cn(
           "relative z-10 flex size-full items-center justify-center transition-colors duration-200 active:scale-95",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+          "focus-visible:ring-ring/50 focus-visible:ring-2 focus-visible:outline-none",
           isExpanded
-            ? "rounded-2xl text-foreground/65 hover:text-foreground"
+            ? "text-foreground/65 hover:text-foreground rounded-2xl"
             : "rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100",
           open &&
             (isExpanded

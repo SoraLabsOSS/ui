@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
+
 import { SettingsLoadingSkeleton } from "@/components/workspace/settings-loading-skeleton";
 import { isDatabaseConfigured } from "@/env";
 import { auth } from "@/lib/auth";

@@ -21,7 +21,10 @@ compositionRecipes:
       - Keep the label associated with the input using htmlFor and id.
 ---
 
-<ComponentPreview name="radix-input" description="Default animated Radix UI input with a smooth spring caret." />
+<ComponentPreview
+  name="radix-input"
+  description="Default animated Radix UI input with a smooth spring caret."
+/>
 
 ## Installation
 
@@ -69,7 +72,10 @@ Use the native `type` prop for common field variants:
 
 ## RTL
 
-<ComponentPreview name="demo-radix-input-rtl" description="Radix UI Input animates a mirror caret through right-to-left text." />
+<ComponentPreview
+  name="demo-radix-input-rtl"
+  description="Radix UI Input animates a mirror caret through right-to-left text."
+/>
 
 Set `dir="rtl"` on the input or an ancestor. The animated mirror caret follows the browser's bidirectional text layout, so clicks and selections remain aligned.
 
@@ -90,7 +96,7 @@ The component keeps native input behavior while rendering a Motion-powered caret
     type: {
       description: "Native input type.",
       type: "string",
-      default: "\"text\"",
+      default: '"text"',
     },
     className: {
       description: "Additional CSS classes merged onto the input element.",

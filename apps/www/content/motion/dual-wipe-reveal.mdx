@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="dual-wipe-reveal" description="Dual-layer block wipe reveal sweeping across text with brand accent highlights." />
+<ComponentPreview
+  name="dual-wipe-reveal"
+  description="Dual-layer block wipe reveal sweeping across text with brand accent highlights."
+/>
 
 ## Installation
 
@@ -15,15 +18,12 @@ author:
 ## Usage
 
 ```tsx
-import { DualWipeReveal } from '@/components/sora-ui/texts/dual-wipe-reveal';
+import { DualWipeReveal } from "@/components/sora-ui/texts/dual-wipe-reveal";
 
 export function Example() {
   return (
     <h2 className="text-4xl font-semibold tracking-tight">
-      <DualWipeReveal
-        accentColor="bg-emerald-500"
-        wipeColor="bg-neutral-800"
-      >
+      <DualWipeReveal accentColor="bg-emerald-500" wipeColor="bg-neutral-800">
         Find it, copy it, ship it.
       </DualWipeReveal>
     </h2>
@@ -44,17 +44,13 @@ Stagger multiple lines:
 Reverse wipe direction (right to left):
 
 ```tsx
-<DualWipeReveal direction="right">
-  Revealed from right to left
-</DualWipeReveal>
+<DualWipeReveal direction="right">Revealed from right to left</DualWipeReveal>
 ```
 
 Vertical wipe reveals:
 
 ```tsx
-<DualWipeReveal direction="down">
-  Swept from top to bottom
-</DualWipeReveal>
+<DualWipeReveal direction="down">Swept from top to bottom</DualWipeReveal>
 ```
 
 ## Props
@@ -62,12 +58,12 @@ Vertical wipe reveals:
 <TypeTable
   type={{
     children: {
-      description: 'Content to reveal.',
-      type: 'ReactNode',
+      description: "Content to reveal.",
+      type: "ReactNode",
     },
     as: {
-      description: 'HTML tag for the container element.',
-      type: 'ElementType',
+      description: "HTML tag for the container element.",
+      type: "ElementType",
       default: '"span"',
     },
     direction: {
@@ -76,47 +72,48 @@ Vertical wipe reveals:
       default: '"left"',
     },
     accentColor: {
-      description: 'Primary accent wipe color class or CSS color value.',
-      type: 'string',
+      description: "Primary accent wipe color class or CSS color value.",
+      type: "string",
       default: '"bg-primary"',
     },
     wipeColor: {
-      description: 'Top wipe cover color class or CSS color value.',
-      type: 'string',
+      description: "Top wipe cover color class or CSS color value.",
+      type: "string",
       default: '"bg-muted"',
     },
     duration: {
-      description: 'Duration of each wipe animation in seconds.',
-      type: 'number',
-      default: '0.5',
+      description: "Duration of each wipe animation in seconds.",
+      type: "number",
+      default: "0.5",
     },
     delay: {
-      description: 'Delay before the animation starts, in seconds.',
-      type: 'number',
-      default: '0',
+      description: "Delay before the animation starts, in seconds.",
+      type: "number",
+      default: "0",
     },
     stagger: {
-      description: 'Stagger delay between top cover and accent wipe, in seconds.',
-      type: 'number',
-      default: '0.1',
+      description:
+        "Stagger delay between top cover and accent wipe, in seconds.",
+      type: "number",
+      default: "0.1",
     },
     once: {
-      description: 'Whether to animate only once when entering viewport.',
-      type: 'boolean',
-      default: 'true',
+      description: "Whether to animate only once when entering viewport.",
+      type: "boolean",
+      default: "true",
     },
     inViewMargin: {
-      description: 'Root margin for viewport in-view detection.',
-      type: 'string',
+      description: "Root margin for viewport in-view detection.",
+      type: "string",
       default: '"0px 0px -15% 0px"',
     },
     trigger: {
-      description: 'Explicit boolean to control the revealed state manually.',
-      type: 'boolean',
+      description: "Explicit boolean to control the revealed state manually.",
+      type: "boolean",
     },
     className: {
-      description: 'Additional class names merged onto the root container.',
-      type: 'string',
+      description: "Additional class names merged onto the root container.",
+      type: "string",
     },
   }}
 />

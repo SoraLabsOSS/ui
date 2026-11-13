@@ -3,14 +3,14 @@ import Link from "next/link";
 export function SponsorSection() {
   return (
     <section
-      className="!pt-0 pb-20 text-foreground md:pb-28"
+      className="text-foreground !pt-0 pb-20 md:pb-28"
       data-theme-section="light"
     >
       <div className="is--md-m container">
         <div className="flex w-full flex-col items-center justify-center text-center">
           {/* Title */}
           <div className="mx-auto flex w-full max-w-3xl flex-col items-center justify-center">
-            <h2 className="!m-0 !font-normal !text-3xl !leading-[1.15] sm:!text-4xl sm:!leading-[1.12] md:!text-5xl md:!leading-[1.08] lg:!text-[56px] lg:!leading-[1.06] text-center tracking-[-0.04em]">
+            <h2 className="!m-0 text-center !text-3xl !leading-[1.15] !font-normal tracking-[-0.04em] sm:!text-4xl sm:!leading-[1.12] md:!text-5xl md:!leading-[1.08] lg:!text-[56px] lg:!leading-[1.06]">
               Sora UI is supported by the open-source ecosystem
             </h2>
           </div>
@@ -34,7 +34,7 @@ export function SponsorSection() {
                 y="1.3877"
               />
             </svg>
-            <p className="!m-0 flex min-w-fit font-mono text-xs uppercase tracking-[0.18em] opacity-40">
+            <p className="!m-0 flex min-w-fit font-mono text-xs tracking-[0.18em] uppercase opacity-40">
               Supported by
             </p>
             <svg
@@ -63,7 +63,7 @@ export function SponsorSection() {
           <div className="my-10 flex w-full flex-nowrap items-center justify-between gap-3 sm:justify-center sm:gap-6 md:my-12 md:gap-14">
             <a
               aria-label="Mintlify"
-              className="!no-underline flex shrink-0 cursor-pointer items-center justify-center transition-opacity duration-200 hover:opacity-50"
+              className="flex shrink-0 cursor-pointer items-center justify-center !no-underline transition-opacity duration-200 hover:opacity-50"
               href="https://mintlify.com"
               rel="noopener noreferrer"
               target="_blank"
@@ -126,7 +126,7 @@ export function SponsorSection() {
 
             <a
               aria-label="1Password"
-              className="!no-underline flex shrink-0 cursor-pointer items-center justify-center transition-opacity duration-200 hover:opacity-50"
+              className="flex shrink-0 cursor-pointer items-center justify-center !no-underline transition-opacity duration-200 hover:opacity-50"
               href="https://1password.com"
               rel="noopener noreferrer"
               target="_blank"
@@ -148,7 +148,7 @@ export function SponsorSection() {
             </a>
             <a
               aria-label="Sponsored by Neon"
-              className="!no-underline flex shrink-0 cursor-pointer items-center justify-center transition-opacity duration-200 hover:opacity-50"
+              className="flex shrink-0 cursor-pointer items-center justify-center !no-underline transition-opacity duration-200 hover:opacity-50"
               href="https://neon.tech"
               rel="noopener noreferrer"
               target="_blank"
@@ -201,7 +201,7 @@ export function SponsorSection() {
               Sora UI is made possible thanks to all mentioned above
             </p>
             <Link
-              className="!font-medium !no-underline flex cursor-pointer items-center gap-1 pl-1 opacity-70 transition-opacity hover:opacity-100"
+              className="flex cursor-pointer items-center gap-1 pl-1 !font-medium !no-underline opacity-70 transition-opacity hover:opacity-100"
               href="/pricing"
             >
               be a part

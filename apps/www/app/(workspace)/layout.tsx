@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
+
 import { AuthSessionProviders } from "@/components/auth-session-providers";
 import { Providers } from "@/components/providers";
 import { LibraryLoadingSkeleton } from "@/components/workspace/library-loading-skeleton";

@@ -1,14 +1,11 @@
-// biome-ignore-all lint/performance/noImgElement: Crossfade layers animate opacity/filter/transform imperatively via WAAPI on plain img elements.
-// biome-ignore-all lint/correctness/useImageSize: Layers are absolutely positioned and sized via object-fit: contain, not intrinsic dimensions.
+/* oxlint-disable next/no-img-element, react-doctor/nextjs-no-img-element */
+/* oxlint-disable next/no-img-element, react-doctor/nextjs-no-img-element -- Crossfade layers animate opacity/filter/transform imperatively via WAAPI on plain img elements. */
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  type ComponentPropsWithoutRef,
-  type Ref,
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
+import type { ComponentPropsWithoutRef, Ref } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 const DEFAULT_INTERVAL_MS = 4500;
@@ -35,8 +32,10 @@ export interface HeroCarouselClassNames {
   pill?: string;
 }
 
-export interface HeroCarouselProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+export interface HeroCarouselProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> {
   /** Per-slot class overrides: `pill`, `chevron`. */
   classNames?: HeroCarouselClassNames;
   /** Images cycled through, in order. Fewer than 2 renders a single static image with no controls. */
@@ -87,8 +86,7 @@ function HeroCarousel({
       return;
     }
 
-    const layer0 = layers[0];
-    const layer1 = layers[1];
+    const [layer0, layer1] = layers;
 
     // Preload every image so transitions never wait on the network.
     for (const image of images) {
@@ -470,7 +468,7 @@ function HeroCarousel({
       <div className="absolute inset-0 cursor-pointer" ref={stageRef}>
         <img
           alt={first.alt}
-          className="absolute inset-0 size-full select-none object-contain [backface-visibility:hidden] [will-change:opacity,transform,filter]"
+          className="absolute inset-0 size-full object-contain [will-change:opacity,transform,filter] select-none [backface-visibility:hidden]"
           decoding="async"
           draggable={false}
           loading="eager"
@@ -482,7 +480,7 @@ function HeroCarousel({
         <img
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 size-full select-none object-contain [backface-visibility:hidden] [will-change:opacity,transform,filter]"
+          className="absolute inset-0 size-full object-contain [will-change:opacity,transform,filter] select-none [backface-visibility:hidden]"
           decoding="async"
           draggable={false}
           loading="lazy"
@@ -499,8 +497,8 @@ function HeroCarousel({
             aria-label="Pause slideshow"
             aria-pressed="false"
             className={cn(
-              "group pointer-events-auto relative inline-flex h-[26px] items-center overflow-hidden rounded-full border-0 bg-[#3e3e3e] px-2.5 font-[inherit] text-white text-xs leading-none transition-colors duration-200 [-webkit-tap-highlight-color:transparent] [transition-timing-function:ease]",
-              "hover:bg-[#4a4a4a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2",
+              "group pointer-events-auto relative inline-flex h-[26px] items-center overflow-hidden rounded-full border-0 bg-[#3e3e3e] px-2.5 font-[inherit] text-xs leading-none text-white transition-colors duration-200 [transition-timing-function:ease] [-webkit-tap-highlight-color:transparent]",
+              "hover:bg-[#4a4a4a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
               classNames?.pill
             )}
             ref={pillRef}
@@ -517,10 +515,10 @@ function HeroCarousel({
                 aria-hidden="true"
                 className="relative inline-block size-[11px] shrink-0"
               >
-                <span className="absolute inset-0 bg-white transition-[clip-path] duration-150 [clip-path:polygon(18.75%_12.5%,37.5%_12.5%,37.5%_87.5%,18.75%_87.5%)] [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none group-[.is-paused]:[clip-path:polygon(25%_12.5%,56.25%_31.25%,56.25%_68.75%,25%_87.5%)]" />
-                <span className="absolute inset-0 bg-white transition-[clip-path] duration-150 [clip-path:polygon(62.5%_12.5%,81.25%_12.5%,81.25%_87.5%,62.5%_87.5%)] [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none group-[.is-paused]:[clip-path:polygon(56.25%_31.25%,87.5%_50%,87.5%_50%,56.25%_68.75%)]" />
+                <span className="absolute inset-0 bg-white transition-[clip-path] duration-150 [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] [clip-path:polygon(18.75%_12.5%,37.5%_12.5%,37.5%_87.5%,18.75%_87.5%)] group-[.is-paused]:[clip-path:polygon(25%_12.5%,56.25%_31.25%,56.25%_68.75%,25%_87.5%)] motion-reduce:transition-none" />
+                <span className="absolute inset-0 bg-white transition-[clip-path] duration-150 [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] [clip-path:polygon(62.5%_12.5%,81.25%_12.5%,81.25%_87.5%,62.5%_87.5%)] group-[.is-paused]:[clip-path:polygon(56.25%_31.25%,87.5%_50%,87.5%_50%,56.25%_68.75%)] motion-reduce:transition-none" />
               </span>
-              <span className="hidden pt-px tabular-nums tracking-[0.02em]">
+              <span className="hidden pt-px tracking-[0.02em] tabular-nums">
                 <span ref={currentElRef}>1</span>/<span>{total}</span>
               </span>
             </span>
@@ -530,7 +528,7 @@ function HeroCarousel({
             <button
               aria-label="Previous image"
               className={cn(
-                "pointer-events-auto inline-flex size-[26px] items-center justify-center rounded-full border-0 bg-[#3e3e3e] text-white transition-colors duration-200 [-webkit-tap-highlight-color:transparent] [transition-timing-function:ease] hover:bg-[#4a4a4a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2",
+                "pointer-events-auto inline-flex size-[26px] items-center justify-center rounded-full border-0 bg-[#3e3e3e] text-white transition-colors duration-200 [transition-timing-function:ease] [-webkit-tap-highlight-color:transparent] hover:bg-[#4a4a4a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
                 classNames?.chevron
               )}
               ref={prevRef}
@@ -556,7 +554,7 @@ function HeroCarousel({
             <button
               aria-label="Next image"
               className={cn(
-                "pointer-events-auto inline-flex size-[26px] items-center justify-center rounded-full border-0 bg-[#3e3e3e] text-white transition-colors duration-200 [-webkit-tap-highlight-color:transparent] [transition-timing-function:ease] hover:bg-[#4a4a4a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2",
+                "pointer-events-auto inline-flex size-[26px] items-center justify-center rounded-full border-0 bg-[#3e3e3e] text-white transition-colors duration-200 [transition-timing-function:ease] [-webkit-tap-highlight-color:transparent] hover:bg-[#4a4a4a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
                 classNames?.chevron
               )}
               ref={nextRef}

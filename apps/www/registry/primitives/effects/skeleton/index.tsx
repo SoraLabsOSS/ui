@@ -1,15 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  type CSSProperties,
-  type HTMLAttributes,
-  type ReactNode,
-  type Ref,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, HTMLAttributes, ReactNode, Ref } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 // Skeleton only reads --sk-muted (surface fill) and --sk-foreground (shimmer
@@ -85,12 +79,12 @@ function ensureSkeletonStyles() {
     return;
   }
 
-  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+  let style = document.querySelector(`#${STYLE_ID}`) as HTMLStyleElement | null;
 
   if (!style) {
     style = document.createElement("style");
     style.id = STYLE_ID;
-    document.head.appendChild(style);
+    document.head.append(style);
   }
 
   style.textContent = SKELETON_CSS;

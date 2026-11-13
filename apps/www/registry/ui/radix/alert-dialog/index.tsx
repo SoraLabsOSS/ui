@@ -5,7 +5,9 @@ import { cn } from "@workspace/ui/lib/utils";
 import { XIcon } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
-import { type ComponentProps, createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
+import type { ComponentProps } from "react";
+
 import { Button } from "@/registry/ui/radix/button";
 
 interface AlertDialogContextValue {
@@ -193,8 +195,9 @@ function AlertDialogViewport({
   );
 }
 
-interface AlertDialogContentProps
-  extends ComponentProps<typeof AlertDialogPrimitive.Content> {
+interface AlertDialogContentProps extends ComponentProps<
+  typeof AlertDialogPrimitive.Content
+> {
   /**
    * Additional CSS class name for the fixed container wrapper.
    */
@@ -225,7 +228,7 @@ function AlertDialogContent({
   showCloseButton = false,
   overlayClassName,
   containerClassName,
-  asChild,
+  asChild: _asChild,
   style,
   ...props
 }: AlertDialogContentProps) {
@@ -247,7 +250,7 @@ function AlertDialogContent({
             <AlertDialogPrimitive.Content
               asChild
               className={cn(
-                "group/alert-dialog-content pointer-events-auto relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-xl border border-border bg-background p-6 text-foreground text-sm shadow-2xl outline-none data-[size=sm]:max-w-xs data-[size=sm]:p-4 data-[size=default]:sm:max-w-lg data-[size=sm]:sm:max-w-sm",
+                "group/alert-dialog-content border-border bg-background text-foreground pointer-events-auto relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-xl border p-6 text-sm shadow-2xl outline-none data-[size=sm]:max-w-xs data-[size=sm]:p-4 data-[size=default]:sm:max-w-lg data-[size=sm]:sm:max-w-sm",
                 className
               )}
               data-size={size}
@@ -316,7 +319,7 @@ function AlertDialogContent({
                 {showCloseButton && (
                   <AlertDialogPrimitive.Cancel
                     asChild
-                    className="absolute top-4 right-4 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground opacity-70 transition-opacity hover:bg-muted hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none"
+                    className="text-muted-foreground hover:bg-muted focus-visible:ring-ring absolute top-4 right-4 inline-flex size-7 items-center justify-center rounded-md opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 disabled:pointer-events-none"
                     data-slot="alert-dialog-close-button"
                   >
                     <motion.button
@@ -366,7 +369,7 @@ function AlertDialogMedia({ className, ...props }: AlertDialogMediaProps) {
   return (
     <div
       className={cn(
-        "mb-2 inline-flex size-10 items-center justify-center rounded-md bg-muted text-foreground sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6",
+        "bg-muted text-foreground mb-2 inline-flex size-10 items-center justify-center rounded-md sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6",
         className
       )}
       data-slot="alert-dialog-media"
@@ -384,7 +387,7 @@ function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps) {
   return (
     <AlertDialogPrimitive.Title
       className={cn(
-        "font-semibold text-base text-foreground tracking-tight sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
+        "text-foreground text-base font-semibold tracking-tight sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
         className
       )}
       data-slot="alert-dialog-title"
@@ -407,7 +410,7 @@ function AlertDialogDescription({
   return (
     <AlertDialogPrimitive.Description
       className={cn(
-        "text-balance text-muted-foreground text-sm sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2 md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-muted-foreground *:[a]:hover:text-foreground text-sm text-balance sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2 md:text-pretty *:[a]:underline *:[a]:underline-offset-3",
         className
       )}
       data-slot="alert-dialog-description"
@@ -425,7 +428,7 @@ function AlertDialogFooter({ className, ...props }: AlertDialogFooterProps) {
   return (
     <div
       className={cn(
-        "mt-2 flex flex-col-reverse gap-2 rounded-b-xl border-border border-t bg-muted/40 p-4 group-data-[size=default]/alert-dialog-content:-mx-6 group-data-[size=sm]/alert-dialog-content:-mx-4 group-data-[size=default]/alert-dialog-content:-mb-6 group-data-[size=sm]/alert-dialog-content:-mb-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
+        "border-border bg-muted/40 mt-2 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 group-data-[size=default]/alert-dialog-content:-mx-6 group-data-[size=default]/alert-dialog-content:-mb-6 group-data-[size=sm]/alert-dialog-content:-mx-4 group-data-[size=sm]/alert-dialog-content:-mb-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
         className
       )}
       data-slot="alert-dialog-footer"

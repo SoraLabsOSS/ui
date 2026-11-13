@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 const fieldClassName = "inline-flex flex-row items-center gap-1";
 
 const codeChip = cva(
-  "rounded-md bg-muted/50 px-1 py-0.5 font-mono text-foreground text-xs",
+  "bg-muted/50 text-foreground rounded-md px-1 py-0.5 font-mono text-xs",
   {
     variants: {
       color: {
@@ -40,20 +40,20 @@ export function SoraTypeTable({ type, className }: SoraTypeTableProps) {
   return (
     <div
       className={cn(
-        "sora-type-table not-prose my-4 w-full min-w-0 max-w-full overflow-x-auto rounded-xl border border-border",
+        "sora-type-table not-prose border-border my-4 w-full max-w-full min-w-0 overflow-x-auto rounded-xl border",
         className
       )}
     >
-      <table className="w-full border-collapse text-muted-foreground text-sm">
+      <table className="text-muted-foreground w-full border-collapse text-sm">
         <thead>
-          <tr className="border-border border-b bg-muted/30">
-            <th className="w-[45%] px-3 py-2.5 text-left font-medium text-foreground">
+          <tr className="border-border bg-muted/30 border-b">
+            <th className="text-foreground w-[45%] px-3 py-2.5 text-left font-medium">
               Prop
             </th>
-            <th className="w-[30%] px-3 py-2.5 text-left font-medium text-foreground">
+            <th className="text-foreground w-[30%] px-3 py-2.5 text-left font-medium">
               Type
             </th>
-            <th className="w-1/4 px-3 py-2.5 text-left font-medium text-foreground">
+            <th className="text-foreground w-1/4 px-3 py-2.5 text-left font-medium">
               Default
             </th>
           </tr>

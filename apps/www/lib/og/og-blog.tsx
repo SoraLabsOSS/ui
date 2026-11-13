@@ -1,12 +1,11 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+
 import { BlogPostCard } from "@workspace/ui/components/og/blog-post-card";
 import { ImageResponse } from "next/og";
-import {
-  BLOG_AUTHORS,
-  BLOG_BRAND_AVATAR_PATH,
-  type BlogAuthorId,
-} from "@/lib/blog/blog-authors";
+
+import { BLOG_AUTHORS, BLOG_BRAND_AVATAR_PATH } from "@/lib/blog/blog-authors";
+import type { BlogAuthorId } from "@/lib/blog/blog-authors";
 import { createBlogPostOgContent } from "@/lib/blog/create-blog-post-og-content";
 import { getBlogIndexOgContent } from "@/lib/blog/get-blog-index-og-content";
 import { blog } from "@/lib/blog/source";
@@ -205,13 +204,13 @@ function toOgDataUrl(buffer: Buffer): string | undefined {
   return `data:${mime};base64,${buffer.toString("base64")}`;
 }
 
-function getBrandAvatarDataUrl(): Promise<string | undefined> {
+async function getBrandAvatarDataUrl(): Promise<string | undefined> {
   if (!brandAvatarDataUrl) {
     brandAvatarDataUrl = readFile(
       path.join(process.cwd(), "public", brandAvatarFileName)
     )
       .then((buffer) => toOgDataUrl(buffer))
-      .catch(() => undefined);
+      .catch((): undefined => {});
   }
 
   return brandAvatarDataUrl;
@@ -227,12 +226,12 @@ function isLocalBrandAvatar(src: string): boolean {
   return brandPaths.includes(src);
 }
 
-function fetchRemoteOgImage(src: string): Promise<string | undefined> {
+async function fetchRemoteOgImage(src: string): Promise<string | undefined> {
   let url: string;
   try {
     url = assertSafeOgImageUrl(src);
   } catch {
-    return Promise.resolve(undefined);
+    return;
   }
 
   const cached = remoteDataUrls.get(url);
@@ -260,7 +259,6 @@ function fetchRemoteOgImage(src: string): Promise<string | undefined> {
     })
     .catch((): undefined => {
       remoteDataUrls.delete(url);
-      return;
     });
 
   remoteDataUrls.set(url, pending);
@@ -403,11 +401,14 @@ export async function getBlogOgImageBuffer(
   }
 
   try {
-    return await (await createBlogOgImageResponse(content)).arrayBuffer();
+    const response = await createBlogOgImageResponse(content);
+    return await response.arrayBuffer();
   } catch {
-    return await (
-      await createBlogOgImageResponse({ ...content, avatar: undefined })
-    ).arrayBuffer();
+    const fallbackResponse = await createBlogOgImageResponse({
+      ...content,
+      avatar: undefined,
+    });
+    return await fallbackResponse.arrayBuffer();
   }
 }
 

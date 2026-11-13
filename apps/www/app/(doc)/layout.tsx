@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+
 import { AISearchRoot } from "@/components/ai/shell";
 import { Providers } from "@/components/providers";
 

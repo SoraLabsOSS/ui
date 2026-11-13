@@ -3,7 +3,9 @@
 import { Grid2x2, Grid3x2, List, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 import {
   COMPONENT_GALLERY_SECTIONS,
@@ -19,6 +21,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
+
 import { CatalogNavHoverPreview } from "../catalog-nav-hover-preview";
 import { useCatalogHoverPreview } from "../use-catalog-hover-preview";
 import { GalleryCardPreview } from "./gallery-card-preview";
@@ -65,7 +68,7 @@ function NewBadge({
 }) {
   return (
     <span
-      className="flex items-center rounded-lg font-medium text-sm capitalize"
+      className="flex items-center rounded-lg text-sm font-medium capitalize"
       style={{ color: "var(--accent-pro)" }}
     >
       new
@@ -286,9 +289,9 @@ function GalleryCard({
           setIsPreviewActive(false);
         }}
       >
-        <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-3 transition-colors duration-200 hover:border-foreground/15">
+        <div className="group border-border/60 bg-card hover:border-foreground/15 relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border p-3 transition-colors duration-200">
           <div
-            className="relative w-full overflow-hidden rounded-[max(4px,calc(var(--radius-2xl)-13px))] bg-muted"
+            className="bg-muted relative w-full overflow-hidden rounded-[max(4px,calc(var(--radius-2xl)-13px))]"
             style={{ aspectRatio: "16 / 9" }}
           >
             <GalleryCardPreview
@@ -301,7 +304,7 @@ function GalleryCard({
           </div>
 
           <div className="flex items-center justify-between gap-2 px-4 py-2.5">
-            <span className="truncate font-medium text-base text-foreground">
+            <span className="text-foreground truncate text-base font-medium">
               {item.title}
             </span>
             {isNew ? (
@@ -342,9 +345,9 @@ function GalleryCompactCard({
           setIsPreviewActive(false);
         }}
       >
-        <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-colors duration-200 hover:border-foreground/15">
+        <div className="group border-border/60 bg-card hover:border-foreground/15 relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border p-2 transition-colors duration-200">
           <div
-            className="relative w-full overflow-hidden rounded-[max(4px,calc(var(--radius-2xl)-9px))] bg-muted"
+            className="bg-muted relative w-full overflow-hidden rounded-[max(4px,calc(var(--radius-2xl)-9px))]"
             style={{ aspectRatio: "16 / 9" }}
           >
             <GalleryCardPreview
@@ -356,7 +359,7 @@ function GalleryCompactCard({
             />
           </div>
           <div className="flex items-center px-3 py-2">
-            <span className="truncate font-medium text-foreground text-sm">
+            <span className="text-foreground truncate text-sm font-medium">
               {item.title}
             </span>
           </div>
@@ -382,7 +385,7 @@ function GalleryListRow({
 }) {
   return (
     <Link
-      className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
+      className="group border-border bg-card hover:border-foreground/15 flex items-center gap-4 rounded-xl border px-5 py-3.5 transition-all"
       href={item.href}
       onMouseEnter={(event) => {
         onPointerEnter?.(item, event);
@@ -392,15 +395,15 @@ function GalleryListRow({
     >
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <div className="flex items-center gap-2">
-          <span className="truncate font-medium text-foreground text-sm">
+          <span className="text-foreground truncate text-sm font-medium">
             {item.title}
           </span>
-          <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-foreground/50 text-xs capitalize">
+          <span className="bg-muted text-foreground/50 shrink-0 rounded-full px-2 py-0.5 text-xs capitalize">
             {resolveGalleryCategory(item)}
           </span>
         </div>
         {item.description ? (
-          <p className="line-clamp-1 text-foreground/50 text-xs">
+          <p className="text-foreground/50 line-clamp-1 text-xs">
             {item.description}
           </p>
         ) : null}
@@ -539,13 +542,13 @@ function ViewToggle({
       }}
       value={viewMode}
     >
-      <TabsHighlight className="absolute inset-0 rounded-lg bg-background shadow-sm dark:bg-foreground/10">
-        <TabsList className="relative flex h-10 shrink-0 items-center rounded-xl bg-muted p-1">
+      <TabsHighlight className="bg-background dark:bg-foreground/10 absolute inset-0 rounded-lg shadow-sm">
+        <TabsList className="bg-muted relative flex h-10 shrink-0 items-center rounded-xl p-1">
           {options.map(({ value, label, Icon }) => (
             <TabsHighlightItem className="h-full" key={value} value={value}>
               <TabsTrigger
                 aria-label={`Display in ${label.toLowerCase()} mode`}
-                className="relative z-10 flex h-full w-10 cursor-pointer items-center justify-center rounded-lg transition-colors duration-150 focus-visible:outline-none data-[state=active]:text-foreground data-[state=inactive]:text-foreground/45"
+                className="data-[state=active]:text-foreground data-[state=inactive]:text-foreground/45 relative z-10 flex h-full w-10 cursor-pointer items-center justify-center rounded-lg transition-colors duration-150 focus-visible:outline-none"
                 title={label}
                 value={value}
               >
@@ -592,7 +595,7 @@ export function ComponentGalleryExplorer({
   }, [viewMode, clearHoverPreview]);
 
   // Reset flyout when filters change so stale previews do not linger.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: search and sortMode drive intentional reset
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- search and sortMode drive intentional reset
   useEffect(() => {
     clearHoverPreview();
   }, [search, sortMode]);
@@ -632,11 +635,11 @@ export function ComponentGalleryExplorer({
           <div className="relative w-full">
             <Search
               aria-hidden
-              className="pointer-events-none absolute top-1/2 left-3.5 size-[18px] -translate-y-1/2 text-muted-foreground"
+              className="text-muted-foreground pointer-events-none absolute top-1/2 left-3.5 size-[18px] -translate-y-1/2"
               strokeWidth={2.5}
             />
             <input
-              className="h-10 w-full rounded-xl bg-muted pr-2 pl-10 text-base text-foreground transition-shadow placeholder:text-foreground/35 placeholder:tracking-tight focus:outline-none focus:ring-2 focus:ring-foreground/20"
+              className="bg-muted text-foreground placeholder:text-foreground/35 focus:ring-foreground/20 h-10 w-full rounded-xl pr-2 pl-10 text-base transition-shadow placeholder:tracking-tight focus:ring-2 focus:outline-none"
               onChange={(event) => {
                 setSearch(event.target.value);
               }}
@@ -704,11 +707,11 @@ export function ComponentGalleryExplorer({
                             <h2 className="text-4xl tracking-tight">
                               {section.title}
                             </h2>
-                            <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1.5 font-medium text-foreground/70 text-xs tabular-nums">
+                            <span className="bg-muted text-foreground/70 mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-medium tabular-nums">
                               {sectionItems.length}
                             </span>
                           </div>
-                          <p className="text-base text-foreground/50">
+                          <p className="text-foreground/50 text-base">
                             {section.description}
                           </p>
                         </div>
@@ -742,10 +745,10 @@ export function ComponentGalleryExplorer({
               key="gallery-empty"
               transition={FILTER_TRANSITION}
             >
-              <p className="font-medium text-foreground text-lg tracking-tight">
+              <p className="text-foreground text-lg font-medium tracking-tight">
                 No components found
               </p>
-              <p className="max-w-md text-foreground/50 text-sm">
+              <p className="text-foreground/50 max-w-md text-sm">
                 Try a different search term or sort order.
               </p>
             </motion.div>

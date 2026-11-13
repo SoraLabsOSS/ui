@@ -10,6 +10,7 @@ hashtags: ["#changelog", "#soraui", "#motion", "#radix", "#baseui"]
 Sora UI started with a simple promise: copy-paste animation primitives built on Motion and GSAP that you install with shadcn, own in your repository, and ship without fighting opaque npm packages.
 
 As the library expanded, we introduced accessible application controls powered by modern headless libraries, along with full-page layout showcases. However, generic terms like "Primitives" and "Components" began to blur:
+
 - Was an unstyled text animation a primitive or a component?
 - Was an assembled, multi-component layout template a component or a catalog showcase?
 - Where did accessible form controls (like checkboxes, dialogs, and popovers) fit in?
@@ -70,16 +71,17 @@ Every component includes comprehensive manual demos covering varied real-world u
 
 A major taxonomy change shouldn't break existing bookmarks, inbound search results, or blog articles. We implemented comprehensive URL rewrite and permanent redirect rules in `next.config.ts` and `build-doc-redirects.ts`:
 
-* `/components` and `/components/:path*` $\rightarrow$ automatically redirected to `/catalog` and `/catalog/:path*`.
-* `/docs/primitives` and `/docs/primitives/:path*` $\rightarrow$ automatically redirected to `/docs/motion` and `/docs/motion/:path*`.
-* `/motion` and `/motion/:path*` $\rightarrow$ transparently rewritten to `/docs/motion/:path*` for concise public URLs.
-* LLM exports (`/llms.mdx/*`, `/llms-catalog.mdx/*`, `/llms-ui.mdx/*`) and MCP tools (`search_docs`, `get_page`) updated to support both old and new paths seamlessly.
+- `/components` and `/components/:path*` $\rightarrow$ automatically redirected to `/catalog` and `/catalog/:path*`.
+- `/docs/primitives` and `/docs/primitives/:path*` $\rightarrow$ automatically redirected to `/docs/motion` and `/docs/motion/:path*`.
+- `/motion` and `/motion/:path*` $\rightarrow$ transparently rewritten to `/docs/motion/:path*` for concise public URLs.
+- LLM exports (`/llms.mdx/*`, `/llms-catalog.mdx/*`, `/llms-ui.mdx/*`) and MCP tools (`search_docs`, `get_page`) updated to support both old and new paths seamlessly.
 
 ---
 
 ## Smarter Bookmarks & State Sync
 
 We also upgraded the user bookmarking engine:
+
 - **Automatic URL Canonicalization:** If you previously bookmarked `/components/sticky-scroll-cards` or `/docs/primitives/tilt-card`, your saved list automatically normalizes the entry to `/catalog/sticky-scroll-cards` and `/docs/motion/tilt-card`.
 - **Live Search Index Resolution:** Bookmarked items resolve real-time titles, descriptions, and tag gradients from our cached search index.
 
@@ -88,6 +90,7 @@ We also upgraded the user bookmarking engine:
 ## What's Coming Next
 
 With the taxonomy clear and the multi-foundation registry in place, we're expanding each pillar:
+
 1. **More Motion Primitives:** New particle shaders, 3D text deformations, and SVG path morphing effects.
 2. **More Catalog Showcases:** Full marketing landing layouts, interactive pricing calculators, and onboarding flows.
 3. **Expanded UI Tier:** Additional Base UI and Radix UI components with animated state transitions.

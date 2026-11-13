@@ -103,16 +103,16 @@ function cleanMdxStepChildren(children?: string): string {
 
   // Preserve code blocks before stripping JSX tags
   const codeBlocks: string[] = [];
-  let text = children.replace(CODE_BLOCKS_FENCE_RE, (block) => {
+  let text = children.replaceAll(CODE_BLOCKS_FENCE_RE, (block) => {
     codeBlocks.push(block);
     return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
   });
 
   // Remove <Step> and </Step>
-  text = text.replace(STEP_TAG_RE, "");
+  text = text.replaceAll(STEP_TAG_RE, "");
 
   // Convert <h[1-6][^>]*>(.*?)<\/h[1-6]> into markdown heading
-  text = text.replace(
+  text = text.replaceAll(
     HEADING_TAG_RE,
     (_, heading: string) => `\n\n**${heading.trim()}**\n\n`
   );
@@ -121,20 +121,21 @@ function cleanMdxStepChildren(children?: string): string {
   let previous: string;
   do {
     previous = text;
-    text = text.replace(HTML_TAG_RE, "");
+    text = text.replaceAll(HTML_TAG_RE, "");
   } while (text !== previous);
 
   // Restore preserved code blocks
-  text = text.replace(CODE_BLOCK_PLACEHOLDER_RE, (_, idx) => {
+  text = text.replaceAll(CODE_BLOCK_PLACEHOLDER_RE, (_, idx) => {
     const block = codeBlocks[Number(idx)] ?? "";
     // Dedent block lines to avoid accidental 4-space indentation block interpretation
     const lines = block.split("\n");
-    const minIndent = lines
-      .filter((l) => l.trim().length > 0)
-      .reduce((min, l) => {
+    let minIndent = Number.POSITIVE_INFINITY;
+    for (const l of lines) {
+      if (l.trim().length > 0) {
         const indent = l.match(LEADING_INDENT_RE)?.[0].length ?? 0;
-        return Math.min(min, indent);
-      }, Number.POSITIVE_INFINITY);
+        minIndent = Math.min(minIndent, indent);
+      }
+    }
 
     if (minIndent > 0 && minIndent !== Number.POSITIVE_INFINITY) {
       return lines
@@ -212,18 +213,21 @@ function expandComponentCredits(name: string): string {
 }
 
 function unescapeString(str: string): string {
-  return str.replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\\\/g, "\\");
+  return str
+    .replaceAll('\\"', '"')
+    .replaceAll("\\'", "'")
+    .replaceAll("\\\\", "\\");
 }
 
 function escapeTableCell(value: string): string {
   // Escape characters that would otherwise be interpreted by Markdown table parsing.
   // - `|` breaks the table cell boundaries
   // - `\` is used as an escape character in Markdown, so we must escape it too
-  return value.replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
+  return value.replaceAll("\\", "\\\\").replaceAll("|", "\\|");
 }
 
 function parseTypeTableBlock(block: string): TypeTableProp[] {
-  const props: Array<{ name: string; body: string }> = [];
+  const props: { name: string; body: string }[] = [];
   const lines = block.split("\n");
   let current: { name: string; body: string } | null = null;
 
@@ -295,11 +299,11 @@ function parseTypeTableBlock(block: string): TypeTableProp[] {
 
 function decodeHtmlEntities(str: string): string {
   return str
-    .replace(/&#x22;|&quot;/g, '"')
-    .replace(/&#x27;|&#39;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&");
+    .replaceAll(/&#x22;|&quot;/g, '"')
+    .replaceAll(/&#x27;|&#39;/g, "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&amp;", "&");
 }
 
 function expandTypeTable(block: string): string {
@@ -331,7 +335,7 @@ function expandTypeTable(block: string): string {
 
 function expandCodeTabs(block: string, lang = "bash"): string {
   const decoded = decodeHtmlEntities(block);
-  const entries: Array<{ key: string; code: string }> = [];
+  const entries: { key: string; code: string }[] = [];
   const entryRe = new RegExp(CODE_TABS_ENTRY_RE.source, "g");
   let match = entryRe.exec(decoded);
   while (match !== null) {
@@ -384,58 +388,60 @@ function expandCards(block: string): string {
 
 /** Expand Sora MDX components into plain markdown for LLM/MCP consumers. */
 export function expandLlmMarkdown(content: string): string {
-  const normalized = content.replace(/\r\n/g, "\n");
+  const normalized = content.replaceAll("\r\n", "\n");
   const codeBlocks: string[] = [];
-  let expanded = normalized.replace(CODE_BLOCKS_FENCE_RE, (block) => {
+  let expanded = normalized.replaceAll(CODE_BLOCKS_FENCE_RE, (block) => {
     codeBlocks.push(block);
     return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
   });
 
-  expanded = expanded.replace(MDX_IMPORT_RE, "");
+  expanded = expanded.replaceAll(MDX_IMPORT_RE, "");
 
   expanded = expanded
-    .replace(COMPONENT_PREVIEW_RE, "")
-    .replace(COMPONENT_INSTALLATION_RE, (_, name: string, children?: string) =>
-      expandComponentInstallation(name, children)
+    .replaceAll(COMPONENT_PREVIEW_RE, "")
+    .replaceAll(
+      COMPONENT_INSTALLATION_RE,
+      (_, name: string, children?: string) =>
+        expandComponentInstallation(name, children)
     )
-    .replace(COMPONENT_CREDITS_RE, (_, name: string) =>
+    .replaceAll(COMPONENT_CREDITS_RE, (_, name: string) =>
       expandComponentCredits(name)
     )
-    .replace(CODE_TABS_RE, (_, attrs: string, b1?: string, b2?: string) => {
+    .replaceAll(CODE_TABS_RE, (_, attrs: string, b1?: string, b2?: string) => {
       const langMatch = attrs.match(CODE_TABS_LANG_RE);
       const lang = langMatch?.[1] ?? "bash";
       return expandCodeTabs(b1 ?? b2 ?? "", lang);
     })
-    .replace(CARDS_RE, (_, block: string) => expandCards(block))
-    .replace(CHANGELOG_TITLE_RE, (_, title: string) => `### ${title.trim()}`)
-    .replace(CHANGELOG_TAGS_RE, "")
-    .replace(TABS_TAGS_RE, "")
-    .replace(TYPE_TABLE_RE, (_, b1?: string, b2?: string) =>
+    .replaceAll(CARDS_RE, (_, block: string) => expandCards(block))
+    .replaceAll(CHANGELOG_TITLE_RE, (_, title: string) => `### ${title.trim()}`)
+    .replaceAll(CHANGELOG_TAGS_RE, "")
+    .replaceAll(TABS_TAGS_RE, "")
+    .replaceAll(TYPE_TABLE_RE, (_, b1?: string, b2?: string) =>
       expandTypeTable(b1 ?? b2 ?? "")
     )
-    .replace(STEPS_TAG_RE, "")
-    .replace(STEP_TAG_RE, "")
-    .replace(CALLOUT_TAG_RE, "")
-    .replace(GENERIC_STRIP_TAGS_RE, "");
+    .replaceAll(STEPS_TAG_RE, "")
+    .replaceAll(STEP_TAG_RE, "")
+    .replaceAll(CALLOUT_TAG_RE, "")
+    .replaceAll(GENERIC_STRIP_TAGS_RE, "");
 
   const inlineCodes: string[] = [];
-  expanded = expanded.replace(INLINE_CODE_SPAN_RE, (span) => {
+  expanded = expanded.replaceAll(INLINE_CODE_SPAN_RE, (span) => {
     inlineCodes.push(span);
     return `__INLINE_CODE_${inlineCodes.length - 1}__`;
   });
 
-  expanded = expanded.replace(FALLBACK_STRIP_JSX_TAGS_RE, "");
+  expanded = expanded.replaceAll(FALLBACK_STRIP_JSX_TAGS_RE, "");
 
-  expanded = expanded.replace(
+  expanded = expanded.replaceAll(
     INLINE_CODE_PLACEHOLDER_RE,
     (_, idx) => inlineCodes[Number(idx)] ?? ""
   );
 
-  expanded = expanded.replace(
+  expanded = expanded.replaceAll(
     CODE_BLOCK_PLACEHOLDER_RE,
     (_, idx) => codeBlocks[Number(idx)] ?? ""
   );
 
-  expanded = expanded.replace(MULTI_NEWLINE_RE, "\n\n");
+  expanded = expanded.replaceAll(MULTI_NEWLINE_RE, "\n\n");
   return expanded.trim();
 }

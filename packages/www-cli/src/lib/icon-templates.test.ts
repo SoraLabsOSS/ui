@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+
 import {
   buildIconLabels,
   renderIconDemoIndex,
@@ -55,7 +56,7 @@ describe("icon templates", () => {
 
     const parsed = JSON.parse(jsonStr) as {
       dependencies: string[];
-      files: Array<{ path: string; target: string; type: string }>;
+      files: { path: string; target: string; type: string }[];
       name: string;
       registryDependencies: string[];
       type: string;

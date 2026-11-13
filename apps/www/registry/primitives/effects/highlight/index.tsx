@@ -1,25 +1,14 @@
+/* eslint-disable eqeqeq, no-eq-null -- highlight overlay bounds calculation */
 "use client";
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  AnimatePresence,
-  motion,
-  type Transition,
-  useReducedMotion,
-} from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { Transition } from "motion/react";
 import {
   Children,
-  type ComponentPropsWithoutRef,
-  type CSSProperties,
   cloneElement,
   createContext,
   Fragment,
   isValidElement,
-  type MouseEvent,
-  type ReactElement,
-  type ReactNode,
-  type Ref,
-  type RefCallback,
-  type RefObject,
   useCallback,
   useContext,
   useEffect,
@@ -28,6 +17,16 @@ import {
   useMemo,
   useRef,
   useState,
+} from "react";
+import type {
+  ComponentPropsWithoutRef,
+  CSSProperties,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+  Ref,
+  RefCallback,
+  RefObject,
 } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -125,7 +124,6 @@ function assignRef<T>(
   if (ref) {
     (ref as RefObject<T | null>).current = node;
   }
-  return;
 }
 /**
  * Merge the child's own ref, our measurement ref and the forwarded ref into a
@@ -667,11 +665,10 @@ function ItemOverlay({
     />
   );
 }
-export interface HighlightItemProps
-  extends Omit<
-    ComponentPropsWithoutRef<"div">,
-    "children" | "className" | "style"
-  > {
+export interface HighlightItemProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children" | "className" | "style"
+> {
   /** Extra class applied to the highlight overlay while this item is active. */
   activeClassName?: string;
   /** Merge event handlers and refs into the child element instead of wrapping it in a `div`. */

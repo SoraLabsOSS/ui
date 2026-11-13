@@ -3,6 +3,7 @@
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentProps } from "react";
+
 import { UserProfile } from "./user-profile";
 
 export interface AccountSettingsProps {

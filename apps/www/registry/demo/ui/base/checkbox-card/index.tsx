@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Checkbox } from "@/registry/ui/base/checkbox";
 
 export default function CheckboxCardDemo() {
@@ -9,7 +10,7 @@ export default function CheckboxCardDemo() {
   return (
     <div className="flex items-center justify-center p-4">
       <label
-        className="flex max-w-md cursor-pointer items-start gap-3.5 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5"
+        className="border-border bg-card hover:bg-muted/40 has-data-checked:border-primary has-data-checked:bg-primary/5 flex max-w-md cursor-pointer items-start gap-3.5 rounded-lg border p-4 transition-colors"
         htmlFor="security-card-input"
       >
         <Checkbox
@@ -18,7 +19,7 @@ export default function CheckboxCardDemo() {
           onCheckedChange={setEnabled}
         />
         <div className="grid gap-1">
-          <span className="font-medium text-foreground text-sm leading-none">
+          <span className="text-foreground text-sm leading-none font-medium">
             Two-factor Authentication
           </span>
           <span className="text-muted-foreground text-xs leading-normal">

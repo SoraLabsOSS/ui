@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/resolve-scroll-root";
 import { waitForScrollerReady } from "@/lib/scroller-ready";
-import {
-  ScrollGallery,
-  type ScrollGallerySlide,
-} from "@/registry/catalog/scroll-gallery";
+import { ScrollGallery } from "@/registry/catalog/scroll-gallery";
+import type { ScrollGallerySlide } from "@/registry/catalog/scroll-gallery";
 
 const SCROLL_GALLERY_MEDIA =
   "https://cdn.soralabs.studio/media/demo/scroll-gallery" as const;

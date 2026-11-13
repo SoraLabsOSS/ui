@@ -1,7 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type CSSProperties, useMemo } from "react";
+import { useMemo } from "react";
+import type { CSSProperties } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 // Reads --pb-background for the optional solid-fade layer only. Defaults to

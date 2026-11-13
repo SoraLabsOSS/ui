@@ -1,11 +1,12 @@
 import { cn } from "@workspace/ui/lib/utils";
+
 import { HomeShell } from "@/components/home-shell";
 
 function LoadingBlock({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "rounded-md bg-accent motion-safe:animate-pulse",
+        "bg-accent rounded-md motion-safe:animate-pulse",
         className
       )}
     />
@@ -32,7 +33,7 @@ function BlogIndexSkeleton() {
             <div className="grid grid-cols-12 gap-6">
               {["topic-a", "topic-b", "topic-c"].map((key) => (
                 <div
-                  className="col-span-full min-h-[160px] rounded-lg border border-border/70 p-6 lg:col-span-4"
+                  className="border-border/70 col-span-full min-h-[160px] rounded-lg border p-6 lg:col-span-4"
                   key={key}
                 >
                   <div className="flex h-full flex-col justify-between gap-8">
@@ -47,12 +48,12 @@ function BlogIndexSkeleton() {
             </div>
           </section>
 
-          <section className="relative border-border/40 border-t pt-16 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-24">
+          <section className="border-border/40 relative border-t pt-16 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-24">
             <LoadingBlock className="mb-10 h-12 w-64 md:h-14 lg:h-16" />
             <div className="grid grid-cols-12 gap-6">
               {["post-a", "post-b", "post-c"].map((key) => (
                 <div
-                  className="col-span-full min-h-[240px] rounded-lg border border-border/70 p-6 lg:col-span-4"
+                  className="border-border/70 col-span-full min-h-[240px] rounded-lg border p-6 lg:col-span-4"
                   key={key}
                 >
                   <div className="flex h-full flex-col justify-between gap-8">

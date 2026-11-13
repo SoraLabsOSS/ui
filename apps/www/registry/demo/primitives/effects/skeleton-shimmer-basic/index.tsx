@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { type ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+
 import { SkeletonOverlay } from "@/registry/primitives/effects/skeleton-shimmer";
 import { Button } from "@/registry/ui/base/button";
 
@@ -62,7 +64,7 @@ export function SkeletonShimmerBasicDemo({
 
   return (
     <div className="flex min-h-[420px] w-full flex-col items-center justify-center gap-4 px-0 py-3 sm:p-6">
-      <div className="w-full max-w-none overflow-hidden rounded-2xl border bg-card p-4 shadow-sm transition-colors sm:max-w-sm sm:p-5">
+      <div className="bg-card w-full max-w-none overflow-hidden rounded-2xl border p-4 shadow-sm transition-colors sm:max-w-sm sm:p-5">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <CoverIfLoading
@@ -89,7 +91,7 @@ export function SkeletonShimmerBasicDemo({
               loading={loading}
             >
               <div className="flex min-w-0 flex-col">
-                <h4 className="font-semibold text-foreground text-sm">Axyl</h4>
+                <h4 className="text-foreground text-sm font-semibold">Axyl</h4>
                 <p className="text-muted-foreground text-xs">
                   @axyl1410 • Sora UI
                 </p>
@@ -135,7 +137,7 @@ export function SkeletonShimmerBasicDemo({
               loading={loading}
             >
               <button
-                className="rounded-lg border px-3 py-1.5 font-medium text-foreground text-xs hover:bg-muted"
+                className="text-foreground hover:bg-muted rounded-lg border px-3 py-1.5 text-xs font-medium"
                 type="button"
               >
                 Bookmark
@@ -147,7 +149,7 @@ export function SkeletonShimmerBasicDemo({
               loading={loading}
             >
               <button
-                className="rounded-lg bg-primary px-3.5 py-1.5 font-medium text-primary-foreground text-xs hover:opacity-90"
+                className="bg-primary text-primary-foreground rounded-lg px-3.5 py-1.5 text-xs font-medium hover:opacity-90"
                 type="button"
               >
                 Read More

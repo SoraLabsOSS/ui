@@ -1,8 +1,10 @@
 "use client";
 
-import { type HTMLMotionProps, motion } from "motion/react";
+import { motion } from "motion/react";
+import type { HTMLMotionProps } from "motion/react";
 
-import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
+import { Slot } from "@/registry/primitives/animate/slot";
+import type { WithAsChild } from "@/registry/primitives/animate/slot";
 
 type ButtonProps = WithAsChild<
   HTMLMotionProps<"button"> & {

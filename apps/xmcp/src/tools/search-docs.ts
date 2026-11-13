@@ -1,10 +1,8 @@
 import type { InferSchema, ToolMetadata } from "xmcp";
 import { z } from "zod";
-import {
-  type DocSearchResult,
-  DocSourceError,
-  soraDocsSource,
-} from "../docs/sora-docs-source";
+
+import { DocSourceError, soraDocsSource } from "../docs/sora-docs-source";
+import type { DocSearchResult } from "../docs/sora-docs-source";
 import { formatSearchResults } from "../lib/tokens";
 
 export const schema = {

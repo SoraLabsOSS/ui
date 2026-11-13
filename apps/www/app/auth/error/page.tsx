@@ -6,6 +6,7 @@ import { Button } from "@workspace/ui/components/ui/button";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+
 import AuthLoading from "@/app/auth/[path]/loading";
 import { SignInSplitShell } from "@/components/auth/sign-in-split-shell";
 import {
@@ -66,11 +67,11 @@ async function AuthErrorContent({
   return (
     <SignInSplitShell>
       <div className="w-full">
-        <h1 className="font-medium text-3xl text-foreground tracking-tight sm:text-4xl">
+        <h1 className="text-foreground text-3xl font-medium tracking-tight sm:text-4xl">
           {content.title}
         </h1>
 
-        <p className="mt-3 text-muted-foreground">{content.description}</p>
+        <p className="text-muted-foreground mt-3">{content.description}</p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Button asChild className="h-11">

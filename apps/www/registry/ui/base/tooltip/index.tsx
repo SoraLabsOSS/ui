@@ -3,12 +3,8 @@
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  AnimatePresence,
-  motion,
-  type Transition,
-  useReducedMotion,
-} from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { Transition } from "motion/react";
 import { createContext, useContext, useMemo, useState } from "react";
 
 interface TooltipContextValue {
@@ -107,7 +103,8 @@ function TooltipTrigger({ ...props }: TooltipTriggerProps) {
 }
 
 interface TooltipContentProps
-  extends TooltipPrimitive.Popup.Props,
+  extends
+    TooltipPrimitive.Popup.Props,
     Pick<
       TooltipPrimitive.Positioner.Props,
       "align" | "alignOffset" | "side" | "sideOffset"
@@ -144,16 +141,20 @@ function TooltipContent({
 
   const offset = useMemo(() => {
     switch (side) {
-      case "bottom":
+      case "bottom": {
         return { x: 0, y: -8 };
+      }
       case "left":
-      case "inline-start":
+      case "inline-start": {
         return { x: 8, y: 0 };
+      }
       case "right":
-      case "inline-end":
+      case "inline-end": {
         return { x: -8, y: 0 };
-      default:
+      }
+      default: {
         return { x: 0, y: 8 };
+      }
     }
   }, [side]);
 
@@ -182,7 +183,7 @@ function TooltipContent({
           >
             <TooltipPrimitive.Popup
               className={cn(
-                "z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-background text-xs shadow-md outline-none has-data-[slot=kbd]:pr-1.5 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm",
+                "bg-foreground text-background z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md px-3 py-1.5 text-xs shadow-md outline-none has-data-[slot=kbd]:pr-1.5 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm",
                 className
               )}
               data-slot="tooltip-content"
@@ -230,7 +231,7 @@ function TooltipArrow({ className, ...props }: TooltipArrowProps) {
   return (
     <TooltipPrimitive.Arrow
       className={cn(
-        "z-50 size-2.5 rotate-45 rounded-[2px] bg-foreground fill-foreground",
+        "bg-foreground fill-foreground z-50 size-2.5 rotate-45 rounded-[2px]",
         "data-[side=bottom]:top-[-5px]",
         "data-[side=top]:bottom-[-5px]",
         "data-[side=right]:left-[-5px]",

@@ -1,10 +1,13 @@
 import type { SocialProvider } from "better-auth/social-providers";
 
 import type { AuthPlugin } from "../lib/auth-plugin";
-import { type BasePaths, basePaths } from "../lib/base-paths";
-import { type Localization, localization } from "../lib/localization";
+import { basePaths } from "../lib/base-paths";
+import type { BasePaths } from "../lib/base-paths";
+import { localization } from "../lib/localization";
+import type { Localization } from "../lib/localization";
 import { resizeAvatar } from "../lib/utils";
-import { type ViewPaths, viewPaths } from "../lib/view-paths";
+import { viewPaths } from "../lib/view-paths";
+import type { ViewPaths } from "../lib/view-paths";
 import type { AdditionalFields } from "./additional-fields-config";
 import type { AvatarConfig } from "./avatar-config";
 import type { EmailAndPasswordConfig } from "./email-and-password-config";

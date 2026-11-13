@@ -13,8 +13,10 @@ export interface VideoPlayerChapter {
   title: string;
 }
 
-export interface VideoPlayerProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+export interface VideoPlayerProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> {
   /** Chapter markers segmenting the seek timeline. */
   chapters?: VideoPlayerChapter[];
   /**
@@ -105,7 +107,7 @@ export function formatSpeedLabel(value: number) {
 }
 
 export function sanitizeId(value: string) {
-  return value.replace(/[^a-zA-Z0-9_-]/g, "-");
+  return value.replaceAll(/[^a-zA-Z0-9_-]/g, "-");
 }
 
 export function clamp(value: number, min: number, max: number) {

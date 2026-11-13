@@ -1,19 +1,9 @@
 "use client";
 
-import {
-  type MotionProps,
-  motion,
-  useInView,
-  useReducedMotion,
-} from "motion/react";
-import {
-  type ComponentType,
-  type ElementType,
-  type ReactNode,
-  type Ref,
-  useMemo,
-  useRef,
-} from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import type { MotionProps } from "motion/react";
+import { useMemo, useRef } from "react";
+import type { ComponentType, ElementType, ReactNode, Ref } from "react";
 
 const NBSP = " ";
 
@@ -108,7 +98,7 @@ export function RollingText({
           <span
             aria-hidden="true"
             className="relative inline-block overflow-hidden"
-            // biome-ignore lint/suspicious/noArrayIndexKey: static per-render character list, order never changes
+            // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- static per-render character list, order never changes
             key={`${letter}-${index}`}
             style={{ height: "1em" }}
           >
@@ -122,10 +112,10 @@ export function RollingText({
                 delay,
               }}
             >
-              {new Array(numberOfRolls + 2).fill(null).map((_, copyIndex) => (
+              {Array.from({ length: numberOfRolls + 2 }).map((_, copyIndex) => (
                 <span
                   className="flex shrink-0 items-center justify-center"
-                  // biome-ignore lint/suspicious/noArrayIndexKey: static per-render roll-copy list, order never changes
+                  // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- static per-render roll-copy list, order never changes
                   key={copyIndex}
                   style={{ height: "1.2em" }}
                 >

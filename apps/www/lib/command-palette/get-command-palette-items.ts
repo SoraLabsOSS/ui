@@ -1,4 +1,5 @@
 import { cache } from "react";
+
 import { baseOptions } from "@/app/layout.config";
 import motionMeta from "@/content/motion/meta.json";
 import uiMeta from "@/content/ui/meta.json";
@@ -17,6 +18,7 @@ import type { ComponentGalleryCategory } from "@/lib/registry/types";
 import { getFirstUiDocUrl } from "@/lib/ui/get-first-ui-doc-url";
 import { uiSource } from "@/lib/ui/source";
 import { getUiFamilyLabel } from "@/lib/ui/ui-family";
+
 import type { CommandPaletteGroup, CommandPaletteItem } from "./types";
 
 function sectionTitle(category: ComponentGalleryCategory): string {
@@ -31,7 +33,7 @@ function docHint(url: string): string {
     return "Docs";
   }
 
-  const segment = url.split("/").filter(Boolean).pop() ?? "";
+  const segment = url.split("/").findLast(Boolean) ?? "";
   return segment
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))

@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  InlineTestimonials,
-  type Testimonial,
-} from "@/registry/primitives/disclosure/inline-testimonials";
+import { InlineTestimonials } from "@/registry/primitives/disclosure/inline-testimonials";
+import type { Testimonial } from "@/registry/primitives/disclosure/inline-testimonials";
 
 const TESTIMONIALS: Testimonial[] = [
   {

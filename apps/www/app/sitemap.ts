@@ -1,5 +1,6 @@
 import type { InferPageType } from "fumadocs-core/source";
 import type { MetadataRoute } from "next";
+
 import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
@@ -29,7 +30,7 @@ function toLastModified(value: Date | string | number | undefined) {
   return new Date(value);
 }
 
-function maxDate(...dates: Array<Date | undefined>) {
+function maxDate(...dates: (Date | undefined)[]) {
   let latest: Date | undefined;
 
   for (const date of dates) {
@@ -42,7 +43,7 @@ function maxDate(...dates: Array<Date | undefined>) {
 }
 
 function getLatestLastModified(
-  pages: ReadonlyArray<{ data: { lastModified?: Date | string | number } }>
+  pages: readonly { data: { lastModified?: Date | string | number } }[]
 ) {
   let latest: Date | undefined;
 
@@ -228,7 +229,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  return await Promise.resolve(Array.from(entryMap.values()));
+  return await Promise.resolve([...entryMap.values()]);
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

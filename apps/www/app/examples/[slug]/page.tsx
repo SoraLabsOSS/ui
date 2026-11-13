@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { previewComponents } from "@/__registry__/preview";
+
 import { ExamplePreviewClient } from "../example-preview-client";
 
 export const instant = false;

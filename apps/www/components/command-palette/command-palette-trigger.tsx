@@ -27,7 +27,7 @@ export function CommandPaletteTrigger({
 }: CommandPaletteTriggerProps) {
   const openCommandPalette = useCommandPaletteOpen();
   const handlePreload = () => {
-    import("./command-palette-dialog").catch(() => undefined);
+    import("./command-palette-dialog").catch(() => {});
   };
 
   if (variant === "icon") {
@@ -48,7 +48,7 @@ export function CommandPaletteTrigger({
   return (
     <button
       className={cn(
-        "flex h-8 w-48 items-center justify-between rounded-md bg-accent pr-1.5 pl-3 text-muted-foreground text-sm transition-colors duration-200 ease-in-out hover:bg-accent/70 lg:w-56 xl:w-64",
+        "bg-accent text-muted-foreground hover:bg-accent/70 flex h-8 w-48 items-center justify-between rounded-md pr-1.5 pl-3 text-sm transition-colors duration-200 ease-in-out lg:w-56 xl:w-64",
         className
       )}
       onClick={openCommandPalette}
@@ -59,10 +59,10 @@ export function CommandPaletteTrigger({
       <span className="font-normal">Search...</span>
 
       <KbdGroup className="items-center gap-1">
-        <Kbd className="flex size-5 items-center justify-center rounded-[4px] border bg-background leading-none">
+        <Kbd className="bg-background flex size-5 items-center justify-center rounded-[4px] border leading-none">
           <CommandIcon className="size-2.5" />
         </Kbd>
-        <Kbd className="flex size-5 items-center justify-center rounded-[4px] border bg-background px-0">
+        <Kbd className="bg-background flex size-5 items-center justify-center rounded-[4px] border px-0">
           <span className="pt-px text-[0.625rem] leading-none">K</span>
         </Kbd>
       </KbdGroup>

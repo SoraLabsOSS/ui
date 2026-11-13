@@ -46,7 +46,7 @@ export function UnderNavMarquee({
     >
       <div className="under-nav-bar__inner">
         <div
-          className="nav-marquee select-none text-white"
+          className="nav-marquee text-white select-none"
           style={{ color: "#ffffff" }}
         >
           <div
@@ -56,7 +56,7 @@ export function UnderNavMarquee({
           >
             <div className="marquee-css__list" data-css-marquee-list="nav">
               {Array.from({ length: 4 }).map((_, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: Static repeated marquee item
+                // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- Static repeated marquee item
                 <div className="marquee-css__item" key={i}>
                   <p
                     className="eyebrow is--nav-marquee text-white"
@@ -79,7 +79,7 @@ export function UnderNavMarquee({
             </div>
             <div className="marquee-css__list" data-css-marquee-list="nav">
               {Array.from({ length: 4 }).map((_, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: Static repeated marquee item
+                // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- Static repeated marquee item
                 <div className="marquee-css__item" key={`repeat-${i}`}>
                   <p
                     className="eyebrow is--nav-marquee text-white"

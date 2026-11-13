@@ -9,6 +9,7 @@ import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { Separator } from "@workspace/ui/components/ui/separator";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
+
 import { ActiveSession } from "./active-session";
 
 export interface ActiveSessionsProps {
@@ -29,13 +30,13 @@ export function ActiveSessions({ className }: ActiveSessionsProps) {
 
   const { data: sessions, isPending } = useListSessions(authClient);
 
-  const activeSessions = [...(sessions ?? [])].sort((activeSession) =>
+  const activeSessions = (sessions ?? []).toSorted((activeSession) =>
     activeSession.id === session?.session.id ? -1 : 1
   );
 
   return (
     <div>
-      <h2 className="mb-3 font-semibold text-sm">
+      <h2 className="mb-3 text-sm font-semibold">
         {localization.settings.activeSessions}
       </h2>
 

@@ -22,7 +22,10 @@ compositionRecipes:
       - Include an accessible sr-only label in the button alongside the tooltip.
 ---
 
-<ComponentPreview name="demo-base-tooltip" description="Base UI tooltip with spring bounce motion physics and arrow pointer." />
+<ComponentPreview
+  name="demo-base-tooltip"
+  description="Base UI tooltip with spring bounce motion physics and arrow pointer."
+/>
 
 ## Installation
 
@@ -47,6 +50,7 @@ compositionRecipes:
       );
     }
     ```
+
   </Step>
 </ComponentInstallation>
 
@@ -121,7 +125,8 @@ export default function Page() {
       type: "number",
     },
     skipDelayDuration: {
-      description: "How long in milliseconds to wait before re-enabling delay when moving between tooltips.",
+      description:
+        "How long in milliseconds to wait before re-enabling delay when moving between tooltips.",
       type: "number",
     },
   }}
@@ -132,7 +137,8 @@ export default function Page() {
 <TypeTable
   type={{
     side: {
-      description: "Preferred side of the trigger to position the tooltip content.",
+      description:
+        "Preferred side of the trigger to position the tooltip content.",
       type: '"top" | "bottom" | "left" | "right" | "inline-start" | "inline-end"',
       default: '"top"',
     },

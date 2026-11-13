@@ -3,25 +3,25 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
 import {
   AnimatePresence,
   MotionConfig,
   motion,
-  type Transition,
   useReducedMotion,
 } from "motion/react";
+import type { Transition } from "motion/react";
 import {
-  type ComponentProps,
   createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useId,
   useMemo,
   useState,
 } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 type AccordionItemValue = string | number;
 
@@ -76,7 +76,7 @@ const accordionVariants = cva("flex w-full flex-col", {
   variants: {
     variant: {
       default: "",
-      bordered: "rounded-xl border border-border bg-card/40 p-2 shadow-xs",
+      bordered: "border-border bg-card/40 rounded-xl border p-2 shadow-xs",
       separated: "gap-2.5",
       ghost: "",
     },
@@ -91,9 +91,9 @@ const accordionItemVariants = cva("relative transition-colors", {
     variant: {
       default: "border-border border-b not-last:border-b",
       bordered:
-        "border-border/70 border-b not-last:border-b px-3 last:border-b-0",
-      separated: "rounded-xl border border-border bg-card/60 px-4 shadow-xs",
-      ghost: "rounded-lg px-3 hover:bg-muted/50",
+        "border-border/70 border-b px-3 not-last:border-b last:border-b-0",
+      separated: "border-border bg-card/60 rounded-xl border px-4 shadow-xs",
+      ghost: "hover:bg-muted/50 rounded-lg px-3",
     },
   },
   defaultVariants: {
@@ -102,7 +102,7 @@ const accordionItemVariants = cva("relative transition-colors", {
 });
 
 const accordionTriggerVariants = cva(
-  "group/accordion-trigger relative flex flex-1 select-none items-center justify-between py-4 text-left font-medium text-sm outline-none transition-all hover:underline focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+  "group/accordion-trigger relative flex flex-1 items-center justify-between py-4 text-left text-sm font-medium transition-all outline-none select-none hover:underline focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -137,7 +137,8 @@ function normalizeValues(
 }
 
 interface AccordionProps
-  extends Omit<
+  extends
+    Omit<
       ComponentProps<typeof AccordionPrimitive.Root>,
       "value" | "defaultValue" | "onValueChange"
     >,
@@ -286,8 +287,9 @@ function Accordion({
   );
 }
 
-interface AccordionItemProps
-  extends ComponentProps<typeof AccordionPrimitive.Item> {
+interface AccordionItemProps extends ComponentProps<
+  typeof AccordionPrimitive.Item
+> {
   /**
    * Additional CSS classes for the item container.
    */
@@ -361,8 +363,9 @@ function AccordionHeader({
   );
 }
 
-interface AccordionTriggerProps
-  extends ComponentProps<typeof AccordionPrimitive.Trigger> {
+interface AccordionTriggerProps extends ComponentProps<
+  typeof AccordionPrimitive.Trigger
+> {
   /**
    * Custom chevron or trailing icon element.
    */
@@ -484,7 +487,7 @@ function AccordionTrigger({
               >
                 <ChevronDownIcon
                   className={cn(
-                    "size-4 text-muted-foreground transition-colors group-hover/accordion-trigger:text-foreground",
+                    "text-muted-foreground group-hover/accordion-trigger:text-foreground size-4 transition-colors",
                     chevronClassName
                   )}
                   data-slot="accordion-trigger-icon"
@@ -497,7 +500,7 @@ function AccordionTrigger({
         {displayFocusRing && isFocused && shouldAnimate && (
           <motion.div
             className={cn(
-              "pointer-events-none absolute -inset-1 z-0 rounded-lg bg-accent/60 ring-2 ring-ring/50",
+              "bg-accent/60 ring-ring/50 pointer-events-none absolute -inset-1 z-0 rounded-lg ring-2",
               mergedFocusRingClassName
             )}
             data-slot="accordion-focus-ring"
@@ -543,8 +546,9 @@ const staticInnerVariants = {
   closed: { opacity: 0, filter: "none" },
 };
 
-interface AccordionContentProps
-  extends ComponentProps<typeof AccordionPrimitive.Panel> {
+interface AccordionContentProps extends ComponentProps<
+  typeof AccordionPrimitive.Panel
+> {
   /**
    * Additional CSS classes for the inner wrapper element.
    */
@@ -603,7 +607,7 @@ function AccordionContent({
             >
               <div
                 className={cn(
-                  "pt-0 pb-4 text-muted-foreground text-sm leading-relaxed [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+                  "text-muted-foreground [&_a]:hover:text-foreground pt-0 pb-4 text-sm leading-relaxed [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4",
                   innerClassName
                 )}
               >

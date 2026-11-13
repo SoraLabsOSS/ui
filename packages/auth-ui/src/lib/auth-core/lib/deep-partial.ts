@@ -2,7 +2,7 @@
  * Recursive partial. Leaves functions and arrays intact so callable props
  * stay callable and array element types are preserved.
  */
-// biome-ignore lint/suspicious/noExplicitAny: canonical "any function" top type
+// oxlint-disable-next-line @typescript-eslint/no-explicit-any -- canonical "any function" top type
 export type DeepPartial<T> = T extends (...args: any[]) => any
   ? T
   : T extends readonly unknown[]

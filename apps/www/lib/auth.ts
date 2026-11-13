@@ -3,6 +3,7 @@ import { db } from "@workspace/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
 import { lastLoginMethod, oneTap, openAPI } from "better-auth/plugins";
+
 import {
   env,
   getBetterAuthSecret,
@@ -11,6 +12,7 @@ import {
   isRedisConfigured,
   isSentinelConfigured,
 } from "@/env";
+
 import { logAuthApiError } from "./log-auth-api-error";
 import { redisSecondaryStorage } from "./redis-secondary-storage";
 

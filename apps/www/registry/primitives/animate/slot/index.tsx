@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type HTMLMotionProps, isMotionComponent, motion } from "motion/react";
+import { isMotionComponent, motion } from "motion/react";
+import type { HTMLMotionProps } from "motion/react";
 import type * as React from "react";
 import { createElement, isValidElement, useCallback, useMemo } from "react";
 

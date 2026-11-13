@@ -84,7 +84,7 @@ export function addStyles() {
   styleEl = document.createElement("style");
   styleEl.dataset.torph = "true";
   styleEl.textContent = TORPH_CSS;
-  document.head.appendChild(styleEl);
+  document.head.append(styleEl);
 }
 
 export function removeStyles() {

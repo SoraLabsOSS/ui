@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  InfiniteScrollingImages,
-  type InfiniteScrollingImagesItem,
-} from "@/registry/catalog/infinite-scrolling-images";
+import { InfiniteScrollingImages } from "@/registry/catalog/infinite-scrolling-images";
+import type { InfiniteScrollingImagesItem } from "@/registry/catalog/infinite-scrolling-images";
 
 const INFINITE_SCROLLING_IMAGES_MEDIA =
   "https://cdn.soralabs.studio/media/demo/infinite-scrolling-images" as const;

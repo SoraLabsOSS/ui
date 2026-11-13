@@ -3,21 +3,19 @@ title: MCP
 description: Connect the Sora UI docs MCP server to Cursor and other AI clients.
 ---
 
-import { CodeTabs } from '@/components/docs/code-tabs';
-import { AddToCursorButton } from '@/components/docs/add-to-cursor-button';
-import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { McpInitTabs } from '@/components/docs/mcp-init-tabs';
-import {
-  SORA_UI_MCP_SERVER_NAME,
-  SORA_UI_MCP_URL,
-} from '@/lib/mcp-cursor';
+import { CodeTabs } from "@/components/docs/code-tabs";
+import { AddToCursorButton } from "@/components/docs/add-to-cursor-button";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { McpInitTabs } from "@/components/docs/mcp-init-tabs";
+import { SORA_UI_MCP_SERVER_NAME, SORA_UI_MCP_URL } from "@/lib/mcp-cursor";
 
 The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component catalog. It runs as a remote HTTP server at <code>{SORA_UI_MCP_URL}</code> (no local CLI required).
 
 <Callout type="warn" title="Remote Server Temporarily Paused">
   Due to usage limits and maintenance funding constraints, the public remote MCP server (`https://mcp.soralabs.studio/mcp`) is temporarily paused. Remote HTTP connections in Cursor, Claude Code, and Claude Desktop are currently unavailable.
 
-  You can continue using Sora UI MCP locally via **Local STDIO** or self-host it. See [Local Development (STDIO & HTTP)](#local-development-stdio--http) below for setup instructions.
+You can continue using Sora UI MCP locally via **Local STDIO** or self-host it. See [Local Development (STDIO & HTTP)](#local-development-stdio--http) below for setup instructions.
+
 </Callout>
 
 ## Capabilities
@@ -45,12 +43,21 @@ The **Sora UI docs MCP** server gives AI assistants live access to this site —
 | `registry-catalog` | Complete live JSON snapshot of all installable Sora UI registry items (`type: "registry:ui"` and `type: "registry:hook"`) |
 
 <Callout>
-  `get_component_info` lets you browse, inspect, and pull the source of a component directly from **Sora UI docs MCP** — its output points the agent at the standard `shadcn add` or [`sora-cli`](https://www.npmjs.com/package/@soralabs/cli) command to actually run for a correct install (right import aliases, dependencies installed), so most agents can install straight from this one server. If you'd rather the agent install `@soralabs/*` via a dedicated MCP tool call instead of running a shell command, configure the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP (shadcn)](#registry-mcp-shadcn) below).
+  `get_component_info` lets you browse, inspect, and pull the source of a
+  component directly from **Sora UI docs MCP** — its output points the agent at
+  the standard `shadcn add` or
+  [`sora-cli`](https://www.npmjs.com/package/@soralabs/cli) command to actually
+  run for a correct install (right import aliases, dependencies installed), so
+  most agents can install straight from this one server. If you'd rather the
+  agent install `@soralabs/*` via a dedicated MCP tool call instead of running a
+  shell command, configure the [shadcn MCP
+  server](https://ui.shadcn.com/docs/mcp) alongside it (see [Registry MCP
+  (shadcn)](#registry-mcp-shadcn) below).
 </Callout>
 
 ## How it works in practice
 
-**MCP does not auto-suggest Sora components in the editor** — there is no autocomplete, component picker, or inline hint while you type JSX. MCP is **optional tooling for the AI agent**: after you enable a server, the agent *can* call its tools when your prompt is relevant, but it is neither always-on nor guaranteed on every message.
+**MCP does not auto-suggest Sora components in the editor** — there is no autocomplete, component picker, or inline hint while you type JSX. MCP is **optional tooling for the AI agent**: after you enable a server, the agent _can_ call its tools when your prompt is relevant, but it is neither always-on nor guaranteed on every message.
 
 ### Two servers, two jobs
 
@@ -67,7 +74,7 @@ Use **both** if you'd rather the agent call an MCP tool to install than run `sha
 
 2. **During Agent chat (semi-automatic)** — The agent may call MCP when it decides it needs live docs — for example, you ask for a scroll-pinned hero and it searches for `scroll-gallery`. This depends on your prompt, mode (Agent vs Ask), and model; **it will not happen on every request**.
 
-3. **Explicit prompts (most reliable)** — Name Sora UI or the task directly: *“List installable Sora UI components”*, *“Get install info for scroll-gallery”*, *“Get the source code for scroll-gallery”*, *“Add scroll-gallery from @soralabs and use variant=studio”*.
+3. **Explicit prompts (most reliable)** — Name Sora UI or the task directly: _“List installable Sora UI components”_, _“Get install info for scroll-gallery”_, _“Get the source code for scroll-gallery”_, _“Add scroll-gallery from @soralabs and use variant=studio”_.
 
 ### What MCP is not
 
@@ -87,7 +94,10 @@ Use **both** if you'd rather the agent call an MCP tool to install than run `sha
 ```
 
 <Callout type="warn">
-  The `--yes` (or `-y`) flag matters when an agent runs `shadcn` or `sora-cli` itself: without it, `add` prints a confirmation prompt and — since the agent's shell has no TTY — silently exits successfully without installing anything. `get_component_info` always includes `--yes` in the command it returns.
+  The `--yes` (or `-y`) flag matters when an agent runs `shadcn` or `sora-cli`
+  itself: without it, `add` prints a confirmation prompt and — since the agent's
+  shell has no TTY — silently exits successfully without installing anything.
+  `get_component_info` always includes `--yes` in the command it returns.
 </Callout>
 
 ## Add to Cursor
@@ -111,7 +121,7 @@ Open **Settings → Tools & MCP** and make sure **{SORA_UI_MCP_SERVER_NAME}** is
 </Step>
 <Step>
 
-Restart Cursor if tools do not appear, then try a prompt like *“Search Sora UI docs for accordion”*.
+Restart Cursor if tools do not appear, then try a prompt like _“Search Sora UI docs for accordion”_.
 
 </Step>
 </Steps>
@@ -123,28 +133,28 @@ Add this to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all 
 <CodeTabs
   lang="json"
   codes={{
-    'Remote HTTP': JSON.stringify(
+    "Remote HTTP": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
+          "sora-ui": {
             url: SORA_UI_MCP_URL,
           },
         },
       },
       null,
-      2,
+      2
     ),
-    'Local STDIO': JSON.stringify(
+    "Local STDIO": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            command: 'node',
-            args: ['<path-to-repo>/apps/xmcp/dist/stdio.js'],
+          "sora-ui": {
+            command: "node",
+            args: ["<path-to-repo>/apps/xmcp/dist/stdio.js"],
           },
         },
       },
       null,
-      2,
+      2
     ),
   }}
 />
@@ -158,8 +168,8 @@ After saving, enable the server in **Settings → Tools & MCP** and restart Curs
 <CodeTabs
   lang="bash"
   codes={{
-    'Remote HTTP': `claude mcp add --transport http sora-ui ${SORA_UI_MCP_URL}`,
-    'Local STDIO': `claude mcp add sora-ui node <path-to-repo>/apps/xmcp/dist/stdio.js`,
+    "Remote HTTP": `claude mcp add --transport http sora-ui ${SORA_UI_MCP_URL}`,
+    "Local STDIO": `claude mcp add sora-ui node <path-to-repo>/apps/xmcp/dist/stdio.js`,
   }}
 />
 
@@ -176,7 +186,7 @@ Verify the server was added with `claude mcp list` — you should see **sora-ui*
 </Step>
 <Step>
 
-Start a new Claude Code session and try a prompt like *"Search Sora UI docs for accordion"*.
+Start a new Claude Code session and try a prompt like _"Search Sora UI docs for accordion"_.
 
 </Step>
 </Steps>
@@ -188,29 +198,29 @@ Add to `~/.claude/settings.json` (global) or `.claude/settings.json` (project):
 <CodeTabs
   lang="json"
   codes={{
-    'Remote HTTP': JSON.stringify(
+    "Remote HTTP": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            type: 'http',
+          "sora-ui": {
+            type: "http",
             url: SORA_UI_MCP_URL,
           },
         },
       },
       null,
-      2,
+      2
     ),
-    'Local STDIO': JSON.stringify(
+    "Local STDIO": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            command: 'node',
-            args: ['<path-to-repo>/apps/xmcp/dist/stdio.js'],
+          "sora-ui": {
+            command: "node",
+            args: ["<path-to-repo>/apps/xmcp/dist/stdio.js"],
           },
         },
       },
       null,
-      2,
+      2
     ),
   }}
 />
@@ -227,41 +237,41 @@ Add the server under `mcpServers`. Claude Desktop connects via `mcp-remote` (rec
 <CodeTabs
   lang="json"
   codes={{
-    'Remote (mcp-remote)': JSON.stringify(
+    "Remote (mcp-remote)": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            command: 'npx',
-            args: ['-y', 'mcp-remote', SORA_UI_MCP_URL],
+          "sora-ui": {
+            command: "npx",
+            args: ["-y", "mcp-remote", SORA_UI_MCP_URL],
           },
         },
       },
       null,
-      2,
+      2
     ),
-    'Native HTTP': JSON.stringify(
+    "Native HTTP": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            type: 'http',
+          "sora-ui": {
+            type: "http",
             url: SORA_UI_MCP_URL,
           },
         },
       },
       null,
-      2,
+      2
     ),
-    'Local STDIO': JSON.stringify(
+    "Local STDIO": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            command: 'node',
-            args: ['/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js'],
+          "sora-ui": {
+            command: "node",
+            args: ["/ABSOLUTE/PATH/TO/sora/apps/xmcp/dist/stdio.js"],
           },
         },
       },
       null,
-      2,
+      2
     ),
   }}
 />
@@ -362,45 +372,45 @@ Merge the shadcn entry into your MCP config (example for Cursor):
     Cursor: JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
+          "sora-ui": {
             url: SORA_UI_MCP_URL,
           },
           shadcn: {
-            command: 'npx',
-            args: ['shadcn@latest', 'mcp'],
+            command: "npx",
+            args: ["shadcn@latest", "mcp"],
           },
         },
       },
       null,
-      2,
+      2
     ),
-    'Claude Code': JSON.stringify(
+    "Claude Code": JSON.stringify(
       {
         mcpServers: {
-          'sora-ui': {
-            type: 'http',
+          "sora-ui": {
+            type: "http",
             url: SORA_UI_MCP_URL,
           },
           shadcn: {
-            command: 'npx',
-            args: ['shadcn@latest', 'mcp'],
+            command: "npx",
+            args: ["shadcn@latest", "mcp"],
           },
         },
       },
       null,
-      2,
+      2
     ),
-    'VS Code': JSON.stringify(
+    "VS Code": JSON.stringify(
       {
         servers: {
           shadcn: {
-            command: 'npx',
-            args: ['shadcn@latest', 'mcp'],
+            command: "npx",
+            args: ["shadcn@latest", "mcp"],
           },
         },
       },
       null,
-      2,
+      2
     ),
   }}
 />
@@ -411,7 +421,7 @@ Register `@soralabs` in `components.json` before asking the agent to install com
 
 ### Agent does not use MCP tools
 
-MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in **Settings → Tools & MCP**, use **Agent** mode (not Ask), and mention Sora UI explicitly in your prompt. Prompts like *“Search Sora UI docs for …”* or *“List installable Sora UI components”* are the most reliable way to trigger tool calls.
+MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in **Settings → Tools & MCP**, use **Agent** mode (not Ask), and mention Sora UI explicitly in your prompt. Prompts like _“Search Sora UI docs for …”_ or _“List installable Sora UI components”_ are the most reliable way to trigger tool calls.
 
 ### Server not connecting
 
@@ -432,4 +442,4 @@ Paste the deeplink into your browser address bar, or add the [manual JSON config
 
 ### Nested `sora-ui` key in `mcp.json`
 
-If Cursor shows *must have either a command or url* and your config looks like `"sora-ui": { "sora-ui": { "url": "..." } }`, remove the extra nesting — use the [manual JSON](#manual-configuration-cursor) shape, or click **Add to Cursor** again on this page (the install link encodes only `{ "url": "..." }`; the `name` query param supplies the server key).
+If Cursor shows _must have either a command or url_ and your config looks like `"sora-ui": { "sora-ui": { "url": "..." } }`, remove the extra nesting — use the [manual JSON](#manual-configuration-cursor) shape, or click **Add to Cursor** again on this page (the install link encodes only `{ "url": "..." }`; the `name` query param supplies the server key).

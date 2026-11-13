@@ -29,7 +29,8 @@ import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
 import { TriangleAlert } from "lucide-react";
-import { type SyntheticEvent, useState } from "react";
+import { useState } from "react";
+import type { SyntheticEvent } from "react";
 
 const DELETE_CONFIRMATION = "DELETE";
 
@@ -75,9 +76,7 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const params = {
-      ...(needsPassword ? { password } : {}),
-    };
+    const params = needsPassword ? { password } : {};
 
     deleteUser(params, {
       onSuccess: () => {
@@ -103,11 +102,11 @@ export function DeleteAccount({ className }: DeleteAccountProps) {
     <Card className={cn("border-destructive", className)}>
       <CardContent className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-medium text-sm leading-tight">
+          <p className="text-sm leading-tight font-medium">
             {deleteUserLocalization.deleteAccount}
           </p>
 
-          <p className="mt-0.5 text-muted-foreground text-xs">
+          <p className="text-muted-foreground mt-0.5 text-xs">
             {deleteUserLocalization.deleteAccountDescription}
           </p>
         </div>

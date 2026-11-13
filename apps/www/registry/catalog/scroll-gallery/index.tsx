@@ -1,10 +1,12 @@
-// biome-ignore-all lint: GSAP scroll gallery with dynamic img layers (registry primitive)
+/* oxlint-disable next/no-img-element, react-doctor/nextjs-no-img-element */
 "use client";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { type CSSProperties, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
+import type { CSSProperties } from "react";
+
 import {
   isWindowScroller,
   observeWindowResize,
@@ -538,8 +540,8 @@ export function ScrollGallery({
           img.decoding = "async";
           setMaskImage(img, MASK_HIDDEN);
 
-          imgContainer.appendChild(img);
-          slideImages.appendChild(imgContainer);
+          imgContainer.append(img);
+          slideImages.append(imgContainer);
           createdContainers.push(imgContainer);
 
           slideLayers.push({

@@ -1,9 +1,9 @@
 "use client";
 
-import {
-  LogoCarouselSwapper,
-  type LogoCarouselSwapperProps,
-  type LogoCarouselSwapperRow,
+import { LogoCarouselSwapper } from "@/registry/primitives/effects/logo-carousel-swapper";
+import type {
+  LogoCarouselSwapperProps,
+  LogoCarouselSwapperRow,
 } from "@/registry/primitives/effects/logo-carousel-swapper";
 
 interface PartnerLogo {

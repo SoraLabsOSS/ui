@@ -4,11 +4,13 @@ import { getSessionCookie } from "better-auth/cookies";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
 import { AlreadySignedIn } from "@/components/auth/already-signed-in";
 import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { GoogleOneTap } from "@/components/auth/google-one-tap";
 import { SignInSplitShell } from "@/components/auth/sign-in-split-shell";
 import { isDatabaseConfigured } from "@/env";
+
 import AuthLoading from "./loading";
 
 export function generateStaticParams() {

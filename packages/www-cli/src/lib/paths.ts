@@ -7,9 +7,14 @@ export function findRepoRoot(startDir = process.cwd()): string {
   let current = path.resolve(startDir);
 
   while (true) {
-    if (
-      REPO_MARKERS.every((marker) => existsSync(path.join(current, marker)))
-    ) {
+    let isRoot = true;
+    for (const marker of REPO_MARKERS) {
+      if (!existsSync(path.join(current, marker))) {
+        isRoot = false;
+        break;
+      }
+    }
+    if (isRoot) {
       return current;
     }
 

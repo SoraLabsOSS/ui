@@ -1,10 +1,8 @@
-import {
-  type InferMetaType,
-  type InferPageType,
-  loader,
-} from "fumadocs-core/source";
+import { loader } from "fumadocs-core/source";
+import type { InferMetaType, InferPageType } from "fumadocs-core/source";
 import { icons as lucideIcons } from "lucide-react";
 import { createElement } from "react";
+
 import { icons } from "@/.source";
 import { attachFile } from "@/lib/docs/attach-file";
 import { attachSeparator } from "@/lib/docs/attach-separator";

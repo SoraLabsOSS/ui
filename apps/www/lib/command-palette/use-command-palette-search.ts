@@ -14,20 +14,20 @@ export function useCommandPaletteSearch() {
 
 export function getSearchResults(
   data:
-    | Array<{
+    | {
         content: string;
         id: string;
         type: "heading" | "page" | "text";
         url: string;
-      }>
+      }[]
     | "empty"
     | undefined
-): Array<{
+): {
   content: string;
   id: string;
   type: "heading" | "page" | "text";
   url: string;
-}> {
+}[] {
   if (!data || data === "empty") {
     return [];
   }

@@ -1,12 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { type ReactNode, useEffect } from "react";
+import { useEffect } from "react";
+import type { ReactNode } from "react";
+
 import {
   isMarketingPath,
-  type TransitionMode,
   usePageTransition,
 } from "@/components/page-transition/page-transition-provider";
+import type { TransitionMode } from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import { useLenisSmoothScroll } from "@/hooks/use-lenis-smooth-scroll";
 
@@ -88,5 +90,5 @@ export function HomeProviders({ children }: { children: ReactNode }) {
     };
   }, [pathname, transitionTo]);
 
-  return <>{children}</>;
+  return children;
 }

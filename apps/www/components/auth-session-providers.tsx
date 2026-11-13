@@ -4,8 +4,10 @@ import { getSessionCookie } from "better-auth/cookies";
 import { headers } from "next/headers";
 import { connection } from "next/server";
 import type { ReactNode } from "react";
+
 import { isAuthEnabled } from "@/env";
 import { getQueryClient } from "@/lib/query-client";
+
 import { Providers } from "./providers";
 
 /**

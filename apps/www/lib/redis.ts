@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+
 import { env, isRedisConfigured } from "@/env";
 
 let redis: Redis | undefined;

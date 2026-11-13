@@ -77,7 +77,7 @@ export function ActiveSession({ activeSession }: ActiveSessionProps) {
   return (
     <Card className="border-0 bg-transparent shadow-none ring-0">
       <CardContent className="flex items-center justify-between gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-muted">
+        <div className="bg-muted flex size-10 shrink-0 items-center justify-center rounded-md">
           {isMobile ? (
             <Smartphone className="size-4.5" />
           ) : (
@@ -86,13 +86,13 @@ export function ActiveSession({ activeSession }: ActiveSessionProps) {
         </div>
 
         <div className="flex min-w-0 flex-col">
-          <span className="truncate font-medium text-sm">
+          <span className="truncate text-sm font-medium">
             {ua.browser.name || "Unknown Browser"}
             {ua.os.name ? `, ${ua.os.name}` : ""}
           </span>
 
           {isCurrentSession ? (
-            <span className="w-fit rounded-full bg-primary/10 px-2 py-0.5 font-medium text-primary text-xs">
+            <span className="bg-primary/10 text-primary w-fit rounded-full px-2 py-0.5 text-xs font-medium">
               {localization.settings.currentSession}
             </span>
           ) : (

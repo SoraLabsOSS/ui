@@ -3,7 +3,10 @@ title: Hero Carousel
 description: Crossfading hero image slideshow with a progress pill, play/pause, and prev/next controls. A React + Motion component.
 ---
 
-<ComponentPreview name="demo-hero-carousel" description="Hero image slideshow cycling through a set of project preview screenshots." />
+<ComponentPreview
+  name="demo-hero-carousel"
+  description="Hero image slideshow cycling through a set of project preview screenshots."
+/>
 
 ## Installation
 
@@ -75,7 +78,8 @@ export default function Page() {
 <TypeTable
   type={{
     pill: {
-      description: "Play/pause pill button classes, layered on top of the defaults.",
+      description:
+        "Play/pause pill button classes, layered on top of the defaults.",
       type: "string",
     },
     chevron: {
@@ -87,17 +91,8 @@ export default function Page() {
 
 ## When to Use
 
-Use `HeroCarousel` for a portfolio or landing-page hero that cycles through project
-screenshots without stealing focus — the crossfade is slow and blurred, the
-progress pill doubles as a pause/resume toggle, and clicking the image itself
-advances to the next slide.
+Use `HeroCarousel` for a portfolio or landing-page hero that cycles through project screenshots without stealing focus — the crossfade is slow and blurred, the progress pill doubles as a pause/resume toggle, and clicking the image itself advances to the next slide.
 
 ## Accessibility
 
-The current slide's `alt` text is applied to the visible image; the buffered
-layer underneath is `aria-hidden`. The play/pause pill exposes `aria-pressed`
-and swaps its `aria-label` between "Pause slideshow" and "Play slideshow".
-Left/Right arrow keys step through slides when focus isn't in a text input.
-When `prefers-reduced-motion: reduce` is set, slides swap instantly (no blur,
-scale, or crossfade) and the progress pill still advances slides on the same
-interval, just without a visible countdown fill.
+The current slide's `alt` text is applied to the visible image; the buffered layer underneath is `aria-hidden`. The play/pause pill exposes `aria-pressed` and swaps its `aria-label` between "Pause slideshow" and "Play slideshow". Left/Right arrow keys step through slides when focus isn't in a text input. When `prefers-reduced-motion: reduce` is set, slides swap instantly (no blur, scale, or crossfade) and the progress pill still advances slides on the same interval, just without a visible countdown fill.

@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, type ButtonProps } from "@/registry/ui/base/button";
+import { Button } from "@/registry/ui/base/button";
+import type { ButtonProps } from "@/registry/ui/base/button";
 
 export default function ButtonDemo({
   children = "Button",

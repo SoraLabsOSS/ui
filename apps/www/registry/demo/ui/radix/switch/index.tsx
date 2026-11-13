@@ -1,6 +1,7 @@
 "use client";
 
-import { Switch, type SwitchProps } from "@/registry/ui/radix/switch";
+import { Switch } from "@/registry/ui/radix/switch";
+import type { SwitchProps } from "@/registry/ui/radix/switch";
 
 export default function SwitchDemo({
   label = "Airplane Mode",

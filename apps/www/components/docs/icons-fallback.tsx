@@ -11,7 +11,7 @@ export function IconsFallback() {
         <Skeleton className="h-7 w-14 rounded-full" />
         <Skeleton className="h-7 w-16 rounded-full" />
       </div>
-      <div className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
+      <div className="xs:grid-cols-7 mt-6 grid grid-cols-5 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
         {Array.from({ length: SKELETON_COUNT }, (_, i) => i).map((i) => (
           <Skeleton className="aspect-square size-full rounded-lg" key={i} />
         ))}

@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+
 import { checkDemoProps } from "./check-demo-props.js";
 
 describe("checkDemoProps", () => {

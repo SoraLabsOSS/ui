@@ -1,9 +1,9 @@
 "use client";
 
-import {
-  TextEffect,
-  type TextEffectPer,
-  type TextEffectPreset,
+import { TextEffect } from "@/registry/primitives/texts/text-effect";
+import type {
+  TextEffectPer,
+  TextEffectPreset,
 } from "@/registry/primitives/texts/text-effect";
 
 interface TextEffectDemoProps {

@@ -1,8 +1,10 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import { type ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { useEffect, useRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 const MASK_LAYER_COUNT = 10;
 const DEFAULT_IMAGE_SIZE = 175;
@@ -48,7 +50,8 @@ const MathUtils = {
 };
 
 export interface CursorTrailRevealProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children">,
+  extends
+    Omit<ComponentPropsWithoutRef<"div">, "children">,
     VariantProps<typeof cursorTrailRevealVariants> {
   /** Viewport width above which the trail is active. */
   desktopBreakpoint?: number;
@@ -202,13 +205,13 @@ function CursorTrailReveal({
         layer.style.transform = "translateZ(0)";
         layer.style.backfaceVisibility = "hidden";
 
-        layer.appendChild(imageLayer);
-        imgContainer.appendChild(layer);
+        layer.append(imageLayer);
+        imgContainer.append(layer);
         maskLayers.push(layer);
         imageLayers.push(imageLayer);
       }
 
-      trailContainer.appendChild(imgContainer);
+      trailContainer.append(imgContainer);
 
       requestAnimationFrame(() => {
         imgContainer.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;

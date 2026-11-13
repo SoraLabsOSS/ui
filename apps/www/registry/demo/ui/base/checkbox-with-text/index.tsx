@@ -9,7 +9,7 @@ export default function CheckboxWithTextDemo() {
         <Checkbox defaultChecked id="terms-with-text" />
         <div className="grid gap-1.5 leading-none">
           <label
-            className="cursor-pointer select-none font-medium text-foreground text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-foreground cursor-pointer text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             htmlFor="terms-with-text"
           >
             Accept terms and conditions

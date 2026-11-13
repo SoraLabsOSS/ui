@@ -13,8 +13,8 @@ const PARAGRAPHS = [
 
 export default function ProgressiveBlurDemo() {
   return (
-    <div className="relative h-80 w-full max-w-sm overflow-hidden rounded-xl border bg-background">
-      <div className="h-full space-y-4 overflow-y-auto px-5 py-24 text-muted-foreground text-sm leading-relaxed">
+    <div className="bg-background relative h-80 w-full max-w-sm overflow-hidden rounded-xl border">
+      <div className="text-muted-foreground h-full space-y-4 overflow-y-auto px-5 py-24 text-sm leading-relaxed">
         {PARAGRAPHS.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

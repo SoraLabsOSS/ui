@@ -5,9 +5,9 @@ import {
   AnimatePresence,
   LayoutGroup,
   motion,
-  type Transition,
   useReducedMotion,
 } from "motion/react";
+import type { Transition } from "motion/react";
 import type { ComponentType, ReactNode } from "react";
 import {
   useCallback,
@@ -115,7 +115,7 @@ export function ExpandableTabs({
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const triggerRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const [rowRef, rowBounds] = useMeasure();
   const [measureRef, bounds] = useMeasure();
@@ -221,7 +221,7 @@ export function ExpandableTabs({
                 : Math.max(rowBounds.width, bounds.width),
           }}
           className={cn(
-            "relative overflow-hidden rounded-3xl bg-background",
+            "bg-background relative overflow-hidden rounded-3xl",
             classNames?.toolbar
           )}
           initial={false}
@@ -235,7 +235,7 @@ export function ExpandableTabs({
                 animate="active"
                 aria-labelledby={`${idPrefix}-trigger-${activeTab.id}`}
                 className={cn(
-                  "absolute top-0 left-1/2 -translate-x-1/2 bg-background/80 p-4 pb-4",
+                  "bg-background/80 absolute top-0 left-1/2 -translate-x-1/2 p-4 pb-4",
                   classNames?.content
                 )}
                 custom={direction}
@@ -258,7 +258,7 @@ export function ExpandableTabs({
               chase the label's own reveal animation frame-by-frame. */}
           <div
             aria-hidden="true"
-            className="invisible absolute bottom-0 left-1/2 -translate-x-1/2 bg-background p-2"
+            className="bg-background invisible absolute bottom-0 left-1/2 -translate-x-1/2 p-2"
             ref={rowRef}
           >
             <div className="flex h-9 items-center gap-1">
@@ -266,13 +266,13 @@ export function ExpandableTabs({
                 const isActive = selected === tab.id;
                 return (
                   <div
-                    className="flex h-full items-center rounded-2xl font-medium text-sm"
+                    className="flex h-full items-center rounded-2xl text-sm font-medium"
                     key={tab.id}
                     style={triggerBoxStyle(isActive)}
                   >
                     <tab.icon className={cn("size-4", tab.iconClassName)} />
                     {isActive && (
-                      <span className="whitespace-nowrap font-medium tracking-tight">
+                      <span className="font-medium tracking-tight whitespace-nowrap">
                         {tab.label}
                       </span>
                     )}
@@ -285,7 +285,7 @@ export function ExpandableTabs({
           {/* left-0 w-full + justify-center (not translate-x centering) so a
               focused button's position doesn't shift mid-animation and
               trigger browser auto-scroll. Fine here since it isn't measured. */}
-          <div className="absolute bottom-0 left-0 w-full bg-background p-2">
+          <div className="bg-background absolute bottom-0 left-0 w-full p-2">
             <div className="flex h-9 items-center justify-center gap-1">
               {tabs.map((tab, index) => {
                 const Icon = tab.icon;
@@ -299,7 +299,7 @@ export function ExpandableTabs({
                     aria-controls={panelId}
                     aria-expanded={isActive}
                     className={cn(
-                      "flex h-full cursor-pointer items-center rounded-2xl font-medium text-sm transition-colors duration-300",
+                      "flex h-full cursor-pointer items-center rounded-2xl text-sm font-medium transition-colors duration-300",
                       isActive
                         ? cn("bg-foreground/4", classNames?.triggerActive)
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -325,7 +325,7 @@ export function ExpandableTabs({
                         <motion.span
                           animate={{ width: "auto", opacity: 1 }}
                           className={cn(
-                            "overflow-hidden whitespace-nowrap font-medium tracking-tight",
+                            "overflow-hidden font-medium tracking-tight whitespace-nowrap",
                             classNames?.label
                           )}
                           exit={{

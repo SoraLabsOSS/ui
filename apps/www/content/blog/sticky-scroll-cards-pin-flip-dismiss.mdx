@@ -7,7 +7,7 @@ date: 2026-07-03
 hashtags: ["#gsap", "#scrolltrigger", "#react", "#animation"]
 ---
 
-I've built a fair number of scroll-driven sections at this point, and I'll say the quiet part out loud: most of them are one `ScrollTrigger.create` with a `scrub` and a prayer. `StickyScrollCards` started the same way and then refused to stay simple, because I wanted three things to happen in sequence *inside one pin* — cards enter, a front card flips to reveal a stack behind it, then that stack peels away one card at a time. Three acts, one scrollbar.
+I've built a fair number of scroll-driven sections at this point, and I'll say the quiet part out loud: most of them are one `ScrollTrigger.create` with a `scrub` and a prayer. `StickyScrollCards` started the same way and then refused to stay simple, because I wanted three things to happen in sequence _inside one pin_ — cards enter, a front card flips to reveal a stack behind it, then that stack peels away one card at a time. Three acts, one scrollbar.
 
 No timeline. No three separate triggers. One `onUpdate`, one `progress` number from 0 to 1, and a pile of `mapRange` calls doing the acting.
 
@@ -36,7 +36,7 @@ const trigger = ScrollTrigger.create({
 });
 ```
 
-`progress` goes from `0` to `1` over `totalScrollVh` of scroll. There's no per-phase trigger, no nested timeline — `onUpdate` just gets a float and re-derives *everything* every tick: where the cards sit, whether the flip has happened, how dismissed each back card is. It's closer to a React render function than a GSAP timeline, and once that clicked, the rest of the component fell out pretty naturally.
+`progress` goes from `0` to `1` over `totalScrollVh` of scroll. There's no per-phase trigger, no nested timeline — `onUpdate` just gets a float and re-derives _everything_ every tick: where the cards sit, whether the flip has happened, how dismissed each back card is. It's closer to a React render function than a GSAP timeline, and once that clicked, the rest of the component fell out pretty naturally.
 
 The svh values in `timing` (`cardsEnterEnd: 500`, `cardFlipTrigger: 1000`, `dismissStart: 1500`, `cardDismissDuration: 500`) are just converted into progress fractions up front:
 
@@ -52,7 +52,8 @@ So `cardFlipTrigger: 1000` out of a `totalScrollVh` of, say, 3500 (`1500 + 4 × 
 
 ```ts
 const enterProgress = gsap.utils.clamp(
-  0, 1,
+  0,
+  1,
   gsap.utils.mapRange(0, enterEndProgress, 0, 1, progress)
 );
 
@@ -61,7 +62,7 @@ gsap.set([frontEl, ...backEls], {
 });
 ```
 
-`mapRange(0, enterEndProgress, 0, 1, progress)` remaps "the first slice of overall progress" into its own local 0→1, then `clamp` pins it once we're past that slice so it doesn't keep sliding during the flip and dismiss phases. Cards go from `y: 50%` to `y: -50%` over that window — a plain linear drift, no easing curve, because `scrub: 1` already gives it a little lag behind the actual scrollbar. That lag *is* the easing. Adding a GSAP ease on top would be double-dipping.
+`mapRange(0, enterEndProgress, 0, 1, progress)` remaps "the first slice of overall progress" into its own local 0→1, then `clamp` pins it once we're past that slice so it doesn't keep sliding during the flip and dismiss phases. Cards go from `y: 50%` to `y: -50%` over that window — a plain linear drift, no easing curve, because `scrub: 1` already gives it a little lag behind the actual scrollbar. That lag _is_ the easing. Adding a GSAP ease on top would be double-dipping.
 
 This is the pattern for basically every phase in this component: carve out a sub-range of `progress`, `mapRange` it to local `0–1`, `clamp` it so it doesn't leak into neighboring phases, then use that local value to drive a `gsap.set`.
 
@@ -74,7 +75,7 @@ gsap.set(refs.frontEl, { rotationY: 0 });
 gsap.set(refs.backEls, { rotationY: -180 });
 ```
 
-Front and back cards are **stacked in the exact same spot**, front facing you at `rotationY: 0`, backs pre-rotated to `-180deg` so they're facing *away* from you, hidden behind their own backs. Add `backface-visibility: hidden` to both (that `[backface-visibility:hidden]` in the `LAYOUT.card` class isn't decorative, it's structural) and you get a coin: only one face is ever visible at a time, they're just sharing a hinge in 3D space.
+Front and back cards are **stacked in the exact same spot**, front facing you at `rotationY: 0`, backs pre-rotated to `-180deg` so they're facing _away_ from you, hidden behind their own backs. Add `backface-visibility: hidden` to both (that `[backface-visibility:hidden]` in the `LAYOUT.card` class isn't decorative, it's structural) and you get a coin: only one face is ever visible at a time, they're just sharing a hinge in 3D space.
 
 Crossing `flipTriggerProgress` fires this, once, in either direction:
 
@@ -150,7 +151,7 @@ Neither of these is visible when you first read the animation logic. Both are th
 gsap.ticker.lagSmoothing(0);
 ```
 
-GSAP's default behavior is *helpful* for a spinner or a looping animation — if the tab was backgrounded for 400ms, catch up smoothly instead of jumping. On a `scrub`-driven pin where every frame is supposed to correspond to a specific scroll position, "catching up" means the card stack visibly lurches forward the instant the main thread hiccups. Turning lag smoothing off means GSAP just reports what actually happened, frame by frame, no compensation. For anything scrub-tied to the scrollbar, you almost always want this off — the scrollbar is already the source of truth, GSAP doesn't need to also have opinions about pacing.
+GSAP's default behavior is _helpful_ for a spinner or a looping animation — if the tab was backgrounded for 400ms, catch up smoothly instead of jumping. On a `scrub`-driven pin where every frame is supposed to correspond to a specific scroll position, "catching up" means the card stack visibly lurches forward the instant the main thread hiccups. Turning lag smoothing off means GSAP just reports what actually happened, frame by frame, no compensation. For anything scrub-tied to the scrollbar, you almost always want this off — the scrollbar is already the source of truth, GSAP doesn't need to also have opinions about pacing.
 
 **2. Waiting for the scroller to actually be ready before measuring anything:**
 
@@ -195,11 +196,13 @@ When you pin against the window, GSAP can pin in place with `position: fixed`-st
 This is also exactly why the component has an `embedded` prop that skips the GSAP pin entirely and uses a plain CSS `position: sticky` track instead:
 
 ```tsx
-{embedded ? (
-  <div className="sticky top-0 ...">{cardsSection}</div>
-) : (
-  cardsSection // real GSAP pin
-)}
+{
+  embedded ? (
+    <div className="sticky top-0 ...">{cardsSection}</div>
+  ) : (
+    cardsSection // real GSAP pin
+  );
+}
 ```
 
 The docs preview panel is a small scrollable box, not the real page — reparenting a pin in and out of a tiny iframe-like panel for a documentation screenshot is a lot of complexity to buy a preview nobody's actually scrolling through slowly. `position: sticky` gets close enough visually for "here's roughly what this looks like," and the real GSAP path is reserved for where it actually earns its keep: a full page section a visitor scrolls through for real.
@@ -212,7 +215,7 @@ The docs preview panel is a small scrollable box, not the real page — reparent
 const hasCards = cardCount > 0;
 ```
 
-The `useGSAP` effect only bails early when there are no cards to mount — reduced motion is *not* a reason to skip the effect. It still mounts, still measures the scroller, still sets the cards' initial transforms — it just never creates a `ScrollTrigger`. That distinction matters: the effect has to keep running for a reduced-motion user, because — and this is the part that's easy to get lazy about — the honest reduced-motion behavior isn't *stop animating*, it's explicitly setting the **end state**:
+The `useGSAP` effect only bails early when there are no cards to mount — reduced motion is _not_ a reason to skip the effect. It still mounts, still measures the scroller, still sets the cards' initial transforms — it just never creates a `ScrollTrigger`. That distinction matters: the effect has to keep running for a reduced-motion user, because — and this is the part that's easy to get lazy about — the honest reduced-motion behavior isn't _stop animating_, it's explicitly setting the **end state**:
 
 ```ts
 function applyReducedMotionEndState(refs, cardCount, timing) {
@@ -228,7 +231,7 @@ function applyReducedMotionEndState(refs, cardCount, timing) {
 }
 ```
 
-Which... if a card's `y` is `-250%`, doesn't that mean it renders off-screen for a reduced-motion user? Yes, on purpose. This component's whole reason for existing is "reveal-then-dismiss as a *sequence*" — there's no meaningful non-animated equivalent of "here are five cards taking turns," because the sequencing *is* the content, not a decoration on top of static content. The honest answer for reduced motion here isn't "show it without moving," it's "land where the sequence would have ended, immediately." All the card copy is still in the DOM the whole time (worth restating: nothing gets removed, so screen readers and page-find still see everything), it's just not staged as a flip-and-fling show for someone who's told their OS they don't want flip-and-fling shows.
+Which... if a card's `y` is `-250%`, doesn't that mean it renders off-screen for a reduced-motion user? Yes, on purpose. This component's whole reason for existing is "reveal-then-dismiss as a _sequence_" — there's no meaningful non-animated equivalent of "here are five cards taking turns," because the sequencing _is_ the content, not a decoration on top of static content. The honest answer for reduced motion here isn't "show it without moving," it's "land where the sequence would have ended, immediately." All the card copy is still in the DOM the whole time (worth restating: nothing gets removed, so screen readers and page-find still see everything), it's just not staged as a flip-and-fling show for someone who's told their OS they don't want flip-and-fling shows.
 
 ---
 

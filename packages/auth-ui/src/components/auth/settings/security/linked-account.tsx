@@ -1,6 +1,5 @@
 "use client";
 
-import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { getProviderName } from "@workspace/auth-ui/lib/auth-core";
 import {
   providerIcons,
@@ -10,6 +9,7 @@ import {
   useSession,
   useUnlinkAccount,
 } from "@workspace/auth-ui/lib/auth-react";
+import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
@@ -77,7 +77,7 @@ export function LinkedAccount({ account, provider }: LinkedAccountProps) {
   return (
     <Card className="border-0 bg-transparent shadow-none ring-0">
       <CardContent className="flex items-center justify-between gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-muted">
+        <div className="bg-muted flex size-10 shrink-0 items-center justify-center rounded-md">
           {ProviderIcon ? (
             <ProviderIcon
               className={cn("size-4.5", !account && "opacity-50")}
@@ -88,14 +88,14 @@ export function LinkedAccount({ account, provider }: LinkedAccountProps) {
         </div>
 
         <div className="flex min-w-0 flex-col">
-          <span className="font-medium text-sm leading-tight">
+          <span className="text-sm leading-tight font-medium">
             {providerName}
           </span>
 
           {account && isLoadingInfo ? (
             <Skeleton className="my-0.5 h-3 w-24" />
           ) : (
-            <span className="truncate text-muted-foreground text-xs">
+            <span className="text-muted-foreground truncate text-xs">
               {account
                 ? displayName
                 : localization.settings.linkProvider.replace(

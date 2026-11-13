@@ -442,9 +442,9 @@
 
 /* Ensure all orange button/tag/badge labels and icons are pure white */
 .home-layout
-:where([data-theme], .button, .tag):has(
-  [data-wf--button-theme--variant="purple"]
-),
+  :where([data-theme], .button, .tag):has(
+    [data-wf--button-theme--variant="purple"]
+  ),
 .home-layout
   :where([data-theme], .button, .tag):has(
     [data-wf--button-theme--variant="electric"]

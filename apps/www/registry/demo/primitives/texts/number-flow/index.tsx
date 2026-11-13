@@ -2,13 +2,9 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { Minus, Plus } from "lucide-react";
-import {
-  type InputEventHandler,
-  type PointerEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
+import type { InputEventHandler, PointerEventHandler } from "react";
+
 import { NumberFlow } from "@/registry/primitives/texts/number-flow";
 
 const EXAMPLES = [
@@ -53,7 +49,7 @@ function CurrencyDemo() {
   return (
     <div className="flex flex-col items-center gap-6">
       <NumberFlow
-        className="font-semibold text-5xl tabular-nums"
+        className="text-5xl font-semibold tabular-nums"
         format={{
           style: "currency",
           currency: "USD",
@@ -62,21 +58,21 @@ function CurrencyDemo() {
       />
       <div className="flex flex-wrap justify-center gap-2">
         <button
-          className="rounded-md border px-3 py-1.5 text-sm hover:bg-accent"
+          className="hover:bg-accent rounded-md border px-3 py-1.5 text-sm"
           onClick={() => setValue((v) => Math.max(0, v - 87.4))}
           type="button"
         >
           −87.4
         </button>
         <button
-          className="rounded-md border px-3 py-1.5 text-sm hover:bg-accent"
+          className="hover:bg-accent rounded-md border px-3 py-1.5 text-sm"
           onClick={() => setValue((v) => v + 87.4)}
           type="button"
         >
           +87.4
         </button>
         <button
-          className="rounded-md border px-3 py-1.5 text-sm hover:bg-accent"
+          className="hover:bg-accent rounded-md border px-3 py-1.5 text-sm"
           onClick={() => setValue(Math.round(Math.random() * 10_000) / 100)}
           type="button"
         >
@@ -126,7 +122,7 @@ function InputDemo() {
   const instantTransition = { duration: 0 } as const;
 
   return (
-    <div className="group flex items-stretch rounded-md font-semibold text-3xl ring ring-border transition-[box-shadow] focus-within:ring-2 focus-within:ring-ring">
+    <div className="group ring-border focus-within:ring-ring flex items-stretch rounded-md text-3xl font-semibold ring transition-[box-shadow] focus-within:ring-2">
       <button
         aria-hidden="true"
         className="flex items-center pr-[0.325em] pl-[0.5em]"
@@ -194,7 +190,7 @@ function CountdownDemo() {
 
   return (
     <div
-      className="flex items-baseline font-semibold text-3xl tabular-nums sm:text-4xl"
+      className="flex items-baseline text-3xl font-semibold tabular-nums sm:text-4xl"
       style={{ fontVariantNumeric: "tabular-nums" }}
     >
       <NumberFlow format={{ minimumIntegerDigits: 2 }} trend={-1} value={hh} />

@@ -26,7 +26,7 @@ export default function DialogScrollableDemo() {
               Please review our service agreement and terms of use.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex max-h-[260px] flex-col gap-3 overflow-y-auto pr-2 text-muted-foreground text-xs leading-relaxed">
+          <div className="text-muted-foreground flex max-h-[260px] flex-col gap-3 overflow-y-auto pr-2 text-xs leading-relaxed">
             <p>
               Welcome to Sora UI. By accessing or using our websites and
               component registry, you agree to be bound by these Terms of

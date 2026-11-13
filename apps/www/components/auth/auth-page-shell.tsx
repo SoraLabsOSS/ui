@@ -4,10 +4,10 @@ import type { ReactNode } from "react";
 
 export function AuthPageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-[calc(100dvh-var(--fd-banner-height))] w-full flex-col bg-background">
+    <div className="bg-background flex h-[calc(100dvh-var(--fd-banner-height))] w-full flex-col">
       <header className="p-4">
         <Link
-          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-foreground hover:bg-muted"
+          className="text-foreground hover:bg-muted inline-flex items-center gap-1 rounded-md px-2 py-1"
           href="/docs"
         >
           <ArrowLeft aria-hidden className="size-5" />
@@ -19,7 +19,7 @@ export function AuthPageShell({ children }: { children: ReactNode }) {
         {children}
       </main>
 
-      <footer className="px-4 py-6 text-center text-muted-foreground text-sm">
+      <footer className="text-muted-foreground px-4 py-6 text-center text-sm">
         <p>
           By continuing, you agree to our{" "}
           <Link className="text-foreground hover:underline" href="/legal/terms">

@@ -1,6 +1,7 @@
 "use client";
 
-import { Checkbox, type CheckboxProps } from "@/registry/ui/base/checkbox";
+import { Checkbox } from "@/registry/ui/base/checkbox";
+import type { CheckboxProps } from "@/registry/ui/base/checkbox";
 
 export default function CheckboxDemo({
   label = "Accept terms and conditions",

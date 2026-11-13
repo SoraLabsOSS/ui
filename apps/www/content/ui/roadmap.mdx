@@ -7,8 +7,8 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { CodeTabs } from '@/components/docs/code-tabs';
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { CodeTabs } from "@/components/docs/code-tabs";
 
 The Sora UI Roadmap outlines upcoming milestones, priority tiers, and animation engineering goals. Our architecture follows a phased rollout prioritizing **Base UI** first, followed by **Comprehensive RTL (Right-to-Left) Support** across all existing registries, expanding into **Agent-Native Semantic Composition Enrichment**, scaling the **Radix UI** suite, and growing into other headless libraries and multi-framework ecosystems.
 
@@ -25,22 +25,22 @@ Our component development follows a structured roadmap designed to provide compl
 
 [Base UI](https://base-ui.com) provides an unstyled, highly accessible component foundation designed for modern React. We are systematically building Motion-powered animated variants for all **14 core Base UI components**:
 
-- **Button** (`/ui/base/button`) — Physics spring hover/tap scaling and comprehensive CVA variants. *(Completed)*
-- **Checkbox** (`/ui/base/checkbox`) — Animated checkmark path morphing and elastic pop feedback. *(Completed)*
-- **Input** (`/ui/base/input`) — Native input semantics with a Motion-powered caret and reduced-motion fallback. *(Completed)*
-- **Dialog** (`/ui/base/dialog`) — Smooth backdrop blur with scale-in spring physics. *(Completed)*
-- **Alert Dialog** (`/ui/base/alert-dialog`) — 3D perspective spring rotation, customizable sizes, and media slots. *(Completed)*
-- **Accordion** (`/ui/base/accordion`) — Smooth layout-height morphing and spring chevron rotation. *(Completed)*
-- **Context Menu** (`/ui/base/context-menu`) — Spring scale physics with cascaded submenu slide transitions. *(Completed)*
-- **Dropdown Menu** (`/ui/base/dropdown-menu`) — Collision-aware floating popovers with spring scale physics and cascaded submenus. *(Completed)*
-- **Tooltip** (`/ui/base/tooltip`) — Micro scale-fade tooltip with dynamic arrow position tracking. *(Completed)*
-- **Switch** (`/ui/base/switch`) — Toggle switch with Motion spring layout physics, size variants, and track icon slots. *(Completed)*
-- **Progress** — Elastic bar fill with indeterminate shimmer and animated numeric ticker. *(In Progress / Next)*
-- **Radio / Radio Group** — Shared `layoutId` gliding active indicator. *(Planned)*
-- **Select** — Floating dropdown with active pill glide and keyboard navigation. *(Planned)*
-- **Tabs** — Sliding background indicator pill and cross-fading tab panels. *(Planned)*
-- **Toast** — Stacked notification queue with swipe-to-dismiss gesture physics. *(Planned)*
-- **Toggle Group** — Multi-select animated bounding boxes. *(Planned)*
+- **Button** (`/ui/base/button`) — Physics spring hover/tap scaling and comprehensive CVA variants. _(Completed)_
+- **Checkbox** (`/ui/base/checkbox`) — Animated checkmark path morphing and elastic pop feedback. _(Completed)_
+- **Input** (`/ui/base/input`) — Native input semantics with a Motion-powered caret and reduced-motion fallback. _(Completed)_
+- **Dialog** (`/ui/base/dialog`) — Smooth backdrop blur with scale-in spring physics. _(Completed)_
+- **Alert Dialog** (`/ui/base/alert-dialog`) — 3D perspective spring rotation, customizable sizes, and media slots. _(Completed)_
+- **Accordion** (`/ui/base/accordion`) — Smooth layout-height morphing and spring chevron rotation. _(Completed)_
+- **Context Menu** (`/ui/base/context-menu`) — Spring scale physics with cascaded submenu slide transitions. _(Completed)_
+- **Dropdown Menu** (`/ui/base/dropdown-menu`) — Collision-aware floating popovers with spring scale physics and cascaded submenus. _(Completed)_
+- **Tooltip** (`/ui/base/tooltip`) — Micro scale-fade tooltip with dynamic arrow position tracking. _(Completed)_
+- **Switch** (`/ui/base/switch`) — Toggle switch with Motion spring layout physics, size variants, and track icon slots. _(Completed)_
+- **Progress** — Elastic bar fill with indeterminate shimmer and animated numeric ticker. _(In Progress / Next)_
+- **Radio / Radio Group** — Shared `layoutId` gliding active indicator. _(Planned)_
+- **Select** — Floating dropdown with active pill glide and keyboard navigation. _(Planned)_
+- **Tabs** — Sliding background indicator pill and cross-fading tab panels. _(Planned)_
+- **Toast** — Stacked notification queue with swipe-to-dismiss gesture physics. _(Planned)_
+- **Toggle Group** — Multi-select animated bounding boxes. _(Planned)_
 
 </Step>
 <Step>
@@ -126,7 +126,7 @@ To provide universal flexibility across different architecture requirements:
 Every component in the Sora UI registry is engineered for 60/120 FPS performance and benchmarked across four key animation categories:
 
 | Tier | Render Pipeline Work | Animation Characteristics | Performance Standard |
-| :--- | :--- | :--- | :--- |
+| :-- | :-- | :-- | :-- |
 | **Tier S** | **Compositor Only** | Runs entirely on the GPU compositor thread (`transform`, `opacity`). | Zero main-thread interruption, 120 FPS capable, full reduced-motion branch. |
 | **Tier A** | **Main-Thread Composited** | Changes composited values from the main thread with micro-orchestrations. | Zero layout shifts, keyboard and focus synchronized. |
 | **Tier B** | **Measured Animation** | Requires upfront DOM measurements (e.g. FLIP layout morphing, bounds calculation). | Smooth FLIP transitions without layout thrashing. |

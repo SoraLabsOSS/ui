@@ -13,7 +13,6 @@ import {
   GitBranch,
   Images,
   Inbox,
-  type LucideIcon,
   Megaphone,
   MessageCircle,
   PackageOpen,
@@ -26,20 +25,20 @@ import {
   Webhook,
   Workflow,
 } from "lucide-react";
-import {
-  type ExpandableTab,
-  ExpandableTabs,
-} from "@/registry/primitives/disclosure/expandable-tabs";
+import type { LucideIcon } from "lucide-react";
+
+import { ExpandableTabs } from "@/registry/primitives/disclosure/expandable-tabs";
+import type { ExpandableTab } from "@/registry/primitives/disclosure/expandable-tabs";
 
 function Row({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
     <button
-      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left font-medium text-foreground text-sm transition-colors hover:bg-muted"
+      className="text-foreground hover:bg-muted flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors"
       type="button"
     >
-      <Icon className="h-4 w-4 text-muted-foreground" />
+      <Icon className="text-muted-foreground h-4 w-4" />
       <span className="flex-1">{label}</span>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="text-muted-foreground h-4 w-4" />
     </button>
   );
 }
@@ -132,7 +131,7 @@ const TABS: ExpandableTab[] = [
 
 export default function ExpandableTabsExample() {
   return (
-    <div className="flex min-h-88 w-full items-end justify-center bg-muted/50 p-8 dark:bg-muted/30">
+    <div className="bg-muted/50 dark:bg-muted/30 flex min-h-88 w-full items-end justify-center p-8">
       <ExpandableTabs
         classNames={{
           content: "bg-card/90",

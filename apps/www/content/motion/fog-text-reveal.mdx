@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-fog-text-reveal" description="Inline text materializes through a fog mask, holds, clears the same way, then advances to the next message. Move the pointer over the text to part the fog." />
+<ComponentPreview
+  name="demo-fog-text-reveal"
+  description="Inline text materializes through a fog mask, holds, clears the same way, then advances to the next message. Move the pointer over the text to part the fog."
+/>
 
 ## Installation
 
@@ -17,13 +20,13 @@ author:
 Drop it into any text flow — it renders as an inline element and inherits the surrounding `font-family`, `font-size`, `font-weight`, and `color` from CSS.
 
 ```tsx
-import { FogTextReveal } from '@/components/sora-ui/texts/fog-text-reveal';
+import { FogTextReveal } from "@/components/sora-ui/texts/fog-text-reveal";
 
 export default function Page() {
   return (
     <h1 className="font-serif text-5xl">
-      Type can move like{' '}
-      <FogTextReveal text={['weather.', 'fog.', 'breath.']} />
+      Type can move like{" "}
+      <FogTextReveal text={["weather.", "fog.", "breath."]} />
     </h1>
   );
 }
@@ -36,41 +39,45 @@ Pass a single string for a one-shot reveal, or an array to cycle through message
 <TypeTable
   type={{
     text: {
-      description: 'Text to reveal. Pass an array to cycle through messages; the element is sized to the widest one.',
-      type: 'string | string[]',
+      description:
+        "Text to reveal. Pass an array to cycle through messages; the element is sized to the widest one.",
+      type: "string | string[]",
     },
     loop: {
-      description: 'Cycle back to the first message after the last. When false, the final message reveals once and stays.',
-      type: 'boolean',
-      default: 'true',
+      description:
+        "Cycle back to the first message after the last. When false, the final message reveals once and stays.",
+      type: "boolean",
+      default: "true",
     },
     startOnView: {
-      description: 'Wait until the text scrolls into view before animating.',
-      type: 'boolean',
-      default: 'true',
+      description: "Wait until the text scrolls into view before animating.",
+      type: "boolean",
+      default: "true",
     },
     holdDuration: {
-      description: 'How long each message stays fully revealed before clearing, in milliseconds.',
-      type: 'number',
-      default: '320',
+      description:
+        "How long each message stays fully revealed before clearing, in milliseconds.",
+      type: "number",
+      default: "320",
     },
     maxBlur: {
-      description: 'Maximum blur radius of the fog mask, in texels.',
-      type: 'number',
-      default: '16',
+      description: "Maximum blur radius of the fog mask, in texels.",
+      type: "number",
+      default: "16",
     },
     as: {
-      description: 'Render as a different element instead of span.',
-      type: 'ElementType',
+      description: "Render as a different element instead of span.",
+      type: "ElementType",
       default: '"span"',
     },
     className: {
-      description: 'Additional class names applied to the root element. Set the font and color here — the canvas text inherits them.',
-      type: 'string',
+      description:
+        "Additional class names applied to the root element. Set the font and color here — the canvas text inherits them.",
+      type: "string",
     },
     ref: {
-      description: 'Forwarded ref to the root element.',
-      type: 'Ref<HTMLElement>',
+      description: "Forwarded ref to the root element.",
+      type: "Ref<HTMLElement>",
     },
   }}
 />

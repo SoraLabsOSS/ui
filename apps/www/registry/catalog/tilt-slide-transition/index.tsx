@@ -1,20 +1,17 @@
-// biome-ignore-all lint: GSAP + View Transition API editorial layout showcase
+/* oxlint-disable next/no-img-element, react-doctor/nextjs-no-img-element */
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ReactLenis } from "lenis/react";
-import {
-  type ComponentPropsWithoutRef,
-  type CSSProperties,
-  type ReactNode,
-  type Ref,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
+import { useCallback, useEffect, useRef, useState } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  CSSProperties,
+  ReactNode,
+  Ref,
 } from "react";
 import { flushSync } from "react-dom";
 
@@ -345,7 +342,7 @@ export function TiltSlideTransitionInfo({
 
   useGSAP(
     () => {
-      const split = new SplitText("p", {
+      const _split = new SplitText("p", {
         type: "lines",
         mask: "lines",
         linesClass: "line",
@@ -437,8 +434,7 @@ export function TiltSlideTransitionNavbar({
   );
 }
 
-export interface TiltSlideTransitionProps
-  extends ComponentPropsWithoutRef<"div"> {
+export interface TiltSlideTransitionProps extends ComponentPropsWithoutRef<"div"> {
   /** Logo/brand title displayed in the navbar. @default "Sora" */
   brandName?: string;
   /** Active page for uncontrolled usage. @default "home" */
@@ -484,13 +480,13 @@ export function TiltSlideTransition({
 
   useEffect(() => {
     const styleId = "sora-tst-styles";
-    if (document.getElementById(styleId)) {
+    if (document.querySelector(`#${styleId}`)) {
       return;
     }
     const styleElement = document.createElement("style");
     styleElement.id = styleId;
     styleElement.textContent = TILT_SLIDE_TRANSITION_STYLES;
-    document.head.appendChild(styleElement);
+    document.head.append(styleElement);
   }, []);
 
   const handleNavigate = useCallback(
@@ -529,18 +525,20 @@ export function TiltSlideTransition({
 
   const renderActiveView = (): ReactNode => {
     switch (activePage) {
-      case "projects":
+      case "projects": {
         return <TiltSlideTransitionProjects images={projectImages} />;
-      case "info":
+      }
+      case "info": {
         return (
           <TiltSlideTransitionInfo
             image={portraitImage}
             paragraph={infoParagraph}
           />
         );
-      case "home":
-      default:
+      }
+      default: {
         return <TiltSlideTransitionHome heroTitle={heroTitle} />;
+      }
     }
   };
 

@@ -5,7 +5,9 @@ import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { LayoutGroup, motion } from "motion/react";
 import Link from "next/link";
-import { type JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { JSX } from "react";
+
 import { BlogShareButton } from "./share-button";
 
 const layoutTransition = {

@@ -1,16 +1,14 @@
 "use client";
 
-import {
-  type DehydratedState,
-  HydrationBoundary,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
+import type { DehydratedState } from "@tanstack/react-query";
 import { AuthProvider } from "@workspace/auth-ui/components/auth/auth-provider";
 import { GoogleOneTapPendingProvider } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { deleteUserPlugin } from "@workspace/auth-ui/lib/auth/delete-user-plugin";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
+
 import { env } from "@/env";
 import { authClient } from "@/lib/auth-client";
 import { getQueryClient } from "@/lib/query-client";

@@ -1,9 +1,7 @@
 import { readFileSync } from "node:fs";
-import {
-  type DocPage,
-  type DocSection,
-  parseLlmsTxt,
-} from "../lib/llms-txt-parser";
+
+import { parseLlmsTxt } from "../lib/llms-txt-parser";
+import type { DocPage, DocSection } from "../lib/llms-txt-parser";
 import { getLocalContentFile } from "../lib/monorepo";
 import type { SearchResultItem } from "../lib/tokens";
 import { docsCache } from "./docs-cache";
@@ -167,14 +165,16 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
   });
 
   if (!trimmedSlug.startsWith("docs/")) {
-    candidates.push({
-      fetchPath: `/llms-catalog.mdx/${trimmedSlug}`,
-      pagePath: `/catalog/${trimmedSlug}`,
-    });
-    candidates.push({
-      fetchPath: `/llms-ui.mdx/${trimmedSlug}`,
-      pagePath: `/ui/${trimmedSlug}`,
-    });
+    candidates.push(
+      {
+        fetchPath: `/llms-catalog.mdx/${trimmedSlug}`,
+        pagePath: `/catalog/${trimmedSlug}`,
+      },
+      {
+        fetchPath: `/llms-ui.mdx/${trimmedSlug}`,
+        pagePath: `/ui/${trimmedSlug}`,
+      }
+    );
   }
 
   return candidates;
@@ -390,12 +390,12 @@ export class SoraDocsSource {
       );
     }
 
-    const data = (await response.json()) as Array<{
+    const data = (await response.json()) as {
       content?: string;
       id?: string;
       structured?: { heading?: string };
       url?: string;
-    }>;
+    }[];
 
     if (!Array.isArray(data)) {
       throw new DocSourceError("Search API response is not an array");
@@ -482,16 +482,16 @@ export class SoraDocsSource {
   }
 
   private splitIntoPageBlocks(fullContent: string) {
-    const blocks: Array<{
+    const blocks: {
       content: string;
       description?: string;
       section?: string;
       slug: string;
       title: string;
       url: string;
-    }> = [];
+    }[] = [];
 
-    const matches: Array<{ index: number; title: string; url: string }> = [];
+    const matches: { index: number; title: string; url: string }[] = [];
     let match: RegExpExecArray | null = HEADER_PATTERN.exec(fullContent);
 
     while (match !== null) {
@@ -555,7 +555,9 @@ export class SoraDocsSource {
 
   private titleFromSlug(slug: string): string {
     const last = slug.split("/").pop() || slug;
-    return last.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    return last
+      .replaceAll(/[-_]/g, " ")
+      .replaceAll(/\b\w/g, (c) => c.toUpperCase());
   }
 
   private extractMdxTitle(content: string, fallbackSlug: string): string {

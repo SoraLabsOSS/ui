@@ -5,7 +5,9 @@ import { Button } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { motion, useReducedMotion } from "motion/react";
-import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
+
 import { CodeTabs } from "@/components/docs/code-tabs";
 import { CodeBlock, Pre } from "@/components/docs/codeblock";
 import {
@@ -165,7 +167,7 @@ const ManualCodeViewer = ({
       >
         <div
           className="w-full text-sm [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
+          // oxlint-disable-next-line react/no-danger -- pre-highlighted code html generated at build time
           dangerouslySetInnerHTML={{ __html: activeHtml }}
           data-code-block
         />
@@ -180,7 +182,7 @@ const ManualCodeViewer = ({
         title={path}
       >
         <Pre
-          className="flex items-center justify-center text-muted-foreground"
+          className="text-muted-foreground flex items-center justify-center"
           style={{ minHeight: "128px" }}
         >
           <span className="text-sm">Loading...</span>
@@ -202,7 +204,7 @@ const ManualCodeViewer = ({
   }
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-border/60">
+    <div className="border-border/60 relative overflow-hidden rounded-xl border">
       <motion.div
         animate={{ height: isOpened && isCodeReady ? "auto" : 128 }}
         className="overflow-hidden rounded-xl"
@@ -222,12 +224,12 @@ const ManualCodeViewer = ({
         className={cn(
           "pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-3 transition-[height,background] duration-300",
           isOpened && isCodeReady
-            ? "h-16 bg-gradient-to-t from-background/90 via-background/40 to-transparent"
-            : "h-24 bg-gradient-to-t from-background via-background/80 to-transparent"
+            ? "from-background/90 via-background/40 h-16 bg-gradient-to-t to-transparent"
+            : "from-background via-background/80 h-24 bg-gradient-to-t to-transparent"
         )}
       >
         <Button
-          className="pointer-events-auto h-7 rounded-full border border-border/60 bg-background/95 px-3 text-xs shadow-xs hover:bg-accent disabled:cursor-not-allowed disabled:opacity-70"
+          className="border-border/60 bg-background/95 hover:bg-accent pointer-events-auto h-7 rounded-full border px-3 text-xs shadow-xs disabled:cursor-not-allowed disabled:opacity-70"
           disabled={!isCodeReady}
           onClick={() => {
             if (isCodeReady) {
@@ -395,14 +397,14 @@ export const ComponentManualInstallation = ({
   const devDepsKey = devDependencies?.join(",") ?? "";
   const regDepsKey = registryDependencies?.join(",") ?? "";
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: depsKey tracks dependency changes stably
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- depsKey tracks dependency changes stably
   const depsCommands = useMemo(() => getDepsCommands(dependencies), [depsKey]);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: devDepsKey tracks dependency changes stably
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- devDepsKey tracks dependency changes stably
   const devDepsCommands = useMemo(
     () => getDepsCommands(devDependencies),
     [devDepsKey]
   );
-  // biome-ignore lint/correctness/useExhaustiveDependencies: regDepsKey tracks dependency changes stably
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- regDepsKey tracks dependency changes stably
   const registryDepsCommands = useMemo(
     () => getRegistryDepsCommands(registryDependencies),
     [regDepsKey]

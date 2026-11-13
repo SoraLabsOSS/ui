@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { isAbsolute, join, normalize, relative, resolve } from "node:path";
+import path from "node:path";
 
 let cachedWwwPath: string | null | undefined;
 
@@ -20,9 +20,9 @@ type CandidateCollector = (relPath: string, pagePath: string) => void;
 function isWwwDirectory(candidate: string): boolean {
   return (
     existsSync(candidate) &&
-    (existsSync(join(candidate, "public", "r", "registry.json")) ||
-      (existsSync(join(candidate, "package.json")) &&
-        existsSync(join(candidate, "content"))))
+    (existsSync(path.join(candidate, "public", "r", "registry.json")) ||
+      (existsSync(path.join(candidate, "package.json")) &&
+        existsSync(path.join(candidate, "content"))))
   );
 }
 
@@ -42,7 +42,7 @@ export function getLocalWwwPath(): string | null {
     return cachedWwwPath;
   }
   if (process.env.SORA_REPO_ROOT) {
-    const candidate = join(process.env.SORA_REPO_ROOT, "apps", "www");
+    const candidate = path.join(process.env.SORA_REPO_ROOT, "apps", "www");
     if (isWwwDirectory(candidate)) {
       cachedWwwPath = candidate;
       return cachedWwwPath;
@@ -53,7 +53,7 @@ export function getLocalWwwPath(): string | null {
   const cwd = process.cwd();
   let current = cwd;
   for (let i = 0; i < 5; i++) {
-    const checkWww = join(current, "apps", "www");
+    const checkWww = path.join(current, "apps", "www");
     if (isWwwDirectory(checkWww)) {
       cachedWwwPath = checkWww;
       return cachedWwwPath;
@@ -62,13 +62,13 @@ export function getLocalWwwPath(): string | null {
       cachedWwwPath = current;
       return cachedWwwPath;
     }
-    const checkSibling = join(current, "..", "www");
+    const checkSibling = path.join(current, "..", "www");
     if (isWwwDirectory(checkSibling)) {
-      cachedWwwPath = resolve(checkSibling);
+      cachedWwwPath = path.resolve(checkSibling);
       return cachedWwwPath;
     }
 
-    const parent = resolve(current, "..");
+    const parent = path.resolve(current, "..");
     if (parent === current) {
       break;
     }
@@ -95,17 +95,17 @@ export function getLocalRegistryFile(filename: string): string | null {
     return null;
   }
 
-  const filePath = join(wwwDir, "public", "r", filename);
+  const filePath = path.join(wwwDir, "public", "r", filename);
   return existsSync(filePath) ? filePath : null;
 }
 
 function normalizeDocSlug(rawSlug: string): string | null {
-  let slug = rawSlug.trim().replace(TRAILING_LEADING_SLASHES, "");
+  let slug = rawSlug.trim().replaceAll(TRAILING_LEADING_SLASHES, "");
   if (
     !slug ||
     slug.includes("\0") ||
     slug.includes("..") ||
-    normalize(slug).includes("..")
+    path.normalize(slug).includes("..")
   ) {
     return null;
   }
@@ -173,18 +173,18 @@ function collectUiCandidates(slug: string, add: CandidateCollector): void {
 function collectSectionCandidates(slug: string, add: CandidateCollector): void {
   // Docs section
   if (slug.startsWith("docs/")) {
-    add(join("docs", `${slug.slice("docs/".length)}.mdx`), `/${slug}`);
+    add(path.join("docs", `${slug.slice("docs/".length)}.mdx`), `/${slug}`);
   } else {
-    add(join("docs", `${slug}.mdx`), `/docs/${slug}`);
+    add(path.join("docs", `${slug}.mdx`), `/docs/${slug}`);
   }
 
   // Other standard sections
   for (const section of ["catalog", "motion", "icons", "blog"]) {
     if (slug.startsWith(`${section}/`)) {
       const rest = slug.slice(`${section}/`.length);
-      add(join(section, `${rest}.mdx`), `/${slug}`);
+      add(path.join(section, `${rest}.mdx`), `/${slug}`);
     } else {
-      add(join(section, `${slug}.mdx`), `/${section}/${slug}`);
+      add(path.join(section, `${slug}.mdx`), `/${section}/${slug}`);
     }
   }
 
@@ -213,13 +213,13 @@ export function getLocalContentFile(
     return null;
   }
 
-  const contentDir = resolve(wwwDir, "content");
+  const contentDir = path.resolve(wwwDir, "content");
   const candidates: ResolvedContentFile[] = [];
 
   const addCandidate: CandidateCollector = (relPath, pagePath) => {
-    const fullPath = resolve(contentDir, relPath);
-    const rel = relative(contentDir, fullPath);
-    if (!(rel.startsWith("..") || isAbsolute(rel))) {
+    const fullPath = path.resolve(contentDir, relPath);
+    const rel = path.relative(contentDir, fullPath);
+    if (!(rel.startsWith("..") || path.isAbsolute(rel))) {
       candidates.push({ filePath: fullPath, pagePath });
     }
   };
@@ -228,7 +228,7 @@ export function getLocalContentFile(
 
   // Direct match and directory index match
   addCandidate(`${slug}.mdx`, `/${slug}`);
-  addCandidate(join(slug, "index.mdx"), `/${slug}`);
+  addCandidate(path.join(slug, "index.mdx"), `/${slug}`);
 
   collectSectionCandidates(slug, addCandidate);
 

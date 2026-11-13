@@ -11,7 +11,7 @@ export function CatalogPreviewLoadingOverlay({
   return (
     <div
       className={cn(
-        "absolute inset-0 z-10 flex items-center justify-center gap-2 bg-secondary/80 text-muted-foreground text-sm backdrop-blur-sm max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl",
+        "bg-secondary/80 text-muted-foreground absolute inset-0 z-10 flex items-center justify-center gap-2 text-sm backdrop-blur-sm max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl",
         className
       )}
     >

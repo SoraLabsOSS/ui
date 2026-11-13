@@ -42,9 +42,8 @@ bun run doctor <name> --strict
 
 > **Contributor workflow:** Contributors should always run `bun run doctor <name>` to check their newly added/edited component. You do not need to run `bun run doctor --all`.
 
-
 | Flag | `create:primitive` | `create:ui` | `create:catalog` | `create:icon` |
-|------|----------------------|-------------|------------------|---------------|
+| --- | --- | --- | --- | --- |
 | `--yes` / `--no-input` | Non-interactive; requires `<name>` + `--category` | Non-interactive; requires `<name>` + `--framework` | Non-interactive; requires `<slug>` | Non-interactive; requires `<name>` |
 | `--dry-run` / `-n` | Preview files; no writes | Same | Same | Same |
 | `-q` / `--quiet` | Minimal output; silent `registry:build` | Same | Same | Same |
@@ -52,7 +51,6 @@ bun run doctor <name> --strict
 | `--skip-build` | Skip `registry:build` after scaffold | Same | Same | Same |
 | `--with-demo` | Opt-in manual demo folder | Default on in `--yes` / `--no-input` mode | — | Default on in `--yes` / `--no-input` mode |
 | `--skip-demo` | — | Skip manual demo folder | — | Skip manual demo folder |
-
 
 ## Tests
 
@@ -86,10 +84,7 @@ The initial Phase 3 foundation is now implemented for the active UI registry:
 - [x] Published `meta.agentMetadata` in registry artifacts for MCP consumers
 - [x] MCP component metadata and composition validation surface
 
-This phase provides semantic context and validation for agents. It does not
-automatically plan a component tree, select recipes, generate application
-files, or perform deep runtime accessibility/motion audits. Those belong to a
-future agent composition automation phase.
+This phase provides semantic context and validation for agents. It does not automatically plan a component tree, select recipes, generate application files, or perform deep runtime accessibility/motion audits. Those belong to a future agent composition automation phase.
 
 Use this as the implementation checklist for the next milestone.
 
@@ -118,6 +113,7 @@ Use this as the implementation checklist for the next milestone.
 - Routes: `/catalog/<slug>`; listed in `content/catalog/meta.json`.
 
 #### `doctor`
+
 - [x] **Command** — `www-cli doctor` (read-only audit, no file writes)
 - [x] **Checks:**
   - [x] Registry folder exists but no matching MDX in `content/motion`, `content/ui`, or `content/catalog`
@@ -152,7 +148,6 @@ Scaffolding for animated icons (`registry/icons/<name>/`).
 - [x] **Wizard** — wire icon option in `src/commands/create-wizard.ts`
 - [x] **Root script** — `"create:icon"` in root `package.json`
 - [x] **Tests** — unit & integration tests for icon scaffolding
-
 
 ## Package layout
 

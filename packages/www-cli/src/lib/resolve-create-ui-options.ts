@@ -1,11 +1,10 @@
 import { cancel, confirm, intro, isCancel, select, text } from "@clack/prompts";
+
 import { assertKebabCase, frameworkLabel } from "./naming.js";
-import { UI_FRAMEWORKS, UI_SECTIONS, type UiFramework } from "./paths.js";
-import {
-  allowsPrompts,
-  isScripted,
-  type ScaffoldRunFlags,
-} from "./scaffold-flags.js";
+import { UI_FRAMEWORKS, UI_SECTIONS } from "./paths.js";
+import type { UiFramework } from "./paths.js";
+import { allowsPrompts, isScripted } from "./scaffold-flags.js";
+import type { ScaffoldRunFlags } from "./scaffold-flags.js";
 import { nonInteractiveHint } from "./terminal.js";
 
 export interface CreateUiOptions extends ScaffoldRunFlags {

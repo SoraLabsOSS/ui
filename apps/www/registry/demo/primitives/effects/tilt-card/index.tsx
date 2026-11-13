@@ -31,7 +31,7 @@ export function TiltCardDemo({
         style={{ transform: "translateZ(40px)" }}
       >
         <div className="h-10 w-10 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500" />
-        <p className="font-medium text-sm text-zinc-900 dark:text-zinc-50">
+        <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
           Sora UI
         </p>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">

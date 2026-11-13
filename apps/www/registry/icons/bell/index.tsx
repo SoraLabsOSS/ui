@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, type SVGMotionProps, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { SVGMotionProps } from "motion/react";
 import { useState } from "react";
 
 interface BellProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {

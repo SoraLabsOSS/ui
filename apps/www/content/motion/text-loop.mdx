@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-text-loop" description="Headline that cycles through a set of phrases on an interval." />
+<ComponentPreview
+  name="demo-text-loop"
+  description="Headline that cycles through a set of phrases on an interval."
+/>
 
 ## Installation
 
@@ -15,7 +18,7 @@ author:
 ## Usage
 
 ```tsx
-import { TextLoop } from '@/components/sora-ui/texts/text-loop';
+import { TextLoop } from "@/components/sora-ui/texts/text-loop";
 
 export function RotatingHeadline() {
   return (
@@ -31,10 +34,10 @@ export function RotatingHeadline() {
 Pause cycling and drive the index manually:
 
 ```tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { TextLoop } from '@/components/sora-ui/texts/text-loop';
+import { useState } from "react";
+import { TextLoop } from "@/components/sora-ui/texts/text-loop";
 
 export function ManualTextLoop() {
   const [paused, setPaused] = useState(false);
@@ -55,45 +58,46 @@ export function ManualTextLoop() {
 <TypeTable
   type={{
     children: {
-      description: 'Items to cycle through. Each child is shown for `interval` seconds.',
-      type: 'ReactNode[]',
+      description:
+        "Items to cycle through. Each child is shown for `interval` seconds.",
+      type: "ReactNode[]",
       required: true,
     },
     interval: {
-      description: 'Seconds each item stays visible before advancing.',
-      type: 'number',
-      default: '2',
+      description: "Seconds each item stays visible before advancing.",
+      type: "number",
+      default: "2",
     },
     trigger: {
-      description: 'Set to false to pause cycling.',
-      type: 'boolean',
-      default: 'true',
+      description: "Set to false to pause cycling.",
+      type: "boolean",
+      default: "true",
     },
     mode: {
-      description: '`AnimatePresence` transition mode.',
+      description: "`AnimatePresence` transition mode.",
       type: '"sync" | "wait" | "popLayout"',
       default: '"popLayout"',
     },
     live: {
-      description: 'ARIA live region politeness for the cycling text.',
+      description: "ARIA live region politeness for the cycling text.",
       type: '"off" | "polite" | "assertive"',
       default: '"off"',
     },
     variants: {
-      description: 'Custom Motion variants for enter, animate, and exit.',
-      type: 'Variants',
+      description: "Custom Motion variants for enter, animate, and exit.",
+      type: "Variants",
     },
     transition: {
-      description: 'Motion transition applied to each item.',
-      type: 'Transition',
+      description: "Motion transition applied to each item.",
+      type: "Transition",
     },
     onIndexChange: {
-      description: 'Called with the new index whenever the loop advances.',
-      type: '(index: number) => void',
+      description: "Called with the new index whenever the loop advances.",
+      type: "(index: number) => void",
     },
     className: {
-      description: 'Class names on the root element.',
-      type: 'string',
+      description: "Class names on the root element.",
+      type: "string",
     },
   }}
 />

@@ -1,12 +1,16 @@
 import path from "node:path";
+
 import type { Metadata } from "next";
 import Link from "next/link";
+
 import { HomeShell } from "@/components/home-shell";
 import { getBlogIndexOgContent } from "@/lib/blog/get-blog-index-og-content";
 import { createBlogMetadata } from "@/lib/blog/metadata";
 import { blog } from "@/lib/blog/source";
 import { getPageAlternates, SITE_URL } from "@/lib/site";
-import { BlogPostsList, type SerializedBlogPost } from "./blog-posts-list";
+
+import { BlogPostsList } from "./blog-posts-list";
+import type { SerializedBlogPost } from "./blog-posts-list";
 import { BlogSearchTrigger } from "./blog-search-trigger";
 
 export const metadata: Metadata = createBlogMetadata({
@@ -81,9 +85,10 @@ const ALL_TOPICS = [
 ];
 
 export default function BlogPage() {
-  const rawPosts = [...blog.getPages()]
+  const rawPosts = blog
+    .getPages()
     .filter((post) => !(post.data.subpage || post.data.hidden))
-    .sort(
+    .toSorted(
       (a, b) =>
         new Date(b.data.date ?? getName(b.path)).getTime() -
         new Date(a.data.date ?? getName(a.path)).getTime()
@@ -129,19 +134,19 @@ export default function BlogPage() {
 
       <HomeShell as="div">
         {/* Hero Section */}
-        <section className="relative flex flex-col @lg:gap-24 @md:gap-20 gap-16 @lg:pt-24 @md:pt-20 pt-16 @lg:pb-16 @md:pb-16 pb-12">
+        <section className="relative flex flex-col gap-16 pt-16 pb-12 @md:gap-20 @md:pt-20 @md:pb-16 @lg:gap-24 @lg:pt-24 @lg:pb-16">
           <div className="flex flex-col gap-8">
             <div className="flex max-w-3xl flex-col gap-3">
-              <h1 className="text-balance font-[450] @lg:text-[64px] @md:text-[56px] text-[40px] text-foreground @lg:leading-[1.05] @md:leading-[1.05] leading-[1.1] @lg:tracking-[-0.04em] tracking-[-0.03em]">
+              <h1 className="text-foreground text-[40px] leading-[1.1] font-[450] tracking-[-0.03em] text-balance @md:text-[56px] @md:leading-[1.05] @lg:text-[64px] @lg:leading-[1.05] @lg:tracking-[-0.04em]">
                 Sora Blog
               </h1>
-              <div className="text-balance font-normal text-[18px] text-muted-foreground leading-[28px]">
+              <div className="text-muted-foreground text-[18px] leading-[28px] font-normal text-balance">
                 Notes on motion, UI craft, and shipping React experiences that
                 feel intentional.
               </div>
               <div className="pt-1">
                 <Link
-                  className="font-mono text-muted-foreground text-xs transition-colors hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground font-mono text-xs transition-colors"
                   href="/blog/rss.xml"
                 >
                   [/rss.xml]
@@ -153,26 +158,26 @@ export default function BlogPage() {
         </section>
 
         {/* Featured Topics Section (Clean Text Cards) */}
-        <section className="relative flex flex-col @lg:pb-24 @md:pb-20 pb-16">
+        <section className="relative flex flex-col pb-16 @md:pb-20 @lg:pb-24">
           <h2 className="sr-only">Featured Topics</h2>
           <ul className="m-0 grid list-none grid-cols-12 gap-x-6 gap-y-6 p-0">
             {FEATURED_TOPIC_CARDS.map((card) => (
-              <li className="@lg:col-span-4 col-span-full" key={card.title}>
+              <li className="col-span-full @lg:col-span-4" key={card.title}>
                 <Link
-                  className="group relative isolate m-0 flex h-full min-h-[160px] w-full cursor-pointer flex-col justify-between rounded-lg border border-border/80 bg-card/40 p-6 no-underline outline-none transition-colors duration-200 hover:border-foreground/40 hover:bg-accent/40 focus-visible:outline-2"
+                  className="group border-border/80 bg-card/40 hover:border-foreground/40 hover:bg-accent/40 relative isolate m-0 flex h-full min-h-[160px] w-full cursor-pointer flex-col justify-between rounded-lg border p-6 no-underline transition-colors duration-200 outline-none focus-visible:outline-2"
                   href={card.href}
                 >
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-[12px] text-muted-foreground uppercase tracking-wide">
+                      <span className="text-muted-foreground text-[12px] font-medium tracking-wide uppercase">
                         {card.tag}
                       </span>
                     </div>
-                    <h3 className="text-pretty font-medium text-[20px] text-foreground leading-[28px] tracking-[-0.015em]">
+                    <h3 className="text-foreground text-[20px] leading-[28px] font-medium tracking-[-0.015em] text-pretty">
                       {card.title}
                     </h3>
                   </div>
-                  <p className="line-clamp-3 text-pretty text-[15px] text-muted-foreground leading-[22px]">
+                  <p className="text-muted-foreground line-clamp-3 text-[15px] leading-[22px] text-pretty">
                     {card.description}
                   </p>
                 </Link>
@@ -183,28 +188,28 @@ export default function BlogPage() {
 
         {/* Featured Posts Section */}
         {featuredPosts.length > 0 && (
-          <section className="relative flex flex-col @lg:gap-10 @md:gap-8 gap-6 border-border/40 border-t @lg:pt-24 @md:pt-20 pt-16 @lg:pb-24 @md:pb-20 pb-16">
-            <h2 className="text-balance font-[450] @lg:text-[56px] @md:text-[44px] text-[32px] text-foreground @lg:leading-[1.05] leading-[1.15] @lg:tracking-[-0.035em] tracking-[-0.025em]">
+          <section className="border-border/40 relative flex flex-col gap-6 border-t pt-16 pb-16 @md:gap-8 @md:pt-20 @md:pb-20 @lg:gap-10 @lg:pt-24 @lg:pb-24">
+            <h2 className="text-foreground text-[32px] leading-[1.15] font-[450] tracking-[-0.025em] text-balance @md:text-[44px] @lg:text-[56px] @lg:leading-[1.05] @lg:tracking-[-0.035em]">
               Featured Posts
             </h2>
             <ul className="m-0 grid list-none grid-cols-12 gap-x-6 gap-y-6 p-0">
               {featuredPosts.map((post) => (
-                <li className="@lg:col-span-4 col-span-full" key={post.url}>
+                <li className="col-span-full @lg:col-span-4" key={post.url}>
                   <article
                     aria-label={post.title}
-                    className="flex min-h-0 w-full @lg:flex-1 flex-col"
+                    className="flex min-h-0 w-full flex-col @lg:flex-1"
                   >
                     <Link
-                      className="@lg:mb-0 mb-6 flex h-full @lg:min-h-0 w-full @lg:flex-1 cursor-pointer flex-col gap-4 rounded-lg border border-border/70 p-6 outline-offset-4 transition-colors duration-200 ease-in-out hover:border-foreground/40 hover:bg-accent/40 focus-visible:outline-2"
+                      className="border-border/70 hover:border-foreground/40 hover:bg-accent/40 mb-6 flex h-full w-full cursor-pointer flex-col gap-4 rounded-lg border p-6 outline-offset-4 transition-colors duration-200 ease-in-out focus-visible:outline-2 @lg:mb-0 @lg:min-h-0 @lg:flex-1"
                       href={post.url}
                     >
-                      <div className="@max-lg:mb-5 flex flex-row flex-wrap items-center justify-start gap-2">
+                      <div className="flex flex-row flex-wrap items-center justify-start gap-2 @max-lg:mb-5">
                         <h4 className="sr-only">Tags</h4>
-                        <span className="flex items-center gap-3 font-medium font-sans text-foreground text-sm">
+                        <span className="text-foreground flex items-center gap-3 font-sans text-sm font-medium">
                           <ul className="m-0 flex list-none flex-wrap gap-x-4 gap-y-2 p-0">
                             {post.hashtags.map((tag) => (
                               <li
-                                className="font-medium text-muted-foreground text-xs"
+                                className="text-muted-foreground text-xs font-medium"
                                 key={tag}
                               >
                                 {tag.replace(HASH_REGEX, "")}
@@ -213,14 +218,14 @@ export default function BlogPage() {
                           </ul>
                         </span>
                       </div>
-                      <h3 className="line-clamp-3 min-h-[96px] text-balance @max-lg:text-pretty @lg:@max-xl:pr-6 font-[450] text-[24px] text-foreground leading-[32px] tracking-[-0.02em]">
+                      <h3 className="text-foreground line-clamp-3 min-h-[96px] text-[24px] leading-[32px] font-[450] tracking-[-0.02em] text-balance @max-lg:text-pretty @lg:@max-xl:pr-6">
                         {post.title}
                       </h3>
                       <div className="mt-auto flex shrink-0 flex-col gap-5 @max-lg:pt-5">
-                        <p className="line-clamp-3 max-h-[60px] text-wrap text-[14px] text-muted-foreground leading-[20px]">
+                        <p className="text-muted-foreground line-clamp-3 max-h-[60px] text-[14px] leading-[20px] text-wrap">
                           {post.description}
                         </p>
-                        <div className="flex items-center justify-between text-muted-foreground text-xs">
+                        <div className="text-muted-foreground flex items-center justify-between text-xs">
                           {post.author && <span>By {post.author}</span>}
                           <time dateTime={post.dateIso}>
                             {post.dateFormatted}
@@ -236,33 +241,33 @@ export default function BlogPage() {
         )}
 
         {/* All Posts Section */}
-        <section className="relative flex flex-col @lg:gap-10 @md:gap-8 gap-6 border-border/40 border-t @lg:pt-24 @md:pt-20 pt-16 @lg:pb-24 @md:pb-20 pb-16">
+        <section className="border-border/40 relative flex flex-col gap-6 border-t pt-16 pb-16 @md:gap-8 @md:pt-20 @md:pb-20 @lg:gap-10 @lg:pt-24 @lg:pb-24">
           <BlogPostsList posts={serializedPosts} />
         </section>
 
         {/* All Topics Section */}
-        <section className="relative flex flex-col @lg:gap-10 @md:gap-8 gap-6 border-border/40 border-t @lg:pt-18 @md:pt-16 pt-12 @lg:pb-24 @md:pb-20 pb-16">
+        <section className="border-border/40 relative flex flex-col gap-6 border-t pt-12 pb-16 @md:gap-8 @md:pt-16 @md:pb-20 @lg:gap-10 @lg:pt-18 @lg:pb-24">
           <div className="grid grid-cols-12 gap-x-6 gap-y-6">
-            <h2 className="@lg:col-span-5 col-span-full text-balance font-[450] @lg:text-[56px] @md:text-[44px] text-[32px] text-foreground @lg:leading-[1.05] leading-[1.15] @lg:tracking-[-0.035em] tracking-[-0.025em]">
+            <h2 className="text-foreground col-span-full text-[32px] leading-[1.15] font-[450] tracking-[-0.025em] text-balance @md:text-[44px] @lg:col-span-5 @lg:text-[56px] @lg:leading-[1.05] @lg:tracking-[-0.035em]">
               Browse by Topic
             </h2>
-            <p className="@lg:col-span-6 col-span-full @lg:col-start-7 text-balance @lg:text-[18px] text-[16px] text-muted-foreground @lg:leading-[28px] leading-[24px]">
+            <p className="text-muted-foreground col-span-full text-[16px] leading-[24px] text-balance @lg:col-span-6 @lg:col-start-7 @lg:text-[18px] @lg:leading-[28px]">
               Explore components, animation physics, and guides across the Sora
               UI distribution.
             </p>
           </div>
           <ul className="m-0 grid list-none grid-cols-12 gap-x-6 gap-y-6 p-0">
             {ALL_TOPICS.map((topic) => (
-              <li className="@lg:col-span-4 col-span-full" key={topic.title}>
+              <li className="col-span-full @lg:col-span-4" key={topic.title}>
                 <Link
-                  className="flex h-full cursor-pointer flex-col gap-6 rounded-lg border border-border/70 p-6 no-underline outline-none transition-colors hover:border-foreground/40 hover:bg-accent/30 sm:p-8"
+                  className="border-border/70 hover:border-foreground/40 hover:bg-accent/30 flex h-full cursor-pointer flex-col gap-6 rounded-lg border p-6 no-underline transition-colors outline-none sm:p-8"
                   href={topic.href}
                 >
-                  <div className="flex h-full flex-col justify-start @lg:gap-3 gap-2">
-                    <span className="flex items-center gap-2 font-medium text-[16px] text-foreground leading-[24px]">
+                  <div className="flex h-full flex-col justify-start gap-2 @lg:gap-3">
+                    <span className="text-foreground flex items-center gap-2 text-[16px] leading-[24px] font-medium">
                       {topic.title}
                     </span>
-                    <span className="max-w-[32ch] max-w-full text-balance text-[16px] text-muted-foreground leading-[24px]">
+                    <span className="text-muted-foreground max-w-[32ch] max-w-full text-[16px] leading-[24px] text-balance">
                       {topic.description}
                     </span>
                   </div>
@@ -273,14 +278,14 @@ export default function BlogPage() {
         </section>
 
         {/* Pre-footer Call to Action */}
-        <div className="border-border/40 border-t @lg:pt-12 pt-8 pb-16 md:pb-20">
+        <div className="border-border/40 border-t pt-8 pb-16 md:pb-20 @lg:pt-12">
           <div className="grid grid-cols-12 items-center gap-x-6 gap-y-8">
-            <h2 className="col-span-full @lg:col-start-1 @lg:col-end-9 text-balance font-[450] @lg:text-[48px] text-[32px] text-foreground @lg:leading-[1.05] leading-[1.15] @lg:tracking-[-0.03em] tracking-[-0.025em] sm:text-[40px] sm:leading-[1.1]">
+            <h2 className="text-foreground col-span-full text-[32px] leading-[1.15] font-[450] tracking-[-0.025em] text-balance sm:text-[40px] sm:leading-[1.1] @lg:col-start-1 @lg:col-end-9 @lg:text-[48px] @lg:leading-[1.05] @lg:tracking-[-0.03em]">
               Ready to build with Sora UI?
             </h2>
-            <div className="col-span-full @lg:col-start-9 @lg:col-end-13 flex flex-wrap items-center @lg:justify-end gap-4">
+            <div className="col-span-full flex flex-wrap items-center gap-4 @lg:col-start-9 @lg:col-end-13 @lg:justify-end">
               <Link
-                className="flex h-9 items-center justify-center rounded-full bg-foreground px-4 font-medium text-[14px] text-background transition-colors hover:bg-foreground/90"
+                className="bg-foreground text-background hover:bg-foreground/90 flex h-9 items-center justify-center rounded-full px-4 text-[14px] font-medium transition-colors"
                 href="/catalog"
               >
                 <span className="inline-block truncate px-1.5">
@@ -288,7 +293,7 @@ export default function BlogPage() {
                 </span>
               </Link>
               <Link
-                className="flex h-9 items-center justify-center rounded-full border border-border/80 bg-background px-4 font-medium text-[14px] text-foreground transition-colors hover:bg-accent"
+                className="border-border/80 bg-background text-foreground hover:bg-accent flex h-9 items-center justify-center rounded-full border px-4 text-[14px] font-medium transition-colors"
                 href="/docs"
               >
                 <span className="inline-block truncate px-1.5">

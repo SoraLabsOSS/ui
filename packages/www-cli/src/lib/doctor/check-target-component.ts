@@ -1,5 +1,6 @@
 import { existsSync, promises as fs } from "node:fs";
 import path from "node:path";
+
 import { checkTargetAgentMetadata } from "./check-agent-metadata.js";
 import { extractExports } from "./extract-exports.js";
 import type { DiagnosticIssue, DoctorOptions, DoctorResult } from "./types.js";
@@ -90,7 +91,7 @@ function resolveUiTarget(
       : rawName.slice("radix-".length);
   }
 
-  const frameworksToTry: Array<"base" | "radix"> = framework
+  const frameworksToTry: ("base" | "radix")[] = framework
     ? [framework]
     : ["base", "radix"];
 
@@ -227,7 +228,7 @@ async function validateTargetRegistryAndDemoProps(
   }
 
   let parsed: {
-    files?: Array<{ path?: string }>;
+    files?: { path?: string }[];
     meta?: { demoProps?: Record<string, Record<string, unknown>> };
   };
 

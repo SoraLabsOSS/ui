@@ -18,7 +18,7 @@ const WORDS = [
 
 export default function TextCursorLoopExample() {
   return (
-    <p className="m-0 max-w-md text-balance text-lg leading-snug">
+    <p className="m-0 max-w-md text-lg leading-snug text-balance">
       A fast and flexible JavaScript library to animate{" "}
       <TextCursorLoop
         className="font-medium"

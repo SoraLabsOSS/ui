@@ -2,11 +2,12 @@ import {
   convertToModelMessages,
   createUIMessageStream,
   createUIMessageStreamResponse,
-  type ModelMessage,
-  type UIMessageStreamWriter,
 } from "ai";
+import type { ModelMessage, UIMessageStreamWriter } from "ai";
+
 import { env } from "@/env";
 import { plainSourceTitle } from "@/lib/plain-text";
+
 import type { ChatUIMessage } from "../../../components/ai/search";
 
 const TEXT_ID = "ai-search";
@@ -48,7 +49,7 @@ interface CfSearchChunk {
 }
 
 interface CfChatChunk {
-  choices?: Array<{ delta?: { content?: string | null } }>;
+  choices?: { delta?: { content?: string | null } }[];
 }
 
 function textFromContent(content: ModelMessage["content"]): string {
@@ -67,7 +68,7 @@ function textFromContent(content: ModelMessage["content"]): string {
 
 function toCfMessages(
   messages: ModelMessage[]
-): Array<{ content: string; role: string }> {
+): { content: string; role: string }[] {
   return [
     { role: "system", content: systemPrompt },
     ...messages.flatMap((message) => {
@@ -187,7 +188,7 @@ function contentDelta(data: string): string | undefined {
     const chunk = JSON.parse(data) as CfChatChunk;
     return chunk.choices?.[0]?.delta?.content ?? undefined;
   } catch {
-    return;
+    // Ignore non-JSON chunks (e.g. [DONE])
   }
 }
 

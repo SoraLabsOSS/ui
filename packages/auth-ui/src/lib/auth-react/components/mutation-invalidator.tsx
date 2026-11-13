@@ -1,9 +1,9 @@
 import {
   matchMutation,
   matchQuery,
-  type QueryKey,
   useQueryClient,
 } from "@tanstack/react-query";
+import type { QueryKey } from "@tanstack/react-query";
 import { authMutationKeys } from "@workspace/auth-ui/lib/auth-core";
 import { useEffect } from "react";
 

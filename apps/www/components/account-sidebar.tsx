@@ -22,7 +22,9 @@ import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type ReactNode, useEffect } from "react";
+import { useEffect } from "react";
+import type { ReactNode } from "react";
+
 import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
@@ -156,7 +158,7 @@ function AccountMenuSection({
   const publicItems = ACCOUNT_MENU_ITEMS.filter((item) => !item.requiresAuth);
   const authItems = ACCOUNT_MENU_ITEMS.filter((item) => item.requiresAuth);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset hover on auth state change
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- reset hover on auth state change
   useEffect(() => {
     setHovered(null);
   }, [authNavPending, setHovered]);
@@ -252,7 +254,7 @@ export function AccountSidebar({
           <Sidebar001Header className="flex items-center justify-between border-b px-4 py-3 md:hidden">
             <Link
               aria-label="Sora UI home"
-              className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
+              className="focus-visible:ring-ring flex items-center gap-2 rounded-md transition-opacity outline-none hover:opacity-80 focus-visible:ring-2"
               href="/"
               onClick={(e) => {
                 if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
@@ -264,7 +266,7 @@ export function AccountSidebar({
               }}
             >
               <SoraIcon size="sm" />
-              <span className="font-semibold text-sm">Sora UI</span>
+              <span className="text-sm font-semibold">Sora UI</span>
             </Link>
             <button
               aria-label="Close menu"
@@ -316,7 +318,7 @@ export function AccountSidebar({
                   aria-label={link.label}
                   className={cn(
                     buttonVariants({ size: "icon", color: "ghost" }),
-                    "size-8 p-0 text-fd-muted-foreground [&_svg]:size-4.5"
+                    "text-fd-muted-foreground size-8 p-0 [&_svg]:size-4.5"
                   )}
                   item={link}
                   key={link.url}

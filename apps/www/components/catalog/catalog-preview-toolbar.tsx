@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
+
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
 import { setThemeWithTransition } from "@/lib/theme-transition";
+
 import {
   catalogChromeToolbarCellActiveClassName,
   catalogChromeToolbarCellClassName,

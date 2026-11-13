@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  Accordion,
-  type AccordionItemData,
-} from "@/registry/primitives/disclosure/accordion";
+import { Accordion } from "@/registry/primitives/disclosure/accordion";
+import type { AccordionItemData } from "@/registry/primitives/disclosure/accordion";
 
 const FAQ_ITEMS: AccordionItemData[] = [
   {

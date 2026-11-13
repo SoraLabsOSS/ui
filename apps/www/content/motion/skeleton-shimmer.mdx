@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-skeleton-shimmer-basic" description="Standard card skeleton loading with Motion shimmer blocks and zero-layout-shift overlays." />
+<ComponentPreview
+  name="demo-skeleton-shimmer-basic"
+  description="Standard card skeleton loading with Motion shimmer blocks and zero-layout-shift overlays."
+/>
 
 ## Installation
 
@@ -24,9 +27,7 @@ author:
 The shimmer surface reads two CSS variables: `--sk-shimmer-from` (block fill) and `--sk-shimmer-to` (moving highlight). Both default to mixes of your app's `--muted` / `--foreground` tokens, so the sweep stays visible in light and dark themes. Override either to retint:
 
 ```tsx
-<SkeletonShimmer
-  className="h-4 w-32 [--sk-shimmer-from:theme(colors.zinc.200)] [--sk-shimmer-to:theme(colors.zinc.50)] dark:[--sk-shimmer-from:theme(colors.zinc.800)] dark:[--sk-shimmer-to:theme(colors.zinc.600)]"
-/>
+<SkeletonShimmer className="h-4 w-32 [--sk-shimmer-from:theme(colors.zinc.200)] [--sk-shimmer-to:theme(colors.zinc.50)] dark:[--sk-shimmer-from:theme(colors.zinc.800)] dark:[--sk-shimmer-to:theme(colors.zinc.600)]" />
 ```
 
 ## Usage
@@ -36,7 +37,7 @@ The shimmer surface reads two CSS variables: `--sk-shimmer-from` (block fill) an
 Use `SkeletonShimmer` directly for simple placeholder shapes:
 
 ```tsx
-import { SkeletonShimmer } from '@/components/sora-ui/effects/skeleton-shimmer';
+import { SkeletonShimmer } from "@/components/sora-ui/effects/skeleton-shimmer";
 
 export function AvatarSkeleton() {
   return (
@@ -70,7 +71,7 @@ export function AvatarSkeleton() {
 Instead of guessing widths and heights, wrap your actual content structure in `SkeletonOverlay`. The inner elements determine the exact dimensions while remaining hidden:
 
 ```tsx
-import { SkeletonOverlay } from '@/components/sora-ui/effects/skeleton-shimmer';
+import { SkeletonOverlay } from "@/components/sora-ui/effects/skeleton-shimmer";
 
 export function CardSkeleton() {
   return (
@@ -96,16 +97,19 @@ export function CardSkeleton() {
 
 Pair `SkeletonShimmer` and `SkeletonOverlay` with the browser's [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API) for a right-to-left mask wipe transition:
 
-<ComponentPreview name="demo-skeleton-shimmer" description="A complete profile card skeleton transitioning into revealed content via native View Transitions API wipe animation." />
+<ComponentPreview
+  name="demo-skeleton-shimmer"
+  description="A complete profile card skeleton transitioning into revealed content via native View Transitions API wipe animation."
+/>
 
 ```tsx
 import {
   SkeletonShimmer,
   SkeletonOverlay,
   useViewTransitionWipeStyles,
-} from '@/components/sora-ui/effects/skeleton-shimmer';
-import { startTransition, useState } from 'react';
-import { flushSync } from 'react-dom';
+} from "@/components/sora-ui/effects/skeleton-shimmer";
+import { startTransition, useState } from "react";
+import { flushSync } from "react-dom";
 
 export function TransitionCard() {
   const [loaded, setLoaded] = useState(false);
@@ -122,12 +126,8 @@ export function TransitionCard() {
   }
 
   return (
-    <div style={{ viewTransitionName: 'skeleton-card' }}>
-      {loaded ? (
-        <RealCard />
-      ) : (
-        <SkeletonCard onReveal={triggerReveal} />
-      )}
+    <div style={{ viewTransitionName: "skeleton-card" }}>
+      {loaded ? <RealCard /> : <SkeletonCard onReveal={triggerReveal} />}
     </div>
   );
 }
@@ -140,27 +140,27 @@ export function TransitionCard() {
 <TypeTable
   type={{
     duration: {
-      description: 'Shimmer sweep cycle duration in seconds.',
-      type: 'number',
-      default: '1.5',
+      description: "Shimmer sweep cycle duration in seconds.",
+      type: "number",
+      default: "1.5",
     },
     borderRadius: {
-      description: 'CSS border radius for the shimmer container.',
-      type: 'number | string',
+      description: "CSS border radius for the shimmer container.",
+      type: "number | string",
     },
     animate: {
-      description: 'Whether the shimmer animation is active.',
-      type: 'boolean',
-      default: 'true',
+      description: "Whether the shimmer animation is active.",
+      type: "boolean",
+      default: "true",
     },
     className: {
       description:
-        'Additional CSS class names. Override `--sk-shimmer-from` / `--sk-shimmer-to` to retint the block fill and highlight.',
-      type: 'string',
+        "Additional CSS class names. Override `--sk-shimmer-from` / `--sk-shimmer-to` to retint the block fill and highlight.",
+      type: "string",
     },
     ref: {
-      description: 'Forwarded ref to the root motion div.',
-      type: 'Ref<HTMLDivElement>',
+      description: "Forwarded ref to the root motion div.",
+      type: "Ref<HTMLDivElement>",
     },
   }}
 />
@@ -170,32 +170,33 @@ export function TransitionCard() {
 <TypeTable
   type={{
     children: {
-      description: 'Child elements that define the dimension and layout box of the overlay.',
-      type: 'ReactNode',
+      description:
+        "Child elements that define the dimension and layout box of the overlay.",
+      type: "ReactNode",
     },
     duration: {
-      description: 'Shimmer sweep cycle duration in seconds.',
-      type: 'number',
-      default: '1.5',
+      description: "Shimmer sweep cycle duration in seconds.",
+      type: "number",
+      default: "1.5",
     },
     borderRadius: {
-      description: 'CSS border radius for the shimmer container.',
-      type: 'number | string',
+      description: "CSS border radius for the shimmer container.",
+      type: "number | string",
       default: '"6px"',
     },
     animate: {
-      description: 'Whether the shimmer animation is active.',
-      type: 'boolean',
-      default: 'true',
+      description: "Whether the shimmer animation is active.",
+      type: "boolean",
+      default: "true",
     },
     className: {
       description:
-        'Additional CSS class names. Override `--sk-shimmer-from` / `--sk-shimmer-to` to retint the block fill and highlight.',
-      type: 'string',
+        "Additional CSS class names. Override `--sk-shimmer-from` / `--sk-shimmer-to` to retint the block fill and highlight.",
+      type: "string",
     },
     ref: {
-      description: 'Forwarded ref to the root motion div.',
-      type: 'Ref<HTMLDivElement>',
+      description: "Forwarded ref to the root motion div.",
+      type: "Ref<HTMLDivElement>",
     },
   }}
 />

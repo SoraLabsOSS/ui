@@ -1,16 +1,19 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { div as MotionDiv } from "motion/react-client";
 import type * as React from "react";
+
 import {
   TooltipArrow as TooltipArrowPrimitive,
   TooltipContent as TooltipContentPrimitive,
-  type TooltipContentProps as TooltipContentPrimitiveProps,
   Tooltip as TooltipPrimitive,
-  type TooltipProps as TooltipPrimitiveProps,
   TooltipProvider as TooltipProviderPrimitive,
-  type TooltipProviderProps as TooltipProviderPrimitiveProps,
   TooltipTrigger as TooltipTriggerPrimitive,
-  type TooltipTriggerProps as TooltipTriggerPrimitiveProps,
+} from "@/registry/primitives/animate/tooltip";
+import type {
+  TooltipContentProps as TooltipContentPrimitiveProps,
+  TooltipProps as TooltipPrimitiveProps,
+  TooltipProviderProps as TooltipProviderPrimitiveProps,
+  TooltipTriggerProps as TooltipTriggerPrimitiveProps,
 } from "@/registry/primitives/animate/tooltip";
 
 type TooltipProviderProps = TooltipProviderPrimitiveProps;
@@ -45,16 +48,16 @@ function TooltipContent({
   return (
     <TooltipContentPrimitive
       className={cn(
-        "z-50 w-fit rounded-md bg-primary text-primary-foreground",
+        "bg-primary text-primary-foreground z-50 w-fit rounded-md",
         className
       )}
       {...props}
     >
-      <MotionDiv className="overflow-hidden text-balance px-3 py-1.5 text-xs">
+      <MotionDiv className="overflow-hidden px-3 py-1.5 text-xs text-balance">
         <MotionDiv layout={layout}>{children}</MotionDiv>
       </MotionDiv>
       <TooltipArrowPrimitive
-        className="size-3 fill-primary data-[side='left']:translate-x-[-1px] data-[side='right']:translate-x-[1px] data-[side='bottom']:translate-y-[1px] data-[side='top']:translate-y-[-1px]"
+        className="fill-primary size-3 data-[side='bottom']:translate-y-[1px] data-[side='left']:translate-x-[-1px] data-[side='right']:translate-x-[1px] data-[side='top']:translate-y-[-1px]"
         tipRadius={2}
       />
     </TooltipContentPrimitive>

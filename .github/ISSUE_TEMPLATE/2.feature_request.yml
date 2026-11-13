@@ -1,6 +1,6 @@
 name: ✨ Feature Request
 description: Propose a new feature for Sora UI.
-labels: ['enhancement']
+labels: ["enhancement"]
 body:
   - type: textarea
     attributes:

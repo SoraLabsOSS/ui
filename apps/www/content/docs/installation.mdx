@@ -3,8 +3,8 @@ title: Installation
 description: Install Sora UI in a Next.js or Vite project using the shadcn CLI — dependencies, Tailwind config, folder structure in 3 steps — plus fixes for common install errors.
 ---
 
-import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { CodeTabs } from '@/components/docs/code-tabs';
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { CodeTabs } from "@/components/docs/code-tabs";
 
 <Callout>
   **Note:** We use installation process as
@@ -39,16 +39,17 @@ Two ways to pull components in from here — pick whichever fits your workflow.
   skips registering the `@soralabs` scope, defaults straight to the Sora UI
   registry:
 
-  <CodeTabs
-    codes={{
-      pnpm: `pnpm dlx @soralabs/cli@latest add text-effect`,
-      npm: `npx @soralabs/cli@latest add text-effect`,
-      yarn: `yarn dlx @soralabs/cli@latest add text-effect`,
-      bun: `bunx --bun @soralabs/cli@latest add text-effect`,
-    }}
-  />
+<CodeTabs
+  codes={{
+    pnpm: `pnpm dlx @soralabs/cli@latest add text-effect`,
+    npm: `npx @soralabs/cli@latest add text-effect`,
+    yarn: `yarn dlx @soralabs/cli@latest add text-effect`,
+    bun: `bunx --bun @soralabs/cli@latest add text-effect`,
+  }}
+/>
 
-  Or browse components interactively: `npx @soralabs/cli@latest add`
+Or browse components interactively: `npx @soralabs/cli@latest add`
+
 </Callout>
 
 **Or, using the shadcn CLI directly** — register the `@soralabs` scope once (Sora UI is listed in the [official shadcn registry index](https://ui.shadcn.com/r/registries.json)):
@@ -79,9 +80,9 @@ npx shadcn@latest list @soralabs
 
 <Callout type="warn">
   **Only if the shadcn CLI errors** — for example `unknown registry`, cannot
-  resolve `@soralabs`, or fetch timeout — see
-  [The CLI does not recognize `@soralabs`](#the-cli-does-not-recognize-soralabs)
-  for the manual `components.json` fix.
+  resolve `@soralabs`, or fetch timeout — see [The CLI does not recognize
+  `@soralabs`](#the-cli-does-not-recognize-soralabs) for the manual
+  `components.json` fix.
 </Callout>
 
 </Step>
@@ -92,7 +93,7 @@ npx shadcn@latest list @soralabs
 Import the component to your project.
 
 ```tsx
-import { TextEffect } from '@/components/sora-ui/texts/text-effect';
+import { TextEffect } from "@/components/sora-ui/texts/text-effect";
 
 export default function Home() {
   return (
@@ -169,16 +170,9 @@ bunx --bun shadcn@latest add @soralabs/accordion
 
 ### A Sora dependency resolves from `ui.shadcn.com`
 
-If `shadcn add @soralabs/accordion` fails with a 404 for something like
-`hooks-use-auto-height` on `ui.shadcn.com`, the published registry item listed
-that dependency without the `@soralabs/` scope. Sora-only deps must be scoped so
-the CLI fetches them from your `@soralabs` registry URL, not the default shadcn
-registry.
+If `shadcn add @soralabs/accordion` fails with a 404 for something like `hooks-use-auto-height` on `ui.shadcn.com`, the published registry item listed that dependency without the `@soralabs/` scope. Sora-only deps must be scoped so the CLI fetches them from your `@soralabs` registry URL, not the default shadcn registry.
 
-Ensure `components.json` includes the Sora registry (see above), then retry
-after the registry on `https://ui.soralabs.studio/r/` is updated. For local
-testing, point `@soralabs` at `http://localhost:3000/r/{name}.json` while
-`bun dev` is running in this repo.
+Ensure `components.json` includes the Sora registry (see above), then retry after the registry on `https://ui.soralabs.studio/r/` is updated. For local testing, point `@soralabs` at `http://localhost:3000/r/{name}.json` while `bun dev` is running in this repo.
 
 ### The CLI installation does not respect aliases
 

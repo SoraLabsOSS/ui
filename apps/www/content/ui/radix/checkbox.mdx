@@ -23,7 +23,10 @@ compositionRecipes:
       - Keep the checkbox label and submit action independently reachable.
 ---
 
-<ComponentPreview name="demo-radix-checkbox" description="Default animated Radix UI checkbox with interactive label and spring checkmark draw animation." />
+<ComponentPreview
+  name="demo-radix-checkbox"
+  description="Default animated Radix UI checkbox with interactive label and spring checkmark draw animation."
+/>
 
 ## Installation
 
@@ -72,15 +75,24 @@ export default function Page() {
 
 ### With Helper Text
 
-<ComponentPreview name="demo-radix-checkbox-with-text" description="Checkbox with supplementary title and description text." />
+<ComponentPreview
+  name="demo-radix-checkbox-with-text"
+  description="Checkbox with supplementary title and description text."
+/>
 
 ### Card Selector
 
-<ComponentPreview name="demo-radix-checkbox-card" description="Selectable card container with embedded animated checkbox." />
+<ComponentPreview
+  name="demo-radix-checkbox-card"
+  description="Selectable card container with embedded animated checkbox."
+/>
 
 ### Indeterminate State
 
-<ComponentPreview name="demo-radix-checkbox-indeterminate" description="Checkbox in a partially checked indeterminate state." />
+<ComponentPreview
+  name="demo-radix-checkbox-indeterminate"
+  description="Checkbox in a partially checked indeterminate state."
+/>
 
 ## Props
 
@@ -88,16 +100,16 @@ export default function Page() {
   type={{
     checked: {
       description: "The controlled checked state of the checkbox.",
-      type: "boolean | \"indeterminate\"",
+      type: 'boolean | "indeterminate"',
     },
     defaultChecked: {
       description: "The initial checked state when uncontrolled.",
-      type: "boolean | \"indeterminate\"",
+      type: 'boolean | "indeterminate"',
       default: "false",
     },
     onCheckedChange: {
       description: "Event handler called when the checked state changes.",
-      type: "(checked: boolean | \"indeterminate\") => void",
+      type: '(checked: boolean | "indeterminate") => void',
     },
     label: {
       description: "Optional label rendered beside the checkbox.",
@@ -108,7 +120,8 @@ export default function Page() {
       type: "string",
     },
     indicatorClassName: {
-      description: "Additional CSS classes for the animated SVG checkmark indicator.",
+      description:
+        "Additional CSS classes for the animated SVG checkmark indicator.",
       type: "string",
     },
     disabled: {
@@ -117,7 +130,8 @@ export default function Page() {
       default: "false",
     },
     className: {
-      description: "Additional CSS classes merged onto the checkbox box element.",
+      description:
+        "Additional CSS classes merged onto the checkbox box element.",
       type: "string",
     },
   }}

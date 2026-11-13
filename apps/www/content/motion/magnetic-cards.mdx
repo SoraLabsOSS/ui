@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-magnetic-cards" description="Move your cursor across a card, then release — it flings off based on how fast the cursor was moving, and eases back to rest." />
+<ComponentPreview
+  name="demo-magnetic-cards"
+  description="Move your cursor across a card, then release — it flings off based on how fast the cursor was moving, and eases back to rest."
+/>
 
 `MagneticCards` tracks cursor speed per card while it's hovered (`mousemove`/`mouseenter`), then on `mouseleave` hands that speed to [GSAP](https://gsap.com/)'s `InertiaPlugin` as a starting velocity, targeting the card's own rest position/rotation as the `end` value — the same per-card fling-and-settle model as [Truus.co](https://www.truus.co/)'s cards.
 
@@ -17,13 +20,13 @@ author:
 ## Usage
 
 ```tsx
-import { MagneticCards } from '@/components/sora-ui/effects/magnetic-cards';
+import { MagneticCards } from "@/components/sora-ui/effects/magnetic-cards";
 
 const items = [
-  { src: '/cards/card-1.jpg', alt: 'Card one' },
-  { src: '/cards/card-2.jpg', alt: 'Card two' },
-  { src: '/cards/card-3.jpg', alt: 'Card three' },
-  { src: '/cards/card-4.jpg', alt: 'Card four' },
+  { src: "/cards/card-1.jpg", alt: "Card one" },
+  { src: "/cards/card-2.jpg", alt: "Card two" },
+  { src: "/cards/card-3.jpg", alt: "Card three" },
+  { src: "/cards/card-4.jpg", alt: "Card four" },
 ];
 
 export default function Page() {
@@ -40,30 +43,34 @@ export default function Page() {
 <TypeTable
   type={{
     items: {
-      description: 'Cards to render, in left-to-right stacking order. Each item accepts src and an optional alt.',
-      type: 'MagneticCardsItem[]',
+      description:
+        "Cards to render, in left-to-right stacking order. Each item accepts src and an optional alt.",
+      type: "MagneticCardsItem[]",
     },
     layout: {
-      description: 'Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching items.length.',
-      type: 'MagneticCardsLayout[]',
+      description:
+        "Rest position/rotation per card. Defaults to an auto-generated symmetric fan matching items.length.",
+      type: "MagneticCardsLayout[]",
     },
     velocityMultiplier: {
-      description: 'How far a card flies on release, scaled from cursor speed while hovering it.',
-      type: 'number',
-      default: '20',
+      description:
+        "How far a card flies on release, scaled from cursor speed while hovering it.",
+      type: "number",
+      default: "20",
     },
     rotationVelocityMultiplier: {
-      description: 'How much a card spins on release, scaled from horizontal cursor speed while hovering it.',
-      type: 'number',
-      default: '1.5',
+      description:
+        "How much a card spins on release, scaled from horizontal cursor speed while hovering it.",
+      type: "number",
+      default: "1.5",
     },
     cardClassName: {
-      description: 'Extra classes applied to each card wrapper.',
-      type: 'string',
+      description: "Extra classes applied to each card wrapper.",
+      type: "string",
     },
     className: {
-      description: 'Additional class names merged onto the root element.',
-      type: 'string',
+      description: "Additional class names merged onto the root element.",
+      type: "string",
     },
   }}
 />
@@ -73,12 +80,12 @@ export default function Page() {
 <TypeTable
   type={{
     src: {
-      description: 'Image URL for the card.',
-      type: 'string',
+      description: "Image URL for the card.",
+      type: "string",
     },
     alt: {
-      description: 'Accessible label for the card image.',
-      type: 'string',
+      description: "Accessible label for the card image.",
+      type: "string",
     },
   }}
 />

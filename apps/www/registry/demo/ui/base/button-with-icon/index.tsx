@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight, Mail } from "lucide-react";
+
 import { Button } from "@/registry/ui/base/button";
 
 export default function ButtonWithIconDemo() {

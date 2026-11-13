@@ -2,14 +2,10 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
-import {
-  type CSSProperties,
-  startTransition,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { startTransition, useCallback, useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { flushSync } from "react-dom";
+
 import {
   SkeletonOverlay,
   SkeletonShimmer,
@@ -206,7 +202,7 @@ export function SkeletonShimmerDemo({
       const transition = document.startViewTransition(() => {
         flushSync(() => setLoaded(next));
       });
-      transition.finished.catch(() => undefined);
+      transition.finished.catch(() => {});
     },
     [prefersReducedMotion]
   );

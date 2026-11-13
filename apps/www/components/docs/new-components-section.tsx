@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import { PrimitivesIndexNewDot } from "@/components/docs/primitives-index-new-dot";
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 
@@ -38,7 +39,7 @@ export function NewComponentsSection({
       <div className="not-prose grid grid-cols-2 gap-2 sm:grid-cols-3">
         {newPages.map((page) => (
           <Link
-            className="relative flex items-center justify-center rounded-lg border bg-accent/40 px-3 py-2.5 text-center font-medium text-foreground text-sm no-underline transition-colors duration-200 hover:bg-accent"
+            className="bg-accent/40 text-foreground hover:bg-accent relative flex items-center justify-center rounded-lg border px-3 py-2.5 text-center text-sm font-medium no-underline transition-colors duration-200"
             href={page.url}
             key={page.url}
           >

@@ -16,9 +16,9 @@ const MENU_ITEMS = [
 export function HighlightClickDemo() {
   return (
     <div className="flex w-full items-center justify-center px-4 py-6">
-      <div className="flex w-full max-w-52 flex-col overflow-hidden rounded-lg border border-border/50 bg-background shadow-sm">
+      <div className="border-border/50 bg-background flex w-full max-w-52 flex-col overflow-hidden rounded-lg border shadow-sm">
         <Highlight
-          className="rounded-md bg-foreground/8"
+          className="bg-foreground/8 rounded-md"
           defaultValue="inbox"
           mode="children"
           trigger="click"

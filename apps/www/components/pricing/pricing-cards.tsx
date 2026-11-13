@@ -3,7 +3,9 @@
 import { Check } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
+
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
+
 import { GITHUB_SPONSORS_URL, PRICING_DISCLAIMER } from "./pricing-config";
 
 const FREE_FEATURES = [
@@ -61,7 +63,7 @@ export function PricingCards() {
               </div>
 
               <div className="mt-[1.25em] flex items-baseline gap-[0.375em]">
-                <h2 className="m-0 font-heading font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
+                <h2 className="font-heading m-0 text-[3.25em]! leading-none font-normal tracking-[-0.04em] text-[var(--color-neutral-800)] max-[479px]:text-[2.75em]!">
                   $0
                 </h2>
                 <span className="eyebrow text-[var(--color-neutral-500)]">
@@ -69,7 +71,7 @@ export function PricingCards() {
                 </span>
               </div>
 
-              <p className="mt-[0.75em] mb-0 font-sans text-[1em] text-[var(--color-neutral-525)] leading-[1.5] tracking-[-0.01em]">
+              <p className="mt-[0.75em] mb-0 font-sans text-[1em] leading-[1.5] tracking-[-0.01em] text-[var(--color-neutral-525)]">
                 Full access to every animated primitive, component, and layout
                 with zero paywalls or limits.
               </p>
@@ -85,7 +87,7 @@ export function PricingCards() {
                     <div className="mt-[0.1875em] flex size-[1.25em] shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-coral)_14%,transparent)] text-[var(--color-coral)]">
                       <Check className="size-3 stroke-[2.5]" />
                     </div>
-                    <span className="font-sans text-[0.9375em] text-[var(--color-neutral-800)] leading-[1.45] tracking-[-0.01em]">
+                    <span className="font-sans text-[0.9375em] leading-[1.45] tracking-[-0.01em] text-[var(--color-neutral-800)]">
                       {feature}
                     </span>
                   </li>
@@ -144,7 +146,7 @@ export function PricingCards() {
               </div>
 
               <div className="mt-[1.25em] flex items-baseline gap-[0.375em]">
-                <h2 className="m-0 font-heading font-normal text-[3.25em]! text-[var(--color-neutral-800)] leading-none tracking-[-0.04em] max-[479px]:text-[2.75em]!">
+                <h2 className="font-heading m-0 text-[3.25em]! leading-none font-normal tracking-[-0.04em] text-[var(--color-neutral-800)] max-[479px]:text-[2.75em]!">
                   Optional
                 </h2>
                 <span className="eyebrow text-[var(--color-neutral-500)]">
@@ -152,7 +154,7 @@ export function PricingCards() {
                 </span>
               </div>
 
-              <p className="mt-[0.75em] mb-0 font-sans text-[1em] text-[var(--color-neutral-525)] leading-[1.5] tracking-[-0.01em]">
+              <p className="mt-[0.75em] mb-0 font-sans text-[1em] leading-[1.5] tracking-[-0.01em] text-[var(--color-neutral-525)]">
                 Support independent open-source development and help keep Sora
                 UI actively maintained.
               </p>
@@ -178,6 +180,7 @@ export function PricingCards() {
 
             <div className="mt-[2.25em] flex flex-col gap-[0.625em]">
               <a
+                aria-label="Support on GitHub"
                 className="button w-inline-block rounded-[.875rem]!"
                 data-button-rotate=""
                 data-button-rotate-hover=""
@@ -209,7 +212,7 @@ export function PricingCards() {
 
         {/* Disclaimer note */}
         <div className="mx-auto mt-[3em] max-w-[42em] text-center">
-          <p className="m-0 font-sans text-[0.875em] text-[var(--color-neutral-500)] leading-[1.5]">
+          <p className="m-0 font-sans text-[0.875em] leading-[1.5] text-[var(--color-neutral-500)]">
             {PRICING_DISCLAIMER}
           </p>
         </div>

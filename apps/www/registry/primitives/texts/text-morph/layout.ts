@@ -5,10 +5,9 @@ import {
   ATTR_KIND,
   ATTR_SLOT,
   ATTR_SR,
-  type EasingFn,
   MATRIX_REGEX,
-  type Segment,
 } from "./defs";
+import type { EasingFn, Segment } from "./defs";
 import { parseEasing, slopeAt } from "./easing";
 
 // --- DOM Measurement & FLIP -------------------------------------------------
@@ -21,7 +20,7 @@ export function parseTranslate(element: HTMLElement): {
   tx: number;
   ty: number;
 } {
-  const transform = getComputedStyle(element).transform;
+  const { transform } = getComputedStyle(element);
   if (!transform || transform === "none") {
     return { tx: 0, ty: 0 };
   }
@@ -60,12 +59,10 @@ export function cancelAnimations(element: HTMLElement): {
   return { opacity, tx, ty };
 }
 
-export interface Measures {
-  [key: string]: { x: number; y: number };
-}
+export type Measures = Record<string, { x: number; y: number }>;
 
 export function measure(element: HTMLElement): Measures {
-  const children = Array.from(element.children) as HTMLElement[];
+  const children = [...element.children] as HTMLElement[];
   const measures: Measures = {};
   const rootRect = element.getBoundingClientRect();
 
@@ -206,7 +203,7 @@ export function carry(
     0,
     Math.min(CARRY_MAX, normalisedVelocity) - slopeAt(base, 0)
   );
-  if (!(k > 0)) {
+  if (k <= 0) {
     return { curve: base, k: 0 };
   }
 
@@ -554,7 +551,7 @@ function syncSlot(element: HTMLElement, segment: Segment) {
   if (!inner) {
     element.textContent = "";
     inner = document.createElement("span");
-    element.appendChild(inner);
+    element.append(inner);
   }
   inner.textContent = segment.string;
 }
@@ -574,7 +571,7 @@ export function splitWordSpans(
     return;
   }
 
-  const children = Array.from(element.children) as HTMLElement[];
+  const children = [...element.children] as HTMLElement[];
   const split = new Set<string>();
 
   for (const child of children) {
@@ -600,7 +597,7 @@ export function splitWordSpans(
   }
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: DOM reconciliation logic
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- DOM reconciliation logic
 export function reconcileChildren(
   element: HTMLElement,
   oldChildren: HTMLElement[],
@@ -617,10 +614,14 @@ export function reconcileChildren(
     }
   }
 
-  for (const node of Array.from(element.childNodes)) {
+  const textNodes: ChildNode[] = [];
+  for (const node of element.childNodes) {
     if (node.nodeType === Node.TEXT_NODE) {
-      node.remove();
+      textNodes.push(node);
     }
+  }
+  for (const node of textNodes) {
+    node.remove();
   }
 
   for (const segment of segments) {
@@ -631,9 +632,9 @@ export function reconcileChildren(
 
     if (segment.string === "\n") {
       if (existing && existing.tagName === "BR") {
-        element.appendChild(existing);
+        element.append(existing);
       } else {
-        element.appendChild(createItem("br", segment.id));
+        element.append(createItem("br", segment.id));
       }
       continue;
     }
@@ -644,11 +645,11 @@ export function reconcileChildren(
         existing.className = charClassName;
       }
       syncSlot(existing, segment);
-      element.appendChild(existing);
+      element.append(existing);
     } else {
       const span = createItem("span", segment.id, charClassName);
       syncSlot(span, segment);
-      element.appendChild(span);
+      element.append(span);
     }
   }
 }

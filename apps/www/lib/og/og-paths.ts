@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { getMetadataBaseUrl } from "@/lib/site";
 
 const OG_SIZE = { width: 1200, height: 630 } as const;

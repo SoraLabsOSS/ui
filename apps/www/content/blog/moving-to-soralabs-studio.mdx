@@ -18,15 +18,18 @@ Here is a summary of the migration details and what it means for your projects.
 ## What has changed
 
 ### 1. New Official Web Address
+
 - **Official Domain (Live):** `https://ui.soralabs.studio`
 - **Legacy Domain (Redirecting):** `https://ui.soralabs.io.vn`
 
 All documentation, component showcases, interactive catalogs, and API references are now served directly from `ui.soralabs.studio`.
 
 ### 2. Automatic 301 Permanent Redirects
+
 You don't need to worry about broken bookmarks or external links. Every URL on `ui.soralabs.io.vn` — from individual primitive pages (`/motion/*`, `/ui/*`) to catalog layouts (`/catalog/*`) and blog articles (`/blog/*`) — automatically and permanently redirects (HTTP 301) to its exact counterpart on `ui.soralabs.studio`.
 
 ### 3. CLI & Registry Compatibility
+
 Your local development workflow and CI/CD pipelines continue to work without interruption:
 
 - **Sora CLI:** `npx @soralabs/cli add <component>` resolves seamlessly against the updated endpoints.

@@ -7,14 +7,10 @@ import {
   ATTR_SR,
   DEFAULT_TEXT_MORPH_OPTIONS,
   EMPTY_ID,
-  type Segment,
-  type TextMorphOptions,
 } from "./defs";
-import {
-  createReducedMotionListener,
-  type ReducedMotionState,
-  resolveEase,
-} from "./easing";
+import type { Segment, TextMorphOptions } from "./defs";
+import { createReducedMotionListener, resolveEase } from "./easing";
+import type { ReducedMotionState } from "./easing";
 import {
   cancelAnimations,
   clearContainerTransition,
@@ -24,7 +20,6 @@ import {
   findNearestAnchor,
   holdContainerSize,
   layoutSize,
-  type Measures,
   measure,
   moverOf,
   parseTranslate,
@@ -33,6 +28,7 @@ import {
   splitWordSpans,
   transitionContainerSize,
 } from "./layout";
+import type { Measures } from "./layout";
 import { diffSegments, segmentText } from "./segments";
 import { addStyles, removeStyles } from "./styles";
 
@@ -438,7 +434,7 @@ export class TextMorphEngine {
     this.createTextGroup(String(this.data), this.element, cursorIndex);
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: text group layout creation
+  // oxlint-disable-next-line sonarjs/cognitive-complexity -- text group layout creation
   private createTextGroup(
     value: string,
     element: HTMLElement,
@@ -476,7 +472,7 @@ export class TextMorphEngine {
     splitWordSpans(element, splits, this.options.charClassName);
 
     this.prevMeasures = this.isInitialRender ? {} : measure(this.element);
-    const oldChildren = (Array.from(element.children) as HTMLElement[]).filter(
+    const oldChildren = ([...element.children] as HTMLElement[]).filter(
       (child) => !child.hasAttribute(ATTR_SR)
     );
     const newIds = new Set(segments.map((b) => b.id));
@@ -509,10 +505,12 @@ export class TextMorphEngine {
 
     this.currentMeasures = this.isInitialRender ? {} : measure(this.element);
 
-    const lineCount = segments.reduce(
-      (lines, segment) => (segment.string === "\n" ? lines + 1 : lines),
-      1
-    );
+    let lineCount = 1;
+    for (const segment of segments) {
+      if (segment.string === "\n") {
+        lineCount += 1;
+      }
+    }
     const slideDistance = this.isInitialRender
       ? 0
       : (element.offsetHeight || 20 * lineCount) / lineCount;
@@ -604,7 +602,7 @@ export class TextMorphEngine {
     }
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: updates element styles per frame
+  // oxlint-disable-next-line sonarjs/cognitive-complexity -- updates element styles per frame
   private updateStyles(
     segments: Segment[],
     firstFrameMeasures: Measures,
@@ -614,9 +612,9 @@ export class TextMorphEngine {
       return;
     }
 
-    const children = (
-      Array.from(this.element.children) as HTMLElement[]
-    ).filter((child) => !child.hasAttribute(ATTR_SR));
+    const children = ([...this.element.children] as HTMLElement[]).filter(
+      (child) => !child.hasAttribute(ATTR_SR)
+    );
     const segmentIds = segments.map((b) => b.id);
     const kinds = new Map(segments.map((b) => [b.id, b.kind]));
 

@@ -40,12 +40,12 @@ function getColors(noColor: boolean | undefined): ColorPalette {
   }
 
   return {
-    bold: (s: string) => `\x1b[1m${s}\x1b[22m`,
-    dim: (s: string) => `\x1b[2m${s}\x1b[22m`,
-    red: (s: string) => `\x1b[31m${s}\x1b[39m`,
-    yellow: (s: string) => `\x1b[33m${s}\x1b[39m`,
-    green: (s: string) => `\x1b[32m${s}\x1b[39m`,
-    cyan: (s: string) => `\x1b[36m${s}\x1b[39m`,
+    bold: (s: string) => `\u001B[1m${s}\u001B[22m`,
+    dim: (s: string) => `\u001B[2m${s}\u001B[22m`,
+    red: (s: string) => `\u001B[31m${s}\u001B[39m`,
+    yellow: (s: string) => `\u001B[33m${s}\u001B[39m`,
+    green: (s: string) => `\u001B[32m${s}\u001B[39m`,
+    cyan: (s: string) => `\u001B[36m${s}\u001B[39m`,
   };
 }
 
@@ -101,8 +101,7 @@ export function formatDoctorReport(
     const title = result.targetComponent
       ? `www-cli doctor — Component "${result.targetComponent}" Health Check`
       : "www-cli doctor — Registry & Docs Health Check";
-    lines.push(c.bold(title));
-    lines.push("");
+    lines.push(c.bold(title), "");
   }
 
   if (result.issues.length === 0) {

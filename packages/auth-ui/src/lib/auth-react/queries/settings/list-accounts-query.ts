@@ -1,10 +1,5 @@
-import {
-  type DataTag,
-  type QueryClient,
-  queryOptions,
-  skipToken,
-  useQuery,
-} from "@tanstack/react-query";
+import { queryOptions, skipToken, useQuery } from "@tanstack/react-query";
+import type { DataTag, QueryClient } from "@tanstack/react-query";
 import { authQueryKeys } from "@workspace/auth-ui/lib/auth-core";
 import type { BetterFetchError } from "better-auth/react";
 

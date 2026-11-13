@@ -3,21 +3,18 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
 import Image from "next/image";
-import {
-  type ComponentPropsWithoutRef,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 export interface InfiniteScrollingImagesItem {
   alt?: string;
   src: string;
 }
 
-export interface InfiniteScrollingImagesProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+export interface InfiniteScrollingImagesProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> {
   /** Enable automatic frame progression. @default false */
   autoplay?: boolean;
   /** Seconds between auto-advance steps when autoplay is enabled. @default 3 */
@@ -176,7 +173,7 @@ function InfiniteScrollingImages({
   const safeFramesVisible = Math.max(1, framesVisible);
   const start = currentIndex - renderBuffer;
   const end = currentIndex + safeFramesVisible + renderBuffer;
-  const visibleCards: Array<{ imageIndex: number; index: number }> = [];
+  const visibleCards: { imageIndex: number; index: number }[] = [];
 
   for (let index = start; index <= end; index += 1) {
     visibleCards.push({

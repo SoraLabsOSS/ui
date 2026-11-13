@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 
 /**
@@ -12,17 +13,17 @@ export function PrimitivesIndexNewDot({
 }: {
   releaseDate?: string;
 }) {
-  const [isNew, setIsNew] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsNew(isRecentlyReleased(releaseDate));
-  }, [releaseDate]);
+    setMounted(true);
+  }, []);
 
-  if (!isNew) {
+  if (!mounted || !isRecentlyReleased(releaseDate)) {
     return null;
   }
 
   return (
-    <span className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
+    <span className="border-background bg-accent-pro absolute -top-1 -right-1 size-2.5 rounded-full border" />
   );
 }

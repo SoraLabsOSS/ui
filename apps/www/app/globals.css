@@ -391,8 +391,7 @@
   @variant md {
     #nd-sidebar {
       width: calc(
-        var(--fd-sidebar-width, 260px) +
-        var(--fd-layout-offset, 0px)
+        var(--fd-sidebar-width, 260px) + var(--fd-layout-offset, 0px)
       ) !important;
       background: transparent !important;
       @apply md:!border-0;
@@ -432,11 +431,10 @@
   }
 
   #nd-docs-layout:not(.account-docs-layout):not(
-    :has(#nd-sidebar[data-collapsed="true"])
-  ) {
+      :has(#nd-sidebar[data-collapsed="true"])
+    ) {
     margin-inline-start: calc(
-      var(--fd-sidebar-width) +
-      var(--fd-layout-offset)
+      var(--fd-sidebar-width) + var(--fd-layout-offset)
     ) !important;
   }
 
@@ -461,7 +459,7 @@
   }
 
   #nd-page article.blog-article {
-    @apply !pt-3 !max-w-none;
+    @apply !max-w-none !pt-3;
   }
 
   /* Reserve TOC column width in page flex layout. */
@@ -475,11 +473,8 @@
    */
   #nd-toc {
     --_fd-content-width: calc(
-      100vw -
-      var(--fd-sidebar-width, 0px) -
-      2 *
-      var(--fd-layout-offset, 0px) -
-      var(--_fd-blog-slug-gutter)
+      100vw - var(--fd-sidebar-width, 0px) - 2 * var(--fd-layout-offset, 0px) -
+        var(--_fd-blog-slug-gutter)
     );
     --_fd-page-width: min(
       var(--_fd-content-width),
@@ -487,7 +482,7 @@
     );
     --_fd-toc-inset-end: calc(
       var(--fd-layout-offset, 0px) +
-      max(0px, (var(--_fd-content-width) - var(--_fd-page-width)) / 2)
+        max(0px, (var(--_fd-content-width) - var(--_fd-page-width)) / 2)
     );
 
     position: fixed !important;
@@ -495,9 +490,7 @@
     top: calc(var(--fd-banner-height) + var(--fd-nav-height)) !important;
     width: var(--fd-toc-width) !important;
     height: calc(
-      100dvh -
-      var(--fd-banner-height) -
-      var(--fd-nav-height)
+      100dvh - var(--fd-banner-height) - var(--fd-nav-height)
     ) !important;
     /* Empty TOC column must not steal clicks from the floating Ask AI button. */
     @apply pointer-events-none z-20 self-start pt-6! pb-7! max-xl:hidden;

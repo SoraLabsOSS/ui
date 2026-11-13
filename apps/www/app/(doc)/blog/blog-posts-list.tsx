@@ -46,14 +46,14 @@ export function BlogPostsList({ posts }: { posts: SerializedBlogPost[] }) {
       {/* Header with Title and Filter Input */}
       <div>
         <div className="flex flex-wrap items-baseline justify-between gap-4">
-          <h2 className="text-balance font-[450] @lg:text-[56px] @md:text-[44px] text-[32px] text-foreground @lg:leading-[1.05] leading-[1.15] @lg:tracking-[-0.035em] tracking-[-0.025em]">
+          <h2 className="text-foreground text-[32px] leading-[1.15] font-[450] tracking-[-0.025em] text-balance @md:text-[44px] @lg:text-[56px] @lg:leading-[1.05] @lg:tracking-[-0.035em]">
             All Posts
           </h2>
           <div className="relative w-full rounded-md sm:w-72">
             <div className="group/combobox relative z-0 inline-block w-full text-sm">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute top-1/2 left-[13px] z-10 inline-flex -translate-y-1/2 transform items-center justify-center text-muted-foreground"
+                className="text-muted-foreground pointer-events-none absolute top-1/2 left-[13px] z-10 inline-flex -translate-y-1/2 transform items-center justify-center"
               >
                 <svg
                   aria-hidden="true"
@@ -74,7 +74,7 @@ export function BlogPostsList({ posts }: { posts: SerializedBlogPost[] }) {
               <input
                 aria-label="Filter posts by topic"
                 autoComplete="off"
-                className="h-9 w-full appearance-none rounded-md border border-border/80 bg-background py-0 pr-4 pl-10 text-foreground text-sm transition-all duration-200 ease-in-out placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                className="border-border/80 bg-background text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring h-9 w-full appearance-none rounded-md border py-0 pr-4 pl-10 text-sm transition-all duration-200 ease-in-out focus:ring-1 focus:outline-none"
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Filter posts by topic..."
                 spellCheck="false"
@@ -88,10 +88,10 @@ export function BlogPostsList({ posts }: { posts: SerializedBlogPost[] }) {
 
       {/* List of items */}
       {displayedPosts.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground text-sm">
+        <div className="text-muted-foreground flex flex-col items-center justify-center py-12 text-center text-sm">
           <p>No posts found matching &quot;{query}&quot;</p>
           <button
-            className="mt-2 text-foreground underline"
+            className="text-foreground mt-2 underline"
             onClick={() => setQuery("")}
             type="button"
           >
@@ -107,7 +107,7 @@ export function BlogPostsList({ posts }: { posts: SerializedBlogPost[] }) {
             >
               <div className="flex items-center gap-2">
                 <Link
-                  className="group flex cursor-pointer items-center gap-1.5 font-normal text-[16px] text-foreground leading-[24px] transition-colors hover:text-foreground/80"
+                  className="group text-foreground hover:text-foreground/80 flex cursor-pointer items-center gap-1.5 text-[16px] leading-[24px] font-normal transition-colors"
                   href={post.url}
                 >
                   <span>{post.title}</span>
@@ -131,7 +131,7 @@ export function BlogPostsList({ posts }: { posts: SerializedBlogPost[] }) {
               <div className="flex flex-wrap gap-2 leading-none lg:justify-end">
                 {post.hashtags.map((tag) => (
                   <span
-                    className="inline-flex h-6 shrink-0 items-center justify-center rounded-full bg-background px-3 py-0.5 font-medium text-[12px]/[24px] text-foreground tabular-nums ring-1 ring-border ring-inset"
+                    className="bg-background text-foreground ring-border inline-flex h-6 shrink-0 items-center justify-center rounded-full px-3 py-0.5 text-[12px]/[24px] font-medium tabular-nums ring-1 ring-inset"
                     key={tag}
                   >
                     {tag.replace(HASH_REGEX, "")}
@@ -147,7 +147,7 @@ export function BlogPostsList({ posts }: { posts: SerializedBlogPost[] }) {
       {hasMore && (
         <div className="flex w-full justify-center pt-2">
           <button
-            className="flex h-9 cursor-pointer items-center justify-center rounded-full border border-border/80 bg-background px-5 font-medium text-[14px] text-foreground shadow-xs transition-colors hover:bg-accent"
+            className="border-border/80 bg-background text-foreground hover:bg-accent flex h-9 cursor-pointer items-center justify-center rounded-full border px-5 text-[14px] font-medium shadow-xs transition-colors"
             onClick={() => setExpanded((prev) => !prev)}
             type="button"
           >

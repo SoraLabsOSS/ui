@@ -49,7 +49,7 @@ export function resolveBookmarkPages(
     return [];
   }
 
-  const indexByUrl = new Map(index?.map((page) => [page.url, page]) ?? []);
+  const indexByUrl = new Map(index?.map((page) => [page.url, page]));
 
   return bookmarks.map((bookmark) => {
     const normalizedUrl = normalizeBookmarkUrl(bookmark.url);

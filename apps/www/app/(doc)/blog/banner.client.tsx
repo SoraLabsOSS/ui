@@ -5,6 +5,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+
 import { PlusSeparator } from "@/components/blog/plus-separator";
 
 const GrainGradient = dynamic(
@@ -158,7 +159,7 @@ export function BlogHeaderBanner() {
           >
             <div className="h-full w-full" ref={shaderContainerRef}>
               <GrainGradient
-                className="w-full bg-background/20"
+                className="bg-background/20 w-full"
                 colorBack="#ffffff00"
                 colors={["#fb460d", "#c9784a", "#e8ddd6"]}
                 height={BANNER_HEIGHT}
@@ -176,13 +177,13 @@ export function BlogHeaderBanner() {
         ) : (
           <div
             className={cn(
-              "absolute inset-0 h-[300px] w-full bg-muted/25 transition-opacity duration-1000 ease-out motion-reduce:transition-none",
+              "bg-muted/25 absolute inset-0 h-[300px] w-full transition-opacity duration-1000 ease-out motion-reduce:transition-none",
               isFallbackVisible ? "opacity-100" : "opacity-0"
             )}
           />
         )}
 
-        <div className="absolute inset-0 z-10 h-full w-full text-foreground">
+        <div className="text-foreground absolute inset-0 z-10 h-full w-full">
           <div className="flex h-full flex-col justify-center gap-3 px-8 py-12 sm:px-10 md:gap-4 md:px-12 md:py-16">
             <h2 className="text-2xl md:text-4xl">
               Sora <span className="text-accent-pro">Blog.</span>

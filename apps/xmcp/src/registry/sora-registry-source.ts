@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+
 import { DOCS_BASE_URL } from "../docs/sora-docs-source";
 import { getLocalRegistryFile } from "../lib/monorepo";
 import { registryCache } from "./registry-cache";

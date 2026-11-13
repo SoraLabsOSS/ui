@@ -78,7 +78,7 @@ export function HoverLink({
     <a
       className={cn(
         "group relative flex items-center outline-none",
-        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2",
         VARIANT_CLASSES[variant],
         className
       )}

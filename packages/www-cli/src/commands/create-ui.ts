@@ -1,4 +1,5 @@
 import { note, outro, spinner } from "@clack/prompts";
+
 import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoUiMeta } from "../lib/meta-json.js";
 import {
@@ -6,8 +7,8 @@ import {
   getUiPaths,
   getWwwRoot,
   relativeFromWww,
-  type UiFramework,
 } from "../lib/paths.js";
+import type { UiFramework } from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreateUiOptions } from "../lib/resolve-create-ui-options.js";
 import { resolveCreateUiOptions } from "../lib/resolve-create-ui-options.js";
@@ -19,11 +20,8 @@ import {
   renderUiMdx,
   renderUiRegistryItem,
 } from "../lib/ui-templates.js";
-import {
-  findExistingPaths,
-  type ScaffoldFile,
-  writeScaffoldFiles,
-} from "../lib/write-files.js";
+import { findExistingPaths, writeScaffoldFiles } from "../lib/write-files.js";
+import type { ScaffoldFile } from "../lib/write-files.js";
 
 function buildScaffoldPlan(
   wwwRoot: string,

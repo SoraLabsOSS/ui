@@ -1,5 +1,6 @@
 import { cn } from "@workspace/ui/lib/utils";
 import type { ReactNode } from "react";
+
 import { Footer } from "@/components/footer";
 import { HomeProviders } from "@/components/home-providers";
 import { Navbar } from "@/components/navbar";

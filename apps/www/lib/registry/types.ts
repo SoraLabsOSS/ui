@@ -1,4 +1,5 @@
 import type { InferPageType } from "fumadocs-core/source";
+
 import type { source } from "@/lib/docs/source";
 import type { ComponentDocPage } from "@/lib/registry/component-source";
 

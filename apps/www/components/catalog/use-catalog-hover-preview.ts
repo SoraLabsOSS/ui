@@ -1,16 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 import {
   getPreferredCardPreviewVideoSrc,
   resolveCardPreviewMedia,
   warmCardPreviewVideo,
 } from "@/lib/registry/resolve-card-preview-media";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
-import {
-  type CatalogNavHoverPreviewState,
-  getCatalogNavHoverPreviewPosition,
-} from "./catalog-nav-hover-preview";
+
+import { getCatalogNavHoverPreviewPosition } from "./catalog-nav-hover-preview";
+import type { CatalogNavHoverPreviewState } from "./catalog-nav-hover-preview";
 
 // Grace period before actually hiding the preview after the pointer leaves
 // an item. List rows have gaps between them, so the pointer is briefly over

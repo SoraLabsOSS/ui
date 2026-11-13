@@ -9,13 +9,13 @@ const nameClassName =
   "text-foreground underline underline-offset-2 decoration-primary font-medium";
 
 export const DocsAuthor = ({ name, url }: DocsAuthorProps) => (
-  <span className="mb-2.5 text-fd-muted-foreground text-sm italic">
+  <span className="text-fd-muted-foreground mb-2.5 text-sm italic">
     Made by{" "}
     {url ? (
       <a
         className={cn(
           nameClassName,
-          "cursor-pointer hover:decoration-foreground"
+          "hover:decoration-foreground cursor-pointer"
         )}
         href={url}
         rel="noopener noreferrer"

@@ -1,8 +1,6 @@
 import { createAuthPlugin } from "../../lib/create-auth-plugin";
-import {
-  type DeleteUserLocalization,
-  deleteUserLocalization,
-} from "./delete-user-localization";
+import { deleteUserLocalization } from "./delete-user-localization";
+import type { DeleteUserLocalization } from "./delete-user-localization";
 
 export interface DeleteUserPluginOptions {
   /**

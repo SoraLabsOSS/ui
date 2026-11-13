@@ -1,11 +1,12 @@
 import { cn } from "@workspace/ui/lib/utils";
+
 import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
 
 function Skeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "rounded-md bg-accent motion-safe:animate-pulse",
+        "bg-accent rounded-md motion-safe:animate-pulse",
         className
       )}
     />
@@ -14,8 +15,8 @@ function Skeleton({ className }: { className?: string }) {
 
 function GalleryCardSkeleton() {
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-3">
-      <Skeleton className="aspect-video w-full rounded-[max(4px,calc(var(--radius-2xl)-13px))] bg-muted" />
+    <div className="border-border/60 bg-card flex flex-col overflow-hidden rounded-2xl border p-3">
+      <Skeleton className="bg-muted aspect-video w-full rounded-[max(4px,calc(var(--radius-2xl)-13px))]" />
       <div className="flex items-center justify-between gap-2 px-4 py-2.5">
         <Skeleton className="h-5 w-32" />
       </div>
@@ -35,7 +36,7 @@ export default function CatalogLoading() {
       >
         <div className="relative z-10 flex w-full flex-col items-center justify-center pt-24 md:pt-32 lg:pt-40">
           <div className="flex w-full flex-col items-center">
-            <Skeleton className="mb-6 h-8 w-72 rounded-full bg-muted/70" />
+            <Skeleton className="bg-muted/70 mb-6 h-8 w-72 rounded-full" />
             <Skeleton className="h-12 w-full max-w-xl rounded-xl sm:h-14 sm:max-w-2xl md:h-16 md:max-w-3xl" />
             <Skeleton className="mt-3 h-5 w-full max-w-md sm:h-6 sm:max-w-lg md:max-w-xl" />
           </div>
@@ -44,9 +45,9 @@ export default function CatalogLoading() {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-16 py-10">
           <div className="flex flex-col gap-12">
             <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-3 sm:flex-row">
-              <Skeleton className="h-10 w-full rounded-xl bg-muted" />
+              <Skeleton className="bg-muted h-10 w-full rounded-xl" />
               <div className="flex w-full shrink-0 items-center justify-center sm:w-auto sm:justify-end">
-                <Skeleton className="h-10 w-44 rounded-xl bg-muted" />
+                <Skeleton className="bg-muted h-10 w-44 rounded-xl" />
               </div>
             </div>
 
@@ -56,11 +57,11 @@ export default function CatalogLoading() {
                   <div className="flex flex-col gap-1">
                     <div className="inline-flex items-start gap-2">
                       <Skeleton className="h-10 w-48 rounded-lg" />
-                      <Skeleton className="mt-1 h-5 w-6 rounded-full bg-muted" />
+                      <Skeleton className="bg-muted mt-1 h-5 w-6 rounded-full" />
                     </div>
                     <Skeleton className="h-5 w-64" />
                   </div>
-                  <Skeleton className="h-10 w-32 shrink-0 rounded-xl bg-muted" />
+                  <Skeleton className="bg-muted h-10 w-32 shrink-0 rounded-xl" />
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -75,7 +76,7 @@ export default function CatalogLoading() {
                   <div className="flex flex-col gap-1">
                     <div className="inline-flex items-start gap-2">
                       <Skeleton className="h-10 w-36 rounded-lg" />
-                      <Skeleton className="mt-1 h-5 w-6 rounded-full bg-muted" />
+                      <Skeleton className="bg-muted mt-1 h-5 w-6 rounded-full" />
                     </div>
                     <Skeleton className="h-5 w-48" />
                   </div>

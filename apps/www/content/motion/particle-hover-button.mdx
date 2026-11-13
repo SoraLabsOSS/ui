@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-particle-hover-button" description="Hover to emit glowing heart particles from the cursor, styled after the anime.js navbar Sponsor link." />
+<ComponentPreview
+  name="demo-particle-hover-button"
+  description="Hover to emit glowing heart particles from the cursor, styled after the anime.js navbar Sponsor link."
+/>
 
 ## Installation
 
@@ -20,7 +23,11 @@ import { ParticleHoverButton } from "@/components/sora-ui/buttons/particle-hover
 export default function Page() {
   return (
     <ParticleHoverButton className="text-[#ff4b4b]">
-      <a href="https://github.com/sponsors/Axyl1410" target="_blank" rel="noreferrer">
+      <a
+        href="https://github.com/sponsors/Axyl1410"
+        target="_blank"
+        rel="noreferrer"
+      >
         Become a sponsor
       </a>
     </ParticleHoverButton>
@@ -35,7 +42,8 @@ export default function Page() {
 <TypeTable
   type={{
     children: {
-      description: "The interactive element (or plain label) this wraps — its own attributes/behavior are untouched.",
+      description:
+        "The interactive element (or plain label) this wraps — its own attributes/behavior are untouched.",
       type: "ReactNode",
     },
     particle: {
@@ -44,12 +52,14 @@ export default function Page() {
       default: "a small filled dot",
     },
     poolSize: {
-      description: "Number of pooled particle nodes reused across emissions — caps how many can be on screen at once, regardless of how long the pointer lingers.",
+      description:
+        "Number of pooled particle nodes reused across emissions — caps how many can be on screen at once, regardless of how long the pointer lingers.",
       type: "number",
       default: "24",
     },
     interval: {
-      description: "Milliseconds between each particle emission while hovering.",
+      description:
+        "Milliseconds between each particle emission while hovering.",
       type: "number",
       default: "100",
     },
@@ -65,7 +75,8 @@ export default function Page() {
     },
     className: { description: "Root wrapper classes.", type: "string" },
     classNames: {
-      description: "Per-slot class overrides: `content` (the pulsing wrapper around `children`), `particle` (each cloned particle node).",
+      description:
+        "Per-slot class overrides: `content` (the pulsing wrapper around `children`), `particle` (each cloned particle node).",
       type: "ParticleHoverButtonClassNames",
     },
   }}

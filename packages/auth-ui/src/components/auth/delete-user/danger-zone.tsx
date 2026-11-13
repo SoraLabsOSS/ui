@@ -3,6 +3,7 @@
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ComponentProps } from "react";
+
 import { DeleteAccount } from "./delete-account";
 
 export interface DangerZoneProps {
@@ -21,7 +22,7 @@ export function DangerZone({
 
   return (
     <div className={cn("flex w-full flex-col", className)} {...props}>
-      <h2 className="mb-3 font-semibold text-destructive text-sm">
+      <h2 className="text-destructive mb-3 text-sm font-semibold">
         {localization.settings.dangerZone}
       </h2>
 

@@ -7,13 +7,8 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
-import {
-  type HTMLAttributes,
-  type Ref,
-  type RefCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
+import type { HTMLAttributes, Ref, RefCallback } from "react";
 
 export interface TextRollOptions {
   /**
@@ -136,7 +131,7 @@ export function buildTextRoll(container: HTMLElement, text: string) {
   container.replaceChildren(...Array.from(text, buildSlot));
 }
 
-/** biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Ported animation engine with per-glyph timing branches. */
+/* oxlint-disable-next-line sonarjs/cognitive-complexity -- Ported animation engine with per-glyph timing branches. */
 export function animateTextRoll(
   container: HTMLElement,
   toText: string,
@@ -177,9 +172,9 @@ export function animateTextRoll(
     return;
   }
 
-  const slots = Array.from(
-    container.querySelectorAll<HTMLElement>("[data-char-slot]")
-  );
+  const slots = [
+    ...container.querySelectorAll<HTMLElement>("[data-char-slot]"),
+  ];
   const fromText = slots.map((slot) => slot.dataset.char ?? "").join("");
   if (!interrupt && fromText === toText) {
     return;
@@ -204,7 +199,7 @@ export function animateTextRoll(
 
   for (let i = slots.length; i < maxLen; i++) {
     const slot = buildSlot("");
-    container.appendChild(slot);
+    container.append(slot);
     slots.push(slot);
   }
 
@@ -273,7 +268,7 @@ export function animateTextRoll(
     if (tint) {
       newFace.style.color = tint;
     }
-    slot.appendChild(newFace);
+    slot.append(newFace);
 
     slot.getBoundingClientRect();
 
@@ -337,7 +332,7 @@ export function animateTextRoll(
   const total = maxEnd + 80;
   timers.push(
     window.setTimeout(() => {
-      const pending = state.pending;
+      const { pending } = state;
       states.delete(container);
       buildTextRoll(container, toText);
       if (pending) {
@@ -355,8 +350,10 @@ export function clearTextRoll(container: HTMLElement, text = "") {
   container.textContent = text;
 }
 
-export interface TextRollProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
+export interface TextRollProps extends Omit<
+  HTMLAttributes<HTMLSpanElement>,
+  "children"
+> {
   /** Shorthand for `options.bounce`. */
   bounce?: number;
   /**
@@ -476,7 +473,7 @@ export function TextRoll({
     useChromatic,
   ]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: mount-only DOM setup (slot-text/react)
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- mount-only DOM setup (slot-text/react)
   useEffect(() => {
     const element = elementRef.current;
     if (!element) {

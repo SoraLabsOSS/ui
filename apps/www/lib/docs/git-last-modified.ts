@@ -1,16 +1,12 @@
 import { execFile } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
 /** `apps/www` — fallback when git is unavailable. */
-const wwwRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../.."
-);
+const wwwRoot = process.cwd();
 
 const cache = new Map<string, Promise<Date | null>>();
 let repoRootPromise: Promise<string> | undefined;
@@ -68,10 +64,30 @@ export function gitLastModifiedForFile(filePath: string): Promise<Date | null> {
     try {
       const { stdout } = await execFileAsync(
         "git",
-        ["log", "-1", "--pretty=%ai", "--", gitPath],
+        [
+          "log",
+          "-1",
+          "--pretty=%ai",
+          "--invert-grep",
+          "--grep=^chore",
+          "--grep=^style",
+          "--grep=^ci",
+          "--grep=^format",
+          "--",
+          gitPath,
+        ],
         { cwd: repoRoot }
       );
-      const trimmed = stdout.trim();
+      let trimmed = stdout.trim();
+      if (!trimmed) {
+        // Fall back to any commit if all commits for this file matched the ignored prefixes
+        const { stdout: fallback } = await execFileAsync(
+          "git",
+          ["log", "-1", "--pretty=%ai", "--", gitPath],
+          { cwd: repoRoot }
+        );
+        trimmed = fallback.trim();
+      }
       if (!trimmed) {
         try {
           const stat = await fs.promises.stat(filePath);

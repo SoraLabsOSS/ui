@@ -1,13 +1,14 @@
 import { note, outro, spinner } from "@clack/prompts";
+
 import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoMotionMeta } from "../lib/meta-json.js";
 import {
   findRepoRoot,
   getPrimitivePaths,
   getWwwRoot,
-  type PrimitiveCategory,
   relativeFromWww,
 } from "../lib/paths.js";
+import type { PrimitiveCategory } from "../lib/paths.js";
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreatePrimitiveOptions } from "../lib/resolve-create-primitive-options.js";
 import { resolveCreatePrimitiveOptions } from "../lib/resolve-create-primitive-options.js";
@@ -19,11 +20,8 @@ import {
   renderPrimitiveIndex,
   renderPrimitiveRegistryItem,
 } from "../lib/templates.js";
-import {
-  findExistingPaths,
-  type ScaffoldFile,
-  writeScaffoldFiles,
-} from "../lib/write-files.js";
+import { findExistingPaths, writeScaffoldFiles } from "../lib/write-files.js";
+import type { ScaffoldFile } from "../lib/write-files.js";
 
 function buildScaffoldPlan(
   wwwRoot: string,

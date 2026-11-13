@@ -4,7 +4,7 @@
  */
 "use client";
 
-// biome-ignore lint/performance/noBarrelFile: public entry for vendored auth-react subset
+// oxlint-disable-next-line oxc/no-barrel-file -- public entry for vendored auth-react subset
 export * from "./components/auth/auth-provider";
 export * from "./components/auth/fetch-options-provider";
 export * from "./hooks/auth/use-authenticate";

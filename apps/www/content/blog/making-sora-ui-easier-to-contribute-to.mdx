@@ -37,7 +37,7 @@ UI tier (`/ui`) adds framework choice (Base vs Radix), install targets, and a di
 
 **Clear documentation is necessary. It is not sufficient.**
 
-Docs tell you *what* to do. They don't write the fifth file for you at 1am. They don't stop you from putting `MyEffect` in `demoProps` when the export is `MyAwesomeEffect`. They don't run `registry:build` and remind you that an undocumented folder was skipped because nobody added the MDX slug yet.
+Docs tell you _what_ to do. They don't write the fifth file for you at 1am. They don't stop you from putting `MyEffect` in `demoProps` when the export is `MyAwesomeEffect`. They don't run `registry:build` and remind you that an undocumented folder was skipped because nobody added the MDX slug yet.
 
 ---
 
@@ -74,7 +74,7 @@ We still want contributors to understand the architecture eventually. We just do
 
 ## Introducing the Sora UI contributor CLI
 
-`packages/www-cli` is an internal workspace CLI — invoked from the monorepo root, not published to npm. It deliberately stays separate from [`@soralabs/cli`](https://github.com/SoraLabsOSS/cli): consumers install components into *their* apps; contributors scaffold components inside *our* registry.
+`packages/www-cli` is an internal workspace CLI — invoked from the monorepo root, not published to npm. It deliberately stays separate from [`@soralabs/cli`](https://github.com/SoraLabsOSS/cli): consumers install components into _their_ apps; contributors scaffold components inside _our_ registry.
 
 ```bash
 # Interactive wizard — Motion, UI, or Catalog (Catalog coming in Phase 3)
@@ -108,12 +108,12 @@ The creative work — the actual animation, accessibility, credits, variant demo
 
 We aligned the interface with [Command Line Interface Guidelines](https://clig.dev/) — non-interactive by default in CI, explicit when it isn't:
 
-| Flag | Purpose |
-|------|---------|
+| Flag                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
 | `--yes` / `--no-input` | No prompts; require name + category/framework |
-| `--dry-run` | Print paths and meta updates; write nothing |
-| `--quiet` | Minimal output; silent `registry:build` |
-| `--skip-build` | Scaffold only; run build yourself |
+| `--dry-run`            | Print paths and meta updates; write nothing   |
+| `--quiet`              | Minimal output; silent `registry:build`       |
+| `--skip-build`         | Scaffold only; run build yourself             |
 
 ```bash
 # Preview before you commit anything
@@ -133,7 +133,7 @@ Scaffolding is Phase 1 and 2. **Validation is the next layer.**
 
 Today, `registry:build` already warns when it skips undocumented items — and those logs now suggest the matching `create:primitive` or `create:ui` command when a folder looks like a scaffold target. Post-build, `apps/www/scripts/test-registry-integrity.mts` catches broken registry JSON.
 
-What's on the roadmap inside `www-cli` is a read-only **`doctor`** command: registry folder without MDX, `meta.json` slug without a file, `demoProps` keys that don't match exports, undocumented entries that would be skipped at build time. Think of it as the contributor-side cousin of `sora-cli doctor` — same spirit, different job. Consumer `doctor` checks whether *your project* can install from the registry; contributor `doctor` checks whether *the registry PR* is internally consistent.
+What's on the roadmap inside `www-cli` is a read-only **`doctor`** command: registry folder without MDX, `meta.json` slug without a file, `demoProps` keys that don't match exports, undocumented entries that would be skipped at build time. Think of it as the contributor-side cousin of `sora-cli doctor` — same spirit, different job. Consumer `doctor` checks whether _your project_ can install from the registry; contributor `doctor` checks whether _the registry PR_ is internally consistent.
 
 Automated tests already guard the scaffold path: `bun run test:www-cli` runs integration fixtures that create and tear down temp registry entries with `--skip-build`, and an optional slow path exercises full `registry:build` when `WWW_CLI_RUN_REGISTRY_BUILD=1`.
 
@@ -148,7 +148,7 @@ We aimed for the opposite:
 - **Templates live in the repo** next to the conventions they implement — when `demoProps` rules change, the generator changes in the same PR.
 - **Generated files are normal source** — readable stubs, not minified blobs. Reviewers see the same structure they'd expect from a careful human scaffold.
 - **The same names the docs site uses** — export names, registry `name` fields, MDX slugs, meta sections — are computed once in `packages/www-cli/src/lib/naming.ts` and friends.
-- **Two CLIs, two audiences** — never merge consumer install logic into contributor scaffolding. [`sora-cli`](/blog/sora-cli-and-a-leaner-mcp) fetches into *your* repo; `www-cli` creates *ours*.
+- **Two CLIs, two audiences** — never merge consumer install logic into contributor scaffolding. [`sora-cli`](/blog/sora-cli-and-a-leaner-mcp) fetches into _your_ repo; `www-cli` creates _ours_.
 
 The CLI is documentation that executes.
 
@@ -161,10 +161,10 @@ Open source maintainers often optimize for **review quality** and forget **contr
 When the first PR from a new contributor is mostly boilerplate done correctly:
 
 - Review focuses on animation, API design, and docs prose — not "you forgot meta.json."
-- Drive-by fixes become realistic — fix a typo *and* add a primitive without a two-hour archaeology session.
+- Drive-by fixes become realistic — fix a typo _and_ add a primitive without a two-hour archaeology session.
 - Agents can run `bun run create:primitive ... --yes` in a branch and hand off a PR with the right skeleton; humans finish the motion.
 
-Sora UI's promise is still copy-paste ownership for *users*. For *contributors*, the parallel promise is: **you shouldn't need maintainer context to open a valid PR.**
+Sora UI's promise is still copy-paste ownership for _users_. For _contributors_, the parallel promise is: **you shouldn't need maintainer context to open a valid PR.**
 
 ---
 
@@ -188,4 +188,4 @@ If you're consuming Sora UI in your app, nothing changes: keep using `npx @soral
 
 ---
 
-*Implementation lives in [`packages/www-cli`](https://github.com/SoraLabsOSS/ui/tree/main/packages/www-cli) on the Sora UI monorepo. Questions and PRs welcome.*
+_Implementation lives in [`packages/www-cli`](https://github.com/SoraLabsOSS/ui/tree/main/packages/www-cli) on the Sora UI monorepo. Questions and PRs welcome._

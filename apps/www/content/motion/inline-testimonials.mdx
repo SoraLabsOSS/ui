@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-inline-testimonials" description="Hover any avatar to reveal the author while the rest of the quote stream blurs out." />
+<ComponentPreview
+  name="demo-inline-testimonials"
+  description="Hover any avatar to reveal the author while the rest of the quote stream blurs out."
+/>
 
 ## Installation
 
@@ -18,16 +21,17 @@ author:
 import {
   InlineTestimonials,
   type Testimonial,
-} from '@/components/sora-ui/disclosure/inline-testimonials';
+} from "@/components/sora-ui/disclosure/inline-testimonials";
 
 const testimonials: Testimonial[] = [
   {
-    id: '1',
-    text: 'Undoubtedly one of the best resources in the world.',
+    id: "1",
+    text: "Undoubtedly one of the best resources in the world.",
     author: {
-      name: 'Benji Taylor',
-      role: 'Head of Design @Base',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces',
+      name: "Benji Taylor",
+      role: "Head of Design @Base",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces",
     },
   },
 ];
@@ -42,66 +46,73 @@ export default function Page() {
 <TypeTable
   type={{
     testimonials: {
-      description: 'Quotes to render inline. Each entry needs an id, text, and author (name, role, avatar URL or custom ReactNode).',
-      type: 'Testimonial[]',
+      description:
+        "Quotes to render inline. Each entry needs an id, text, and author (name, role, avatar URL or custom ReactNode).",
+      type: "Testimonial[]",
     },
     avatarSize: {
-      description: 'Avatar diameter in pixels.',
-      type: 'number',
-      default: '32',
+      description: "Avatar diameter in pixels.",
+      type: "number",
+      default: "32",
     },
     blurAmount: {
-      description: 'Blur amount applied to non-hovered items, in pixels.',
-      type: 'number',
-      default: '5',
+      description: "Blur amount applied to non-hovered items, in pixels.",
+      type: "number",
+      default: "5",
     },
     blurOpacity: {
-      description: 'Opacity of non-hovered items (0–1).',
-      type: 'number',
-      default: '0.25',
+      description: "Opacity of non-hovered items (0–1).",
+      type: "number",
+      default: "0.25",
     },
     fontSize: {
-      description: 'Font size of the quote stream in pixels.',
-      type: 'number',
-      default: '30',
+      description: "Font size of the quote stream in pixels.",
+      type: "number",
+      default: "30",
     },
     alternate: {
-      description: 'Alternating opacity pattern applied across items: { pattern?: boolean; opacity?: number }.',
-      type: 'InlineTestimonialsAlternateConfig',
-      default: '{ pattern: true, opacity: 0.7 }',
+      description:
+        "Alternating opacity pattern applied across items: { pattern?: boolean; opacity?: number }.",
+      type: "InlineTestimonialsAlternateConfig",
+      default: "{ pattern: true, opacity: 0.7 }",
     },
     interaction: {
-      description: 'Which interactions reveal the author label — hover only, focus only (keyboard-accessible), or both.',
+      description:
+        "Which interactions reveal the author label — hover only, focus only (keyboard-accessible), or both.",
       type: '"hover" | "focus" | "both"',
       default: '"hover"',
     },
     hoveredId: {
-      description: 'Controlled id of the currently hovered/active testimonial.',
-      type: 'string | null',
+      description: "Controlled id of the currently hovered/active testimonial.",
+      type: "string | null",
     },
     defaultHoveredId: {
-      description: 'Uncontrolled initial hovered/active testimonial id.',
-      type: 'string | null',
+      description: "Uncontrolled initial hovered/active testimonial id.",
+      type: "string | null",
     },
     onHoveredIdChange: {
-      description: 'Called whenever the hovered/active testimonial id changes, controlled or uncontrolled.',
-      type: '(id: string | null) => void',
+      description:
+        "Called whenever the hovered/active testimonial id changes, controlled or uncontrolled.",
+      type: "(id: string | null) => void",
     },
     renderAvatar: {
-      description: 'Overrides avatar rendering entirely; receives the testimonial and resolved size. Falls back to next/image for string avatars, or renders the avatar field directly if it is a ReactNode.',
-      type: '(testimonial: Testimonial, size: number) => ReactNode',
+      description:
+        "Overrides avatar rendering entirely; receives the testimonial and resolved size. Falls back to next/image for string avatars, or renders the avatar field directly if it is a ReactNode.",
+      type: "(testimonial: Testimonial, size: number) => ReactNode",
     },
     label: {
-      description: 'Styling and motion for the hover-revealed author label — see InlineTestimonialsLabelConfig below.',
-      type: 'InlineTestimonialsLabelConfig',
+      description:
+        "Styling and motion for the hover-revealed author label — see InlineTestimonialsLabelConfig below.",
+      type: "InlineTestimonialsLabelConfig",
     },
     className: {
-      description: 'Additional class names merged onto the root element.',
-      type: 'string',
+      description: "Additional class names merged onto the root element.",
+      type: "string",
     },
     classNames: {
-      description: 'Class names for individual parts: root, item, avatar, label, name, role.',
-      type: 'InlineTestimonialsClassNames',
+      description:
+        "Class names for individual parts: root, item, avatar, label, name, role.",
+      type: "InlineTestimonialsClassNames",
     },
   }}
 />
@@ -111,58 +122,59 @@ export default function Page() {
 <TypeTable
   type={{
     accentColor: {
-      description: 'CSS color for the author name text.',
-      type: 'string',
+      description: "CSS color for the author name text.",
+      type: "string",
       default: '"#f97316"',
     },
     nameFontSize: {
-      description: 'Font size of the author name, in pixels.',
-      type: 'number',
-      default: '12',
+      description: "Font size of the author name, in pixels.",
+      type: "number",
+      default: "12",
     },
     roleFontSize: {
-      description: 'Font size of the author role, in pixels.',
-      type: 'number',
-      default: '9',
+      description: "Font size of the author role, in pixels.",
+      type: "number",
+      default: "9",
     },
     roleColor: {
-      description: 'CSS color for the author role text.',
-      type: 'string',
+      description: "CSS color for the author role text.",
+      type: "string",
       default: '"var(--muted-foreground, #6b7280)"',
     },
     roleLetterSpacing: {
-      description: 'Letter spacing of the author role text.',
-      type: 'string',
+      description: "Letter spacing of the author role text.",
+      type: "string",
       default: '"0.1em"',
     },
     roleUppercase: {
-      description: 'Uppercase the author role text.',
-      type: 'boolean',
-      default: 'true',
+      description: "Uppercase the author role text.",
+      type: "boolean",
+      default: "true",
     },
     offsetX: {
       description: "Horizontal offset from the avatar's left edge, in pixels.",
-      type: 'number',
-      default: 'avatarSize / 2',
+      type: "number",
+      default: "avatarSize / 2",
     },
     offsetY: {
-      description: 'Vertical offset above the avatar.',
-      type: 'string',
+      description: "Vertical offset above the avatar.",
+      type: "string",
       default: '"150%"',
     },
     slideX: {
-      description: 'Horizontal slide distance (px) for the reveal/exit animation.',
-      type: 'number',
-      default: '-6',
+      description:
+        "Horizontal slide distance (px) for the reveal/exit animation.",
+      type: "number",
+      default: "-6",
     },
     transitionDuration: {
-      description: 'Duration of the reveal/exit animation, in seconds.',
-      type: 'number',
-      default: '0.16',
+      description: "Duration of the reveal/exit animation, in seconds.",
+      type: "number",
+      default: "0.16",
     },
     ease: {
-      description: 'Easing for the reveal/exit animation.',
-      type: 'Easing',
+      description: "Easing for the reveal/exit animation.",
+      type: "Easing",
       default: '"easeOut"',
     },
   }}

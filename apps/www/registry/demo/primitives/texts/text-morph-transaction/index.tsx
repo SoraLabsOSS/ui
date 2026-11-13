@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+
 import { TextMorph } from "@/registry/primitives/texts/text-morph";
 
 const STATES = [
@@ -107,7 +108,7 @@ export function TextMorphTransaction() {
       <div
         className={cn(
           "inline-flex items-center justify-center gap-2.5 overflow-hidden",
-          "rounded-full bg-[#131313] py-3 pr-6 pl-4.5 font-medium text-base text-white",
+          "rounded-full bg-[#131313] py-3 pr-6 pl-4.5 text-base font-medium text-white",
           "border border-white/10 shadow-lg dark:border-white/[0.08]"
         )}
       >

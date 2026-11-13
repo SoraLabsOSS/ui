@@ -3,7 +3,10 @@ title: Video Player
 description: Dependency-free modal video player with a chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, and fullscreen. React component.
 ---
 
-<ComponentPreview name="demo-video-player" description="Dependency-free custom video player: modal overlay, chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, fullscreen, keyboard shortcuts, and focus trapping." />
+<ComponentPreview
+  name="demo-video-player"
+  description="Dependency-free custom video player: modal overlay, chaptered timeline, hover-scrub preview, speed menu, picture-in-picture, fullscreen, keyboard shortcuts, and focus trapping."
+/>
 
 ## Installation
 
@@ -31,10 +34,7 @@ export default function Demo() {
 }
 ```
 
-The trigger button and the modal are the same component instance — render
-`<VideoPlayer />` wherever you want the "Open video player" button to appear,
-and the modal overlay portals itself to a fixed position automatically. Pass
-`children` to replace the default icon + label:
+The trigger button and the modal are the same component instance — render `<VideoPlayer />` wherever you want the "Open video player" button to appear, and the modal overlay portals itself to a fixed position automatically. Pass `children` to replace the default icon + label:
 
 ```tsx
 <VideoPlayer src="https://example.com/video.mp4">Watch the demo</VideoPlayer>
@@ -42,23 +42,13 @@ and the modal overlay portals itself to a fixed position automatically. Pass
 
 ## Sources
 
-`src` is used for both the main video and, unless `previewSrc` is set, the
-muted hover-scrub preview video. Only normal hosted MP4 files are supported —
-this is not an HLS/`.m3u8` player. If a target device needs an
-iOS-optimized encode, pass `iosSrc` (and `previewIosSrc` if it differs from
-`previewSrc`); the player swaps to it automatically on iPad, iPhone, and
-touch-enabled Macs.
+`src` is used for both the main video and, unless `previewSrc` is set, the muted hover-scrub preview video. Only normal hosted MP4 files are supported — this is not an HLS/`.m3u8` player. If a target device needs an iOS-optimized encode, pass `iosSrc` (and `previewIosSrc` if it differs from `previewSrc`); the player swaps to it automatically on iPad, iPhone, and touch-enabled Macs.
 
-The video is lazy-loaded: nothing downloads until the trigger is hovered,
-focused, touched, or the player is opened.
+The video is lazy-loaded: nothing downloads until the trigger is hovered, focused, touched, or the player is opened.
 
 ## Styling
 
-Styling ships as a single injected stylesheet rather than Tailwind classes,
-so the component stays a self-contained, dependency-free file — inject-once
-guarded, so mounting multiple players on a page is safe. Override the look via
-the `className` (trigger wrapper), `triggerClassName`, and `playerClassName`
-props, or target the `.media-01` / `[data-media-01-open]` selectors directly.
+Styling ships as a single injected stylesheet rather than Tailwind classes, so the component stays a self-contained, dependency-free file — inject-once guarded, so mounting multiple players on a page is safe. Override the look via the `className` (trigger wrapper), `triggerClassName`, and `playerClassName` props, or target the `.media-01` / `[data-media-01-open]` selectors directly.
 
 ## Props
 
@@ -116,7 +106,7 @@ props, or target the `.media-01` / `[data-media-01-open]` selectors directly.
       type: "string",
     },
     playerClassName: {
-      description: 'Class name merged onto the `.media-01` player root.',
+      description: "Class name merged onto the `.media-01` player root.",
       type: "string",
     },
   }}
@@ -146,19 +136,8 @@ props, or target the `.media-01` / `[data-media-01-open]` selectors directly.
 
 ## Accessibility
 
-The player renders as a `role="dialog"` overlay with `aria-modal`, traps
-focus while open, restores focus to the trigger (or the element that had
-focus before opening) on close, and returns focus into the dialog on open.
-The seek timeline is a `role="slider"` with live `aria-valuenow` /
-`aria-valuetext`. When `prefers-reduced-motion: reduce` is set, transitions
-and the pulse/play-pause icon morph collapse to instant state changes instead
-of animating.
+The player renders as a `role="dialog"` overlay with `aria-modal`, traps focus while open, restores focus to the trigger (or the element that had focus before opening) on close, and returns focus into the dialog on open. The seek timeline is a `role="slider"` with live `aria-valuenow` / `aria-valuetext`. When `prefers-reduced-motion: reduce` is set, transitions and the pulse/play-pause icon morph collapse to instant state changes instead of animating.
 
 ## When to Use
 
-Use `VideoPlayer` for a hosted MP4 walkthrough, product demo, or trailer that
-deserves a focused, chrome-rich viewing experience — chapters for longer
-recordings, hover-scrub preview for quick navigation, and PiP/fullscreen for
-viewers who want to keep watching while doing something else. For streaming
-playlists (`.m3u8`/HLS), this player is not a fit — it only handles normal
-hosted video files.
+Use `VideoPlayer` for a hosted MP4 walkthrough, product demo, or trailer that deserves a focused, chrome-rich viewing experience — chapters for longer recordings, hover-scrub preview for quick navigation, and PiP/fullscreen for viewers who want to keep watching while doing something else. For streaming playlists (`.m3u8`/HLS), this player is not a fit — it only handles normal hosted video files.

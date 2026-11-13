@@ -2,6 +2,7 @@
 
 import { useDialKit } from "dialkit";
 import { useEffect, useMemo, useRef } from "react";
+
 import type { Binds } from "@/components/docs/tweakpane";
 
 const HEX_COLOR_RE = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;

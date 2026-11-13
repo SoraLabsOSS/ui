@@ -19,7 +19,7 @@ I shipped that and moved on, on the assumption that a string like that is basica
 
 So three days after the first merge, I added `get_component_code`. It doesn't run anything either — it just fetches every file's full content and hands it back as labeled Markdown:
 
-```ts
+````ts
 protected async execute(input: GetComponentCodeInput): Promise<string> {
   const item = await getItemSource(input.name);
   const files = item.files
@@ -30,7 +30,7 @@ protected async execute(input: GetComponentCodeInput): Promise<string> {
     ).join("\n\n");
   return [`# ${item.title ?? item.name}`, "", files].join("\n");
 }
-```
+````
 
 Nothing about that requires trusting an agent to run shell commands, or even having `shadcn`'s server configured at all. It can quote the full source of `stagger-button` straight into a reply, or you read the output yourself and paste it in by hand. The fix wasn't giving the server a new power. It was giving up on the idea that a command string counts as done.
 
@@ -58,7 +58,9 @@ Adding `get_component_code` is also the reason the registry lookups aren't a sin
  * Fetches the per-item registry JSON, which embeds full file `content` —
  * unlike the merged registry.json used by `listInstallableItems`/`getItemByName`.
  */
-export async function getItemSource(name: string): Promise<RegistryItem | null> {
+export async function getItemSource(
+  name: string
+): Promise<RegistryItem | null> {
   const url = `${DOCS_BASE_URL}/r/${name}.json`;
   // ...
 }
@@ -75,7 +77,9 @@ None of this needed session state, before or after the sixth tool. `sora-mcp` ru
  * Stateless MCP server for serverless (`handleRequest`) deployments.
  * Framework uses JSON batch mode per request — no SSE, no sessions.
  */
-export function createMcpServer() { /* ... */ }
+export function createMcpServer() {
+  /* ... */
+}
 
 let cachedServer: MCPServer | null = null;
 export function getMcpServer() {
@@ -87,15 +91,21 @@ export function getMcpServer() {
 Every tool call is idempotent and doesn't depend on anything from the previous call, so there was never a reason to track a session — just one `MCPServer` instance reused across warm Vercel invocations. In front of the actual network fetches sit two in-memory caches, tuned differently on purpose:
 
 ```ts
-export const registryCache = new MemoryCache({ maxEntries: 50, ttlMs: 86_400_000 });
-export const docsCache = new MemoryCache({ maxEntries: 500, ttlMs: 86_400_000 });
+export const registryCache = new MemoryCache({
+  maxEntries: 50,
+  ttlMs: 86_400_000,
+});
+export const docsCache = new MemoryCache({
+  maxEntries: 500,
+  ttlMs: 86_400_000,
+});
 ```
 
 Docs and registry data change on deploy, not on request, so a 24-hour TTL isn't cautious — it's the correct number. Most calls in a warm invocation never leave memory to hit `ui.soralabs.studio` at all.
 
 ## Why a server and not a Skill
 
-This repo already leans on Skills for itself — `.agents/skills/nextjs`, `.agents/skills/design-taste-frontend`, packaged instructions that steer an agent while it works *inside* this codebase. Sora UI's own docs and registry could have shipped the same way, as a Skill, instead of a whole HTTP server. I looked at that option and went with the server anyway.
+This repo already leans on Skills for itself — `.agents/skills/nextjs`, `.agents/skills/design-taste-frontend`, packaged instructions that steer an agent while it works _inside_ this codebase. Sora UI's own docs and registry could have shipped the same way, as a Skill, instead of a whole HTTP server. I looked at that option and went with the server anyway.
 
 Because a Skill is a bundle. It ships with a specific assistant's setup, gets loaded into context, and stays exactly as fresh as the last time someone re-packaged and re-published it. Sora UI doesn't sit still — `registry:build` runs on every deploy, regenerating `public/r/registry.json` and every per-item file the moment a primitive is added or changed. `sora-mcp` doesn't hold a copy of any of that. `get_component_info` and `get_component_code` `fetch()` `ui.soralabs.studio` directly, through a cache with a 24-hour TTL, not a bundle with no TTL at all. Ship a new primitive today, and every already-connected agent can `list_components` its way to it the next time that cache entry expires — nobody has to touch a Skill package for that to be true.
 

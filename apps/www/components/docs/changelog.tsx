@@ -32,7 +32,7 @@ export const ChangelogItem = ({
   <ChangelogItemProvider value={{ major }}>
     <div className="flex flex-col gap-x-6 sm:flex-row" {...props}>
       <div className="relative h-auto w-28 shrink-0 max-sm:mb-2">
-        <p className="top-20 left-0 mt-0 text-neutral-500 text-sm sm:sticky">
+        <p className="top-20 left-0 mt-0 text-sm text-neutral-500 sm:sticky">
           {format(new Date(date), "MMM d, yyyy", { locale: enUS })}
         </p>
       </div>
@@ -44,7 +44,7 @@ export const ChangelogItem = ({
           )}
         >
           {major && (
-            <div className="absolute top-1/2 left-1/2 size-4.5 shrink-0 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary" />
+            <div className="border-primary absolute top-1/2 left-1/2 size-4.5 shrink-0 -translate-x-1/2 -translate-y-1/2 rounded-full border" />
           )}
         </div>
         <div className="absolute top-[18px] -bottom-[2px] left-1/2 w-px -translate-x-1/2 rounded-full bg-neutral-300 dark:bg-neutral-700" />
@@ -65,9 +65,9 @@ export const ChangelogItemVersion = ({
   return (
     <div
       className={cn(
-        "-mt-[3px] [&>h2]:mt-0 [&>h2]:mb-6 [&>h2]:w-fit [&_a]:rounded-md [&_a]:border [&_a]:bg-accent [&_a]:px-1.5 [&_a]:py-0.5 [&_a]:font-normal [&_a]:text-foreground [&_a]:text-sm",
+        "[&_a]:bg-accent [&_a]:text-foreground -mt-[3px] [&_a]:rounded-md [&_a]:border [&_a]:px-1.5 [&_a]:py-0.5 [&_a]:text-sm [&_a]:font-normal [&>h2]:mt-0 [&>h2]:mb-6 [&>h2]:w-fit",
         major &&
-          "[&_a]:border-neutral-600 [&_a]:bg-primary [&_a]:text-primary-foreground dark:[&_a]:border-neutral-300"
+          "[&_a]:bg-primary [&_a]:text-primary-foreground [&_a]:border-neutral-600 dark:[&_a]:border-neutral-300"
       )}
       {...props}
     >
@@ -82,7 +82,7 @@ export const ChangelogItemTitle = ({
   children,
   ...props
 }: ChangelogItemTitleProps) => (
-  <h3 className="mt-0 mb-2.5 font-semibold text-lg" {...props}>
+  <h3 className="mt-0 mb-2.5 text-lg font-semibold" {...props}>
     {children}
   </h3>
 );
@@ -93,7 +93,7 @@ export const ChangelogItemDescription = ({
   children,
   ...props
 }: ChangelogItemDescriptionProps) => (
-  <div className="mt-0 text-muted-foreground text-sm" {...props}>
+  <div className="text-muted-foreground mt-0 text-sm" {...props}>
     {children}
   </div>
 );

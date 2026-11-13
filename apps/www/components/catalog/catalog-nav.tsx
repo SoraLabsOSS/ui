@@ -9,8 +9,10 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo } from "react";
+
 import { isRecentlyReleased } from "@/lib/docs/is-recently-released";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+
 import { CatalogNavHoverPreview } from "./catalog-nav-hover-preview";
 import { catalogDesktopSidebarScrollInsetClassName } from "./catalog-preview-classes";
 import { useCatalogHoverPreview } from "./use-catalog-hover-preview";
@@ -45,7 +47,7 @@ export function ComponentPageCatalogNav({
   } = useCatalogHoverPreview(sortedItems);
 
   // Reset flyout when navigating to another component page.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname drives intentional reset
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- pathname drives intentional reset
   useEffect(() => {
     clearHoverPreview();
   }, [pathname]);

@@ -30,7 +30,7 @@ export function BookmarkEmptyState({
   return (
     <Empty className="min-h-[360px]">
       <EmptyHeader>
-        <p className="font-mono text-[13px] text-muted-foreground uppercase tracking-widest">
+        <p className="text-muted-foreground font-mono text-[13px] tracking-widest uppercase">
           {eyebrow}
         </p>
         <EmptyTitle aria-level={3} className="text-lg" role="heading">

@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+
 import {
   checkAgentMetadata,
   checkTargetAgentMetadata,
@@ -55,7 +56,7 @@ describe("checkAgentMetadata", () => {
     );
 
     const result = await checkAgentMetadata(tempDir);
-    expect(result.issues.length).toBe(6);
+    expect(result.issues).toHaveLength(6);
     expect(
       result.issues.every((issue) => issue.category === "agent-metadata")
     ).toBe(true);

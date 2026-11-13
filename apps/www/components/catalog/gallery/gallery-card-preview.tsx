@@ -2,9 +2,11 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useRef, useState } from "react";
+
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import type { ComponentGalleryCardPreview } from "@/lib/registry/types";
 import { Skeleton } from "@/registry/primitives/effects/skeleton";
+
 import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
 
 const VIDEO_READY_STATE = 3;
@@ -21,7 +23,7 @@ interface GalleryCardPreviewProps {
 function GalleryCardMediaSkeleton() {
   return (
     <Skeleton
-      className="absolute inset-0 size-full bg-muted-foreground/15"
+      className="bg-muted-foreground/15 absolute inset-0 size-full"
       rounded="none"
     />
   );

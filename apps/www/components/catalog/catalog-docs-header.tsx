@@ -1,7 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+
 import { ComponentPageDocsBreadcrumb } from "./catalog-docs-breadcrumb";
 import { ComponentPageCatalogMenuButton } from "./catalog-menu-button";
 import { useCatalogMenu } from "./catalog-menu-context";

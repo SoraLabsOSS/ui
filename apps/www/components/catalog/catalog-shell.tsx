@@ -1,7 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
+
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+
 import { CatalogMenuProvider } from "./catalog-menu-context";
 import { CatalogMobileChromeProvider } from "./catalog-mobile-chrome-context";
 import { ComponentPageCatalogMobileMenuLayer } from "./catalog-mobile-menu-layer";

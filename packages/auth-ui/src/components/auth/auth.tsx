@@ -2,10 +2,12 @@
 
 import type { AuthView } from "@workspace/auth-ui/lib/auth-core";
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
-import { type ComponentType, type ReactNode, useEffect } from "react";
+import { useEffect } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 import type { SocialLayout } from "./provider-buttons";
-import { SignIn, type SignInVariant } from "./sign-in";
+import { SignIn } from "./sign-in";
+import type { SignInVariant } from "./sign-in";
 import { SignOut } from "./sign-out";
 
 export interface AuthProps {

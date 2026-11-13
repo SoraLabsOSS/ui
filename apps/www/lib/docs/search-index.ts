@@ -1,6 +1,7 @@
 import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
 import type { AdvancedIndex } from "fumadocs-core/search/server";
 import type { InferPageType } from "fumadocs-core/source";
+
 import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
@@ -49,7 +50,7 @@ function pageToAdvancedIndex(page: SearchablePage): AdvancedIndex {
     );
   }
 
-  const structuredData = page.data.structuredData;
+  const { structuredData } = page.data;
   const title = getUiQualifiedTitle(
     page.data.title ?? page.slugs.at(-1) ?? page.url,
     page.url

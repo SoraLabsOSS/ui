@@ -22,13 +22,12 @@ The goal isn't to remove animation entirely, but to make it comfortable and safe
 
 ## Sora UI & Motion
 
-Sora UI **is built on top of [Motion](https://motion.dev/)**.
-This means all Sora UI components can leverage Motion’s accessibility features.
+Sora UI **is built on top of [Motion](https://motion.dev/)**. This means all Sora UI components can leverage Motion’s accessibility features.
 
 The recommended way to support Reduced Motion is to wrap your app with `MotionConfig`:
 
 ```tsx
-import { MotionConfig } from 'motion/react';
+import { MotionConfig } from "motion/react";
 
 export function App({ children }: { children: React.ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
@@ -56,13 +55,11 @@ const prefersReducedMotion = usePrefersReducedMotion();
 
 You can reuse this hook directly if you're building your own custom GSAP-driven effects and want the same behavior.
 
-> [!NOTE]
-> **Catalog Showcases**: Ready-to-use layout showcases in `/catalog` (such as `cursor-trail-reveal`, `scroll-chapters`, `scroll-gallery`, `sticky-scroll-cards`, and `text-reveal-box`) are full-screen creative design showcases intended for high-impact editorial and portfolio experiences. They do not require `reduced-motion` branches, preserving their intended artistic animations while keeping showcase code clean and reducing review complexity. Semantic, screen-reader-accessible content in the DOM is preserved.
+> [!NOTE] **Catalog Showcases**: Ready-to-use layout showcases in `/catalog` (such as `cursor-trail-reveal`, `scroll-chapters`, `scroll-gallery`, `sticky-scroll-cards`, and `text-reveal-box`) are full-screen creative design showcases intended for high-impact editorial and portfolio experiences. They do not require `reduced-motion` branches, preserving their intended artistic animations while keeping showcase code clean and reducing review complexity. Semantic, screen-reader-accessible content in the DOM is preserved.
 
 ## Conclusion
 
-Accessible animations help ensure your UI is usable for everyone.
-By combining Sora UI with Motion’s `MotionConfig`, you can provide a smooth, animated experience while adapting gracefully to `prefers-reduced-motion`.
+Accessible animations help ensure your UI is usable for everyone. By combining Sora UI with Motion’s `MotionConfig`, you can provide a smooth, animated experience while adapting gracefully to `prefers-reduced-motion`.
 
 **We recommend adding `MotionConfig reducedMotion="user"` at the root of your app.**
 

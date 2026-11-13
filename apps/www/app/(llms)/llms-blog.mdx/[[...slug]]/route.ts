@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
 import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache-life";
 import { getLLMText } from "@/lib/docs/get-llm-text";

@@ -1,4 +1,5 @@
 import { note, outro, spinner } from "@clack/prompts";
+
 import { printDryRunPlan } from "../lib/dry-run.js";
 import {
   buildIconLabels,
@@ -16,11 +17,8 @@ import {
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreateIconOptions } from "../lib/resolve-create-icon-options.js";
 import { resolveCreateIconOptions } from "../lib/resolve-create-icon-options.js";
-import {
-  findExistingPaths,
-  type ScaffoldFile,
-  writeScaffoldFiles,
-} from "../lib/write-files.js";
+import { findExistingPaths, writeScaffoldFiles } from "../lib/write-files.js";
+import type { ScaffoldFile } from "../lib/write-files.js";
 
 function buildScaffoldPlan(
   wwwRoot: string,

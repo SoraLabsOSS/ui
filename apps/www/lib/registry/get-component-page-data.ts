@@ -1,4 +1,5 @@
 import { cache } from "react";
+
 import { index } from "@/__registry__";
 import { resolveComponentCardPreview } from "@/lib/component-media";
 import { isGalleryCatalogItem } from "@/lib/registry/component-gallery-sections";
@@ -138,8 +139,8 @@ export function getComponentNeighbours(slug: string): {
     return {};
   }
 
-  const previousItem = index > 0 ? items[index - 1] : undefined;
-  const nextItem = index < items.length - 1 ? items[index + 1] : undefined;
+  const previousItem = items[index - 1];
+  const nextItem = items[index + 1];
 
   return {
     previous: previousItem

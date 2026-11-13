@@ -11,6 +11,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { Shield, User2 } from "lucide-react";
 import { useMemo } from "react";
+
 import { AccountSettings } from "./account/account-settings";
 import { SecuritySettings } from "./security/security-settings";
 

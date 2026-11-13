@@ -1,5 +1,6 @@
 import type { InferSchema, ToolMetadata } from "xmcp";
 import { z } from "zod";
+
 import { DocSourceError, soraDocsSource } from "../docs/sora-docs-source";
 import type { DocSection } from "../lib/llms-txt-parser";
 

@@ -24,7 +24,10 @@ compositionRecipes:
       - Keep the trigger label or accessible name stable.
 ---
 
-<ComponentPreview name="demo-dropdown-menu" description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+<ComponentPreview
+  name="demo-dropdown-menu"
+  description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling."
+/>
 
 ## Installation
 
@@ -74,7 +77,9 @@ export default function Page() {
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Delete Account</DropdownMenuItem>
+        <DropdownMenuItem variant="destructive">
+          Delete Account
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -83,11 +88,12 @@ export default function Page() {
 
 ## RTL
 
-<ComponentPreview name="demo-dropdown-menu-rtl" description="The same dropdown menu pattern rendered right-to-left with Base UI DirectionProvider." />
+<ComponentPreview
+  name="demo-dropdown-menu-rtl"
+  description="The same dropdown menu pattern rendered right-to-left with Base UI DirectionProvider."
+/>
 
-Use Base UI's `DirectionProvider` together with `dir="rtl"` on the demo
-container to render the menu from right to left. The provider keeps popup
-positioning and keyboard navigation aware of the text direction.
+Use Base UI's `DirectionProvider` together with `dir="rtl"` on the demo container to render the menu from right to left. The provider keeps popup positioning and keyboard navigation aware of the text direction.
 
 ```tsx
 import { DirectionProvider } from "@base-ui/react/direction-provider";
@@ -110,7 +116,9 @@ export default function RtlDropdownMenu() {
           <DropdownMenuContent align="end" dir="rtl">
             <DropdownMenuItem>الملف الشخصي</DropdownMenuItem>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>المزيد من الخيارات</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>
+                المزيد من الخيارات
+              </DropdownMenuSubTrigger>
               <DropdownMenuSubContent dir="rtl">
                 <DropdownMenuItem>أدوات المطور</DropdownMenuItem>
               </DropdownMenuSubContent>
@@ -151,8 +159,8 @@ export default function RtlDropdownMenu() {
   type={{
     align: {
       description: "Alignment of the popup relative to the trigger.",
-      type: "\"start\" | \"center\" | \"end\"",
-      default: "\"start\"",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
     },
     alignOffset: {
       description: "Offset in pixels along the alignment axis.",
@@ -161,8 +169,8 @@ export default function RtlDropdownMenu() {
     },
     side: {
       description: "Side of the trigger where the popup should appear.",
-      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
-      default: "\"bottom\"",
+      type: '"top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"',
+      default: '"bottom"',
     },
     sideOffset: {
       description: "Distance in pixels from the trigger.",
@@ -191,14 +199,15 @@ export default function RtlDropdownMenu() {
       default: "false",
     },
     inset: {
-      description: "Whether to add left padding for alignment with checkable/radio items.",
+      description:
+        "Whether to add left padding for alignment with checkable/radio items.",
       type: "boolean",
       default: "false",
     },
     variant: {
       description: "Visual style variant of the item.",
-      type: "\"default\" | \"destructive\"",
-      default: "\"default\"",
+      type: '"default" | "destructive"',
+      default: '"default"',
     },
   }}
 />
@@ -272,8 +281,8 @@ export default function RtlDropdownMenu() {
   type={{
     align: {
       description: "Alignment of the submenu popup.",
-      type: "\"start\" | \"center\" | \"end\"",
-      default: "\"start\"",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
     },
     alignOffset: {
       description: "Offset in pixels along the alignment axis.",
@@ -282,8 +291,8 @@ export default function RtlDropdownMenu() {
     },
     side: {
       description: "Side where the submenu should open.",
-      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
-      default: "\"right\"",
+      type: '"top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"',
+      default: '"right"',
     },
     sideOffset: {
       description: "Distance in pixels from the submenu trigger.",

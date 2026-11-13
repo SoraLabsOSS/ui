@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+
 import {
   Tabs,
   TabsHighlight,
@@ -29,10 +30,10 @@ export function GallerySegmentedTabs<T extends string>({
       }}
       value={value}
     >
-      <TabsHighlight className="absolute inset-0 rounded-lg bg-background shadow-sm dark:bg-foreground/10">
+      <TabsHighlight className="bg-background dark:bg-foreground/10 absolute inset-0 rounded-lg shadow-sm">
         <TabsList
           className={cn(
-            "relative flex h-10 shrink-0 items-center rounded-xl bg-muted p-1",
+            "bg-muted relative flex h-10 shrink-0 items-center rounded-xl p-1",
             className
           )}
         >
@@ -43,7 +44,7 @@ export function GallerySegmentedTabs<T extends string>({
               value={optionValue}
             >
               <TabsTrigger
-                className="relative z-10 h-full cursor-pointer rounded-lg px-3.5 font-medium text-sm transition-colors duration-150 focus-visible:outline-none data-[state=active]:text-foreground data-[state=inactive]:text-foreground/45"
+                className="data-[state=active]:text-foreground data-[state=inactive]:text-foreground/45 relative z-10 h-full cursor-pointer rounded-lg px-3.5 text-sm font-medium transition-colors duration-150 focus-visible:outline-none"
                 value={optionValue}
               >
                 {label}

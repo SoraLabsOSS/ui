@@ -1,5 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { BookOpen } from "lucide-react";
+
 import { COMMUNITY_ISSUES_URL } from "@/lib/site";
 
 /**
@@ -15,7 +16,7 @@ export const baseOptions: BaseLayoutProps = {
       type: "separator",
       name: "Guide",
       icon: <BookOpen fill="currentColor" strokeWidth={2.5} />,
-      // biome-ignore lint/suspicious/noExplicitAny: custom separator layout item
+      // oxlint-disable-next-line @typescript-eslint/no-explicit-any -- custom separator layout item
     } as any,
     {
       text: "Introduction",

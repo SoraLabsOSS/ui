@@ -8,6 +8,7 @@ import type {
 import { useShiki } from "fumadocs-core/highlight/client";
 import { Loader } from "lucide-react";
 import { Suspense, useEffect, useRef } from "react";
+
 import { CodeBlock, Pre } from "@/components/docs/codeblock";
 
 const getComponents = ({
@@ -69,7 +70,7 @@ export function DynamicCodeBlockLoading({
       title={title}
     >
       <Pre
-        className="flex items-center justify-center gap-2 text-muted-foreground"
+        className="text-muted-foreground flex items-center justify-center gap-2"
         style={{
           minHeight:
             typeof loadingMinHeight === "number"

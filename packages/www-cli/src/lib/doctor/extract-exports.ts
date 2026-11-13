@@ -14,7 +14,7 @@ const IDENTIFIER_RE = /^([A-Za-z0-9_$]+)/;
  * Strips line comments and block comments to avoid false-positive export matches.
  */
 function stripComments(code: string): string {
-  return code.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+  return code.replaceAll(/\/\*[\s\S]*?\*\//g, "").replaceAll(/\/\/.*$/gm, "");
 }
 
 function parseNamedExportEntry(entry: string): string | null {

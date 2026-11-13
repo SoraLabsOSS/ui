@@ -1,4 +1,5 @@
 import { createSearchAPI } from "fumadocs-core/search/server";
+
 import { getCachedSearchIndexes } from "@/lib/docs/search-index";
 
 let searchApiPromise: Promise<ReturnType<typeof createSearchAPI>> | null = null;

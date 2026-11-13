@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { chromatic, TextRoll } from "@/registry/primitives/texts/text-roll";
 
 export interface TextRollPlaygroundProps {
@@ -23,7 +24,7 @@ export default function TextRollPlayground({
 
   return (
     <button
-      className="cursor-pointer rounded-lg border border-border bg-background px-4 py-2 font-medium text-sm transition-colors hover:bg-accent"
+      className="border-border bg-background hover:bg-accent cursor-pointer rounded-lg border px-4 py-2 text-sm font-medium transition-colors"
       onClick={() => {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 1400);

@@ -2,15 +2,8 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
-import {
-  type ComponentPropsWithoutRef,
-  type ElementType,
-  type Ref,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { ComponentPropsWithoutRef, ElementType, Ref } from "react";
 
 const VERT = `
   attribute vec2 aPosition;
@@ -252,7 +245,7 @@ class RevealGL {
   }
 
   setTexture(art: HTMLCanvasElement) {
-    const gl = this.gl;
+    const { gl } = this;
     if (!(this.ok && gl)) {
       return;
     }
@@ -295,13 +288,13 @@ class RevealGL {
     hover: number,
     reverse: number
   ) {
-    const gl = this.gl;
+    const { gl } = this;
     if (!(this.ok && gl && this.tex && this.prog && this.quad)) {
       return;
     }
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    // biome-ignore lint/correctness/useHookAtTopLevel: gl.useProgram is a WebGL call, not a React hook.
+    // oxlint-disable-next-line react-hooks/rules-of-hooks -- gl.useProgram is a WebGL call, not a React hook.
     gl.useProgram(this.prog);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.quad);
     gl.enableVertexAttribArray(this.aPos);
@@ -327,7 +320,7 @@ class RevealGL {
   }
 
   destroy() {
-    const gl = this.gl;
+    const { gl } = this;
     if (!(this.ok && gl)) {
       return;
     }
@@ -396,12 +389,12 @@ function renderTextTexture(o: TextTexture): HTMLCanvasElement | null {
     x = o.padX + o.boxW / 2;
   }
 
-  lines.forEach((line, i) => {
+  for (const [i, line] of lines.entries()) {
     // Half-leading model so GL glyphs land where the in-flow sizer glyphs sit.
     const baseline =
       o.padY + startY + i * lineH + (lineH + ascent - descent) / 2;
     ctx.fillText(line, x, baseline);
-  });
+  }
 
   return canvas;
 }
@@ -450,8 +443,10 @@ const PARALLAX_AMP = 0.006;
 const TL_ANCHOR: [number, number] = [0.16, 0.18];
 const BR_ANCHOR: [number, number] = [0.84, 0.82];
 
-export interface FogTextRevealProps
-  extends Omit<ComponentPropsWithoutRef<"span">, "children"> {
+export interface FogTextRevealProps extends Omit<
+  ComponentPropsWithoutRef<"span">,
+  "children"
+> {
   /**
    * Render as a different element instead of `span`.
    * @default "span"
@@ -521,7 +516,7 @@ function FogTextReveal({
     }
     gl.canvas.style.pointerEvents = "none";
     gl.canvas.setAttribute("aria-hidden", "true");
-    host.appendChild(gl.canvas);
+    host.append(gl.canvas);
 
     const measureCanvas = document.createElement("canvas");
     const mctx = measureCanvas.getContext("2d");
@@ -643,7 +638,7 @@ function FogTextReveal({
 
     const isLast = () => !loop && index >= texts.length - 1;
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: single rAF frame that advances the spring, phase machine, parallax and per-frame draw of the ported reveal shader.
+    // oxlint-disable-next-line sonarjs/cognitive-complexity -- single rAF frame that advances the spring, phase machine, parallax and per-frame draw of the ported reveal shader.
     const loopFrame = () => {
       if (!running) {
         return;
@@ -862,7 +857,7 @@ function FogTextReveal({
   return (
     <Component
       className={cn(
-        "relative inline-block select-none whitespace-pre align-baseline",
+        "relative inline-block align-baseline whitespace-pre select-none",
         className
       )}
       ref={setRef}

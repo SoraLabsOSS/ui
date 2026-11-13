@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
+
 import {
   BookmarkEmptyState,
   BookmarkSearchEmptyState,
@@ -59,7 +60,7 @@ function CardThumbnail({
 }) {
   const gradient = getTagGradient(tag);
   const hue =
-    title.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
+    title.split("").reduce((acc, c) => acc + (c.codePointAt(0) ?? 0), 0) % 360;
 
   return (
     <div
@@ -74,7 +75,7 @@ function CardThumbnail({
         style={{ backgroundColor: `hsl(${(hue + 60) % 360} 55% 55%)` }}
       />
       <span
-        className={`relative z-10 max-w-[75%] text-center font-semibold text-foreground/30 text-lg leading-snug tracking-tight ${className || ""}`}
+        className={`text-foreground/30 relative z-10 max-w-[75%] text-center text-lg leading-snug font-semibold tracking-tight ${className || ""}`}
       >
         {title}
       </span>
@@ -105,14 +106,14 @@ function ViewToggle({
       }}
       value={viewMode}
     >
-      <TabsHighlight className="absolute inset-0 rounded-lg bg-background shadow-sm dark:bg-foreground/10">
-        <TabsList className="relative flex h-10 shrink-0 items-center rounded-xl bg-muted p-1">
+      <TabsHighlight className="bg-background dark:bg-foreground/10 absolute inset-0 rounded-lg shadow-sm">
+        <TabsList className="bg-muted relative flex h-10 shrink-0 items-center rounded-xl p-1">
           {options.map(({ value, label, Icon, disabled }) => (
             <TabsHighlightItem className="h-full" key={value} value={value}>
               <TabsTrigger
                 aria-disabled={disabled}
                 aria-label={`Display in ${label} mode`}
-                className="relative z-10 flex h-full w-10 items-center justify-center rounded-lg text-muted-foreground transition-all duration-300 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 data-[state=active]:text-foreground"
+                className="text-muted-foreground data-[state=active]:text-foreground relative z-10 flex h-full w-10 items-center justify-center rounded-lg transition-all duration-300 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40"
                 disabled={disabled}
                 title={disabled ? `${label} (coming soon)` : label}
                 value={value}
@@ -143,12 +144,12 @@ function BookmarkCard({
       transition={{ duration: 0.22, ease: "easeOut" }}
     >
       <Link
-        className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-card p-3 transition-colors duration-200"
+        className="group bg-card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl p-3 transition-colors duration-200"
         href={page.url}
       >
         {/* Thumbnail */}
         <div
-          className="relative w-full overflow-hidden rounded-xl bg-muted"
+          className="bg-muted relative w-full overflow-hidden rounded-xl"
           style={{ aspectRatio: "4 / 3" }}
         >
           <CardThumbnail
@@ -159,7 +160,7 @@ function BookmarkCard({
 
           {/* Hover overlay — visual only; whole card is the link */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 group-hover:opacity-100">
-            <span className="flex items-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 font-medium text-sm text-white ring-1 ring-white/20 backdrop-blur-sm">
+            <span className="flex items-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20 backdrop-blur-sm">
               View Page
               <ArrowUpRight className="h-4 w-4" />
             </span>
@@ -167,7 +168,7 @@ function BookmarkCard({
 
           {/* Remove button */}
           <button
-            className="absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-lg bg-black/60 text-white/70 opacity-0 backdrop-blur-sm transition-all hover:bg-red-500/80 hover:text-white group-hover:opacity-100"
+            className="absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-lg bg-black/60 text-white/70 opacity-0 backdrop-blur-sm transition-all group-hover:opacity-100 hover:bg-red-500/80 hover:text-white"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -182,7 +183,7 @@ function BookmarkCard({
 
         {/* Footer */}
         <div className="flex items-center px-4 py-2.5">
-          <span className="truncate font-medium text-base text-foreground">
+          <span className="text-foreground truncate text-base font-medium">
             {page.title}
           </span>
         </div>
@@ -206,21 +207,21 @@ function BookmarkCompactCard({
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
       <Link
-        className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-card p-2 transition-colors duration-200"
+        className="group bg-card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl p-2 transition-colors duration-200"
         href={page.url}
       >
         <div
-          className="relative w-full overflow-hidden rounded-xl bg-muted"
+          className="bg-muted relative w-full overflow-hidden rounded-xl"
           style={{ aspectRatio: "4 / 3" }}
         >
           <CardThumbnail tag={page.tag} title={page.title} />
         </div>
         <div className="flex items-center justify-between px-3 py-2">
-          <span className="truncate font-medium text-base text-foreground">
+          <span className="text-foreground truncate text-base font-medium">
             {page.title}
           </span>
           <button
-            className="ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-foreground/30 opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+            className="text-foreground/30 hover:bg-destructive/10 hover:text-destructive ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg opacity-0 transition-all group-hover:opacity-100"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -251,31 +252,31 @@ function BookmarkListRow({
     <motion.div
       animate={{ opacity: isRemoving ? 0.55 : 1 }}
       aria-busy={isRemoving}
-      className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3.5 transition-all hover:border-foreground/15"
+      className="group border-border bg-card hover:border-foreground/15 flex items-center gap-4 rounded-xl border px-5 py-3.5 transition-all"
       exit={{ opacity: 0, x: -8 }}
       layout
       transition={{ duration: 0.18 }}
     >
       <Link className="flex min-w-0 flex-1 flex-col gap-0.5" href={page.url}>
         <div className="flex items-center gap-2">
-          <span className="truncate font-medium text-foreground text-sm">
+          <span className="text-foreground truncate text-sm font-medium">
             {page.title}
           </span>
           {page.tag && (
-            <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-foreground/50 text-sm">
+            <span className="bg-muted text-foreground/50 shrink-0 rounded-full px-2 py-0.5 text-sm">
               {page.tag}
             </span>
           )}
         </div>
         {page.description && (
-          <p className="line-clamp-1 text-foreground/50 text-sm">
+          <p className="text-foreground/50 line-clamp-1 text-sm">
             {page.description}
           </p>
         )}
       </Link>
       <div className="flex items-center gap-2">
         <Link
-          className="flex h-8 items-center gap-1.5 rounded-lg bg-muted px-3 font-medium text-foreground text-sm transition-colors hover:bg-accent max-sm:sr-only"
+          className="bg-muted text-foreground hover:bg-accent flex h-8 items-center gap-1.5 rounded-lg px-3 text-sm font-medium transition-colors max-sm:sr-only"
           href={page.url}
         >
           <ExternalLink className="h-3.5 w-3.5" />
@@ -283,7 +284,7 @@ function BookmarkListRow({
         </Link>
         <button
           aria-busy={isRemoving}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground/40 transition-colors hover:bg-destructive/10 hover:text-destructive disabled:cursor-not-allowed disabled:opacity-60"
+          className="text-foreground/40 hover:bg-destructive/10 hover:text-destructive flex h-8 w-8 items-center justify-center rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isRemoving}
           onClick={() => onRemove(page.url)}
           title={isRemoving ? "Removing bookmark…" : "Remove bookmark"}
@@ -331,8 +332,8 @@ function renderContent({
         initial={{ opacity: 0 }}
         key="loading-state"
       >
-        <Loader className="h-7 w-7 animate-spin text-foreground/30" />
-        <p className="text-base text-foreground/40">Loading bookmarks…</p>
+        <Loader className="text-foreground/30 h-7 w-7 animate-spin" />
+        <p className="text-foreground/40 text-base">Loading bookmarks…</p>
       </motion.div>
     );
   }
@@ -340,11 +341,11 @@ function renderContent({
   if (error) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 text-center">
-        <p className="text-base text-foreground/60">
+        <p className="text-foreground/60 text-base">
           Could not load your bookmarks. Please try again.
         </p>
         <button
-          className="rounded-lg bg-foreground px-4 py-2 font-medium text-background text-sm transition-opacity hover:opacity-80"
+          className="bg-foreground text-background rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-80"
           onClick={onRetry}
           type="button"
         >
@@ -548,13 +549,13 @@ export default function BookmarkPage() {
       <li>
         <button
           aria-label="Create a list (coming soon)"
-          className="flex aspect-[4/3] w-full cursor-not-allowed flex-col items-center justify-center gap-1.5 rounded-[14px] border border-border/70 border-dashed text-muted-foreground/50"
+          className="border-border/70 text-muted-foreground/50 flex aspect-[4/3] w-full cursor-not-allowed flex-col items-center justify-center gap-1.5 rounded-[14px] border border-dashed"
           disabled
           title="Lists are coming soon"
           type="button"
         >
           <Plus className="size-[22px]" strokeWidth={1.5} />
-          <span className="font-medium text-sm">New list</span>
+          <span className="text-sm font-medium">New list</span>
         </button>
       </li>
     </ul>
@@ -565,7 +566,7 @@ export default function BookmarkPage() {
     activeContent = listContent;
   } else if (activeTab === "opened") {
     activeContent = (
-      <div className="flex min-h-48 items-center justify-center text-base text-muted-foreground">
+      <div className="text-muted-foreground flex min-h-48 items-center justify-center text-base">
         No opened pages yet.
       </div>
     );
@@ -573,7 +574,7 @@ export default function BookmarkPage() {
     activeContent = (
       <div className="space-y-5">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="font-medium text-xl">All saves</h2>
+          <h2 className="text-xl font-medium">All saves</h2>
           <ViewToggle setViewMode={setViewMode} viewMode={viewMode} />
         </div>
         <div className="min-h-[300px]">
@@ -584,20 +585,20 @@ export default function BookmarkPage() {
   }
 
   return (
-    <div className="relative min-h-full bg-background">
+    <div className="bg-background relative min-h-full">
       <main className="space-y-8 px-5 pt-[18px] pb-5 max-md:px-3">
         <div className="flex flex-wrap items-center gap-3 px-2 pt-1">
           <div className="min-w-[180px] flex-1">
-            <h1 className="font-medium text-3xl tracking-tight sm:text-4xl">
+            <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">
               Bookmarks
             </h1>
-            <p className="mt-1 text-muted-foreground text-sm">
+            <p className="text-muted-foreground mt-1 text-sm">
               {bookmarks.length} {bookmarks.length === 1 ? "save" : "saves"} ·
               no lists yet
             </p>
           </div>
           <input
-            className="hidden h-8 w-[190px] rounded-lg border border-input bg-background px-3 text-foreground text-sm shadow-black/5 shadow-sm transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/20 md:block"
+            className="border-input bg-background text-foreground placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/20 hidden h-8 w-[190px] rounded-lg border px-3 text-sm shadow-sm shadow-black/5 transition-shadow focus-visible:ring-[3px] focus-visible:outline-none md:block"
             onChange={(event) => setSearch(event.target.value)}
             placeholder={
               activeTab === "lists" ? "Search lists" : "Search saves"
@@ -605,7 +606,7 @@ export default function BookmarkPage() {
             value={search}
           />
           <button
-            className="inline-flex h-8 shrink-0 cursor-not-allowed items-center gap-1.5 rounded-md bg-primary px-3 font-medium text-primary-foreground text-sm disabled:opacity-100"
+            className="bg-primary text-primary-foreground inline-flex h-8 shrink-0 cursor-not-allowed items-center gap-1.5 rounded-md px-3 text-sm font-medium disabled:opacity-100"
             disabled
             title="Lists are coming soon"
             type="button"
@@ -617,7 +618,7 @@ export default function BookmarkPage() {
 
         <fieldset
           aria-label="Bookmark views"
-          className="mx-2 flex w-max items-center gap-1 rounded-full bg-muted p-1"
+          className="bg-muted mx-2 flex w-max items-center gap-1 rounded-full p-1"
         >
           <legend className="sr-only">Bookmark views</legend>
           {(
@@ -629,7 +630,7 @@ export default function BookmarkPage() {
           ).map(([tab, label]) => (
             <button
               aria-pressed={activeTab === tab}
-              className={`h-8 rounded-full border px-4 text-sm transition-colors ${activeTab === tab ? "border-border/60 bg-background font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+              className={`h-8 rounded-full border px-4 text-sm transition-colors ${activeTab === tab ? "border-border/60 bg-background text-foreground font-medium" : "text-muted-foreground hover:text-foreground border-transparent"}`}
               key={tab}
               onClick={() => setActiveTab(tab)}
               type="button"

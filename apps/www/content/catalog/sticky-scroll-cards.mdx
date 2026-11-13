@@ -21,13 +21,20 @@ import { StickyScrollCards } from "@/components/sora-ui/catalog/sticky-scroll-ca
 
 const front = {
   title: "First Frame",
-  description: "A single moment, held in place before everything begins to move.",
+  description:
+    "A single moment, held in place before everything begins to move.",
 };
 
 const cards = [
   { title: "Final Hold", description: "Everything settles into place." },
-  { title: "Layered Time", description: "Moments stack and reveal themselves." },
-  { title: "Weight & Flow", description: "Elements ease in and out with balance." },
+  {
+    title: "Layered Time",
+    description: "Moments stack and reveal themselves.",
+  },
+  {
+    title: "Weight & Flow",
+    description: "Elements ease in and out with balance.",
+  },
   { title: "Soft Motion", description: "Subtle shifts build a quiet rhythm." },
 ];
 
@@ -44,8 +51,7 @@ export default function Section() {
 
 ### Codegrid preset (`variant="studio"`)
 
-Cream canvas, condensed display type, and the original Codegrid "MaximaTherapy"
-palette cycled across back cards:
+Cream canvas, condensed display type, and the original Codegrid "MaximaTherapy" palette cycled across back cards:
 
 ```tsx
 <StickyScrollCards
@@ -56,8 +62,7 @@ palette cycled across back cards:
 />
 ```
 
-`variant="minimal"` (default) uses theme tokens (`bg-background`/`bg-foreground`).
-Override any slot via the `classNames` prop.
+`variant="minimal"` (default) uses theme tokens (`bg-background`/`bg-foreground`). Override any slot via the `classNames` prop.
 
 ### Custom class map (advanced)
 
@@ -80,8 +85,7 @@ import {
 
 ### Docs preview
 
-`embedded` = CSS sticky scroll track (no GSAP pin) sized for a preview panel. Pass
-`scroller` when inside a scroll panel.
+`embedded` = CSS sticky scroll track (no GSAP pin) sized for a preview panel. Pass `scroller` when inside a scroll panel.
 
 ```tsx
 <StickyScrollCards
@@ -97,9 +101,7 @@ import {
 
 ## Timing
 
-Total scroll distance is `dismissStart + cards.length × cardDismissDuration` (svh).
-Back cards dismiss one at a time in **reverse order** — the last card in the array
-leaves first.
+Total scroll distance is `dismissStart + cards.length × cardDismissDuration` (svh). Back cards dismiss one at a time in **reverse order** — the last card in the array leaves first.
 
 ```tsx
 <StickyScrollCards
@@ -117,8 +119,7 @@ leaves first.
 />
 ```
 
-`flipTiltAngles`/`dismissTiltAngles` are cycled by index — pass fewer values than
-`cards.length` and they repeat.
+`flipTiltAngles`/`dismissTiltAngles` are cycled by index — pass fewer values than `cards.length` and they repeat.
 
 ## Styling
 
@@ -137,8 +138,7 @@ leaves first.
 
 ### Class slots
 
-`className` styles the root section. Pass any of these to `classNames` to
-override an inner layer:
+`className` styles the root section. Pass any of these to `classNames` to override an inner layer:
 
 - `headline` — hero headline wrapper
 - `cardsLayer` — 3D perspective container
@@ -215,11 +215,7 @@ override an inner layer:
 
 ## When to Use
 
-Use `StickyScrollCards` for a hero moment that needs to hold attention through a
-reveal-then-dismiss sequence — feature highlights, a portfolio's opening act, or
-any section where a single held frame should fan out into a short, deliberate
-series before releasing the scroll. Fewer than 3 back cards makes the dismiss
-phase feel abrupt; 3–5 gives the rhythm room to land.
+Use `StickyScrollCards` for a hero moment that needs to hold attention through a reveal-then-dismiss sequence — feature highlights, a portfolio's opening act, or any section where a single held frame should fan out into a short, deliberate series before releasing the scroll. Fewer than 3 back cards makes the dismiss phase feel abrupt; 3–5 gives the rhythm room to land.
 
 ## Accessibility
 

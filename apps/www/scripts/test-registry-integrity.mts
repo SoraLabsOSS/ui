@@ -4,7 +4,9 @@ import fs from "node:fs/promises";
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 import path from "node:path";
+
 import { addRegistryItems } from "shadcn/registry";
+
 import {
   assertRegistryCatalog,
   assertRegistryItem,
@@ -49,7 +51,7 @@ interface RegistryJsonItem {
 }
 
 interface CatalogItem {
-  files?: Array<{ path?: string; target?: string }>;
+  files?: { path?: string; target?: string }[];
   name: string;
   registryDependencies?: string[];
   type: string;
@@ -193,13 +195,13 @@ function startLocalRegistry(rootDir: string): Promise<LocalRegistry> {
       resolve({
         url: `http://127.0.0.1:${address.port}/{name}.json`,
         close: () =>
-          new Promise((closeResolve, closeReject) => {
+          new Promise<void>((resolve, reject) => {
             server.close((error) => {
               if (error) {
-                closeReject(error);
+                reject(error);
                 return;
               }
-              closeResolve();
+              resolve();
             });
           }),
       });
@@ -795,7 +797,8 @@ function runConsumerTsc(sandboxDir: string): void {
         : "";
     throw new Error(
       `Consumer tsc failed:\n${stdout}${stderr}`.trim() ||
-        (error instanceof Error ? error.message : String(error))
+        (error instanceof Error ? error.message : String(error)),
+      { cause: error }
     );
   }
 }
@@ -870,7 +873,7 @@ async function runIntegrityCheck(): Promise<void> {
   console.log("\n🎉 ALL 4/4 INTEGRITY & INSTALLATION CHECKS PASSED PERFECTLY!");
 }
 
-runIntegrityCheck().catch((err: unknown) => {
-  console.error("Test failed:", err);
+runIntegrityCheck().catch((error: unknown) => {
+  console.error("Test failed:", error);
   process.exit(1);
 });

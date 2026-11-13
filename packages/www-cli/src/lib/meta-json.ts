@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+
 import { uiPageSlug } from "./naming.js";
 import type { PrimitiveCategory, UiFramework } from "./paths.js";
 import { sectionForCategory, sectionForFramework } from "./paths.js";
@@ -10,7 +11,7 @@ interface MetaJson {
 function parseMetaJson(content: string): MetaJson {
   const parsed = JSON.parse(content) as MetaJson;
   if (!Array.isArray(parsed.pages)) {
-    throw new Error("meta.json is missing a pages array.");
+    throw new TypeError("meta.json is missing a pages array.");
   }
   return parsed;
 }

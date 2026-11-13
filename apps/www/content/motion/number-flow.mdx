@@ -6,14 +6,17 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-number-flow" description="Animated number counter with tabbed examples — currency, input overlay, and countdown. Switch tabs above the preview to explore each pattern." />
+<ComponentPreview
+  name="demo-number-flow"
+  description="Animated number counter with tabbed examples — currency, input overlay, and countdown. Switch tabs above the preview to explore each pattern."
+/>
 
 ## Examples
 
 The preview includes three tabbed patterns:
 
 | Tab | Pattern |
-| --- | ------- |
+| --- | --- |
 | **Currency** | Formatted counter with increment controls |
 | **Input** | Native number input with a NumberFlow overlay — typing skips animation, stepper buttons animate |
 | **Countdown** | `HH:MM:SS` with `trend={-1}` so digits roll downward |
@@ -25,25 +28,21 @@ The preview includes three tabbed patterns:
 ## Usage
 
 ```tsx
-import { NumberFlow } from '@/components/sora-ui/texts/number-flow';
-import { useState } from 'react';
+import { NumberFlow } from "@/components/sora-ui/texts/number-flow";
+import { useState } from "react";
 
 export default function Page() {
   const [value, setValue] = useState(1234.56);
 
   return (
-    <NumberFlow
-      value={value}
-      format={{ style: 'currency', currency: 'USD' }}
-    />
+    <NumberFlow value={value} format={{ style: "currency", currency: "USD" }} />
   );
 }
 ```
 
 ### Scroll-triggered count-up
 
-Enable `scrollTrigger` to count up from 0 the first time the element scrolls
-into view — useful for landing-page stats sections:
+Enable `scrollTrigger` to count up from 0 the first time the element scrolls into view — useful for landing-page stats sections:
 
 ```tsx
 <NumberFlow scrollTrigger value={12_500} suffix="+ users" />
@@ -54,80 +53,82 @@ into view — useful for landing-page stats sections:
 <TypeTable
   type={{
     value: {
-      description: 'The number to display. Changing this triggers the roll animation.',
-      type: 'number',
+      description:
+        "The number to display. Changing this triggers the roll animation.",
+      type: "number",
     },
     locales: {
-      description: 'Passed to `Intl.NumberFormat`.',
-      type: 'Intl.LocalesArgument',
+      description: "Passed to `Intl.NumberFormat`.",
+      type: "Intl.LocalesArgument",
     },
     format: {
-      description: 'Passed to `Intl.NumberFormat`.',
-      type: 'Intl.NumberFormatOptions',
+      description: "Passed to `Intl.NumberFormat`.",
+      type: "Intl.NumberFormatOptions",
     },
     prefix: {
-      description: 'Rendered before the formatted value.',
-      type: 'string',
+      description: "Rendered before the formatted value.",
+      type: "string",
     },
     suffix: {
-      description: 'Rendered after the formatted value.',
-      type: 'string',
+      description: "Rendered after the formatted value.",
+      type: "string",
     },
     trend: {
       description:
-        'Controls which direction digits spin. A number is used directly as the sign; a function receives `(prevValue, value)` and should return one.',
-      type: 'number | ((prevValue: number, value: number) => number)',
-      default: '(prevValue, value) => Math.sign(value - prevValue)',
+        "Controls which direction digits spin. A number is used directly as the sign; a function receives `(prevValue, value)` and should return one.",
+      type: "number | ((prevValue: number, value: number) => number)",
+      default: "(prevValue, value) => Math.sign(value - prevValue)",
     },
     transition: {
-      description: 'Motion transition for the digit roll and layout reflow.',
-      type: 'Transition',
-      default: '{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }',
+      description: "Motion transition for the digit roll and layout reflow.",
+      type: "Transition",
+      default: "{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }",
     },
     spinTransition: {
-      description: 'Overrides `transition` for the digit roll specifically.',
-      type: 'Transition',
+      description: "Overrides `transition` for the digit roll specifically.",
+      type: "Transition",
     },
     respectMotionPreference: {
       description: "Skip animation when the user has requested reduced motion.",
-      type: 'boolean',
-      default: 'true',
+      type: "boolean",
+      default: "true",
     },
     willChange: {
       description:
-        'Opts in to hinting `will-change: transform` on digits/symbols while any of them is actively spinning, then removes it once the batch settles — so the GPU layer is only held during real animation, not for the life of the component.',
-      type: 'boolean',
-      default: 'false',
+        "Opts in to hinting `will-change: transform` on digits/symbols while any of them is actively spinning, then removes it once the batch settles — so the GPU layer is only held during real animation, not for the life of the component.",
+      type: "boolean",
+      default: "false",
     },
     scrollTrigger: {
       description:
-        'Count up from 0 the first (or, with `once={false}`, every) time this element enters the viewport, instead of showing the final value immediately. Ignored when reduced motion is active.',
-      type: 'boolean',
-      default: 'false',
+        "Count up from 0 the first (or, with `once={false}`, every) time this element enters the viewport, instead of showing the final value immediately. Ignored when reduced motion is active.",
+      type: "boolean",
+      default: "false",
     },
     once: {
-      description: 'When `scrollTrigger` is enabled, fire the count-up only once.',
-      type: 'boolean',
-      default: 'true',
+      description:
+        "When `scrollTrigger` is enabled, fire the count-up only once.",
+      type: "boolean",
+      default: "true",
     },
     viewportMargin: {
-      description: 'Intersection margin used when `scrollTrigger` is enabled.',
-      type: 'string',
+      description: "Intersection margin used when `scrollTrigger` is enabled.",
+      type: "string",
       default: '"0px 0px -10% 0px"',
     },
     onAnimationsStart: {
       description:
-        'Called once when a value update starts spinning any digit, after any previous batch has fully settled.',
-      type: '() => void',
+        "Called once when a value update starts spinning any digit, after any previous batch has fully settled.",
+      type: "() => void",
     },
     onAnimationsFinish: {
       description:
-        'Called once every digit spun by the current value update has settled.',
-      type: '() => void',
+        "Called once every digit spun by the current value update has settled.",
+      type: "() => void",
     },
     className: {
-      description: 'Additional class names merged onto the root element.',
-      type: 'string',
+      description: "Additional class names merged onto the root element.",
+      type: "string",
     },
   }}
 />

@@ -20,7 +20,7 @@ export function ComponentPageDocsBreadcrumb({
   return (
     <div className={className}>
       <Breadcrumb className="flex h-full items-center">
-        <BreadcrumbList className="flex h-full flex-nowrap items-center gap-1.5 font-normal text-[15px] text-zinc-500 leading-none tracking-[-0.01em] dark:text-zinc-400">
+        <BreadcrumbList className="flex h-full flex-nowrap items-center gap-1.5 text-[15px] leading-none font-normal tracking-[-0.01em] text-zinc-500 dark:text-zinc-400">
           <BreadcrumbItem>
             <BreadcrumbLink
               asChild
@@ -36,7 +36,7 @@ export function ComponentPageDocsBreadcrumb({
                 {title}
               </BreadcrumbPage>
             ) : (
-              <div className="h-4 w-28 rounded-md bg-accent motion-safe:animate-pulse" />
+              <div className="bg-accent h-4 w-28 rounded-md motion-safe:animate-pulse" />
             )}
           </BreadcrumbItem>
         </BreadcrumbList>

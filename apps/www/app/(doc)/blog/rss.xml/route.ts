@@ -1,5 +1,6 @@
 import { Feed } from "feed";
 import { NextResponse } from "next/server";
+
 import { blog } from "@/lib/blog/source";
 import { SITE_URL } from "@/lib/site";
 
@@ -16,7 +17,7 @@ export function GET() {
 
   for (const page of blog
     .getPages()
-    .sort(
+    .toSorted(
       (a, b) =>
         new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
     )) {

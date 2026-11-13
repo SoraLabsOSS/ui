@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+
 import { allowsPrompts, isScripted } from "./scaffold-flags.js";
 
 describe("scaffold flags", () => {

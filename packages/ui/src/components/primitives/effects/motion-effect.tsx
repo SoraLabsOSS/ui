@@ -1,13 +1,11 @@
 "use client";
 
-import {
-  AnimatePresence,
-  type HTMLMotionProps,
-  motion,
-  type Transition,
-  type UseInViewOptions,
-  useInView,
-  type Variant,
+import { AnimatePresence, motion, useInView } from "motion/react";
+import type {
+  HTMLMotionProps,
+  Transition,
+  UseInViewOptions,
+  Variant,
 } from "motion/react";
 import type * as React from "react";
 import { useImperativeHandle, useRef } from "react";
@@ -36,7 +34,7 @@ type MotionEffectProps = HTMLMotionProps<"div"> & {
     | boolean;
 };
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: The component maps four independent motion options into one variant pair.
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- The component maps four independent motion options into one variant pair.
 function MotionEffect({
   ref,
   children,

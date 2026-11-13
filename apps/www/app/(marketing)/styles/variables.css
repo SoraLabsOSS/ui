@@ -65,8 +65,7 @@
   --size-font: clamp(
     13px,
     calc(
-      var(--size-container) /
-      (var(--size-container-ideal) / var(--size-unit))
+      var(--size-container) / (var(--size-container-ideal) / var(--size-unit))
     ),
     18px
   );

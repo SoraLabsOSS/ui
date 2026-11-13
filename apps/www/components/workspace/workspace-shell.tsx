@@ -41,10 +41,12 @@ import {
   Settings,
   User2,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { type MouseEvent, type ReactNode, useCallback } from "react";
+import { useCallback } from "react";
+import type { MouseEvent, ReactNode } from "react";
+
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
 import { isAuthEnabled } from "@/env";
 
@@ -56,12 +58,12 @@ function WorkspaceSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="mx-2 border-sidebar-border border-b px-0 pt-3 pb-2">
+      <SidebarHeader className="border-sidebar-border mx-2 border-b px-0 pt-3 pb-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex flex-row items-center justify-between">
             <div className="group/logo relative flex items-center justify-center">
               <SidebarMenuButton
-                className="!px-0 size-8 items-center justify-center group-data-[collapsible=icon]:group-hover/logo:opacity-0"
+                className="size-8 items-center justify-center !px-0 group-data-[collapsible=icon]:group-hover/logo:opacity-0"
                 render={<Link href="/" onClick={handleHomeClick} />}
                 tooltip="Sora UI"
               >
@@ -76,7 +78,7 @@ function WorkspaceSidebar() {
               </SidebarMenuButton>
             </div>
             <div className="group-data-[collapsible=icon]:hidden">
-              <SidebarTrigger className="text-sidebar-foreground/60 transition-colors duration-150 hover:text-sidebar-foreground [&_svg]:size-5!" />
+              <SidebarTrigger className="text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors duration-150 [&_svg]:size-5!" />
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -102,7 +104,7 @@ function WorkspaceSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="mx-2 gap-1 border-sidebar-border border-t px-0 pt-3 pb-2">
+      <SidebarFooter className="border-sidebar-border mx-2 gap-1 border-t px-0 pt-3 pb-2">
         <SidebarMenu className="gap-1">
           <SidebarMenuItem className="mb-1">
             <SidebarMenuButton
@@ -135,7 +137,7 @@ function WorkspaceSidebar() {
 function emailToHue(email: string): number {
   let hash = 0;
   for (const char of email) {
-    hash = (hash * 31 + char.charCodeAt(0)) % 360;
+    hash = (hash * 31 + (char.codePointAt(0) ?? 0)) % 360;
   }
   return hash;
 }
@@ -163,7 +165,7 @@ function WorkspaceUserNav() {
 
   if (session?.user.image) {
     avatar = (
-      <Avatar className="size-5 ring-1 ring-sidebar-border/50">
+      <Avatar className="ring-sidebar-border/50 size-5 ring-1">
         <AvatarImage
           alt={session.user.name || userEmail}
           className="object-cover"
@@ -176,24 +178,24 @@ function WorkspaceUserNav() {
     avatar = (
       <div
         aria-hidden="true"
-        className="size-5 shrink-0 rounded-full ring-1 ring-sidebar-border/50"
+        className="ring-sidebar-border/50 size-5 shrink-0 rounded-full ring-1"
         style={avatarStyle}
       />
     );
   } else {
     avatar = (
-      <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-sidebar-foreground/10">
+      <div className="bg-sidebar-foreground/10 flex size-5 shrink-0 items-center justify-center rounded-full">
         <User2 className="size-3.5" />
       </div>
     );
   }
 
   return (
-    <SidebarMenuItem className="mt-2 border-sidebar-border border-t pt-2">
+    <SidebarMenuItem className="border-sidebar-border mt-2 border-t pt-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <SidebarMenuButton
-            className="h-8 rounded-lg bg-transparent px-2 text-sidebar-foreground/70 transition-colors duration-150 hover:text-sidebar-foreground data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[collapsible=icon]:justify-center"
+            className="text-sidebar-foreground/70 hover:text-sidebar-foreground data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-8 rounded-lg bg-transparent px-2 transition-colors duration-150 group-data-[collapsible=icon]:justify-center"
             data-testid="user-nav-button"
           >
             {isPending ? (
@@ -211,14 +213,14 @@ function WorkspaceUserNav() {
                 >
                   {session ? userEmail : localization.auth.signIn}
                 </span>
-                <ChevronUp className="ml-auto size-3.5 shrink-0 text-sidebar-foreground/50 group-data-[collapsible=icon]:hidden" />
+                <ChevronUp className="text-sidebar-foreground/50 ml-auto size-3.5 shrink-0 group-data-[collapsible=icon]:hidden" />
               </>
             )}
           </SidebarMenuButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="start"
-          className="w-(--radix-popper-anchor-width) rounded-lg border border-border/60 bg-card/95 shadow-[var(--shadow-float)] backdrop-blur-xl"
+          className="border-border/60 bg-card/95 w-(--radix-popper-anchor-width) rounded-lg border shadow-[var(--shadow-float)] backdrop-blur-xl"
           data-testid="user-nav-menu"
           side="top"
         >
@@ -257,12 +259,12 @@ export function WorkspaceShell({
 }) {
   return (
     <SidebarProvider
-      className="h-dvh min-h-0 overflow-hidden bg-sidebar"
+      className="bg-sidebar h-dvh min-h-0 overflow-hidden"
       defaultOpen={defaultOpen}
     >
       <WorkspaceSidebar />
-      <SidebarInset className="h-dvh min-h-0 overflow-hidden bg-sidebar">
-        <div className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-background md:rounded-tl-[12px] md:border-border/40 md:border-t md:border-l">
+      <SidebarInset className="bg-sidebar h-dvh min-h-0 overflow-hidden">
+        <div className="bg-background md:border-border/40 relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden md:rounded-tl-[12px] md:border-t md:border-l">
           <WorkspaceMobileHeader />
           <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
         </div>
@@ -274,8 +276,8 @@ export function WorkspaceShell({
 function WorkspaceMobileHeader() {
   return (
     <header className="flex h-12 shrink-0 items-center gap-2 px-4 md:hidden">
-      <SidebarTrigger className="-ms-2 text-muted-foreground [&_svg]:size-5!" />
-      <span className="font-medium text-base">My Library</span>
+      <SidebarTrigger className="text-muted-foreground -ms-2 [&_svg]:size-5!" />
+      <span className="text-base font-medium">My Library</span>
     </header>
   );
 }

@@ -1,31 +1,17 @@
 {
   "name": "sora-ui",
   "version": "1.0.27",
+  "private": true,
   "homepage": "https://ui.soralabs.studio",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/SoraLabsOSS/ui.git"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@biomejs/biome": "2.4.15",
-    "@tailwindcss/postcss": "^4.3.4",
-    "@types/node": "24.0.7",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@workspace/typescript-config": "workspace:*",
-    "lefthook": "^2.1.9",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.3.4",
-    "turbo": "^2.10.7",
-    "typescript": "^7.0.2",
-    "ultracite": "7.8.1"
-  },
-  "engines": {
-    "node": ">=20.9"
-  },
-  "packageManager": "bun@1.3.5",
-  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo build",
     "build:verify": "turbo build --cache=local:r,remote:r",
@@ -54,8 +40,25 @@
     "check-types": "turbo check-types",
     "fix": "ultracite fix"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.4",
+    "@types/node": "24.0.7",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint-plugin-sonarjs": "^4.2.2",
+    "lefthook": "^2.2.2",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
+    "oxlint-plugin-react-doctor": "^0.9.22",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.3.4",
+    "turbo": "^2.10.7",
+    "typescript": "^7.0.2",
+    "ultracite": "8.2.0"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "packageManager": "bun@1.3.5"
 }

@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  AuthProvider as AuthProviderPrimitive,
-  type AuthProviderProps,
-} from "@workspace/auth-ui/lib/auth-react";
+import { AuthProvider as AuthProviderPrimitive } from "@workspace/auth-ui/lib/auth-react";
+import type { AuthProviderProps } from "@workspace/auth-ui/lib/auth-react";
 import type { ComponentType, PropsWithChildren, ReactNode } from "react";
 
 import { ErrorToaster } from "./error-toaster";

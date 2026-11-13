@@ -25,11 +25,11 @@ export function DocsTocPromo({
 }: DocsTocPromoProps) {
   return (
     <div className={cn("mt-6 flex flex-col gap-3", className)}>
-      <div className="rounded-xl bg-surface p-6">
-        <p className="font-medium text-xl leading-6 tracking-tight">
+      <div className="bg-surface rounded-xl p-6">
+        <p className="text-xl leading-6 font-medium tracking-tight">
           Help keep SoraLabs moving.
         </p>
-        <p className="mt-3 text-muted-foreground text-sm leading-tight">
+        <p className="text-muted-foreground mt-3 text-sm leading-tight">
           Every contribution helps us build and maintain open-source tools for
           the community.
         </p>

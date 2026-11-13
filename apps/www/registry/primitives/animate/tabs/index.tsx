@@ -1,12 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  type HTMLMotionProps,
-  motion,
-  type Transition,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { HTMLMotionProps, Transition } from "motion/react";
 import type * as React from "react";
 import {
   Children,
@@ -19,13 +15,17 @@ import {
   useRef,
   useState,
 } from "react";
+
 import { getStrictContext } from "@/registry/lib/get-strict-context";
-import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
+import { Slot } from "@/registry/primitives/animate/slot";
+import type { WithAsChild } from "@/registry/primitives/animate/slot";
 import {
   Highlight,
   HighlightItem,
-  type HighlightItemProps,
-  type HighlightProps,
+} from "@/registry/primitives/effects/highlight";
+import type {
+  HighlightItemProps,
+  HighlightProps,
 } from "@/registry/primitives/effects/highlight";
 
 interface TabsStateContextType {
@@ -43,7 +43,8 @@ interface TabsActionsContextType {
 }
 
 interface TabsContextType
-  extends TabsStateContextType,
+  extends
+    TabsStateContextType,
     TabsPrewarmContextType,
     TabsActionsContextType {}
 
@@ -335,7 +336,7 @@ function TabsContents({
   );
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [height, setHeight] = useState(0);
   const roRef = useRef<ResizeObserver | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -356,11 +357,11 @@ function TabsContents({
   }, [activeIndex]);
 
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(
-    () => new Set(activeIndex >= 0 ? [activeIndex] : [0])
+    () => new Set(activeIndex === -1 ? [0] : [activeIndex])
   );
 
   useEffect(() => {
-    if (activeIndex >= 0) {
+    if (activeIndex !== -1) {
       setVisitedIndices((prev) => {
         if (prev.has(activeIndex)) {
           return prev;
@@ -416,7 +417,7 @@ function TabsContents({
     if (!animateHeight) {
       return;
     }
-    if (activeIndex >= 0) {
+    if (activeIndex !== -1) {
       const next = measure(activeIndex);
       if (next > 0) {
         setHeight((prev) => (Math.abs(prev - next) > 0.5 ? next : prev));

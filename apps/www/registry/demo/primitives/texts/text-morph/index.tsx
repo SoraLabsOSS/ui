@@ -2,6 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useState } from "react";
+
 import { TextMorph } from "@/registry/primitives/texts/text-morph";
 
 const STATES = [
@@ -25,7 +26,7 @@ export default function TextMorphPlayground() {
       <button
         className={cn(
           "inline-flex cursor-pointer items-center justify-center",
-          "rounded-xl bg-[#131313] px-5 py-2.5 font-medium text-base text-white",
+          "rounded-xl bg-[#131313] px-5 py-2.5 text-base font-medium text-white",
           "border border-white/10 shadow-lg transition-transform active:scale-[0.98] dark:border-white/[0.08]"
         )}
         onClick={() => {

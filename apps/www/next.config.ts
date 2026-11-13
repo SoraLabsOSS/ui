@@ -1,17 +1,16 @@
+import "./env";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
-import "./env";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
+
 import { buildDocRedirects } from "./lib/docs/build-doc-redirects";
 
 const withMDX = createMDX();
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
-const appRoot = path.dirname(fileURLToPath(import.meta.url));
+const appRoot = import.meta.dirname;
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["@better-auth/infra"],

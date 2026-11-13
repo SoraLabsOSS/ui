@@ -7,7 +7,7 @@ date: 2026-06-30
 hashtags: ["#css", "#react", "#animation", "#vanilla"]
 ---
 
-Every time someone looks at `CursorTrailReveal`, the first question is the same: *"Framer Motion? GSAP?"*
+Every time someone looks at `CursorTrailReveal`, the first question is the same: _"Framer Motion? GSAP?"_
 
 Neither. The entire effect — images popping out along the cursor path, horizontal strips wiping open one by one, running smooth at 60fps — is built with **`requestAnimationFrame` + CSS transitions + `clip-path polygon()`**. Not a single animation library import.
 
@@ -36,11 +36,11 @@ render() ← requestAnimationFrame loop
 No React state is updated during animation. All mutable state lives in `useRef`:
 
 ```ts
-const trailRef = useRef<TrailImageEntry[]>([]);          // queue of visible images
-const mousePosRef = useRef({ x: 0, y: 0 });             // current cursor position
-const lastMousePosRef = useRef({ x: 0, y: 0 });         // position when last image spawned
+const trailRef = useRef<TrailImageEntry[]>([]); // queue of visible images
+const mousePosRef = useRef({ x: 0, y: 0 }); // current cursor position
+const lastMousePosRef = useRef({ x: 0, y: 0 }); // position when last image spawned
 const interpolatedMousePosRef = useRef({ x: 0, y: 0 }); // lerped position
-const animationStateRef = useRef<number | null>(null);   // requestAnimationFrame ID
+const animationStateRef = useRef<number | null>(null); // requestAnimationFrame ID
 ```
 
 `useRef` here isn't about pointing at DOM elements — it's about storing **mutable state that shouldn't trigger re-renders**. This is an important pattern for animation in React: everything that belongs to the frame loop has to live outside React state.
@@ -88,6 +88,7 @@ const render = () => {
 This is the interesting part. Each image is divided into **10 horizontal strips**, each covering 10% of the height (`0%–10%`, `10%–20%`, ..., `90%–100%`).
 
 Each strip is a `div` with:
+
 - `backgroundColor: maskColor` (the covering layer)
 - A child `div` with `backgroundImage` set to the actual photo
 - A `clipPath` that starts with **zero width at the center**
@@ -245,7 +246,7 @@ Mobile is handled by checking `window.innerWidth > desktopBreakpoint`. A cursor 
 
 Not because they're bad — GSAP is excellent for complex timelines. But this effect doesn't need them.
 
-Everything here is **CSS transition + clip-path interpolation**. The browser engine does the heaviest work. JavaScript has exactly one job: deciding *when* and *where* to change a `clipPath` string.
+Everything here is **CSS transition + clip-path interpolation**. The browser engine does the heaviest work. JavaScript has exactly one job: deciding _when_ and _where_ to change a `clipPath` string.
 
 When you use GSAP to animate `clipPath`, GSAP is also doing exactly this — computing intermediate values and setting them on the style object every frame. The difference is that CSS transitions do it at the compositor thread level, not on the main thread.
 

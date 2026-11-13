@@ -4,9 +4,7 @@
 
 **The AI-ready animated component registry & motion system for React & Next.js.**
 
-[![GitHub stars](https://img.shields.io/github/stars/SoraLabsOSS/ui?style=flat-square)](https://github.com/SoraLabsOSS/ui/stargazers)
-[![MotionScore](https://api.motion.dev/score/badge?url=ui.soralabs.studio)](https://score.motion.dev/site/ui.soralabs.studio)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE.md)
+[![GitHub stars](https://img.shields.io/github/stars/SoraLabsOSS/ui?style=flat-square)](https://github.com/SoraLabsOSS/ui/stargazers) [![MotionScore](https://api.motion.dev/score/badge?url=ui.soralabs.studio)](https://score.motion.dev/site/ui.soralabs.studio) [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE.md)
 
 </div>
 
@@ -37,7 +35,6 @@ Sora UI is supported by the open-source ecosystem. Special thanks to:
     <img src="https://cdn.soralabs.studio/logos/partners/neon-light.svg" alt="Neon" height="24" />
   </picture>
 </a>
-
 
 ## Architecture
 
@@ -72,7 +69,7 @@ bun dev            # run all apps (Next.js docs + xmcp)
 **No `.env` file is required** to browse docs, blog, or the catalog locally. Copy `[apps/www/.env.example](./apps/www/.env.example)` only when you need optional features:
 
 | Feature | Variables |
-|---------|-----------|
+| --- | --- |
 | Sign-in & Bookmarks | `NEXT_PUBLIC_ENABLE_AUTH="true"`, `DATABASE_URL`, `BETTER_AUTH_SECRET`, OAuth keys |
 | Redis rate limits / cache | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` |
 | Better Auth Sentinel | `BETTER_AUTH_API_KEY`, `NEXT_PUBLIC_BETTER_AUTH_IDENTIFY_URL` |
@@ -110,8 +107,7 @@ Visit our [contributing guide](./CONTRIBUTING.md) to learn how to contribute.
 
 ## Code of Conduct
 
-This project follows a Code of Conduct to help create a welcoming community.
-Please read [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before contributing.
+This project follows a Code of Conduct to help create a welcoming community. Please read [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before contributing.
 
 ## Credits & Attribution
 

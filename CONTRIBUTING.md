@@ -7,7 +7,9 @@ Thank you for contributing to **Sora UI** — an open-source, Motion-first React
 - **Site:** [ui.soralabs.studio](https://ui.soralabs.studio)
 
 > ### 💡 First time contributing?
+>
 > **Don't let the monorepo or strict tooling intimidate you!**
+>
 > - You **do not** need to make your code 100% perfect on the first try.
 > - If you have a cool animation or UI component idea, just get the core logic working and open a **Draft PR**.
 > - We will gladly jump in to help you polish TypeScript types, docs formatting, reduced-motion fallbacks, and registry wiring.
@@ -50,7 +52,7 @@ Sora UI
 ```
 
 | Tier | Registry Path | Docs Route | Purpose |
-|------|---------------|------------|---------|
+| --- | --- | --- | --- |
 | **Motion** | `registry/primitives/{category}/{name}/` | `/motion/<name>` | Unstyled animation primitives and micro-interactions (e.g. `tilt-card`, `text-effect`, `highlight`, `auto-height`). |
 | **Icons** | `registry/icons/{name}/` | `/icons` | Smooth animated Lucide icons powered by Motion and Tailwind CSS. |
 | **Catalog** | `registry/catalog/{name}/` | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
@@ -94,7 +96,7 @@ registry/
 Distinct trees — do not conflate them:
 
 | Tree | Route | Purpose |
-|------|-------|---------|
+| --- | --- | --- |
 | `content/docs/` | `/docs` | Guides and general documentation |
 | `content/motion/` | `/motion` | Motion primitives and unstyled animation building blocks |
 | `content/icons/` | `/icons` | Animated icons guide and catalog |
@@ -179,8 +181,7 @@ After scaffolding, start the dev server (`bun run dev:www`), implement your comp
 5. Run **`bun run registry:build`**.
 6. Run **`bun run doctor <framework>/<name>`** (e.g. `bun run doctor base/<name>`) to verify your component's integrity.
 
-For Phase 3 agent-native support, also add the following frontmatter to the
-component MDX page:
+For Phase 3 agent-native support, also add the following frontmatter to the component MDX page:
 
 ```yaml
 intent: Describe the user's task this component supports.
@@ -199,10 +200,7 @@ compositionRecipes:
       - State the composition constraint.
 ```
 
-Keep the same semantics in `registry-item.json` under
-`meta.agentMetadata` so published registry consumers and MCP tools can access
-them without parsing MDX or JSX. Run `bun run doctor <framework>/<name>` to
-validate the metadata contract.
+Keep the same semantics in `registry-item.json` under `meta.agentMetadata` so published registry consumers and MCP tools can access them without parsing MDX or JSX. Run `bun run doctor <framework>/<name>` to validate the metadata contract.
 
 ### Flow 2: Adding a Motion Primitive (`/motion` — Animation building blocks)
 
@@ -263,9 +261,7 @@ Required for every registry entry. Example:
       "compositionRules": [
         "Pair with a visible label and keep form submission explicit."
       ],
-      "compositionRecipes": [
-        "Compose with a form submit action."
-      ]
+      "compositionRecipes": ["Compose with a form submit action."]
     },
     "demoProps": {
       "Checkbox": {

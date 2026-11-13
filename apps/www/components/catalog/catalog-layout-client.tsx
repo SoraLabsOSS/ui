@@ -2,13 +2,9 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+
 import { DocsPager } from "@/components/docs/docs-pager";
 import { Footer } from "@/components/docs/footer";
 import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
@@ -17,6 +13,7 @@ import type {
   ComponentPageHeaderData,
   ComponentTocItem,
 } from "@/lib/registry/types";
+
 import { ComponentPageDocsHeader } from "./catalog-docs-header";
 import { ComponentPageHeader } from "./catalog-header";
 import { useCatalogMenu } from "./catalog-menu-context";
@@ -143,7 +140,7 @@ function ComponentPageDocsContent({
     <div className="flex w-full min-w-0 justify-center">
       <div
         className={cn(
-          "flex w-full min-w-0 max-w-4xl flex-col gap-6 pt-8 pb-3 md:gap-10 md:pt-14 md:pb-6",
+          "flex w-full max-w-4xl min-w-0 flex-col gap-6 pt-8 pb-3 md:gap-10 md:pt-14 md:pb-6",
           catalogStackedHorizontalGutterClassName
         )}
       >
@@ -193,18 +190,18 @@ function ComponentPageDocsPanel({
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-background via-background/80 to-transparent max-lg:hidden lg:w-1/2"
+        className="from-background via-background/80 pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b to-transparent max-lg:hidden lg:w-1/2"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-background via-background/80 to-transparent max-lg:hidden lg:right-1/2"
+        className="from-background via-background/80 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t to-transparent max-lg:hidden lg:right-1/2"
       />
 
       {isStacked ? (
         <div className="min-h-0 min-w-0">{children}</div>
       ) : (
         <div
-          className="size-full min-h-0 min-w-0 overflow-y-auto overflow-x-hidden overscroll-y-contain [scrollbar-width:none] lg:pt-12 [&::-webkit-scrollbar]:hidden"
+          className="size-full min-h-0 min-w-0 [scrollbar-width:none] overflow-x-hidden overflow-y-auto overscroll-y-contain lg:pt-12 [&::-webkit-scrollbar]:hidden"
           data-catalog-docs-scroller
           style={{ WebkitOverflowScrolling: "touch" }}
         >
@@ -305,7 +302,7 @@ export function ComponentPageLayoutClient({
     <div
       aria-busy={!isLayoutReady}
       className={cn(
-        "relative h-full min-h-0 overflow-hidden bg-background",
+        "bg-background relative h-full min-h-0 overflow-hidden",
         "max-lg:flex max-lg:h-auto max-lg:flex-col max-lg:overflow-visible"
       )}
       ref={layoutRef}
@@ -354,10 +351,10 @@ export function ComponentPageLayoutClient({
         }
         className={cn(
           "z-20 flex shrink-0 overflow-hidden max-lg:z-0 max-lg:order-2",
-          "max-lg:!left-0 max-lg:!w-full max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:bg-background max-lg:pb-0",
+          "max-lg:bg-background max-lg:relative max-lg:inset-auto max-lg:!left-0 max-lg:h-auto max-lg:!w-full max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:pb-0",
           "lg:absolute lg:top-0 lg:left-1/2 lg:h-full lg:min-h-[min(420px,55vh)] lg:w-1/2 lg:bg-transparent",
           isExpanded &&
-            "max-lg:fixed max-lg:inset-0 max-lg:h-full max-lg:overflow-hidden max-lg:bg-background max-lg:p-6",
+            "max-lg:bg-background max-lg:fixed max-lg:inset-0 max-lg:h-full max-lg:overflow-hidden max-lg:p-6",
           !isLayoutReady && "pointer-events-none"
         )}
         initial={false}

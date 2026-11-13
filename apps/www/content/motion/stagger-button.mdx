@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="stagger-button" description="Button that staggers per character or slides the whole label — hover to trigger the animation." />
+<ComponentPreview
+  name="stagger-button"
+  description="Button that staggers per character or slides the whole label — hover to trigger the animation."
+/>
 
 ## Installation
 
@@ -15,7 +18,7 @@ author:
 ## Usage
 
 ```tsx
-import { StaggerButton } from '@/components/sora-ui/buttons/stagger-button';
+import { StaggerButton } from "@/components/sora-ui/buttons/stagger-button";
 
 export default function Page() {
   return (
@@ -44,64 +47,65 @@ export default function Page() {
   type={{
     asChild: {
       description:
-        'Merge styles and animation into a single child element (`button`, `a`, `Link`, etc.).',
-      type: 'boolean',
-      default: 'false',
+        "Merge styles and animation into a single child element (`button`, `a`, `Link`, etc.).",
+      type: "boolean",
+      default: "false",
     },
     children: {
       description:
-        'Plain-text label when `asChild` is false. With `asChild`, pass one React element — its string child or `label` provides the animated text.',
-      type: 'string | ReactElement',
+        "Plain-text label when `asChild` is false. With `asChild`, pass one React element — its string child or `label` provides the animated text.",
+      type: "string | ReactElement",
     },
     label: {
       description:
-        'Alternative text source for demos, controlled previews, or `asChild` when the child has no string content.',
-      type: 'string',
+        "Alternative text source for demos, controlled previews, or `asChild` when the child has no string content.",
+      type: "string",
     },
     variant: {
       description:
-        'Any shadcn button variant. Solid variants render a background layer that scales down on hover; `ghost` and `link` are text-only.',
+        "Any shadcn button variant. Solid variants render a background layer that scales down on hover; `ghost` and `link` are text-only.",
       type: '"default" | "accent" | "neutral" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
       default: '"default"',
     },
     size: {
-      description: 'Any shadcn button size.',
+      description: "Any shadcn button size.",
       type: '"sm" | "default" | "md" | "lg" | "icon" | "icon-sm" | "icon-xs"',
       default: '"default"',
     },
     stagger: {
       description:
-        'Animate per character with stagger, or slide the whole label as one block.',
+        "Animate per character with stagger, or slide the whole label as one block.",
       type: '"char" | "text"',
       default: '"char"',
     },
     staggerDelay: {
       description:
         'Per-character transition delay increment, in seconds. Ignored when `stagger` is `"text"`.',
-      type: 'number',
-      default: '0.01',
+      type: "number",
+      default: "0.01",
     },
     className: {
       description:
-        'Additional class names merged onto the root element (`a` by default, or the `asChild` target).',
-      type: 'string',
+        "Additional class names merged onto the root element (`a` by default, or the `asChild` target).",
+      type: "string",
     },
     bgClassName: {
       description:
-        'Override the scaling background layer. Rendered for all variants except `ghost` and `link`.',
-      type: 'string',
+        "Override the scaling background layer. Rendered for all variants except `ghost` and `link`.",
+      type: "string",
     },
     textClassName: {
-      description: 'Override the text wrapper around animated characters.',
-      type: 'string',
+      description: "Override the text wrapper around animated characters.",
+      type: "string",
     },
     charsClassName: {
-      description: 'Override each per-word overflow wrapper around the animated spans.',
-      type: 'string',
+      description:
+        "Override each per-word overflow wrapper around the animated spans.",
+      type: "string",
     },
     charClassName: {
-      description: 'Override each animated character span.',
-      type: 'string',
+      description: "Override each animated character span.",
+      type: "string",
     },
   }}
 />

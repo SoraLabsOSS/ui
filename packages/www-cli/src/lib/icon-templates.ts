@@ -16,9 +16,9 @@ export function buildIconLabels(
   keywords?: string[]
 ): IconScaffoldLabels {
   const exportName = toPascalCase(name);
-  const derivedKeywords = Array.from(
-    new Set([...name.split("-"), "icon", "animated", "motion"])
-  );
+  const derivedKeywords = [
+    ...new Set([...name.split("-"), "icon", "animated", "motion"]),
+  ];
 
   return {
     name,

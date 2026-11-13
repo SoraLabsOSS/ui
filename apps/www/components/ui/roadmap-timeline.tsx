@@ -724,7 +724,7 @@ function RoadmapCard({
   return (
     <motion.div
       animate={{ opacity: 1, y: 0 }}
-      className="group relative flex w-full min-w-0 flex-col gap-3 rounded-xl border bg-card/60 p-4 transition-all duration-200 hover:border-foreground/30 hover:bg-card md:p-5"
+      className="group bg-card/60 hover:border-foreground/30 hover:bg-card relative flex w-full min-w-0 flex-col gap-3 rounded-xl border p-4 transition-all duration-200 md:p-5"
       initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
       key={item.id}
       transition={{ duration: 0.2, delay: Math.min(index * 0.02, 0.3) }}
@@ -744,12 +744,12 @@ function RoadmapCard({
           >
             <StatusNodeIcon status={item.status} />
           </span>
-          <span className="font-semibold text-foreground text-sm tracking-tight sm:text-base">
+          <span className="text-foreground text-sm font-semibold tracking-tight sm:text-base">
             {item.name}
           </span>
           <span
             className={cn(
-              "rounded-md px-2 py-0.5 font-medium text-[11px]",
+              "rounded-md px-2 py-0.5 text-[11px] font-medium",
               isCompleted &&
                 "border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
               isInProgress &&
@@ -764,7 +764,7 @@ function RoadmapCard({
         <div className="flex shrink-0 items-center gap-1.5 self-start sm:self-auto">
           {item.frameworks.map((fw) => (
             <span
-              className="rounded border bg-accent/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground uppercase"
+              className="bg-accent/60 text-muted-foreground rounded border px-1.5 py-0.5 font-mono text-[10px] uppercase"
               key={fw}
             >
               {fw}
@@ -779,12 +779,12 @@ function RoadmapCard({
 
       <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="rounded border bg-accent/30 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+          <span className="bg-accent/30 text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
             Phase {item.phase} • {item.categoryLabel}
           </span>
           {item.tags?.map((tag) => (
             <span
-              className="rounded bg-accent/40 px-1.5 py-0.5 text-[10px] text-muted-foreground"
+              className="bg-accent/40 text-muted-foreground rounded px-1.5 py-0.5 text-[10px]"
               key={tag}
             >
               #{tag}
@@ -794,7 +794,7 @@ function RoadmapCard({
 
         {item.docUrl && (
           <Link
-            className="inline-flex items-center gap-1 font-medium text-primary text-xs hover:underline"
+            className="text-primary inline-flex items-center gap-1 text-xs font-medium hover:underline"
             href={item.docUrl}
           >
             <span>View Documentation</span>
@@ -896,22 +896,22 @@ export function RoadmapTimeline() {
   return (
     <div className="not-prose my-8 flex flex-col gap-10">
       {/* Priority Strategy Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-accent/30 p-6 md:p-8">
+      <div className="border-primary/20 from-primary/10 via-background to-accent/30 relative overflow-hidden rounded-2xl border bg-gradient-to-br p-6 md:p-8">
         <div className="relative z-10 flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-medium text-primary text-xs">
+            <span className="border-primary/30 bg-primary/10 text-primary inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium">
               <Sparkles className="size-3.5" /> Release Strategy & Priority
             </span>
-            <span className="font-mono text-muted-foreground text-xs">
+            <span className="text-muted-foreground font-mono text-xs">
               Phase 1: Base UI • Phase 2: RTL Support • Phase 3: Radix UI
             </span>
           </div>
 
           <div>
-            <h3 className="font-semibold text-2xl text-foreground tracking-tight">
+            <h3 className="text-foreground text-2xl font-semibold tracking-tight">
               Base UI Foundation, RTL Support Next, Multi-Headless Architecture
             </h3>
-            <p className="mt-2 max-w-3xl text-muted-foreground text-sm leading-relaxed">
+            <p className="text-muted-foreground mt-2 max-w-3xl text-sm leading-relaxed">
               We are completing all{" "}
               <strong>13 core Base UI animated components</strong>, followed by{" "}
               <strong>Phase 2: Comprehensive RTL Support</strong> prioritizing
@@ -922,13 +922,13 @@ export function RoadmapTimeline() {
 
           {/* Quick Metrics Grid */}
           <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
+            <div className="bg-background/60 rounded-xl border p-3.5 backdrop-blur-sm">
               <div className="text-muted-foreground text-xs">
                 Base UI Progress (Phase 1)
               </div>
-              <div className="mt-1 font-bold text-foreground text-xl">
+              <div className="text-foreground mt-1 text-xl font-bold">
                 {stats.baseUiCompleted} / {stats.baseUiTotal}
-                <span className="ml-1.5 font-normal text-muted-foreground text-xs">
+                <span className="text-muted-foreground ml-1.5 text-xs font-normal">
                   (
                   {Math.round(
                     (stats.baseUiCompleted / stats.baseUiTotal) * 100
@@ -937,28 +937,28 @@ export function RoadmapTimeline() {
                 </span>
               </div>
             </div>
-            <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
+            <div className="bg-background/60 rounded-xl border p-3.5 backdrop-blur-sm">
               <div className="text-muted-foreground text-xs">
                 RTL Support (Phase 2)
               </div>
-              <div className="mt-1 font-bold text-foreground text-xl">
+              <div className="text-foreground mt-1 text-xl font-bold">
                 {stats.rtlCompleted} / {stats.rtlTotal}
-                <span className="ml-1.5 font-semibold text-amber-500 text-xs">
+                <span className="ml-1.5 text-xs font-semibold text-amber-500">
                   (Next Focus)
                 </span>
               </div>
             </div>
-            <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
+            <div className="bg-background/60 rounded-xl border p-3.5 backdrop-blur-sm">
               <div className="text-muted-foreground text-xs">
                 Radix UI Suite (Phase 3)
               </div>
-              <div className="mt-1 font-bold text-foreground text-xl">
+              <div className="text-foreground mt-1 text-xl font-bold">
                 {stats.radixUiCompleted} / {stats.radixUiTotal}
               </div>
             </div>
-            <div className="rounded-xl border bg-background/60 p-3.5 backdrop-blur-sm">
+            <div className="bg-background/60 rounded-xl border p-3.5 backdrop-blur-sm">
               <div className="text-muted-foreground text-xs">Open Source</div>
-              <div className="mt-1 font-bold text-emerald-500 text-xl">
+              <div className="mt-1 text-xl font-bold text-emerald-500">
                 100% Free / MIT
               </div>
             </div>
@@ -969,7 +969,7 @@ export function RoadmapTimeline() {
       {/* MotionScore Benchmark Section */}
       <div className="flex flex-col gap-4">
         <div>
-          <h3 className="font-semibold text-foreground text-lg">
+          <h3 className="text-foreground text-lg font-semibold">
             MotionScore™ Quality Framework
           </h3>
           <p className="text-muted-foreground text-xs">
@@ -982,7 +982,7 @@ export function RoadmapTimeline() {
           {MOTIONSCORE_BENCHMARKS.map((benchmark, index) => (
             <div
               className={cn(
-                "flex flex-col justify-between rounded-xl border p-4 transition-all duration-200 hover:border-foreground/30",
+                "hover:border-foreground/30 flex flex-col justify-between rounded-xl border p-4 transition-all duration-200",
                 index < 3 ? "lg:col-span-2" : "lg:col-span-3",
                 index === 4 && "sm:col-span-2 lg:col-span-3",
                 benchmark.color
@@ -991,18 +991,18 @@ export function RoadmapTimeline() {
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="font-black text-2xl tracking-tighter">
+                  <span className="text-2xl font-black tracking-tighter">
                     {benchmark.tier}
                   </span>
-                  <span className="rounded-md border bg-background/80 px-2 py-0.5 font-mono text-xs">
+                  <span className="bg-background/80 rounded-md border px-2 py-0.5 font-mono text-xs">
                     Tier {benchmark.tier}
                   </span>
                 </div>
-                <div className="mt-2 font-semibold text-sm">
+                <div className="mt-2 text-sm font-semibold">
                   {benchmark.label}
                 </div>
               </div>
-              <p className="mt-2 text-muted-foreground text-xs leading-relaxed">
+              <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
                 {benchmark.description}
               </p>
             </div>
@@ -1011,13 +1011,13 @@ export function RoadmapTimeline() {
       </div>
 
       {/* Interactive Controls & Filters */}
-      <div className="flex flex-col gap-4 rounded-xl border bg-accent/20 p-4">
+      <div className="bg-accent/20 flex flex-col gap-4 rounded-xl border p-4">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           {/* Search bar */}
           <div className="relative flex-1">
-            <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
             <input
-              className="w-full rounded-lg border bg-background py-2 pr-4 pl-9 text-foreground text-sm outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+              className="bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full rounded-lg border py-2 pr-4 pl-9 text-sm outline-none focus:ring-1"
               id={searchInputId}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search components (e.g. Accordion, Dialog, Tabs, Switch)..."
@@ -1027,7 +1027,7 @@ export function RoadmapTimeline() {
             {searchQuery && (
               <button
                 aria-label="Clear search query"
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground text-xs hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 text-xs"
                 onClick={() => setSearchQuery("")}
                 type="button"
               >
@@ -1038,7 +1038,7 @@ export function RoadmapTimeline() {
 
           {/* Status filters */}
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="mr-1 flex items-center gap-1 font-medium text-muted-foreground text-xs">
+            <span className="text-muted-foreground mr-1 flex items-center gap-1 text-xs font-medium">
               <Filter className="size-3" /> Status:
             </span>
             {(
@@ -1053,7 +1053,7 @@ export function RoadmapTimeline() {
                 className={cn(
                   "rounded-md px-2.5 py-1 text-xs transition-colors",
                   activeStatus === status.value
-                    ? "bg-foreground font-medium text-background"
+                    ? "bg-foreground text-background font-medium"
                     : "bg-background/80 text-muted-foreground hover:bg-accent hover:text-foreground"
                 )}
                 key={status.value}
@@ -1068,7 +1068,7 @@ export function RoadmapTimeline() {
 
         {/* Category tabs */}
         <div className="flex flex-wrap items-center gap-1.5 border-t pt-3">
-          <span className="mr-1 text-muted-foreground text-xs">Category:</span>
+          <span className="text-muted-foreground mr-1 text-xs">Category:</span>
           {(
             [
               { label: "All UI Components", value: "all" },
@@ -1083,8 +1083,8 @@ export function RoadmapTimeline() {
               className={cn(
                 "rounded-md border px-2.5 py-1 text-xs transition-colors",
                 activeCategory === cat.value
-                  ? "border-primary bg-primary font-medium text-primary-foreground"
-                  : "border-transparent bg-background/60 text-muted-foreground hover:bg-accent hover:text-foreground"
+                  ? "border-primary bg-primary text-primary-foreground font-medium"
+                  : "bg-background/60 text-muted-foreground hover:bg-accent hover:text-foreground border-transparent"
               )}
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
@@ -1096,7 +1096,7 @@ export function RoadmapTimeline() {
 
           {/* Platform chips */}
           <div className="ml-auto flex items-center gap-1 pt-1 sm:pt-0">
-            <span className="mr-1 text-muted-foreground text-xs">
+            <span className="text-muted-foreground mr-1 text-xs">
               Platform:
             </span>
             {(
@@ -1111,7 +1111,7 @@ export function RoadmapTimeline() {
                 className={cn(
                   "rounded px-2 py-0.5 font-mono text-xs transition-colors",
                   activeFramework === plat.value
-                    ? "bg-foreground font-semibold text-background"
+                    ? "bg-foreground text-background font-semibold"
                     : "bg-accent/60 text-muted-foreground hover:text-foreground"
                 )}
                 key={plat.value}
@@ -1128,7 +1128,7 @@ export function RoadmapTimeline() {
       {/* Components List */}
       <div className="flex w-full min-w-0 flex-col gap-3">
         {filteredItems.length === 0 ? (
-          <div className="rounded-xl border border-dashed py-12 text-center text-muted-foreground text-sm">
+          <div className="text-muted-foreground rounded-xl border border-dashed py-12 text-center text-sm">
             No components match your search and filter criteria. Try resetting
             filters.
           </div>
@@ -1148,13 +1148,13 @@ export function RoadmapTimeline() {
       <div className="relative overflow-hidden rounded-2xl border bg-gradient-to-r from-neutral-900 to-neutral-950 p-6 text-white md:p-8 dark:border-neutral-800">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2">
-            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 font-medium text-emerald-300 text-xs">
+            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
               <Sparkles className="size-3.5" /> 100% Free & Open Source
             </div>
-            <h4 className="font-bold text-xl tracking-tight">
+            <h4 className="text-xl font-bold tracking-tight">
               Free forever • MIT Licensed • Community Driven
             </h4>
-            <p className="max-w-2xl text-neutral-300 text-sm leading-relaxed">
+            <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
               Every Base UI, Radix UI, and Motion primitive is completely free
               to use in personal and commercial projects. Copy-paste source code
               directly into your app.
@@ -1162,7 +1162,7 @@ export function RoadmapTimeline() {
           </div>
           <div className="flex shrink-0 items-center gap-3">
             <Link
-              className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 font-medium text-neutral-950 text-sm shadow-sm transition-colors hover:bg-neutral-200"
+              className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-neutral-950 shadow-sm transition-colors hover:bg-neutral-200"
               href="/catalog"
             >
               Explore Catalog

@@ -8,6 +8,7 @@ import {
 import lastModified from "fumadocs-mdx/plugins/last-modified";
 import remarkReadingTime from "remark-reading-time";
 import { z } from "zod/v4";
+
 import { gitLastModifiedForFile } from "./lib/docs/git-last-modified";
 
 const compositionRecipeSchema = z.object({

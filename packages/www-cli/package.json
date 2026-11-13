@@ -1,11 +1,11 @@
 {
   "name": "@workspace/www-cli",
   "version": "0.0.0",
-  "type": "module",
   "private": true,
   "bin": {
     "www-cli": "./src/index.ts"
   },
+  "type": "module",
   "scripts": {
     "create": "bun src/index.ts create",
     "create:primitive": "bun src/index.ts create primitive",

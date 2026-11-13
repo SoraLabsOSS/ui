@@ -24,12 +24,14 @@ function getBoxExtra(element: HTMLElement): number {
   return padding + border;
 }
 
+const DEFAULT_OPTIONS: AutoHeightOptions = {
+  includeParentBox: true,
+  includeSelfBox: false,
+};
+
 export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
   deps: React.DependencyList = [],
-  options: AutoHeightOptions = {
-    includeParentBox: true,
-    includeSelfBox: false,
-  }
+  options: AutoHeightOptions = DEFAULT_OPTIONS
 ) {
   const ref = useRef<T | null>(null);
   const roRef = useRef<ResizeObserver | null>(null);
@@ -106,7 +108,7 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
         rafRef.current = null;
       }
     };
-    // biome-ignore lint/correctness/useExhaustiveDependencies: Caller-controlled deps trigger remeasurement for content changes; ResizeObserver tracks size changes.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- Caller-controlled deps trigger remeasurement for content changes; ResizeObserver tracks size changes.
   }, deps);
 
   useLayoutEffect(() => {

@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-expandable-tabs" description="Pill tab bar expanding into a floating focus, progression, ideas, activity, and profile panel." />
+<ComponentPreview
+  name="demo-expandable-tabs"
+  description="Pill tab bar expanding into a floating focus, progression, ideas, activity, and profile panel."
+/>
 
 ## Installation
 
@@ -15,21 +18,30 @@ author:
 ## Usage
 
 ```tsx
-import { Info, Settings } from 'lucide-react';
-import { ExpandableTabs, type ExpandableTab } from '@/components/sora-ui/disclosure/expandable-tabs';
+import { Info, Settings } from "lucide-react";
+import {
+  ExpandableTabs,
+  type ExpandableTab,
+} from "@/components/sora-ui/disclosure/expandable-tabs";
 
 const tabs: ExpandableTab[] = [
   {
-    id: 'about',
-    label: 'About',
+    id: "about",
+    label: "About",
     icon: Info,
-    content: <p className="px-1 text-sm">A pill toolbar that expands into a panel.</p>,
+    content: (
+      <p className="px-1 text-sm">A pill toolbar that expands into a panel.</p>
+    ),
   },
   {
-    id: 'settings',
-    label: 'Settings',
+    id: "settings",
+    label: "Settings",
     icon: Settings,
-    content: <p className="px-1 text-sm">Whatever content you pass is rendered here.</p>,
+    content: (
+      <p className="px-1 text-sm">
+        Whatever content you pass is rendered here.
+      </p>
+    ),
   },
 ];
 
@@ -59,7 +71,7 @@ const [selectedId, setSelectedId] = useState<string | null>(null);
   tabs={tabs}
   selectedId={selectedId}
   onSelectedIdChange={setSelectedId}
-/>
+/>;
 ```
 
 ## Props
@@ -67,54 +79,63 @@ const [selectedId, setSelectedId] = useState<string | null>(null);
 <TypeTable
   type={{
     tabs: {
-      description: 'Tabs to render. Each entry needs an id, label, icon, and content — the panel JSX shown while that tab is selected.',
-      type: 'ExpandableTab[]',
+      description:
+        "Tabs to render. Each entry needs an id, label, icon, and content — the panel JSX shown while that tab is selected.",
+      type: "ExpandableTab[]",
     },
     selectedId: {
-      description: 'Controlled id of the currently open tab. `null` means no panel is open.',
-      type: 'string | null',
+      description:
+        "Controlled id of the currently open tab. `null` means no panel is open.",
+      type: "string | null",
     },
     defaultSelectedId: {
-      description: 'Uncontrolled initial selected tab id.',
-      type: 'string | null',
-      default: 'null',
+      description: "Uncontrolled initial selected tab id.",
+      type: "string | null",
+      default: "null",
     },
     onSelectedIdChange: {
-      description: 'Called whenever the selected tab id changes, controlled or uncontrolled.',
-      type: '(id: string | null) => void',
+      description:
+        "Called whenever the selected tab id changes, controlled or uncontrolled.",
+      type: "(id: string | null) => void",
     },
     springDuration: {
-      description: 'Duration of the shared spring driving the shell, pill, tab, and content transitions.',
-      type: 'number',
-      default: '0.45',
+      description:
+        "Duration of the shared spring driving the shell, pill, tab, and content transitions.",
+      type: "number",
+      default: "0.45",
     },
     springBounce: {
-      description: 'Bounce of the shared spring. 0 is a smooth ease, higher values overshoot more.',
-      type: 'number',
-      default: '0',
+      description:
+        "Bounce of the shared spring. 0 is a smooth ease, higher values overshoot more.",
+      type: "number",
+      default: "0",
     },
     labelDelay: {
-      description: 'Delay in seconds before an active tab\'s label starts revealing.',
-      type: 'number',
-      default: '0.08',
+      description:
+        "Delay in seconds before an active tab's label starts revealing.",
+      type: "number",
+      default: "0.08",
     },
     tapScale: {
-      description: 'Vertical scale applied to a tab while pressed, for tactile press feedback.',
-      type: 'number',
-      default: '0.8',
+      description:
+        "Vertical scale applied to a tab while pressed, for tactile press feedback.",
+      type: "number",
+      default: "0.8",
     },
     maxContentWidth: {
-      description: 'Maximum width of the open content panel (CSS value). Prevents wide content from growing the pill past a sane size.',
-      type: 'string',
+      description:
+        "Maximum width of the open content panel (CSS value). Prevents wide content from growing the pill past a sane size.",
+      type: "string",
       default: '"24rem"',
     },
     className: {
-      description: 'Additional class names merged onto the root element.',
-      type: 'string',
+      description: "Additional class names merged onto the root element.",
+      type: "string",
     },
     classNames: {
-      description: 'Class names for individual parts: root, toolbar, trigger, triggerActive, label, content.',
-      type: 'ExpandableTabsClassNames',
+      description:
+        "Class names for individual parts: root, toolbar, trigger, triggerActive, label, content.",
+      type: "ExpandableTabsClassNames",
     },
   }}
 />

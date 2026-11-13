@@ -2,20 +2,11 @@
 
 import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  AnimatePresence,
-  motion,
-  type Transition,
-  useReducedMotion,
-} from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { Transition } from "motion/react";
 import { Direction, Tooltip as TooltipPrimitive } from "radix-ui";
-import {
-  type ComponentProps,
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo, useState } from "react";
+import type { ComponentProps } from "react";
 
 type TooltipSide =
   | "top"
@@ -44,8 +35,9 @@ const defaultSpringTransition: Transition = {
   bounce: 0.6,
 };
 
-interface TooltipProviderProps
-  extends ComponentProps<typeof TooltipPrimitive.Provider> {
+interface TooltipProviderProps extends ComponentProps<
+  typeof TooltipPrimitive.Provider
+> {
   /**
    * Delay in milliseconds before showing tooltips.
    * Alias to delayDuration.
@@ -131,8 +123,10 @@ function TooltipTrigger({ asChild = false, ...props }: TooltipTriggerProps) {
   );
 }
 
-interface TooltipContentProps
-  extends Omit<ComponentProps<typeof TooltipPrimitive.Content>, "side"> {
+interface TooltipContentProps extends Omit<
+  ComponentProps<typeof TooltipPrimitive.Content>,
+  "side"
+> {
   /**
    * Floating side position relative to trigger.
    * Supports logical inline-start and inline-end for native RTL.
@@ -156,7 +150,7 @@ function TooltipContent({
   align = "center",
   alignOffset = 0,
   children,
-  asChild,
+  asChild: _asChild,
   style,
   transition = defaultSpringTransition,
   ...props
@@ -182,14 +176,18 @@ function TooltipContent({
 
   const offset = useMemo(() => {
     switch (resolvedSide) {
-      case "bottom":
+      case "bottom": {
         return { x: 0, y: -8 };
-      case "left":
+      }
+      case "left": {
         return { x: 8, y: 0 };
-      case "right":
+      }
+      case "right": {
         return { x: -8, y: 0 };
-      default:
+      }
+      default: {
         return { x: 0, y: 8 };
+      }
     }
   }, [resolvedSide]);
 
@@ -214,7 +212,7 @@ function TooltipContent({
             alignOffset={alignOffset}
             asChild
             className={cn(
-              "z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-background text-xs shadow-md outline-none has-data-[slot=kbd]:pr-1.5 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm",
+              "bg-foreground text-background z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md px-3 py-1.5 text-xs shadow-md outline-none has-data-[slot=kbd]:pr-1.5 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm",
               className
             )}
             data-slot="tooltip-content"
@@ -259,14 +257,14 @@ type TooltipArrowProps = ComponentProps<typeof TooltipPrimitive.Arrow>;
 function TooltipArrow({ className, ...props }: TooltipArrowProps) {
   return (
     <TooltipPrimitive.Arrow
-      className={cn("z-50 fill-foreground", className)}
+      className={cn("fill-foreground z-50", className)}
       data-slot="tooltip-arrow"
       {...props}
     />
   );
 }
 
-const DirectionProvider = Direction.DirectionProvider;
+const { DirectionProvider } = Direction;
 
 export type {
   TooltipArrowProps,

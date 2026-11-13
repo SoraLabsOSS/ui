@@ -1,8 +1,5 @@
-import {
-  mutationOptions,
-  type QueryClient,
-  useMutation,
-} from "@tanstack/react-query";
+import { mutationOptions, useMutation } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 import {
   authMutationKeys,
   authQueryKeys,

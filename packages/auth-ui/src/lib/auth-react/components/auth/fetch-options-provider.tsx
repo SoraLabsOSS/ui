@@ -2,12 +2,13 @@
 
 import {
   createContext,
-  type PropsWithChildren,
   useCallback,
   useContext,
+  useMemo,
   useRef,
   useState,
 } from "react";
+import type { PropsWithChildren } from "react";
 
 /** Subset of BetterFetchOptions we expose. Add fields as use-cases arise. */
 export interface FetchOptions {
@@ -31,7 +32,7 @@ const FetchOptionsContext = createContext<FetchOptionsContextValue | undefined>(
 );
 
 export function FetchOptionsProvider({ children }: PropsWithChildren) {
-  const [current, setCurrent] = useState<FetchOptions | undefined>(undefined);
+  const [current, setCurrent] = useState<FetchOptions>();
   const resetRef = useRef<(() => void) | null>(null);
 
   const setFetchOptions = useCallback(
@@ -50,15 +51,18 @@ export function FetchOptionsProvider({ children }: PropsWithChildren) {
     resetRef.current?.();
   }, []);
 
+  const contextValue = useMemo(
+    () => ({
+      fetchOptions: current,
+      setFetchOptions,
+      resetFetchOptions,
+      registerReset,
+    }),
+    [current, setFetchOptions, resetFetchOptions, registerReset]
+  );
+
   return (
-    <FetchOptionsContext.Provider
-      value={{
-        fetchOptions: current,
-        setFetchOptions,
-        resetFetchOptions,
-        registerReset,
-      }}
-    >
+    <FetchOptionsContext.Provider value={contextValue}>
       {children}
     </FetchOptionsContext.Provider>
   );

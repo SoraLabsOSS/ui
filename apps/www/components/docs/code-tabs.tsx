@@ -3,6 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+
 import { CopyButton } from "@/components/docs/copy-button";
 import {
   Tabs,
@@ -11,9 +12,9 @@ import {
   TabsHighlight,
   TabsHighlightItem,
   TabsList,
-  type TabsProps,
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
+import type { TabsProps } from "@/registry/primitives/animate/tabs";
 
 const PACKAGE_MANAGER_STORAGE_KEY = "sora-ui-package-manager";
 const PACKAGE_MANAGERS = ["npm", "pnpm", "yarn", "bun"] as const;
@@ -46,9 +47,9 @@ const cliHighlightCache = new Map<string, string>();
 
 function highlightBashCommandSync(code: string): string {
   const escaped = code
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 
   return `<pre class="font-mono text-[13px] leading-relaxed tracking-tight text-foreground" tabindex="0"><code><span class="line">${escaped}</span></code></pre>`;
 }
@@ -155,7 +156,7 @@ function CodeTabs({
     .map(([k, v]) => `${k}:${v}`)
     .join("|");
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: codesKey tracks code content changes stably
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- codesKey tracks code content changes stably
   useEffect(() => {
     let cancelled = false;
 
@@ -239,7 +240,7 @@ function CodeTabs({
   return (
     <Tabs
       className={cn(
-        "w-full gap-0 overflow-hidden rounded-xl border border-border/60",
+        "border-border/60 w-full gap-0 overflow-hidden rounded-xl border",
         className
       )}
       data-slot="install-tabs"
@@ -263,10 +264,10 @@ function CodeTabs({
       }}
       value={selectedCode}
     >
-      <div className="flex h-10 items-center justify-between border-border/50 border-b px-3">
+      <div className="border-border/50 flex h-10 items-center justify-between border-b px-3">
         <TabsList className="flex items-center gap-0.5">
           <TabsHighlight
-            className="h-full rounded-md bg-muted"
+            className="bg-muted h-full rounded-md"
             containerClassName="flex items-center gap-0.5"
             mode="parent"
             transition={{ type: "spring", stiffness: 400, damping: 20 }}
@@ -274,7 +275,7 @@ function CodeTabs({
             {Object.keys(codes).map((code) => (
               <TabsHighlightItem key={code} value={code}>
                 <TabsTrigger
-                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                   value={code}
                 >
                   {code}
@@ -286,7 +287,7 @@ function CodeTabs({
 
         {copyButton && highlightedCodes && (
           <CopyButton
-            className="-me-1 bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
+            className="hover:bg-foreground/5 dark:hover:bg-foreground/10 -me-1 bg-transparent"
             content={codes[selectedCode]}
             onCopiedChange={onCopiedChange}
             size="icon-sm"
@@ -297,7 +298,7 @@ function CodeTabs({
 
       <div className="p-1.5">
         <TabsContents
-          className="rounded-[calc(var(--radius-xl)-7px)] bg-surface"
+          className="bg-surface rounded-[calc(var(--radius-xl)-7px)]"
           data-slot="install-tabs-contents"
         >
           {Object.entries(codes).map(([code, val]) => (
@@ -309,8 +310,8 @@ function CodeTabs({
             >
               <div className="w-full overflow-x-auto p-4 text-sm">
                 <div
-                  className="not-fumadocs-codeblock [&>pre,_&_code]:!bg-transparent [&_code]:!text-[13px] [&_.line]:!px-0 flex w-full items-start [&>pre,_&_code]:border-none [&>pre,_&_code]:[background:transparent_!important]"
-                  // biome-ignore lint/security/noDangerouslySetInnerHtml: highlighted code HTML
+                  className="not-fumadocs-codeblock flex w-full items-start [&_.line]:!px-0 [&_code]:!text-[13px] [&>pre,_&_code]:border-none [&>pre,_&_code]:!bg-transparent [&>pre,_&_code]:[background:transparent_!important]"
+                  // oxlint-disable-next-line react/no-danger -- highlighted code HTML
                   dangerouslySetInnerHTML={{
                     __html: highlightedCodes[code] ?? buildFallbackHtml(val),
                   }}

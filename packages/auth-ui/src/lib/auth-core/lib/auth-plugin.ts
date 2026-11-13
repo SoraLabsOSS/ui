@@ -60,7 +60,7 @@ export interface AuthPluginBase {
  *   }
  * }
  */
-// biome-ignore lint/suspicious/noEmptyInterface: declaration-merging slot
+// oxlint-disable-next-line typescript/no-empty-interface, @typescript-eslint/no-empty-object-type -- declaration-merging slot
 export interface AuthPluginRegister {}
 
 /**

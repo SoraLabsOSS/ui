@@ -3,7 +3,6 @@
 import { useIsMutating } from "@tanstack/react-query";
 import { useGoogleOneTapPending } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
-import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import {
   authMutationKeys,
   getProviderName,
@@ -13,6 +12,7 @@ import {
   useAuth,
   useSignInSocial,
 } from "@workspace/auth-ui/lib/auth-react";
+import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { Badge } from "@workspace/ui/components/ui/badge";
 import { Button } from "@workspace/ui/components/ui/button";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
@@ -20,7 +20,8 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { SocialProvider } from "better-auth/social-providers";
 import { Plug } from "lucide-react";
 import Image from "next/image";
-import { type ComponentProps, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { ComponentProps } from "react";
 
 const PROVIDER_LOGO: Partial<Record<SocialProvider, string>> = {
   google: "https://www.google.com/favicon.ico",
@@ -84,8 +85,7 @@ export function ProviderButton({
       return;
     }
 
-    const isLastUsedLoginMethod = (authClient as LastLoginMethodClient)
-      .isLastUsedLoginMethod;
+    const { isLastUsedLoginMethod } = authClient as LastLoginMethodClient;
 
     setIsLastUsed(isLastUsedLoginMethod?.(provider) ?? false);
   }, [authClient, provider, showLastUsedBadge]);

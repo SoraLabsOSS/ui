@@ -5,14 +5,15 @@ import {
   QueryClientContext,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import {
-  type AdditionalField,
-  type AuthConfig,
-  type DeepPartial,
-  deepmerge,
-  defaultAuthConfig,
+import { deepmerge, defaultAuthConfig } from "@workspace/auth-ui/lib/auth-core";
+import type {
+  AdditionalField,
+  AuthConfig,
+  DeepPartial,
 } from "@workspace/auth-ui/lib/auth-core";
-import { type PropsWithChildren, type ReactNode, useContext } from "react";
+import { useContext, useMemo } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
+
 import type { AuthClient } from "../../lib/auth-client";
 import { MutationInvalidator } from "../mutation-invalidator";
 import { AuthContext } from "./auth-context";
@@ -71,32 +72,37 @@ export function AuthProvider({
   ...config
 }: AuthProviderProps) {
   const { authClient, ...partialConfig } = config;
-  const mergedConfig = {
-    ...deepmerge<Omit<AuthConfig, "authClient" | "Link">>(
-      defaultAuthConfig,
-      partialConfig
-    ),
-    authClient,
-  } as AuthConfig;
+  const mergedConfig = useMemo(() => {
+    const merged = {
+      ...deepmerge<Omit<AuthConfig, "authClient" | "Link">>(
+        defaultAuthConfig,
+        partialConfig
+      ),
+      authClient,
+    } as AuthConfig;
 
-  mergedConfig.redirectTo =
-    (typeof window !== "undefined" &&
-      new URLSearchParams(window.location.search).get("redirectTo")?.trim()) ||
-    mergedConfig.redirectTo;
+    merged.redirectTo =
+      (typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search)
+          .get("redirectTo")
+          ?.trim()) ||
+      merged.redirectTo;
 
-  // Merge plugin-contributed `additionalFields` with user-supplied ones.
-  // Plugin order is preserved; user-supplied entries with the same `name`
-  // override the plugin contribution.
-  const fieldsByName = new Map<string, AdditionalField>();
-  for (const plugin of mergedConfig.plugins ?? []) {
-    for (const field of plugin.additionalFields ?? []) {
+    // Merge plugin-contributed `additionalFields` with user-supplied ones.
+    // Plugin order is preserved; user-supplied entries with the same `name`
+    // override the plugin contribution.
+    const fieldsByName = new Map<string, AdditionalField>();
+    for (const plugin of merged.plugins ?? []) {
+      for (const field of plugin.additionalFields ?? []) {
+        fieldsByName.set(field.name, field);
+      }
+    }
+    for (const field of merged.additionalFields ?? []) {
       fieldsByName.set(field.name, field);
     }
-  }
-  for (const field of mergedConfig.additionalFields ?? []) {
-    fieldsByName.set(field.name, field);
-  }
-  mergedConfig.additionalFields = Array.from(fieldsByName.values());
+    merged.additionalFields = [...fieldsByName.values()];
+    return merged;
+  }, [authClient, partialConfig]);
 
   const contextQueryClient = useContext(QueryClientContext);
 
@@ -123,7 +129,7 @@ export function AuthProvider({
  * need to pass a generic.
  *
  * @returns The merged authentication configuration provided by AuthProvider.
- * @throws If no AuthProvider is present in the component tree.
+ * @throws {Error} If no AuthProvider is present in the component tree.
  */
 export function useAuth(): AuthConfig {
   const context = useContext(AuthContext);

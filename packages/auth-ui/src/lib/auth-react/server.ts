@@ -3,5 +3,5 @@
  */
 
 export type * from "./lib/auth-server";
-// biome-ignore lint/performance/noBarrelFile: public entry for vendored auth-react server subset
+// oxlint-disable-next-line oxc/no-barrel-file -- public entry for vendored auth-react server subset
 export * from "./server/session-query";

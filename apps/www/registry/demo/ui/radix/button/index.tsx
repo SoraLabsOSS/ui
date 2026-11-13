@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, type ButtonProps } from "@/registry/ui/radix/button";
+import { Button } from "@/registry/ui/radix/button";
+import type { ButtonProps } from "@/registry/ui/radix/button";
 
 export default function RadixButtonDemo({
   children = "Button",

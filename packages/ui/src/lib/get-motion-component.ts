@@ -1,4 +1,5 @@
-import { type MotionProps, motion } from "motion/react";
+import { motion } from "motion/react";
+import type { MotionProps } from "motion/react";
 import type {
   ComponentType,
   CSSProperties,

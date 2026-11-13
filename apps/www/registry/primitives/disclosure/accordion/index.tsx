@@ -1,25 +1,21 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { stagger, useAnimate, useReducedMotion } from "motion/react";
+import type { AnimationSequence } from "motion/react";
 import {
-  type AnimationSequence,
-  stagger,
-  useAnimate,
-  useReducedMotion,
-} from "motion/react";
-import {
-  type ComponentPropsWithoutRef,
   createContext,
-  type ReactNode,
-  type RefObject,
   useCallback,
   useContext,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from "react";
+import type { ComponentPropsWithoutRef, ReactNode, RefObject } from "react";
 
 import { useAutoHeight } from "@/registry/hooks/use-auto-height";
 
@@ -124,22 +120,22 @@ const accordionItemVariants = cva("border-border border-b last:border-b-0");
 
 const accordionTriggerVariants = cva([
   "flex w-full items-center justify-between gap-4 border-0 bg-transparent py-5 text-left",
-  "cursor-pointer text-muted-foreground transition-colors duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
-  "will-change-transform [transform:translateZ(0)] hover:text-foreground",
-  "focus:outline-none focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-[#fd551d] focus-visible:outline-offset-4",
+  "text-muted-foreground cursor-pointer transition-colors duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
+  "hover:text-foreground [transform:translateZ(0)] will-change-transform",
+  "focus:outline-none focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#fd551d]",
   "data-[state=open]:text-foreground",
 ]);
 
 const accordionTitleVariants = cva(
-  "m-0 font-medium text-base text-inherit leading-[1.4]"
+  "m-0 text-base leading-[1.4] font-medium text-inherit"
 );
 
 const accordionContentVariants = cva(
-  "overflow-hidden will-change-[height] [transform:translateZ(0)]"
+  "[transform:translateZ(0)] overflow-hidden will-change-[height]"
 );
 
 const accordionTextVariants = cva(
-  "m-0 pb-5 text-muted-foreground text-sm leading-[1.6]"
+  "text-muted-foreground m-0 pb-5 text-sm leading-[1.6]"
 );
 
 export interface AccordionItemData {
@@ -152,7 +148,8 @@ export interface AccordionItemData {
 }
 
 export interface AccordionProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children">,
+  extends
+    Omit<ComponentPropsWithoutRef<"div">, "children">,
     VariantProps<typeof accordionVariants> {
   allowMultiple?: boolean;
   children?: ReactNode;
@@ -168,8 +165,10 @@ export interface AccordionProps
   items?: AccordionItemData[];
 }
 
-export interface AccordionItemProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+export interface AccordionItemProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> {
   children: ReactNode;
   defaultOpen?: boolean;
   delay?: number;
@@ -211,19 +210,19 @@ export interface AccordionItemProps
   staggerYPercent?: number;
 }
 
-export interface AccordionTriggerProps
-  extends ComponentPropsWithoutRef<"button"> {
+export interface AccordionTriggerProps extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;
   hideIcon?: boolean;
 }
 
-export interface AccordionContentProps
-  extends ComponentPropsWithoutRef<"section"> {
+export interface AccordionContentProps extends ComponentPropsWithoutRef<"section"> {
   children: ReactNode;
 }
 
-export interface AccordionTextProps
-  extends Omit<ComponentPropsWithoutRef<"p">, "children"> {
+export interface AccordionTextProps extends Omit<
+  ComponentPropsWithoutRef<"p">,
+  "children"
+> {
   children: ReactNode;
 }
 
@@ -248,7 +247,7 @@ const WHITESPACE_REGEX = /\s+/;
  * Nested markup is flattened to plain text while the split is active.
  */
 function splitElementIntoLines(element: HTMLElement): SplitLinesResult {
-  const originalNodes = Array.from(element.childNodes);
+  const originalNodes = [...element.childNodes];
   const words = (element.textContent ?? "")
     .split(WHITESPACE_REGEX)
     .filter(Boolean);
@@ -286,8 +285,8 @@ function splitElementIntoLines(element: HTMLElement): SplitLinesResult {
     line.style.willChange = "transform";
     line.textContent = group.join(" ");
 
-    mask.appendChild(line);
-    element.appendChild(mask);
+    mask.append(line);
+    element.append(mask);
     lines.push(line);
   }
 
@@ -348,21 +347,35 @@ function Accordion({
     [allowMultiple]
   );
 
+  const contextValue = useMemo(
+    () => ({
+      allowMultiple,
+      animationsPaused,
+      defaultDuration: duration,
+      defaultEase: ease,
+      defaultIconRotation: iconRotation,
+      disabledOn,
+      iconMode,
+      notifyItemOpen,
+      registerItem,
+      unregisterItem,
+    }),
+    [
+      allowMultiple,
+      animationsPaused,
+      duration,
+      ease,
+      iconRotation,
+      disabledOn,
+      iconMode,
+      notifyItemOpen,
+      registerItem,
+      unregisterItem,
+    ]
+  );
+
   return (
-    <AccordionContext.Provider
-      value={{
-        allowMultiple,
-        animationsPaused,
-        defaultDuration: duration,
-        defaultEase: ease,
-        defaultIconRotation: iconRotation,
-        disabledOn,
-        iconMode,
-        notifyItemOpen,
-        registerItem,
-        unregisterItem,
-      }}
-    >
+    <AccordionContext.Provider value={contextValue}>
       <div
         className={cn(accordionVariants(), className)}
         data-anm-accordion=""
@@ -737,20 +750,33 @@ function AccordionItem({
 
   useEffect(() => resetTextStagger, [resetTextStagger]);
 
+  const itemContextValue = useMemo(
+    () => ({
+      contentId,
+      contentPanelRef,
+      iconRef,
+      isDisabled: animationsDisabled,
+      isOpen,
+      setPanelHeight,
+      toggle,
+      triggerId,
+      verticalBarRef,
+    }),
+    [
+      contentId,
+      contentPanelRef,
+      iconRef,
+      animationsDisabled,
+      isOpen,
+      setPanelHeight,
+      toggle,
+      triggerId,
+      verticalBarRef,
+    ]
+  );
+
   return (
-    <AccordionItemContext.Provider
-      value={{
-        contentId,
-        contentPanelRef,
-        iconRef,
-        isDisabled: animationsDisabled,
-        isOpen,
-        setPanelHeight,
-        toggle,
-        triggerId,
-        verticalBarRef,
-      }}
-    >
+    <AccordionItemContext.Provider value={itemContextValue}>
       <div
         className={cn(accordionItemVariants(), className)}
         data-anm-accordion-item
@@ -805,7 +831,7 @@ function AccordionTrigger({
       {hideIcon ? null : (
         <svg
           aria-hidden="true"
-          className="size-4 shrink-0 text-current will-change-transform [transform:translateZ(0)]"
+          className="size-4 shrink-0 [transform:translateZ(0)] text-current will-change-transform"
           data-anm-accordion-icon
           fill="none"
           ref={iconRef}

@@ -1,14 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
+
 import {
   index,
   loadComponentFiles,
@@ -25,11 +20,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/registry/primitives/animate/tabs";
+
 import { ComponentFileStructure } from "./component-file-structure";
-import {
-  ComponentManualInstallation,
-  type ManualInstallFile,
-} from "./component-manual-installation";
+import { ComponentManualInstallation } from "./component-manual-installation";
+import type { ManualInstallFile } from "./component-manual-installation";
 
 interface ComponentData {
   code?: string;
@@ -55,17 +49,16 @@ function fetchComponentData(name: string): Promise<ComponentData> {
       html: html ?? undefined,
       files: files ?? [],
     }))
-    .catch((err) => {
+    .catch((error) => {
       componentDataCache.delete(name);
-      throw err;
+      throw error;
     });
 
   componentDataCache.set(name, promise);
   return promise;
 }
 
-export interface ComponentInstallationProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface ComponentInstallationProps extends React.HTMLAttributes<HTMLDivElement> {
   afterSteps?: ReactNode;
   beforeSteps?: ReactNode;
   hideFileStructure?: boolean;
@@ -83,8 +76,8 @@ export function ComponentInstallation({
   hideFileStructure = false,
   ...props
 }: ComponentInstallationProps) {
-  const [manualCode, setManualCode] = useState<string | undefined>(undefined);
-  const [manualHtml, setManualHtml] = useState<string | undefined>(undefined);
+  const [manualCode, setManualCode] = useState<string>();
+  const [manualHtml, setManualHtml] = useState<string>();
   const [manualFiles, setManualFiles] = useState<ManualInstallFile[]>([]);
   const [loadStatus, setLoadStatus] = useState<LoadStatus>("idle");
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -128,14 +121,16 @@ export function ComponentInstallation({
           setManualFiles(data.files);
         }
       })
-      .catch((err) => {
+      .catch((error) => {
         if (currentNameRef.current !== requestedName) {
           return;
         }
         loadStateRef.current = { name: requestedName, status: "error" };
         setLoadStatus("error");
         setLoadError(
-          err instanceof Error ? err.message : "Failed to load component source"
+          error instanceof Error
+            ? error.message
+            : "Failed to load component source"
         );
       });
   }, [name]);
@@ -191,7 +186,7 @@ export function ComponentInstallation({
   let manualContent: ReactNode = null;
   if (loadStatus === "loading") {
     manualContent = (
-      <div className="flex h-32 items-center justify-center text-muted-foreground text-sm">
+      <div className="text-muted-foreground flex h-32 items-center justify-center text-sm">
         Loading installation files...
       </div>
     );
@@ -200,7 +195,7 @@ export function ComponentInstallation({
       <div className="flex flex-col items-center justify-center gap-2 p-6 text-center text-sm">
         <p className="text-destructive">{loadError}</p>
         <button
-          className="cursor-pointer text-primary text-xs underline"
+          className="text-primary cursor-pointer text-xs underline"
           onClick={loadSource}
           type="button"
         >
@@ -232,21 +227,21 @@ export function ComponentInstallation({
   return (
     <div className={cn("relative my-4 lg:max-w-[120ch]", className)} {...props}>
       <Tabs
-        className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
+        className="border-border/60 w-full gap-0 overflow-hidden rounded-xl border"
         onValueChange={setActiveTab}
         value={activeTab}
       >
-        <div className="flex h-10 items-center border-border/50 border-b px-3">
+        <div className="border-border/50 flex h-10 items-center border-b px-3">
           <TabsList className="flex items-center gap-0.5">
             <TabsHighlight
-              className="h-full rounded-md bg-accent"
+              className="bg-accent h-full rounded-md"
               containerClassName="relative isolate flex items-center gap-0.5"
               mode="parent"
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
             >
               <TabsHighlightItem value="shadcn">
                 <TabsTrigger
-                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                   value="shadcn"
                 >
                   shadcn CLI
@@ -254,7 +249,7 @@ export function ComponentInstallation({
               </TabsHighlightItem>
               <TabsHighlightItem value="sora-cli">
                 <TabsTrigger
-                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                   value="sora-cli"
                 >
                   Sora CLI
@@ -262,7 +257,7 @@ export function ComponentInstallation({
               </TabsHighlightItem>
               <TabsHighlightItem value="manual">
                 <TabsTrigger
-                  className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                  className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                   onFocus={loadSource}
                   onMouseEnter={loadSource}
                   value="manual"

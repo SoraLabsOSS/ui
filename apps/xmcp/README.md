@@ -5,6 +5,7 @@ The official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) se
 ## Overview
 
 This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Windsurf, and custom AI agents) with structured access to:
+
 - **Documentation & Guides**: Search, browse sections, and read full MDX docs.
 - **Component Registry**: Discover animated UI components, motion primitives, dependencies, and automated installation commands via `npx shadcn@latest add @soralabs/<name>`.
 - **Agent-native composition context**: Read published component intent, roles, accessibility constraints, motion behavior, and composition rules from registry metadata.
@@ -14,6 +15,7 @@ This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Win
 ## Capabilities
 
 ### Tools (`src/tools/`)
+
 1. **`search_docs`** (`src/tools/search-docs.ts`):
    - Searches documentation by keyword or phrase.
    - Supports filtering by section (`documentation`, `components`, `catalog`, `motion`, `ui`).
@@ -34,17 +36,17 @@ This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Win
    - Provides bidirectional (RTL) animation and Tailwind logical property guidelines.
    - Generates unified multi-component install commands.
 
-These tools provide the semantic context and validation layer for agent-assisted
-UI construction. The calling agent still plans the component tree and writes
-application code; automatic planning and code generation are future work.
+These tools provide the semantic context and validation layer for agent-assisted UI construction. The calling agent still plans the component tree and writes application code; automatic planning and code generation are future work.
 
 ### Prompts (`src/prompts/`)
+
 - **`install-component`** (`src/prompts/install-component.ts`):
   - Structured prompt template for guiding an AI assistant through discovering, installing, and configuring a single Sora component.
 - **`compose-components`** (`src/prompts/compose-components.ts`):
   - Workflow prompt guiding AI agents through composing multiple Sora UI components with validation, foundation consistency, accessibility guardrails, and RTL support.
 
 ### Resources (`src/resources/`)
+
 - **`registry-catalog`** (`src/resources/registry.ts`):
   - Live JSON snapshot of all installable Sora UI registry items (components, hooks, and libraries).
 
@@ -53,18 +55,23 @@ application code; automatic planning and code generation are future work.
 ## Getting Started
 
 ### Development
+
 ```bash
 bun run dev
 ```
+
 Starts the MCP server with file watching and hot reloading.
 
 ### Build
+
 ```bash
 bun run build
 ```
+
 Compiles and bundles both **HTTP** (`dist/http.js`) and **STDIO** (`dist/stdio.js`) servers using `@xmcp-dev/compiler`.
 
 ### Run
+
 - **HTTP Server**:
   ```bash
   bun run start
@@ -117,6 +124,7 @@ export default config;
 ### Claude Desktop (`claude_desktop_config.json`)
 
 #### Remote HTTP Mode (via mcp-remote bridge)
+
 ```json
 {
   "mcpServers": {
@@ -129,6 +137,7 @@ export default config;
 ```
 
 #### Local STDIO Mode (Built from source)
+
 ```json
 {
   "mcpServers": {
@@ -143,6 +152,7 @@ export default config;
 ### Cursor (`.cursor/mcp.json`)
 
 #### Remote HTTP Mode
+
 ```json
 {
   "mcpServers": {
@@ -154,6 +164,7 @@ export default config;
 ```
 
 #### Local STDIO Mode
+
 ```json
 {
   "mcpServers": {

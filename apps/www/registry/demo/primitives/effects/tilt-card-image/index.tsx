@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+
 import { TiltCard } from "@/registry/primitives/effects/tilt-card";
 
 export interface TiltCardImageDemoProps {
@@ -26,7 +27,7 @@ export function TiltCardImageDemo({
           />
         </div>
         <div className="p-2">
-          <h1 className="font-mono text-zinc-950 leading-snug dark:text-zinc-50">
+          <h1 className="font-mono leading-snug text-zinc-950 dark:text-zinc-50">
             Tokyo
           </h1>
           <p className="text-zinc-700 dark:text-zinc-400">Shibuya at night</p>

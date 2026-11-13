@@ -1,6 +1,7 @@
 "use client";
 
-import { Typer, type TyperProps } from "@/registry/primitives/texts/typer";
+import { Typer } from "@/registry/primitives/texts/typer";
+import type { TyperProps } from "@/registry/primitives/texts/typer";
 
 export default function TyperExample({
   fps = 20,
@@ -13,12 +14,12 @@ export default function TyperExample({
     <div className="flex w-full items-center justify-center px-6 py-16">
       <Typer
         accent={accent}
-        className="font-semibold text-xl leading-[1.15] tracking-tight sm:text-2xl"
+        className="text-xl leading-[1.15] font-semibold tracking-tight sm:text-2xl"
         cycles={cycles}
         fps={fps}
         stagger={stagger}
         startOnView={startOnView}
-        text={"Type that assembles itself, one glyph at a time."}
+        text="Type that assembles itself, one glyph at a time."
       />
     </div>
   );

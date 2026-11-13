@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="sliding-chip-button" description="Chip-style CTA link with sliding label and rotating icon chips — hover to trigger the animation." />
+<ComponentPreview
+  name="sliding-chip-button"
+  description="Chip-style CTA link with sliding label and rotating icon chips — hover to trigger the animation."
+/>
 
 ## Installation
 
@@ -15,7 +18,7 @@ author:
 ## Usage
 
 ```tsx
-import { SlidingChipButton } from '@/components/sora-ui/buttons/sliding-chip-button';
+import { SlidingChipButton } from "@/components/sora-ui/buttons/sliding-chip-button";
 
 export default function Page() {
   return (
@@ -44,129 +47,130 @@ export default function Page() {
   type={{
     asChild: {
       description:
-        'Merge animation into a single child element (`a`, `Link`, etc.).',
-      type: 'boolean',
-      default: 'false',
+        "Merge animation into a single child element (`a`, `Link`, etc.).",
+      type: "boolean",
+      default: "false",
     },
     children: {
       description:
-        'Plain-text label when `asChild` is false. With `asChild`, pass one React element — its string child or `label` provides the text.',
-      type: 'string | ReactElement',
+        "Plain-text label when `asChild` is false. With `asChild`, pass one React element — its string child or `label` provides the text.",
+      type: "string | ReactElement",
     },
     label: {
       description:
-        'Alternative text source for demos, controlled previews, or `asChild` when the child has no string content.',
-      type: 'string',
+        "Alternative text source for demos, controlled previews, or `asChild` when the child has no string content.",
+      type: "string",
     },
     variant: {
-      description: 'Chip color preset for the label and icon chips.',
+      description: "Chip color preset for the label and icon chips.",
       type: '"accent" | "inverted" | "outline" | "ghost"',
       default: '"accent"',
     },
     size: {
-      description: 'Typography and chip dimensions.',
+      description: "Typography and chip dimensions.",
       type: '"sm" | "default" | "lg"',
       default: '"default"',
     },
     duration: {
-      description: 'Animation duration in seconds.',
-      type: 'number',
-      default: '0.7',
+      description: "Animation duration in seconds.",
+      type: "number",
+      default: "0.7",
     },
     ease: {
-      description: 'Cubic-bezier easing tuple passed to Motion.',
-      type: '[number, number, number, number]',
-      default: '[0.77, 0, 0.175, 1]',
+      description: "Cubic-bezier easing tuple passed to Motion.",
+      type: "[number, number, number, number]",
+      default: "[0.77, 0, 0.175, 1]",
     },
     labelOffset: {
       description:
-        'Label x-offset at rest on smaller breakpoints. Defaults per `size` when omitted.',
-      type: 'number',
+        "Label x-offset at rest on smaller breakpoints. Defaults per `size` when omitted.",
+      type: "number",
     },
     labelOffsetLg: {
       description:
-        'Label x-offset at rest on `lg` breakpoint and up. Defaults per `size` when omitted.',
-      type: 'number',
+        "Label x-offset at rest on `lg` breakpoint and up. Defaults per `size` when omitted.",
+      type: "number",
     },
     startChipRestRotate: {
-      description: 'Leading chip rotation at rest, in degrees.',
-      type: 'number',
-      default: '-45',
+      description: "Leading chip rotation at rest, in degrees.",
+      type: "number",
+      default: "-45",
     },
     startChipActiveRotate: {
-      description: 'Leading chip rotation on hover/focus, in degrees.',
-      type: 'number',
-      default: '0',
+      description: "Leading chip rotation on hover/focus, in degrees.",
+      type: "number",
+      default: "0",
     },
     endChipRestRotate: {
-      description: 'Trailing chip rotation at rest, in degrees.',
-      type: 'number',
-      default: '0',
+      description: "Trailing chip rotation at rest, in degrees.",
+      type: "number",
+      default: "0",
     },
     endChipActiveRotate: {
-      description: 'Trailing chip rotation on hover/focus, in degrees.',
-      type: 'number',
-      default: '-45',
+      description: "Trailing chip rotation on hover/focus, in degrees.",
+      type: "number",
+      default: "-45",
     },
     startChipRestScale: {
-      description: 'Leading chip scale at rest.',
-      type: 'number',
-      default: '0',
+      description: "Leading chip scale at rest.",
+      type: "number",
+      default: "0",
     },
     startChipActiveScale: {
-      description: 'Leading chip scale on hover/focus.',
-      type: 'number',
-      default: '1',
+      description: "Leading chip scale on hover/focus.",
+      type: "number",
+      default: "1",
     },
     endChipRestScale: {
-      description: 'Trailing chip scale at rest.',
-      type: 'number',
-      default: '1',
+      description: "Trailing chip scale at rest.",
+      type: "number",
+      default: "1",
     },
     endChipActiveScale: {
-      description: 'Trailing chip scale on hover/focus.',
-      type: 'number',
-      default: '0',
+      description: "Trailing chip scale on hover/focus.",
+      type: "number",
+      default: "0",
     },
     icon: {
-      description: 'Custom icon rendered in both chips when `startIcon` / `endIcon` are not set.',
-      type: 'ReactNode',
+      description:
+        "Custom icon rendered in both chips when `startIcon` / `endIcon` are not set.",
+      type: "ReactNode",
     },
     startIcon: {
-      description: 'Custom icon for the leading chip only.',
-      type: 'ReactNode',
+      description: "Custom icon for the leading chip only.",
+      type: "ReactNode",
     },
     endIcon: {
-      description: 'Custom icon for the trailing chip only.',
-      type: 'ReactNode',
+      description: "Custom icon for the trailing chip only.",
+      type: "ReactNode",
     },
     className: {
-      description: 'Additional class names merged onto the root anchor.',
-      type: 'string',
+      description: "Additional class names merged onto the root anchor.",
+      type: "string",
     },
     groupClassName: {
-      description: 'Override the inner motion group wrapper.',
-      type: 'string',
+      description: "Override the inner motion group wrapper.",
+      type: "string",
     },
     chipClassName: {
-      description: 'Class names merged onto all three chips.',
-      type: 'string',
+      description: "Class names merged onto all three chips.",
+      type: "string",
     },
     labelClassName: {
-      description: 'Override the label chip only.',
-      type: 'string',
+      description: "Override the label chip only.",
+      type: "string",
     },
     startChipClassName: {
-      description: 'Override the leading chip only.',
-      type: 'string',
+      description: "Override the leading chip only.",
+      type: "string",
     },
     endChipClassName: {
-      description: 'Override the trailing chip only.',
-      type: 'string',
+      description: "Override the trailing chip only.",
+      type: "string",
     },
     iconClassName: {
-      description: 'Class names merged onto the default plus icons.',
-      type: 'string',
+      description: "Class names merged onto the default plus icons.",
+      type: "string",
     },
   }}
 />

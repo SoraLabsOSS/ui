@@ -1,5 +1,6 @@
 import { getSessionCookie } from "better-auth/cookies";
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 const DOCS_PATH_RE = /^\/docs(?:\/(.+))?$/;
 const MOTION_PATH_RE = /^\/(?:motion|primitives)(?:\/(.+))?$/;
@@ -50,7 +51,7 @@ function rewriteMarkdownPath(pathname: string): string | null {
 }
 
 export function proxy(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
   // Avoid rendering settings pages when there is no session cookie.
   if (pathname === "/settings" || pathname.startsWith("/settings/")) {

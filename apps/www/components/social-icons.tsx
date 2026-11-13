@@ -55,13 +55,17 @@ export function CommunitySvg() {
 
 export function SocialIcon({ type }: { type: "github" | "x" | "community" }) {
   switch (type) {
-    case "github":
+    case "github": {
       return <GithubSvg />;
-    case "x":
+    }
+    case "x": {
       return <XSvg />;
-    case "community":
+    }
+    case "community": {
       return <CommunitySvg />;
-    default:
+    }
+    default: {
       return null;
+    }
   }
 }

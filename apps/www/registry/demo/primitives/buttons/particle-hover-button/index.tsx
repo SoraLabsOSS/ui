@@ -26,7 +26,7 @@ export default function ParticleHoverButtonExample() {
       particle={<HeartIcon className="h-2.5 w-2.5" />}
     >
       <button
-        className="inline-flex items-center gap-1.5 font-medium text-sm"
+        className="inline-flex items-center gap-1.5 text-sm font-medium"
         type="button"
       >
         <HeartIcon className="h-4 w-4" />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { PricingPage } from "@/components/pricing/pricing-page";
 import { getPageAlternates } from "@/lib/site";
 

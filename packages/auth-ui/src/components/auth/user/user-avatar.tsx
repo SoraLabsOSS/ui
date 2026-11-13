@@ -11,17 +11,18 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";
 import { User2 } from "lucide-react";
 import type { ReactNode } from "react";
+
 import { useClientMounted } from "../../../hooks/use-client-mounted";
 import {
   resolveSessionUser,
-  type SessionDisplayUser,
   shouldShowSessionSkeleton,
 } from "../../../lib/resolve-session-user";
+import type { SessionDisplayUser } from "../../../lib/resolve-session-user";
 
 function emailToHue(email: string): number {
   let hash = 0;
   for (const char of email) {
-    hash = (hash * 31 + char.charCodeAt(0)) % 360;
+    hash = (hash * 31 + (char.codePointAt(0) ?? 0)) % 360;
   }
   return hash;
 }
@@ -83,7 +84,7 @@ export function UserAvatar({
   return (
     <Avatar
       className={cn(
-        "size-8 rounded-full bg-muted text-foreground text-sm",
+        "bg-muted text-foreground size-8 rounded-full text-sm",
         className
       )}
     >

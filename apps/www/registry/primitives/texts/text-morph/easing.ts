@@ -1,11 +1,5 @@
-import {
-  BEZIER_REGEX,
-  type EasingFn,
-  LINEAR_REGEX,
-  type SpringParams,
-  type SpringResult,
-  WHITESPACE_REGEX,
-} from "./defs";
+import { BEZIER_REGEX, LINEAR_REGEX, WHITESPACE_REGEX } from "./defs";
+import type { EasingFn, SpringParams, SpringResult } from "./defs";
 
 // --- Reduced Motion ---------------------------------------------------------
 
@@ -113,7 +107,7 @@ export function spring(params?: SpringParams): SpringResult {
   }
 
   while (points.length > 2 && points.at(-2) === "1") {
-    points.splice(points.length - 2, 1);
+    points.splice(-2, 1);
   }
 
   const result: SpringResult = {

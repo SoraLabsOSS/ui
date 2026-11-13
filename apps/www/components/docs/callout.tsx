@@ -13,26 +13,33 @@ type CalloutProps = Omit<
 
 const iconClass = "size-5 -me-0.5 fill-(--callout-color) text-fd-accent";
 
+function resolveCalloutType(
+  type: CalloutProps["type"]
+): "info" | "warning" | "error" | "success" {
+  if (type === "warn") {
+    return "warning";
+  }
+  if (type === "error" || type === "success" || type === "warning") {
+    return type;
+  }
+  return "info";
+}
+
 export const Callout = ({
   className,
   children,
   title,
-  type = "info",
+  type: rawType,
   icon,
   ref,
   ...props
 }: CalloutProps & { ref?: Ref<HTMLDivElement> }) => {
-  if (type === "warn") {
-    type = "warning";
-  }
-  if ((type as unknown) === "tip") {
-    type = "info";
-  }
+  const type = resolveCalloutType(rawType);
 
   return (
     <div
       className={cn(
-        "my-4 flex gap-2 rounded-lg bg-fd-accent/50 p-3 ps-2 text-fd-card-foreground text-sm",
+        "bg-fd-accent/50 text-fd-card-foreground my-4 flex gap-2 rounded-lg p-3 ps-2 text-sm",
         className
       )}
       ref={ref}

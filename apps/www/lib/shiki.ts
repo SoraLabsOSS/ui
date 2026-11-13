@@ -1,9 +1,5 @@
-import {
-  type BundledLanguage,
-  type BundledTheme,
-  createHighlighter,
-  type Highlighter,
-} from "shiki";
+import { createHighlighter } from "shiki";
+import type { BundledLanguage, BundledTheme, Highlighter } from "shiki";
 
 let highlighterPromise: Promise<Highlighter> | null = null;
 

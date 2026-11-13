@@ -3,6 +3,7 @@ import type {
   AuthView,
 } from "@workspace/auth-ui/lib/auth-core";
 import type { ComponentType, ReactNode } from "react";
+
 import type { SettingsTab } from "./settings-tab";
 
 export type { AuthPluginViewPaths } from "@workspace/auth-ui/lib/auth-core";
@@ -80,9 +81,9 @@ export interface AuthPluginFallbackViews<TAuthViewProps> {
  */
 export type AuthPlugin<
   TComponents = AuthPluginComponents,
-  // biome-ignore lint/suspicious/noExplicitAny: any
+  // oxlint-disable-next-line @typescript-eslint/no-explicit-any -- any
   TAuthViewProps = any,
-  // biome-ignore lint/suspicious/noExplicitAny: any
+  // oxlint-disable-next-line @typescript-eslint/no-explicit-any -- any
   TSettingsViewProps = any,
 > = AuthPluginBase &
   TComponents & {

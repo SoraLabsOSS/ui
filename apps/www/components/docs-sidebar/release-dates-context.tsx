@@ -2,11 +2,13 @@
 
 import {
   createContext,
-  type ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from "react";
+import type { ReactNode } from "react";
+
 import { isPageNew } from "@/lib/docs/is-recently-released";
 
 const DocsReleaseDatesContext = createContext<Record<string, string>>({});
@@ -28,24 +30,25 @@ export function DocsReleaseDatesProvider({
 /** Evaluates after mount so SSR and hydration markup stay in sync. */
 export function useDocsPageNew(url?: string): boolean {
   const releaseDatesByUrl = useContext(DocsReleaseDatesContext);
-  const [isNew, setIsNew] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsNew(isPageNew(url, releaseDatesByUrl));
-  }, [url, releaseDatesByUrl]);
+    setMounted(true);
+  }, []);
 
-  return isNew;
+  return mounted ? isPageNew(url, releaseDatesByUrl) : false;
 }
 
 export function useCheckDocsPageNew(): (url?: string) => boolean {
   const releaseDatesByUrl = useContext(DocsReleaseDatesContext);
-  const [check, setCheck] = useState<(url?: string) => boolean>(
-    () => () => false
-  );
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setCheck(() => (url?: string) => isPageNew(url, releaseDatesByUrl));
-  }, [releaseDatesByUrl]);
+    setMounted(true);
+  }, []);
 
-  return check;
+  return useCallback(
+    (url?: string) => (mounted ? isPageNew(url, releaseDatesByUrl) : false),
+    [mounted, releaseDatesByUrl]
+  );
 }

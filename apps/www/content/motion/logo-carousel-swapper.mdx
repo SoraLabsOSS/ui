@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-logo-carousel-swapper" description="Staggered logo columns cycling between sets with fade, vertical shift, and motion blur." />
+<ComponentPreview
+  name="demo-logo-carousel-swapper"
+  description="Staggered logo columns cycling between sets with fade, vertical shift, and motion blur."
+/>
 
 ## Installation
 
@@ -18,20 +21,44 @@ author:
 import {
   LogoCarouselSwapper,
   type LogoCarouselSwapperRow,
-} from '@/components/sora-ui/effects/logo-carousel-swapper';
+} from "@/components/sora-ui/effects/logo-carousel-swapper";
 
 const rows: LogoCarouselSwapperRow[] = [
   [
-    { src: 'https://cdn.soralabs.studio/logos/partners/nvidia-wordmark.svg', alt: 'Nvidia' },
-    { src: 'https://cdn.soralabs.studio/logos/partners/supabase-wordmark.svg', alt: 'Supabase' },
-    { src: 'https://cdn.soralabs.studio/logos/partners/github-wordmark.svg', alt: 'GitHub' },
-    { src: 'https://cdn.soralabs.studio/logos/partners/openai-wordmark.svg', alt: 'OpenAI' },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/nvidia-wordmark.svg",
+      alt: "Nvidia",
+    },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/supabase-wordmark.svg",
+      alt: "Supabase",
+    },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/github-wordmark.svg",
+      alt: "GitHub",
+    },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/openai-wordmark.svg",
+      alt: "OpenAI",
+    },
   ],
   [
-    { src: 'https://cdn.soralabs.studio/logos/partners/turso-wordmark.svg', alt: 'Turso' },
-    { src: 'https://cdn.soralabs.studio/logos/partners/clerk-wordmark.svg', alt: 'Clerk' },
-    { src: 'https://cdn.soralabs.studio/logos/partners/claude-wordmark.svg', alt: 'Claude' },
-    { src: 'https://cdn.soralabs.studio/logos/partners/vercel-wordmark.svg', alt: 'Vercel' },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/turso-wordmark.svg",
+      alt: "Turso",
+    },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/clerk-wordmark.svg",
+      alt: "Clerk",
+    },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/claude-wordmark.svg",
+      alt: "Claude",
+    },
+    {
+      src: "https://cdn.soralabs.studio/logos/partners/vercel-wordmark.svg",
+      alt: "Vercel",
+    },
   ],
 ];
 
@@ -54,43 +81,43 @@ export default function Page() {
   type={{
     rows: {
       description:
-        'Ordered logo sets cycled on each swap. Each row should provide one logo per column.',
-      type: 'LogoCarouselSwapperRow[]',
+        "Ordered logo sets cycled on each swap. Each row should provide one logo per column.",
+      type: "LogoCarouselSwapperRow[]",
     },
     interval: {
-      description: 'Milliseconds between swap cycles.',
-      type: 'number',
-      default: '3000',
+      description: "Milliseconds between swap cycles.",
+      type: "number",
+      default: "3000",
     },
     stagger: {
-      description: 'Left-to-right stagger between columns in seconds.',
-      type: 'number',
-      default: '0.12',
+      description: "Left-to-right stagger between columns in seconds.",
+      type: "number",
+      default: "0.12",
     },
     columns: {
-      description: 'Fixed column count. Rows are normalized to this length.',
-      type: 'number',
-      default: '4',
+      description: "Fixed column count. Rows are normalized to this length.",
+      type: "number",
+      default: "4",
     },
     align: {
-      description: 'Horizontal alignment of the logo row.',
+      description: "Horizontal alignment of the logo row.",
       type: '"center" | "start" | "end"',
       default: '"center"',
     },
     size: {
-      description: 'Slot and logo scale preset.',
+      description: "Slot and logo scale preset.",
       type: '"sm" | "default" | "lg"',
       default: '"default"',
     },
     monochrome: {
       description:
-        'Render logos as black on light backgrounds and white on dark backgrounds instead of original SVG colors.',
-      type: 'boolean',
-      default: 'false',
+        "Render logos as black on light backgrounds and white on dark backgrounds instead of original SVG colors.",
+      type: "boolean",
+      default: "false",
     },
     className: {
-      description: 'Additional class names on the root element.',
-      type: 'string',
+      description: "Additional class names on the root element.",
+      type: "string",
     },
   }}
 />
@@ -100,12 +127,12 @@ export default function Page() {
 <TypeTable
   type={{
     src: {
-      description: 'Logo image URL.',
-      type: 'string',
+      description: "Logo image URL.",
+      type: "string",
     },
     alt: {
-      description: 'Accessible label for the logo.',
-      type: 'string',
+      description: "Accessible label for the logo.",
+      type: "string",
     },
   }}
 />

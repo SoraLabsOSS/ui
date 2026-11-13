@@ -5,6 +5,7 @@ import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
+
 import { TextMorph } from "@/registry/primitives/texts/text-morph";
 
 const layoutTransition = {
@@ -23,7 +24,7 @@ export function BlogShareButton({
   const [isChecked, onCopy] = useCopyButton(() => {
     navigator.clipboard
       .writeText(`${window.location.origin}${url}`)
-      .catch(() => undefined);
+      .catch(() => {});
   });
 
   const label = isChecked ? "Copied" : "Copy link";

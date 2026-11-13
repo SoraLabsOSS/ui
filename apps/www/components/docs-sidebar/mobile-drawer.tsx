@@ -2,12 +2,9 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { useSidebar } from "fumadocs-ui/provider";
-import {
-  type CSSProperties,
-  type ReactNode,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { useLayoutEffect, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
+
 import {
   closeMobileSidebar,
   isMobileSidebarSuppressed,
@@ -104,7 +101,7 @@ export function DocsMobileDrawer({
         aria-hidden={isResponsive ? undefined : !show}
         aria-label={label}
         className={cn(
-          "flex min-h-0 flex-col overflow-hidden bg-fd-background outline-none",
+          "bg-fd-background flex min-h-0 flex-col overflow-hidden outline-none",
           isResponsive
             ? cn(
                 "max-md:fixed max-md:inset-y-2 max-md:start-2 max-md:z-40 max-md:w-[min(300px,calc(100vw-1.5rem))] max-md:max-w-[min(300px,calc(100vw-1.5rem))] max-md:rounded-2xl max-md:border max-md:text-[15px] max-md:shadow-lg",

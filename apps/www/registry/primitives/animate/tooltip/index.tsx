@@ -8,16 +8,11 @@ import {
   arrow as floatingArrow,
   offset as floatingOffset,
   shift,
-  type UseFloatingReturn,
   useFloating,
 } from "@floating-ui/react";
-import {
-  AnimatePresence,
-  type HTMLMotionProps,
-  LayoutGroup,
-  motion,
-  type Transition,
-} from "motion/react";
+import type { UseFloatingReturn } from "@floating-ui/react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import type { HTMLMotionProps, Transition } from "motion/react";
 import type * as React from "react";
 import {
   useCallback,
@@ -30,7 +25,8 @@ import {
 } from "react";
 
 import { getStrictContext } from "@/registry/lib/get-strict-context";
-import { Slot, type WithAsChild } from "@/registry/primitives/animate/slot";
+import { Slot } from "@/registry/primitives/animate/slot";
+import type { WithAsChild } from "@/registry/primitives/animate/slot";
 
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
@@ -296,7 +292,7 @@ function TooltipOverlay() {
     }
   }, [currentTooltip]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: rendered.data must re-run this so the shared tooltip re-anchors to each new trigger as the cursor moves between elements
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- rendered.data must re-run this so the shared tooltip re-anchors to each new trigger as the cursor moves between elements
   useLayoutEffect(() => {
     if (referenceElRef.current) {
       refs.setReference(referenceElRef.current);
@@ -304,7 +300,7 @@ function TooltipOverlay() {
     }
   }, [referenceElRef, refs, update, rendered.data]);
 
-  const ready = x != null && y != null;
+  const ready = x !== null && x !== undefined && y !== null && y !== undefined;
   const Component = rendered.data?.contentAsChild ? Slot : motion.div;
   const resolvedSide = getResolvedSide(context.placement);
 
@@ -368,7 +364,7 @@ function TooltipOverlay() {
                   {...rendered.data.contentProps}
                   style={{
                     position: "relative",
-                    ...(rendered.data.contentProps?.style || {}),
+                    ...rendered.data.contentProps?.style,
                   }}
                 />
               </RenderedTooltipProvider>
@@ -453,7 +449,7 @@ function TooltipContent({ asChild = false, ...props }: TooltipContentProps) {
       lastPropsRef.current = props;
       setProps(props);
     }
-    // biome-ignore lint/correctness/useExhaustiveDependencies: This rest-props object is intentionally compared shallowly before updating provider state.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- This rest-props object is intentionally compared shallowly before updating provider state.
   }, [props, setProps]);
 
   useEffect(() => {

@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
+
 import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
 import type {
   ComponentGalleryItem,
   ComponentPageData,
   ComponentPageHeaderData,
 } from "@/lib/registry/types";
+
 import { ComponentPageLayoutClient } from "./catalog-layout-client";
 
 interface ComponentPageLayoutProps {

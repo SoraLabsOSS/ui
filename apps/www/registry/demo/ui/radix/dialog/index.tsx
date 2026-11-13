@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Button } from "@/registry/ui/radix/button";
 import {
   Dialog,
@@ -32,26 +33,26 @@ export default function RadixDialogDemo() {
           <div className="grid gap-4 py-2">
             <div className="grid grid-cols-4 items-center gap-4">
               <label
-                className="text-right font-medium text-sm"
+                className="text-right text-sm font-medium"
                 htmlFor="radix-profile-name"
               >
                 Name
               </label>
               <input
-                className="col-span-3 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
+                className="border-input bg-background focus-visible:border-ring focus-visible:ring-ring/50 col-span-3 h-9 rounded-md border px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-2"
                 defaultValue="Alex Rivera"
                 id="radix-profile-name"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <label
-                className="text-right font-medium text-sm"
+                className="text-right text-sm font-medium"
                 htmlFor="radix-profile-username"
               >
                 Username
               </label>
               <input
-                className="col-span-3 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
+                className="border-input bg-background focus-visible:border-ring focus-visible:ring-ring/50 col-span-3 h-9 rounded-md border px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-2"
                 defaultValue="@alexrivera"
                 id="radix-profile-username"
               />

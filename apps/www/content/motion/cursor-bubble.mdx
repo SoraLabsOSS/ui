@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-cursor-bubble" description="Move your cursor over the links below — a floating label pops in with the target's text." />
+<ComponentPreview
+  name="demo-cursor-bubble"
+  description="Move your cursor over the links below — a floating label pops in with the target's text."
+/>
 
 `CursorBubble` follows the pointer with `gsap.quickTo` (a lightweight per-frame tween, cheaper than re-running a full tween every `mousemove`), offset from the cursor so it reads like a little tag trailing behind it. Each `CursorBubbleTarget` reports its own label to the bubble on hover, which pops in with an elastic ease and collapses back to a dot-sized, rotated resting state on leave — the same feel as [Truus.co](https://www.truus.co/)'s footer link cursor.
 
@@ -20,7 +23,7 @@ author:
 import {
   CursorBubble,
   CursorBubbleTarget,
-} from '@/components/sora-ui/effects/cursor-bubble';
+} from "@/components/sora-ui/effects/cursor-bubble";
 
 export default function Page() {
   return (
@@ -38,16 +41,19 @@ export default function Page() {
 <TypeTable
   type={{
     children: {
-      description: 'Page content — CursorBubble renders as display: contents by default, so it adds no layout of its own.',
-      type: 'ReactNode',
+      description:
+        "Page content — CursorBubble renders as display: contents by default, so it adds no layout of its own.",
+      type: "ReactNode",
     },
     className: {
-      description: 'Additional class names merged onto the root element. Override the default contents display to give the bubble a positioned container.',
-      type: 'string',
+      description:
+        "Additional class names merged onto the root element. Override the default contents display to give the bubble a positioned container.",
+      type: "string",
     },
     bubbleClassName: {
-      description: 'Extra classes applied to the floating bubble itself — color, padding, shape, etc. Merged onto the default bg-primary text-primary-foreground styles.',
-      type: 'string',
+      description:
+        "Extra classes applied to the floating bubble itself — color, padding, shape, etc. Merged onto the default bg-primary text-primary-foreground styles.",
+      type: "string",
     },
   }}
 />
@@ -57,17 +63,17 @@ export default function Page() {
 <TypeTable
   type={{
     label: {
-      description: 'Text shown in the bubble while hovering this target.',
-      type: 'string',
+      description: "Text shown in the bubble while hovering this target.",
+      type: "string",
       default: '"click"',
     },
     children: {
-      description: 'The interactive element (link, button, etc.) to wrap.',
-      type: 'ReactNode',
+      description: "The interactive element (link, button, etc.) to wrap.",
+      type: "ReactNode",
     },
     className: {
-      description: 'Additional class names merged onto the target span.',
-      type: 'string',
+      description: "Additional class names merged onto the target span.",
+      type: "string",
     },
   }}
 />

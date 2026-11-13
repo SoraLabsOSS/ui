@@ -1,4 +1,5 @@
 import type { ResourceMetadata } from "xmcp";
+
 import { listInstallableItems } from "../registry/sora-registry-source";
 
 export const metadata: ResourceMetadata = {

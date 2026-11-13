@@ -1,17 +1,10 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: characters are positional per rendered word, never reordered. */
+/* oxlint-disable react/no-array-index-key, react-doctor/no-array-index-as-key -- characters are positional per rendered word, never reordered. */
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import { animate, useReducedMotion } from "motion/react";
-import {
-  type ElementType,
-  type ReactNode,
-  type Ref,
-  type RefCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ElementType, ReactNode, Ref, RefCallback } from "react";
 import { flushSync } from "react-dom";
 
 const COLLAPSE_CHAR_DURATION = 0.1;
@@ -115,7 +108,9 @@ function mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {
 }
 
 function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 function getNextIndex(current: number, length: number, loop: boolean) {
@@ -216,7 +211,7 @@ async function collapseWord(
   wrap: HTMLSpanElement,
   charDelay: number
 ) {
-  const width = wrap.getBoundingClientRect().width;
+  const { width } = wrap.getBoundingClientRect();
   cursorEl.style.transformOrigin = "100% 0%";
   const total = chars.length;
   const lastIndex = total - 1;

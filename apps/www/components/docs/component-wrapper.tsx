@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "motion/react";
 import type * as React from "react";
+
 import Iframe from "./iframe";
 
 interface ComponentWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,7 +24,7 @@ export const ComponentWrapper = ({
   <div className="rounded-none p-1.5">
     <motion.div
       className={cn(
-        "relative flex max-w-screen flex-col rounded-md bg-background md:flex-row",
+        "bg-background relative flex max-w-screen flex-col rounded-md md:flex-row",
         bigScreen && "overflow-hidden",
         className
       )}

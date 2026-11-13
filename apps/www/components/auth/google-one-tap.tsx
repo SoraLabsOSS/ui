@@ -2,12 +2,13 @@
 
 import { useGoogleOneTapPendingControls } from "@workspace/auth-ui/context/google-one-tap-pending";
 import { useAuthRedirectTo } from "@workspace/auth-ui/hooks/use-auth-redirect-to";
-import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
+import { buildOAuthCallbackURLs } from "@workspace/auth-ui/lib/auth/oauth-callback-urls";
 import { toast } from "@workspace/ui/components/ui/sonner";
-import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+
 import { authClient, oneTapGisOptions } from "@/lib/auth-client";
 
 const GIS_IFRAME_SELECTOR = 'iframe[src*="accounts.google.com/gsi/"]';
@@ -25,7 +26,7 @@ function applyOneTapChromeStyles(element: HTMLElement, isDark: boolean) {
 
 /** Sync styles on GIS-injected nodes (desktop prompt + mobile bottom sheet). */
 function syncOneTapPickerChrome(isDark: boolean) {
-  const container = document.getElementById("credential_picker_container");
+  const container = document.querySelector("#credential_picker_container");
 
   if (container instanceof HTMLElement) {
     applyOneTapChromeStyles(container, isDark);

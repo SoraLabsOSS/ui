@@ -2,6 +2,7 @@
 
 import { useAuth } from "@workspace/auth-ui/lib/auth-react";
 import { useSearchParams } from "next/navigation";
+
 import { resolveAuthRedirectTo } from "../lib/auth/redirect-to";
 
 /**

@@ -11,7 +11,9 @@ import {
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
 import type { ResolvedCardPreviewMedia } from "@/lib/registry/resolve-card-preview-media";
+
 import { catalogNavHoverPreviewLayerClassName } from "./catalog-preview-classes";
 
 const PREVIEW_WIDTH = 224;
@@ -114,8 +116,12 @@ function CatalogNavPreviewMedia({
           onLoadedMetadata={(event) => {
             const resumeAt = VIDEO_SEEK_MEMORY.get(videoSrc);
             const { currentTarget } = event;
-            const duration = currentTarget.duration;
-            if (resumeAt != null && Number.isFinite(duration) && duration > 0) {
+            const { duration } = currentTarget;
+            if (
+              resumeAt !== undefined &&
+              Number.isFinite(duration) &&
+              duration > 0
+            ) {
               currentTarget.currentTime = resumeAt % duration;
             }
           }}
@@ -206,8 +212,8 @@ export function CatalogNavHoverPreview({
           style={{ x, y }}
           transition={{ duration: 0.14, ease: "easeOut" }}
         >
-          <div className="overflow-hidden rounded-xl border border-border/70 bg-card/95 shadow-2xl backdrop-blur-md">
-            <div className="relative h-32 w-full bg-muted">
+          <div className="border-border/70 bg-card/95 overflow-hidden rounded-xl border shadow-2xl backdrop-blur-md">
+            <div className="bg-muted relative h-32 w-full">
               <AnimatePresence initial={false} mode="sync">
                 <motion.div
                   animate={{ opacity: 1 }}

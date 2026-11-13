@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import { isAuthEnabled } from "@/env";
 
 export async function GET(request: Request) {

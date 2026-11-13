@@ -1,11 +1,12 @@
-// biome-ignore-all lint: GSAP scroll-pinned flip/dismiss cards (registry primitive)
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { type CSSProperties, type ReactNode, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
+import type { CSSProperties, ReactNode } from "react";
+
 import {
   isWindowScroller,
   observeWindowResize,
@@ -39,7 +40,7 @@ export const STICKY_SCROLL_CARDS_MINIMAL_CLASSES = {
   root: cn(LAYOUT.root, "bg-background text-foreground"),
   front: "bg-foreground text-background",
   back: "bg-muted text-foreground",
-  frontIcon: cn(LAYOUT.frontIcon, "border-2 border-background/80"),
+  frontIcon: cn(LAYOUT.frontIcon, "border-background/80 border-2"),
   backIcon: cn(LAYOUT.backIcon, "bg-background/20"),
   badge: "bg-background/90 text-foreground",
 } as const;
@@ -58,7 +59,7 @@ export const STICKY_SCROLL_CARDS_STUDIO_CLASSES = {
   root: cn(LAYOUT.root, "bg-[#fbfff2] text-[#0f0f0f]"),
   headline: cn(
     LAYOUT.headline,
-    "font-black text-[clamp(3rem,5vw,7rem)] uppercase leading-[0.85]"
+    "text-[clamp(3rem,5vw,7rem)] leading-[0.85] font-black uppercase"
   ),
   front: "bg-[#fd4400] text-white",
   back: "",

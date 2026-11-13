@@ -3,11 +3,10 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { format } from "date-fns";
 import { motion } from "motion/react";
+
 import { DocsAuthor } from "@/components/docs/docs-author";
-import {
-  NeighborNavButtons,
-  type NeighborNavItem,
-} from "@/components/docs/neighbor-nav-buttons";
+import { NeighborNavButtons } from "@/components/docs/neighbor-nav-buttons";
+import type { NeighborNavItem } from "@/components/docs/neighbor-nav-buttons";
 import { PageActionButtons } from "@/components/docs/page-actions";
 import type { ComponentPageHeaderData } from "@/lib/registry/types";
 import { GITHUB_REPO_URL } from "@/lib/site";
@@ -37,11 +36,11 @@ export function ComponentPageHeader({
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="flex flex-col gap-1.5" data-catalog-docs-header>
-        <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.2em]">
+        <p className="text-muted-foreground text-[0.65rem] font-medium tracking-[0.2em] uppercase">
           {data.collection}
         </p>
         <div className="flex w-full flex-row items-start justify-between gap-2">
-          <h1 className="min-w-0 font-semibold text-2xl tracking-tight sm:text-3xl md:text-4xl">
+          <h1 className="min-w-0 text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
             {data.title}
           </h1>
           <NeighborNavButtons
@@ -50,7 +49,7 @@ export function ComponentPageHeader({
             previous={previousNav}
           />
         </div>
-        <p className="mt-1 max-w-2xl text-foreground/60 text-sm leading-relaxed md:text-base">
+        <p className="text-foreground/60 mt-1 max-w-2xl text-sm leading-relaxed md:text-base">
           {data.description}
         </p>
         {releaseDate ? (

@@ -1,9 +1,10 @@
 "use client";
 
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { usePathname } from "next/navigation";
-import { type RefObject, useEffect } from "react";
+import { useEffect } from "react";
+import type { RefObject } from "react";
 
 const WHITESPACE_REGEX = /\s+/;
 
@@ -36,7 +37,7 @@ function hasAttrVal(el: HTMLElement, attr: string, val: string) {
 
 // 1. Calculate pivot depth --y based on text length (initRotateButtonsCalc)
 function calcButtonY(t: HTMLElement) {
-  const labels = Array.from(t.querySelectorAll<HTMLElement>(".button-label"));
+  const labels = [...t.querySelectorAll<HTMLElement>(".button-label")];
   if (labels.length === 0) {
     return;
   }
@@ -82,7 +83,7 @@ function bindHoverRotation(t: HTMLElement): (() => void) | null {
   const targets = e.querySelectorAll<HTMLElement>(
     ".button-label, .button-icon"
   );
-  const animTargets = targets.length > 0 ? Array.from(targets) : [t];
+  const animTargets = targets.length > 0 ? [...targets] : [t];
 
   let r = 0;
   const throttle = () => {
@@ -157,25 +158,25 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
     const root = containerRef?.current || document;
 
     // 1. Calculate pivot depth --y based on text length
-    const rotateButtons = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-button-rotate]")
-    );
+    const rotateButtons = [
+      ...root.querySelectorAll<HTMLElement>("[data-button-rotate]"),
+    ];
     for (const btn of rotateButtons) {
       calcButtonY(btn);
     }
 
     // 2. Initial cleanup: ensure all buttons start with pristine CSS transforms
-    const initialTargets = Array.from(
-      root.querySelectorAll<HTMLElement>(".button-label, .button-icon")
-    );
+    const initialTargets = [
+      ...root.querySelectorAll<HTMLElement>(".button-label, .button-icon"),
+    ];
     if (initialTargets.length > 0) {
       resetTargets(initialTargets);
     }
 
     // 3. Hover rotation binding
-    const hoverElements = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-button-rotate-hover]")
-    );
+    const hoverElements = [
+      ...root.querySelectorAll<HTMLElement>("[data-button-rotate-hover]"),
+    ];
     const cleanups: (() => void)[] = [];
 
     for (const el of hoverElements) {
@@ -188,9 +189,9 @@ export function useButton3DHover(containerRef?: RefObject<HTMLElement | null>) {
     // 4. Handle browser back/forward cache (bfcache) navigation
     const onPageShow = (event: PageTransitionEvent) => {
       if (event.persisted) {
-        const labels = Array.from(
-          root.querySelectorAll<HTMLElement>(".button-label, .button-icon")
-        );
+        const labels = [
+          ...root.querySelectorAll<HTMLElement>(".button-label, .button-icon"),
+        ];
         if (labels.length > 0) {
           resetTargets(labels);
         }

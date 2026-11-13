@@ -5,9 +5,7 @@ description: Configure right-to-left layouts and migrate Sora UI components for 
 
 import { CodeTabs } from "@/components/docs/code-tabs";
 
-Sora UI follows the RTL workflow introduced by
-[shadcn/ui](https://ui.shadcn.com/docs/rtl). The setup below covers Next.js,
-Vite, and TanStack Start.
+Sora UI follows the RTL workflow introduced by [shadcn/ui](https://ui.shadcn.com/docs/rtl). The setup below covers Next.js, Vite, and TanStack Start.
 
 ## Create a project
 
@@ -34,8 +32,7 @@ This creates a `components.json` file with the `rtl: true` flag.
 
 ## Existing projects
 
-Add `rtl: true` to `components.json` to enable RTL-aware component generation
-and migration:
+Add `rtl: true` to `components.json` to enable RTL-aware component generation and migration:
 
 ```json
 {
@@ -69,15 +66,11 @@ Limit the migration to a file or directory:
   }}
 />
 
-The migration converts physical properties to logical equivalents such as
-`ml-*` to `ms-*`, `left-*` to `start-*`, and `side="right"` to
-`side="inline-end"`.
+The migration converts physical properties to logical equivalents such as `ml-*` to `ms-*`, `left-*` to `start-*`, and `side="right"` to `side="inline-end"`.
 
 ## Runtime direction
 
-`rtl: true` configures the CLI but does not change the browser direction.
-Your application must set both the document `dir` attribute and the appropriate
-`DirectionProvider` (Base UI or Radix UI):
+`rtl: true` configures the CLI but does not change the browser direction. Your application must set both the document `dir` attribute and the appropriate `DirectionProvider` (Base UI or Radix UI):
 
 ### Base UI
 
@@ -107,8 +100,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-Use `lang="ar"` for Arabic, `lang="he"` for Hebrew, `lang="fa"` for Persian,
-or the appropriate locale for your application.
+Use `lang="ar"` for Arabic, `lang="he"` for Hebrew, `lang="fa"` for Persian, or the appropriate locale for your application.
 
 ## Next.js
 
@@ -140,11 +132,10 @@ export default function RootLayout({
 
 ## Vite
 
-Set the direction in `index.html` and provide the Base UI direction in
-`src/main.tsx`:
+Set the direction in `index.html` and provide the Base UI direction in `src/main.tsx`:
 
 ```html title="index.html"
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl"></html>
 ```
 
 ```tsx title="src/main.tsx"
@@ -162,8 +153,7 @@ createRoot(document.getElementById("root")!).render(
 );
 ```
 
-Install an Arabic font with your package manager and import it in
-`src/index.css`:
+Install an Arabic font with your package manager and import it in `src/index.css`:
 
 <CodeTabs
   codes={{
@@ -184,8 +174,7 @@ Install an Arabic font with your package manager and import it in
 
 ## TanStack Start
 
-Set `dir="rtl"` and `lang="ar"` on the root document and wrap the app in
-`src/routes/__root.tsx`:
+Set `dir="rtl"` and `lang="ar"` on the root document and wrap the app in `src/routes/__root.tsx`:
 
 ```tsx title="src/routes/__root.tsx"
 import { DirectionProvider } from "@base-ui/react/direction-provider";
@@ -197,9 +186,7 @@ function RootComponent() {
         <Meta />
       </head>
       <body>
-        <DirectionProvider direction="rtl">
-          {children}
-        </DirectionProvider>
+        <DirectionProvider direction="rtl">{children}</DirectionProvider>
         <Scripts />
       </body>
     </html>
@@ -207,17 +194,10 @@ function RootComponent() {
 }
 ```
 
-For Arabic fonts, install `@fontsource-variable/noto-sans-arabic` and import
-it in your stylesheet. For Hebrew, use the corresponding Hebrew font package.
+For Arabic fonts, install `@fontsource-variable/noto-sans-arabic` and import it in your stylesheet. For Hebrew, use the corresponding Hebrew font package.
 
 ## Component support
 
-RTL support is being rolled out progressively across the Sora UI registry.
-The goal is to make every component work correctly in RTL layouts, including
-popup placement, directional icons, keyboard navigation, and horizontal
-animations.
+RTL support is being rolled out progressively across the Sora UI registry. The goal is to make every component work correctly in RTL layouts, including popup placement, directional icons, keyboard navigation, and horizontal animations.
 
-Until the migration is complete, review each component's documentation and
-test it in both LTR and RTL contexts before shipping. Components that use
-direction-sensitive positioning or animation may require the
-`DirectionProvider`, logical CSS utilities, and an explicit `dir` attribute.
+Until the migration is complete, review each component's documentation and test it in both LTR and RTL contexts before shipping. Components that use direction-sensitive positioning or animation may require the `DirectionProvider`, logical CSS utilities, and an explicit `dir` attribute.

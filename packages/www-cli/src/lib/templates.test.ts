@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+
 import {
   buildScaffoldLabels,
   renderMotionMdx,
@@ -32,7 +33,7 @@ describe("templates", () => {
       labels.description
     );
     const parsed = JSON.parse(json) as {
-      files: Array<{ path: string; target: string }>;
+      files: { path: string; target: string }[];
       meta: { demoProps: Record<string, unknown> };
     };
 

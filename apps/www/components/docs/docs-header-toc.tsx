@@ -12,18 +12,14 @@ import {
 import { PageTOCPopoverItems } from "fumadocs-ui/layouts/docs/page";
 import { useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { ComponentProps } from "react";
+
 import {
-  type ComponentProps,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  type HeaderTocItem,
   useHeaderTocItems,
   usePublishHeaderToc,
 } from "@/components/docs/docs-toc-header-slot";
+import type { HeaderTocItem } from "@/components/docs/docs-toc-header-slot";
 
 const RING_SIZE = 20;
 const RING_STROKE = 1.75;
@@ -134,7 +130,7 @@ function findActiveHeadingId(tocItems: HeaderTocItem[]): string | undefined {
     if (!id) {
       continue;
     }
-    const el = document.getElementById(id);
+    const el = document.querySelector<HTMLElement>(`#${id}`);
     if (el) {
       headings.push({ id, element: el });
     }
@@ -207,10 +203,8 @@ function HeaderTocPopover() {
   const prefersReducedMotion = useReducedMotion();
   const prefersReducedMotionRef = useRef(prefersReducedMotion);
   prefersReducedMotionRef.current = prefersReducedMotion;
-  const [fallbackActiveId, setFallbackActiveId] = useState<string | undefined>(
-    undefined
-  );
-  const [clickedId, setClickedId] = useState<string | undefined>(undefined);
+  const [fallbackActiveId, setFallbackActiveId] = useState<string>();
+  const [clickedId, setClickedId] = useState<string>();
   const [open, setOpen] = useState(false);
   const [openPathname, setOpenPathname] = useState(pathname);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -391,7 +385,7 @@ function HeaderTocPopover() {
           sideOffset={8}
         >
           <PageTOCPopoverItems
-            className="min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin]!"
+            className="min-h-0 flex-1 [scrollbar-width:thin]! overflow-y-auto overscroll-contain"
             data-docs-toc-scroller=""
             variant="clerk"
           />

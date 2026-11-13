@@ -1,7 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+
 import type { ComponentTocItem } from "@/lib/registry/types";
+
 import { CatalogScrollArea } from "./catalog-scroll-area";
 
 interface ComponentPageTocProps {
@@ -22,15 +24,15 @@ export function ComponentPageToc({ items, className }: ComponentPageTocProps) {
         className
       )}
     >
-      <p className="mb-2 shrink-0 font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.2em]">
+      <p className="text-muted-foreground mb-2 shrink-0 text-[0.65rem] font-medium tracking-[0.2em] uppercase">
         On this page
       </p>
       <CatalogScrollArea className="max-h-[calc(100dvh-8rem)]">
-        <ul className="flex flex-col gap-0.5 border-border/60 border-l pl-3">
+        <ul className="border-border/60 flex flex-col gap-0.5 border-l pl-3">
           {items.map((item) => (
             <li key={item.url}>
               <a
-                className="block py-1 text-muted-foreground transition-colors hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground block py-1 transition-colors"
                 href={item.url}
               >
                 {item.title}

@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import { gsap } from "gsap";
 
 const VERTEX_SHADER = `
 attribute vec2 aPosition;
@@ -123,9 +123,9 @@ export class PageTransitionShader {
   private buffer: WebGLBuffer | null = null;
 
   uProgress = 0;
-  private uDirection = 1.0;
+  private uDirection = 1;
   private uOffset: [number, number] = [0, 0];
-  private readonly uColor: [number, number, number] = [0.0, 0.0, 0.0];
+  private readonly uColor: [number, number, number] = [0, 0, 0];
 
   private locations: {
     uAspect: WebGLUniformLocation | null;
@@ -151,9 +151,9 @@ export class PageTransitionShader {
   ) {
     this.canvas = canvas;
     this.config = {
-      color: config.color ?? [0.0, 0.0, 0.0],
-      ditherSize: config.ditherSize ?? 3.0,
-      edgeSmoothness: config.edgeSmoothness ?? 1.0,
+      color: config.color ?? [0, 0, 0],
+      ditherSize: config.ditherSize ?? 3,
+      edgeSmoothness: config.edgeSmoothness ?? 1,
       noiseFrequency: config.noiseFrequency ?? 0.5,
       noiseStrength: config.noiseStrength ?? 0.8,
     };
@@ -303,7 +303,7 @@ export class PageTransitionShader {
     this.gl.uniform1f(this.locations.uNoiseStrength, this.config.noiseStrength);
     this.gl.uniform1f(this.locations.uEdgeSmooth, this.config.edgeSmoothness);
     this.gl.uniform1f(this.locations.uDirection, this.uDirection);
-    this.gl.uniform1f(this.locations.uPixelSize, 0.0);
+    this.gl.uniform1f(this.locations.uPixelSize, 0);
     this.gl.uniform1f(this.locations.uDitherSize, this.config.ditherSize);
     this.gl.uniform3f(
       this.locations.uColor,
@@ -321,8 +321,8 @@ export class PageTransitionShader {
     }
 
     this.uOffset = [Math.random() * 100, Math.random() * 100];
-    this.uDirection = 1.0;
-    this.uProgress = 0.0;
+    this.uDirection = 1;
+    this.uProgress = 0;
     this.startTicker();
 
     return new Promise((resolve) => {
@@ -333,7 +333,7 @@ export class PageTransitionShader {
           this.activeTween = null;
           resolve();
         },
-        uProgress: 1.0,
+        uProgress: 1,
       });
     });
   }
@@ -344,8 +344,8 @@ export class PageTransitionShader {
     }
 
     this.uOffset = [Math.random() * 100, Math.random() * 100];
-    this.uDirection = 0.0;
-    this.uProgress = 1.0;
+    this.uDirection = 0;
+    this.uProgress = 1;
     this.startTicker();
 
     return new Promise((resolve) => {
@@ -357,7 +357,7 @@ export class PageTransitionShader {
           this.stopTicker();
           resolve();
         },
-        uProgress: 0.0,
+        uProgress: 0,
       });
     });
   }

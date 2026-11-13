@@ -1,12 +1,13 @@
-// biome-ignore-all lint: GSAP-driven draggable scrollbar/chapter-panel primitive
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { type ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import type { ReactNode } from "react";
+
 import {
   observeWindowResize,
   waitForScrollerReady,

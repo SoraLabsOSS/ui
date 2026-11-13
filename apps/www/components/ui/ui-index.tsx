@@ -1,18 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import Link from "next/link";
+
 import { index } from "@/__registry__";
-import {
-  type NewComponentEntry,
-  NewComponentsSection,
-} from "@/components/docs/new-components-section";
+import { NewComponentsSection } from "@/components/docs/new-components-section";
+import type { NewComponentEntry } from "@/components/docs/new-components-section";
 import { PrimitivesIndexNewDot } from "@/components/docs/primitives-index-new-dot";
 import uiMeta from "@/content/ui/meta.json";
 import {
   getPageReleaseDateString,
-  type PageReleaseDateFields,
   toReleaseDateString,
 } from "@/lib/docs/get-page-release-date";
+import type { PageReleaseDateFields } from "@/lib/docs/get-page-release-date";
 import { gitLastModifiedForFile } from "@/lib/docs/git-last-modified";
 import { uiSource } from "@/lib/ui/source";
 
@@ -102,7 +102,7 @@ export async function UiIndex() {
           <div className="not-prose grid grid-cols-2 gap-2 sm:grid-cols-3">
             {overviewSection.pages.map((page) => (
               <Link
-                className="relative flex items-center justify-center rounded-lg border bg-accent/40 px-3 py-2.5 text-center font-medium text-foreground text-sm no-underline transition-colors duration-200 hover:bg-accent"
+                className="bg-accent/40 text-foreground hover:bg-accent relative flex items-center justify-center rounded-lg border px-3 py-2.5 text-center text-sm font-medium no-underline transition-colors duration-200"
                 href={page.url}
                 key={page.url}
               >
@@ -123,7 +123,7 @@ export async function UiIndex() {
           <div className="not-prose grid grid-cols-2 gap-2 sm:grid-cols-3">
             {section.pages.map((page) => (
               <Link
-                className="relative flex items-center justify-center rounded-lg border bg-accent/40 px-3 py-2.5 text-center font-medium text-foreground text-sm no-underline transition-colors duration-200 hover:bg-accent"
+                className="bg-accent/40 text-foreground hover:bg-accent relative flex items-center justify-center rounded-lg border px-3 py-2.5 text-center text-sm font-medium no-underline transition-colors duration-200"
                 href={page.url}
                 key={page.url}
               >

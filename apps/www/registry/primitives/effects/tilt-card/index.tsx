@@ -2,15 +2,14 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import {
-  type MotionStyle,
   motion,
-  type SpringOptions,
   useMotionTemplate,
   useMotionValue,
   useReducedMotion,
   useSpring,
   useTransform,
 } from "motion/react";
+import type { MotionStyle, SpringOptions } from "motion/react";
 import type { MouseEvent, ReactNode, Ref } from "react";
 
 const DEFAULT_ROTATION_FACTOR = 15;

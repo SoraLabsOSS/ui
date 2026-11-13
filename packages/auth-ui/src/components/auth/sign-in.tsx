@@ -11,7 +11,9 @@ import {
 } from "@workspace/ui/components/ui/card";
 import { cn } from "@workspace/ui/lib/utils";
 import type { ReactNode } from "react";
-import { ProviderButtons, type SocialLayout } from "./provider-buttons";
+
+import { ProviderButtons } from "./provider-buttons";
+import type { SocialLayout } from "./provider-buttons";
 
 export type SignInVariant = "card" | "page";
 
@@ -50,12 +52,12 @@ function SignInPageLayout({
   return (
     <div className={cn("w-full", className)}>
       <div>
-        <h1 className="font-medium text-3xl text-foreground tracking-tight sm:text-4xl">
+        <h1 className="text-foreground text-3xl font-medium tracking-tight sm:text-4xl">
           {title}
         </h1>
 
         {description ? (
-          <p className="mt-3 text-muted-foreground">{description}</p>
+          <p className="text-muted-foreground mt-3">{description}</p>
         ) : null}
       </div>
 
@@ -76,7 +78,7 @@ function SignInCardLayout({
   return (
     <Card className={cn("w-full max-w-sm", className)}>
       <CardHeader>
-        <CardTitle className="font-semibold text-xl">{title}</CardTitle>
+        <CardTitle className="text-xl font-semibold">{title}</CardTitle>
       </CardHeader>
 
       <CardContent>{children}</CardContent>

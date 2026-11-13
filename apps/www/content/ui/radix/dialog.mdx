@@ -24,7 +24,10 @@ compositionRecipes:
       - Keep cancel and confirm actions explicit and keyboard reachable.
 ---
 
-<ComponentPreview name="demo-radix-dialog" description="Default animated Radix UI modal dialog featuring 3D spring entrance and smooth backdrop blur." />
+<ComponentPreview
+  name="demo-radix-dialog"
+  description="Default animated Radix UI modal dialog featuring 3D spring entrance and smooth backdrop blur."
+/>
 
 ## Installation
 
@@ -59,7 +62,9 @@ export default function Page() {
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">
-          <p className="text-muted-foreground text-sm">Modal body content here.</p>
+          <p className="text-muted-foreground text-sm">
+            Modal body content here.
+          </p>
         </div>
         <DialogFooter>
           <DialogClose asChild>
@@ -77,11 +82,17 @@ export default function Page() {
 
 ### Scrollable Content
 
-<ComponentPreview name="demo-radix-dialog-scrollable" description="Dialog with scrollable body area for lengthy terms or policies." />
+<ComponentPreview
+  name="demo-radix-dialog-scrollable"
+  description="Dialog with scrollable body area for lengthy terms or policies."
+/>
 
 ### Share Link
 
-<ComponentPreview name="demo-radix-dialog-share" description="Dialog with input link copying and success toast states." />
+<ComponentPreview
+  name="demo-radix-dialog-share"
+  description="Dialog with input link copying and success toast states."
+/>
 
 ## Props
 
@@ -114,12 +125,14 @@ export default function Page() {
 <TypeTable
   type={{
     showCloseButton: {
-      description: "Whether to render the default top-right X close icon button.",
+      description:
+        "Whether to render the default top-right X close icon button.",
       type: "boolean",
       default: "true",
     },
     containerClassName: {
-      description: "Additional CSS classes for the fixed centering container wrapper.",
+      description:
+        "Additional CSS classes for the fixed centering container wrapper.",
       type: "string",
     },
     overlayClassName: {
@@ -127,7 +140,8 @@ export default function Page() {
       type: "string",
     },
     className: {
-      description: "Additional CSS classes merged onto the popup dialog box element.",
+      description:
+        "Additional CSS classes merged onto the popup dialog box element.",
       type: "string",
     },
   }}

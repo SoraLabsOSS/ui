@@ -23,7 +23,7 @@ export function getAuthErrorContent(
   const title = titleForContext(context);
 
   switch (error) {
-    case "access_denied":
+    case "access_denied": {
       return {
         title,
         description:
@@ -31,62 +31,72 @@ export function getAuthErrorContent(
             ? "You cancelled linking this provider. You can try again from Security settings."
             : "You cancelled sign-in. Choose a provider below to continue.",
       };
+    }
     case "state_mismatch":
-    case "invalid_state":
+    case "invalid_state": {
       return {
         title,
         description:
           "Your sign-in session expired. Please try again — it only takes a moment.",
       };
-    case "no_code":
+    }
+    case "no_code": {
       return {
         title,
         description:
           "The provider did not complete authorization. Please try again.",
       };
-    case "User_not_authorized":
+    }
+    case "User_not_authorized": {
       return {
         title,
         description:
           "This account isn't allowed to access Sora UI. Contact support if you think this is a mistake.",
       };
-    case "oauth_error":
+    }
+    case "oauth_error": {
       return {
         title,
         description:
           "Something went wrong with the provider. Try again or use a different sign-in option.",
       };
-    case "email_not_found":
+    }
+    case "email_not_found": {
       return {
         title,
         description:
           "GitHub did not share an email address. In GitHub → Settings → Emails, verify your primary email and allow OAuth apps to read it. If you use a GitHub App, grant “Email addresses: Read-only”.",
       };
-    case "unable_to_create_user":
+    }
+    case "unable_to_create_user": {
       return {
         title,
         description:
           "We could not create your account. Sign in with Google if you already use that, then link GitHub from Settings → Security.",
       };
-    case "account_not_linked":
+    }
+    case "account_not_linked": {
       return {
         title,
         description:
           "An account with this email already exists. Sign in with your original provider (usually Google), then link GitHub from Settings → Security.",
       };
-    case "email_does_not_match":
+    }
+    case "email_does_not_match": {
       return {
         title,
         description:
           "That provider uses a different email than this account. Sign in first, then link it from Settings → Security.",
       };
-    case "account_already_linked_to_different_user":
+    }
+    case "account_already_linked_to_different_user": {
       return {
         title,
         description:
           "This Google or GitHub login is already connected to another Sora account. Sign in with that provider, or unlink it there first.",
       };
-    default:
+    }
+    default: {
       return {
         title,
         description:
@@ -94,6 +104,7 @@ export function getAuthErrorContent(
             ? "We couldn't link this provider. Please try again from Security settings."
             : "We couldn't complete sign-in. Please try again.",
       };
+    }
   }
 }
 

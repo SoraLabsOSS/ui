@@ -1,10 +1,13 @@
 import type { InferSchema, ToolMetadata } from "xmcp";
 import { z } from "zod";
+
 import {
-  type AgentMetadata,
   getItemSource,
   RegistryFetchError,
-  type RegistryItem,
+} from "../registry/sora-registry-source";
+import type {
+  AgentMetadata,
+  RegistryItem,
 } from "../registry/sora-registry-source";
 
 export const schema = {
@@ -174,9 +177,9 @@ export default async function validateComposition({
     const resolved = items.filter(
       (item): item is NonNullable<typeof item> => item !== null
     );
-    const uniqueItems = Array.from(
-      new Map(resolved.map((item) => [item.name, item])).values()
-    );
+    const uniqueItems = [
+      ...new Map(resolved.map((item) => [item.name, item])).values(),
+    ];
     const resolvedNames = uniqueItems.map((item) => item.name);
     const namesSet = new Set(resolvedNames);
 
@@ -223,18 +226,12 @@ export default async function validateComposition({
       "## Dependency Checks",
       dependencyWarnings.length > 0
         ? dependencyWarnings.map((w) => `- ${w}`).join("\n")
-        : "- All internal registry dependencies resolved."
-    );
-
-    sections.push(
+        : "- All internal registry dependencies resolved.",
       "",
       "## Agent Metadata & Guardrails",
       metadataRules.length > 0
         ? metadataRules.map((r) => `- ${r}`).join("\n")
-        : "- No component metadata published."
-    );
-
-    sections.push(
+        : "- No component metadata published.",
       "",
       "Use these guidelines when generating UI code. This tool does not create or modify files."
     );

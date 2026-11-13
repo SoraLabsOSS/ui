@@ -23,7 +23,10 @@ compositionRecipes:
       - Keep trigger labels meaningful without relying on panel content.
 ---
 
-<ComponentPreview name="demo-radix-accordion" description="Default animated Radix UI accordion with Motion spring transitions and glowing focus ring." />
+<ComponentPreview
+  name="demo-radix-accordion"
+  description="Default animated Radix UI accordion with Motion spring transitions and glowing focus ring."
+/>
 
 ## Installation
 
@@ -45,7 +48,8 @@ export default function Page() {
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern using Radix UI primitives.
+          Yes. It adheres to the WAI-ARIA design pattern using Radix UI
+          primitives.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -64,15 +68,24 @@ export default function Page() {
 
 ### Bordered Container
 
-<ComponentPreview name="demo-radix-accordion-bordered" description="Accordion in a bordered container with refined surface styling." />
+<ComponentPreview
+  name="demo-radix-accordion-bordered"
+  description="Accordion in a bordered container with refined surface styling."
+/>
 
 ### Separated Cards
 
-<ComponentPreview name="demo-radix-accordion-separated" description="Accordion with individual card-style separated items." />
+<ComponentPreview
+  name="demo-radix-accordion-separated"
+  description="Accordion with individual card-style separated items."
+/>
 
 ### Multiple Items
 
-<ComponentPreview name="demo-radix-accordion-multiple" description="Accordion allowing multiple panels to expand simultaneously." />
+<ComponentPreview
+  name="demo-radix-accordion-multiple"
+  description="Accordion allowing multiple panels to expand simultaneously."
+/>
 
 ## Props
 
@@ -81,11 +94,13 @@ export default function Page() {
 <TypeTable
   type={{
     value: {
-      description: "The controlled value of the item(s) that should be expanded.",
+      description:
+        "The controlled value of the item(s) that should be expanded.",
       type: "string | number | (string | number)[]",
     },
     defaultValue: {
-      description: "The uncontrolled value of the item(s) that should be initially expanded.",
+      description:
+        "The uncontrolled value of the item(s) that should be initially expanded.",
       type: "string | number | (string | number)[]",
       default: "[]",
     },
@@ -100,7 +115,8 @@ export default function Page() {
       default: '"default"',
     },
     showFocusRing: {
-      description: "Whether to render the gliding animated focus ring on keyboard focus.",
+      description:
+        "Whether to render the gliding animated focus ring on keyboard focus.",
       type: "boolean",
       default: "true",
     },

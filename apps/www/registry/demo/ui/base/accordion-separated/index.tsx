@@ -1,13 +1,14 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  type AccordionProps,
   AccordionTrigger,
 } from "@/registry/ui/base/accordion";
+import type { AccordionProps } from "@/registry/ui/base/accordion";
 
 export default function AccordionSeparatedDemo({
   className,

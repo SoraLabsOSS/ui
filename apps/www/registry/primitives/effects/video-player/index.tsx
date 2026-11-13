@@ -4,13 +4,14 @@ import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
 import {
   DEFAULT_SPEED_OPTIONS,
   formatSpeedLabel,
-  type VideoPlayerProps as LocalVideoPlayerProps,
   mergeRefs,
   sanitizeId,
 } from "./defs";
+import type { VideoPlayerProps as LocalVideoPlayerProps } from "./defs";
 import { attachVideoPlayer } from "./runtime";
 import { injectVideoPlayerStyles } from "./styles";
 

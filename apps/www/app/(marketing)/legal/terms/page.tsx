@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { TERMS_OF_SERVICE_ITEMS } from "@/components/legal/legal-data";
 import { LegalScrollView } from "@/components/legal/legal-scroll-view";
 import { getPageAlternates } from "@/lib/site";

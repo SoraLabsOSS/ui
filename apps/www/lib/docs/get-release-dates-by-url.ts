@@ -1,8 +1,6 @@
 import { blog } from "@/lib/blog/source";
-import {
-  getPageReleaseDateString,
-  type PageReleaseDateFields,
-} from "@/lib/docs/get-page-release-date";
+import { getPageReleaseDateString } from "@/lib/docs/get-page-release-date";
+import type { PageReleaseDateFields } from "@/lib/docs/get-page-release-date";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";

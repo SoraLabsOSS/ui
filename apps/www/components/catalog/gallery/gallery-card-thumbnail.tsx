@@ -28,12 +28,13 @@ export function GalleryCardThumbnail({
 }: GalleryCardThumbnailProps) {
   const gradient = getTagGradient(category);
   const hue =
-    title.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) % 360;
+    title.split("").reduce((acc, char) => acc + (char.codePointAt(0) ?? 0), 0) %
+    360;
 
   return (
     <div
       className={cn(
-        "absolute inset-0 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br bg-muted/60",
+        "bg-muted/60 absolute inset-0 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br",
         gradient,
         className
       )}
@@ -46,7 +47,7 @@ export function GalleryCardThumbnail({
         className="absolute -bottom-6 -left-6 h-28 w-28 rounded-full opacity-20 blur-2xl"
         style={{ backgroundColor: `hsl(${(hue + 60) % 360} 55% 55%)` }}
       />
-      <span className="relative z-10 max-w-[75%] text-center font-semibold text-foreground/30 text-lg leading-snug tracking-tight">
+      <span className="text-foreground/30 relative z-10 max-w-[75%] text-center text-lg leading-snug font-semibold tracking-tight">
         {title}
       </span>
     </div>

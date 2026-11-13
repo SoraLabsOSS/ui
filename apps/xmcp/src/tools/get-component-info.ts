@@ -1,5 +1,6 @@
 import type { InferSchema, ToolMetadata } from "xmcp";
 import { z } from "zod";
+
 import {
   formatDetail,
   formatList,

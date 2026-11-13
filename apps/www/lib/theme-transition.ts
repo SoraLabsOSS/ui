@@ -51,12 +51,10 @@ export function setThemeWithTransition(
         }, 350);
       };
 
-      if (document.documentElement.classList.contains("theme-transitioning")) {
-        executeThemeChange();
-      } else {
+      if (!document.documentElement.classList.contains("theme-transitioning")) {
         document.documentElement.classList.add("theme-transitioning");
-        executeThemeChange();
       }
+      executeThemeChange();
       return;
     }
 
@@ -69,5 +67,5 @@ export function setThemeWithTransition(
     applyThemeToDom(theme);
     setTheme(theme);
   });
-  transition.finished.catch(() => undefined);
+  transition.finished.catch(() => {});
 }

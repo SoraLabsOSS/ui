@@ -4,7 +4,7 @@ const MAX_REDIRECT_DECODE_PASSES = 3;
 
 function hasDisallowedRedirectChars(path: string): boolean {
   for (const char of path) {
-    const code = char.charCodeAt(0);
+    const code = char.codePointAt(0) ?? 0;
     if (char === "\\" || code <= 0x1f || code === 0x7f) {
       return true;
     }

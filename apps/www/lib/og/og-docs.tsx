@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+
 import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";

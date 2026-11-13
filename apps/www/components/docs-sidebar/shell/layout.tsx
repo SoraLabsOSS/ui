@@ -8,6 +8,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { LayoutGroup } from "motion/react";
 import type * as React from "react";
 import { useRef } from "react";
+
 import {
   DocsShellEffectsProvider,
   DocsShellHoverHighlight,
@@ -25,7 +26,7 @@ export function DocsShellContent({
   className?: string;
   viewportClassName?: string;
 }) {
-  const containerRef = useDocsShellHover().containerRef;
+  const { containerRef } = useDocsShellHover();
 
   return (
     <ScrollArea className={cn("min-h-0 flex-1", className)} type="scroll">
@@ -64,7 +65,7 @@ export function DocsShell({
       <DocsShellHoverProvider containerRef={containerRef}>
         <aside
           className={cn(
-            "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-background",
+            "bg-background relative flex min-h-0 w-full flex-1 flex-col overflow-hidden",
             className
           )}
         >

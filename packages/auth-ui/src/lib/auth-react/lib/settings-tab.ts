@@ -9,7 +9,7 @@ import type { ComponentType, ReactNode } from "react";
  */
 export interface SettingsTab {
   /** Component rendered in the tab panel */
-  // biome-ignore lint/suspicious/noExplicitAny: any
+  // oxlint-disable-next-line @typescript-eslint/no-explicit-any -- any
   component: ComponentType<any>;
   /** Display label */
   label: ReactNode;

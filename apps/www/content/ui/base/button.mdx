@@ -23,7 +23,10 @@ compositionRecipes:
       - Use DialogTrigger render rather than nesting interactive elements.
 ---
 
-<ComponentPreview name="demo-button" description="Default primary button with Motion spring scaling on hover and tap." />
+<ComponentPreview
+  name="demo-button"
+  description="Default primary button with Motion spring scaling on hover and tap."
+/>
 
 ## Installation
 
@@ -43,23 +46,38 @@ export default function Page() {
 
 ### Variants
 
-<ComponentPreview name="demo-button-variants" description="All visual button variants: default, secondary, destructive, outline, ghost, and link." />
+<ComponentPreview
+  name="demo-button-variants"
+  description="All visual button variants: default, secondary, destructive, outline, ghost, and link."
+/>
 
 ### Sizes
 
-<ComponentPreview name="demo-button-sizes" description="Button size presets from extra small (xs) to large (lg)." />
+<ComponentPreview
+  name="demo-button-sizes"
+  description="Button size presets from extra small (xs) to large (lg)."
+/>
 
 ### With Icon
 
-<ComponentPreview name="demo-button-with-icon" description="Button combined with leading or trailing Lucide icons." />
+<ComponentPreview
+  name="demo-button-with-icon"
+  description="Button combined with leading or trailing Lucide icons."
+/>
 
 ### Loading State
 
-<ComponentPreview name="demo-button-loading" description="Disabled button showing an animated spinner." />
+<ComponentPreview
+  name="demo-button-loading"
+  description="Disabled button showing an animated spinner."
+/>
 
 ### Custom Motion Scaling
 
-<ComponentPreview name="demo-button-motion" description="Customizable hoverScale and tapScale multipliers, with option to disable scaling." />
+<ComponentPreview
+  name="demo-button-motion"
+  description="Customizable hoverScale and tapScale multipliers, with option to disable scaling."
+/>
 
 ## Props
 
@@ -67,13 +85,13 @@ export default function Page() {
   type={{
     variant: {
       description: "Visual variant of the button.",
-      type: "\"default\" | \"outline\" | \"secondary\" | \"ghost\" | \"destructive\" | \"link\"",
-      default: "\"default\"",
+      type: '"default" | "outline" | "secondary" | "ghost" | "destructive" | "link"',
+      default: '"default"',
     },
     size: {
       description: "Size preset of the button.",
-      type: "\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"",
-      default: "\"default\"",
+      type: '"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"',
+      default: '"default"',
     },
     hoverScale: {
       description: "Motion scale multiplier on pointer hover.",

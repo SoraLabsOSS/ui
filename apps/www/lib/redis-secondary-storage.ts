@@ -1,6 +1,8 @@
 import { captureException, captureMessage } from "@sentry/nextjs";
 import type { SecondaryStorage } from "better-auth";
+
 import { isRedisConfigured } from "@/env";
+
 import { getRedis } from "./redis";
 
 const REDIS_STORAGE_COMPONENT = "redis-secondary-storage";

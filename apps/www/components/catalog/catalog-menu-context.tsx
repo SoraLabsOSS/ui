@@ -2,13 +2,14 @@
 
 import {
   createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
+import type { ReactNode } from "react";
+
 import type { ComponentGalleryItem } from "@/lib/registry/types";
 
 interface CatalogMenuContextValue {

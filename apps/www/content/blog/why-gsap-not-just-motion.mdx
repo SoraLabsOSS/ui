@@ -47,14 +47,10 @@ Of the 34 published primitives, three use GSAP: `cursor-bubble`, `magnetic-cards
 
 ## FAQ
 
-**Does shipping two animation libraries bloat bundle size?**
-Only for the specific components that use GSAP, and only in projects that actually install them. Sora UI is copy-paste, not an npm package — a project that never installs `sticky-scroll-cards` never ships GSAP's runtime at all. That's one real advantage of the install-the-source model here.
+**Does shipping two animation libraries bloat bundle size?** Only for the specific components that use GSAP, and only in projects that actually install them. Sora UI is copy-paste, not an npm package — a project that never installs `sticky-scroll-cards` never ships GSAP's runtime at all. That's one real advantage of the install-the-source model here.
 
-**Could Motion eventually replace GSAP for these cases?**
-Possibly — Motion's scroll API surface has been expanding. If it adds native pin support and multi-phase progress mapping, that's worth revisiting. No commitment on timing; it hasn't happened yet as of this post.
+**Could Motion eventually replace GSAP for these cases?** Possibly — Motion's scroll API surface has been expanding. If it adds native pin support and multi-phase progress mapping, that's worth revisiting. No commitment on timing; it hasn't happened yet as of this post.
 
-**Is GSAP worth learning if Motion covers most of what I need?**
-If you're doing simple scroll-linked effects, no — Motion's `useScroll`/`useTransform` is enough. If you're building pinned, multi-phase, or scrubbed sequences, `ScrollTrigger` specifically is worth learning regardless of which registry you use.
+**Is GSAP worth learning if Motion covers most of what I need?** If you're doing simple scroll-linked effects, no — Motion's `useScroll`/`useTransform` is enough. If you're building pinned, multi-phase, or scrubbed sequences, `ScrollTrigger` specifically is worth learning regardless of which registry you use.
 
-**Are GSAP's plugins actually free now, no catch?**
-Yes — since GSAP's 2025 licensing change following the Webflow acquisition, all plugins including `SplitText` and `InertiaPlugin` are free for both commercial and non-commercial use.
+**Are GSAP's plugins actually free now, no catch?** Yes — since GSAP's 2025 licensing change following the Webflow acquisition, all plugins including `SplitText` and `InertiaPlugin` are free for both commercial and non-commercial use.

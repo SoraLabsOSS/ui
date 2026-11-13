@@ -1,15 +1,13 @@
 "use client";
 
-import { type MotionProps, motion, useReducedMotion } from "motion/react";
-import type React from "react";
-import {
-  type ComponentType,
-  type ElementType,
-  type MouseEventHandler,
-  type ReactNode,
-  useEffect,
-  useRef,
-  useState,
+import { motion, useReducedMotion } from "motion/react";
+import type { MotionProps } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import type {
+  ComponentType,
+  ElementType,
+  MouseEventHandler,
+  ReactNode,
 } from "react";
 
 const motionComponentCache = new Map<
@@ -48,7 +46,7 @@ export type TextScrambleProps = {
   duration?: number;
   speed?: number;
   characterSet?: string;
-  as?: React.ElementType;
+  as?: ElementType;
   className?: string;
   onMouseEnter?: MouseEventHandler<Element>;
   /**
@@ -181,7 +179,7 @@ export function TextScramble({
     }, speed * 1000);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: unmount cleanup only
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- unmount cleanup only
   useEffect(
     () => () => {
       clearAnimationInterval();
@@ -189,7 +187,7 @@ export function TextScramble({
     []
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run only when mount trigger changes
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run only when mount trigger changes
   useEffect(() => {
     if (!shouldTriggerOnMount || prefersReducedMotion) {
       return;
@@ -198,7 +196,7 @@ export function TextScramble({
     scramble();
   }, [shouldTriggerOnMount, trigger]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run when mount trigger changes
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run when mount trigger changes
   useEffect(() => {
     if (!(prefersReducedMotion && shouldTriggerOnMount)) {
       return;
@@ -226,7 +224,7 @@ export function TextScramble({
 
     return frame.text.split("").map((char, index) => (
       <span
-        // biome-ignore lint/suspicious/noArrayIndexKey: static string indices per frame
+        // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- static string indices per frame
         key={index}
         style={
           index < frame.revealedLength ? undefined : { color: scrambleColor }

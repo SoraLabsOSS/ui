@@ -4,24 +4,15 @@ import { cn } from "@workspace/ui/lib/utils";
 import {
   AnimatePresence,
   animate,
-  type MotionValue,
   motion,
-  type Transition,
-  type UseInViewOptions,
   useInView,
   useMotionValue,
   useReducedMotion,
   useTransform,
 } from "motion/react";
-import {
-  type CSSProperties,
-  type HTMLAttributes,
-  type Ref,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import type { MotionValue, Transition, UseInViewOptions } from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties, HTMLAttributes, Ref } from "react";
 
 // --- formatting -------------------------------------------------------------
 
@@ -62,17 +53,17 @@ function generateKeyFactory() {
   };
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: part-classification switch
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- part-classification switch
 function formatToParts(
   value: number,
   formatter: Intl.NumberFormat,
   prefix?: string,
   suffix?: string
 ): FormattedNumber {
-  const rawParts: Array<{
+  const rawParts: {
     type: Intl.NumberFormatPartTypes | "prefix" | "suffix";
     value: string;
-  }> = formatter.formatToParts(value);
+  }[] = formatter.formatToParts(value);
   if (prefix) {
     rawParts.unshift({ type: "prefix", value: prefix });
   }
@@ -81,9 +72,10 @@ function formatToParts(
   }
 
   const pre: KeyedPart[] = [];
-  const integerDigits: Array<
-    { type: "integer"; value: number } | { type: "group"; value: string }
-  > = [];
+  const integerDigits: (
+    | { type: "integer"; value: number }
+    | { type: "group"; value: string }
+  )[] = [];
   const fraction: KeyedPart[] = [];
   const post: KeyedPart[] = [];
 
@@ -139,15 +131,15 @@ function formatToParts(
   // (e.g. 99 -> 100) doesn't reshuffle the keys of the digits that didn't change.
   // The right-to-left index also becomes each digit's place (`pos`): ones = 0,
   // tens = 1, etc.
-  const integer: KeyedPart[] = [...integerDigits]
-    .reverse()
+  const integer: KeyedPart[] = integerDigits
+    .toReversed()
     .map((part) => {
       const { index, key } = generateKey(part.type);
       return part.type === "integer"
         ? { ...part, key, pos: index }
         : { ...part, key };
     })
-    .reverse();
+    .toReversed();
 
   return {
     parts: [...pre, ...integer, ...fraction, ...post],
@@ -215,7 +207,7 @@ function computeStartingPos(
     (p) => !prevParts.some((pp) => p.pos === pp.pos && p.value === pp.value)
   );
   const positions = [firstChangedPrev?.pos, firstChanged?.pos].filter(
-    (p): p is number => p != null
+    (p): p is number => p !== null && p !== undefined
   );
   return positions.length ? Math.max(...positions) : undefined;
 }
@@ -335,7 +327,7 @@ function Digit({
   const mv = useMotionValue(reduced || !animateIn ? value : 0);
   const isMountRef = useRef(true);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: startingPos must also retrigger the roll, for digits whose own value didn't change (continuous-loop effect)
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- startingPos must also retrigger the roll, for digits whose own value didn't change (continuous-loop effect)
   useEffect(() => {
     // Runs a spin and reports it to the parent's onAnimationsStart/Finish
     // aggregate — settled fires exactly once whether the spin completes
@@ -351,7 +343,7 @@ function Digit({
         onAnimationEnd();
       };
       const controls = animate(mv, delta, transition);
-      controls.then(settle, settle);
+      Promise.resolve(controls).finally(settle);
       return () => {
         controls.stop();
         settle();
@@ -379,7 +371,7 @@ function Digit({
       // This digit's own face didn't change, but a less-significant digit did
       // — loop it through a full rotation so the whole number reads as
       // passing continuously through the intermediate values.
-      if (trend && startingPos != null && startingPos >= pos) {
+      if (trend && startingPos !== undefined && startingPos >= pos) {
         delta = DIGIT_LENGTH * trend;
       } else {
         return;
@@ -432,8 +424,10 @@ const REDUCED_TRANSITION: Transition = { duration: 0 };
 
 const DEFAULT_VIEWPORT_MARGIN = "0px 0px -10% 0px";
 
-export interface NumberFlowProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
+export interface NumberFlowProps extends Omit<
+  HTMLAttributes<HTMLSpanElement>,
+  "children"
+> {
   /** Passed to `Intl.NumberFormat`. */
   format?: Intl.NumberFormatOptions;
   /** Passed to `Intl.NumberFormat`. */
@@ -581,7 +575,7 @@ export function NumberFlow({
 
   const localesKey = JSON.stringify(locales ?? null);
   const formatKey = JSON.stringify(format ?? null);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally keyed by the serialized locales/format, not their (possibly-new-every-render) identity
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- intentionally keyed by the serialized locales/format, not their (possibly-new-every-render) identity
   const formatter = useMemo(
     () => new Intl.NumberFormat(locales, format),
     [localesKey, formatKey]

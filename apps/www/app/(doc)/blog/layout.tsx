@@ -1,6 +1,8 @@
 import XIcon from "@workspace/ui/components/icons/x-icon";
-import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
+
 import { baseOptions } from "@/app/layout.config";
 import { AccountSidebar } from "@/components/account-sidebar";
 import { BlogTocFooterGuard } from "@/components/blog/blog-toc-footer-guard";
@@ -59,7 +61,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
       <div className="flex min-h-full flex-1 flex-col" data-blog-footer>
         <BlogTocFooterGuard />
         {children}
-        <div className="relative z-20 bg-background" data-blog-site-footer>
+        <div className="bg-background relative z-20" data-blog-site-footer>
           <Footer />
         </div>
       </div>

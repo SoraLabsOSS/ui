@@ -18,7 +18,8 @@ import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { toast } from "@workspace/ui/components/ui/sonner";
 import { Spinner } from "@workspace/ui/components/ui/spinner";
 import { cn } from "@workspace/ui/lib/utils";
-import { type SyntheticEvent, useState } from "react";
+import { useState } from "react";
+import type { SyntheticEvent } from "react";
 
 export interface UserProfileProps {
   className?: string;
@@ -50,7 +51,7 @@ export function UserProfile({ className }: UserProfileProps) {
 
   return (
     <div>
-      <h2 className="mb-3 font-semibold text-sm">
+      <h2 className="mb-3 text-sm font-semibold">
         {localization.settings.userProfile}
       </h2>
 

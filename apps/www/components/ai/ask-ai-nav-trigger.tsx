@@ -5,6 +5,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { MessageCircleIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
+
 import { isAskAiPath } from "./is-ask-ai-path";
 import { aiChatOpenStore } from "./open-store";
 

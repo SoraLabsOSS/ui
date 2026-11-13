@@ -1,4 +1,5 @@
 import type { InferPageType } from "fumadocs-core/source";
+
 import type { blog } from "@/lib/blog/source";
 import { expandLlmMarkdown } from "@/lib/docs/expand-llm-markdown";
 import type { source } from "@/lib/docs/source";
@@ -17,12 +18,12 @@ const TITLE_RE = /^title:\s*["']?([^"'\n]+)["']?/m;
 function getAgentMetadata(page: LLMPage): string {
   const data = page.data as typeof page.data & {
     a11yConstraints?: string[];
-    compositionRecipes?: Array<{
+    compositionRecipes?: {
       components: string[];
       constraints: string[];
       description: string;
       name: string;
-    }>;
+    }[];
     compositionRules?: string[];
     intent?: string;
     motionEngine?: string;

@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  MaskedTextReveal,
-  type MaskedTextRevealProps,
-} from "@/registry/primitives/texts/text-reveal-mask";
+import { MaskedTextReveal } from "@/registry/primitives/texts/text-reveal-mask";
+import type { MaskedTextRevealProps } from "@/registry/primitives/texts/text-reveal-mask";
 
 export default function MaskedTextRevealExample({
   splitBy = "lines",

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+
 import { runCreateIcon } from "./commands/create-icon.js";
 import { getIconPaths } from "./lib/paths.js";
 import {

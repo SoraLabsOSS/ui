@@ -1,11 +1,9 @@
 import { cancel, confirm, intro, isCancel, text } from "@clack/prompts";
+
 import { buildIconLabels } from "./icon-templates.js";
 import { assertKebabCase } from "./naming.js";
-import {
-  allowsPrompts,
-  isScripted,
-  type ScaffoldRunFlags,
-} from "./scaffold-flags.js";
+import { allowsPrompts, isScripted } from "./scaffold-flags.js";
+import type { ScaffoldRunFlags } from "./scaffold-flags.js";
 import { nonInteractiveHint } from "./terminal.js";
 
 export interface CreateIconOptions extends ScaffoldRunFlags {

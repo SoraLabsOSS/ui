@@ -9,10 +9,13 @@ import {
   useTransform,
 } from "motion/react";
 import { Checkbox as CheckboxPrimitive } from "radix-ui";
-import { type ComponentProps, type ReactNode, useId } from "react";
+import { useId } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
-interface CheckboxCheckIconProps
-  extends Omit<ComponentProps<"svg">, "children"> {
+interface CheckboxCheckIconProps extends Omit<
+  ComponentProps<"svg">,
+  "children"
+> {
   /** Whether the checkbox checkmark is active. */
   checked: boolean;
   /** Whether reduced motion is enabled. */
@@ -79,7 +82,7 @@ function CheckboxRoot({ className, ...props }: CheckboxRootProps) {
     <CheckboxPrimitive.Root
       asChild
       className={cn(
-        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground aria-invalid:data-[state=checked]:border-primary group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        "peer border-input focus-visible:border-ring focus-visible:ring-ring/50 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground aria-invalid:data-[state=checked]:border-primary group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border transition-colors outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3",
         className
       )}
       data-slot="checkbox"
@@ -179,7 +182,7 @@ function Checkbox({
       asChild
       checked={isChecked}
       className={cn(
-        "peer relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border border-input outline-none transition-colors after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground aria-invalid:data-[state=checked]:border-primary group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        "peer border-input focus-visible:border-ring focus-visible:ring-ring/50 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground aria-invalid:data-[state=checked]:border-primary group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:bg-input/30 dark:data-[state=checked]:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 relative flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border transition-colors outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3",
         className
       )}
       data-slot="checkbox"
@@ -205,7 +208,7 @@ function Checkbox({
     </CheckboxPrimitive.Root>
   );
 
-  if (label == null) {
+  if (label === null || label === undefined) {
     return control;
   }
 
@@ -214,7 +217,7 @@ function Checkbox({
       {control}
       <label
         className={cn(
-          "cursor-pointer select-none font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+          "cursor-pointer text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
           disabled && "cursor-not-allowed opacity-50",
           labelClassName
         )}

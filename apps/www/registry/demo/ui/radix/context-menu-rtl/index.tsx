@@ -18,9 +18,9 @@ export default function ContextMenuRtlDemo() {
     <DirectionProvider dir="rtl">
       <div className="w-full max-w-md p-6" dir="rtl">
         <ContextMenu>
-          <ContextMenuTrigger className="flex h-56 w-full items-center justify-center rounded-xl border border-border border-dashed bg-muted/20 text-center font-medium text-muted-foreground text-sm transition-colors hover:border-foreground/30 hover:bg-muted/40">
-            <div className="flex select-none flex-col items-center gap-1.5 p-4">
-              <span className="font-semibold text-foreground">
+          <ContextMenuTrigger className="border-border bg-muted/20 text-muted-foreground hover:border-foreground/30 hover:bg-muted/40 flex h-56 w-full items-center justify-center rounded-xl border border-dashed text-center text-sm font-medium transition-colors">
+            <div className="flex flex-col items-center gap-1.5 p-4 select-none">
+              <span className="text-foreground font-semibold">
                 انقر بزر الفأرة الأيمن هنا
               </span>
               <span className="text-muted-foreground text-xs">

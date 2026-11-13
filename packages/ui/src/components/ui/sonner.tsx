@@ -8,7 +8,8 @@ import {
   TriangleAlertIcon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Toaster as Sonner, type ToasterProps } from "sonner";
+import { Toaster as Sonner } from "sonner";
+import type { ToasterProps } from "sonner";
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
@@ -42,6 +43,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-// biome-ignore lint/performance/noBarrelFile: re-export toast so apps don't need a direct sonner dependency
+// oxlint-disable-next-line oxc/no-barrel-file -- re-export toast so apps don't need a direct sonner dependency
 export { toast } from "sonner";
 export { Toaster };

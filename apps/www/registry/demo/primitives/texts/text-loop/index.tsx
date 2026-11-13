@@ -1,10 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  TextLoop,
-  type TextLoopProps,
-} from "@/registry/primitives/texts/text-loop";
+
+import { TextLoop } from "@/registry/primitives/texts/text-loop";
+import type { TextLoopProps } from "@/registry/primitives/texts/text-loop";
 
 const PHRASES = ["Design fast.", "Ship faster.", "Iterate forever."];
 

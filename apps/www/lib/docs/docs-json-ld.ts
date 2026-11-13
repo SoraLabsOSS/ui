@@ -12,8 +12,7 @@ export function getComponentPageJsonLd(
     .lastModified;
   const modifiedIso = modified ? new Date(modified).toISOString() : undefined;
 
-  const author = (page.data as { author?: { name: string; url?: string } })
-    .author;
+  const { author } = page.data as { author?: { name: string; url?: string } };
 
   return {
     "@context": "https://schema.org",

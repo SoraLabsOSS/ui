@@ -5,9 +5,9 @@ export function computeChapterRanges(
   rawChapters: { start: number; title: string }[],
   duration: number
 ): ChapterRange[] {
-  const data = [...rawChapters]
+  const data = rawChapters
     .filter((item) => Number.isFinite(item.start) && item.start >= 0)
-    .sort((left, right) => left.start - right.start);
+    .toSorted((left, right) => left.start - right.start);
 
   if (!data.length || (data[0] && data[0].start > 0)) {
     data.unshift({ start: 0, title: "" });

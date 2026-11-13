@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+
 import { ComponentPageDocsBreadcrumb } from "./catalog-docs-breadcrumb";
 import { ComponentPageCatalogMenuButton } from "./catalog-menu-button";
 import {
@@ -23,7 +24,7 @@ function Skeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "rounded-md bg-accent motion-safe:animate-pulse",
+        "bg-accent rounded-md motion-safe:animate-pulse",
         className
       )}
     />
@@ -36,7 +37,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
       aria-busy="true"
       aria-hidden="true"
       className={cn(
-        "relative h-full min-h-0 overflow-hidden bg-background",
+        "bg-background relative h-full min-h-0 overflow-hidden",
         "max-lg:flex max-lg:h-auto max-lg:flex-col max-lg:overflow-visible",
         className
       )}
@@ -100,7 +101,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
       <div
         className={cn(
           "z-20 flex shrink-0 overflow-hidden max-lg:z-0 max-lg:order-2",
-          "max-lg:!left-0 max-lg:!w-full max-lg:relative max-lg:inset-auto max-lg:h-auto max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:bg-background max-lg:pb-0",
+          "max-lg:bg-background max-lg:relative max-lg:inset-auto max-lg:!left-0 max-lg:h-auto max-lg:!w-full max-lg:max-w-full max-lg:shrink-0 max-lg:overflow-visible max-lg:pb-0",
           "lg:absolute lg:top-0 lg:left-1/2 lg:h-full lg:min-h-[min(420px,55vh)] lg:w-1/2 lg:bg-transparent"
         )}
       >
@@ -112,7 +113,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
         >
           <div
             className={cn(
-              "relative flex w-full flex-col border border-border/50 bg-secondary",
+              "border-border/50 bg-secondary relative flex w-full flex-col border",
               "rounded-2xl max-lg:rounded-3xl",
               "max-lg:flex-none max-lg:overflow-hidden lg:min-h-0 lg:flex-1 lg:overflow-hidden",
               catalogPreviewMobilePanelClassName,
@@ -131,7 +132,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
             </div>
 
             {/* Preview viewport content */}
-            <div className="relative flex w-full flex-1 items-center justify-center overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
+            <div className="bg-background relative flex w-full flex-1 items-center justify-center overflow-hidden max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
               <CatalogPreviewLoadingOverlay />
             </div>
           </div>
@@ -148,11 +149,11 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-background via-background/80 to-transparent max-lg:hidden"
+          className="from-background via-background/80 pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b to-transparent max-lg:hidden"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-background via-background/80 to-transparent max-lg:hidden"
+          className="from-background via-background/80 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t to-transparent max-lg:hidden"
         />
 
         <div className="min-h-0 min-w-0 max-lg:block lg:h-full lg:overflow-hidden">
@@ -160,7 +161,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
             <div className="flex w-full min-w-0 justify-center">
               <div
                 className={cn(
-                  "flex w-full min-w-0 max-w-4xl flex-col gap-6 pt-8 pb-3 md:gap-10 md:pt-14 md:pb-6",
+                  "flex w-full max-w-4xl min-w-0 flex-col gap-6 pt-8 pb-3 md:gap-10 md:pt-14 md:pb-6",
                   catalogStackedHorizontalGutterClassName
                 )}
               >
@@ -217,7 +218,7 @@ export function CatalogDetailSkeleton({ className }: { className?: string }) {
                   {/* Props section */}
                   <div className="flex flex-col gap-3">
                     <Skeleton className="h-7 w-20 md:h-8" />
-                    <div className="flex flex-col divide-y divide-border/40 rounded-xl border border-border/40">
+                    <div className="divide-border/40 border-border/40 flex flex-col divide-y rounded-xl border">
                       <div className="flex items-center justify-between p-3">
                         <Skeleton className="h-4 w-28" />
                         <Skeleton className="h-4 w-20" />

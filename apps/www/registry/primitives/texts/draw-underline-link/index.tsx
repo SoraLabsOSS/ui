@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { motion, useReducedMotion } from "motion/react";
 import type { ComponentPropsWithoutRef, MouseEvent, Ref } from "react";
 import { useCallback, useRef, useState } from "react";
@@ -33,7 +34,7 @@ const drawUnderlineLinkVariants = cva(
   }
 );
 
-const drawUnderlineLinkTextVariants = cva("font-medium leading-[1.1]");
+const drawUnderlineLinkTextVariants = cva("leading-[1.1] font-medium");
 
 const drawUnderlineLinkBoxVariants = cva(
   "relative h-[0.625em] w-full text-current"
@@ -42,7 +43,8 @@ const drawUnderlineLinkBoxVariants = cva(
 type DrawPhase = "idle" | "enter" | "shown" | "leave";
 
 export interface DrawUnderlineLinkProps
-  extends Omit<ComponentPropsWithoutRef<"a">, "children">,
+  extends
+    Omit<ComponentPropsWithoutRef<"a">, "children">,
     VariantProps<typeof drawUnderlineLinkVariants> {
   /** Plain-text label. */
   children?: string;
@@ -125,7 +127,7 @@ function DrawUnderlineLink({
       cycleRef.current = Math.floor(Math.random() * paths.length);
     }
 
-    const current = cycleRef.current;
+    const { current } = cycleRef;
     cycleRef.current = (cycleRef.current + 1) % paths.length;
     return current;
   }, [paths.length]);

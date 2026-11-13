@@ -2,14 +2,11 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import { Check, ChevronLeft, Copy, FileCode2, Loader } from "lucide-react";
-import {
-  AnimatePresence,
-  motion,
-  type PanInfo,
-  useDragControls,
-} from "motion/react";
+import { AnimatePresence, motion, useDragControls } from "motion/react";
+import type { PanInfo } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
 import {
   catalogSourcePanelDesktopLayerClassName,
   catalogSourcePanelGutterClassName,
@@ -65,7 +62,7 @@ function SourcePanelContent(props: SourcePanelContentProps) {
       {contentState === "loading" ? (
         <motion.div
           animate={{ opacity: 1 }}
-          className="flex h-full min-h-48 items-center justify-center gap-2 px-4 pt-24 pb-24 text-muted-foreground text-sm"
+          className="text-muted-foreground flex h-full min-h-48 items-center justify-center gap-2 px-4 pt-24 pb-24 text-sm"
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           key="loading"
@@ -79,7 +76,7 @@ function SourcePanelContent(props: SourcePanelContentProps) {
       {contentState === "error" ? (
         <motion.div
           animate={{ opacity: 1 }}
-          className="px-4 pt-24 pb-24 text-muted-foreground text-sm"
+          className="text-muted-foreground px-4 pt-24 pb-24 text-sm"
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           key="error"
@@ -97,7 +94,7 @@ function SourcePanelContent(props: SourcePanelContentProps) {
             "[&_.relative.group_>_button]:hidden",
             "[&_.shiki]:rounded-none [&_.shiki]:border-none"
           )}
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: server-highlighted shiki HTML
+          // oxlint-disable-next-line react/no-danger -- server-highlighted shiki HTML
           dangerouslySetInnerHTML={{ __html: sourceHtml ?? "" }}
           data-code-block
           data-line-numbers="false"
@@ -275,7 +272,7 @@ export function ComponentPageSourcePanel({
             "top-(--fd-banner-height) h-[calc(100dvh-var(--fd-banner-height))]",
             "max-lg:top-auto max-lg:bottom-0",
             catalogSourcePanelMobileHeightClassName,
-            "max-lg:rounded-t-lg max-lg:border-border/20 max-lg:border-t",
+            "max-lg:border-border/20 max-lg:rounded-t-lg max-lg:border-t",
             "lg:w-1/2",
             catalogSourcePanelGutterClassName
           )}
@@ -293,20 +290,20 @@ export function ComponentPageSourcePanel({
           }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
         >
-          <div className="pointer-events-auto relative h-full overflow-hidden rounded-2xl border border-border/50 bg-secondary">
+          <div className="border-border/50 bg-secondary pointer-events-auto relative h-full overflow-hidden rounded-2xl border">
             <div className="pointer-events-none absolute top-0 right-0 left-0 z-20">
-              <div className="mask-[linear-gradient(to_bottom,black_20%,transparent)] absolute inset-0 h-32 bg-linear-to-b from-secondary to-transparent" />
+              <div className="from-secondary absolute inset-0 h-32 bg-linear-to-b to-transparent mask-[linear-gradient(to_bottom,black_20%,transparent)]" />
               <div className="pointer-events-auto relative z-10 flex flex-col">
                 <div
                   className="flex touch-none items-center justify-center pt-2 pb-1"
                   onPointerDown={(event) => sourceDragControls.start(event)}
                 >
-                  <div className="h-1 w-10 rounded-full bg-foreground/10 transition-colors hover:bg-foreground/20" />
+                  <div className="bg-foreground/10 hover:bg-foreground/20 h-1 w-10 rounded-full transition-colors" />
                 </div>
 
                 <div className="flex items-center justify-between px-4 py-1">
                   <button
-                    className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none"
+                    className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors focus-visible:outline-none"
                     onClick={onClose}
                     type="button"
                   >
@@ -321,9 +318,9 @@ export function ComponentPageSourcePanel({
                       <div className="flex items-center gap-1.5">
                         <FileCode2
                           aria-hidden
-                          className="size-3.5 text-muted-foreground"
+                          className="text-muted-foreground size-3.5"
                         />
-                        <span className="font-mono text-muted-foreground text-xs">
+                        <span className="text-muted-foreground font-mono text-xs">
                           {sourceFilename}
                         </span>
                       </div>
@@ -331,7 +328,7 @@ export function ComponentPageSourcePanel({
                     {sourceCode ? (
                       <button
                         aria-label={copied ? "Copied" : "Copy code"}
-                        className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                        className="text-muted-foreground hover:text-foreground focus-visible:ring-ring inline-flex size-7 items-center justify-center rounded-md transition-colors focus-visible:ring-1 focus-visible:outline-none"
                         onClick={handleCopy}
                         type="button"
                       >
@@ -348,11 +345,11 @@ export function ComponentPageSourcePanel({
             </div>
 
             <div className="relative h-full min-h-0">
-              <div className="mask-[linear-gradient(to_top,black_30%,transparent)] pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-16 bg-linear-to-t from-secondary to-transparent" />
+              <div className="from-secondary pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-16 bg-linear-to-t to-transparent mask-[linear-gradient(to_top,black_30%,transparent)]" />
               <div
                 className={cn(
                   "h-full overflow-auto",
-                  "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                  "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
                   "[&_.relative.group_>_button]:hidden",
                   "[&_pre]:min-h-full [&_pre]:px-4! [&_pre]:pt-24! [&_pre]:pb-24!"
                 )}

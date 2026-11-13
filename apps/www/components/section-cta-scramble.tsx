@@ -1,17 +1,13 @@
 "use client";
 
-import {
-  SlidingChipButton,
-  type SlidingChipButtonProps,
-  type SlidingChipButtonVariant,
+import { SlidingChipButton } from "@workspace/ui/components/sliding-chip-button";
+import type {
+  SlidingChipButtonProps,
+  SlidingChipButtonVariant,
 } from "@workspace/ui/components/sliding-chip-button";
 import { TextScramble } from "@workspace/ui/components/ui/text-scramble";
-import {
-  type ComponentPropsWithoutRef,
-  type FocusEvent,
-  type MouseEvent,
-  useState,
-} from "react";
+import { useState } from "react";
+import type { ComponentPropsWithoutRef, FocusEvent, MouseEvent } from "react";
 
 export const SECTION_CTA_SCRAMBLE_DEFAULTS = {
   scrambleDuration: 0.375,
@@ -223,6 +219,7 @@ export function SectionCtaScrambleButton({
       variant={variant}
       {...interactionHandlers}
     >
+      {/* oxlint-disable-next-line react/button-has-type -- forwarded button type with default "button" */}
       <button type={type} {...props} />
     </SlidingChipButton>
   );

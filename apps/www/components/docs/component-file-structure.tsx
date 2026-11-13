@@ -1,11 +1,10 @@
 "use client";
 
-import {
-  FileTree,
-  type FileTreeElement,
-} from "@workspace/ui/components/file-tree";
+import { FileTree } from "@workspace/ui/components/file-tree";
+import type { FileTreeElement } from "@workspace/ui/components/file-tree";
 import { cn } from "@workspace/ui/lib/utils";
 import { memo, useMemo } from "react";
+
 import { index } from "@/__registry__";
 import { buildInstallFileTree } from "@/lib/registry/build-install-file-tree";
 
@@ -22,7 +21,7 @@ const SHADCN_DEP_TARGETS: Record<string, string | null> = {
 };
 
 interface RegistryEntry {
-  files?: Array<{ target?: string }>;
+  files?: { target?: string }[];
   registryDependencies?: string[];
 }
 
@@ -95,36 +94,36 @@ function getRegistryInstallTargets(name: string): string[] {
     appendRegistryInstallTargets(entry, queue, targets);
   }
 
-  return Array.from(targets);
+  return [...targets];
 }
 
-export const ComponentFileStructure = memo(function ComponentFileStructure({
-  name,
-  className,
-}: ComponentFileStructureProps) {
-  const elements = useMemo<FileTreeElement[]>(
-    () => buildInstallFileTree(getRegistryInstallTargets(name)),
-    [name]
-  );
+export const ComponentFileStructure = memo(
+  ({ name, className }: ComponentFileStructureProps) => {
+    const elements = useMemo<FileTreeElement[]>(
+      () => buildInstallFileTree(getRegistryInstallTargets(name)),
+      [name]
+    );
 
-  if (elements.length === 0) {
-    return null;
+    if (elements.length === 0) {
+      return null;
+    }
+
+    return (
+      <section className={cn("flex flex-col gap-3", className)}>
+        <h3 className="text-foreground text-lg font-medium tracking-tight">
+          File Structure
+        </h3>
+        <FileTree
+          className="bg-muted/30"
+          defaultOpenIds={[elements[0]?.id ?? "your-project"]}
+          elements={elements}
+          highlightColor="var(--code-highlight)"
+        />
+      </section>
+    );
   }
-
-  return (
-    <section className={cn("flex flex-col gap-3", className)}>
-      <h3 className="font-medium text-foreground text-lg tracking-tight">
-        File Structure
-      </h3>
-      <FileTree
-        className="bg-muted/30"
-        defaultOpenIds={[elements[0]?.id ?? "your-project"]}
-        elements={elements}
-        highlightColor="var(--code-highlight)"
-      />
-    </section>
-  );
-});
+);
+ComponentFileStructure.displayName = "ComponentFileStructure";
 
 const INSTALLATION_PROJECT_TREE: FileTreeElement[] = [
   {
@@ -209,7 +208,7 @@ export function InstallationFileStructure({
 }: InstallationFileStructureProps) {
   return (
     <section className={cn("not-prose my-8 flex flex-col gap-3", className)}>
-      <h2 className="font-semibold text-2xl tracking-tight">
+      <h2 className="text-2xl font-semibold tracking-tight">
         Project structure
       </h2>
       <p className="text-fd-muted-foreground text-sm leading-relaxed">

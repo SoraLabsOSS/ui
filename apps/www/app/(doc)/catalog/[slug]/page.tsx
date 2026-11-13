@@ -2,6 +2,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+
 import { ComponentPageDocs } from "@/components/catalog/catalog-docs";
 import { ComponentPageLayout } from "@/components/catalog/catalog-layout";
 import { ComponentPageJsonLd } from "@/components/docs/docs-json-ld";
@@ -96,7 +97,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
   const url = `${SITE_URL}${data.componentUrl}`;
   const ogPath = ["catalog", slug];
-  const title = data.page.data.title;
+  const { title } = data.page.data;
 
   return {
     title,

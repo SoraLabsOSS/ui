@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+
 import { buildCatalogLabels, renderCatalogMdx } from "./catalog-templates.js";
 
 describe("catalog templates", () => {

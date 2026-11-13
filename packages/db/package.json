@@ -1,20 +1,20 @@
 {
   "name": "@workspace/db",
   "version": "0.0.0",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./bookmarks": "./src/bookmarks.ts",
+    "./schema": "./src/schema/index.ts",
+    "./client": "./src/client.ts"
+  },
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:check": "drizzle-kit check"
-  },
-  "exports": {
-    ".": "./src/index.ts",
-    "./bookmarks": "./src/bookmarks.ts",
-    "./schema": "./src/schema/index.ts",
-    "./client": "./src/client.ts"
   },
   "dependencies": {
     "@t3-oss/env-core": "^0.13.11",

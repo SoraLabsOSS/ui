@@ -4,7 +4,7 @@ function LoadingBlock({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "rounded-md bg-accent motion-safe:animate-pulse",
+        "bg-accent rounded-md motion-safe:animate-pulse",
         className
       )}
     />
@@ -74,7 +74,7 @@ export function DocsSkeleton() {
       >
         <div className="flex h-full w-(--fd-toc-width) max-w-full flex-col gap-4 pe-4">
           <LoadingBlock className="h-5 w-24" />
-          <div className="space-y-3 border-border border-l pl-4">
+          <div className="border-border space-y-3 border-l pl-4">
             {["toc-a", "toc-b", "toc-c", "toc-d", "toc-e"].map((key) => (
               <LoadingBlock className="h-4 w-full" key={key} />
             ))}

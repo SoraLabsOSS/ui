@@ -3,7 +3,8 @@
 import { buttonVariants } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { X } from "lucide-react";
-import { type HTMLAttributes, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { HTMLAttributes } from "react";
 
 type BannerVariant = "rainbow" | "normal";
 
@@ -79,7 +80,7 @@ export function Banner({
       id={id}
       {...props}
       className={cn(
-        "sticky top-0 z-40 flex flex-row items-center justify-center px-4 text-center font-medium text-sm",
+        "sticky top-0 z-40 flex flex-row items-center justify-center px-4 text-center text-sm font-medium",
         variant === "normal" && "bg-fd-secondary",
         variant === "rainbow" && "bg-fd-background",
         !open && "hidden",
@@ -92,7 +93,7 @@ export function Banner({
       }}
     >
       {dismissScript ? (
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: the snippet is generated from encodeBase32(id) and contains no user input
+        // oxlint-disable-next-line react/no-danger -- the snippet is generated from encodeBase32(id) and contains no user input
         <script dangerouslySetInnerHTML={{ __html: dismissScript }} />
       ) : null}
       {changeLayout && open ? (
@@ -170,7 +171,7 @@ function encodeBase32(str: string) {
   let bitsLeft = 0;
 
   for (let i = 0; i < str.length; i++) {
-    buffer = buffer * 256 + str.charCodeAt(i);
+    buffer = buffer * 256 + (str.codePointAt(i) ?? 0);
     bitsLeft += 8;
 
     while (bitsLeft >= 5) {

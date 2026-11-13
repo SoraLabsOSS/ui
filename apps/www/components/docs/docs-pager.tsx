@@ -27,7 +27,7 @@ export const DocsPager = ({ previous, next }: DocsPagerProps) => {
     >
       {previous && (
         <Link
-          className="@max-lg:col-span-full flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors duration-150 ease-out hover:bg-fd-accent/80 hover:text-fd-accent-foreground"
+          className="hover:bg-fd-accent/80 hover:text-fd-accent-foreground flex flex-col gap-2 rounded-lg border p-4 text-sm transition-colors duration-150 ease-out @max-lg:col-span-full"
           href={previous.url}
         >
           <div className="inline-flex items-center gap-1.5 font-medium">
@@ -38,7 +38,7 @@ export const DocsPager = ({ previous, next }: DocsPagerProps) => {
             <p>{previous.name}</p>
           </div>
           {previous.description && (
-            <p className="truncate text-fd-muted-foreground">
+            <p className="text-fd-muted-foreground truncate">
               {previous.description}
             </p>
           )}
@@ -46,7 +46,7 @@ export const DocsPager = ({ previous, next }: DocsPagerProps) => {
       )}
       {next && (
         <Link
-          className="@max-lg:col-span-full flex flex-col gap-2 rounded-lg border p-4 text-end text-sm transition-colors duration-150 ease-out hover:bg-fd-accent/80 hover:text-fd-accent-foreground"
+          className="hover:bg-fd-accent/80 hover:text-fd-accent-foreground flex flex-col gap-2 rounded-lg border p-4 text-end text-sm transition-colors duration-150 ease-out @max-lg:col-span-full"
           href={next.url}
         >
           <div className="inline-flex flex-row-reverse items-center gap-1.5 font-medium">
@@ -57,7 +57,7 @@ export const DocsPager = ({ previous, next }: DocsPagerProps) => {
             <p>{next.name}</p>
           </div>
           {next.description && (
-            <p className="truncate text-fd-muted-foreground">
+            <p className="text-fd-muted-foreground truncate">
               {next.description}
             </p>
           )}

@@ -31,7 +31,8 @@ export default function Section() {
     <TextRevealBox
       paragraphs={paragraphs}
       classNames={{
-        paragraph: "text-center text-3xl font-medium tracking-tight md:text-5xl",
+        paragraph:
+          "text-center text-3xl font-medium tracking-tight md:text-5xl",
       }}
       highlightBg="60, 60, 60"
       pinDuration={4}
@@ -120,13 +121,14 @@ Lock words after reveal — skip the reverse fade:
 </Callout>
 
 <Callout title="GSAP inline styles">
-  ScrollTrigger sets `opacity` and `backgroundColor` on each `.trb-word`, and `opacity` on the inner span. CSS alone cannot drive the reveal — only initial hidden state and pill shape.
+  ScrollTrigger sets `opacity` and `backgroundColor` on each `.trb-word`, and
+  `opacity` on the inner span. CSS alone cannot drive the reveal — only initial
+  hidden state and pill shape.
 </Callout>
 
 ### Class slots
 
-`className` styles the root `<section data-slot="text-reveal-box">`. Pass any of
-these to `classNames` to override an inner layer (`cn()` merges after built-ins):
+`className` styles the root `<section data-slot="text-reveal-box">`. Pass any of these to `classNames` to override an inner layer (`cn()` merges after built-ins):
 
 - `track` — scroll track (ScrollTrigger trigger)
 - `sticky` — sticky viewport (`h-svh`, `p-8`)
@@ -188,7 +190,8 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
       type: "Element | Window",
     },
     highlightBg: {
-      description: 'RGB triplet for flash when CSS vars unset. Applied as `rgba(...)` inline.',
+      description:
+        "RGB triplet for flash when CSS vars unset. Applied as `rgba(...)` inline.",
       type: "string",
       default: '"237, 235, 231"',
     },
@@ -198,7 +201,8 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
       default: "1",
     },
     timing: {
-      description: "`revealPortion`, `revealOverlap`, `reverseOverlap`, `reverseOnScroll`.",
+      description:
+        "`revealPortion`, `revealOverlap`, `reverseOverlap`, `reverseOnScroll`.",
       type: "TextRevealBoxTiming",
     },
     embedded: {
@@ -223,7 +227,8 @@ Highlight resolves at init: CSS vars on root (e.g. `embedded`) → else `highlig
       default: "{}",
     },
     normalizeWord: {
-      description: "Token normalizer before lookup. Default: `lowercaseNormalizeWord`.",
+      description:
+        "Token normalizer before lookup. Default: `lowercaseNormalizeWord`.",
       type: "(word: string) => string",
     },
     matchKeyword: {

@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+
 import { SignInMarketingPanel } from "@/components/auth/sign-in-marketing-panel";
 
 /**
@@ -9,11 +10,11 @@ import { SignInMarketingPanel } from "@/components/auth/sign-in-marketing-panel"
  */
 export function SignInSplitShell({ children }: { children: ReactNode }) {
   return (
-    <section className="min-h-[calc(100dvh-var(--fd-banner-height))] bg-background p-3 text-foreground antialiased [font-synthesis:none]">
+    <section className="bg-background text-foreground min-h-[calc(100dvh-var(--fd-banner-height))] p-3 antialiased [font-synthesis:none]">
       <div className="grid min-h-[calc(100dvh-var(--fd-banner-height)-1.5rem)] gap-6 lg:grid-cols-[0.94fr_1.06fr]">
-        <div className="flex flex-col rounded-md border bg-background px-6 py-8 lg:min-h-0 lg:px-14 xl:px-20">
+        <div className="bg-background flex flex-col rounded-md border px-6 py-8 lg:min-h-0 lg:px-14 xl:px-20">
           <Link
-            className="inline-flex w-fit items-center gap-1 rounded-md px-2 py-1 text-muted-foreground text-sm hover:bg-muted hover:text-foreground"
+            className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex w-fit items-center gap-1 rounded-md px-2 py-1 text-sm"
             href="/docs"
           >
             <ArrowLeft aria-hidden className="size-4" />
@@ -24,7 +25,7 @@ export function SignInSplitShell({ children }: { children: ReactNode }) {
             <div className="mx-auto w-full max-w-[460px]">{children}</div>
           </div>
 
-          <p className="text-center text-muted-foreground text-xs">
+          <p className="text-muted-foreground text-center text-xs">
             By continuing, you agree to our{" "}
             <Link
               className="text-foreground hover:underline"

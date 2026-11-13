@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Checkbox } from "@/registry/ui/base/checkbox";
 
 const items = [
@@ -26,8 +27,8 @@ export default function CheckboxIndeterminateDemo() {
 
   return (
     <div className="flex items-center justify-center p-4">
-      <div className="flex w-full max-w-sm flex-col gap-3 rounded-lg border border-border p-4">
-        <div className="flex items-center gap-3 border-border border-b pb-3">
+      <div className="border-border flex w-full max-w-sm flex-col gap-3 rounded-lg border p-4">
+        <div className="border-border flex items-center gap-3 border-b pb-3">
           <Checkbox
             checked={allSelected}
             id="select-all"
@@ -35,7 +36,7 @@ export default function CheckboxIndeterminateDemo() {
             onCheckedChange={toggleAll}
           />
           <label
-            className="cursor-pointer select-none font-semibold text-foreground text-sm"
+            className="text-foreground cursor-pointer text-sm font-semibold select-none"
             htmlFor="select-all"
           >
             Select all notifications
@@ -50,7 +51,7 @@ export default function CheckboxIndeterminateDemo() {
                 onCheckedChange={() => toggleItem(item.id)}
               />
               <label
-                className="cursor-pointer select-none font-medium text-foreground text-sm"
+                className="text-foreground cursor-pointer text-sm font-medium select-none"
                 htmlFor={item.id}
               >
                 {item.label}

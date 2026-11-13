@@ -1,7 +1,7 @@
 import { registryItemSchema, registrySchema } from "shadcn/schema";
 
 function formatSchemaIssues(error: {
-  issues: Array<{ message: string; path: PropertyKey[] }>;
+  issues: { message: string; path: PropertyKey[] }[];
 }): string {
   return error.issues
     .map((issue) => {

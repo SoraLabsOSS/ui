@@ -24,7 +24,10 @@ compositionRecipes:
       - Keep destructive confirmation outside the menu lifecycle.
 ---
 
-<ComponentPreview name="demo-context-menu" description="An animated context menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+<ComponentPreview
+  name="demo-context-menu"
+  description="An animated context menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling."
+/>
 
 ## Installation
 
@@ -85,11 +88,12 @@ export default function Page() {
 
 ## RTL
 
-<ComponentPreview name="demo-context-menu-rtl" description="The same context menu pattern rendered right-to-left with Base UI DirectionProvider." />
+<ComponentPreview
+  name="demo-context-menu-rtl"
+  description="The same context menu pattern rendered right-to-left with Base UI DirectionProvider."
+/>
 
-Use Base UI's `DirectionProvider` together with `dir="rtl"` on the demo
-container to render the menu from right to left. The provider keeps popup
-positioning and keyboard navigation aware of the text direction.
+Use Base UI's `DirectionProvider` together with `dir="rtl"` on the demo container to render the menu from right to left. The provider keeps popup positioning and keyboard navigation aware of the text direction.
 
 ```tsx
 import { DirectionProvider } from "@base-ui/react/direction-provider";
@@ -125,14 +129,16 @@ export default function RtlContextMenu() {
 }
 ```
 
-Nested submenus open toward the logical inline end, check and radio indicators
-move to the correct side, and submenu animations follow the active direction.
+Nested submenus open toward the logical inline end, check and radio indicators move to the correct side, and submenu animations follow the active direction.
 
 ## Examples
 
 ### File Actions
 
-<ComponentPreview name="demo-context-menu-file" description="Context menu tailored for file systems with action icons, quick shortcuts, nested sharing options, and danger actions." />
+<ComponentPreview
+  name="demo-context-menu-file"
+  description="Context menu tailored for file systems with action icons, quick shortcuts, nested sharing options, and danger actions."
+/>
 
 ## Props
 
@@ -162,8 +168,8 @@ move to the correct side, and submenu animations follow the active direction.
   type={{
     align: {
       description: "Alignment of the popup relative to the anchor position.",
-      type: "\"start\" | \"center\" | \"end\"",
-      default: "\"start\"",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
     },
     alignOffset: {
       description: "Offset in pixels along the alignment axis.",
@@ -172,8 +178,8 @@ move to the correct side, and submenu animations follow the active direction.
     },
     side: {
       description: "Side of the anchor where the popup should appear.",
-      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
-      default: "\"right\"",
+      type: '"top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"',
+      default: '"right"',
     },
     sideOffset: {
       description: "Distance in pixels from the anchor point.",
@@ -202,14 +208,15 @@ move to the correct side, and submenu animations follow the active direction.
       default: "false",
     },
     inset: {
-      description: "Whether to add inline-start padding for alignment with checkable/radio items.",
+      description:
+        "Whether to add inline-start padding for alignment with checkable/radio items.",
       type: "boolean",
       default: "false",
     },
     variant: {
       description: "Visual style variant of the item.",
-      type: "\"default\" | \"destructive\"",
-      default: "\"default\"",
+      type: '"default" | "destructive"',
+      default: '"default"',
     },
   }}
 />
@@ -283,8 +290,8 @@ move to the correct side, and submenu animations follow the active direction.
   type={{
     align: {
       description: "Alignment of the submenu popup.",
-      type: "\"start\" | \"center\" | \"end\"",
-      default: "\"start\"",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
     },
     alignOffset: {
       description: "Offset in pixels along the alignment axis.",
@@ -293,8 +300,8 @@ move to the correct side, and submenu animations follow the active direction.
     },
     side: {
       description: "Side where the submenu should open.",
-      type: "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\"",
-      default: "\"inline-end\"",
+      type: '"top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"',
+      default: '"inline-end"',
     },
     sideOffset: {
       description: "Distance in pixels from the submenu trigger.",

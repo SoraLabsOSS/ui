@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useRef } from "react";
+
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
+
 import { PRICING_CORE_MESSAGE } from "./pricing-config";
 
 export function PricingHero() {
@@ -20,12 +22,12 @@ export function PricingHero() {
         <div className="home-hero__content text-center">
           {/* Title at 5em */}
           <div className="mx-auto max-w-4xl">
-            <h1 className="h-l text-balance text-neutral-900 leading-[1.02] tracking-tight dark:text-white">
+            <h1 className="h-l leading-[1.02] tracking-tight text-balance text-neutral-900 dark:text-white">
               <span className="block">Everything you need,</span>
               <span className="block">free forever.</span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-balance text-[var(--color-neutral-500)] text-base leading-relaxed sm:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-balance text-[var(--color-neutral-500)] sm:text-xl">
               {PRICING_CORE_MESSAGE}
             </p>
           </div>
@@ -33,7 +35,7 @@ export function PricingHero() {
           {/* Scribble annotation & Actions */}
           <div className="relative mt-4 flex flex-col items-center">
             {/* Handwritten scribble annotation */}
-            <div className="pointer-events-none absolute -top-11 left-1/2 ml-14 flex select-none items-end sm:ml-20">
+            <div className="pointer-events-none absolute -top-11 left-1/2 ml-14 flex items-end select-none sm:ml-20">
               <svg
                 aria-hidden="true"
                 className="h-9 w-9 -rotate-12 text-[#fe624c]"
@@ -55,7 +57,7 @@ export function PricingHero() {
                   strokeWidth="2.2"
                 />
               </svg>
-              <span className="scribble mb-3 ml-1 -rotate-3 whitespace-nowrap font-normal text-[#fe624c] text-xl sm:text-2xl">
+              <span className="scribble mb-3 ml-1 -rotate-3 text-xl font-normal whitespace-nowrap text-[#fe624c] sm:text-2xl">
                 100% Free
               </span>
             </div>

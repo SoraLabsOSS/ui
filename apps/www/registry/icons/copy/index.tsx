@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  motion,
-  type SVGMotionProps,
-  useReducedMotion,
-  type Variants,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { SVGMotionProps, Variants } from "motion/react";
 import { useState } from "react";
 
 interface CopyProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {

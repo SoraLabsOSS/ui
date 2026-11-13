@@ -1,13 +1,10 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type HTMLMotionProps, motion, useReducedMotion } from "motion/react";
-import {
-  type CSSProperties,
-  type ReactNode,
-  type Ref,
-  useInsertionEffect,
-} from "react";
+import { motion, useReducedMotion } from "motion/react";
+import type { HTMLMotionProps } from "motion/react";
+import { useInsertionEffect } from "react";
+import type { CSSProperties, ReactNode, Ref } from "react";
 
 // ---------------------------------------------------------------------------
 // Theme-aware shimmer surface
@@ -237,7 +234,7 @@ export function useViewTransitionWipeStyles() {
     wipeStylesInjected = true;
     const el = document.createElement("style");
     el.textContent = VIEW_TRANSITION_WIPE_CSS;
-    document.head.appendChild(el);
+    document.head.append(el);
   }, []);
 }
 

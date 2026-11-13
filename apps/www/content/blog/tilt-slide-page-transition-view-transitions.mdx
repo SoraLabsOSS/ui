@@ -8,7 +8,14 @@ hashtags: ["#nextjs", "#viewtransitions", "#react", "#animation", "#css"]
 ---
 
 <div className="not-prose w-full overflow-hidden rounded-md border border-border/60">
-  <video autoPlay className="m-0 block size-full scale-[1.02] object-cover" loop muted playsInline src="https://cdn.soralabs.studio/media/components/tilt-slide-transition/preview.webm" />
+  <video
+    autoPlay
+    className="m-0 block size-full scale-[1.02] object-cover"
+    loop
+    muted
+    playsInline
+    src="https://cdn.soralabs.studio/media/components/tilt-slide-transition/preview.webm"
+  />
 </div>
 
 When you navigate between pages on high-end editorial portfolios, the transition rarely feels like a traditional webpage loading. Instead of a jarring hard-cut or an uninspired opacity crossfade, the outgoing page physically retreats — shrinking down, drifting south, and tilting slightly off-axis — while the incoming view sweeps across from the bottom-right corner through an angled, expanding diagonal slice.
@@ -16,6 +23,7 @@ When you navigate between pages on high-end editorial portfolios, the transition
 It creates a tactile sensation of depth and physical momentum, reminiscent of sliding photography boards across an architect's desk.
 
 We recently packaged this transition into two complementary forms in the Sora ecosystem:
+
 1. **The Component Pattern**: [`TiltSlideTransition`](/catalog/tilt-slide-transition) — an interactive, self-contained layout showcase with GSAP SplitText character and line reveals, Lenis smooth scrolling, and controlled view switching.
 2. **The App Router Architecture**: [`tilt-slide-template`](https://github.com/SoraLabsOSS/tilt-slide-template) — a standalone, multi-page Next.js template using React 19's native `<ViewTransition>` component in `template.tsx`.
 
@@ -32,7 +40,7 @@ Most multi-page transitions apply symmetric easing: Page A slides left by 100%, 
 In the tilt-slide transition, two distinct spatial transformations happen on an offset timeline:
 
 | Transition Layer | Start Time | Duration | Key Motion Behavior |
-| :--- | :--- | :--- | :--- |
+| :-- | :-- | :-- | :-- |
 | **Outgoing (`page-out`)** | `0.00s` | `1600ms` | Scales down to `0.8` → tilts `-10°` → drifts down-left (`-50%, 20%`) |
 | **Incoming (`page-in`)** | `+0.25s` (delay) | `1500ms` | Expands diagonal `clip-path` from bottom-right → slides to `(0, 0)` |
 | **Navbar (Anchor)** | Continuous | Persistent | Remains fixed and un-animated via `view-transition-name: navbar` |
@@ -92,6 +100,7 @@ All the motion lives in standard CSS pseudo-elements provided by the browser's V
 ```
 
 Notice the midpoint keyframe at `40%`:
+
 - The element shrinks to `80%` scale while remaining level at `rotate(0deg)`. This gives the eye time to register that the current canvas is moving back in 3D space.
 - Between `40%` and `100%`, it accelerates into a `-10deg` counter-clockwise tilt and sinks down `20%` on the Y-axis.
 
@@ -113,6 +122,7 @@ The entrance uses CSS `clip-path: polygon(...)` to create an angular reveal:
 ```
 
 At the `from` frame:
+
 - The polygon `polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%)` isolates the **bottom-right quadrant**.
 - Combined with `translateX(100%) translateY(20%)`, the incoming page bursts out of that lower right quadrant and expands diagonally to cover `polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)`.
 
@@ -131,35 +141,43 @@ import { useCallback, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 export function TiltSlideShowcase() {
-  const [activePage, setActivePage] = useState<"home" | "projects" | "info">("home");
+  const [activePage, setActivePage] = useState<"home" | "projects" | "info">(
+    "home"
+  );
   const isTransitioningRef = useRef(false);
 
-  const handleNavigate = useCallback((targetPage: typeof activePage) => {
-    if (targetPage === activePage || isTransitioningRef.current) return;
+  const handleNavigate = useCallback(
+    (targetPage: typeof activePage) => {
+      if (targetPage === activePage || isTransitioningRef.current) return;
 
-    if (typeof document !== "undefined" && "startViewTransition" in document) {
-      isTransitioningRef.current = true;
-      try {
-        const transition = document.startViewTransition(() => {
-          // flushSync ensures React updates DOM state synchronously
-          // before the browser captures the "new" snapshot
-          flushSync(() => {
-            setActivePage(targetPage);
+      if (
+        typeof document !== "undefined" &&
+        "startViewTransition" in document
+      ) {
+        isTransitioningRef.current = true;
+        try {
+          const transition = document.startViewTransition(() => {
+            // flushSync ensures React updates DOM state synchronously
+            // before the browser captures the "new" snapshot
+            flushSync(() => {
+              setActivePage(targetPage);
+            });
           });
-        });
 
-        transition.finished.finally(() => {
+          transition.finished.finally(() => {
+            isTransitioningRef.current = false;
+          });
+        } catch {
+          setActivePage(targetPage);
           isTransitioningRef.current = false;
-        });
-      } catch {
+        }
+      } else {
+        // Fallback for browsers without View Transition API
         setActivePage(targetPage);
-        isTransitioningRef.current = false;
       }
-    } else {
-      // Fallback for browsers without View Transition API
-      setActivePage(targetPage);
-    }
-  }, [activePage]);
+    },
+    [activePage]
+  );
 
   return (
     <div className="tst-root">
@@ -182,8 +200,7 @@ export function TiltSlideShowcase() {
 }
 ```
 
-> [!IMPORTANT]
-> **Why `flushSync` is critical**: React 18 and 19 batch state updates asynchronously. `document.startViewTransition(callback)` expects the DOM to reflect the new state *immediately* when `callback()` resolves so it can snapshot the new view. Wrapping `setActivePage` inside `flushSync` guarantees that the DOM updates synchronously.
+> [!IMPORTANT] **Why `flushSync` is critical**: React 18 and 19 batch state updates asynchronously. `document.startViewTransition(callback)` expects the DOM to reflect the new state _immediately_ when `callback()` resolves so it can snapshot the new view. Wrapping `setActivePage` inside `flushSync` guarantees that the DOM updates synchronously.
 
 ---
 
@@ -235,7 +252,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ### 3. The Isolated Navbar (`src/components/Navbar.tsx`)
 
-Assigning `viewTransitionName: "navbar"` tells the browser: *"Do not snapshot or animate me as part of the page content. Keep me fixed in place."*
+Assigning `viewTransitionName: "navbar"` tells the browser: _"Do not snapshot or animate me as part of the page content. Keep me fixed in place."_
 
 ```tsx
 import Link from "next/link";
@@ -269,6 +286,7 @@ When adapting this transition to responsive viewports, a common bug occurs:
 ```
 
 On desktop, your pages might fit neatly inside `100svh`. But on mobile viewports:
+
 - Two-column layouts collapse into a vertical stack (`flex-direction: column`).
 - Images take vertical room (`55vh`), pushing text down.
 - The total height exceeds `100svh`.
@@ -276,6 +294,7 @@ On desktop, your pages might fit neatly inside `100svh`. But on mobile viewports
 If your sub-views don't have their own scroll container, users will find the page locked and unable to scroll down.
 
 To fix this cleanly:
+
 1. Give each sub-view `height: 100svh; overflow-y: auto;`.
 2. Wrap scrollable columns in a smooth scroll container like `ReactLenis`:
 

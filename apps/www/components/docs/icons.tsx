@@ -13,9 +13,11 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import Fuse from "fuse.js";
 import { Check, Infinity as InfinityIcon, RotateCcw, X } from "lucide-react";
-import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import type { HTMLMotionProps } from "motion/react";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
+
 import { index, loadComponentSource } from "@/__registry__";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
@@ -80,8 +82,8 @@ function CheckBadge({
   return (
     <motion.button
       className={cn(
-        "flex items-center gap-1 overflow-hidden rounded-full bg-accent px-3 py-1 font-normal text-accent-foreground text-sm transition-colors duration-200 ease-in-out hover:bg-accent/80",
-        isActive && "bg-primary pl-2 text-primary-foreground hover:bg-primary",
+        "bg-accent text-accent-foreground hover:bg-accent/80 flex items-center gap-1 overflow-hidden rounded-full px-3 py-1 text-sm font-normal transition-colors duration-200 ease-in-out",
+        isActive && "bg-primary text-primary-foreground hover:bg-primary pl-2",
         className
       )}
       layout
@@ -124,7 +126,7 @@ export function Icons() {
     setIsLoop(false);
   }, [activeIcon]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: clear query only when the panel closes
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- clear query only when the panel closes
   useEffect(() => {
     if (!(isPanelOpen || activeIcon)) {
       return;
@@ -274,7 +276,7 @@ export function Icons() {
 
       <div>
         {searchedIcons.length ? (
-          <AnimatedTooltipGroup className="mt-6 grid grid-cols-5 xs:grid-cols-7 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
+          <AnimatedTooltipGroup className="xs:grid-cols-7 mt-6 grid grid-cols-5 gap-4 sm:grid-cols-9 lg:grid-cols-11 2xl:grid-cols-14">
             {searchedIcons.map((item) => (
               <AnimatedTooltip
                 className="h-full w-full"
@@ -285,7 +287,7 @@ export function Icons() {
               >
                 <button
                   aria-label={item.name.replace("icons-", "")}
-                  className="group relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 ring-foreground transition-shadow duration-200 hover:ring-2"
+                  className="group ring-foreground relative flex aspect-square size-full items-center justify-center rounded-lg p-3.5 transition-shadow duration-200 hover:ring-2"
                   data-value={item.name}
                   onClick={() => {
                     setActiveIconWithoutPrefix(item.name.replace("icons-", ""));
@@ -300,13 +302,13 @@ export function Icons() {
                   )}
                   <div
                     className={cn(
-                      "absolute inset-0 -z-2 rounded-lg bg-muted transition-colors duration-200",
+                      "bg-muted absolute inset-0 -z-2 rounded-lg transition-colors duration-200",
                       activeIcon === item.name && "bg-foreground/20"
                     )}
                   />
 
                   {newIconNames.includes(item.name) && (
-                    <div className="absolute -top-1 -right-1 size-2.5 rounded-full border border-background bg-accent-pro" />
+                    <div className="border-background bg-accent-pro absolute -top-1 -right-1 size-2.5 rounded-full border" />
                   )}
                 </button>
               </AnimatedTooltip>
@@ -323,16 +325,16 @@ export function Icons() {
         {isPanelOpen && (
           <motion.div
             animate={{ opacity: 1, x: 0 }}
-            className="fixed inset-y-12 right-0 z-50 w-81.25 rounded-l-2xl border-y border-l bg-background p-4 shadow-sm"
+            className="bg-background fixed inset-y-12 right-0 z-50 w-81.25 rounded-l-2xl border-y border-l p-4 shadow-sm"
             exit={{ opacity: 0, x: "100%" }}
             initial={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 150, damping: 25 }}
           >
-            <h2 className="mt-1.5 font-medium text-lg">
+            <h2 className="mt-1.5 text-lg font-medium">
               {activeIcon?.replace("icons-", "")}
             </h2>
             <button
-              className="absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background transition-colors duration-200 hover:bg-muted"
+              className="bg-background hover:bg-muted absolute top-5 right-5 flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-200"
               onClick={() => setIsPanelOpen(false)}
               type="button"
             >
@@ -340,13 +342,13 @@ export function Icons() {
             </button>
 
             <ScrollArea className="h-[calc(100%-3.25rem)]" type="scroll">
-              <ScrollViewport className="[&>div]:!block [&>div]:!min-w-0 [&>div]:w-full">
+              <ScrollViewport className="[&>div]:!block [&>div]:w-full [&>div]:!min-w-0">
                 <div className="flex flex-col gap-y-4">
                   <div className="space-y-4">
                     {activeIcon && (
                       <div className="relative mx-auto aspect-square h-37.5 w-full">
                         <button
-                          className="relative flex size-full cursor-pointer select-none items-center justify-center rounded-2xl border bg-muted/50 transition-colors hover:bg-muted/80"
+                          className="bg-muted/50 hover:bg-muted/80 relative flex size-full cursor-pointer items-center justify-center rounded-2xl border transition-colors select-none"
                           onClick={() => {
                             setIsPreviewTriggered((prev) => !prev);
                           }}
@@ -398,7 +400,7 @@ export function Icons() {
                       value={activeTab}
                     >
                       <div className="mb-3 flex w-full items-center justify-between">
-                        <h3 className="mt-0 mb-0 pt-0 pb-0 font-medium text-base">
+                        <h3 className="mt-0 mb-0 pt-0 pb-0 text-base font-medium">
                           Installation
                         </h3>
                         <TabsList>
@@ -428,7 +430,7 @@ export function Icons() {
                       </TabsContents>
                     </Tabs>
 
-                    <h3 className="mt-4 font-medium text-base">Usage</h3>
+                    <h3 className="mt-4 text-base font-medium">Usage</h3>
                     {activeIcon && (
                       <DynamicCodeBlock
                         code={`import { ${iconName} } from "@/components/sora-ui/icons/${activeIconWithoutPrefix}";
@@ -438,7 +440,7 @@ export function Icons() {
                       />
                     )}
 
-                    <h3 className="mt-4 mb-2 font-medium text-base">Props</h3>
+                    <h3 className="mt-4 mb-2 text-base font-medium">Props</h3>
                     <SoraTypeTable type={ICON_PROPS} />
                   </div>
                 </div>

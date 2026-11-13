@@ -2,10 +2,12 @@
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import Image from "next/image";
-import { type ComponentPropsWithoutRef, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 gsap.registerPlugin(InertiaPlugin);
@@ -21,8 +23,10 @@ export interface MagneticCardsLayout {
   y: number;
 }
 
-export interface MagneticCardsProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+export interface MagneticCardsProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> {
   /** Extra classes applied to each card wrapper. */
   cardClassName?: string;
   /** Cards to render, in left-to-right stacking order. */

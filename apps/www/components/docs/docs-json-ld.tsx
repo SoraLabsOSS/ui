@@ -16,11 +16,11 @@ export function ComponentPageJsonLd({
 }: ComponentPageJsonLdProps) {
   return (
     <script
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is emitted as a script and escapes '<' before injection.
+      // oxlint-disable-next-line react/no-danger -- JSON-LD is emitted as a script and escapes '<' before injection.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(
           getComponentPageJsonLd(page, componentUrl)
-        ).replace(/</g, "\\u003c"),
+        ).replaceAll("<", "\\u003c"),
       }}
       type="application/ld+json"
     />
@@ -32,9 +32,9 @@ export function DocsPageJsonLd({ page }: { page: Page }) {
     <>
       {getDocsPageJsonLd(page).map((schema) => (
         <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script injection
+          // oxlint-disable-next-line react/no-danger -- JSON-LD requires raw script injection
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(schema).replaceAll("<", "\\u003c"),
           }}
           key={schema["@type"]}
           type="application/ld+json"

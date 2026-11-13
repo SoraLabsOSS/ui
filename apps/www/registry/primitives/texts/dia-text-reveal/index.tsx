@@ -3,18 +3,14 @@
 import { cn } from "@workspace/ui/lib/utils";
 import {
   animate,
-  type MotionProps,
   motion,
   useInView,
   useMotionValue,
   useReducedMotion,
   useTransform,
 } from "motion/react";
+import type { MotionProps } from "motion/react";
 import {
-  type ComponentType,
-  type ElementType,
-  type ReactNode,
-  type Ref,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -23,6 +19,7 @@ import {
   useRef,
   useState,
 } from "react";
+import type { ComponentType, ElementType, ReactNode, Ref } from "react";
 
 type EaseValue =
   | "linear"
@@ -108,7 +105,7 @@ function measureMaxWidth(element: HTMLElement, texts: string[]) {
     whiteSpace: "nowrap",
   });
 
-  element.parentElement?.appendChild(ghost);
+  element.parentElement?.append(ghost);
 
   let max = 0;
 
@@ -188,7 +185,7 @@ export function DiaTextReveal({
     timerRef.current = undefined;
   }, [sweep, textOpacity]);
 
-  const playRef = useRef<() => void>(() => undefined);
+  const playRef = useRef<() => void>(() => {});
 
   playRef.current = () => {
     clearCycle();
@@ -246,7 +243,7 @@ export function DiaTextReveal({
 
   useImperativeHandle(controlRef, () => ({ play, replay }), [play, replay]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run only when visibility or text list changes
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run only when visibility or text list changes
   useEffect(() => {
     indexRef.current = 0;
     setActiveIndex(0);
@@ -287,7 +284,7 @@ export function DiaTextReveal({
               backgroundSize: "300% 100%",
               backgroundPosition: "0% 50%",
               opacity: 1,
-              ...(lockedWidth != null && {
+              ...(lockedWidth !== undefined && {
                 width: lockedWidth,
                 whiteSpace: "nowrap",
               }),
@@ -299,7 +296,7 @@ export function DiaTextReveal({
               backgroundSize: "300% 100%",
               backgroundPosition,
               opacity: textOpacity,
-              ...(lockedWidth != null && {
+              ...(lockedWidth !== undefined && {
                 width: lockedWidth,
                 whiteSpace: "nowrap",
               }),

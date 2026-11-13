@@ -1,14 +1,16 @@
-import { RootProvider } from "fumadocs-ui/provider";
-import type { Metadata } from "next";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { type ReactNode, Suspense } from "react";
-
-import "./globals.css";
 import { Toaster } from "@workspace/ui/components/ui/sonner";
 import { cn } from "@workspace/ui/lib/utils";
+import { RootProvider } from "fumadocs-ui/provider";
 import { ArrowRightIcon } from "lucide-react";
 import { MotionConfig } from "motion/react";
+
+import "./globals.css";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Suspense } from "react";
+import type { ReactNode } from "react";
+
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
@@ -119,7 +121,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     >
       <head>
         <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script injection
+          // oxlint-disable-next-line react/no-danger -- JSON-LD requires raw script injection
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           type="application/ld+json"
         />
@@ -143,7 +145,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 The remote MCP server is temporarily paused due to usage limits.
               </span>{" "}
               <Link
-                className="inline-flex items-center gap-1 whitespace-nowrap font-semibold underline underline-offset-4 hover:opacity-80"
+                className="inline-flex items-center gap-1 font-semibold whitespace-nowrap underline underline-offset-4 hover:opacity-80"
                 href="/docs/mcp"
               >
                 <span>Learn more</span>

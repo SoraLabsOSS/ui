@@ -102,8 +102,7 @@ Catalog showcase layouts are artistic showcases that intentionally preserve full
 
 ## Multi-file items
 
-Large components can ship extra modules. Source files stay flat next to `index.tsx`; only their
-`target`s decide the published layout:
+Large components can ship extra modules. Source files stay flat next to `index.tsx`; only their `target`s decide the published layout:
 
 ```text
 registry/primitives/texts/text-morph/
@@ -124,12 +123,12 @@ registry/primitives/texts/text-morph/
     ]
   }
   ```
-  *Fallback behavior:* 1–3 files display as a clean flat list; 4+ files without `meta.fileGroups` automatically group into `Main component` (`files[0]`) and `Internal implementation`.
+  _Fallback behavior:_ 1–3 files display as a clean flat list; 4+ files without `meta.fileGroups` automatically group into `Main component` (`files[0]`) and `Internal implementation`.
 
 ## On the docs site
 
 | Part | Source | Notes |
-|------|--------|-------|
+| --- | --- | --- |
 | **Preview** | `ComponentPreview name="<name>"` | Loads primitive from `@/registry/...`, props from `meta.demoProps` or manual `demo-*` |
 | **Tweakpane** | `meta.demoProps` on the primitive `registry-item.json` | Top-level key = React export name (e.g. `TextEffect`) |
 | **Code** | Auto-generated `demo-<name>` at build time (or manual demo on disk); loaded on demand via `loadComponentSource`; **updates live** when Tweakpane changes | Snippet uses `@/components/sora-ui/...` (post–`shadcn add` paths) |
@@ -208,7 +207,7 @@ When a component borrows from an external motion library or site, document it in
 Use one of two `type` values — copy is generated automatically:
 
 | Situation | `meta.inspiration.type` | Rendered text |
-|-----------|-------------------------|---------------|
+| --- | --- | --- |
 | UX / animation idea only | `"inspired"` | Inspired by [Source](url). |
 | Full rewrite in Motion + React | `"reimplemented"` | Inspired by [Source](url). Reimplemented for Motion and React. |
 
@@ -232,9 +231,7 @@ Skip `inspiration` for components that are fully original.
 
 ## Agent-native UI metadata
 
-Every documented Base UI and Radix UI page should expose the following
-frontmatter fields so MCP clients can reason about composition without
-reverse-engineering JSX:
+Every documented Base UI and Radix UI page should expose the following frontmatter fields so MCP clients can reason about composition without reverse-engineering JSX:
 
 ```yaml
 intent: Present focused modal content.
@@ -254,18 +251,9 @@ compositionRecipes:
       - Keep cancel and confirm actions independently reachable.
 ```
 
-`bun run doctor base/<name>` and `bun run doctor radix/<name>` validate these
-fields. The generated LLM page exports include an `Agent Metadata` section so
-MCP consumers can use the same intent, accessibility, motion, and composition
-contract as the docs site.
+`bun run doctor base/<name>` and `bun run doctor radix/<name>` validate these fields. The generated LLM page exports include an `Agent Metadata` section so MCP consumers can use the same intent, accessibility, motion, and composition contract as the docs site.
 
-The registry also publishes the same contract under
-`registry-item.json.meta.agentMetadata`, which is preserved in
-`public/r/*.json`. MCP's `get_component_info` exposes this metadata directly,
-and `validate_composition` checks proposed component sets against their
-dependencies and constraints. This is an agent context and validation layer,
-not an end-to-end planner or code generator: the calling agent still chooses
-the component tree and writes the resulting application code.
+The registry also publishes the same contract under `registry-item.json.meta.agentMetadata`, which is preserved in `public/r/*.json`. MCP's `get_component_info` exposes this metadata directly, and `validate_composition` checks proposed component sets against their dependencies and constraints. This is an agent context and validation layer, not an end-to-end planner or code generator: the calling agent still chooses the component tree and writes the resulting application code.
 
 ## Commands
 

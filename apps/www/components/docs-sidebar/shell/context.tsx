@@ -15,7 +15,7 @@ const EFFECTS_STORAGE_KEY = "docs-shell-motion-effects";
 
 const EffectsContext = createContext<{ enabled: boolean; toggle: () => void }>({
   enabled: true,
-  toggle: () => undefined,
+  toggle: () => {},
 });
 
 export function DocsShellEffectsProvider({
@@ -66,7 +66,7 @@ const HoverContext = createContext<{
   hovered: null,
   hoverRect: null,
   containerRef: { current: null },
-  setHovered: () => undefined,
+  setHovered: () => {},
 });
 
 export function DocsShellHoverProvider({
@@ -119,7 +119,7 @@ export function DocsShellHoverHighlight() {
             left: hoverRect.left,
             opacity: 1,
           }}
-          className="pointer-events-none absolute z-0 rounded-md bg-accent/50"
+          className="bg-accent/50 pointer-events-none absolute z-0 rounded-md"
           exit={{ opacity: 0 }}
           initial={false}
           key="docs-shell-hover-bg"

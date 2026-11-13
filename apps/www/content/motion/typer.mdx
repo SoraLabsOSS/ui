@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-typer" description="A stacked headline that cascades in line by line — scroll into view or refresh to replay." />
+<ComponentPreview
+  name="demo-typer"
+  description="A stacked headline that cascades in line by line — scroll into view or refresh to replay."
+/>
 
 ## Installation
 
@@ -15,7 +18,7 @@ author:
 ## Usage
 
 ```tsx
-import { Typer } from '@/components/sora-ui/texts/typer';
+import { Typer } from "@/components/sora-ui/texts/typer";
 
 export default function Page() {
   return (
@@ -31,7 +34,7 @@ Cascade a stacked block, one line per string:
 
 ```tsx
 <Typer
-  text={['Type that', 'assembles itself,', 'one glyph at a time.']}
+  text={["Type that", "assembles itself,", "one glyph at a time."]}
   stagger={0.15}
 />
 ```
@@ -53,10 +56,7 @@ const [trigger, setTrigger] = useState<'in' | 'out'>('in');
 Scramble on hover:
 
 ```tsx
-<Typer
-  text="Hover over this line to scramble."
-  triggerOnHover
-/>
+<Typer text="Hover over this line to scramble." triggerOnHover />
 ```
 
 Narrow the pool of visual states each character rolls through:
@@ -64,7 +64,7 @@ Narrow the pool of visual states each character rolls through:
 ```tsx
 <Typer
   text="Only pills and accents."
-  variations={['charFill', 'charAccentInverse', 'charBorder']}
+  variations={["charFill", "charAccentInverse", "charBorder"]}
 />
 ```
 
@@ -97,118 +97,130 @@ const handle = useRef<TyperHandle>(null);
 <TypeTable
   type={{
     text: {
-      description: 'Text to reveal. Pass an array to render one cascading line per string.',
-      type: 'string | string[]',
+      description:
+        "Text to reveal. Pass an array to render one cascading line per string.",
+      type: "string | string[]",
     },
     children: {
-      description: 'Children string fallback if text prop is omitted.',
-      type: 'string',
+      description: "Children string fallback if text prop is omitted.",
+      type: "string",
     },
     trigger: {
       description: 'Declarative trigger to run "in", "out", or "inout" phase.',
       type: '"in" | "out" | "inout"',
     },
     triggerOnHover: {
-      description: 'Trigger reveal animation on mouse hover.',
-      type: 'boolean',
-      default: 'false',
+      description: "Trigger reveal animation on mouse hover.",
+      type: "boolean",
+      default: "false",
     },
     triggerOnMount: {
-      description: 'Trigger reveal animation automatically on mount.',
-      type: 'boolean',
-      default: 'true',
+      description: "Trigger reveal animation automatically on mount.",
+      type: "boolean",
+      default: "true",
     },
     startOnView: {
-      description: 'Wait until the element scrolls into view before revealing. Ignored if trigger is provided.',
-      type: 'boolean',
-      default: 'true',
+      description:
+        "Wait until the element scrolls into view before revealing. Ignored if trigger is provided.",
+      type: "boolean",
+      default: "true",
     },
     initVisible: {
-      description: 'Initial visibility. If true, starts directly in settled "done" state without animating.',
-      type: 'boolean',
-      default: 'false',
+      description:
+        'Initial visibility. If true, starts directly in settled "done" state without animating.',
+      type: "boolean",
+      default: "false",
     },
     variations: {
-      description: 'Which visual states each character rolls through before settling. Shuffled per run.',
-      type: 'TyperVariation[]',
-      default: 'all six variations',
+      description:
+        "Which visual states each character rolls through before settling. Shuffled per run.",
+      type: "TyperVariation[]",
+      default: "all six variations",
     },
     cycles: {
-      description: 'How many random states each character rolls through before settling.',
-      type: 'number',
-      default: '3',
+      description:
+        "How many random states each character rolls through before settling.",
+      type: "number",
+      default: "3",
     },
     cycleLength: {
-      description: 'Cycle length multiplier relative to animation frames.',
-      type: 'number',
-      default: '0.5',
+      description: "Cycle length multiplier relative to animation frames.",
+      type: "number",
+      default: "0.5",
     },
     fps: {
-      description: 'Frames per second of the reveal loop.',
-      type: 'number',
-      default: '20',
+      description: "Frames per second of the reveal loop.",
+      type: "number",
+      default: "20",
     },
     delay: {
-      description: 'Delay in seconds before starting the reveal animation.',
-      type: 'number',
-      default: '0',
+      description: "Delay in seconds before starting the reveal animation.",
+      type: "number",
+      default: "0",
     },
     stagger: {
-      description: 'Seconds between consecutive lines cascading in.',
-      type: 'number',
-      default: '0.15',
+      description: "Seconds between consecutive lines cascading in.",
+      type: "number",
+      default: "0.15",
     },
     spaceWidth: {
-      description: 'Custom space width between words. Maps to --typer-space-width.',
-      type: 'string',
+      description:
+        "Custom space width between words. Maps to --typer-space-width.",
+      type: "string",
       default: '"0.5em"',
     },
     fg: {
-      description: 'Base ink color (plain letters and ink pills). Maps to --typer-fg.',
-      type: 'string',
-      default: 'theme --foreground',
+      description:
+        "Base ink color (plain letters and ink pills). Maps to --typer-fg.",
+      type: "string",
+      default: "theme --foreground",
     },
     bg: {
-      description: 'Knockout / page color inside filled pills. Maps to --typer-bg.',
-      type: 'string',
-      default: 'theme --background',
+      description:
+        "Knockout / page color inside filled pills. Maps to --typer-bg.",
+      type: "string",
+      default: "theme --background",
     },
     accent: {
-      description: 'Accent surface color for accent pills and borders. Maps to --typer-accent.',
-      type: 'string',
-      default: 'theme --accent',
+      description:
+        "Accent surface color for accent pills and borders. Maps to --typer-accent.",
+      type: "string",
+      default: "theme --accent",
     },
     accentInk: {
-      description: 'Text color sitting on an accent fill. Maps to --typer-accent-ink.',
-      type: 'string',
-      default: 'theme --foreground',
+      description:
+        "Text color sitting on an accent fill. Maps to --typer-accent-ink.",
+      type: "string",
+      default: "theme --foreground",
     },
     border: {
-      description: 'Color for charBorder variation borders. Maps to --typer-border.',
-      type: 'string',
-      default: 'theme --foreground',
+      description:
+        "Color for charBorder variation borders. Maps to --typer-border.",
+      type: "string",
+      default: "theme --foreground",
     },
     radius: {
-      description: 'Corner radius of merged pills. Maps to --typer-radius.',
-      type: 'string',
+      description: "Corner radius of merged pills. Maps to --typer-radius.",
+      type: "string",
       default: '"5px"',
     },
     onComplete: {
-      description: 'Callback fired when the reveal animation completes.',
-      type: '() => void',
+      description: "Callback fired when the reveal animation completes.",
+      type: "() => void",
     },
     as: {
-      description: 'Render as a different element instead of `div`.',
-      type: 'React.ElementType',
+      description: "Render as a different element instead of `div`.",
+      type: "React.ElementType",
       default: '"div"',
     },
     ref: {
-      description: 'Imperative handle exposing in(), out(), inOut(), play(), replay(), reset(), and getType().',
-      type: 'Ref<TyperHandle>',
+      description:
+        "Imperative handle exposing in(), out(), inOut(), play(), replay(), reset(), and getType().",
+      type: "Ref<TyperHandle>",
     },
     className: {
-      description: 'Additional class names merged onto the root element.',
-      type: 'string',
+      description: "Additional class names merged onto the root element.",
+      type: "string",
     },
   }}
 />

@@ -20,10 +20,7 @@ import { TiltSlideTransition } from "@/components/sora-ui/catalog/tilt-slide-tra
 export default function PortfolioSection() {
   return (
     <div className="h-screen w-full">
-      <TiltSlideTransition
-        brandName="Sora"
-        heroTitle="Sora"
-      />
+      <TiltSlideTransition brandName="Sora" heroTitle="Sora" />
     </div>
   );
 }
@@ -39,7 +36,8 @@ export default function PortfolioSection() {
       default: '"Sora"',
     },
     defaultPage: {
-      description: "Default active view on uncontrolled mount ('home' | 'projects' | 'info').",
+      description:
+        "Default active view on uncontrolled mount ('home' | 'projects' | 'info').",
       type: '"home" | "projects" | "info"',
       default: '"home"',
     },
@@ -52,20 +50,24 @@ export default function PortfolioSection() {
       type: "(page: ViewPage) => void",
     },
     heroTitle: {
-      description: "Large heading revealed on the Home page via GSAP SplitText character animation.",
+      description:
+        "Large heading revealed on the Home page via GSAP SplitText character animation.",
       type: "string",
       default: '"Sora"',
     },
     projectImages: {
-      description: "Array of image URLs rendered in the Projects smooth scroll feed.",
+      description:
+        "Array of image URLs rendered in the Projects smooth scroll feed.",
       type: "string[]",
     },
     portraitImage: {
-      description: "Image URL displayed in the portrait column of the Info page.",
+      description:
+        "Image URL displayed in the portrait column of the Info page.",
       type: "string",
     },
     infoParagraph: {
-      description: "Bio text revealed line-by-line via GSAP SplitText on the Info page.",
+      description:
+        "Bio text revealed line-by-line via GSAP SplitText on the Info page.",
       type: "string",
     },
     navItems: {
@@ -84,7 +86,8 @@ export default function PortfolioSection() {
 <TypeTable
   type={{
     id: {
-      description: "Identifier corresponding to the view ('home' | 'projects' | 'info').",
+      description:
+        "Identifier corresponding to the view ('home' | 'projects' | 'info').",
       type: '"home" | "projects" | "info"',
     },
     label: {

@@ -48,11 +48,11 @@ function ensureArrowRightStyles() {
   if (typeof document === "undefined") {
     return;
   }
-  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+  let style = document.querySelector(`#${STYLE_ID}`) as HTMLStyleElement | null;
   if (!style) {
     style = document.createElement("style");
     style.id = STYLE_ID;
-    document.head.appendChild(style);
+    document.head.append(style);
   }
   style.textContent = ARROW_RIGHT_CSS;
 }

@@ -21,7 +21,7 @@ export default function DropdownMenuRtlDemo() {
         dir="rtl"
       >
         <DropdownMenu>
-          <DropdownMenuTrigger className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-background px-4 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <DropdownMenuTrigger className="border-border bg-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-10 items-center gap-2 rounded-xl border px-4 text-sm font-medium shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none">
             فتح القائمة
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52">

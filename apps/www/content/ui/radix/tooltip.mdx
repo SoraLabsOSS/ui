@@ -22,7 +22,10 @@ compositionRecipes:
       - Include an accessible sr-only label in the button alongside the tooltip.
 ---
 
-<ComponentPreview name="demo-radix-tooltip" description="Radix UI tooltip with spring bounce motion physics and arrow pointer." />
+<ComponentPreview
+  name="demo-radix-tooltip"
+  description="Radix UI tooltip with spring bounce motion physics and arrow pointer."
+/>
 
 ## Installation
 
@@ -47,6 +50,7 @@ compositionRecipes:
       );
     }
     ```
+
   </Step>
 </ComponentInstallation>
 
@@ -114,7 +118,8 @@ export default function Page() {
 <TypeTable
   type={{
     side: {
-      description: "The preferred side of the trigger to render against (supports logical sides for RTL).",
+      description:
+        "The preferred side of the trigger to render against (supports logical sides for RTL).",
       type: '"top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"',
       default: '"top"',
     },
@@ -129,7 +134,8 @@ export default function Page() {
       default: '"center"',
     },
     alignOffset: {
-      description: "An offset in pixels from the start or end alignment options.",
+      description:
+        "An offset in pixels from the start or end alignment options.",
       type: "number",
       default: "0",
     },

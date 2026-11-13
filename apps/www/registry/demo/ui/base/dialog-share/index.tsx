@@ -2,6 +2,7 @@
 
 import { Check, Copy, Share2 } from "lucide-react";
 import { useState } from "react";
+
 import { Button } from "@/registry/ui/base/button";
 import {
   Dialog,
@@ -47,7 +48,7 @@ export default function DialogShareDemo() {
                 Link
               </label>
               <input
-                className="h-9 w-full rounded-md border border-input bg-muted/50 px-3 py-1 font-mono text-xs shadow-xs outline-none"
+                className="border-input bg-muted/50 h-9 w-full rounded-md border px-3 py-1 font-mono text-xs shadow-xs outline-none"
                 id="share-link-input"
                 readOnly
                 value="https://sora-ui.com/ui/dialog"

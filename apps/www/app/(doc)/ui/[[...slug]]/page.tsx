@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-json-ld";
@@ -64,19 +65,13 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
   const tree = uiSource.getPageTree();
   const { previous, next: nextPage } = findNeighbour(tree, page.url);
 
-  const prevNav: DocsPagerItem | undefined = (() => {
-    if (previous?.url?.startsWith("/ui")) {
-      return resolveNavItem(previous.url, String(previous.name ?? "Previous"));
-    }
-    return;
-  })();
+  const prevNav: DocsPagerItem | undefined = previous?.url?.startsWith("/ui")
+    ? resolveNavItem(previous.url, String(previous.name ?? "Previous"))
+    : undefined;
 
-  const nextNav: DocsPagerItem | undefined = (() => {
-    if (nextPage?.url?.startsWith("/ui")) {
-      return resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"));
-    }
-    return;
-  })();
+  const nextNav: DocsPagerItem | undefined = nextPage?.url?.startsWith("/ui")
+    ? resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"))
+    : undefined;
 
   return (
     <DocsPage
@@ -112,7 +107,7 @@ async function UiPageBody({ slug }: { slug?: string[] }) {
         <DocsTitle className="font-medium">
           {page.data.title}
           {familyLabel ? (
-            <span className="font-normal text-muted-foreground">
+            <span className="text-muted-foreground font-normal">
               {` · ${familyLabel}`}
             </span>
           ) : null}

@@ -1,4 +1,5 @@
-import { OG_PALETTE, type OgPalette } from "./palette";
+import { OG_PALETTE } from "./palette";
+import type { OgPalette } from "./palette";
 
 export interface QuoteProps {
   author: string;
@@ -70,7 +71,7 @@ export const Quote = ({
       }}
     >
       {avatar ? (
-        // biome-ignore lint/performance/noImgElement: Satori OG images require a plain img with an absolute URL.
+        // oxlint-disable-next-line next/no-img-element, react-doctor/nextjs-no-img-element -- Satori OG images require a plain img with an absolute URL.
         <img
           alt={author}
           height={76}

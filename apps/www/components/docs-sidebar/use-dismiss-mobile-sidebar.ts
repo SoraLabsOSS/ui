@@ -2,6 +2,7 @@
 
 import { useSidebar } from "fumadocs-ui/provider";
 import { useEffect } from "react";
+
 import {
   closeMobileSidebar,
   isMobileSidebarSuppressed,
@@ -53,7 +54,7 @@ export function useDismissMobileSidebarOnOutside() {
       if (!isMobileViewport()) {
         return;
       }
-      const target = event.target;
+      const { target } = event;
       if (!(target instanceof Element)) {
         return;
       }

@@ -67,13 +67,13 @@ export function LegalScrollView({
       )}
     >
       <div className="flex flex-col">
-        <div className="flex flex-col gap-2.5 border-foreground/10 border-b pb-4 font-mono text-xs uppercase tracking-widest sm:flex-row sm:items-center sm:justify-between">
-          <div className="scrollbar-none flex items-center gap-4 overflow-x-auto sm:gap-6">
+        <div className="border-foreground/10 flex flex-col gap-2.5 border-b pb-4 font-mono text-xs tracking-widest uppercase sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex scrollbar-none items-center gap-4 overflow-x-auto sm:gap-6">
             <Link
               className={cn(
                 "shrink-0 whitespace-nowrap transition-colors",
                 pathname === "/legal/terms"
-                  ? "font-semibold text-foreground"
+                  ? "text-foreground font-semibold"
                   : "text-muted-foreground hover:text-foreground"
               )}
               href="/legal/terms"
@@ -84,7 +84,7 @@ export function LegalScrollView({
               className={cn(
                 "shrink-0 whitespace-nowrap transition-colors",
                 pathname === "/legal/privacy"
-                  ? "font-semibold text-foreground"
+                  ? "text-foreground font-semibold"
                   : "text-muted-foreground hover:text-foreground"
               )}
               href="/legal/privacy"
@@ -92,24 +92,24 @@ export function LegalScrollView({
               Privacy Policy
             </Link>
           </div>
-          <span className="shrink-0 whitespace-nowrap font-normal text-muted-foreground lowercase sm:text-right">
+          <span className="text-muted-foreground shrink-0 font-normal whitespace-nowrap lowercase sm:text-right">
             updated: {lastUpdated}
           </span>
         </div>
 
-        <h1 className="mt-4 font-cal-sans text-3xl md:mt-5 md:text-5xl">
+        <h1 className="font-cal-sans mt-4 text-3xl md:mt-5 md:text-5xl">
           {title}
         </h1>
       </div>
 
       <div className="relative mb-0 flex gap-12 pt-[40px] pb-0 md:pt-[60px]">
-        <ul className="sticky top-28 hidden h-fit w-full max-w-[300px] space-y-4 border-foreground/10 border-l md:block">
+        <ul className="border-foreground/10 sticky top-28 hidden h-fit w-full max-w-[300px] space-y-4 border-l md:block">
           {terms.map((term, index) => (
             <li className="relative cursor-pointer pl-3" key={term.id}>
               <a href={`#${term.id}`}>
                 {activeTerm === index && (
                   <motion.span
-                    className="absolute top-1/2 -left-[1.5px] inline-block h-5 w-[2px] -translate-y-1/2 rounded-2xl bg-foreground"
+                    className="bg-foreground absolute top-1/2 -left-[1.5px] inline-block h-5 w-[2px] -translate-y-1/2 rounded-2xl"
                     layoutId="active-term"
                     transition={{
                       damping: 30,
@@ -143,7 +143,7 @@ export function LegalScrollView({
               <h3 className="font-cal-sans text-xl lg:text-3xl">
                 {term.title}
               </h3>
-              <div className="space-y-4 text-foreground/80 leading-relaxed">
+              <div className="text-foreground/80 space-y-4 leading-relaxed">
                 {term.content}
               </div>
             </TermSection>

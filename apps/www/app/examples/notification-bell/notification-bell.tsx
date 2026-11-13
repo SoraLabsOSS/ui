@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: digit positions are stable within a remounted count string */
+/* oxlint-disable react/no-array-index-key, react-doctor/no-array-index-as-key -- digit positions are stable within a remounted count string */
 
 "use client";
 
@@ -7,9 +7,10 @@ import {
   motion,
   useAnimationControls,
   useReducedMotion,
-  type Variants,
 } from "motion/react";
+import type { Variants } from "motion/react";
 import { useCallback, useRef, useState } from "react";
+
 import { Bell } from "@/registry/icons/bell";
 
 /**
@@ -33,10 +34,11 @@ function useArrivalSound(enabled: boolean) {
       }
       let ctx = ctxRef.current;
       if (!ctx) {
-        ctx = ctxRef.current = new AC();
+        ctx = new AC();
+        ctxRef.current = ctx;
       }
       if (ctx.state === "suspended") {
-        ctx.resume().catch(() => undefined);
+        ctx.resume().catch(() => {});
       }
       const audio = ctx;
       const now = audio.currentTime;
@@ -166,9 +168,9 @@ export function NotificationBell() {
     const had = count > 0;
     setCount((c) => c + 1);
     if (!reduce) {
-      bellControls.start(rattle).catch(() => undefined);
+      bellControls.start(rattle).catch(() => {});
       if (had) {
-        badgeControls.start(badgeReact).catch(() => undefined);
+        badgeControls.start(badgeReact).catch(() => {});
       }
     }
     playArrival();

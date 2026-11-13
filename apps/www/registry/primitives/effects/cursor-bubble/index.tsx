@@ -1,21 +1,21 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: The target wraps its own interactive child; the span only needs hover affordances. */
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: Same as above — hover-only, no keyboard/click semantics of its own. */
+/* oxlint-disable jsx-a11y/no-noninteractive-element-interactions -- The target wraps its own interactive child; the span only needs hover affordances. */
+/* oxlint-disable jsx-a11y/no-static-element-interactions -- Same as above — hover-only, no keyboard/click semantics of its own. */
 
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import {
-  type ComponentPropsWithoutRef,
   createContext,
-  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 const DEFAULT_LABEL = "click";
@@ -69,8 +69,10 @@ function useCoarsePointer() {
   return isCoarsePointer;
 }
 
-export interface CursorBubbleProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+export interface CursorBubbleProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> {
   /** Extra classes applied to the floating bubble itself (color, padding, shape, etc). */
   bubbleClassName?: string;
   children?: ReactNode;
@@ -83,8 +85,8 @@ function CursorBubble({
   ...props
 }: CursorBubbleProps) {
   const bubbleRef = useRef<HTMLDivElement>(null);
-  const showRef = useRef<(label: string) => void>(() => undefined);
-  const hideRef = useRef<() => void>(() => undefined);
+  const showRef = useRef<(label: string) => void>(() => {});
+  const hideRef = useRef<() => void>(() => {});
   const prefersReducedMotion = usePrefersReducedMotion();
   const isCoarsePointer = useCoarsePointer();
   const disabled = prefersReducedMotion || isCoarsePointer;
@@ -140,8 +142,8 @@ function CursorBubble({
 
       return () => {
         window.removeEventListener("pointermove", handlePointerMove);
-        showRef.current = () => undefined;
-        hideRef.current = () => undefined;
+        showRef.current = () => {};
+        hideRef.current = () => {};
       };
     },
     { dependencies: [disabled] }
@@ -163,7 +165,7 @@ function CursorBubble({
           <div
             aria-hidden="true"
             className={cn(
-              "pointer-events-none fixed top-0 left-0 z-100 origin-left scale-0 whitespace-nowrap rounded-[50px_50px_50px_0] bg-primary px-[7px] py-[5px] font-medium text-lg text-primary-foreground capitalize opacity-0",
+              "bg-primary text-primary-foreground pointer-events-none fixed top-0 left-0 z-100 origin-left scale-0 rounded-[50px_50px_50px_0] px-[7px] py-[5px] text-lg font-medium whitespace-nowrap capitalize opacity-0",
               bubbleClassName
             )}
             ref={bubbleRef}
@@ -174,8 +176,10 @@ function CursorBubble({
   );
 }
 
-export interface CursorBubbleTargetProps
-  extends Omit<ComponentPropsWithoutRef<"span">, "children"> {
+export interface CursorBubbleTargetProps extends Omit<
+  ComponentPropsWithoutRef<"span">,
+  "children"
+> {
   children?: ReactNode;
   /** Text shown in the bubble while hovering this target. @default "click" */
   label?: string;

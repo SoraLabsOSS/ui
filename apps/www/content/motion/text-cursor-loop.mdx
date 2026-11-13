@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-text-cursor-loop" description="The anime.js hero line — words collapse/reveal one character at a time while the cursor wipes across the text." />
+<ComponentPreview
+  name="demo-text-cursor-loop"
+  description="The anime.js hero line — words collapse/reveal one character at a time while the cursor wipes across the text."
+/>
 
 ## Installation
 
@@ -32,7 +35,11 @@ Unlike `TextLoop` (which swaps whole blocks) or `TextScramble` (random-character
 ## Styling
 
 <Callout title="No default colors">
-  Like every primitive in this registry, `TextCursorLoop` ships structural classes only. The root and the cursor both carry a `data-phase="idle" | "collapsing" | "revealing"` attribute — hook it with `data-[phase=collapsing]:text-red-500`-style classes (see this page's own preview) to recolor the cursor during the transition.
+  Like every primitive in this registry, `TextCursorLoop` ships structural
+  classes only. The root and the cursor both carry a `data-phase="idle" |
+  "collapsing" | "revealing"` attribute — hook it with
+  `data-[phase=collapsing]:text-red-500`-style classes (see this page's own
+  preview) to recolor the cursor during the transition.
 </Callout>
 
 ## Props
@@ -49,7 +56,8 @@ Unlike `TextLoop` (which swaps whole blocks) or `TextScramble` (random-character
       default: '"span"',
     },
     cursor: {
-      description: "The trailing glyph that wipes across the text between words.",
+      description:
+        "The trailing glyph that wipes across the text between words.",
       type: "ReactNode",
       default: '"."',
     },
@@ -74,7 +82,8 @@ Unlike `TextLoop` (which swaps whole blocks) or `TextScramble` (random-character
       default: "true",
     },
     onIndexChange: {
-      description: "Called with the new word index whenever the cycle advances.",
+      description:
+        "Called with the new word index whenever the cycle advances.",
       type: "(index: number) => void",
     },
     className: { description: "Root classes.", type: "string" },
@@ -87,7 +96,7 @@ Unlike `TextLoop` (which swaps whole blocks) or `TextScramble` (random-character
 
 ## When to Use
 
-A hero subheading where one word in a sentence should keep changing — "animate ___", "build for ___", "designed for ___". Best with short, similar-length words; very long or mixed-width words make the collapse/reveal stagger less readable.
+A hero subheading where one word in a sentence should keep changing — "animate **_", "build for _**", "designed for \_\_\_". Best with short, similar-length words; very long or mixed-width words make the collapse/reveal stagger less readable.
 
 ## Accessibility
 

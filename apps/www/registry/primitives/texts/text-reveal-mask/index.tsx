@@ -1,24 +1,18 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: Split indices are stable for static text. */
+/* oxlint-disable react/no-array-index-key, react-doctor/no-array-index-as-key -- Split indices are stable for static text. */
 
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import type { UseInViewOptions } from "motion/react";
 import {
-  motion,
-  type UseInViewOptions,
-  useInView,
-  useReducedMotion,
-} from "motion/react";
-import {
-  type ElementType,
   isValidElement,
-  type ReactNode,
-  type RefObject,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import type { ElementType, ReactNode, RefObject } from "react";
 
 type SplitBy = "lines" | "words" | "chars";
 
@@ -187,7 +181,7 @@ function useLineGroups(
     .map((word) => `${word.emphasized ? "1" : "0"}:${word.text}`)
     .join("\u0000")}`;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Remeasure when text, width, or typography changes.
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- Remeasure when text, width, or typography changes.
   useLayoutEffect(() => {
     const container = containerRef.current;
     const measureNode = measureRef.current;
@@ -236,7 +230,7 @@ function useLineGroups(
           className={cn(
             "split-word inline-block [backface-visibility:hidden]",
             index < words.length - 1 && "me-[0.25em]",
-            word.emphasized && "font-medium text-foreground"
+            word.emphasized && "text-foreground font-medium"
           )}
           data-measure-word
           key={index}
@@ -397,10 +391,14 @@ export function MaskedTextReveal({
   }, [lineGroups]);
 
   const lineCharGroups = useMemo(() => {
-    const groups = lineGroups ?? [];
+    if (!lineGroups?.length) {
+      return [];
+    }
+
+    const result: LineCharUnit[][] = [];
     let globalStagger = 0;
 
-    return groups.map((group) => {
+    for (const group of lineGroups) {
       const lineChars: LineCharUnit[] = [];
 
       for (const [index, wordIndex] of group.entries()) {
@@ -415,7 +413,7 @@ export function MaskedTextReveal({
             emphasized: word.emphasized,
             staggerIndex: globalStagger,
           });
-          globalStagger++;
+          globalStagger += 1;
         }
 
         if (index < group.length - 1) {
@@ -424,12 +422,14 @@ export function MaskedTextReveal({
             emphasized: false,
             staggerIndex: globalStagger,
           });
-          globalStagger++;
+          globalStagger += 1;
         }
       }
 
-      return lineChars;
-    });
+      result.push(lineChars);
+    }
+
+    return result;
   }, [lineGroups, words]);
 
   const Component = Tag as ElementType;
@@ -454,7 +454,7 @@ export function MaskedTextReveal({
   }
 
   const rootClassName = cn(
-    "overflow-wrap-anywhere block [contain:layout_style_paint] [overflow-wrap:break-word] [transform:translateZ(0)] [will-change:transform] [word-wrap:break-word]",
+    "overflow-wrap-anywhere block [transform:translateZ(0)] [overflow-wrap:break-word] [will-change:transform] [contain:layout_style_paint] [word-wrap:break-word]",
     !isReady && "invisible",
     className
   );
@@ -531,7 +531,7 @@ export function MaskedTextReveal({
             animate={shouldAnimate}
             className={cn(
               "split-char",
-              token.emphasized && "font-medium text-foreground",
+              token.emphasized && "text-foreground font-medium",
               unitClassName
             )}
             delay={delay + token.staggerIndex * resolvedStagger}

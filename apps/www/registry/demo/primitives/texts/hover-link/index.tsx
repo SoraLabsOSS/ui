@@ -1,7 +1,5 @@
-import {
-  HoverLink,
-  type HoverLinkVariant,
-} from "@/registry/primitives/texts/hover-link";
+import { HoverLink } from "@/registry/primitives/texts/hover-link";
+import type { HoverLinkVariant } from "@/registry/primitives/texts/hover-link";
 
 const PREVIEW_LINKS: HoverLinkVariant[] = [
   "underline-left",

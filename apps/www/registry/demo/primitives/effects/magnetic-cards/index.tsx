@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  MagneticCards,
-  type MagneticCardsItem,
-} from "@/registry/primitives/effects/magnetic-cards";
+import { MagneticCards } from "@/registry/primitives/effects/magnetic-cards";
+import type { MagneticCardsItem } from "@/registry/primitives/effects/magnetic-cards";
 
 const MAGNETIC_CARDS_MEDIA =
   "https://cdn.soralabs.studio/media/demo/magnetic-cards" as const;

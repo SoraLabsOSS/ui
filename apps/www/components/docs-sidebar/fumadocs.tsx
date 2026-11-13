@@ -15,7 +15,9 @@ import { isActive } from "fumadocs-ui/utils/is-active";
 import { SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type CSSProperties, type ReactNode, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import type { CSSProperties, ReactNode } from "react";
+
 import {
   AUTH_MENU_LINKS,
   AuthSidebarMenuSkeleton,
@@ -35,6 +37,7 @@ import {
 } from "@/lib/docs/docs-nav";
 import { isUiNavItemActive } from "@/lib/ui/ui-nav-active";
 import { SkeletonTransition } from "@/registry/primitives/effects/skeleton";
+
 import { DocsMobileDrawer } from "./mobile-drawer";
 import {
   DocsReleaseDatesProvider,
@@ -89,7 +92,7 @@ function pageTreeNodeKey(
   if (item.type === "folder") {
     return `${parentKey}/folder/${encodeURIComponent(String(item.name))}/${index}`;
   }
-  const url = (item as { url?: string }).url;
+  const { url } = item as { url?: string };
   if (url) {
     return url;
   }
@@ -326,7 +329,7 @@ export function SidebarPageTree(props: {
         treePath.includes(item);
       const folderIndex = item.index;
       const showIndexLink =
-        folderIndex != null &&
+        folderIndex !== undefined &&
         !item.children.some(
           (child) => child.type === "page" && child.url === folderIndex.url
         );
@@ -489,7 +492,7 @@ export const DocsSidebar = (
       <DocsShellHeader className="flex items-center justify-between border-b px-4 py-3 md:hidden">
         <Link
           aria-label="Sora UI home"
-          className="flex items-center gap-2 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring"
+          className="focus-visible:ring-ring flex items-center gap-2 rounded-md transition-opacity outline-none hover:opacity-80 focus-visible:ring-2"
           href="/"
           onClick={(e) => {
             if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
@@ -501,7 +504,7 @@ export const DocsSidebar = (
           }}
         >
           <SoraIcon size="sm" />
-          <span className="font-semibold text-sm">Sora UI</span>
+          <span className="text-sm font-semibold">Sora UI</span>
         </Link>
         <button
           aria-label="Close menu"
@@ -571,10 +574,9 @@ export const DocsSidebar = (
                   aria-label={link.label}
                   className={cn(
                     buttonVariants({ size: "icon", color: "ghost" }),
-                    "size-8 p-0 text-fd-muted-foreground [&_svg]:size-4.5",
+                    "text-fd-muted-foreground size-8 p-0 [&_svg]:size-4.5",
                     link.url ===
-                      links.filter((l) => l.type === "icon").at(-1)?.url &&
-                      "me-auto"
+                      links.findLast((l) => l.type === "icon")?.url && "me-auto"
                   )}
                   item={link}
                   key={link.url}

@@ -1,4 +1,5 @@
 import { note, outro, spinner } from "@clack/prompts";
+
 import { renderCatalogMdx } from "../lib/catalog-templates.js";
 import { printDryRunPlan } from "../lib/dry-run.js";
 import { insertIntoCatalogMeta } from "../lib/meta-json.js";
@@ -12,11 +13,8 @@ import {
 import { runRegistryBuild } from "../lib/registry-build.js";
 import type { CreateCatalogOptions } from "../lib/resolve-create-catalog-options.js";
 import { resolveCreateCatalogOptions } from "../lib/resolve-create-catalog-options.js";
-import {
-  findExistingPaths,
-  type ScaffoldFile,
-  writeScaffoldFiles,
-} from "../lib/write-files.js";
+import { findExistingPaths, writeScaffoldFiles } from "../lib/write-files.js";
+import type { ScaffoldFile } from "../lib/write-files.js";
 
 export async function runCreateCatalog(
   slugArg: string | undefined,

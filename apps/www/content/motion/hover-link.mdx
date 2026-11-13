@@ -3,7 +3,10 @@ title: Hover Link
 description: Five CSS-only link hover presets — underline wipes and block highlights — with an optional arrow that slides in on hover. No motion library required.
 ---
 
-<ComponentPreview name="hover-link" description="All five presets stacked — the first link has no arrow, the rest slide one in on hover." />
+<ComponentPreview
+  name="hover-link"
+  description="All five presets stacked — the first link has no arrow, the rest slide one in on hover."
+/>
 
 ## Installation
 
@@ -12,7 +15,7 @@ description: Five CSS-only link hover presets — underline wipes and block high
 ## Usage
 
 ```tsx
-import { HoverLink } from '@/components/sora-ui/texts/hover-link';
+import { HoverLink } from "@/components/sora-ui/texts/hover-link";
 
 export function Example() {
   return <HoverLink href="/catalog">Hover me</HoverLink>;
@@ -59,17 +62,18 @@ The arrow is on by default. Set `withArrow={false}` for plain copy links.
       default: '"underline-left"',
     },
     withArrow: {
-      description: 'Show the diagonal arrow that slides in on hover.',
-      type: 'boolean',
-      default: 'true',
+      description: "Show the diagonal arrow that slides in on hover.",
+      type: "boolean",
+      default: "true",
     },
     href: {
-      description: 'Link target. Renders a plain `<a>`, so any anchor prop works.',
-      type: 'string',
+      description:
+        "Link target. Renders a plain `<a>`, so any anchor prop works.",
+      type: "string",
     },
     className: {
-      description: 'Additional class names merged onto the anchor.',
-      type: 'string',
+      description: "Additional class names merged onto the anchor.",
+      type: "string",
     },
   }}
 />

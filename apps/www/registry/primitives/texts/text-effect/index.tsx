@@ -1,25 +1,22 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: Segment indices are stable for static text content. */
+/* oxlint-disable react/no-array-index-key, react-doctor/no-array-index-as-key -- Segment indices are stable for static text content. */
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import {
   AnimatePresence,
   motion,
-  type TargetAndTransition,
-  type Transition,
-  type UseInViewOptions,
   useInView,
   useReducedMotion,
-  type Variant,
-  type Variants,
 } from "motion/react";
-import React, {
-  type ComponentPropsWithoutRef,
-  type JSX,
-  memo,
-  useMemo,
-  useRef,
-} from "react";
+import type {
+  TargetAndTransition,
+  Transition,
+  UseInViewOptions,
+  Variant,
+  Variants,
+} from "motion/react";
+import React, { memo, useMemo, useRef } from "react";
+import type { ComponentPropsWithoutRef, JSX } from "react";
 
 export type TextEffectPreset =
   | "blur"
@@ -139,66 +136,69 @@ const presetVariants: Record<
   },
 };
 
-const AnimationComponent = memo(function AnimationComponent({
-  segment,
-  variants,
-  per,
-  segmentWrapperClassName,
-}: {
-  segment: string;
-  variants: Variants;
-  per: TextEffectPer;
-  segmentWrapperClassName?: string;
-}) {
-  let content: React.ReactNode;
+const AnimationComponent = memo(
+  ({
+    segment,
+    variants,
+    per,
+    segmentWrapperClassName,
+  }: {
+    segment: string;
+    variants: Variants;
+    per: TextEffectPer;
+    segmentWrapperClassName?: string;
+  }) => {
+    let content: React.ReactNode;
 
-  if (per === "line") {
-    content = (
-      <motion.span className="block" variants={variants}>
-        {segment}
-      </motion.span>
-    );
-  } else if (per === "word") {
-    content = (
-      <motion.span
-        aria-hidden="true"
-        className="inline-block whitespace-pre"
-        variants={variants}
-      >
-        {segment}
-      </motion.span>
-    );
-  } else if (segment.trim() === "") {
-    content = <span className="inline-block whitespace-pre">{segment}</span>;
-  } else {
-    content = (
-      <span className="inline-block whitespace-nowrap">
-        {segment.split("").map((char, charIndex) => (
-          <motion.span
-            aria-hidden="true"
-            className="inline-block whitespace-pre will-change-[opacity,filter,transform]"
-            key={`${segment}-${charIndex}`}
-            variants={variants}
-          >
-            {char}
-          </motion.span>
-        ))}
+    if (per === "line") {
+      content = (
+        <motion.span className="block" variants={variants}>
+          {segment}
+        </motion.span>
+      );
+    } else if (per === "word") {
+      content = (
+        <motion.span
+          aria-hidden="true"
+          className="inline-block whitespace-pre"
+          variants={variants}
+        >
+          {segment}
+        </motion.span>
+      );
+    } else if (segment.trim() === "") {
+      content = <span className="inline-block whitespace-pre">{segment}</span>;
+    } else {
+      content = (
+        <span className="inline-block whitespace-nowrap">
+          {segment.split("").map((char, charIndex) => (
+            <motion.span
+              aria-hidden="true"
+              className="inline-block whitespace-pre will-change-[opacity,filter,transform]"
+              key={`${segment}-${charIndex}`}
+              variants={variants}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </span>
+      );
+    }
+
+    if (!segmentWrapperClassName) {
+      return content;
+    }
+
+    const defaultWrapperClassName = per === "line" ? "block" : "inline-block";
+
+    return (
+      <span className={cn(defaultWrapperClassName, segmentWrapperClassName)}>
+        {content}
       </span>
     );
   }
-
-  if (!segmentWrapperClassName) {
-    return content;
-  }
-
-  const defaultWrapperClassName = per === "line" ? "block" : "inline-block";
-
-  return (
-    <span className={cn(defaultWrapperClassName, segmentWrapperClassName)}>
-      {content}
-    </span>
-  );
-});
+);
+AnimationComponent.displayName = "AnimationComponent";
 
 function splitText(text: string, per: TextEffectPer) {
   if (per === "line") {
@@ -305,14 +305,13 @@ export function TextEffect({
     const fallbackContainer = variants?.container ?? baseVariants.container;
     const fallbackItem = variants?.item ?? baseVariants.item;
 
-    const customStagger = hasTransition(variants?.container?.visible ?? {})
-      ? (variants?.container?.visible as TargetAndTransition).transition
-          ?.staggerChildren
+    const visibleVariant = variants?.container?.visible;
+    const customStagger = hasTransition(visibleVariant)
+      ? visibleVariant.transition?.staggerChildren
       : undefined;
 
-    const customDelay = hasTransition(variants?.container?.visible ?? {})
-      ? (variants?.container?.visible as TargetAndTransition).transition
-          ?.delayChildren
+    const customDelay = hasTransition(visibleVariant)
+      ? visibleVariant.transition?.delayChildren
       : undefined;
 
     return {

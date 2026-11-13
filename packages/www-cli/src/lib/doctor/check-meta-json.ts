@@ -1,5 +1,6 @@
 import { existsSync, promises as fs } from "node:fs";
 import path from "node:path";
+
 import type { DiagnosticIssue } from "./types.js";
 
 const MDX_EXT_RE = /\.mdx$/;

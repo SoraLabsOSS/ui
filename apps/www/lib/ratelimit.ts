@@ -1,5 +1,8 @@
-import { type Duration, Ratelimit } from "@upstash/ratelimit";
+import { Ratelimit } from "@upstash/ratelimit";
+import type { Duration } from "@upstash/ratelimit";
+
 import { isRedisConfigured } from "@/env";
+
 import { getRedis } from "./redis";
 
 const DEFAULT_LIMIT = 100;

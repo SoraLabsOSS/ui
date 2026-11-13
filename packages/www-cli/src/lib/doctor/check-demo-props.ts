@@ -1,10 +1,11 @@
 import { existsSync, promises as fs } from "node:fs";
 import path from "node:path";
+
 import { extractExports } from "./extract-exports.js";
 import type { DiagnosticIssue } from "./types.js";
 
 interface RegistryItemLike {
-  files?: Array<{ path?: string }>;
+  files?: { path?: string }[];
   meta?: {
     demoProps?: Record<string, Record<string, unknown>>;
   };

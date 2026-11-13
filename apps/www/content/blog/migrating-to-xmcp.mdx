@@ -36,12 +36,14 @@ Here is a full breakdown of why we migrated, what changed under the hood, and ho
 ### 1. First-Class Dual Bundling (HTTP + STDIO)
 
 AI clients connect to MCP servers in different ways:
+
 - **Remote clients & team setups** connect over Streamable HTTP / Server-Sent Events (SSE).
 - **Local desktop tools** (like Claude Desktop or local Cursor instances) perform best over STDIO without network overhead.
 
-With the old `apps/mcp`, supporting both meant maintaining separate entry points and fighting serverless bundling quirks. 
+With the old `apps/mcp`, supporting both meant maintaining separate entry points and fighting serverless bundling quirks.
 
 `xmcp` solves this natively. Running `bun run build` in `apps/xmcp` compiles two optimized standalone bundles:
+
 - `dist/http.js`: Streamable HTTP server with built-in CORS, health checks, and route handling.
 - `dist/stdio.js`: Zero-dependency STDIO bridge that streams JSON-RPC directly to stdin/stdout.
 
@@ -79,6 +81,7 @@ apps/xmcp/src/
 ### 1. Prompts (`src/prompts/install-component.ts`)
 
 Instead of requiring users to remember the exact syntax for component installation, `apps/xmcp` exposes the **`install-component`** prompt template. When invoked, it orchestrates the entire agent flow:
+
 1. Fetches component metadata via `get_component_info`.
 2. Emits the safe, non-interactive install command (`npx shadcn@latest add @soralabs/<name> --yes`).
 3. Handles workspace resolution via `--cwd` if working in a monorepo.
@@ -91,6 +94,7 @@ AI assistants can now attach the **`registry-catalog`** resource directly into t
 ### 3. Refined Tools Suite (`src/tools/`)
 
 All four core tools have been upgraded with tighter schemas and smarter token management:
+
 - **`search_docs`**: Fast Orama search with fallback parsing, section filtering (`documentation`, `components`, `catalog`, `motion`, `ui`), capped at 25 results.
 - **`get_page`**: Fetches clean markdown documentation with a strict 8,000-token budget and automatic truncation notices.
 - **`list_sections`**: Visual tree outline of all available documentation sections and page counts parsed from `llms.txt`.
@@ -105,6 +109,7 @@ Updating your configuration is straightforward.
 ### Cursor (`.cursor/mcp.json`)
 
 **Remote HTTP (Recommended):**
+
 ```json
 {
   "mcpServers": {
@@ -116,6 +121,7 @@ Updating your configuration is straightforward.
 ```
 
 **Local STDIO (from source):**
+
 ```json
 {
   "mcpServers": {

@@ -1,4 +1,5 @@
 import { cancel, isCancel, select } from "@clack/prompts";
+
 import { isInteractiveTerminal, nonInteractiveHint } from "../lib/terminal.js";
 import { runCreateCatalog } from "./create-catalog.js";
 import { runCreateIcon } from "./create-icon.js";

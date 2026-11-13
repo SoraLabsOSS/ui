@@ -152,8 +152,8 @@ export function App({ children }: { children: React.ReactNode }) {
 
 ### Available Feature Packages
 
-* **`domAnimation` (+15kb)**: Adds support for animations, variants, exit animations (`AnimatePresence`), and tap/hover/focus gestures.
-* **`domMax` (+25kb)**: Adds all of the above, plus pan/drag gestures and layout animations (`layout`, `layoutId`).
+- **`domAnimation` (+15kb)**: Adds support for animations, variants, exit animations (`AnimatePresence`), and tap/hover/focus gestures.
+- **`domMax` (+25kb)**: Adds all of the above, plus pan/drag gestures and layout animations (`layout`, `layoutId`).
 
 ### Asynchronous (Deferred) Feature Loading
 
@@ -173,8 +173,7 @@ import { LazyMotion } from "motion/react";
 import * as m from "motion/react-m";
 
 // Defers feature chunk download until after initial render
-const loadFeatures = () =>
-  import("./features").then((res) => res.default);
+const loadFeatures = () => import("./features").then((res) => res.default);
 
 export function DeferredSection({ children }: { children: React.ReactNode }) {
   return (
@@ -187,8 +186,7 @@ export function DeferredSection({ children }: { children: React.ReactNode }) {
 }
 ```
 
-> [!IMPORTANT]
-> To benefit from `LazyMotion`, make sure descendant components do not import `motion` from `"motion/react"`, which would preload the full runtime bundle. You can pass `<LazyMotion strict>` to catch accidental `motion` imports during development.
+> [!IMPORTANT] To benefit from `LazyMotion`, make sure descendant components do not import `motion` from `"motion/react"`, which would preload the full runtime bundle. You can pass `<LazyMotion strict>` to catch accidental `motion` imports during development.
 
 ---
 
@@ -227,8 +225,7 @@ When assembling pages with rich layout showcases (such as full-bleed 3D carousel
 import dynamic from "next/dynamic";
 
 const InteractiveShowcase = dynamic(
-  () =>
-    import("@/components/showcase").then((mod) => mod.InteractiveShowcase),
+  () => import("@/components/showcase").then((mod) => mod.InteractiveShowcase),
   {
     loading: () => (
       <div className="h-[400px] w-full animate-pulse rounded-xl bg-muted" />
@@ -253,7 +250,7 @@ export function LandingPage() {
 ## Strategy Cheat Sheet
 
 | Use Case | Recommended Tool | Approx. Motion Bundle Footprint |
-| :--- | :--- | :--- |
+| :-- | :-- | :-- |
 | **Buttons, links, card hovers** | Tailwind CSS v4 transitions | **0kb Motion** |
 | **Keyframe loops (icons, badges, spinners)** | CSS `@keyframes` in SVG/classes | **0kb Motion** |
 | **Imperative event animations** | `useAnimate` mini (`motion/react-mini`) | **~2.3kb** |
@@ -261,7 +258,6 @@ export function LandingPage() {
 | **Complex drag, reorder, layoutId** | `m` + `<LazyMotion features={domMax}>` | **~29.6kb** |
 | **Full showcase blocks** | `next/dynamic` with loading skeleton | **Deferred chunk (0kb initial Motion)** |
 
-> [!NOTE]
-> Sizes are approximate minified + gzipped Motion bundle sizes based on Motion's Rollup-generated bundles. Actual application bundle size varies by bundler (Rollup vs. Webpack) and surrounding application code.
+> [!NOTE] Sizes are approximate minified + gzipped Motion bundle sizes based on Motion's Rollup-generated bundles. Actual application bundle size varies by bundler (Rollup vs. Webpack) and surrounding application code.
 
 For further reference, consult the official [Motion Bundle Size Guide](https://motion.dev/docs/react-reduce-bundle-size).

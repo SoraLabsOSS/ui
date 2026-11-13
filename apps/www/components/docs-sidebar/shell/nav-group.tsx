@@ -4,7 +4,8 @@ import { cn } from "@workspace/ui/lib/utils";
 import { ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import type * as React from "react";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useId, useRef, useState } from "react";
+
 import { useDocsShellHover } from "./context";
 
 const MotionChevron = motion.create(ChevronRight);
@@ -24,14 +25,17 @@ export function DocsShellNavGroup({
   icon,
   className,
 }: DocsShellNavGroupProps) {
+  const [prevDefaultOpen, setPrevDefaultOpen] = useState(defaultOpen);
   const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  if (prevDefaultOpen !== defaultOpen) {
+    setPrevDefaultOpen(defaultOpen);
+    setIsOpen(defaultOpen);
+  }
+
   const id = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { setHovered, containerRef } = useDocsShellHover();
-
-  useEffect(() => {
-    setIsOpen(defaultOpen);
-  }, [defaultOpen]);
 
   const handleMouseEnter = useCallback(() => {
     const el = buttonRef.current;
@@ -56,7 +60,7 @@ export function DocsShellNavGroup({
   return (
     <div className={cn("flex flex-col", className)}>
       <button
-        className="group relative z-1 flex w-full select-none items-center gap-1.5 py-1.5 pr-2 text-left"
+        className="group relative z-1 flex w-full items-center gap-1.5 py-1.5 pr-2 text-left select-none"
         onClick={() => setIsOpen((v) => !v)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -65,15 +69,15 @@ export function DocsShellNavGroup({
       >
         {icon ? (
           <>
-            <span className="shrink-0 text-foreground/35 [&_svg]:size-3.5">
+            <span className="text-foreground/35 shrink-0 [&_svg]:size-3.5">
               {icon}
             </span>
-            <span className="flex-1 text-foreground/45 text-sm transition-colors duration-150 group-hover:text-foreground/70">
+            <span className="text-foreground/45 group-hover:text-foreground/70 flex-1 text-sm transition-colors duration-150">
               {label}
             </span>
             <MotionChevron
               animate={{ rotate: isOpen ? 90 : 0 }}
-              className="mr-1 shrink-0 text-foreground/25"
+              className="text-foreground/25 mr-1 shrink-0"
               size={14}
               strokeWidth={2.5}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -83,12 +87,12 @@ export function DocsShellNavGroup({
           <>
             <MotionChevron
               animate={{ rotate: isOpen ? 90 : 0 }}
-              className="shrink-0 text-foreground/35"
+              className="text-foreground/35 shrink-0"
               size={11}
               strokeWidth={2.5}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
-            <span className="text-foreground/45 text-sm transition-colors duration-150 group-hover:text-foreground/70">
+            <span className="text-foreground/45 group-hover:text-foreground/70 text-sm transition-colors duration-150">
               {label}
             </span>
           </>

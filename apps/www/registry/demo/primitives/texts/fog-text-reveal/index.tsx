@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  FogTextReveal,
-  type FogTextRevealProps,
-} from "@/registry/primitives/texts/fog-text-reveal";
+import { FogTextReveal } from "@/registry/primitives/texts/fog-text-reveal";
+import type { FogTextRevealProps } from "@/registry/primitives/texts/fog-text-reveal";
 
 export default function FogTextRevealExample({
   loop = true,

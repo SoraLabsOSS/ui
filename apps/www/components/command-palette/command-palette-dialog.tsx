@@ -15,8 +15,8 @@ import {
   Sun,
   X,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 import {
   Fragment,
   useCallback,
@@ -25,6 +25,7 @@ import {
   useRef,
   useState,
 } from "react";
+
 import { AUTH_MENU_LINKS } from "@/components/auth/auth-menu-skeletons";
 import {
   isMarketingPath,
@@ -50,6 +51,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/registry/ui/base/dialog";
+
 import {
   CommandPaletteInputShortcut,
   CommandPaletteShortcut,
@@ -126,20 +128,26 @@ function CommandPaletteIconGlyph({
   const iconClassName = cn("mr-2 size-4 shrink-0", className);
 
   switch (icon) {
-    case "book":
+    case "book": {
       return <BookOpen className={iconClassName} strokeWidth={1.5} />;
-    case "bookmark":
+    }
+    case "bookmark": {
       return <Bookmark className={iconClassName} strokeWidth={1.5} />;
-    case "box":
+    }
+    case "box": {
       return <Box className={iconClassName} strokeWidth={1.5} />;
-    case "external":
+    }
+    case "external": {
       return (
         <CircleArrowOutUpRight className={iconClassName} strokeWidth={1.5} />
       );
-    case "settings":
+    }
+    case "settings": {
       return <Settings className={iconClassName} strokeWidth={1.5} />;
-    default:
+    }
+    default: {
       return <ArrowRight className={iconClassName} strokeWidth={1.5} />;
+    }
   }
 }
 
@@ -147,7 +155,7 @@ function SearchResultIcon({ type }: { type: "heading" | "page" | "text" }) {
   if (type === "page") {
     return (
       <FileText
-        className="size-6 shrink-0 rounded-sm border bg-muted p-0.5 text-muted-foreground shadow-sm"
+        className="bg-muted text-muted-foreground size-6 shrink-0 rounded-sm border p-0.5 shadow-sm"
         strokeWidth={1.5}
       />
     );
@@ -156,7 +164,7 @@ function SearchResultIcon({ type }: { type: "heading" | "page" | "text" }) {
   if (type === "heading") {
     return (
       <Hash
-        className="size-4 shrink-0 text-muted-foreground"
+        className="text-muted-foreground size-4 shrink-0"
         strokeWidth={1.5}
       />
     );
@@ -198,13 +206,13 @@ function CommandSearchResultItem({
       {isNested ? (
         <div
           aria-hidden
-          className="absolute inset-s-4.5 inset-y-0 w-px bg-border"
+          className="bg-border absolute inset-y-0 inset-s-4.5 w-px"
         />
       ) : null}
       <SearchResultIcon type={result.type} />
       <span className="min-w-0 flex-1 truncate">{result.content}</span>
       {hint ? (
-        <span className="ml-auto shrink-0 text-muted-foreground text-xs">
+        <span className="text-muted-foreground ml-auto shrink-0 text-xs">
           {hint}
         </span>
       ) : null}
@@ -216,14 +224,18 @@ function ThemeActionIcon({ action }: { action: CommandPaletteActionId }) {
   const className = "mr-2 size-4 shrink-0";
 
   switch (action) {
-    case "theme-light":
+    case "theme-light": {
       return <Sun className={className} strokeWidth={1.5} />;
-    case "theme-dark":
+    }
+    case "theme-dark": {
       return <Moon className={className} strokeWidth={1.5} />;
-    case "theme-system":
+    }
+    case "theme-system": {
       return <Monitor className={className} strokeWidth={1.5} />;
-    default:
+    }
+    default: {
       return null;
+    }
   }
 }
 
@@ -299,17 +311,21 @@ export function CommandPaletteDialog({
   const runAction = useCallback(
     (action: CommandPaletteActionId) => {
       switch (action) {
-        case "theme-dark":
+        case "theme-dark": {
           setThemeWithTransition(setTheme, "dark");
           break;
-        case "theme-light":
+        }
+        case "theme-light": {
           setThemeWithTransition(setTheme, "light");
           break;
-        case "theme-system":
+        }
+        case "theme-system": {
           setThemeWithTransition(setTheme, "system");
           break;
-        default:
+        }
+        default: {
           break;
+        }
       }
     },
     [setTheme]
@@ -390,7 +406,7 @@ export function CommandPaletteDialog({
       )}
       <span className="min-w-0 flex-1 truncate">{entry.label}</span>
       {"hint" in entry && entry.hint ? (
-        <span className="ml-auto shrink-0 text-muted-foreground text-xs">
+        <span className="text-muted-foreground ml-auto shrink-0 text-xs">
           {entry.hint}
         </span>
       ) : null}
@@ -404,7 +420,7 @@ export function CommandPaletteDialog({
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent
         className={cn(
-          "flex max-h-[85dvh] w-full max-w-xl flex-col gap-0 overflow-hidden rounded-2xl border bg-popover p-0 shadow-lg outline-none",
+          "bg-popover flex max-h-[85dvh] w-full max-w-xl flex-col gap-0 overflow-hidden rounded-2xl border p-0 shadow-lg outline-none",
           "md:max-h-none"
         )}
         containerClassName="z-[1001] items-start pt-[max(1rem,10dvh)] md:pt-[max(1rem,calc(50vh-220px))]"
@@ -436,7 +452,7 @@ export function CommandPaletteDialog({
                 <CommandPaletteInputShortcut />
                 <button
                   aria-label="Close search"
-                  className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent sm:hidden"
+                  className="text-muted-foreground hover:bg-accent flex size-8 items-center justify-center rounded-md transition-colors sm:hidden"
                   onClick={() => onOpenChange(false)}
                   type="button"
                 >
@@ -449,7 +465,7 @@ export function CommandPaletteDialog({
 
           <CommandList ref={listRef} scrollLocked={scrollLocked}>
             {showLoadingState ? (
-              <div className="py-8 text-center text-muted-foreground text-sm">
+              <div className="text-muted-foreground py-8 text-center text-sm">
                 Searching...
               </div>
             ) : null}

@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/resolve-scroll-root";
 import { waitForScrollerReady } from "@/lib/scroller-ready";
-import {
-  ScrollChapters,
-  type ScrollChaptersChapter,
-} from "@/registry/catalog/scroll-chapters";
+import { ScrollChapters } from "@/registry/catalog/scroll-chapters";
+import type { ScrollChaptersChapter } from "@/registry/catalog/scroll-chapters";
 
 // Same copy, colors, and per-chapter panel opt-in/opt-out as the reference
 // implementation at apps/www/app/demo/gsap-scrollbar-demo.tsx (kept
@@ -24,13 +23,13 @@ function ChapterBody({
   index: number;
 }) {
   return (
-    <div className="flex h-full flex-col justify-center gap-4 border-current/10 border-t px-6 py-16 first:border-t-0 md:px-16">
-      <span className="font-mono text-[#ff4433] text-sm tracking-wide">
+    <div className="flex h-full flex-col justify-center gap-4 border-t border-current/10 px-6 py-16 first:border-t-0 md:px-16">
+      <span className="font-mono text-sm tracking-wide text-[#ff4433]">
         {String(index + 1).padStart(2, "0")}
       </span>
       {/* No color class here — inherits from whatever `className` the
           consumer passes to `<ScrollChapters>` on the root section. */}
-      <h3 className="m-0 font-semibold text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-[-0.02em]">
+      <h3 className="m-0 text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] font-semibold tracking-[-0.02em]">
         {heading}
       </h3>
       <p className="m-0 max-w-[42rem] text-[1.05rem] leading-[1.6] opacity-75">
@@ -42,7 +41,7 @@ function ChapterBody({
 
 function CodePreview({ code }: { code: string }) {
   return (
-    <pre className="m-0 overflow-x-auto whitespace-pre-wrap leading-[1.3]">
+    <pre className="m-0 overflow-x-auto leading-[1.3] whitespace-pre-wrap">
       {/* Inherits from the panel wrapper's own `text-[#f6f4f2]` (see
           `classNames.panel` below) — the panel's background is always
           dark regardless of the section's `className`, so its text
@@ -62,7 +61,7 @@ function StatRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center gap-3">
       <span className="h-2 w-2 shrink-0 rounded-full bg-[#ff4433]" />
-      <span className="font-mono text-xs uppercase tracking-wide opacity-60">
+      <span className="font-mono text-xs tracking-wide uppercase opacity-60">
         {label}
       </span>
       <span className="font-mono text-sm">{value}</span>

@@ -1,11 +1,9 @@
 import AnimateUIIcon from "@workspace/ui/components/icons/animateui-icon";
-import {
-  type InferMetaType,
-  type InferPageType,
-  loader,
-} from "fumadocs-core/source";
+import { loader } from "fumadocs-core/source";
+import type { InferMetaType, InferPageType } from "fumadocs-core/source";
 import { icons } from "lucide-react";
 import { createElement } from "react";
+
 import { docs } from "@/.source";
 import { LucideIcons } from "@/components/lucide-icons";
 import { attachFile } from "@/lib/docs/attach-file";

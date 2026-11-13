@@ -1,4 +1,6 @@
-import { type InferPageType, loader } from "fumadocs-core/source";
+import { loader } from "fumadocs-core/source";
+import type { InferPageType } from "fumadocs-core/source";
+
 import { catalog } from "@/.source";
 
 export const componentSource = loader({

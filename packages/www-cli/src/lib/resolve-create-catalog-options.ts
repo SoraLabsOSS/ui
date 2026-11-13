@@ -1,16 +1,11 @@
 import { cancel, intro, isCancel, select, text } from "@clack/prompts";
+
 import { buildCatalogLabels } from "./catalog-templates.js";
 import { assertKebabCase, categoryLabel } from "./naming.js";
-import {
-  CATEGORY_SECTIONS,
-  PRIMITIVE_CATEGORIES,
-  type PrimitiveCategory,
-} from "./paths.js";
-import {
-  allowsPrompts,
-  isScripted,
-  type ScaffoldRunFlags,
-} from "./scaffold-flags.js";
+import { CATEGORY_SECTIONS, PRIMITIVE_CATEGORIES } from "./paths.js";
+import type { PrimitiveCategory } from "./paths.js";
+import { allowsPrompts, isScripted } from "./scaffold-flags.js";
+import type { ScaffoldRunFlags } from "./scaffold-flags.js";
 import { nonInteractiveHint } from "./terminal.js";
 
 export interface CreateCatalogOptions extends ScaffoldRunFlags {

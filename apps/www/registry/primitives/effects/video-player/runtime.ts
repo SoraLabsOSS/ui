@@ -1,9 +1,5 @@
-import {
-  type ExtendedVideoElement,
-  formatSpeedLabel,
-  IOS_USER_AGENT_PATTERN,
-  sanitizeId,
-} from "./defs";
+import { formatSpeedLabel, IOS_USER_AGENT_PATTERN, sanitizeId } from "./defs";
+import type { ExtendedVideoElement } from "./defs";
 import { createPlayIconMorpher } from "./icon";
 
 export interface AttachVideoPlayerOptions {
@@ -11,7 +7,7 @@ export interface AttachVideoPlayerOptions {
   prefersReducedMotion: boolean;
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates media loading, controls, focus, and pointer interactions.
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- coordinates media loading, controls, focus, and pointer interactions.
 export function attachVideoPlayer(
   root: HTMLElement,
   container: HTMLElement,
@@ -160,7 +156,7 @@ export function attachVideoPlayer(
   }[] = [];
   const iconMorpher = createPlayIconMorpher(playPath, prefersReducedMotion);
   let isMediaLoaded = false;
-  let currentSpeed = parseSpeed(video.getAttribute("data-default-speed")) || 1;
+  let currentSpeed = parseSpeed(video.dataset.defaultSpeed ?? null) || 1;
   const volumeClasses = ["is-volume-low", "is-volume-mid", "is-volume-high"];
 
   if (roundFilter && playPath) {
@@ -181,8 +177,8 @@ export function attachVideoPlayer(
   }
 
   function getMediaSource(media: HTMLVideoElement) {
-    const source = media.getAttribute("data-src");
-    const iosSource = media.getAttribute("data-ios-src");
+    const source = media.dataset.src;
+    const iosSource = media.dataset.iosSrc;
 
     return shouldUseIosSource() && iosSource ? iosSource : source;
   }
@@ -349,13 +345,13 @@ export function attachVideoPlayer(
 
   function readChapters() {
     const duration = getDuration();
-    const data = [...root.querySelectorAll("[data-media-chapter]")]
+    const data = [...root.querySelectorAll<HTMLElement>("[data-media-chapter]")]
       .map((item) => ({
-        start: Number(item.getAttribute("data-start")),
-        title: item.getAttribute("data-title") || "",
+        start: Number(item.dataset.start),
+        title: item.dataset.title || "",
       }))
       .filter((item) => Number.isFinite(item.start) && item.start >= 0)
-      .sort((left, right) => left.start - right.start);
+      .toSorted((left, right) => left.start - right.start);
 
     if (!data.length || data[0].start > 0) {
       data.unshift({ start: 0, title: "" });
@@ -656,7 +652,7 @@ export function attachVideoPlayer(
   function syncSpeedOptions(speed: number) {
     speedLabel.textContent = formatSpeedLabel(speed);
     for (const option of speedOptionEls) {
-      const optionSpeed = parseSpeed(option.getAttribute("data-speed"));
+      const optionSpeed = parseSpeed(option.dataset.speed ?? null);
       const isActive = optionSpeed === speed;
 
       option.classList.toggle("is-active", isActive);
@@ -723,8 +719,8 @@ export function attachVideoPlayer(
     if (prefersReducedMotion) {
       return;
     }
-    // biome-ignore lint/suspicious/noUnusedExpressions: forces a reflow to restart the CSS animation.
-    pulse.offsetWidth;
+    // Force a reflow to restart the CSS animation
+    const _reflow = pulse.offsetWidth;
     pulse.classList.add(type === "pause" ? "show-pause" : "show-play");
   }
 
@@ -893,7 +889,7 @@ export function attachVideoPlayer(
     });
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates timeline preview state and pointer interactions.
+  // oxlint-disable-next-line sonarjs/cognitive-complexity -- coordinates timeline preview state and pointer interactions.
   function showPreview(
     event: { clientX: number; pointerType?: string },
     time: number
@@ -1089,13 +1085,13 @@ export function attachVideoPlayer(
     return null;
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: coordinates keyboard shortcuts and player controls.
+  // oxlint-disable-next-line sonarjs/cognitive-complexity -- coordinates keyboard shortcuts and player controls.
   function onDocumentKeydown(event: KeyboardEvent) {
     if (modal.hidden) {
       return;
     }
 
-    const target = event.target;
+    const { target } = event;
     const isEditable =
       target instanceof HTMLElement &&
       (target.matches("input, textarea, select") || target.isContentEditable);
@@ -1369,7 +1365,7 @@ export function attachVideoPlayer(
       "click",
       (event) => {
         const shouldUseTouchChrome = isTouchInteraction(event as PointerEvent);
-        const speed = parseSpeed(option.getAttribute("data-speed"));
+        const speed = parseSpeed(option.dataset.speed ?? null);
 
         event.preventDefault();
         event.stopPropagation();

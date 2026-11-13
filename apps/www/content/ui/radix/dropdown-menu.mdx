@@ -24,7 +24,10 @@ compositionRecipes:
       - Keep the trigger label or accessible name stable.
 ---
 
-<ComponentPreview name="demo-radix-dropdown-menu" description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling." />
+<ComponentPreview
+  name="demo-radix-dropdown-menu"
+  description="An animated dropdown menu with spring entrance transitions, nested submenus, checkable items, radio items, shortcuts, and destructive styling."
+/>
 
 ## Installation
 
@@ -74,7 +77,9 @@ export default function Page() {
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Delete Account</DropdownMenuItem>
+        <DropdownMenuItem variant="destructive">
+          Delete Account
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -83,11 +88,12 @@ export default function Page() {
 
 ## RTL
 
-<ComponentPreview name="demo-radix-dropdown-menu-rtl" description="The same dropdown menu pattern rendered right-to-left with Radix UI DirectionProvider." />
+<ComponentPreview
+  name="demo-radix-dropdown-menu-rtl"
+  description="The same dropdown menu pattern rendered right-to-left with Radix UI DirectionProvider."
+/>
 
-Use Radix UI's `DirectionProvider` together with `dir="rtl"` on the demo
-container to render the menu from right to left. The provider keeps popup
-positioning, slide transitions, and keyboard navigation aware of the text direction.
+Use Radix UI's `DirectionProvider` together with `dir="rtl"` on the demo container to render the menu from right to left. The provider keeps popup positioning, slide transitions, and keyboard navigation aware of the text direction.
 
 ```tsx
 import {
@@ -110,7 +116,9 @@ export default function RtlDropdownMenu() {
           <DropdownMenuContent align="end">
             <DropdownMenuItem>الملف الشخصي</DropdownMenuItem>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>المزيد من الخيارات</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>
+                المزيد من الخيارات
+              </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
                 <DropdownMenuItem>أدوات المطور</DropdownMenuItem>
               </DropdownMenuSubContent>

@@ -21,7 +21,7 @@ function ItemList({ items }: { items: string[] }) {
       {items.map((item) => (
         <HighlightItem key={item} value={item}>
           <button
-            className="relative z-10 cursor-pointer px-4 py-1.5 text-foreground/60 text-sm transition-colors hover:text-foreground"
+            className="text-foreground/60 hover:text-foreground relative z-10 cursor-pointer px-4 py-1.5 text-sm transition-colors"
             type="button"
           >
             {item}

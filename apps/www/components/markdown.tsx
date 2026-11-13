@@ -1,20 +1,14 @@
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { ElementContent, Root, RootContent } from "hast";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
-import {
-  Children,
-  type ComponentProps,
-  type ReactElement,
-  type ReactNode,
-  Suspense,
-  use,
-  useDeferredValue,
-} from "react";
+import { Children, Suspense, use, useDeferredValue } from "react";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import { visit } from "unist-util-visit";
+
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 
 export interface Processor {

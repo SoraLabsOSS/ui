@@ -1,5 +1,6 @@
 import { existsSync, promises as fs } from "node:fs";
 import path from "node:path";
+
 import type { DiagnosticIssue } from "./types.js";
 
 const PRIMITIVE_SOURCE_RE = /^registry\/primitives\/([^/]+)\/([^/]+)\//;
@@ -121,7 +122,8 @@ async function collectDocumentedNames(wwwRoot: string): Promise<Set<string>> {
     await walk(root);
   }
 
-  for (const name of [...allowedNames]) {
+  const baseNames = new Set(allowedNames);
+  for (const name of baseNames) {
     allowedNames.add(`demo-${name}`);
     allowedNames.add(`radix-${name}`);
     allowedNames.add(`demo-radix-${name}`);

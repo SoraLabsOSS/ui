@@ -13,7 +13,7 @@ export function DocsShellSectionTitle({
   return (
     <div
       className={cn(
-        "px-0 py-3.5 font-medium text-foreground/40 text-sm",
+        "text-foreground/40 px-0 py-3.5 text-sm font-medium",
         className
       )}
     >

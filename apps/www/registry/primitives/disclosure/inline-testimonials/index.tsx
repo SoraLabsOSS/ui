@@ -1,13 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  AnimatePresence,
-  type Easing,
-  type MotionStyle,
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { Easing, MotionStyle } from "motion/react";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useCallback, useState } from "react";
@@ -99,7 +94,7 @@ export interface InlineTestimonialsProps {
   testimonials: Testimonial[];
 }
 
-interface ResolvedLabelConfig extends Required<InlineTestimonialsLabelConfig> {}
+type ResolvedLabelConfig = Required<InlineTestimonialsLabelConfig>;
 
 function resolveLabelConfig(
   avatarSize: number,
@@ -269,8 +264,7 @@ function TestimonialItem({
   }
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: hover/focus reveal is decorative and progressively enhanced (interaction defaults to "hover"; tabIndex/onFocus only attach when interaction includes "focus")
-    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: same as above
+    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex -- hover/focus reveal is decorative and progressively enhanced (interaction defaults to "hover"; tabIndex/onFocus only attach when interaction includes "focus")
     <span
       className={classNames?.item}
       onBlur={allowFocus ? () => setHoveredId(null) : undefined}
@@ -290,6 +284,7 @@ function TestimonialItem({
         // that belongs to no item and drops the hover state.
         paddingBlock: 4,
       }}
+      // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- allowFocus conditionally enables keyboard focus
       tabIndex={allowFocus ? 0 : undefined}
     >
       <span

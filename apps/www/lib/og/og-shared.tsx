@@ -1,7 +1,9 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+
 import { SORA_LOGO_PATH } from "@workspace/ui/components/icons/sora-icon";
 import { OG_PALETTE } from "@workspace/ui/components/og/palette";
+
 import { getMetadataBaseUrl, SITE_URL } from "@/lib/site";
 
 /** Registered name — must match `font-family` in `app/sf-pro-display.css`. */

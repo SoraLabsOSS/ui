@@ -1,18 +1,14 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: onLoad tracks image readiness for the skeleton overlay. */
+/* oxlint-disable jsx-a11y/no-noninteractive-element-interactions -- onLoad tracks image readiness for the skeleton overlay. */
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import Image, { type ImageProps } from "next/image";
-import {
-  type ComponentPropsWithoutRef,
-  type SyntheticEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import Image from "next/image";
+import type { ImageProps } from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ComponentPropsWithoutRef, SyntheticEvent } from "react";
+
 import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
 type LoadPhase = "loading" | "fading" | "revealed";
@@ -200,7 +196,7 @@ export function BlogOgImage({
           >
             <Skeleton
               className={cn(
-                "size-full bg-muted-foreground/15",
+                "bg-muted-foreground/15 size-full",
                 skeletonClassName
               )}
               rounded="none"

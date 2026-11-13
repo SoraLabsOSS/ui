@@ -13,16 +13,9 @@ import {
 import { Slider } from "@workspace/ui/components/ui/slider";
 import { cn } from "@workspace/ui/lib/utils";
 import { SlidersHorizontal, Undo2 } from "lucide-react";
-import {
-  type ChangeEvent,
-  type FC,
-  Fragment,
-  type InputHTMLAttributes,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
+import type { ChangeEvent, FC, InputHTMLAttributes, ReactNode } from "react";
+
 import { Switch } from "@/registry/ui/base/switch";
 
 interface BaseBindNumber {
@@ -39,9 +32,10 @@ interface BindString {
   options?: Record<string, string>;
   value: string;
 }
+type TweakpanePrimitive = string | number | boolean;
 interface BindOptions {
-  options: Record<string, string | number | boolean>;
-  value: string | number | boolean;
+  options: Record<string, TweakpanePrimitive>;
+  value: TweakpanePrimitive;
 }
 interface BindBoolean {
   value: boolean;
@@ -75,8 +69,10 @@ interface UncontrolledTweakpaneProps {
 
 type TweakpaneProps = ControlledTweakpaneProps | UncontrolledTweakpaneProps;
 
-interface NumericInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
+interface NumericInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "value" | "onChange"
+> {
   max?: number;
   min?: number;
   onValueChange: (value: number) => void;
@@ -129,8 +125,8 @@ const NumericInput: FC<NumericInputProps> = ({
       {...props}
       autoComplete="off"
       className={cn(
-        "h-6 w-14 rounded border border-border/60 bg-muted/30 px-1.5 text-right font-mono text-[11px] text-foreground transition-colors",
-        "hover:border-border focus:border-ring focus:bg-background focus:outline-none focus:ring-1 focus:ring-ring/40",
+        "border-border/60 bg-muted/30 text-foreground h-6 w-14 rounded border px-1.5 text-right font-mono text-[11px] transition-colors",
+        "hover:border-border focus:border-ring focus:bg-background focus:ring-ring/40 focus:ring-1 focus:outline-none",
         "[&[type='number']::-webkit-inner-spin-button]:appearance-none [&[type='number']::-webkit-outer-spin-button]:appearance-none",
         className
       )}
@@ -180,7 +176,7 @@ const renderNumber = (
       <div className={getRowClassName(stacked, compact)} key={key}>
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Label
-            className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+            className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
             htmlFor={key}
             title={key}
           >
@@ -220,7 +216,7 @@ const renderNumber = (
       <div className={getRowClassName(stacked, compact)} key={key}>
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Label
-            className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+            className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
             htmlFor={key}
             title={key}
           >
@@ -234,7 +230,7 @@ const renderNumber = (
         >
           <SelectTrigger
             className={cn(
-              "h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44",
+              "border-border/60 bg-muted/20 hover:bg-muted/40 h-7 w-36 rounded-md px-2 font-mono text-[11px] sm:w-44",
               stacked && "w-full sm:w-full"
             )}
             id={key}
@@ -263,7 +259,7 @@ const renderNumber = (
     <div className={getRowClassName(stacked, compact)} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
-          className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+          className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
           htmlFor={key}
           title={key}
         >
@@ -292,7 +288,7 @@ const renderString = (
     <div className={getRowClassName(stacked, compact)} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
-          className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+          className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
           htmlFor={key}
           title={key}
         >
@@ -311,7 +307,7 @@ const renderString = (
       >
         <SelectTrigger
           className={cn(
-            "h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44",
+            "border-border/60 bg-muted/20 hover:bg-muted/40 h-7 w-36 rounded-md px-2 font-mono text-[11px] sm:w-44",
             stacked && "w-full sm:w-full"
           )}
           id={key}
@@ -337,7 +333,7 @@ const renderString = (
     <div className={getRowClassName(stacked, compact)} key={key}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Label
-          className="truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+          className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
           htmlFor={key}
           title={key}
         >
@@ -347,7 +343,7 @@ const renderString = (
 
       <Input
         className={cn(
-          "h-7 w-36 rounded-md border-border/60 bg-muted/20 px-2 font-mono text-[11px] hover:bg-muted/40 sm:w-44",
+          "border-border/60 bg-muted/20 hover:bg-muted/40 h-7 w-36 rounded-md px-2 font-mono text-[11px] sm:w-44",
           stacked && "w-full sm:w-full"
         )}
         id={key}
@@ -367,7 +363,7 @@ const renderBoolean = (
   <div className={getRowClassName(stacked, compact)} key={key}>
     <div className="flex min-w-0 flex-1 items-center gap-2">
       <Label
-        className="select-none truncate font-mono text-[12px] text-muted-foreground transition-colors group-hover/item:text-foreground"
+        className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors select-none"
         htmlFor={key}
         title={key}
       >
@@ -376,7 +372,7 @@ const renderBoolean = (
     </div>
 
     <div className="flex items-center gap-2">
-      <span className="select-none font-mono text-[10px] text-muted-foreground">
+      <span className="text-muted-foreground font-mono text-[10px] select-none">
         {bind.value ? "true" : "false"}
       </span>
       <Switch
@@ -490,7 +486,7 @@ const renderNestedBinds = (
       {groups.map(([groupKey, groupBind]) => (
         <div className="space-y-2.5" key={groupKey}>
           <div className="flex items-center gap-2">
-            <span className="font-medium font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+            <span className="text-muted-foreground font-mono text-[11px] font-medium tracking-wider uppercase">
               {groupKey}
             </span>
             <svg aria-hidden="true" className="block h-px flex-1">
@@ -591,16 +587,16 @@ const Tweakpane = (props: TweakpaneProps) => {
       )}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 font-medium text-muted-foreground text-xs">
-          <SlidersHorizontal className="size-3.5 text-foreground/70" />
-          <span className="font-medium text-foreground/90 tracking-tight">
+        <div className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium">
+          <SlidersHorizontal className="text-foreground/70 size-3.5" />
+          <span className="text-foreground/90 font-medium tracking-tight">
             {title}
           </span>
         </div>
 
         {canReset ? (
           <Button
-            className="h-6 gap-1 px-2 font-mono text-[11px] text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground h-6 gap-1 px-2 font-mono text-[11px]"
             onClick={handleReset}
             size="xs"
             title="Reset props to default"

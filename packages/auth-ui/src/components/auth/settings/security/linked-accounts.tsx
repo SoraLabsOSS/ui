@@ -5,6 +5,7 @@ import { Card, CardContent } from "@workspace/ui/components/ui/card";
 import { Separator } from "@workspace/ui/components/ui/separator";
 import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
+
 import { LinkedAccount } from "./linked-account";
 
 export interface LinkedAccountsProps {
@@ -56,7 +57,7 @@ export function LinkedAccounts({ className }: LinkedAccountsProps) {
 
   return (
     <div>
-      <h2 className="mb-3 font-semibold text-sm">
+      <h2 className="mb-3 text-sm font-semibold">
         {localization.settings.linkedAccounts}
       </h2>
 

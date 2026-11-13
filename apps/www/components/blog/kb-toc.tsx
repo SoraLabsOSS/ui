@@ -9,6 +9,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 import { usePublishHeaderToc } from "@/components/docs/docs-toc-header-slot";
 import type { KbTocItem } from "@/lib/blog/toc-items";
 
@@ -49,7 +50,7 @@ function findActiveBlogHeadingId(ids: string[]): string | undefined {
   const threshold = 140;
   let currentId = ids[0];
   for (const id of ids) {
-    const element = document.getElementById(id);
+    const element = document.querySelector(`#${id}`);
     if (element) {
       const rect = element.getBoundingClientRect();
       if (rect.top <= threshold) {
@@ -179,7 +180,7 @@ export function KbToc({
     );
 
     for (const id of ids) {
-      const element = document.getElementById(id);
+      const element = document.querySelector(`#${id}`);
       if (element) {
         observer.observe(element);
       }
@@ -210,7 +211,7 @@ export function KbToc({
 
   // Scroll listener to hide TOC indicator when scrolled past article bottom
   useEffect(() => {
-    const el = document.getElementById(contentId);
+    const el = document.querySelector(`#${contentId}`);
     if (!el) {
       return;
     }
@@ -294,7 +295,7 @@ export function KbToc({
                     className={cn(
                       "h-0.5 rounded-full transition-all duration-200",
                       isActive
-                        ? "w-[20px] bg-foreground"
+                        ? "bg-foreground w-[20px]"
                         : "bg-muted-foreground/40 group-hover:bg-muted-foreground/70"
                     )}
                     key={item.href}
@@ -312,7 +313,7 @@ export function KbToc({
         <PopoverContent
           align="center"
           className={cn(
-            "z-50 max-h-[60vh] w-[280px] overflow-y-auto rounded-lg border border-border bg-popover p-0 shadow-lg",
+            "border-border bg-popover z-50 max-h-[60vh] w-[280px] overflow-y-auto rounded-lg border p-0 shadow-lg",
             "outline-none"
           )}
           data-blog-toc-popover=""
@@ -325,7 +326,7 @@ export function KbToc({
           side="left"
           sideOffset={8}
         >
-          <p className="px-4 pt-4 font-semibold text-foreground text-xs uppercase tracking-wider">
+          <p className="text-foreground px-4 pt-4 text-xs font-semibold tracking-wider uppercase">
             On this page
           </p>
           <ul className="m-0 mt-2 list-none space-y-1 px-4 pb-4">
@@ -344,7 +345,7 @@ export function KbToc({
                     className={cn(
                       "block truncate py-1 text-sm no-underline transition-colors duration-150",
                       isActive
-                        ? "font-medium text-foreground"
+                        ? "text-foreground font-medium"
                         : "text-muted-foreground hover:text-foreground"
                     )}
                     href={item.href}

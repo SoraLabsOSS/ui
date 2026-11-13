@@ -28,7 +28,7 @@ export function LibraryLoadingSkeleton({
 }: LibraryLoadingSkeletonProps) {
   return (
     <div
-      className="relative min-h-full bg-background"
+      className="bg-background relative min-h-full"
       data-slot="library-skeleton"
     >
       <main className="space-y-8 px-5 pt-[18px] pb-5 max-md:px-3">
@@ -58,7 +58,7 @@ export function LibraryLoadingSkeleton({
               <div className="flex flex-col gap-4">
                 {SKELETON_SAVE_SLOTS.map((slotId) => (
                   <div
-                    className="flex items-center gap-4 rounded-xl border border-border/60 bg-card px-5 py-3.5"
+                    className="border-border/60 bg-card flex items-center gap-4 rounded-xl border px-5 py-3.5"
                     key={slotId}
                   >
                     <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -80,7 +80,7 @@ export function LibraryLoadingSkeleton({
             <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 2xl:grid-cols-4">
               {SKELETON_GRID_SLOTS.map((slotId) => (
                 <li key={slotId}>
-                  <div className="flex aspect-[4/3] w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/40 bg-card p-3 shadow-xs">
+                  <div className="border-border/40 bg-card flex aspect-[4/3] w-full flex-col justify-between overflow-hidden rounded-2xl border p-3 shadow-xs">
                     <Skeleton className="h-full w-full" rounded="sm" />
                     <div className="flex items-center px-1 pt-2.5">
                       <Skeleton className="h-4 w-3/5" rounded="sm" />

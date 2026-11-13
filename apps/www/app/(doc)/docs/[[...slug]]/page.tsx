@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+
 import { baseOptions } from "@/app/layout.config";
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
@@ -91,8 +92,6 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
     if (guideIndex === -1 && previous?.url?.startsWith("/docs")) {
       return resolveNavItem(previous.url, String(previous.name ?? "Previous"));
     }
-
-    return;
   })();
 
   const nextNav: DocsPagerItem | undefined = (() => {
@@ -104,8 +103,6 @@ async function DocsPageBody({ slug }: { slug?: string[] }) {
     if (guideIndex === -1 && nextPage?.url?.startsWith("/docs")) {
       return resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"));
     }
-
-    return;
   })();
 
   return (
@@ -208,7 +205,7 @@ export async function generateMetadata(props: {
   }
 
   const ogPath = slug;
-  const title = page.data.title;
+  const { title } = page.data;
 
   return {
     title,

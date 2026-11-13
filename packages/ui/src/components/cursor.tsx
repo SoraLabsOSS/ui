@@ -1,13 +1,15 @@
 import {
   CursorContainer as CursorContainerPrimitive,
-  type CursorContainerProps as CursorContainerPropsPrimitive,
   CursorFollow as CursorFollowPrimitive,
-  type CursorFollowProps as CursorFollowPropsPrimitive,
   Cursor as CursorPrimitive,
-  type CursorProps as CursorPropsPrimitive,
   CursorProvider as CursorProviderPrimitive,
-  type CursorProviderProps as CursorProviderPropsPrimitive,
   useCursor,
+} from "@workspace/ui/components/primitives/animate/cursor";
+import type {
+  CursorContainerProps as CursorContainerPropsPrimitive,
+  CursorFollowProps as CursorFollowPropsPrimitive,
+  CursorProps as CursorPropsPrimitive,
+  CursorProviderProps as CursorProviderPropsPrimitive,
 } from "@workspace/ui/components/primitives/animate/cursor";
 import { cn } from "@workspace/ui/lib/utils";
 import {
@@ -67,7 +69,7 @@ function Cursor({ className, ...props }: CursorProps) {
   const rotate = useSpring(rotateVelocity, { damping: 15, stiffness: 200 });
 
   const scale = useTransform([velocityX, velocityY], ([vx, vy]) => {
-    const velocity = Math.sqrt((vx as number) ** 2 + (vy as number) ** 2);
+    const velocity = Math.hypot(vx as number, vy as number);
     return 1 - Math.min(velocity / 2000, 0.1);
   });
 
@@ -81,7 +83,7 @@ function Cursor({ className, ...props }: CursorProps) {
       {...props}
     >
       <motion.svg
-        className={cn("size-6 text-foreground", className)}
+        className={cn("text-foreground size-6", className)}
         style={{
           rotate,
           scale,
@@ -138,7 +140,7 @@ function CursorFollow({
     >
       <motion.div
         className={cn(
-          "rounded-md bg-foreground px-2 py-1 text-background text-sm",
+          "bg-foreground text-background rounded-md px-2 py-1 text-sm",
           className
         )}
         style={{

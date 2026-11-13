@@ -1,11 +1,13 @@
-// biome-ignore-all lint: scroll-driven word reveal ported from deadlock-studios
+/* eslint-disable react/no-array-index-key, sonarjs/cognitive-complexity, import/no-named-as-default, eslint/no-nested-ternary -- scroll-driven word reveal ported from deadlock-studios */
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import { cn } from "@workspace/ui/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { type CSSProperties, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
+import type { CSSProperties } from "react";
+
 import {
   isWindowScroller,
   observeWindowResize,
@@ -55,7 +57,7 @@ const FULL_PAGE_PIN_LAYOUT =
 
 /** Default keyword normalizer — strips edge punctuation, preserves casing. */
 export function defaultNormalizeWord(word: string): string {
-  return word.replace(STRIP_EDGE_PUNCTUATION_RE, "");
+  return word.replaceAll(STRIP_EDGE_PUNCTUATION_RE, "");
 }
 
 /** Case-insensitive keyword normalizer (legacy Deadlock Studios behavior). */
@@ -319,7 +321,7 @@ function updateWords(
       wordEl.style.backgroundColor = `rgba(${highlightRgb}, ${Math.max(0, (1 - bgFade) * highlightAlpha)})`;
 
       const textReveal = wordProgress >= 0.9 ? (wordProgress - 0.9) / 0.1 : 0;
-      wordText.style.opacity = String(Math.pow(textReveal, 0.5));
+      wordText.style.opacity = String(textReveal ** 0.5);
       continue;
     }
 
@@ -396,11 +398,11 @@ function TextRevealContent({
                     <span
                       className={cn(
                         "trb-word relative inline-block rounded-lg p-[0.1rem_0.2rem] align-top leading-none opacity-0 will-change-[background-color,opacity]",
-                        "mb-[0.2rem] mr-[0.2rem] max-[1000px]:mb-[0.15rem] max-[1000px]:mr-[0.1rem]",
+                        "mr-[0.2rem] mb-[0.2rem] max-[1000px]:mr-[0.1rem] max-[1000px]:mb-[0.15rem]",
                         wordClassName,
                         keyword &&
                           cn(
-                            "mt-0 mb-[0.2rem] ml-[0.2rem] mr-[0.4rem] max-[1000px]:mb-[0.1rem] max-[1000px]:ml-[0.1rem] max-[1000px]:mr-[0.2rem]",
+                            "mt-0 mr-[0.4rem] mb-[0.2rem] ml-[0.2rem] max-[1000px]:mr-[0.2rem] max-[1000px]:mb-[0.1rem] max-[1000px]:ml-[0.1rem]",
                             keywordWrapperClassName
                           )
                       )}

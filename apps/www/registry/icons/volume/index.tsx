@@ -1,12 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  motion,
-  type SVGMotionProps,
-  type Transition,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { SVGMotionProps, Transition } from "motion/react";
 import { useId, useState } from "react";
 
 interface VolumeProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {
@@ -55,7 +51,7 @@ function Volume({
   ...props
 }: VolumeProps) {
   const reactId = useId();
-  const maskId = `volume-mask-${reactId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const maskId = `volume-mask-${reactId.replaceAll(/[^a-zA-Z0-9_-]/g, "")}`;
   const [isHovered, setIsHovered] = useState(false);
   const reducedMotion = useReducedMotion();
 

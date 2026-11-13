@@ -10,6 +10,7 @@ import {
   Trash2Icon,
   UserPlusIcon,
 } from "lucide-react";
+
 import {
   ContextMenu,
   ContextMenuContent,
@@ -28,12 +29,12 @@ export default function ContextMenuFileDemo() {
   return (
     <div className="flex w-full max-w-md items-center justify-center p-6">
       <ContextMenu>
-        <ContextMenuTrigger className="flex h-52 w-full flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card/60 p-6 text-center shadow-xs transition-colors hover:border-foreground/30 hover:bg-card/90">
-          <div className="flex size-14 items-center justify-center rounded-xl bg-primary/10 text-primary">
+        <ContextMenuTrigger className="border-border/80 bg-card/60 hover:border-foreground/30 hover:bg-card/90 flex h-52 w-full flex-col items-center justify-center gap-3 rounded-2xl border p-6 text-center shadow-xs transition-colors">
+          <div className="bg-primary/10 text-primary flex size-14 items-center justify-center rounded-xl">
             <FileCodeIcon className="size-7" />
           </div>
           <div className="flex flex-col items-center gap-0.5">
-            <span className="font-semibold text-foreground text-sm">
+            <span className="text-foreground text-sm font-semibold">
               app-layout.tsx
             </span>
             <span className="text-muted-foreground text-xs">

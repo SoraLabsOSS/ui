@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import {
   LEGACY_PATH_PREFIX_REDIRECTS,
   LEGACY_PRIMITIVE_SLUG_RENAMES,
@@ -14,7 +15,7 @@ export interface DocRedirect {
 }
 
 function readMetaPages(metaPath: string): string[] {
-  const meta = JSON.parse(fs.readFileSync(metaPath, "utf8")) as {
+  const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8")) as {
     pages?: string[];
   };
 
@@ -58,35 +59,39 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
 
   // Legacy primitive slug renames
   for (const [from, to] of Object.entries(LEGACY_PRIMITIVE_SLUG_RENAMES)) {
-    redirects.push({
-      source: `/docs/motion/${from}`,
-      destination: `/motion/${to}`,
-      permanent: true,
-    });
-    redirects.push({
-      source: `/motion/${from}`,
-      destination: `/motion/${to}`,
-      permanent: true,
-    });
-    redirects.push({
-      source: `/docs/primitives/${from}`,
-      destination: `/motion/${to}`,
-      permanent: true,
-    });
-    redirects.push({
-      source: `/docs/${from}`,
-      destination: `/motion/${to}`,
-      permanent: true,
-    });
+    redirects.push(
+      {
+        source: `/docs/motion/${from}`,
+        destination: `/motion/${to}`,
+        permanent: true,
+      },
+      {
+        source: `/motion/${from}`,
+        destination: `/motion/${to}`,
+        permanent: true,
+      },
+      {
+        source: `/docs/primitives/${from}`,
+        destination: `/motion/${to}`,
+        permanent: true,
+      },
+      {
+        source: `/docs/${from}`,
+        destination: `/motion/${to}`,
+        permanent: true,
+      }
+    );
   }
 
   for (const [source, destination] of LEGACY_PATH_PREFIX_REDIRECTS) {
-    redirects.push({ source, destination, permanent: true });
-    redirects.push({
-      source: `${source}/:path*`,
-      destination: `${destination}/:path*`,
-      permanent: true,
-    });
+    redirects.push(
+      { source, destination, permanent: true },
+      {
+        source: `${source}/:path*`,
+        destination: `${destination}/:path*`,
+        permanent: true,
+      }
+    );
   }
 
   // Redirect legacy flat /ui/:slug paths to /ui/base/:slug or /ui/radix/:slug
@@ -107,16 +112,18 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
   }
 
   for (const category of MOTION_CATEGORY_PREFIXES) {
-    redirects.push({
-      source: `/docs/motion/${category}/:path*`,
-      destination: "/motion/:path*",
-      permanent: true,
-    });
-    redirects.push({
-      source: `/motion/${category}/:path*`,
-      destination: "/motion/:path*",
-      permanent: true,
-    });
+    redirects.push(
+      {
+        source: `/docs/motion/${category}/:path*`,
+        destination: "/motion/:path*",
+        permanent: true,
+      },
+      {
+        source: `/motion/${category}/:path*`,
+        destination: "/motion/:path*",
+        permanent: true,
+      }
+    );
   }
 
   for (const slug of motionSlugs) {

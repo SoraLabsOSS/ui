@@ -1,12 +1,8 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  motion,
-  type SVGMotionProps,
-  type Transition,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { SVGMotionProps, Transition } from "motion/react";
 import { useState } from "react";
 
 interface MenuProps extends Omit<SVGMotionProps<SVGSVGElement>, "animate"> {
@@ -122,6 +118,7 @@ function Menu({
           y: isClose ? 6 : 0,
           rotate: isClose ? 45 : 0,
         }}
+        initial={{ y: 0, rotate: 0 }}
         style={{ transformOrigin: "12px 12px" }}
         transition={transition}
         x1="3.5"
@@ -131,6 +128,7 @@ function Menu({
       />
       <motion.line
         animate={{ opacity: isClose ? 0 : 1 }}
+        initial={{ opacity: 1 }}
         style={{ transformOrigin: "12px 12px" }}
         transition={{ duration: 0.1 }}
         x1="3.5"
@@ -143,6 +141,7 @@ function Menu({
           y: isClose ? -6 : 0,
           rotate: isClose ? -45 : 0,
         }}
+        initial={{ y: 0, rotate: 0 }}
         style={{ transformOrigin: "12px 12px" }}
         transition={transition}
         x1="3.5"

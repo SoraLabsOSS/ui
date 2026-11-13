@@ -1,18 +1,15 @@
 "use client";
 
-import {
-  Slot,
-  type WithAsChild,
-} from "@workspace/ui/components/primitives/animate/slot";
+import { Slot } from "@workspace/ui/components/primitives/animate/slot";
+import type { WithAsChild } from "@workspace/ui/components/primitives/animate/slot";
 import { getStrictContext } from "@workspace/ui/lib/get-strict-context";
 import {
   AnimatePresence,
-  type HTMLMotionProps,
   motion,
-  type SpringOptions,
   useMotionValue,
   useSpring,
 } from "motion/react";
+import type { HTMLMotionProps, SpringOptions } from "motion/react";
 import type * as React from "react";
 import {
   useCallback,
@@ -47,7 +44,7 @@ function CursorProvider({ children, global = false }: CursorProviderProps) {
 
   useEffect(() => {
     const id = "__cursor_none_style__";
-    if (document.getElementById(id)) {
+    if (document.querySelector(`#${id}`)) {
       return;
     }
 
@@ -56,7 +53,7 @@ function CursorProvider({ children, global = false }: CursorProviderProps) {
     style.textContent = `
       .animate-ui-cursor-none, .animate-ui-cursor-none * { cursor: none !important; }
     `;
-    document.head.appendChild(style);
+    document.head.append(style);
   }, []);
 
   useEffect(() => {
@@ -199,11 +196,7 @@ function Cursor({ ref, asChild = false, style, ...props }: CursorProps) {
       return;
     }
 
-    if (active) {
-      target.classList.add("animate-ui-cursor-none");
-    } else {
-      target.classList.remove("animate-ui-cursor-none");
-    }
+    target.classList.toggle("animate-ui-cursor-none", active);
 
     return () => {
       target.classList.remove("animate-ui-cursor-none");
@@ -288,75 +281,96 @@ function CursorFollow({
     let offsetY = 0;
 
     switch (side) {
-      case "top":
+      case "top": {
         offsetY = height + sideOffset;
         switch (align) {
-          case "start":
+          case "start": {
             offsetX = width + alignOffset;
             break;
-          case "center":
+          }
+          case "center": {
             offsetX = width / 2;
             break;
-          case "end":
+          }
+          case "end": {
             offsetX = -alignOffset;
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
         break;
+      }
 
-      case "bottom":
+      case "bottom": {
         offsetY = -sideOffset;
         switch (align) {
-          case "start":
+          case "start": {
             offsetX = width + alignOffset;
             break;
-          case "center":
+          }
+          case "center": {
             offsetX = width / 2;
             break;
-          case "end":
+          }
+          case "end": {
             offsetX = -alignOffset;
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
         break;
+      }
 
-      case "left":
+      case "left": {
         offsetX = width + sideOffset;
         switch (align) {
-          case "start":
+          case "start": {
             offsetY = height + alignOffset;
             break;
-          case "center":
+          }
+          case "center": {
             offsetY = height / 2;
             break;
-          case "end":
+          }
+          case "end": {
             offsetY = -alignOffset;
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
         break;
+      }
 
-      case "right":
+      case "right": {
         offsetX = -sideOffset;
         switch (align) {
-          case "start":
+          case "start": {
             offsetY = height + alignOffset;
             break;
-          case "center":
+          }
+          case "center": {
             offsetY = height / 2;
             break;
-          case "end":
+          }
+          case "end": {
             offsetY = -alignOffset;
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
         break;
-      default:
+      }
+      default: {
         break;
+      }
     }
 
     return { x: offsetX, y: offsetY };

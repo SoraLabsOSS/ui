@@ -1,10 +1,12 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { type InferPageType, loader } from "fumadocs-core/source";
+
+import { loader } from "fumadocs-core/source";
+import type { InferPageType } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import Slugger from "github-slugger";
-import type { FileObject } from "next-validate-link";
+import type { FileObject, scanURLs } from "next-validate-link";
+
 import { blog, catalog, docs, icons, motion, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
 
@@ -54,10 +56,7 @@ type ContentPage =
   | UiPage
   | BlogPage;
 
-const appRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../.."
-);
+const appRoot = path.resolve(import.meta.dirname, "../..");
 
 const ATX_HEADING = /^#{1,6}\s+(.+?)\s*#*$/;
 const CODE_FENCE = /^\s*(?:```|~~~)/;
@@ -66,9 +65,9 @@ const headingCache = new Map<string, string[]>();
 
 function inlineToText(value: string): string {
   return value
-    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
-    .replace(/`([^`]*)`/g, "$1")
-    .replace(/[*_~]/g, "")
+    .replaceAll(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replaceAll(/`([^`]*)`/g, "$1")
+    .replaceAll(/[*_~]/g, "")
     .trim();
 }
 
@@ -86,7 +85,7 @@ function readHeadings(filePath: string): string[] {
   const hashes: string[] = [];
   let fenced = false;
 
-  for (const line of readFileSync(filePath, "utf8").split(LINE_BREAK)) {
+  for (const line of readFileSync(filePath, "utf-8").split(LINE_BREAK)) {
     if (CODE_FENCE.test(line)) {
       fenced = !fenced;
       continue;
@@ -156,9 +155,7 @@ export function buildPopulate() {
   };
 }
 
-type ScannedUrls = Awaited<
-  ReturnType<typeof import("next-validate-link").scanURLs>
->;
+type ScannedUrls = Awaited<ReturnType<typeof scanURLs>>;
 
 function registerContentPages(scanned: ScannedUrls): void {
   const pages: ContentPage[] = [

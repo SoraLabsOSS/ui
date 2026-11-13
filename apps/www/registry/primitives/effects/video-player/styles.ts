@@ -4,7 +4,7 @@ export function injectVideoPlayerStyles() {
   if (stylesInjected || typeof document === "undefined") {
     return;
   }
-  if (document.getElementById("sora-video-player-styles")) {
+  if (document.querySelector("#sora-video-player-styles")) {
     stylesInjected = true;
     return;
   }

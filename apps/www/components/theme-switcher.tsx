@@ -3,6 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
+
 import { setThemeWithTransition } from "@/lib/theme-transition";
 import { Switch } from "@/registry/ui/base/switch";
 
@@ -28,10 +29,10 @@ export const ThemeSwitcher = ({ className }: { className?: string }) => {
           theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
         }
         checked={theme === "dark"}
-        checkedIcon={<Moon className="size-3 text-primary-foreground" />}
+        checkedIcon={<Moon className="text-primary-foreground size-3" />}
         className={className}
         onCheckedChange={handleThemeChange}
-        uncheckedIcon={<Sun className="size-3 text-muted-foreground" />}
+        uncheckedIcon={<Sun className="text-muted-foreground size-3" />}
       />
     )
   );

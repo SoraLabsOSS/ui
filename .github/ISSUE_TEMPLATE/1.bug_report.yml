@@ -1,6 +1,6 @@
 name: 🐞 Bug report
 description: Report a bug with Sora UI components.
-labels: ['bug']
+labels: ["bug"]
 body:
   - type: textarea
     attributes:

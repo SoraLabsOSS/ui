@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default, unicorn/prefer-modern-dom-apis, eqeqeq, no-eq-null -- gsap scrollTrigger requires dynamic DOM manipulation */
 "use client";
 
 import { useGSAP } from "@gsap/react";
@@ -9,11 +10,10 @@ import {
   cloneElement,
   createElement,
   isValidElement,
-  type ReactElement,
-  type ReactNode,
-  type Ref,
   useRef,
 } from "react";
+import type { ReactElement, ReactNode, Ref } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 import {
   observeWindowResize,
@@ -111,7 +111,7 @@ function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
   }
 }
 
-function mergeRefs<T>(...refs: Array<Ref<T> | undefined>) {
+function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {
   return (node: T | null) => {
     for (const ref of refs) {
       assignRef(ref, node);
@@ -179,8 +179,8 @@ function setupLineReveal(
   const lines: Element[] = [];
   const blocks: HTMLDivElement[] = [];
 
-  const elements = container.hasAttribute("data-text-reveal-block-wrapper")
-    ? Array.from(container.children)
+  const elements = Object.hasOwn(container.dataset, "textRevealBlockWrapper")
+    ? [...container.children]
     : [container];
 
   for (const element of elements) {
@@ -207,7 +207,7 @@ function setupLineReveal(
       wrapper.style.overflow = "hidden";
 
       parent.insertBefore(wrapper, line);
-      wrapper.appendChild(line);
+      wrapper.append(line);
 
       const lineElement = line as HTMLElement;
       lineElement.style.position = "relative";
@@ -225,7 +225,7 @@ function setupLineReveal(
       block.style.zIndex = "1";
       block.style.backgroundColor = blockColor;
 
-      wrapper.appendChild(block);
+      wrapper.append(block);
 
       lines.push(line);
       blocks.push(block);
@@ -462,7 +462,7 @@ export function TextRevealBlock({
         window.addEventListener(scrollReadyEvent, onScrollReady);
       }
 
-      mountAnimation().catch(() => undefined);
+      mountAnimation().catch(() => {});
 
       return () => {
         disposed = true;

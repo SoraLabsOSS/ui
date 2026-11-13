@@ -1,4 +1,5 @@
 import { cn } from "@workspace/ui/lib/utils";
+
 import { SORA_UI_CURSOR_MCP_INSTALL_LINK } from "@/lib/mcp-cursor";
 
 function CursorMark({ className }: { className?: string }) {
@@ -21,7 +22,7 @@ export function AddToCursorButton({ className }: { className?: string }) {
   return (
     <a
       className={cn(
-        "not-prose inline-flex h-9 items-center gap-2 rounded-lg bg-[#171717] px-4 font-medium text-sm text-white transition-colors duration-150 ease-out hover:bg-[#262626] dark:bg-[#f5f5f5] dark:text-[#171717] dark:hover:bg-white",
+        "not-prose inline-flex h-9 items-center gap-2 rounded-lg bg-[#171717] px-4 text-sm font-medium text-white transition-colors duration-150 ease-out hover:bg-[#262626] dark:bg-[#f5f5f5] dark:text-[#171717] dark:hover:bg-white",
         className
       )}
       href={SORA_UI_CURSOR_MCP_INSTALL_LINK}

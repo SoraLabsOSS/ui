@@ -6,12 +6,12 @@ import { useEffect } from "react";
 const FOOTER_LEAD_PX = 120;
 
 function getSiteFooter(): HTMLElement | null {
-  return document.querySelector("[data-blog-site-footer]");
+  return document.querySelector<HTMLElement>("[data-blog-site-footer]");
 }
 
 function getTocElements(): HTMLElement[] {
   const elements: HTMLElement[] = [];
-  const ndToc = document.getElementById("nd-toc");
+  const ndToc = document.querySelector<HTMLElement>("#nd-toc");
   if (ndToc) {
     elements.push(ndToc);
   }
@@ -42,9 +42,9 @@ export function BlogTocFooterGuard() {
       const shouldDismiss = footerTop <= window.innerHeight + FOOTER_LEAD_PX;
 
       if (shouldDismiss) {
-        root.setAttribute("data-footer-in-view", "");
+        root.dataset.footerInView = "";
       } else {
-        root.removeAttribute("data-footer-in-view");
+        delete root.dataset.footerInView;
       }
 
       const tocs = getTocElements();
@@ -52,15 +52,15 @@ export function BlogTocFooterGuard() {
         if (shouldDismiss) {
           if (
             !(
-              toc.hasAttribute("data-blog-toc-leaving") ||
-              toc.hasAttribute("data-blog-toc-hidden")
+              Object.hasOwn(toc.dataset, "blogTocLeaving") ||
+              Object.hasOwn(toc.dataset, "blogTocHidden")
             )
           ) {
-            toc.setAttribute("data-blog-toc-leaving", "");
+            toc.dataset.blogTocLeaving = "";
           }
         } else {
-          toc.removeAttribute("data-blog-toc-hidden");
-          toc.removeAttribute("data-blog-toc-leaving");
+          delete toc.dataset.blogTocHidden;
+          delete toc.dataset.blogTocLeaving;
         }
       }
     };
@@ -70,9 +70,9 @@ export function BlogTocFooterGuard() {
         return;
       }
       const target = event.target as HTMLElement | null;
-      if (target?.hasAttribute("data-blog-toc-leaving")) {
-        target.setAttribute("data-blog-toc-hidden", "");
-        target.removeAttribute("data-blog-toc-leaving");
+      if (target?.dataset.blogTocLeaving !== undefined) {
+        target.dataset.blogTocHidden = "";
+        delete target.dataset.blogTocLeaving;
       }
     };
 
@@ -112,10 +112,10 @@ export function BlogTocFooterGuard() {
       window.removeEventListener("resize", schedule);
       window.removeEventListener("transitionend", onTransitionEnd);
       mutation.disconnect();
-      root.removeAttribute("data-footer-in-view");
+      delete root.dataset.footerInView;
       for (const toc of getTocElements()) {
-        toc.removeAttribute("data-blog-toc-hidden");
-        toc.removeAttribute("data-blog-toc-leaving");
+        delete toc.dataset.blogTocHidden;
+        delete toc.dataset.blogTocLeaving;
       }
     };
   }, []);

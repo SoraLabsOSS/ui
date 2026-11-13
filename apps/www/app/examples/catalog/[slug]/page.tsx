@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
+
 import { CatalogExampleClient } from "./catalog-example-client";
 
 interface CatalogExamplePageProps {

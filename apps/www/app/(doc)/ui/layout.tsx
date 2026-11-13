@@ -1,9 +1,11 @@
 import XIcon from "@workspace/ui/components/icons/x-icon";
-import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
+
 import { baseOptions } from "@/app/layout.config";
-import { Nav } from "@/components/docs/nav";
 import { DocsSidebar } from "@/components/docs-sidebar/fumadocs";
+import { Nav } from "@/components/docs/nav";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { getReleaseDatesByUrl } from "@/lib/docs/get-release-dates-by-url";

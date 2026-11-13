@@ -1,9 +1,9 @@
 import {
   mutationOptions,
-  type QueryClient,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 import {
   authMutationKeys,
   authQueryKeys,
@@ -31,10 +31,10 @@ export function signOutOptions<TAuthClient extends AuthClient>(
 ) {
   const mutationKey = authMutationKeys.signOut;
 
-  // biome-ignore lint/suspicious/noConfusingVoidType: void allows no-arg mutate
+  // oxlint-disable-next-line @typescript-eslint/no-invalid-void-type -- void allows no-arg mutate
   const mutationFn = (params?: SignOutParams<TAuthClient> | void) =>
     authClient.signOut({
-      ...(params ?? {}),
+      ...params,
       fetchOptions: { ...params?.fetchOptions, throw: true },
     });
 

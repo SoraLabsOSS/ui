@@ -21,7 +21,11 @@ import { ScrollGallery } from "@/components/sora-ui/catalog/scroll-gallery";
 
 const slides = [
   { title: "Room 14B", image: "/images/slide-1.jpg", url: "/project/1" },
-  { title: "Subject Identified", image: "/images/slide-2.jpg", url: "/project/2" },
+  {
+    title: "Subject Identified",
+    image: "/images/slide-2.jpg",
+    url: "/project/2",
+  },
 ];
 
 export default function Page() {
@@ -141,7 +145,8 @@ Use high-quality full-bleed images (at least 1920 × 1080). The component crops 
       type: "Element | Window",
     },
     timing: {
-      description: "Fine-grained animation timing (delays, scale, title motion).",
+      description:
+        "Fine-grained animation timing (delays, scale, title motion).",
       type: "ScrollGalleryTiming",
     },
     className: {

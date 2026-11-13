@@ -1,5 +1,7 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import type { BundledLanguage } from "shiki";
+
 import { checkRateLimit } from "@/lib/ratelimit";
 import { highlightCode } from "@/lib/shiki";
 import { readComponentSource } from "@/lib/source-code";

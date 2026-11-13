@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
+
 import { CodeTabs } from "@/components/docs/code-tabs";
 import {
   Tabs,
@@ -54,13 +55,13 @@ export function McpInitTabs({
   return (
     <div className={cn("relative my-4", className)} {...props}>
       <Tabs
-        className="w-full gap-0 overflow-hidden rounded-xl border border-border/60"
+        className="border-border/60 w-full gap-0 overflow-hidden rounded-xl border"
         defaultValue={defaultValue}
       >
-        <div className="flex h-10 items-center border-border/50 border-b px-3">
+        <div className="border-border/50 flex h-10 items-center border-b px-3">
           <TabsList className="flex items-center gap-0.5">
             <TabsHighlight
-              className="h-full rounded-md bg-muted"
+              className="bg-muted h-full rounded-md"
               containerClassName="relative isolate flex items-center gap-0.5"
               mode="parent"
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
@@ -68,7 +69,7 @@ export function McpInitTabs({
               {CLIENTS.map((client) => (
                 <TabsHighlightItem key={client.id} value={client.id}>
                   <TabsTrigger
-                    className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                    className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                     value={client.id}
                   >
                     {client.label}

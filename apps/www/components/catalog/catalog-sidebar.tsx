@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
+
 import { useCatalogMenu } from "./catalog-menu-context";
 import { ComponentPageCatalogNav } from "./catalog-nav";
 import {
@@ -54,7 +55,7 @@ export function ComponentPageCatalogSidebar() {
       return;
     }
 
-    const scrollTop = scrollRoot.scrollTop;
+    const { scrollTop } = scrollRoot;
     const previousOverflow = scrollRoot.style.overflow;
     scrollRoot.style.overflow = "hidden";
 
@@ -107,11 +108,11 @@ export function ComponentPageCatalogSidebar() {
             >
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 rounded-t-3xl bg-gradient-to-b from-background/90 via-background/40 to-transparent"
+                className="from-background/90 via-background/40 pointer-events-none absolute inset-x-0 top-0 z-10 h-20 rounded-t-3xl bg-gradient-to-b to-transparent"
               />
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 rounded-b-3xl bg-gradient-to-t from-background/90 via-background/40 to-transparent"
+                className="from-background/90 via-background/40 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 rounded-b-3xl bg-gradient-to-t to-transparent"
               />
 
               <ComponentPageCatalogNav items={navItems} onNavigate={close} />

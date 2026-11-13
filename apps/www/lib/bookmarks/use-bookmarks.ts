@@ -4,14 +4,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@workspace/auth-ui/lib/auth-react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { toast } from "sonner";
+
 import { authClient } from "@/lib/auth-client";
 import {
-  type BookmarkRecord,
   BookmarkRequestError,
   createBookmark,
   fetchBookmarks,
   removeBookmark,
 } from "@/lib/bookmarks/client";
+import type { BookmarkRecord } from "@/lib/bookmarks/client";
 import {
   claimPendingBookmarkForAutoSave,
   clearPendingBookmark,
@@ -79,12 +80,14 @@ export function useBookmarks() {
 
     const channel = new BroadcastChannel(BOOKMARKS_SYNC_CHANNEL);
     syncChannelRef.current = channel;
-    channel.onmessage = () => {
+    const onMessage = () => {
       queryClient.invalidateQueries({ queryKey: bookmarkKeys.list(userId) });
     };
+    channel.addEventListener("message", onMessage);
 
     return () => {
       syncChannelRef.current = null;
+      channel.removeEventListener("message", onMessage);
       channel.close();
     };
   }, [queryClient, userId]);

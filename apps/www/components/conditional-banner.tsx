@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
+
 import { Banner } from "@/components/banner";
 
 const NO_BANNER_PREFIXES = [

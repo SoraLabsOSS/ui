@@ -1,9 +1,11 @@
 import Link from "next/link";
+
 import {
   COMMUNITY_DISCUSSIONS_URL,
   COMMUNITY_ISSUES_URL,
   CONTACT_EMAIL,
 } from "@/lib/site";
+
 import type { TermItem } from "./legal-scroll-view";
 
 export const TERMS_OF_SERVICE_ITEMS: TermItem[] = [
@@ -109,32 +111,28 @@ export const TERMS_OF_SERVICE_ITEMS: TermItem[] = [
     id: "limitation",
     title: "5. Limitation of Liability",
     content: (
-      <>
-        <p className="lg:text-lg">
-          To the fullest extent permitted by applicable law, Sora UI and its
-          contributors will not be liable for any indirect, incidental, special,
-          or consequential damages arising out of or in connection with your use
-          of the Services.
-        </p>
-      </>
+      <p className="lg:text-lg">
+        To the fullest extent permitted by applicable law, Sora UI and its
+        contributors will not be liable for any indirect, incidental, special,
+        or consequential damages arising out of or in connection with your use
+        of the Services.
+      </p>
     ),
   },
   {
     id: "privacy",
     title: "6. Privacy",
     content: (
-      <>
-        <p className="lg:text-lg">
-          Our collection and use of personal data is described in our{" "}
-          <Link
-            className="underline underline-offset-4 hover:opacity-80"
-            href="/legal/privacy"
-          >
-            Privacy Policy
-          </Link>
-          . By using our Services, you also consent to our data practices.
-        </p>
-      </>
+      <p className="lg:text-lg">
+        Our collection and use of personal data is described in our{" "}
+        <Link
+          className="underline underline-offset-4 hover:opacity-80"
+          href="/legal/privacy"
+        >
+          Privacy Policy
+        </Link>
+        . By using our Services, you also consent to our data practices.
+      </p>
     ),
   },
   {
@@ -157,27 +155,25 @@ export const TERMS_OF_SERVICE_ITEMS: TermItem[] = [
     id: "contact",
     title: "8. Contact Information",
     content: (
-      <>
-        <p className="lg:text-lg">
-          Questions about these Terms? Reach out to us at{" "}
-          <a
-            className="underline underline-offset-4 hover:opacity-80"
-            href={`mailto:${CONTACT_EMAIL}`}
-          >
-            {CONTACT_EMAIL}
-          </a>{" "}
-          or{" "}
-          <a
-            className="underline underline-offset-4 hover:opacity-80"
-            href={COMMUNITY_ISSUES_URL}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            open an issue
-          </a>{" "}
-          on GitHub.
-        </p>
-      </>
+      <p className="lg:text-lg">
+        Questions about these Terms? Reach out to us at{" "}
+        <a
+          className="underline underline-offset-4 hover:opacity-80"
+          href={`mailto:${CONTACT_EMAIL}`}
+        >
+          {CONTACT_EMAIL}
+        </a>{" "}
+        or{" "}
+        <a
+          className="underline underline-offset-4 hover:opacity-80"
+          href={COMMUNITY_ISSUES_URL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          open an issue
+        </a>{" "}
+        on GitHub.
+      </p>
     ),
   },
 ];
@@ -216,7 +212,7 @@ export const PRIVACY_POLICY_ITEMS: TermItem[] = [
     title: "1. Information We Collect",
     content: (
       <>
-        <h4 className="font-medium text-foreground text-lg">
+        <h4 className="text-foreground text-lg font-medium">
           1.1 Information you provide
         </h4>
         <p className="lg:text-lg">
@@ -234,7 +230,7 @@ export const PRIVACY_POLICY_ITEMS: TermItem[] = [
           handled securely through OAuth; we receive only the profile fields
           needed to identify and maintain your account.
         </p>
-        <h4 className="pt-2 font-medium text-foreground text-lg">
+        <h4 className="text-foreground pt-2 text-lg font-medium">
           1.2 Information collected automatically
         </h4>
         <p className="lg:text-lg">When you browse Sora UI, we may collect:</p>
@@ -265,7 +261,7 @@ export const PRIVACY_POLICY_ITEMS: TermItem[] = [
           <li>Monitor errors and protect against abuse</li>
           <li>Respond to support requests and inquiries</li>
         </ul>
-        <p className="font-medium text-foreground lg:text-lg">
+        <p className="text-foreground font-medium lg:text-lg">
           We do not sell your personal data. We do not use account data for
           advertising profiling.
         </p>
@@ -398,49 +394,45 @@ export const PRIVACY_POLICY_ITEMS: TermItem[] = [
     id: "changes",
     title: "8. Changes to This Policy",
     content: (
-      <>
-        <p className="lg:text-lg">
-          We may update this Privacy Policy from time to time. When we make
-          changes, we will update the &ldquo;Last updated&rdquo; date at the top
-          of this page.
-        </p>
-      </>
+      <p className="lg:text-lg">
+        We may update this Privacy Policy from time to time. When we make
+        changes, we will update the &ldquo;Last updated&rdquo; date at the top
+        of this page.
+      </p>
     ),
   },
   {
     id: "contact",
     title: "9. Contact Information",
     content: (
-      <>
-        <p className="lg:text-lg">
-          Questions about this policy? Contact us at{" "}
-          <a
-            className="underline underline-offset-4 hover:opacity-80"
-            href={`mailto:${CONTACT_EMAIL}`}
-          >
-            {CONTACT_EMAIL}
-          </a>
-          ,{" "}
-          <a
-            className="underline underline-offset-4 hover:opacity-80"
-            href={COMMUNITY_ISSUES_URL}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            open an issue
-          </a>
-          , or join the{" "}
-          <a
-            className="underline underline-offset-4 hover:opacity-80"
-            href={COMMUNITY_DISCUSSIONS_URL}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            community discussion
-          </a>
-          .
-        </p>
-      </>
+      <p className="lg:text-lg">
+        Questions about this policy? Contact us at{" "}
+        <a
+          className="underline underline-offset-4 hover:opacity-80"
+          href={`mailto:${CONTACT_EMAIL}`}
+        >
+          {CONTACT_EMAIL}
+        </a>
+        ,{" "}
+        <a
+          className="underline underline-offset-4 hover:opacity-80"
+          href={COMMUNITY_ISSUES_URL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          open an issue
+        </a>
+        , or join the{" "}
+        <a
+          className="underline underline-offset-4 hover:opacity-80"
+          href={COMMUNITY_DISCUSSIONS_URL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          community discussion
+        </a>
+        .
+      </p>
     ),
   },
 ];

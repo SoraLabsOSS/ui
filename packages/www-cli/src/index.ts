@@ -2,8 +2,9 @@
 
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+
 import { Command } from "commander";
+
 import { runCreateCatalog } from "./commands/create-catalog.js";
 import { runCreateIcon } from "./commands/create-icon.js";
 import { runCreatePrimitive } from "./commands/create-primitive.js";
@@ -19,10 +20,7 @@ import {
 } from "./lib/help-text.js";
 import { isScripted } from "./lib/scaffold-flags.js";
 
-const packageRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  ".."
-);
+const packageRoot = path.resolve(import.meta.dirname, "..");
 const packageJson = JSON.parse(
   readFileSync(path.join(packageRoot, "package.json"), "utf-8")
 ) as { version: string };

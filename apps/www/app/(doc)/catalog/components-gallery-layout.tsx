@@ -1,7 +1,9 @@
 import XIcon from "@workspace/ui/components/icons/x-icon";
 import type { PageTree } from "fumadocs-core/server";
-import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
+
 import { baseOptions } from "@/app/layout.config";
 import { AccountSidebar } from "@/components/account-sidebar";
 import { ComponentsShell } from "@/components/catalog/components-shell";

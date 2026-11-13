@@ -1,6 +1,6 @@
 name: 📄 Documentation
 description: Suggest an improvement or correction to the documentation.
-labels: ['documentation']
+labels: ["documentation"]
 body:
   - type: textarea
     attributes:

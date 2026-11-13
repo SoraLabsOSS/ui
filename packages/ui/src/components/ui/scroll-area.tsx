@@ -4,8 +4,9 @@ import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
 import { cn } from "@workspace/ui/lib/utils";
 import type * as React from "react";
 
-interface ScrollAreaProps
-  extends React.ComponentProps<typeof ScrollAreaPrimitive.Root> {
+interface ScrollAreaProps extends React.ComponentProps<
+  typeof ScrollAreaPrimitive.Root
+> {
   /**
    * Radix UI legacy scrollbar visibility mode (e.g. "auto" | "always" | "scroll" | "hover").
    * Accepted for backward compatibility.
@@ -57,7 +58,7 @@ function ScrollBar({
   return (
     <ScrollAreaPrimitive.Scrollbar
       className={cn(
-        "group/scrollbar flex touch-none select-none transition-opacity duration-300 ease-out",
+        "group/scrollbar flex touch-none transition-opacity duration-300 ease-out select-none",
         // Auto-hide when idle (not hovering scroll area and not actively scrolling)
         "opacity-0 hover:opacity-100 data-hovering:opacity-100 data-scrolling:opacity-100",
         orientation === "vertical" && "h-full w-2.5 p-px",
@@ -70,7 +71,7 @@ function ScrollBar({
       {...props}
     >
       <ScrollAreaPrimitive.Thumb
-        className="relative flex-1 rounded-full bg-fd-border transition-colors hover:bg-muted-foreground/60"
+        className="bg-fd-border hover:bg-muted-foreground/60 relative flex-1 rounded-full transition-colors"
         data-slot="scroll-area-thumb"
       />
     </ScrollAreaPrimitive.Scrollbar>

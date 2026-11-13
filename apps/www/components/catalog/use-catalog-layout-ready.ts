@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  type RefObject,
-  useLayoutEffect,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useLayoutEffect, useState, useSyncExternalStore } from "react";
+import type { RefObject } from "react";
 
 const LG_MEDIA = "(min-width: 1024px)";
 

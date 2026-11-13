@@ -1,7 +1,9 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type ReactNode, useEffect } from "react";
+import { useEffect } from "react";
+import type { ReactNode } from "react";
+
 import { catalogDocsHeaderMobileScrollPaddingClassName } from "./catalog-preview-classes";
 
 interface ComponentsShellProps {
@@ -24,12 +26,12 @@ export function ComponentsShell({
   }, []);
 
   return (
-    <div className="flex h-[calc(100dvh-var(--fd-banner-height))] flex-col bg-background text-foreground">
+    <div className="bg-background text-foreground flex h-[calc(100dvh-var(--fd-banner-height))] flex-col">
       <main
         className={cn(
           "relative flex min-h-0 flex-1 flex-col overflow-hidden",
           // Scroll on the shell below lg; hide the OS bar so horizontal padding stays even.
-          "max-lg:overflow-y-auto max-lg:overflow-x-clip max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden",
+          "max-lg:[scrollbar-width:none] max-lg:overflow-x-clip max-lg:overflow-y-auto max-lg:[&::-webkit-scrollbar]:hidden",
           catalogDocsHeaderMobileScrollPaddingClassName,
           className
         )}

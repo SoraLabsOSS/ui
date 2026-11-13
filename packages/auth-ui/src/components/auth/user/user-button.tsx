@@ -15,12 +15,9 @@ import { Skeleton } from "@workspace/ui/components/ui/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import type { User } from "better-auth";
 import { ChevronsUpDown, LogIn, LogOut, Settings, User2 } from "lucide-react";
-import {
-  type ComponentType,
-  isValidElement,
-  type ReactElement,
-  type ReactNode,
-} from "react";
+import { isValidElement } from "react";
+import type { ComponentType, ReactElement, ReactNode } from "react";
+
 import { useClientMounted } from "../../../hooks/use-client-mounted";
 import { UserAvatar } from "./user-avatar";
 import { UserView } from "./user-view";
@@ -236,14 +233,14 @@ export function UserButton({
 
       <DropdownMenuContent
         align={align}
-        className="w-[--radix-dropdown-menu-trigger-width] min-w-40 max-w-[48svw] md:min-w-56"
+        className="w-[--radix-dropdown-menu-trigger-width] max-w-[48svw] min-w-40 md:min-w-56"
         onCloseAutoFocus={(e) => e.preventDefault()}
         sideOffset={sideOffset}
       >
         {session && (
           <>
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="font-normal text-sm">
+              <DropdownMenuLabel className="text-sm font-normal">
                 <UserView />
               </DropdownMenuLabel>
             </DropdownMenuGroup>

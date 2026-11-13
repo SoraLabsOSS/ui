@@ -64,8 +64,7 @@ const FALLBACK_BACKGROUND =
 
 // --- Props & Types -----------------------------------------------------------
 
-export interface SilkBackgroundProps
-  extends ComponentPropsWithoutRef<"canvas"> {
+export interface SilkBackgroundProps extends ComponentPropsWithoutRef<"canvas"> {
   /**
    * Grain noise intensity blended into the silk surface.
    * @default 1
@@ -177,8 +176,8 @@ export function SilkBackground({
           silk.set({ params: { time: t } });
           frame.pass(canvasSurface, silk);
         });
-      } catch (err) {
-        console.error("SilkBackground WebGPU initialization failed:", err);
+      } catch (error) {
+        console.error("SilkBackground WebGPU initialization failed:", error);
         if (!disposed) {
           setUnsupported(true);
         }

@@ -3,10 +3,13 @@
 import type { PageTree } from "fumadocs-core/server";
 import { useSidebar } from "fumadocs-ui/provider";
 import { usePathname } from "next/navigation";
-import { type ReactNode, useEffect } from "react";
+import { useEffect } from "react";
+import type { ReactNode } from "react";
+
 import { ComponentPageCatalogShell } from "@/components/catalog/catalog-shell";
 import { ComponentsShell } from "@/components/catalog/components-shell";
 import type { ComponentGalleryItem } from "@/lib/registry/types";
+
 import { ComponentsGalleryLayout } from "./components-gallery-layout";
 
 function releaseCatalogDocumentScroll() {

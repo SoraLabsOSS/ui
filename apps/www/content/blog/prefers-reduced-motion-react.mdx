@@ -37,7 +37,7 @@ That's the whole CSS version, one line. The React-with-GSAP-and-Motion version i
 
 Every tutorial leads with the same fix: detect the preference, and if it's set, collapse every transition to `duration: 0`. Fine sometimes. Wrong a lot of the time, because it assumes the animation was decorative — that underneath the motion there's a "finished" state that was always going to look fine once the tween settled.
 
-That assumption breaks the moment the sequence itself *is* the content. One of the primitives, `StickyScrollCards` — a stack of cards that pins to the viewport and flips through in sequence as you scroll — does enter → flip → dismiss across one scroll-linked pin. There's no honest "un-animated version" of that — "cards taking turns" isn't decorating a static layout, it is the layout. Set every tween's duration to `0` there and you haven't disabled the animation, you've teleported the DOM through three overlapping states in one frame. Probably garbage on screen.
+That assumption breaks the moment the sequence itself _is_ the content. One of the primitives, `StickyScrollCards` — a stack of cards that pins to the viewport and flips through in sequence as you scroll — does enter → flip → dismiss across one scroll-linked pin. There's no honest "un-animated version" of that — "cards taking turns" isn't decorating a static layout, it is the layout. Set every tween's duration to `0` there and you haven't disabled the animation, you've teleported the DOM through three overlapping states in one frame. Probably garbage on screen.
 
 What the component actually does is compute the state the sequence would have ended in, and set it directly. `refs` holds references to the card DOM elements, `cardCount` is how many cards are in the stack, and `timing` is a config object with the angles each dismissed card should end up rotated to:
 
@@ -59,7 +59,7 @@ function applyReducedMotionEndState(refs, cardCount, timing) {
 
 The `ScrollTrigger` — the GSAP plugin that ties an animation's progress to how far the user has scrolled — never even gets created for reduced-motion users. `mountCards` sets the end state, then hits `if (prefersReducedMotion) { ...; return; }` before it ever reaches the `ScrollTrigger.create()` call further down. This is what "just add a media query" glosses over: reduced motion isn't "same result, faster." It's "same destination, no journey." All the card copy stays in the DOM either way, nothing gets removed, so screen readers and page-find see everything regardless — the only thing that changes is whether getting there is staged as a performance.
 
-Full disclosure, since a post about auditing reduced-motion handling should probably survive its own audit: that's what the component does *now*. It's not what the component did an hour ago, when I sat down to use it as this section's example.
+Full disclosure, since a post about auditing reduced-motion handling should probably survive its own audit: that's what the component does _now_. It's not what the component did an hour ago, when I sat down to use it as this section's example.
 
 The effect used to be gated like this, one level up from everything you just read:
 
@@ -76,7 +76,7 @@ useGSAP(() => {
 
 `shouldAnimate` is `false` the moment `prefersReducedMotion` is `true` — which means the whole `useGSAP` callback returned on line one, before `mountCards` was even defined, let alone called. `applyReducedMotionEndState` — the function I just walked through two paragraphs ago as the "honest" way to handle this — was dead code. Unreachable. Every reduced-motion visitor who ever loaded this component got the cards in whatever state they default to with zero transforms applied: front and back stacked directly on top of each other at dead center, unrotated, all facing forward. Not "same destination, no journey." Just a pile.
 
-The fix was one variable: gate the effect on `hasCards = cardCount > 0` only, and let `mountCards` decide what to do about `prefersReducedMotion` internally, where the reduced-motion branch had been sitting the entire time, fully written, correctly written, and never once executed. I didn't catch it by testing the component. I caught it because I was about to hold it up as the good example in a post about not trusting components that merely *look* like they handle this correctly.
+The fix was one variable: gate the effect on `hasCards = cardCount > 0` only, and let `mountCards` decide what to do about `prefersReducedMotion` internally, where the reduced-motion branch had been sitting the entire time, fully written, correctly written, and never once executed. I didn't catch it by testing the component. I caught it because I was about to hold it up as the good example in a post about not trusting components that merely _look_ like they handle this correctly.
 
 ---
 
@@ -140,7 +140,7 @@ const MAX_LAYERS = 16;
 const REDUCED_MOTION_LAYERS = 1;
 ```
 
-Some background for why this even needs 16 layers: `backdrop-filter: blur()` in CSS applies one uniform blur strength, but a gradient blur — sharp at the top, heavily blurred at the bottom, like a fade — needs multiple overlapping layers with different blur amounts to fake that gradient, since there's no native CSS property for a *graduated* blur. Sixteen looks smooth. One paints a lot faster and reduced-motion users don't need the extra smoothness in the first place.
+Some background for why this even needs 16 layers: `backdrop-filter: blur()` in CSS applies one uniform blur strength, but a gradient blur — sharp at the top, heavily blurred at the bottom, like a fade — needs multiple overlapping layers with different blur amounts to fake that gradient, since there's no native CSS property for a _graduated_ blur. Sixteen looks smooth. One paints a lot faster and reduced-motion users don't need the extra smoothness in the first place.
 
 `InfiniteScrollingImages` — a carousel of images that loops endlessly and drifts on its own — does the same to its visible-card count, and kills autoplay and keyboard momentum scrolling outright, not just makes them instant. Turns out "this person doesn't want a lot of movement" correlates with "this person also doesn't need 16 blur layers fighting for main-thread time" — reduced motion as a stand-in for reduced visual complexity generally, not only reduced animation.
 
@@ -196,7 +196,7 @@ Both are genuinely fine, and the components in this library that only ever touch
 
 ## The gotcha I haven't hit yet, but will
 
-Everything above collapses `duration` to `0`, which is correct for `gsap.set` — that's not an animation, it's an instant property write. But `duration: 0` on a *tweened* transition that something else listens for the completion of — a `transitionend` handler, an `onComplete` gating a state change — and some browsers just silently drop that event for a truly zero-length transition. Usual fix is `0.01ms` instead of `0`: long enough the event still fires, short enough nobody perceives it as motion. None of the 24 currently chain logic off a reduced-motion transition's completion, so it hasn't bitten anyone yet. First thing I'd check the day a `prefersReducedMotion` branch grows an `onComplete`.
+Everything above collapses `duration` to `0`, which is correct for `gsap.set` — that's not an animation, it's an instant property write. But `duration: 0` on a _tweened_ transition that something else listens for the completion of — a `transitionend` handler, an `onComplete` gating a state change — and some browsers just silently drop that event for a truly zero-length transition. Usual fix is `0.01ms` instead of `0`: long enough the event still fires, short enough nobody perceives it as motion. None of the 24 currently chain logic off a reduced-motion transition's completion, so it hasn't bitten anyone yet. First thing I'd check the day a `prefersReducedMotion` branch grows an `onComplete`.
 
 ---
 
@@ -208,7 +208,7 @@ Coverage isn't audited, it's grepped. "24 of 24 primitives touch it" is a fact I
 
 And honestly, the five strategies aren't formalized anywhere. Which one a new primitive gets is a judgment call right now, made per-component, and that's fine at 24 and won't stay fine at 100. Probably needs a one-question decision tree — is the motion sequence the content, or is it decorating a result that exists either way — just so the call is faster to make and easier to review later.
 
-The `StickyScrollCards` bug specifically suggests something more mechanical than an audit, too. A snapshot test that renders each primitive twice — `prefers-reduced-motion: no-preference` and `reduce` — and fails if the reduced render is pixel-identical to some *other* broken invariant (all cards stacked at the same coordinates is a pretty detectable shape) would've caught this in CI the first time it shipped, instead of by accident, later, while writing a blog post about not trusting components that only look correct.
+The `StickyScrollCards` bug specifically suggests something more mechanical than an audit, too. A snapshot test that renders each primitive twice — `prefers-reduced-motion: no-preference` and `reduce` — and fails if the reduced render is pixel-identical to some _other_ broken invariant (all cards stacked at the same coordinates is a pretty detectable shape) would've caught this in CI the first time it shipped, instead of by accident, later, while writing a blog post about not trusting components that only look correct.
 
 ---
 

@@ -104,9 +104,8 @@ Sora UI's documentation site keeps **sign-in sessions and bookmarks** in a Postg
     </svg>
   </a>
 
-  Sora UI's production database runs on [Neon](https://neon.tech) — serverless
-  Postgres with branching, autoscaling, and scale-to-zero. Neon sponsors
-  Sora UI's infrastructure.
+Sora UI's production database runs on [Neon](https://neon.tech) — serverless Postgres with branching, autoscaling, and scale-to-zero. Neon sponsors Sora UI's infrastructure.
+
 </Callout>
 
 **Neon is the provider we recommend for self-hosting Sora UI.** It fits the way this app talks to Postgres:
@@ -132,20 +131,15 @@ DATABASE_URL="postgresql://USER:PASSWORD@ep-xxx-pooler.us-east-2.aws.neon.tech/n
 DATABASE_URL_DIRECT="postgresql://USER:PASSWORD@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require"
 ```
 
-Copy both URLs from the Neon console with the **Connect** button. Enable
-**Connection pooling** for `DATABASE_URL`, then disable it for
-`DATABASE_URL_DIRECT`.
+Copy both URLs from the Neon console with the **Connect** button. Enable **Connection pooling** for `DATABASE_URL`, then disable it for `DATABASE_URL_DIRECT`.
 
-The Neon CLI can pull the pooled and direct URLs as `DATABASE_URL` and
-`DATABASE_URL_UNPOOLED`:
+The Neon CLI can pull the pooled and direct URLs as `DATABASE_URL` and `DATABASE_URL_UNPOOLED`:
 
 ```bash
 neon env pull
 ```
 
-This project uses `DATABASE_URL_DIRECT` instead of Neon's
-`DATABASE_URL_UNPOOLED` name, so copy the unpooled value into
-`DATABASE_URL_DIRECT` in `apps/www/.env`.
+This project uses `DATABASE_URL_DIRECT` instead of Neon's `DATABASE_URL_UNPOOLED` name, so copy the unpooled value into `DATABASE_URL_DIRECT` in `apps/www/.env`.
 
 ### Environment variables
 

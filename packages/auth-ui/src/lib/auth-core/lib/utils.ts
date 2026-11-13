@@ -57,7 +57,7 @@ export function resizeAvatar(
     const img = new Image();
     const url = URL.createObjectURL(file);
 
-    img.onload = () => {
+    img.addEventListener("load", () => {
       URL.revokeObjectURL(url);
 
       const { naturalWidth: w, naturalHeight: h } = img;
@@ -99,12 +99,12 @@ export function resizeAvatar(
         mimeType,
         1
       );
-    };
+    });
 
-    img.onerror = () => {
+    img.addEventListener("error", () => {
       URL.revokeObjectURL(url);
       reject(new Error("Failed to load image"));
-    };
+    });
 
     img.src = url;
   });
@@ -119,8 +119,10 @@ export function resizeAvatar(
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = () => reject(new Error("Failed to read file"));
+    reader.addEventListener("load", () => resolve(reader.result as string));
+    reader.addEventListener("error", () =>
+      reject(new Error("Failed to read file"))
+    );
     reader.readAsDataURL(file);
   });
 }

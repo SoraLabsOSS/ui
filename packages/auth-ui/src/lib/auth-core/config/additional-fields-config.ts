@@ -27,7 +27,7 @@ export type AdditionalFieldInputType =
  *   interface AdditionalFieldRegister { label: ReactNode }
  * }
  */
-// biome-ignore lint/suspicious/noEmptyInterface: augmentation target
+// oxlint-disable-next-line typescript/no-empty-interface, @typescript-eslint/no-empty-object-type -- augmentation target
 export interface AdditionalFieldRegister {}
 
 /** Resolved label type. Defaults to `string`. */
@@ -147,7 +147,7 @@ export function parseAdditionalFieldValue(
     return raw === "on" || raw === "true";
   }
 
-  if (raw == null) {
+  if (raw === null || raw === undefined) {
     return;
   }
   if (raw === "") {
@@ -176,13 +176,17 @@ export function resolveInputType(
   }
 
   switch (field.type) {
-    case "number":
+    case "number": {
       return "number";
-    case "boolean":
+    }
+    case "boolean": {
       return "switch";
-    case "date":
+    }
+    case "date": {
       return "date";
-    default:
+    }
+    default: {
       return "input";
+    }
   }
 }

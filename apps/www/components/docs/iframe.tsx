@@ -13,7 +13,7 @@ export default function Iframe({
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const origin = window.location.origin;
+    const { origin } = window.location;
     setIframeUrl(`${origin}/examples/${name}`);
   }, [name]);
 
@@ -24,6 +24,7 @@ export default function Iframe({
   return (
     <iframe
       className={cn("h-[500px] rounded-md", bigScreen && "w-[1600px]")}
+      sandbox="allow-scripts allow-forms allow-popups"
       src={iframeUrl}
       title={name}
     />

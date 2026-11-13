@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
 import { useCatalogMobileChrome } from "./catalog-mobile-chrome-context";
 import {
   catalogPreviewMobilePanelClassName,
@@ -310,7 +311,7 @@ export function ComponentPagePreviewPanel({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col border border-border/50 bg-secondary",
+        "border-border/50 bg-secondary relative flex w-full flex-col border",
         "rounded-2xl max-lg:rounded-3xl",
         "max-lg:flex-none max-lg:overflow-hidden lg:min-h-0 lg:flex-1 lg:overflow-hidden",
         catalogPreviewMobilePanelClassName,
@@ -322,12 +323,12 @@ export function ComponentPagePreviewPanel({
         {previewToolbar}
       </div>
 
-      <div className="relative isolate w-full flex-1 transform-gpu overflow-hidden bg-background max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
+      <div className="bg-background relative isolate w-full flex-1 transform-gpu overflow-hidden max-lg:h-full max-lg:rounded-3xl lg:h-full lg:min-h-[520px] lg:rounded-b-2xl">
         {!iframeLoaded && <CatalogPreviewLoadingOverlay />}
-        {/* biome-ignore lint/a11y/noNoninteractiveElementInteractions: Native iframe onLoad state tracking. */}
+        {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Native iframe onLoad state tracking. */}
         <iframe
           className={cn(
-            "size-full border-0 bg-background max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl",
+            "bg-background size-full border-0 max-lg:rounded-3xl lg:rounded-none lg:rounded-b-2xl",
             isStacked && !isExpanded && !isInteracting
               ? "pointer-events-none"
               : "pointer-events-auto"
@@ -338,6 +339,7 @@ export function ComponentPagePreviewPanel({
             syncIframeTheme(resolvedTheme);
           }}
           ref={iframeRef}
+          sandbox="allow-scripts allow-forms allow-popups"
           src={exampleUrl}
           title={`${registryName} preview`}
         />
@@ -368,10 +370,10 @@ export function ComponentPagePreviewPanel({
                     }
                     className={cn(
                       "flex items-center gap-1.5 rounded-full px-3.5 py-1.5",
-                      "border font-medium text-xs transition-colors duration-200 active:scale-95",
+                      "border text-xs font-medium transition-colors duration-200 active:scale-95",
                       "shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl",
                       isInteracting
-                        ? "border-foreground/20 bg-foreground text-background shadow-md hover:bg-foreground/90 dark:border-white/20"
+                        ? "border-foreground/20 bg-foreground text-background hover:bg-foreground/90 shadow-md dark:border-white/20"
                         : "border-border/60 bg-background/90 text-foreground/90 hover:bg-background hover:text-foreground dark:border-white/10 dark:bg-[#121212]/90"
                     )}
                     layout
@@ -409,8 +411,8 @@ export function ComponentPagePreviewPanel({
                     aria-label="Scroll to documentation"
                     className={cn(
                       "flex items-center gap-1.5 rounded-full px-3.5 py-1.5",
-                      "border border-border/60 bg-background/90 text-foreground/90 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl",
-                      "font-medium text-xs transition-colors duration-200 active:scale-95",
+                      "border-border/60 bg-background/90 text-foreground/90 border shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl",
+                      "text-xs font-medium transition-colors duration-200 active:scale-95",
                       "hover:bg-background hover:text-foreground dark:border-white/10 dark:bg-[#121212]/90"
                     )}
                     layout
@@ -430,7 +432,7 @@ export function ComponentPagePreviewPanel({
                       layout="position"
                       transition={mobileDockTransition}
                     >
-                      <ChevronDown className="size-3.5 text-muted-foreground" />
+                      <ChevronDown className="text-muted-foreground size-3.5" />
                     </motion.span>
                   </motion.button>
                 </motion.div>

@@ -1,12 +1,12 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
+
 import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
 
 // Monorepo: apps/www/.env is the primary env file for local dev.
-const configDirectory = dirname(fileURLToPath(import.meta.url));
-config({ path: resolve(configDirectory, "../../apps/www/.env") });
-config({ path: resolve(configDirectory, ".env") });
+const configDirectory = import.meta.dirname;
+config({ path: path.resolve(configDirectory, "../../apps/www/.env") });
+config({ path: path.resolve(configDirectory, ".env") });
 
 const migrationUrl =
   process.env.DATABASE_URL_DIRECT ?? process.env.DATABASE_URL;

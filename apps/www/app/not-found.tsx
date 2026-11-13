@@ -1,6 +1,7 @@
 import { Button } from "@workspace/ui/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+
 import {
   Highlight,
   HighlightItem,
@@ -22,16 +23,16 @@ const SUGGESTIONS: readonly Suggestion[] = [
 
 export default function NotFound() {
   return (
-    <section className="flex min-h-screen items-center justify-center bg-background py-20">
+    <section className="bg-background flex min-h-screen items-center justify-center py-20">
       <div className="mx-auto w-full max-w-2xl px-6 md:px-10">
         <div className="flex flex-col items-start gap-6">
           {/* <span className="inline-flex flex-col items-center font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
             <Bunny size={28} sleeping />
           </span> */}
-          <h1 className="font-medium text-6xl leading-none tracking-tight sm:text-7xl">
+          <h1 className="text-6xl leading-none font-medium tracking-tight sm:text-7xl">
             Page not found.
           </h1>
-          <p className="max-w-md text-base text-muted-foreground sm:text-lg">
+          <p className="text-muted-foreground max-w-md text-base sm:text-lg">
             The route you tried doesn&apos;t resolve to anything we ship. It may
             have moved, or it may have never existed.
           </p>
@@ -44,27 +45,27 @@ export default function NotFound() {
             </Button>
           </div>
 
-          <div className="mt-6 w-full border-border border-t pt-6">
-            <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.12em]">
+          <div className="border-border mt-6 w-full border-t pt-6">
+            <span className="text-muted-foreground font-mono text-[10px] tracking-[0.12em] uppercase">
               Try one of these
             </span>
-            <Highlight className="rounded-md bg-foreground/8" trigger="hover">
-              <div className="mt-3 flex flex-col divide-y divide-border">
+            <Highlight className="bg-foreground/8 rounded-md" trigger="hover">
+              <div className="divide-border mt-3 flex flex-col divide-y">
                 {SUGGESTIONS.map((s) => (
                   <HighlightItem key={s.route} value={s.route}>
                     <Link
-                      className="group flex items-center justify-between gap-4 p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="group focus-visible:ring-ring flex items-center justify-between gap-4 p-3 transition-colors focus-visible:ring-2 focus-visible:outline-none"
                       href={s.route}
                     >
                       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-                        <span className="font-mono text-foreground text-sm">
+                        <span className="text-foreground font-mono text-sm">
                           {s.route}
                         </span>
                         <span className="text-muted-foreground text-sm">
                           {s.description}
                         </span>
                       </div>
-                      <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-all duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" />
+                      <ArrowRight className="text-muted-foreground size-4 opacity-0 transition-all duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" />
                     </Link>
                   </HighlightItem>
                 ))}

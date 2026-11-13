@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+
 import { PRICING_FAQ_ITEMS } from "./pricing-config";
 
 function FaqAnswer({ content, title }: { content: string; title: string }) {
@@ -51,11 +52,11 @@ export function PricingFaq() {
             const isOpen = openAccordion === index;
             return (
               <div
-                className="group w-full border-neutral-400 border-t last:border-b"
+                className="group w-full border-t border-neutral-400 last:border-b"
                 data-accordion-status={isOpen ? "active" : "not-active"}
                 key={item.title}
               >
-                {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Accordion Toggle */}
+                {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions -- Accordion Toggle */}
                 <div
                   className="flex min-h-[3.5rem] cursor-pointer items-center justify-between py-[var(--gap-m)]"
                   data-accordion-toggle=""

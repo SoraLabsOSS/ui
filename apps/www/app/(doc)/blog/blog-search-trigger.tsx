@@ -9,13 +9,13 @@ export function BlogSearchTrigger() {
     <div className="flex w-full max-w-xs items-center">
       <button
         aria-label="Search blog posts"
-        className="group flex h-9 flex-1 cursor-pointer items-center gap-2 rounded-full border border-border/80 bg-background/80 px-3 text-muted-foreground text-sm transition-colors duration-150 hover:border-foreground/30 hover:text-foreground"
+        className="group border-border/80 bg-background/80 text-muted-foreground hover:border-foreground/30 hover:text-foreground flex h-9 flex-1 cursor-pointer items-center gap-2 rounded-full border px-3 text-sm transition-colors duration-150"
         onClick={openSearch}
         type="button"
       >
         <svg
           aria-hidden="true"
-          className="shrink-0 text-muted-foreground transition-colors duration-150 group-hover:text-foreground"
+          className="text-muted-foreground group-hover:text-foreground shrink-0 transition-colors duration-150"
           height="16"
           style={{ color: "currentColor" }}
           viewBox="0 0 16 16"
@@ -28,10 +28,10 @@ export function BlogSearchTrigger() {
             fillRule="evenodd"
           />
         </svg>
-        <span className="flex-1 truncate text-left transition-colors duration-150 group-hover:text-foreground">
+        <span className="group-hover:text-foreground flex-1 truncate text-left transition-colors duration-150">
           Search blog posts...
         </span>
-        <kbd className="ml-0.5 inline-flex h-5 min-h-5 min-w-5 items-center justify-center rounded-sm bg-accent px-1 font-sans text-foreground text-xs leading-[1.7em] shadow-[0_0_0_1px_var(--border)] max-sm:hidden">
+        <kbd className="bg-accent text-foreground ml-0.5 inline-flex h-5 min-h-5 min-w-5 items-center justify-center rounded-sm px-1 font-sans text-xs leading-[1.7em] shadow-[0_0_0_1px_var(--border)] max-sm:hidden">
           <span>⌘ K</span>
         </kbd>
       </button>

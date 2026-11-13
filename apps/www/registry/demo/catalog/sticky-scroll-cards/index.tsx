@@ -8,6 +8,7 @@ import {
   LockOpen,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
 import { CatalogScrollHint } from "@/components/catalog/catalog-scroll-hint";
 import { resolveScrollRoot } from "@/lib/resolve-scroll-root";
 import { waitForScrollerReady } from "@/lib/scroller-ready";

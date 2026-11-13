@@ -1,13 +1,11 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import React, {
-  type ComponentPropsWithoutRef,
-  type CSSProperties,
-  type ElementType,
-  useCallback,
-  useEffect,
-  useRef,
+import React, { useCallback, useEffect, useRef } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  CSSProperties,
+  ElementType,
 } from "react";
 
 import {
@@ -17,8 +15,8 @@ import {
   HTML_LT_REGEX,
   HTML_QUOT_REGEX,
   NEWLINE_GLOBAL_REGEX,
-  type TextMorphOptions,
 } from "./defs";
+import type { TextMorphOptions } from "./defs";
 import { MorphController } from "./runtime";
 
 // --- React Helpers & Hook ----------------------------------------------------
@@ -69,7 +67,7 @@ export function useTextMorph(props: TextMorphOptions) {
   const handlers = useRef(props);
   handlers.current = props;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-attach only when serialized configKey changes; props identity changes every render
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-attach only when serialized configKey changes; props identity changes every render
   useEffect(() => {
     const controller = controllerRef.current;
     if (ref.current) {

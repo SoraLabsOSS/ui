@@ -1,16 +1,17 @@
 "use client";
 
-import {
-  Button,
-  type ButtonProps,
-  type buttonVariants,
+import { Button } from "@workspace/ui/components/ui/button";
+import type {
+  ButtonProps,
+  buttonVariants,
 } from "@workspace/ui/components/ui/button";
 import { cn } from "@workspace/ui/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 import { RotateCcw } from "lucide-react";
 
 export interface RefreshButtonProps
-  extends Omit<ButtonProps, "children" | "onClick">,
+  extends
+    Omit<ButtonProps, "children" | "onClick">,
     VariantProps<typeof buttonVariants> {
   /** Icon size in px. @default 14 */
   iconSize?: number;
@@ -38,7 +39,7 @@ export function RefreshButton({
     <Button
       aria-label={ariaLabel}
       className={cn(
-        "rounded-lg bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10",
+        "hover:bg-foreground/5 dark:hover:bg-foreground/10 rounded-lg bg-transparent",
         className
       )}
       disabled={disabled}

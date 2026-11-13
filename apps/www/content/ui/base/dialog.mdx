@@ -24,7 +24,10 @@ compositionRecipes:
       - Keep the destructive action visually and semantically explicit.
 ---
 
-<ComponentPreview name="demo-dialog" description="Default animated dialog with 3D perspective transition and backdrop blur." />
+<ComponentPreview
+  name="demo-dialog"
+  description="Default animated dialog with 3D perspective transition and backdrop blur."
+/>
 
 ## Installation
 
@@ -52,7 +55,8 @@ export default function Page() {
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account.
+            This action cannot be undone. This will permanently delete your
+            account.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter showCloseButton>
@@ -68,11 +72,17 @@ export default function Page() {
 
 ### Scrollable Body
 
-<ComponentPreview name="demo-dialog-scrollable" description="Dialog with scrollable content area." />
+<ComponentPreview
+  name="demo-dialog-scrollable"
+  description="Dialog with scrollable content area."
+/>
 
 ### Share Modal
 
-<ComponentPreview name="demo-dialog-share" description="Interactive dialog with link copying and social sharing buttons." />
+<ComponentPreview
+  name="demo-dialog-share"
+  description="Interactive dialog with link copying and social sharing buttons."
+/>
 
 ## Props
 
@@ -101,7 +111,8 @@ export default function Page() {
 <TypeTable
   type={{
     showCloseButton: {
-      description: "Whether to render the standard top-right close icon button.",
+      description:
+        "Whether to render the standard top-right close icon button.",
       type: "boolean",
       default: "true",
     },

@@ -34,8 +34,8 @@ const SLUGIFY_TRIM_DASHES = /^-+|-+$/g;
 function slugify(name: string): string {
   return name
     .toLowerCase()
-    .replace(SLUGIFY_NON_ALPHANUM, "-")
-    .replace(SLUGIFY_TRIM_DASHES, "");
+    .replaceAll(SLUGIFY_NON_ALPHANUM, "-")
+    .replaceAll(SLUGIFY_TRIM_DASHES, "");
 }
 
 /**

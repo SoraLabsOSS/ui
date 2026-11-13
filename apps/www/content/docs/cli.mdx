@@ -3,13 +3,16 @@ title: Sora CLI
 description: Full command reference for the sora-cli tool — init, add, list, diff, doctor, and mcp.
 ---
 
-import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { CodeTabs } from '@/components/docs/code-tabs';
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { CodeTabs } from "@/components/docs/code-tabs";
 
 **[sora-cli](https://www.npmjs.com/package/@soralabs/cli)** is a standalone CLI for installing components from any [shadcn](https://ui.shadcn.com)-compatible registry into your project. It defaults to the Sora UI registry, so it skips the extra step of registering the `@soralabs` scope that the [shadcn CLI](/docs/installation) needs — but it also works against any other registry via `--registry <url>`.
 
 <Callout>
-  Looking for dedicated documentation? Visit **[cli.soralabs.studio](https://cli.soralabs.studio)** for the standalone documentation site with in-depth guides, architecture, registry authoring, and complete command references.
+  Looking for dedicated documentation? Visit
+  **[cli.soralabs.studio](https://cli.soralabs.studio)** for the standalone
+  documentation site with in-depth guides, architecture, registry authoring, and
+  complete command references.
 </Callout>
 
 ## Commands
@@ -63,6 +66,7 @@ npx @soralabs/cli init --yes
 Resolves the dependency tree for the requested component(s), writes files into your project, and installs npm dependencies with your detected package manager (bun/pnpm/yarn/npm).
 
 `add` supports universal component specifiers:
+
 - **Bare names**: searches the Sora UI registry first, then automatically falls back to shadcn/ui base components (`button`, `dialog`, `input`, etc.) if not found.
 - **Direct URLs**: points straight to any remote registry JSON file.
 - **Local files**: installs from a local schema JSON file (e.g. `./registry/card.json`).
@@ -98,7 +102,10 @@ npx @soralabs/cli add text-effect --view              # print file contents inst
 ```
 
 <Callout type="warn">
-  `--yes` matters most when an agent or script runs the CLI non-interactively: without it, `add` prints a confirmation prompt and — since there's no TTY — silently exits successfully without installing anything. Pair with `--force` to also skip per-file overwrite prompts.
+  `--yes` matters most when an agent or script runs the CLI non-interactively:
+  without it, `add` prints a confirmation prompt and — since there's no TTY —
+  silently exits successfully without installing anything. Pair with `--force`
+  to also skip per-file overwrite prompts.
 </Callout>
 
 ### `list`
@@ -142,7 +149,11 @@ npx @soralabs/cli mcp
 ```
 
 <Callout>
-  **Authoring a custom registry?** If you are building your own component registry, `sora-cli` also includes `build` (compiles source components to shadcn-compliant schema JSON) and `validate` (verifies imports and schema integrity). For in-depth guides, see the [Sora CLI Docs](https://cli.soralabs.studio/commands/build).
+  **Authoring a custom registry?** If you are building your own component
+  registry, `sora-cli` also includes `build` (compiles source components to
+  shadcn-compliant schema JSON) and `validate` (verifies imports and schema
+  integrity). For in-depth guides, see the [Sora CLI
+  Docs](https://cli.soralabs.studio/commands/build).
 </Callout>
 
 ## Options reference

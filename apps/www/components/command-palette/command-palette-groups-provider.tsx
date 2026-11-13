@@ -1,6 +1,8 @@
 "use client";
 
-import { createContext, type ReactNode, useContext } from "react";
+import { createContext, useContext } from "react";
+import type { ReactNode } from "react";
+
 import type { CommandPaletteGroup } from "@/lib/command-palette/types";
 
 const CommandPaletteGroupsContext = createContext<CommandPaletteGroup[]>([]);

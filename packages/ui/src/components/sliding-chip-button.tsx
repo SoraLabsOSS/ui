@@ -1,26 +1,20 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import {
-  motion,
-  type Transition,
-  useReducedMotion,
-  type Variants,
-} from "motion/react";
-import {
-  type ComponentPropsWithoutRef,
-  cloneElement,
-  type FocusEvent,
-  isValidElement,
-  type MouseEvent,
-  type ReactElement,
-  type ReactNode,
-  type Ref,
-  type RefCallback,
-  type RefObject,
-  useEffect,
-  useState,
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { motion, useReducedMotion } from "motion/react";
+import type { Transition, Variants } from "motion/react";
+import { cloneElement, isValidElement, useEffect, useState } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  FocusEvent,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+  Ref,
+  RefCallback,
+  RefObject,
 } from "react";
 
 const DEFAULT_EASE = [0.77, 0, 0.175, 1] as const;
@@ -33,7 +27,7 @@ const LABEL_OFFSET_BY_SIZE = {
 } as const;
 
 const slidingChipButtonVariants = cva(
-  "inline-flex min-w-0 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap font-mono uppercase outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+  "inline-flex min-w-0 shrink-0 cursor-pointer items-center justify-center font-mono whitespace-nowrap uppercase outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
@@ -62,7 +56,7 @@ const slidingChipButtonChipVariants = cva(
       variant: {
         accent: "bg-[rgba(251,70,13)] text-neutral-950",
         inverted: "bg-foreground text-background",
-        outline: "border border-foreground bg-transparent text-foreground",
+        outline: "border-foreground text-foreground border bg-transparent",
         ghost: "bg-muted text-foreground",
       },
       size: {
@@ -85,7 +79,7 @@ const slidingChipButtonLabelVariants = cva(
       variant: {
         accent: "bg-[rgba(251,70,13)] text-neutral-950",
         inverted: "bg-foreground text-background",
-        outline: "border border-foreground bg-transparent text-foreground",
+        outline: "border-foreground text-foreground border bg-transparent",
         ghost: "bg-muted text-foreground",
       },
       size: {

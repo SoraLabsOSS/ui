@@ -1,12 +1,12 @@
 "use client";
 
-import { Typer, type TyperVariation } from "@workspace/ui/components/ui/typer";
+import { Typer } from "@workspace/ui/components/ui/typer";
+import type { TyperVariation } from "@workspace/ui/components/ui/typer";
 import { cn } from "@workspace/ui/lib/utils";
 import { useReducedMotion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -15,6 +15,8 @@ import {
   useState,
   useTransition,
 } from "react";
+import type { ReactNode } from "react";
+
 import { PageTransitionShader } from "./page-transition-shader";
 
 export const DOCS_TRANSITION_PHRASES = [
@@ -57,7 +59,7 @@ const PageTransitionContext = createContext<PageTransitionContextValue | null>(
 const defaultContext: PageTransitionContextValue = {
   isTransitioning: false,
   transitionMode: null,
-  transitionTo: async () => Promise.resolve(),
+  transitionTo: async () => {},
 };
 
 export function usePageTransition() {
@@ -195,9 +197,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
       return;
     }
     const shader = new PageTransitionShader(canvasRef.current, {
-      color: [0.0, 0.0, 0.0],
-      ditherSize: 3.0,
-      edgeSmoothness: 1.0,
+      color: [0, 0, 0],
+      ditherSize: 3,
+      edgeSmoothness: 1,
       noiseFrequency: 0.5,
       noiseStrength: 0.8,
     });
@@ -253,7 +255,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         await shader.show(1.1, "power2.out");
 
         // Allow Typer to settle fully into hold state before initiating route render
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => {
+          setTimeout(resolve, 200);
+        });
 
         const routePromise = waitForRouteChange(href, 30_000);
 
@@ -262,9 +266,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         });
 
         // Wait for both minimum reading hold and actual route mount
-        const minHoldPromise = new Promise((resolve) =>
-          setTimeout(resolve, 500)
-        );
+        const minHoldPromise = new Promise((resolve) => {
+          setTimeout(resolve, 500);
+        });
         await Promise.all([minHoldPromise, routePromise]);
 
         // Double rAF ensures browser paints the new page under the overlay
@@ -279,7 +283,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         setTyperTrigger("out");
         await Promise.all([
           shader.hide(1.7, "power2.inOut"),
-          new Promise((resolve) => setTimeout(resolve, 1500)),
+          new Promise((resolve) => {
+            setTimeout(resolve, 1500);
+          }),
         ]);
         setShowTyper(false);
       } else {
@@ -291,9 +297,9 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           router.push(href);
         });
 
-        const minHoldPromise = new Promise((resolve) =>
-          setTimeout(resolve, 220)
-        );
+        const minHoldPromise = new Promise((resolve) => {
+          setTimeout(resolve, 220);
+        });
         await Promise.all([minHoldPromise, routePromise]);
 
         await new Promise<void>((resolve) => {
@@ -304,7 +310,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           });
         });
 
-        await shader.hide(1.0, "power2.inOut");
+        await shader.hide(1, "power2.inOut");
       }
 
       setIsTransitioning(false);
@@ -343,7 +349,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
           {transitionMode === "docs" && showTyper && (
             <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
               <div
-                className="flex select-none items-center justify-center font-bold font-mono text-base uppercase tracking-normal transition-typer-banner sm:text-xl md:text-2xl lg:text-3xl"
+                className="transition-typer-banner flex items-center justify-center font-mono text-base font-bold tracking-normal uppercase select-none sm:text-xl md:text-2xl lg:text-3xl"
                 style={DOCS_TYPER_STYLE}
               >
                 <Typer

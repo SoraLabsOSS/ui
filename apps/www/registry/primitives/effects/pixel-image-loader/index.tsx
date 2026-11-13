@@ -1,15 +1,11 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import {
-  type ComponentPropsWithoutRef,
-  type Ref,
-  type RefCallback,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { useCallback, useEffect, useRef } from "react";
+import type { ComponentPropsWithoutRef, Ref, RefCallback } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 const pixelImageLoaderVariants = cva(
@@ -117,7 +113,8 @@ function mergeRefs<T>(...refs: (Ref<T> | undefined)[]): RefCallback<T> {
 }
 
 export interface PixelImageLoaderProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children">,
+  extends
+    Omit<ComponentPropsWithoutRef<"div">, "children">,
     VariantProps<typeof pixelImageLoaderVariants> {
   /** Accessible label for the image. */
   alt: string;
@@ -280,11 +277,11 @@ function PixelImageLoader({
 
     const orderedSteps = steps.at(-1) === 100 ? steps : [...steps, 100];
 
-    orderedSteps.forEach((percent, index) => {
+    for (const [index, percent] of orderedSteps.entries()) {
       const delay = initialDelay + index * stepDuration;
       const timeoutId = setTimeout(() => drawStep(percent), delay);
       timeoutIdsRef.current.push(timeoutId);
-    });
+    }
   }, [
     clearScheduledTimeouts,
     drawStep,
@@ -311,14 +308,15 @@ function PixelImageLoader({
 
     const image = new Image();
     imgRef.current = image;
-    image.onload = () => {
+    const onLoad = () => {
       isLoadedRef.current = true;
       maybeStart();
     };
+    image.addEventListener("load", onLoad);
     image.src = src;
 
     return () => {
-      image.onload = null;
+      image.removeEventListener("load", onLoad);
     };
   }, [src, clearScheduledTimeouts, maybeStart]);
 
@@ -331,17 +329,18 @@ function PixelImageLoader({
 
     const image = new Image();
     placeholderImgRef.current = image;
-    image.onload = () => {
+    const onPlaceholderLoad = () => {
       if (hasStartedRef.current) {
         return;
       }
       activeImgRef.current = image;
       drawStep(steps[0] ?? 100);
     };
+    image.addEventListener("load", onPlaceholderLoad);
     image.src = placeholderSrc;
 
     return () => {
-      image.onload = null;
+      image.removeEventListener("load", onPlaceholderLoad);
     };
   }, [placeholder, autoPlaceholder, src, steps, drawStep]);
 

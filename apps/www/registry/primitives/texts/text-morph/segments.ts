@@ -1,18 +1,14 @@
-import {
-  type NumberSegment,
-  type Segment,
-  type SegmentKind,
-  WORD_SPLIT_REGEX,
-} from "./defs";
+import { WORD_SPLIT_REGEX } from "./defs";
+import type { NumberSegment, Segment, SegmentKind } from "./defs";
 
 // --- LCS (Longest Common Subsequence) ----------------------------------------
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: LCS dynamic programming algorithm
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- LCS dynamic programming algorithm
 export function lcsIndices(a: string[], b: string[]): [number[], number[]] {
   const m = a.length;
   const n = b.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () =>
-    new Array(n + 1).fill(0)
+    Array.from({ length: n + 1 }, () => 0)
   );
 
   for (let i = m - 1; i >= 0; i--) {
@@ -173,7 +169,7 @@ function groupingIndices(chars: string[], decimalChar: string): number[] {
   return indices;
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: cursor caret matching
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- cursor caret matching
 function cursorMatch(
   oldChars: string[],
   newChars: string[],
@@ -344,7 +340,7 @@ function placeMatch(
     }
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: digit matching with LCS
+  // oxlint-disable-next-line sonarjs/cognitive-complexity -- digit matching with LCS
   function matchDigits(
     oldFrom: number,
     oldTo: number,
@@ -371,8 +367,8 @@ function placeMatch(
       return false;
     }
 
-    const oldRun = oldIndices.map((i) => oldChars[i] ?? "").reverse();
-    const newRun = newIndices.map((i) => newChars[i] ?? "").reverse();
+    const oldRun = oldIndices.map((i) => oldChars[i] ?? "").toReversed();
+    const newRun = newIndices.map((i) => newChars[i] ?? "").toReversed();
     const [ai, bi] = lcsIndices(oldRun, newRun);
 
     for (let k = 0; k < ai.length; k++) {
@@ -417,7 +413,7 @@ function simpleSegment(chars: string[]): NumberSegment[] {
   }));
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: number segmentation logic
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- number segmentation logic
 export function segmentNumber(
   value: string,
   prevSegments?: NumberSegment[],
@@ -435,7 +431,7 @@ export function segmentNumber(
   );
 
   const matches =
-    cursorIndex == null
+    cursorIndex === undefined
       ? placeMatch(oldChars, chars, decimalChar)
       : cursorMatch(oldChars, chars, cursorIndex, decimalChar);
 
@@ -580,7 +576,7 @@ function segmentsFromIntl(
 ): Segment[] {
   const segments: Segment[] = [];
 
-  for (const data of Array.from(iterator)) {
+  for (const data of iterator) {
     const index = offset + data.index;
     if (data.segment === " ") {
       segments.push({ id: alloc.take(`space-${index}`), string: "\u00A0" });
@@ -605,14 +601,14 @@ function segmentsFallback(
   const segments: Segment[] = [];
   let index = offset;
 
-  parts.forEach((part, i) => {
+  for (const [i, part] of parts.entries()) {
     if (byWord && i > 0) {
       segments.push({ id: alloc.take(`space-${index}`), string: "\u00A0" });
       index += 1;
     }
     segments.push({ id: allocSegmentId(part, index, alloc), string: part });
     index += part.length;
-  });
+  }
 
   return segments;
 }
@@ -624,7 +620,7 @@ function segmentLine(
   offset: number,
   alloc: IdAllocator
 ): Segment[] {
-  if (typeof Intl.Segmenter !== "undefined") {
+  if (Intl.Segmenter !== undefined) {
     const segmenter = new Intl.Segmenter(locale, {
       granularity: byWord ? "word" : "grapheme",
     });
@@ -652,7 +648,7 @@ export function segmentText(
     const allSegments: Segment[] = [];
     let offset = 0;
 
-    lines.forEach((line, lineIndex) => {
+    for (const [lineIndex, line] of lines.entries()) {
       if (lineIndex > 0) {
         allSegments.push({
           id: alloc.take(`newline-${offset}`),
@@ -664,7 +660,7 @@ export function segmentText(
         allSegments.push(...segmentLine(line, locale, true, offset, alloc));
       }
       offset += line.length;
-    });
+    }
 
     return numbers ? expandNumbers(allSegments) : allSegments;
   }
@@ -755,7 +751,7 @@ export interface DiffOptions {
   numbers?: boolean;
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: text and number diffing engine
+// oxlint-disable-next-line sonarjs/cognitive-complexity -- text and number diffing engine
 export function diffSegments(
   oldSegments: Segment[],
   newText: string,

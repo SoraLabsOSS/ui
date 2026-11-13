@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { z } from "zod";
+
 import { isDatabaseConfigured } from "@/env";
 import { auth } from "@/lib/auth";
 import { normalizeBookmarkUrl } from "@/lib/bookmarks/url";
@@ -60,11 +61,11 @@ const BOOKMARK_PAGE_WINDOW = "30 s" as const;
 function hashUrl(url: string): string {
   let hash = 0x81_1c_9d_c5;
   for (let i = 0; i < url.length; i++) {
-    // biome-ignore lint/suspicious/noBitwiseOperators: FNV-1a intentionally uses 32-bit bitwise arithmetic.
-    hash ^= url.charCodeAt(i);
+    // oxlint-disable-next-line eslint/no-bitwise -- FNV-1a intentionally uses 32-bit bitwise arithmetic.
+    hash ^= url.codePointAt(i) ?? 0;
     hash = Math.imul(hash, 0x01_00_01_93);
   }
-  // biome-ignore lint/suspicious/noBitwiseOperators: Coerce the FNV-1a result to an unsigned 32-bit value.
+  // oxlint-disable-next-line eslint/no-bitwise -- Coerce the FNV-1a result to an unsigned 32-bit value.
   return (hash >>> 0).toString(16);
 }
 

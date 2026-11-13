@@ -4,13 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+
 import "@/app/(marketing)/home.css";
-import {
-  type TransitionMode,
-  usePageTransition,
-} from "@/components/page-transition/page-transition-provider";
+import { usePageTransition } from "@/components/page-transition/page-transition-provider";
+import type { TransitionMode } from "@/components/page-transition/page-transition-provider";
 import { useButton3DHover } from "@/hooks/use-button-3d-hover";
 import { NAV_EXPLORE, NAV_PRODUCTS, NAV_SOCIALS } from "@/lib/navigation";
+
 import { SocialIcon } from "./social-icons";
 import { UnderNavMarquee } from "./under-nav-marquee";
 
@@ -164,7 +164,7 @@ export function Navbar({
         }}
       >
         {/* Background backdrop for menu drawer */}
-        {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Backdrop click closes menu */}
+        {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions -- Backdrop click closes menu */}
         <div
           className="nav__bg"
           data-nav-toggle="close"
@@ -183,7 +183,7 @@ export function Navbar({
               <div className="nav-bar__top" data-nav-bar-height="">
                 {/* Menu Hamburger Button */}
                 <div className="nav-bar__menu">
-                  {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions lint/a11y/noNoninteractiveElementInteractions: Interactive menu toggle */}
+                  {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions -- Interactive menu toggle */}
                   <div
                     className="nav-menu"
                     data-nav-toggle="toggle"

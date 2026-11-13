@@ -1,16 +1,16 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: fixed-size particle pool, never reordered/resized. */
+/* oxlint-disable react/no-array-index-key, react-doctor/no-array-index-as-key -- fixed-size particle pool, never reordered/resized. */
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
 import { animate } from "motion";
-import {
-  type ReactNode,
-  type PointerEvent as ReactPointerEvent,
-  type Ref,
-  type RefCallback,
-  useEffect,
-  useRef,
+import { useEffect, useRef } from "react";
+import type {
+  ReactNode,
+  PointerEvent as ReactPointerEvent,
+  Ref,
+  RefCallback,
 } from "react";
+
 import { usePrefersReducedMotion } from "@/registry/hooks/use-prefers-reduced-motion";
 
 const DEFAULT_PARTICLE = (

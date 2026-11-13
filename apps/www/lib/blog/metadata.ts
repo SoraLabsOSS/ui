@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import type { BlogPage } from "@/lib/blog/source";
 import {
   BLOG_INDEX_OG_IMAGE_PATH,

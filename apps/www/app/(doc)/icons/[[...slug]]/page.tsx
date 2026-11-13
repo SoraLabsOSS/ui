@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+
 import { DocsAuthor } from "@/components/docs/docs-author";
 import { DocsHeaderToc } from "@/components/docs/docs-header-toc";
 import { DocsPageJsonLd } from "@/components/docs/docs-json-ld";
@@ -62,19 +63,13 @@ async function IconDocsPageBody({ slug }: { slug?: string[] }) {
   const tree = iconsSource.getPageTree();
   const { previous, next: nextPage } = findNeighbour(tree, page.url);
 
-  const prevNav: DocsPagerItem | undefined = (() => {
-    if (previous?.url?.startsWith("/icons")) {
-      return resolveNavItem(previous.url, String(previous.name ?? "Previous"));
-    }
-    return;
-  })();
+  const prevNav: DocsPagerItem | undefined = previous?.url?.startsWith("/icons")
+    ? resolveNavItem(previous.url, String(previous.name ?? "Previous"))
+    : undefined;
 
-  const nextNav: DocsPagerItem | undefined = (() => {
-    if (nextPage?.url?.startsWith("/icons")) {
-      return resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"));
-    }
-    return;
-  })();
+  const nextNav: DocsPagerItem | undefined = nextPage?.url?.startsWith("/icons")
+    ? resolveNavItem(nextPage.url, String(nextPage.name ?? "Next"))
+    : undefined;
 
   return (
     <DocsPage
@@ -175,7 +170,7 @@ export async function generateMetadata(props: {
   }
 
   const ogPath = ["icons", ...slug];
-  const title = page.data.title;
+  const { title } = page.data;
 
   return {
     title,

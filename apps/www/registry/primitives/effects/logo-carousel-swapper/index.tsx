@@ -1,17 +1,14 @@
-// biome-ignore-all lint/performance/noImgElement: Motion animates filter, opacity, and y on native img elements.
-// biome-ignore-all lint/correctness/useImageSize: Slot containers use fixed dimensions; logos are object-contain.
-// biome-ignore-all lint/suspicious/noArrayIndexKey: Column slots are fixed-position and never reorder.
+/* oxlint-disable next/no-img-element, react-doctor/nextjs-no-img-element */
+/* oxlint-disable next/no-img-element, react-doctor/nextjs-no-img-element -- Motion animates filter, opacity, and y on native img elements. */
+/* oxlint-disable react/no-array-index-key, react-doctor/no-array-index-as-key -- Column slots are fixed-position and never reorder. */
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import {
-  type ComponentPropsWithoutRef,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 const DEFAULT_INTERVAL_MS = 3000;
 const DEFAULT_STAGGER_S = 0.14;
@@ -139,7 +136,7 @@ const logoCarouselSwapperSlotVariants = cva(
 );
 
 const logoCarouselSwapperMotionLayerVariants = cva(
-  "absolute inset-0 grid place-items-center will-change-[transform,opacity,filter] [transform:translateZ(0)]"
+  "absolute inset-0 grid [transform:translateZ(0)] place-items-center will-change-[transform,opacity,filter]"
 );
 
 const logoCarouselSwapperImageVariants = cva(
@@ -175,7 +172,8 @@ export interface LogoCarouselSwapperItem {
 export type LogoCarouselSwapperRow = LogoCarouselSwapperItem[];
 
 export interface LogoCarouselSwapperProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children">,
+  extends
+    Omit<ComponentPropsWithoutRef<"div">, "children">,
     VariantProps<typeof logoCarouselSwapperVariants> {
   columns?: number;
   interval?: number;

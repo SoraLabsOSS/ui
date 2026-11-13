@@ -4,6 +4,7 @@ import {
   listBookmarks,
 } from "@workspace/db/bookmarks";
 import { NextResponse } from "next/server";
+
 import {
   bookmarkRateLimitResponse,
   bookmarkUrlSchema,
@@ -117,7 +118,8 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const alreadyExists = (await listBookmarks(session.user.id)).some(
+  const existingBookmarks = await listBookmarks(session.user.id);
+  const alreadyExists = existingBookmarks.some(
     (bookmark) => getCanonicalBookmarkUrl(bookmark.url) === url
   );
   if (alreadyExists) {

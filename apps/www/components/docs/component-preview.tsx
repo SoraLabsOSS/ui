@@ -11,7 +11,6 @@ import {
   useReducedMotion,
 } from "motion/react";
 import {
-  type ReactNode,
   Suspense,
   useCallback,
   useEffect,
@@ -19,12 +18,15 @@ import {
   useRef,
   useState,
 } from "react";
+import type { ReactNode } from "react";
+
 import { index, loadComponentHtml, loadComponentSource } from "@/__registry__";
 import { CodeBlock, Pre } from "@/components/docs/codeblock";
 import { ComponentWrapper } from "@/components/docs/component-wrapper";
 import { DynamicCodeBlock } from "@/components/docs/dynamic-codeblock";
 import { RefreshButton } from "@/components/docs/refresh";
-import { type Binds, Tweakpane } from "@/components/docs/tweakpane";
+import { Tweakpane } from "@/components/docs/tweakpane";
+import type { Binds } from "@/components/docs/tweakpane";
 import { flattenFirstLevel, unwrapValues } from "@/lib/registry/demo-props";
 import {
   Tabs,
@@ -145,7 +147,7 @@ export function ComponentPreview({
     };
   }, [name, demo]);
 
-  const sourceName = usageCodeMeta.sourceName;
+  const { sourceName } = usageCodeMeta;
   const [hasOpenedCode, setHasOpenedCode] = useState(false);
   const shouldRenderCode = hasOpenedCode || activeTab === "code";
   const previewPaneRef = useRef<HTMLDivElement>(null);
@@ -168,7 +170,7 @@ export function ComponentPreview({
     });
   }, [sourceName, staticContent, staticHtml]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset static code on source change
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- reset static code on source change
   useEffect(() => {
     setStaticContent(null);
     setStaticHtml(null);
@@ -214,21 +216,12 @@ export function ComponentPreview({
         ? null
         : unwrapValues(demoPropsConfig);
 
-    if (Object.keys(demoPropsConfig).length !== 0) {
-      if (componentProps === null && initialProps) {
-        setComponentProps(initialProps);
-      }
-      if (binds === null) {
-        setBinds(demoPropsConfig as Binds);
-      }
-    }
-
     if (!Component) {
       console.error(`Component with name "${name}" not found in registry.`);
       return (
         <p className="text-muted-foreground text-sm">
           Component{" "}
-          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+          <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
             {name}
           </code>{" "}
           not found in registry.
@@ -242,6 +235,16 @@ export function ComponentPreview({
 
     return <Component {...resolvedProps} key={JSON.stringify(resolvedProps)} />;
   }, [name, componentProps, binds, demoPropsConfig, isInView]);
+
+  useEffect(() => {
+    if (Object.keys(demoPropsConfig).length === 0) {
+      setBinds(null);
+      setComponentProps(null);
+    } else {
+      setBinds(demoPropsConfig as Binds);
+      setComponentProps(unwrapValues(demoPropsConfig));
+    }
+  }, [demoPropsConfig]);
 
   useEffect(() => {
     if (!binds) {
@@ -281,7 +284,7 @@ export function ComponentPreview({
       >
         <div
           className="w-full text-sm [&_pre]:my-0 [&_pre]:bg-transparent [&_pre]:p-4 [&_pre]:focus-visible:outline-none"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-highlighted code html generated at build time
+          // oxlint-disable-next-line react/no-danger -- pre-highlighted code html generated at build time
           dangerouslySetInnerHTML={{ __html: staticHtml }}
           data-code-block
         />
@@ -306,7 +309,7 @@ export function ComponentPreview({
         title={usageCodeMeta.title}
       >
         <Pre
-          className="flex items-center justify-center gap-2 text-muted-foreground"
+          className="text-muted-foreground flex items-center justify-center gap-2"
           style={{ minHeight: `${previewHeight}px` }}
         >
           <Loader aria-hidden className="size-4 animate-spin" />
@@ -323,7 +326,7 @@ export function ComponentPreview({
       {...props}
     >
       <div
-        className="relative overflow-hidden rounded-2xl border border-border/50"
+        className="border-border/50 relative overflow-hidden rounded-2xl border"
         id="component-preview"
       >
         <Tabs
@@ -332,19 +335,19 @@ export function ComponentPreview({
           value={activeTab}
         >
           <div
-            className="flex h-11 items-center justify-between border-border/50 border-b px-3"
+            className="border-border/50 flex h-11 items-center justify-between border-b px-3"
             id="component-preview-tab-list"
           >
             <TabsList className="flex items-center gap-0.5">
               <TabsHighlight
-                className="h-full rounded-md bg-muted"
+                className="bg-muted h-full rounded-md"
                 containerClassName="flex"
                 mode="parent"
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
                 <TabsHighlightItem value="preview">
                   <TabsTrigger
-                    className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                    className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                     value="preview"
                   >
                     Preview
@@ -353,7 +356,7 @@ export function ComponentPreview({
                 {usageCodeMeta.sourceName ? (
                   <TabsHighlightItem value="code">
                     <TabsTrigger
-                      className="relative z-10 h-7 rounded-md px-3 text-muted-foreground text-sm transition-colors data-[state=active]:text-foreground"
+                      className="text-muted-foreground data-[state=active]:text-foreground relative z-10 h-7 rounded-md px-3 text-sm transition-colors"
                       onFocus={preloadSource}
                       onMouseEnter={preloadSource}
                       value="code"
@@ -383,7 +386,7 @@ export function ComponentPreview({
 
                   <Button
                     aria-label="Open full page example"
-                    className="rounded-lg bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10"
+                    className="hover:bg-foreground/5 dark:hover:bg-foreground/10 rounded-lg bg-transparent"
                     onClick={() =>
                       window.open(
                         `/examples/${name}`,
@@ -476,7 +479,7 @@ export function ComponentPreview({
                     {isInView ? (
                       <Suspense
                         fallback={
-                          <div className="flex items-center text-muted-foreground text-sm">
+                          <div className="text-muted-foreground flex items-center text-sm">
                             <Loader className="mr-2 size-4 animate-spin" />
                             Loading...
                           </div>
@@ -485,7 +488,7 @@ export function ComponentPreview({
                         {preview}
                       </Suspense>
                     ) : (
-                      <div className="flex min-h-[200px] items-center justify-center text-muted-foreground text-sm">
+                      <div className="text-muted-foreground flex min-h-[200px] items-center justify-center text-sm">
                         <Loader className="mr-2 size-4 animate-spin" />
                         Loading...
                       </div>

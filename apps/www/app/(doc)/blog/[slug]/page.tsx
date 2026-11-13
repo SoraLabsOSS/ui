@@ -1,6 +1,8 @@
 import path from "node:path";
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { BlogOgImage } from "@/components/blog/blog-og-image";
 import { BlogPostJsonLd } from "@/components/blog/blog-post-json-ld";
 import { KbToc } from "@/components/blog/kb-toc";
@@ -14,6 +16,7 @@ import { blog } from "@/lib/blog/source";
 import { kbTocItemsFromFumadocs } from "@/lib/blog/toc-items";
 import { GITHUB_REPO_URL, getPageAlternates } from "@/lib/site";
 import { getMDXComponents } from "@/mdx-components";
+
 import { BlogPostAside } from "./post-aside";
 import { BlogPostHeader } from "./post-header";
 
@@ -89,11 +92,11 @@ async function BlogPostBody({ slug }: { slug: string }) {
 
         <div className="col-span-12 w-full [--grid-divider-gap:72px] max-xl:mx-auto max-xl:max-w-3xl xl:col-span-6 xl:col-start-4">
           <article
-            className="flex w-full flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&>*:not([data-kb-media-breakout])]:w-full [&>*]:min-w-0 [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1"
+            className="flex w-full flex-initial flex-col items-center justify-start gap-6 text-base lg:text-lg [&_[class*='container']_p]:m-0 hover:[&_[data-slot=note]_a]:no-underline [&_[data-slot=note]_p]:my-0 [&_code_p]:my-0 [&_code_p]:contents [&_ol]:ml-0 [&_ol]:list-decimal [&_ol]:p-0 [&_ol]:pl-4 md:[&_ol]:ml-1 [&_ul]:list-disc [&_ul]:p-0 [&_ul]:pl-4 md:[&_ul]:ml-1 [&>*]:min-w-0 [&>*:not([data-kb-media-breakout])]:w-full"
             id="kb-main-content"
           >
             <figure className="mb-6 w-full">
-              <div className="overflow-hidden rounded-md border border-border/60 bg-background shadow-xs">
+              <div className="border-border/60 bg-background overflow-hidden rounded-md border shadow-xs">
                 <BlogOgImage
                   className="w-full"
                   image={{
@@ -113,7 +116,7 @@ async function BlogPostBody({ slug }: { slug: string }) {
             </figure>
 
             {page.data.flags?.includes("personal-opinion") ? (
-              <p className="mt-8 rounded-md border-yellow-500 border-l-4 bg-yellow-300/50 p-4 text-xs md:text-sm">
+              <p className="mt-8 rounded-md border-l-4 border-yellow-500 bg-yellow-300/50 p-4 text-xs md:text-sm">
                 <strong>Personal opinion:</strong> The views in this post are
                 the author&apos;s own and do not represent Sora UI or any
                 affiliated organization.

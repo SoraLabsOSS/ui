@@ -6,7 +6,8 @@ import { useControlledState } from "@workspace/ui/hooks/use-controlled-state";
 import { cn } from "@workspace/ui/lib/utils";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type ComponentProps, createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
+import type { ComponentProps } from "react";
 
 interface ContextMenuContextValue {
   open: boolean;
@@ -108,7 +109,8 @@ function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerProps) {
 }
 
 interface ContextMenuContentProps
-  extends ComponentProps<typeof ContextMenuPrimitive.Popup>,
+  extends
+    ComponentProps<typeof ContextMenuPrimitive.Popup>,
     Pick<
       ComponentProps<typeof ContextMenuPrimitive.Positioner>,
       | "align"
@@ -183,7 +185,7 @@ function ContextMenuContent({
           >
             <ContextMenuPrimitive.Popup
               className={cn(
-                "z-50 max-h-(--available-height) min-w-44 overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-popover/95 p-1 text-popover-foreground shadow-xl outline-none ring-1 ring-foreground/5 backdrop-blur-md",
+                "border-border bg-popover/95 text-popover-foreground ring-foreground/5 z-50 max-h-(--available-height) min-w-44 overflow-x-hidden overflow-y-auto rounded-xl border p-1 shadow-xl ring-1 backdrop-blur-md outline-none",
                 className
               )}
               data-slot="context-menu-content"
@@ -243,8 +245,9 @@ function ContextMenuGroup({ ...props }: ContextMenuGroupProps) {
   );
 }
 
-interface ContextMenuLabelProps
-  extends ComponentProps<typeof ContextMenuPrimitive.GroupLabel> {
+interface ContextMenuLabelProps extends ComponentProps<
+  typeof ContextMenuPrimitive.GroupLabel
+> {
   /**
    * Whether to indent the label for alignment with checkable items.
    * @default false
@@ -263,7 +266,7 @@ function ContextMenuLabel({
   return (
     <ContextMenuPrimitive.GroupLabel
       className={cn(
-        "px-2 py-1.5 font-semibold text-muted-foreground text-xs data-inset:ps-8",
+        "text-muted-foreground px-2 py-1.5 text-xs font-semibold data-inset:ps-8",
         className
       )}
       data-inset={inset}
@@ -273,8 +276,9 @@ function ContextMenuLabel({
   );
 }
 
-interface ContextMenuItemProps
-  extends ComponentProps<typeof ContextMenuPrimitive.Item> {
+interface ContextMenuItemProps extends ComponentProps<
+  typeof ContextMenuPrimitive.Item
+> {
   /**
    * Whether to indent the item for alignment with checkable items.
    * @default false
@@ -299,7 +303,7 @@ function ContextMenuItem({
   return (
     <ContextMenuPrimitive.Item
       className={cn(
-        "group/context-menu-item relative flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-inset:ps-8 data-[variant=destructive]:text-destructive data-disabled:opacity-50 data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 focus:*:[svg]:text-accent-foreground data-[variant=destructive]:*:[svg]:text-destructive",
+        "group/context-menu-item focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 focus:*:[svg]:text-accent-foreground data-[variant=destructive]:*:[svg]:text-destructive relative flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       data-inset={inset}
@@ -357,8 +361,9 @@ function ContextMenuSub({
   );
 }
 
-interface ContextMenuSubTriggerProps
-  extends ComponentProps<typeof ContextMenuPrimitive.SubmenuTrigger> {
+interface ContextMenuSubTriggerProps extends ComponentProps<
+  typeof ContextMenuPrimitive.SubmenuTrigger
+> {
   /**
    * Whether to indent the item for alignment with checkable items.
    * @default false
@@ -378,7 +383,7 @@ function ContextMenuSubTrigger({
   return (
     <ContextMenuPrimitive.SubmenuTrigger
       className={cn(
-        "flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-open:bg-accent data-inset:ps-8 data-open:text-accent-foreground data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "focus:bg-accent focus:text-accent-foreground data-open:bg-accent data-open:text-accent-foreground flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       data-inset={inset}
@@ -386,13 +391,14 @@ function ContextMenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ms-auto size-4 text-muted-foreground rtl:rotate-180" />
+      <ChevronRightIcon className="text-muted-foreground ms-auto size-4 rtl:rotate-180" />
     </ContextMenuPrimitive.SubmenuTrigger>
   );
 }
 
 interface ContextMenuSubContentProps
-  extends ComponentProps<typeof ContextMenuPrimitive.Popup>,
+  extends
+    ComponentProps<typeof ContextMenuPrimitive.Popup>,
     Pick<
       ComponentProps<typeof ContextMenuPrimitive.Positioner>,
       | "align"
@@ -469,7 +475,7 @@ function ContextMenuSubContent({
           >
             <ContextMenuPrimitive.Popup
               className={cn(
-                "z-50 max-h-(--available-height) min-w-40 overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-popover/95 p-1 text-popover-foreground shadow-2xl outline-none ring-1 ring-foreground/5 backdrop-blur-md",
+                "border-border bg-popover/95 text-popover-foreground ring-foreground/5 z-50 max-h-(--available-height) min-w-40 overflow-x-hidden overflow-y-auto rounded-xl border p-1 shadow-2xl ring-1 backdrop-blur-md outline-none",
                 className
               )}
               data-slot="context-menu-sub-content"
@@ -518,8 +524,9 @@ function ContextMenuSubContent({
   );
 }
 
-interface ContextMenuCheckboxItemProps
-  extends ComponentProps<typeof ContextMenuPrimitive.CheckboxItem> {
+interface ContextMenuCheckboxItemProps extends ComponentProps<
+  typeof ContextMenuPrimitive.CheckboxItem
+> {
   /**
    * Whether to indent the item for alignment.
    * @default false
@@ -541,7 +548,7 @@ function ContextMenuCheckboxItem({
     <ContextMenuPrimitive.CheckboxItem
       checked={checked}
       className={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-md py-1.5 ps-8 pe-2 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-inset:ps-8 data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-md py-1.5 ps-8 pe-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       data-inset={inset}
@@ -574,8 +581,9 @@ function ContextMenuRadioGroup({ ...props }: ContextMenuRadioGroupProps) {
   );
 }
 
-interface ContextMenuRadioItemProps
-  extends ComponentProps<typeof ContextMenuPrimitive.RadioItem> {
+interface ContextMenuRadioItemProps extends ComponentProps<
+  typeof ContextMenuPrimitive.RadioItem
+> {
   /**
    * Whether to indent the item for alignment.
    * @default false
@@ -595,7 +603,7 @@ function ContextMenuRadioItem({
   return (
     <ContextMenuPrimitive.RadioItem
       className={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-md py-1.5 ps-8 pe-2 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-inset:ps-8 data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-md py-1.5 ps-8 pe-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       data-inset={inset}
@@ -625,7 +633,7 @@ function ContextMenuSeparator({
 }: ContextMenuSeparatorProps) {
   return (
     <ContextMenuPrimitive.Separator
-      className={cn("-mx-1 my-1 h-px bg-border", className)}
+      className={cn("bg-border -mx-1 my-1 h-px", className)}
       data-slot="context-menu-separator"
       {...props}
     />
@@ -644,7 +652,7 @@ function ContextMenuShortcut({
   return (
     <span
       className={cn(
-        "ms-auto text-muted-foreground text-xs tracking-widest group-focus/context-menu-item:text-accent-foreground",
+        "text-muted-foreground group-focus/context-menu-item:text-accent-foreground ms-auto text-xs tracking-widest",
         className
       )}
       data-slot="context-menu-shortcut"

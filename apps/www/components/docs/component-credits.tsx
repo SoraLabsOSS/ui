@@ -15,12 +15,12 @@ interface ComponentCreditsProps {
 
 function InspirationSource({ label, url }: { label: string; url?: string }) {
   if (!url) {
-    return <span className="font-medium text-foreground">{label}</span>;
+    return <span className="text-foreground font-medium">{label}</span>;
   }
 
   return (
     <a
-      className="font-medium text-foreground underline underline-offset-2 transition-colors hover:text-foreground/80"
+      className="text-foreground hover:text-foreground/80 font-medium underline underline-offset-2 transition-colors"
       href={url}
       rel="noopener noreferrer"
       target="_blank"

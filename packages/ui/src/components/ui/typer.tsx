@@ -2,11 +2,6 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import {
-  type ComponentPropsWithoutRef,
-  type CSSProperties,
-  type ElementType,
-  type MouseEvent,
-  type Ref,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -14,6 +9,13 @@ import {
   useMemo,
   useRef,
   useState,
+} from "react";
+import type {
+  ComponentPropsWithoutRef,
+  CSSProperties,
+  ElementType,
+  MouseEvent,
+  Ref,
 } from "react";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -140,7 +142,7 @@ class TyperEngine {
   constructor(element: HTMLElement, opts: TyperOptions = {}) {
     this.element = element;
     this.source = element.textContent || "";
-    this.length = this.source.replace(WHITESPACE_RE, "").length;
+    this.length = this.source.replaceAll(WHITESPACE_RE, "").length;
     this.fps = opts.fps ?? 20;
     this.cycles = opts.cycles ?? 3;
     this.cycleLength = opts.cycleLength ?? 0.5;
@@ -150,7 +152,7 @@ class TyperEngine {
     this.denominator = this.frames - this.frames * this.cycleLength || 1;
     this.onComplete = opts.onComplete;
 
-    this.variations = (opts.variations ?? [...ALL_VARIATIONS]).slice();
+    this.variations = [...(opts.variations ?? [...ALL_VARIATIONS])];
     this.shuffle();
     this.initVisible = opts.initVisible ?? false;
 
@@ -178,8 +180,8 @@ class TyperEngine {
       if (part.trim() === "") {
         const space = document.createElement("span");
         space.className = "space";
-        space.textContent = part.replace(SPACE_REPLACE_RE, "\u00A0");
-        this.element.appendChild(space);
+        space.textContent = part.replaceAll(SPACE_REPLACE_RE, "\u00A0");
+        this.element.append(space);
         continue;
       }
       const word = document.createElement("span");
@@ -192,9 +194,9 @@ class TyperEngine {
         span.textContent = ch === " " ? "\u00A0" : ch;
         this.charNodes.push({ el: span, cp, currentClass: "char charInit" });
         i += 1;
-        word.appendChild(span);
+        word.append(span);
       }
-      this.element.appendChild(word);
+      this.element.append(word);
     }
   }
 
@@ -218,7 +220,7 @@ class TyperEngine {
     this.stopLoop();
     if (newSource !== undefined && newSource !== this.source) {
       this.source = newSource;
-      this.length = this.source.replace(WHITESPACE_RE, "").length;
+      this.length = this.source.replaceAll(WHITESPACE_RE, "").length;
       this.frames = this.length ? this.fps * (1 + this.length * 0.01) : 0;
       this.divisor = this.length > 1 ? this.length - 1 : 1;
       this.denominator = this.frames - this.frames * this.cycleLength || 1;
@@ -357,7 +359,7 @@ class TyperEngine {
   destroy() {
     this.stopLoop();
     this.element.textContent = this.source;
-    this.element.removeAttribute("data-typer-type");
+    delete this.element.dataset.typerType;
   }
 }
 
@@ -535,11 +537,11 @@ function ensureTyperStyles() {
   if (typeof document === "undefined") {
     return;
   }
-  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+  let style = document.querySelector(`#${STYLE_ID}`) as HTMLStyleElement | null;
   if (!style) {
     style = document.createElement("style");
     style.id = STYLE_ID;
-    document.head.appendChild(style);
+    document.head.append(style);
   }
   style.textContent = TYPER_CSS;
 }
@@ -582,8 +584,10 @@ export interface TyperHandle {
 
 export type TyperRef = TyperHandle;
 
-export interface TyperProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children" | "color"> {
+export interface TyperProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children" | "color"
+> {
   /** Accent surface color (accent pills and borders). Maps to `--typer-accent`. */
   accent?: string;
   /** Text color sitting on an accent fill. Maps to `--typer-accent-ink`. */
@@ -642,7 +646,7 @@ export function Typer({
   className,
   cycleLength = 0.5,
   cycles = 3,
-  delay = 0,
+  delay: _delay = 0,
   fg,
   fps = 20,
   initVisible = false,
@@ -733,7 +737,7 @@ export function Typer({
   );
 
   const variationsKey = variations ? variations.join(",") : "";
-  // biome-ignore lint/correctness/useExhaustiveDependencies: serialized variationsKey ensures stable array reference
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- serialized variationsKey ensures stable array reference
   const stableVariations = useMemo(() => variations, [variationsKey]);
 
   const prevTriggerRef = useRef(trigger);
@@ -746,9 +750,7 @@ export function Typer({
 
     ensureTyperStyles();
 
-    const lineEls = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-typer]")
-    );
+    const lineEls = [...root.querySelectorAll<HTMLElement>("[data-typer]")];
     if (!lineEls.length) {
       return;
     }

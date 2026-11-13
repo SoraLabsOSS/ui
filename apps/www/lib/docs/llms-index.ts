@@ -1,4 +1,5 @@
 import type { InferPageType } from "fumadocs-core/source";
+
 import type { source } from "@/lib/docs/source";
 import type { iconsSource } from "@/lib/icons/source";
 import type { motionSource } from "@/lib/motion/source";

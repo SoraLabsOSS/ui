@@ -6,17 +6,26 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="text-morph" description="Per-character layout morph between Copy and Copied — click the button to trigger a swap." />
+<ComponentPreview
+  name="text-morph"
+  description="Per-character layout morph between Copy and Copied — click the button to trigger a swap."
+/>
 
 ## Examples
 
 ### Processing Transaction
 
-<ComponentPreview name="demo-text-morph-transaction" description="Transaction status pill toggling between Processing Transaction and Transaction Safe with smooth layout morphing." />
+<ComponentPreview
+  name="demo-text-morph-transaction"
+  description="Transaction status pill toggling between Processing Transaction and Transaction Safe with smooth layout morphing."
+/>
 
 ### Text Morph Input
 
-<ComponentPreview name="demo-text-morph-input" description="TextMorph driven by a live input field — type to see characters morph in real time." />
+<ComponentPreview
+  name="demo-text-morph-input"
+  description="TextMorph driven by a live input field — type to see characters morph in real time."
+/>
 
 ## Installation
 
@@ -25,7 +34,7 @@ author:
 ## Usage
 
 ```tsx
-import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+import { TextMorph } from "@/components/sora-ui/texts/text-morph";
 
 export default function StatusLabel({ value }: { value: string }) {
   return (
@@ -43,19 +52,19 @@ export default function StatusLabel({ value }: { value: string }) {
 Cycle copy on click:
 
 ```tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+import { useState } from "react";
+import { TextMorph } from "@/components/sora-ui/texts/text-morph";
 
 export function TextMorphButton() {
-  const [text, setText] = useState('Continue');
+  const [text, setText] = useState("Continue");
 
   return (
     <button
       className="flex h-10 w-[120px] shrink-0 items-center justify-center rounded-full bg-foreground px-4 text-base font-medium text-background shadow-xs transition-colors hover:bg-foreground/85"
       onClick={() =>
-        setText((current) => (current === 'Continue' ? 'Confirm' : 'Continue'))
+        setText((current) => (current === "Continue" ? "Confirm" : "Continue"))
       }
       type="button"
     >
@@ -68,13 +77,13 @@ export function TextMorphButton() {
 Live morph while typing:
 
 ```tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { TextMorph } from '@/components/sora-ui/texts/text-morph';
+import { useState } from "react";
+import { TextMorph } from "@/components/sora-ui/texts/text-morph";
 
 export function TextMorphInput() {
-  const [text, setText] = useState('Craft');
+  const [text, setText] = useState("Craft");
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center space-y-12">
@@ -98,70 +107,69 @@ export function TextMorphInput() {
 <TypeTable
   type={{
     children: {
-      description: 'Text or numeric content to morph when updated.',
-      type: 'ReactNode',
+      description: "Text or numeric content to morph when updated.",
+      type: "ReactNode",
     },
     as: {
-      description: 'Semantic HTML element for the root container.',
-      type: 'ElementType',
+      description: "Semantic HTML element for the root container.",
+      type: "ElementType",
       default: '"span"',
     },
     duration: {
       description:
-        'Animation duration in milliseconds. Ignored when ease is a spring.',
-      type: 'number',
-      default: '400',
+        "Animation duration in milliseconds. Ignored when ease is a spring.",
+      type: "number",
+      default: "400",
     },
     ease: {
       description:
-        'CSS easing string or spring physics parameters ({ stiffness, damping, mass, precision }).',
-      type: 'string | SpringParams',
+        "CSS easing string or spring physics parameters ({ stiffness, damping, mass, precision }).",
+      type: "string | SpringParams",
       default: '"cubic-bezier(0.19, 1, 0.22, 1)"',
     },
     scale: {
-      description: 'Enable scale animation on exiting segments.',
-      type: 'boolean',
-      default: 'true',
+      description: "Enable scale animation on exiting segments.",
+      type: "boolean",
+      default: "true",
     },
     numbers: {
       description:
-        'Morph numeric words by place value, sliding digits along the block axis. Off falls back to character-level morph.',
-      type: 'boolean',
-      default: 'true',
+        "Morph numeric words by place value, sliding digits along the block axis. Off falls back to character-level morph.",
+      type: "boolean",
+      default: "true",
     },
     decimals: {
       description:
-        'Fraction digits to format a numeric value to when children is a number.',
-      type: 'number',
+        "Fraction digits to format a numeric value to when children is a number.",
+      type: "number",
     },
     locale: {
-      description:
-        'Locale for text segmentation and numeric formatting.',
-      type: 'Intl.LocalesArgument',
+      description: "Locale for text segmentation and numeric formatting.",
+      type: "Intl.LocalesArgument",
       default: '"en"',
     },
     cursorIndex: {
       description:
-        'Caret position for a single-number value (switches from place matching to caret matching in inputs).',
-      type: 'number',
+        "Caret position for a single-number value (switches from place matching to caret matching in inputs).",
+      type: "number",
     },
     respectReducedMotion: {
-      description: 'Respect user prefers-reduced-motion OS preference.',
-      type: 'boolean',
-      default: 'true',
+      description: "Respect user prefers-reduced-motion OS preference.",
+      type: "boolean",
+      default: "true",
     },
     charClassName: {
-      description: 'Class names applied to each character span.',
-      type: 'string',
+      description: "Class names applied to each character span.",
+      type: "string",
     },
     live: {
-      description: 'ARIA live region mode for dynamic label updates.',
+      description: "ARIA live region mode for dynamic label updates.",
       type: '"off" | "polite" | "assertive"',
       default: '"off"',
     },
     className: {
-      description: 'Class names on the root container element.',
-      type: 'string',
+      description: "Class names on the root container element.",
+      type: "string",
     },
   }}
 />

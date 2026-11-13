@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-accordion" description="Animated FAQ accordion showing expandable panels with smooth height transitions." />
+<ComponentPreview
+  name="demo-accordion"
+  description="Animated FAQ accordion showing expandable panels with smooth height transitions."
+/>
 
 ## Installation
 
@@ -15,18 +18,19 @@ author:
 ## Usage
 
 ```tsx
-import { Accordion } from '@/components/sora-ui/disclosure/accordion';
+import { Accordion } from "@/components/sora-ui/disclosure/accordion";
 
 const items = [
   {
-    title: 'What is Sora UI?',
+    title: "What is Sora UI?",
     content:
-      'Sora UI is an animated component registry for React and Next.js, built on Motion.',
+      "Sora UI is an animated component registry for React and Next.js, built on Motion.",
     defaultOpen: true,
   },
   {
-    title: 'How do I install a component?',
-    content: 'Run npx shadcn@latest add @soralabs/accordion after initializing shadcn/ui.',
+    title: "How do I install a component?",
+    content:
+      "Run npx shadcn@latest add @soralabs/accordion after initializing shadcn/ui.",
   },
 ];
 
@@ -43,7 +47,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/sora-ui/disclosure/accordion';
+} from "@/components/sora-ui/disclosure/accordion";
 
 export default function Page() {
   return (
@@ -66,43 +70,43 @@ export default function Page() {
 <TypeTable
   type={{
     allowMultiple: {
-      description: 'When false, opening one item closes the others.',
-      type: 'boolean',
-      default: 'false',
+      description: "When false, opening one item closes the others.",
+      type: "boolean",
+      default: "false",
     },
     duration: {
-      description: 'Panel expand/collapse duration in seconds.',
-      type: 'number',
-      default: '0.8',
+      description: "Panel expand/collapse duration in seconds.",
+      type: "number",
+      default: "0.8",
     },
     iconMode: {
-      description: 'Plus icon animation mode.',
+      description: "Plus icon animation mode.",
       type: '"rotate" | "fade" | "both"',
       default: '"both"',
     },
     iconRotation: {
-      description: 'Icon rotation in degrees when open.',
-      type: 'number',
-      default: '-180',
+      description: "Icon rotation in degrees when open.",
+      type: "number",
+      default: "-180",
     },
     ease: {
-      description: 'Easing curve for panel and icon animations.',
-      type: '[number, number, number, number]',
-      default: 'expo.inOut',
+      description: "Easing curve for panel and icon animations.",
+      type: "[number, number, number, number]",
+      default: "expo.inOut",
     },
     disabledOn: {
       description:
-        'Skip expand/collapse animations on matching breakpoints (mobile, tablet, desktop). Items stay interactive.',
+        "Skip expand/collapse animations on matching breakpoints (mobile, tablet, desktop). Items stay interactive.",
       type: '("mobile" | "tablet" | "desktop")[]',
     },
     items: {
       description:
-        'Data-driven accordion items. Each entry needs title and content (string or React node).',
-      type: '{ id?: string; title: string; content: React.ReactNode; defaultOpen?: boolean; enableStagger?: boolean }[]',
+        "Data-driven accordion items. Each entry needs title and content (string or React node).",
+      type: "{ id?: string; title: string; content: React.ReactNode; defaultOpen?: boolean; enableStagger?: boolean }[]",
     },
     className: {
-      description: 'Additional class names for the root container.',
-      type: 'string',
+      description: "Additional class names for the root container.",
+      type: "string",
     },
   }}
 />
@@ -112,72 +116,72 @@ export default function Page() {
 <TypeTable
   type={{
     defaultOpen: {
-      description: 'Whether this item starts expanded.',
-      type: 'boolean',
-      default: 'false',
+      description: "Whether this item starts expanded.",
+      type: "boolean",
+      default: "false",
     },
     delay: {
-      description: 'Delay before panel animation starts, in seconds.',
-      type: 'number',
-      default: '0',
+      description: "Delay before panel animation starts, in seconds.",
+      type: "number",
+      default: "0",
     },
     duration: {
-      description: 'Override panel duration for this item, in seconds.',
-      type: 'number',
+      description: "Override panel duration for this item, in seconds.",
+      type: "number",
     },
     ease: {
-      description: 'Override easing curve for this item.',
-      type: '[number, number, number, number]',
+      description: "Override easing curve for this item.",
+      type: "[number, number, number, number]",
     },
     iconRotation: {
-      description: 'Override icon rotation for this item, in degrees.',
-      type: 'number',
+      description: "Override icon rotation for this item, in degrees.",
+      type: "number",
     },
     disabledOn: {
       description:
-        'Skip animations for this item on matching breakpoints. The trigger stays clickable.',
+        "Skip animations for this item on matching breakpoints. The trigger stays clickable.",
       type: '("mobile" | "tablet" | "desktop")[]',
     },
     enableStagger: {
       description:
-        'Reveal panel text line by line when the item opens. Paragraphs are split into masked lines that slide up in sequence.',
-      type: 'boolean',
-      default: 'false',
+        "Reveal panel text line by line when the item opens. Paragraphs are split into masked lines that slide up in sequence.",
+      type: "boolean",
+      default: "false",
     },
     staggerDuration: {
-      description: 'Duration of each line reveal, in seconds.',
-      type: 'number',
-      default: '0.6',
+      description: "Duration of each line reveal, in seconds.",
+      type: "number",
+      default: "0.6",
     },
     staggerDelay: {
-      description: 'Delay between each staggered line, in seconds.',
-      type: 'number',
-      default: '0.15',
+      description: "Delay between each staggered line, in seconds.",
+      type: "number",
+      default: "0.15",
     },
     staggerEase: {
-      description: 'Easing curve for the line reveal.',
-      type: '[number, number, number, number]',
-      default: 'expo.out',
+      description: "Easing curve for the line reveal.",
+      type: "[number, number, number, number]",
+      default: "expo.out",
     },
     staggerYPercent: {
       description:
-        'Initial vertical offset of each line, as a percentage of its height.',
-      type: 'number',
-      default: '110',
+        "Initial vertical offset of each line, as a percentage of its height.",
+      type: "number",
+      default: "110",
     },
     staggerStartDelay: {
       description:
-        'Wait before the line reveal starts after opening, in milliseconds.',
-      type: 'number',
-      default: '200',
+        "Wait before the line reveal starts after opening, in milliseconds.",
+      type: "number",
+      default: "200",
     },
     onOpen: {
-      description: 'Callback fired when this item opens.',
-      type: '() => void',
+      description: "Callback fired when this item opens.",
+      type: "() => void",
     },
     onClose: {
-      description: 'Callback fired when this item closes.',
-      type: '() => void',
+      description: "Callback fired when this item closes.",
+      type: "() => void",
     },
   }}
 />

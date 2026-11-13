@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import {
   Skeleton,
   SkeletonAvatar,
@@ -13,11 +14,11 @@ const LOADING_DURATION_MS = 2000;
 function ProfileCard() {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex size-10 items-center justify-center rounded-full bg-accent font-medium text-sm">
+      <div className="bg-accent flex size-10 items-center justify-center rounded-full text-sm font-medium">
         AX
       </div>
       <div className="flex flex-col gap-1">
-        <p className="font-medium text-sm">Axyl</p>
+        <p className="text-sm font-medium">Axyl</p>
         <p className="text-muted-foreground text-xs">
           Building Sora UI, one primitive at a time.
         </p>
@@ -61,7 +62,7 @@ export default function SkeletonDemo() {
         <ProfileCard />
       </SkeletonTransition>
       <button
-        className="self-start text-muted-foreground text-xs underline underline-offset-2 hover:text-foreground"
+        className="text-muted-foreground hover:text-foreground self-start text-xs underline underline-offset-2"
         onClick={replay}
         type="button"
       >

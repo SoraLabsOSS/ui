@@ -1,5 +1,5 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: The wrapper mirrors hover/focus state for arbitrary trigger children. */
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: The wrapper mirrors hover/focus state for arbitrary trigger children. */
+/* oxlint-disable jsx-a11y/no-noninteractive-element-interactions -- The wrapper mirrors hover/focus state for arbitrary trigger children. */
+/* oxlint-disable jsx-a11y/no-static-element-interactions -- The wrapper mirrors hover/focus state for arbitrary trigger children. */
 
 "use client";
 
@@ -17,14 +17,17 @@ import {
   useContext,
   useId,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
 type TooltipSide = "bottom" | "top";
 
-interface AnimatedTooltipProps
-  extends Omit<React.ComponentProps<"div">, "content"> {
+interface AnimatedTooltipProps extends Omit<
+  React.ComponentProps<"div">,
+  "content"
+> {
   /** Content displayed while the trigger is hovered or focused. */
   content: React.ReactNode;
   /** Additional classes for the tooltip surface. */
@@ -154,7 +157,7 @@ function AnimatedTooltipGroup({
   }, [measureRows]);
 
   const show = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Positioning and transition states share one hover handler.
+    // oxlint-disable-next-line sonarjs/cognitive-complexity -- Positioning and transition states share one hover handler.
     (id: string) => {
       const group = groupRef.current;
       const item = items.find((entry) => entry.id === id);
@@ -308,10 +311,13 @@ function AnimatedTooltipGroup({
     }
   };
 
+  const contextValue = useMemo(
+    () => ({ activeId, hide, register, show, tooltipId }),
+    [activeId, hide, register, show, tooltipId]
+  );
+
   return (
-    <AnimatedTooltipGroupContext.Provider
-      value={{ activeId, hide, register, show, tooltipId }}
-    >
+    <AnimatedTooltipGroupContext.Provider value={contextValue}>
       <div
         className={cn("relative", className)}
         onPointerLeave={handlePointerLeave}
@@ -345,7 +351,7 @@ function AnimatedTooltipGroup({
                 >
                   <div
                     className={cn(
-                      "flex items-center justify-center gap-2 whitespace-nowrap px-2 font-medium text-background text-sm leading-tight tracking-tight",
+                      "text-background flex items-center justify-center gap-2 px-2 text-sm leading-tight font-medium tracking-tight whitespace-nowrap",
                       item.contentClassName
                     )}
                   >
@@ -356,7 +362,7 @@ function AnimatedTooltipGroup({
             </div>
           ))}
           <motion.div
-            className="absolute top-0 left-0 flex bg-foreground"
+            className="bg-foreground absolute top-0 left-0 flex"
             style={{
               clipPath,
               opacity,
@@ -374,7 +380,7 @@ function AnimatedTooltipGroup({
                 >
                   <div
                     className={cn(
-                      "flex items-center justify-center gap-2 whitespace-nowrap px-2 font-medium text-background text-sm leading-tight tracking-tight",
+                      "text-background flex items-center justify-center gap-2 px-2 text-sm leading-tight font-medium tracking-tight whitespace-nowrap",
                       item.contentClassName
                     )}
                   >

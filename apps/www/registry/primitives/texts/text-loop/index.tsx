@@ -1,21 +1,10 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import {
-  AnimatePresence,
-  type AnimatePresenceProps,
-  motion,
-  type Transition,
-  useReducedMotion,
-  type Variants,
-} from "motion/react";
-import {
-  Children,
-  type ComponentPropsWithoutRef,
-  type Ref,
-  useEffect,
-  useState,
-} from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { AnimatePresenceProps, Transition, Variants } from "motion/react";
+import { Children, useEffect, useState } from "react";
+import type { ComponentPropsWithoutRef, Ref } from "react";
 
 const DEFAULT_VARIANTS: Variants = {
   initial: { y: 20, opacity: 0 },

@@ -7,15 +7,8 @@ import {
   useReducedMotion,
   useSpring,
 } from "motion/react";
-import {
-  type ChangeEvent,
-  type ComponentPropsWithRef,
-  type Ref,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ChangeEvent, ComponentPropsWithRef, Ref } from "react";
 
 const inputClassName =
   "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40";
@@ -86,7 +79,7 @@ function Input({
   );
 
   const updateCaretFromInput = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: caret mapping mirrors native selection and horizontal scroll edge cases.
+    // oxlint-disable-next-line sonarjs/cognitive-complexity -- caret mapping mirrors native selection and horizontal scroll edge cases.
     (target: HTMLInputElement) => {
       const measureSpan = measureRef.current;
       const caretMarker = caretMarkerRef.current;
@@ -98,9 +91,9 @@ function Input({
       const styles = window.getComputedStyle(target);
       const isPassword = target.type === "password";
       const passwordChar = FIREFOX_REGEX.test(navigator.userAgent)
-        ? "\u25cf"
+        ? "\u25CF"
         : "\u2022";
-      let fontSize = styles.fontSize;
+      let { fontSize } = styles;
 
       if (
         passwordChar === "\u2022" &&
@@ -354,7 +347,7 @@ function Input({
       </span>
       {hasAnimatedCaret && (
         <motion.div
-          className="pointer-events-none absolute top-1/2 left-0 h-[0.9em] w-0.5 bg-primary"
+          className="bg-primary pointer-events-none absolute top-1/2 left-0 h-[0.9em] w-0.5"
           style={{
             x: springCaretX,
             y: "-50%",

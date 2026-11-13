@@ -1,6 +1,7 @@
 "use client";
 
-import { Switch, type SwitchProps } from "@/registry/ui/base/switch";
+import { Switch } from "@/registry/ui/base/switch";
+import type { SwitchProps } from "@/registry/ui/base/switch";
 
 export default function SwitchDemo({
   label = "Airplane Mode",

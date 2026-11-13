@@ -1,14 +1,10 @@
 "use client";
 
-import {
-  type DataTag,
-  type QueryClient,
-  queryOptions,
-  useQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { DataTag, QueryClient } from "@tanstack/react-query";
 import type { BetterFetchError } from "better-auth/react";
-import { authQueryKeys } from "../../auth-core/auth-query-keys";
 
+import { authQueryKeys } from "../../auth-core/auth-query-keys";
 import type { AuthClient, InferData } from "../lib/auth-client";
 
 export type SessionData<TAuthClient extends AuthClient = AuthClient> =

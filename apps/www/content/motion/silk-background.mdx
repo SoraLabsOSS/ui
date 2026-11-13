@@ -6,7 +6,10 @@ author:
   url: https://github.com/Axyl1410
 ---
 
-<ComponentPreview name="demo-silk-background" description="Interactive procedural silk shader waving smoothly across a canvas." />
+<ComponentPreview
+  name="demo-silk-background"
+  description="Interactive procedural silk shader waving smoothly across a canvas."
+/>
 
 ## Installation
 
@@ -15,7 +18,7 @@ author:
 ## Usage
 
 ```tsx
-import { SilkBackground } from '@/components/sora-ui/shaders/silk-background';
+import { SilkBackground } from "@/components/sora-ui/shaders/silk-background";
 
 export default function HeroSection() {
   return (
@@ -31,27 +34,28 @@ export default function HeroSection() {
 <TypeTable
   type={{
     scale: {
-      description: 'Pattern zoom scale. Higher values produce tighter, denser ripples.',
-      type: 'number',
-      default: '1.1',
+      description:
+        "Pattern zoom scale. Higher values produce tighter, denser ripples.",
+      type: "number",
+      default: "1.1",
     },
     noise: {
-      description: 'Grain noise intensity blended across the silk ripples.',
-      type: 'number',
-      default: '1',
+      description: "Grain noise intensity blended across the silk ripples.",
+      type: "number",
+      default: "1",
     },
     speed: {
-      description: 'Animation playback speed multiplier.',
-      type: 'number',
-      default: '0.5',
+      description: "Animation playback speed multiplier.",
+      type: "number",
+      default: "0.5",
     },
     className: {
-      description: 'Additional CSS classes for styling the canvas element.',
-      type: 'string',
+      description: "Additional CSS classes for styling the canvas element.",
+      type: "string",
     },
     ref: {
-      description: 'Forwarded ref to the underlying HTMLCanvasElement.',
-      type: 'Ref<HTMLCanvasElement>',
+      description: "Forwarded ref to the underlying HTMLCanvasElement.",
+      type: "Ref<HTMLCanvasElement>",
     },
   }}
 />

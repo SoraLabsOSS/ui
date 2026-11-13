@@ -9,6 +9,7 @@ import TSIcon from "@workspace/ui/components/icons/ts-icon";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
 import type { ComponentType, SVGProps } from "react";
+
 import { TextEffect } from "@/registry/primitives/texts/text-effect";
 
 const STACK_ITEMS = [
@@ -44,7 +45,7 @@ function StackIconBadge({
           ? { opacity: 1, scale: 1 }
           : { opacity: 0, scale: 0.85 }
       }
-      className="flex h-4 w-4 items-center justify-center overflow-hidden rounded-full bg-background ring-1 ring-border"
+      className="bg-background ring-border flex h-4 w-4 items-center justify-center overflow-hidden rounded-full ring-1"
       initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.85 }}
       transition={{
         delay: prefersReducedMotion ? 0 : 0.08 + index * 0.05,
@@ -68,7 +69,7 @@ export function ComponentsGalleryHero({ className }: { className?: string }) {
         initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
         transition={{ duration: 0.45, ease: [0.19, 1, 0.22, 1] }}
       >
-        <div className="flex w-fit max-w-full items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full bg-muted/70 px-3 py-1.5">
+        <div className="bg-muted/70 flex w-fit max-w-full items-center gap-1.5 overflow-hidden rounded-full px-3 py-1.5 whitespace-nowrap">
           <div className="flex items-center -space-x-1">
             {STACK_ITEMS.map(({ Icon, id }, index) => (
               <StackIconBadge
@@ -79,7 +80,7 @@ export function ComponentsGalleryHero({ className }: { className?: string }) {
               />
             ))}
           </div>
-          <span className="text-[13px] text-muted-foreground">
+          <span className="text-muted-foreground text-[13px]">
             {STACK_LABEL}
           </span>
         </div>
@@ -88,7 +89,7 @@ export function ComponentsGalleryHero({ className }: { className?: string }) {
       <div className="relative z-10">
         <TextEffect
           as="h1"
-          className="max-w-3xl text-center font-medium text-5xl tracking-tighter sm:text-6xl"
+          className="max-w-3xl text-center text-5xl font-medium tracking-tighter sm:text-6xl"
           containerTransition={{ staggerChildren: 0.04 }}
           delay={0.1}
           per="word"
@@ -102,7 +103,7 @@ export function ComponentsGalleryHero({ className }: { className?: string }) {
 
       <TextEffect
         as="p"
-        className="mt-3 block max-w-xl text-balance text-center font-normal text-muted-foreground text-sm sm:text-base md:text-lg"
+        className="text-muted-foreground mt-3 block max-w-xl text-center text-sm font-normal text-balance sm:text-base md:text-lg"
         containerTransition={{ staggerChildren: 0.02 }}
         delay={0.25}
         per="word"

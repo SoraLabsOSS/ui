@@ -20,19 +20,20 @@ import { ArrowUpRight, Bookmark, Menu, User2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+
 import { AskAiNavTrigger } from "@/components/ai/ask-ai-nav-trigger";
 import {
   AUTH_MENU_LINKS,
   AuthNavMenuSkeleton,
 } from "@/components/auth/auth-menu-skeletons";
 import { CommandPaletteTrigger } from "@/components/command-palette/command-palette-trigger";
-import { NavHeaderToc } from "@/components/docs/docs-header-toc";
 import {
   allowMobileSidebarOpen,
   isMobileSidebarCloseLocked,
   markMobileSidebarClosed,
   useSyncMobileSidebarPathname,
 } from "@/components/docs-sidebar/sidebar-close-lock";
+import { NavHeaderToc } from "@/components/docs/docs-header-toc";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { isAuthEnabled } from "@/env";
@@ -98,8 +99,8 @@ const LIBRARY_NAV_ITEMS = (
 ];
 
 const NAV_LINK_CLASS = cn(
-  "h-8 justify-center rounded-md bg-transparent px-3 py-0 font-normal text-neutral-700 text-sm transition-colors duration-150 ease-out hover:bg-transparent hover:text-black focus:bg-transparent focus:text-black dark:text-neutral-200 dark:focus:text-white dark:hover:text-white",
-  "data-[active=true]:bg-transparent data-[active=true]:text-black data-[active=true]:focus:bg-transparent data-[active=true]:hover:bg-transparent dark:data-[active=true]:text-white"
+  "h-8 justify-center rounded-md bg-transparent px-3 py-0 text-sm font-normal text-neutral-700 transition-colors duration-150 ease-out hover:bg-transparent hover:text-black focus:bg-transparent focus:text-black dark:text-neutral-200 dark:hover:text-white dark:focus:text-white",
+  "data-[active=true]:bg-transparent data-[active=true]:text-black data-[active=true]:hover:bg-transparent data-[active=true]:focus:bg-transparent dark:data-[active=true]:text-white"
 );
 
 const HEADER_AUTH_NAV_ITEMS = AUTH_MENU_LINKS.filter(
@@ -113,7 +114,7 @@ function LibraryMenuContent({
 }) {
   return (
     <Highlight
-      className="pointer-events-none rounded-sm bg-accent"
+      className="bg-accent pointer-events-none rounded-sm"
       containerClassName="flex w-120 gap-2"
       mode="parent"
       trigger="hover"
@@ -121,14 +122,14 @@ function LibraryMenuContent({
       <HighlightItem asChild value="sora-ui">
         <NavigationMenuLink
           asChild
-          className="relative z-10 w-45 shrink-0 bg-muted/60 p-3 hover:bg-muted/60 focus:bg-muted data-[active=true]:bg-muted/60 data-[active=true]:hover:bg-muted/60"
+          className="bg-muted/60 hover:bg-muted/60 focus:bg-muted data-[active=true]:bg-muted/60 data-[active=true]:hover:bg-muted/60 relative z-10 w-45 shrink-0 p-3"
         >
           <Link href={DOCS_GUIDE_URL}>
-            <span className="flex size-9 items-center justify-center rounded-md border bg-background">
+            <span className="bg-background flex size-9 items-center justify-center rounded-md border">
               <SoraIcon className="text-foreground" size="sm" />
             </span>
-            <span className="mt-8 font-medium text-sm">Sora UI</span>
-            <span className="mt-1 text-muted-foreground text-xs leading-relaxed">
+            <span className="mt-8 text-sm font-medium">Sora UI</span>
+            <span className="text-muted-foreground mt-1 text-xs leading-relaxed">
               Fully animated, copy-paste component distribution.
             </span>
           </Link>
@@ -143,9 +144,9 @@ function LibraryMenuContent({
                 className="relative z-10 flex cursor-default flex-col gap-1 p-3 opacity-50"
                 key={item.title}
               >
-                <span className="flex items-center justify-between font-medium text-sm">
+                <span className="flex items-center justify-between text-sm font-medium">
                   {item.title}
-                  <span className="rounded-full border px-1.5 py-0.5 font-normal text-[10px] text-muted-foreground leading-none">
+                  <span className="text-muted-foreground rounded-full border px-1.5 py-0.5 text-[10px] leading-none font-normal">
                     Soon
                   </span>
                 </span>
@@ -162,9 +163,9 @@ function LibraryMenuContent({
                 className="relative z-10 gap-1 p-3 hover:bg-transparent data-[active=true]:bg-transparent data-[active=true]:hover:bg-transparent"
               >
                 <Link href={item.url}>
-                  <span className="flex items-center justify-between font-medium text-sm">
+                  <span className="flex items-center justify-between text-sm font-medium">
                     {item.title}
-                    <ArrowUpRight className="size-3.5 text-muted-foreground" />
+                    <ArrowUpRight className="text-muted-foreground size-3.5" />
                   </span>
                   <span className="text-muted-foreground text-xs leading-relaxed">
                     {item.description}
@@ -192,7 +193,7 @@ function NavMenuItems({
 }) {
   const pathname = usePathname();
   const { setActiveValue, clearBounds } = useHighlight();
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset only on route/auth change
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- reset only on route/auth change
   useEffect(() => {
     setActiveValue(null);
     clearBounds();
@@ -214,7 +215,7 @@ function NavMenuItems({
           <NavigationMenuTrigger
             className={cn(
               NAV_LINK_CLASS,
-              "data-[state=open]:bg-transparent data-[state=open]:text-black data-[state=open]:focus:bg-transparent data-[state=open]:hover:bg-transparent dark:data-[state=open]:text-white"
+              "data-[state=open]:bg-transparent data-[state=open]:text-black data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent dark:data-[state=open]:text-white"
             )}
           >
             Library
@@ -286,7 +287,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
   const libraryItems = LIBRARY_NAV_ITEMS(primitivesUrl, uiUrl);
 
   return (
-    <Navbar className="z-30 h-14 border-border/40 border-b bg-background/80 px-(--fd-layout-offset) backdrop-blur-md transition-colors md:h-17">
+    <Navbar className="border-border/40 bg-background/80 z-30 h-14 border-b px-(--fd-layout-offset) backdrop-blur-md transition-colors md:h-17">
       <div className="relative z-10 mx-auto flex h-full w-full max-w-(--fd-layout-width) items-center gap-3 px-3 md:px-5">
         <Link
           className={buttonVariants({
@@ -310,7 +311,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
           <div className="hidden items-center gap-1 md:flex">
             <NavigationMenu viewport={false}>
               <Highlight
-                className="pointer-events-none rounded-md bg-accent"
+                className="bg-accent pointer-events-none rounded-md"
                 containerClassName="relative"
                 mode="parent"
                 trigger="hover"
@@ -334,7 +335,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
 
             <a
               aria-label="GitHub repository"
-              className="ms-2 hidden size-6 shrink-0 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground md:ms-3 md:inline-flex [&_svg]:size-6"
+              className="text-fd-muted-foreground hover:bg-fd-accent hover:text-fd-accent-foreground ms-2 hidden size-6 shrink-0 items-center justify-center rounded-md transition-colors md:ms-3 md:inline-flex [&_svg]:size-6"
               href={GITHUB_REPO_URL}
               rel="noreferrer noopener"
               target="_blank"
@@ -345,7 +346,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
             {isAuthEnabled() ? (
               <UserButton
                 align="end"
-                className="ms-2 size-6! p-0! text-fd-muted-foreground md:ms-3"
+                className="text-fd-muted-foreground ms-2 size-6! p-0! md:ms-3"
                 links={[
                   {
                     label: "My Library",
@@ -360,7 +361,7 @@ export const Nav = ({ primitivesUrl, uiUrl }: NavProps) => {
             ) : (
               <button
                 aria-label="Sign-in temporarily disabled"
-                className="ms-2 inline-flex size-6 shrink-0 cursor-not-allowed items-center justify-center rounded-md text-fd-muted-foreground/40 transition-colors md:ms-3 [&_svg]:size-6"
+                className="text-fd-muted-foreground/40 ms-2 inline-flex size-6 shrink-0 cursor-not-allowed items-center justify-center rounded-md transition-colors md:ms-3 [&_svg]:size-6"
                 title="Sign-in is temporarily disabled in production"
                 type="button"
               >

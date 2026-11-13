@@ -2,7 +2,7 @@
  * Vendored from @better-auth-ui/core@1.6.17 (MIT).
  * @see sandbox/MIGRATION-drop-better-auth-ui.md
  */
-// biome-ignore lint/performance/noBarrelFile: public entry for vendored auth-core subset
+// oxlint-disable-next-line oxc/no-barrel-file -- public entry for vendored auth-core subset
 export * from "./auth-mutation-keys";
 export * from "./auth-query-keys";
 export * from "./config";

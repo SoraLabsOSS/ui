@@ -12,6 +12,7 @@ import {
 import { Button } from "@workspace/ui/components/ui/button";
 import { UserCheck } from "lucide-react";
 import Link from "next/link";
+
 import { AuthPageShell } from "@/components/auth/auth-page-shell";
 
 export function AlreadySignedIn() {
@@ -24,10 +25,10 @@ export function AlreadySignedIn() {
           <EmptyMedia variant="icon">
             <UserCheck />
           </EmptyMedia>
-          <EmptyTitle>You're already signed in</EmptyTitle>
+          <EmptyTitle>You&apos;re already signed in</EmptyTitle>
           <EmptyDescription>
-            You're currently signed in to your SoraLabs account. What would you
-            like to do?
+            You&apos;re currently signed in to your SoraLabs account. What would
+            you like to do?
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent className="flex-row justify-center gap-2">
