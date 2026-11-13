@@ -20,6 +20,7 @@ export const ControlColor = ({ className, ...props }: ControlColorProps) => {
     }
 
     let isCurrentLocked = false;
+    let repositionRaf: number | null = null;
 
     const handleLock = () => {
       if (!isCurrentLocked) {
@@ -35,6 +36,74 @@ export const ControlColor = ({ className, ...props }: ControlColorProps) => {
       }
     };
 
+    const positionPopover = () => {
+      const popover = document.querySelector(
+        ".dialkit-color-popover"
+      ) as HTMLElement | null;
+      const row = el.querySelector(
+        ".dialkit-color-control"
+      ) as HTMLElement | null;
+
+      if (!popover || !row) {
+        return;
+      }
+
+      const rowRect = row.getBoundingClientRect();
+      const popoverWidth = popover.offsetWidth || 280;
+      const popoverHeight = popover.offsetHeight || 370;
+      const margin = 8;
+      const gap = 6;
+
+      // Base UI style: align popover right edge with the row right edge (anchored under swatch)
+      let left = rowRect.right - popoverWidth;
+      left = Math.max(
+        margin,
+        Math.min(left, window.innerWidth - popoverWidth - margin)
+      );
+
+      const spaceBelow = window.innerHeight - rowRect.bottom - gap - margin;
+      const spaceAbove = rowRect.top - gap - margin;
+      const isAbove = spaceBelow < popoverHeight && spaceAbove > spaceBelow;
+
+      let top = isAbove
+        ? rowRect.top - popoverHeight - gap
+        : rowRect.bottom + gap;
+      top = Math.max(
+        margin,
+        Math.min(top, window.innerHeight - popoverHeight - margin)
+      );
+
+      const targetLeft = `${left}px`;
+      const targetTop = `${top}px`;
+
+      if (
+        popover.style.getPropertyValue("left") !== targetLeft ||
+        popover.style.getPropertyValue("top") !== targetTop
+      ) {
+        popover.style.setProperty("left", targetLeft, "important");
+        popover.style.setProperty("top", targetTop, "important");
+        popover.style.setProperty(
+          "transform-origin",
+          isAbove ? "bottom right" : "top right"
+        );
+      }
+    };
+
+    const startRepositionLoop = () => {
+      const step = () => {
+        positionPopover();
+        repositionRaf = requestAnimationFrame(step);
+      };
+      step();
+    };
+
+    const stopRepositionLoop = () => {
+      if (repositionRaf !== null) {
+        cancelAnimationFrame(repositionRaf);
+        repositionRaf = null;
+      }
+    };
+
     const checkOpenState = () => {
       const row = el.querySelector(
         ".dialkit-color-control"
@@ -47,7 +116,9 @@ export const ControlColor = ({ className, ...props }: ControlColorProps) => {
 
       if (isOpen) {
         handleLock();
+        startRepositionLoop();
       } else {
+        stopRepositionLoop();
         handleUnlock();
       }
     };
@@ -60,8 +131,12 @@ export const ControlColor = ({ className, ...props }: ControlColorProps) => {
       attributeFilter: ["data-open", "aria-expanded"],
     });
 
+    window.addEventListener("resize", positionPopover);
+
     return () => {
       observer.disconnect();
+      stopRepositionLoop();
+      window.removeEventListener("resize", positionPopover);
       handleUnlock();
     };
   }, []);

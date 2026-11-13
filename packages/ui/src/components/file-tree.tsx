@@ -18,6 +18,7 @@ import {
   createElement,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -205,6 +206,15 @@ function FolderIcon({
 
 function FolderContent({ children }: { children: React.ReactNode }) {
   const { isOpen } = useFolder();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return isOpen ? <div style={{ overflow: "hidden" }}>{children}</div> : null;
+  }
 
   return (
     <AnimatePresence initial={false}>

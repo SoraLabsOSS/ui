@@ -2157,7 +2157,15 @@ export const index: Record<string, any> = {
       const LazyComp = React.lazy(async () => {
         const mod =
           await import("@/registry/demo/primitives/shaders/silk-background/index.tsx");
-        const demoProps = {};
+        const demoProps = {
+          SilkBackground: {
+            highlightColor: { value: "#3a1220" },
+            shadowColor: { value: "#131316" },
+            scale: { value: 1.1, min: 0.5, max: 3, step: 0.1 },
+            noise: { value: 1, min: 0, max: 3, step: 0.1 },
+            speed: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -2179,7 +2187,15 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        SilkBackground: {
+          highlightColor: { value: "#3a1220" },
+          shadowColor: { value: "#131316" },
+          scale: { value: 1.1, min: 0.5, max: 3, step: 0.1 },
+          noise: { value: 1, min: 0, max: 3, step: 0.1 },
+          speed: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/silk-background",
@@ -5945,7 +5961,15 @@ export const index: Record<string, any> = {
       const LazyComp = React.lazy(async () => {
         const mod =
           await import("@/registry/demo/primitives/shaders/silk-background/index.tsx");
-        const demoProps = {};
+        const demoProps = {
+          SilkBackgroundDemo: {
+            highlightColor: { value: "#3a1220" },
+            shadowColor: { value: "#131316" },
+            scale: { value: 1.1, min: 0.5, max: 3, step: 0.1 },
+            noise: { value: 1, min: 0, max: 3, step: 0.1 },
+            speed: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
+          },
+        };
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
           (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
@@ -5967,7 +5991,15 @@ export const index: Record<string, any> = {
         }
         return { default: Comp };
       });
-      LazyComp.demoProps = {};
+      LazyComp.demoProps = {
+        SilkBackgroundDemo: {
+          highlightColor: { value: "#3a1220" },
+          shadowColor: { value: "#131316" },
+          scale: { value: 1.1, min: 0.5, max: 3, step: 0.1 },
+          noise: { value: 1, min: 0, max: 3, step: 0.1 },
+          speed: { value: 0.5, min: 0.1, max: 2, step: 0.1 },
+        },
+      };
       return LazyComp;
     })(),
     command: "@soralabs/demo-silk-background",

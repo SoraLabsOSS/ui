@@ -50,21 +50,81 @@ fn fs_main(@builtin(position) pos: vec4f) -> @location(0) vec4f {
 // Prepared ShaderSource with full reflection metadata for vgpu pipeline
 const compiledSilkShader = prepareShader(SILK_SHADER);
 
-// --- Hardcoded Palettes ------------------------------------------------------
+// --- Defaults & Color Parsing ------------------------------------------------
 
-const SHADOW = [0x13 / 255, 0x13 / 255, 0x16 / 255] as [number, number, number];
-const HIGHLIGHT = [0x3a / 255, 0x12 / 255, 0x20 / 255] as [
-  number,
-  number,
-  number,
+const DEFAULT_SHADOW: [number, number, number] = [
+  0x13 / 255,
+  0x13 / 255,
+  0x16 / 255,
+];
+const DEFAULT_HIGHLIGHT: [number, number, number] = [
+  0x3a / 255,
+  0x12 / 255,
+  0x20 / 255,
 ];
 
-const FALLBACK_BACKGROUND =
-  "radial-gradient(120% 120% at 50% 0%, rgb(58 18 32) 0%, rgb(19 19 22) 70%)";
+/**
+ * Parses any valid CSS color string (hex, rgb, hsl, oklch, etc.) into normalized [r, g, b] (0..1).
+ */
+const parseColorToRgb = (
+  color?: string,
+  fallback: [number, number, number] = [0, 0, 0]
+): [number, number, number] => {
+  if (!color || typeof color !== "string") {
+    return fallback;
+  }
+
+  const trimmed = color.trim();
+
+  // Fast path for 3, 4, 6, 8 hex digits
+  if (trimmed.startsWith("#")) {
+    const hex = trimmed.slice(1);
+    if (hex.length === 3 || hex.length === 4) {
+      const r = Number.parseInt(hex[0] + hex[0], 16) / 255;
+      const g = Number.parseInt(hex[1] + hex[1], 16) / 255;
+      const b = Number.parseInt(hex[2] + hex[2], 16) / 255;
+      if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) {
+        return [r, g, b];
+      }
+    } else if (hex.length >= 6) {
+      const r = Number.parseInt(hex.slice(0, 2), 16) / 255;
+      const g = Number.parseInt(hex.slice(2, 4), 16) / 255;
+      const b = Number.parseInt(hex.slice(4, 6), 16) / 255;
+      if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) {
+        return [r, g, b];
+      }
+    }
+  }
+
+  // Generic browser parsing for rgb(), hsl(), oklch(), color(display-p3 ...)
+  if (typeof document !== "undefined") {
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (ctx) {
+        ctx.fillStyle = trimmed;
+        ctx.fillRect(0, 0, 1, 1);
+        const data = ctx.getImageData(0, 0, 1, 1).data;
+        return [data[0] / 255, data[1] / 255, data[2] / 255];
+      }
+    } catch {
+      // Ignore and fallback
+    }
+  }
+
+  return fallback;
+};
 
 // --- Props & Types -----------------------------------------------------------
 
 export interface SilkBackgroundProps extends ComponentPropsWithoutRef<"canvas"> {
+  /**
+   * Crest highlight color of the silk ripples (hex, rgb, hsl, or oklch).
+   * @default "#3a1220"
+   */
+  highlightColor?: string;
   /**
    * Grain noise intensity blended into the silk surface.
    * @default 1
@@ -80,6 +140,11 @@ export interface SilkBackgroundProps extends ComponentPropsWithoutRef<"canvas"> 
    */
   scale?: number;
   /**
+   * Valley shadow color of the silk ripples (hex, rgb, hsl, or oklch).
+   * @default "#131316"
+   */
+  shadowColor?: string;
+  /**
    * Animation playback speed multiplier.
    * @default 0.5
    */
@@ -91,18 +156,23 @@ export interface SilkBackgroundProps extends ComponentPropsWithoutRef<"canvas"> 
 /**
  * SilkBackground renders a smooth, procedural silk wave background powered by WebGPU.
  */
-export function SilkBackground({
+export const SilkBackground = ({
   ref,
   scale = 1.1,
   noise = 1,
   speed = 0.5,
+  shadowColor = "#131316",
+  highlightColor = "#3a1220",
   className,
   style,
   ...props
-}: SilkBackgroundProps) {
+}: SilkBackgroundProps) => {
   const localRef = useRef<HTMLCanvasElement>(null);
   const reduceMotionRef = useRef(false);
   const [unsupported, setUnsupported] = useState(false);
+  const silkRef = useRef<Effect | null>(null);
+  const speedRef = useRef(speed);
+  speedRef.current = speed;
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -116,6 +186,21 @@ export function SilkBackground({
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
+
+  // Reactive uniform updates when props change without tearing down the WebGPU pipeline
+  useEffect(() => {
+    if (!silkRef.current) {
+      return;
+    }
+    silkRef.current.set({
+      params: {
+        shadow: parseColorToRgb(shadowColor, DEFAULT_SHADOW),
+        highlight: parseColorToRgb(highlightColor, DEFAULT_HIGHLIGHT),
+        scale,
+        noise,
+      },
+    });
+  }, [shadowColor, highlightColor, scale, noise]);
 
   useEffect(() => {
     const canvas = localRef.current;
@@ -154,13 +239,14 @@ export function SilkBackground({
             params: {
               time: 0,
               resolution: [canvasSurface.size[0], canvasSurface.size[1]],
-              shadow: SHADOW,
-              highlight: HIGHLIGHT,
+              shadow: parseColorToRgb(shadowColor, DEFAULT_SHADOW),
+              highlight: parseColorToRgb(highlightColor, DEFAULT_HIGHLIGHT),
               scale,
               noise,
             },
           },
         });
+        silkRef.current = silk;
 
         unsubResize = canvasSurface.onResize(({ width, height }) => {
           silk?.set({ params: { resolution: [width, height] } });
@@ -172,7 +258,7 @@ export function SilkBackground({
           if (!(canvasSurface && silk)) {
             return;
           }
-          const t = reduceMotionRef.current ? 4 : time.time * speed;
+          const t = reduceMotionRef.current ? 4 : time.time * speedRef.current;
           silk.set({ params: { time: t } });
           frame.pass(canvasSurface, silk);
         });
@@ -186,12 +272,15 @@ export function SilkBackground({
 
     return () => {
       disposed = true;
+      silkRef.current = null;
       unsubResize?.();
       stopLoop?.stop();
       silk?.dispose();
       gpu?.dispose();
     };
-  }, [scale, noise, speed]);
+  }, []);
+
+  const fallbackBackground = `radial-gradient(120% 120% at 50% 0%, ${highlightColor} 0%, ${shadowColor} 70%)`;
 
   return (
     <canvas
@@ -204,10 +293,8 @@ export function SilkBackground({
           (ref as { current: HTMLCanvasElement | null }).current = element;
         }
       }}
-      style={
-        unsupported ? { background: FALLBACK_BACKGROUND, ...style } : style
-      }
+      style={unsupported ? { background: fallbackBackground, ...style } : style}
       {...props}
     />
   );
-}
+};

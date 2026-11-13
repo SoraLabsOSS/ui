@@ -33,6 +33,16 @@ export default function HeroSection() {
 
 <TypeTable
   type={{
+    highlightColor: {
+      description: "Wave crest highlight color (hex, rgb, hsl, or oklch).",
+      type: "string",
+      default: '"#3a1220"',
+    },
+    shadowColor: {
+      description: "Deep wave valley shadow color (hex, rgb, hsl, or oklch).",
+      type: "string",
+      default: '"#131316"',
+    },
     scale: {
       description:
         "Pattern zoom scale. Higher values produce tighter, denser ripples.",
