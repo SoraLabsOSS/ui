@@ -129,7 +129,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <body
         className={cn(
-          "flex min-h-screen flex-col"
+          "dialkit-root flex min-h-screen flex-col"
           // Allows to make more attractive video recordings
           // 'screenshot-mode',
         )}

@@ -773,3 +773,33 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   border-radius: 0.5rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
 }
+
+/* DialKit theme adaptation for Sora UI light/dark modes */
+body.dialkit-root {
+  font-family: inherit;
+}
+
+:root:not(.dark) .dialkit-root:not([data-theme="dark"]) {
+  --dial-surface: rgba(0, 0, 0, 0.04);
+  --dial-surface-hover: rgba(0, 0, 0, 0.08);
+  --dial-surface-active: rgba(0, 0, 0, 0.1);
+  --dial-surface-subtle: rgba(0, 0, 0, 0.06);
+
+  --dial-text-root: #000000;
+  --dial-text-section: rgba(0, 0, 0, 0.65);
+  --dial-text-label: rgba(0, 0, 0, 0.6);
+  --dial-text-focus: #000000;
+
+  --dial-text-primary: rgba(0, 0, 0, 0.9);
+  --dial-text-secondary: rgba(0, 0, 0, 0.55);
+  --dial-text-tertiary: rgba(0, 0, 0, 0.35);
+
+  --dial-border: rgba(0, 0, 0, 0.1);
+  --dial-border-hover: rgba(0, 0, 0, 0.15);
+  --dial-focus-ring: rgba(0, 0, 0, 0.55);
+
+  --dial-glass-bg: #fafafa;
+  --dial-dropdown-bg: #ffffff;
+  --dial-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --dial-shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.08);
+}

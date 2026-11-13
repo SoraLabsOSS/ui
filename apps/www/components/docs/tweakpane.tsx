@@ -1,29 +1,28 @@
 "use client";
 
+import "dialkit/styles.css";
 import { Button } from "@workspace/ui/components/ui/button";
-import { Input } from "@workspace/ui/components/ui/input";
-import { Label } from "@workspace/ui/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/ui/select";
-import { Slider } from "@workspace/ui/components/ui/slider";
 import { cn } from "@workspace/ui/lib/utils";
 import { SlidersHorizontal, Undo2 } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Fragment, useCallback, useEffect, useState } from "react";
-import type { ChangeEvent, FC, InputHTMLAttributes, ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import { Switch } from "@/registry/ui/base/switch";
+import {
+  ControlColor,
+  ControlFolder,
+  ControlSelect,
+  ControlSlider,
+  ControlText,
+  ControlToggle,
+} from "./controls";
 
 interface BaseBindNumber {
   value: number;
 }
 type BindNumberSlider = BaseBindNumber & {
-  min: number;
   max: number;
+  min: number;
   step: number;
 };
 type BindNumberOptions = BaseBindNumber & { options: Record<string, number> };
@@ -69,79 +68,6 @@ interface UncontrolledTweakpaneProps {
 
 type TweakpaneProps = ControlledTweakpaneProps | UncontrolledTweakpaneProps;
 
-interface NumericInputProps extends Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  "value" | "onChange"
-> {
-  max?: number;
-  min?: number;
-  onValueChange: (value: number) => void;
-  step?: number;
-  value: number;
-}
-
-const NumericInput: FC<NumericInputProps> = ({
-  value,
-  onValueChange,
-  className,
-  min,
-  max,
-  step,
-  ...props
-}) => {
-  const [display, setDisplay] = useState<string>(value.toString());
-
-  useEffect(() => setDisplay(value.toString()), [value]);
-
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const v = e.target.value;
-      setDisplay(v);
-      if (v !== "") {
-        let n = Number(v);
-        if (!Number.isNaN(n)) {
-          if (min !== undefined && n < min) {
-            n = min;
-          }
-          if (max !== undefined && n > max) {
-            n = max;
-          }
-          if (step !== undefined && step > 0) {
-            n = Math.round(n / step) * step;
-          }
-          onValueChange(n);
-        }
-      }
-    },
-    [min, max, step, onValueChange]
-  );
-
-  const handleBlur = useCallback(() => {
-    setDisplay(value.toString());
-  }, [value]);
-
-  return (
-    <input
-      {...props}
-      autoComplete="off"
-      className={cn(
-        "border-border/60 bg-muted/30 text-foreground h-6 w-14 rounded border px-1.5 text-right font-mono text-[11px] transition-colors",
-        "hover:border-border focus:border-ring focus:bg-background focus:ring-ring/40 focus:ring-1 focus:outline-none",
-        "[&[type='number']::-webkit-inner-spin-button]:appearance-none [&[type='number']::-webkit-outer-spin-button]:appearance-none",
-        className
-      )}
-      inputMode="decimal"
-      max={max}
-      min={min}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      step={step}
-      type="number"
-      value={display}
-    />
-  );
-};
-
 const isNestedBinds = (binds: Binds): binds is NestedBinds =>
   Object.values(binds).every(
     (v) =>
@@ -154,277 +80,142 @@ const isNestedBinds = (binds: Binds): binds is NestedBinds =>
       )
   );
 
-const rowContainerClassName =
-  "group/item flex min-h-[42px] items-center justify-between gap-3 rounded-lg border border-border/40 bg-background/50 px-3 py-2 transition-colors hover:border-border/80 hover:bg-muted/20";
-
-const getRowClassName = (stacked: boolean, compact: boolean) =>
-  cn(
-    rowContainerClassName,
-    stacked && "flex-col items-stretch gap-2",
-    compact && "min-h-0 rounded-md px-2 py-1.5"
-  );
-
 const renderNumber = (
   key: string,
   bind: BindNumber,
-  onChange: (value: number) => void,
-  stacked: boolean,
-  compact: boolean
+  onChange: (value: number) => void
 ) => {
   if ("min" in bind && "max" in bind) {
     return (
-      <div className={getRowClassName(stacked, compact)} key={key}>
-        <div className="flex min-w-0 flex-1 items-center gap-2">
-          <Label
-            className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
-            htmlFor={key}
-            title={key}
-          >
-            {key}
-          </Label>
-        </div>
-
-        <div
-          className={cn(
-            "flex w-56 items-center gap-2.5 md:w-64",
-            stacked && "w-full sm:w-full md:w-full"
-          )}
-        >
-          <Slider
-            className="flex-1"
-            max={bind.max}
-            min={bind.min}
-            onValueChange={(v) => onChange(v[0] ?? 0)}
-            step={bind.step}
-            value={[bind.value]}
-          />
-          <NumericInput
-            id={key}
-            max={bind.max}
-            min={bind.min}
-            onValueChange={onChange}
-            step={bind.step}
-            value={bind.value}
-          />
-        </div>
-      </div>
+      <ControlSlider
+        key={key}
+        label={key}
+        max={bind.max}
+        min={bind.min}
+        onChange={onChange}
+        step={bind.step}
+        value={bind.value}
+      />
     );
   }
 
   if ("options" in bind) {
+    const optionEntries = Object.entries(bind.options);
     return (
-      <div className={getRowClassName(stacked, compact)} key={key}>
-        <div className="flex min-w-0 flex-1 items-center gap-2">
-          <Label
-            className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
-            htmlFor={key}
-            title={key}
-          >
-            {key}
-          </Label>
-        </div>
-
-        <Select
-          onValueChange={(v) => onChange(Number(v))}
-          value={bind.value.toString()}
-        >
-          <SelectTrigger
-            className={cn(
-              "border-border/60 bg-muted/20 hover:bg-muted/40 h-7 w-36 rounded-md px-2 font-mono text-[11px] sm:w-44",
-              stacked && "w-full sm:w-full"
-            )}
-            id={key}
-            size="sm"
-          >
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-
-          <SelectContent align="end">
-            {Object.entries(bind.options).map(([optLabel, optValue]) => (
-              <SelectItem
-                className="font-mono text-xs"
-                key={optLabel}
-                value={optValue.toString()}
-              >
-                {optLabel}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <ControlSelect
+        key={key}
+        label={key}
+        onChange={(v) => onChange(Number(v))}
+        options={optionEntries.map(([optLabel, optValue]) => ({
+          label: optLabel,
+          value: optValue.toString(),
+        }))}
+        value={bind.value.toString()}
+      />
     );
   }
 
   return (
-    <div className={getRowClassName(stacked, compact)} key={key}>
-      <div className="flex min-w-0 flex-1 items-center gap-2">
-        <Label
-          className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
-          htmlFor={key}
-          title={key}
-        >
-          {key}
-        </Label>
-      </div>
-
-      <NumericInput
-        className={cn("w-24 text-left", stacked && "w-full")}
-        id={key}
-        onValueChange={onChange}
-        value={bind.value}
-      />
-    </div>
+    <ControlText
+      key={key}
+      label={key}
+      onChange={(v) => {
+        const n = Number(v);
+        if (!Number.isNaN(n)) {
+          onChange(n);
+        }
+      }}
+      value={bind.value.toString()}
+    />
   );
+};
+
+const HEX_COLOR_REGEX = /^#(?:[\da-fA-F]{3,4}|[\da-fA-F]{6}|[\da-fA-F]{8})$/;
+const FUNCTIONAL_COLOR_REGEX =
+  /^(?:oklch|rgb|rgba|hsl|hsla|color|lab|lch|oklab|hwb)\(/i;
+
+const isColorValue = (value: string): boolean => {
+  const trimmed = value.trim();
+  return HEX_COLOR_REGEX.test(trimmed) || FUNCTIONAL_COLOR_REGEX.test(trimmed);
 };
 
 const renderString = (
   key: string,
   bind: BindString,
-  onChange: (value: string | number | boolean) => void,
-  stacked: boolean,
-  compact: boolean
-) =>
-  bind?.options ? (
-    <div className={getRowClassName(stacked, compact)} key={key}>
-      <div className="flex min-w-0 flex-1 items-center gap-2">
-        <Label
-          className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
-          htmlFor={key}
-          title={key}
-        >
-          {key}
-        </Label>
-      </div>
-
-      <Select
-        onValueChange={(v) => {
+  onChange: (value: string | number | boolean) => void
+) => {
+  if (bind?.options) {
+    const optionEntries = Object.entries(bind.options);
+    return (
+      <ControlSelect
+        key={key}
+        label={key}
+        onChange={(v) => {
           const realValue = Object.values(bind.options ?? {}).find(
             (opt) => String(opt) === v
           );
           onChange(realValue ?? v);
         }}
+        options={optionEntries.map(([optLabel, optValue]) => ({
+          label: optLabel,
+          value: String(optValue),
+        }))}
         value={String(bind.value)}
-      >
-        <SelectTrigger
-          className={cn(
-            "border-border/60 bg-muted/20 hover:bg-muted/40 h-7 w-36 rounded-md px-2 font-mono text-[11px] sm:w-44",
-            stacked && "w-full sm:w-full"
-          )}
-          id={key}
-          size="sm"
-        >
-          <SelectValue placeholder="Select" />
-        </SelectTrigger>
+      />
+    );
+  }
 
-        <SelectContent align="end">
-          {Object.entries(bind.options).map(([optLabel, optValue]) => (
-            <SelectItem
-              className="font-mono text-xs"
-              key={optLabel}
-              value={String(optValue)}
-            >
-              {optLabel}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  ) : (
-    <div className={getRowClassName(stacked, compact)} key={key}>
-      <div className="flex min-w-0 flex-1 items-center gap-2">
-        <Label
-          className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors"
-          htmlFor={key}
-          title={key}
-        >
-          {key}
-        </Label>
-      </div>
-
-      <Input
-        className={cn(
-          "border-border/60 bg-muted/20 hover:bg-muted/40 h-7 w-36 rounded-md px-2 font-mono text-[11px] sm:w-44",
-          stacked && "w-full sm:w-full"
-        )}
-        id={key}
-        onChange={(e) => onChange(e.target.value)}
+  if (typeof bind.value === "string" && isColorValue(bind.value)) {
+    return (
+      <ControlColor
+        key={key}
+        label={key}
+        onChange={(v) => onChange(v)}
         value={bind.value}
       />
-    </div>
+    );
+  }
+
+  return (
+    <ControlText
+      key={key}
+      label={key}
+      onChange={(v) => onChange(v)}
+      value={bind.value}
+    />
   );
+};
 
 const renderBoolean = (
   key: string,
   bind: BindBoolean,
-  onChange: (value: boolean) => void,
-  stacked: boolean,
-  compact: boolean
+  onChange: (value: boolean) => void
 ) => (
-  <div className={getRowClassName(stacked, compact)} key={key}>
-    <div className="flex min-w-0 flex-1 items-center gap-2">
-      <Label
-        className="text-muted-foreground group-hover/item:text-foreground truncate font-mono text-[12px] transition-colors select-none"
-        htmlFor={key}
-        title={key}
-      >
-        {key}
-      </Label>
-    </div>
-
-    <div className="flex items-center gap-2">
-      <span className="text-muted-foreground font-mono text-[10px] select-none">
-        {bind.value ? "true" : "false"}
-      </span>
-      <Switch
-        checked={bind.value}
-        id={key}
-        onCheckedChange={onChange}
-        size="sm"
-      />
-    </div>
-  </div>
+  <ControlToggle key={key} label={key} onChange={onChange} value={bind.value} />
 );
 
 const renderBind = (
   key: string,
   bind: Bind,
-  onChange: (value: unknown) => void,
-  stacked: boolean,
-  compact: boolean
+  onChange: (value: unknown) => void
 ) => {
   if ("value" in bind) {
     if ("options" in bind) {
       if (typeof bind.value === "number") {
-        return renderNumber(
-          key,
-          bind as unknown as BindNumber,
-          onChange,
-          stacked,
-          compact
-        );
+        return renderNumber(key, bind as unknown as BindNumber, onChange);
       }
-      return renderString(
-        key,
-        bind as unknown as BindString,
-        (v) => onChange(v),
-        stacked,
-        compact
+      return renderString(key, bind as unknown as BindString, (v) =>
+        onChange(v)
       );
     }
     if (typeof bind.value === "number") {
-      return renderNumber(key, bind as BindNumber, onChange, stacked, compact);
+      return renderNumber(key, bind as BindNumber, onChange);
     }
     if (typeof bind.value === "string") {
-      return renderString(key, bind as BindString, onChange, stacked, compact);
+      return renderString(key, bind as BindString, onChange);
     }
     if (typeof bind.value === "boolean") {
-      return renderBoolean(
-        key,
-        bind as BindBoolean,
-        onChange,
-        stacked,
-        compact
-      );
+      return renderBoolean(key, bind as BindBoolean, onChange);
     }
   }
   return null;
@@ -433,26 +224,18 @@ const renderBind = (
 const renderFlatBinds = (
   binds: FlatBinds,
   onBindsChange: (binds: FlatBinds) => void,
-  columns: 1 | 2,
-  stacked: boolean,
-  compact: boolean
+  columns: 1 | 2
 ): ReactNode => (
   <div
     className={cn(
-      "grid grid-cols-1 gap-3",
-      columns === 2 && "sm:grid-cols-2",
-      compact && "gap-2"
+      "grid grid-cols-1 gap-2.5 sm:gap-3",
+      columns === 2 && "sm:grid-cols-2"
     )}
   >
     {Object.entries(binds).map(([key, bind]) => (
       <Fragment key={key}>
-        {renderBind(
-          key,
-          bind,
-          (value) =>
-            onBindsChange({ ...binds, [key]: { ...bind, value } } as FlatBinds),
-          stacked,
-          compact
+        {renderBind(key, bind, (value) =>
+          onBindsChange({ ...binds, [key]: { ...bind, value } } as FlatBinds)
         )}
       </Fragment>
     ))}
@@ -462,55 +245,31 @@ const renderFlatBinds = (
 const renderNestedBinds = (
   binds: NestedBinds,
   onBindsChange: (binds: NestedBinds) => void,
-  columns: 1 | 2,
-  stacked: boolean,
-  compact: boolean
+  columns: 1 | 2
 ): ReactNode => {
   const groups = Object.entries(binds);
 
-  // If there is only one group (e.g. single component name like "Switch"), omit the redundant header
   if (groups.length === 1) {
     const [groupKey, groupBind] = groups[0];
     return renderFlatBinds(
       groupBind,
       (updatedGroupBind) =>
         onBindsChange({ ...binds, [groupKey]: updatedGroupBind }),
-      columns,
-      stacked,
-      compact
+      columns
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {groups.map(([groupKey, groupBind]) => (
-        <div className="space-y-2.5" key={groupKey}>
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground font-mono text-[11px] font-medium tracking-wider uppercase">
-              {groupKey}
-            </span>
-            <svg aria-hidden="true" className="block h-px flex-1">
-              <line
-                className="text-border/60"
-                stroke="currentColor"
-                strokeDasharray="8 4"
-                strokeWidth="1"
-                x1="0"
-                x2="100%"
-                y1="0"
-                y2="0"
-              />
-            </svg>
-          </div>
+        <ControlFolder defaultOpen={true} key={groupKey} title={groupKey}>
           {renderFlatBinds(
             groupBind,
             (updatedGroupBind) =>
               onBindsChange({ ...binds, [groupKey]: updatedGroupBind }),
-            columns,
-            stacked,
-            compact
+            columns
           )}
-        </div>
+        </ControlFolder>
       ))}
     </div>
   );
@@ -519,34 +278,23 @@ const renderNestedBinds = (
 const renderBinds = (
   binds: Binds,
   onBindsChange: (binds: Binds) => void,
-  columns: 1 | 2,
-  stacked: boolean,
-  compact: boolean
+  columns: 1 | 2
 ) =>
   isNestedBinds(binds)
     ? renderNestedBinds(
         binds,
         onBindsChange as (b: NestedBinds) => void,
-        columns,
-        stacked,
-        compact
+        columns
       )
-    : renderFlatBinds(
-        binds,
-        onBindsChange as (b: FlatBinds) => void,
-        columns,
-        stacked,
-        compact
-      );
+    : renderFlatBinds(binds, onBindsChange as (b: FlatBinds) => void, columns);
 
 const Tweakpane = (props: TweakpaneProps) => {
   const { onBindsChange, onReset } = props;
   const initialBinds = "initialBinds" in props ? props.initialBinds : undefined;
   const binds = "binds" in props ? props.binds : undefined;
   const columns = props.columns ?? 2;
-  const stacked = props.stacked ?? false;
-  const compact = props.compact ?? false;
   const title = props.title ?? "Tweak Props";
+  const { resolvedTheme } = useTheme();
 
   const [localBinds, setLocalBinds] = useState<Binds>(
     binds ?? initialBinds ?? ({} as Binds)
@@ -581,22 +329,20 @@ const Tweakpane = (props: TweakpaneProps) => {
 
   return (
     <div
-      className={cn(
-        "w-full space-y-3 px-1 sm:px-3",
-        compact && "space-y-2 px-0 sm:px-0"
-      )}
+      className="dialkit-container w-full space-y-3 px-1 sm:px-3"
+      data-theme={resolvedTheme === "light" ? "light" : "dark"}
     >
-      <div className="flex items-center justify-between">
-        <div className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium">
-          <SlidersHorizontal className="text-foreground/70 size-3.5" />
-          <span className="text-foreground/90 font-medium tracking-tight">
+      <div className="flex items-center justify-between pb-1">
+        <div className="flex items-center gap-1.5 text-xs font-medium text-black/60 dark:text-white/60">
+          <SlidersHorizontal className="size-3.5" />
+          <span className="font-medium tracking-tight text-black/85 dark:text-white/90">
             {title}
           </span>
         </div>
 
         {canReset ? (
           <Button
-            className="text-muted-foreground hover:text-foreground h-6 gap-1 px-2 font-mono text-[11px]"
+            className="h-6 gap-1 px-2 font-mono text-[11px] text-black/60 hover:text-black dark:text-white/60 dark:hover:text-white"
             onClick={handleReset}
             size="xs"
             title="Reset props to default"
@@ -609,7 +355,7 @@ const Tweakpane = (props: TweakpaneProps) => {
       </div>
 
       <div className="w-full">
-        {renderBinds(localBinds, handleBindsChange, columns, stacked, compact)}
+        {renderBinds(localBinds, handleBindsChange, columns)}
       </div>
     </div>
   );
