@@ -1,0 +1,253 @@
+---
+title: Scroll Gallery
+description: Full-viewport sticky scroll slider with GSAP-driven strip-mask transitions and animated title swaps.
+category: effects
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+registryName: scroll-gallery
+---
+
+## Installation
+
+<ComponentInstallation name="scroll-gallery" />
+
+## Usage
+
+### Basic
+
+```tsx
+import { ScrollGallery } from "@/components/sora-ui/blocks/scroll-gallery";
+
+const slides = [
+  { title: "Room 14B", image: "/images/slide-1.jpg", url: "/project/1" },
+  {
+    title: "Subject Identified",
+    image: "/images/slide-2.jpg",
+    url: "/project/2",
+  },
+];
+
+export default function Page() {
+  return <ScrollGallery slides={slides} />;
+}
+```
+
+### Editorial preset (`variant="studio"`)
+
+Full-bleed hero with a three-column info band (prefix, title, link) and large white type:
+
+```tsx
+<ScrollGallery slides={slides} variant="studio" />
+```
+
+`variant="minimal"` (default) ships structural layout only — add your own typography via the `classNames` prop.
+
+### Custom class map (advanced)
+
+Import `SCROLL_GALLERY_STUDIO_CLASSES` to extend or partially override the studio preset:
+
+```tsx
+import {
+  SCROLL_GALLERY_STUDIO_CLASSES as studio,
+  ScrollGallery,
+} from "@/components/sora-ui/blocks/scroll-gallery";
+
+<ScrollGallery
+  variant="studio"
+  classNames={{ titleText: cn(studio.titleText, "text-amber-200") }}
+  slides={slides}
+/>;
+```
+
+### Custom labels & timing
+
+```tsx
+<ScrollGallery
+  slides={slides}
+  prefixLabel="Projects"
+  linkLabel="View case study"
+  showPrefix={false}
+  scrollPerTransition={800}
+  timing={{
+    titleChangeThreshold: 0.25,
+    scaleFrom: 1.15,
+    stripRevealSpeed: 2.5,
+  }}
+/>
+```
+
+Place `ScrollGallery` at the **root scroll level** of the page. GSAP `pin` requires the section to scroll within `window` — it will not work correctly inside a custom scroll container unless you pass `scroller`.
+
+Use high-quality full-bleed images (at least 1920 × 1080). The component crops to `object-fit: cover` so landscape images work best.
+
+## Props
+
+<TypeTable
+  type={{
+    slides: {
+      description: "Array of slides. Each item requires title and image.",
+      type: "ScrollGallerySlide[]",
+    },
+    prefixLabel: {
+      description: "Left column label. Hidden when showPrefix is false.",
+      type: "string",
+      default: "Featured",
+    },
+    linkLabel: {
+      description: "Global CTA label for the right column.",
+      type: "string",
+      default: "Explore",
+    },
+    showPrefix: {
+      description: "Show the prefix column.",
+      type: "boolean",
+      default: "true",
+    },
+    showLink: {
+      description: "Show the CTA link column.",
+      type: "boolean",
+      default: "true",
+    },
+    showInfoBand: {
+      description: "Show the entire info band (prefix, title, link).",
+      type: "boolean",
+      default: "true",
+    },
+    stripsCount: {
+      description: "Number of horizontal mask strips for the wipe transition.",
+      type: "number",
+      default: "20",
+    },
+    scrollPerTransition: {
+      description: "Scroll distance (vh) per slide transition.",
+      type: "number",
+      default: "1000",
+    },
+    scrub: {
+      description: "GSAP scrub smoothing in seconds.",
+      type: "number",
+      default: "1",
+    },
+    pinStart: {
+      description: "ScrollTrigger pin start position.",
+      type: "string",
+      default: "top top",
+    },
+    refreshPriority: {
+      description:
+        "GSAP ScrollTrigger refresh priority. Set lower than any pinned section above this one in the DOM so spacers are re-added before this trigger measures its position.",
+      type: "number",
+      default: "-1",
+    },
+    scroller: {
+      description: "Scroll container. Defaults to blocks preview or window.",
+      type: "Element | Window",
+    },
+    timing: {
+      description:
+        "Fine-grained animation timing (delays, scale, title motion).",
+      type: "ScrollGalleryTiming",
+    },
+    className: {
+      description: "Root section class names (merged after variant preset).",
+      type: "string",
+    },
+    variant: {
+      description:
+        'Visual preset. "studio" applies Deadlock Studios editorial styling; "minimal" is structural-only.',
+      type: '"minimal" | "studio"',
+      default: "minimal",
+    },
+    classNames: {
+      description:
+        "Per-slot class overrides: `images`, `imageFrame`, `image`, `info`, `infoInner`, `prefix`, `prefixText`, `title`, `titleText`, `link`, `linkText`, `track`.",
+      type: "ScrollGalleryClassNames",
+    },
+  }}
+/>
+
+### ScrollGallerySlide
+
+<TypeTable
+  type={{
+    title: {
+      description: "Slide title in the animated text band.",
+      type: "string",
+    },
+    image: {
+      description: "Image URL or public path.",
+      type: "string",
+    },
+    url: {
+      description: "CTA href. Defaults to '#' when omitted.",
+      type: "string",
+    },
+    linkLabel: {
+      description: "Per-slide CTA label. Overrides linkLabel.",
+      type: "string",
+    },
+  }}
+/>
+
+### ScrollGalleryTiming
+
+<TypeTable
+  type={{
+    initialDelay: {
+      description: "Scroll padding before first transition (vh).",
+      type: "number",
+      default: "300",
+    },
+    finalDelay: {
+      description: "Scroll padding after last transition (vh).",
+      type: "number",
+      default: "300",
+    },
+    titleChangeThreshold: {
+      description: "Progress (0–1) before title advances.",
+      type: "number",
+      default: "0.3",
+    },
+    titleDuration: {
+      description: "Title slide duration in seconds.",
+      type: "number",
+      default: "0.3",
+    },
+    titleEase: {
+      description: "GSAP ease for title transitions.",
+      type: "string",
+      default: "power2.out",
+    },
+    titleOffset: {
+      description: "Vertical offset for title enter/exit.",
+      type: "string",
+      default: "120%",
+    },
+    scaleFrom: {
+      description: "Active image starting scale.",
+      type: "number",
+      default: "1.25",
+    },
+    scaleTo: {
+      description: "Revealed image resting scale.",
+      type: "number",
+      default: "1",
+    },
+    stripRevealSpeed: {
+      description: "Strip mask reveal multiplier.",
+      type: "number",
+      default: "2",
+    },
+  }}
+/>
+
+## When to Use
+
+Use `ScrollGallery` for creative agency home pages, portfolio showcases, or editorial sections where each project or item deserves a dedicated full-screen moment. The pinned scroll pattern forces a deliberate, focused presentation — the user can only advance by scrolling, which creates a chapter-by-chapter rhythm.
+
+Provide at least 3 slides for the scroll distance to feel earned. With fewer than 3, the section feels short and the pin may disorient users.
+
+## Accessibility
+
+The title element stays in the DOM for screen readers while GSAP animates it. Images use accessible `alt` text from the slide `title`, and the CTA link remains keyboard-focusable and updates `href` and `linkLabel` on each slide transition.

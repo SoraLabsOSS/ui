@@ -24,9 +24,9 @@
       "registryDependencies": ["utils"],
       "files": [
         {
-          "path": "registry/catalog/cursor-trail-reveal/index.tsx",
+          "path": "registry/blocks/cursor-trail-reveal/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/cursor-trail-reveal.tsx"
+          "target": "components/sora-ui/blocks/cursor-trail-reveal.tsx"
         }
       ]
     },
@@ -39,9 +39,9 @@
       "registryDependencies": ["utils"],
       "files": [
         {
-          "path": "registry/catalog/infinite-scrolling-images/index.tsx",
+          "path": "registry/blocks/infinite-scrolling-images/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/infinite-scrolling-images.tsx"
+          "target": "components/sora-ui/blocks/infinite-scrolling-images.tsx"
         }
       ],
       "meta": {
@@ -65,9 +65,9 @@
       "registryDependencies": ["@soralabs/lib-scroll-trigger-utils"],
       "files": [
         {
-          "path": "registry/catalog/scroll-chapters/index.tsx",
+          "path": "registry/blocks/scroll-chapters/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/scroll-chapters.tsx"
+          "target": "components/sora-ui/blocks/scroll-chapters.tsx"
         }
       ],
       "meta": {
@@ -97,9 +97,9 @@
       "registryDependencies": ["utils", "@soralabs/lib-scroll-trigger-utils"],
       "files": [
         {
-          "path": "registry/catalog/scroll-gallery/index.tsx",
+          "path": "registry/blocks/scroll-gallery/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/scroll-gallery.tsx"
+          "target": "components/sora-ui/blocks/scroll-gallery.tsx"
         }
       ],
       "meta": {
@@ -151,9 +151,9 @@
       "registryDependencies": ["@soralabs/lib-scroll-trigger-utils"],
       "files": [
         {
-          "path": "registry/catalog/sticky-scroll-cards/index.tsx",
+          "path": "registry/blocks/sticky-scroll-cards/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/sticky-scroll-cards.tsx"
+          "target": "components/sora-ui/blocks/sticky-scroll-cards.tsx"
         }
       ],
       "meta": {
@@ -183,9 +183,9 @@
       "registryDependencies": ["@soralabs/lib-scroll-trigger-utils"],
       "files": [
         {
-          "path": "registry/catalog/text-reveal-box/index.tsx",
+          "path": "registry/blocks/text-reveal-box/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/text-reveal-box.tsx"
+          "target": "components/sora-ui/blocks/text-reveal-box.tsx"
         }
       ],
       "meta": {
@@ -213,9 +213,9 @@
       "dependencies": ["gsap", "@gsap/react", "lenis"],
       "files": [
         {
-          "path": "registry/catalog/tilt-slide-transition/index.tsx",
+          "path": "registry/blocks/tilt-slide-transition/index.tsx",
           "type": "registry:ui",
-          "target": "components/sora-ui/catalog/tilt-slide-transition.tsx"
+          "target": "components/sora-ui/blocks/tilt-slide-transition.tsx"
         }
       ],
       "meta": {

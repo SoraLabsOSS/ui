@@ -1,0 +1,12 @@
+{
+  "title": "Blocks",
+  "pages": [
+    "cursor-trail-reveal",
+    "text-reveal-box",
+    "infinite-scrolling-images",
+    "sticky-scroll-cards",
+    "scroll-gallery",
+    "scroll-chapters",
+    "tilt-slide-transition"
+  ]
+}

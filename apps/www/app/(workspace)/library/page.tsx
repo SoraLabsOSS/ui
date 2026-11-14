@@ -33,7 +33,7 @@ import {
 type ViewMode = "cards" | "compact" | "list";
 
 const TAG_GRADIENTS: Record<string, string> = {
-  catalog: "from-violet-500/15 via-blue-500/8 to-transparent",
+  blocks: "from-violet-500/15 via-blue-500/8 to-transparent",
   components: "from-violet-500/15 via-blue-500/8 to-transparent",
   motion: "from-emerald-500/15 via-teal-500/8 to-transparent",
   primitives: "from-emerald-500/15 via-teal-500/8 to-transparent",
@@ -514,13 +514,12 @@ export default function BookmarkPage() {
 
   const filteredBookmarks = useMemo(
     () =>
-      bookmarks.filter((b) => {
-        const matchesSearch =
+      bookmarks.filter(
+        (b) =>
           search.trim() === "" ||
           b.title.toLowerCase().includes(search.toLowerCase()) ||
-          b.description?.toLowerCase().includes(search.toLowerCase());
-        return matchesSearch;
-      }),
+          b.description?.toLowerCase().includes(search.toLowerCase())
+      ),
     [bookmarks, search]
   );
 

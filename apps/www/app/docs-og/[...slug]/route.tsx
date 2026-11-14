@@ -58,8 +58,8 @@ export function generateStaticParams(): {
       slug: ["ui", ...page.slug, "image.png"],
     }));
 
-  const catalogParams = getComponentSlugs().map((componentSlug) => ({
-    slug: ["catalog", componentSlug, "image.png"],
+  const blocksParams = getComponentSlugs().map((componentSlug) => ({
+    slug: ["blocks", componentSlug, "image.png"],
   }));
 
   const componentParams = getComponentSlugs().map((componentSlug) => ({
@@ -71,13 +71,13 @@ export function generateStaticParams(): {
     { slug: ["motion", "image.png"] },
     { slug: ["icons", "image.png"] },
     { slug: ["ui", "image.png"] },
-    { slug: ["catalog", "image.png"] },
+    { slug: ["blocks", "image.png"] },
     { slug: ["components", "image.png"] },
     ...docParams,
     ...motionParams,
     ...iconParams,
     ...uiParams,
-    ...catalogParams,
+    ...blocksParams,
     ...componentParams,
   ];
 }

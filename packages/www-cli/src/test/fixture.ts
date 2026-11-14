@@ -4,7 +4,7 @@ import path from "node:path";
 import type { PrimitiveCategory, UiFramework } from "../lib/paths.js";
 import {
   findRepoRoot,
-  getCatalogPaths,
+  getBlocksPaths,
   getIconPaths,
   getPrimitivePaths,
   getUiPaths,
@@ -13,7 +13,7 @@ import {
 
 export const FIXTURE_NAME = "www-cli-automated-fixture";
 export const UI_FIXTURE_NAME = "www-cli-ui-fixture";
-export const CATALOG_FIXTURE_SLUG = "www-cli-catalog-fixture";
+export const BLOCKS_FIXTURE_SLUG = "www-cli-blocks-fixture";
 export const ICON_FIXTURE_NAME = "www-cli-icon-fixture";
 
 export function getRepoRoot(): string {
@@ -93,12 +93,12 @@ export async function cleanupUiFixture(
   await writeFile(paths.metaJsonPath, `${JSON.stringify(meta, null, 2)}\n`);
 }
 
-export async function cleanupCatalogFixture(
-  slug = CATALOG_FIXTURE_SLUG,
+export async function cleanupBlocksFixture(
+  slug = BLOCKS_FIXTURE_SLUG,
   repoRoot = getRepoRoot()
 ): Promise<void> {
   const wwwRoot = getWwwRootFromRepo(repoRoot);
-  const paths = getCatalogPaths(wwwRoot, slug);
+  const paths = getBlocksPaths(wwwRoot, slug);
 
   await rm(paths.mdxPath, { force: true });
 

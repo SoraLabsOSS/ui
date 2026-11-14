@@ -74,7 +74,7 @@ export async function insertIntoUiMeta(
   );
 }
 
-export async function insertIntoCatalogMeta(
+export async function insertIntoBlocksMeta(
   metaJsonPath: string,
   slug: string
 ): Promise<void> {

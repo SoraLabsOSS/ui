@@ -1,6 +1,6 @@
 import { cancel, intro, isCancel, select, text } from "@clack/prompts";
 
-import { buildCatalogLabels } from "./catalog-templates.js";
+import { buildBlocksLabels } from "./blocks-templates.js";
 import { assertKebabCase, categoryLabel } from "./naming.js";
 import { CATEGORY_SECTIONS, PRIMITIVE_CATEGORIES } from "./paths.js";
 import type { PrimitiveCategory } from "./paths.js";
@@ -8,7 +8,7 @@ import { allowsPrompts, isScripted } from "./scaffold-flags.js";
 import type { ScaffoldRunFlags } from "./scaffold-flags.js";
 import { nonInteractiveHint } from "./terminal.js";
 
-export interface CreateCatalogOptions extends ScaffoldRunFlags {
+export interface CreateBlocksOptions extends ScaffoldRunFlags {
   category?: string;
   description?: string;
   registryName?: string;
@@ -17,7 +17,7 @@ export interface CreateCatalogOptions extends ScaffoldRunFlags {
   title?: string;
 }
 
-export interface ResolvedCreateCatalogOptions {
+export interface ResolvedCreateBlocksOptions {
   category: PrimitiveCategory;
   description: string;
   dryRun: boolean;
@@ -34,7 +34,7 @@ function isPrimitiveCategory(value: string): value is PrimitiveCategory {
 
 function assertCanPrompt(
   slugArg: string | undefined,
-  options: CreateCatalogOptions
+  options: CreateBlocksOptions
 ): void {
   const hasSlug = Boolean(slugArg?.trim() || options.slug?.trim());
 
@@ -42,7 +42,7 @@ function assertCanPrompt(
     return;
   }
 
-  throw new Error(nonInteractiveHint("bun run create:catalog <slug> --yes"));
+  throw new Error(nonInteractiveHint("bun run create:blocks <slug> --yes"));
 }
 
 async function resolveCategory(
@@ -78,7 +78,7 @@ async function resolveCategory(
 
 async function resolveSlug(
   slugArg: string | undefined,
-  options: CreateCatalogOptions,
+  options: CreateBlocksOptions,
   interactive: boolean
 ): Promise<string> {
   const candidate = (slugArg ?? options.slug)?.trim();
@@ -92,7 +92,7 @@ async function resolveSlug(
   }
 
   const entered = await text({
-    message: "Catalog slug (kebab-case)",
+    message: "Blocks slug (kebab-case)",
     placeholder: "hero-parallax-showcase",
     validate(value) {
       if (!value.trim()) {
@@ -151,15 +151,15 @@ async function resolveRegistryName(
   return entered.trim() || slug;
 }
 
-export async function resolveCreateCatalogOptions(
+export async function resolveCreateBlocksOptions(
   slugArg: string | undefined,
-  options: CreateCatalogOptions = {}
-): Promise<ResolvedCreateCatalogOptions> {
+  options: CreateBlocksOptions = {}
+): Promise<ResolvedCreateBlocksOptions> {
   assertCanPrompt(slugArg, options);
 
   const interactive = allowsPrompts(options);
   if (interactive && !options.quiet) {
-    intro("www-cli · create catalog");
+    intro("www-cli · create blocks");
   }
 
   const slug = await resolveSlug(slugArg, options, interactive);
@@ -170,7 +170,7 @@ export async function resolveCreateCatalogOptions(
     interactive
   );
 
-  const labels = buildCatalogLabels(slug, registryName);
+  const labels = buildBlocksLabels(slug, registryName);
 
   return {
     slug,

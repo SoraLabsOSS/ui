@@ -21,25 +21,25 @@ import { getUiQualifiedTitle } from "@/lib/ui/ui-family";
 
 export type { OgPageContent } from "@/lib/og/og-shared";
 
-const COMPONENTS_CATALOG: OgPageData = {
-  title: "Components",
+const BLOCKS_INDEX: OgPageData = {
+  title: "Blocks",
   description:
-    "Browse Sora UI components with live previews, installation commands, and API reference.",
+    "Browse Sora UI blocks with live previews, installation commands, and API reference.",
 };
 
-const UI_CATALOG: OgPageData = {
+const UI_INDEX: OgPageData = {
   title: "UI Components",
   description:
     "Base UI and Radix UI primitives infused with Sora Motion spring dynamics and Tailwind CSS.",
 };
 
-const MOTION_CATALOG: OgPageData = {
+const MOTION_INDEX: OgPageData = {
   title: "Motion",
   description:
     "30+ animated, unstyled building blocks for React — text effects, buttons, interactions, and more. Built with Tailwind CSS and Motion.",
 };
 
-const ICONS_CATALOG: OgPageData = {
+const ICONS_INDEX: OgPageData = {
   title: "Icons",
   description:
     "A collection of animated icons for React, built with Motion and Tailwind CSS.",
@@ -55,7 +55,7 @@ function resolveMotionOgPage(slug: string[]): OgPageData | null {
     const page = motionSource.getPage([]);
     return page
       ? { title: page.data.title, description: page.data.description }
-      : MOTION_CATALOG;
+      : MOTION_INDEX;
   }
 
   const page = motionSource.getPage(slug.slice(1));
@@ -74,12 +74,12 @@ function resolveIconsOgPage(slug: string[]): OgPageData | null {
     const page = iconsSource.getPage([]);
     return page
       ? { title: page.data.title, description: page.data.description }
-      : ICONS_CATALOG;
+      : ICONS_INDEX;
   }
 
   const page = iconsSource.getPage(slug.slice(1));
   if (!page) {
-    return ICONS_CATALOG;
+    return ICONS_INDEX;
   }
 
   return {
@@ -93,7 +93,7 @@ function resolveUiOgPage(slug: string[]): OgPageData | null {
     const page = uiSource.getPage([]);
     return page
       ? { title: page.data.title, description: page.data.description }
-      : UI_CATALOG;
+      : UI_INDEX;
   }
 
   const page = uiSource.getPage(slug.slice(1));
@@ -107,9 +107,9 @@ function resolveUiOgPage(slug: string[]): OgPageData | null {
   };
 }
 
-function resolveCatalogOgPage(slug: string[]): OgPageData | null {
+function resolveBlocksOgPage(slug: string[]): OgPageData | null {
   if (slug.length === 1) {
-    return COMPONENTS_CATALOG;
+    return BLOCKS_INDEX;
   }
 
   const page = componentSource.getPage(slug.slice(1));
@@ -128,14 +128,14 @@ function resolveLegacyOgPage(slug: string[]): OgPageData | null {
     const page = motionSource.getPage(slug.slice(2));
     return page
       ? { title: page.data.title, description: page.data.description }
-      : MOTION_CATALOG;
+      : MOTION_INDEX;
   }
 
   if (slug[0] === "docs" && slug[1] === "icons") {
     const page = iconsSource.getPage(slug.slice(2));
     return page
       ? { title: page.data.title, description: page.data.description }
-      : ICONS_CATALOG;
+      : ICONS_INDEX;
   }
 
   if (slug[0] === "docs" && slug.length > 1) {
@@ -152,7 +152,7 @@ function resolveLegacyOgPage(slug: string[]): OgPageData | null {
     const page = motionSource.getPage(slug.slice(1));
     return page
       ? { title: page.data.title, description: page.data.description }
-      : MOTION_CATALOG;
+      : MOTION_INDEX;
   }
 
   return null;
@@ -183,8 +183,8 @@ export function resolveOgPage(slug: string[]): OgPageData | null {
   if (root === "ui") {
     return resolveUiOgPage(slug);
   }
-  if (root === "components" || root === "catalog") {
-    return resolveCatalogOgPage(slug);
+  if (root === "components" || root === "blocks") {
+    return resolveBlocksOgPage(slug);
   }
 
   const legacy = resolveLegacyOgPage(slug);

@@ -18,7 +18,7 @@ export function ConditionalBanner(props: ComponentProps<typeof Banner>) {
   const pathname = usePathname();
   if (
     pathname === "/" ||
-    pathname.startsWith("/catalog/") ||
+    pathname.startsWith("/blocks/") ||
     pathname.startsWith("/components/") ||
     NO_BANNER_PREFIXES.some(
       (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)

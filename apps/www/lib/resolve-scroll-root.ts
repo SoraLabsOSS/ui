@@ -1,18 +1,18 @@
-export const CATALOG_PREVIEW_SCROLL_SELECTOR =
+export const BLOCKS_PREVIEW_SCROLL_SELECTOR =
   "[data-radix-scroll-area-viewport]";
 
-/** Mobile / stacked catalog pages scroll inside ComponentsShell `<main>`. */
-export const CATALOG_PAGE_SCROLL_ROOT_SELECTOR = "[data-catalog-scroll-root]";
+/** Mobile / stacked blocks pages scroll inside ComponentsShell `<main>`. */
+export const BLOCKS_PAGE_SCROLL_ROOT_SELECTOR = "[data-blocks-scroll-root]";
 
 export const HOME_PAGE_SCROLL_SELECTOR = "#home-page";
 
 export function resolveScrollRoot(container: HTMLElement): Element | Window {
-  const previewScroller = container.closest(CATALOG_PREVIEW_SCROLL_SELECTOR);
+  const previewScroller = container.closest(BLOCKS_PREVIEW_SCROLL_SELECTOR);
   if (previewScroller) {
     return previewScroller;
   }
 
-  const pageScroller = container.closest(CATALOG_PAGE_SCROLL_ROOT_SELECTOR);
+  const pageScroller = container.closest(BLOCKS_PAGE_SCROLL_ROOT_SELECTOR);
   if (pageScroller instanceof HTMLElement) {
     return pageScroller;
   }

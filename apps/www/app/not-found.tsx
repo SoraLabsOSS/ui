@@ -13,7 +13,7 @@ interface Suggestion {
 }
 
 const SUGGESTIONS: readonly Suggestion[] = [
-  { description: "Browse every shipped layout showcase", route: "/catalog" },
+  { description: "Browse every shipped layout showcase", route: "/blocks" },
   {
     description: "Get up and running in a minute",
     route: "/docs/installation",

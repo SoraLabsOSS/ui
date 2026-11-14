@@ -10,7 +10,7 @@ It combines an open copy-paste registry architecture with structured metadata se
 ## Core Principles
 
 - **Built for humans and AI** — Native Model Context Protocol (MCP) support exposing component intents, composition patterns, and constraints directly into AI coding workflows.
-- **Three-tier component model** — A clear hierarchy spanning Motion Primitives, Headless UI Implementations, and Complex Catalog Components.
+- **Three-tier component model** — A clear hierarchy spanning Motion Primitives, Headless UI Implementations, and Complex Blocks Components.
 - **Multi-primitive foundations** — Components built on robust accessibility primitives including Radix UI, Base UI, and Headless UI.
 - **Deep motion system** — Fluid, physics-based animations with accessible defaults and first-class `prefers-reduced-motion` support.
 
@@ -20,7 +20,7 @@ Sora UI is organized as a Turborepo monorepo with dedicated apps and modular pac
 
 ```
 apps/
-  www                  — Documentation site, interactive playground & registry catalog
+  www                  — Documentation site, interactive playground & registry blocks
   xmcp                 — Model Context Protocol (MCP) server for AI coding agents
 packages/
   ui                   — Shared UI utilities, styles, and core building blocks
@@ -66,7 +66,7 @@ registry/
 
 1. **Motion Primitives (`registry/primitives/`)**: Low-level, composable building blocks focused on motion and gesture interactions powered by Framer Motion / Motion.
 2. **UI Components (`registry/ui/`)**: Standard application UI elements (dialogs, dropdowns, inputs, tooltips) wired to battle-tested headless primitives like Radix UI or Base UI for full WAI-ARIA compliance.
-3. **Catalog & Compositions**: Advanced, production-ready composite patterns that combine motion primitives with UI components.
+3. **Blocks & Compositions**: Advanced, production-ready composite patterns that combine motion primitives with UI components.
 
 ## Self-hosting the docs site
 
@@ -74,7 +74,7 @@ Sora UI's documentation site keeps **sign-in sessions and bookmarks** in a Postg
 
 <Callout>
   **You only need a database if you enable auth.** Browsing the docs, blog,
-  catalog, and registry works with zero environment variables. Set
+  blocks, and registry works with zero environment variables. Set
   `NEXT_PUBLIC_ENABLE_AUTH="true"` to turn on sign-in and bookmarks.
 </Callout>
 

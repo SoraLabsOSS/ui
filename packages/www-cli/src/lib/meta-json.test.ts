@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 
 import {
-  insertIntoCatalogMeta,
+  insertIntoBlocksMeta,
   insertIntoMotionMeta,
   insertIntoUiMeta,
 } from "./meta-json.js";
@@ -111,7 +111,7 @@ describe("insertIntoUiMeta", () => {
   });
 });
 
-describe("insertIntoCatalogMeta", () => {
+describe("insertIntoBlocksMeta", () => {
   let tempDir = "";
 
   afterEach(async () => {
@@ -121,14 +121,14 @@ describe("insertIntoCatalogMeta", () => {
     }
   });
 
-  it("appends a slug to the catalog pages list", async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-catalog-meta-"));
+  it("appends a slug to the blocks pages list", async () => {
+    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-blocks-meta-"));
     const metaPath = path.join(tempDir, "meta.json");
     await writeFile(
       metaPath,
       `${JSON.stringify(
         {
-          title: "Catalog",
+          title: "Blocks",
           pages: ["cursor-trail-reveal", "sticky-scroll-cards"],
         },
         null,
@@ -136,7 +136,7 @@ describe("insertIntoCatalogMeta", () => {
       )}\n`
     );
 
-    await insertIntoCatalogMeta(metaPath, "hero-showcase");
+    await insertIntoBlocksMeta(metaPath, "hero-showcase");
 
     const meta = JSON.parse(await readFile(metaPath, "utf-8")) as {
       pages: string[];
@@ -149,8 +149,8 @@ describe("insertIntoCatalogMeta", () => {
     ]);
   });
 
-  it("throws when the slug is already registered in catalog", async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-catalog-meta-"));
+  it("throws when the slug is already registered in blocks", async () => {
+    tempDir = await mkdtemp(path.join(os.tmpdir(), "www-cli-blocks-meta-"));
     const metaPath = path.join(tempDir, "meta.json");
     await writeFile(
       metaPath,
@@ -158,7 +158,7 @@ describe("insertIntoCatalogMeta", () => {
     );
 
     await expect(
-      insertIntoCatalogMeta(metaPath, "cursor-trail-reveal")
+      insertIntoBlocksMeta(metaPath, "cursor-trail-reveal")
     ).rejects.toThrow(ALREADY_LISTED_ERROR);
   });
 });

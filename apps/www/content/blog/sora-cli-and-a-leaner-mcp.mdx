@@ -99,7 +99,7 @@ One detail that's easy to skip past: `cwd` gets checked against a small denylist
    in a real shell → files land in your project
 ```
 
-The MCP server's job is narrow now: search docs, browse the catalog, and — for any given component — say exactly what to run and with what flags. `sora-cli`'s job is the part MCP was never going to be good at: resolving dependencies, correcting import paths, and actually writing files. Neither one is doing the other's job anymore, which is most of why this ended up being fewer tools instead of more.
+The MCP server's job is narrow now: search docs, browse the blocks, and — for any given component — say exactly what to run and with what flags. `sora-cli`'s job is the part MCP was never going to be good at: resolving dependencies, correcting import paths, and actually writing files. Neither one is doing the other's job anymore, which is most of why this ended up being fewer tools instead of more.
 
 If you'd rather the agent call an MCP tool to install instead of running a shell command, the [shadcn MCP server](https://ui.shadcn.com/docs/mcp) still pairs alongside `sora-ui` for that — `get_component_info`'s output works either way, since the shadcn-scoped install line ships right next to the `sora-cli` one. But for anything with real shell access, running the command `get_component_info` already handed you is the shorter path.
 

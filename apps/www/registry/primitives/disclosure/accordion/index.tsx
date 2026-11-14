@@ -84,6 +84,7 @@ function useAccordionItemContext() {
 function useDisabledOn(disabledOn?: DisabledBreakpoint[]) {
   const [disabled, setDisabled] = useState(false);
 
+  // oxlint-disable-next-line react-doctor/effect-needs-cleanup
   useEffect(() => {
     if (!disabledOn?.length) {
       setDisabled(false);
@@ -382,11 +383,11 @@ function Accordion({
         data-anm-allow-multiple={allowMultiple ? "true" : "false"}
         {...props}
       >
-        {items?.map((item, index) => (
+        {items?.map((item) => (
           <AccordionItem
             defaultOpen={item.defaultOpen}
             enableStagger={item.enableStagger}
-            key={item.id ?? item.title ?? index}
+            key={item.id ?? item.title}
           >
             <AccordionTrigger>{item.title}</AccordionTrigger>
             <AccordionContent>

@@ -10,7 +10,7 @@ const PASCAL_CASE_RE = /^[A-Z]/;
 export const previewComponents: Record<string, any> = {
   "cursor-trail-reveal": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/cursor-trail-reveal/index.tsx");
+      await import("@/registry/demo/blocks/cursor-trail-reveal/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -25,7 +25,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "infinite-scrolling-images": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/infinite-scrolling-images/index.tsx");
+      await import("@/registry/demo/blocks/infinite-scrolling-images/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -40,7 +40,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "scroll-chapters": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/scroll-chapters/index.tsx");
+      await import("@/registry/demo/blocks/scroll-chapters/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -55,7 +55,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "scroll-gallery": React.lazy(async () => {
     const mod =
-      await import("@/components/catalog/scroll-gallery-catalog-preview");
+      await import("@/components/blocks/scroll-gallery-blocks-preview");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -70,7 +70,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "sticky-scroll-cards": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/sticky-scroll-cards/index.tsx");
+      await import("@/registry/demo/blocks/sticky-scroll-cards/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -85,7 +85,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "text-reveal-box": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/text-reveal-box/index.tsx");
+      await import("@/registry/demo/blocks/text-reveal-box/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -100,7 +100,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "tilt-slide-transition": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/tilt-slide-transition/index.tsx");
+      await import("@/registry/demo/blocks/tilt-slide-transition/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1047,7 +1047,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-cursor-trail-reveal": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/cursor-trail-reveal/index.tsx");
+      await import("@/registry/demo/blocks/cursor-trail-reveal/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1062,7 +1062,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-infinite-scrolling-images": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/infinite-scrolling-images/index.tsx");
+      await import("@/registry/demo/blocks/infinite-scrolling-images/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1077,7 +1077,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-scroll-chapters": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/scroll-chapters/index.tsx");
+      await import("@/registry/demo/blocks/scroll-chapters/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1092,7 +1092,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-scroll-gallery": React.lazy(async () => {
     const mod =
-      await import("@/components/catalog/scroll-gallery-catalog-preview");
+      await import("@/components/blocks/scroll-gallery-blocks-preview");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1107,7 +1107,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-sticky-scroll-cards": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/sticky-scroll-cards/index.tsx");
+      await import("@/registry/demo/blocks/sticky-scroll-cards/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1122,7 +1122,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-text-reveal-box": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/text-reveal-box/index.tsx");
+      await import("@/registry/demo/blocks/text-reveal-box/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );
@@ -1137,7 +1137,7 @@ export const previewComponents: Record<string, any> = {
   }),
   "demo-tilt-slide-transition": React.lazy(async () => {
     const mod =
-      await import("@/registry/demo/catalog/tilt-slide-transition/index.tsx");
+      await import("@/registry/demo/blocks/tilt-slide-transition/index.tsx");
     const pascalExportName = Object.keys(mod).find(
       (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
     );

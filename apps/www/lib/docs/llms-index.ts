@@ -22,7 +22,7 @@ function formatPageLine(page: LlmsIndexPage): string {
   return `- [${getUiQualifiedTitle(title, page.url)}](${SITE_URL}${page.url})${suffix}`;
 }
 
-/** Build `llms.txt` index for docs, Motion, Icons, UI kit, and component catalog pages. */
+/** Build `llms.txt` index for docs, Motion, Icons, UI kit, and component blocks pages. */
 export function buildLlmsIndex(
   docsPages: DocsPage[],
   componentPages: ComponentPage[],
@@ -46,15 +46,15 @@ export function buildLlmsIndex(
     "## UI",
     ...uiPages.map(formatPageLine),
     "",
-    "## Catalog",
+    "## Blocks",
     ...componentPages.map(formatPageLine),
     "",
     "## Registry",
     `- [registry.json](${SITE_URL}/r/registry.json): shadcn-compatible registry manifest`,
     "",
     "## LLM exports",
-    `- [llms-full.txt](${SITE_URL}/llms-full.txt): full docs + UI + catalog for AI`,
-    `- Append \`.mdx\` to any docs, motion, icons, UI, catalog, or blog URL for markdown (e.g. \`${SITE_URL}/motion/draw-underline-link.mdx\`, \`${SITE_URL}/icons/get-started.mdx\`, \`${SITE_URL}/ui.mdx\`, \`${SITE_URL}/catalog/cursor-trail-reveal.mdx\`, \`${SITE_URL}/blog/evolving-sora-ui-taxonomy.mdx\`)`,
+    `- [llms-full.txt](${SITE_URL}/llms-full.txt): full docs + UI + blocks for AI`,
+    `- Append \`.mdx\` to any docs, motion, icons, UI, blocks, or blog URL for markdown (e.g. \`${SITE_URL}/motion/draw-underline-link.mdx\`, \`${SITE_URL}/icons/get-started.mdx\`, \`${SITE_URL}/ui.mdx\`, \`${SITE_URL}/blocks/cursor-trail-reveal.mdx\`, \`${SITE_URL}/blog/evolving-sora-ui-taxonomy.mdx\`)`,
   ];
 
   return lines.join("\n");

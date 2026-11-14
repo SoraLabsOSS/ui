@@ -51,7 +51,7 @@ export function resolveGalleryCategory(
   return CATEGORY_BY_SLUG[item.slug] ?? "components";
 }
 
-export function isGalleryCatalogItem(item: ComponentGalleryItem): boolean {
+export function isGalleryBlocksItem(item: ComponentGalleryItem): boolean {
   return !item.slug.startsWith("mock-scroll-");
 }
 
@@ -61,7 +61,7 @@ export function groupGalleryItemsByCategory(
   const grouped = new Map<ComponentGalleryCategory, ComponentGalleryItem[]>();
 
   for (const item of items) {
-    if (!isGalleryCatalogItem(item)) {
+    if (!isGalleryBlocksItem(item)) {
       continue;
     }
 

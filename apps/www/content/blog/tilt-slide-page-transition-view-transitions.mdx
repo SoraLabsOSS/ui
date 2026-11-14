@@ -24,7 +24,7 @@ It creates a tactile sensation of depth and physical momentum, reminiscent of sl
 
 We recently packaged this transition into two complementary forms in the Sora ecosystem:
 
-1. **The Component Pattern**: [`TiltSlideTransition`](/catalog/tilt-slide-transition) — an interactive, self-contained layout showcase with GSAP SplitText character and line reveals, Lenis smooth scrolling, and controlled view switching.
+1. **The Component Pattern**: [`TiltSlideTransition`](/blocks/tilt-slide-transition) — an interactive, self-contained layout showcase with GSAP SplitText character and line reveals, Lenis smooth scrolling, and controlled view switching.
 2. **The App Router Architecture**: [`tilt-slide-template`](https://github.com/SoraLabsOSS/tilt-slide-template) — a standalone, multi-page Next.js template using React 19's native `<ViewTransition>` component in `template.tsx`.
 
 Here is the complete teardown of how the animation works, the mathematics of the CSS keyframes, and how to implement it both as a contained component and across real multi-page Next.js routes.
@@ -132,7 +132,7 @@ Because both pseudo-elements run hardware-accelerated transforms and clip-paths,
 
 ## Pattern 1: Standalone Component (`document.startViewTransition`)
 
-If you are building an interactive showcase, catalog item, or single-page dashboard where views change within a container, you can trigger native View Transitions imperatively using `document.startViewTransition`:
+If you are building an interactive showcase, blocks item, or single-page dashboard where views change within a container, you can trigger native View Transitions imperatively using `document.startViewTransition`:
 
 ```tsx
 "use client";
@@ -356,7 +356,7 @@ You can explore and fork the ready-to-use template or try the component in Sora 
 
 - **Live Template Demo**: [tilt-slide-template.soralabs.studio](https://tilt-slide-template.soralabs.studio/)
 - **GitHub Starter Repository**: [SoraLabsOSS/tilt-slide-template](https://github.com/SoraLabsOSS/tilt-slide-template)
-- **Sora UI Component**: [Tilt Slide Transition](/catalog/tilt-slide-transition)
+- **Sora UI Component**: [Tilt Slide Transition](/blocks/tilt-slide-transition)
 
 ```bash
 # Clone the complete Next.js starter

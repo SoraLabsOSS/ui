@@ -113,7 +113,7 @@ const slidingChipButtonGroupVariants = cva(
 
 type WithAsChild<Base extends object> =
   | (Base & { asChild: true; children: ReactElement })
-  | (Base & { asChild?: false | undefined; children?: string });
+  | (Base & { asChild?: false; children?: string });
 
 type SlidingChipButtonSize = NonNullable<
   VariantProps<typeof slidingChipButtonVariants>["size"]

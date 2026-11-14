@@ -214,9 +214,9 @@ function GuideBottomMenu({
         onClick={onNavigate}
       />
       <DocsShellNavItem
-        href="/catalog"
-        isActive={pathname === "/catalog" || pathname.startsWith("/catalog/")}
-        label="Catalog"
+        href="/blocks"
+        isActive={pathname === "/blocks" || pathname.startsWith("/blocks/")}
+        label="Blocks"
         onClick={onNavigate}
       />
       <DocsShellNavItem

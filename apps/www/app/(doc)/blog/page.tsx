@@ -37,11 +37,11 @@ const FEATURED_TOPIC_CARDS = [
     href: "/ui",
   },
   {
-    title: "Catalog Showcases",
-    tag: "Catalog",
+    title: "Blocks Showcases",
+    tag: "Blocks",
     description:
       "Ready-to-use animated showcases, interactive heroes, and full-page layout sections.",
-    href: "/catalog",
+    href: "/blocks",
   },
 ];
 
@@ -67,9 +67,9 @@ const ALL_TOPICS = [
     href: "/ui",
   },
   {
-    title: "Catalog Showcases",
+    title: "Blocks Showcases",
     description: "Full-page animated sections and landing page templates.",
-    href: "/catalog",
+    href: "/blocks",
   },
   {
     title: "Sora MCP & AI",
@@ -286,10 +286,10 @@ export default function BlogPage() {
             <div className="col-span-full flex flex-wrap items-center gap-4 @lg:col-start-9 @lg:col-end-13 @lg:justify-end">
               <Link
                 className="bg-foreground text-background hover:bg-foreground/90 flex h-9 items-center justify-center rounded-full px-4 text-[14px] font-medium transition-colors"
-                href="/catalog"
+                href="/blocks"
               >
                 <span className="inline-block truncate px-1.5">
-                  Explore Catalog
+                  Explore Blocks
                 </span>
               </Link>
               <Link

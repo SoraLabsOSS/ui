@@ -92,8 +92,8 @@ const LIBRARY_NAV_ITEMS = (
       "Styled app components built with Base UI, Radix UI and Motion.",
   },
   {
-    title: "Catalog",
-    url: "/catalog",
+    title: "Blocks",
+    url: "/blocks",
     description: "Fully-assembled layout showcases built from primitives.",
   },
 ];

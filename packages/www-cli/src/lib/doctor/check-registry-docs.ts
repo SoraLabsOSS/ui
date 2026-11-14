@@ -4,8 +4,8 @@ import path from "node:path";
 import type { DiagnosticIssue } from "./types.js";
 
 const PRIMITIVE_SOURCE_RE = /^registry\/primitives\/([^/]+)\/([^/]+)\//;
-const CATALOG_SOURCE_RE = /^registry\/catalog\/([^/]+)\//;
-const DEMO_CATALOG_SOURCE_RE = /^registry\/demo\/catalog\/([^/]+)\//;
+const BLOCKS_SOURCE_RE = /^registry\/blocks\/([^/]+)\//;
+const DEMO_BLOCKS_SOURCE_RE = /^registry\/demo\/blocks\/([^/]+)\//;
 const UI_SOURCE_RE = /^registry\/ui\/(base|radix)\/([^/]+)\//;
 const PREVIEW_TAG_RE =
   /<Component(?:Preview|Installation)\s+name=["']([^"']+)["']/g;
@@ -47,12 +47,12 @@ function getScaffoldHint(item: RegistryItemLike): string | null {
     return `bun run create:primitive ${name} --category=${category} --yes`;
   }
 
-  const catalogMatch =
-    sourcePath.match(CATALOG_SOURCE_RE) ??
-    sourcePath.match(DEMO_CATALOG_SOURCE_RE);
-  if (catalogMatch) {
-    const [, name] = catalogMatch;
-    return `bun run create:catalog ${name} --yes`;
+  const blocksMatch =
+    sourcePath.match(BLOCKS_SOURCE_RE) ??
+    sourcePath.match(DEMO_BLOCKS_SOURCE_RE);
+  if (blocksMatch) {
+    const [, name] = blocksMatch;
+    return `bun run create:blocks ${name} --yes`;
   }
 
   const uiMatch = sourcePath.match(UI_SOURCE_RE);
@@ -93,7 +93,7 @@ async function collectDocumentedNames(wwwRoot: string): Promise<Set<string>> {
     path.join(wwwRoot, "content", "docs"),
     path.join(wwwRoot, "content", "motion"),
     path.join(wwwRoot, "content", "icons"),
-    path.join(wwwRoot, "content", "catalog"),
+    path.join(wwwRoot, "content", "blocks"),
     path.join(wwwRoot, "content", "ui"),
   ];
 
@@ -220,14 +220,14 @@ async function checkPrimitivesFolders(
         "motion",
         `${comp.name}.mdx`
       );
-      const catalogMdxPath = path.join(
+      const blocksMdxPath = path.join(
         wwwRoot,
         "content",
-        "catalog",
+        "blocks",
         `${comp.name}.mdx`
       );
 
-      if (!(existsSync(mdxPath) || existsSync(catalogMdxPath))) {
+      if (!(existsSync(mdxPath) || existsSync(blocksMdxPath))) {
         const relDir = path
           .relative(wwwRoot, path.join(catDir, comp.name))
           .replaceAll("\\", "/");

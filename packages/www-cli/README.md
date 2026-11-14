@@ -9,7 +9,7 @@ Internal contributor CLI for scaffolding registry content in `apps/www`. Not pub
 From the repo root:
 
 ```bash
-# Interactive wizard (Motion / UI / Catalog / Icon)
+# Interactive wizard (Motion / UI / Blocks / Icon)
 bun run create
 
 # Motion primitive
@@ -23,10 +23,10 @@ bun run create:ui
 bun run create:ui my-widget --framework=base --yes
 bun run create:ui my-widget --framework=radix --yes --skip-demo
 
-# Catalog showcase page
-bun run create:catalog
-bun run create:catalog hero-showcase --yes
-bun run create:catalog hero-showcase --category=effects --yes
+# Blocks showcase page
+bun run create:blocks
+bun run create:blocks hero-showcase --yes
+bun run create:blocks hero-showcase --category=effects --yes
 
 # Animated icon
 bun run create:icon
@@ -42,7 +42,7 @@ bun run doctor <name> --strict
 
 > **Contributor workflow:** Contributors should always run `bun run doctor <name>` to check their newly added/edited component. You do not need to run `bun run doctor --all`.
 
-| Flag | `create:primitive` | `create:ui` | `create:catalog` | `create:icon` |
+| Flag | `create:primitive` | `create:ui` | `create:blocks` | `create:icon` |
 | --- | --- | --- | --- | --- |
 | `--yes` / `--no-input` | Non-interactive; requires `<name>` + `--category` | Non-interactive; requires `<name>` + `--framework` | Non-interactive; requires `<slug>` | Non-interactive; requires `<name>` |
 | `--dry-run` / `-n` | Preview files; no writes | Same | Same | Same |
@@ -68,7 +68,7 @@ Inside this package: `bun test`, `bun run test:slow`, `bun run check-types`, `bu
 - [x] **Phase 0** — Design notes (`apps/www/sandbox/www-cli-idea.md`)
 - [x] **Phase 1** — `create primitive` (registry + MDX + `content/motion/meta.json` + optional demo)
 - [x] **Phase 2** — `create ui` (`base` / `radix`, demo default in `--yes` mode)
-- [x] **Polish** — `bun run create` wizard (Catalog shows “Phase 3” placeholder)
+- [x] **Polish** — `bun run create` wizard (Blocks shows “Phase 3” placeholder)
 - [x] **Polish** — `registry:build` skip log suggests `create:primitive` / `create:ui`
 - [x] **Polish** — Title casing for acronyms in slugs (`www-cli-smoke-test` → `WWW CLI Smoke Test`)
 - [x] **Polish** — Optional slow test via `WWW_CLI_RUN_REGISTRY_BUILD=1`
@@ -88,35 +88,35 @@ This phase provides semantic context and validation for agents. It does not auto
 
 Use this as the implementation checklist for the next milestone.
 
-#### `create catalog`
+#### `create blocks`
 
-- [x] **Command** — `bun run create:catalog` → `create catalog <slug>` in `src/index.ts`
-- [x] **Resolve options** — `src/lib/resolve-create-catalog-options.ts` (slug validation, `--yes`, interactive prompts)
-- [x] **Paths** — `getCatalogPaths()` in `src/lib/paths.ts`:
-  - `content/catalog/<slug>.mdx`
-  - `content/catalog/meta.json` (flat slug list, no `---Section---` markers)
-- [x] **Templates** — `src/lib/catalog-templates.ts`:
+- [x] **Command** — `bun run create:blocks` → `create blocks <slug>` in `src/index.ts`
+- [x] **Resolve options** — `src/lib/resolve-create-blocks-options.ts` (slug validation, `--yes`, interactive prompts)
+- [x] **Paths** — `getBlocksPaths()` in `src/lib/paths.ts`:
+  - `content/blocks/<slug>.mdx`
+  - `content/blocks/meta.json` (flat slug list, no `---Section---` markers)
+- [x] **Templates** — `src/lib/blocks-templates.ts`:
   - Frontmatter: `title`, `description`, `category`, `author`, `registryName`
   - `<ComponentInstallation name="..." />` skeleton
   - Usage section placeholder
-- [x] **Meta insert** — `insertIntoCatalogMeta()` in `src/lib/meta-json.ts` (append slug to `pages[]`)
-- [x] **Command impl** — `src/commands/create-catalog.ts` (write files, patch meta, optional `registry:build`)
-- [x] **Wizard** — wire Catalog tier in `src/commands/create-wizard.ts` (remove placeholder exit)
-- [x] **Root script** — `"create:catalog"` in root `package.json`
-- [x] **CONTRIBUTING.md** — Flow 3 shortcut for `create:catalog`
+- [x] **Meta insert** — `insertIntoBlocksMeta()` in `src/lib/meta-json.ts` (append slug to `pages[]`)
+- [x] **Command impl** — `src/commands/create-blocks.ts` (write files, patch meta, optional `registry:build`)
+- [x] **Wizard** — wire Blocks tier in `src/commands/create-wizard.ts` (remove placeholder exit)
+- [x] **Root script** — `"create:blocks"` in root `package.json`
+- [x] **CONTRIBUTING.md** — Flow 3 shortcut for `create:blocks`
 - [x] **Tests** — unit (templates, meta-json) + integration with fixture cleanup in `src/test/fixture.ts`
 
-**Catalog conventions to respect** (see existing pages under `content/catalog/`):
+**Blocks conventions to respect** (see existing pages under `content/blocks/`):
 
-- Catalog pages are **layout showcases** for primitives already in the registry — no new `registry/` folder by default.
+- Blocks pages are **layout showcases** for primitives already in the registry — no new `registry/` folder by default.
 - `registryName` in frontmatter should match an installable registry item referenced in MDX.
-- Routes: `/catalog/<slug>`; listed in `content/catalog/meta.json`.
+- Routes: `/blocks/<slug>`; listed in `content/blocks/meta.json`.
 
 #### `doctor`
 
 - [x] **Command** — `www-cli doctor` (read-only audit, no file writes)
 - [x] **Checks:**
-  - [x] Registry folder exists but no matching MDX in `content/motion`, `content/ui`, or `content/catalog`
+  - [x] Registry folder exists but no matching MDX in `content/motion`, `content/ui`, or `content/blocks`
   - [x] `meta.demoProps` keys do not match exported component names in `index.tsx`
   - [x] Slug in `meta.json` but MDX file missing (or vice versa)
   - [x] Undocumented items that `registry:build` would skip (mirror `collectDocumentedNames` rules)
@@ -126,7 +126,7 @@ Use this as the implementation checklist for the next milestone.
 #### Phase 3 verification
 
 - [x] `bun run test:www-cli` passes
-- [x] Scaffolding a catalog page with `--dry-run` or non-interactive mode works cleanly
+- [x] Scaffolding a blocks page with `--dry-run` or non-interactive mode works cleanly
 
 ### Phase 4 — Section Icon (complete)
 
@@ -160,7 +160,7 @@ packages/www-cli/
       create-ui.ts
       create-wizard.ts
       doctor.ts                 # doctor audit command
-      create-catalog.ts         # Phase 3
+      create-blocks.ts         # Phase 3
       create-icon.ts            # Phase 4
     lib/
       paths.ts
@@ -168,7 +168,7 @@ packages/www-cli/
       meta-json.ts
       templates.ts              # motion primitives
       ui-templates.ts
-      catalog-templates.ts      # Phase 3
+      blocks-templates.ts      # Phase 3
       icon-templates.ts         # Phase 4
       registry-build.ts
       resolve-create-*-options.ts
@@ -186,7 +186,7 @@ packages/www-cli/
 
 ## References
 
-- `CONTRIBUTING.md` — Flow 1 (UI), Flow 2 (Motion), Flow 3 (Catalog)
+- `CONTRIBUTING.md` — Flow 1 (UI), Flow 2 (Motion), Flow 3 (Blocks)
 - `apps/www/registry/README.md` — `demoProps`, manual demos, `registry:build`
 - `apps/www/scripts/build-registry.mts` — `collectDocumentedNames`, undocumented skip hints
 - `apps/www/scripts/test-registry-integrity.mts` — post-build verification

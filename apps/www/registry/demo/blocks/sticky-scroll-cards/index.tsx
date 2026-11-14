@@ -1,0 +1,95 @@
+"use client";
+
+import {
+  ChevronDown,
+  Gem,
+  Infinity as InfinityIcon,
+  Layers,
+  LockOpen,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+import { BlocksScrollHint } from "@/components/blocks/blocks-scroll-hint";
+import { resolveScrollRoot } from "@/lib/resolve-scroll-root";
+import { waitForScrollerReady } from "@/lib/scroller-ready";
+import { StickyScrollCards } from "@/registry/blocks/sticky-scroll-cards";
+
+const FRONT = {
+  title: "First Frame",
+  description:
+    "A single moment, held in place before everything begins to move.",
+  icon: <ChevronDown />,
+};
+
+const CARDS = [
+  {
+    title: "Final Hold",
+    description:
+      "Everything settles into place, leaving a lasting frame that feels complete.",
+    icon: <LockOpen />,
+  },
+  {
+    title: "Layered Time",
+    description:
+      "Moments stack, overlap, and reveal themselves slowly as the scroll continues.",
+    icon: <Layers />,
+  },
+  {
+    title: "Weight & Flow",
+    description:
+      "Elements carry presence, easing in and out with balance, never rushed, never still.",
+    icon: <Gem />,
+  },
+  {
+    title: "Soft Motion",
+    description:
+      "Subtle shifts and gentle transitions that build a quiet sense of rhythm as you move forward.",
+    icon: <InfinityIcon />,
+  },
+];
+
+export default function StickyScrollCardsExample() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [scroller, setScroller] = useState<Element | Window | undefined>();
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) {
+      return;
+    }
+
+    const resolved = resolveScrollRoot(node);
+
+    waitForScrollerReady(resolved)
+      .then(() => {
+        setScroller(resolved);
+      })
+      .catch(() => {
+        /* preview unmounted */
+      });
+  }, []);
+
+  return (
+    <div className="w-full" ref={rootRef}>
+      <BlocksScrollHint label="Scroll to flip and dismiss cards" />
+
+      {scroller ? (
+        <StickyScrollCards
+          cards={CARDS}
+          containerQuery
+          embedded
+          front={FRONT}
+          headline="Scroll to pin, flip, and let go"
+          scroller={scroller}
+          timing={{
+            cardDismissDuration: 70,
+            cardFlipTrigger: 140,
+            cardsEnterEnd: 70,
+            dismissStart: 210,
+          }}
+          variant="studio"
+        />
+      ) : null}
+    </div>
+  );
+}

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "bun:test";
 
-import { buildCatalogLabels, renderCatalogMdx } from "./catalog-templates.js";
+import { buildBlocksLabels, renderBlocksMdx } from "./blocks-templates.js";
 
-describe("catalog templates", () => {
-  it("builds catalog labels correctly", () => {
-    const labels = buildCatalogLabels("sticky-scroll-cards");
+describe("blocks templates", () => {
+  it("builds blocks labels correctly", () => {
+    const labels = buildBlocksLabels("sticky-scroll-cards");
     expect(labels.slug).toBe("sticky-scroll-cards");
     expect(labels.title).toBe("Sticky Scroll Cards");
     expect(labels.exportName).toBe("StickyScrollCards");
@@ -13,14 +13,14 @@ describe("catalog templates", () => {
   });
 
   it("supports explicit underlying registry name in labels", () => {
-    const labels = buildCatalogLabels("custom-showcase", "text-reveal-block");
+    const labels = buildBlocksLabels("custom-showcase", "text-reveal-block");
     expect(labels.slug).toBe("custom-showcase");
     expect(labels.registryName).toBe("text-reveal-block");
     expect(labels.exportName).toBe("CustomShowcase");
   });
 
-  it("renders catalog MDX with expected structure and installation tag", () => {
-    const mdx = renderCatalogMdx({
+  it("renders blocks MDX with expected structure and installation tag", () => {
+    const mdx = renderBlocksMdx({
       slug: "interactive-gallery",
       title: "Interactive Gallery",
       description: "Interactive gallery layout showcase.",

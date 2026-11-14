@@ -8,8 +8,8 @@ import type { ReactNode } from "react";
 
 import { index } from "@/__registry__";
 import { previewComponents } from "@/__registry__/preview";
-import { catalogPreviewViewportClassName } from "@/components/catalog/catalog-preview-classes";
-import { CatalogScrollArea } from "@/components/catalog/catalog-scroll-area";
+import { blocksPreviewViewportClassName } from "@/components/blocks/blocks-preview-classes";
+import { BlocksScrollArea } from "@/components/blocks/blocks-scroll-area";
 import { RefreshButton } from "@/components/docs/refresh";
 import type { Binds } from "@/components/docs/tweakpane";
 import { useLenisSmoothScroll } from "@/hooks/use-lenis-smooth-scroll";
@@ -45,7 +45,7 @@ export function ExamplePreviewClient({
 
     function handleMessage(event: MessageEvent) {
       if (
-        event.data?.type === "sora-catalog-theme-change" &&
+        event.data?.type === "sora-blocks-theme-change" &&
         (event.data.theme === "dark" || event.data.theme === "light")
       ) {
         applyTheme(event.data.theme);
@@ -63,7 +63,7 @@ export function ExamplePreviewClient({
     }
 
     try {
-      window.parent?.postMessage({ type: "sora-catalog-preview-ready" }, "*");
+      window.parent?.postMessage({ type: "sora-blocks-preview-ready" }, "*");
     } catch {
       // Fallback
     }
@@ -142,13 +142,13 @@ export function ExamplePreviewClient({
     );
   } else {
     previewContent = (
-      <CatalogScrollArea
+      <BlocksScrollArea
         className="h-full w-full"
         hideScrollbar
-        viewportClassName={catalogPreviewViewportClassName}
+        viewportClassName={blocksPreviewViewportClassName}
       >
         <div className="min-h-full w-full">{renderedComponent}</div>
-      </CatalogScrollArea>
+      </BlocksScrollArea>
     );
   }
 

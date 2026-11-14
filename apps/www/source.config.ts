@@ -18,7 +18,7 @@ const compositionRecipeSchema = z.object({
   constraints: z.array(z.string()).default([]),
 });
 
-const catalogDocSchema = frontmatterSchema.extend({
+const blocksDocSchema = frontmatterSchema.extend({
   /** Overrides git `lastModified` for the 10-day "new" badge only. */
   releaseDate: z.coerce.date().optional(),
   beta: z.boolean().optional(),
@@ -47,7 +47,7 @@ const catalogDocSchema = frontmatterSchema.extend({
   previewVideo: z.string().optional(),
 });
 
-const uiDocSchema = catalogDocSchema.extend({
+const uiDocSchema = blocksDocSchema.extend({
   /** Machine-readable composition semantics for agent tooling. */
   intent: z.string().optional(),
   role: z.string().optional(),
@@ -57,7 +57,7 @@ const uiDocSchema = catalogDocSchema.extend({
   compositionRecipes: z.array(compositionRecipeSchema).optional(),
 });
 
-const catalogDocPostprocess = {
+const blocksDocPostprocess = {
   includeProcessedMarkdown: true,
 } as const;
 
@@ -65,8 +65,8 @@ const catalogDocPostprocess = {
 // see https://fumadocs.vercel.app/docs/mdx/collections#define-docs
 export const docs = defineDocs({
   docs: {
-    schema: catalogDocSchema,
-    postprocess: catalogDocPostprocess,
+    schema: blocksDocSchema,
+    postprocess: blocksDocPostprocess,
   },
   meta: {
     schema: metaSchema,
@@ -78,19 +78,19 @@ export const ui = defineDocs({
   dir: "content/ui",
   docs: {
     schema: uiDocSchema,
-    postprocess: catalogDocPostprocess,
+    postprocess: blocksDocPostprocess,
   },
   meta: {
     schema: metaSchema,
   },
 });
 
-/** Catalog pages — served at `/catalog/*`, not under `/docs`. */
-export const catalog = defineDocs({
-  dir: "content/catalog",
+/** Blocks pages — served at `/blocks/*`, not under `/docs`. */
+export const blocks = defineDocs({
+  dir: "content/blocks",
   docs: {
-    schema: catalogDocSchema,
-    postprocess: catalogDocPostprocess,
+    schema: blocksDocSchema,
+    postprocess: blocksDocPostprocess,
   },
   meta: {
     schema: metaSchema,
@@ -98,14 +98,14 @@ export const catalog = defineDocs({
 });
 
 /** @deprecated Alias for backwards compatibility with legacy imports. */
-export const components = catalog;
+export const components = blocks;
 
 /** Animated Icons docs — served at `/icons/*`. */
 export const icons = defineDocs({
   dir: "content/icons",
   docs: {
-    schema: catalogDocSchema,
-    postprocess: catalogDocPostprocess,
+    schema: blocksDocSchema,
+    postprocess: blocksDocPostprocess,
   },
   meta: {
     schema: metaSchema,
@@ -116,8 +116,8 @@ export const icons = defineDocs({
 export const motion = defineDocs({
   dir: "content/motion",
   docs: {
-    schema: catalogDocSchema,
-    postprocess: catalogDocPostprocess,
+    schema: blocksDocSchema,
+    postprocess: blocksDocPostprocess,
   },
   meta: {
     schema: metaSchema,

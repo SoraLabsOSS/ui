@@ -2,7 +2,7 @@ import { cache } from "react";
 
 import { index } from "@/__registry__";
 import { resolveComponentCardPreview } from "@/lib/component-media";
-import { isGalleryCatalogItem } from "@/lib/registry/component-gallery-sections";
+import { isGalleryBlocksItem } from "@/lib/registry/component-gallery-sections";
 import { componentSource } from "@/lib/registry/component-source";
 import { getComponentSlugs } from "@/lib/registry/get-component-slugs";
 import { filterComponentToc } from "@/lib/registry/parse-primitive-mdx";
@@ -67,7 +67,7 @@ export const getComponentPageData = cache(
       page,
       registryName,
       previewName,
-      componentUrl: `/catalog/${slug}`,
+      componentUrl: `/blocks/${slug}`,
       docsUrl: page.url,
       toc,
     };
@@ -112,7 +112,7 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
       slug,
       title: page.data.title,
       description: page.data.description ?? "",
-      href: `/catalog/${slug}`,
+      href: `/blocks/${slug}`,
       collection: "component",
       releaseDate,
       category: pageMeta.category,
@@ -125,7 +125,7 @@ export const getComponentGalleryItems = cache((): ComponentGalleryItem[] => {
 });
 
 export const getBlockCount = cache(
-  (): number => getComponentGalleryItems().filter(isGalleryCatalogItem).length
+  (): number => getComponentGalleryItems().filter(isGalleryBlocksItem).length
 );
 
 export function getComponentNeighbours(slug: string): {

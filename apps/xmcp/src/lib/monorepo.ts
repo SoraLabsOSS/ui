@@ -8,7 +8,7 @@ const COMPONENTS_ALIAS_REGEX = /^components/;
 const PRIMITIVES_ALIAS_REGEX = /^primitives/;
 const DOCS_PREFIX_REGEX = /^docs\//;
 const DOCS_SECTION_ALIAS_REGEX =
-  /^docs\/(ui|catalog|components|motion|primitives|icons|blog)\//;
+  /^docs\/(ui|blocks|components|motion|primitives|icons|blog)\//;
 
 export interface ResolvedContentFile {
   filePath: string;
@@ -115,7 +115,7 @@ function normalizeDocSlug(rawSlug: string): string | null {
   }
 
   if (slug === "components" || slug.startsWith("components/")) {
-    return slug.replace(COMPONENTS_ALIAS_REGEX, "catalog");
+    return slug.replace(COMPONENTS_ALIAS_REGEX, "blocks");
   }
   if (slug === "primitives" || slug.startsWith("primitives/")) {
     return slug.replace(PRIMITIVES_ALIAS_REGEX, "motion");
@@ -179,7 +179,7 @@ function collectSectionCandidates(slug: string, add: CandidateCollector): void {
   }
 
   // Other standard sections
-  for (const section of ["catalog", "motion", "icons", "blog"]) {
+  for (const section of ["blocks", "motion", "icons", "blog"]) {
     if (slug.startsWith(`${section}/`)) {
       const rest = slug.slice(`${section}/`.length);
       add(path.join(section, `${rest}.mdx`), `/${slug}`);

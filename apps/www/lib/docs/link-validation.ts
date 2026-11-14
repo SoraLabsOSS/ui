@@ -7,7 +7,7 @@ import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import Slugger from "github-slugger";
 import type { FileObject, scanURLs } from "next-validate-link";
 
-import { blog, catalog, docs, icons, motion, ui } from "@/.source";
+import { blog, blocks, docs, icons, motion, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
 
 export const docSource = loader({
@@ -26,11 +26,11 @@ export const iconsSourceForLinks = loader({
 });
 
 export const componentSource = loader({
-  baseUrl: "/catalog",
-  source: catalog.toFumadocsSource(),
+  baseUrl: "/blocks",
+  source: blocks.toFumadocsSource(),
 });
 
-export const catalogSource = componentSource;
+export const blocksSource = componentSource;
 
 export const uiSourceForLinks = loader({
   baseUrl: "/ui",
@@ -144,7 +144,7 @@ export function buildPopulate() {
       value: { slug: page.slugs[0] },
       hashes: getHeadings(page),
     })),
-    "catalog/[slug]": componentSource.getPages().map((page) => ({
+    "blocks/[slug]": componentSource.getPages().map((page) => ({
       value: { slug: page.slugs[0] },
       hashes: getHeadings(page),
     })),
@@ -175,7 +175,7 @@ function registerContentPages(scanned: ScannedUrls): void {
 export function augmentScannedUrls(scanned: ScannedUrls): void {
   registerContentPages(scanned);
   scanned.urls.set("/blog", {});
-  scanned.urls.set("/catalog", {});
+  scanned.urls.set("/blocks", {});
   scanned.urls.set("/blog/rss.xml", {});
   scanned.urls.set("/llms.txt", {});
   scanned.urls.set("/llms-full.txt", {});
@@ -206,8 +206,8 @@ export function augmentScannedUrls(scanned: ScannedUrls): void {
   }
 
   for (const page of componentSource.getPages()) {
-    if (page.url.startsWith("/catalog/")) {
-      const slug = page.url.slice("/catalog/".length);
+    if (page.url.startsWith("/blocks/")) {
+      const slug = page.url.slice("/blocks/".length);
       scanned.urls.set(`/components/${slug}`, { hashes: getHeadings(page) });
     }
   }

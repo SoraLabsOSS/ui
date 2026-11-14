@@ -34,19 +34,19 @@ import {
 
 <ChangelogItemDescription>
 
-- **4-Tier Ecosystem Architecture**: Elevated Sora UI into four core pillars: **Motion** (`/motion`), **Icons** (`/icons`), **Catalog** (`/catalog`), and **UI** (`/ui`), featuring independent top-level route trees, Fumadocs content collections, unified search indexing, and resilient OG image generators.
+- **4-Tier Ecosystem Architecture**: Elevated Sora UI into four core pillars: **Motion** (`/motion`), **Icons** (`/icons`), **Blocks** (`/blocks`), and **UI** (`/ui`), featuring independent top-level route trees, Fumadocs content collections, unified search indexing, and resilient OG image generators.
 - **Legacy Route Redirections**: Configured permanent HTTP 301 redirects in Next.js configuration for legacy `/docs/motion/*`, `/docs/icons/*`, and `/primitives/*` paths to their new canonical URLs.
-- **Registry Structure Separation**: Reorganized component registry to cleanly separate full layout showcases into `registry/catalog/` and animated Lucide icons into `registry/icons/`.
+- **Registry Structure Separation**: Reorganized component registry to cleanly separate full layout showcases into `registry/blocks/` and animated Lucide icons into `registry/icons/`.
 
 </ChangelogItemDescription>
 
-<ChangelogItemTitle>Catalog Showcases & Visual Transitions</ChangelogItemTitle>
+<ChangelogItemTitle>Blocks Showcases & Visual Transitions</ChangelogItemTitle>
 
 <ChangelogItemDescription>
 
-- **Tilt Slide Transition** (`/catalog/tilt-slide-transition`): Shipped multi-page editorial portfolio transition with tilted scaling exit, diagonal clip-path entrance, and GSAP SplitText character reveals using the View Transition API and Lenis.
+- **Tilt Slide Transition** (`/blocks/tilt-slide-transition`): Shipped multi-page editorial portfolio transition with tilted scaling exit, diagonal clip-path entrance, and GSAP SplitText character reveals using the View Transition API and Lenis.
 - **Engineering Deep-Dive**: Published [Tilt Slide Page Transition](/blog/tilt-slide-page-transition-view-transitions) exploring native View Transitions, clip-path trigonometry, and smooth scrolling synchronization.
-- **Catalog Experience Polish**: Upgraded showcase preview cards to a 16:9 aspect ratio, centered gallery hero, refined mobile drawer heights, and polished docs typography and container list bounds.
+- **Blocks Experience Polish**: Upgraded showcase preview cards to a 16:9 aspect ratio, centered gallery hero, refined mobile drawer heights, and polished docs typography and container list bounds.
 
 </ChangelogItemDescription>
 
@@ -54,7 +54,7 @@ import {
 
 <ChangelogItemDescription>
 
-- **Catalog & Icon Generators**: Added interactive and non-interactive scaffolding for Catalog layouts (`bun run create:catalog`) and Icons (`bun run create:icon`) inside `@workspace/www-cli`.
+- **Blocks & Icon Generators**: Added interactive and non-interactive scaffolding for Blocks layouts (`bun run create:blocks`) and Icons (`bun run create:icon`) inside `@workspace/www-cli`.
 - **Automated CLI Testing**: Added automated fixture verification and scaffolding test suites to ensure generator integrity in CI.
 
 </ChangelogItemDescription>
@@ -142,7 +142,7 @@ import {
 
 <ChangelogItemDescription>
 
-- **Footer Navigation Refactor**: Replaced legacy newsletter form with the Sora UI Registry banner card, streamlined 3-column accordion layout, and introduced direct `/catalog` access alongside documentation links.
+- **Footer Navigation Refactor**: Replaced legacy newsletter form with the Sora UI Registry banner card, streamlined 3-column accordion layout, and introduced direct `/blocks` access alongside documentation links.
 - **Mobile Responsive Width Fixes**: Added full-width container stretching for footer banner cards on tablet and mobile viewports (`< 1024px`).
 - **Navbar Motion Polish**: Synchronized closing animations, pill indicators, and marquee movement with smooth layout transitions.
 - **Image Click-to-Zoom**: Added native opt-in image lightbox and zoom for documentation and technical blog articles.
@@ -281,9 +281,9 @@ import {
 
 <ChangelogItemDescription>
 
-- **3-Tier Taxonomy**: Restructured the ecosystem into **Motion** (`/docs/motion`), **Catalog** (`/catalog`), and **UI** (`/ui`).
+- **3-Tier Taxonomy**: Restructured the ecosystem into **Motion** (`/docs/motion`), **Blocks** (`/blocks`), and **UI** (`/ui`).
 - **Interactive UI Roadmap & Timeline** (`/ui/roadmap`): Added roadmap tracking Base UI and Radix UI rollouts with MotionScore™ performance benchmarking guidelines.
-- Dynamic Edge OG image generation support for `/ui` and `/catalog` routes.
+- Dynamic Edge OG image generation support for `/ui` and `/blocks` routes.
 
 </ChangelogItemDescription>
 
@@ -302,11 +302,11 @@ import {
 <ChangelogItem date="2026-06-08">
   <ChangelogItemVersion>
 
-## Catalog Showcases & Auth Engine
+## Blocks Showcases & Auth Engine
 
   </ChangelogItemVersion>
 
-<ChangelogItemTitle>Primitives & Catalog</ChangelogItemTitle>
+<ChangelogItemTitle>Primitives & Blocks</ChangelogItemTitle>
 
 <ChangelogItemDescription>
 

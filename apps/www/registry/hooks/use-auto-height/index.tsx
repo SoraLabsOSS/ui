@@ -71,9 +71,7 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
 
     const dpr =
       typeof window === "undefined" ? 1 : window.devicePixelRatio || 1;
-    const total = Math.ceil((base + extra) * dpr) / dpr;
-
-    return total;
+    return Math.ceil((base + extra) * dpr) / dpr;
   }, [options.includeParentBox, options.includeSelfBox]);
 
   useLayoutEffect(() => {

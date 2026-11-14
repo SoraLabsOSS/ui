@@ -51,7 +51,7 @@ export function Banner({
   // so `:root:not(.key)` never matches and `--fd-banner-height` is never
   // reserved. Reading localStorage in an effect instead would paint the banner
   // first and only then remove it, shifting every element that reads that
-  // variable — sidebar offsets, sticky tops, catalog and auth shells.
+  // variable — sidebar offsets, sticky tops, blocks and auth shells.
   const dismissScript = globalKey
     ? `try{if(localStorage.getItem(${JSON.stringify(globalKey)})==="true"){document.documentElement.classList.add(${JSON.stringify(globalKey)})}}catch(e){}`
     : null;

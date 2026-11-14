@@ -5,8 +5,8 @@ export function isAskAiPath(pathname: string) {
     return false;
   }
 
-  // Hide Ask AI on catalog slug pages (/catalog/[slug], /components/[slug])
-  if (pathname.startsWith("/catalog/") || pathname.startsWith("/components/")) {
+  // Hide Ask AI on blocks slug pages (/blocks/[slug], /components/[slug])
+  if (pathname.startsWith("/blocks/") || pathname.startsWith("/components/")) {
     return false;
   }
 

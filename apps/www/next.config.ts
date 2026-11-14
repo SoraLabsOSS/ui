@@ -13,6 +13,12 @@ const withBundleAnalyzer = bundleAnalyzer({
 const appRoot = import.meta.dirname;
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: [
+    "localhost",
+    "127.0.0.1",
+    "localhost:3000",
+    "127.0.0.1:3000",
+  ],
   serverExternalPackages: ["@better-auth/infra"],
   transpilePackages: [
     "@workspace/auth-ui/lib/auth-core",
@@ -82,14 +88,14 @@ const nextConfig: NextConfig = {
         destination: "/motion/:path*",
       },
 
-      // Rewrites for legacy /components to /catalog
+      // Rewrites for legacy /components to /blocks
       {
         source: "/components",
-        destination: "/catalog",
+        destination: "/blocks",
       },
       {
         source: "/components/:path*",
-        destination: "/catalog/:path*",
+        destination: "/blocks/:path*",
       },
 
       // LLMs MDX / MD rewrites
@@ -127,19 +133,27 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/catalog/:path*.mdx",
-        destination: "/llms-catalog.mdx/:path*",
+        destination: "/llms-blocks.mdx/:path*",
       },
       {
         source: "/catalog/:path*.md",
-        destination: "/llms-catalog.mdx/:path*",
+        destination: "/llms-blocks.mdx/:path*",
+      },
+      {
+        source: "/blocks/:path*.mdx",
+        destination: "/llms-blocks.mdx/:path*",
+      },
+      {
+        source: "/blocks/:path*.md",
+        destination: "/llms-blocks.mdx/:path*",
       },
       {
         source: "/components/:path*.mdx",
-        destination: "/llms-catalog.mdx/:path*",
+        destination: "/llms-blocks.mdx/:path*",
       },
       {
         source: "/components/:path*.md",
-        destination: "/llms-catalog.mdx/:path*",
+        destination: "/llms-blocks.mdx/:path*",
       },
       {
         source: "/motion.mdx",
@@ -193,6 +207,16 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/catalog",
+        destination: "/blocks",
+        permanent: true,
+      },
+      {
+        source: "/catalog/:path*",
+        destination: "/blocks/:path*",
+        permanent: true,
+      },
       {
         source: "/",
         has: [{ type: "host", value: "ui.soralabs.io.vn" }],

@@ -5,14 +5,14 @@ import path from "node:path";
 
 import { Command } from "commander";
 
-import { runCreateCatalog } from "./commands/create-catalog.js";
+import { runCreateBlocks } from "./commands/create-blocks.js";
 import { runCreateIcon } from "./commands/create-icon.js";
 import { runCreatePrimitive } from "./commands/create-primitive.js";
 import { runCreateUi } from "./commands/create-ui.js";
 import { runCreateWizard } from "./commands/create-wizard.js";
 import { runDoctor } from "./commands/doctor.js";
 import {
-  CATALOG_HELP_AFTER,
+  BLOCKS_HELP_AFTER,
   CREATE_HELP_AFTER,
   ICON_HELP_AFTER,
   PRIMITIVE_HELP_AFTER,
@@ -185,9 +185,9 @@ create
   });
 
 create
-  .command("catalog")
-  .description("Create a layout showcase under apps/www/content/catalog")
-  .argument("[slug]", "Catalog page slug in kebab-case")
+  .command("blocks")
+  .description("Create a layout showcase under apps/www/content/blocks")
+  .argument("[slug]", "Blocks page slug in kebab-case")
   .option(
     "-c, --category <category>",
     "Underlying primitive category (texts, buttons, disclosure, effects, animate, shaders)"
@@ -202,17 +202,17 @@ create
   .option(...sharedScaffoldOptions[1])
   .option(...sharedScaffoldOptions[2])
   .option(...sharedScaffoldOptions[3])
-  .addHelpText("after", CATALOG_HELP_AFTER)
+  .addHelpText("after", BLOCKS_HELP_AFTER)
   .action(async (slug: string | undefined, options: ScaffoldCommandOptions) => {
     applyNoColor(options.noColor ?? program.opts().noColor);
 
     const scripted = isScripted(options);
     if (scripted) {
-      assertScriptedName("create:catalog", slug);
+      assertScriptedName("create:blocks", slug);
     }
 
     try {
-      await runCreateCatalog(slug, mapScaffoldOptions(options));
+      await runCreateBlocks(slug, mapScaffoldOptions(options));
     } catch (error) {
       console.error(error instanceof Error ? error.message : error);
       process.exit(1);

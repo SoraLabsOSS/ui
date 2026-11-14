@@ -89,8 +89,8 @@ const SUGGESTED_PROMPTS = [
 ] as const;
 
 /**
- * Below catalog/docs flyouts (backdrop z-110, aside z-111) so an open
- * sidebar covers Ask AI. Catalog idle chrome stays under this panel.
+ * Below blocks/docs flyouts (backdrop z-110, aside z-111) so an open
+ * sidebar covers Ask AI. Blocks idle chrome stays under this panel.
  * Command palette is z-1000.
  */
 const AI_CHAT_LAYER_CLASSNAME = "z-[100]";
@@ -773,7 +773,7 @@ export function AISearchTrigger({
       {...props}
       className={cn(
         position === "float" && [
-          // Above catalog mobile chrome and the fixed TOC (#nd-toc is z-20).
+          // Above blocks mobile chrome and the fixed TOC (#nd-toc is z-20).
           "fixed inset-e-[calc(--spacing(4)+var(--removed-body-scroll-bar-size,0px))] bottom-4 w-24 cursor-pointer gap-3 shadow-lg transition-[translate,opacity]",
           AI_CHAT_LAYER_CLASSNAME,
           open && "pointer-events-none translate-y-10 opacity-0",

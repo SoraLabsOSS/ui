@@ -3,8 +3,8 @@ import type { ResourceMetadata } from "xmcp";
 import { listInstallableItems } from "../registry/sora-registry-source";
 
 export const metadata: ResourceMetadata = {
-  name: "registry-catalog",
-  title: "Sora UI Component Catalog",
+  name: "registry-blocks",
+  title: "Sora UI Component Blocks",
   description:
     "Complete list of installable Sora UI components, hooks, and utility libraries",
   mimeType: "application/json",

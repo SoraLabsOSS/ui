@@ -9,7 +9,7 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { McpInitTabs } from "@/components/docs/mcp-init-tabs";
 import { SORA_UI_MCP_SERVER_NAME, SORA_UI_MCP_URL } from "@/lib/mcp-cursor";
 
-The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component catalog. It runs as a remote HTTP server at <code>{SORA_UI_MCP_URL}</code> (no local CLI required).
+The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component blocks. It runs as a remote HTTP server at <code>{SORA_UI_MCP_URL}</code> (no local CLI required).
 
 <Callout type="warn" title="Remote Server Temporarily Paused">
   Due to usage limits and maintenance funding constraints, the public remote MCP server (`https://mcp.soralabs.studio/mcp`) is temporarily paused. Remote HTTP connections in Cursor, Claude Code, and Claude Desktop are currently unavailable.
@@ -24,7 +24,7 @@ You can continue using Sora UI MCP locally via **Local STDIO** or self-host it. 
 
 | Tool | Description |
 | --- | --- |
-| `search_docs` | Search docs and components by keyword or phrase. Supports filtering by section (`documentation`, `components`, `catalog`, `motion`, `ui`). Capped at 25 results per call (default 10) with relevant excerpts |
+| `search_docs` | Search docs and components by keyword or phrase. Supports filtering by section (`documentation`, `components`, `blocks`, `motion`, `ui`). Capped at 25 results per call (default 10) with relevant excerpts |
 | `get_page` | Fetch a page as markdown by slug or URL path (e.g. `getting-started`, `ui/button`, `primitives/accordion`). Enforces an 8,000-token budget with automatic truncation notice |
 | `list_sections` | Browse the documentation structure and page counts from `llms.txt`. Supports filtering to a specific section's children |
 | `get_component_info` | Without a `name`, lists installable Sora UI components and hooks (`registry:ui`, `registry:hook`). With a `name`, returns install guidance (`npx shadcn@latest add @soralabs/<name> --yes` or `sora-cli add`), dependency trees, file targets, and published agent metadata (accessibility constraints, composition rules, motion engine) — pass `includeSource: true` to also get the full source, and `cwd` for monorepos |
@@ -40,7 +40,7 @@ You can continue using Sora UI MCP locally via **Local STDIO** or self-host it. 
 
 | Resource | Description |
 | --- | --- |
-| `registry-catalog` | Complete live JSON snapshot of all installable Sora UI registry items (`type: "registry:ui"` and `type: "registry:hook"`) |
+| `registry-blocks` | Complete live JSON snapshot of all installable Sora UI registry items (`type: "registry:ui"` and `type: "registry:hook"`) |
 
 <Callout>
   `get_component_info` lets you browse, inspect, and pull the source of a
@@ -322,7 +322,7 @@ bun run build       # compiles dist/stdio.js and dist/http.js
 - Get the UI kit landing page (`ui`)
 - List the UI section in Sora UI docs
 
-### Components catalog
+### Components blocks
 
 - Search Sora UI components for underline link
 - Get the draw-underline-link primitive page

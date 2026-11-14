@@ -55,6 +55,7 @@ export function resizeAvatar(
 
   return new Promise((resolve, reject) => {
     const img = new Image();
+    // oxlint-disable-next-line react-doctor/no-create-object-url-without-revoke
     const url = URL.createObjectURL(file);
 
     img.addEventListener("load", () => {

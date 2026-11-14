@@ -1,7 +1,7 @@
 import { cancel, isCancel, select } from "@clack/prompts";
 
 import { isInteractiveTerminal, nonInteractiveHint } from "../lib/terminal.js";
-import { runCreateCatalog } from "./create-catalog.js";
+import { runCreateBlocks } from "./create-blocks.js";
 import { runCreateIcon } from "./create-icon.js";
 import { runCreatePrimitive } from "./create-primitive.js";
 import { runCreateUi } from "./create-ui.js";
@@ -13,7 +13,7 @@ export async function runCreateWizard(): Promise<void> {
         [
           "bun run create:primitive <name> --category=effects --yes",
           "bun run create:ui <name> --framework=base --yes",
-          "bun run create:catalog <slug> --yes",
+          "bun run create:blocks <slug> --yes",
           "bun run create:icon <name> --yes",
         ].join("\n  ")
       )
@@ -34,9 +34,9 @@ export async function runCreateWizard(): Promise<void> {
         hint: "registry/ui → /ui (Base or Radix)",
       },
       {
-        value: "catalog",
-        label: "Catalog page",
-        hint: "content/catalog → /catalog",
+        value: "blocks",
+        label: "Blocks page",
+        hint: "content/blocks → /blocks",
       },
       {
         value: "icon",
@@ -51,8 +51,8 @@ export async function runCreateWizard(): Promise<void> {
     process.exit(0);
   }
 
-  if (tier === "catalog") {
-    await runCreateCatalog(undefined, {});
+  if (tier === "blocks") {
+    await runCreateBlocks(undefined, {});
     return;
   }
 

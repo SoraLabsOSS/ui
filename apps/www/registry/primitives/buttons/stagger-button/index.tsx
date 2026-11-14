@@ -101,7 +101,7 @@ const FLAT_VARIANTS = new Set<string>(["ghost", "link"]);
 
 type WithAsChild<Base extends object> =
   | (Base & { asChild: true; children: ReactElement })
-  | (Base & { asChild?: false | undefined; children?: string });
+  | (Base & { asChild?: false; children?: string });
 
 type StaggerButtonBaseProps = Omit<ComponentPropsWithoutRef<"a">, "children"> &
   VariantProps<typeof buttonBaseVariants> & {

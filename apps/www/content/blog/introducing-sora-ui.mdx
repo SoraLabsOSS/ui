@@ -15,11 +15,11 @@ If you've landed here from a docs preview or a scroll-driven demo and thought _"
 
 Sora UI is a distribution of animated components — not a typical `npm install` library, and honestly not trying to be one.
 
-You browse the catalog, pick a primitive, run one CLI command, and the **source lands in your repo** under something like `components/sora-ui/`. You own the files, full stop. Change Tailwind classes, tweak the easing, rip out a timeline, fork a variant at 11pm before a client demo — none of that requires opening a GitHub issue and waiting for a maintainer to agree with you.
+You browse the blocks, pick a primitive, run one CLI command, and the **source lands in your repo** under something like `components/sora-ui/`. You own the files, full stop. Change Tailwind classes, tweak the easing, rip out a timeline, fork a variant at 11pm before a client demo — none of that requires opening a GitHub issue and waiting for a maintainer to agree with you.
 
 That model is deliberate. We're optimizing for teams who ship **marketing sites, product landings, and client work** where motion has to feel considered — and where someone on the team will inevitably need to **open the file** and adjust it.
 
-The docs previews load the **same registry items** the CLI installs. What you see in the catalog is what you get in your codebase.
+The docs previews load the **same registry items** the CLI installs. What you see in the blocks is what you get in your codebase.
 
 ## Two ways to ship motion
 
@@ -29,13 +29,13 @@ Sora UI splits into two lanes that share the same stack and install flow:
 
 Named building blocks you reach for across projects: accordions with motion-aware disclosure, char-stagger buttons, custom cursors, scroll-pinned text reveals, and more. Most primitives use **Motion** (`motion/react`) for springs, layout, and in-view effects. Scroll-driven copy — like word-by-word text reveals — uses **GSAP** where scrubbing and pinning are the right tool.
 
-Primitives are **documented, previewed, and installable today**. Browse the [Primitives docs](/docs/primitives/text-scramble) or the full [component catalog](/components).
+Primitives are **documented, previewed, and installable today**. Browse the [Primitives docs](/docs/primitives/text-scramble) or the full [component blocks](/components).
 
 ### Blocks
 
 Composed page sections — hero flows, feature grids, motion systems you drop in and customize. Blocks are **not** a grab bag of unrelated widgets; they're larger pieces built from the same Motion + GSAP foundation.
 
-The blocks catalog is **growing**. When a block ships, it follows the same `@soralabs` registry scope and copy-first workflow as primitives.
+The blocks blocks is **growing**. When a block ships, it follows the same `@soralabs` registry scope and copy-first workflow as primitives.
 
 ## How we're different from "just use shadcn"
 

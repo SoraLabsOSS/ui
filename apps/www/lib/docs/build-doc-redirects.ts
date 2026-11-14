@@ -35,7 +35,7 @@ function readGuideSlugs(docsRoot: string): Set<string> {
   );
 }
 
-/** Redirects inferred from docs/component meta — fills missing `motion`, `primitives` or `catalog` segments. */
+/** Redirects inferred from docs/component meta — fills missing `motion`, `primitives` or `blocks` segments. */
 export function buildDocRedirects(appRoot: string): DocRedirect[] {
   const docsRoot = path.join(appRoot, "content/docs");
   let motionMetaPath = path.join(appRoot, "content/motion/meta.json");
@@ -44,15 +44,15 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
       ? path.join(docsRoot, "motion/meta.json")
       : path.join(docsRoot, "primitives/meta.json");
   }
-  const catalogMetaPath = fs.existsSync(
-    path.join(appRoot, "content/catalog/meta.json")
+  const blocksMetaPath = fs.existsSync(
+    path.join(appRoot, "content/blocks/meta.json")
   )
-    ? path.join(appRoot, "content/catalog/meta.json")
+    ? path.join(appRoot, "content/blocks/meta.json")
     : path.join(appRoot, "content/components/meta.json");
 
   const motionPageList = readMetaPages(motionMetaPath);
   const motionSlugs = new Set(motionPageList);
-  const catalogSlugs = new Set(readMetaPages(catalogMetaPath));
+  const blocksSlugs = new Set(readMetaPages(blocksMetaPath));
   const guideSlugs = readGuideSlugs(docsRoot);
 
   const redirects: DocRedirect[] = [];
@@ -138,14 +138,14 @@ export function buildDocRedirects(appRoot: string): DocRedirect[] {
     });
   }
 
-  for (const slug of catalogSlugs) {
+  for (const slug of blocksSlugs) {
     if (motionSlugs.has(slug)) {
       continue;
     }
 
     redirects.push({
       source: `/docs/${slug}`,
-      destination: `/catalog/${slug}`,
+      destination: `/blocks/${slug}`,
       permanent: true,
     });
   }

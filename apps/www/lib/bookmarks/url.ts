@@ -1,7 +1,7 @@
 export const LEGACY_PATH_PREFIX_REDIRECTS = [
-  ["/docs/components", "/catalog"],
-  ["/docs/catalog", "/catalog"],
-  ["/components", "/catalog"],
+  ["/docs/components", "/blocks"],
+  ["/docs/blocks", "/blocks"],
+  ["/components", "/blocks"],
   ["/docs/icons", "/icons"],
   ["/docs/motion", "/motion"],
   ["/docs/primitives", "/motion"],

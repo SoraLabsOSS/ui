@@ -644,6 +644,9 @@ export class TextMorphEngine {
       segmentIds.filter((id) => this.prevMeasures[id])
     );
 
+    const duration = this.options.duration ?? 400;
+    const ease = this.options.ease ?? "cubic-bezier(0.19, 1, 0.22, 1)";
+
     for (let index = 0; index < children.length; index++) {
       const child = children[index];
       if (!child) {
@@ -682,8 +685,8 @@ export class TextMorphEngine {
         animateNumberEnter(child, {
           deltaX,
           deltaY,
-          duration: this.options.duration ?? 400,
-          ease: this.options.ease ?? "cubic-bezier(0.19, 1, 0.22, 1)",
+          duration,
+          ease,
           kind,
           slideDistance,
         });
@@ -691,15 +694,15 @@ export class TextMorphEngine {
         animateNumberPersist(child, {
           deltaX,
           deltaY,
-          duration: this.options.duration ?? 400,
-          ease: this.options.ease ?? "cubic-bezier(0.19, 1, 0.22, 1)",
+          duration,
+          ease,
         });
       } else {
         animateEnterOrPersist(child, {
           deltaX,
           deltaY,
-          duration: this.options.duration ?? 400,
-          ease: this.options.ease ?? "cubic-bezier(0.19, 1, 0.22, 1)",
+          duration,
+          ease,
           isNew,
         });
       }

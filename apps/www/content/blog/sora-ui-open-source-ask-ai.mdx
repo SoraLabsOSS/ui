@@ -23,13 +23,13 @@ A few things worth being precise about, because "open source" gets used as wallp
 
 - **Use it in client work.** That's the point. Free for personal, commercial, and client projects (only restricting standalone reselling of raw upstream components as a competing kit).
 - **Bugs and "how do I" go to the [GitHub repo](https://github.com/SoraLabsOSS/ui).** The repository issues and discussions are open for community questions and bug reports.
-- **Starring it helps more than a screenshot of the catalog.** Registries don't show up in npm weekly downloads the way a package does. GitHub is the public number.
+- **Starring it helps more than a screenshot of the blocks.** Registries don't show up in npm weekly downloads the way a package does. GitHub is the public number.
 
 If you already have components installed, you don't need to reinstall anything. The files in your project were always yours. The missing piece was being able to see — and change — the upstream they came from.
 
 ## Ask AI is retrieve, then a sentence. Not a tool loop.
 
-There's an **Ask AI** control on [docs](/docs), the [catalog](/components), the [blog](/blog) — anywhere you'd be reading instead of the home page, settings, or login. It looks like the Fumadocs chat, because it is. The thread lives in one root-layout instance, so changing pages doesn't wipe it. What we changed is how the answer gets made.
+There's an **Ask AI** control on [docs](/docs), the [blocks](/components), the [blog](/blog) — anywhere you'd be reading instead of the home page, settings, or login. It looks like the Fumadocs chat, because it is. The thread lives in one root-layout instance, so changing pages doesn't wipe it. What we changed is how the answer gets made.
 
 The first version let the model call a `search` tool, the way the Fumadocs template does. That works when the model actually speaks function-calling. Tiny free-tier models dump `<tool_call>` XML into the transcript and then stop. Five steps of "searching," zero sentences.
 
@@ -71,4 +71,4 @@ There's also [`llms.txt`](/llms.txt) and per-page `.md` for anything that would 
 2. Open [the docs](/docs), hit **Ask AI**, ask something you'd actually type — `How do I install Sora UI?`, `What is stagger button?`, `How do I add icons?`.
 3. If the answer cites the wrong page, that's useful. File it on the [GitHub repo](https://github.com/SoraLabsOSS/ui). The index is only as good as the crawl.
 
-The catalog didn't get a new primitive this week. The project got a public root, and the docs got a way to talk without hallucinating a prop we never shipped. That's enough for a Wednesday.
+The blocks didn't get a new primitive this week. The project got a public root, and the docs got a way to talk without hallucinating a prop we never shipped. That's enough for a Wednesday.

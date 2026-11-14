@@ -46,7 +46,7 @@ export interface UserButtonLink {
 }
 
 export interface UserButtonProps {
-  align?: "center" | "end" | "start" | undefined;
+  align?: "center" | "end" | "start";
   className?: string;
   /** Hide the built-in "Settings" link. Useful when replacing it via `links`. */
   hideSettings?: boolean;

@@ -18,7 +18,7 @@ This MCP server provides AI assistants (such as Claude Desktop, Cursor, Zed, Win
 
 1. **`search_docs`** (`src/tools/search-docs.ts`):
    - Searches documentation by keyword or phrase.
-   - Supports filtering by section (`documentation`, `components`, `catalog`, `motion`, `ui`).
+   - Supports filtering by section (`documentation`, `components`, `blocks`, `motion`, `ui`).
    - Uses remote Fumadocs/Orama search API with local `llms-full.txt` text fallback.
 2. **`get_page`** (`src/tools/get-page.ts`):
    - Retrieves full markdown content of a documentation page by slug or URL.
@@ -47,7 +47,7 @@ These tools provide the semantic context and validation layer for agent-assisted
 
 ### Resources (`src/resources/`)
 
-- **`registry-catalog`** (`src/resources/registry.ts`):
+- **`registry-blocks`** (`src/resources/registry.ts`):
   - Live JSON snapshot of all installable Sora UI registry items (components, hooks, and libraries).
 
 ---

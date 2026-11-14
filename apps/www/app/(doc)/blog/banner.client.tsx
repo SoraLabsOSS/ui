@@ -74,6 +74,7 @@ export function BlogHeaderBanner() {
     };
   }, []);
 
+  // oxlint-disable-next-line react-doctor/effect-needs-cleanup
   useEffect(() => {
     if (!showShaders) {
       setIsShaderVisible(false);

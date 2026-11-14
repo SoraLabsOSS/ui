@@ -1,15 +1,15 @@
 ---
 title: Animating Icons
-description: A bonus authoring skill for icons that do something — outside the Sora UI icon catalog.
+description: A bonus authoring skill for icons that do something — outside the Sora UI icon blocks.
 ---
 
 import { CodeTabs } from "@/components/docs/code-tabs";
 
 <Callout>
-  **Bonus — not part of the Sora UI icon set.** The [Icons](/icons) catalog
-  ships ready-made animated glyphs you install into a project. This page is
-  about something else: an agent skill for **authoring** new icon gestures when
-  a ready-made one isn't enough.
+  **Bonus — not part of the Sora UI icon set.** The [Icons](/icons) blocks ships
+  ready-made animated glyphs you install into a project. This page is about
+  something else: an agent skill for **authoring** new icon gestures when a
+  ready-made one isn't enough.
 </Callout>
 
 [**animating-icons**](https://skills.soralabs.studio/animating-icons/) is a Claude Code / Cursor / Codex skill from SoraLabs. The idea is simple: an icon is not a picture you move — it is an object that **does something**, and the animation is that thing happening once. A bell rings. A plug comes out of its socket. The motion has to be something only _that_ object could do.
@@ -24,7 +24,7 @@ Whole-`<svg>` shakes that would look identical on any glyph are decoration. The 
 | When to use | Browse and add a shipped icon | Custom glyph, new hover gesture, icon↔icon morph |
 | Lives in | This registry (`@soralabs/icons-*`) | Your agent's skills folder |
 
-Use the [catalog](/icons) when an icon already exists. Reach for the skill when you need to invent a gesture — or when an existing animation fails the **swap test** (could these keyframes sit on a different icon and still look fine?).
+Use the [blocks](/icons) when an icon already exists. Reach for the skill when you need to invent a gesture — or when an existing animation fails the **swap test** (could these keyframes sit on a different icon and still look fine?).
 
 ## The four gates
 
@@ -35,7 +35,7 @@ Every icon the skill authors should pass all four, verified by rendering — not
 3. **Strip test** — every intermediate frame still reads as the icon
 4. **Motion test** — peak speed under the aliasing ceiling; holds actually stop
 
-Full families, failure catalog, morph method, and verify scripts live on the skill site — this page is only the pointer.
+Full families, failure blocks, morph method, and verify scripts live on the skill site — this page is only the pointer.
 
 ## Install
 

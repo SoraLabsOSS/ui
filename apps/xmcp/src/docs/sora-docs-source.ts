@@ -42,7 +42,7 @@ const LEADING_SLASHES = /^\/+/;
 const TRAILING_SLASHES = /\/+$/;
 const DOCS_PREFIX = /^docs\//;
 const COMPONENTS_PREFIX = "components/";
-const CATALOG_PREFIX = "catalog/";
+const BLOCKS_PREFIX = "blocks/";
 const MOTION_PREFIX = "motion/";
 const ICONS_PREFIX = "icons/";
 const UI_PREFIX = "ui/";
@@ -53,7 +53,7 @@ const HEADER_PATTERN = /^#\s+([^\n(]+?)(?:\s*\(([^)]+)\))?\s*$/gm;
 type LlmsSection =
   | "documentation"
   | "components"
-  | "catalog"
+  | "blocks"
   | "motion"
   | "icons"
   | "ui";
@@ -117,21 +117,21 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
     return [uiCandidate];
   }
 
-  const catalog =
+  const blocks =
     resolveSectionCandidate(
       trimmedSlug,
-      "catalog",
-      CATALOG_PREFIX,
-      "/llms-catalog.mdx"
+      "blocks",
+      BLOCKS_PREFIX,
+      "/llms-blocks.mdx"
     ) ||
     resolveSectionCandidate(
       trimmedSlug,
-      "catalog",
+      "blocks",
       COMPONENTS_PREFIX,
-      "/llms-catalog.mdx"
+      "/llms-blocks.mdx"
     );
-  if (catalog) {
-    return [catalog];
+  if (blocks) {
+    return [blocks];
   }
 
   const motion = resolveSectionCandidate(
@@ -167,8 +167,8 @@ function buildMdxCandidates(trimmedSlug: string): MdxCandidate[] {
   if (!trimmedSlug.startsWith("docs/")) {
     candidates.push(
       {
-        fetchPath: `/llms-catalog.mdx/${trimmedSlug}`,
-        pagePath: `/catalog/${trimmedSlug}`,
+        fetchPath: `/llms-blocks.mdx/${trimmedSlug}`,
+        pagePath: `/blocks/${trimmedSlug}`,
       },
       {
         fetchPath: `/llms-ui.mdx/${trimmedSlug}`,
@@ -189,10 +189,10 @@ function pagePathname(url: string): string {
 }
 
 function matchesLlmsSection(pathname: string, section: LlmsSection): boolean {
-  if (section === "catalog" || section === "components") {
+  if (section === "blocks" || section === "components") {
     return (
-      pathname === "/catalog" ||
-      pathname.startsWith("/catalog/") ||
+      pathname === "/blocks" ||
+      pathname.startsWith("/blocks/") ||
       pathname === "/components" ||
       pathname.startsWith("/components/")
     );
@@ -326,7 +326,7 @@ export class SoraDocsSource {
     if (
       section === "documentation" ||
       section === "components" ||
-      section === "catalog" ||
+      section === "blocks" ||
       section === "motion" ||
       section === "icons" ||
       section === "ui"

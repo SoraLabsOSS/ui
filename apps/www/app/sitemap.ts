@@ -143,11 +143,11 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   );
   const latestIconsDate = getLatestLastModified(iconsPages);
 
-  const catalogPages = componentSource.getPages();
-  const componentEntries = catalogPages.map((page) =>
+  const blocksPages = componentSource.getPages();
+  const componentEntries = blocksPages.map((page) =>
     contentPageToEntry(page, 0.75)
   );
-  const latestCatalogDate = getLatestLastModified(catalogPages);
+  const latestBlocksDate = getLatestLastModified(blocksPages);
 
   const uiPages = uiSource.getPages();
   const uiEntries = uiPages.map((page) =>
@@ -163,7 +163,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     latestDocDate,
     latestMotionDate,
     latestIconsDate,
-    latestCatalogDate,
+    latestBlocksDate,
     latestUiDate,
     latestBlogDate
   );
@@ -191,8 +191,8 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...iconsEntries,
     {
-      url: `${SITE_URL}/catalog`,
-      lastModified: latestCatalogDate,
+      url: `${SITE_URL}/blocks`,
+      lastModified: latestBlocksDate,
       changeFrequency: "weekly",
       priority: 0.85,
     },

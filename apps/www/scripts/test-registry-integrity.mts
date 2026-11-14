@@ -8,7 +8,7 @@ import path from "node:path";
 import { addRegistryItems } from "shadcn/registry";
 
 import {
-  assertRegistryCatalog,
+  assertRegistryBlocks,
   assertRegistryItem,
 } from "./validate-registry-schema.js";
 
@@ -21,7 +21,7 @@ const NEWLINE = /\r?\n/;
 const ITEM_LIST_SPLIT = /[,\s]+/;
 const SOURCE_FILE_EXT = /\.(tsx|ts|jsx|js)$/;
 const SITE_ONLY_ALIAS =
-  /@\/(?:components\/catalog|lib\/catalog|lib\/scroll|registry|app)\//;
+  /@\/(?:components\/blocks|lib\/blocks|lib\/scroll|registry|app)\//;
 const NODE_PROCESS = /\bprocess\./;
 const COVERAGE_BUCKETS = [
   "ui-base",
@@ -44,13 +44,13 @@ interface RegistryFileEntry {
 interface RegistryJsonItem {
   dependencies?: string[];
   files?: RegistryFileEntry[];
-  items?: CatalogItem[];
+  items?: BlocksItem[];
   name?: string;
   registryDependencies?: string[];
   type?: string;
 }
 
-interface CatalogItem {
+interface BlocksItem {
   files?: { path?: string; target?: string }[];
   name: string;
   registryDependencies?: string[];
@@ -127,7 +127,7 @@ async function validateSingleJsonFile(fileName: string): Promise<number> {
 
   try {
     if (fileName === "registry.json") {
-      assertRegistryCatalog(parsed, fileName);
+      assertRegistryBlocks(parsed, fileName);
       return 0;
     }
     assertRegistryItem(parsed, fileName);
@@ -223,7 +223,7 @@ function publishedFileName(dep: string): string {
   return `${itemBareName(dep)}.json`;
 }
 
-function coverageBucket(item: CatalogItem): CoverageBucket | null {
+function coverageBucket(item: BlocksItem): CoverageBucket | null {
   if (item.type === "registry:style" || !item.name) {
     return null;
   }
@@ -253,13 +253,13 @@ function coverageBucket(item: CatalogItem): CoverageBucket | null {
   return "primitive";
 }
 
-function coverageScore(item: CatalogItem): number {
+function coverageScore(item: BlocksItem): number {
   const deps = item.registryDependencies ?? [];
   const namespaced = deps.filter((dep) => dep.startsWith(`${SORA_REGISTRY}/`));
   return namespaced.length * 10 + deps.length;
 }
 
-function pickCoverageItem(items: CatalogItem[]): CatalogItem | undefined {
+function pickCoverageItem(items: BlocksItem[]): BlocksItem | undefined {
   return items.toSorted(
     (left, right) =>
       coverageScore(right) - coverageScore(left) ||
@@ -313,10 +313,8 @@ async function isConsumerPortableGraph(
   return true;
 }
 
-async function portableCatalogItems(
-  items: CatalogItem[]
-): Promise<CatalogItem[]> {
-  const portable: CatalogItem[] = [];
+async function portableBlocksItems(items: BlocksItem[]): Promise<BlocksItem[]> {
+  const portable: BlocksItem[] = [];
   for (const item of items) {
     if (await isConsumerPortableGraph(item.name)) {
       portable.push(item);
@@ -325,15 +323,15 @@ async function portableCatalogItems(
   return portable;
 }
 
-async function loadCatalog(): Promise<CatalogItem[]> {
+async function loadBlocks(): Promise<BlocksItem[]> {
   const parsed = JSON.parse(
     await fs.readFile(path.join(PUBLIC_R, "registry.json"), "utf-8")
   ) as RegistryJsonItem;
   return parsed.items ?? [];
 }
 
-/** Catalog-driven coverage: one portable item per bucket by default.
- *  SORA_REGISTRY_TEST_ALL=1 installs every catalog item.
+/** Blocks-driven coverage: one portable item per bucket by default.
+ *  SORA_REGISTRY_TEST_ALL=1 installs every blocks item.
  *  SORA_REGISTRY_TEST_ITEMS=base-checkbox,demo-checkbox pins an explicit list.
  */
 function parseRequestedItems(): { all: boolean; names: string[] | null } {
@@ -345,8 +343,8 @@ function parseRequestedItems(): { all: boolean; names: string[] | null } {
   return { all, names };
 }
 
-async function selectItemsToAdd(catalog: CatalogItem[]): Promise<string[]> {
-  const installable = catalog.filter((item) => coverageBucket(item) !== null);
+async function selectItemsToAdd(blocks: BlocksItem[]): Promise<string[]> {
+  const installable = blocks.filter((item) => coverageBucket(item) !== null);
   const { all, names } = parseRequestedItems();
   const byName = new Map(installable.map((item) => [item.name, item]));
 
@@ -356,7 +354,7 @@ async function selectItemsToAdd(catalog: CatalogItem[]): Promise<string[]> {
       .filter((name) => name !== "utils" && !byName.has(name));
     if (missing.length > 0) {
       throw new Error(
-        `SORA_REGISTRY_TEST_ITEMS not in catalog: ${missing.join(", ")}`
+        `SORA_REGISTRY_TEST_ITEMS not in blocks: ${missing.join(", ")}`
       );
     }
     return names.map(toAddArgument);
@@ -366,8 +364,8 @@ async function selectItemsToAdd(catalog: CatalogItem[]): Promise<string[]> {
     return installable.map((item) => toAddArgument(item.name));
   }
 
-  const portable = await portableCatalogItems(installable);
-  const byBucket = new Map<CoverageBucket, CatalogItem[]>();
+  const portable = await portableBlocksItems(installable);
+  const byBucket = new Map<CoverageBucket, BlocksItem[]>();
   for (const item of portable) {
     const bucket = coverageBucket(item);
     if (!bucket) {
@@ -378,7 +376,7 @@ async function selectItemsToAdd(catalog: CatalogItem[]): Promise<string[]> {
     byBucket.set(bucket, bucketItems);
   }
 
-  const selected: CatalogItem[] = [];
+  const selected: BlocksItem[] = [];
   for (const bucket of COVERAGE_BUCKETS) {
     const picked = pickCoverageItem(byBucket.get(bucket) ?? []);
     if (picked) {
@@ -812,8 +810,8 @@ async function testConsumerInstallation(): Promise<void> {
   await fs.rm(sandboxDir, { recursive: true, force: true });
   await fs.mkdir(sandboxDir, { recursive: true });
 
-  const catalog = await loadCatalog();
-  const itemsToAdd = await selectItemsToAdd(catalog);
+  const blocks = await loadBlocks();
+  const itemsToAdd = await selectItemsToAdd(blocks);
   console.log(`Coverage sample: ${itemsToAdd.join(", ")}`);
 
   const registry = await startLocalRegistry(PUBLIC_R);

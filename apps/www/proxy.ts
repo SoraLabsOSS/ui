@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 const DOCS_PATH_RE = /^\/docs(?:\/(.+))?$/;
 const MOTION_PATH_RE = /^\/(?:motion|primitives)(?:\/(.+))?$/;
 const ICONS_PATH_RE = /^\/icons(?:\/(.+))?$/;
-const CATALOG_PATH_RE = /^\/(?:catalog|components)\/(.+)$/;
+const BLOCKS_PATH_RE = /^\/(?:blocks|components)\/(.+)$/;
 const UI_PATH_RE = /^\/ui(?:\/(.+))?$/;
 const BLOG_PATH_RE = /^\/blog\/(.+)$/;
 const MD_EXT_RE = /\.(mdx|md)$/;
@@ -31,9 +31,9 @@ function rewriteMarkdownPath(pathname: string): string | null {
     return rest ? `/llms.mdx/icons/${rest}` : "/llms.mdx/icons";
   }
 
-  const catalogMatch = clean.match(CATALOG_PATH_RE);
-  if (catalogMatch) {
-    return `/llms-catalog.mdx/${catalogMatch[1]}`;
+  const blocksMatch = clean.match(BLOCKS_PATH_RE);
+  if (blocksMatch) {
+    return `/llms-blocks.mdx/${blocksMatch[1]}`;
   }
 
   const uiMatch = clean.match(UI_PATH_RE);
@@ -88,7 +88,7 @@ export const config = {
     "/settings",
     "/settings/:path*",
     "/(docs|ui|motion|primitives|icons)/:path*.(md|mdx)",
-    "/(catalog|components|blog)/:path+.(md|mdx)",
+    "/(blocks|components|blog)/:path+.(md|mdx)",
     {
       source: "/docs",
       has: [
@@ -170,7 +170,7 @@ export const config = {
       ],
     },
     {
-      source: "/catalog/:path+",
+      source: "/blocks/:path+",
       has: [
         {
           type: "header",

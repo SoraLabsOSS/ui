@@ -42,7 +42,7 @@ export const NAV_PRODUCTS = {
   main: [
     { label: "Motion Primitives", href: "/motion" },
     { label: "UI Foundation", href: "/ui" },
-    { label: "Catalog Showcase", href: "/catalog" },
+    { label: "Blocks Showcase", href: "/blocks" },
     { label: "Animated Icons", href: "/icons" },
     { label: "Sora CLI", href: "/docs/cli" },
   ] satisfies NavItem[],
@@ -57,7 +57,7 @@ export const NAV_PRODUCTS = {
  */
 export const NAV_EXPLORE: NavItem[] = [
   { label: "Documentation", href: "/docs" },
-  { label: "Catalog Layouts", href: "/catalog" },
+  { label: "Blocks Layouts", href: "/blocks" },
   { label: "Blog", href: "/blog" },
   { label: "Pricing", href: "/pricing" },
 ];
@@ -86,7 +86,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Motion Primitives", href: "/motion" },
       { label: "UI Foundation", href: "/ui" },
-      { label: "Catalog Showcase", href: "/catalog" },
+      { label: "Blocks Showcase", href: "/blocks" },
       { label: "Animated Icons", href: "/icons" },
       { label: "Sora CLI", href: "/docs/cli" },
     ],

@@ -33,8 +33,8 @@ export function isBookmarkablePath(url: string): boolean {
   return (
     url === "/docs" ||
     url.startsWith("/docs/") ||
-    url === "/catalog" ||
-    url.startsWith("/catalog/") ||
+    url === "/blocks" ||
+    url.startsWith("/blocks/") ||
     url === "/components" ||
     url.startsWith("/components/") ||
     url === "/ui" ||
@@ -50,7 +50,7 @@ export function isBookmarkablePath(url: string): boolean {
 
 export const bookmarkUrlSchema = z.object({
   url: z.string().min(1).max(512).refine(isBookmarkablePath, {
-    message: "Must be a valid docs, motion, icons, catalog, or UI path",
+    message: "Must be a valid docs, motion, icons, blocks, or UI path",
   }),
 });
 
@@ -150,7 +150,7 @@ function resolveBookmarkUrlFromSet(
 
   if (url.startsWith("/docs/") && url.split("/").length === 3) {
     const slug = url.slice("/docs/".length);
-    for (const candidate of [`/motion/${slug}`, `/catalog/${slug}`]) {
+    for (const candidate of [`/motion/${slug}`, `/blocks/${slug}`]) {
       const canonicalCandidate = normalizeBookmarkUrl(candidate);
       if (urls.has(canonicalCandidate)) {
         return canonicalCandidate;

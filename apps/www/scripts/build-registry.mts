@@ -12,7 +12,7 @@ import { createHighlighter } from "shiki";
 
 import { generateUsageExampleFromTarget } from "../lib/docs/generate-usage-example-code.js";
 import {
-  assertRegistryCatalog,
+  assertRegistryBlocks,
   assertRegistryItem,
 } from "./validate-registry-schema.js";
 
@@ -20,7 +20,7 @@ const require = createRequire(import.meta.url);
 
 const CONTENT_MDX_PATHS = [
   path.join(process.cwd(), "content", "docs"),
-  path.join(process.cwd(), "content", "catalog"),
+  path.join(process.cwd(), "content", "blocks"),
   path.join(process.cwd(), "content", "ui"),
   path.join(process.cwd(), "content", "motion"),
   path.join(process.cwd(), "content", "icons"),
@@ -28,8 +28,8 @@ const CONTENT_MDX_PATHS = [
 
 const UI_FRAMEWORK_PREFIX = /^(base|radix)-/;
 const PRIMITIVE_MATCH_RE = /^registry\/primitives\/([^/]+)\/([^/]+)\//;
-const CATALOG_MATCH_RE = /^registry\/catalog\/([^/]+)\//;
-const DEMO_CATALOG_MATCH_RE = /^registry\/demo\/catalog\/([^/]+)\//;
+const BLOCKS_MATCH_RE = /^registry\/blocks\/([^/]+)\//;
+const DEMO_BLOCKS_MATCH_RE = /^registry\/demo\/blocks\/([^/]+)\//;
 const UI_MATCH_RE = /^registry\/ui\/(base|radix)\/([^/]+)\//;
 const DEMO_UI_MATCH_RE = /^registry\/demo\/ui\/(base|radix)\/([^/]+)\//;
 const DEMO_PRIMITIVE_MATCH_RE =
@@ -125,8 +125,8 @@ function inferSyntheticDemoPath(item: RegistryItem): string {
   if (sourcePath.includes("/primitives/")) {
     return sourcePath.replace("/primitives/", "/demo/primitives/");
   }
-  if (sourcePath.includes("/catalog/")) {
-    return sourcePath.replace("/catalog/", "/demo/catalog/");
+  if (sourcePath.includes("/blocks/")) {
+    return sourcePath.replace("/blocks/", "/demo/blocks/");
   }
   if (sourcePath.includes("/icons/")) {
     return sourcePath.replace("/icons/", "/demo/icons/");
@@ -150,16 +150,16 @@ function getScaffoldHint(item: RegistryItem): string | null {
     return `bun run create:primitive ${name} --category=${category} --yes`;
   }
 
-  const catalogMatch = sourcePath.match(CATALOG_MATCH_RE);
-  if (catalogMatch) {
-    const [, name] = catalogMatch;
-    return `bun run create:catalog ${name} --yes`;
+  const blocksMatch = sourcePath.match(BLOCKS_MATCH_RE);
+  if (blocksMatch) {
+    const [, name] = blocksMatch;
+    return `bun run create:blocks ${name} --yes`;
   }
 
-  const demoCatalogMatch = sourcePath.match(DEMO_CATALOG_MATCH_RE);
-  if (demoCatalogMatch) {
-    const [, name] = demoCatalogMatch;
-    return `bun run create:catalog ${name} --yes`;
+  const demoBlocksMatch = sourcePath.match(DEMO_BLOCKS_MATCH_RE);
+  if (demoBlocksMatch) {
+    const [, name] = demoBlocksMatch;
+    return `bun run create:blocks ${name} --yes`;
   }
 
   const uiMatch = sourcePath.match(UI_MATCH_RE);
@@ -222,17 +222,17 @@ const REGISTRY_JSON_PATH = path.join(
   "registry.json"
 );
 
-/** www-only catalog previews — not included in shadcn install bundles. */
-const CATALOG_PREVIEW_IMPORT_OVERRIDES: Record<string, string> = {
-  "scroll-gallery": "@/components/catalog/scroll-gallery-catalog-preview",
-  "demo-scroll-gallery": "@/components/catalog/scroll-gallery-catalog-preview",
+/** www-only blocks previews — not included in shadcn install bundles. */
+const BLOCKS_PREVIEW_IMPORT_OVERRIDES: Record<string, string> = {
+  "scroll-gallery": "@/components/blocks/scroll-gallery-blocks-preview",
+  "demo-scroll-gallery": "@/components/blocks/scroll-gallery-blocks-preview",
 };
 
-function resolveCatalogPreviewPath(
+function resolveBlocksPreviewPath(
   itemName: string,
   defaultPath: string
 ): string {
-  return CATALOG_PREVIEW_IMPORT_OVERRIDES[itemName] ?? defaultPath;
+  return BLOCKS_PREVIEW_IMPORT_OVERRIDES[itemName] ?? defaultPath;
 }
 
 function rewriteRegistryModulePath(content: string): string {
@@ -245,7 +245,7 @@ function rewriteRegistryModulePath(content: string): string {
     "demo/ui/",
     "demo/primitives/",
     "demo/components/",
-    "demo/catalog/",
+    "demo/blocks/",
     "demo/icons/",
   ];
   for (const prefix of demoPrefixes) {
@@ -258,7 +258,7 @@ function rewriteRegistryModulePath(content: string): string {
     "ui/",
     "primitives/",
     "components/",
-    "catalog/",
+    "blocks/",
     "icons/",
   ];
   for (const prefix of standardPrefixes) {
@@ -538,7 +538,7 @@ async function buildRegistryFile() {
     ),
   ];
 
-  assertRegistryCatalog(registryData, REGISTRY_JSON_PATH);
+  assertRegistryBlocks(registryData, REGISTRY_JSON_PATH);
 
   await fs.writeFile(REGISTRY_JSON_PATH, JSON.stringify(registryData, null, 2));
 }
@@ -867,7 +867,7 @@ export const previewComponents: Record<string, any> = {`;
       }
     }
 
-    componentPath = resolveCatalogPreviewPath(item.name, componentPath);
+    componentPath = resolveBlocksPreviewPath(item.name, componentPath);
 
     // Read files and add content preserving newlines
     const filesWithContent = await Promise.all(
@@ -1273,7 +1273,7 @@ async function buildRegistry() {
       }
 
       if (file === "registry.json") {
-        assertRegistryCatalog(registryItem, file);
+        assertRegistryBlocks(registryItem, file);
       } else {
         assertRegistryItem(registryItem, file);
       }

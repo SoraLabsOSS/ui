@@ -374,10 +374,10 @@
   }
 
   /*
-   * Catalog component pages scroll inside [data-catalog-scroll-root], not on
+   * Blocks component pages scroll inside [data-blocks-scroll-root], not on
    * <html>. Class is toggled in ComponentsShell mount/unmount.
    */
-  html.catalog-scroll-lock {
+  html.blocks-scroll-lock {
     overflow: hidden;
     scrollbar-gutter: auto;
   }
@@ -674,7 +674,7 @@ html.dark iframe[src*="accounts.google.com/gsi/"] {
   }
 }
 
-/* Catalog source drawer + docs code blocks — Shiki dual-theme (light/dark) */
+/* Blocks source drawer + docs code blocks — Shiki dual-theme (light/dark) */
 [data-code-block] .shiki {
   padding: 1rem;
   counter-reset: line;

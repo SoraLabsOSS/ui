@@ -10,7 +10,7 @@ import { iconsSource } from "@/lib/icons/source";
 import { motionSource } from "@/lib/motion/source";
 import {
   COMPONENT_GALLERY_SECTIONS,
-  isGalleryCatalogItem,
+  isGalleryBlocksItem,
   resolveGalleryCategory,
 } from "@/lib/registry/component-gallery-sections";
 import { getComponentGalleryItems } from "@/lib/registry/get-component-page-data";
@@ -24,7 +24,7 @@ import type { CommandPaletteGroup, CommandPaletteItem } from "./types";
 function sectionTitle(category: ComponentGalleryCategory): string {
   return (
     COMPONENT_GALLERY_SECTIONS.find((section) => section.id === category)
-      ?.title ?? "Catalog"
+      ?.title ?? "Blocks"
   );
 }
 
@@ -160,7 +160,7 @@ function getPrimitiveItems(): CommandPaletteItem[] {
 
 function getComponentItems(): CommandPaletteItem[] {
   return getComponentGalleryItems()
-    .filter(isGalleryCatalogItem)
+    .filter(isGalleryBlocksItem)
     .map((entry) => {
       const category = resolveGalleryCategory(entry);
 
@@ -297,11 +297,11 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       path: uiUrl,
     }),
     item({
-      id: "page-catalog",
-      label: "Catalog",
-      href: "/catalog",
+      id: "page-blocks",
+      label: "Blocks",
+      href: "/blocks",
       icon: "box",
-      path: "/catalog",
+      path: "/blocks",
     }),
     item({
       id: "page-blog",
@@ -347,7 +347,7 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
   }
 
   if (components.length > 0) {
-    groups.push({ id: "catalog", label: "Catalog", items: components });
+    groups.push({ id: "blocks", label: "Blocks", items: components });
   }
 
   if (iconPages.length > 0) {

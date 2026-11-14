@@ -1,0 +1,64 @@
+"use client";
+
+import { useLayoutEffect, useState, useSyncExternalStore } from "react";
+import type { RefObject } from "react";
+
+const LG_MEDIA = "(min-width: 1024px)";
+
+interface BlocksLayoutReadyState {
+  isLargeScreen: boolean;
+  isReady: boolean;
+}
+
+function subscribeLargeScreen(onStoreChange: () => void) {
+  const media = window.matchMedia(LG_MEDIA);
+  media.addEventListener("change", onStoreChange);
+  return () => media.removeEventListener("change", onStoreChange);
+}
+
+function getLargeScreenSnapshot() {
+  return window.matchMedia(LG_MEDIA).matches;
+}
+
+export function useBlocksLayoutReady(
+  layoutRef: RefObject<HTMLDivElement | null>
+): BlocksLayoutReadyState {
+  const isLargeScreen = useSyncExternalStore(
+    subscribeLargeScreen,
+    getLargeScreenSnapshot,
+    () => true
+  );
+  const [isReady, setIsReady] = useState(false);
+
+  useLayoutEffect(() => {
+    const node = layoutRef.current;
+    if (!node) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const syncLayoutWidth = () => {
+      node.style.setProperty("--blocks-layout-width", `${node.clientWidth}px`);
+    };
+
+    syncLayoutWidth();
+
+    let initialSizeSynced = false;
+    const observer = new ResizeObserver(() => {
+      syncLayoutWidth();
+      if (!(initialSizeSynced || cancelled)) {
+        initialSizeSynced = true;
+        setIsReady(true);
+      }
+    });
+    observer.observe(node);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
+  }, [layoutRef]);
+
+  return { isLargeScreen, isReady };
+}

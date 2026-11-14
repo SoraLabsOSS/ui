@@ -14,7 +14,7 @@ function formatSchemaIssues(error: {
 }
 
 export type RegistryItemData = z.infer<typeof registryItemSchema>;
-export type RegistryCatalogData = z.infer<typeof registrySchema>;
+export type RegistryBlocksData = z.infer<typeof registrySchema>;
 
 /** Validate a single `registry-item.json` (source or published `public/r/*.json`). */
 export function assertRegistryItem(
@@ -29,15 +29,15 @@ export function assertRegistryItem(
   }
 }
 
-/** Validate a merged `registry.json` catalog. */
-export function assertRegistryCatalog(
+/** Validate a merged `registry.json` blocks. */
+export function assertRegistryBlocks(
   value: unknown,
   source: string
-): asserts value is RegistryCatalogData {
+): asserts value is RegistryBlocksData {
   const result = registrySchema.safeParse(value);
   if (!result.success) {
     throw new Error(
-      `Invalid registry catalog (${source}):\n${formatSchemaIssues(result.error)}`
+      `Invalid registry blocks (${source}):\n${formatSchemaIssues(result.error)}`
     );
   }
 }

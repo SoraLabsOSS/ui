@@ -286,7 +286,7 @@ export function Footer() {
                           data-shape=""
                           data-size=""
                           data-theme=""
-                          href="/catalog"
+                          href="/blocks"
                           style={{ borderRadius: ".875rem" }}
                         >
                           <div
@@ -296,13 +296,13 @@ export function Footer() {
                           />
                           <div className="button-label__wrap">
                             <div className="button-label text-white">
-                              <span>Catalog</span>
+                              <span>Blocks</span>
                             </div>
                             <div
                               aria-hidden="true"
                               className="button-label text-white"
                             >
-                              <span>Catalog</span>
+                              <span>Blocks</span>
                             </div>
                           </div>
                         </Link>

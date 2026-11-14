@@ -10,7 +10,7 @@ Sora UI is organized into four distinct product tiers:
 Sora UI
 ├── Motion       (Animation building blocks: unstyled motion/effects at /motion)
 ├── Icons        (Animated Lucide icons at /icons)
-├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
+├── Blocks      (Ready-to-use animated showcases & full layout pages at /blocks)
 └── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
 ```
 
@@ -74,29 +74,29 @@ For animated Lucide icons:
 3. bun run registry:build
 ```
 
-### 4. Catalog (`/catalog` — Ready-to-use layout showcases)
+### 4. Blocks (`/blocks` — Ready-to-use layout showcases)
 
 For full-page animated showcases and editorial layout sections:
 
 ```text
-1. registry/catalog/<name>/
+1. registry/blocks/<name>/
       index.tsx
       registry-item.json
 
-2. registry/demo/catalog/<name>/index.tsx  ← showcase preview container
+2. registry/demo/blocks/<name>/index.tsx  ← showcase preview container
 
-3. content/catalog/<name>.mdx
+3. content/blocks/<name>.mdx
       <ComponentPreview name="<name>" />
       <ComponentInstallation name="<name>" />
 
-4. content/catalog/meta.json    ← catalog navigation
+4. content/blocks/meta.json    ← blocks navigation
 
 5. bun run registry:build
 
 6. bun run doctor <name>        ← verify component health
 ```
 
-Catalog showcase layouts are artistic showcases that intentionally preserve full motion and do not need `reduced-motion` branches, simplifying code and reducing review complexity.
+Blocks showcase layouts are artistic showcases that intentionally preserve full motion and do not need `reduced-motion` branches, simplifying code and reducing review complexity.
 
 ---
 
@@ -181,7 +181,7 @@ To minimize client bundle sizes and avoid monolithic JS objects, component sourc
 ```text
 apps/www/__registry__/
 ├── index.tsx          ← Lightweight component metadata (dependencies, install targets, keywords, inspiration) + lazy renderers
-├── preview.tsx        ← Isolated catalog & showcase previews (used by /catalog and iframe example routes)
+├── preview.tsx        ← Isolated blocks & showcase previews (used by /blocks and iframe example routes)
 ├── sources.ts         ← On-demand source loaders and memory cache (loadComponentSource, loadComponentFiles)
 └── sources/*.json     ← Individual chunked component source files loaded dynamically
 ```
@@ -262,7 +262,7 @@ The registry also publishes the same contract under `registry-item.json.meta.age
 bun run create           # interactive wizard
 bun run create:ui        # UI component (Base or Radix)
 bun run create:primitive # Motion primitive
-bun run create:catalog   # Catalog layout showcase
+bun run create:blocks   # Blocks layout showcase
 
 # Verify component integrity & sandbox installation
 bun run doctor <name>    # targeted health check (e.g. bun run doctor text-effect or base/button)

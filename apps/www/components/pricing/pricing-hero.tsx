@@ -92,7 +92,7 @@ export function PricingHero() {
                 data-button-rotate-hover=""
                 data-shape=""
                 data-theme=""
-                href="/catalog"
+                href="/blocks"
                 style={{ borderRadius: ".875rem" }}
               >
                 <div
@@ -102,10 +102,10 @@ export function PricingHero() {
                 />
                 <div className="button-label__wrap">
                   <div className="button-label">
-                    <span>Browse Catalog &rarr;</span>
+                    <span>Browse Blocks &rarr;</span>
                   </div>
                   <div aria-hidden="true" className="button-label">
-                    <span>Browse Catalog &rarr;</span>
+                    <span>Browse Blocks &rarr;</span>
                   </div>
                 </div>
               </Link>

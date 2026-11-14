@@ -1163,9 +1163,9 @@ export function RoadmapTimeline() {
           <div className="flex shrink-0 items-center gap-3">
             <Link
               className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-neutral-950 shadow-sm transition-colors hover:bg-neutral-200"
-              href="/catalog"
+              href="/blocks"
             >
-              Explore Catalog
+              Explore Blocks
             </Link>
           </div>
         </div>

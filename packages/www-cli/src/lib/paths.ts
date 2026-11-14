@@ -160,22 +160,22 @@ export function getUiPaths(
   };
 }
 
-export interface CatalogPaths {
-  catalogDir: string;
+export interface BlocksPaths {
+  blocksDir: string;
   componentName: string;
   mdxPath: string;
   metaJsonPath: string;
   wwwRoot: string;
 }
 
-export function getCatalogPaths(wwwRoot: string, slug: string): CatalogPaths {
-  const catalogDir = path.join(wwwRoot, "content", "catalog");
+export function getBlocksPaths(wwwRoot: string, slug: string): BlocksPaths {
+  const blocksDir = path.join(wwwRoot, "content", "blocks");
   return {
     wwwRoot,
     componentName: slug,
-    catalogDir,
-    mdxPath: path.join(catalogDir, `${slug}.mdx`),
-    metaJsonPath: path.join(catalogDir, "meta.json"),
+    blocksDir,
+    mdxPath: path.join(blocksDir, `${slug}.mdx`),
+    metaJsonPath: path.join(blocksDir, "meta.json"),
   };
 }
 

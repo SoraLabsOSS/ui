@@ -116,10 +116,10 @@ const ACCOUNT_MENU_ITEMS = [
     requiresAuth: false,
   },
   {
-    getHref: () => "/catalog",
+    getHref: () => "/blocks",
     getIsActive: (pathname: string, href: string) =>
       pathname === href || pathname.startsWith(`${href}/`),
-    label: "Catalog",
+    label: "Blocks",
     requiresAuth: false,
   },
   {

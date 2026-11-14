@@ -19,7 +19,7 @@ interface ResolvedTarget {
   componentName: string;
   dirPath: string;
   framework?: "base" | "radix";
-  kind: "primitive" | "ui" | "icon" | "catalog";
+  kind: "primitive" | "ui" | "icon" | "blocks";
   metaJsonRel: string;
   metaPageSlug: string;
   registryJsonPath: string;
@@ -45,13 +45,13 @@ function resolvePrimitiveTarget(
         "motion",
         `${rawName}.mdx`
       );
-      const catalogMdx = path.join(
+      const blocksMdx = path.join(
         wwwRoot,
         "content",
-        "catalog",
+        "blocks",
         `${rawName}.mdx`
       );
-      const isCatalog = !existsSync(motionMdx) && existsSync(catalogMdx);
+      const isBlocks = !existsSync(motionMdx) && existsSync(blocksMdx);
 
       return {
         kind: "primitive",
@@ -59,11 +59,11 @@ function resolvePrimitiveTarget(
         componentName: rawName,
         dirPath: candidateDir,
         registryJsonPath: path.join(candidateDir, "registry-item.json"),
-        relMdxPath: isCatalog
-          ? `content/catalog/${rawName}.mdx`
+        relMdxPath: isBlocks
+          ? `content/blocks/${rawName}.mdx`
           : `content/motion/${rawName}.mdx`,
-        metaJsonRel: isCatalog
-          ? "content/catalog/meta.json"
+        metaJsonRel: isBlocks
+          ? "content/blocks/meta.json"
           : "content/motion/meta.json",
         metaPageSlug: rawName,
       };
@@ -143,15 +143,15 @@ function resolveTarget(
     };
   }
 
-  const catalogMdx = path.join(wwwRoot, "content", "catalog", `${clean}.mdx`);
-  if (existsSync(catalogMdx)) {
+  const blocksMdx = path.join(wwwRoot, "content", "blocks", `${clean}.mdx`);
+  if (existsSync(blocksMdx)) {
     return {
-      kind: "catalog",
+      kind: "blocks",
       componentName: clean,
-      dirPath: path.join(wwwRoot, "content", "catalog"),
+      dirPath: path.join(wwwRoot, "content", "blocks"),
       registryJsonPath: "",
-      relMdxPath: `content/catalog/${clean}.mdx`,
-      metaJsonRel: "content/catalog/meta.json",
+      relMdxPath: `content/blocks/${clean}.mdx`,
+      metaJsonRel: "content/blocks/meta.json",
       metaPageSlug: clean,
     };
   }
@@ -213,7 +213,7 @@ async function validateTargetRegistryAndDemoProps(
   const issues: DiagnosticIssue[] = [];
   let demoPropsChecked = 0;
 
-  if (target.kind === "catalog") {
+  if (target.kind === "blocks") {
     return { issues, demoPropsChecked: 0 };
   }
 
@@ -376,7 +376,7 @@ export async function checkTargetComponent(
     const errorIssue: DiagnosticIssue = {
       category: "registry-docs",
       severity: "error",
-      message: `Component "${targetName}" was not found in registry (primitives, ui, icons, or catalog).`,
+      message: `Component "${targetName}" was not found in registry (primitives, ui, icons, or blocks).`,
       fix: `Check the name spelling, or scaffold it via: bun run create:primitive ${targetName} (or bun run create:ui ${targetName}).`,
     };
 

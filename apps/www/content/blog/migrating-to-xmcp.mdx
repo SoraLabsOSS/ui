@@ -75,7 +75,7 @@ In addition to tools, the new server takes full advantage of the Model Context P
 apps/xmcp/src/
 ├── tools/        — search_docs, get_page, list_sections, get_component_info
 ├── prompts/      — install-component
-└── resources/    — registry-catalog
+└── resources/    — registry-blocks
 ```
 
 ### 1. Prompts (`src/prompts/install-component.ts`)
@@ -89,13 +89,13 @@ Instead of requiring users to remember the exact syntax for component installati
 
 ### 2. Resources (`src/resources/registry.ts`)
 
-AI assistants can now attach the **`registry-catalog`** resource directly into their context window. It provides a real-time, machine-readable JSON snapshot of all installable UI components, animation primitives, and hooks without multiple iterative search queries.
+AI assistants can now attach the **`registry-blocks`** resource directly into their context window. It provides a real-time, machine-readable JSON snapshot of all installable UI components, animation primitives, and hooks without multiple iterative search queries.
 
 ### 3. Refined Tools Suite (`src/tools/`)
 
 All four core tools have been upgraded with tighter schemas and smarter token management:
 
-- **`search_docs`**: Fast Orama search with fallback parsing, section filtering (`documentation`, `components`, `catalog`, `motion`, `ui`), capped at 25 results.
+- **`search_docs`**: Fast Orama search with fallback parsing, section filtering (`documentation`, `components`, `blocks`, `motion`, `ui`), capped at 25 results.
 - **`get_page`**: Fetches clean markdown documentation with a strict 8,000-token budget and automatic truncation notices.
 - **`list_sections`**: Visual tree outline of all available documentation sections and page counts parsed from `llms.txt`.
 - **`get_component_info`**: Intelligently returns non-interactive installation lines (`npx shadcn@latest add @soralabs/<name> --yes` and `sora-cli`), dependency lists, and opt-in source code (`includeSource: true`).

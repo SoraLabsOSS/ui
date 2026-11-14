@@ -1,17 +1,17 @@
-import catalogMeta from "@/content/catalog/meta.json";
+import blocksMeta from "@/content/blocks/meta.json";
 import { componentSource } from "@/lib/registry/component-source";
 
 const SECTION_SEPARATOR = /^---.*---$/;
 
-/** Slugs listed in `content/catalog/meta.json`, in catalog order. */
+/** Slugs listed in `content/blocks/meta.json`, in blocks order. */
 function getMetaComponentSlugs(): string[] {
-  return (catalogMeta.pages ?? []).filter(
+  return (blocksMeta.pages ?? []).filter(
     (page) => !SECTION_SEPARATOR.test(page)
   );
 }
 
 /**
- * Slugs for catalog pages under `content/catalog/`.
+ * Slugs for blocks pages under `content/blocks/`.
  * Ordered and filtered by `meta.json` — only pages listed there appear in the
  * gallery, neighbours nav, and static params. Orphan MDX files are ignored
  * until added to meta.

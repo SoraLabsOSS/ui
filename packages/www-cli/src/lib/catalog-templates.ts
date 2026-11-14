@@ -1,7 +1,7 @@
 import { toPascalCase, toTitleCase } from "./naming.js";
 import type { PrimitiveCategory } from "./paths.js";
 
-export interface CatalogScaffoldLabels {
+export interface BlocksScaffoldLabels {
   description: string;
   exportName: string;
   registryName: string;
@@ -9,10 +9,10 @@ export interface CatalogScaffoldLabels {
   title: string;
 }
 
-export function buildCatalogLabels(
+export function buildBlocksLabels(
   slug: string,
   registryName?: string
-): CatalogScaffoldLabels {
+): BlocksScaffoldLabels {
   const title = toTitleCase(slug);
   return {
     slug,
@@ -23,7 +23,7 @@ export function buildCatalogLabels(
   };
 }
 
-export interface RenderCatalogMdxOptions {
+export interface RenderBlocksMdxOptions {
   authorName?: string;
   authorUrl?: string;
   category?: PrimitiveCategory | string;
@@ -34,7 +34,7 @@ export interface RenderCatalogMdxOptions {
   title: string;
 }
 
-export function renderCatalogMdx(options: RenderCatalogMdxOptions): string {
+export function renderBlocksMdx(options: RenderBlocksMdxOptions): string {
   const authorName = options.authorName ?? "Sora UI";
   const authorUrl = options.authorUrl ?? "https://github.com/SoraLabsOSS/ui";
   const category = options.category ?? "effects";
@@ -58,7 +58,7 @@ registryName: ${options.registryName}
 Place the layout showcase inside a relatively positioned container.
 
 \`\`\`tsx
-import { ${options.exportName} } from "@/components/sora-ui/catalog/${options.registryName}";
+import { ${options.exportName} } from "@/components/sora-ui/blocks/${options.registryName}";
 
 export default function ${options.exportName}Demo() {
   return (

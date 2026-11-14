@@ -28,8 +28,8 @@ const META_CONFIGS: MetaFileConfig[] = [
     recursive: true,
   },
   {
-    metaRel: "content/catalog/meta.json",
-    dirRel: "content/catalog",
+    metaRel: "content/blocks/meta.json",
+    dirRel: "content/blocks",
     recursive: false,
   },
 ];

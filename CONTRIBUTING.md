@@ -45,8 +45,8 @@ Sora UI
 │   └── Animation building blocks (unstyled Motion/GSAP primitives at /motion)
 ├── Icons
 │   └── Animated Lucide icons at /icons
-├── Catalog
-│   └── Ready-to-use animated layout showcases & full example pages at /catalog
+├── Blocks
+│   └── Ready-to-use animated layout showcases & full example pages at /blocks
 └── UI
     └── Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui
 ```
@@ -55,7 +55,7 @@ Sora UI
 | --- | --- | --- | --- |
 | **Motion** | `registry/primitives/{category}/{name}/` | `/motion/<name>` | Unstyled animation primitives and micro-interactions (e.g. `tilt-card`, `text-effect`, `highlight`, `auto-height`). |
 | **Icons** | `registry/icons/{name}/` | `/icons` | Smooth animated Lucide icons powered by Motion and Tailwind CSS. |
-| **Catalog** | `registry/catalog/{name}/` | `/catalog/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
+| **Blocks** | `registry/blocks/{name}/` | `/blocks/<slug>` (alias `/components/<slug>`) | Pre-styled animated components, cards, and full layout showcases (e.g. `sticky-scroll-cards`, `cursor-trail-reveal`). |
 | **UI** | `registry/ui/base/{name}/`, `registry/ui/radix/{name}/` | `/ui/<name>` | Accessible form & application controls combining Base UI / Radix UI with Motion spring physics and full Tailwind CSS class overrides (e.g. `base-button`, `radix-dialog`, `base-accordion`, `base-checkbox`). |
 
 ## Repository structure
@@ -81,12 +81,12 @@ registry/
     radix/{name}/                 Radix UI + Motion components (UI tier)
   primitives/
     {animate|buttons|disclosure|effects|texts}/{name}/  Motion primitives tier
-  catalog/{name}/                 Ready-to-use layout showcases (Catalog tier)
+  blocks/{name}/                 Ready-to-use layout showcases (Blocks tier)
   icons/{name}/                   Animated Lucide icons (@soralabs/icons-*)
   demo/
     ui/{base|radix}/{name}/       Manual demos for UI tier
     primitives/{category}/{name}/ Manual demos for Motion tier
-    catalog/{name}/               Showcase preview demos for Catalog tier
+    blocks/{name}/               Showcase preview demos for Blocks tier
     icons/{name}/                 Interactive preview demos for Icons tier
   hooks/, lib/
 ```
@@ -99,9 +99,9 @@ Distinct trees — do not conflate them:
 | --- | --- | --- |
 | `content/docs/` | `/docs` | Guides and general documentation |
 | `content/motion/` | `/motion` | Motion primitives and unstyled animation building blocks |
-| `content/icons/` | `/icons` | Animated icons guide and catalog |
+| `content/icons/` | `/icons` | Animated icons guide and blocks |
 | `content/ui/` | `/ui` | Base UI / Radix UI + Motion app components (`content/ui/{base\|radix}/<name>.mdx`) |
-| `content/catalog/` | `/catalog` | Ready-to-use catalog showcase pages (aliased from `/components`) |
+| `content/blocks/` | `/blocks` | Ready-to-use blocks showcase pages (aliased from `/components`) |
 | `content/blog/` | `/blog` | Blog posts |
 
 ## Getting started
@@ -127,7 +127,7 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # all apps (turbo)
 ```
 
-**Environment variables are optional for local UI work.** You can browse docs, blog, and the catalog without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need optional features (auth, bookmarks, Redis, Sentry, or Ask AI which requires `AI_SEARCH_CHAT_URL`).
+**Environment variables are optional for local UI work.** You can browse docs, blog, and the blocks without a `.env` file. Copy `apps/www/.env.example` → `apps/www/.env` only when you need optional features (auth, bookmarks, Redis, Sentry, or Ask AI which requires `AI_SEARCH_CHAT_URL`).
 
 ### 3. Verify before opening a PR
 
@@ -213,17 +213,17 @@ Keep the same semantics in `registry-item.json` under `meta.agentMetadata` so pu
 5. Run **`bun run registry:build`**.
 6. Run **`bun run doctor <name>`** (e.g. `bun run doctor text-effect`) to verify exports, demoProps, and docs.
 
-### Flow 3: Adding a Catalog Page (`/catalog` — Ready-to-use layout showcases)
+### Flow 3: Adding a Blocks Page (`/blocks` — Ready-to-use layout showcases)
 
-1. **Source & Demo:** Create implementation under **`registry/catalog/<name>/index.tsx`** and **`registry-item.json`** (with target `"components/sora-ui/catalog/<name>.tsx"`), and preview showcase in **`registry/demo/catalog/<name>/index.tsx`**.
-2. **MDX showcase:** Add **`content/catalog/<slug>.mdx`** with `<ComponentPreview name="<name>" />`, `<ComponentInstallation name="<name>" />`, and list `<slug>` in **`content/catalog/meta.json`**.
+1. **Source & Demo:** Create implementation under **`registry/blocks/<name>/index.tsx`** and **`registry-item.json`** (with target `"components/sora-ui/blocks/<name>.tsx"`), and preview showcase in **`registry/demo/blocks/<name>/index.tsx`**.
+2. **MDX showcase:** Add **`content/blocks/<slug>.mdx`** with `<ComponentPreview name="<name>" />`, `<ComponentInstallation name="<name>" />`, and list `<slug>` in **`content/blocks/meta.json`**.
 3. **Build & verify:** Run **`bun run registry:build`**, then **`bun run doctor <name>`** to verify showcase health.
-4. **Reduced motion policy**: Catalog showcases do not require `prefers-reduced-motion` fallbacks. They are intended as artistic full-motion showpieces, and omitting reduced-motion branching keeps showcase code clean and reduces PR review complexity.
+4. **Reduced motion policy**: Blocks showcases do not require `prefers-reduced-motion` fallbacks. They are intended as artistic full-motion showpieces, and omitting reduced-motion branching keeps showcase code clean and reduces PR review complexity.
 
 ### Component conventions
 
 - `"use client";` and import `cn` from **`@workspace/ui/lib/utils`** (not `@/lib/utils`) inside `registry/` files.
-- Respect **`prefers-reduced-motion`** via `useReducedMotion()` from `motion/react` — render static fallback or skip animation while preserving state updates (applies strictly to Motion primitives and UI foundation components; Catalog showcases in `/catalog` are exempt to minimize review complexity).
+- Respect **`prefers-reduced-motion`** via `useReducedMotion()` from `motion/react` — render static fallback or skip animation while preserving state updates (applies strictly to Motion primitives and UI foundation components; Blocks showcases in `/blocks` are exempt to minimize review complexity).
 - JSDoc every prop (`/** ... */`, `@default` where relevant) for docs `TypeTable` entries.
 - Expose a **`ref`** on the root element where practical (React 19 style: `ref` as a normal prop).
 - Full Tailwind CSS class override support via `cn(...)` so consumers can customize borders, sizes, and colors just like shadcn/ui.

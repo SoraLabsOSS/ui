@@ -107,7 +107,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
         <Pre>{props.children}</Pre>
       </CodeBlock>
     ),
-    // caller-supplied overrides win (e.g. getCatalogMDXComponents)
+    // caller-supplied overrides win (e.g. getBlocksMDXComponents)
     ...components,
   };
 }

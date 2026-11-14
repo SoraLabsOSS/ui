@@ -38,9 +38,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["utils"],
     files: [
       {
-        path: "registry/catalog/cursor-trail-reveal/index.tsx",
+        path: "registry/blocks/cursor-trail-reveal/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/cursor-trail-reveal.tsx",
+        target: "components/sora-ui/blocks/cursor-trail-reveal.tsx",
       },
     ],
     fileGroups: null,
@@ -51,7 +51,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/cursor-trail-reveal/index.tsx");
+          await import("@/registry/demo/blocks/cursor-trail-reveal/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -89,9 +89,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["utils"],
     files: [
       {
-        path: "registry/catalog/infinite-scrolling-images/index.tsx",
+        path: "registry/blocks/infinite-scrolling-images/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/infinite-scrolling-images.tsx",
+        target: "components/sora-ui/blocks/infinite-scrolling-images.tsx",
       },
     ],
     fileGroups: null,
@@ -110,7 +110,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/infinite-scrolling-images/index.tsx");
+          await import("@/registry/demo/blocks/infinite-scrolling-images/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -148,9 +148,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/lib-scroll-trigger-utils"],
     files: [
       {
-        path: "registry/catalog/scroll-chapters/index.tsx",
+        path: "registry/blocks/scroll-chapters/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/scroll-chapters.tsx",
+        target: "components/sora-ui/blocks/scroll-chapters.tsx",
       },
     ],
     fileGroups: null,
@@ -174,7 +174,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/scroll-chapters/index.tsx");
+          await import("@/registry/demo/blocks/scroll-chapters/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -212,9 +212,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["utils", "@soralabs/lib-scroll-trigger-utils"],
     files: [
       {
-        path: "registry/catalog/scroll-gallery/index.tsx",
+        path: "registry/blocks/scroll-gallery/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/scroll-gallery.tsx",
+        target: "components/sora-ui/blocks/scroll-gallery.tsx",
       },
     ],
     fileGroups: null,
@@ -225,7 +225,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/components/catalog/scroll-gallery-catalog-preview");
+          await import("@/components/blocks/scroll-gallery-blocks-preview");
         const demoProps = {
           ScrollGallery: {
             prefixLabel: { value: "Featured" },
@@ -285,9 +285,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/lib-scroll-trigger-utils"],
     files: [
       {
-        path: "registry/catalog/sticky-scroll-cards/index.tsx",
+        path: "registry/blocks/sticky-scroll-cards/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/sticky-scroll-cards.tsx",
+        target: "components/sora-ui/blocks/sticky-scroll-cards.tsx",
       },
     ],
     fileGroups: null,
@@ -311,7 +311,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/sticky-scroll-cards/index.tsx");
+          await import("@/registry/demo/blocks/sticky-scroll-cards/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -349,9 +349,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/lib-scroll-trigger-utils"],
     files: [
       {
-        path: "registry/catalog/text-reveal-box/index.tsx",
+        path: "registry/blocks/text-reveal-box/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/text-reveal-box.tsx",
+        target: "components/sora-ui/blocks/text-reveal-box.tsx",
       },
     ],
     fileGroups: null,
@@ -367,7 +367,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/text-reveal-box/index.tsx");
+          await import("@/registry/demo/blocks/text-reveal-box/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -405,9 +405,9 @@ export const index: Record<string, any> = {
     registryDependencies: undefined,
     files: [
       {
-        path: "registry/catalog/tilt-slide-transition/index.tsx",
+        path: "registry/blocks/tilt-slide-transition/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/catalog/tilt-slide-transition.tsx",
+        target: "components/sora-ui/blocks/tilt-slide-transition.tsx",
       },
     ],
     fileGroups: null,
@@ -434,7 +434,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/tilt-slide-transition/index.tsx");
+          await import("@/registry/demo/blocks/tilt-slide-transition/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4660,9 +4660,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/cursor-trail-reveal"],
     files: [
       {
-        path: "registry/demo/catalog/cursor-trail-reveal/index.tsx",
+        path: "registry/demo/blocks/cursor-trail-reveal/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/cursor-trail-reveal.tsx",
+        target: "components/sora-ui/demo/blocks/cursor-trail-reveal.tsx",
       },
     ],
     fileGroups: null,
@@ -4673,7 +4673,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/cursor-trail-reveal/index.tsx");
+          await import("@/registry/demo/blocks/cursor-trail-reveal/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4710,9 +4710,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/infinite-scrolling-images"],
     files: [
       {
-        path: "registry/demo/catalog/infinite-scrolling-images/index.tsx",
+        path: "registry/demo/blocks/infinite-scrolling-images/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/infinite-scrolling-images.tsx",
+        target: "components/sora-ui/demo/blocks/infinite-scrolling-images.tsx",
       },
     ],
     fileGroups: null,
@@ -4723,7 +4723,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/infinite-scrolling-images/index.tsx");
+          await import("@/registry/demo/blocks/infinite-scrolling-images/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4761,9 +4761,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/scroll-chapters"],
     files: [
       {
-        path: "registry/demo/catalog/scroll-chapters/index.tsx",
+        path: "registry/demo/blocks/scroll-chapters/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/scroll-chapters.tsx",
+        target: "components/sora-ui/demo/blocks/scroll-chapters.tsx",
       },
     ],
     fileGroups: null,
@@ -4774,7 +4774,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/scroll-chapters/index.tsx");
+          await import("@/registry/demo/blocks/scroll-chapters/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4812,9 +4812,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/scroll-gallery"],
     files: [
       {
-        path: "registry/demo/catalog/scroll-gallery/index.tsx",
+        path: "registry/demo/blocks/scroll-gallery/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/scroll-gallery.tsx",
+        target: "components/sora-ui/demo/blocks/scroll-gallery.tsx",
       },
     ],
     fileGroups: null,
@@ -4825,7 +4825,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/components/catalog/scroll-gallery-catalog-preview");
+          await import("@/components/blocks/scroll-gallery-blocks-preview");
         const demoProps = {
           ScrollGallery: {
             prefixLabel: { value: "Featured" },
@@ -4885,9 +4885,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/sticky-scroll-cards"],
     files: [
       {
-        path: "registry/demo/catalog/sticky-scroll-cards/index.tsx",
+        path: "registry/demo/blocks/sticky-scroll-cards/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/sticky-scroll-cards.tsx",
+        target: "components/sora-ui/demo/blocks/sticky-scroll-cards.tsx",
       },
     ],
     fileGroups: null,
@@ -4898,7 +4898,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/sticky-scroll-cards/index.tsx");
+          await import("@/registry/demo/blocks/sticky-scroll-cards/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4936,9 +4936,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/text-reveal-box"],
     files: [
       {
-        path: "registry/demo/catalog/text-reveal-box/index.tsx",
+        path: "registry/demo/blocks/text-reveal-box/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/text-reveal-box.tsx",
+        target: "components/sora-ui/demo/blocks/text-reveal-box.tsx",
       },
     ],
     fileGroups: null,
@@ -4949,7 +4949,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/text-reveal-box/index.tsx");
+          await import("@/registry/demo/blocks/text-reveal-box/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(
@@ -4987,9 +4987,9 @@ export const index: Record<string, any> = {
     registryDependencies: ["@soralabs/tilt-slide-transition"],
     files: [
       {
-        path: "registry/demo/catalog/tilt-slide-transition/index.tsx",
+        path: "registry/demo/blocks/tilt-slide-transition/index.tsx",
         type: "registry:ui",
-        target: "components/sora-ui/demo/catalog/tilt-slide-transition.tsx",
+        target: "components/sora-ui/demo/blocks/tilt-slide-transition.tsx",
       },
     ],
     fileGroups: null,
@@ -5000,7 +5000,7 @@ export const index: Record<string, any> = {
     component: (function component() {
       const LazyComp = React.lazy(async () => {
         const mod =
-          await import("@/registry/demo/catalog/tilt-slide-transition/index.tsx");
+          await import("@/registry/demo/blocks/tilt-slide-transition/index.tsx");
         const demoProps = {};
         const demoExportName = Object.keys(demoProps)[0];
         const pascalExportName = Object.keys(mod).find(

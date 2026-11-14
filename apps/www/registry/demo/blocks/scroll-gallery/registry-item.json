@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-scroll-gallery",
+  "type": "registry:ui",
+  "title": "Scroll Gallery Demo",
+  "description": "Sticky scroll slider with 4 slides, strip-mask transitions, and animated title swaps.",
+  "registryDependencies": ["@soralabs/scroll-gallery"],
+  "files": [
+    {
+      "path": "registry/demo/blocks/scroll-gallery/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/blocks/scroll-gallery.tsx"
+    }
+  ]
+}

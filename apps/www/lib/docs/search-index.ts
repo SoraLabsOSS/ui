@@ -36,8 +36,8 @@ function getSearchTag(page: SearchablePage): string {
     return "icons";
   }
 
-  if (page.url === "/catalog" || page.url.startsWith("/catalog/")) {
-    return "catalog";
+  if (page.url === "/blocks" || page.url.startsWith("/blocks/")) {
+    return "blocks";
   }
 
   return page.slugs[0] ?? "docs";

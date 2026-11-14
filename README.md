@@ -42,7 +42,7 @@ Sora UI is supported by the open-source ecosystem. Special thanks to:
 Sora UI
 ├── Motion       (Animation building blocks: unstyled motion & effects at /motion)
 ├── Icons        (Animated Lucide icons at /icons)
-├── Catalog      (Ready-to-use animated showcases & full layout pages at /catalog)
+├── Blocks      (Ready-to-use animated showcases & full layout pages at /blocks)
 └── UI           (Base UI + Radix UI foundation infused with Sora Motion & Tailwind CSS at /ui)
 ```
 
@@ -55,7 +55,7 @@ Sora UI
 
 ## Documentation
 
-Explore the interactive component catalog, animated showcases, and documentation at [ui.soralabs.studio](https://ui.soralabs.studio).
+Explore the interactive component blocks, animated showcases, and documentation at [ui.soralabs.studio](https://ui.soralabs.studio).
 
 ## Local development
 
@@ -66,7 +66,7 @@ bun run dev:www    # docs site only → http://localhost:3000
 bun dev            # run all apps (Next.js docs + xmcp)
 ```
 
-**No `.env` file is required** to browse docs, blog, or the catalog locally. Copy `[apps/www/.env.example](./apps/www/.env.example)` only when you need optional features:
+**No `.env` file is required** to browse docs, blog, or the blocks locally. Copy `[apps/www/.env.example](./apps/www/.env.example)` only when you need optional features:
 
 | Feature | Variables |
 | --- | --- |

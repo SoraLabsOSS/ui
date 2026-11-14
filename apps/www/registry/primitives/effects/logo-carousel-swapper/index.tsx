@@ -41,7 +41,7 @@ function motionOffsetForSize(
   return MOTION_OFFSET_Y[(size ?? "default") as LogoCarouselSize];
 }
 
-function enterFrom(offsetY: number) {
+function offsetVariant(offsetY: number) {
   return {
     filter: MOTION_BLUR,
     opacity: 0,
@@ -56,15 +56,6 @@ const ENTER_TO = {
   y: 0,
   z: 0,
 } as const;
-
-function exitTo(offsetY: number) {
-  return {
-    filter: MOTION_BLUR,
-    opacity: 0,
-    y: offsetY,
-    z: 0,
-  } as const;
-}
 
 /** GSAP power3.in — accelerates out quickly. */
 const EXIT_EASE = [0.55, 0.055, 0.675, 0.19] as const;
@@ -254,14 +245,14 @@ function LogoSlot({
           }}
           className={logoCarouselSwapperMotionLayerVariants()}
           exit={{
-            ...exitTo(exitOffsetY),
+            ...offsetVariant(exitOffsetY),
             transition: {
               delay: exitDelay,
               duration: EXIT_DURATION_S,
               ease: EXIT_EASE,
             },
           }}
-          initial={enterFrom(enterOffsetY)}
+          initial={offsetVariant(enterOffsetY)}
           key={`${rowKey}-${item.src}`}
         >
           <img
