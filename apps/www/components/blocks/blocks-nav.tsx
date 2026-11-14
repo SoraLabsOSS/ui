@@ -47,10 +47,11 @@ export function ComponentPageBlocksNav({
   } = useBlocksHoverPreview(sortedItems);
 
   // Reset flyout when navigating to another component page.
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- pathname drives intentional reset
   useEffect(() => {
-    clearHoverPreview();
-  }, [pathname]);
+    if (pathname) {
+      clearHoverPreview();
+    }
+  }, [pathname, clearHoverPreview]);
 
   const isAllComponentsActive =
     pathname === "/blocks" || pathname === "/components";

@@ -74,6 +74,7 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
     return Math.ceil((base + extra) * dpr) / dpr;
   }, [options.includeParentBox, options.includeSelfBox]);
 
+  /* oxlint-disable react-hooks/exhaustive-deps -- Caller-controlled deps trigger remeasurement for content changes; ResizeObserver tracks size changes. */
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) {
@@ -106,8 +107,8 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
         rafRef.current = null;
       }
     };
-    // oxlint-disable-next-line react-hooks/exhaustive-deps -- Caller-controlled deps trigger remeasurement for content changes; ResizeObserver tracks size changes.
   }, deps);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   useLayoutEffect(() => {
     if (height === 0) {

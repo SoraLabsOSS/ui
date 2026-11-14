@@ -2133,6 +2133,69 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/video-player",
   },
+  "flow-lines-background": {
+    name: "flow-lines-background",
+    description:
+      "Animated flowing gradient lines background driven by Perlin noise, powered by WebGPU.",
+    type: "registry:ui",
+    dependencies: ["vgpu", "@vgpu/wgsl"],
+    devDependencies: undefined,
+    registryDependencies: ["utils"],
+    files: [
+      {
+        path: "registry/primitives/shaders/flow-lines-background/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/shaders/flow-lines-background.tsx",
+      },
+    ],
+    fileGroups: null,
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function component() {
+      const LazyComp = React.lazy(async () => {
+        const mod =
+          await import("@/registry/demo/primitives/shaders/flow-lines-background/index.tsx");
+        const demoProps = {
+          FlowLinesBackground: {
+            lightColor: { value: "#3f3f3f" },
+            midColor: { value: "#262626" },
+            darkColor: { value: "#09050c" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        FlowLinesBackground: {
+          lightColor: { value: "#3f3f3f" },
+          midColor: { value: "#262626" },
+          darkColor: { value: "#09050c" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/flow-lines-background",
+  },
   "silk-background": {
     name: "silk-background",
     description:
@@ -5937,6 +6000,68 @@ export const index: Record<string, any> = {
       return LazyComp;
     })(),
     command: "@soralabs/demo-video-player",
+  },
+  "demo-flow-lines-background": {
+    name: "demo-flow-lines-background",
+    description: "Animated flowing gradient lines shader background demo.",
+    type: "registry:ui",
+    dependencies: undefined,
+    devDependencies: undefined,
+    registryDependencies: ["@soralabs/flow-lines-background"],
+    files: [
+      {
+        path: "registry/demo/primitives/shaders/flow-lines-background/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/shaders/flow-lines-background.tsx",
+      },
+    ],
+    fileGroups: null,
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function component() {
+      const LazyComp = React.lazy(async () => {
+        const mod =
+          await import("@/registry/demo/primitives/shaders/flow-lines-background/index.tsx");
+        const demoProps = {
+          FlowLinesBackgroundDemo: {
+            lightColor: { value: "#3f3f3f" },
+            midColor: { value: "#262626" },
+            darkColor: { value: "#09050c" },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        FlowLinesBackgroundDemo: {
+          lightColor: { value: "#3f3f3f" },
+          midColor: { value: "#262626" },
+          darkColor: { value: "#09050c" },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/demo-flow-lines-background",
   },
   "demo-silk-background": {
     name: "demo-silk-background",

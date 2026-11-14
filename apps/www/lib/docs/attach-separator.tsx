@@ -18,6 +18,7 @@ import {
   SparklesIcon,
   SquareMenu,
   TypeIcon,
+  Waves,
 } from "lucide-react";
 
 import { LucideIcons } from "@/components/lucide-icons";
@@ -149,6 +150,12 @@ export const attachSeparator: BuildPageTreeOptions["attachSeparator"] = (
     case "Texts": {
       node.name = (
         <Separator icon={<TypeIcon strokeWidth={3} />} name="Texts" />
+      );
+      break;
+    }
+    case "Shaders": {
+      node.name = (
+        <Separator icon={<Waves strokeWidth={2.5} />} name="Shaders" />
       );
       break;
     }

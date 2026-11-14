@@ -402,18 +402,17 @@ export const ComponentManualInstallation = ({
   const devDepsKey = devDependencies?.join(",") ?? "";
   const regDepsKey = registryDependencies?.join(",") ?? "";
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- depsKey tracks dependency changes stably
+  /* oxlint-disable react-hooks/exhaustive-deps -- stringified keys track array dependency changes stably */
   const depsCommands = useMemo(() => getDepsCommands(dependencies), [depsKey]);
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- devDepsKey tracks dependency changes stably
   const devDepsCommands = useMemo(
     () => getDepsCommands(devDependencies),
     [devDepsKey]
   );
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- regDepsKey tracks dependency changes stably
   const registryDepsCommands = useMemo(
     () => getRegistryDepsCommands(registryDependencies),
     [regDepsKey]
   );
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   const fileGroupsResolved = useMemo(
     () =>

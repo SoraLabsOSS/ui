@@ -327,7 +327,7 @@ function Digit({
   const mv = useMotionValue(reduced || !animateIn ? value : 0);
   const isMountRef = useRef(true);
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- startingPos must also retrigger the roll, for digits whose own value didn't change (continuous-loop effect)
+  /* oxlint-disable react-hooks/exhaustive-deps -- startingPos must also retrigger the roll, for digits whose own value didn't change (continuous-loop effect) */
   useEffect(() => {
     // Runs a spin and reports it to the parent's onAnimationsStart/Finish
     // aggregate — settled fires exactly once whether the spin completes
@@ -379,6 +379,7 @@ function Digit({
     }
     return spin(current + delta);
   }, [value, startingPos]);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   return (
     <motion.span
@@ -575,11 +576,12 @@ export function NumberFlow({
 
   const localesKey = JSON.stringify(locales ?? null);
   const formatKey = JSON.stringify(format ?? null);
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- intentionally keyed by the serialized locales/format, not their (possibly-new-every-render) identity
+  /* oxlint-disable react-hooks/exhaustive-deps -- intentionally keyed by the serialized locales/format, not their (possibly-new-every-render) identity */
   const formatter = useMemo(
     () => new Intl.NumberFormat(locales, format),
     [localesKey, formatKey]
   );
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   const data = useMemo(
     () => formatToParts(effectiveValue, formatter, prefix, suffix),

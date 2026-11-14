@@ -42,6 +42,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "skeleton-shimmer": () => import("./sources/skeleton-shimmer.json"),
   "tilt-card": () => import("./sources/tilt-card.json"),
   "video-player": () => import("./sources/video-player.json"),
+  "flow-lines-background": () => import("./sources/flow-lines-background.json"),
   "silk-background": () => import("./sources/silk-background.json"),
   "dia-text-reveal": () => import("./sources/dia-text-reveal.json"),
   "draw-underline-link": () => import("./sources/draw-underline-link.json"),
@@ -111,6 +112,8 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "demo-tilt-card": () => import("./sources/demo-tilt-card.json"),
   "demo-tilt-card-image": () => import("./sources/demo-tilt-card-image.json"),
   "demo-video-player": () => import("./sources/demo-video-player.json"),
+  "demo-flow-lines-background": () =>
+    import("./sources/demo-flow-lines-background.json"),
   "demo-silk-background": () => import("./sources/demo-silk-background.json"),
   "demo-dia-text-reveal": () => import("./sources/demo-dia-text-reveal.json"),
   "demo-fog-text-reveal": () => import("./sources/demo-fog-text-reveal.json"),

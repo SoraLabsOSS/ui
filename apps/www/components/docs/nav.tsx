@@ -193,11 +193,13 @@ function NavMenuItems({
 }) {
   const pathname = usePathname();
   const { setActiveValue, clearBounds } = useHighlight();
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- reset only on route/auth change
+  // Reset highlight bounds on route/auth change
   useEffect(() => {
-    setActiveValue(null);
-    clearBounds();
-  }, [pathname, sessionPending]);
+    if (pathname !== undefined || sessionPending !== undefined) {
+      setActiveValue(null);
+      clearBounds();
+    }
+  }, [pathname, sessionPending, setActiveValue, clearBounds]);
 
   return (
     <>

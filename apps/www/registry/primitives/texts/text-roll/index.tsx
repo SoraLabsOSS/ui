@@ -484,7 +484,7 @@ export function TextRoll({
     useChromatic,
   ]);
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- mount-only DOM setup (slot-text/react)
+  /* oxlint-disable react-hooks/exhaustive-deps -- mount-only DOM setup (slot-text/react) */
   useEffect(() => {
     const element = elementRef.current;
     if (!element) {
@@ -500,6 +500,7 @@ export function TextRoll({
       firstTextEffectRef.current = true;
     };
   }, []);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     const element = elementRef.current;

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "demo-flow-lines-background",
+  "type": "registry:ui",
+  "title": "Flow Lines Background Demo",
+  "description": "Animated flowing gradient lines shader background demo.",
+  "registryDependencies": ["@soralabs/flow-lines-background"],
+  "files": [
+    {
+      "path": "registry/demo/primitives/shaders/flow-lines-background/index.tsx",
+      "type": "registry:ui",
+      "target": "components/sora-ui/demo/shaders/flow-lines-background.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "FlowLinesBackgroundDemo": {
+        "lightColor": {
+          "value": "#3f3f3f"
+        },
+        "midColor": {
+          "value": "#262626"
+        },
+        "darkColor": {
+          "value": "#09050c"
+        }
+      }
+    }
+  }
+}

@@ -126,7 +126,7 @@ export function Icons() {
     setIsLoop(false);
   }, [activeIcon]);
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- clear query only when the panel closes
+  /* oxlint-disable react-hooks/exhaustive-deps -- clear query only when the panel closes */
   useEffect(() => {
     if (!(isPanelOpen || activeIcon)) {
       return;
@@ -138,6 +138,7 @@ export function Icons() {
       return () => clearTimeout(timeout);
     }
   }, [isPanelOpen]);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   const icons = useMemo(
     () =>

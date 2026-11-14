@@ -156,7 +156,7 @@ function CodeTabs({
     .map(([k, v]) => `${k}:${v}`)
     .join("|");
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- codesKey tracks code content changes stably
+  /* oxlint-disable react-hooks/exhaustive-deps -- codesKey tracks code content changes stably */
   useEffect(() => {
     let cancelled = false;
 
@@ -236,6 +236,7 @@ function CodeTabs({
       cancelled = true;
     };
   }, [resolvedTheme, lang, themes.light, themes.dark, codesKey]);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   return (
     <Tabs

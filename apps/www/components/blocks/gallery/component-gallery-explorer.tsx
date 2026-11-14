@@ -595,10 +595,11 @@ export function ComponentGalleryExplorer({
   }, [viewMode, clearHoverPreview]);
 
   // Reset flyout when filters change so stale previews do not linger.
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- search and sortMode drive intentional reset
   useEffect(() => {
-    clearHoverPreview();
-  }, [search, sortMode]);
+    if (search !== undefined || sortMode) {
+      clearHoverPreview();
+    }
+  }, [search, sortMode, clearHoverPreview]);
 
   const listHoverHandlers = useMemo(
     () =>

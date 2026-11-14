@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import "@/app/(marketing)/home.css";
 import { usePageTransition } from "@/components/page-transition/page-transition-provider";
@@ -47,9 +47,21 @@ export function Navbar({
   const scrollingDirection =
     scrollingDirectionProp ?? internalScrollingDirection;
 
-  const handleToggleMenu =
-    onToggleMenuProp ?? (() => setInternalMenuOpen((prev) => !prev));
-  const handleCloseMenu = onCloseMenuProp ?? (() => setInternalMenuOpen(false));
+  const handleToggleMenu = useCallback(() => {
+    if (onToggleMenuProp) {
+      onToggleMenuProp();
+    } else {
+      setInternalMenuOpen((prev) => !prev);
+    }
+  }, [onToggleMenuProp]);
+
+  const handleCloseMenu = useCallback(() => {
+    if (onCloseMenuProp) {
+      onCloseMenuProp();
+    } else {
+      setInternalMenuOpen(false);
+    }
+  }, [onCloseMenuProp]);
 
   const handleDocsPillClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {

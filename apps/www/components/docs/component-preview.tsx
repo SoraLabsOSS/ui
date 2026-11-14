@@ -234,7 +234,7 @@ export function ComponentPreview({
     );
 
     return <Component {...resolvedProps} key={JSON.stringify(resolvedProps)} />;
-  }, [name, componentProps, binds, demoPropsConfig, isInView]);
+  }, [name, componentProps, demoPropsConfig, isInView]);
 
   useEffect(() => {
     if (Object.keys(demoPropsConfig).length === 0) {

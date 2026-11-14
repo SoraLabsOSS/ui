@@ -187,7 +187,7 @@ export function TextScramble({
     []
   );
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run only when mount trigger changes
+  /* oxlint-disable react-hooks/exhaustive-deps -- re-run only when mount trigger changes */
   useEffect(() => {
     if (!shouldTriggerOnMount || prefersReducedMotion) {
       return;
@@ -195,6 +195,7 @@ export function TextScramble({
 
     scramble();
   }, [shouldTriggerOnMount, trigger]);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run when mount trigger changes
   useEffect(() => {

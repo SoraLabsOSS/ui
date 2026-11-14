@@ -458,14 +458,20 @@ export function TextRevealBox({
   const pinRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
+  const revealOverlap = timingProp?.revealOverlap;
+  const revealPortion = timingProp?.revealPortion;
+  const reverseOnScroll = timingProp?.reverseOnScroll;
+  const reverseOverlap = timingProp?.reverseOverlap;
+
   const resolvedTiming = useMemo(
-    () => resolveTiming(timingProp),
-    [
-      timingProp?.revealOverlap,
-      timingProp?.revealPortion,
-      timingProp?.reverseOnScroll,
-      timingProp?.reverseOverlap,
-    ]
+    () =>
+      resolveTiming({
+        revealOverlap,
+        revealPortion,
+        reverseOnScroll,
+        reverseOverlap,
+      }),
+    [revealOverlap, revealPortion, reverseOnScroll, reverseOverlap]
   );
 
   const keywordLookup = useMemo(() => {

@@ -164,7 +164,7 @@ export function TextScramble({
     []
   );
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run only when mount trigger changes
+  /* oxlint-disable react-hooks/exhaustive-deps -- re-run only when mount trigger changes */
   useEffect(() => {
     if (!shouldTriggerOnMount) {
       return;
@@ -172,6 +172,7 @@ export function TextScramble({
 
     scramble();
   }, [shouldTriggerOnMount, trigger]);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   const handleMouseEnter: MouseEventHandler<Element> = (event) => {
     onMouseEnter?.(event);

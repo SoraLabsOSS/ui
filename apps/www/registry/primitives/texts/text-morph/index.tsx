@@ -67,7 +67,7 @@ export function useTextMorph(props: TextMorphOptions) {
   const handlers = useRef(props);
   handlers.current = props;
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-attach only when serialized configKey changes; props identity changes every render
+  /* oxlint-disable react-hooks/exhaustive-deps -- re-attach only when serialized configKey changes; props identity changes every render */
   useEffect(() => {
     const controller = controllerRef.current;
     if (ref.current) {
@@ -89,6 +89,7 @@ export function useTextMorph(props: TextMorphOptions) {
       controller.destroy();
     };
   }, [configKey]);
+  /* oxlint-enable react-hooks/exhaustive-deps */
 
   const update = useCallback((value: number | string, cursorIndex?: number) => {
     controllerRef.current.update(value, cursorIndex);

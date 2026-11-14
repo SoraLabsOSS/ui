@@ -1,0 +1,61 @@
+---
+title: Flow Lines Background
+description: Animated flowing gradient lines background driven by Perlin noise, powered by WebGPU and WGSL shaders.
+author:
+  name: Axyl
+  url: https://github.com/Axyl1410
+---
+
+<ComponentPreview
+  name="demo-flow-lines-background"
+  description="Procedural flowing gradient lines shader with Perlin-noise motion."
+/>
+
+## Installation
+
+<ComponentInstallation name="flow-lines-background" />
+
+## Usage
+
+```tsx
+import { FlowLinesBackground } from "@/components/sora-ui/shaders/flow-lines-background";
+
+export default function HeroSection() {
+  return (
+    <div className="relative min-h-screen w-full overflow-hidden">
+      <FlowLinesBackground className="absolute inset-0" />
+    </div>
+  );
+}
+```
+
+## Props
+
+<TypeTable
+  type={{
+    lightColor: {
+      description:
+        "Lightest tone of the flowing lines (hex, rgb, hsl, or oklch).",
+      type: "string",
+      default: '"#3f3f3f"',
+    },
+    midColor: {
+      description: "Mid tone blended between the light and dark tones.",
+      type: "string",
+      default: '"#262626"',
+    },
+    darkColor: {
+      description: "Deepest tone of the flowing lines.",
+      type: "string",
+      default: '"#09050c"',
+    },
+    className: {
+      description: "Additional CSS classes for styling the canvas element.",
+      type: "string",
+    },
+    ref: {
+      description: "Forwarded ref to the underlying HTMLCanvasElement.",
+      type: "Ref<HTMLCanvasElement>",
+    },
+  }}
+/>

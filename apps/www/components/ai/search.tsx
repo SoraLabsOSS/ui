@@ -749,7 +749,9 @@ export function AISearch({ children }: { children: ReactNode }) {
   const { setOpen } = aiChatOpenStore;
 
   return (
-    <Context value={useMemo(() => ({ chat, open, setOpen }), [chat, open])}>
+    <Context
+      value={useMemo(() => ({ chat, open, setOpen }), [chat, open, setOpen])}
+    >
       {children}
     </Context>
   );

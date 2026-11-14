@@ -354,7 +354,7 @@ function TabsContents({
       setAnimatingFrom(prevActiveRef.current);
       prevActiveRef.current = activeIndex;
     }
-  }, [activeIndex]);
+  }, [activeIndex, prevActiveRef]);
 
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(
     () => new Set(activeIndex === -1 ? [0] : [activeIndex])

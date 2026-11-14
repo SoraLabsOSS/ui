@@ -243,7 +243,6 @@ export function DiaTextReveal({
 
   useImperativeHandle(controlRef, () => ({ play, replay }), [play, replay]);
 
-  // oxlint-disable-next-line react-hooks/exhaustive-deps -- re-run only when visibility or text list changes
   useEffect(() => {
     indexRef.current = 0;
     setActiveIndex(0);
@@ -251,12 +250,12 @@ export function DiaTextReveal({
     sweep.set(100);
     textOpacity.set(0);
 
-    if (canAnimate) {
+    if (texts.length > 0 && canAnimate) {
       playRef.current();
     }
 
     return clearCycle;
-  }, [canAnimate, texts]);
+  }, [canAnimate, clearCycle, sweep, textOpacity, texts]);
 
   const MotionComponent = useMemo(
     () =>

@@ -662,6 +662,7 @@ export function Typer({
   triggerOnHover = false,
   triggerOnMount = true,
   variations,
+  onMouseEnter,
   ...props
 }: TyperProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -845,12 +846,12 @@ export function Typer({
 
   const handleMouseEnter = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
-      props.onMouseEnter?.(e);
+      onMouseEnter?.(e);
       if (triggerOnHover && !reducedMotion) {
         groupRef.current?.inOut();
       }
     },
-    [props.onMouseEnter, triggerOnHover, reducedMotion]
+    [onMouseEnter, triggerOnHover, reducedMotion]
   );
 
   return (

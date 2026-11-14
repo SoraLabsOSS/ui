@@ -42,6 +42,7 @@
     "skeleton",
     "skeleton-shimmer",
     "---Shaders---",
-    "silk-background"
+    "silk-background",
+    "flow-lines-background"
   ]
 }

@@ -173,6 +173,8 @@ export const SilkBackground = ({
   const silkRef = useRef<Effect | null>(null);
   const speedRef = useRef(speed);
   speedRef.current = speed;
+  const paramsRef = useRef({ highlightColor, noise, scale, shadowColor });
+  paramsRef.current = { highlightColor, noise, scale, shadowColor };
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -239,10 +241,16 @@ export const SilkBackground = ({
             params: {
               time: 0,
               resolution: [canvasSurface.size[0], canvasSurface.size[1]],
-              shadow: parseColorToRgb(shadowColor, DEFAULT_SHADOW),
-              highlight: parseColorToRgb(highlightColor, DEFAULT_HIGHLIGHT),
-              scale,
-              noise,
+              shadow: parseColorToRgb(
+                paramsRef.current.shadowColor,
+                DEFAULT_SHADOW
+              ),
+              highlight: parseColorToRgb(
+                paramsRef.current.highlightColor,
+                DEFAULT_HIGHLIGHT
+              ),
+              scale: paramsRef.current.scale,
+              noise: paramsRef.current.noise,
             },
           },
         });
