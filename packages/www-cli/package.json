@@ -13,7 +13,7 @@
     "create:blocks": "bun src/index.ts create blocks",
     "create:icon": "bun src/index.ts create icon",
     "doctor": "bun src/index.ts doctor",
-    "check-types": "tsc --noEmit",
+    "check-types": "tsc --noEmit -p tsconfig.check.json",
     "lint": "ultracite check",
     "test": "bun test",
     "test:slow": "bun test src/registry-build.integration.test.ts"
@@ -23,6 +23,7 @@
     "commander": "^14.0.0"
   },
   "devDependencies": {
+    "@types/bun": "^1.4.4",
     "@types/node": "^24.0.7",
     "@workspace/typescript-config": "workspace:*",
     "typescript": "^7.0.2"
