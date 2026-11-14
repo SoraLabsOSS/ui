@@ -49,10 +49,7 @@ function DropdownMenu({
   const [open, setOpen] = useControlledState({
     defaultValue: defaultOpen,
     onChange: (nextOpen: boolean) => {
-      onOpenChange?.(
-        nextOpen,
-        undefined as unknown as MenuPrimitive.Root.ChangeEventDetails
-      );
+      onOpenChange?.(nextOpen, undefined as never);
     },
     value: controlledOpen,
   });
@@ -321,10 +318,7 @@ function DropdownMenuSub({
   const [open, setOpen] = useControlledState({
     defaultValue: defaultOpen,
     onChange: (nextOpen: boolean) => {
-      onOpenChange?.(
-        nextOpen,
-        undefined as unknown as MenuPrimitive.SubmenuRoot.ChangeEventDetails
-      );
+      onOpenChange?.(nextOpen, undefined as never);
     },
     value: controlledOpen,
   });

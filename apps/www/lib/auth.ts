@@ -33,6 +33,17 @@ const githubProvider =
 const sentinelApiKey = env.BETTER_AUTH_API_KEY;
 const sentinelConfigured = isSentinelConfigured() && sentinelApiKey;
 
+const socialProviders: {
+  google?: { clientId: string; clientSecret: string };
+  github?: { clientId: string; clientSecret: string };
+} = {};
+if (googleProvider) {
+  socialProviders.google = googleProvider;
+}
+if (githubProvider) {
+  socialProviders.github = githubProvider;
+}
+
 export const auth = betterAuth({
   appName: "Sora UI",
   baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,
@@ -93,11 +104,8 @@ export const auth = betterAuth({
       },
     },
   },
-  socialProviders: {
-    ...(googleProvider ? { google: googleProvider } : {}),
-    ...(githubProvider ? { github: githubProvider } : {}),
-  },
-  ...(isRedisConfigured() ? { secondaryStorage: redisSecondaryStorage } : {}),
+  socialProviders,
+  secondaryStorage: isRedisConfigured() ? redisSecondaryStorage : undefined,
   session: {
     freshAge: 0, // Disable freshAge check so listSessions and sensitive actions do not 403 on older sessions
     storeSessionInDatabase: true, // Required when using oauth-provider with secondaryStorage

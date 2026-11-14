@@ -35,10 +35,7 @@ function AlertDialog({
   const [open, setOpen] = useControlledState({
     defaultValue: defaultOpen,
     onChange: (nextOpen: boolean) => {
-      onOpenChange?.(
-        nextOpen,
-        undefined as unknown as AlertDialogPrimitive.Root.ChangeEventDetails
-      );
+      onOpenChange?.(nextOpen, undefined as never);
     },
     value: controlledOpen,
   });

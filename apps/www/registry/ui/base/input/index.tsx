@@ -333,7 +333,9 @@ function Input({
         ref={setInputRef}
         style={{
           ...props.style,
-          ...(hasAnimatedCaret ? { caretColor: "transparent" } : {}),
+          caretColor: hasAnimatedCaret
+            ? "transparent"
+            : props.style?.caretColor,
         }}
         type={type}
         value={renderedValue}

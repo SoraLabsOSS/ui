@@ -48,10 +48,7 @@ function ContextMenu({
   const [open, setOpen] = useControlledState({
     defaultValue: defaultOpen,
     onChange: (nextOpen: boolean) => {
-      onOpenChange?.(
-        nextOpen,
-        undefined as unknown as ContextMenuPrimitive.Root.ChangeEventDetails
-      );
+      onOpenChange?.(nextOpen, undefined as never);
     },
     value: controlledOpen,
   });
@@ -331,10 +328,7 @@ function ContextMenuSub({
   const [open, setOpen] = useControlledState({
     defaultValue: defaultOpen,
     onChange: (nextOpen: boolean) => {
-      onOpenChange?.(
-        nextOpen,
-        undefined as unknown as ContextMenuPrimitive.SubmenuRoot.ChangeEventDetails
-      );
+      onOpenChange?.(nextOpen, undefined as never);
     },
     value: controlledOpen,
   });

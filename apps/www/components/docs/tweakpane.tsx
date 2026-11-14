@@ -25,10 +25,12 @@ type BindNumberSlider = BaseBindNumber & {
   min: number;
   step: number;
 };
-type BindNumberOptions = BaseBindNumber & { options: Record<string, number> };
+type BindNumberOptions = BaseBindNumber & {
+  options: Record<string, number | TweakpanePrimitive>;
+};
 type BindNumber = BindNumberSlider | BindNumberOptions | BaseBindNumber;
 interface BindString {
-  options?: Record<string, string>;
+  options?: Record<string, string | TweakpanePrimitive>;
   value: string;
 }
 type TweakpanePrimitive = string | number | boolean;
@@ -202,11 +204,9 @@ const renderBind = (
   if ("value" in bind) {
     if ("options" in bind) {
       if (typeof bind.value === "number") {
-        return renderNumber(key, bind as unknown as BindNumber, onChange);
+        return renderNumber(key, bind as BindNumber, onChange);
       }
-      return renderString(key, bind as unknown as BindString, (v) =>
-        onChange(v)
-      );
+      return renderString(key, bind as BindString, (v) => onChange(v));
     }
     if (typeof bind.value === "number") {
       return renderNumber(key, bind as BindNumber, onChange);

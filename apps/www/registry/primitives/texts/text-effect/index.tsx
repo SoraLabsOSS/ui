@@ -228,26 +228,30 @@ function createVariantsWithTransition(
 
   const { exit: _exit, ...mainTransition } = transition;
 
+  const visibleTransition = hasTransition(baseVariants.visible)
+    ? { ...baseVariants.visible.transition, ...mainTransition }
+    : { ...mainTransition };
+
+  const exitTransition = hasTransition(baseVariants.exit)
+    ? {
+        ...baseVariants.exit.transition,
+        ...mainTransition,
+        staggerDirection: -1 as const,
+      }
+    : {
+        ...mainTransition,
+        staggerDirection: -1 as const,
+      };
+
   return {
     ...baseVariants,
     visible: {
       ...baseVariants.visible,
-      transition: {
-        ...(hasTransition(baseVariants.visible)
-          ? baseVariants.visible.transition
-          : {}),
-        ...mainTransition,
-      },
+      transition: visibleTransition,
     },
     exit: {
       ...baseVariants.exit,
-      transition: {
-        ...(hasTransition(baseVariants.exit)
-          ? baseVariants.exit.transition
-          : {}),
-        ...mainTransition,
-        staggerDirection: -1,
-      },
+      transition: exitTransition,
     },
   };
 }

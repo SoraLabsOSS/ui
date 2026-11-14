@@ -36,10 +36,7 @@ function Dialog({
   const [open, setOpen] = useControlledState({
     defaultValue: defaultOpen,
     onChange: (nextOpen: boolean) => {
-      onOpenChange?.(
-        nextOpen,
-        undefined as unknown as DialogPrimitive.Root.ChangeEventDetails
-      );
+      onOpenChange?.(nextOpen, undefined as never);
     },
     value: controlledOpen,
   });

@@ -406,7 +406,9 @@ export function SidebarLinkItem({
   onNavigate,
   ...props
 }: {
-  item: LinkItemType & { new?: boolean };
+  item:
+    | (LinkItemType & { new?: boolean })
+    | { type: "separator"; icon?: ReactNode; name: string };
   className?: string;
   onNavigate?: () => void;
 }) {
@@ -436,13 +438,12 @@ export function SidebarLinkItem({
     return <div {...props}>{item.children as ReactNode}</div>;
   }
 
-  if ((item as { type?: string }).type === "separator") {
-    const sep = item as unknown as { icon: ReactNode; name: string };
+  if (item.type === "separator") {
     return (
       <DocsShellSection
         {...props}
         className={cn("!mt-3", props.className)}
-        label={<Separator icon={sep.icon} name={sep.name} />}
+        label={<Separator icon={item.icon} name={item.name} />}
       >
         {null}
       </DocsShellSection>

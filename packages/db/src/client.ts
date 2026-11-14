@@ -53,7 +53,9 @@ function getDbInstance(): Database {
 }
 
 export const db = new Proxy({} as Database, {
-  get(_target, prop, receiver) {
-    return Reflect.get(getDbInstance(), prop, receiver);
+  get(_target, prop) {
+    const instance = getDbInstance();
+    const value = instance[prop as keyof Database];
+    return typeof value === "function" ? value.bind(instance) : value;
   },
 });

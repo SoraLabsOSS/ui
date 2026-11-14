@@ -412,15 +412,26 @@ function resolveOptions({
   | "skipUnchanged"
   | "chromatic"
 >): TextRollOptions {
-  return {
-    ...options,
-    ...(direction === undefined ? {} : { direction }),
-    ...(stagger === undefined ? {} : { stagger }),
-    ...(duration === undefined ? {} : { duration }),
-    ...(bounce === undefined ? {} : { bounce }),
-    ...(skipUnchanged === undefined ? {} : { skipUnchanged }),
-    ...(useChromatic ? { color: chromatic() } : {}),
-  };
+  const resolved: TextRollOptions = { ...options };
+  if (direction !== undefined) {
+    resolved.direction = direction;
+  }
+  if (stagger !== undefined) {
+    resolved.stagger = stagger;
+  }
+  if (duration !== undefined) {
+    resolved.duration = duration;
+  }
+  if (bounce !== undefined) {
+    resolved.bounce = bounce;
+  }
+  if (skipUnchanged !== undefined) {
+    resolved.skipUnchanged = skipUnchanged;
+  }
+  if (useChromatic) {
+    resolved.color = chromatic();
+  }
+  return resolved;
 }
 
 /** Matches `slot-text/react` — roll animates when `text` changes. */

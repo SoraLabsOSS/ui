@@ -1041,11 +1041,13 @@ export { loadComponentSource, loadComponentFiles, loadComponentHtml } from "./so
       rootHtml = highlightSourceCode(highlighter, s.code);
     }
 
-    const payload = {
+    const payload: Record<string, unknown> = {
       ...s,
       files: filesWithHtml,
-      ...(rootHtml ? { highlightedHtml: rootHtml } : {}),
     };
+    if (rootHtml) {
+      payload.highlightedHtml = rootHtml;
+    }
 
     await fs.writeFile(
       path.join(sourcesDir, `${s.name}.json`),

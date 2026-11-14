@@ -219,10 +219,7 @@ function Accordion({
   const [openValues, setOpenValues] = useControlledState<AccordionItemValue[]>({
     defaultValue: normalizedDefaultValue,
     onChange: (nextValues) => {
-      onValueChange?.(
-        nextValues,
-        undefined as unknown as AccordionPrimitive.Root.ChangeEventDetails
-      );
+      onValueChange?.(nextValues, undefined as never);
     },
     value: normalizedControlledValue,
   });

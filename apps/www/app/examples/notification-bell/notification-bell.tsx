@@ -27,7 +27,7 @@ function useArrivalSound(enabled: boolean) {
     try {
       const AC =
         window.AudioContext ??
-        (window as unknown as { webkitAudioContext?: typeof AudioContext })
+        (window as Window & { webkitAudioContext?: typeof AudioContext })
           .webkitAudioContext;
       if (!AC) {
         return;

@@ -262,8 +262,13 @@ export function attachVideoPlayer(
     return !(video.paused || video.ended);
   }
 
-  function isTouchInteraction(event: { pointerType?: string } | null = null) {
-    return event?.pointerType === "touch" || lastPointerWasTouch;
+  function isTouchInteraction(
+    event: Event | { pointerType?: string } | null = null
+  ) {
+    return (
+      (event && "pointerType" in event && event.pointerType === "touch") ||
+      lastPointerWasTouch
+    );
   }
 
   function hideChrome({
@@ -756,9 +761,7 @@ export function attachVideoPlayer(
       return;
     }
 
-    const shouldUseTouchChrome = isTouchInteraction(
-      event as unknown as PointerEvent
-    );
+    const shouldUseTouchChrome = isTouchInteraction(event);
 
     if (shouldUseTouchChrome) {
       if (touchStageHadChrome) {
@@ -916,7 +919,7 @@ export function attachVideoPlayer(
     const chapter = getChapterAt(time);
     setHoveredChapter(time);
 
-    if (!isTouchInteraction(event as unknown as PointerEvent) && previewCard) {
+    if (!isTouchInteraction(event) && previewCard) {
       previewCard.style.left = `${left}px`;
     }
 
@@ -932,7 +935,7 @@ export function attachVideoPlayer(
 
     root.classList.add("has-preview");
     showChrome(false);
-    if (!isTouchInteraction(event as unknown as PointerEvent)) {
+    if (!isTouchInteraction(event)) {
       updatePreviewVideo(clamp(time, 0, duration));
     }
 
