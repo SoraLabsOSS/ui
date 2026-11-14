@@ -17,14 +17,23 @@ export function computeChapterRanges(
     (item, index, list) => index === 0 || item.start !== list[index - 1]?.start
   );
 
-  return deduped
-    .filter((item) => !duration || item.start < duration)
-    .map((item, index, list) => ({
-      start: item.start,
-      end: list[index + 1]?.start ?? duration,
-      title: item.title,
-    }))
-    .filter((item) => !duration || item.end > item.start);
+  const eligible = deduped.filter((item) => !duration || item.start < duration);
+  const result: ChapterRange[] = [];
+  for (let index = 0; index < eligible.length; index += 1) {
+    const item = eligible[index];
+    if (!item) {
+      continue;
+    }
+    const end = eligible[index + 1]?.start ?? duration;
+    if (!duration || end > item.start) {
+      result.push({
+        start: item.start,
+        end,
+        title: item.title,
+      });
+    }
+  }
+  return result;
 }
 
 export function getChapterAt(

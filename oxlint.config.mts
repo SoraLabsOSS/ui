@@ -77,7 +77,6 @@ export default defineConfig({
     "sonarjs/cognitive-complexity": "off",
     "react-doctor/rendering-svg-precision": "off",
     "react-doctor/prefer-module-scope-static-value": "off",
-    "anti-slop/no-array-filter-map": "off",
     "react-doctor/no-transition-all": "off",
     "react-doctor/rendering-hydration-no-flicker": "off",
     "react-doctor/no-permanent-will-change": "off",

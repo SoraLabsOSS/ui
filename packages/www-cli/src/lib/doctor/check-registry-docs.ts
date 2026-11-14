@@ -302,10 +302,11 @@ async function checkUndocumentedBuildSkips(
   const issues: DiagnosticIssue[] = [];
   const documentedNames = await collectDocumentedNames(wwwRoot);
   const seedNames = new Set(
-    allItems
-      .filter((item) => !item.name.startsWith("primitives-"))
-      .filter((item) => documentedNames.has(item.name))
-      .map((item) => item.name)
+    allItems.flatMap((item) =>
+      !item.name.startsWith("primitives-") && documentedNames.has(item.name)
+        ? [item.name]
+        : []
+    )
   );
 
   for (const item of allItems) {

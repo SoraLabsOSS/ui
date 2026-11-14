@@ -64,15 +64,20 @@ async function checkFile(
     ];
   }
 
-  return REQUIRED_FIELDS.filter(
-    (field) => !hasNonEmptyFrontmatterValue(frontmatter, field)
-  ).map((field) => ({
-    category: "agent-metadata" as const,
-    severity: "error" as const,
-    file: relPath,
-    message: `UI page "${relPath}" is missing agent metadata field "${field}".`,
-    fix: `Add a non-empty "${field}" value to the frontmatter in "${relPath}".`,
-  }));
+  return REQUIRED_FIELDS.flatMap((field) => {
+    if (!hasNonEmptyFrontmatterValue(frontmatter, field)) {
+      return [
+        {
+          category: "agent-metadata" as const,
+          severity: "error" as const,
+          file: relPath,
+          message: `UI page "${relPath}" is missing agent metadata field "${field}".`,
+          fix: `Add a non-empty "${field}" value to the frontmatter in "${relPath}".`,
+        },
+      ];
+    }
+    return [];
+  });
 }
 
 export async function checkAgentMetadata(

@@ -186,21 +186,22 @@ function normalizeRows(
   rows: LogoCarouselSwapperRow[],
   columns: number
 ): LogoCarouselSwapperRow[] {
-  return rows
-    .map((row) => {
-      const next = row.slice(0, columns);
+  return rows.flatMap((row) => {
+    const next = row.slice(0, columns);
 
-      while (next.length < columns) {
-        const fallback = row[next.length % Math.max(row.length, 1)];
-        if (!fallback) {
-          break;
-        }
-        next.push(fallback);
+    while (next.length < columns) {
+      const fallback = row[next.length % Math.max(row.length, 1)];
+      if (!fallback) {
+        break;
       }
+      next.push(fallback);
+    }
 
-      return next;
-    })
-    .filter((row) => row.length === columns && row.every((item) => item.src));
+    if (next.length === columns && next.every((item) => item.src)) {
+      return [next];
+    }
+    return [];
+  });
 }
 
 interface LogoSlotProps {

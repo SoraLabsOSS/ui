@@ -31,25 +31,26 @@ export function PlusSeparator({
 
   return (
     <>
-      {corners
-        .filter((corner) => position.includes(corner))
-        .map((corner) => {
-          const {
-            className: childClassName,
-            size: childSize,
-            ...childProps
-          } = child?.[corner] ?? {};
+      {corners.map((corner) => {
+        if (!position.includes(corner)) {
+          return null;
+        }
+        const {
+          className: childClassName,
+          size: childSize,
+          ...childProps
+        } = child?.[corner] ?? {};
 
-          return (
-            <Plus
-              className={cn(cornerClass[corner], className, childClassName)}
-              key={corner}
-              size={childSize ?? size ?? 8}
-              {...props}
-              {...childProps}
-            />
-          );
-        })}
+        return (
+          <Plus
+            className={cn(cornerClass[corner], className, childClassName)}
+            key={corner}
+            size={childSize ?? size ?? 8}
+            {...props}
+            {...childProps}
+          />
+        );
+      })}
     </>
   );
 }

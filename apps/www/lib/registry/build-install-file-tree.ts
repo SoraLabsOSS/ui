@@ -32,7 +32,12 @@ function ensureFolder(
 /** Build a nested folder tree from shadcn registry install targets. */
 export function buildInstallFileTree(targets: string[]): FileTreeElement[] {
   const normalizedTargets = [
-    ...new Set(targets.map((target) => target.trim()).filter(Boolean)),
+    ...new Set(
+      targets.flatMap((target) => {
+        const trimmed = target.trim();
+        return trimmed ? [trimmed] : [];
+      })
+    ),
   ];
 
   if (normalizedTargets.length === 0) {

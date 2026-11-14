@@ -511,10 +511,11 @@ function toAliasSpecifier(target: string): string {
 function generateSmokeModule(expectedFiles: ExpectedInstall[]): string {
   const specifiers = [
     ...new Set(
-      expectedFiles
-        .filter((file) => file.item !== "utils")
-        .filter((file) => SOURCE_FILE_EXT.test(file.target))
-        .map((file) => toAliasSpecifier(file.target))
+      expectedFiles.flatMap((file) =>
+        file.item !== "utils" && SOURCE_FILE_EXT.test(file.target)
+          ? [toAliasSpecifier(file.target)]
+          : []
+      )
     ),
   ].toSorted();
 

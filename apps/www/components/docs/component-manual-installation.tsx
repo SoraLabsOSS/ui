@@ -16,7 +16,10 @@ import {
 } from "@/components/docs/dynamic-codeblock";
 
 const getDepsCommands = (dependencies?: string[]) => {
-  const packageNames = dependencies?.map((dep) => dep.trim()).filter(Boolean);
+  const packageNames = dependencies?.flatMap((dep) => {
+    const trimmed = dep.trim();
+    return trimmed ? [trimmed] : [];
+  });
   if (!packageNames?.length) {
     return;
   }
@@ -31,19 +34,21 @@ const getDepsCommands = (dependencies?: string[]) => {
 
 const getRegistryDepsCommands = (dependencies?: string[]) => {
   const quotedDependencies = dependencies
-    ?.map((dep) => dep.trim())
-    .filter(Boolean)
-    .map((dep) => {
-      if (dep.startsWith("https://ui.soralabs.studio/r/")) {
-        return dep.replace("https://ui.soralabs.studio/r/", "@soralabs/");
+    ?.flatMap((dep) => {
+      const trimmed = dep.trim();
+      if (!trimmed) {
+        return [];
       }
-      if (dep.startsWith("https://ui.soralabs.io.vn/r/")) {
-        return dep.replace("https://ui.soralabs.io.vn/r/", "@soralabs/");
+      if (trimmed.startsWith("https://ui.soralabs.studio/r/")) {
+        return [trimmed.replace("https://ui.soralabs.studio/r/", "@soralabs/")];
       }
-      if (dep.startsWith("https://")) {
-        return `"${dep}"`;
+      if (trimmed.startsWith("https://ui.soralabs.io.vn/r/")) {
+        return [trimmed.replace("https://ui.soralabs.io.vn/r/", "@soralabs/")];
       }
-      return dep;
+      if (trimmed.startsWith("https://")) {
+        return [`"${trimmed}"`];
+      }
+      return [trimmed];
     })
     .join(" ");
 

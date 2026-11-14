@@ -243,14 +243,12 @@ function filterGroupsByQuery(
   groups: CommandPaletteGroup[],
   query: string
 ): CommandPaletteGroup[] {
-  return groups
-    .map((group) => ({
-      ...group,
-      items: group.items.filter((item) =>
-        matchesCommandQuery(item.searchValue, query)
-      ),
-    }))
-    .filter((group) => group.items.length > 0);
+  return groups.flatMap((group) => {
+    const items = group.items.filter((item) =>
+      matchesCommandQuery(item.searchValue, query)
+    );
+    return items.length > 0 ? [{ ...group, items }] : [];
+  });
 }
 
 interface CommandPaletteDialogProps {

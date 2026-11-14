@@ -821,12 +821,12 @@ export function diffSegments(
     }
   }
 
-  let oldUnmatched = oldWordStrings
-    .map((_, i) => i)
-    .filter((i) => !oldMatchedSet.has(i));
-  let newUnmatched = newWordStrings
-    .map((_, i) => i)
-    .filter((i) => !newMatchedSet.has(i));
+  let oldUnmatched = oldWordStrings.flatMap((_, i) =>
+    oldMatchedSet.has(i) ? [] : [i]
+  );
+  let newUnmatched = newWordStrings.flatMap((_, i) =>
+    newMatchedSet.has(i) ? [] : [i]
+  );
 
   const exactUsed = new Set<number>();
   for (const ni of newUnmatched) {

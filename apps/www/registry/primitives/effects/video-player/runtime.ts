@@ -351,11 +351,13 @@ export function attachVideoPlayer(
   function readChapters() {
     const duration = getDuration();
     const data = [...root.querySelectorAll<HTMLElement>("[data-media-chapter]")]
-      .map((item) => ({
-        start: Number(item.dataset.start),
-        title: item.dataset.title || "",
-      }))
-      .filter((item) => Number.isFinite(item.start) && item.start >= 0)
+      .flatMap((item) => {
+        const start = Number(item.dataset.start);
+        if (Number.isFinite(start) && start >= 0) {
+          return [{ start, title: item.dataset.title || "" }];
+        }
+        return [];
+      })
       .toSorted((left, right) => left.start - right.start);
 
     if (!data.length || data[0].start > 0) {
@@ -366,14 +368,25 @@ export function attachVideoPlayer(
       (item, index, list) => index === 0 || item.start !== list[index - 1].start
     );
 
-    chapterRanges = deduped
-      .filter((item) => !duration || item.start < duration)
-      .map((item, index, list) => ({
-        start: item.start,
-        end: list[index + 1]?.start ?? duration,
-        title: item.title,
-      }))
-      .filter((item) => !duration || item.end > item.start);
+    const eligible = deduped.filter(
+      (item) => !duration || item.start < duration
+    );
+    const ranges: { start: number; end: number; title: string }[] = [];
+    for (let index = 0; index < eligible.length; index += 1) {
+      const item = eligible[index];
+      if (!item) {
+        continue;
+      }
+      const end = eligible[index + 1]?.start ?? duration;
+      if (!duration || end > item.start) {
+        ranges.push({
+          start: item.start,
+          end,
+          title: item.title,
+        });
+      }
+    }
+    chapterRanges = ranges;
   }
 
   function renderChapters() {
