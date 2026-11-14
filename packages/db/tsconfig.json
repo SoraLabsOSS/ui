@@ -2,8 +2,6 @@
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "declaration": false,
     "declarationMap": false
   },

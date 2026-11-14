@@ -1,6 +1,5 @@
 {
   "extends": "@workspace/typescript-config/base.json",
-  "compilerOptions": {
-    "strictNullChecks": true
-  }
+  "files": [],
+  "include": []
 }

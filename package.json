@@ -29,7 +29,7 @@
     "registry:build": "bun run --cwd apps/www registry:build",
     "create:primitive": "bun packages/www-cli/src/index.ts create primitive",
     "create:ui": "bun packages/www-cli/src/index.ts create ui",
-    "create:catalog": "bun packages/www-cli/src/index.ts create catalog",
+    "create:blocks": "bun packages/www-cli/src/index.ts create blocks",
     "create:icon": "bun packages/www-cli/src/index.ts create icon",
     "create": "bun packages/www-cli/src/index.ts create",
     "doctor": "bun packages/www-cli/src/index.ts doctor",
