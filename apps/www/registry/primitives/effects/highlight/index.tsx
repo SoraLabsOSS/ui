@@ -162,7 +162,10 @@ function useComposedRefs<T>(
     [childRef, localRef, forwardedRef]
   );
 }
-function omitKeys(source: object, keys: readonly string[]) {
+function omitKeys<T extends Record<string, unknown>>(
+  source: T,
+  keys: readonly string[]
+): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(source)) {
     if (!keys.includes(key)) {

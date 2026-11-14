@@ -7,9 +7,10 @@ import type { ReadTimeResults } from "reading-time";
  * mechanism. If that ever breaks (e.g. a fumadocs-mdx upgrade), degrade to
  * hiding the "min read" badge instead of crashing the whole blog post page.
  */
-export function getReadingTimeMinutes(pageData: unknown): number | null {
-  const readingTime = (pageData as { readingTime?: ReadTimeResults })
-    ?.readingTime;
+export function getReadingTimeMinutes<T>(pageData?: T | null): number | null {
+  const readingTime = (
+    pageData as { readingTime?: ReadTimeResults } | null | undefined
+  )?.readingTime;
 
   if (typeof readingTime?.minutes !== "number") {
     return null;

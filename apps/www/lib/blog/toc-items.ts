@@ -1,10 +1,12 @@
+import type { ReactNode } from "react";
+
 export interface KbTocItem {
   href: string;
   level: number;
   name: string;
 }
 
-function tocTitleToText(title: unknown): string {
+function tocTitleToText(title: ReactNode): string {
   if (typeof title === "string" || typeof title === "number") {
     return String(title);
   }
@@ -12,7 +14,7 @@ function tocTitleToText(title: unknown): string {
     return title.map(tocTitleToText).join("");
   }
   if (title && typeof title === "object" && "props" in title) {
-    const children = (title as { props?: { children?: unknown } }).props
+    const children = (title as { props?: { children?: ReactNode } }).props
       ?.children;
     return tocTitleToText(children);
   }
@@ -21,7 +23,7 @@ function tocTitleToText(title: unknown): string {
 
 /** Map Fumadocs compile-time TOC (h2–h4) into blog minimap items. */
 export function kbTocItemsFromFumadocs(
-  toc: { depth: number; title?: unknown; url: string }[] | undefined
+  toc: { depth: number; title?: ReactNode; url: string }[] | undefined
 ): KbTocItem[] {
   if (!toc?.length) {
     return [];

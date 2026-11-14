@@ -1,22 +1,22 @@
 const SORA_UI_COMPONENTS_PREFIX = /^components\/sora-ui\//;
 const TSX_EXTENSION_SUFFIX = /\.tsx$/;
 
-export function unwrapBindValues(value: unknown): unknown {
+export function unwrapBindValues<T = Record<string, unknown>>(value: T): T {
   if (value !== null && typeof value === "object" && !Array.isArray(value)) {
     const record = value as Record<string, unknown>;
     if ("value" in record) {
-      return record.value;
+      return record.value as T;
     }
     const result: Record<string, unknown> = {};
     for (const key of Object.keys(record)) {
       result[key] = unwrapBindValues(record[key]);
     }
-    return result;
+    return result as T;
   }
   return value;
 }
 
-export function formatJsxPropValue(value: unknown): string {
+export function formatJsxPropValue<T = unknown>(value: T): string {
   if (typeof value === "string") {
     return JSON.stringify(value);
   }

@@ -44,12 +44,14 @@ function resolveStep(item: RawBindItem, val: number): number {
   return val <= 1 && val > 0 ? 0.05 : 1;
 }
 
-function parseBindItem(item: unknown): DialControlValue | null {
+function parseBindItem(
+  item: RawBindItem | null | undefined
+): DialControlValue | null {
   if (!item || typeof item !== "object" || !("value" in item)) {
     return null;
   }
 
-  const bind = item as RawBindItem;
+  const bind = item;
   const val = bind.value;
 
   if (bind.options && typeof bind.options === "object") {
@@ -88,7 +90,7 @@ function parseBindItem(item: unknown): DialControlValue | null {
   return null;
 }
 
-function buildDialConfig(rawBinds: Record<string, unknown>) {
+function buildDialConfig(rawBinds: Record<string, RawBindItem>) {
   const config: Record<string, DialControlValue> = {};
 
   for (const [key, item] of Object.entries(rawBinds)) {
@@ -114,7 +116,7 @@ export function DialKitBridge({
 }: DialKitBridgeProps) {
   const rawBinds = useMemo(() => {
     const firstComp = Object.values(demoPropsConfig)[0];
-    return (firstComp ?? {}) as Record<string, unknown>;
+    return (firstComp ?? {}) as Record<string, RawBindItem>;
   }, [demoPropsConfig]);
 
   const dialConfig = useMemo(() => buildDialConfig(rawBinds), [rawBinds]);

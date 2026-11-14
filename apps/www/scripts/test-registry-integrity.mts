@@ -874,7 +874,7 @@ async function runIntegrityCheck(): Promise<void> {
   console.log("\n🎉 ALL 4/4 INTEGRITY & INSTALLATION CHECKS PASSED PERFECTLY!");
 }
 
-runIntegrityCheck().catch((error: unknown) => {
+runIntegrityCheck().catch((error) => {
   console.error("Test failed:", error);
   process.exit(1);
 });

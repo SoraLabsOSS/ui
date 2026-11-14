@@ -9,7 +9,7 @@ const PRIMARY_SECTIONS = new Set([
   "accessibility",
 ]);
 
-function normalizeTitle(title: unknown): string {
+function normalizeTitle(title?: string | null): string {
   if (typeof title !== "string") {
     return "";
   }

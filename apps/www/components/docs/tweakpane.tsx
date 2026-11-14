@@ -199,7 +199,7 @@ const renderBoolean = (
 const renderBind = (
   key: string,
   bind: Bind,
-  onChange: (value: unknown) => void
+  onChange: (value: TweakpanePrimitive) => void
 ) => {
   if ("value" in bind) {
     if ("options" in bind) {

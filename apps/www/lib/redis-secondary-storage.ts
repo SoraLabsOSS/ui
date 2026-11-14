@@ -36,10 +36,7 @@ function shouldReportToSentry(reportKey: string) {
   return true;
 }
 
-function captureRedisFailOpen(
-  operation: RedisStorageOperation,
-  error: unknown
-) {
+function captureRedisFailOpen<E>(operation: RedisStorageOperation, error: E) {
   const reportKey = `${REDIS_STORAGE_COMPONENT}:${operation}`;
 
   if (!shouldReportToSentry(reportKey)) {
@@ -62,9 +59,9 @@ function captureRedisFailOpen(
   );
 }
 
-function captureIncrementFallback(
+function captureIncrementFallback<E>(
   reason: "error" | "unexpected-result",
-  error?: unknown
+  error?: E
 ) {
   const reportKey = `${REDIS_STORAGE_COMPONENT}:increment:fallback:${reason}`;
 
@@ -157,7 +154,9 @@ end
 return current
 `;
 
-function normalizeStoredValue(value: unknown): string | null {
+function normalizeStoredValue(
+  value: string | number | boolean | Record<string, unknown> | null | undefined
+): string | null {
   if (value === null || value === undefined) {
     return null;
   }

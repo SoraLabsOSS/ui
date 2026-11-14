@@ -1,7 +1,7 @@
 /**
  * Structured server log for Better Auth `onAPIError.onError`.
  */
-export function logAuthApiError(error: unknown): void {
+export function logAuthApiError<E>(error: E): void {
   if (error instanceof Error) {
     console.error("[auth]", {
       name: error.name,

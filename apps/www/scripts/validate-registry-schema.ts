@@ -1,4 +1,5 @@
 import { registryItemSchema, registrySchema } from "shadcn/schema";
+import type { z } from "zod";
 
 function formatSchemaIssues(error: {
   issues: { message: string; path: PropertyKey[] }[];
@@ -12,8 +13,14 @@ function formatSchemaIssues(error: {
     .join("\n");
 }
 
+export type RegistryItemData = z.infer<typeof registryItemSchema>;
+export type RegistryCatalogData = z.infer<typeof registrySchema>;
+
 /** Validate a single `registry-item.json` (source or published `public/r/*.json`). */
-export function assertRegistryItem(value: unknown, source: string): void {
+export function assertRegistryItem(
+  value: unknown,
+  source: string
+): asserts value is RegistryItemData {
   const result = registryItemSchema.safeParse(value);
   if (!result.success) {
     throw new Error(
@@ -23,7 +30,10 @@ export function assertRegistryItem(value: unknown, source: string): void {
 }
 
 /** Validate a merged `registry.json` catalog. */
-export function assertRegistryCatalog(value: unknown, source: string): void {
+export function assertRegistryCatalog(
+  value: unknown,
+  source: string
+): asserts value is RegistryCatalogData {
   const result = registrySchema.safeParse(value);
   if (!result.success) {
     throw new Error(

@@ -39,7 +39,7 @@ type ToggleBookmarkResult =
   | { action: "created"; bookmark: BookmarkRecord }
   | { action: "conflict" };
 
-function getBookmarkErrorMessage(error: unknown): string {
+function getBookmarkErrorMessage<E>(error: E): string {
   if (error instanceof BookmarkRequestError) {
     if (error.status === 429) {
       return "Too many bookmark requests. Try again later.";
