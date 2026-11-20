@@ -14,7 +14,6 @@ import type { ReactNode } from "react";
 import { DeferredAnalytics } from "@/components/analytics-deferred";
 import { CommandPaletteGroupsProvider } from "@/components/command-palette/command-palette-groups-provider";
 import { CommandPaletteSearchDialog } from "@/components/command-palette/command-palette-search-dialog";
-import { ConditionalBanner } from "@/components/conditional-banner";
 import { GlobalCursorToggle } from "@/components/global-cursor-toggle";
 import { PageTransitionProvider } from "@/components/page-transition/page-transition-provider";
 import { QueryClientRootProvider } from "@/components/query-client-root-provider";
@@ -135,24 +134,18 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
       >
         <Suspense fallback={null}>
-          <ConditionalBanner
-            className="px-10 py-2 sm:px-4 sm:py-0"
-            id="mcp-paused-banner"
-            variant="rainbow"
-          >
-            <p className="max-w-2xl text-center text-xs leading-normal sm:text-sm">
-              <span>
-                The remote MCP server is temporarily paused due to usage limits.
-              </span>{" "}
-              <Link
-                className="inline-flex items-center gap-1 font-semibold whitespace-nowrap underline underline-offset-4 hover:opacity-80"
-                href="/docs/mcp"
-              >
-                <span>Learn more</span>
-                <ArrowRightIcon className="size-3" />
-              </Link>
-            </p>
-          </ConditionalBanner>
+          <p className="max-w-2xl text-center text-xs leading-normal sm:text-sm">
+            <span>
+              The remote MCP server is temporarily paused due to usage limits.
+            </span>{" "}
+            <Link
+              className="inline-flex items-center gap-1 font-semibold whitespace-nowrap underline underline-offset-4 hover:opacity-80"
+              href="/docs/mcp"
+            >
+              <span>Learn more</span>
+              <ArrowRightIcon className="size-3" />
+            </Link>
+          </p>
         </Suspense>
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />
