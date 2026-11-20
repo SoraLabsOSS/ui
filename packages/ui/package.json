@@ -41,7 +41,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@workspace/typescript-config": "workspace:*",
-    "next": "16.4.3"
+    "next": "16.4.5"
   },
   "peerDependencies": {
     "next": ">=14.0.0"
