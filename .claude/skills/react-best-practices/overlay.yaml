@@ -1,0 +1,47 @@
+name: react-best-practices
+description: Vercel's React and Next.js performance rules (70 rules in 8 categories ordered by impact - eliminating waterfalls, bundle size, server-side performance, client-side data fetching, re-renders, rendering performance, JavaScript performance, and advanced patterns). Use when writing, reviewing, or refactoring React components, Next.js pages, or data fetching for performance. Not an accessibility or TypeScript style guide.
+metadata:
+  priority: 4
+  docs:
+    - "https://react.dev/reference/react"
+    - "https://react.dev/learn"
+  pathPatterns:
+    - 'src/components/**/*.tsx'
+    - 'src/components/**/*.jsx'
+    - 'app/components/**/*.tsx'
+    - 'app/components/**/*.jsx'
+    - 'components/**/*.tsx'
+    - 'components/**/*.jsx'
+    - 'src/ui/**/*.tsx'
+    - 'lib/components/**/*.tsx'
+  bashPatterns: []
+  importPatterns:
+    - 'react'
+    - 'react-dom'
+validate:
+  -
+    pattern: 'from\s+[''"](styled-components|@emotion/styled|@emotion/react|@mui/material|@chakra-ui/react)[''"]|styled\.'
+    message: 'Legacy CSS-in-JS or component library detected. Consider shadcn/ui + Tailwind for modern Vercel-native UI.'
+    severity: warn
+    skipIfFileContains: '@/components/ui|shadcn|tailwindcss'
+retrieval:
+  aliases:
+    - react review
+    - react performance
+    - nextjs performance
+    - react patterns
+  intents:
+    - review react code for performance
+    - eliminate request waterfalls
+    - reduce bundle size
+    - reduce re-renders
+    - optimize react
+  entities:
+    - hooks
+    - React
+    - Next.js
+    - TSX
+    - component
+    - waterfall
+    - bundle size
+    - re-render
