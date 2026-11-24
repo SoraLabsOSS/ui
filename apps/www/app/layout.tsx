@@ -1,14 +1,11 @@
 import { Toaster } from "@workspace/ui/components/ui/sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import { RootProvider } from "fumadocs-ui/provider";
-import { ArrowRightIcon } from "lucide-react";
 import { MotionConfig } from "motion/react";
 
 import "./globals.css";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { Suspense } from "react";
 import type { ReactNode } from "react";
 
 import { DeferredAnalytics } from "@/components/analytics-deferred";
@@ -133,20 +130,6 @@ export default function Layout({ children }: { children: ReactNode }) {
           // 'screenshot-mode',
         )}
       >
-        <Suspense fallback={null}>
-          <p className="max-w-2xl text-center text-xs leading-normal sm:text-sm">
-            <span>
-              The remote MCP server is temporarily paused due to usage limits.
-            </span>{" "}
-            <Link
-              className="inline-flex items-center gap-1 font-semibold whitespace-nowrap underline underline-offset-4 hover:opacity-80"
-              href="/docs/mcp"
-            >
-              <span>Learn more</span>
-              <ArrowRightIcon className="size-3" />
-            </Link>
-          </p>
-        </Suspense>
         <MotionConfig reducedMotion="user">
           <GlobalCursorToggle />
           <CommandPaletteGroupsProvider groups={commandGroups}>
