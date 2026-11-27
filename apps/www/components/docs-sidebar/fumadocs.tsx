@@ -219,12 +219,6 @@ function GuideBottomMenu({
         label="Blocks"
         onClick={onNavigate}
       />
-      <DocsShellNavItem
-        href="/blog"
-        isActive={pathname === "/blog" || pathname.startsWith("/blog/")}
-        label="Blog"
-        onClick={onNavigate}
-      />
       {isAuthEnabled() &&
         AUTH_MENU_LINKS.map((item) => (
           <SkeletonTransition

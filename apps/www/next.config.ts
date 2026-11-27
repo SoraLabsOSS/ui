@@ -195,14 +195,6 @@ const nextConfig: NextConfig = {
         source: "/ui.md",
         destination: "/llms-ui.mdx",
       },
-      {
-        source: "/blog/:path*.mdx",
-        destination: "/llms-blog.mdx/:path*",
-      },
-      {
-        source: "/blog/:path*.md",
-        destination: "/llms-blog.mdx/:path*",
-      },
     ];
   },
   async redirects() {

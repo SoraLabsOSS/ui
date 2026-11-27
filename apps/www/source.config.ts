@@ -1,5 +1,4 @@
 import {
-  defineCollections,
   defineConfig,
   defineDocs,
   frontmatterSchema,
@@ -121,29 +120,6 @@ export const motion = defineDocs({
   },
   meta: {
     schema: metaSchema,
-  },
-});
-
-/** Blog posts — served at `/blog/*`. */
-export const blog = defineCollections({
-  type: "doc",
-  dir: "content/blog",
-  schema: frontmatterSchema.extend({
-    author: z.string(),
-    date: z.iso.date().or(z.date()),
-    image: z.string().optional(),
-    hashtags: z.array(z.string().startsWith("#")).optional(),
-    /** Optional OG image hook; falls back to `description` when omitted. */
-    ogSubtitle: z.string().optional(),
-    flags: z.array(z.string()).optional(),
-    subpage: z.boolean().optional(),
-    hidden: z.boolean().optional(),
-  }),
-  postprocess: {
-    includeProcessedMarkdown: true,
-    // remark-reading-time writes to vfile.data; per-collection postprocess is
-    // what actually reaches remarkPostprocess — the global mdxOptions one doesn't.
-    valueToExport: ["readingTime"],
   },
 });
 

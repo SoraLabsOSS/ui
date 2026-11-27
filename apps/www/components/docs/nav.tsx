@@ -63,7 +63,7 @@ interface NavItem {
 
 const BASE_NAV_ITEMS: NavItem[] = [{ title: "Docs", url: DOCS_GUIDE_URL }];
 
-const RESOURCE_NAV_ITEMS: NavItem[] = [{ title: "Blog", url: "/blog" }];
+const RESOURCE_NAV_ITEMS: NavItem[] = [];
 
 interface LibraryNavItem extends NavItem {
   /** Renders the item dimmed, non-interactive, with a "Soon" badge. */

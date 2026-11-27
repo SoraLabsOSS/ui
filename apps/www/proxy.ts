@@ -7,7 +7,6 @@ const MOTION_PATH_RE = /^\/(?:motion|primitives)(?:\/(.+))?$/;
 const ICONS_PATH_RE = /^\/icons(?:\/(.+))?$/;
 const BLOCKS_PATH_RE = /^\/(?:blocks|components)\/(.+)$/;
 const UI_PATH_RE = /^\/ui(?:\/(.+))?$/;
-const BLOG_PATH_RE = /^\/blog\/(.+)$/;
 const MD_EXT_RE = /\.(mdx|md)$/;
 
 function rewriteMarkdownPath(pathname: string): string | null {
@@ -40,11 +39,6 @@ function rewriteMarkdownPath(pathname: string): string | null {
   if (uiMatch) {
     const rest = uiMatch[1];
     return rest ? `/llms-ui.mdx/${rest}` : "/llms-ui.mdx";
-  }
-
-  const blogMatch = clean.match(BLOG_PATH_RE);
-  if (blogMatch) {
-    return `/llms-blog.mdx/${blogMatch[1]}`;
   }
 
   return null;
@@ -88,7 +82,7 @@ export const config = {
     "/settings",
     "/settings/:path*",
     "/(docs|ui|motion|primitives|icons)/:path*.(md|mdx)",
-    "/(blocks|components|blog)/:path+.(md|mdx)",
+    "/(blocks|components)/:path+.(md|mdx)",
     {
       source: "/docs",
       has: [
@@ -201,16 +195,6 @@ export const config = {
     },
     {
       source: "/ui/:path*",
-      has: [
-        {
-          type: "header",
-          key: "accept",
-          value: ".*text/(markdown|plain).*",
-        },
-      ],
-    },
-    {
-      source: "/blog/:path+",
       has: [
         {
           type: "header",

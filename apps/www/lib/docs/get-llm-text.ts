@@ -1,6 +1,5 @@
 import type { InferPageType } from "fumadocs-core/source";
 
-import type { blog } from "@/lib/blog/source";
 import { expandLlmMarkdown } from "@/lib/docs/expand-llm-markdown";
 import type { source } from "@/lib/docs/source";
 import type { componentSource } from "@/lib/registry/component-source";
@@ -9,8 +8,7 @@ import type { uiSource } from "@/lib/ui/source";
 type LLMPage =
   | InferPageType<typeof source>
   | InferPageType<typeof componentSource>
-  | InferPageType<typeof uiSource>
-  | InferPageType<typeof blog>;
+  | InferPageType<typeof uiSource>;
 
 const FRONTMATTER_RE = /^---[\s\S]*?---\s*/;
 const TITLE_RE = /^title:\s*["']?([^"'\n]+)["']?/m;

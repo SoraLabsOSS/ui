@@ -58,7 +58,6 @@ export const NAV_PRODUCTS = {
 export const NAV_EXPLORE: NavItem[] = [
   { label: "Documentation", href: "/docs" },
   { label: "Blocks Layouts", href: "/blocks" },
-  { label: "Blog", href: "/blog" },
   { label: "Pricing", href: "/pricing" },
 ];
 
@@ -111,7 +110,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
         href: COMMUNITY_DISCUSSIONS_URL,
         external: true,
       },
-      { label: "Blog", href: "/blog" },
       { label: "Pricing", href: "/pricing" },
       { label: "Report an Issue", href: COMMUNITY_ISSUES_URL, external: true },
       { label: "Support", href: `mailto:${CONTACT_EMAIL}`, external: true },

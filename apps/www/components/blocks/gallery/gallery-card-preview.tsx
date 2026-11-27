@@ -3,11 +3,11 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
-import { BlogOgImage } from "@/components/blog/blog-og-image";
 import type { ComponentGalleryCardPreview } from "@/lib/registry/types";
 import { Skeleton } from "@/registry/primitives/effects/skeleton";
 
 import { GalleryCardThumbnail } from "./gallery-card-thumbnail";
+import { BlogOgImage } from "./gallery-poster-image";
 
 const VIDEO_READY_STATE = 3;
 

@@ -3,7 +3,6 @@ import { cache } from "react";
 import { baseOptions } from "@/app/layout.config";
 import motionMeta from "@/content/motion/meta.json";
 import uiMeta from "@/content/ui/meta.json";
-import { blog } from "@/lib/blog/source";
 import { getFirstPrimitiveDocUrl } from "@/lib/docs/get-first-primitive-doc-url";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
@@ -229,33 +228,6 @@ function getIconItems(): CommandPaletteItem[] {
   return icons;
 }
 
-function getBlogItems(): CommandPaletteItem[] {
-  const posts: CommandPaletteItem[] = [];
-
-  for (const page of blog.getPages()) {
-    if (page.data.hidden || page.data.subpage) {
-      continue;
-    }
-
-    posts.push(
-      item({
-        id: `blog-${page.url}`,
-        label: page.data.title,
-        hint: "Blog",
-        href: page.url,
-        icon: "book",
-        path: page.url,
-        keywords: [
-          ...(page.data.description ? [page.data.description] : []),
-          ...(page.data.hashtags ?? []),
-        ],
-      })
-    );
-  }
-
-  return posts;
-}
-
 export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
   const primitivesUrl = getFirstPrimitiveDocUrl();
   const uiUrl = getFirstUiDocUrl();
@@ -304,13 +276,6 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
       path: "/blocks",
     }),
     item({
-      id: "page-blog",
-      label: "Blog",
-      href: "/blog",
-      icon: "book",
-      path: "/blog",
-    }),
-    item({
       id: "page-pricing",
       label: "Pricing",
       href: "/pricing",
@@ -324,7 +289,6 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
   const uiPages = getUiItems();
   const components = getComponentItems();
   const iconPages = getIconItems();
-  const blogPosts = getBlogItems();
 
   const groups: CommandPaletteGroup[] = [
     { id: "navigation", label: "Navigation", items: navigation },
@@ -352,10 +316,6 @@ export const getCommandPaletteGroups = cache((): CommandPaletteGroup[] => {
 
   if (iconPages.length > 0) {
     groups.push({ id: "icons", label: "Icons", items: iconPages });
-  }
-
-  if (blogPosts.length > 0) {
-    groups.push({ id: "blog", label: "Blog", items: blogPosts });
   }
 
   return groups;

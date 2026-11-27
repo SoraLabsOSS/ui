@@ -13,6 +13,35 @@ import {
 
 <Changelog>
 
+<ChangelogItem date="2026-11-27">
+  <ChangelogItemVersion>
+
+## `@soralabs/mcp` via `npx` & Docs Cleanup
+
+  </ChangelogItemVersion>
+
+<ChangelogItemTitle>
+  Standalone MCP Package (`@soralabs/mcp`)
+</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Published `@soralabs/mcp` to npm**: Released the official Sora UI MCP server (`v0.1.0`) as a standalone STDIO package runnable via `npx -y @soralabs/mcp` with zero hosting or API key required, while still fetching live documentation and registry metadata from `ui.soralabs.studio`.
+- **Updated MCP Docs & Cursor Deeplink** ([`/docs/mcp`](/docs/mcp)): Removed the remote server pause notice and updated setup instructions and the one-click **Add to Cursor** deeplink to use `npx -y @soralabs/mcp` across Cursor, Claude Code, and Claude Desktop.
+
+</ChangelogItemDescription>
+
+<ChangelogItemTitle>LLM Exports & Site Focus</ChangelogItemTitle>
+
+<ChangelogItemDescription>
+
+- **Expanded Index `.mdx` Exports**: Fixed `/motion.mdx`, `/ui.mdx`, and `/icons.mdx` LLM markdown endpoints to expand index components into full categorized Markdown lists with descriptions and `.mdx` links.
+- **Removed Built-in Blog**: Removed the `/blog` routes, search entries, and navigation links from `apps/www` to keep the site lighter and focused on Docs, Motion, Icons, Blocks, and UI.
+
+</ChangelogItemDescription>
+
+</ChangelogItem>
+
 <ChangelogItem date="2026-09-17" major>
   <ChangelogItemVersion>
 
@@ -45,7 +74,6 @@ import {
 <ChangelogItemDescription>
 
 - **Tilt Slide Transition** (`/blocks/tilt-slide-transition`): Shipped multi-page editorial portfolio transition with tilted scaling exit, diagonal clip-path entrance, and GSAP SplitText character reveals using the View Transition API and Lenis.
-- **Engineering Deep-Dive**: Published [Tilt Slide Page Transition](/blog/tilt-slide-page-transition-view-transitions) exploring native View Transitions, clip-path trigonometry, and smooth scrolling synchronization.
 - **Blocks Experience Polish**: Upgraded showcase preview cards to a 16:9 aspect ratio, centered gallery hero, refined mobile drawer heights, and polished docs typography and container list bounds.
 
 </ChangelogItemDescription>
@@ -131,7 +159,7 @@ import {
 
 <ChangelogItemDescription>
 
-- **WebGL Dither Page Transition**: Shipped high-performance native WebGL dither shader transition ([deep-dive blog post](/blog/dither-page-transition-webgl)) with custom canvas rendering.
+- **WebGL Dither Page Transition**: Shipped high-performance native WebGL dither shader transition with custom canvas rendering.
 - **Zero-Rerender Typer Engine**: Re-engineered page transition typography HUD with a direct DOM mutation engine, guaranteeing 120 FPS transitions with zero React re-renders.
 - **Frame-Drop Elimination**: Integrated React 19 `startTransition` and route prefetching to await route mount before transition exit, eliminating white flashes and layout drops.
 - **Site-Wide Lenis Smooth Scroll**: Unified marketing and docs navigation with Lenis smooth scroll and interactive 3D button hover dynamics (`useButton3DHover`).
@@ -243,7 +271,7 @@ import {
 
 - Shipped internal contributor CLI (`packages/www-cli`) to scaffold Motion primitives and UI components from monorepo root via `bun run create`, `bun run create:primitive`, and `bun run create:ui`.
 - Added non-interactive flags for CI and agents: `--yes`, `--no-input`, `--dry-run`, `--quiet`, and `--no-color` ([clig.dev](https://clig.dev/) aligned).
-- Read more: [Making Sora UI Easier to Contribute To](/blog/making-sora-ui-easier-to-contribute-to) and [CONTRIBUTING.md](https://github.com/SoraLabsOSS/ui/blob/main/CONTRIBUTING.md).
+- Read more: [CONTRIBUTING.md](https://github.com/SoraLabsOSS/ui/blob/main/CONTRIBUTING.md).
 
 </ChangelogItemDescription>
 

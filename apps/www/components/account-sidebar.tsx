@@ -122,13 +122,6 @@ const ACCOUNT_MENU_ITEMS = [
     label: "Blocks",
     requiresAuth: false,
   },
-  {
-    getHref: () => "/blog",
-    getIsActive: (pathname: string, href: string) =>
-      pathname === href || pathname.startsWith(`${href}/`),
-    label: "Blog",
-    requiresAuth: false,
-  },
   ...(isAuthEnabled()
     ? AUTH_MENU_LINKS.map((link) => ({
         getHref: (_primitivesUrl: string) => link.url,

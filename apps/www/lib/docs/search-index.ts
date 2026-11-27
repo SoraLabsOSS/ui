@@ -2,7 +2,6 @@ import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
 import type { AdvancedIndex } from "fumadocs-core/search/server";
 import type { InferPageType } from "fumadocs-core/source";
 
-import { blog } from "@/lib/blog/source";
 import { staticContentCacheLife } from "@/lib/cache-life";
 import { source } from "@/lib/docs/source";
 import { iconsSource } from "@/lib/icons/source";
@@ -16,14 +15,9 @@ type SearchablePage =
   | InferPageType<typeof motionSource>
   | InferPageType<typeof iconsSource>
   | InferPageType<typeof componentSource>
-  | InferPageType<typeof uiSource>
-  | InferPageType<typeof blog>;
+  | InferPageType<typeof uiSource>;
 
 function getSearchTag(page: SearchablePage): string {
-  if (page.url === "/blog" || page.url.startsWith("/blog/")) {
-    return "blog";
-  }
-
   if (page.url === "/ui" || page.url.startsWith("/ui/")) {
     return "ui";
   }
@@ -74,9 +68,6 @@ export function getSearchablePages(): SearchablePage[] {
   const iconsPages = iconsSource.getPages();
   const componentPages = componentSource.getPages();
   const uiPages = uiSource.getPages();
-  const blogPages = blog
-    .getPages()
-    .filter((page) => !(page.data.hidden || page.data.subpage));
 
   return [
     ...docPages,
@@ -84,7 +75,6 @@ export function getSearchablePages(): SearchablePage[] {
     ...iconsPages,
     ...uiPages,
     ...componentPages,
-    ...blogPages,
   ];
 }
 

@@ -3,11 +3,10 @@ import path from "node:path";
 
 import { loader } from "fumadocs-core/source";
 import type { InferPageType } from "fumadocs-core/source";
-import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import Slugger from "github-slugger";
 import type { FileObject, scanURLs } from "next-validate-link";
 
-import { blog, blocks, docs, icons, motion, ui } from "@/.source";
+import { blocks, docs, icons, motion, ui } from "@/.source";
 import { buildDocRedirects } from "@/lib/docs/build-doc-redirects";
 
 export const docSource = loader({
@@ -37,24 +36,12 @@ export const uiSourceForLinks = loader({
   source: ui.toFumadocsSource(),
 });
 
-export const blogSource = loader({
-  baseUrl: "/blog",
-  source: toFumadocsSource(blog, []),
-});
-
 type DocPage = InferPageType<typeof docSource>;
 type MotionPage = InferPageType<typeof motionSourceForLinks>;
 type IconPage = InferPageType<typeof iconsSourceForLinks>;
 type ComponentPage = InferPageType<typeof componentSource>;
 type UiPage = InferPageType<typeof uiSourceForLinks>;
-type BlogPage = InferPageType<typeof blogSource>;
-type ContentPage =
-  | DocPage
-  | MotionPage
-  | IconPage
-  | ComponentPage
-  | UiPage
-  | BlogPage;
+type ContentPage = DocPage | MotionPage | IconPage | ComponentPage | UiPage;
 
 const appRoot = path.resolve(import.meta.dirname, "../..");
 
@@ -120,7 +107,6 @@ export function getAllContentFiles(): Promise<FileObject[]> {
     ...iconsSourceForLinks.getPages(),
     ...componentSource.getPages(),
     ...uiSourceForLinks.getPages(),
-    ...blogSource.getPages(),
   ];
 
   return Promise.all(pages.map((page) => toFileObject(page)));
@@ -138,10 +124,6 @@ export function buildPopulate() {
     })),
     "icons/[[...slug]]": iconsSourceForLinks.getPages().map((page) => ({
       value: { slug: page.slugs },
-      hashes: getHeadings(page),
-    })),
-    "blog/[slug]": blogSource.getPages().map((page) => ({
-      value: { slug: page.slugs[0] },
       hashes: getHeadings(page),
     })),
     "blocks/[slug]": componentSource.getPages().map((page) => ({
@@ -164,7 +146,6 @@ function registerContentPages(scanned: ScannedUrls): void {
     ...iconsSourceForLinks.getPages(),
     ...componentSource.getPages(),
     ...uiSourceForLinks.getPages(),
-    ...blogSource.getPages(),
   ];
 
   for (const page of pages) {
@@ -174,9 +155,7 @@ function registerContentPages(scanned: ScannedUrls): void {
 
 export function augmentScannedUrls(scanned: ScannedUrls): void {
   registerContentPages(scanned);
-  scanned.urls.set("/blog", {});
   scanned.urls.set("/blocks", {});
-  scanned.urls.set("/blog/rss.xml", {});
   scanned.urls.set("/llms.txt", {});
   scanned.urls.set("/llms-full.txt", {});
   scanned.urls.set("/components", {});
