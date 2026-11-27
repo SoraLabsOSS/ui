@@ -200,6 +200,26 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/blog",
+        destination: "https://soralabs.studio/blog",
+        permanent: true,
+      },
+      {
+        source: "/blog.mdx",
+        destination: "https://soralabs.studio/blog.mdx",
+        permanent: true,
+      },
+      {
+        source: "/blog.md",
+        destination: "https://soralabs.studio/blog.mdx",
+        permanent: true,
+      },
+      {
+        source: "/blog/:path*",
+        destination: "https://soralabs.studio/blog/:path*",
+        permanent: true,
+      },
+      {
         source: "/catalog",
         destination: "/blocks",
         permanent: true,
