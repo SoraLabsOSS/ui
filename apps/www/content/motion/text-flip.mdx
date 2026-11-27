@@ -1,0 +1,116 @@
+---
+title: Text Flip
+description: Per-character 3D vertical flip on hover with staggered timing and reduced-motion support, powered by Motion. React.
+---
+
+<ComponentPreview
+  name="text-flip"
+  description="Text link or label whose characters flip vertically in 3D when hovered."
+/>
+
+## Installation
+
+<ComponentInstallation name="text-flip" />
+
+## Usage
+
+```tsx
+import { TextFlip } from "@/components/sora-ui/texts/text-flip";
+
+export default function Page() {
+  return (
+    <TextFlip
+      className="font-semibold text-sm uppercase tracking-tight"
+      text="HELLO@SORALABS.STUDIO"
+    />
+  );
+}
+```
+
+Render as an anchor link and reverse the flip direction:
+
+```tsx
+<TextFlip
+  as="a"
+  href="mailto:hello@soralabs.studio"
+  reverse
+  text="HELLO@SORALABS.STUDIO"
+/>
+```
+
+Keep the flipped state on mouse leave instead of flipping back:
+
+```tsx
+<TextFlip flipOut={false} stagger={0.04} text="STAY FLIPPED" />
+```
+
+## Props
+
+<TypeTable
+  type={{
+    text: {
+      description: "Text to animate.",
+      type: "string",
+      required: true,
+    },
+    stagger: {
+      description: "Per-character stagger delay in seconds.",
+      type: "number",
+      default: "0.03",
+    },
+    duration: {
+      description:
+        "Flip animation duration in seconds (ignored if `transition` is provided).",
+      type: "number",
+      default: "0.5",
+    },
+    depth: {
+      description: "CSS `perspective` depth in pixels.",
+      type: "number",
+      default: "800",
+    },
+    zOffset: {
+      description: "Z-axis offset of front/back glyph faces for 3D separation.",
+      type: "number | string",
+      default: '"0.1em"',
+    },
+    flipOut: {
+      description: "Flip back when the pointer leaves.",
+      type: "boolean",
+      default: "true",
+    },
+    reverse: {
+      description: "Reverse the X-axis rotation direction.",
+      type: "boolean",
+      default: "false",
+    },
+    transition: {
+      description:
+        "Custom Motion transition overriding `duration` and default easing.",
+      type: "Transition",
+    },
+    as: {
+      description:
+        "Render as a different element or component instead of `span`.",
+      type: "React.ElementType",
+      default: '"span"',
+    },
+    href: {
+      description:
+        'Optional link URL when `as` is `"a"` (or passed through to the rendered element).',
+      type: "string",
+    },
+    className: {
+      description: "Class names on the root element.",
+      type: "string",
+    },
+  }}
+/>
+
+## When to Use
+
+Use `TextFlip` for interactive links, nav items, and footer contacts where a tactile per-character 3D flip reinforces hover feedback without shifting layout. It differs from [Rolling Text](/motion/rolling-text), which plays a one-time scroll-triggered slot reveal, and [Text Roll](/motion/text-roll), which transitions between changing string values.
+
+## Accessibility
+
+The full string is exposed via `aria-label` on the root element while the per-character 3D glyph spans are marked `aria-hidden`, so screen readers announce the text cleanly once. When `prefers-reduced-motion: reduce` is enabled, `TextFlip` skips the 3D flip and renders static text.

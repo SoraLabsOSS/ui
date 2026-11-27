@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-flip",
+  "title": "Text Flip",
+  "description": "Per-character 3D vertical flip on hover with staggered timing and reduced-motion support, powered by Motion.",
+  "dependencies": ["motion"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/primitives/texts/text-flip/index.tsx",
+      "content": "\"use client\";\n\nimport { motion, useReducedMotion } from \"motion/react\";\nimport type { MotionProps, Transition } from \"motion/react\";\nimport { useMemo, useRef, useState } from \"react\";\nimport type { ComponentType, ElementType, ReactNode } from \"react\";\n\nconst NBSP = \"\\u00A0\";\nconst WHITESPACE_SPLIT_REGEX = /(\\s+)/;\n\nconst DEFAULT_TRANSITION: Transition = {\n  type: \"tween\",\n  duration: 0.5,\n  ease: [0.65, 0, 0.35, 1],\n};\n\nexport interface TextFlipProps {\n  /** Render as a different element/component instead of `span`. @default \"span\" */\n  as?: ElementType;\n  className?: string;\n  /** CSS `perspective` depth in pixels. @default 800 */\n  depth?: number;\n  /** Flip animation duration in seconds (ignored if `transition` is provided). @default 0.5 */\n  duration?: number;\n  /** Flip back when the pointer leaves. @default true */\n  flipOut?: boolean;\n  /** Optional link URL when `as` is `\"a\"` (or passed through to the rendered element). */\n  href?: string;\n  /** Reverse the X-axis rotation direction. @default false */\n  reverse?: boolean;\n  /** Per-character stagger delay in seconds. @default 0.03 */\n  stagger?: number;\n  /** Text to animate. */\n  text: string;\n  /** Custom Motion transition overriding `duration` and default easing. */\n  transition?: Transition;\n  /** Z-axis offset of front/back glyph faces for 3D separation. @default \"0.1em\" */\n  zOffset?: number | string;\n}\n\nexport function TextFlip({\n  text,\n  as: Component = \"span\",\n  className,\n  depth = 800,\n  duration = 0.5,\n  flipOut = true,\n  href,\n  reverse = false,\n  stagger = 0.03,\n  transition,\n  zOffset = \"0.1em\",\n}: TextFlipProps) {\n  const prefersReducedMotion = useReducedMotion();\n  const [isHovered, setIsHovered] = useState(false);\n  const [isAnimating, setIsAnimating] = useState(false);\n  const [flipCount, setFlipCount] = useState(0);\n  const [prevText, setPrevText] = useState(text);\n  const isHoveredRef = useRef(false);\n\n  if (prevText !== text) {\n    setPrevText(text);\n    setIsAnimating(false);\n  }\n\n  const MotionComponent = useMemo(\n    () =>\n      motion.create(Component as never) as ComponentType<\n        MotionProps & {\n          \"aria-label\"?: string;\n          children?: ReactNode;\n          className?: string;\n          href?: string;\n          onMouseEnter?: () => void;\n          onMouseLeave?: () => void;\n          style?: React.CSSProperties;\n        }\n      >,\n    [Component]\n  );\n\n  const wordGroups = useMemo(() => {\n    const rawWords = String(text).split(WHITESPACE_SPLIT_REGEX).filter(Boolean);\n    const groups: { startIndex: number; word: string }[] = [];\n    let offset = 0;\n    for (const word of rawWords) {\n      groups.push({ word, startIndex: offset });\n      offset += word.length;\n    }\n    return groups;\n  }, [text]);\n\n  if (prefersReducedMotion) {\n    return (\n      <Component className={className} href={href}>\n        {text}\n      </Component>\n    );\n  }\n\n  const totalChars = String(text).length;\n  const directionMultiplier = reverse ? 1 : -1;\n  const resolvedTransition: Transition = transition ?? {\n    ...DEFAULT_TRANSITION,\n    duration,\n  };\n  const resolvedZOffset =\n    typeof zOffset === \"number\" ? `${zOffset}px` : zOffset;\n\n  const targetRotation = flipCount * 180 * directionMultiplier;\n\n  const handleMouseEnter = () => {\n    isHoveredRef.current = true;\n    setIsHovered(true);\n    if (!isAnimating && totalChars > 0) {\n      setIsAnimating(true);\n      setFlipCount((count) => count + 1);\n    }\n  };\n\n  const handleMouseLeave = () => {\n    isHoveredRef.current = false;\n    setIsHovered(false);\n    if (flipOut && !isAnimating && flipCount % 2 === 1 && totalChars > 0) {\n      setIsAnimating(true);\n      setFlipCount((count) => count + 1);\n    }\n  };\n\n  const handleLastCharComplete = () => {\n    if (flipOut && !isHoveredRef.current && flipCount % 2 === 1) {\n      setFlipCount((count) => count + 1);\n      return;\n    }\n    setIsAnimating(false);\n  };\n\n  return (\n    <MotionComponent\n      aria-label={text}\n      className={className}\n      href={href}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      style={{\n        display: \"inline-flex\",\n        flexWrap: \"wrap\",\n        alignItems: \"center\",\n        perspective: depth,\n        transformStyle: \"preserve-3d\",\n      }}\n    >\n      {wordGroups.map(({ word, startIndex }, wordIndex) => (\n        <span\n          aria-hidden=\"true\"\n          // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- static per-render word list, order never changes\n          key={`${word}-${wordIndex}`}\n          style={{\n            display: \"inline-flex\",\n            whiteSpace: \"nowrap\",\n            transformStyle: \"preserve-3d\",\n          }}\n        >\n          {word.split(\"\").map((char, charOffset) => {\n            const charIndex = startIndex + charOffset;\n            const isLast = charIndex === totalChars - 1;\n            const glyph = char.trim() === \"\" ? NBSP : char;\n\n            return (\n              <motion.span\n                animate={{\n                  rotateX: targetRotation,\n                }}\n                initial={false}\n                // oxlint-disable-next-line react/no-array-index-key, react-doctor/no-array-index-as-key -- static per-render character list, order never changes\n                key={`${wordIndex}-${charOffset}`}\n                onAnimationComplete={\n                  isLast ? handleLastCharComplete : undefined\n                }\n                style={{\n                  position: \"relative\",\n                  display: \"inline-block\",\n                  transformStyle: \"preserve-3d\",\n                  willChange: isHovered ? \"transform\" : undefined,\n                }}\n                transition={{\n                  ...resolvedTransition,\n                  delay: charIndex * stagger,\n                }}\n              >\n                <span\n                  style={{\n                    position: \"relative\",\n                    display: \"inline-block\",\n                    backfaceVisibility: \"hidden\",\n                    transform: `translateZ(${resolvedZOffset})`,\n                  }}\n                >\n                  {glyph}\n                </span>\n                <span\n                  style={{\n                    position: \"absolute\",\n                    top: 0,\n                    left: 0,\n                    display: \"inline-block\",\n                    backfaceVisibility: \"hidden\",\n                    transform: `rotateX(180deg) translateZ(${resolvedZOffset})`,\n                  }}\n                >\n                  {glyph}\n                </span>\n              </motion.span>\n            );\n          })}\n        </span>\n      ))}\n    </MotionComponent>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/sora-ui/texts/text-flip.tsx"
+    }
+  ],
+  "meta": {
+    "demoProps": {
+      "TextFlip": {
+        "text": {
+          "value": "HELLO@SORALABS.STUDIO"
+        },
+        "stagger": {
+          "value": 0.03,
+          "min": 0,
+          "max": 0.15,
+          "step": 0.005
+        },
+        "duration": {
+          "value": 0.5,
+          "min": 0.1,
+          "max": 1.5,
+          "step": 0.05
+        },
+        "depth": {
+          "value": 800,
+          "min": 200,
+          "max": 2000,
+          "step": 50
+        },
+        "flipOut": {
+          "value": true
+        },
+        "reverse": {
+          "value": false
+        }
+      }
+    }
+  },
+  "type": "registry:ui"
+}

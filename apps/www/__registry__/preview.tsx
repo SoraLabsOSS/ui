@@ -674,6 +674,20 @@ export const previewComponents: Record<string, any> = {
       (functionExportName ? mod[functionExportName] : undefined);
     return { default: Comp };
   }),
+  "text-flip": React.lazy(async () => {
+    const mod = await import("@/registry/primitives/texts/text-flip/index.tsx");
+    const pascalExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+    );
+    const functionExportName = Object.keys(mod).find(
+      (key) => typeof mod[key] === "function"
+    );
+    const Comp =
+      mod.default ||
+      (pascalExportName ? mod[pascalExportName] : undefined) ||
+      (functionExportName ? mod[functionExportName] : undefined);
+    return { default: Comp };
+  }),
   "text-loop": React.lazy(async () => {
     const mod =
       await import("@/registry/demo/primitives/texts/text-loop/index.tsx");

@@ -53,6 +53,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
   "rolling-text": () => import("./sources/rolling-text.json"),
   "text-cursor-loop": () => import("./sources/text-cursor-loop.json"),
   "text-effect": () => import("./sources/text-effect.json"),
+  "text-flip": () => import("./sources/text-flip.json"),
   "text-loop": () => import("./sources/text-loop.json"),
   "text-morph": () => import("./sources/text-morph.json"),
   "text-reveal-block": () => import("./sources/text-reveal-block.json"),
@@ -238,6 +239,7 @@ export const sourceLoaders: Record<string, () => Promise<any>> = {
     import("./sources/demo-draw-underline-link.json"),
   "demo-dual-wipe-reveal": () => import("./sources/demo-dual-wipe-reveal.json"),
   "demo-rolling-text": () => import("./sources/demo-rolling-text.json"),
+  "demo-text-flip": () => import("./sources/demo-text-flip.json"),
   "demo-text-reveal-block": () =>
     import("./sources/demo-text-reveal-block.json"),
   "demo-text-scramble": () => import("./sources/demo-text-scramble.json"),

@@ -2888,6 +2888,75 @@ export const index: Record<string, any> = {
     })(),
     command: "@soralabs/text-effect",
   },
+  "text-flip": {
+    name: "text-flip",
+    description:
+      "Per-character 3D vertical flip on hover with staggered timing and reduced-motion support, powered by Motion.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: [],
+    files: [
+      {
+        path: "registry/primitives/texts/text-flip/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/texts/text-flip.tsx",
+      },
+    ],
+    fileGroups: null,
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: (function component() {
+      const LazyComp = React.lazy(async () => {
+        const mod =
+          await import("@/registry/primitives/texts/text-flip/index.tsx");
+        const demoProps = {
+          TextFlip: {
+            text: { value: "HELLO@SORALABS.STUDIO" },
+            stagger: { value: 0.03, min: 0, max: 0.15, step: 0.005 },
+            duration: { value: 0.5, min: 0.1, max: 1.5, step: 0.05 },
+            depth: { value: 800, min: 200, max: 2000, step: 50 },
+            flipOut: { value: true },
+            reverse: { value: false },
+          },
+        };
+        const demoExportName = Object.keys(demoProps)[0];
+        const pascalExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function" && PASCAL_CASE_RE.test(key)
+        );
+        const functionExportName = Object.keys(mod).find(
+          (key) => typeof mod[key] === "function"
+        );
+        const Comp =
+          mod.default ||
+          (demoExportName ? mod[demoExportName] : undefined) ||
+          (pascalExportName ? mod[pascalExportName] : undefined) ||
+          (functionExportName ? mod[functionExportName] : undefined);
+        if (mod.animations) {
+          (LazyComp as any).animations = mod.animations;
+        }
+        if (mod.supportedStaticAnimations) {
+          (LazyComp as any).supportedStaticAnimations =
+            mod.supportedStaticAnimations;
+        }
+        return { default: Comp };
+      });
+      LazyComp.demoProps = {
+        TextFlip: {
+          text: { value: "HELLO@SORALABS.STUDIO" },
+          stagger: { value: 0.03, min: 0, max: 0.15, step: 0.005 },
+          duration: { value: 0.5, min: 0.1, max: 1.5, step: 0.05 },
+          depth: { value: 800, min: 200, max: 2000, step: 50 },
+          flipOut: { value: true },
+          reverse: { value: false },
+        },
+      };
+      return LazyComp;
+    })(),
+    command: "@soralabs/text-flip",
+  },
   "text-loop": {
     name: "text-loop",
     description:
@@ -10507,6 +10576,28 @@ export const index: Record<string, any> = {
     },
     component: null,
     command: "@soralabs/demo-rolling-text",
+  },
+  "demo-text-flip": {
+    name: "demo-text-flip",
+    description: "Usage example for text-flip.",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    devDependencies: undefined,
+    registryDependencies: ["text-flip"],
+    files: [
+      {
+        path: "registry/demo/primitives/texts/text-flip/index.tsx",
+        type: "registry:ui",
+        target: "components/sora-ui/demo/texts/text-flip.tsx",
+      },
+    ],
+    fileGroups: null,
+    hasSource: true,
+    keywords: [],
+    releaseDate: null,
+    inspiration: null,
+    component: null,
+    command: "@soralabs/demo-text-flip",
   },
   "demo-text-reveal-block": {
     name: "demo-text-reveal-block",
