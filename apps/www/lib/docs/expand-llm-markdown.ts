@@ -1,4 +1,6 @@
 import { index } from "@/__registry__";
+import motionMeta from "@/content/motion/meta.json";
+import uiMeta from "@/content/ui/meta.json";
 import { SITE_URL } from "@/lib/site";
 
 interface RegistryFile {
@@ -66,7 +68,12 @@ const STEP_TAG_RE = /<\/?Step>/g;
 const STEPS_TAG_RE = /<\/?Steps>/g;
 const CALLOUT_TAG_RE = /<\/?Callout(?:\s+[^>]*)?>/g;
 const GENERIC_STRIP_TAGS_RE =
-  /<\/?(?:AddToCursorButton|RoadmapTimeline|Icons|IconsFallback|PrimitivesIndex|UiIndex|InstallationFileStructure|Suspense)(?:\s+[^>]*)?>/g;
+  /<\/?(?:AddToCursorButton|RoadmapTimeline|IconsFallback|InstallationFileStructure)(?:\s+[^>]*)?>/g;
+const SUSPENSE_TAG_RE = /<\/?Suspense(?:\s+fallback=\{[^}]*\})?\s*>/g;
+const PRIMITIVES_INDEX_RE = /<PrimitivesIndex(?:\s+[^>]*)?\/>/g;
+const UI_INDEX_RE = /<UiIndex(?:\s+[^>]*)?\/>/g;
+const ICONS_INDEX_RE = /<Icons(?:\s+[^>]*)?\/>/g;
+const META_SECTION_RE = /^---(.+)---$/;
 
 const HEADING_TAG_RE = /<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi;
 const HTML_TAG_RE = /<[^>]+>/g;
@@ -371,6 +378,77 @@ function expandCodeTabs(block: string, lang = "bash"): string {
     .join("\n\n")}\n\`\`\``;
 }
 
+function formatSlugTitle(slug: string): string {
+  const leaf = slug.split("/").pop() ?? slug;
+  if (leaf === "rtl") {
+    return "RTL";
+  }
+  return leaf
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function expandMetaIndex(
+  pages: string[],
+  basePath: string,
+  resolveRegistryKey: (slug: string) => string
+): string {
+  const lines: string[] = [];
+  for (const entry of pages) {
+    const sectionMatch = entry.match(META_SECTION_RE);
+    if (sectionMatch) {
+      if (lines.length > 0) {
+        lines.push("");
+      }
+      lines.push(`## ${sectionMatch[1].trim()}`);
+      continue;
+    }
+
+    const regKey = resolveRegistryKey(entry);
+    const regEntry = index[regKey] as RegistryEntry & {
+      description?: string;
+    };
+    const title = formatSlugTitle(entry);
+    const desc = regEntry?.description?.trim()
+      ? `: ${regEntry.description.trim()}`
+      : "";
+    lines.push(`- [${title}](${SITE_URL}${basePath}/${entry}.mdx)${desc}`);
+  }
+  return lines.join("\n");
+}
+
+function expandPrimitivesIndex(): string {
+  return expandMetaIndex(motionMeta.pages, "/motion", (slug) => slug);
+}
+
+function expandUiIndex(): string {
+  return expandMetaIndex(uiMeta.pages, "/ui", (slug) => slug.replace("/", "-"));
+}
+
+function expandIconsIndex(): string {
+  const icons = (
+    Object.values(index) as (RegistryEntry & {
+      description?: string;
+      name: string;
+    })[]
+  )
+    .filter(
+      (item) => item.name.startsWith("icons-") && item.name !== "icons-icon"
+    )
+    .toSorted((a, b) => a.name.localeCompare(b.name));
+
+  return icons
+    .map((item) => {
+      const shortName = item.name.replace("icons-", "");
+      const desc = item.description?.trim()
+        ? `: ${item.description.trim()}`
+        : "";
+      return `- \`${shortName}\` (\`@soralabs/${item.name}\`)${desc}`;
+    })
+    .join("\n");
+}
+
 function expandCards(block: string): string {
   const cardChunks = block.split(CARD_CHUNK_SPLIT_RE).slice(1);
   const items: string[] = [];
@@ -422,6 +500,10 @@ export function expandLlmMarkdown(content: string): string {
     .replaceAll(STEPS_TAG_RE, "")
     .replaceAll(STEP_TAG_RE, "")
     .replaceAll(CALLOUT_TAG_RE, "")
+    .replaceAll(PRIMITIVES_INDEX_RE, () => expandPrimitivesIndex())
+    .replaceAll(UI_INDEX_RE, () => expandUiIndex())
+    .replaceAll(ICONS_INDEX_RE, () => expandIconsIndex())
+    .replaceAll(SUSPENSE_TAG_RE, "")
     .replaceAll(GENERIC_STRIP_TAGS_RE, "");
 
   const inlineCodes: string[] = [];

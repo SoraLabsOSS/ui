@@ -76,11 +76,8 @@ function buildScrambledText(
       continue;
     }
 
-    if (i < revealedLength) {
-      scrambled += source[i];
-    } else {
-      scrambled += randomScrambleChar(characterSet);
-    }
+    scrambled +=
+      i < revealedLength ? source[i] : randomScrambleChar(characterSet);
   }
 
   return scrambled;

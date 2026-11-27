@@ -208,13 +208,10 @@ export const redisSecondaryStorage: SecondaryStorage = {
       const stringValue =
         typeof value === "string" ? value : JSON.stringify(value);
 
-      if (typeof ttl === "number" && ttl > 0) {
-        await getRedis().set(key, stringValue, { ex: ttl });
-      } else {
-        // Intentional bounded cache TTL.
-        // Durable auth records are stored in Postgres via storeSessionInDatabase/storeInDatabase.
-        await getRedis().set(key, stringValue, { ex: 7 * 24 * 60 * 60 });
-      }
+      // Intentional bounded cache TTL.
+      // Durable auth records are stored in Postgres via storeSessionInDatabase/storeInDatabase.
+      const ex = typeof ttl === "number" && ttl > 0 ? ttl : 7 * 24 * 60 * 60;
+      await getRedis().set(key, stringValue, { ex });
     } catch (error) {
       captureRedisFailOpen("set", error);
     }

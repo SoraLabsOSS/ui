@@ -448,32 +448,30 @@ export function StickyScrollCards({
 
         const useWindowPin = isWindowScroller(scroller);
 
-        if (embedded) {
-          trigger = ScrollTrigger.create({
-            end: "bottom bottom",
-            invalidateOnRefresh: true,
-            onUpdate: (self) => onUpdate(self.progress),
-            refreshPriority: -1,
-            scroller,
-            scrub: 1,
-            start: "top top",
-            trigger: scrollRoot,
-          });
-        } else {
-          trigger = ScrollTrigger.create({
-            end: `+=${totalScrollVh}vh`,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => onUpdate(self.progress),
-            pin: true,
-            pinReparent: !useWindowPin,
-            pinSpacing: true,
-            refreshPriority,
-            scroller,
-            scrub: 1,
-            start: "top top",
-            trigger: section,
-          });
-        }
+        trigger = embedded
+          ? ScrollTrigger.create({
+              end: "bottom bottom",
+              invalidateOnRefresh: true,
+              onUpdate: (self) => onUpdate(self.progress),
+              refreshPriority: -1,
+              scroller,
+              scrub: 1,
+              start: "top top",
+              trigger: scrollRoot,
+            })
+          : ScrollTrigger.create({
+              end: `+=${totalScrollVh}vh`,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => onUpdate(self.progress),
+              pin: true,
+              pinReparent: !useWindowPin,
+              pinSpacing: true,
+              refreshPriority,
+              scroller,
+              scrub: 1,
+              start: "top top",
+              trigger: section,
+            });
 
         if (scroller instanceof HTMLElement) {
           resizeObserver = new ResizeObserver(() => {

@@ -760,36 +760,34 @@ export function ScrollGallery({
           lastImageProgress = imageProgress;
         };
 
-        if (embedded) {
-          trigger = ScrollTrigger.create({
-            trigger: scrollRoot,
-            scroller,
-            start: "top top",
-            end: "bottom bottom",
-            scrub,
-            invalidateOnRefresh: true,
-            refreshPriority: -1,
-            onUpdate: (self) => {
-              handleScrollUpdate(self.progress);
-            },
-          });
-        } else {
-          trigger = ScrollTrigger.create({
-            trigger: section,
-            scroller,
-            start: pinStart,
-            end: `+=${totalScrollDistance}vh`,
-            pin: true,
-            pinReparent: !useWindowPin,
-            pinSpacing: true,
-            scrub,
-            invalidateOnRefresh: true,
-            refreshPriority,
-            onUpdate: (self) => {
-              handleScrollUpdate(self.progress);
-            },
-          });
-        }
+        trigger = embedded
+          ? ScrollTrigger.create({
+              trigger: scrollRoot,
+              scroller,
+              start: "top top",
+              end: "bottom bottom",
+              scrub,
+              invalidateOnRefresh: true,
+              refreshPriority: -1,
+              onUpdate: (self) => {
+                handleScrollUpdate(self.progress);
+              },
+            })
+          : ScrollTrigger.create({
+              trigger: section,
+              scroller,
+              start: pinStart,
+              end: `+=${totalScrollDistance}vh`,
+              pin: true,
+              pinReparent: !useWindowPin,
+              pinSpacing: true,
+              scrub,
+              invalidateOnRefresh: true,
+              refreshPriority,
+              onUpdate: (self) => {
+                handleScrollUpdate(self.progress);
+              },
+            });
 
         if (scroller instanceof HTMLElement) {
           resizeObserver = new ResizeObserver(() => {

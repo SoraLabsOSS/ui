@@ -40,7 +40,6 @@ export default defineConfig({
     "react/memo-dependencies": "off",
     "promise/prefer-await-to-callbacks": "off",
     "react/hook-use-state": "off",
-    "unicorn/prefer-ternary": "off",
 
     "anti-slop/require-readable-spacing": "off",
     "anti-slop/no-runtime-typeof": "off",
@@ -49,8 +48,8 @@ export default defineConfig({
     "anti-slop/no-known-value-widening": "off",
     "anti-slop/no-shape-in-symbol-names": "off",
 
-    "eslint/class-methods-use-this": "off",
-    "eslint/max-classes-per-file": ["error", { max: 2 }],
+    "class-methods-use-this": "off",
+    "max-classes-per-file": ["error", { max: 2 }],
     "oxc/no-barrel-file": "off",
     "react/globals": "off",
     "react/no-clone-element": "off",

@@ -149,14 +149,10 @@ export function deepmerge<T>(target: T, source: DeepPartial<T>): T {
         continue; // skip undefineds
       }
 
-      if (key in target) {
-        result[key] = deepmerge(
-          (target as Record<string, unknown>)[key],
-          value as never
-        );
-      } else {
-        result[key] = value;
-      }
+      result[key] =
+        key in target
+          ? deepmerge((target as Record<string, unknown>)[key], value as never)
+          : value;
     }
 
     return result as T;

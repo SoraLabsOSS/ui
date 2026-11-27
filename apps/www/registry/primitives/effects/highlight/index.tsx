@@ -565,8 +565,8 @@ export function Highlight<T extends string = string>({
   }, [droppedPropKeys, mode]);
   let renderedChildren: ReactNode = children;
   if (enabled) {
-    if (mode === "parent") {
-      renderedChildren = (
+    renderedChildren =
+      mode === "parent" ? (
         <div
           {...containerProps}
           className={cn("relative isolate", containerClassName)}
@@ -612,10 +612,9 @@ export function Highlight<T extends string = string>({
           </AnimatePresence>
           {content}
         </div>
+      ) : (
+        content
       );
-    } else {
-      renderedChildren = content;
-    }
   }
   return (
     <HighlightContext.Provider value={ctx}>
