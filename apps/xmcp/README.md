@@ -123,14 +123,14 @@ export default config;
 
 ### Claude Desktop (`claude_desktop_config.json`)
 
-#### Remote HTTP Mode (via mcp-remote bridge)
+#### npx (Recommended)
 
 ```json
 {
   "mcpServers": {
     "sora-ui": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.soralabs.studio/mcp"]
+      "args": ["-y", "@soralabs/mcp"]
     }
   }
 }
@@ -151,19 +151,20 @@ export default config;
 
 ### Cursor (`.cursor/mcp.json`)
 
-#### Remote HTTP Mode
+#### npx (Recommended)
 
 ```json
 {
   "mcpServers": {
     "sora-ui": {
-      "url": "https://mcp.soralabs.studio/mcp"
+      "command": "npx",
+      "args": ["-y", "@soralabs/mcp"]
     }
   }
 }
 ```
 
-#### Local STDIO Mode
+#### Local STDIO Mode (Built from source)
 
 ```json
 {

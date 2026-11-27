@@ -1,8 +1,32 @@
 {
-  "name": "xmcp",
+  "name": "@soralabs/mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "Official Sora UI MCP server built with xmcp",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "motion",
+    "react",
+    "sora",
+    "sora-ui",
+    "tailwindcss",
+    "ui"
+  ],
+  "homepage": "https://ui.soralabs.studio",
+  "license": "MIT",
+  "author": "Axyl1410",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoraLabsOSS/ui.git",
+    "directory": "apps/xmcp"
+  },
+  "bin": {
+    "sora-mcp": "dist/stdio.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "xmcp build",
     "vercel-build": "xmcp build --vercel",

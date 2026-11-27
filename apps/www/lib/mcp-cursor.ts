@@ -1,11 +1,14 @@
-/** Sora UI docs MCP — remote HTTP server on Vercel. */
+/** Sora UI docs MCP — local STDIO server via npx (`@soralabs/mcp`). */
 export const SORA_UI_MCP_SERVER_NAME = "sora-ui" as const;
+
+export const SORA_UI_MCP_PACKAGE = "@soralabs/mcp" as const;
 
 export const SORA_UI_MCP_URL = "https://mcp.soralabs.studio/mcp" as const;
 
 /** Transport config only — `name` query param becomes the `mcpServers` key. */
 export const SORA_UI_MCP_TRANSPORT = {
-  url: SORA_UI_MCP_URL,
+  command: "npx",
+  args: ["-y", SORA_UI_MCP_PACKAGE],
 } as const;
 
 /**

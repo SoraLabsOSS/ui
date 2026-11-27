@@ -7,16 +7,9 @@ import { CodeTabs } from "@/components/docs/code-tabs";
 import { AddToCursorButton } from "@/components/docs/add-to-cursor-button";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { McpInitTabs } from "@/components/docs/mcp-init-tabs";
-import { SORA_UI_MCP_SERVER_NAME, SORA_UI_MCP_URL } from "@/lib/mcp-cursor";
+import { SORA_UI_MCP_PACKAGE, SORA_UI_MCP_SERVER_NAME } from "@/lib/mcp-cursor";
 
-The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component blocks. It runs as a remote HTTP server at <code>{SORA_UI_MCP_URL}</code> (no local CLI required).
-
-<Callout type="warn" title="Remote Server Temporarily Paused">
-  Due to usage limits and maintenance funding constraints, the public remote MCP server (`https://mcp.soralabs.studio/mcp`) is temporarily paused. Remote HTTP connections in Cursor, Claude Code, and Claude Desktop are currently unavailable.
-
-You can continue using Sora UI MCP locally via **Local STDIO** or self-host it. See [Local Development (STDIO & HTTP)](#local-development-stdio--http) below for setup instructions.
-
-</Callout>
+The **Sora UI docs MCP** server gives AI assistants live access to this site — installation guides, primitives, and the component blocks. It runs locally over **STDIO** via [`{SORA_UI_MCP_PACKAGE}`](https://www.npmjs.com/package/@soralabs/mcp) (`npx -y {SORA_UI_MCP_PACKAGE}`), with no remote server or API key required.
 
 ## Capabilities
 
@@ -102,7 +95,7 @@ Use **both** if you'd rather the agent call an MCP tool to install than run `sha
 
 ## Add to Cursor
 
-Cursor supports [one-click MCP install links](https://cursor.com/docs/mcp/install-links). Click below — Cursor opens a prompt to add the remote server, then enable it under **Settings → Tools & MCP**.
+Cursor supports [one-click MCP install links](https://cursor.com/docs/mcp/install-links). Click below — Cursor opens a prompt to add the `npx -y @soralabs/mcp` server, then enable it under **Settings → Tools & MCP**.
 
 <div className="not-prose my-6 flex flex-wrap items-center gap-3">
   <AddToCursorButton />
@@ -133,18 +126,19 @@ Add this to `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all 
 <CodeTabs
   lang="json"
   codes={{
-    "Remote HTTP": JSON.stringify(
+    "npx (Recommended)": JSON.stringify(
       {
         mcpServers: {
           "sora-ui": {
-            url: SORA_UI_MCP_URL,
+            command: "npx",
+            args: ["-y", SORA_UI_MCP_PACKAGE],
           },
         },
       },
       null,
       2
     ),
-    "Local STDIO": JSON.stringify(
+    "Local Monorepo": JSON.stringify(
       {
         mcpServers: {
           "sora-ui": {
@@ -163,13 +157,13 @@ After saving, enable the server in **Settings → Tools & MCP** and restart Curs
 
 ## Add to Claude Code
 
-[Claude Code](https://claude.ai/code) is Anthropic's official CLI. You can connect via remote HTTP or local STDIO:
+[Claude Code](https://claude.ai/code) is Anthropic's official CLI. You can connect via `npx` (recommended) or a local monorepo build:
 
 <CodeTabs
   lang="bash"
   codes={{
-    "Remote HTTP": `claude mcp add --transport http sora-ui ${SORA_UI_MCP_URL}`,
-    "Local STDIO": `claude mcp add sora-ui node <path-to-repo>/apps/xmcp/dist/stdio.js`,
+    "npx (Recommended)": `claude mcp add sora-ui -- npx -y ${SORA_UI_MCP_PACKAGE}`,
+    "Local Monorepo": `claude mcp add sora-ui -- node <path-to-repo>/apps/xmcp/dist/stdio.js`,
   }}
 />
 
@@ -198,19 +192,19 @@ Add to `~/.claude/settings.json` (global) or `.claude/settings.json` (project):
 <CodeTabs
   lang="json"
   codes={{
-    "Remote HTTP": JSON.stringify(
+    "npx (Recommended)": JSON.stringify(
       {
         mcpServers: {
           "sora-ui": {
-            type: "http",
-            url: SORA_UI_MCP_URL,
+            command: "npx",
+            args: ["-y", SORA_UI_MCP_PACKAGE],
           },
         },
       },
       null,
       2
     ),
-    "Local STDIO": JSON.stringify(
+    "Local Monorepo": JSON.stringify(
       {
         mcpServers: {
           "sora-ui": {
@@ -232,36 +226,24 @@ Open the Claude Desktop config file:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the server under `mcpServers`. Claude Desktop connects via `mcp-remote` (recommended for remote endpoints) or local compiled script:
+Add the server under `mcpServers` using `npx` (recommended) or a local compiled build:
 
 <CodeTabs
   lang="json"
   codes={{
-    "Remote (mcp-remote)": JSON.stringify(
+    "npx (Recommended)": JSON.stringify(
       {
         mcpServers: {
           "sora-ui": {
             command: "npx",
-            args: ["-y", "mcp-remote", SORA_UI_MCP_URL],
+            args: ["-y", SORA_UI_MCP_PACKAGE],
           },
         },
       },
       null,
       2
     ),
-    "Native HTTP": JSON.stringify(
-      {
-        mcpServers: {
-          "sora-ui": {
-            type: "http",
-            url: SORA_UI_MCP_URL,
-          },
-        },
-      },
-      null,
-      2
-    ),
-    "Local STDIO": JSON.stringify(
+    "Local Monorepo": JSON.stringify(
       {
         mcpServers: {
           "sora-ui": {
@@ -373,7 +355,8 @@ Merge the shadcn entry into your MCP config (example for Cursor):
       {
         mcpServers: {
           "sora-ui": {
-            url: SORA_UI_MCP_URL,
+            command: "npx",
+            args: ["-y", SORA_UI_MCP_PACKAGE],
           },
           shadcn: {
             command: "npx",
@@ -388,8 +371,8 @@ Merge the shadcn entry into your MCP config (example for Cursor):
       {
         mcpServers: {
           "sora-ui": {
-            type: "http",
-            url: SORA_UI_MCP_URL,
+            command: "npx",
+            args: ["-y", SORA_UI_MCP_PACKAGE],
           },
           shadcn: {
             command: "npx",
@@ -403,6 +386,10 @@ Merge the shadcn entry into your MCP config (example for Cursor):
     "VS Code": JSON.stringify(
       {
         servers: {
+          "sora-ui": {
+            command: "npx",
+            args: ["-y", SORA_UI_MCP_PACKAGE],
+          },
           shadcn: {
             command: "npx",
             args: ["shadcn@latest", "mcp"],
@@ -427,7 +414,7 @@ MCP is agent-driven, not automatic. Confirm the server is **enabled** (green) in
 
 **Cursor**: Confirm **{SORA_UI_MCP_SERVER_NAME}** is enabled in **Settings → Tools & MCP**, restart Cursor after changing `.cursor/mcp.json`, and check **View → Output → MCP** for errors.
 
-**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add --transport http sora-ui https://mcp.soralabs.studio/mcp`. Use `claude mcp get sora-ui` to inspect the saved config.
+**Claude Code**: Run `claude mcp list` to verify the server is registered. If missing, re-run `claude mcp add sora-ui -- npx -y @soralabs/mcp`. Use `claude mcp get sora-ui` to inspect the saved config.
 
 **Claude Desktop**: Confirm the JSON in `claude_desktop_config.json` is valid (no trailing commas), then fully quit and reopen the app.
 
